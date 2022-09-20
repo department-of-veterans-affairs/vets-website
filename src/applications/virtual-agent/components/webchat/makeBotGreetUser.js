@@ -17,77 +17,17 @@ const GreetUser = {
     userUuid,
     requireAuth,
   ) => ({ dispatch }) => next => action => {
-    if (requireAuth) {
-      if (
-        action.type === 'DIRECT_LINE/CONNECT_FULFILLED' &&
-        sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true'
-      ) {
-        dispatch({
-          meta: {
-            method: 'keyboard',
-          },
-          payload: {
-            activity: {
-              channelData: {
-                postBack: true,
-              },
-              // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-              name: 'startConversation',
-              type: 'event',
-              value: {
-                csrfToken,
-                apiSession,
-                apiURL,
-                baseURL,
-                userFirstName,
-                userUuid,
-              },
-            },
-          },
-          type: 'DIRECT_LINE/POST_ACTIVITY',
-        });
-      }
-    }
-    // } else {
-    //   // eslint-disable-next-line no-lonely-if
-    //   if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-    //     dispatch({
-    //       meta: {
-    //         method: 'keyboard',
-    //       },
-    //       payload: {
-    //         activity: {
-    //           channelData: {
-    //             postBack: true,
-    //           },
-    //           // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-    //           name: 'startConversation',
-    //           type: 'event',
-    //           value: {
-    //             csrfToken,
-    //             apiSession,
-    //             apiURL,
-    //             baseURL,
-    //             userFirstName,
-    //             userUuid,
-    //           },
-    //         },
-    //       },
-    //       type: 'DIRECT_LINE/POST_ACTIVITY',
-    //     });
-    //   }
-    // }
-
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-      dispatch({
-        type: 'WEB_CHAT/SEND_EVENT',
-        payload: {
-          name: 'webchat/join',
-          value: {
-            language: window.navigator.language,
-          },
-        },
-      });
+      processActionConnectFulfilled(
+        requireAuth,
+        dispatch,
+        csrfToken,
+        apiSession,
+        apiURL,
+        baseURL,
+        userFirstName,
+        userUuid,
+      );
     }
 
     // eslint-disable-next-line sonarjs/no-collapsible-if
@@ -158,9 +98,58 @@ const GreetUser = {
   },
 };
 
-function processActionConnectFulfilled() {}
-function processActionSendMessage() {}
+// function processActionConnectFulfilled() {}
+// function processActionSendMessage() {}
 
 export default GreetUser;
 
-export { processActionSendMessage, processActionConnectFulfilled };
+function processActionConnectFulfilled(
+  requireAuth,
+  dispatch,
+  csrfToken,
+  apiSession,
+  apiURL,
+  baseURL,
+  userFirstName,
+  userUuid,
+) {
+  const joinActivity = {
+    type: 'WEB_CHAT/SEND_EVENT',
+    payload: {
+      name: 'webchat/join',
+      value: {
+        language: window.navigator.language,
+      },
+    },
+  };
+  const startConversationActivity = {
+    meta: {
+      method: 'keyboard',
+    },
+    payload: {
+      activity: {
+        channelData: {
+          postBack: true,
+        },
+        // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
+        name: 'startConversation',
+        type: 'event',
+        value: {
+          csrfToken,
+          apiSession,
+          apiURL,
+          baseURL,
+          userFirstName,
+          userUuid,
+        },
+      },
+    },
+    type: 'DIRECT_LINE/POST_ACTIVITY',
+  }
+  if (requireAuth && sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true') {
+    dispatch(startConversationActivity);
+  }
+  dispatch(joinActivity);
+  
+}
+// export { processActionSendMessage };
