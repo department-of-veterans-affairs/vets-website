@@ -1,4 +1,4 @@
-import { startOfDay } from 'date-fns';
+import { parseISO, startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -20,6 +20,8 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 /**
  * @param {Array<Appointment>} appointments
  * @param {Appointment} currentAppointment
+ *
+ * @returns {boolean}
  */
 const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
   return (
@@ -33,12 +35,60 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
  * Check if any appointment was canceled.
  *
  * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
  */
 const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+};
+
+/**
+ * Return the first cancelled appointment.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ */
+const getFirstCanceledAppointment = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return appointments.find(statusIsCanceled);
+};
+
+/**
+ * Get the interval from now until the end of the next check-in window.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {number} ms until the end of the next check-in window. (0 if no appointments are eligible for check-in)
+ */
+const intervalUntilNextAppointmentIneligibleForCheckin = appointments => {
+  let interval = 0;
+
+  const eligibleAppointments = appointments.filter(
+    appointment => appointment.eligibility === ELIGIBILITY.ELIGIBLE,
+  );
+
+  let checkInWindowEnds = eligibleAppointments.map(
+    appointment => appointment.checkInWindowEnd,
+  );
+
+  checkInWindowEnds = checkInWindowEnds.filter(
+    checkInWindowEnd => parseISO(checkInWindowEnd) > Date.now(),
+  );
+
+  checkInWindowEnds.sort((a, b) => {
+    return parseISO(a) > parseISO(b);
+  });
+
+  if (checkInWindowEnds[0]) {
+    interval = Math.round(parseISO(checkInWindowEnds[0]) - Date.now());
+  }
+
+  return interval;
 };
 
 /**
@@ -62,6 +112,20 @@ const preCheckinAlreadyCompleted = appointments => {
 };
 
 /**
+ * Determine whether the physical location should be displayed for the given appointment.
+ *
+ * @param {Appointment} appointment
+ * @returns {boolean}
+ */
+const locationShouldBeDisplayed = appointment => {
+  const notEmpty = location => {
+    return typeof location === 'string' && location.length > 0;
+  };
+
+  return appointment.kind === 'clinic' && notEmpty(appointment.clinicLocation);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -81,12 +145,7 @@ const removeTimeZone = payload => {
   // Chip should be handling this but currently isn't, this code may be refactored out.
   const updatedPayload = { ...payload };
   // These fields have a potential to include a time stamp.
-  const timeFields = [
-    'checkInWindowEnd',
-    'checkInWindowStart',
-    'checkedInTime',
-    'startTime',
-  ];
+  const timeFields = ['checkedInTime', 'startTime'];
 
   const updatedAppointments = updatedPayload.appointments.map(appointment => {
     const updatedAppointment = { ...appointment };
@@ -110,14 +169,26 @@ const removeTimeZone = payload => {
 const preCheckinExpired = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const checkInExpiry = startOfDay(new Date(appt.startTime));
-    return today.getTime() < checkInExpiry.getTime();
+    const preCheckInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < preCheckInExpiry.getTime();
+  });
+};
+
+const appointmentStartTimePast15 = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const deadline = appt.checkInWindowEnd;
+    return today.getTime() < new Date(deadline).getTime();
   });
 };
 
 export {
+  appointmentStartTimePast15,
   appointmentWasCanceled,
+  getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
+  intervalUntilNextAppointmentIneligibleForCheckin,
+  locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,

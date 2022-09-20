@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { addDays, format, isValid } from 'date-fns';
+import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -10,6 +12,16 @@ export const fsrWizardFeatureToggle = state => {
 
 export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
+};
+
+export const combinedFSRFeatureToggle = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
+};
+
+export const enhancedFSRFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
 };
 
 export const fsrConfirmationEmailToggle = state =>
@@ -23,13 +35,27 @@ export const dateFormatter = date => {
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
+export const formatDate = date => {
+  return format(new Date(date), 'MMMM d, yyyy');
+};
+
+export const endDate = (date, days) => {
+  return isValid(new Date(date))
+    ? formatDate(addDays(new Date(date), days))
+    : '';
+};
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
   });
-  return formatter.format(parseFloat(amount));
+  const value =
+    typeof amount === 'number'
+      ? amount
+      : parseFloat(amount?.replaceAll(',', ''));
+  return formatter.format(value);
 };
 
 const hasProperty = (arr, key) => {
@@ -37,16 +63,19 @@ const hasProperty = (arr, key) => {
 };
 
 export const sumValues = (arr, key) => {
-  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
-  if (!isValid) return 0;
-  return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
+  const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isArrValid) return 0;
+  return arr.reduce(
+    (acc, item) => acc + (Number(item[key]?.replaceAll(',', '')) ?? 0),
+    0,
+  );
 };
 
 export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const otherDeductionsName = (deductions, filters) => {
@@ -61,7 +90,7 @@ export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -81,11 +110,56 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
-export const getFsrReason = debts => {
-  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+export const fsrReasonDisplay = resolutionOption => {
+  switch (resolutionOption) {
+    case 'monthly':
+      return 'Extended monthly payments';
+    case 'waiver':
+      return 'Waiver';
+    case 'compromise':
+      return 'Compromise';
+    default:
+      return '';
+  }
+};
+
+export const getFsrReason = (debts, combinedFSR) => {
+  const reasons = combinedFSR
+    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
+    : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
+};
+
+export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
+  return combinedFSR
+    ? debts
+        .filter(item => item.resolutionComment !== undefined)
+        .reduce(
+          (acc, debt) =>
+            acc + Number(debt.resolutionComment?.replaceAll(',', '')),
+          0,
+        )
+    : debts
+        .filter(item => item.resolution.offerToPay !== undefined)
+        .reduce(
+          (acc, debt) =>
+            acc + Number(debt.resolution?.offerToPay?.replaceAll(',', '')),
+          0,
+        );
+};
+
+export const mergeAdditionalComments = (additionalComments, expenses) => {
+  const individualExpenses = expenses
+    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
+    .join(', ');
+
+  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
+
+  return individualExpenses
+    ? `${additionalComments}\n${individualExpensesStr}`
+    : additionalComments;
 };
 
 export const getMonthlyIncome = ({
@@ -108,7 +182,9 @@ export const getMonthlyIncome = ({
   // veteran
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetSocSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
@@ -124,9 +200,15 @@ export const getMonthlyIncome = ({
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spSocialSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
+  const spComp = Number(
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
+  );
+  const spEdu = Number(
+    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
+  );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterDeductions(spDeductions, taxFilters);
@@ -150,7 +232,10 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
-  const totalExp = expVals.reduce((acc, expense) => acc + Number(expense), 0);
+  const totalExp = expVals.reduce(
+    (acc, expense) => acc + Number(expense?.replaceAll(',', '')),
+    0,
+  );
 
   return utilities + installments + otherExp + totalExp;
 };
@@ -162,7 +247,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
     .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount), 0);
+    .reduce((acc, amount) => acc + Number(amount?.replaceAll(',', '')), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
@@ -218,4 +303,27 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   return history;
+};
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, dateFormat) -
+      moment(a.pSStatementDate, dateFormat),
+  );
+};
+
+export const DEBT_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});
+
+// Returns name of debt depending on the type
+export const getDebtName = debt => {
+  return debt.debtType === 'COPAY'
+    ? debt.station.facilityName
+    : deductionCodes[debt.deductionCode] || debt.benefitType;
 };

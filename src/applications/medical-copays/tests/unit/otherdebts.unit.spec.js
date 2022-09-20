@@ -3,27 +3,28 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import OtherVADebts from '../../components/OtherVADebts';
+import { APP_TYPES } from '../../utils/helpers';
 
 describe('other va debts component', () => {
   it('should exist', () => {
-    const moduleName = 'MCP';
+    const moduleName = APP_TYPES.DEBT;
 
     const otherDebts = render(
       <BrowserRouter>
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.getByTestId('other-va-debts-mcp-body')).to.exist;
+    expect(otherDebts.getByTestId('other-va-debt-body')).to.exist;
   });
   it('should exist', () => {
-    const moduleName = 'LTR';
+    const moduleName = APP_TYPES.COPAY;
 
     const otherDebts = render(
       <BrowserRouter>
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.getByTestId('other-va-debts-ltr-body')).to.exist;
+    expect(otherDebts.getByTestId('other-va-copay-body')).to.exist;
   });
   it('should not exist', () => {
     const moduleName = 'NO-MATCH';
@@ -33,6 +34,6 @@ describe('other va debts component', () => {
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.queryByTestId('other-va-debts-ltr-body')).to.not.exist;
+    expect(otherDebts.queryByTestId('other-va-copay-body')).to.not.exist;
   });
 });

@@ -18,8 +18,10 @@ describe('Pre-Check In Experience ', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
+      initializeDemographicsPatch.withSuccess();
       initializeSessionGet.withSuccessfulNewSession(req => {
         expect(req.query.checkInType).to.equal('preCheckIn');
       });
@@ -46,7 +48,7 @@ describe('Pre-Check In Experience ', () => {
     it('Sending checkInType for pre-check-in App', () => {
       cy.visitPreCheckInWithUUID();
       // page: Validate
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();

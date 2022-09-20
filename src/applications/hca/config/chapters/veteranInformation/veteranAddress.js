@@ -1,19 +1,28 @@
-import React from 'react';
 import merge from 'lodash/merge';
-
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { AddressDescription } from '../../../components/ContentComponents';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
+import { MailingAddressDescription } from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
+    'view:veteranAddressShortFormMessage': {
+      'ui:description': ShortFormAlert,
+      'ui:options': {
+        hideIf: NotHighDisability,
+      },
+    },
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
     veteranAddress: merge({}, addressUI('Mailing address', true), {
-      'ui:description': <AddressDescription addressType="mailing" />,
+      'ui:description': MailingAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -36,6 +45,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:veteranAddressShortFormMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       veteranAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {

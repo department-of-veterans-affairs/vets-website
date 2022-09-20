@@ -17,14 +17,16 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();
@@ -48,6 +50,18 @@ describe('Check In Experience -- ', () => {
     });
     it('confirm back button', () => {
       Confirmation.validateBackButton();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('refreshes appointment data when pressing the browser back button', () => {
+      Confirmation.validatePageLoaded();
+      cy.intercept(
+        '/check_in/v2/patient_check_ins/*',
+        cy.spy().as('apptRefresh'),
+      );
+      cy.go('back');
+      cy.get('@apptRefresh')
+        .its('callCount')
+        .should('equal', 1);
       cy.injectAxeThenAxeCheck();
     });
   });

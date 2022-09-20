@@ -1,15 +1,14 @@
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
+
 import {
   representativeFields,
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
-} from 'applications/caregivers/definitions/constants';
-import {
-  UploadSuccessAlertDescription,
-  RepresentativeDocumentUploadDescription,
-} from 'applications/caregivers/components/AdditionalInfo';
-import recordEvent from 'platform/monitoring/record-event';
+} from '../../../definitions/constants';
+import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
+import { RepresentativeDocumentsDescription } from '../../../components/FormDescriptions';
 
 const createPayload = (file, formId, password) => {
   const payload = new FormData();
@@ -40,23 +39,21 @@ const parseResponse = (fileInfo, file) => {
 
 export default {
   uiSchema: {
-    'ui:description': RepresentativeDocumentUploadDescription(),
+    'ui:description': RepresentativeDocumentsDescription,
     'view:uploadSuccessAlert': {
       'ui:options': {
         hideIf: formData => {
-          if (
+          // return false to show, not hide
+          return !(
             formData.signAsRepresentativeDocumentUpload &&
             formData.signAsRepresentativeDocumentUpload.length > 0 &&
             formData.signAsRepresentativeDocumentUpload[0].guid &&
             formData.signAsRepresentativeDocumentUpload[0].name &&
             !formData.signAsRepresentativeDocumentUpload[0].errorMessage
-          ) {
-            return false; // return false to show, not not hide
-          }
-          return true;
+          );
         },
       },
-      'ui:description': UploadSuccessAlertDescription,
+      'ui:description': CheckUploadWarning,
     },
     [representativeFields.documentUpload]: fileUploadUI('Your document:', {
       buttonText: 'Upload document',

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
 import startReactApp from './react';
+import runAxeCheck from './axe-check';
 import setUpCommonFunctionality from './setup';
 
 /**
@@ -40,6 +41,11 @@ export default function startApp({
     reducer,
     analyticsEvents,
   });
+
+  // If the build is not production, run an axe check in the browser
+  if (process.env.NODE_ENV !== 'production') {
+    runAxeCheck();
+  }
 
   let history = browserHistory;
   if (url) {

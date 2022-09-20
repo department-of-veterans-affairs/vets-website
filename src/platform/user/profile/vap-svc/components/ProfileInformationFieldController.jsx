@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   openModal,
-} from '@@vap-svc/actions';
+} from 'platform/user/profile/vap-svc/actions';
 
 import {
   selectAddressValidationType,
@@ -23,24 +23,31 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
-} from '@@vap-svc/selectors';
+  selectUseInformationEditViewVAFSC,
+} from 'platform/user/profile/vap-svc/selectors';
 
-import { selectVAProfilePersonalInformation } from '@@profile/selectors';
+import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
-import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
-import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
+import VAPServiceTransaction from 'platform/user/profile/vap-svc/components/base/VAPServiceTransaction';
+import AddressValidationView from 'platform/user/profile/vap-svc/containers/AddressValidationView';
 
-import ProfileInformationEditView from '@@profile/components/ProfileInformationEditView';
-import ProfileInformationView from '@@profile/components/ProfileInformationView';
+import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
+import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
+import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
 
-import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
-import { isVAPatient } from '~/platform/user/selectors';
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
+import { isFieldEmpty } from 'applications/personalization/profile/util';
 
-import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
+import { isVAPatient } from 'platform/user/selectors';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
+
+import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
@@ -260,17 +267,18 @@ class ProfileInformationFieldController extends React.Component {
     this.openRemoveModal();
   };
 
-  // When a personal information field contains initial field data from the api
-  // we need to require that field, bc there are no deletes available at this time, and only updates
-  requirePersonalInfoFieldBasedOnInitialValue = formSchema => {
+  // only require certain fields based on initial data from api on that field
+  requireFieldBasedOnInitialValue = formSchema => {
+    const activeFields = [
+      VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY,
+    ];
+
     // TODO: handle multi-select values for when sexual orientation and pronouns are released
     const newFormSchema = { ...formSchema };
     const { fieldName, data, editViewData } = this.props;
 
     // only check field value if field is one of personal info fields
-    if (
-      Object.values(VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES).includes(fieldName)
-    ) {
+    if (Object.values(activeFields).includes(fieldName)) {
       const initialValues = getInitialFormValues({
         fieldName,
         data,
@@ -300,8 +308,9 @@ class ProfileInformationFieldController extends React.Component {
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
+      ariaDescribedBy,
+      shouldUseInformationEditViewVAFSC,
     } = this.props;
-
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -328,7 +337,6 @@ class ProfileInformationFieldController extends React.Component {
         </VAPServiceTransaction>
       );
     };
-
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
@@ -336,10 +344,14 @@ class ProfileInformationFieldController extends React.Component {
           data={data}
           fieldName={fieldName}
           title={title}
+          id={ariaDescribedBy}
         />
 
         {this.props.showUpdateSuccessAlert ? (
-          <div data-testid="update-success-alert">
+          <div
+            data-testid="update-success-alert"
+            className="vads-u-width--full"
+          >
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
@@ -351,6 +363,7 @@ class ProfileInformationFieldController extends React.Component {
                 aria-label={`Edit ${title}`}
                 type="button"
                 data-action="edit"
+                aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
@@ -378,7 +391,28 @@ class ProfileInformationFieldController extends React.Component {
     );
 
     if (showEditView || forceEditView) {
-      content = (
+      content = shouldUseInformationEditViewVAFSC ? (
+        <>
+          <ProfileInformationEditViewVAFSC
+            getInitialFormValues={() =>
+              getInitialFormValues({
+                fieldName,
+                data: this.props.data,
+                modalData: this.props.editViewData,
+              })
+            }
+            onCancel={this.onCancel}
+            fieldName={this.props.fieldName}
+            apiRoute={this.props.apiRoute}
+            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
+            uiSchema={this.props.uiSchema}
+            formSchema={this.requireFieldBasedOnInitialValue(
+              this.props.formSchema,
+            )}
+            title={title}
+          />
+        </>
+      ) : (
         <ProfileInformationEditView
           getInitialFormValues={() =>
             getInitialFormValues({
@@ -392,7 +426,7 @@ class ProfileInformationFieldController extends React.Component {
           apiRoute={this.props.apiRoute}
           convertCleanDataToPayload={this.props.convertCleanDataToPayload}
           uiSchema={this.props.uiSchema}
-          formSchema={this.requirePersonalInfoFieldBasedOnInitialValue(
+          formSchema={this.requireFieldBasedOnInitialValue(
             this.props.formSchema,
           )}
           title={title}
@@ -479,10 +513,12 @@ ProfileInformationFieldController.propTypes = {
   isEmpty: PropTypes.bool.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
+  shouldUseInformationEditViewVAFSC: PropTypes.bool.isRequired,
   showEditView: PropTypes.bool.isRequired,
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
   activeEditView: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
   cancelCallback: PropTypes.func,
   data: PropTypes.object,
   editViewData: PropTypes.object,
@@ -509,7 +545,7 @@ export const mapStateToProps = (state, ownProps) => {
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName);
 
-  const isEmpty = !data;
+  const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
@@ -556,6 +592,10 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
+    shouldUseInformationEditViewVAFSC: selectUseInformationEditViewVAFSC(
+      state,
+      fieldName,
+    ),
   };
 };
 

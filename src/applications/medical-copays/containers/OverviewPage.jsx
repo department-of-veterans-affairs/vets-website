@@ -1,34 +1,20 @@
-import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { apiRequest } from 'platform/utilities/api';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
-import { sortStatementsByDate, cdpAccessToggle } from '../utils/helpers';
+import {
+  sortStatementsByDate,
+  cdpAccessToggle,
+  ALERT_TYPES,
+  APP_TYPES,
+  API_RESPONSES,
+} from '../utils/helpers';
 import OtherVADebts from '../components/OtherVADebts';
-import environment from '~/platform/utilities/environment';
-import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
-
-const fetchDebtResponseAsync = async () => {
-  const options = {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-    },
-  };
-
-  const response = isVAProfileServiceConfigured()
-    ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-    : await debtMockResponse();
-
-  return response.debts.length > 0;
-};
+import alertMessage from '../utils/alert-messages';
+import { fetchDebtResponseAsync } from './MedicalCopaysApp';
 
 const OverviewPage = () => {
   const [hasDebts, setHasDebts] = useState(false);
@@ -38,6 +24,30 @@ const OverviewPage = () => {
   const sortedStatements = sortStatementsByDate(statements);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
+
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.DEBT);
+    if (hasDebts > 0) {
+      return <OtherVADebts module={APP_TYPES.DEBT} />;
+    }
+    if (hasDebts === API_RESPONSES.ERROR) {
+      return (
+        <>
+          <h3>Your other VA debts</h3>
+          <va-alert
+            data-testid={alertInfo.testID}
+            status={alertInfo.alertStatus}
+          >
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -61,7 +71,7 @@ const OverviewPage = () => {
         help.
       </p>
       <Balances statements={statementsByUniqueFacility} />
-      {showCDPComponents && hasDebts && <OtherVADebts module="MCP" />}
+      {showCDPComponents && renderOtherVA()}
       <BalanceQuestions />
     </>
   );

@@ -3,28 +3,23 @@ import React from 'react';
 export default function Disclaimer() {
   return (
     <>
-      <h1>VA virtual agent</h1>
+      <h1>VA chatbot</h1>
 
       <div className="va-introtext">
-        <p>
-          Use our virtual agent (chatbot) to get answers to your questions about
-          VA benefits and services, and helpful links to find more information
-          on our site.{' '}
-        </p>
+        <p>Use our chatbot to find information on VA.gov. </p>
       </div>
 
       <h2>We’re currently in beta testing</h2>
       <p>
-        Welcome to our virtual agent, a new part of{' '}
-        <a href="https://va.gov/">VA.gov</a>. We're still building the agent's
+        Welcome to our chatbot, a new part of{' '}
+        <a href="https://va.gov/">VA.gov</a>. We're still building the bot's
         ability to respond to your questions, so it won't have answers to every
-        question. And while we're in beta testing, the agent will be available
-        only to a small number of <a href="https://va.gov/">VA.gov</a> visitors.
+        question.
       </p>
       <p>
         <b>
-          If you have questions about VA benefits and services that our virtual
-          agent can’t answer right now,
+          If you have questions about VA benefits and services that our chatbot
+          can’t answer right now,
         </b>
          you can get the information in any of these 3 ways:
         <ul>
@@ -70,14 +65,21 @@ export default function Disclaimer() {
           To connect with a Veterans Crisis Line responder anytime day or night:
           <ul>
             <li>
-              Call{' '}
+              Dialing{' '}
+              <a aria-label="9 8 8." href="tel:988">
+                988
+              </a>
+              and press 1.
+            </li>
+            <li>
+              Calling{' '}
               <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
                 800-273-8255
               </a>
-              , then select 1.
+              and press 1.
             </li>
             <li>
-              Text{' '}
+              Texting:{' '}
               <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
                 838255
               </a>
@@ -94,20 +96,20 @@ export default function Disclaimer() {
         </p>
       </va-additional-info>
 
-      <h3>More about our virtual agent</h3>
+      <h3>More about our chatbot</h3>
 
       <va-accordion>
-        <va-accordion-item header="What to expect when using our virtual agent">
+        <va-accordion-item header="What to expect when using our chatbot">
           <p>
-            Our virtual agent is a resource to help you quickly find information
-            about VA benefits and services. You won’t communicate with an actual
+            Our chatbot is a resource to help you quickly find information about
+            VA benefits and services. You won’t communicate with an actual
             representative through the chatbot. If you need help with any of the
             issues listed here, you’ll need to speak with a health care
             professional or one of our representatives. You can also visit our
             resources and support section for more information.
           </p>
           <p>
-            <b>Our virtual agent can’t do any of these things:</b>
+            <b>Our chatbot can’t do any of these things:</b>
           </p>
           <p>
             <ul>
@@ -149,26 +151,22 @@ export default function Disclaimer() {
             </a>
           </p>
         </va-accordion-item>
-      </va-accordion>
 
-      <va-accordion>
-        <va-accordion-item header="How to use our virtual agent with a screen reader">
+        <va-accordion-item header="How to use our chatbot with a screen reader">
           <p>
             If you’re blind or have low vision, follow these steps to use our
-            virtual agent on a desktop computer with a screen reader:
+            chatbot on a desktop computer with a screen reader:
           </p>
           <p>
             <ol>
               <li>
-                Press <b>Tab</b> to select the virtual agent window.
+                Press <b>Tab</b> to select the chatbot window.
               </li>
               <li>
                 Press <b>Tab</b> to select the "Accept" button and press{' '}
                 <b>Enter</b>.
               </li>
-              <li>
-                Use the arrow keys to listen to the virtual agent messages.
-              </li>
+              <li>Use the arrow keys to listen to the chatbot messages.</li>
               <li>
                 Press <b>Tab</b> to select the "Type your message" section.
               </li>
@@ -190,31 +188,29 @@ export default function Disclaimer() {
                 Press <strong>Escape</strong> to leave the current message.
               </li>
               <li>
-                Press <b>Shift+Tab</b> to exit the virtual agent window.
+                Press <b>Shift+Tab</b> to exit the chatbot window.
               </li>
             </ol>
           </p>
           <p>
             <b>Note:</b> We’re currently in beta testing. Thank you for your
-            patience as we work to make our virtual agent easier to use.
+            patience as we work to make our chatbot easier to use.
           </p>
         </va-accordion-item>
-      </va-accordion>
 
-      <va-accordion>
-        <va-accordion-item header="What information we collect when you use the virtual agent">
+        <va-accordion-item header="What information we collect when you use the chatbot">
           <p>
             We use certain information you’ve provided to build better tools for
             Veterans, service members, and their families.
           </p>
           <p>
-            <b>We keep only this information when you use our virtual agent:</b>
+            <b>We keep only this information when you use our chatbot:</b>
             <ul>
               <li>A record of what you typed</li>
               <li>Your answers to our survey questions</li>
               <li>
-                How long you used our virtual agent, the links you clicked on,
-                and other data
+                How long you used our chatbot, the links you clicked on, and
+                other data
               </li>
             </ul>
           </p>
@@ -228,7 +224,7 @@ export default function Disclaimer() {
               <li>We don’t use your information to contact you.</li>
               <li>
                 We combine your information with others as a summary to study
-                for ideas to improve our virtual agent tool.
+                for ideas to improve our chatbot tool.
               </li>
               <li>
                 We don’t share any of the information we collect outside of VA.
@@ -237,9 +233,9 @@ export default function Disclaimer() {
           </p>
           <p>
             <b>Note:</b> You can help us protect your privacy and security by
-            not typing any personal information into our virtual agent. This
-            includes your name, address, or anything else that someone could use
-            to identify you.
+            not typing any personal information into our chatbot. This includes
+            your name, address, or anything else that someone could use to
+            identify you.
           </p>
           <p>
             <a href="/privacy-policy/">

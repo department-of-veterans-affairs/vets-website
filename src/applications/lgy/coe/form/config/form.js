@@ -1,20 +1,15 @@
-import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
-
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { GetFormHelp } from '../components/GetFormHelp';
 import manifest from '../manifest.json';
 import { customCOEsubmit } from './helpers';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import { definitions } from './schemaImports';
 
 // chapter schema imports
-import { GetFormHelp } from '../components/GetFormHelp';
 import { applicantInformation } from './chapters/applicant';
 
 import {
@@ -28,8 +23,8 @@ import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
-// TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
-// from common definitions instead
+// TODO: When schema is migrated to vets-json-schema, remove common
+// definitions from form schema and get them from common definitions instead
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -69,9 +64,7 @@ const formConfig = {
   },
   title: 'Request a VA home loan Certificate of Eligibility (COE)',
   subTitle: 'VA Form 26-1880',
-  defaultDefinitions: {
-    ...fullSchema.definitions,
-  },
+  defaultDefinitions: definitions,
   chapters: {
     applicantInformationChapter: {
       title: 'Your personal information',
@@ -92,6 +85,7 @@ const formConfig = {
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+          updateFormData: mailingAddress.updateFormData,
         },
         additionalInformation: {
           path: 'additional-contact-information',

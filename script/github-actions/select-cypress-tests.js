@@ -4,7 +4,10 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
-const { integrationFolder, testFiles } = require('../../config/cypress.json');
+
+const {
+  e2e: { specPattern },
+} = require('../../config/cypress.config');
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
@@ -178,7 +181,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
 }
 
 function allTests() {
-  const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+  const pattern = path.join(__dirname, '../..', specPattern);
   return glob.sync(pattern);
 }
 
@@ -216,6 +219,28 @@ function selectTests(graph, pathsOfChangedFiles) {
 }
 
 function exportVariables(tests) {
+  const numTests = tests.length;
+
+  if (numTests <= 200) {
+    core.exportVariable('NUM_CONTAINERS', 8);
+    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+  } else {
+    core.exportVariable('NUM_CONTAINERS', 12);
+    core.exportVariable('CI_NODE_INDEX', [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+    ]);
+  }
   core.exportVariable('TESTS', tests);
 }
 

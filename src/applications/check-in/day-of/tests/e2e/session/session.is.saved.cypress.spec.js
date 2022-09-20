@@ -16,7 +16,7 @@ describe('Check In Experience', () => {
   });
   it('C5753 - Data is saved to session storage', () => {
     cy.visitWithUUID();
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     cy.injectAxeThenAxeCheck();
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(

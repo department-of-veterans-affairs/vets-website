@@ -2,56 +2,27 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
-import { updateBreadcrumb } from '../../redux/actions';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
-function handleClick({
-  dispatch,
-  history,
-  link,
-  idClickable,
-  featureStatusImprovement,
-}) {
+function handleClick({ history, link, idClickable }) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
-      }
     }
   };
 }
 
-function handleKeyDown({
-  dispatch,
-  history,
-  link,
-  idClickable,
-  featureStatusImprovement,
-}) {
+function handleKeyDown({ history, link, idClickable }) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
-      }
-    }
-  };
-}
-
-function handleLinkClicked(featureStatusImprovement, dispatch) {
-  return e => {
-    e.preventDefault();
-    if (featureStatusImprovement) {
-      dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
     }
   };
 }
@@ -66,8 +37,7 @@ export default function RequestListItem({ appointment, facility }) {
     'MMMM D, YYYY',
   );
   const link = `requests/${appointment.id}`;
-  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-  const dispatch = useDispatch();
+  const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -85,14 +55,12 @@ export default function RequestListItem({ appointment, facility }) {
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
         onClick={handleClick({
-          dispatch,
           history,
           link,
           idClickable,
           featureStatusImprovement,
         })}
         onKeyDown={handleKeyDown({
-          dispatch,
           history,
           link,
           idClickable,
@@ -118,7 +86,6 @@ export default function RequestListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
             to={link}
-            onClick={handleLinkClicked(featureStatusImprovement, dispatch)}
           >
             Details
           </Link>
@@ -131,3 +98,7 @@ export default function RequestListItem({ appointment, facility }) {
     </li>
   );
 }
+RequestListItem.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+};

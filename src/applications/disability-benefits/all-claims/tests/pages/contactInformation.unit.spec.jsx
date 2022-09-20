@@ -10,12 +10,12 @@ import { combineReducers, createStore } from 'redux';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
 import {
   STATE_VALUES,
   MILITARY_STATE_VALUES,
 } from 'applications/disability-benefits/all-claims/constants';
 import { commonReducer } from 'platform/startup/store';
+import formConfig from '../../config/form.js';
 import reducers from '../../reducers';
 
 // const NEXT_YEAR = moment()
@@ -34,6 +34,7 @@ describe('Disability benefits 526EZ contact information', () => {
   const {
     schema,
     uiSchema,
+    updateFormData,
   } = formConfig.chapters.veteranDetails.pages.contactInformation;
 
   it('renders contact information form', () => {
@@ -540,5 +541,46 @@ describe('Disability benefits 526EZ contact information', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
+  });
+
+  describe('updateFormData', () => {
+    const getFormData = (checkbox, city = '', state = '') => ({
+      mailingAddress: {
+        'view:livesOnMilitaryBase': checkbox,
+        city,
+        state,
+      },
+    });
+    const empty = getFormData(true, '', '');
+    const data = getFormData(false, 'city', 'state');
+    it('should return current city & state', () => {
+      const newData = getFormData(true, 'city', 'state');
+      expect(updateFormData(empty, empty)).to.deep.equal(empty);
+      expect(updateFormData(data, data)).to.deep.equal(data);
+      expect(updateFormData(newData, newData)).to.deep.equal(newData);
+    });
+    it('should clear city & state when military checkbox is set', () => {
+      const newData = getFormData(true, 'city', 'state');
+      expect(updateFormData(data, newData)).to.deep.equal(empty);
+    });
+    it('should restore city & state when military checkbox is unset', () => {
+      const oldData = getFormData(true, 'city', 'state');
+      const newData = getFormData(false, 'city', 'state');
+      expect(updateFormData(oldData, newData)).to.deep.equal(newData);
+    });
+    it('should restore city & state when military checkbox is unset', () => {
+      const oldData = getFormData(true, 'city', 'state');
+      const newData = getFormData(false, 'city', 'state');
+      expect(updateFormData(oldData, newData)).to.deep.equal(newData);
+    });
+    it('should clear city if unchecked & military city is set', () => {
+      // store original city & state in savedAddress
+      const storeData = getFormData(true, 'city', 'state');
+      updateFormData(data, storeData);
+      // set military city & state, then test restoration
+      const militarySet = getFormData(true, 'APO', 'AA');
+      const result = getFormData(false, 'city', 'state');
+      expect(updateFormData(militarySet, data)).to.deep.equal(result);
+    });
   });
 });

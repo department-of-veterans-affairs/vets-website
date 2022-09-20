@@ -12,20 +12,8 @@ const selectFeatureToggles = createSelector(
     isPreCheckInEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePreCheckInEnabled
     ],
-    isUpdatePageEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceUpdateInformationPageEnabled
-    ],
-    isEditingDayOfEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceEditingDayOfEnabled
-    ],
-    isEditingPreCheckInEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceEditingPreCheckInEnabled
-    ],
-    isTranslationDayOfEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceTranslationDayOfEnabled
-    ],
-    isTranslationPreCheckInEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceTranslationPreCheckInEnabled
+    isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
     ],
     isDayOfDemographicsFlagsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
@@ -33,8 +21,11 @@ const selectFeatureToggles = createSelector(
     isLorotaSecurityUpdatesEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
     ],
-    isEditMessagingEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceEditMessagingEnabled
+    isPhoneAppointmentsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
+    ],
+    isLorotaDeletionEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
     ],
   }),
   toggles => toggles,

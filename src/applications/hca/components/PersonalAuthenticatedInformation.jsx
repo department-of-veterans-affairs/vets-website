@@ -3,67 +3,59 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
-
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
   isLoggedIn,
-  data: {
-    veteranFullName: { first, middle, last, suffix },
-    veteranDateOfBirth,
-    veteranSocialSecurityNumber,
-  },
+  user,
 }) => {
-  const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
-
-  let dateOfBirthFormatted = '-';
-  let ssnLastFour = '-';
-  if (veteranSocialSecurityNumber) {
-    ssnLastFour = veteranSocialSecurityNumber.substr(
-      veteranSocialSecurityNumber.length - 4,
-    );
-  }
-  if (veteranDateOfBirth) {
-    dateOfBirthFormatted = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
-  }
+  const {
+    userFullName: { first = '', middle = '', last = '', suffix = '' },
+    dob,
+  } = user;
+  const dateOfBirthFormatted = dob ? moment(dob).format('MMMM DD, YYYY') : '-';
 
   return (
     <>
       {isLoggedIn && (
-        <div>
-          <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
-            <p>This is the personal information we have on file for you.</p>
+        <>
+          <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
+            {dob ? (
+              <p>This is the personal information we have on file for you.</p>
+            ) : (
+              <p>Here’s the name we have on file for you.</p>
+            )}
             <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
               <div className="vads-u-padding-left--1">
-                <p className="vads-u-margin--1px">
+                <p
+                  className="vads-u-margin--1px"
+                  data-testid="hca-veteran-fullname"
+                >
                   <strong>
                     {' '}
-                    {first || ''} {middle || ''} {last || ''} {suffix || ''}
+                    {first} {middle} {last} {suffix}
                   </strong>
                 </p>
-                <p className="vads-u-margin--1px">
-                  Last 4 of Social Security number: {ssnLastFour}
-                </p>
-                <p className="vads-u-margin--1px">
-                  Date of birth: {dateOfBirthFormatted}
-                </p>
+                {dob && (
+                  <p
+                    className="vads-u-margin--1px"
+                    data-testid="hca-veteran-dob"
+                  >
+                    Date of birth: {dateOfBirthFormatted}
+                  </p>
+                )}
               </div>
             </div>
             <p>
-              <strong>Note: </strong>
-              If you need to update your personal information, call our VA
-              benefits hotline at
-              <span className="vads-u-padding-x--0p5">
-                <va-telephone contact={CONTACTS.VA_BENEFITS} />
-              </span>
-              (TTY:
-              <span className="vads-u-padding-left--0p5">
-                <va-telephone contact={CONTACTS[711]} />
-              </span>
-              ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+              <strong>Note:</strong> If you need to update your personal
+              information, call our VA benefits hotline at{' '}
+              <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ), Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+              <abbr title="eastern time">ET</abbr>.
             </p>
             <p>
               You can also call your VA medical center (
@@ -72,32 +64,25 @@ const PersonalAuthenticatedInformation = ({
               department.
             </p>
           </div>
-          {navButtons}
-        </div>
+          <FormNavButtons goBack={goBack} goForward={goForward} />
+        </>
       )}
     </>
   );
+};
+
+PersonalAuthenticatedInformation.propTypes = {
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
-    data: state.form.data,
   };
 };
 
 export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
-
-PersonalAuthenticatedInformation.propTypes = {
-  data: PropTypes.object,
-  first: PropTypes.string,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  isLoggedIn: PropTypes.bool,
-  last: PropTypes.string,
-  middle: PropTypes.string,
-  suffix: PropTypes.string,
-  veteranDateOfBirth: PropTypes.string,
-  veteranSocialSecurityNumber: PropTypes.string,
-};

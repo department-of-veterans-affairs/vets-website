@@ -1,9 +1,8 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
-import { makeUserObject } from '~/applications/personalization/common/helpers';
-
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import transactionReceived from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import transactionSucceeded from '@@profile/tests/fixtures/transactions/finished-transaction.json';
+import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 import { mockFeatureToggles, mockNotificationSettingsAPIs } from './helpers';
 import { PROFILE_PATHS } from '../../constants';
@@ -58,8 +57,7 @@ describe('Return to Notification Settings CTA', () => {
 
     cy.focused()
       .invoke('text')
-      .should('match', /manage text notifications/i)
-      .should('match', /update saved/i);
+      .should('match', /edit/i);
 
     cy.injectAxeThenAxeCheck();
     cy.findByRole('link', { name: /manage text notifications/i }).click();

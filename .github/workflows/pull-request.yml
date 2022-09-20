@@ -9,6 +9,26 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
+  check-cross-app-imports:
+    name: Check Cross App Imports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Check for cross app imports in allowlist apps
+        run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
+
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
@@ -39,24 +59,15 @@ jobs:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
       - name: Install dependencies
-        uses: nick-invision/retry@v2
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Run PR check script
         run: yarn pr-check
@@ -104,24 +115,15 @@ jobs:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
       - name: Install dependencies
-        uses: nick-invision/retry@v2
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Run PR check script
         run: yarn pr-check
@@ -170,24 +172,15 @@ jobs:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
       - name: Install dependencies
-        uses: nick-invision/retry@v2
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Run PR check script
         run: yarn pr-check
@@ -222,24 +215,15 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-
-
       - name: Install dependencies
-        uses: nick-invision/retry@v2
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          command: yarn install --frozen-lockfile --prefer-offline
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Get files changed
         id: get-files-changed

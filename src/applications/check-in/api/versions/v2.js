@@ -3,12 +3,20 @@ import environment from 'platform/utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({ token, checkInType }) => {
+  getSession: async ({
+    token,
+    checkInType,
+    isLorotaSecurityUpdatesEnabled = false,
+  }) => {
     const url = `/check_in/v2/sessions/`;
     const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
+    const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
+      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
+    }`;
+
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${token}${checkInTypeSlug}`),
-      'get-current-session',
+      eventLabel,
       token,
     );
     return {
@@ -52,9 +60,13 @@ const v2 = {
       mode: 'cors',
     };
 
+    const eventLabel = `${checkInType || 'day-of'}-validating-user-${
+      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
+    }`;
+
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),
-      'validating-user',
+      eventLabel,
       token,
     );
     return {
@@ -175,32 +187,6 @@ const v2 = {
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${uuid}`, settings),
       'patch-demographics-update-flags',
-      uuid,
-    );
-    return {
-      ...json,
-    };
-  },
-  postDemographicsData: async ({ demographics, uuid }) => {
-    const url = '/check_in/v2/edit_demographics/';
-    const headers = { 'Content-Type': 'application/json' };
-    const data = {
-      preCheckIn: {
-        demographics,
-        uuid,
-      },
-    };
-    const body = JSON.stringify(data);
-    const settings = {
-      headers,
-      body,
-      method: 'POST',
-      mode: 'cors',
-    };
-
-    const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}`, settings),
-      'pre-check-in-user-edit-demographics',
       uuid,
     );
     return {

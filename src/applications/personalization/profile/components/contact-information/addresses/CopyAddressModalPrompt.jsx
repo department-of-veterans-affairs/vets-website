@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { recordCustomProfileEvent } from '../../../util/analytics';
 
 const CopyAddressModalPrompt = ({
   visible,
@@ -13,6 +14,22 @@ const CopyAddressModalPrompt = ({
   isLoading,
   onYes,
 }) => {
+  const onMountCb = useCallback(() => {
+    return () => {
+      recordCustomProfileEvent({
+        title: 'Change Mailing Address',
+        status: 'Prompt Shown',
+      });
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      onMountCb()();
+    },
+    [onMountCb],
+  );
+
   // content to show based on whether a mailAddress is present or not
   // this edge base may never present itself, but figured it is better to handle the 'what if'
   const MailingAddressInfo = mailingAddress ? (
@@ -26,12 +43,23 @@ const CopyAddressModalPrompt = ({
     <p>We don’t have a mailing address on file for you.</p>
   );
 
+  const handleClick = btnStatus => {
+    return () => {
+      recordCustomProfileEvent({
+        title: 'Change Mailing Address',
+        status: 'Button Click',
+        primaryButtonText: btnStatus,
+      });
+      return btnStatus === 'yes' ? onYes() : onClose();
+    };
+  };
+
   return (
     <VaModal
       modalTitle="We've updated your home address"
       visible={visible}
       onClose={onClose}
-      onCloseEvent={onClose}
+      onCloseEvent={handleClick('dismiss')}
       data-testid="copy-address-prompt"
     >
       <div data-testid="modal-content">
@@ -57,7 +85,7 @@ const CopyAddressModalPrompt = ({
           isLoading={isLoading}
           loadingText="Saving changes"
           className="vads-u-margin-top--0"
-          onClick={onYes}
+          onClick={handleClick('yes')}
         >
           Yes
         </LoadingButton>
@@ -67,7 +95,7 @@ const CopyAddressModalPrompt = ({
             data-testid="cancel-edit-button"
             type="button"
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
-            onClick={onClose}
+            onClick={handleClick('no')}
           >
             No
           </button>

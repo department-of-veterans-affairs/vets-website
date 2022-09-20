@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
@@ -38,13 +37,13 @@ const App = ({ loading, location, children }) => {
 };
 
 const mapStateToProps = state => ({
-  loading: toggleValues(state).loading,
+  loading: state.featureToggles?.loading,
 });
 
 App.propTypes = {
   loading: PropTypes.bool.isRequired,
   children: PropTypes.any,
-  location: PropTypes.string,
+  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 };
 
 export default connect(mapStateToProps)(App);

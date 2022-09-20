@@ -8,7 +8,7 @@ const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
-const LOADING_SELECTOR = '.loading-indicator';
+const LOADING_SELECTOR = 'va-loading-indicator';
 
 // Force interactions on elements, skipping the default checks for the
 // "user interactive" state of an element, potentially saving some time.

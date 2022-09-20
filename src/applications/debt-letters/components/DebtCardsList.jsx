@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
-import { apiRequest } from 'platform/utilities/api';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
-import OtherVADebts from '../../medical-copays/components/OtherVADebts';
-import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+import OtherVADebts from './OtherVADebts';
+import {
+  cdpAccessToggle,
+  ALERT_TYPES,
+  APP_TYPES,
+  API_RESPONSES,
+} from '../utils/helpers';
+import alertMessage from '../utils/alert-messages';
 
-const fetchCopaysResponseAsync = async () => {
-  return apiRequest('/medical_copays')
-    .then(response => {
-      return response.data.length > 0;
-    })
-    .catch(err => {
-      return !err;
-    });
-};
-
-const DebtCardsList = ({ debts, errors }) => {
-  const [hasCopays, setHasCopays] = useState(false);
+const DebtCardsList = ({ debts, errors, hasCopays }) => {
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));
   const error = errors.length ? errors[0] : [];
 
@@ -31,11 +25,29 @@ const DebtCardsList = ({ debts, errors }) => {
     return <ErrorMessage />;
   };
 
-  useEffect(() => {
-    fetchCopaysResponseAsync().then(hasCopaysResponse =>
-      setHasCopays(hasCopaysResponse),
-    );
-  }, []);
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.COPAY);
+    if (hasCopays > 0) {
+      return <OtherVADebts module={APP_TYPES.COPAY} />;
+    }
+    if (hasCopays === API_RESPONSES.ERROR) {
+      return (
+        <>
+          <h3>Your other VA bills</h3>
+          <va-alert
+            data-testid={alertInfo.testID}
+            status={alertInfo.alertStatus}
+          >
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
+  };
 
   return (
     <>
@@ -123,7 +135,7 @@ const DebtCardsList = ({ debts, errors }) => {
           to learn about your payment options.
         </p>
 
-        {showCDPComponents && hasCopays && <OtherVADebts module="LTR" />}
+        {showCDPComponents && renderOtherVA()}
 
         <h3
           id="downloadDebtLetters"
@@ -155,6 +167,7 @@ DebtCardsList.propTypes = {
     }),
   ),
   errors: PropTypes.array,
+  hasCopays: PropTypes.number,
 };
 
 DebtCardsList.defaultProps = {

@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function UploadStatus({ progress, files, onCancel }) {
+export default function UploadStatus({ files, onCancel, progress }) {
+  const handleClick = evt => {
+    evt.preventDefault();
+    onCancel();
+  };
+
   return (
     <div>
       <div className="claims-status-upload-header" id="upload-status-title">
@@ -12,19 +18,21 @@ export default function UploadStatus({ progress, files, onCancel }) {
           ...
         </h4>
         <va-progress-bar percent={progress * 100} />
-        Your files are uploading. Please do not close this window.
-        <p>
-          <a
-            onClick={evt => {
-              evt.preventDefault();
-              onCancel();
-            }}
-            href="#"
-          >
-            Cancel
-          </a>
-        </p>
+        <p>Your files are uploading. Please do not close this window.</p>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={handleClick}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
 }
+
+UploadStatus.propTypes = {
+  files: PropTypes.number,
+  progress: PropTypes.number,
+  onCancel: PropTypes.func,
+};

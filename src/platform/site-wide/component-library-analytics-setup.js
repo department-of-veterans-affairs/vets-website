@@ -62,13 +62,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  PromoBanner: [
-    {
-      action: 'linkClick',
-      event: 'nav-promo-banner-link-click',
-      prefix: 'promo-banner',
-    },
-  ],
   RadioButtons: [
     {
       action: 'change',
@@ -126,6 +119,18 @@ const analyticsEvents = {
       prefix: 'alert-box',
     },
   ],
+  'va-alert-expandable': [
+    {
+      action: 'expand',
+      event: 'int-alert-expandable-expand',
+      prefix: 'alert-expandable',
+    },
+    {
+      action: 'collapse',
+      event: 'int-alert-expandable-collapse',
+      prefix: 'alert-expandable',
+    },
+  ],
   'va-breadcrumbs': [
     {
       action: 'linkClick',
@@ -145,6 +150,20 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+    },
+  ],
+  'va-modal': [
+    {
+      action: 'show',
+      event: 'int-modal-show',
+      prefix: 'modal',
+    },
+  ],
+  'va-promo-banner': [
+    {
+      action: 'linkClick',
+      event: 'nav-promo-banner-link-click',
+      prefix: 'promo-banner',
     },
   ],
   'va-radio': [

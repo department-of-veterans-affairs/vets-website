@@ -1,21 +1,22 @@
-# VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=master)
+# VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=main)
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-  - [Contract tests](#contract-tests)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
+- [What is this?](#what-is-this)	
+- [Common commands](#common-commands)	
+- [Building `vets-website`](#building-vets-website)	
+  - [Building applications](#building-applications)	
+  - [Building static content](#building-static-content)	
+  - [Building both together](#building-both-together)	
+- [Working in GitHub Codespaces](#working-in-github-codespaces)	
+- [Running tests](#running-tests)	
+  - [Unit tests](#unit-tests)	
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)	
+  - [Contract tests](#contract-tests)	
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)	
+- [More commands](#more-commands)	
 - [Supported Browsers](#supported-browsers)
+- [API Keys](#api-keys)
 - [Additional Resources](#additional-resources)
 
 ## What is this?
@@ -260,7 +261,7 @@ for doing very specific things.
 | run lint on JS and fix anything that changed                                                                | `yarn lint:js:changed:fix`                                                                                                                                                                                                                |
 | run visual regression testing                                                                               | Start the site. Generate your baseline image set using `yarn test:visual:baseline`. Make your changes. Then run `yarn test:visual`.                                                                                                       |
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                                    |
-| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit.              |
+| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.              |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
 | run bundle analyzer on our production JS bundles                                                            | `yarn build-analyze`                                                                                                                                                                                                                      |
 | generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
@@ -277,7 +278,14 @@ for doing very specific things.
 | Chrome / Android Web view |       44        | _Latest version with >0.5% of traffic_ |
 | Firefox                   |       52        | _Latest version with >0.5% of traffic_ |
 
+## API Keys
+
+In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access.  see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens.  You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+
+Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN.  The .env file should already be configured to work with dotenv for webpack.  Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits.  See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
+
 ## Additional Resources
 
-1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
+1. [Frontend developer documentation home](https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-developer-documentation)
 1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing
+1. [Using yarn Workspaces](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces)

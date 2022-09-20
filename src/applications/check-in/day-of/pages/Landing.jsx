@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import { api } from '../../api';
 import {
   getTokenFromLocation,
@@ -14,7 +14,6 @@ import { URLS } from '../../utils/navigation';
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { createAnalyticsSlug } from '../../utils/analytics';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
@@ -22,11 +21,16 @@ import { setApp } from '../../actions/universal';
 import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
-  const { isUpdatePageEnabled, location, router } = props;
+  const { location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router);
   const { t } = useTranslation();
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
+
   const {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
@@ -58,26 +62,24 @@ const Landing = props => {
     () => {
       const token = getTokenFromLocation(location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=no=token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
 
-      if (token) {
+      if (token && !sessionCallMade) {
+        setSessionCallMade(true);
         api.v2
-          .getSession({ token })
+          .getSession({
+            token,
+            isLorotaSecurityUpdatesEnabled,
+          })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
-              goToErrorPage();
+              goToErrorPage('?error=session-error');
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
@@ -96,20 +98,21 @@ const Landing = props => {
           })
           .catch(() => {
             clearCurrentSession(window);
-            goToErrorPage();
+            goToErrorPage('?error=error-fromlocation-landing');
           });
       }
     },
     [
       location,
-      isUpdatePageEnabled,
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
       goToErrorPage,
       initForm,
+      sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
+      isLorotaSecurityUpdatesEnabled,
     ],
   );
   return (
@@ -120,7 +123,6 @@ const Landing = props => {
 };
 
 Landing.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
 };

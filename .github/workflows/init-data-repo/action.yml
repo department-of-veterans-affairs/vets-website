@@ -7,15 +7,15 @@ runs:
     - name: Checkout Testing Tools Team Dashboard Data repo
       uses: actions/checkout@v3
       with:
-        repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+        repository: department-of-veterans-affairs/qa-standards-dashboard-data
         token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-        path: testing-tools-team-dashboard-data
+        path: qa-standards-dashboard-data
 
     - name: Get Node version
       id: get-node-version
       shell: bash
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-      working-directory: testing-tools-team-dashboard-data
+      working-directory: qa-standards-dashboard-data
 
     - name: Setup Node
       uses: actions/setup-node@v3
@@ -28,4 +28,4 @@ runs:
       run: yarn install --frozen-lockfile --prefer-offline --production=false
       env:
         YARN_CACHE_FOLDER: .cache/yarn
-      working-directory: testing-tools-team-dashboard-data
+      working-directory: qa-standards-dashboard-data

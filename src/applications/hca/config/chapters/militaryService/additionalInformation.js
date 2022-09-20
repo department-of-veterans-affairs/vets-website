@@ -13,6 +13,8 @@ const {
   vietnamService,
 } = fullSchemaHca.properties;
 
+import { emptyObjectSchema } from '../../../helpers';
+
 export default {
   uiSchema: {
     'ui:title': 'Service history',
@@ -56,10 +58,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:textObject': {
-        type: 'object',
-        properties: {},
-      },
+      'view:textObject': emptyObjectSchema,
       purpleHeartRecipient,
       isFormerPow,
       postNov111998Combat,

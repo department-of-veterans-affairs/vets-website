@@ -1,5 +1,5 @@
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { primaryCaregiverFields } from '../../../definitions/constants';
+import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
@@ -7,9 +7,8 @@ const hasSecondaryCaregiverPage = {
       'ui:title':
         'Would you like to apply for benefits for a Primary Family Caregiver?',
       'ui:required': () => true,
-      'ui:description': PrimaryCaregiverInfo({
+      'ui:description': PrimaryCaregiverDescription({
         additionalInfo: true,
-        headerInfo: false,
       }),
       'ui:widget': 'yesNo',
     },

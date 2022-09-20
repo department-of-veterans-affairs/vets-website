@@ -3,11 +3,15 @@ import { expect } from 'chai';
 import format from 'date-fns/format';
 
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
+
 import configureStore from 'redux-mock-store';
 
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import { render } from '@testing-library/react';
+
+import i18n from '../../../../utils/i18n/i18n';
 
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
 
@@ -19,6 +23,9 @@ describe('check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
+          context: {
+            token: '',
+          },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
           },
@@ -47,11 +54,13 @@ describe('check-in', () => {
 
       const checkIn = render(
         <Provider store={store}>
-          <DisplayMultipleAppointments
-            router={mockRouter}
-            token={token}
-            appointments={appointments}
-          />
+          <I18nextProvider i18n={i18n}>
+            <DisplayMultipleAppointments
+              router={mockRouter}
+              token={token}
+              appointments={appointments}
+            />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -107,11 +116,13 @@ describe('check-in', () => {
 
         const checkIn = render(
           <Provider store={store}>
-            <DisplayMultipleAppointments
-              router={mockRouter}
-              token={token}
-              appointments={appointments}
-            />
+            <I18nextProvider i18n={i18n}>
+              <DisplayMultipleAppointments
+                router={mockRouter}
+                token={token}
+                appointments={appointments}
+              />
+            </I18nextProvider>
           </Provider>,
         );
         expect(checkIn.getByTestId('back-button')).to.exist;
@@ -129,11 +140,13 @@ describe('check-in', () => {
 
         const checkIn = render(
           <Provider store={store}>
-            <DisplayMultipleAppointments
-              router={mockRouter}
-              token={token}
-              appointments={appointments}
-            />
+            <I18nextProvider i18n={i18n}>
+              <DisplayMultipleAppointments
+                router={mockRouter}
+                token={token}
+                appointments={appointments}
+              />
+            </I18nextProvider>
           </Provider>,
         );
         expect(checkIn.getByTestId('back-button')).to.exist;
@@ -152,12 +165,13 @@ describe('check-in', () => {
 
         const checkIn = render(
           <Provider store={store}>
-            <DisplayMultipleAppointments
-              router={mockRouter}
-              token={token}
-              appointments={appointments}
-              isUpdatePageEnabled
-            />
+            <I18nextProvider i18n={i18n}>
+              <DisplayMultipleAppointments
+                router={mockRouter}
+                token={token}
+                appointments={appointments}
+              />
+            </I18nextProvider>
           </Provider>,
         );
         expect(checkIn.getByTestId('update-text')).to.have.text(

@@ -4,6 +4,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { isFieldEmpty } from '@@profile/util';
 
 import {
   addresses,
@@ -17,16 +18,8 @@ import {
 } from '@@profile/util/personal-information/personalInformationUtils';
 import { formatAddress } from '~/platform/forms/address/helpers';
 
-const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
-  // show if there is no data or a gender identity code is not present in data object
-  return (
-    !data ||
-    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
-  );
-};
-
 const ProfileInformationView = props => {
-  const { data, fieldName, title } = props;
+  const { data, fieldName, title, id } = props;
 
   const titleLower = title.toLowerCase();
 
@@ -34,11 +27,9 @@ const ProfileInformationView = props => {
   const titleFormatted =
     fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
-  const unsetFieldTitleSpan = (
-    <span>Edit your profile to add {titleFormatted}.</span>
-  );
+  const unsetFieldTitleSpan = <span>Choose edit to add {titleFormatted}.</span>;
 
-  if (shouldShowUnsetFieldTitleSpan(data, fieldName)) {
+  if (isFieldEmpty(data, fieldName)) {
     return unsetFieldTitleSpan;
   }
 
@@ -47,16 +38,16 @@ const ProfileInformationView = props => {
     // and . symbols so very long email addresses will wrap at those symbols if
     // needed
     const regex = /(@|\.)/;
-    const wrappableEmailAddress = data.emailAddress
-      .split(regex)
-      .map(
-        part =>
-          regex.test(part) ? (
-            <span className="email-address-symbol">{part}</span>
-          ) : (
-            part
-          ),
-      );
+    const wrappableEmailAddress = data.emailAddress.split(regex).map(
+      (part, i) =>
+        regex.test(part) ? (
+          <span className="email-address-symbol" key={i}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+    );
     return (
       <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
     );
@@ -78,7 +69,7 @@ const ProfileInformationView = props => {
     const { street, cityStateZip, country } = formatAddress(data);
 
     return (
-      <div>
+      <div id={id}>
         {street}
         <br />
         {cityStateZip}
@@ -110,6 +101,7 @@ const ProfileInformationView = props => {
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  id: PropTypes.string,
   title: PropTypes.string,
 };
 

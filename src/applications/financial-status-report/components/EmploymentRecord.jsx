@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
-import Select from '@department-of-veterans-affairs/component-library/Select';
-import MonthYear from '@department-of-veterans-affairs/component-library/MonthYear';
+import { Select } from '@department-of-veterans-affairs/component-library';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
@@ -27,8 +27,8 @@ const EmploymentRecord = ({
   employmentHistory,
   formContext,
 }) => {
-  const [validation, setValidation] = useState([]);
-
+  const [fromDateError, setFromDateError] = useState();
+  const [toDateError, setToDateError] = useState();
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -74,33 +74,26 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
-  const validateYear = year => {
+  const validateYear = (monthYear, errorSetter, requiredMessage) => {
+    const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
+    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
 
-    if (
+    if (!isComplete) {
+      // This allows a custom required error message to be used
+      errorSetter(requiredMessage);
+    } else if (
       !!year &&
-      (parseInt(year.value, 10) > todayYear || parseInt(year.value, 10) < 1900)
+      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
     ) {
-      setValidation([
-        {
-          valid: false,
-          message: `Please enter a year between 1900 and ${todayYear}`,
-        },
-      ]);
+      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
     } else {
-      setValidation([
-        {
-          valid: true,
-        },
-      ]);
+      errorSetter(null);
     }
   };
 
-  const handleDateChange = (key, value) => {
-    const { month, year } = value;
-    const dateString = `${year.value}-${month.value}-XX`;
-
-    validateYear(year);
+  const handleDateChange = (key, monthYear) => {
+    const dateString = `${monthYear}-XX`;
 
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
@@ -125,23 +118,17 @@ const EmploymentRecord = ({
         />
       </div>
       <div className="vads-u-margin-top--3">
-        <MonthYear
-          date={{
-            month: {
-              value: fromMonth,
-              dirty: submitted,
-            },
-            year: {
-              value: fromYear,
-              dirty: submitted,
-            },
-          }}
+        <VaDate
+          monthYearOnly
+          value={`${fromYear}-${fromMonth}`}
           label="Date you started work at this job?"
           name="from"
-          onValueChange={value => handleDateChange('from', value)}
+          onDateChange={e => handleDateChange('from', e.target.value)}
+          onDateBlur={e =>
+            validateYear(e.target.value || '', setFromDateError, startError)
+          }
           required
-          requiredMessage={submitted && startError}
-          validation={validation}
+          error={fromDateError}
         />
       </div>
       <div
@@ -149,22 +136,17 @@ const EmploymentRecord = ({
           'field-disabled': employment[index].isCurrent,
         })}
       >
-        <MonthYear
-          date={{
-            month: {
-              value: toMonth,
-              dirty: !employment[index].isCurrent && submitted,
-            },
-            year: {
-              value: toYear,
-              dirty: !employment[index].isCurrent && submitted,
-            },
-          }}
+        <VaDate
+          monthYearOnly
+          value={`${toYear}-${toMonth}`}
           label="Date you stopped work at this job?"
           name="to"
-          onValueChange={value => handleDateChange('to', value)}
+          onDateChange={e => handleDateChange('to', e.target.value)}
+          onDateBlur={e =>
+            validateYear(e.target.value || '', setToDateError, endError)
+          }
           required
-          requiredMessage={submitted && endError}
+          error={toDateError}
         />
       </div>
       <Checkbox

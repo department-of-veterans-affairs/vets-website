@@ -32,7 +32,7 @@ describe('Check In Experience', () => {
     it('see staff with demographics update', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -66,7 +66,7 @@ describe('Check In Experience', () => {
     it('see staff with emergency contact update', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -104,7 +104,7 @@ describe('Check In Experience', () => {
     it('see staff with next of kin update', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -168,7 +168,7 @@ describe('Check In Experience', () => {
     it('see staff with demographics update - API error', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();

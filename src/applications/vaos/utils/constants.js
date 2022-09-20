@@ -60,7 +60,7 @@ export const PURPOSE_TEXT = [
 export const PURPOSE_TEXT_V2 = [
   {
     id: 'routine-follow-up',
-    short: 'Follow-up/Routine',
+    short: 'Routine Follow-up',
     label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },

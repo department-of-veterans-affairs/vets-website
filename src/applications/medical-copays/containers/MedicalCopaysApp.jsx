@@ -8,12 +8,47 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
+import { apiRequest } from 'platform/utilities/api';
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { mcpFeatureToggle } from '../utils/helpers';
+import {
+  mcpFeatureToggle,
+  cdpAccessToggle,
+  ALERT_TYPES,
+  API_RESPONSES,
+} from '../utils/helpers';
 import AlertView from '../components/AlertView';
-import { getStatements } from '../../combined-debt-portal/combined/actions/copays';
+import { getStatements } from '../actions';
+import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
+import environment from '~/platform/utilities/environment';
+
+export const fetchDebtResponseAsync = async () => {
+  const options = {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+    },
+  };
+  try {
+    const response = isVAProfileServiceConfigured()
+      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : await debtMockResponse();
+
+    if (response.errors) {
+      return API_RESPONSES.ERROR;
+    }
+    return response.debts.length;
+  } catch {
+    return API_RESPONSES.ERROR;
+  }
+};
 
 const MedicalCopaysApp = ({ children }) => {
+  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
+  const [hasDebts, setHasDebts] = useState(null);
   const showMCP = useSelector(state => mcpFeatureToggle(state));
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
@@ -29,6 +64,9 @@ const MedicalCopaysApp = ({ children }) => {
       if (userLoggedIn) {
         const generateGetStatements = () => getStatements(dispatch);
         dispatch(generateGetStatements);
+        fetchDebtResponseAsync().then(hasDebtsResponse =>
+          setHasDebts(hasDebtsResponse),
+        );
       }
     },
     [dispatch, userLoggedIn],
@@ -38,17 +76,26 @@ const MedicalCopaysApp = ({ children }) => {
     () => {
       scrollToTop();
       setAlertType(null);
-      if (statements && !statements?.length) {
-        setAlertType('no-history');
-      }
-      if (error) {
-        setAlertType('error');
-      }
-      if (error?.code === '403') {
-        setAlertType('no-health-care');
+      if (showCDPComponents) {
+        if (statements && !statements?.length) {
+          setAlertType(ALERT_TYPES.ZERO);
+        }
+        if (error) {
+          setAlertType(ALERT_TYPES.ERROR);
+        }
+      } else {
+        if (statements && !statements?.length) {
+          setAlertType('no-history');
+        }
+        if (error) {
+          setAlertType('error');
+        }
+        if (error?.code === '403') {
+          setAlertType('no-health-care');
+        }
       }
     },
-    [statements, error],
+    [statements, error, showCDPComponents, hasDebts],
   );
 
   if (showMCP === false || (!profileLoading && !userLoggedIn)) {
@@ -73,6 +120,8 @@ const MedicalCopaysApp = ({ children }) => {
                 pathname={pathname}
                 alertType={alertType}
                 error={error}
+                cdpToggle={showCDPComponents}
+                hasDebts={hasDebts}
               />
             ) : (
               children

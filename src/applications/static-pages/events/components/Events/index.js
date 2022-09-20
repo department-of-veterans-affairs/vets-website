@@ -23,10 +23,12 @@ export const Events = ({ rawEvents }) => {
   const defaultEvents = deriveFilteredEvents({
     endDateDay: queryParams.get('endDateDay') || undefined,
     endDateMonth: queryParams.get('endDateMonth') || undefined,
+    endDateYear: queryParams.get('endDateYear') || undefined,
     rawEvents,
     selectedOption: defaultSelectedOption,
     startDateDay: queryParams.get('startDateDay') || undefined,
     startDateMonth: queryParams.get('startDateMonth') || undefined,
+    startDateYear: queryParams.get('startDateYear') || undefined,
   });
 
   // Derive our state.
@@ -55,19 +57,23 @@ export const Events = ({ rawEvents }) => {
     setSelectedOption(newSelectedOption);
 
     // Derive startDateMonth, startDateDay, endDateMonth, and endDateDay values.
-    const startDateMonth = event?.target?.startDateMonth?.value;
-    const startDateDay = event?.target?.startDateDay?.value;
-    const endDateMonth = event?.target?.endDateMonth?.value;
-    const endDateDay = event?.target?.endDateDay?.value;
+    const startDateMonth = event?.filterList?.startDateMonth;
+    const startDateDay = event?.filterList?.startDateDay;
+    const startDateYear = event?.filterList?.startDateYear;
+    const endDateMonth = event?.filterList?.endDateMonth;
+    const endDateDay = event?.filterList?.endDateDay;
+    const endDateYear = event?.filterList?.endDateYear;
 
     // Derive filteredEvents.
     const filteredEvents = deriveFilteredEvents({
       endDateDay,
       endDateMonth,
+      endDateYear,
       rawEvents,
       selectedOption: newSelectedOption,
       startDateDay,
       startDateMonth,
+      startDateYear,
     });
 
     // Set events.
@@ -80,9 +86,11 @@ export const Events = ({ rawEvents }) => {
     updateQueryParams({
       endDateDay,
       endDateMonth,
+      endDateYear,
       selectedOption: newSelectedOption?.value,
       startDateDay,
       startDateMonth,
+      startDateYear,
     });
   };
 
@@ -100,16 +108,6 @@ export const Events = ({ rawEvents }) => {
 
   return (
     <div className="events usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 medium-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
-      {/* Title */}
-      <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
-
-      {/* Description */}
-      <p className="va-introtext">
-        VA benefits can help Veterans and their families buy homes, earn
-        degrees, start careers, stay healthy, and more. Join an event for
-        conversation and information.
-      </p>
-
       {/* Search */}
       <Search onSearch={onSearch} />
 
@@ -133,11 +131,13 @@ Events.propTypes = {
       entityUrl: PropTypes.shape({
         path: PropTypes.string,
       }),
-      fieldDatetimeRangeTimezone: PropTypes.shape({
-        value: PropTypes.number,
-        endValue: PropTypes.number,
-        timezone: PropTypes.string,
-      }),
+      fieldDatetimeRangeTimezone: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.number,
+          endValue: PropTypes.number,
+          timezone: PropTypes.string,
+        }),
+      ).isRequired,
       fieldDescription: PropTypes.string,
       fieldFacilityLocation: PropTypes.object,
       fieldFeatured: PropTypes.bool,

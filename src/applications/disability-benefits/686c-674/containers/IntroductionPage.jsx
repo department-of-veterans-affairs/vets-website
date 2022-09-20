@@ -6,6 +6,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
 import { verifyVaFileNumber } from '../actions';
 import { IntroductionPageHeader } from '../components/IntroductionPageHeader';
 import { IntroductionPageFormProcess } from '../components/IntroductionPageFormProcess';
@@ -15,6 +16,7 @@ import {
   ServerErrorAlert,
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
+import { PAGE_TITLE } from '../config/constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -41,7 +43,7 @@ class IntroductionPage extends React.Component {
     } else if (!dependentsToggle) {
       content = (
         <>
-          <h1>Application to add or remove dependents</h1>
+          <h1>{PAGE_TITLE}</h1>
           <va-alert status="info">
             <h2 slot="headline" className="vads-u-font-size--h3">
               We’re still working on this feature

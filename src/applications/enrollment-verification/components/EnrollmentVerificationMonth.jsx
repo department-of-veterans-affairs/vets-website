@@ -72,11 +72,11 @@ export default function EnrollmentVerificationMonth({ month, status }) {
 
   return (
     <div className="ev-enrollment-month vads-u-margin-y--3">
-      <h4>{month.vericationMonth}</h4>
+      <h4>{month.verificationMonth}</h4>
       {monthStatusMessage}
 
       <va-additional-info trigger="More information">
-        <EnrollmentVerificationMonthInfo enrollments={month} />
+        <EnrollmentVerificationMonthInfo month={month} />
       </va-additional-info>
     </div>
   );

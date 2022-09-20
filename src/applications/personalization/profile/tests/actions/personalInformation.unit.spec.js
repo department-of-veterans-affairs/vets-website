@@ -19,13 +19,17 @@ describe('actions/personalInformation', () => {
     beforeEach(() => {
       mockFetch();
 
+      recordEventSpy = sinon.spy();
+
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
         mockPersonalInfo.basicUserPersonalInfo,
       );
       actionCreator = personalInformationActions.fetchPersonalInformation(
         false,
+        recordEventSpy,
       );
+
       dispatch = sinon.spy();
     });
 
@@ -58,6 +62,85 @@ describe('actions/personalInformation', () => {
 
       expect(dispatch.secondCall.args[0].personalInformation).to.deep.equal(
         mockPersonalInfo.basicUserPersonalInfo.data.attributes,
+      );
+    });
+
+    it('reports success to platform/monitoring/recordEvent', async () => {
+      await actionCreator(dispatch);
+
+      // records event for api call start
+      expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+      expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+        'started',
+      );
+
+      // records event for api call failure
+      expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+      expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+        'successful',
+      );
+    });
+  });
+
+  describe('fetchPersonalInformation FAILURE', () => {
+    beforeEach(() => {
+      mockFetch();
+
+      recordEventSpy = sinon.spy();
+
+      setFetchJSONResponse(
+        global.fetch.onFirstCall(),
+        mockPersonalInfo.userPersonalInfoFailure,
+      );
+      actionCreator = personalInformationActions.fetchPersonalInformation(
+        false,
+        recordEventSpy,
+      );
+
+      dispatch = sinon.spy();
+    });
+
+    it('calls fetch to `GET profile/personal_information`', async () => {
+      await actionCreator(dispatch);
+
+      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+
+      expect(
+        global.fetch.firstCall.args[0].endsWith(
+          '/profile/personal_information',
+        ),
+      ).to.be.true;
+    });
+
+    it('dispatches FETCH_PERSONAL_INFORMATION', async () => {
+      await actionCreator(dispatch);
+
+      expect(dispatch.firstCall.args[0].type).to.be.equal(
+        personalInformationActions.FETCH_PERSONAL_INFORMATION,
+      );
+    });
+
+    it('dispatches FETCH_PERSONAL_INFORMATION_FAILED', async () => {
+      await actionCreator(dispatch);
+
+      expect(dispatch.secondCall.args[0].type).to.be.equal(
+        personalInformationActions.FETCH_PERSONAL_INFORMATION_FAILED,
+      );
+    });
+
+    it('reports success to platform/monitoring/recordEvent', async () => {
+      await actionCreator(dispatch);
+
+      // records event for api call start
+      expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+      expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+        'started',
+      );
+
+      // records event for api call failure
+      expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+      expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+        'failed',
       );
     });
   });
@@ -150,7 +233,21 @@ describe('actions/personalInformation', () => {
         );
       });
 
-      // TODO: add test for the dispatching fetchPersonalInformation at end of PUT success
+      it('reports success to platform/monitoring/recordEvent', async () => {
+        await actionCreator(dispatch);
+
+        // records event for api call start
+        expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+        expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+          'started',
+        );
+
+        // records event for api call failure
+        expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+        expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+          'successful',
+        );
+      });
     });
 
     describe('when PUT request is a FAILURE', () => {
@@ -215,19 +312,20 @@ describe('actions/personalInformation', () => {
       it('reports failure to platform/monitoring/recordEvent', async () => {
         await actionCreator(dispatch);
 
-        expect(recordEventSpy.firstCall.args[0].event).to.equal(
-          'profile-edit-failure',
+        // records event for api call start
+        expect(recordEventSpy.firstCall.args[0].event).to.equal('api_call');
+        expect(recordEventSpy.firstCall.args[0]['api-status']).to.equal(
+          'started',
         );
 
-        expect(recordEventSpy.firstCall.args[0]['profile-action']).to.equal(
-          'save-failure',
+        // records event for api call failure
+        expect(recordEventSpy.secondCall.args[0].event).to.equal('api_call');
+        expect(recordEventSpy.secondCall.args[0]['api-status']).to.equal(
+          'failed',
         );
-
-        expect(recordEventSpy.firstCall.args[0]['profile-section']).to.equal(
-          'personal-information-preferred-name',
+        expect(recordEventSpy.secondCall.args[0]['error-key']).to.equal(
+          'personal-information-preferred-name-EVSS400-Bad Request-Received a bad request response from the upstream server',
         );
-
-        // TODO add expect for error-key once that is determined by analytics
       });
     });
   });

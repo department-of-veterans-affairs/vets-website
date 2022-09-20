@@ -82,3 +82,12 @@ export function formattedDate(date, options = {}) {
 
   return dateString;
 }
+
+export const currency = amount => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  });
+  return formatter.format(parseFloat(amount));
+};

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest, getClaimDetail } from '../actions/index.jsx';
+import PropTypes from 'prop-types';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import { submitRequest, getClaimDetail } from '../actions';
 import { setUpPage } from '../utils/page';
-
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -15,10 +15,12 @@ class AskVAPage extends React.Component {
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
     this.state = { submittedDocs: false };
   }
+
   componentDidMount() {
     document.title = 'Ask for your Claim Decision';
     setUpPage();
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
@@ -26,12 +28,15 @@ class AskVAPage extends React.Component {
       this.goToStatusPage();
     }
   }
+
   setSubmittedDocs(val) {
     this.setState({ submittedDocs: val });
   }
+
   goToStatusPage() {
     this.props.router.push(`your-claims/${this.props.params.id}`);
   }
+
   render() {
     const { loadingDecisionRequest, decisionRequestError } = this.props;
     const submitDisabled =
@@ -45,8 +50,9 @@ class AskVAPage extends React.Component {
     } else if (decisionRequestError !== null) {
       buttonMsg = 'Something went wrong...';
     }
+
     return (
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0  vads-u-margin-bottom--7">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
@@ -89,6 +95,7 @@ class AskVAPage extends React.Component {
               </div>
               <button
                 disabled={submitDisabled}
+                type="button"
                 className={
                   submitDisabled
                     ? 'usa-button-primary usa-button-disabled'
@@ -99,12 +106,13 @@ class AskVAPage extends React.Component {
                 {buttonMsg}
               </button>
               {!loadingDecisionRequest ? (
-                <a
+                <button
                   className="usa-button-secondary"
                   onClick={this.goToStatusPage}
+                  type="button"
                 >
                   Not yet–I still have more evidence to submit
-                </a>
+                </button>
               ) : null}
             </div>
           </div>
@@ -137,5 +145,15 @@ export default withRouter(
     mapDispatchToProps,
   )(AskVAPage),
 );
+
+AskVAPage.propTypes = {
+  decisionRequestError: PropTypes.string,
+  decisionRequested: PropTypes.bool,
+  getClaimDetail: PropTypes.func,
+  loadingDecisionRequest: PropTypes.bool,
+  params: PropTypes.object,
+  router: PropTypes.object,
+  submitRequest: PropTypes.func,
+};
 
 export { AskVAPage };

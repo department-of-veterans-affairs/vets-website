@@ -103,7 +103,7 @@ export default function Chatbox(props) {
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
         <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
-          VA virtual agent
+          VA chatbot (beta)
         </h2>
       </div>
       {showBot(
@@ -127,7 +127,7 @@ function App(props) {
     case ERROR:
       return <ChatbotError />;
     case LOADING:
-      return <LoadingIndicator message="Loading Virtual Agent" />;
+      return <LoadingIndicator message="Loading Chatbot" />;
     case COMPLETE:
       return (
         <WebChat

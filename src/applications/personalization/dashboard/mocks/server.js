@@ -1,6 +1,6 @@
 const delay = require('mocker-api/lib/delay');
 const { generateFeatureToggles } = require('./feature-toggles');
-const { simpleUser } = require('./users');
+const user = require('./users');
 const { createSuccessPayment } = require('./payment-history');
 const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess } = require('./debts');
@@ -13,7 +13,7 @@ const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseVaosV2Api: true,
   }),
-  'GET /v0/user': simpleUser,
+  'GET /v0/user': user.cernerUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/profile/payment_history': createSuccessPayment(true),

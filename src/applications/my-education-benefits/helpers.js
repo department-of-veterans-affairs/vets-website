@@ -1,8 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import { getSchemaCountryCode } from './utils/form-submit-transform';
 import { DATE_TIMESTAMP } from './constants';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -17,53 +16,12 @@ export const directDepositWarning = (
     >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at <a href="tel:8003331795">1-800-333-1795</a>. If you chose
-    not to enroll, you must contact representatives handling waiver requests for
-    the Department of Treasury at
-    <a href="tel:8882242950">1-888-224-2950</a>. They will address any questions
-    or concerns you may have and encourage your participation in EFT.
+    or by telephone at <va-telephone contact="8003331795" />. If you chose not
+    to enroll, you must contact representatives handling waiver requests for the
+    Department of Treasury at <va-telephone contact="8882242950" />. They will
+    address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
-);
-
-export const chapter30Label = (
-  <>
-    Montgomery GI Bill Active Duty (Chapter 30)
-    <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        served at least two years on active duty and were honorably discharged.
-        If you give up this benefit, VA will pay you for any eligible kickers
-        associated with it.
-      </p>
-      <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the Montgomery GI Bill Active Duty
-      </a>
-    </AdditionalInfo>
-  </>
-);
-
-export const chapter1606Label = (
-  <>
-    Montgomery GI Bill Selected Reserve (Chapter 1606)
-    <AdditionalInfo triggerText="Learn more">
-      <p>
-        Our records indicate you may be eligible for this benefit because you
-        agreed to serve six years in the Selected Reserve. If you give up this
-        benefit, VA will pay you for any eligible kickers associated with it.
-      </p>
-      <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the Montgomery GI Bill Selected Reserve
-      </a>
-    </AdditionalInfo>
-  </>
 );
 
 export const unsureDescription = (
@@ -86,13 +44,37 @@ export const post911GiBillNote = (
 );
 
 /**
+ * Converts a number to a string, preserving a minimum number of integer
+ * digits.
+ * Examples:
+ * (5, 0) => '5'
+ * (5, 1) => '5'
+ * (5, 2) => '05'
+ * (5, 3) => '005'
+ * (2022, 2) => '2022'
+ * (2022, 5) => '02022'
+ * (3.14159, 1) => '3.14159'
+ * (3.14159, 2) => '03.14159'
+ * (3.14159, 3) => '003.14159'
+ * @param {number} n The number we want to convert.
+ * @param {number} minDigits The minimum number of integer digits to preserve.
+ * @returns {string} The number formatted as a string.
+ */
+export const convertNumberToStringWithMinimumDigits = (n, minDigits) => {
+  return n.toLocaleString('en-US', {
+    minimumIntegerDigits: minDigits,
+    useGrouping: false,
+  });
+};
+
+/**
  * Formats a date in human-readable form. For example:
  * January 1, 2000.
  *
  * @param {*} rawDate A date in the form '01-01-2000'
  * @returns A human-readable date string.
  */
-export const formatReadableDate = rawDate => {
+export const formatReadableDate = (rawDate, minimumDateDigits = 1) => {
   const months = [
     'January',
     'February',
@@ -108,11 +90,10 @@ export const formatReadableDate = rawDate => {
     'December',
   ];
 
-  let dateParts;
+  const dateParts = rawDate?.split('-');
   let date;
 
-  if (rawDate) {
-    dateParts = rawDate.split('-');
+  if (rawDate && dateParts.length >= 3) {
     date = new Date(
       Number.parseInt(dateParts[0], 10),
       Number.parseInt(dateParts[1], 10) - 1,
@@ -124,7 +105,10 @@ export const formatReadableDate = rawDate => {
     return '';
   }
 
-  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  return `${months[date.getMonth()]} ${convertNumberToStringWithMinimumDigits(
+    date.getDate(),
+    minimumDateDigits,
+  )}, ${date.getFullYear()}`;
 };
 
 /**
@@ -196,11 +180,19 @@ function transformServiceHistory(serviceHistory) {
 function mapNotificaitonMethod(notificationMethod) {
   if (notificationMethod === 'mail') {
     return 'Mail';
-  } else if (notificationMethod === 'email') {
+  }
+  if (notificationMethod === 'email') {
     return 'Email';
   }
   return notificationMethod;
 }
+
+export const transformAlphaOnlyLowercase = str =>
+  str.toLowerCase().replace(/[^a-z]/g, '');
+
+export const equalsAlphaOnlyIgnoreCase = (a, b) => {
+  return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
+};
 
 export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
@@ -225,10 +217,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     'view:phoneNumbers': {
       mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
       },
       phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
       },
     },
     'view:contactMethod': {
@@ -251,7 +243,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 
   if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+    newData['view:userFullName'].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        'view:userFullName'
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+      ) || undefined;
   }
 
   return {
@@ -260,4 +257,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
     pages,
     state,
   };
+}
+
+export function customDirectDepositDescription() {
+  return (
+    <div>
+      <p>
+        VA makes payments through only direct deposit, also called electronic
+        funds transfer (EFT).
+      </p>
+    </div>
+  );
 }

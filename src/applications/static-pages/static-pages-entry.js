@@ -7,10 +7,10 @@ import 'platform/polyfills';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
-import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
+import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import icsCreate from './widget-creators/ics-generator';
+import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
 import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
@@ -36,8 +36,6 @@ import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createContactChatbotCTA from './contact-chatbot-cta';
-import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -74,6 +72,8 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
+import createHomepageSearch from './homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
 
 // Set the app name header when using the apiRequest helper
@@ -101,8 +101,11 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 subscribeAccordionEvents();
 alertsBuildShow();
-icsCreate();
+// See `content-build/src/site/includes/social-share.drupal.liquid
+// & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
+icsCreate('#add-to-calendar-link, a.recurring-event');
 openShareLink();
+showVaAlertExpandable(store);
 
 // Create widgets.
 createApplicationStatus(store, {
@@ -122,13 +125,8 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 createCallToActionWidget(store, widgetTypes.CTA);
-createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-createHigherLevelReviewApplicationStatus(
-  store,
-  widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
-);
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
   applyHeading: 'How do I apply?',
@@ -167,7 +165,6 @@ createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
 );
-createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
@@ -196,12 +193,14 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
+createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
+createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 
 // Create the My VA Login widget only on the homepage.
-if (location.pathname === '/') {
+if (window.location.pathname === '/') {
   createMyVALoginWidget(store);
 }
 

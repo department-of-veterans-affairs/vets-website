@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import { fetchTotalDisabilityRating } from './actions';
 import formConfig from './config/form';
 
 const HealthCareEntry = ({
@@ -13,34 +13,74 @@ const HealthCareEntry = ({
   children,
   caregiverSIGIEnabled = false,
   hcaAmericanIndianEnabled = false,
+  hcaMedicareClaimNumberEnabled = false,
+  hcaShortFormEnabled = false,
+  hcaUseFacilitiesApi = false,
   setFormData,
   formData,
+  hasSavedForm,
+  isLoggedIn,
+  getTotalDisabilityRating,
+  totalDisabilityRating,
+  user,
 }) => {
-  const getFlipperData = useCallback(
-    () => {
-      if (caregiverSIGIEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-        });
-      }
-
-      if (hcaAmericanIndianEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-        });
-      }
-    },
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
-  );
-
   useEffect(
     () => {
-      getFlipperData();
+      if (isLoggedIn) {
+        getTotalDisabilityRating();
+      }
+    },
+    [getTotalDisabilityRating, isLoggedIn],
+  );
+  useEffect(
+    // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
+    // So users can complete the form as they started, we want to use 'view:hcaShortFormEnabled' from save in progress data,
+    // we can check using hasSavedForm. This can be removed 90 days after hcaShortFormEnabled flipper toggle is fully enabled for all users
+    () => {
+      const defaultViewFields = {
+        'view:isLoggedIn': isLoggedIn,
+        'view:totalDisabilityRating': totalDisabilityRating || 0,
+        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+        'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
+        'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        'view:useFacilitiesAPI': hcaUseFacilitiesApi,
+      };
+
+      if (hasSavedForm || typeof hasSavedForm === 'undefined') {
+        setFormData({
+          ...formData,
+          ...defaultViewFields,
+          'view:userDob': user.dob,
+        });
+      } else if (isLoggedIn) {
+        setFormData({
+          ...formData,
+          ...defaultViewFields,
+          'view:userDob': user.dob,
+          'view:hcaShortFormEnabled': hcaShortFormEnabled,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          ...defaultViewFields,
+          'view:hcaShortFormEnabled': hcaShortFormEnabled,
+        });
+      }
     },
 
-    [getFlipperData, caregiverSIGIEnabled],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      caregiverSIGIEnabled,
+      hcaAmericanIndianEnabled,
+      hcaMedicareClaimNumberEnabled,
+      hcaShortFormEnabled,
+      hcaUseFacilitiesApi,
+      formData.veteranFullName,
+      hasSavedForm,
+      isLoggedIn,
+      totalDisabilityRating,
+      user.dob,
+    ],
   );
 
   return (
@@ -50,25 +90,45 @@ const HealthCareEntry = ({
   );
 };
 
+HealthCareEntry.propTypes = {
+  caregiverSIGIEnabled: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  formData: PropTypes.object,
+  getTotalDisabilityRating: PropTypes.func,
+  hasSavedForm: PropTypes.bool,
+  hcaAmericanIndianEnabled: PropTypes.bool,
+  hcaMedicareClaimNumberEnabled: PropTypes.bool,
+  hcaShortFormEnabled: PropTypes.bool,
+  hcaUseFacilitiesApi: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.object,
+  setFormData: PropTypes.func,
+  totalDisabilityRating: PropTypes.number,
+  user: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
   formData: state.form.data,
-  caregiverSIGIEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.caregiverSIGIEnabled
-  ],
-  hcaAmericanIndianEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
-  ],
+  caregiverSIGIEnabled: state.featureToggles.caregiverSIGIEnabled,
+  hcaAmericanIndianEnabled: state.featureToggles.hcaAmericanIndianEnabled,
+  hcaMedicareClaimNumberEnabled:
+    state.featureToggles.hcaMedicareClaimNumberEnabled,
+  hcaShortFormEnabled: state.featureToggles.hcaShortFormEnabled,
+  hcaUseFacilitiesApi: state.featureToggles.hcaUseFacilitiesApi,
+  hasSavedForm: state?.user?.profile?.savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_10_10EZ,
+  ),
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  totalDisabilityRating: state.totalRating.totalDisabilityRating,
+  user: state.user.profile,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
-};
-
-HealthCareEntry.propTypes = {
-  caregiverSIGIEnabled: PropTypes.bool,
-  hcaAmericanIndianEnabled: PropTypes.bool,
-  setFormData: PropTypes.func,
-  formData: PropTypes.object,
+  getTotalDisabilityRating: fetchTotalDisabilityRating,
 };
 
 export default connect(

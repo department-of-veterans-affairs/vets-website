@@ -1,49 +1,98 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { useTranslation, Trans } from 'react-i18next';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/Footer';
-import LanguagePicker from '../../../components/LanguagePicker';
+import Footer from '../../../components/layout/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../../utils/appointment';
+import {
+  intervalUntilNextAppointmentIneligibleForCheckin,
+  sortAppointmentsByStartTime,
+} from '../../../utils/appointment';
+
+import { makeSelectCurrentContext } from '../../../selectors';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, getMultipleAppointments, router, token } = props;
+  const { appointments, router, token } = props;
   const { t } = useTranslation();
+  const { goToErrorPage } = useFormRouting(router);
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const context = useSelector(selectCurrentContext);
+  const { shouldRefresh } = context;
+
+  const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
+    shouldRefresh,
+    true,
+  );
+
+  const refreshTimer = useRef(null);
+
+  useEffect(
+    () => {
+      const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+        appointments,
+      );
+
+      // Refresh the page 5 seconds before the checkIn window expires.
+      if (refreshInterval > 5000) {
+        if (refreshTimer.current !== null) {
+          clearTimeout(refreshTimer.current);
+        }
+
+        refreshTimer.current = setTimeout(
+          () => refreshCheckInData(),
+          refreshInterval - 5000,
+        );
+      }
+
+      if (checkInDataError) {
+        goToErrorPage('?error=cant-retrieve-check-in-data');
+      }
+    },
+    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
+  );
 
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+        event: createAnalyticsSlug(
+          'refresh-appointments-button-clicked',
+          'nav',
+        ),
       });
 
-      getMultipleAppointments();
+      refreshCheckInData();
       focusElement('h1');
     },
-    [getMultipleAppointments],
+    [refreshCheckInData],
   );
+
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  return (
+
+  if (isLoading) window.scrollTo(0, 0);
+
+  return isLoading ? (
+    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+  ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />
-      <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-        <LanguagePicker />
-        <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          {t('your-appointments')}
-        </h1>
+      <Wrapper
+        pageTitle={t('your-appointments')}
+        classNames="appointment-check-in"
+        withBackButton
+      >
         <p data-testid="date-text">
           {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
@@ -82,7 +131,7 @@ const DisplayMultipleAppointments = props => {
         </p>
         <Footer />
         <BackToHome />
-      </div>
+      </Wrapper>
     </>
   );
 };

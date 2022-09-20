@@ -1,24 +1,33 @@
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 import {
   appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
+  intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
   removeTimeZone,
   preCheckinExpired,
+  locationShouldBeDisplayed,
 } from './index';
 
-import { get } from '../../api/local-mock-api/mocks/v2/check-in-data';
+import { get } from '../../api/local-mock-api/mocks/v2/shared';
+import { ELIGIBILITY } from './eligibility';
 
 describe('check in', () => {
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   const { createAppointment, createMultipleAppointments } = get;
+
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {
       it('returns false if selected Appointment is undefined and no more eligible appointments found', () => {
         const appointments = [
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
         ];
 
         expect(
@@ -48,9 +57,9 @@ describe('check in', () => {
           'TEST CLINIC',
         );
         const appointments = [
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           selectedAppointment,
         ];
 
@@ -66,14 +75,14 @@ describe('check in', () => {
           'TEST CLINIC',
         );
         const appointments = [
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment(
-            'ELIGIBLE',
-            'some-facility',
-            'some-other-ien',
-            'TEST CLINIC',
-          ),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({
+            eligibility: 'ELIGIBLE',
+            facilityId: 'some-facility',
+            appointmentIen: 'some-other-ien',
+            clinicFriendlyName: 'TEST CLINIC',
+          }),
           selectedAppointment,
         ];
         expect(
@@ -81,36 +90,36 @@ describe('check in', () => {
         ).to.equal(true);
       });
       it('returns true if the selected appointment is not found and there are more eligible appointments', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facilityId: 'some-facility',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment(
-            'ELIGIBLE',
-            'some-facility',
-            'some-other-ien',
-            'TEST CLINIC',
-          ),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({
+            eligibility: 'ELIGIBLE',
+            facilityId: 'some-facility',
+            appointmentIen: 'some-other-ien',
+            clinicFriendlyName: 'TEST CLINIC',
+          }),
         ];
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
         ).to.equal(true);
       });
       it('returns false if no more eligible appointments are found', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facilityId: 'some-facility',
+          appointmentIen: 'some-other-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
-          createAppointment('INELIGIBLE_TOO_EARLY'),
-          createAppointment('INELIGIBLE_TOO_EARLY'),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
+          createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
         ];
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
@@ -157,6 +166,38 @@ describe('check in', () => {
         appointments[1].status = 'CANCELLED BY PATIENT';
         appointments[0].status = 'CANCELLED BY CLINIC';
         expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+      });
+    });
+    describe('intervalUntilNextAppointmentIneligibleForCheckin', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T11:00';
+        earliest.checkInWindowEnd = '2018-01-01T11:15-04:00';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:30:00';
+        midday.checkInWindowEnd = '2018-01-01T12:45:00-04:00';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T13:00';
+        latest.checkInWindowEnd = '2018-01-01T13:15:00-04:00';
+
+        return [midday, earliest, latest];
+      };
+
+      it('returns 0 when no appointments are eligible', () => {
+        const appointments = generateAppointments();
+        appointments[0].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        appointments[1].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        appointments[2].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        expect(
+          intervalUntilNextAppointmentIneligibleForCheckin(appointments),
+        ).to.deep.equal(0);
+      });
+      it('returns interval to next appointment', () => {
+        const appointments = generateAppointments();
+        MockDate.set('2018-01-01T12:44:00-04:00');
+        expect(
+          intervalUntilNextAppointmentIneligibleForCheckin(appointments),
+        ).to.deep.equal(60000);
       });
     });
     describe('preCheckinAlreadyCompleted', () => {
@@ -210,6 +251,39 @@ describe('check in', () => {
         expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
       });
     });
+    describe('locationShouldBeDisplayed', () => {
+      it('returns true for in-person appointments with content in the location field', () => {
+        const appointment = createAppointment();
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(true);
+      });
+      it('returns false for in-person appointments without content in the location field', () => {
+        const appointment = createAppointment();
+        appointment.clinicLocation = '';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for in-person appointments without the location field', () => {
+        const appointment = createAppointment();
+        delete appointment.clinicLocation;
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments with the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments without content in the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        appointment.clinicLocation = '';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments without the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        delete appointment.clinicLocation;
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+    });
     describe('sortAppointmentsByStartTime', () => {
       it('returns empty array when appointments is undefined', () => {
         expect(sortAppointmentsByStartTime(undefined)).to.deep.equal([]);
@@ -247,8 +321,8 @@ describe('check in', () => {
         const payloadWithoutTZ = {
           appointments: [
             {
-              checkInWindowEnd: '2018-01-01T00:00:00',
-              checkInWindowStart: '2018-01-01T00:00:00',
+              checkInWindowEnd: '2018-01-01T00:00:00.070Z',
+              checkInWindowStart: '2018-01-01T00:00:00.070Z',
               checkedInTime: '2018-01-01T00:00:00',
               startTime: '2018-01-01T00:00:00',
             },
@@ -257,11 +331,11 @@ describe('check in', () => {
         const updatedPayloadWithTZ = removeTimeZone(payloadWithTZ);
         const updatedPayloadWithoutTZ = removeTimeZone(payloadWithoutTZ);
         expect(updatedPayloadWithTZ.appointments[0].checkInWindowEnd).to.equal(
-          '2018-01-01T00:00:00',
+          '2018-01-01T00:00:00.070Z',
         );
         expect(
           updatedPayloadWithTZ.appointments[0].checkInWindowStart,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(updatedPayloadWithTZ.appointments[0].checkedInTime).to.equal(
           '2018-01-01T00:00:00',
         );
@@ -270,10 +344,10 @@ describe('check in', () => {
         );
         expect(
           updatedPayloadWithoutTZ.appointments[0].checkInWindowEnd,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(
           updatedPayloadWithoutTZ.appointments[0].checkInWindowStart,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(updatedPayloadWithoutTZ.appointments[0].checkedInTime).to.equal(
           '2018-01-01T00:00:00',
         );
@@ -285,15 +359,15 @@ describe('check in', () => {
     describe('preCheckinExpired', () => {
       it('identifies an expired pre-check-in appointment list', () => {
         const appointments = [
-          createAppointment(null, null, null, null, false),
-          createAppointment(null, null, null, null, false),
+          createAppointment({ preCheckInValid: false }),
+          createAppointment({ preCheckInValid: false }),
         ];
         expect(preCheckinExpired(appointments)).to.be.true;
       });
       it('identifies a valid pre-check-in appointment list', () => {
         const appointments = [
-          createAppointment(null, null, null, null, true),
-          createAppointment(null, null, null, null, true),
+          createAppointment({ preCheckInValid: true }),
+          createAppointment({ preCheckInValid: true }),
         ];
         expect(preCheckinExpired(appointments)).to.be.false;
       });

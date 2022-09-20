@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -30,42 +30,31 @@ import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
-export class ResultsList extends Component {
-  constructor(props) {
-    super(props);
-    this.searchResultTitle = React.createRef();
-  }
+export const ResultsList = ({
+  facilityTypeName,
+  inProgress,
+  searchString,
+  results,
+  searchError,
+  pagination,
+  currentQuery,
+  query,
+  ...props
+}) => {
+  const searchResultTitle = useRef();
 
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.results !== this.props.results ||
-      nextProps.inProgress !== this.props.inProgress ||
-      nextProps.error !== this.props.error
-    );
-  }
+  useEffect(
+    () => {
+      setFocus(searchResultTitle.current);
+    },
+    [results, inProgress, props.error],
+  );
 
-  componentDidUpdate() {
-    if (this.searchResultTitle.current) {
-      setFocus(this.searchResultTitle.current);
-    }
-  }
-
-  visNEightIsShowNumber(result, query, facilityLocatorShowHealthConnectNumber) {
+  function isHealthAndHealthConnect(apiResult, searchQuery) {
     let final = false;
     if (
-      result?.attributes?.visn === '8' &&
-      query?.facilityType === 'health' &&
-      facilityLocatorShowHealthConnectNumber
-    ) {
-      final = facilityLocatorShowHealthConnectNumber;
-    } else if (
-      result?.attributes?.visn === '2' &&
-      query?.facilityType === 'health'
-    ) {
-      final = true;
-    } else if (
-      result?.attributes?.visn === '17' &&
-      query?.facilityType === 'health'
+      searchQuery?.facilityType === 'health' &&
+      apiResult?.attributes?.phone?.healthConnect !== null
     ) {
       final = true;
     }
@@ -75,36 +64,32 @@ export class ResultsList extends Component {
   /**
    * Returns Result items by type
    * @param query object
-   * @param results array list
+   * @param apiResults array list
    * @returns [] list of results
    */
-  renderResultItems = (query, results) => {
-    return results.map((result, index) => {
+  const renderResultItems = (searchQuery, apiResults) => {
+    return apiResults.map((result, index) => {
       let item;
       const services = result?.attributes?.detailedServices;
       const walkInsAccepted = Array.isArray(services)
         ? services[0]?.walkInsAccepted
         : 'false';
 
-      const showHealthConnectNumber = this.visNEightIsShowNumber(
-        result,
-        query,
-        this.props.facilityLocatorShowHealthConnectNumber,
-      );
+      const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
 
-      switch (query.facilityType) {
+      switch (searchQuery.facilityType) {
         case 'health':
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
           item =
-            query.serviceType === Covid19Vaccine ? (
+            searchQuery.serviceType === Covid19Vaccine ? (
               <Covid19Result
                 location={result}
                 key={result.id}
                 index={index}
                 showCovidVaccineSchedulingLinks={
-                  this.props.showCovidVaccineSchedulingLinks
+                  props.showCovidVaccineSchedulingLinks
                 }
                 showCovidVaccineWalkInAvailabilityText={
                   (walkInsAccepted || '').toLowerCase() === 'true'
@@ -113,7 +98,7 @@ export class ResultsList extends Component {
             ) : (
               <VaFacilityResult
                 location={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
                 index={index}
                 showHealthConnectNumber={showHealthConnectNumber}
@@ -122,23 +107,29 @@ export class ResultsList extends Component {
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
-          if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
+          if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
             item = (
               <UrgentCareResult
                 provider={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
               />
             );
-          } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
+          } else if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
             item = (
-              <PharmacyResult provider={result} query={query} key={result.id} />
+              <PharmacyResult
+                provider={result}
+                query={searchQuery}
+                key={result.id}
+              />
             );
-          } else if (EMERGENCY_CARE_SERVICES.includes(query.serviceType)) {
+          } else if (
+            EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)
+          ) {
             item = (
               <EmergencyCareResult
                 provider={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
               />
             );
@@ -146,7 +137,7 @@ export class ResultsList extends Component {
             item = (
               <CCProviderResult
                 provider={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
               />
             );
@@ -154,7 +145,11 @@ export class ResultsList extends Component {
           break;
         case 'pharmacy':
           item = (
-            <PharmacyResult provider={result} query={query} key={result.id} />
+            <PharmacyResult
+              provider={result}
+              query={searchQuery}
+              key={result.id}
+            />
           );
           break;
         case 'emergency_care':
@@ -162,7 +157,7 @@ export class ResultsList extends Component {
             item = (
               <EmergencyCareResult
                 provider={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
               />
             );
@@ -170,7 +165,7 @@ export class ResultsList extends Component {
             item = (
               <VaFacilityResult
                 location={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
                 index={index}
               />
@@ -182,7 +177,7 @@ export class ResultsList extends Component {
             item = (
               <UrgentCareResult
                 provider={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
               />
             );
@@ -190,7 +185,7 @@ export class ResultsList extends Component {
             item = (
               <VaFacilityResult
                 location={result}
-                query={query}
+                query={searchQuery}
                 key={result.id}
                 index={index}
               />
@@ -205,98 +200,85 @@ export class ResultsList extends Component {
     });
   };
 
-  render() {
-    const {
-      facilityTypeName,
-      inProgress,
-      searchString,
-      results,
-      searchError,
-      pagination,
-      currentQuery,
-      query,
-    } = this.props;
-
-    const currentPage = pagination ? pagination.currentPage : 1;
-    if (inProgress) {
-      return (
-        <div>
-          <va-loading-indicator
-            message={`Searching for ${facilityTypeName} in ${searchString}`}
-          />
-          <DelayedRender>
-            <va-alert visible status="info">
-              <h3 slot="headline">Please wait</h3>
-              <div>
-                Your results should appear in less than a minute. Thank you for
-                your patience.
-              </div>
-            </va-alert>
-          </DelayedRender>
-        </div>
-      );
-    }
-
-    if (searchError) {
-      if (searchError.type === 'mapBox') {
-        return (
-          <SearchResultMessage
-            facilityType={facilityTypeName}
-            resultRef={this.searchResultTitle}
-            message={Error.LOCATION}
-          />
-        );
-      }
-      return (
-        <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultRef={this.searchResultTitle}
-          message={Error.DEFAULT}
-          error={searchError}
+  const currentPage = pagination ? pagination.currentPage : 1;
+  if (inProgress) {
+    return (
+      <div>
+        <va-loading-indicator
+          message={`Searching for ${facilityTypeName} in ${searchString}`}
         />
-      );
-    }
-
-    if (facilityTypeName && (!results || results.length < 1)) {
-      return (
-        <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultsFound={results === 0}
-          resultRef={this.searchResultTitle}
-        />
-      );
-    }
-    if (!facilityTypeName || !currentQuery.facilityType) {
-      return <SearchResultMessage />;
-    }
-
-    const markers = MARKER_LETTERS.values();
-    const resultsData = results
-      .map(result => {
-        return {
-          ...result,
-          resultItem: true,
-          searchString,
-          currentPage,
-        };
-      })
-      .map(result => {
-        const markerText = markers.next().value;
-        return {
-          ...result,
-          markerText,
-        };
-      });
-
-    if (resultsData.length > 0) {
-      recordSearchResultsEvents(this.props, resultsData);
-    }
-    return <div>{this.renderResultItems(query, resultsData)}</div>;
+        <DelayedRender>
+          <va-alert visible status="info">
+            <h3 slot="headline">Please wait</h3>
+            <p>
+              Your results should appear in less than a minute. Thank you for
+              your patience.
+            </p>
+          </va-alert>
+        </DelayedRender>
+      </div>
+    );
   }
-}
+
+  if (searchError) {
+    if (searchError.type === 'mapBox') {
+      return (
+        <SearchResultMessage
+          facilityType={facilityTypeName}
+          resultRef={searchResultTitle}
+          message={Error.LOCATION}
+        />
+      );
+    }
+    return (
+      <SearchResultMessage
+        facilityType={facilityTypeName}
+        resultRef={searchResultTitle}
+        message={Error.DEFAULT}
+        error={searchError}
+      />
+    );
+  }
+
+  if (facilityTypeName && (!results || results.length < 1)) {
+    return (
+      <SearchResultMessage
+        facilityType={facilityTypeName}
+        resultsFound={results === 0}
+        resultRef={searchResultTitle}
+      />
+    );
+  }
+  if (!facilityTypeName || !currentQuery.facilityType) {
+    return <SearchResultMessage />;
+  }
+
+  const markers = MARKER_LETTERS.values();
+  const resultsData = results.map(result => ({
+    ...result,
+    resultItem: true,
+    searchString,
+    currentPage,
+    markerText: markers.next().value,
+  }));
+
+  if (resultsData.length > 0) {
+    recordSearchResultsEvents(props, resultsData);
+  }
+  return <div>{renderResultItems(query, resultsData)}</div>;
+};
 
 ResultsList.propTypes = {
+  currentQuery: PropTypes.object,
+  error: PropTypes.object,
+  facilityTypeName: PropTypes.string,
+  inProgress: PropTypes.bool,
+  pagination: PropTypes.object,
+  query: PropTypes.object,
   results: PropTypes.array,
+  searchError: PropTypes.object,
+  searchString: PropTypes.string,
+  showCovidVaccineSchedulingLinks: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {

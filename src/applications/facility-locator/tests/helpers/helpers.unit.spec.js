@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   areBoundsEqual,
   formatOperatingHours,
   validateIdString,
   isVADomain,
+  setFocus,
 } from '../../utils/helpers';
 
 describe('Locator Helper Method Tests', () => {
@@ -310,5 +312,24 @@ describe('Validate ID Strings for Breadcrumb', () => {
   it('isVADomain should return false if http://some.com/va.gov ', () => {
     const result = isVADomain('http://some.com/va.gov');
     expect(result).to.eq(false);
+  });
+});
+
+describe('setFocus functionality', () => {
+  it('Should call setAttribute method once', () => {
+    const el = {
+      setAttribute: sinon.spy(),
+      focus: sinon.spy(),
+    };
+    setFocus(el);
+    sinon.assert.calledOnce(el.setAttribute);
+  });
+  it('Should call focus() method once', () => {
+    const el = {
+      setAttribute: sinon.spy(),
+      focus: sinon.spy(),
+    };
+    setFocus(el);
+    sinon.assert.calledOnce(el.focus);
   });
 });

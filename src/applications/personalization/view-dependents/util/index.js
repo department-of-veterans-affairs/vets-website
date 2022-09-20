@@ -4,6 +4,9 @@ import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-str
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
 
+export const PAGE_TITLE = 'Your VA dependents';
+export const TITLE_SUFFIX = ' | Veteran Affairs';
+
 export async function getData(apiRoute, options) {
   try {
     const response = await apiRequest(apiRoute, options);

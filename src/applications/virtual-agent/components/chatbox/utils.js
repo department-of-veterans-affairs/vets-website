@@ -3,6 +3,7 @@ export const LOGGED_IN_FLOW = `${BOT_SESSION_PREFIX}loggedInFlow`;
 export const IN_AUTH_EXP = `${BOT_SESSION_PREFIX}inAuthExperience`;
 export const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
 export const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
+export const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 export const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 
 export function clearBotSessionStorage(forceClear) {

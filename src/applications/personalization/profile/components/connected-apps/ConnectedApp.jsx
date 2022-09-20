@@ -3,12 +3,14 @@ import { isEmpty } from 'lodash';
 import moment from 'moment';
 
 import PropTypes from 'prop-types';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import { ConnectedAppDeleteModal } from './ConnectedAppDeleteModal';
 
 export class ConnectedApp extends Component {
-  state = { modalOpen: false };
+  constructor(props) {
+    super(props);
+    this.state = { modalOpen: false };
+  }
 
   closeModal = () => {
     this.setState({ modalOpen: false });
@@ -33,7 +35,7 @@ export class ConnectedApp extends Component {
         <img
           className="va-connected-app-account-logo vads-u-margin-right--2p5"
           src={logo}
-          alt={``}
+          alt=""
         />
         <div className="vads-u-flex--4 vads-u-align-items--flex-start">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
@@ -52,6 +54,7 @@ export class ConnectedApp extends Component {
               className="usa-button-secondary vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
               onClick={this.openModal}
               data-testid={`disconnect-app-${this.props.id}`}
+              type="button"
             >
               Disconnect
             </button>
@@ -64,8 +67,7 @@ export class ConnectedApp extends Component {
             closeModal={this.closeModal}
             confirmDelete={this.confirmDelete}
           />
-
-          <AdditionalInfo triggerText={`Learn about ${title}`}>
+          <va-additional-info trigger={`Learn about ${title}`} disable-border>
             <p>
               <strong>{title}</strong>
               &nbsp;can access:
@@ -73,7 +75,7 @@ export class ConnectedApp extends Component {
             <ul>
               {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
             </ul>
-          </AdditionalInfo>
+          </va-additional-info>
         </div>
       </div>
     );
@@ -81,10 +83,9 @@ export class ConnectedApp extends Component {
 }
 
 ConnectedApp.propTypes = {
+  confirmDelete: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  deleting: PropTypes.bool,
-  errors: PropTypes.array,
   attributes: PropTypes.shape({
     title: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
@@ -96,5 +97,6 @@ ConnectedApp.propTypes = {
       }),
     ).isRequired,
   }),
-  confirmDelete: PropTypes.func.isRequired,
+  deleting: PropTypes.bool,
+  errors: PropTypes.array,
 };

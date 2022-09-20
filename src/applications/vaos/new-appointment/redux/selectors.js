@@ -22,6 +22,7 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -383,6 +384,10 @@ export function selectReviewPage(state) {
 export function selectTypeOfCarePage(state) {
   const newAppointment = getNewAppointment(state);
   const address = selectVAPResidentialAddress(state);
+  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+    state,
+  );
+
   return {
     ...address,
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
@@ -392,6 +397,7 @@ export function selectTypeOfCarePage(state) {
     showDirectScheduling: selectFeatureDirectScheduling(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
+    useV2: featureVAOSServiceVAAppointments,
   };
 }
 

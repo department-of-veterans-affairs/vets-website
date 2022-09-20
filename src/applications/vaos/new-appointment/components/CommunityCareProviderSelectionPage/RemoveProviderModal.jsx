@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaModal } from 'web-components/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 export default function RemoveProviderModal({ onClose, provider }) {
@@ -36,7 +36,6 @@ export default function RemoveProviderModal({ onClose, provider }) {
       modalTitle={title}
       data-testid="removeProviderModal"
       status="warning"
-      role="alertdialog"
     >
       {content}
     </VaModal>

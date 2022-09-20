@@ -1,5 +1,10 @@
 import PropTypes from 'prop-types';
 import {
+  VERIFICATION_STATUS_CORRECT,
+  VERIFICATION_STATUS_INCORRECT,
+} from '../actions';
+import {
+  CERTIFICATION_METHOD,
   PAYMENT_PAUSED_DAY_OF_MONTH,
   STATUS,
   VERIFICATION_RESPONSE,
@@ -168,11 +173,123 @@ export const getEnrollmentVerificationStatus = status => {
     month => month.verificationResponse === VERIFICATION_RESPONSE.NOT_RESPONDED,
   );
 
-  if (!unverifiedMonths.length) {
+  if (!unverifiedMonths?.length) {
     return STATUS.ALL_VERIFIED;
   }
 
   return monthlyPaymentsPaused(unverifiedMonths)
     ? STATUS.PAYMENT_PAUSED
     : STATUS.MISSING_VERIFICATION;
+};
+
+/**
+ * Create an Enrollment Verification DTO to submit to the server.
+ * @param {object} ev The original EV object we recieved when
+ * the application loaded.
+ * @param {number} evIndex The index of the enrollment to reference.
+ * @param {string} status The status of the enrollment.
+ * @returns An Enrollment Verification DTO.
+ */
+const mapEnrollmentVerificationForSubmission = (ev, evIndex, status) => {
+  const enrollmentVerification = ev.enrollmentVerifications[evIndex];
+  return {
+    claimandId: ev.claimantId,
+    enrolmentCertifyRequests: [
+      {
+        claimandId: ev.claimantId,
+        certifiedBeginDate: enrollmentVerification.certifiedBeginDate,
+        certifiedEndDate: enrollmentVerification.certifiedEndDate,
+        certifiedThroughDate: enrollmentVerification.certifiedEndDate,
+        certificationMethod: CERTIFICATION_METHOD,
+        appCommunication: {
+          responseType: status,
+        },
+      },
+    ],
+  };
+};
+
+/**
+ * Given the initial Enrollment Verification object we recieved, format
+ * a transfer object to send when the finalized verification is
+ * submitted.  Note that months must be verified in sequential order
+ * from oldest to most recent and if any month is marked as invalid, no
+ * further validation for future months can occur until a School
+ * Certifying Official corrects the issue.
+ *
+ * The back-end is expecting an array of objects.  However, it is not
+ * expecting an object per enrollemnt period, rather, it expects one
+ * enrollment per status. When multiple months are marked as valid,
+ * one object with _the most recent enrollment_ information used for the
+ * end/through date is expected.  If some months are marked as valid and
+ * a later month is marked as invalid, two objects would be send: one
+ * for the valid month(s) and one for the invalid month.
+ *
+ * So, in the case where The Veteran is sumitting a verification for 3
+ * months (e.g. January, February, and March) and the first two months
+ * were marked as valid, an array with two objects would be returned:
+ * 1. one object with a correct response type and end/through date of
+ *    2/28/2022; and
+ * 2. a second object with an incorrect reaponse type and end/through
+ *    date of 3/31/2022.
+ *
+ * Given the same 3 months, if all three were marked as correct, an
+ * array of one object would be sent with a correct response type and
+ * an end/thorugh date of 3/31/2022.
+
+ * Given the same 3 months, if January were marked as correct, Febuary
+ * and March would not be able to be validated an array of one object
+ * would be sent with an incorrect response type and an end/thorugh
+ * date of 1/31/2022.
+ *
+ * @param {EnrollmentVerificaiton} ev The Enrollment Verification object we
+ * originally recieved, updated with the verificationStatus set when going
+ * through the verification flow.
+ * @returns An array of EnrollmentVerifications formatted as the back-end
+ * expects.
+ */
+export const mapEnrollmentVerificationsForSubmission = ev => {
+  // The enrollments are in order with the most recent first.  Look
+  // for the first non-null verificationStatus (or, the most recent
+  // month) that was verified as either correct or incorrect.
+  const mostRecentVerifiedEnrollmentIndex = ev.enrollmentVerifications.findIndex(
+    enrollment =>
+      [VERIFICATION_STATUS_CORRECT, VERIFICATION_STATUS_INCORRECT].includes(
+        enrollment.verificationStatus,
+      ),
+  );
+  const e = ev.enrollmentVerifications[mostRecentVerifiedEnrollmentIndex];
+  const enrollmentVerificationsDto = [];
+
+  if (
+    e.verificationStatus === VERIFICATION_STATUS_CORRECT ||
+    (mostRecentVerifiedEnrollmentIndex <
+      ev.enrollmentVerifications.length - 1 &&
+      ev.enrollmentVerifications[mostRecentVerifiedEnrollmentIndex + 1]
+        .verificationStatus === VERIFICATION_STATUS_CORRECT)
+  ) {
+    const mostRecentCorrectEnrollmentIndex =
+      e.verificationStatus === VERIFICATION_STATUS_CORRECT
+        ? mostRecentVerifiedEnrollmentIndex
+        : mostRecentVerifiedEnrollmentIndex + 1;
+
+    enrollmentVerificationsDto.push(
+      mapEnrollmentVerificationForSubmission(
+        ev,
+        mostRecentCorrectEnrollmentIndex,
+        VERIFICATION_RESPONSE.CORRECT,
+      ),
+    );
+  }
+  if (e.verificationStatus === VERIFICATION_STATUS_INCORRECT) {
+    enrollmentVerificationsDto.push(
+      mapEnrollmentVerificationForSubmission(
+        ev,
+        mostRecentVerifiedEnrollmentIndex,
+        VERIFICATION_RESPONSE.INCORRECT,
+      ),
+    );
+  }
+
+  return enrollmentVerificationsDto;
 };

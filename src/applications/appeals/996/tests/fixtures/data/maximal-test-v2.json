@@ -1,0 +1,121 @@
+{
+  "data": {
+    "benefitType": "compensation",
+    "veteran": {
+      "ssnLastFour": "7821",
+      "vaFileLastFour": "8765",
+      "address": {
+        "addressLine1": "123 Main St",
+        "addressLine2": "Suite #1200",
+        "addressLine3": "Box 45678901234",
+        "city": "New York",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "stateCode": "NY",
+        "zipCode": "30012"
+      },
+      "phone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8001111",
+        "phoneNumberExt": "2"
+      },
+      "email": "user@example.com"
+    },
+    "homeless": false,
+    "privacyAgreementAccepted": true,
+    "informalConference": "rep",
+    "informalConferenceRep": {
+      "firstName": "James",
+      "lastName": "Sullivan",
+      "phone": "8005551212",
+      "extension": "1234",
+      "email": "sully@pixar.com"
+    },
+    "socOptIn": true,
+    "informalConferenceTime": "time0800to1200",
+    "contestedIssues": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Acute chronic head pain",
+          "ratingIssuePercentNumber": "20",
+          "approxDecisionDate": "2021-06-10",
+          "decisionIssueId": 44,
+          "ratingIssueReferenceId": "66",
+          "ratingDecisionReferenceId": null
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Being green",
+          "description": "Chronic greenness",
+          "ratingIssuePercentNumber": "50",
+          "approxDecisionDate": "2021-06-01",
+          "decisionIssueId": 42,
+          "ratingIssueReferenceId": "52",
+          "ratingDecisionReferenceId": "999"
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Monocular vision",
+          "ratingIssuePercentNumber": "5",
+          "approxDecisionDate": "2021-06-04",
+          "decisionIssueId": 1,
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": ""
+        }
+      }
+    ],
+    "additionalIssues": [
+      {
+        "issue": "right arm",
+        "decisionDate": "2021-06-07",
+        "view:selected": false
+      },
+      {
+        "issue": "right shoulder",
+        "decisionDate": "2021-06-06",
+        "view:selected": true
+      }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Headaches"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true
+        },
+        "otherEntry": "this is an other entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Being green"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      },
+      {
+        "issue": "right shoulder",
+        "disagreementOptions": {
+          "evaluation": true
+        },
+        "otherEntry": "this is another’s other entry"
+      }
+    ]
+  }
+}

@@ -21,10 +21,6 @@ describe('pre-check-in experience', () => {
           token: '',
         },
       },
-      featureToggles: {
-        check_in_experience_translation_pre_check_in_enabled: true,
-        check_in_experience_translation_day_of_enabled: true,
-      },
     };
     beforeEach(() => {
       store = mockStore(initState);
@@ -176,92 +172,6 @@ describe('pre-check-in experience', () => {
         );
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
-      });
-    });
-    describe('ConfirmablePage Edit button', () => {
-      it('does not render an edit button when isEditable is false', () => {
-        const dataFields = [{ key: 'foo', title: 'foo-title' }];
-        const data = { foo: 'bar' };
-
-        const { getByText, queryByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage data={data} dataFields={dataFields} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo-title')).to.exist;
-        expect(getByText('bar')).to.exist;
-        expect(queryByText('Edit')).to.not.exist;
-      });
-      it('does not render an edit button when isEditable is true and editAction is not supplied', () => {
-        const dataFields = [{ key: 'foo', title: 'foo-title' }];
-        const data = { foo: 'bar' };
-
-        const { getByText, queryByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                data={data}
-                dataFields={dataFields}
-                isEditEnabled
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo-title')).to.exist;
-        expect(getByText('bar')).to.exist;
-        expect(queryByText('Edit')).to.not.exist;
-      });
-      it('renders an edit button when isEditable is true and field has an edit action', () => {
-        const dataFields = [
-          { key: 'foo', title: 'foo-title', editAction: () => {} },
-        ];
-        const data = { foo: 'bar' };
-
-        const { getByText, queryByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                data={data}
-                dataFields={dataFields}
-                isEditEnabled
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo-title')).to.exist;
-        expect(getByText('bar')).to.exist;
-        expect(queryByText('Edit')).to.exist;
-      });
-      it('edit button on click fires the supplied edit action event', () => {
-        const editAction = sinon.spy();
-        const dataFields = [{ key: 'foo', title: 'foo-title', editAction }];
-        const data = { foo: 'bar' };
-
-        const { getByText, queryByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                data={data}
-                dataFields={dataFields}
-                isEditEnabled
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo-title')).to.exist;
-        expect(getByText('bar')).to.exist;
-        expect(queryByText('Edit')).to.exist;
-        fireEvent.click(getByText('Edit'));
-        expect(editAction.calledOnce).to.be.true;
-
-        editAction.calledWith({
-          key: 'foo',
-          title: 'foo-title',
-          editAction,
-          value: 'bar',
-        });
       });
     });
   });

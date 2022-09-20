@@ -1,9 +1,8 @@
 import path from 'path';
-
-import formConfig from 'applications/caregivers/config/form';
-import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 import {
   veteranSignatureContent,
   primaryCaregiverContent,
@@ -14,9 +13,10 @@ import {
   secondaryTwoLabel,
   representativeLabel,
   representativeSignatureContent,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
+import mockFacilities from './fixtures/mocks/mock-facilities.json';
 
 export const mockVeteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -52,6 +52,8 @@ const checkContent = (partyLabel, content, mockContent) => {
 
 const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
+    .find('.signature-input')
+    .shadow()
     .find('input')
     .first()
     .type(signature);
@@ -79,16 +81,93 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.server();
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
+      cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+        'getFacilities',
+      );
     },
     pageHooks: {
-      introduction: () => {
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'a' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
+            .click();
+        });
+      },
+      'vet-3-api': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.wait('@getFacilities');
+          cy.get('#root_veteranPreferredFacility_plannedClinic')
+            .shadow()
+            .find('select')
+            .select('675');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'primary-3': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_primaryAddress_autofill')
+            .shadow()
+            .find('[type="checkbox"]')
+            .check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'secondary-one-3': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_secondaryOneAddress_street')
+            .shadow()
+            .find('input')
+            .type('1375 E Buena Vista Dr');
+          cy.get('#root_secondaryOneAddress_street2')
+            .shadow()
+            .find('input')
+            .type('Apt 1');
+          cy.get('#root_secondaryOneAddress_city')
+            .shadow()
+            .find('input')
+            .type('Orlando');
+          cy.get('#root_secondaryOneAddress_state')
+            .shadow()
+            .find('select')
+            .select('Florida');
+          cy.get('#root_secondaryOneAddress_postalCode')
+            .shadow()
+            .find('input')
+            .type('32830');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'secondary-two-2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_secondaryTwoAddress_street')
+            .shadow()
+            .find('input')
+            .type('1375 E Buena Vista Dr');
+          cy.get('#root_secondaryTwoAddress_street2')
+            .shadow()
+            .find('input')
+            .type('Apt 1');
+          cy.get('#root_secondaryTwoAddress_city')
+            .shadow()
+            .find('input')
+            .type('Orlando');
+          cy.get('#root_secondaryTwoAddress_state')
+            .shadow()
+            .find('select')
+            .select('Florida');
+          cy.get('#root_secondaryTwoAddress_postalCode')
+            .shadow()
+            .find('input')
+            .type('32830');
+          cy.get('.usa-button-primary').click();
+        });
       },
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
@@ -209,19 +288,15 @@ const testSecondaryTwo = createTestConfig(
         });
         // sign signature as veteran
 
-        cy.route({
-          method: 'POST',
-          url: '/v0/caregivers_assistance_claims',
-          status: 200,
-          response: {
-            body: {
-              data: {
-                id: '',
-                type: 'form1010cg_submissions',
-                attributes: {
-                  confirmationNumber: 'aB935000000F3VnCAK',
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
+        cy.intercept('POST', '/v0/caregivers_assistance_claims', {
+          statusCode: 200,
+          body: {
+            data: {
+              id: '',
+              type: 'form1010cg_submissions',
+              attributes: {
+                confirmationNumber: 'aB935000000F3VnCAK',
+                submittedAt: '2020-08-06T19:18:11+00:00',
               },
             },
           },

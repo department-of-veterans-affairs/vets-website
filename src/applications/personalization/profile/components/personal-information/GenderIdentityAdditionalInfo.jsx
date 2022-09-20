@@ -7,7 +7,7 @@ export default function GenderIdentityAdditionalInfo() {
         Sharing your gender identity in your VA.gov profile is optional. If you
         get health care at VA, this information can help your care team better
         assess your health needs and risks. But you should know that any
-        information you share in your VA.gov profile goes into you VA-wide
+        information you share in your VA.gov profile goes into your VA-wide
         records. Veterans Benefits Administration and National Cemetery
         Administration staff can also access this information.
       </p>

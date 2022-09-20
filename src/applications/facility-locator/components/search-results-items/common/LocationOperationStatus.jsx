@@ -22,6 +22,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       alertClass: 'info',
     },
   };
+
   if (!display[operatingStatus.code]) {
     return <></>;
   }
@@ -37,7 +38,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       data-testid={`${operatingStatus.code.toLowerCase()}-message`}
       class="vads-u-margin-y--2"
     >
-      <div tabIndex={0}>
+      <div>
         <span className="sr-only">Alert: </span>
         {operationStatusTitle}
       </div>

@@ -11,6 +11,8 @@ import {
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
+  getAmountCanBePaidTowardDebt,
+  mergeAdditionalComments,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -48,6 +50,7 @@ export const transform = (formConfig, form) => {
     installmentContracts,
     additionalData,
     selectedDebts,
+    selectedDebtsAndCopays = [],
     realEstateRecords,
     currEmployment,
     spCurrEmployment,
@@ -69,7 +72,9 @@ export const transform = (formConfig, form) => {
   // veteran
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetSocSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
@@ -85,9 +90,15 @@ export const transform = (formConfig, form) => {
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spSocialSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
+  const spComp = Number(
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
+  );
+  const spEdu = Number(
+    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
+  );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterDeductions(spDeductions, taxFilters);
@@ -104,15 +115,21 @@ export const transform = (formConfig, form) => {
   const vetOtherDeductionsName = otherDeductionsName(vetDeductions, allFilters);
   const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
 
-  const amountCanBePaidTowardDebt = selectedDebts
-    .filter(item => item.resolution.offerToPay !== undefined)
-    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
-
   const totMonthlyNetIncome = getMonthlyIncome(form.data);
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
-  const fsrReason = getFsrReason(selectedDebts);
+
+  // combined fsr options
+  const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
+  const fsrReason = getFsrReason(
+    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
+    combinedFSRActive,
+  );
+  const amountCanBePaidTowardDebt = getAmountCanBePaidTowardDebt(
+    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
+    combinedFSRActive,
+  );
 
   const submissionObj = {
     personalIdentification: {
@@ -210,7 +227,7 @@ export const transform = (formConfig, form) => {
       cashInBank: assets.cashInBank,
       cashOnHand: assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: sumValues(assets.recVehicles, 'recVehicleAmount'),
+      trailersBoatsCampers: assets.recVehicleAmount,
       usSavingsBonds: assets.usSavingsBonds,
       stocksAndOtherBonds: assets.stocksAndOtherBonds,
       realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
@@ -243,12 +260,16 @@ export const transform = (formConfig, form) => {
         courtLocation: additionalData.bankruptcy.courtLocation,
         docketNumber: additionalData.bankruptcy.docketNumber,
       },
-      additionalComments: additionalData.additionalComments,
+      additionalComments: mergeAdditionalComments(
+        additionalData.additionalComments,
+        otherExpenses,
+      ),
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
+    selectedDebtsAndCopays: [...selectedDebtsAndCopays],
   };
 
   // calculated values should formatted then converted to string

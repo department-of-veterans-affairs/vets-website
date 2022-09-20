@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { signup } from 'platform/user/authentication/utilities';
+import { verify } from 'platform/user/authentication/utilities';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import CallToActionAlert from '../../CallToActionAlert';
 
-const MFA = ({ primaryButtonHandler }) => {
-  const signUp = useCallback(csp => {
-    signup({ csp });
+const MFA = () => {
+  const verifyLink = useCallback(policy => {
+    verify({ policy, isLink: true });
   }, []);
 
   const content = {
@@ -28,8 +27,7 @@ const MFA = ({ primaryButtonHandler }) => {
         </p>
         <p>
           <a
-            href="#create-login.gov-account"
-            onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
+            href={verifyLink(CSP_IDS.LOGIN_GOV)}
             data-testid="direct-deposit-login-gov-sign-up-link"
           >
             Create a Login.gov account
@@ -37,8 +35,7 @@ const MFA = ({ primaryButtonHandler }) => {
         </p>
         <p>
           <a
-            href="#create-id.me-account"
-            onClick={() => signUp(CSP_IDS.ID_ME)}
+            href={verifyLink(CSP_IDS.ID_ME)}
             data-testid="direct-deposit-id-me-sign-up-link"
           >
             Create an ID.me account
@@ -52,16 +49,10 @@ const MFA = ({ primaryButtonHandler }) => {
         </p>
       </>
     ),
-    primaryButtonText: 'Set up 2-factor authentication',
-    primaryButtonHandler,
     status: 'continue',
   };
 
   return <CallToActionAlert {...content} />;
-};
-
-MFA.propTypes = {
-  primaryButtonHandler: PropTypes.func.isRequired,
 };
 
 export default MFA;

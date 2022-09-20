@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaModal } from 'web-components/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -63,5 +63,5 @@ CancelAppointmentConfirmationModal.propTypes = {
   status: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   isConfirmed: PropTypes.bool,
-  onConfirm: PropTypes.bool,
+  onConfirm: PropTypes.func,
 };

@@ -1,23 +1,10 @@
-import { PROFILE_PATHS } from '@@profile/constants';
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
-import { makeUserObject } from '~/applications/personalization/common/helpers';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { user72Success, dsLogonUser, mvhUser } from '../../../mocks/user';
+import DirectDeposit from './DirectDeposit';
 
 let getDD4CNPBankInfoStub;
 let getDD4EDUBankInfoStub;
-
-function UnsupportedAccountAlertIsShown() {
-  cy.findByRole('link', {
-    name: /ID\.me/i,
-  }).should('exist');
-  cy.findByText(
-    /You’ll need to verify your identity.*to update.*your direct deposit information online/i,
-  )
-    .should('exist')
-    .closest('.usa-alert-continue')
-    .should('exist');
-}
 
 function directDepositAPIsNotCalled() {
   cy.should(() => {
@@ -53,55 +40,41 @@ describe('Direct Deposit', () => {
     must set up 2FA when you verify your ID with ID.me, so a user should never
     be LOA3 _without_ also having 2FA set up. */
     beforeEach(() => {
-      const mockUser = makeUserObject({
-        serviceName: CSP_IDS.ID_ME,
-        loa: 3,
-        multifactor: false,
-      });
-      cy.intercept('GET', 'v0/user', mockUser);
+      user72Success.data.attributes.profile.multifactor = false;
+      cy.intercept('GET', 'v0/user', user72Success);
     });
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-      cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+      DirectDeposit.visitPage();
 
-      UnsupportedAccountAlertIsShown();
+      DirectDeposit.checkVerifyMessageIsShowing();
 
       directDepositAPIsNotCalled();
+      cy.injectAxeThenAxeCheck();
     });
   });
   context('when user has 2FA set up but signed in with DSLogon', () => {
     beforeEach(() => {
-      const mockUser = makeUserObject({
-        serviceName: CSP_IDS.DS_LOGON,
-        loa: 3,
-        multifactor: true,
-      });
-      cy.intercept('GET', 'v0/user', mockUser);
+      cy.intercept('GET', 'v0/user', dsLogonUser);
     });
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-      cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
-
-      UnsupportedAccountAlertIsShown();
-
+      DirectDeposit.visitPage();
+      DirectDeposit.checkVerifyMessageIsShowing();
       directDepositAPIsNotCalled();
+      cy.injectAxeThenAxeCheck();
     });
   });
   context(
     'when user has 2FA set up but signed in with MHV/My HealtheVet',
     () => {
       beforeEach(() => {
-        const mockUser = makeUserObject({
-          serviceName: CSP_IDS.MHV,
-          loa: 3,
-          multifactor: true,
-        });
-        cy.intercept('GET', 'v0/user', mockUser);
+        cy.intercept('GET', 'v0/user', mvhUser);
       });
       it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-        cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
-
-        UnsupportedAccountAlertIsShown();
+        DirectDeposit.visitPage();
+        DirectDeposit.checkVerifyMessageIsShowing();
 
         directDepositAPIsNotCalled();
+        cy.injectAxeThenAxeCheck();
       });
     },
   );

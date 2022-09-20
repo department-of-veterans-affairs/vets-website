@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
-import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
+import Footer from '../../components/layout/Footer';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 
@@ -41,10 +41,6 @@ const EmergencyContact = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-emergency-contact-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
       }
@@ -55,10 +51,6 @@ const EmergencyContact = props => {
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-emergency-contact-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
       }
@@ -75,7 +67,7 @@ const EmergencyContact = props => {
   );
 
   if (!emergencyContact) {
-    goToErrorPage();
+    goToErrorPage('?error=no-emergency-contact');
     return <></>;
   }
   return (
@@ -94,7 +86,6 @@ const EmergencyContact = props => {
 
 EmergencyContact.propTypes = {
   isDayOfDemographicsFlagsEnabled: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

@@ -4,11 +4,8 @@ import { recordAnswerHandler, setVeteranDataHandler } from './index';
 
 import { updateFormHandler } from '../navigation';
 
-import {
-  recordAnswer,
-  setVeteranData,
-  updateFormAction,
-} from '../../actions/pre-check-in';
+import { setVeteranData, updateFormAction } from '../../actions/pre-check-in';
+import { recordAnswer } from '../../actions/universal';
 
 import { createInitFormAction } from '../../actions/navigation';
 

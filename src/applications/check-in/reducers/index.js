@@ -9,10 +9,10 @@ const initialState = {
     data: {},
   },
   app: '',
+  error: '',
 };
 
 import {
-  RECORD_ANSWER,
   SET_VETERAN_DATA,
   UPDATE_PRE_CHECK_IN_FORM,
 } from '../actions/pre-check-in';
@@ -36,7 +36,7 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import { setAppHandler } from './universal';
+import { setAppHandler, setErrorHandler } from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
 
@@ -46,18 +46,7 @@ import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
 
-import { SET_APP } from '../actions/universal';
-
-import {
-  SET_EDIT_CONTEXT,
-  CLEAR_EDIT_CONTEXT,
-  SET_PENDING_EDITED_DATA,
-} from '../actions/edit';
-import {
-  setEditingContext,
-  clearEditingContext,
-  setPendingEditedData,
-} from './edit';
+import { SET_APP, RECORD_ANSWER, SET_ERROR } from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -72,9 +61,7 @@ const handler = Object.freeze({
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
-  [SET_EDIT_CONTEXT]: setEditingContext,
-  [CLEAR_EDIT_CONTEXT]: clearEditingContext,
-  [SET_PENDING_EDITED_DATA]: setPendingEditedData,
+  [SET_ERROR]: setErrorHandler,
 
   default: state => {
     return { ...state };
