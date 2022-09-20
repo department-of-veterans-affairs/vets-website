@@ -848,6 +848,67 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
   });
 
+  it('should not display treatment specialty if treatmentSpecialty is is present and vaOnlineSchedulingVAOSV2Next is false', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the treatmentSpecialty is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+        treatmentSpecialty: 'Optometry',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingVAOSV2Next: false,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
+  });
+
   it('should not show "Add to Calendar" for canceled appointments', async () => {
     // Given a user with a canceled CC appointment
     const url = '/cc/01aa456cc';
