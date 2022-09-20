@@ -15,7 +15,7 @@ describe('authenticated experience -- profile -- bad address alert', () => {
         </Router>,
       );
     });
-    it('has accessibility considerations', async () => {
+    it('has accessibility considerations including alert role and aria-live', async () => {
       const { findByRole } = render(
         <Router>
           <ProfileAlert />
@@ -23,7 +23,6 @@ describe('authenticated experience -- profile -- bad address alert', () => {
       );
       const alert = await findByRole('alert');
       expect(alert.getAttribute('aria-live')).to.equal('polite');
-      expect(alert.getAttribute('tabIndex')).to.equal('0');
     });
   });
   describe('FormAlert', () => {
