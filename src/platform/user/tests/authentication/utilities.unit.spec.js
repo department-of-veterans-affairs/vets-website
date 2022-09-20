@@ -497,7 +497,7 @@ describe('Authentication Utilities', () => {
   });
 
   describe('verify', () => {
-    it('should redirect to the verify session url', async () => {
+    it.skip('should redirect to the verify session url', async () => {
       setup({ path: nonUsipPath });
       await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
       expect(global.window.location).to.equal(
