@@ -66,6 +66,16 @@ function processIncomingActivity(requireAuth, action, dispatch) {
   const setSessionStorageAsString = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
   };
+  const stopTrackingUtterances = () => {
+    setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
+  };
+
+  const initiateSignIn = () => {
+    const authEvent = new Event('webchat-auth-activity');
+    authEvent.data = action.payload.activity;
+    window.dispatchEvent(authEvent);
+  };
+
   const authIsNotRequired = !requireAuth;
   const isAtBeginningOfConversation = !sessionStorage.getItem(
     IS_TRACKING_UTTERANCES,
@@ -78,27 +88,25 @@ function processIncomingActivity(requireAuth, action, dispatch) {
   if (isAtBeginningOfConversation) {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
   }
+  const dataIsMessageWithTextFromBot =
+    data.type === 'message' && data.text && data.from.role === 'bot';
 
-  if (data.type === 'message' && data.text) {
-    if (
-      data.text.includes('Alright. Sending you to the sign in page...') &&
-      data.from.role === 'bot'
-    ) {
-      // if user is redirected to sign in, stop tracking utterances
-      setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
-      const authEvent = new Event('webchat-auth-activity');
-      authEvent.data = action.payload.activity;
-      window.dispatchEvent(authEvent);
-    } else if (
+  if (dataIsMessageWithTextFromBot) {
+    const botWantsToSignInUser = data.text.includes(
+      'Alright. Sending you to the sign in page...',
+    );
+    const isNewAuthedConversation =
       data.text.includes('To get started') &&
-      data.from.role === 'bot' &&
-      sessionStorage.getItem(IN_AUTH_EXP) === 'true'
-    ) {
-      let utterance = UNKNOWN_UTTERANCE;
-      let utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
-      if (utterances && utterances.length > 0) {
-        utterance = utterances[0];
-      }
+      sessionStorage.getItem(IN_AUTH_EXP) === 'true';
+
+    if (botWantsToSignInUser) {
+      // if user is redirected to sign in, stop tracking utterances
+      stopTrackingUtterances();
+      initiateSignIn();
+    } else if (isNewAuthedConversation) {
+      const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
+      const utterance =
+        utterances && utterances[0] ? utterances[0] : UNKNOWN_UTTERANCE;
       if (utterance !== UNKNOWN_UTTERANCE) {
         dispatch({
           type: 'WEB_CHAT/SEND_MESSAGE',
@@ -107,9 +115,8 @@ function processIncomingActivity(requireAuth, action, dispatch) {
             text: utterance,
           },
         });
-        // Reset utterance store
-        utterances = [];
-        setSessionStorageAsString(RECENT_UTTERANCES, utterances);
+        // Reset utterance array
+        setSessionStorageAsString(RECENT_UTTERANCES, []);
       }
     }
     if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
