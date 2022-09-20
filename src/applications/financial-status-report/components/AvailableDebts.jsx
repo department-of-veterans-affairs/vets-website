@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { uniqBy } from 'lodash';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
@@ -31,10 +29,8 @@ const AvailableDebts = () => {
     state => state.fsr,
   );
 
-  const isCFSRActive = useSelector(
-    state =>
-      toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport],
-  );
+  const { data } = useSelector(state => state.form);
+  const isCFSRActive = data['view:combinedFinancialStatusReport'];
 
   // copays
   const sortedStatements = sortStatementsByDate(statements ?? []);
@@ -82,8 +78,8 @@ const AvailableDebts = () => {
       ))}
       <va-additional-info trigger="What if my debt isn’t listed here?">
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <va-telephone contact="800-827-0648" /> (or{' '}
-        <va-telephone contact="612-713-6415" international /> from overseas).
+        call us at <va-telephone contact="8008270648" /> (or{' '}
+        <va-telephone contact="6127136415" international /> from overseas).
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </va-additional-info>
     </>
@@ -103,7 +99,7 @@ const AvailableDebts = () => {
       <p className="vads-u-margin-top--2">
         If you received a letter about a VA benefit debt that isn’t listed here,
         call us at <va-telephone contact="8008270648" /> (or{' '}
-        <va-telephone contact="16127136415" international /> from overseas).
+        <va-telephone contact="6127136415" international /> from overseas).
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
