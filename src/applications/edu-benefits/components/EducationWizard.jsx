@@ -41,7 +41,7 @@ class EducationWizard extends React.Component {
         url = `/education/other-va-education-benefits/stem-scholarship/apply-for-scholarship-form-22-10203`;
         break;
       case '22-1990':
-        url = `/education/apply-for-benefits-form-22-1990`;
+        url = `/education/apply-for-gi-bill-benefits-form-22-1990`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
