@@ -61,7 +61,7 @@ const checkImageSrc = environment.isStaging()
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim/toe`,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
