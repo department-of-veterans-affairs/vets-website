@@ -61,7 +61,8 @@ function processSendMessageActivity(action) {
 }
 
 function processIncomingActivity(requireAuth, action, dispatch) {
-  if (!requireAuth) return;
+  const authIsNotRequired = !requireAuth;
+  if (authIsNotRequired) return;
   const data = action.payload.activity;
 
   // if at the beginning of a conversation, start tracking utterances
@@ -145,11 +146,10 @@ const GreetUser = {
       'WEB_CHAT/SEND_MESSAGE': sendMessageThunk,
     };
 
-    if (processActionType[action.type]) processActionType[action.type]();
+    const canProcessAction = processActionType[action.type];
+    if (canProcessAction) processActionType[action.type]();
     return next(action);
   },
 };
 
 export default GreetUser;
-
-
