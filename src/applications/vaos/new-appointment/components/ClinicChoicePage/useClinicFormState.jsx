@@ -36,7 +36,7 @@ export default function useClinicFormState() {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
 
-  const myCareId = getTypeOfCare(initialData);
+  const selectedTypeOfCare = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
   const featureVaosV2Next = useSelector(state =>
@@ -54,13 +54,11 @@ export default function useClinicFormState() {
 
       // filter the clinics that have patientDirectScheduling set
       if (featureVaosV2Next) {
-        // filter v2
         if (useV2) {
           filteredClinics = clinics.filter(
             clinic => clinic.patientDirectScheduling === true,
           );
         } else {
-          // filter v0
           filteredClinics = clinics.filter(
             clinic => clinic.patientDirectScheduling === 'Y',
           );
@@ -68,12 +66,12 @@ export default function useClinicFormState() {
       }
 
       // Past appointment history check
-      // primary care and mental health are exempt.
-      // NOTE: Same check is in ../services/patient/index.js:383
+      // primary care and mental health are exempt
+      // NOTE: Same check is in ../services/patient/index.js:395
       const isCheckTypeOfCare = featureVaosV2Next
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
           initialData.typeOfCareId !== PRIMARY_CARE &&
-          location?.legacyVAR?.settings?.[myCareId.id]?.direct
+          location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
             ?.patientHistoryRequired === true
         : !!pastAppointments;
       if (isCheckTypeOfCare) {
