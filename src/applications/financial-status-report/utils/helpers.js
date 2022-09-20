@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -15,6 +16,12 @@ export const fsrFeatureToggle = state => {
 
 export const combinedFSRFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
+};
+
+export const enhancedFSRFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
 };
 
 export const fsrConfirmationEmailToggle = state =>
@@ -47,7 +54,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount.replaceAll(',', ''));
+      : parseFloat(amount?.replaceAll(',', ''));
   return formatter.format(value);
 };
 
@@ -313,3 +320,10 @@ export const DEBT_TYPES = Object.freeze({
   DEBT: 'DEBT',
   COPAY: 'COPAY',
 });
+
+// Returns name of debt depending on the type
+export const getDebtName = debt => {
+  return debt.debtType === 'COPAY'
+    ? debt.station.facilityName
+    : deductionCodes[debt.deductionCode] || debt.benefitType;
+};

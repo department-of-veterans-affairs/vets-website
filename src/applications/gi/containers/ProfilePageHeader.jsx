@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -171,7 +170,7 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            <IconWithInfo icon="building" present={!environment.isProduction()}>
+            <IconWithInfo icon="building" present>
               {'   '}
               Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
