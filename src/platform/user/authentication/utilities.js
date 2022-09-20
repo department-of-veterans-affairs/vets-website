@@ -322,6 +322,43 @@ export function logout(
   );
 }
 
+export async function signupOrVerify({
+  version = API_VERSION,
+  policy = '',
+  isSignup = true,
+  isLink = false,
+  useOAuth = false,
+  allowVerification = true,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    ...(useOAuth && {
+      // acr determined by signup or verify
+      acr: isSignup
+        ? 'min'
+        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+      useOauth: useOAuth,
+    }),
+    // just verify (<csp>_signup_verified)
+    ...(!isSignup &&
+      !useOAuth && {
+        allowVerification,
+      }),
+    // just signup
+    ...(isSignup &&
+      !useOAuth &&
+      policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  });
+  const eventBase = isSignup ? AUTH_EVENTS.REGISTER : AUTH_EVENTS.VERIFY;
+  const eventAuthBroker = useOAuth ? 'sis' : 'iam';
+  const eventIsVerified = allowVerification ? '-verified' : '';
+  const event = `${policy}-${eventBase}${eventAuthBroker}${eventIsVerified}`;
+
+  return isLink ? url : redirect(url, event);
+}
+
 export async function signup({
   version = API_VERSION,
   policy = CSP_IDS.ID_ME,

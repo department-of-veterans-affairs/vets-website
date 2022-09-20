@@ -496,6 +496,40 @@ describe('Authentication Utilities', () => {
     });
   });
 
+  describe('signupOrVerify (SAML)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL link for signup '${policy}_signup'`, async () => {
+        const signupUrl = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
+        });
+        expect(signupUrl).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
+      });
+
+      it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
+        await authUtilities.signupOrVerify({ policy });
+        expect(global.window.location).contain(
+          API_SESSION_URL({
+            type: SIGNUP_TYPES[policy],
+          }),
+        );
+      });
+
+      it(`should generate a verified URL for signup '${policy}_signup_verified'`, async () => {
+        const url = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
+        });
+        expect(url).to.include(`${policy}_signup_verified`);
+      });
+    });
+  });
+
   describe('verify', () => {
     it('should redirect to the verify session url', async () => {
       setup({ path: nonUsipPath });
