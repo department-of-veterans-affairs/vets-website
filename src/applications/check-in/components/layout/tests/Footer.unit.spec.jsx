@@ -29,11 +29,11 @@ describe('check-in', () => {
         pathname: '/third-page',
       },
     };
-    it('passes axeCheck', () => {
+    it('passes axeCheck for day of', () => {
       axeCheck(
         <Provider store={mockStore(initState)}>
           <I18nextProvider i18n={i18n}>
-            <Footer router={mockRouter} />
+            <Footer router={mockRouter} isPreCheckIn={false} />
           </I18nextProvider>
         </Provider>,
       );
@@ -42,7 +42,7 @@ describe('check-in', () => {
       const component = render(
         <Provider store={mockStore(initState)}>
           <I18nextProvider i18n={i18n}>
-            <Footer router={mockRouter} />
+            <Footer router={mockRouter} isPreCheckIn={false} />
           </I18nextProvider>
         </Provider>,
       );
@@ -52,13 +52,20 @@ describe('check-in', () => {
       expect(component.getByTestId('day-of-check-in-message')).to.exist;
       expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
     });
-    it('Renders default pre-check-in footer', () => {
-      const preCheckInState = JSON.parse(JSON.stringify(initState));
-      preCheckInState.checkInData.app = 'preCheckIn';
-      const component = render(
-        <Provider store={mockStore(preCheckInState)}>
+    it('passes axeCheck for pre-check-in', () => {
+      axeCheck(
+        <Provider store={mockStore(initState)}>
           <I18nextProvider i18n={i18n}>
-            <Footer router={mockRouter} />
+            <Footer router={mockRouter} isPreCheckIn />
+          </I18nextProvider>
+        </Provider>,
+      );
+    });
+    it('Renders default pre-check-in footer', () => {
+      const component = render(
+        <Provider store={mockStore(initState)}>
+          <I18nextProvider i18n={i18n}>
+            <Footer router={mockRouter} isPreCheckIn />
           </I18nextProvider>
         </Provider>,
       );
@@ -71,7 +78,6 @@ describe('check-in', () => {
     });
     it('Render extra message on the intro page for pre-check-in', () => {
       const preCheckInStateIntro = JSON.parse(JSON.stringify(initState));
-      preCheckInStateIntro.checkInData.app = 'preCheckIn';
       preCheckInStateIntro.checkInData.form.pages.currentPage = 'introduction';
       const introMockRouter = {
         params: {
@@ -84,7 +90,7 @@ describe('check-in', () => {
       const component = render(
         <Provider store={mockStore(preCheckInStateIntro)}>
           <I18nextProvider i18n={i18n}>
-            <Footer router={introMockRouter} />
+            <Footer router={introMockRouter} isPreCheckIn />
           </I18nextProvider>
         </Provider>,
       );
