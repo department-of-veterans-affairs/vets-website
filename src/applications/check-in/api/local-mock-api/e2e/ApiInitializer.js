@@ -24,7 +24,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
