@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import GreetUser from '../../../components/webchat/makeBotGreetUser';
 
-describe('makeBotGreetUser actions', () => {
+describe.only('makeBotGreetUser actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -27,7 +27,15 @@ describe('makeBotGreetUser actions', () => {
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth true', async () => {
     // invoke greetUser with proper curried values
-    await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(connectFulfilledAction);
+    await GreetUser.makeBotGreetUser(
+      'csrfToken',
+      'apiSession',
+      'apiURL',
+      'baseURL',
+      'userFirstName',
+      'userUuid',
+      true,
+    )(store)(fakeNext)(connectFulfilledAction);
     // fake the session storage using stubs
 
     const actions = store.getActions();
@@ -41,7 +49,15 @@ describe('makeBotGreetUser actions', () => {
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth false', async () => {
-    await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', false)(store)(fakeNext)(connectFulfilledAction);
+    await GreetUser.makeBotGreetUser(
+      'csrfToken',
+      'apiSession',
+      'apiURL',
+      'baseURL',
+      'userFirstName',
+      'userUuid',
+      false,
+    )(store)(fakeNext)(connectFulfilledAction);
 
     const actions = store.getActions();
     expect(actions.length).to.equal(1);
@@ -66,21 +82,48 @@ describe('makeBotGreetUser actions', () => {
     it("should correctly begin tracking utterances if it hasn't yet", async () => {
       // setup
       // fire/execute
-      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(directIncomingActivity);
+      await GreetUser.makeBotGreetUser(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        true,
+      )(store)(fakeNext)(directIncomingActivity);
       // tests
-      const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
       expect(isTrackingUtterances).to.equal('true');
     });
     it('Stops tracking utterances when about to redirect to sign in', async () => {
       // setup
-      const activity = { type: 'message', text: 'Alright. Sending you to the sign in page...', from: { role: 'bot' } };
-      const aboutToSignInActivity = { type: 'DIRECT_LINE/INCOMING_ACTIVITY', payload: { activity } };
+      const activity = {
+        type: 'message',
+        text: 'Alright. Sending you to the sign in page...',
+        from: { role: 'bot' },
+      };
+      const aboutToSignInActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
 
       // fire
-      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
+      await GreetUser.makeBotGreetUser(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        true,
+      )(store)(fakeNext)(aboutToSignInActivity);
       // tests
-      const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
       expect(spyDispatchEvent.callCount).to.equal(1);
@@ -90,17 +133,32 @@ describe('makeBotGreetUser actions', () => {
 
     it('Initiates the resumption of a conversation post authentication', async () => {
       // setup
-      const activity = { type: 'message', text: 'To get started...', from: { role: 'bot' } };
+      const activity = {
+        type: 'message',
+        text: 'To get started...',
+        from: { role: 'bot' },
+      };
       sessionStorage.setItem(IN_AUTH_EXP, 'true');
-      sessionStorage.setItem(RECENT_UTTERANCES, JSON.stringify([
-          'first',
-          'second',
-        ]));
-      const aboutToSignInActivity = { type: 'DIRECT_LINE/INCOMING_ACTIVITY', payload: { activity } };
+      sessionStorage.setItem(
+        RECENT_UTTERANCES,
+        JSON.stringify(['first', 'second']),
+      );
+      const aboutToSignInActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
       const spyDispatchActivity = sandbox.spy(store, 'dispatch');
 
       // fire
-      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
+      await GreetUser.makeBotGreetUser(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        true,
+      )(store)(fakeNext)(aboutToSignInActivity);
 
       // tests
 
