@@ -23,28 +23,11 @@ describe('makeBotGreetUser actions', () => {
   beforeEach(() => {
     fakeNext = sinon.stub();
     store = mockStore({});
-    // messageActivityHandlerSpy.reset();
-    // sessionStorage.removeItem(IN_AUTH_EXP);
-    // sessionStorage.removeItem(LOGGED_IN_FLOW);
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth true', async () => {
-    // 1. test correct dispatches - done
-    // 2. test values of the new actions
-    // 2. TODO test invocation of next
-    // 3. TODO test return of the reducer
-
-    // TODO discover result of the "next" function
     // invoke greetUser with proper curried values
-    await GreetUser.makeBotGreetUser(
-      'csrfToken',
-      'apiSession',
-      'apiURL',
-      'baseURL',
-      'userFirstName',
-      'userUuid',
-      true,
-    )(store)(fakeNext)(connectFulfilledAction);
+    await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(connectFulfilledAction);
     // fake the session storage using stubs
 
     const actions = store.getActions();
@@ -54,32 +37,18 @@ describe('makeBotGreetUser actions', () => {
     expect(actions[0].payload.activity).to.own.include({
       name: 'startConversation',
     });
-    expect(actions[0]).to.own.include({
-      type: 'DIRECT_LINE/POST_ACTIVITY',
-    });
+    expect(actions[0]).to.own.include({ type: 'DIRECT_LINE/POST_ACTIVITY' });
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth false', async () => {
-    await GreetUser.makeBotGreetUser(
-      'csrfToken',
-      'apiSession',
-      'apiURL',
-      'baseURL',
-      'userFirstName',
-      'userUuid',
-      false,
-    )(store)(fakeNext)(connectFulfilledAction);
+    await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', false)(store)(fakeNext)(connectFulfilledAction);
 
     const actions = store.getActions();
     expect(actions.length).to.equal(1);
     expect(fakeNext.callCount).to.equal(1);
 
-    expect(actions[0]).to.own.include({
-      type: 'WEB_CHAT/SEND_EVENT',
-    });
-    expect(actions[0].payload).to.own.include({
-      name: 'webchat/join',
-    });
+    expect(actions[0]).to.own.include({ type: 'WEB_CHAT/SEND_EVENT' });
+    expect(actions[0].payload).to.own.include({ name: 'webchat/join' });
   });
 
   describe('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
@@ -134,15 +103,10 @@ describe('makeBotGreetUser actions', () => {
       await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
 
       // tests
-      // const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
 
       // one of the IFs not under test sets 1 value of session storage
       expect(sessionStorage.length).to.equal(3);
-
       expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.equal('[]');
-      // expect(isTrackingUtterances).to.equal('false');
-      // expect(spyDispatchEvent.callCount).to.equal(1);
-
       expect(spyDispatchActivity.firstCall.args[0]).to.eql({
         type: 'WEB_CHAT/SEND_MESSAGE',
         payload: {
