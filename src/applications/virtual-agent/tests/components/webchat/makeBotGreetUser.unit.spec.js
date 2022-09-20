@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import GreetUser from '../../../components/webchat/makeBotGreetUser';
 
-describe.only('makeBotGreetUser actions', () => {
+describe('makeBotGreetUser actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -82,8 +82,10 @@ describe.only('makeBotGreetUser actions', () => {
     });
   });
 
-  describe.only('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
+  describe('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
     const IS_TRACKING_UTTERANCES = 'va-bot.isTrackingUtterances';
+    const IN_AUTH_EXP = 'va-bot.inAuthExperience';
+    const RECENT_UTTERANCES = 'va-bot.recentUtterances';
     const sandbox = sinon.createSandbox();
     beforeEach(() => {
       sessionStorage.clear();
@@ -110,10 +112,44 @@ describe.only('makeBotGreetUser actions', () => {
       await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
       // tests
       const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
+      expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
       expect(spyDispatchEvent.callCount).to.equal(1);
 
       expect(spyDispatchEvent.firstCall.args[0].data).to.equal(activity);
+    });
+
+    it('Initiates the resumption of a conversation post authentication', async () => {
+      // setup
+      const activity = { type: 'message', text: 'To get started...', from: { role: 'bot' } };
+      sessionStorage.setItem(IN_AUTH_EXP, 'true');
+      sessionStorage.setItem(RECENT_UTTERANCES, JSON.stringify([
+          'first',
+          'second',
+        ]));
+      const aboutToSignInActivity = { type: 'DIRECT_LINE/INCOMING_ACTIVITY', payload: { activity } };
+      const spyDispatchActivity = sandbox.spy(store, 'dispatch');
+
+      // fire
+      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
+
+      // tests
+      // const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
+
+      // one of the IFs not under test sets 1 value of session storage
+      expect(sessionStorage.length).to.equal(3);
+
+      expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.equal('[]');
+      // expect(isTrackingUtterances).to.equal('false');
+      // expect(spyDispatchEvent.callCount).to.equal(1);
+
+      expect(spyDispatchActivity.firstCall.args[0]).to.eql({
+        type: 'WEB_CHAT/SEND_MESSAGE',
+        payload: {
+          type: 'message',
+          text: 'first',
+        },
+      });
     });
   });
 
