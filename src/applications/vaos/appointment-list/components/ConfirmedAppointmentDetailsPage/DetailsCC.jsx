@@ -41,7 +41,7 @@ export default function DetailsCC({
   };
 
   const ShowTreatmentSpecialty = () => {
-    if (featureVaosV2Next) {
+    if (featureVaosV2Next && treatmentSpecialty) {
       return (
         <>
           <div data-test-id="appointment-treatment-specialty">
