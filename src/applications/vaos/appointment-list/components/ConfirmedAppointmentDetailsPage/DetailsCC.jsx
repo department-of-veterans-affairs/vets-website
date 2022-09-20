@@ -18,7 +18,7 @@ export default function DetailsCC({
   useV2 = false,
   featureVaosV2Next = false,
 }) {
-  const header = 'Community care';
+  const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
   const { treatmentSpecialty } = facility;
