@@ -31,9 +31,13 @@ describe('List', () => {
     $$('.coe-list-item', container).forEach((item, index) => {
       const data = documents[index];
       expect($('h3', item).textContent).to.equal(data.title);
-      const link = $('a', item);
-      expect(link.textContent).to.contain('Download Notification Letter');
-      expect(link.href).to.contain(`v0/coe/document_download/${data.id}`);
+      const link = $('va-link', item);
+      expect(link.getAttribute('text')).to.contain(
+        'Download Notification Letter',
+      );
+      expect(link.getAttribute('href')).to.contain(
+        `v0/coe/document_download/${data.id}`,
+      );
 
       expect(item.textContent).to.contain(
         `Date sent: ${formatDateLong(data.createDate)}`,

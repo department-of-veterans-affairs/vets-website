@@ -23,8 +23,8 @@ describe('ListItem', () => {
     expect($('p', container).textContent).to.contain(
       `Date sent: ${props.sentDate}`,
     );
-    const link = $('a', container);
-    expect(link.href).to.contain(props.downloadUrl);
-    expect(link.textContent).to.contain(props.downloadLinkLabel);
+    const link = $('va-link', container);
+    expect(link.getAttribute('href')).to.contain(props.downloadUrl);
+    expect(link.getAttribute('text')).to.contain(props.downloadLinkLabel);
   });
 });
