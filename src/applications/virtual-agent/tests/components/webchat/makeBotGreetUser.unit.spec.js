@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import GreetUser from '../../../components/webchat/makeBotGreetUser';
 
-describe.only('makeBotGreetUser actions', () => {
+describe('makeBotGreetUser actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
