@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { focusElement } from 'platform/utilities/ui';
+import { useDispatch, useSelector } from 'react-redux';
 import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
 import AttachmentsList from './AttachmentsList';
+import { saveDraft } from '../actions/index';
 
 const ComposeForm = props => {
   const { message } = props;
+  const dispatch = useDispatch();
+  const { isSaving, lastSaveTime, error } = useSelector(state => state.message);
+
   const defaultRecipientsList = [
     { id: 0, name: ' ' },
     { id: 1, name: 'Doctor A' },
@@ -67,24 +72,93 @@ const ComposeForm = props => {
     return 'New message';
   };
 
+  const aggregateFormData = () => {
+    const formData = new FormData();
+
+    formData.append('recipientId', selectedRecipient);
+    formData.append('category', category);
+    formData.append('subject', subject);
+    formData.append('body', messageBody);
+
+    for (const file of attachments) {
+      formData.append(file.name, file);
+    }
+
+    return formData;
+  };
+
   const handleMessageBodyChange = e => {
     setMessageBody(e.target.value);
   };
 
+  const handleSubjectChange = e => {
+    setSubject(e.target.value);
+  };
+
   const sendMessageHandler = event => {
     event.preventDefault();
-    const formData = new FormData();
 
     if (!category) {
       setCategoryError(true);
       focusElement('.message-category');
     }
+  };
 
-    formData.append('category', category);
+  const saveDraftHandler = () => {
+    const draftData = aggregateFormData();
 
-    for (const file of attachments) {
-      formData.append(file.name, file);
+    dispatch(saveDraft(draftData));
+  };
+
+  const draftSaveMessageContent = () => {
+    if (isSaving) return <div className="last-save-time">Saving...</div>;
+    if (error) return <div className="last-save-time">Failed to save</div>;
+    if (lastSaveTime) {
+      const d = new Date(lastSaveTime);
+      const time = d.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return <div className="last-save-time">Last save at {time}</div>;
     }
+    return '';
+  };
+
+  const draftSaveMessageContentMobile = () => {
+    if (isSaving) return <div className="last-save-time-mobile">Saving...</div>;
+    if (error)
+      return <div className="last-save-time-mobile">Failed to save</div>;
+    if (lastSaveTime) {
+      const today = new Date(lastSaveTime);
+      const month = `0${today.getMonth() + 1}`.slice(-2);
+      const day = today.toLocaleString('en-US', { day: '2-digit' });
+      const year = today
+        .getFullYear()
+        .toString()
+        .substring(2);
+      const time = today.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      return (
+        <va-alert
+          background-only
+          class="last-save-time-mobile"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          show-icon
+          status="success"
+          visible="true"
+        >
+          <p className="vads-u-margin-y--0">
+            You’re message has been saved. Last save at {month}/{day}/{year} at{' '}
+            {time}
+          </p>
+        </va-alert>
+      );
+    }
+    return '';
   };
 
   return (
@@ -125,8 +199,7 @@ const ComposeForm = props => {
         <va-text-input
           label="Subject"
           name="subject"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
+          onInput={handleSubjectChange}
           required
           class="composeInput"
           value={subject}
@@ -164,14 +237,20 @@ const ComposeForm = props => {
 
         <div className="compose-form-actions">
           <button type="submit" className="send-button-bottom">
-            <span className="send-button-bottom-text">Send</span>
-            <i className="fas fa-paper-plane" aria-hidden="true" />
+            Send
           </button>
-          <button type="button" className="link-button save-draft-button">
-            Save as draft
+          {draftSaveMessageContent()}
+          <button
+            type="button"
+            className="usa-button-secondary save-draft-button"
+            onClick={saveDraftHandler}
+          >
+            Save draft
           </button>
         </div>
       </div>
+
+      {draftSaveMessageContentMobile()}
     </form>
   );
 };

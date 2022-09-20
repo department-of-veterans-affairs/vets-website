@@ -31,6 +31,10 @@ export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
 
+export const DRAFT_SAVE_STARTED = 'DRAFT_SAVE_STARTED';
+export const DRAFT_SAVE_FAILED = 'DRAFT_SAVE_FAILED';
+export const DRAFT_SAVE_SUCCEEDED = 'DRAFT_SAVE_SUCCEEDED';
+
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
 // const SECURE_MESSAGES_URI = '/mhv/messages';
@@ -178,6 +182,69 @@ export const getAllFolders = () => async dispatch => {
   } else {
     dispatch({
       type: FOLDERS_RETRIEVE_SUCCEEDED,
+      response,
+    });
+  }
+};
+
+const mockSaveDraft = messageData => {
+  const saveDraftResponse = {
+    id: '',
+    category: '',
+    subject: '',
+    body: '',
+    attachments: { attachment: [] },
+    recipientId: 20364,
+    recipientName: 'mock name',
+    sentDate: '',
+  };
+
+  let mockId = 10001;
+
+  for (const [name, value] of messageData) {
+    if (typeof value !== 'string') {
+      saveDraftResponse.attachments.attachment.push({
+        id: mockId,
+        name,
+      });
+      mockId += 1;
+    } else {
+      saveDraftResponse[name] = value;
+    }
+  }
+
+  if (!messageData.id) {
+    saveDraftResponse.id = mockId;
+  }
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(saveDraftResponse);
+    }, 1500);
+  });
+};
+
+const sendSaveDraft = async messageData => {
+  try {
+    return await mockSaveDraft(messageData);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const saveDraft = messageData => async dispatch => {
+  dispatch({ type: DRAFT_SAVE_STARTED });
+
+  const response = await sendSaveDraft(messageData);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({
+      type: DRAFT_SAVE_FAILED,
+      response: error,
+    });
+  } else {
+    dispatch({
+      type: DRAFT_SAVE_SUCCEEDED,
       response,
     });
   }
