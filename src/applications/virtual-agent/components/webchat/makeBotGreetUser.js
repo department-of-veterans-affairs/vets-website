@@ -56,38 +56,6 @@ function processActionConnectFulfilled(
   dispatch(joinActivity);
 }
 
-const GreetUser = {
-  makeBotGreetUser: (
-    csrfToken,
-    apiSession,
-    apiURL,
-    baseURL,
-    userFirstName,
-    userUuid,
-    requireAuth,
-  ) => ({ dispatch }) => next => action => {
-    if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-      processActionConnectFulfilled(
-        requireAuth,
-        dispatch,
-        csrfToken,
-        apiSession,
-        apiURL,
-        baseURL,
-        userFirstName,
-        userUuid,
-      );
-    }
-    if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
-      processIncomingActivity(requireAuth, action, dispatch);
-    }
-    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-      processSendMessageActivity(action);
-    }
-    return next(action);
-  },
-};
-
 function processSendMessageActivity(action) {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });
 }
@@ -142,6 +110,45 @@ function processIncomingActivity(requireAuth, action, dispatch) {
     }
   }
 }
+
+const GreetUser = {
+  makeBotGreetUser: (
+    csrfToken,
+    apiSession,
+    apiURL,
+    baseURL,
+    userFirstName,
+    userUuid,
+    requireAuth,
+  ) => ({ dispatch }) => next => action => {
+    // create thunks
+    const connectFulfilledThunk = () =>
+      processActionConnectFulfilled(
+        requireAuth,
+        dispatch,
+        csrfToken,
+        apiSession,
+        apiURL,
+        baseURL,
+        userFirstName,
+        userUuid,
+      );
+
+    const incomingActivityThunk = () =>
+      processIncomingActivity(requireAuth, action, dispatch);
+
+    const sendMessageThunk = () => processSendMessageActivity(action);
+    // add thunks to an obj
+    const processActionType = {
+      'DIRECT_LINE/CONNECT_FULFILLED': connectFulfilledThunk,
+      'DIRECT_LINE/INCOMING_ACTIVITY': incomingActivityThunk,
+      'WEB_CHAT/SEND_MESSAGE': sendMessageThunk,
+    };
+
+    if (processActionType[action.type]) processActionType[action.type]();
+    return next(action);
+  },
+};
 
 export default GreetUser;
 
