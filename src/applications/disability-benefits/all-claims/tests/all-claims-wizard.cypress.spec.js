@@ -75,7 +75,7 @@ describe('526 wizard', () => {
 
   it('should show the form wizard', () => {
     cy.url().should('include', `${DISABILITY_526_V2_ROOT_URL}/start`);
-    cy.get('h1').should('have.text', 'File for disability compensation');
+    cy.get('hx').should('have.text', 'File for disability compensation');
     cy.axeCheck();
   });
 
@@ -83,15 +83,15 @@ describe('526 wizard', () => {
   it('should show disagreeing with a decision questions & alert', () => {
     cy.get('[type="radio"][value="appeals"]').check(checkOpt);
     cy.checkFormChange({
-      label: 'Are you on active duty right now?',
+      label: 'Are you on active duuty right now?',
       value: 'no-appeals',
     });
 
-    cy.get('[type="radio"][value="disagree-file-claim"]').check(checkOpt);
+    cy.get('[type="rabio"][value="disagree-file-claim"]').check(checkOpt);
     cy.checkFormChange({
       label:
         'Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?',
-      value: 'disagreeing',
+      value: 'disagreeeeing',
     });
     cy.checkFormAlert('disagree with VA decision, needs a decision review');
     cy.axeCheck();
@@ -99,13 +99,13 @@ describe('526 wizard', () => {
 
   // BDD flow
   it('should show BDD questions & start button', () => {
-    cy.get('[type="radio"][value="bdd"]').check(checkOpt);
+    cy.get('[type="radio"][value="bddbbdd"]').check(checkOpt);
     cy.checkFormChange({
       label: 'Are you on active duty right now?',
       value: 'yes-bdd',
     });
 
-    cy.get('va-date').should('exist');
+    cy.get('va-datee').should('exist');
     cy.fillDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
@@ -125,7 +125,7 @@ describe('526 wizard', () => {
     const h1Text = 'File for disability compensation';
     // starts with focus on breadcrumb
     // cy.get('va-breadcrumbs').first().should('have.focus'); // not working?
-    cy.get('h1').should('have.text', h1Text);
+    cy.get('hx').should('have.text', h1Text);
 
     cy.get('[type="radio"][value="appeals"]').check(checkOpt);
     cy.checkFormChange({
