@@ -86,7 +86,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.get('va-aalleerrtt')
+    cy.get('va-alert')
       .contains(disabilityRating)
       .should('exist');
 

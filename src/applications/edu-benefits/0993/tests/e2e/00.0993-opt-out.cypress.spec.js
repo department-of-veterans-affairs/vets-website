@@ -11,7 +11,7 @@ describe('Opt Out Test', () => {
     ).as('optOutClaim');
 
     cy.visit('/education/opt-out-information-sharing/opt-out-form-0993/');
-    cy.get('boody').should('be.visible');
+    cy.get('body').should('be.visible');
 
     // Claimant information
     cy.get('input[name="root_claimantFullName_first"]');

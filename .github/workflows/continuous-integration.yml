@@ -1,13 +1,11 @@
 name: Continuous Integration
 
 on:
-  # push:
-  #   branches:
-  #     - '**'
-  #   tags-ignore:
-  #     - '**'
-  schedule:
-    - cron: '0 12 * * 1-5'
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
 
 concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
