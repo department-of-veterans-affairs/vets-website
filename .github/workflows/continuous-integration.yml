@@ -821,14 +821,13 @@ jobs:
           name: cypress-stress-test-videos
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-      # - name: Update E2E Allow List
-      #   run: yarn update-e2e-allow-list
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
-      #     TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+      - name: Update E2E Allow List
+        run: yarn update-e2e-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
-      # - name: Create Cypress E2E report and post results to BigQuery
       - name: Create Cypress E2E report
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
@@ -857,14 +856,6 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-      # - name: Create Issues for New Flaky Tests
-      #   if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
-      #   run: yarn create-github-issues-for-flaky-tests
-      #   working-directory: qa-standards-dashboard-data
-      #   env:
-      #     TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   testing-reports-contract-tests:
     name: Testing Reports - Contract Tests
