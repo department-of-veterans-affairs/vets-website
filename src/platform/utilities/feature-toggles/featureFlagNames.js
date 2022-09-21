@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  caregiverAsync: 'caregiver_async',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
