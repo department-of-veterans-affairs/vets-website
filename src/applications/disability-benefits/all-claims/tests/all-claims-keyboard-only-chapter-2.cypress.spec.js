@@ -91,11 +91,13 @@ describe('526EZ keyboard only navigation', () => {
       Here, we are just doing the bare minimum to get up to Chapter II.
     II. Disabilities (See https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/disability/526ez/526-overall-flow.md#disabilities)
       A. Add Disabilities (non-PTSD)
-      B. Follow-Up Questions
-      C. Prisoner of War
+      B. Follow-Up Questions (Description)
+      C. Follow-Up Questions (Condition #1)
+      D. Follow-Up Questions (Condition #2)
+      E. Prisoner of War
       ... TODO
   */
-   it('navigate through a maximal form', () => {
+  it('navigate through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       let idRoot = '';
       const { chapters } = formConfig;
@@ -188,8 +190,108 @@ describe('526EZ keyboard only navigation', () => {
       cy.findOption('N');
       cy.tabToContinueForm();
 
-      // II. Disabilities
+      // II. Disabilities > A. Add Disabilities (non-PTSD)
+      // =================================================
       cy.url().should('include', disabilitiesPages.addDisabilities.path);
+      cy.injectAxeThenAxeCheck();
+
+      // 1. Can add first condition
+      cy.typeInIfDataExists('#root_newDisabilities_0_condition', 'back injury');
+      cy.realPress('ArrowDown');
+      cy.realPress('Enter');
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      // 2. Can edit first condition
+      cy.realPress('Space');
+      cy.typeInIfDataExists('#root_newDisabilities_0_condition', 'back sprain');
+      cy.realPress('ArrowDown');
+      cy.realPress('Enter');
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      // 3. Can add second condition
+      cy.tabToElementAndPressSpace('.va-growable-add-btn');
+      cy.typeInIfDataExists('#root_newDisabilities_1_condition', 'neck sprain');
+      cy.realPress('ArrowDown');
+      cy.realPress('Enter');
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      // 4. Can add and remove third condition
+      cy.tabToElementAndPressSpace('.va-growable-add-btn');
+      cy.tabToElementAndPressSpace(
+        '[aria-label="Remove incomplete Condition"]',
+      );
+      cy.tabToContinueForm();
+
+      // II. Disabilities > B. Follow-Up Questions (Description)
+      // =========================================
+      cy.url().should('include', disabilitiesPages.followUpDesc.path);
+      cy.injectAxeThenAxeCheck();
+      cy.tabToContinueForm();
+
+      // II. Disabilities > C. Follow-Up Questions (Condition #1)
+      // ========================================================
+      cy.url().should(
+        'include',
+        disabilitiesPages.newDisabilityFollowUp.path.replace(':index', 0),
+      );
+      cy.injectAxeThenAxeCheck();
+
+      // 1. Can indicate that injury was caused by an injury or exposure during military service
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('NEW');
+      cy.realPress('Space');
+      cy.typeInIfDataExists('#root_primaryDescription', 'asdf');
+
+      // 2. Can indicate that injury was caused by existing disability
+      cy.tabToElement('[type="radio"]', false);
+      cy.findOption('SECONDARY');
+      // NOTE: for reasons I don't understand, we cannot select this <select> by Id. This happens elsewhere, but we have been able to select other <select>'s by Id.
+      cy.tabToElement(
+        '[name="root_view:secondaryFollowUp_causedByDisability"]',
+      );
+      cy.chooseSelectOptionByTyping('Neck Sprain');
+      cy.typeInIfDataExists('textarea', 'asdf');
+
+      // 3. Can indicate that injury worsened during military service
+      cy.tabToElement('[type="radio"]', false);
+      cy.findOption('WORSENED');
+      cy.typeInIfDataExists(
+        '[name="root_view:worsenedFollowUp_worsenedDescription"]',
+        'asdf',
+      );
+      cy.typeInIfDataExists('textarea', 'asdf');
+
+      // 4. Can indicate that injury was caused by VA care
+      cy.tabToElement('[type="radio"]', false);
+      cy.findOption('VA');
+      cy.typeInIfDataExists('textarea', 'asdf');
+      cy.typeInIfDataExists(
+        '[name="root_view:vaFollowUp_vaMistreatmentLocation"]',
+        'asdf',
+      );
+      cy.typeInIfDataExists(
+        '[name="root_view:vaFollowUp_vaMistreatmentDate"]',
+        'asdf',
+      );
+      cy.tabToContinueForm();
+
+      // II. Disabilities > D. Follow-Up Questions (Condition #2)
+      // ========================================================
+      cy.url().should(
+        'include',
+        disabilitiesPages.newDisabilityFollowUp.path.replace(':index', 1),
+      );
+      cy.injectAxeThenAxeCheck();
+
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('NEW');
+      cy.realPress('Space');
+      cy.typeInIfDataExists('#root_primaryDescription', 'asdf');
+      cy.tabToContinueForm();
+
+      // II. Disabilities > E. Prisoner of War
+      // =====================================
+      cy.url().should('include', disabilitiesPages.prisonerOfWar.path);
       cy.injectAxeThenAxeCheck();
     });
   });
