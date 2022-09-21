@@ -22,7 +22,7 @@ setup_vets_api() {
 setup_vets_website() {
   # Install node version in .nvmrc
   # source $NVM_DIR/nvm.sh
-  nvm install #|| true # ignore exit code due to npm prefix
+  bash -i -c 'nvm install' #|| true # ignore exit code due to npm prefix
   # nvm use --delete-prefix
 
   # Install dependencies and build site
