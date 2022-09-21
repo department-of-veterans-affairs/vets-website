@@ -4,7 +4,7 @@ let tests = JSON.parse(process.env.TESTS);
 const step = Number(process.env.STEP);
 const numContainers = Number(process.env.NUM_CONTAINERS);
 const appUrl = process.env.APP_URLS.split(',')[0];
-const isStressTest = process.env.IS_STRESS_TEST;
+// const isStressTest = process.env.IS_STRESS_TEST;
 
 // The following logic checks if the longest-running test has been selected.
 // If it has been selected, it is run in its own container in the last parallel container.
@@ -28,7 +28,8 @@ const batch = tests
   .join(',');
 
 let status = null;
-const upTo = isStressTest ? 2 : 1;
+// const upTo = isStressTest ? 2 : 1;
+const upTo = 1;
 
 for (let i = 0; i < upTo; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
