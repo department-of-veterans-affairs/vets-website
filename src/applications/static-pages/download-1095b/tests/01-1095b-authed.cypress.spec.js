@@ -25,8 +25,8 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
 
-    cy.get('#1095-download-options-0').should('be.checked');
-    cy.get('#1095-download-options-1').should('not.be.checked');
+    cy.get('#pdf').should('be.visible');
+    cy.get('#txt').should('be.visible');
 
     cy.get('#download-url')
       .click()
