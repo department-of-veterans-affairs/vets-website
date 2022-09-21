@@ -20,9 +20,10 @@ setup_vets_api() {
 }
 
 setup_vets_website() {
-  # Install node version in .nvmrc
+  # Install and use node version in .nvmrc
+  # Tools like NVM won't work without using -i to put the shell in interactive mode
   # source $NVM_DIR/nvm.sh
-  bash -i -c 'nvm install' #|| true # ignore exit code due to npm prefix
+  # bash -i -c 'nvm install' #|| true # ignore exit code due to npm prefix
   # nvm use --delete-prefix
 
   # Install dependencies and build site
