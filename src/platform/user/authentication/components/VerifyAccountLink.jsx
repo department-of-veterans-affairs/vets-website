@@ -6,7 +6,6 @@ import { SERVICE_PROVIDERS, AUTH_EVENTS } from '../constants';
 
 export default function VerifyAccountLink({
   policy,
-  allowVerification,
   useOAuth = false,
   children,
 }) {
@@ -16,7 +15,7 @@ export default function VerifyAccountLink({
       (async () => {
         const url = await authUtilities.signupOrVerify({
           policy,
-          allowVerification,
+          allowVerification: true,
           isSignup: false,
           isLink: true,
           useOAuth,
@@ -24,7 +23,7 @@ export default function VerifyAccountLink({
         setHref(url);
       })();
     },
-    [policy, allowVerification, useOAuth],
+    [policy, useOAuth],
   );
 
   return (

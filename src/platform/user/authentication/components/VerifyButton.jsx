@@ -37,6 +37,8 @@ export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
   );
 };
 
+export default VerifyButton;
+
 VerifyButton.propTypes = {
   className: PropTypes.string,
   image: PropTypes.node,
