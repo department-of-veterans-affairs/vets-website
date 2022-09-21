@@ -122,7 +122,7 @@ describe('526EZ keyboard only navigation', () => {
         2. Can indicate that they never received retirement pay
       J. Training Pay
     II. Disabilities
-      ...
+      See all-claims-keyboard-only-chapter-2.cypress.spec.js
   */
 
   it('navigate through a maximal form', () => {
