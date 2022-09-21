@@ -42,6 +42,6 @@
 		"storage": "128gb"
 	},
 	"initializeCommand": "script/install-repos.sh",
-	"postCreateCommand": "bash -i -c 'nvm install'",
+	"postCreateCommand": "source $NVM_DIR/nvm.sh && nvm install",
 	"postStartCommand": ".devcontainer/post-create.sh > ~/post-create.log"
 }
