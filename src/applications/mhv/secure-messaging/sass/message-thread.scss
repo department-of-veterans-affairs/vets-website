@@ -54,6 +54,7 @@
     @media (max-width: $small-screen) {
       p {
         margin: 4px 0;
+        word-break: break-all;
       }
     }
   }

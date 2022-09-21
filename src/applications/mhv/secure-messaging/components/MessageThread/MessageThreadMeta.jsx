@@ -12,6 +12,9 @@ const MessageThreadMeta = props => {
       >
         <strong>From: </strong>
         {props.message.attributes.sender_name}
+        {props.expanded && props.message.attributes.triageGroupName
+          ? ` (${props.message.attributes.triageGroupName})`
+          : ''}
       </p>
       {props.expanded && (
         <>
