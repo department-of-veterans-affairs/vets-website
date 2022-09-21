@@ -11,14 +11,14 @@ const csps = ['logingov', 'idme'];
 
 describe('VerifyAccountLink', () => {
   csps.forEach(policy => {
-    const oldCrypto = window.crypto;
+    const oldCrypto = global.window.crypto;
 
     beforeEach(() => {
-      window.crypto = mockCrypto;
+      global.window.crypto = mockCrypto;
     });
 
     afterEach(() => {
-      window.crypto = oldCrypto;
+      global.window.crypto = oldCrypto;
     });
 
     it(`should render correctly for each ${policy}`, async () => {
@@ -34,14 +34,14 @@ describe('VerifyAccountLink', () => {
 
     it(`should set correct href for ${policy} (SAML)`, async () => {
       const screen = render(
-        <VerifyAccountLink policy={policy} allowVerification />,
+        <VerifyAccountLink policy={policy} useOAuth={false} />,
       );
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({
         policy,
         isLink: true,
         isSignup: false,
-        allowVerification: true,
+        useOAuth: false,
       });
 
       expect(anchor.href).to.eql(href);

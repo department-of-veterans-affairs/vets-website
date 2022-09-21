@@ -10,14 +10,14 @@ const csps = ['logingov', 'idme'];
 
 describe('CreateAccountLink', () => {
   csps.forEach(policy => {
-    const oldCrypto = window.crypto;
+    const oldCrypto = global.window.crypto;
 
     beforeEach(() => {
-      window.crypto = mockCrypto;
+      global.window.crypto = mockCrypto;
     });
 
     afterEach(() => {
-      window.crypto = oldCrypto;
+      global.window.crypto = oldCrypto;
     });
 
     it(`should render correctly for each ${policy}`, async () => {
