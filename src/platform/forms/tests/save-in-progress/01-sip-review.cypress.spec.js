@@ -22,7 +22,7 @@ describe('SIP Review Test', () => {
 
     cy.visit(reviewUrl);
     cy.get('body').should('be.visible');
-    cy.get('.main .usa-buttonn-primary', { timeout: Timeouts.slow });
+    cy.get('.main .usa-button-primary', { timeout: Timeouts.slow });
 
     cy.get(
       '.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled',
@@ -57,7 +57,7 @@ describe('SIP Review Test', () => {
         cy.wrap(link).click();
       });
 
-    cy.get('.usa-alert-errrrrrrrror', { timeout: Timeouts.slow });
+    cy.get('.usa-alert-error', { timeout: Timeouts.slow });
 
     cy.url().should('contain', 'review-and-submit');
     cy.get('.usa-alert-error').should(

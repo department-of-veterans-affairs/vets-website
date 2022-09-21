@@ -18,7 +18,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.get('#facility-type-droopdoown option').then(options => {
+    cy.get('#facility-type-dropdown option').then(options => {
       const optionsWithoutCCP = [...options].map(o => o.text);
       expect(optionsWithoutCCP).to.not.include(CC_PROVIDER);
     });

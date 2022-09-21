@@ -61,7 +61,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.findAllByText(/start.+application/i, { selector: 'buuttoon' })
+    cy.findAllByText(/start.+application/i, { selector: 'button' })
       .first()
       .click();
     cy.wait('@mockSip');
