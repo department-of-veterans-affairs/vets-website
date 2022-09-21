@@ -159,10 +159,8 @@ export {
   redirect,
   login,
   mfa,
-  verify,
   logout,
-  signup,
-  signupUrl,
+  signupOrVerify,
   logoutUrl,
 } from './authentication/utilities';
 

@@ -165,9 +165,9 @@ describe('Authentication Utilities', () => {
   });
 
   describe('sessionTypeUrl', () => {
-    const type = CSP_IDS.ID_ME;
+    const type = CSP_IDS.LOGIN_GOV;
     const typeVerified = `${type}_verified`;
-    const signupType = SIGNUP_TYPES[CSP_IDS.ID_ME];
+    const signupType = SIGNUP_TYPES[CSP_IDS.LOGIN_GOV];
     const signupTypeVerified = `${signupType}_verified`;
     const queryParams = {
       test: 'test',
@@ -530,18 +530,6 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('verify', () => {
-    it('should redirect to the verify session url', async () => {
-      setup({ path: nonUsipPath });
-      await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({
-          type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
-        }),
-      );
-    });
-  });
-
   describe('logout', () => {
     it('should redirect to the logout session url', () => {
       setup({ path: nonUsipPath });
@@ -560,64 +548,6 @@ describe('Authentication Utilities', () => {
       );
     });
   });
-
-  // describe('signup', () => {
-  //   it('should redirect to the ID.me signup session url by default', async () => {
-  //     setup({ path: nonUsipPath });
-  //     await authUtilities.signup();
-  //     expect(global.window.location).to.include(
-  //       API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-  //     );
-  //   });
-
-  //   it('should append op=signup param for ID.me signups', async () => {
-  //     setup({ path: nonUsipPath });
-  //     await authUtilities.signup();
-  //     expect(global.window.location).to.contain.all(
-  //       API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-  //       'op=signup',
-  //     );
-  //   });
-
-  //   it('should redirect to the provided CSPs signup session url', async () => {
-  //     setup({ path: normalPathWithParams });
-  //     const expectedUrl = await authUtilities.signup({
-  //       policy: CSP_IDS.LOGIN_GOV,
-  //       isLink: true,
-  //     });
-  //     authUtilities.redirect(expectedUrl);
-  //     expect(global.window.location).to.contain(expectedUrl);
-  //   });
-  // });
-
-  // describe('signupUrl', () => {
-  //   it('should generate an ID.me session signup url by default', async () => {
-  //     expect(
-  //       await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
-  //     ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
-  //   });
-
-  //   it('should append op=signup param for ID.me signups', async () => {
-  //     expect(
-  //       await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
-  //     ).to.contain.all(
-  //       API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-  //       'op=signup',
-  //     );
-  //   });
-
-  //   it('should generate a session signup url for the given type', async () => {
-  //     expect(
-  //       await authUtilities.signup({ policy: CSP_IDS.LOGIN_GOV, isLink: true }),
-  //     ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }));
-  //   });
-
-  //   it('should generate an ID.me session signup url if the given type is not valid', async () => {
-  //     expect(
-  //       await authUtilities.signup({ type: 'test', isLink: true }),
-  //     ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
-  //   });
-  // });
 
   describe('generateReturnURL', () => {
     const homepageModalRoute = `${base}/?next=loginModal`;

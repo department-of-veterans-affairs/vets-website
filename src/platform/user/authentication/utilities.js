@@ -359,38 +359,6 @@ export async function signupOrVerify({
   return isLink ? url : redirect(url, event);
 }
 
-export async function signup({
-  version = API_VERSION,
-  policy = CSP_IDS.ID_ME,
-  isLink = false,
-  allowVerification = false,
-} = {}) {
-  const url = await sessionTypeUrl({
-    type: SIGNUP_TYPES[policy],
-    version,
-    allowVerification,
-    ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
-  });
-  return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);
-}
-
-export const signupUrl = type => {
-  const signupType = SIGNUP_TYPES[type] ?? SIGNUP_TYPES[CSP_IDS.ID_ME];
-  const queryParams =
-    signupType === SIGNUP_TYPES[CSP_IDS.ID_ME]
-      ? {
-          queryParams: { op: 'signup' },
-        }
-      : {};
-
-  const opts = {
-    type: signupType,
-    ...queryParams,
-  };
-
-  return sessionTypeUrl(opts);
-};
-
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
 };
