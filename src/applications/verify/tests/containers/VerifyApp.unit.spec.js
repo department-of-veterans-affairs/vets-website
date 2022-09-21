@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
-import * as profileUtils from 'platform/user/profile/utilities';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { VerifyApp } from '../../containers/VerifyApp';
 
 const mockProfile = {
@@ -20,20 +19,16 @@ const generateProps = ({
 });
 
 describe('VerifyApp', () => {
-  const mockHasSessionHandler = sinon
-    .stub(profileUtils, 'hasSession')
-    .returns(true);
-
   let props;
 
   afterEach(() => {
-    mockHasSessionHandler.reset();
     props = {};
+    localStorage.clear();
   });
 
   it('renders VerifyApp', () => {
     props = generateProps({});
-    mockHasSessionHandler();
+    localStorage.setItem('hasSession', true);
     const wrapper = render(<VerifyApp {...props} />);
 
     const verifyApp = wrapper.getByTestId('verify-app');
@@ -43,7 +38,7 @@ describe('VerifyApp', () => {
   });
   it('renders loading indicator when app is loading', () => {
     props = generateProps({ loading: true });
-    mockHasSessionHandler();
+    localStorage.setItem('hasSession', true);
 
     const wrapper = render(<VerifyApp {...props} />);
 
@@ -64,7 +59,7 @@ describe('VerifyApp', () => {
       });
       const wrapper = render(<VerifyApp {...props} />);
 
-      mockHasSessionHandler();
+      localStorage.setItem('hasSession', true);
       const verifyButtonGroup = wrapper.getByTestId('verify-button-group')
         .children;
       expect(verifyButtonGroup.length).to.equal(2);
@@ -88,7 +83,7 @@ describe('VerifyApp', () => {
           },
         },
       });
-      mockHasSessionHandler();
+      localStorage.setItem('hasSession', true);
       const wrapper = render(<VerifyApp {...props} />);
       const verifyButton = wrapper.getByTestId('verify-button').children;
       expect(verifyButton.length).to.equal(1);
@@ -97,7 +92,7 @@ describe('VerifyApp', () => {
     });
   });
   it('should redirect to home page when user is using a verified account', () => {
-    mockHasSessionHandler();
+    localStorage.setItem('hasSession', true);
     props = generateProps({
       loading: true,
       profile: {
