@@ -95,14 +95,20 @@ describe('526EZ keyboard only navigation', () => {
       C. Follow-Up Questions (Condition #1)
       D. Follow-Up Questions (Condition #2)
       E. Prisoner of War
+      F. Additional Disability Benefits, Learn More (No)
+      G. Summary of Disabilities
+      H. Add Disabilities (PTSD)
+      I. Follow-Up Questions (Description)
+      J. PTSD Intro
       ... TODO
   */
   it('navigate through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(() => {
       let idRoot = '';
       const { chapters } = formConfig;
       const veteranDetailsPages = chapters.veteranDetails.pages;
       const disabilitiesPages = chapters.disabilities.pages;
+      const supportEvidencePages = chapters.supportingEvidence.pages;
 
       // Go to the introduction page and skip to just start the form
       cy.visit('/disability/file-disability-claim-form-21-526ez/introduction');
@@ -292,6 +298,126 @@ describe('526EZ keyboard only navigation', () => {
       // II. Disabilities > E. Prisoner of War
       // =====================================
       cy.url().should('include', disabilitiesPages.prisonerOfWar.path);
+      cy.injectAxeThenAxeCheck();
+
+      // 1. Can indicate that they have been a POW
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('Y');
+      cy.realPress('Space');
+
+      // 2. Can indicate period of confinement
+      idRoot = 'root_view:isPow_confinements_';
+      cy.tabToElement(`[name="${idRoot}0_fromMonth"]`);
+      cy.chooseSelectOptionByTyping('April');
+      cy.tabToElement(`[name="${idRoot}0_fromDay"]`);
+      cy.chooseSelectOptionByTyping('21');
+      cy.typeInIfDataExists(`[name="${idRoot}0_fromYear"]`, '2014');
+      cy.tabToElement(`[name="${idRoot}0_toMonth"]`);
+      cy.chooseSelectOptionByTyping('May');
+      cy.tabToElement(`[name="${idRoot}0_toDay"]`);
+      cy.chooseSelectOptionByTyping('1');
+      cy.typeInIfDataExists(`[name="${idRoot}0_toYear"]`, '2014');
+
+      // 3. Can indicate a second period of confinement
+      cy.tabToElementAndPressSpace('.va-growable-add-btn');
+      // Already focused on From Month for new period
+      cy.chooseSelectOptionByTyping('May');
+      cy.tabToElement(`[name="${idRoot}1_fromDay"]`);
+      cy.chooseSelectOptionByTyping('4');
+      cy.typeInIfDataExists(`[name="${idRoot}1_fromYear"]`, '2014');
+      cy.tabToElement(`[name="${idRoot}1_toMonth"]`);
+      cy.chooseSelectOptionByTyping('June');
+      cy.tabToElement(`[name="${idRoot}1_toDay"]`);
+      cy.chooseSelectOptionByTyping('1');
+      cy.typeInIfDataExists(`[name="${idRoot}1_toYear"]`, '2014');
+
+      // 4. Can indicate a third period of confinement, but then remove it
+      cy.tabToElementAndPressSpace('.va-growable-add-btn');
+      // "Remove" button
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      // 5. Can edit the first period of confinement
+      cy.tabToElementAndPressSpace('.edit', false);
+      // "Update" button
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      // 6. Can indicate conditions caused or affected by POW experience
+      cy.tabToElementAndPressSpace(
+        '[name="root_view:isPow_powDisabilities_backsprain"]',
+      );
+
+      cy.tabToContinueForm();
+
+      // II. Disabilities > F. Additional Disability Benefits, Learn More (No)
+      // =====================================================================
+      cy.url().should(
+        'include',
+        disabilitiesPages.ancillaryFormsWizardIntro.path,
+      );
+      cy.injectAxeThenAxeCheck();
+
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('N');
+      cy.realPress('Space');
+      cy.tabToContinueForm();
+
+      // II. Disabilities > G. Summary of Disabilities
+      // =============================================
+      cy.url().should('include', disabilitiesPages.summaryOfDisabilities.path);
+      cy.injectAxeThenAxeCheck();
+
+      cy.tabToContinueForm();
+
+      // II. Disabilities > H. Add Disabilities (PTSD)
+      // =======================================================
+      // First, need to go all the way back to the "Add Disabilities" page.
+      cy.url().should('include', supportEvidencePages.orientation.path);
+      cy.tabToGoBack();
+      cy.url().should('include', disabilitiesPages.summaryOfDisabilities.path);
+      cy.tabToGoBack();
+      cy.url().should(
+        'include',
+        disabilitiesPages.ancillaryFormsWizardIntro.path,
+      );
+      cy.tabToGoBack();
+      cy.url().should('include', disabilitiesPages.prisonerOfWar.path);
+      cy.tabToGoBack();
+      cy.url().should(
+        'include',
+        disabilitiesPages.newDisabilityFollowUp.path.replace(':index', 1),
+      );
+      cy.tabToGoBack();
+      cy.url().should(
+        'include',
+        disabilitiesPages.newDisabilityFollowUp.path.replace(':index', 0),
+      );
+      cy.tabToGoBack();
+      cy.url().should('include', disabilitiesPages.followUpDesc.path);
+      cy.tabToGoBack();
+      cy.url().should('include', disabilitiesPages.addDisabilities.path);
+
+      // Second, need to remove all existing disabilities so we can start fresh
+      cy.tabToElementAndPressSpace('.edit');
+      cy.tabToElementAndPressSpace('.usa-button-secondary.float-right');
+
+      // 1. Can add PTSD disability
+      cy.tabToElementAndPressSpace('.edit', false);
+      cy.typeInIfDataExists('#root_newDisabilities_0_condition', 'PTSD');
+      cy.realPress('ArrowDown');
+      cy.realPress('Enter');
+      cy.tabToElementAndPressSpace('[type="button"]');
+
+      cy.tabToContinueForm();
+
+      // II. Disabilities > I. Follow-Up Questions (Description)
+      // =======================================================
+      cy.url().should('include', disabilitiesPages.followUpDesc.path);
+
+      cy.tabToContinueForm();
+
+      // II. Disabilities > J. PTSD Intro
+      // ================================
+      cy.url().should('include', disabilitiesPages.newPTSDFollowUp.path);
       cy.injectAxeThenAxeCheck();
     });
   });
