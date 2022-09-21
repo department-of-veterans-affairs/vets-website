@@ -1,18 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import { verify } from 'platform/user/authentication/utilities';
 
-export const selectCSP = selectedPolicy =>
-  Object.values(SERVICE_PROVIDERS).find(csp => csp.policy === selectedPolicy);
+import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 
-export const VerifyButton = ({ className, label, image, policy }) => {
+import { signupOrVerify } from 'platform/user/authentication/utilities';
+
+export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
+  const verifyHandler = async () => {
+    const url = await signupOrVerify({
+      policy,
+      allowVerification: true,
+      isSignup: false,
+      isLink: true,
+      useOAuth,
+    });
+
+    if (useOAuth) {
+      updateStateAndVerifier(policy);
+    }
+
+    window.location = url;
+  };
+
   return (
     <button
       key={policy}
       type="button"
       className={`usa-button ${className}`}
-      onClick={() => verify({ policy })}
+      onClick={() => verifyHandler()}
     >
       <strong>
         Verify with <span className="sr-only">{label}</span>
@@ -27,4 +42,5 @@ VerifyButton.propTypes = {
   image: PropTypes.node,
   label: PropTypes.string,
   policy: PropTypes.string,
+  useOAuth: PropTypes.bool,
 };

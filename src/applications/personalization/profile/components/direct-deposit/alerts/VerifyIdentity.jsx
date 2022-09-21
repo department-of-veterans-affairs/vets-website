@@ -27,7 +27,7 @@ export default function VerifyIdentity() {
       </p>
       {[ID_ME, LOGIN_GOV].map(policy => (
         <p key={policy}>
-          <VerifyAccountLink policy={policy} allowVerification />
+          <VerifyAccountLink policy={policy} />
         </p>
       ))}
       <p>
