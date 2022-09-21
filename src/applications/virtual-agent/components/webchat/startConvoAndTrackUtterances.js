@@ -2,10 +2,10 @@ import {
   processActionConnectFulfilled,
   processSendMessageActivity,
   processIncomingActivity,
-} from './helpers/makeBotGreetUserHelpers';
+} from './helpers/startConvoAndTrackUtterancesHelpers';
 
-const GreetUser = {
-  makeBotGreetUser: (
+const StartConvoAndTrackUtterances = {
+  makeBotStartConvoAndTrackUtterances: (
     csrfToken,
     apiSession,
     apiURL,
@@ -44,4 +44,4 @@ const GreetUser = {
   },
 };
 
-export default GreetUser;
+export default StartConvoAndTrackUtterances;

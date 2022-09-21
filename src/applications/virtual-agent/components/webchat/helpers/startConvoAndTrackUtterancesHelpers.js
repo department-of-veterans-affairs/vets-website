@@ -1,4 +1,8 @@
 import * as _ from 'lodash';
+import {
+  joinActivity,
+  startConversationActivity,
+} from '../../../actions/index';
 import piiReplace from '../piiReplace';
 import {
   IN_AUTH_EXP,
@@ -17,41 +21,17 @@ export function processActionConnectFulfilled(
   userFirstName,
   userUuid,
 ) {
-  const joinActivity = {
-    type: 'WEB_CHAT/SEND_EVENT',
-    payload: {
-      name: 'webchat/join',
-      value: {
-        language: window.navigator.language,
-      },
-    },
-  };
-  const startConversationActivity = {
-    meta: {
-      method: 'keyboard',
-    },
-    payload: {
-      activity: {
-        channelData: {
-          postBack: true,
-        },
-        // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-        name: 'startConversation',
-        type: 'event',
-        value: {
-          csrfToken,
-          apiSession,
-          apiURL,
-          baseURL,
-          userFirstName,
-          userUuid,
-        },
-      },
-    },
-    type: 'DIRECT_LINE/POST_ACTIVITY',
-  };
   if (requireAuth && sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true') {
-    dispatch(startConversationActivity);
+    dispatch(
+      startConversationActivity(
+        csrfToken,
+        apiSession,
+        apiURL,
+        baseURL,
+        userFirstName,
+        userUuid,
+      ),
+    );
   }
   dispatch(joinActivity);
 }

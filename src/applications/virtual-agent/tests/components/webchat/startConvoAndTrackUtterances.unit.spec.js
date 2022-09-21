@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import GreetUser from '../../../components/webchat/makeBotGreetUser';
+import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
 
-describe('makeBotGreetUser actions', () => {
+describe('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -26,8 +26,8 @@ describe('makeBotGreetUser actions', () => {
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth true', async () => {
-    // invoke greetUser with proper curried values
-    await GreetUser.makeBotGreetUser(
+    // invoke startConvoAndTrackUtterances with proper curried values
+    await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
       'csrfToken',
       'apiSession',
       'apiURL',
@@ -45,11 +45,13 @@ describe('makeBotGreetUser actions', () => {
     expect(actions[0].payload.activity).to.own.include({
       name: 'startConversation',
     });
-    expect(actions[0]).to.own.include({ type: 'DIRECT_LINE/POST_ACTIVITY' });
+    expect(actions[0]).to.own.include({
+      type: 'DIRECT_LINE/POST_ACTIVITY',
+    });
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth false', async () => {
-    await GreetUser.makeBotGreetUser(
+    await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
       'csrfToken',
       'apiSession',
       'apiURL',
@@ -82,7 +84,7 @@ describe('makeBotGreetUser actions', () => {
     it("should correctly begin tracking utterances if it hasn't yet", async () => {
       // setup
       // fire/execute
-      await GreetUser.makeBotGreetUser(
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
         'apiURL',
@@ -111,7 +113,7 @@ describe('makeBotGreetUser actions', () => {
       const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
 
       // fire
-      await GreetUser.makeBotGreetUser(
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
         'apiURL',
@@ -150,7 +152,7 @@ describe('makeBotGreetUser actions', () => {
       const spyDispatchActivity = sandbox.spy(store, 'dispatch');
 
       // fire
-      await GreetUser.makeBotGreetUser(
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
         'apiURL',
@@ -176,7 +178,7 @@ describe('makeBotGreetUser actions', () => {
   });
 
   it('should correctly handle "WEB_CHAT/SEND_MESSAGE"', async () => {
-    await GreetUser.makeBotGreetUser(
+    await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
       'csrfToken',
       'apiSession',
       'apiURL',
