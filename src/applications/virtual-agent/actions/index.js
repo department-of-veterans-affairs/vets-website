@@ -1,6 +1,6 @@
 export const ACCEPTED = 'ACCEPTED';
 const START_CONVERSATION = 'startConversation';
-const EVENT = 'even';
+const EVENT = 'event';
 const POST_ACTIVITY = 'DIRECT_LINE/POST_ACTIVITY';
 const SEND_EVENT = 'WEB_CHAT/SEND_EVENT';
 
