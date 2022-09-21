@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { getWarningStatus } from '../enrollment-status-helpers';
-import { HCA_ENROLLMENT_STATUSES } from '../constants';
+import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 
 describe('getWarningStatus', () => {
   describe('when `enrollmentStatus` is `deceased`', () => {

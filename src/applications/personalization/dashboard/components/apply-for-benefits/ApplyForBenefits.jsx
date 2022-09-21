@@ -8,7 +8,7 @@ import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
 
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
 
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';

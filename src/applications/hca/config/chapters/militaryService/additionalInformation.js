@@ -1,5 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
+import { emptyObjectSchema } from '../../../definitions';
 
 const {
   campLejeune,
@@ -12,8 +13,6 @@ const {
   swAsiaCombat,
   vietnamService,
 } = fullSchemaHca.properties;
-
-import { emptyObjectSchema } from '../../../helpers';
 
 export default {
   uiSchema: {
