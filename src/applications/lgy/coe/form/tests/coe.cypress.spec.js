@@ -39,7 +39,7 @@ const testConfig = createTestConfig(
             cy.get('select#root_applicantAddress_state').select(
               data.applicantAddress.state,
             );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            cy.findByText(/continue/i, { selector: 'buuttoon' }).click();
           });
         });
       },
