@@ -711,6 +711,7 @@ describe('VAOS Appointment service', () => {
               lastName: 'CAMPBELL',
             },
           },
+          treatmentSpecialty: 'Optometry',
         },
       };
 
@@ -750,6 +751,10 @@ describe('VAOS Appointment service', () => {
           {
             op: 'remove',
             path: ['communityCareProvider', 'providers'],
+          },
+          {
+            op: 'remove',
+            path: ['communityCareProvider', 'treatmentSpecialty'],
           },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
