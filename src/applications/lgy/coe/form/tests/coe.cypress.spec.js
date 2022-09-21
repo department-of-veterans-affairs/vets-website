@@ -56,6 +56,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/coe/status', mockStatus);
       cy.intercept('GET', '/v0/in_progress_forms/26-1880', {});
+      cy.intercept('PUT', '/v0/in_progress_forms/26-1880', {});
       cy.intercept('POST', '/v0/claim_attachments', mockUpload);
 
       cy.route('POST', formConfig.submitUrl, { status: 200 });

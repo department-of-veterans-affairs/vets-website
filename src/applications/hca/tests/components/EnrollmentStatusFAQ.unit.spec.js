@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
+import { HCA_ENROLLMENT_STATUSES } from '../../utils/constants';
 import { EnrollmentStatusFAQ } from '../../components/EnrollmentStatus/EnrollmentStatusFAQ';
 
 const expectedOutputs = {

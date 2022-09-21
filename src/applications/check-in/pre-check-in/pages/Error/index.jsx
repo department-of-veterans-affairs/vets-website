@@ -144,9 +144,9 @@ const Error = () => {
         apptType === 'phone'
           ? [
               {
-                text: `${t('your-provider-will-call-you')} ${t(
-                  'you-may-need-to-wait',
-                )}`,
+                text: t(
+                  'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
+                ),
               },
             ]
           : [{ text: t('you-can-still-check-in-once-you-arrive') }];

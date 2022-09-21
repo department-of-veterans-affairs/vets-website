@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import VAPServiceEditModal from '../../components/base/VAPServiceEditModal';
 
