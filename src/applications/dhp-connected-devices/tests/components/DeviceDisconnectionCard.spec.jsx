@@ -1,45 +1,45 @@
 import React from 'react';
 import { expect } from 'chai';
 import environment from 'platform/utilities/environment';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { render, fireEvent } from '@testing-library/react';
-import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
 import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
 
-describe('Device disconnection card', () => {
-  it('Renders vendors name', () => {
-    const card = renderInReduxProvider(
-      <DeviceDisconnectionCard
-        device={{ name: 'Test Vendor' }}
-        onClickHandler="www.google.com"
-      />,
-    );
+const device = {
+  name: 'Test Vendor',
+  key: 'test-vendor',
+  disconnectUrl: 'path/to/test-disconnect',
+};
 
-    expect(card.getByText(/Test Vendor/)).to.exist;
+describe('Device disconnection card', () => {
+  let disconnectBtn;
+  let screen;
+  beforeEach(async () => {
+    screen = render(<DeviceDisconnectionCard device={device} />);
+    disconnectBtn = screen.getByRole('button', {
+      name: 'Disconnect Test Vendor',
+    });
+  });
+  it('Renders vendors name', () => {
+    expect(screen.getByText(/Test Vendor/)).to.exist;
   });
   it('Has aria label for screen reader users', () => {
-    const card = mount(
-      <DeviceDisconnectionCard
-        device={{ key: 'test-vendor', name: 'Test Vendor' }}
-      />,
-    );
     expect(
-      card
-        .find('[data-testid="test-vendor-disconnect-link"]')
-        .prop('aria-label'),
+      screen
+        .getByTestId('test-vendor-disconnect-link')
+        .getAttribute('aria-label'),
     ).to.equal('Disconnect Test Vendor');
-    card.unmount();
+  });
+  it('Should not open Disconnect modal on tab press', async () => {
+    const tabKeyCode = 9;
+    disconnectBtn.focus();
+    fireEvent.keyDown(disconnectBtn, { keyCode: tabKeyCode });
+    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
   });
 });
 
 describe('Device disconnection card modal', () => {
   let screen;
   let modal;
-  const device = {
-    name: 'Test Vendor',
-    key: 'test',
-    disconnectUrl: 'path/to/test-disconnect',
-  };
   beforeEach(async () => {
     screen = render(<DeviceDisconnectionCard device={device} />);
     const disconnectBtn = screen.getByRole('button', {
