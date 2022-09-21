@@ -33,7 +33,7 @@ const Wrapper = props => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const downtimeDependency =
-    app === 'dayOf' ? externalServices.cie : externalServices.pcie;
+    app === APP_NAMES.CHECK_IN ? externalServices.cie : externalServices.pcie;
   const appTitle = app === APP_NAMES.CHECK_IN ? 'Check in' : 'Pre-check in';
   return (
     <>
