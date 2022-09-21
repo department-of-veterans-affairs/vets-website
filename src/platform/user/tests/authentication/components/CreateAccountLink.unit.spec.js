@@ -10,10 +10,19 @@ const csps = ['logingov', 'idme'];
 
 describe('CreateAccountLink', () => {
   csps.forEach(policy => {
+    const oldCrypto = window.crypto;
+
+    beforeEach(() => {
+      window.crypto = mockCrypto;
+    });
+
+    afterEach(() => {
+      window.crypto = oldCrypto;
+    });
+
     it(`should render correctly for each ${policy}`, async () => {
       const screen = render(<CreateAccountLink policy={policy} />);
       const anchor = await screen.findByTestId(policy);
-
       expect(anchor.textContent).to.include(
         `Create an account with ${SERVICE_PROVIDERS[policy].label}`,
       );
@@ -25,22 +34,14 @@ describe('CreateAccountLink', () => {
       const screen = render(<CreateAccountLink policy={policy} />);
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
-
       expect(anchor.href).to.eql(href);
 
       screen.unmount();
     });
 
     it(`should set correct href for ${policy} (OAuth)`, async () => {
-      const oldCrypto = window.crypto;
-      window.crypto = mockCrypto;
       const screen = render(<CreateAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
-      await authUtilities.signupOrVerify({
-        policy,
-        isLink: true,
-        useOAuth: true,
-      });
 
       expect(anchor.href).to.include(`type=${policy}`);
       expect(anchor.href).to.include(`acr=min`);
@@ -49,7 +50,6 @@ describe('CreateAccountLink', () => {
       expect(anchor.href).to.include('response_type=code');
       expect(anchor.href).to.include('code_challenge=');
       expect(anchor.href).to.include('state=');
-      window.crypto = oldCrypto;
       screen.unmount();
     });
   });

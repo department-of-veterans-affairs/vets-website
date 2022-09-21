@@ -11,6 +11,16 @@ const csps = ['logingov', 'idme'];
 
 describe('VerifyAccountLink', () => {
   csps.forEach(policy => {
+    const oldCrypto = window.crypto;
+
+    beforeEach(() => {
+      window.crypto = mockCrypto;
+    });
+
+    afterEach(() => {
+      window.crypto = oldCrypto;
+    });
+
     it(`should render correctly for each ${policy}`, async () => {
       const screen = render(<VerifyAccountLink policy={policy} />);
       const anchor = await screen.findByTestId(policy);
@@ -40,16 +50,8 @@ describe('VerifyAccountLink', () => {
     });
 
     it(`should set correct href for ${policy} (OAuth)`, async () => {
-      const oldCrypto = window.crypto;
-      window.crypto = mockCrypto;
       const screen = render(<VerifyAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
-      await authUtilities.signupOrVerify({
-        policy,
-        isLink: true,
-        isSignup: false,
-        useOAuth: true,
-      });
       const expectedAcr =
         externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
       expect(anchor.href).to.include(`type=${policy}`);
@@ -59,7 +61,6 @@ describe('VerifyAccountLink', () => {
       expect(anchor.href).to.include('response_type=code');
       expect(anchor.href).to.include('code_challenge=');
       expect(anchor.href).to.include('state=');
-      window.crypto = oldCrypto;
       screen.unmount();
     });
   });

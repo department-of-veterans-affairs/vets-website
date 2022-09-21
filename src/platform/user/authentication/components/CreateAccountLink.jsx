@@ -28,6 +28,7 @@ export default function CreateAccountLink({
         const url = await authUtilities.signupOrVerify({
           policy,
           isLink: true,
+          allowVerification: false,
           useOAuth,
         });
         setHref(url);
