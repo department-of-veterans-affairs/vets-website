@@ -20,7 +20,7 @@ import {
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
-import GreetUser from '../components/webchat/makeBotGreetUser';
+import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
 import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
@@ -75,7 +75,10 @@ describe('App', () => {
     oldWindow = global.window;
     global.window.localStorage.setItem('csrfToken', 'FAKECSRF');
     sandbox.spy(Sentry, 'captureException');
-    sandbox.spy(GreetUser, 'makeBotGreetUser');
+    sandbox.spy(
+      StartConvoAndTrackUtterances,
+      'makeBotStartConvoAndTrackUtterances',
+    );
   });
 
   afterEach(() => {
@@ -229,7 +232,7 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
             environment.API_URL,
@@ -276,7 +279,7 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
             environment.API_URL,
@@ -322,7 +325,7 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
             environment.API_URL,
