@@ -1,0 +1,22 @@
+h2:focus {
+  outline: none;
+}
+
+.caregiver-confirmation--print {
+  display: none;
+}
+
+@media print {
+  .schemaform-title, .no-print {
+    display: none;
+  }
+
+  .caregiver-confirmation--print {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vagov-logo {
+    width: 300px;
+  }
+}
