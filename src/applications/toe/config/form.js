@@ -787,6 +787,10 @@ const formConfig = {
                 ...address.uiSchema('', false, null, true),
                 country: {
                   'ui:title': 'Country',
+                  'ui:options': {
+                    hideIf: formData =>
+                      formData['view:mailingAddress'].livesOnMilitaryBase,
+                  },
                   'ui:required': formData =>
                     !formData['view:mailingAddress'].livesOnMilitaryBase,
                 },
