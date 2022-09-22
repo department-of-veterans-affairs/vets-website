@@ -57,13 +57,6 @@ const Index = props => {
 
   useEffect(
     () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
         dispatch(setError('no-token'));

@@ -32,8 +32,6 @@ const Wrapper = props => {
 
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  // eslint-disable-next-line no-console
-  console.log('wrapper app', app);
   const downtimeDependency =
     app === APP_NAMES.CHECK_IN ? externalServices.cie : externalServices.pcie;
   const appTitle = app === APP_NAMES.CHECK_IN ? 'Check in' : 'Pre-check in';

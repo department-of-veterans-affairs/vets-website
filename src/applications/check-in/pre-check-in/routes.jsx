@@ -15,6 +15,7 @@ import { URLS } from '../utils/navigation';
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
+import { withAppSet } from '../containers/withAppSet';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
@@ -101,7 +102,7 @@ const createRoutesWithStore = () => {
         return (
           <Route
             path={`/${route.path}`}
-            component={withFeatureFlip(component, options)}
+            component={withAppSet(withFeatureFlip(component, options), options)}
             key={i}
           />
         );
