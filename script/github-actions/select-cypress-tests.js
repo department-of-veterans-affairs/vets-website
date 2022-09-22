@@ -270,8 +270,10 @@ function run() {
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-  const changedTests = testsSelectedByTestSelection.filter(test =>
-    CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))),
+  const changedTests = testsSelectedByTestSelection.filter(
+    test =>
+      CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))) &&
+      !newTests.includes(test),
   );
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
