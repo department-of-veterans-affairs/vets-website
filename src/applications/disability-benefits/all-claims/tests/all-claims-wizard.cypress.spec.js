@@ -75,7 +75,7 @@ describe('526 wizard', () => {
 
   it('should show the form wizard', () => {
     cy.url().should('include', `${DISABILITY_526_V2_ROOT_URL}/start`);
-    cy.get('hx').should('have.text', 'File for disability compensation');
+    cy.get('h1').should('have.text', 'File for disability compensation');
     cy.axeCheck();
   });
 
