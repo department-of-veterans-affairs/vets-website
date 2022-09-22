@@ -216,14 +216,14 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async () => {
+export const refresh = async (csp = '') => {
   const url = new URL(
-    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH }),
+    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type: csp }),
   );
-
   return fetch(url.href, {
     method: 'POST',
     credentials: 'include',
+    type: csp,
   });
 };
 
