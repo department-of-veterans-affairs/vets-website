@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * Attaches CustomEvent 'component-library-analytics' listener to document.body
  * to translate component library actions into analytics dataLayer events.
