@@ -419,6 +419,80 @@ describe('526EZ keyboard only navigation', () => {
       // ================================
       cy.url().should('include', disabilitiesPages.newPTSDFollowUp.path);
       cy.injectAxeThenAxeCheck();
+
+      // 1. Can call crisis line, visit crisis line website, send a text for help
+      cy.tabToElement('[contact="8002738255"]');
+      cy.tabToElement(
+        '[href="https://www.veteranscrisisline.net/get-help-now/chat/"]',
+      );
+      cy.tabToElement('[href="sms:838255"]');
+
+      // 2. Can call TTY
+      cy.tabToElement('[contact="8007994889"]');
+
+      cy.tabToContinueForm();
+
+      // II. Disabilities > K. PTSD Type
+      // ===============================
+      cy.url().should('include', disabilitiesPages.choosePtsdType.path);
+      cy.injectAxeThenAxeCheck();
+
+      // TODO: tests below failing. Should try name, as opposed to ID.
+
+      // 1. Goes to "Fill Online or Upload Form 781a" page, if sexual trauma contributed to PTSD
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:mstPtsdType',
+        true,
+      );
+      cy.tabToContinueForm();
+      cy.url().should(
+        'include',
+        disabilitiesPages.ptsdWalkthroughChoice781a.path,
+      );
+      cy.tabToGoBack();
+
+      // 2. Goes to "Fill Online or Upload Form 781a" page, if personal assault contributed to PTSD
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:mstPtsdType',
+        false,
+      );
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:assaultPtsdType',
+        true,
+      );
+      cy.tabToContinueForm();
+      cy.url().should(
+        'include',
+        disabilitiesPages.ptsdWalkthroughChoice781a.path,
+      );
+      cy.tabToGoBack();
+
+      // 3. Goes to "Fear of Hostile Activity" page specific to non-combat PTSD, if non-combat PTSD
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:assaultPtsdType',
+        false,
+      );
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:nonCombatPtsdType',
+        true,
+      );
+      cy.tabToContinueForm();
+      cy.url().should('include', disabilitiesPages.ptsdBypassNonCombat.path);
+      cy.tabToGoBack();
+
+      // 4. Goes to "Fear of Hostile Activity" page specific to combat PTSD, if combat PTSD
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:nonCombatPtsdType',
+        false,
+      );
+      cy.setCheckboxFromData(
+        '#root_view:selectablePtsdTypes_view:combatPtsdType',
+        true,
+      );
+      cy.tabToContinueForm();
+      cy.url().should('include', disabilitiesPages.ptsdBypassCombat.path);
+
+      // II. Disabilities > Fear of Hostile Activity
     });
   });
 });
