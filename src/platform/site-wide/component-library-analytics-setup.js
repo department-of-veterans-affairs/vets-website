@@ -87,6 +87,10 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-checkbox-option-click',
       prefix: 'checkbox',
+      ga4: {
+        event: 'form_input',
+        form_input_type: 'checkbox',
+      },
     },
   ],
   'va-text-input': [
@@ -213,6 +217,37 @@ export function subscribeComponentAnalyticsEvents(
     const action = component.find(ev => ev.action === e.detail.action);
     const { version } = e.detail;
 
+    /**
+     * Record a GA4 event.
+     * Checking to make sure the component has predefined GA4 details,
+     * then merge any dynamic GA4 details received from the event and
+     * send it to the dataLayer.
+     */
+    if (action && action.ga4) {
+      const { ga4 } = action;
+
+      /**
+       * Create the GA4 dataLayer event object with the
+       * component's predefined GA4 details.
+       */
+      let ga4DataLayer = { ...ga4 };
+
+      /**
+       * If the event includes additional GA4 details/context,
+       * add it to the GA4 dataLayer.
+       */
+      if (e.detail.ga4) {
+        ga4DataLayer = { ...ga4DataLayer, ...e.detail.ga4 };
+      }
+
+      // Send GA4 event to the dataLayer.
+      recordEvent(ga4DataLayer);
+    }
+
+    /**
+     * Record a GA event.
+     * To be removed when GA4 is primary.
+     */
     if (action) {
       const dataLayer = {
         event: action.event,
