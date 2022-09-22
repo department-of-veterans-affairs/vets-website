@@ -98,14 +98,12 @@ const createRoutesWithStore = () => {
             component = withAuthorization(component, options);
           }
         }
+        // Add feature flip
+        component = withFeatureFlip(component, options);
+        // Add app name
+        component = withAppSet(component, options);
 
-        return (
-          <Route
-            path={`/${route.path}`}
-            component={withAppSet(withFeatureFlip(component, options), options)}
-            key={i}
-          />
-        );
+        return <Route path={`/${route.path}`} component={component} key={i} />;
       })}
       {!environment.isProduction() && (
         <Route
