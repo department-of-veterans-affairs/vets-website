@@ -9,6 +9,9 @@ const device = {
   key: 'test-vendor',
   disconnectUrl: 'path/to/test-disconnect',
 };
+function getDisconnectModal(targetScreen) {
+  return targetScreen.queryByTestId('disconnect-modal');
+}
 
 describe('Device disconnection card', () => {
   let disconnectBtn;
@@ -33,7 +36,7 @@ describe('Device disconnection card', () => {
     const tabKeyCode = 9;
     disconnectBtn.focus();
     fireEvent.keyDown(disconnectBtn, { keyCode: tabKeyCode });
-    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+    expect(getDisconnectModal(screen)).to.not.exist;
   });
 });
 
@@ -46,9 +49,8 @@ describe('Device disconnection card modal', () => {
       name: 'Disconnect Test Vendor',
     });
     fireEvent.click(disconnectBtn);
-    modal = screen.getByTestId('disconnect-modal');
+    modal = getDisconnectModal(screen);
   });
-
   it('Should show modal when Disconnect is clicked', async () => {
     expect(modal).to.exist;
     expect(modal.getAttribute('modalTitle')).to.eq('Disconnect device');
@@ -63,12 +65,12 @@ describe('Device disconnection card modal', () => {
   it("Should close modal when 'Cancel' button is clicked", async () => {
     const goBackBtn = modal.__events.secondaryButtonClick;
     await goBackBtn();
-    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+    expect(getDisconnectModal(screen)).to.not.exist;
   });
   it("Should close modal when 'X' button is clicked", async () => {
     const xBtn = modal.__events.closeEvent;
     await xBtn();
-    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+    expect(getDisconnectModal(screen)).to.not.exist;
   });
   it("Should close modal when 'Disconnect device' button is clicked and redirect to disconnect url", async () => {
     Object.defineProperty(window, 'location', {
@@ -80,7 +82,7 @@ describe('Device disconnection card modal', () => {
     });
     const disconnectDeviceBtn = modal.__events.primaryButtonClick;
     await disconnectDeviceBtn();
-    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+    expect(getDisconnectModal(screen)).to.not.exist;
     expect(global.window.location.href).to.eq(
       `${environment.API_URL}/dhp_connected_devices${device.disconnectUrl}`,
     );
