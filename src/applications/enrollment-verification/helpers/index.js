@@ -194,7 +194,7 @@ const mapEnrollmentVerificationForSubmission = (ev, evIndex, status) => {
   const enrollmentVerification = ev.enrollmentVerifications[evIndex];
   return {
     claimandId: ev.claimantId,
-    enrolmentCertifyRequests: [
+    enrollmentCertifyRequests: [
       {
         claimandId: ev.claimantId,
         certifiedBeginDate: enrollmentVerification.certifiedBeginDate,
