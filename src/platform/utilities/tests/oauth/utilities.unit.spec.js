@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -10,6 +11,7 @@ import {
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
+import * as profileUtils from 'platform/user/profile/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -370,12 +372,37 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('logout', () => {
+  describe('logoutUrlSiS', () => {
     it('should redirect to backend for logout', () => {
       window.location = new URL('https://va.gov/?state=some_random_state');
       const url = oAuthUtils.logoutUrlSiS();
       window.location = url;
       expect(window.location).to.eql(url);
+    });
+  });
+
+  describe('logoutEvent', () => {
+    it('should teardown profile', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      oAuthUtils.logoutEvent('logingov');
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+      teardownSpy.restore();
+    });
+    it('should teardown profile after a certain duration', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      await oAuthUtils.logoutEvent('logingov', {
+        shouldWait: true,
+        duration: 300,
+      });
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+
+      teardownSpy.restore();
     });
   });
 });
