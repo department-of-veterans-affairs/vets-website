@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
-import OlderMessages from '../components/MessageThread/OlderMessages';
+import MessageThread from '../components/MessageThread/MessageThread';
 import { getMessage } from '../actions';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 
@@ -58,7 +58,7 @@ const MessageDetail = () => {
     return (
       <>
         <MessageDetailBlock message={message} />
-        <OlderMessages />
+        <MessageThread />
       </>
     );
   };

@@ -6,6 +6,7 @@ const MessageThreadMeta = props => {
   return (
     <div className="message-thread-meta vads-u-padding-bottom--1">
       <p
+        data-testid="from"
         style={{
           fontWeight: !props.message.attributes.read_receipt ? 'bold' : '',
         }}
@@ -32,6 +33,7 @@ const MessageThreadMeta = props => {
         {props.message.attributes.attachment === true && (
           <i
             className="fas fa-paperclip vads-u-padding-right--0p5"
+            label="paperclip"
             aria-hidden
           />
         )}

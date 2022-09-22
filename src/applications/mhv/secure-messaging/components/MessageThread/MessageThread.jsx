@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getThread } from '../../actions';
+import { getFolderList, getMessageList } from '../../api/SmApi';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
 
-const OlderMessages = () => {
+const MessageThread = () => {
   const dispatch = useDispatch();
   const message = useSelector(state => state.message.message);
   const messageThread = useSelector(state => state.message.messages);
@@ -15,6 +16,8 @@ const OlderMessages = () => {
       if (message) {
         dispatch(getThread(message.id));
       }
+      getFolderList();
+      getMessageList(-1);
     },
     [message, dispatch],
   );
@@ -50,4 +53,4 @@ const OlderMessages = () => {
   );
 };
 
-export default OlderMessages;
+export default MessageThread;

@@ -30,6 +30,7 @@ const MessageThreadItem = props => {
         <div className="vads-u-flex--fill ">
           <div
             role="button"
+            data-testid="expand-message-button"
             tabIndex={0}
             onClick={e => {
               handleExpand(e);

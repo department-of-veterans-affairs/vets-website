@@ -21,7 +21,7 @@ import ReplyHeader from '../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ReplyBox from '../components/ReplyBox';
 // import NavigationLinks from '../components/NavigationLinks';
-import OlderMessages from '../components/MessageThread/OlderMessages';
+import MessageThread from '../components/MessageThread/MessageThread';
 
 const MessageReply = props => {
   const {
@@ -58,7 +58,7 @@ const MessageReply = props => {
         <BeforeMessageAddlInfo />
         {/* <NavigationLinks /> */}
         <ReplyBox />
-        <OlderMessages />
+        <MessageThread />
       </>
     );
   }

@@ -4,7 +4,7 @@ import ReplyBox from '../../components/ReplyBox';
 import ReplyHeader from '../../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../../components/BeforeMessageAddlInfo';
 // import NavigationLinks from '../../components/NavigationLinks';
-import OlderMessages from '../../components/OlderMessages';
+import MessageThread from '../../components/MessageThread/MessageThread';
 
 describe('Reply Header', () => {
   it('renders without errors', () => {
@@ -38,6 +38,6 @@ describe('Reply Box', () => {
 
 describe('Older Messages', () => {
   it('renders without errors', () => {
-    render(<OlderMessages />);
+    render(<MessageThread />);
   });
 });
