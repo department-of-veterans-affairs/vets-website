@@ -10,7 +10,9 @@ const {
   e2e: { specPattern },
 } = require('../../config/cypress.config');
 
-const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS.split(' ');
+const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ')
+  : null;
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
