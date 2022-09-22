@@ -11,7 +11,8 @@ import {
   RECENT_UTTERANCES,
 } from '../../chatbox/utils';
 
-export function processActionConnectFulfilled(
+// define thunks for actions
+export const processActionConnectFulfilled = ({
   requireAuth,
   dispatch,
   csrfToken,
@@ -20,7 +21,7 @@ export function processActionConnectFulfilled(
   baseURL,
   userFirstName,
   userUuid,
-) {
+}) => () => {
   if (requireAuth && sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true') {
     dispatch(
       startConversationActivity(
@@ -34,13 +35,13 @@ export function processActionConnectFulfilled(
     );
   }
   dispatch(joinActivity);
-}
+};
 
-export function processSendMessageActivity(action) {
+export const processSendMessageActivity = ({ action }) => () => {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });
-}
+};
 
-export function processIncomingActivity(requireAuth, action, dispatch) {
+export const processIncomingActivity = ({ action, dispatch }) => () => {
   const setSessionStorageAsString = (key, value) => {
     sessionStorage.setItem(key, JSON.stringify(value));
   };
@@ -100,4 +101,4 @@ export function processIncomingActivity(requireAuth, action, dispatch) {
       window.dispatchEvent(chatEvent);
     }
   }
-}
+};
