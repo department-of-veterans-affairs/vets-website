@@ -65,6 +65,10 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/RadioButtons',
         use: '<va-radio>',
       },
+      {
+        name: '@department-of-veterans-affairs/component-library/FileInput',
+        use: '<va-file-input>',
+      },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24

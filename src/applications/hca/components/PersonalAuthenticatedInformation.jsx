@@ -30,14 +30,20 @@ const PersonalAuthenticatedInformation = ({
             )}
             <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
               <div className="vads-u-padding-left--1">
-                <p className="vads-u-margin--1px">
+                <p
+                  className="vads-u-margin--1px"
+                  data-testid="hca-veteran-fullname"
+                >
                   <strong>
                     {' '}
                     {first} {middle} {last} {suffix}
                   </strong>
                 </p>
                 {dob && (
-                  <p className="vads-u-margin--1px">
+                  <p
+                    className="vads-u-margin--1px"
+                    data-testid="hca-veteran-dob"
+                  >
                     Date of birth: {dateOfBirthFormatted}
                   </p>
                 )}

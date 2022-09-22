@@ -8,10 +8,10 @@ import {
   FIELD_TITLES,
   PHONE_TYPE,
   USA,
-} from '@@vap-svc/constants';
+} from 'platform/user/profile/vap-svc/constants';
 
-import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
-import PhoneNumberWidget from '~/platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';

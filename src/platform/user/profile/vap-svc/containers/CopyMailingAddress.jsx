@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import mapValues from 'lodash/mapValues';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
-import { areAddressesEqual } from '@@vap-svc/util';
+import { areAddressesEqual } from 'platform/user/profile/vap-svc/util';
 
-import { FIELD_NAMES, USA, ADDRESS_PROPS } from '@@vap-svc/constants';
+import {
+  FIELD_NAMES,
+  USA,
+  ADDRESS_PROPS,
+} from 'platform/user/profile/vap-svc/constants';
 
 import { selectVAPContactInfoField, selectEditedFormField } from '../selectors';
 

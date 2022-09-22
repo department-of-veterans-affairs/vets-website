@@ -8,7 +8,7 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
-// import { validateMarriageDate } from '../../../validation';
+// import { validateMarriageDate } from '../../../utils/validation';
 
 const {
   cohabitedLastYear,
