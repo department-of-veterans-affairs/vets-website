@@ -197,8 +197,8 @@ const mapEnrollmentVerificationForSubmission = (ev, evIndex, status) => {
     enrollmentCertifyRequests: [
       {
         claimandId: ev.claimantId,
-        certifiedBeginDate: enrollmentVerification.certifiedBeginDate,
-        certifiedEndDate: enrollmentVerification.certifiedEndDate,
+        certifiedPeriodBeginDate: enrollmentVerification.certifiedBeginDate,
+        certifiedPeriodEndDate: enrollmentVerification.certifiedEndDate,
         certifiedThroughDate: enrollmentVerification.certifiedEndDate,
         certificationMethod: CERTIFICATION_METHOD,
         appCommunication: {
