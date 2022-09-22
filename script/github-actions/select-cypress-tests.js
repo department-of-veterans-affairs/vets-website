@@ -13,8 +13,10 @@ const {
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : null;
+const ALLOW_LIST = process.env.ALLOW_LIST
+  ? JSON.parse(process.env.ALLOW_LIST)
+  : null;
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
-const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
@@ -305,7 +307,7 @@ function run() {
   );
 }
 
-if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
+if ((CHANGED_FILE_PATHS && ALLOW_LIST) || RUN_FULL_SUITE) {
   run();
 }
 
