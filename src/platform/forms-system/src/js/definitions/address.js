@@ -9,6 +9,8 @@ import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 
+// import constants from 'vets-json-schema/dist/constants.json';
+
 function validatePostalCodes(errors, address) {
   let isValidPostalCode = true;
 
