@@ -1,5 +1,8 @@
 import { render } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import React from 'react';
+import messageResponse from '../fixtures/message-response.json';
+import reducers from '~/applications/mhv/secure-messaging/reducers';
 import ReplyBox from '../../components/ReplyBox';
 import ReplyHeader from '../../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../../components/BeforeMessageAddlInfo';
@@ -38,6 +41,9 @@ describe('Reply Box', () => {
 
 describe('Older Messages', () => {
   it('renders without errors', () => {
-    render(<MessageThread />);
+    const initialState = {
+      message: { message: { messageResponse }, messages: null },
+    };
+    renderInReduxProvider(<MessageThread />, { initialState, reducers });
   });
 });
