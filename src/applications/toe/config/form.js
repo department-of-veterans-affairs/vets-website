@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -16,6 +15,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
 import manifest from '../manifest.json';
+
+import * as address from '../definitions/address';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -783,12 +784,19 @@ const formConfig = {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
               [formFields.address]: {
-                ...address.uiSchema(''),
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
                     required: 'Please enter your full street address',
                   },
+                  'ui:required': formData =>
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
                   'ui:validations': [
                     (errors, field) => {
                       if (isOnlyWhitespace(field)) {
@@ -800,9 +808,25 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
+                  },
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (formData['view:mailingAddress'].livesOnMilitaryBase) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+                      return {
+                        title: 'City',
+                        type: 'string',
+                        maxLength: 30,
+                        pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
+                      };
+                    },
                   },
                   'ui:validations': [
                     (errors, field) => {
@@ -813,7 +837,6 @@ const formConfig = {
                   ],
                 },
                 state: {
-                  'ui:title': 'State/Province/Region',
                   'ui:errorMessages': {
                     required: 'State is required',
                   },
