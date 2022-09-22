@@ -12,36 +12,31 @@ import unset from 'platform/utilities/data/unset';
 import { states } from '../constants/address';
 
 function validatePostalCodes(errors, address) {
-  let isValidPostalCode = true;
-
-  // Checks if postal code is valid
-  if (address.country === 'USA') {
-    isValidPostalCode =
-      isValidPostalCode && isValidUSZipCode(address.postalCode);
+  if (address.country === 'USA' && !isValidUSZipCode(address.postalCode)) {
+    errors.postalCode.addError('Please enter a valid zip code');
   }
-  if (address.country === 'CAN') {
-    isValidPostalCode =
-      isValidPostalCode && isValidCanPostalCode(address.postalCode);
-  }
-
-  // Add error message for postal code if it is invalid
-  if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
+  if (address.country === 'CAN' && !isValidCanPostalCode(address.postalCode)) {
+    errors.postalCode.addError('Please enter a valid postal code');
   }
 }
 
-export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
-
-function validateAddress(errors, address /* , formData, currentSchema */) {
+function validateAddress(errors, address, formData, currentSchema) {
   // Adds error message for state if it is blank and one of the following countries:
   // USA, Canada, or Mexico
-  //   if (
-  //     stateRequiredCountries.has(address.country) &&
-  //     address.state === undefined &&
-  //     currentSchema.required.length
-  //   ) {
-  //     errors.state.addError('Please select a state or province');
-  //   }
+  if (
+    ['USA', 'MEX'].includes(address.country) &&
+    address.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  if (
+    address.country === 'CAN' &&
+    address.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a province');
+  }
 
   //   const hasAddressInfo =
   //     stateRequiredCountries.has(address.country) &&
@@ -207,23 +202,35 @@ export function uiSchema(
         }
       }
 
+      const stateTitleUSA = 'State';
+      const stateTitleCAN = 'Province';
+      const stateTitleInternational = 'State/Province/Region';
       // Canada has a different title than others, so set that when necessary
       if (
         country === 'CAN' &&
-        addressSchema.properties.state.title !== 'Province'
+        addressSchema.properties.state.title !== stateTitleCAN
       ) {
         schemaUpdate.properties = set(
           'state.title',
-          'Province',
+          stateTitleCAN,
           schemaUpdate.properties,
         );
       } else if (
-        country !== 'CAN' &&
-        addressSchema.properties.state.title !== 'State'
+        country === 'USA' &&
+        addressSchema.properties.state.title !== stateTitleUSA
       ) {
         schemaUpdate.properties = set(
           'state.title',
-          'State',
+          stateTitleUSA,
+          schemaUpdate.properties,
+        );
+      } else if (
+        !['USA', 'CAN'].includes(country) &&
+        addressSchema.properties.state.title !== stateTitleInternational
+      ) {
+        schemaUpdate.properties = set(
+          'state.title',
+          stateTitleInternational,
           schemaUpdate.properties,
         );
       }

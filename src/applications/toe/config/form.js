@@ -842,14 +842,51 @@ const formConfig = {
                 },
                 state: {
                   'ui:errorMessages': {
-                    required: 'State is required',
+                    required: 'Please make a selection',
                   },
+                  'ui:required': formData =>
+                    ['USA', 'CAN', 'MEX'].includes(
+                      formData['view:mailingAddress'].address.country,
+                    ),
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
+                    required: 'Please enter a valid zip or postal code',
                   },
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        !['USA', 'CAN'].includes(
+                          formData['view:mailingAddress'].address.country,
+                        )
+                      ) {
+                        return {
+                          maxLength: 10,
+                          title: 'International postal code',
+                          type: 'string',
+                        };
+                      }
+                      if (
+                        formData['view:mailingAddress'].address.country ===
+                        'CAN'
+                      ) {
+                        return {
+                          maxLength: 10,
+                          title: 'Postal code',
+                          type: 'string',
+                        };
+                      }
+                      return {
+                        maxLength: 10,
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
+                  },
+                  'ui:required': formData =>
+                    ['USA', 'CAN', 'MEX'].includes(
+                      formData['view:mailingAddress'].address.country,
+                    ),
                 },
               },
               'ui:options': {
