@@ -13,10 +13,15 @@ import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
-export default function DetailsCC({ appointment, useV2 = false }) {
-  const header = 'Community care';
+export default function DetailsCC({
+  appointment,
+  useV2 = false,
+  featureVaosV2Next = false,
+}) {
+  const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
+  const { treatmentSpecialty } = facility;
 
   const ShowTypeOfCare = () => {
     if (useV2 && typeOfCare) {
@@ -35,6 +40,20 @@ export default function DetailsCC({ appointment, useV2 = false }) {
     return null;
   };
 
+  const ShowTreatmentSpecialty = () => {
+    if (featureVaosV2Next && treatmentSpecialty) {
+      return (
+        <div
+          data-test-id="appointment-treatment-specialty"
+          className="vads-u-margin-bottom--1"
+        >
+          {treatmentSpecialty}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <Breadcrumbs>
@@ -47,6 +66,7 @@ export default function DetailsCC({ appointment, useV2 = false }) {
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
       <ProviderName appointment={appointment} useV2={useV2} />
+      <ShowTreatmentSpecialty />
       <FacilityAddress
         facility={facility}
         showDirectionsLink={!!appointment.communityCareProvider?.address}
@@ -63,5 +83,6 @@ export default function DetailsCC({ appointment, useV2 = false }) {
 
 DetailsCC.propTypes = {
   appointment: PropTypes.object.isRequired,
+  featureVaosV2Next: PropTypes.bool,
   useV2: PropTypes.bool,
 };

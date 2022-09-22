@@ -162,7 +162,7 @@
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^10.7.0",
+    "cypress": "^10.8.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "dd-trace": "^2.4.2",
@@ -242,7 +242,7 @@
   "optionalDependencies": {},
   "engines": {
     "node": ">=14.15.0 <16",
-    "yarn": ">=1.21.1"
+    "yarn": "1.19.1"
   },
   "private": true,
   "dependencies": {
@@ -367,6 +367,7 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
+      "src/platform/user",
       "src/platform/testing",
       "src/platform/site-wide",
       "src/platform/forms",

@@ -7,7 +7,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
-  selectChannelsWithoutSelection,
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
@@ -28,7 +27,6 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
-import SelectNotificationOptionsAlert from './SelectNotificationOptionsAlert';
 import { selectShowPaymentsNotificationSetting } from '../../selectors';
 
 const NotificationSettings = ({
@@ -43,7 +41,6 @@ const NotificationSettings = ({
   shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
-  unselectedChannels,
 }) => {
   React.useEffect(() => {
     focusElement('[data-focus-target]');
@@ -81,13 +78,6 @@ const NotificationSettings = ({
     [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
-  const firstChannelIdThatNeedsSelection = React.useMemo(
-    () => {
-      return !shouldShowLoadingIndicator && unselectedChannels.ids[0];
-    },
-    [shouldShowLoadingIndicator, unselectedChannels],
-  );
-
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -95,11 +85,6 @@ const NotificationSettings = ({
         <LoadingIndicator message="We’re loading your information." />
       ) : null}
       {shouldShowAPIError ? <APIErrorAlert /> : null}
-      {firstChannelIdThatNeedsSelection ? (
-        <SelectNotificationOptionsAlert
-          firstChannelId={firstChannelIdThatNeedsSelection}
-        />
-      ) : null}
       {showMissingContactInfoAlert ? (
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
@@ -161,10 +146,6 @@ NotificationSettings.propTypes = {
   }),
   shouldFetchNotificationSettings: PropTypes.bool,
   shouldShowAPIError: PropTypes.bool,
-  unselectedChannels: PropTypes.shape({
-    entities: PropTypes.object,
-    ids: PropTypes.arrayOf(PropTypes.string),
-  }),
 };
 
 const mapStateToProps = state => {
@@ -194,13 +175,6 @@ const mapStateToProps = state => {
     mobilePhoneNumber,
     noContactInfoOnFile,
     notificationGroups: selectGroups(communicationPreferencesState),
-    unselectedChannels: selectChannelsWithoutSelection(
-      communicationPreferencesState,
-      {
-        hasEmailAddress: !!emailAddress,
-        hasMobilePhone: !!mobilePhoneNumber,
-      },
-    ),
     shouldFetchNotificationSettings,
     shouldShowAPIError,
     shouldShowLoadingIndicator:
