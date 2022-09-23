@@ -28,7 +28,7 @@ describe('Pre-Check In Experience ', () => {
       it('bad status code(400)', () => {
         cy.visitPreCheckInWithUUID();
 
-        Error.validateUUIDErrorPageLoaded();
+        Error.validatePageLoaded();
         cy.injectAxeThenAxeCheck();
       });
     });
