@@ -296,9 +296,10 @@ describe('OAuth - Utilities', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      await oAuthUtils.refresh();
+      await oAuthUtils.refresh('logingov');
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[1].type).to.equal('logingov');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });
