@@ -41,7 +41,7 @@ import {
   isAlphaNumeric,
   applicantIsChildOfSponsor,
   transformTOEForm,
-  // prefillTransformer,
+  prefillTransformer,
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
@@ -81,6 +81,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for survivor dependent benefits.',
     noAuth:
@@ -120,33 +121,35 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.userFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
+            [formFields.viewUserFullName]: {
+              [formFields.userFullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a first name');
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a last name');
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                },
               },
             },
             [formFields.dateOfBirth]: {
@@ -681,12 +684,12 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [formFields.email]: {
+              email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [formFields.confirmEmail]: {
+              confirmEmail: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -722,10 +725,10 @@ const formConfig = {
               },
               [formFields.email]: {
                 type: 'object',
-                required: [formFields.email, formFields.confirmEmail],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  [formFields.email]: email,
-                  [formFields.confirmEmail]: email,
+                  email,
+                  confirmEmail: email,
                 },
               },
             },

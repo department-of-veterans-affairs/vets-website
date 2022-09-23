@@ -99,12 +99,24 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+
+  const stateUser = state.user;
+  // const vaProfile = stateUser?.vaProfile;
+  const profile = stateUser?.profile;
+  const vet360ContactInfo = stateUser.vet360ContactInformation;
+
+  const emailAddress =
+    profile?.email ||
+    vet360ContactInfo?.email?.emailAddress ||
+    contactInfo.emailAddress ||
+    undefined;
+
   const newData = {
     ...formData,
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    'view:userFullName': {
+    [formFields.viewUserFullName]: {
       userFullName: {
         first: claimant.firstName || undefined,
         middle: claimant.middleName || undefined,
@@ -112,9 +124,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
     },
     dateOfBirth: claimant.dateOfBirth,
-    email: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
     'view:phoneNumbers': {
       mobilePhoneNumber: {
