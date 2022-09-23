@@ -239,8 +239,7 @@ describe('App', () => {
             environment.BASE_URL,
             'Mark',
             'fake_uuid',
-            undefined,
-          ); // requireAuth toggle
+          );
         });
 
         it('passes blank string when user is signed in but doesnt have a name', async () => {
@@ -286,8 +285,7 @@ describe('App', () => {
             environment.BASE_URL,
             'noFirstNameFound',
             'fake_uuid',
-            undefined,
-          ); // requireAuth toggle
+          );
         });
       });
 
@@ -332,8 +330,7 @@ describe('App', () => {
             environment.BASE_URL,
             'noFirstNameFound',
             'noUserUuid',
-            false,
-          ); // requireAuth toggle
+          );
         });
       });
     });

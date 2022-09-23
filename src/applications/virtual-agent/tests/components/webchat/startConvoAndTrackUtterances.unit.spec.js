@@ -121,22 +121,42 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const isTrackingUtterances = await sessionStorage.getItem(
         IS_TRACKING_UTTERANCES,
       );
+      const authEvent = spyDispatchEvent.firstCall.args[0];
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
       expect(spyDispatchEvent.callCount).to.equal(1);
-      expect(spyDispatchEvent.firstCall.args[0].data).to.equal(activity);
+      expect(authEvent.data).to.equal(activity);
+      expect(authEvent.type).to.equal('webchat-auth-activity');
     });
 
-    it('initiateSignIn sets the proper type and data', async () => {
-      // check that proper event is fired
-      // check the exact string used for the event name is correct: webchat-message-activity, webchat-auth-activity
-      //      expect(spyDispatchEvent.calledWith('webchat-message-activity')).to.equal(
-      //   true,
-      // );
-    });
-    it('botWantsToSignInUser returns the proper initiateSignIn', async () => {});
+    it('Sends message activity when utterances are tracked', async () => {
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
+      const activity = {
+        type: 'message',
+        text: 'Hello',
+        from: { role: 'bot' },
+      };
+      const incomingActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: { activity },
+      };
+      sessionStorage.setItem(IS_TRACKING_UTTERANCES, 'true');
 
-    it('JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES)) returns the proper initiateSignIn', async () => {});
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+      )(store)(fakeNext)(incomingActivity);
+
+      const messageEvent = spyDispatchEvent.firstCall.args[0];
+      expect(sessionStorage.length).to.equal(1);
+      expect(spyDispatchEvent.callCount).to.equal(1);
+      expect(messageEvent.data).to.equal(activity);
+      expect(messageEvent.type).to.equal('webchat-message-activity');
+    });
 
     it('Initiates the resumption of a conversation post authentication', async () => {
       // setup

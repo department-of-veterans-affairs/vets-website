@@ -45,12 +45,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
   };
 
-  // refactor to function that sets type of event
-  // pass eventType and data
-  const initiateSignIn = () => {
-    const authEvent = new Event('webchat-auth-activity');
-    authEvent.data = action.payload.activity;
-    window.dispatchEvent(authEvent);
+  const sendWindowEvent = eventType => {
+    const event = new Event(eventType);
+    event.data = action.payload.activity;
+    window.dispatchEvent(event);
   };
 
   const isAtBeginningOfConversation = !sessionStorage.getItem(
@@ -60,7 +58,6 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   const dataIsMessageWithTextFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
 
-  // if at the beginning of a conversation, start tracking utterances
   if (isAtBeginningOfConversation) {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
   }
@@ -74,11 +71,9 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
       sessionStorage.getItem(IN_AUTH_EXP) === 'true';
 
     if (botWantsToSignInUser) {
-      // if user is redirected to sign in, stop tracking utterances
       stopTrackingUtterances();
 
-      // refactor
-      initiateSignIn();
+      sendWindowEvent('webchat-auth-activity');
     } else if (isNewAuthedConversation) {
       const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
       const utterance = utterances ? utterances[0] : undefined;
@@ -95,11 +90,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
         setSessionStorageAsString(RECENT_UTTERANCES, []);
       }
     }
-    // use refactored initiateSignIn
     if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
-      const chatEvent = new Event('webchat-message-activity');
-      chatEvent.data = action.payload.activity;
-      window.dispatchEvent(chatEvent);
+      sendWindowEvent('webchat-message-activity');
     }
   }
 };
