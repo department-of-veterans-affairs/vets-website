@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React from 'react';
 
-import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
 import JumpLink from './JumpLink';
@@ -12,11 +13,10 @@ import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
-import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
+import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 export default function InstitutionProfile({
   institution,
@@ -26,7 +26,6 @@ export default function InstitutionProfile({
   calculator,
   eligibility,
   version,
-  gibctSchoolRatings,
   gibctEybBottomSheet,
   compare,
   smallScreen,
@@ -41,10 +40,8 @@ export default function InstitutionProfile({
   };
 
   const stars = convertRatingToStars(institution.ratingAverage);
-  const displayStars =
-    gibctSchoolRatings &&
-    stars &&
-    institution.ratingCount >= MINIMUM_RATING_COUNT;
+
+  const displayStars = stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -110,19 +107,15 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayStars && (
-        <ProfileSection label="Veteran ratings" id="veteran-ratings">
-          <div id="profile-school-ratings">
-            <SchoolRatings
-              ratingAverage={institution.ratingAverage}
-              ratingCount={institution.ratingCount}
-              institutionCategoryRatings={
-                institution.institutionCategoryRatings
-              }
-            />
-          </div>
-        </ProfileSection>
-      )}
+      <ProfileSection label="Veteran ratings" id="veteran-ratings">
+        <div id="profile-school-ratings">
+          <SchoolRatings
+            ratingAverage={institution.ratingAverage}
+            ratingCount={institution.ratingCount}
+            institutionCategoryRatings={institution.institutionCategoryRatings}
+          />
+        </div>
+      </ProfileSection>
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
