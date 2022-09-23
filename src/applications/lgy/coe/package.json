@@ -1,0 +1,29 @@
+{
+    "name": "@department-of-veterans-affairs/applications-lgy-coe",
+    "version": "1.0.0",
+    "licence": "MIT",
+    "scripts": {
+      "build": "echo Your build script goes here",
+      "test": "echo Your test script goes here",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "dependencies": {
+        "prop-types": "^15.6.1",
+        "moment": "~2.29.4",
+        "classnames": "^2.3.1"
+    },
+    "devDependencies": {
+      "chai": "^4.3.4",
+      "sinon": "^3.2.1",
+      "@testing-library/react": "^11.1.2",
+      "@testing-library/user-event": "^12.2.2"
+    },
+    "peerDependecies":{
+        "react": "*",
+        "react-redux": "*",
+        "react-router-dom": "*0",
+        "react-router": "*" 
+       },
+    "private": true
+  }
+  
