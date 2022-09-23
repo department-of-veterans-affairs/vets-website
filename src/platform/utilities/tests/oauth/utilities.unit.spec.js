@@ -296,7 +296,7 @@ describe('OAuth - Utilities', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      await oAuthUtils.refresh('logingov');
+      await oAuthUtils.refresh({ type: 'logingov' });
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[1].type).to.equal('logingov');

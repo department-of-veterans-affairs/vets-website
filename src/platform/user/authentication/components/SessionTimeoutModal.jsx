@@ -69,7 +69,7 @@ class SessionTimeoutModal extends React.Component {
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     if (this.props.authenticatedWithOAuth) {
-      refresh(this.serviceName);
+      refresh({ type: this.serviceName });
     } else {
       this.props.onExtendSession();
     }
