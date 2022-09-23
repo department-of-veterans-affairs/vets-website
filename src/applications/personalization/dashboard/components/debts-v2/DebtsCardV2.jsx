@@ -51,7 +51,7 @@ export const DebtsV2 = ({ debts }) => {
           ({currency(totalDebt)})
         </h3>
         <h4 className="vads-u-margin-top--0">
-          {debtsCount} outstanding debt
+          {debtsCount} overpayment debt
           {debtsCount > 1 ? 's' : ''}
         </h4>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">

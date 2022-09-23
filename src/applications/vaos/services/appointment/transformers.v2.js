@@ -93,6 +93,7 @@ export function transformVAOSAppointment(appt) {
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
   const providers = appt.practitioners;
+  const ccTreatingSpecialty = !appt.extension?.ccTreatingSpecialty;
   const timezone = getTimezoneByFacilityId(appt.locationId);
 
   const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
@@ -205,6 +206,7 @@ export function transformVAOSAppointment(appt) {
       isCC && !isRequest
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
+            treatmentSpecialty: ccTreatingSpecialty,
             address: appt.extension?.ccLocation?.address,
             telecom: appt.extension?.ccLocation?.telecom,
             providers: (providers || []).map(provider => ({

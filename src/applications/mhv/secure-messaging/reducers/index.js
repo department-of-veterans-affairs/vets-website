@@ -15,6 +15,9 @@ import {
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
   LOADING_COMPLETE,
+  // THREAD_RETRIEVE_STARTED,
+  THREAD_RETRIEVE_SUCCEEDED,
+  THREAD_RETRIEVE_FAILED,
 } from '../actions';
 
 const initialState = {
@@ -80,7 +83,17 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
-
+    case THREAD_RETRIEVE_SUCCEEDED:
+      return {
+        ...state,
+        messages: action.response,
+      };
+    case THREAD_RETRIEVE_FAILED:
+      return {
+        ...state,
+        messages: false,
+        error: action.response,
+      };
     default:
       return state;
   }
