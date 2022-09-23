@@ -153,8 +153,7 @@ const ComposeForm = props => {
           visible="true"
         >
           <p className="vads-u-margin-y--0">
-            You’re message has been saved. Last save at {month}/{day}/{year} at{' '}
-            {time}
+            {`You’re message has been saved. Last save at ${month}/${day}/${year} at ${time}`}
           </p>
         </va-alert>
       );
