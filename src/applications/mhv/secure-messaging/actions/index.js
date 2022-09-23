@@ -11,6 +11,7 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
+// import { getMessageThread } from '../api/SmApi';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -30,6 +31,10 @@ export const MESSAGE_MOVE_FAILED = 'MESSAGE_MOVE_FAILED';
 export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
+
+export const THREAD_RETRIEVE_STARTED = 'THREAD_RETRIEVE_STARTED';
+export const THREAD_RETRIEVE_SUCCEEDED = 'THREAD_RETRIEVE_SUCCEEDED';
+export const THREAD_RETRIEVE_FAILED = 'THREAD_RETRIEVE_FAILED';
 
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
@@ -180,6 +185,19 @@ export const getAllFolders = () => async dispatch => {
       type: FOLDERS_RETRIEVE_SUCCEEDED,
       response,
     });
+  }
+};
+
+// export const getThread = messageId => async dispatch => {
+export const getThread = () => async dispatch => {
+  dispatch({ type: THREAD_RETRIEVE_STARTED });
+  const response = await retrieveData('messages');
+  // const response = await getMessageThread(messageId);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({ type: THREAD_RETRIEVE_FAILED, response: error });
+  } else {
+    dispatch({ type: THREAD_RETRIEVE_SUCCEEDED, response: response.data });
   }
 };
 

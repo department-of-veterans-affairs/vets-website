@@ -1,10 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { MedicaidDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import {
-  emptyObjectSchema,
-  NotHighDisabilityOrNotCompensationTypeHigh,
-} from '../../../helpers';
+import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { isMedicaidEligible } = fullSchemaHca.properties;
 

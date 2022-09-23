@@ -7,8 +7,8 @@ import {
   FETCH_DISMISSED_HCA_NOTIFICATION_FAILED,
   SET_DISMISSED_HCA_NOTIFICATION,
   SHOW_HCA_REAPPLY_CONTENT,
-} from '../actions';
-import { HCA_ENROLLMENT_STATUSES } from '../constants';
+} from '../utils/actions';
+import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 
 const initialState = {
   applicationDate: null,

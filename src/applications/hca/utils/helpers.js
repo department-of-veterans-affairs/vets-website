@@ -1,12 +1,9 @@
 import mapValues from 'lodash/mapValues';
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import set from 'platform/utilities/data/set';
 import recordEvent from 'platform/monitoring/record-event';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -16,13 +13,7 @@ import {
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
 import { getInactivePages } from 'platform/forms/helpers';
-import { isValidDate } from 'platform/forms/validations';
 import { isInMPI } from 'platform/user/selectors';
-
-export {
-  getMedicalCenterNameByID,
-  medicalCenterLabels,
-} from 'platform/utilities/medical-centers/medical-centers';
 
 import {
   IS_LOGGED_IN,
@@ -60,6 +51,7 @@ const cleanAddressObject = address => {
   };
 };
 
+// map necessary data from prefill into our form data
 export function prefillTransformer(pages, formData, metadata, state) {
   const {
     residentialAddress,
@@ -112,6 +104,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 }
 
+// map necessary attachment data for submission
 export function transformAttachments(data) {
   if (!data.attachments || !(data.attachments instanceof Array)) {
     return data;
@@ -128,74 +121,7 @@ export function transformAttachments(data) {
   return { ...data, attachments: transformedAttachments };
 }
 
-function LogToSentry(formData) {
-  const veteranName = formData.veteranFullName;
-  const veteranDOB = formData.veteranDateOfBirth;
-  const veteranSSN = formData.veteranSocialSecurityNumber;
-  if (!veteranName && !veteranDOB && !veteranSSN) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob_ssn`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranName,
-        veteranDOB,
-        veteranSSN,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranName && !veteranSSN) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_ssn`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranName,
-        veteranSSN,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranName && !veteranDOB) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranName,
-        veteranDOB,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranDOB && !veteranSSN) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob_ssn`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranDOB,
-        veteranSSN,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranName) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranName,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranDOB) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranDOB,
-      });
-      Sentry.captureMessage(message);
-    });
-  } else if (!veteranSSN) {
-    const message = `hca_1010ez_error_unauthenticated_user_with_missing_ssn`;
-    Sentry.withScope(scope => {
-      scope.setContext(message, {
-        veteranSSN,
-      });
-      Sentry.captureMessage(message);
-    });
-  }
-}
-
+// strip, clean and map necessary data for submission
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -210,6 +136,22 @@ export function transform(formConfig, form) {
   );
   let withoutViewFields = filterViewFields(withoutInactivePages);
   const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
+
+  // add back veteran name, dob & ssn, because it could have been removed in filterInactivePages
+  const veteranFields = [
+    'veteranFullName',
+    'veteranDateOfBirth',
+    'veteranSocialSecurityNumber',
+  ];
+  veteranFields.forEach(field => {
+    if (!withoutViewFields[field]) {
+      withoutViewFields = set(
+        field,
+        form.loadedData.formData[field],
+        withoutViewFields,
+      );
+    }
+  });
 
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
@@ -244,11 +186,6 @@ export function transform(formConfig, form) {
     // don't want to break submitting because of a weird GA issue
   }
 
-  // Log, using Sentry, when user is not logged in and is missing veteran name, ssn or dob
-  if (form.data['view:isLoggedIn'] === false) {
-    LogToSentry(withoutViewFields);
-  }
-
   // use logging to track volume of forms submitted with future discharge dates
   if (
     form.data.lastDischargeDate &&
@@ -268,37 +205,12 @@ export function transform(formConfig, form) {
   });
 }
 
-// Turns the facility list for each state into an array of strings
+// map the facility list for each state into an array of strings
 export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
   val.map(center => center.value),
 );
 
-export const dischargeTypeLabels = {
-  honorable: 'Honorable',
-  general: 'General',
-  other: 'Other Than Honorable',
-  'bad-conduct': 'Bad Conduct',
-  dishonorable: 'Dishonorable',
-  undesirable: 'Undesirable',
-};
-
-export const lastServiceBranchLabels = {
-  'air force': 'Air Force',
-  army: 'Army',
-  'coast guard': 'Coast Guard',
-  'marine corps': 'Marine Corps',
-  'merchant seaman': 'Merchant Seaman',
-  navy: 'Navy',
-  noaa: 'Noaa',
-  'space force': 'Space Force',
-  usphs: 'USPHS',
-  'f.commonwealth': 'Filipino Commonwealth Army',
-  'f.guerilla': 'Filipino Guerilla Forces',
-  'f.scouts new': 'Filipino New Scout',
-  'f.scouts old': 'Filipino Old Scout',
-  other: 'Other',
-};
-
+// check if the declared expenses are greater than the declared income
 export function expensesLessThanIncome(fieldShownUnder) {
   const fields = [
     'deductibleMedicalExpenses',
@@ -358,143 +270,6 @@ export function expensesLessThanIncome(fieldShownUnder) {
 
     return true;
   };
-}
-
-export const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
-
-export const idFormSchema = {
-  type: 'object',
-  properties: {
-    firstName: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 30,
-      pattern: '^.*\\S.*',
-    },
-    lastName: {
-      type: 'string',
-      minLength: 2,
-      maxLength: 30,
-      pattern: '^.*\\S.*',
-    },
-    dob: {
-      type: 'string',
-      format: 'date',
-    },
-    ssn: {
-      type: 'string',
-      pattern: '^[0-9]{9}$',
-    },
-  },
-  required: ['firstName', 'lastName', 'dob', 'ssn'],
-};
-
-export const idFormUiSchema = {
-  firstName: {
-    'ui:title': 'First name',
-    'ui:errorMessages': {
-      required: 'Please enter a first name.',
-    },
-  },
-  lastName: {
-    'ui:title': 'Last name',
-    'ui:errorMessages': {
-      required: 'Please enter a last name.',
-    },
-  },
-  dob: {
-    ...currentOrPastDateUI('Date of birth'),
-    'ui:errorMessages': {
-      required:
-        'Please provide your date of birth. Select the month and day, then enter your birth year.',
-    },
-  },
-  ssn: {
-    ...ssnUI,
-    'ui:errorMessages': {
-      required: 'Please enter a Social Security number',
-      // NOTE: this `pattern` message is ignored because the pattern
-      // validation error message is hard coded in the validation function:
-      // https://github.com/usds/us-forms-system/blob/db029cb4f18362870d420e3eee5b71be98004e5e/src/js/validation.js#L231
-      pattern:
-        'Please enter a Social Security number in this format: XXX-XX-XXXX.',
-    },
-  },
-};
-
-/**
- *
- * Provides the current Central Time CT offset according to whether or not daylight savings is in effect
- * @export
- * @param {boolean} isDST
- * @returns {number} offset in minutes
- */
-export function getCSTOffset(isDST) {
-  const offsetHours = isDST ? -5 : -6;
-  return offsetHours * 60;
-}
-
-/**
- *
- * Converts a timezone offset into milliseconds
- * @export
- * @param {number} offset (in minutes)
- */
-export function getOffsetTime(offset) {
-  return 60000 * offset;
-}
-
-/**
- *
- * Adjusts a given time using an offset
- * @export
- * @param {number} time (in milliseconds)
- * @param {number} offset (in milliseconds)
- */
-export function getAdjustedTime(time, offset) {
-  return time + offset;
-}
-
-/**
- * Provides a current date object in Central Time CT
- * Adapted from https://stackoverflow.com/a/46355483 and https://stackoverflow.com/a/17085556
- */
-export function getCSTDate() {
-  const today = new Date();
-  const isDST = moment().isDST();
-  const cstOffset = getCSTOffset(isDST);
-
-  // The UTC and Central Time times are defined in milliseconds
-  // UTC time is determined by adding the local offset to the local time
-  const utcTime = getAdjustedTime(
-    today.getTime(),
-    getOffsetTime(today.getTimezoneOffset()),
-  );
-
-  // Central Time is determined by adjusting the UTC time (derived above) using the CST offset
-  const centralTime = getAdjustedTime(utcTime, getOffsetTime(cstOffset));
-  return new Date(centralTime);
-}
-
-export function isBeforeCentralTimeDate(date) {
-  const lastDischargeDate = moment(date, 'YYYY-MM-DD');
-  const centralTimeDate = moment(getCSTDate());
-  return lastDischargeDate.isBefore(centralTimeDate.startOf('day'));
-}
-
-export function isAfterCentralTimeDate(date) {
-  return !isBeforeCentralTimeDate(date);
-}
-
-export function validateDate(date) {
-  const newDate = moment(date, 'YYYY-MM-DD');
-  const day = newDate.date();
-  const month = newDate.month() + 1; // Note: Months are zero indexed, so January is month 0.
-  const year = newDate.year();
-  return isValidDate(day, month, year);
 }
 
 /**

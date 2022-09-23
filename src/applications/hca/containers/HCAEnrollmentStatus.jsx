@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import EnrollmentStatusWarning from '../components/FormAlerts/EnrollmentStatusWarning';
 import EnrollmentStatusFAQ from '../components/EnrollmentStatus/EnrollmentStatusFAQ';
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../actions';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '../utils/actions';
 
 const HCAEnrollmentStatus = props => {
   const { route, enrollmentStatus, getEnrollmentStatus } = props;

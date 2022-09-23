@@ -6,7 +6,7 @@ import set from 'platform/utilities/data/set';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { IncomeDescription } from '../../../components/FormDescriptions';
-import { validateCurrency } from '../../../validation';
+import { validateCurrency } from '../../../utils/validation';
 import {
   dependentIncomeUiSchema,
   createDependentIncomeSchema,
