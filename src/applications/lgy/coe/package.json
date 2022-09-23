@@ -21,7 +21,7 @@
     "peerDependecies":{
         "react": "*",
         "react-redux": "*",
-        "react-router-dom": "*0",
+        "react-router-dom": "*",
         "react-router": "*" 
        },
     "private": true
