@@ -40,6 +40,7 @@ export const submitToAPI = (state, setState) => {
         setState({
           ...state,
           files: [],
+          submitted: state.submitted.concat(state.files),
           errorMessage: null,
           successMessage: true,
           submissionPending: false,
@@ -49,7 +50,6 @@ export const submitToAPI = (state, setState) => {
     .catch(() => {
       setState({
         ...state,
-        files: [],
         errorMessage:
           'We’re sorry, we had a connection problem. Please try again later.',
         submissionPending: false,
