@@ -111,6 +111,26 @@ export function prefillTransformer(pages, formData, metadata, state) {
     contactInfo.emailAddress ||
     undefined;
 
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const v360mp = vet360ContactInfo?.mobilePhone;
+  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
+    mobilePhoneIsInternational = v360mp.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const v360hp = vet360ContactInfo?.homePhone;
+  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
+    homePhoneIsInternational = v360hp.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
   const newData = {
     ...formData,
     sponsors,
@@ -128,12 +148,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
       email: emailAddress,
       confirmEmail: emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
-      phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
     },
   };
