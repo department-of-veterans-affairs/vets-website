@@ -24,6 +24,7 @@ describe('Pre-Check In Experience ', () => {
 
         Error.validateUUIDErrorPageLoaded();
         cy.injectAxeThenAxeCheck();
+        cy.createScreenshots('Pre-check-in--UUID-error');
       });
     });
   });
