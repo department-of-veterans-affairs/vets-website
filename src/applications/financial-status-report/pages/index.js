@@ -3,12 +3,13 @@ import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
+import * as additionalIncomeRecords from './income/additionalIncome/records';
 import * as income from './income/currentIncome';
 import * as benefits from './income/benefits';
 import * as socialSecurity from './income/socialSecurity';
 import * as socialSecurityRecords from './income/socialSecurity/records';
 import * as additionalIncome from './income/additionalIncome';
-import * as additionalIncomeRecords from './income/additionalIncome/records';
+import * as additionalIncomeChecklist from './income/additionalIncome/additionalIncomeChecklist';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
 import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
@@ -55,6 +56,7 @@ export {
   socialSecurityRecords,
   additionalIncome,
   additionalIncomeRecords,
+  additionalIncomeChecklist,
   spouseAdditionalIncome,
   spouseAdditionalIncomeRecords,
   spouseInformation,
