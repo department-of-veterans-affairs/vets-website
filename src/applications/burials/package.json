@@ -1,0 +1,30 @@
+{
+    "name": "@department-of-veterans-affairs/applications-burials",
+    "version": "1.0.0",
+    "licence": "MIT",
+    "scripts": {
+      "build": "echo Your build script goes here",
+      "test": "echo Your test script goes here",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "dependencies": {
+        "prop-types": "^15.6.1",
+        "moment": "~2.29.4",
+        "reselect": "^2.5.4",
+        "jsonschema": "^1.4.0"    
+    },
+    "devDependencies": {
+      "@sentry/browser": "^6.13.2",
+      "chai": "^4.3.4",
+      "sinon": "^3.2.1",
+      "@testing-library/react": "^11.1.2",
+      "skin-deep": "^1.0.0"
+    },
+    "peerDependecies":{
+        "react": "*",
+        "react-redux": "*",
+        "lodash": "*",
+        "react-dom": "*"
+    },
+    "private": true
+  }
