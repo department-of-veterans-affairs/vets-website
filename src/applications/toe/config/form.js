@@ -854,9 +854,6 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:required': formData =>
-                    !formData.showMEBMailingAddressForeign ||
-                    !formData['view:mailingAddress'].livesOnMilitaryBase,
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
