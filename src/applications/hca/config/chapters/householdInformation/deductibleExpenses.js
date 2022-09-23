@@ -4,9 +4,9 @@ import set from 'platform/utilities/data/set';
 
 import { DeductibleExpensesDescription } from '../../../components/FormDescriptions';
 import { ExpensesGreaterThanIncomeWarning } from '../../../components/FormAlerts';
-import { expensesLessThanIncome, emptyObjectSchema } from '../../../helpers';
-
-import { validateCurrency } from '../../../validation';
+import { expensesLessThanIncome } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
+import { validateCurrency } from '../../../utils/validation';
 
 const {
   deductibleEducationExpenses,

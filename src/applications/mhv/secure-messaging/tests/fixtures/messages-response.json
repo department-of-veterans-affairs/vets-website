@@ -3,7 +3,11 @@
     {
       "attributes": {
         "attachment": true,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+        "attachments": [
+          { "id": 7169749, "name": "test.pdf", "attachmentSize": 25632 },
+          { "id": 7169748, "name": "test2.pdf", "attachmentSize": 25632 }
+        ],
         "category": "COVID",
         "message_id": 1339331,
         "read_receipt": null,
@@ -11,8 +15,9 @@
         "recipient_name": "GPKTESTNINE, JERRY",
         "sender_id": 1771041,
         "sender_name": "VINOGRAD, PATRICK A",
-        "sent_date": "2022-05-13T17:31:54.000Z",
-        "subject": "Message with attachment"
+        "sent_date": "2022-09-13T17:31:54.000Z",
+        "subject": "Message with attachment",
+        "triageGroupName": "MyHealtheVet_Questions_PugetSound_ADMIN"
       },
       "id": "2339331",
       "link": {
@@ -22,8 +27,15 @@
     },
     {
       "attributes": {
-        "attachment": false,
-        "body": null,
+        "attachment": true,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+        "attachments": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ],
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -43,7 +55,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 3339309,
         "read_receipt": null,
@@ -63,7 +75,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 4339309,
         "read_receipt": true,
@@ -83,7 +95,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 5339331,
         "read_receipt": null,
@@ -103,7 +115,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 6339309,
         "read_receipt": true,
@@ -123,7 +135,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 7155731,
         "read_receipt": null,
@@ -143,7 +155,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 8339309,
         "read_receipt": true,
@@ -163,7 +175,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 9339331,
         "read_receipt": null,
@@ -183,7 +195,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -203,7 +215,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -223,7 +235,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -243,7 +255,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -263,7 +275,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -283,7 +295,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -303,7 +315,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -323,7 +335,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -343,7 +355,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -363,7 +375,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -383,7 +395,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -403,7 +415,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -423,7 +435,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -443,7 +455,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -463,7 +475,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -483,7 +495,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 2339331,
         "read_receipt": null,
@@ -503,7 +515,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
@@ -523,7 +535,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "COVID",
         "message_id": 7155731,
         "read_receipt": null,
@@ -543,7 +555,7 @@
     {
       "attributes": {
         "attachment": false,
-        "body": null,
+        "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
         "category": "OTHER",
         "message_id": 2339309,
         "read_receipt": true,
