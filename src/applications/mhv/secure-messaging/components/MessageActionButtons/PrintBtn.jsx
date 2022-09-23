@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import AllMessagesInThread from '../AllMessagesInThread';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
@@ -19,11 +20,11 @@ const PrintBtn = props => {
   };
 
   const handleConfirmPrint = () => {
-    if (printOption === 'this message') {
-      props.handlePrint();
-    } else if (printOption === 'all messages') {
-      // console.log('print option: ', printOption);
-    }
+    // if (printOption === 'this message') {
+    props.handlePrint(printOption);
+    // } else if (printOption === 'all messages') {
+    //   // console.log('print option: ', printOption);
+    // }
     closeModal();
   };
 
@@ -93,6 +94,7 @@ const PrintBtn = props => {
 
 PrintBtn.propTypes = {
   handlePrint: PropTypes.func,
+  id: PropTypes.number,
 };
 
 export default PrintBtn;

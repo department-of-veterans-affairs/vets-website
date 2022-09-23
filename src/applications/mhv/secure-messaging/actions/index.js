@@ -11,6 +11,7 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
+import messageThread from '../tests/fixtures/message-thread.json';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -23,6 +24,12 @@ export const MESSAGE_RETRIEVE_FAILED = 'MESSAGE_RETRIEVE_FAILED';
 export const MESSAGE_MOVE_STARTED = 'MESSAGE_MOVE_STARTED';
 export const MESSAGE_MOVE_SUCCEEDED = 'MESSAGE_MOVE_SUCCEEDED';
 export const MESSAGE_MOVE_FAILED = 'MESSAGE_MOVE_FAILED';
+
+export const MESSAGE_THREAD_RETRIEVE_STARTED =
+  'MESSAGE_THREAD_RETRIEVE_STARTED';
+export const MESSAGE_THREAD_RETRIEVE_FAILED = 'MESSAGE_THREAD_RETRIEVE_FAILED';
+export const MESSAGE_THREAD_RETRIEVE_SUCCEEDED =
+  'MESSAGE_THREAD_RETRIEVE_SUCCEEDED';
 
 export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
@@ -145,6 +152,47 @@ export const moveMessageToFolder = (messageId, folderId) => async dispatch => {
     });
   }
 };
+// -------------------
+const mockMessageThreadRequest = messageId => {
+  // console.log('mockMessageThread Action ', messageId);
+  let mockSuccess = null;
+  if (messageId) {
+    mockSuccess = messageThread;
+  }
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockSuccess);
+    }, 2500);
+  });
+};
+
+const messageThreadResponse = async messageId => {
+  try {
+    // replace with apiRequest when endpoint is ready
+    // `mhv-sm-api/patient/v1/message/${messageId}/replyhistory?`
+
+    return await mockMessageThreadRequest(messageId);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getMessageThread = messageId => async dispatch => {
+  dispatch({ type: MESSAGE_THREAD_RETRIEVE_STARTED });
+  const response = await messageThreadResponse(messageId);
+  if (response.errors) {
+    dispatch({
+      type: MESSAGE_THREAD_RETRIEVE_FAILED,
+      response,
+    });
+  } else {
+    dispatch({
+      type: MESSAGE_THREAD_RETRIEVE_SUCCEEDED,
+      response,
+    });
+  }
+};
+// -------------------
 
 const mockGetAllFolders = () => {
   return new Promise(resolve => {

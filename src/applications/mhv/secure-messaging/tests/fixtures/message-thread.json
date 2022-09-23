@@ -1,0 +1,137 @@
+{
+  "message": [
+    {
+      "id": 41042,
+      "category": "OTHER",
+      "subject": "DAYT3 Testing-2",
+      "body": "replying to patient...\r\n\r\n\r\n\r\njohnnie\r\ntester",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Tue, 23 Jul 2013 15:11:29 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 7609,
+      "recipientName": "MHVTestRecipient, Test",
+      "readReceipt": null
+    },
+    {
+      "id": 40431,
+      "category": "OTHER",
+      "subject": "Message-222",
+      "body": "Responding to Patient...\r\n\r\n\r\nABC-1456\r\nTest",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Thu, 11 Jul 2013 20:28:25 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 6177,
+      "recipientName": "MHVSmith, John",
+      "readReceipt": null
+    },
+    {
+      "id": 40414,
+      "category": "OTHER",
+      "subject": "Message-111",
+      "body": "\r\nResponding...\r\n\r\nABC-1456\r\nTest",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Thu, 11 Jul 2013 20:25:54 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 6177,
+      "recipientName": " MHVSmith, John",
+      "readReceipt": null
+    },
+    {
+      "id": 39720,
+      "category": "OTHER",
+      "subject": "General Inquiry",
+      "body": "TTT",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Tue, 09 Jul 2013 13:53:14 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 7622,
+      "recipientName": "MHVTestRecipient, Test",
+      "readReceipt": "READ"
+    },
+    {
+      "id": 39136,
+      "category": "OTHER",
+      "subject": "G3",
+      "body": "\r\nNew Reply to Patient\r\n\r\n\r\nABC-1456\r\nTest",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Thu, 13 Jun 2013 14:00:43 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 6177,
+      "recipientName": " MHVSmith, John",
+      "readReceipt": null
+    },
+    {
+      "id": 39053,
+      "category": "OTHER",
+      "subject": "General Inquiry",
+      "body": "this is a TEST for SLC4 TIU Call back\r\n\r\nLiana & Kumar",
+      "attachment": false,
+      "attachments": {
+        "attachment": [
+          {
+            "id": 7169749,
+            "name": "test.pdf",
+            "attachmentSize": 25632
+          }
+        ]
+      },
+      "sentDate": "Wed, 12 Jun 2013 19:34:15 GMT",
+      "senderId": 7614,
+      "senderName": "mhvjteste, Teste",
+      "recipientId": 20133,
+      "recipientName": "MHVTEST2, TESTER",
+      "readReceipt": "READ"
+    }
+  ]
+}
+

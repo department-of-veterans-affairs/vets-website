@@ -18,13 +18,21 @@ const MessageActionButtons = props => {
     [dispatch],
   );
 
-  const handlePrint = () => {
+  const handlePrint = printOption => {
+    // if (printOption === 'this message') {
+    //   console.log('print option one: ', printOption);
+    // } else if (printOption === 'all messages') {
+    //   console.log('print option all: ', printOption);
+    // }
+    if (printOption) {
+      window.print();
+    }
     window.print();
   };
 
   return (
     <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
-      <PrintBtn handlePrint={handlePrint} />
+      <PrintBtn handlePrint={handlePrint} id={id} />
 
       <button type="button" className="message-action-button">
         <i className="fas fa-trash-alt" aria-hidden="true" />

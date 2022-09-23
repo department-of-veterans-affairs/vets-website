@@ -12,13 +12,23 @@ import {
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
   LOADING_COMPLETE,
+  MESSAGE_THREAD_RETRIEVE_STARTED,
+  MESSAGE_THREAD_RETRIEVE_FAILED,
+  MESSAGE_THREAD_RETRIEVE_SUCCEEDED,
 } from '../actions';
 
 const initialState = {
   isLoading: true,
   messages: null,
+  messageThread: null,
   folders: null,
   message: null,
+  error: null,
+};
+
+const messageThreadInitialState = {
+  isLoading: true,
+  messageThread: null,
   error: null,
 };
 
@@ -78,6 +88,30 @@ const message = (state = initialState, action) => {
       return state;
   }
 };
+
+const messageThread = (state = messageThreadInitialState, action) => {
+  switch (action.type) {
+    case MESSAGE_THREAD_RETRIEVE_STARTED:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case MESSAGE_THREAD_RETRIEVE_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.response,
+      };
+    case MESSAGE_THREAD_RETRIEVE_SUCCEEDED:
+      return {
+        ...state,
+        isLoading: false,
+        messageThread: action.response,
+      };
+    default:
+      return state;
+  }
+};
 const folders = (state = initialState, action) => {
   switch (action.type) {
     case FOLDERS_RETRIEVE_STARTED:
@@ -101,4 +135,4 @@ const folders = (state = initialState, action) => {
       return state;
   }
 };
-export default { allMessages, message, folders };
+export default { allMessages, message, folders, messageThread };

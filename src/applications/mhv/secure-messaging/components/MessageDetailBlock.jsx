@@ -4,6 +4,7 @@ import { capitalize } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import MessageActionButtons from './MessageActionsButtons';
 import AttachmentsList from './AttachmentsList';
+import AllMessagesInThread from './AllMessagesInThread';
 
 const MessageDetailBlock = props => {
   const {
@@ -91,6 +92,7 @@ const MessageDetailBlock = props => {
 
         <MessageActionButtons id={id} />
       </main>
+      <AllMessagesInThread messageId={654} />
     </section>
   );
 };
