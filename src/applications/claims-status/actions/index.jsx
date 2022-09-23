@@ -289,6 +289,13 @@ export function filterClaims(filter) {
   };
 }
 
+export function sortClaims(sortProperty) {
+  return {
+    type: SORT_CLAIMS,
+    sortProperty,
+  };
+}
+
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,

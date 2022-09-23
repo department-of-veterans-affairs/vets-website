@@ -6,6 +6,7 @@ import {
   SET_CLAIMS,
   SET_APPEALS,
   FILTER_CLAIMS,
+  SORT_CLAIMS,
   CHANGE_CLAIMS_PAGE,
   FETCH_APPEALS,
   FETCH_APPEALS_SUCCESS,
@@ -147,6 +148,17 @@ export default function claimsReducer(state = initialState, action) {
       );
       return {
         ...state,
+        visibleList,
+        visibleRows: getVisibleRows(visibleList, 1),
+        page: 1,
+        pages: getTotalPages(visibleList),
+      };
+    }
+    case SORT_CLAIMS: {
+      const visibleList = sortList(state.visibleList, action.sortProperty);
+      return {
+        ...state,
+        sortProperty: action.sortProperty,
         visibleList,
         visibleRows: getVisibleRows(visibleList, 1),
         page: 1,
