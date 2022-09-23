@@ -110,24 +110,26 @@ const ComposeForm = props => {
     dispatch(saveDraft(draftData));
   };
 
-  const draftSaveMessageContent = () => {
-    if (isSaving) return <div className="last-save-time">Saving...</div>;
-    if (error) return <div className="last-save-time">Failed to save</div>;
-    if (lastSaveTime) {
-      const d = new Date(lastSaveTime);
-      const time = d.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-      return <div className="last-save-time">Last save at {time}</div>;
-    }
-    return '';
-  };
-
   const draftSaveMessageContentMobile = () => {
-    if (isSaving) return <div className="last-save-time-mobile">Saving...</div>;
+    if (isSaving) return <div className="last-save-time">Saving...</div>;
     if (error)
-      return <div className="last-save-time-mobile">Failed to save</div>;
+      return (
+        <div className="last-save-time">
+          <va-alert
+            background-only
+            class="last-save-time"
+            disable-analytics="false"
+            full-width="false"
+            show-icon
+            status="error"
+            visible="true"
+          >
+            <p className="vads-u-margin-y--0">
+              Something went wrong... Failed to save message.
+            </p>
+          </va-alert>
+        </div>
+      );
     if (lastSaveTime) {
       const today = new Date(lastSaveTime);
       const month = `0${today.getMonth() + 1}`.slice(-2);
@@ -143,8 +145,7 @@ const ComposeForm = props => {
       return (
         <va-alert
           background-only
-          class="last-save-time-mobile"
-          close-btn-aria-label="Close notification"
+          class="last-save-time"
           disable-analytics="false"
           full-width="false"
           show-icon
@@ -239,7 +240,6 @@ const ComposeForm = props => {
           <button type="submit" className="send-button-bottom">
             Send
           </button>
-          {draftSaveMessageContent()}
           <button
             type="button"
             className="usa-button-secondary save-draft-button"
