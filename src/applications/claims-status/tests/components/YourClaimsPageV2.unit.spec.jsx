@@ -193,6 +193,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should not render 30 day notice', () => {
+    sessionStorage.setItem('show30DayNotice', false);
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
     wrapper.unmount();
