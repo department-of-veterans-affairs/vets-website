@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
+import recordEvent from 'platform/monitoring/record-event';
 
 const ERROR_SOURCES = Object.freeze({
   API: 'api',
@@ -63,4 +64,24 @@ const captureError = (error, details) => {
   });
 };
 
-export { createApiEvent, captureError, ERROR_SOURCES };
+const recordCustomProfileEvent = ({
+  event = 'profile_modal',
+  title = 'no title',
+  status = 'none',
+  primaryButtonText = 'none',
+}) => {
+  const payload = {
+    event,
+    'modal-title': title,
+    'modal-status': status,
+    'modal-primaryButtonText': primaryButtonText,
+  };
+  recordEvent(payload);
+};
+
+export {
+  createApiEvent,
+  captureError,
+  ERROR_SOURCES,
+  recordCustomProfileEvent,
+};

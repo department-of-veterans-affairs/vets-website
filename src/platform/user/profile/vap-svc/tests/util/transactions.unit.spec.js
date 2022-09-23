@@ -4,7 +4,7 @@ import {
   isFailedTransaction,
   isPendingTransaction,
   isSuccessfulTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 describe('isPendingTransaction', () => {
   it('returns `false` if passed nothing', () => {

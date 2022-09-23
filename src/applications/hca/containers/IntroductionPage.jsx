@@ -17,7 +17,7 @@ import {
   isUserLOA1,
   isUserLOA3,
   shouldShowLoggedOutContent,
-} from '../selectors';
+} from '../utils/selectors';
 
 const IntroductionPage = props => {
   const {

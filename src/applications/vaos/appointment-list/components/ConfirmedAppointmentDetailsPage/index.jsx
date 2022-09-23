@@ -11,6 +11,7 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
+import { selectFeatureVaosV2Next } from '../../../redux/selectors';
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
@@ -27,6 +28,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
+  );
+  const featureVaosV2Next = useSelector(state =>
+    selectFeatureVaosV2Next(state),
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
@@ -100,7 +104,13 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && <DetailsCC appointment={appointment} useV2={useV2} />}
+      {isCommunityCare && (
+        <DetailsCC
+          appointment={appointment}
+          useV2={useV2}
+          featureVaosV2Next={featureVaosV2Next}
+        />
+      )}
       <CancelAppointmentModal />
     </PageLayout>
   );
