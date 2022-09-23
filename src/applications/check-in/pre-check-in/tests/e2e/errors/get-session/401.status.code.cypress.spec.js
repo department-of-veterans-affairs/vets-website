@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer
 import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
-  describe('Error handling', () => {
+  describe('401 error handling', () => {
     describe('GET /check_in/v2/session/', () => {
       beforeEach(() => {
         const {
@@ -12,7 +12,7 @@ describe('Pre-Check In Experience ', () => {
           initializeSessionGet,
         } = ApiInitializer;
         initializeFeatureToggle.withCurrentFeatures();
-        initializeSessionGet.withFailure(400);
+        initializeSessionGet.withFailure(401);
       });
       afterEach(() => {
         cy.window().then(window => {
@@ -22,7 +22,7 @@ describe('Pre-Check In Experience ', () => {
       it('error in the body', () => {
         cy.visitPreCheckInWithUUID();
 
-        Error.validatePageLoaded();
+        Error.validateUUIDErrorPageLoaded();
         cy.injectAxeThenAxeCheck();
       });
     });

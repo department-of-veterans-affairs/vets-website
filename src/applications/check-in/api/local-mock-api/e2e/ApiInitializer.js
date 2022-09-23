@@ -116,7 +116,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(errorCode, session.get.createMockFailedResponse());
+        req.reply(errorCode, session.get.createMockFailedResponse(errorCode));
       });
     },
   };

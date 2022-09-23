@@ -105,10 +105,15 @@ const Index = props => {
                 }
               }
             })
-            .catch(() => {
+            .catch(error => {
               clearCurrentSession(window);
-              dispatch(setError('session-error'));
-              goToErrorPage('?error=session-error');
+              if (error.errors?.find(err => err.status === '401')) {
+                dispatch(setError('uuid-error'));
+                goToErrorPage('?error=uuid-error');
+              } else {
+                dispatch(setError('session-error'));
+                goToErrorPage('?error=session-error');
+              }
             });
         }
       }

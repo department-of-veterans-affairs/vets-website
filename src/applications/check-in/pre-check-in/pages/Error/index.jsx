@@ -85,7 +85,7 @@ const Error = () => {
   );
   let showHowToLink = true;
   const dontShowLinkErrors = [
-    'session-error',
+    'uuid-error',
     'bad-token',
     'no-token',
     'max-validation',
@@ -107,7 +107,7 @@ const Error = () => {
       )
     );
   }
-  const UUIDErrors = ['session-error', 'bad-token', 'no-token'];
+  const UUIDErrors = ['uuid-error', 'bad-token', 'no-token'];
   messages.push({ text: messageText });
   if (appointments && appointments.length > 0) {
     apptType = appointments[0]?.kind ?? 'clinic';
