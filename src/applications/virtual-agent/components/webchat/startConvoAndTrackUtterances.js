@@ -12,10 +12,8 @@ const StartConvoAndTrackUtterances = {
     baseURL,
     userFirstName,
     userUuid,
-    requireAuth,
   ) => ({ dispatch }) => next => action => {
     const options = {
-      requireAuth,
       action,
       dispatch,
       csrfToken,

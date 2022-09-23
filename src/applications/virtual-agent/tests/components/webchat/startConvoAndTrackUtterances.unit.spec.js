@@ -25,7 +25,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
     store = mockStore({});
   });
 
-  it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth true', async () => {
+  it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" startConversationActivity dispatch', async () => {
     // invoke startConvoAndTrackUtterances with proper curried values
     await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
       'csrfToken',
@@ -34,7 +34,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      true,
     )(store)(fakeNext)(connectFulfilledAction);
     // fake the session storage using stubs
 
@@ -45,12 +44,10 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
     expect(actions[0].payload.activity).to.own.include({
       name: 'startConversation',
     });
-    expect(actions[0]).to.own.include({
-      type: 'DIRECT_LINE/POST_ACTIVITY',
-    });
+    expect(actions[0]).to.own.include({ type: 'DIRECT_LINE/POST_ACTIVITY' });
   });
 
-  it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth false', async () => {
+  it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" joinActivity dispatch', async () => {
     await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
       'csrfToken',
       'apiSession',
@@ -58,15 +55,14 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      false,
     )(store)(fakeNext)(connectFulfilledAction);
 
     const actions = store.getActions();
-    expect(actions.length).to.equal(1);
+    expect(actions.length).to.equal(2);
     expect(fakeNext.callCount).to.equal(1);
 
-    expect(actions[0]).to.own.include({ type: 'WEB_CHAT/SEND_EVENT' });
-    expect(actions[0].payload).to.own.include({ name: 'webchat/join' });
+    expect(actions[1]).to.own.include({ type: 'WEB_CHAT/SEND_EVENT' });
+    expect(actions[1].payload).to.own.include({ name: 'webchat/join' });
   });
 
   describe('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
@@ -91,7 +87,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        true,
       )(store)(fakeNext)(directIncomingActivity);
       // tests
       const isTrackingUtterances = await sessionStorage.getItem(
@@ -99,6 +94,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       );
       expect(isTrackingUtterances).to.equal('true');
     });
+
     it('Stops tracking utterances when about to redirect to sign in', async () => {
       // setup
       const activity = {
@@ -120,7 +116,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        true,
       )(store)(fakeNext)(aboutToSignInActivity);
       // tests
       const isTrackingUtterances = await sessionStorage.getItem(
@@ -129,9 +124,19 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
       expect(spyDispatchEvent.callCount).to.equal(1);
-
       expect(spyDispatchEvent.firstCall.args[0].data).to.equal(activity);
     });
+
+    it('initiateSignIn sets the proper type and data', async () => {
+      // check that proper event is fired
+      // check the exact string used for the event name is correct: webchat-message-activity, webchat-auth-activity
+      //      expect(spyDispatchEvent.calledWith('webchat-message-activity')).to.equal(
+      //   true,
+      // );
+    });
+    it('botWantsToSignInUser returns the proper initiateSignIn', async () => {});
+
+    it('JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES)) returns the proper initiateSignIn', async () => {});
 
     it('Initiates the resumption of a conversation post authentication', async () => {
       // setup
@@ -159,7 +164,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        true,
       )(store)(fakeNext)(aboutToSignInActivity);
 
       // tests
@@ -185,7 +189,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      false,
     )(store)(fakeNext)(connectSendMessage);
 
     const actions = store.getActions();

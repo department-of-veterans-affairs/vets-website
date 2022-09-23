@@ -7,13 +7,11 @@ import piiReplace from '../piiReplace';
 import {
   IN_AUTH_EXP,
   IS_TRACKING_UTTERANCES,
-  LOGGED_IN_FLOW,
   RECENT_UTTERANCES,
 } from '../../chatbox/utils';
 
 // define thunks for actions
 export const processActionConnectFulfilled = ({
-  requireAuth,
   dispatch,
   csrfToken,
   apiSession,
@@ -22,18 +20,16 @@ export const processActionConnectFulfilled = ({
   userFirstName,
   userUuid,
 }) => () => {
-  if (requireAuth && sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true') {
-    dispatch(
-      startConversationActivity(
-        csrfToken,
-        apiSession,
-        apiURL,
-        baseURL,
-        userFirstName,
-        userUuid,
-      ),
-    );
-  }
+  const options = {
+    csrfToken,
+    apiSession,
+    apiURL,
+    baseURL,
+    userFirstName,
+    userUuid,
+  };
+  dispatch(startConversationActivity(options));
+
   dispatch(joinActivity);
 };
 
@@ -49,6 +45,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
   };
 
+  // refactor to function that sets type of event
+  // pass eventType and data
   const initiateSignIn = () => {
     const authEvent = new Event('webchat-auth-activity');
     authEvent.data = action.payload.activity;
@@ -78,6 +76,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     if (botWantsToSignInUser) {
       // if user is redirected to sign in, stop tracking utterances
       stopTrackingUtterances();
+
+      // refactor
       initiateSignIn();
     } else if (isNewAuthedConversation) {
       const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
@@ -95,6 +95,7 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
         setSessionStorageAsString(RECENT_UTTERANCES, []);
       }
     }
+    // use refactored initiateSignIn
     if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
       const chatEvent = new Event('webchat-message-activity');
       chatEvent.data = action.payload.activity;

@@ -8,21 +8,14 @@ export const acceptedDisclaimer = {
   type: ACCEPTED,
 };
 
-export const joinActivity = {
-  type: SEND_EVENT,
-  payload: {
-    name: 'webchat/join',
-    value: { language: window.navigator.language },
-  },
-};
-export const startConversationActivity = (
+export const startConversationActivity = ({
   csrfToken,
   apiSession,
   apiURL,
   baseURL,
   userFirstName,
   userUuid,
-) => {
+}) => {
   return {
     meta: { method: 'keyboard' },
     payload: {
@@ -42,4 +35,11 @@ export const startConversationActivity = (
     },
     type: POST_ACTIVITY,
   };
+};
+export const joinActivity = {
+  type: SEND_EVENT,
+  payload: {
+    name: 'webchat/join',
+    value: { language: window.navigator.language },
+  },
 };
