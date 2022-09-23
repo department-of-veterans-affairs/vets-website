@@ -17,7 +17,7 @@ const IconCTALink = ({
 }) => {
   const [lastWord, firstWords] = useLastWord(text);
 
-  const linkClass = `vads-u-text-decoration--none vads-u-padding-y--2p5 cta-link vads-u-font-weight--${
+  const linkClass = `vads-u-padding-y--2p5 cta-link vads-u-font-weight--${
     boldText ? 'bold' : 'normal'
   }`;
 

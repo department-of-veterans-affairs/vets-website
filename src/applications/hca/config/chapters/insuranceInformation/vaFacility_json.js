@@ -2,6 +2,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import { medicalCenterLabels } from 'platform/utilities/medical-centers/medical-centers';
 
 import {
   EssentialCoverageDescription,
@@ -9,11 +10,10 @@ import {
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import {
-  medicalCenterLabels,
   medicalCentersByState,
-  emptyObjectSchema,
   NotHighDisabilityOrNotCompensationTypeHigh,
-} from '../../../helpers';
+} from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const {
   vaMedicalFacility,

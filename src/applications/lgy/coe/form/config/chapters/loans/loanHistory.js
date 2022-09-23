@@ -11,6 +11,10 @@ import { states } from 'platform/forms/address';
 import { loanHistory } from '../../schemaImports';
 import LoanReviewField from '../../../components/LoanReviewField';
 import text from '../../../content/loanHistory';
+import {
+  validateVALoanNumber,
+  validateUniqueVALoanNumber,
+} from '../../../validations';
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -68,6 +72,7 @@ export const uiSchema = {
       keepInPageOnReview: true,
       customTitle: ' ', // Force outer DIV wrap (vs DL wrap, for a11y)
     },
+    'ui:validations': [validateUniqueVALoanNumber],
     items: {
       'ui:title': 'Existing VA loan',
       'ui:options': {
@@ -121,10 +126,14 @@ export const uiSchema = {
       },
       vaLoanNumber: {
         'ui:title': text.loanNumber.title,
-        'ui:options': { widgetClassNames: 'usa-input-medium' },
+        'ui:description': <div>{text.loanNumber.description}</div>,
+        'ui:options': {
+          widgetClassNames: 'coe-loan-input',
+        },
         'ui:errorMessages': {
           pattern: text.loanNumber.pattern,
         },
+        'ui:validations': [validateVALoanNumber],
       },
       propertyOwned: {
         'ui:title': text.owned.title,

@@ -97,7 +97,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
-                vaLoanNumber: '1-234 5',
+                vaLoanNumber: '12-34-5-6789012',
               },
             ],
           }}
@@ -120,7 +120,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
-                vaLoanNumber: '-1-234-5',
+                vaLoanNumber: '-1-234-56789012',
               },
             ],
           }}
@@ -144,7 +144,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
-                vaLoanNumber: '1-234-5a',
+                vaLoanNumber: '1-234-56a789012',
               },
             ],
           }}
@@ -215,6 +215,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                vaLoanNumber: '123456789012',
               },
               {
                 dateRange: {
@@ -227,6 +228,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                vaLoanNumber: '123456789013',
               },
             ],
           }}

@@ -166,32 +166,6 @@ va-alert button {
   }
 }
 
-.older-messages {
-  a:visited {
-    color: $color-link-default;
-    text-decoration: underline;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-property: color, background-color, border-color;
-  }
-  i {
-    color: inherit;
-  }
-  .fa-lg {
-    font-size: 1.33333em !important;
-  }
-  .expand-all-messages-btn {
-    margin-top: 14px;
-    margin-bottom: 7px;
-  }
-
-  .older-message {
-    p {
-      margin: 4px 0;
-    }
-  }
-}
-
 .expand-messages {
   align-items: right;
 }

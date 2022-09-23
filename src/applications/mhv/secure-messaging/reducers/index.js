@@ -5,6 +5,9 @@ import {
   MESSAGE_RETRIEVE_STARTED,
   MESSAGE_RETRIEVE_SUCCEEDED,
   MESSAGE_RETRIEVE_FAILED,
+  MESSAGE_DELETE_STARTED,
+  MESSAGE_DELETE_FAILED,
+  MESSAGE_DELETE_SUCCEEDED,
   MESSAGE_MOVE_STARTED,
   MESSAGE_MOVE_SUCCEEDED,
   MESSAGE_MOVE_FAILED,
@@ -12,6 +15,9 @@ import {
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
   LOADING_COMPLETE,
+  // THREAD_RETRIEVE_STARTED,
+  THREAD_RETRIEVE_SUCCEEDED,
+  THREAD_RETRIEVE_FAILED,
 } from '../actions';
 
 const initialState = {
@@ -48,6 +54,7 @@ const allMessages = (state = initialState, action) => {
 
 const message = (state = initialState, action) => {
   switch (action.type) {
+    case MESSAGE_DELETE_STARTED:
     case MESSAGE_MOVE_STARTED:
     case MESSAGE_RETRIEVE_STARTED:
       return {
@@ -61,6 +68,7 @@ const message = (state = initialState, action) => {
         message: action.response,
         error: null,
       };
+    case MESSAGE_DELETE_FAILED:
     case MESSAGE_MOVE_FAILED:
     case MESSAGE_RETRIEVE_FAILED:
       return {
@@ -68,11 +76,23 @@ const message = (state = initialState, action) => {
         isLoading: false,
         error: action.response,
       };
+    case MESSAGE_DELETE_SUCCEEDED:
     case MESSAGE_MOVE_SUCCEEDED:
     case LOADING_COMPLETE:
       return {
         ...state,
         isLoading: false,
+      };
+    case THREAD_RETRIEVE_SUCCEEDED:
+      return {
+        ...state,
+        messages: action.response,
+      };
+    case THREAD_RETRIEVE_FAILED:
+      return {
+        ...state,
+        messages: false,
+        error: action.response,
       };
     default:
       return state;
