@@ -5,17 +5,18 @@
         "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
       },
     "licence": "MIT",
-
-    "dependecies":{
+    "dependencies":{
         "date-fns": "^2.24.0",
         "date-fns-tz": "^1.1.1",
-        "prop-types": "^15.6.1",
         "i18next": "^21.6.14",
-        "url-search-params": "^1.1.0",
+        "i18next-browser-languagedetector": "^6.1.3",
+        "i18next-resources-to-backend": "^1.0.0",
+        "prop-types": "^15.6.1",
+        "react-i18next": "^11.15.6",
         "reselect": "^2.5.4",
-        "i18next-browser-languagedetector": "^6.1.3"    
+        "url-search-params": "^1.1.0"
     },
-    "devDependecies":{
+    "devDependencies":{
         "chai": "^4.3.4",
         "@testing-library/react": "^11.1.2",
         "mockdate": "^3.0.5",
@@ -23,7 +24,7 @@
         "@testing-library/dom": "^7.26.6",
         "@sentry/browser": "^6.13.2"
     },
-    "peerDependecies":{
+    "peerDependencies":{
         "react": "*",
         "react-i18next": "*",
         "react-redux": "*",
@@ -34,5 +35,4 @@
         "react-router-dom": "*"
     },
     "private": true
-
 }
