@@ -372,9 +372,14 @@
       "src/platform/site-wide",
       "src/platform/forms",
       "src/platform/forms-system",
-      "src/platform/monitoring"
+      "src/platform/monitoring",
+
+      "src/applications/vaos"
     ],
     "nohoist": [
+      "**/applications-vaos/simple-guid",
+      "**/applications-vaos/mocker-api/lib/delay",
+      
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",
