@@ -92,7 +92,10 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <DownloadFormPDF />
+          <DownloadFormPDF
+            pdfContent={response.content}
+            useContent={combinedFSR}
+          />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={windowPrint}
