@@ -19,8 +19,9 @@ const ReviewAndDownload = () => (
       <va-link
         download
         filetype="PDF"
+        pages="1"
         href={downloadUrl}
-        text="Download your COE 0.20MB"
+        text="Download your COE"
       />
     </div>
   </>
