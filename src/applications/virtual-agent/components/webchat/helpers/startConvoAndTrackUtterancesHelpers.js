@@ -90,8 +90,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
         setSessionStorageAsString(RECENT_UTTERANCES, []);
       }
     }
-    if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
-      sendWindowEvent('webchat-message-activity');
-    }
+  }
+  if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
+    sendWindowEvent('webchat-message-activity');
   }
 };

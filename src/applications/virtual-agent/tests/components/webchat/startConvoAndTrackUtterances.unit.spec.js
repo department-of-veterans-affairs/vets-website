@@ -134,7 +134,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const activity = {
         type: 'message',
         text: 'Hello',
-        from: { role: 'bot' },
+        from: { role: 'user' },
       };
       const incomingActivity = {
         type: 'DIRECT_LINE/INCOMING_ACTIVITY',
