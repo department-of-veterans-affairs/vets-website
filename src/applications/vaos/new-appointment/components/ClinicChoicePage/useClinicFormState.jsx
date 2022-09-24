@@ -12,8 +12,8 @@ import {
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import {
+  selectFeatureClinicFilter,
   selectFeatureVAOSServiceVAAppointments,
-  selectFeatureVaosV2Next,
 } from '../../../redux/selectors';
 
 const initialSchema = {
@@ -39,9 +39,7 @@ export default function useClinicFormState() {
   const selectedTypeOfCare = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
+  const clinicFilter = useSelector(state => selectFeatureClinicFilter(state));
   const useV2 = useSelector(state =>
     selectFeatureVAOSServiceVAAppointments(state),
   );
@@ -52,13 +50,15 @@ export default function useClinicFormState() {
 
       let filteredClinics = clinics;
 
-      // filter the clinics that have patientDirectScheduling set
-      if (featureVaosV2Next) {
+      // filter the clinics based on Direct Scheduling value from VATS
+      // v2 uses boolean while v0 uses Yes/No string
+      if (clinicFilter) {
         if (useV2) {
           filteredClinics = clinics.filter(
             clinic => clinic.patientDirectScheduling === true,
           );
         } else {
+          // v0 is pre-filtered; don't need this this line
           filteredClinics = clinics.filter(
             clinic => clinic.patientDirectScheduling === 'Y',
           );
@@ -68,7 +68,7 @@ export default function useClinicFormState() {
       // Past appointment history check
       // primary care and mental health are exempt
       // NOTE: Same check is in ../services/patient/index.js:395
-      const isCheckTypeOfCare = featureVaosV2Next
+      const isCheckTypeOfCare = clinicFilter
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
           initialData.typeOfCareId !== PRIMARY_CARE &&
           location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct

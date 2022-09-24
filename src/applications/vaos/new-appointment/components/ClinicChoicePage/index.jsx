@@ -19,7 +19,7 @@ import {
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import { selectFeatureVaosV2Next } from '../../../redux/selectors';
+import { selectFeatureClinicFilter } from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -46,9 +46,7 @@ function getPageTitle(schema, typeOfCare, usingPastClinics) {
 
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
+  const clinicFilter = useSelector(state => selectFeatureClinicFilter(state));
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,7 +69,7 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
-  const pastMonths = featureVaosV2Next ? 36 : 24;
+  const pastMonths = clinicFilter ? 36 : 24;
 
   useEffect(() => {
     scrollAndFocus();

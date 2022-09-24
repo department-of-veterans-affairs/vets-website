@@ -94,7 +94,6 @@ async function fetchPatientEligibilityFromVAR({
       .then(resp => resp[0])
       .catch(createErrorHandler('request-exceeded-outstanding-requests-error'));
   }
-
   if (type !== 'direct' && typeOfCare.id !== PRIMARY_CARE) {
     checks.requestPastVisit = checkPastVisits(
       location.vistaId,
@@ -104,6 +103,7 @@ async function fetchPatientEligibilityFromVAR({
     ).catch(createErrorHandler('request-check-past-visits-error'));
   }
 
+  // TODO this is the check exemption for PC and MH
   if (type !== 'request' && typeOfCare.id !== PRIMARY_CARE) {
     checks.directPastVisit = checkPastVisits(
       location.vistaId,
@@ -247,25 +247,26 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(clinics, pastAppointments, useV2Next = false) {
+function hasMatchingClinics(clinics, pastAppointments, clinicFilter = false) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
-        if (appt.version === 2 && useV2Next) {
+        if (appt.version === 2 && clinicFilter) {
           return (
             clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId &&
             clinic.patientDirectScheduling === true
           );
         }
-        if (appt.version === 1 && useV2Next) {
-          return (
-            clinicIds[0] === appt.facilityId &&
-            clinicIds[1] === appt.clinicId &&
-            clinic.patientDirectScheduling === 'Y'
-          );
-        }
+        // TODO remove lines since v0 is pre-filtered where DS = yes
+        // if (appt.version === 1 && clinicFilter) {
+        //   return (
+        //     clinicIds[0] === appt.facilityId &&
+        //     clinicIds[1] === appt.clinicId &&
+        //     clinic.patientDirectScheduling === 'Y'
+        //   );
+        // }
         return (
           clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
@@ -357,6 +358,7 @@ function logEligibilityExplanation(
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
+ * @param {boolean} [params.clinicFilter=false] feature flag to filter clinics based on VATS
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -365,7 +367,7 @@ export async function fetchFlowEligibilityAndClinics({
   location,
   directSchedulingEnabled,
   useV2 = false,
-  useV2Next = false,
+  clinicFilter = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -393,7 +395,7 @@ export async function fetchFlowEligibilityAndClinics({
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
-    const isDirectAppointmentHistoryRequired = useV2Next
+    const isDirectAppointmentHistoryRequired = clinicFilter
       ? typeOfCare.id !== PRIMARY_CARE &&
         typeOfCare.id !== MENTAL_HEALTH &&
         directTypeOfCareSettings.patientHistoryRequired === true
@@ -480,15 +482,17 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (useV2Next) {
+    if (clinicFilter) {
+      // v2 uses boolean while v0 uses Yes/No string for patientHistoryRequired
+      const enable = useV2 ? true : 'Yes';
       if (
         typeOfCare.id !== PRIMARY_CARE &&
         typeOfCare.id !== MENTAL_HEALTH &&
-        directTypeOfCareSettings.patientHistoryRequired === true &&
+        directTypeOfCareSettings.patientHistoryRequired === enable &&
         !hasMatchingClinics(
           results.clinics,
           results.pastAppointments,
-          useV2Next,
+          clinicFilter,
         )
       ) {
         eligibility.direct = false;
@@ -498,7 +502,11 @@ export async function fetchFlowEligibilityAndClinics({
     } else if (
       typeOfCare.id !== PRIMARY_CARE &&
       typeOfCare.id !== MENTAL_HEALTH &&
-      !hasMatchingClinics(results.clinics, results.pastAppointments, useV2Next)
+      !hasMatchingClinics(
+        results.clinics,
+        results.pastAppointments,
+        clinicFilter,
+      )
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
