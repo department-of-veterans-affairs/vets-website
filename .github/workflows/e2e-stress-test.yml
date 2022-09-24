@@ -8,9 +8,6 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
-    # outputs:
-    #   entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
-    #   continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -36,15 +33,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      # - name: Get changed applications
-      #   id: get-changed-apps
-      #   uses: ./.github/workflows/get-changed-apps
-      #   with:
-      #     delimiter: ','
-      #     output-type: 'entry_name, continuous_deployment'
-
       - name: Configure AWS Credentials
-        # if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -52,7 +41,6 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get Mapbox Token
-        # if: ${{ matrix.buildtype == 'vagovprod' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
@@ -61,8 +49,6 @@ jobs:
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
-        # env:
-        #   ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
 
       - name: Generate build details
         run: |
@@ -144,16 +130,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Install dependencies
-      #   uses: ./.github/workflows/install
-      #   timeout-minutes: 30
-      #   with:
-      #     key: ${{ hashFiles('yarn.lock') }}
-      #     yarn_cache_folder: .cache/yarn
-      #     path: |
-      #       .cache/yarn
-      #       node_modules
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -188,7 +164,6 @@ jobs:
     needs: [fetch-e2e-allow-list]
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
-      # app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
       test_selection_disallowed_tests: ${{ steps.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
@@ -209,20 +184,12 @@ jobs:
             .cache/yarn
             node_modules
 
-      # - name: Get changed applications
-      #   id: get-changed-apps
-      #   uses: ./.github/workflows/get-changed-apps
-      #   with:
-      #     delimiter: ','
-      #     output-type: 'entry_name, url'
-
       - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           RUN_FULL_SUITE: false
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
-          # APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           IS_STRESS_TEST: true
 
