@@ -1,7 +1,5 @@
 import moment from 'moment';
 import {
-  initAppointmentListMock,
-  initVAAppointmentMock,
   mockCCEligibilityApi,
   mockClinicApi,
   mockDirectScheduleSlotsApi,
@@ -13,14 +11,44 @@ import {
   mockSchedulingConfigurationApi,
   mockAppointmentsApi,
   vaosSetup,
+  mockAppointmentRequestMessagesApi,
+  mockAppointmentRequestsApi,
+  mockCCProvidersApi,
+  mockFacilitiesApi,
+  mockSupportedSitesApi,
+  mockRequestEligibilityCriteriaApi,
+  mockDirectBookingEligibilityCriteriaApi,
+  mockRequestLimitsApi,
+  mockVisitsApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
 describe('VAOS direct schedule flow', () => {
-  it('should submit form', () => {
-    initAppointmentListMock();
-    initVAAppointmentMock();
+  beforeEach(() => {
+    vaosSetup();
+
+    mockAppointmentRequestMessagesApi();
+    mockAppointmentRequestsApi();
+    mockAppointmentsApi({ apiVersion: 0 });
+    mockCCProvidersApi();
+    mockFacilitiesApi({ apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 1 });
     mockFeatureToggles();
+    mockPreferencesApi();
+    mockSupportedSitesApi();
+    mockRequestEligibilityCriteriaApi();
+    mockDirectBookingEligibilityCriteriaApi();
+    mockRequestLimitsApi();
+    mockClinicApi({ facilityId: '983', apiVersion: 0 });
+    mockDirectScheduleSlotsApi({ apiVersion: 0 });
+    mockPreferencesApi();
+    mockVisitsApi();
+  });
+
+  it('should submit form', () => {
+    mockLoginApi({ withoutAddress: false });
+    mockCCEligibilityApi();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.axeCheckBestPractice();
@@ -35,7 +63,9 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -58,12 +88,12 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     const fullReason = 'Follow-up/Routine: cough';
-    cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.requestBody;
+    cy.wait('@v0:create:appointment').should(xhr => {
+      const { body } = xhr.request;
 
-      expect(request.clinic.siteCode).to.eq('983');
-      expect(request.clinic.clinicId).to.eq('455');
-      expect(request).to.have.property(
+      expect(body.clinic.siteCode).to.eq('983');
+      expect(body.clinic.clinicId).to.eq('455');
+      expect(body).to.have.property(
         'desiredDate',
         `${moment()
           .add(1, 'month')
@@ -72,13 +102,14 @@ describe('VAOS direct schedule flow', () => {
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
-      expect(request).to.have.property('dateTime');
-      expect(request).to.have.property('bookingNotes', fullReason);
-      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
+      expect(body).to.have.property('dateTime');
+      expect(body).to.have.property('bookingNotes', fullReason);
+      expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
-    cy.wait('@appointmentPreferences').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request.emailAddress).to.eq('veteran@gmail.com');
+    // TODO: Not needed since check is in the mock
+    cy.wait('@v0:update:preferences').should(xhr => {
+      const { body } = xhr.request;
+      expect(body.emailAddress).to.eq('veteran@gmail.com');
     });
 
     // Confirmation page
@@ -86,8 +117,9 @@ describe('VAOS direct schedule flow', () => {
   });
 
   it('should submit form with an eye care type of care', () => {
-    initAppointmentListMock();
-    initVAAppointmentMock();
+    mockLoginApi({ withoutAddress: false });
+    mockCCEligibilityApi({ typeOfCare: 'Optometry' });
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
     cy.axeCheckBestPractice();
@@ -104,8 +136,13 @@ describe('VAOS direct schedule flow', () => {
     cy.findByLabelText(/Optometry/).click();
     cy.findByText(/Continue/).click();
 
+    // Choose Facility Type
+    newApptTests.chooseFacilityTypeTest(/VA medical center/);
+
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -128,12 +165,12 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     const fullReason = 'Follow-up/Routine: insomnia';
-    cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.requestBody;
+    cy.wait('@v0:create:appointment').should(xhr => {
+      const { body } = xhr.request;
 
-      expect(request.clinic.siteCode).to.eq('983');
-      expect(request.clinic.clinicId).to.eq('455');
-      expect(request).to.have.property(
+      expect(body.clinic.siteCode).to.eq('983');
+      expect(body.clinic.clinicId).to.eq('455');
+      expect(body).to.have.property(
         'desiredDate',
         `${moment()
           .add(1, 'month')
@@ -142,12 +179,12 @@ describe('VAOS direct schedule flow', () => {
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
-      expect(request).to.have.property('dateTime');
-      expect(request).to.have.property(
+      expect(body).to.have.property('dateTime');
+      expect(body).to.have.property(
         'bookingNotes',
         'Follow-up/Routine: insomnia',
       );
-      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
+      expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
 
     // Confirmation page
@@ -155,8 +192,9 @@ describe('VAOS direct schedule flow', () => {
   });
 
   it('should submit form with a sleep care type of care', () => {
-    initAppointmentListMock();
-    initVAAppointmentMock();
+    mockLoginApi({ withoutAddress: false });
+    mockCCEligibilityApi();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
@@ -173,7 +211,9 @@ describe('VAOS direct schedule flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -196,12 +236,12 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     const fullReason = 'Follow-up/Routine: insomnia';
-    cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.requestBody;
+    cy.wait('@v0:create:appointment').should(xhr => {
+      const { body } = xhr.request;
 
-      expect(request.clinic.siteCode).to.eq('983');
-      expect(request.clinic.clinicId).to.eq('455');
-      expect(request).to.have.property(
+      expect(body.clinic.siteCode).to.eq('983');
+      expect(body.clinic.clinicId).to.eq('455');
+      expect(body).to.have.property(
         'desiredDate',
         `${moment()
           .add(1, 'month')
@@ -210,12 +250,12 @@ describe('VAOS direct schedule flow', () => {
           .startOf('day')
           .format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
-      expect(request).to.have.property('dateTime');
-      expect(request).to.have.property(
+      expect(body).to.have.property('dateTime');
+      expect(body).to.have.property(
         'bookingNotes',
         'Follow-up/Routine: insomnia',
       );
-      expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
+      expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
 
     // Confirmation page
@@ -234,6 +274,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockEligibilityApi({ isEligible: true });
     mockFacilityApi({ id: '983', apiVersion: 2 });
+    mockFacilitiesApi({ apiVersion: 2 });
     mockFeatureToggles({
       v2Requests: true,
       v2Facilities: true,
@@ -260,7 +301,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+      apiVersion: 2,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();

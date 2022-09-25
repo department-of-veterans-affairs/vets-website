@@ -299,7 +299,7 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      settings: arrayToObject(facilitySettings.services),
+      settings: arrayToObject(facilitySettings?.services),
     },
   };
 }
