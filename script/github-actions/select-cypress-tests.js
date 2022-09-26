@@ -252,7 +252,7 @@ function exportVariables(tests) {
   core.exportVariable('TESTS', tests);
 }
 
-function run() {
+function main() {
   const graph = dedupeGraph(buildGraph());
 
   // groups of tests from the allow list
@@ -307,9 +307,7 @@ function run() {
   );
 }
 
-if (ALLOW_LIST || RUN_FULL_SUITE) {
-  run();
-}
+main();
 
 module.exports = {
   buildGraph,
