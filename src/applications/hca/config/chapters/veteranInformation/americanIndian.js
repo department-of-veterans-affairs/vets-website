@@ -15,11 +15,12 @@ export default {
       },
     },
     'view:aiqDescription': {
-      'ui:description': AmericanIndianDescription,
+      'ui:description':
+        'If any of these descriptions are true for you, you may not need to pay a copay for care or services.',
     },
     sigiIsAmericanIndian: {
-      'ui:title':
-        'Are you recognized as an American Indian or Alaska Native by any tribal, state, or federal law or regulation?',
+      'ui:title': 'Are any of these descriptions true for you?',
+      'ui:description': AmericanIndianDescription,
       'ui:widget': 'yesNo',
     },
   },
