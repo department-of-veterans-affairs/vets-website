@@ -20,13 +20,11 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
         window.location.replace('/');
       }
 
-      return () => {
-        recordEvent({ event: 'verify-prompt-displayed' });
+      recordEvent({ event: 'verify-prompt-displayed' });
 
-        if (!loading) {
-          focusElement('h1');
-        }
-      };
+      if (!loading) {
+        focusElement('h1');
+      }
     },
     [loading, profile.verified],
   );
