@@ -13,7 +13,7 @@ const NoRecentPaymentText = () => {
       className="vads-u-margin-bottom--3 vads-u-margin-top--0"
       data-testid="no-recent-payments-paragraph-v2"
     >
-      You don’t have any recent payments to show.
+      You have no recent payments to show.
     </p>
   );
 };
