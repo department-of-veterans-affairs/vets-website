@@ -7,7 +7,7 @@ import {
   validateDependentDate,
   // validateMarriageDate,
   validateCurrency,
-} from '../validation';
+} from '../utils/validation';
 
 describe('hca validation', () => {
   describe('validateServiceDates', () => {

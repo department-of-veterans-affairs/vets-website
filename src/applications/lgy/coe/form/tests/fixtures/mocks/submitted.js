@@ -29,7 +29,7 @@ export const submitted = () => ({
     disabilityIndicator: true, // *
     relevantPriorLoans: [
       {
-        valoanNumber: '345678',
+        valoanNumber: '345678901234',
         startDate: '2020-06-13T17:47:21.1247', // *
         paidoffDate: '2020-06-13T17:47:21.1247',
         loanAmount: 0, // *

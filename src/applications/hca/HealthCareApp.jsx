@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { fetchTotalDisabilityRating } from './actions';
+import { fetchTotalDisabilityRating } from './utils/actions';
 import formConfig from './config/form';
 
 const HealthCareEntry = ({

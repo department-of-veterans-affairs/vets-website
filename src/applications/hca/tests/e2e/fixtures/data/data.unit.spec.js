@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Validator } from 'jsonschema';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { transform } from '../../../../helpers';
+import { transform } from '../../../../utils/helpers';
 import formConfig from '../../../../config/form';
 
 describe('hca data tests', () => {

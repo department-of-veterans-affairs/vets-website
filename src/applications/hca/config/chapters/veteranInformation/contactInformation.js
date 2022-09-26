@@ -6,7 +6,8 @@ import { validateMatch } from 'platform/forms-system/src/js/validation';
 
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
-import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
