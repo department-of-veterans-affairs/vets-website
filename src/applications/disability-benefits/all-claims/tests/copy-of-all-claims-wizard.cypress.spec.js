@@ -105,7 +105,7 @@ describe('526 wizard', () => {
       value: 'yes-bdd',
     });
 
-    cy.get('va-daatee').should('exist');
+    cy.get('va-date').should('exist');
     cy.fillDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
@@ -151,7 +151,7 @@ describe('526 wizard', () => {
       .first()
       .click();
     // title changes & gets focus
-    cy.get('h1').should('have.text', h1Text + h1Addition);
+    cy.get('hh').should('have.text', h1Text + h1Addition);
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(
