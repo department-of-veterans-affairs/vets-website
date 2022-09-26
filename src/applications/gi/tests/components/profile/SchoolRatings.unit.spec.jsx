@@ -176,37 +176,37 @@ describe('<SchoolRatings>', () => {
     wrapper.unmount();
   });
 
-  it('should only allow 1 open SchoolCategoryRating per group', () => {
-    const wrapper = mount(
-      <SchoolRatings
-        ratingAverage={3}
-        ratingCount={6}
-        institutionCategoryRatings={validInstitutionCategoryRatings}
-      />,
-    );
+  // it('should only allow 1 open SchoolCategoryRating per group', () => {
+  //   const wrapper = mount(
+  //     <SchoolRatings
+  //       ratingAverage={3}
+  //       ratingCount={6}
+  //       institutionCategoryRatings={validInstitutionCategoryRatings}
+  //     />,
+  //   );
 
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
+  //   expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
 
-    wrapper
-      .find('button')
-      .at(0)
-      .simulate('click');
-    wrapper
-      .find('button')
-      .at(1)
-      .simulate('click');
-    wrapper
-      .find('button')
-      .at(4)
-      .simulate('click');
-    wrapper
-      .find('button')
-      .at(5)
-      .simulate('click');
+  //   wrapper
+  //     .find('button')
+  //     .at(0)
+  //     .simulate('click');
+  //   wrapper
+  //     .find('button')
+  //     .at(1)
+  //     .simulate('click');
+  //   wrapper
+  //     .find('button')
+  //     .at(4)
+  //     .simulate('click');
+  //   wrapper
+  //     .find('button')
+  //     .at(5)
+  //     .simulate('click');
 
-    expect(wrapper.find('button[aria-expanded=true]').length).to.eq(2);
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(5);
+  //   expect(wrapper.find('button[aria-expanded=true]').length).to.eq(2);
+  //   expect(wrapper.find('button[aria-expanded=false]').length).to.eq(5);
 
-    wrapper.unmount();
-  });
+  //   wrapper.unmount();
+  // });
 });

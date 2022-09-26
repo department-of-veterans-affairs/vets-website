@@ -3,7 +3,6 @@ import React from 'react';
 
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -42,9 +41,7 @@ export default function InstitutionProfile({
 
   const stars = convertRatingToStars(institution.ratingAverage);
 
-  const displayRatings = !environment.isProduction();
-  const displayStars =
-    displayRatings && stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars = stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -110,7 +107,7 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayRatings && (
+      {displayStars && (
         <ProfileSection label="Veteran ratings" id="veteran-ratings">
           <div id="profile-school-ratings">
             <SchoolRatings

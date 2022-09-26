@@ -8,10 +8,7 @@ export default function SchoolRatings({
   ratingCount,
   institutionCategoryRatings = [],
 }) {
-  const [openNames, setOpenNames] = useState({
-    educationRatings: '',
-    veteranFriendliness: '',
-  });
+  const [openNames, setOpenNames] = useState({});
   const stars = convertRatingToStars(ratingAverage);
 
   const renderSchoolCategoryRating = (
@@ -62,11 +59,8 @@ export default function SchoolRatings({
       </div>
       <div className="vads-l-row">
         <div className="vads-l-row">
-          <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
-            <div
-              className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings"
-              small-screen-font
-            >
+          <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
+            <div className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings small-screen-font">
               Quality of Learning Experience
             </div>
             <div className="vads-u-padding-left--0">
