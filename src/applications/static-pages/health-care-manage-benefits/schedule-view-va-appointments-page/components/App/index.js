@@ -43,7 +43,7 @@ const mapStateToProps = state => ({
   facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
     ? selectPatientFacilitiesDsot(state)
     : selectPatientFacilities(state),
-  useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
+  useSingleLogout: false,
 });
 
 export default connect(
