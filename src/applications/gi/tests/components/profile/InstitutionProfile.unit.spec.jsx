@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import InstitutionProfile from '../../../components/profile/InstitutionProfile';
-import { MINIMUM_RATING_COUNT } from '../../../../gi/constants';
+import { MINIMUM_RATING_COUNT } from '../../../constants';
 
 describe('<InstitutionProfile>', () => {
   const defaultProps = {
@@ -21,11 +21,6 @@ describe('<InstitutionProfile>', () => {
   it('should render', () => {
     const tree = shallow(<InstitutionProfile {...defaultProps} />);
     expect(tree.type()).to.not.equal(null);
-    tree.unmount();
-  });
-  it('should not render ratings without gibctSchoolRatings flag', () => {
-    const tree = shallow(<InstitutionProfile {...defaultProps} />);
-    expect(tree.find('#profile-school-ratings').length).to.eq(0);
     tree.unmount();
   });
   it('should render ratings if rating count >= minimum', () => {
