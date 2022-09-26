@@ -36,6 +36,8 @@ module.exports = {
       : `http://${location.hostname || 'localhost'}:${
           location.port ? location.port : '3001'
         }`,
-    API_URL: `https://staging-api.va.gov`,
+    API_URL: isNode
+      ? `http://${process.env.API_HOST}:3000`
+      : `http://${location.hostname || 'localhost'}:3000`,
   },
 };
