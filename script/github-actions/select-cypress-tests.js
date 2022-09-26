@@ -12,7 +12,7 @@ const {
 
 const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
-  : null;
+  : [];
 const ALLOW_LIST = process.env.ALLOW_LIST
   ? JSON.parse(process.env.ALLOW_LIST)
   : null;
@@ -307,7 +307,7 @@ function run() {
   );
 }
 
-if (CHANGED_FILE_PATHS || ALLOW_LIST || RUN_FULL_SUITE) {
+if (ALLOW_LIST || RUN_FULL_SUITE) {
   run();
 }
 
