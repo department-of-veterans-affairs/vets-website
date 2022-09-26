@@ -307,7 +307,7 @@ function run() {
   );
 }
 
-if ((CHANGED_FILE_PATHS && ALLOW_LIST) || RUN_FULL_SUITE) {
+if (CHANGED_FILE_PATHS || ALLOW_LIST || RUN_FULL_SUITE) {
   run();
 }
 
