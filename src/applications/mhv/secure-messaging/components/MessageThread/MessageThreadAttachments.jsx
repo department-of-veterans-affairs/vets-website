@@ -20,7 +20,7 @@ const MessageThreadAttachments = props => {
 };
 
 MessageThreadAttachments.propTypes = {
-  attachments: PropTypes.object,
+  attachments: PropTypes.array,
   expanded: PropTypes.bool,
 };
 
