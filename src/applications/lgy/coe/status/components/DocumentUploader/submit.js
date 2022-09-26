@@ -40,7 +40,7 @@ export const submitToAPI = (state, setState) => {
         setState({
           ...state,
           files: [],
-          submitted: state.submitted.concat(state.files),
+          submitted: (state.submitted || []).concat(state.files),
           errorMessage: null,
           successMessage: true,
           submissionPending: false,

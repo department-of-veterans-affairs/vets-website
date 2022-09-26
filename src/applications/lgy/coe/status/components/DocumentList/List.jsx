@@ -20,13 +20,13 @@ export const getDocumentType = fileName =>
     .pop()
     .toUpperCase();
 
-export const getDownloadLinkLabel = (description, timestamp) =>
+export const getDownloadLinkLabel = timestamp =>
   `Download Notification Letter ${formatLabelDate(timestamp)}`;
 
 const List = ({ documents }) =>
   documents.map((document, i) => {
     const { createDate, description, mimeType, id } = document;
-    const downloadLinkLabel = getDownloadLinkLabel(description, createDate);
+    const downloadLinkLabel = getDownloadLinkLabel(createDate);
     const sentDate = formatDateLong(createDate);
 
     return (
