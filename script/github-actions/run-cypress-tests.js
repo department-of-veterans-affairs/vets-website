@@ -28,9 +28,9 @@ const batch = tests
   .join(',');
 
 let status = null;
-const runTestInLoopUpTo = isStressTest ? 25 : 1;
+const runTestsInLoopUpTo = isStressTest ? 25 : 1;
 
-for (let i = 0; i < runTestInLoopUpTo; i += 1) {
+for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
     status = runCommandSync(
       `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.js" --spec 'src/applications/**/all-claims.cypress.spec.js' --env app_url=${appUrl}`,
