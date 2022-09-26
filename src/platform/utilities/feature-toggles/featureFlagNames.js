@@ -90,6 +90,7 @@ export default Object.freeze({
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
+  pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
