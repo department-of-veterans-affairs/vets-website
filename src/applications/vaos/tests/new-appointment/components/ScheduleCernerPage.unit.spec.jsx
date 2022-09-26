@@ -49,7 +49,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
 
     expect(
       screen.getByRole('link', { name: 'My VA Health' }).getAttribute('href'),
-    ).to.contain('pages/scheduling/upcoming');
+    ).to.contain('pages%2Fscheduling%2Fupcoming');
 
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.getByRole('button', { name: /Continue/ })).to.have.attribute(

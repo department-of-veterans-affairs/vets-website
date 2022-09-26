@@ -13,9 +13,15 @@ import {
   authenticatedWithSSOePropType,
   ehrDataByVhaIdPropType,
   facilitiesPropType,
+  useSingleLogoutPropType,
 } from '../../../propTypes';
 
-export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
+export const App = ({
+  authenticatedWithSSOe,
+  ehrDataByVhaId,
+  facilities,
+  useSingleLogout,
+}) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerTestResults);
   const otherFacilities = facilities?.filter(f => !f.usesCernerTestResults);
   if (!isEmpty(cernerFacilities)) {
@@ -25,6 +31,7 @@ export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
         otherFacilities={otherFacilities}
         ehrDataByVhaId={ehrDataByVhaId}
         authenticatedWithSSOe={authenticatedWithSSOe}
+        useSingleLogout={useSingleLogout}
       />
     );
   }
@@ -36,6 +43,7 @@ App.propTypes = {
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 const mapStateToProps = state => ({
@@ -44,6 +52,7 @@ const mapStateToProps = state => ({
   facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
     ? selectPatientFacilitiesDsot(state)
     : selectPatientFacilities(state),
+  useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
 });
 
 export default connect(
