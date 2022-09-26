@@ -73,27 +73,9 @@ export default function SchoolRatings({
 
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
-                'Overall experience',
-                'anthony_experience',
+                'Quality of Classes',
+                'quality_of_classes',
                 'Instructors’ knowledge in the subject being taught.',
-                'educationRatings',
-              )}
-              {renderSchoolCategoryRating(
-                'Quality of classes',
-                'overall_experience',
-                'Instructors’ ability to engage with students around course content.',
-                'educationRatings',
-              )}
-              {renderSchoolCategoryRating(
-                'Online instruction',
-                'overall_experience',
-                'Support of course materials in meeting learning objectives.',
-                'educationRatings',
-              )}
-              {renderSchoolCategoryRating(
-                'Job preparation',
-                'overall_experience',
-                'Contribution of school-supplied technology and/or facilities to successful learning experience.',
                 'educationRatings',
               )}
             </div>
@@ -105,16 +87,10 @@ export default function SchoolRatings({
             </div>
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
-                'GI Bill support',
-                'gi_bill_support',
-                'Did you interact with the School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits)?',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'Veteran community',
+                'Veteran Community',
                 'veteran_community',
-                'Supportiveness of School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits).',
-                'veteranFriendliness',
+                'Extent of school’s support for its Veteran community',
+                '',
               )}
             </div>
           </div>
@@ -133,31 +109,7 @@ export default function SchoolRatings({
                 'GI Bill support',
                 'gi_bill_support',
                 'Did you interact with the School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits)?',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'Veteran community',
-                'veteran_community',
-                'Supportiveness of School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits).',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'True to expectations',
-                'gi_bill_support',
-                'Availability of School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits).',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'True to expectations',
-                'gi_bill_support',
-                'School’s timely completion of VA enrollment documentation.',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'True to expectations',
-                'gi_bill_support',
-                'Helpfulness of school-provided information about GI Bill, other VA benefits.',
-                'veteranFriendliness',
+                '',
               )}
             </div>
           </div>
@@ -168,16 +120,10 @@ export default function SchoolRatings({
             </div>
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
-                'GI Bill support',
-                'gi_bill_support',
-                'It’s easy to use GI Bill education benefits at this school. School officials are helpful if there are challenges processing VA benefits.',
-                'veteranFriendliness',
-              )}
-              {renderSchoolCategoryRating(
-                'Veteran community',
-                'veteran_community',
-                'There’s a robust community at the school for Veterans and military-connected students. The school supports and engages Veterans.',
-                'veteranFriendliness',
+                'Overall Experience',
+                'overall_experience',
+                'Overall learning experience',
+                '',
               )}
             </div>
           </div>

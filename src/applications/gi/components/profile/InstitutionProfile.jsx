@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -41,7 +42,9 @@ export default function InstitutionProfile({
 
   const stars = convertRatingToStars(institution.ratingAverage);
 
-  const displayStars = stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
+  const displayRatings = !environment.isProduction();
+  const displayStars =
+    displayRatings && stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -107,15 +110,19 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      <ProfileSection label="Veteran ratings" id="veteran-ratings">
-        <div id="profile-school-ratings">
-          <SchoolRatings
-            ratingAverage={institution.ratingAverage}
-            ratingCount={institution.ratingCount}
-            institutionCategoryRatings={institution.institutionCategoryRatings}
-          />
-        </div>
-      </ProfileSection>
+      {displayRatings && (
+        <ProfileSection label="Veteran ratings" id="veteran-ratings">
+          <div id="profile-school-ratings">
+            <SchoolRatings
+              ratingAverage={institution.ratingAverage}
+              ratingCount={institution.ratingCount}
+              institutionCategoryRatings={
+                institution.institutionCategoryRatings
+              }
+            />
+          </div>
+        </ProfileSection>
+      )}
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
