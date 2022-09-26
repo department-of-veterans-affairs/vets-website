@@ -60,7 +60,6 @@ export default function SchoolRatings({
           </div>
         </div>
       </div>
-
       <div className="vads-l-row">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
@@ -70,7 +69,6 @@ export default function SchoolRatings({
             >
               Quality of Learning Experience
             </div>
-
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
                 'Quality of Classes',
@@ -80,7 +78,6 @@ export default function SchoolRatings({
               )}
             </div>
           </div>
-
           <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
             <div className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings small-screen-font">
               Veteran Community
@@ -103,7 +100,6 @@ export default function SchoolRatings({
             >
               GI Bill Support
             </div>
-
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
                 'GI Bill support',
@@ -113,7 +109,6 @@ export default function SchoolRatings({
               )}
             </div>
           </div>
-
           <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12 ">
             <div className="vads-u-font-weight--bold small-screen:vads-u-font-size--lg vads-u-font-family--serif category-ratings-accordion-headings small-screen-font">
               Overall Experience
@@ -128,7 +123,6 @@ export default function SchoolRatings({
             </div>
           </div>
         </div>
-
         <div className="vads-u-padding-top--4 about-ratings">
           <div className="small-screen:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font">
             About ratings

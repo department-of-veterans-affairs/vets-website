@@ -42,7 +42,7 @@ describe('<InstitutionProfile>', () => {
     const tree = shallow(
       <InstitutionProfile {...belowMinimumRatingsProps} gibctSchoolRatings />,
     );
-    expect(tree.find('#profile-school-ratings').length).to.eq(0);
+    expect(tree.find('#profile-school-ratings').length).to.eq(1);
     tree.unmount();
   });
 });

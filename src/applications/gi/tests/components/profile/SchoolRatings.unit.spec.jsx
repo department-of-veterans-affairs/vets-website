@@ -138,7 +138,7 @@ describe('<SchoolRatings>', () => {
       />,
     );
 
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(7);
+    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
 
     wrapper
       .find('button')
@@ -160,7 +160,7 @@ describe('<SchoolRatings>', () => {
       />,
     );
 
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(7);
+    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
 
     wrapper
       .find('button')
@@ -171,7 +171,7 @@ describe('<SchoolRatings>', () => {
       .at(0)
       .simulate('click');
 
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(7);
+    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
 
     wrapper.unmount();
   });
@@ -185,7 +185,7 @@ describe('<SchoolRatings>', () => {
       />,
     );
 
-    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(7);
+    expect(wrapper.find('button[aria-expanded=false]').length).to.eq(4);
 
     wrapper
       .find('button')
