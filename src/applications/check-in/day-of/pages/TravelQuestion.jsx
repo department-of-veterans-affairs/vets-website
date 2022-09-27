@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
+import Wrapper from '../../components/layout/Wrapper';
 
 const TravelQuestion = props => {
   const { router } = props;
@@ -10,8 +11,7 @@ const TravelQuestion = props => {
   const { goToNextPage } = useFormRouting(router);
 
   return (
-    <>
-      <h1>Travel Question</h1>
+    <Wrapper pageTitle="Travel Question">
       <button
         onClick={goToNextPage}
         className="usa-button-primary usa-button-big"
@@ -28,7 +28,7 @@ const TravelQuestion = props => {
       >
         {t('no')}
       </button>
-    </>
+    </Wrapper>
   );
 };
 
