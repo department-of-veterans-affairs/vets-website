@@ -6,7 +6,6 @@ import { buildRoutes } from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
 
-// Trigger single app build
 startApp({
   url: manifest.rootUrl,
   routes: buildRoutes(),

@@ -6,6 +6,7 @@ import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './redux/reducer';
 
+// Trigger single app build
 startApp({
   url: manifest.rootUrl,
   createRoutesWithStore,
