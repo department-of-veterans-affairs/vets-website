@@ -11,7 +11,7 @@ const FileListItem = ({ index, file, onClick }) => {
 
   return (
     <div
-      className="file-list-item vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2 vads-u-margin-y--1"
+      className="vads-u-background-color--gray-lightest vads-u-padding-y--1 vads-u-padding-x--2 vads-u-margin-y--1"
       key={index}
       id={index}
     >
