@@ -47,19 +47,20 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
 
       {/* Alert when the user's browser is Internet Explorer. */}
       {/* @TODO Wrap this web-component into its own react component. */}
-      {loaded && isBrowserIE() && (
-        <va-banner
-          headline="You'll need to use a different web browser"
-          show-close
-          type="warning"
-          visible
-        >
-          You’re using Internet Explorer right now to access VA.gov. Microsoft
-          stopped supporting all versions of this browser on June 15, 2022. This
-          means that you’ll need to switch to another browser, like Microsoft
-          Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
-        </va-banner>
-      )}
+      {loaded &&
+        isBrowserIE() && (
+          <va-banner
+            headline="You'll need to use a different web browser"
+            show-close
+            type="warning"
+            visible
+          >
+            You’re using Internet Explorer right now to access VA.gov. Microsoft
+            stopped supporting all versions of this browser on June 15, 2022.
+            This means that you’ll need to switch to another browser, like
+            Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
+          </va-banner>
+        )}
     </div>
   );
 };
