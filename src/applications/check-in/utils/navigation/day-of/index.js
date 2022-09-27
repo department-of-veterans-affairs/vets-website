@@ -64,10 +64,18 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
 const createForm = () => {
   return CHECK_IN_FORM_PAGES.map(page => page.url);
 };
-const updateForm = patientDemographicsStatus => {
+const updateForm = (
+  patientDemographicsStatus,
+  isTravelReimbursementEnabled,
+) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(patientDemographicsStatus, pages, URLS);
+  return updateFormPages(
+    patientDemographicsStatus,
+    pages,
+    URLS,
+    isTravelReimbursementEnabled,
+  );
 };
 
 export { CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation, updateForm };

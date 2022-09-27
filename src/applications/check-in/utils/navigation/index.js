@@ -9,7 +9,7 @@ const updateFormPages = (
   patientDemographicsStatus,
   pages,
   URLS,
-  isTravelPay = true,
+  isTravelReimbursementEnabled = false,
 ) => {
   const skippedPages = [];
   const {
@@ -56,7 +56,8 @@ const updateFormPages = (
       skippedPages.push(page.url);
     }
   });
-  if (!isTravelPay) {
+  // Skip travel pay if not enabled.
+  if (!isTravelReimbursementEnabled) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));
