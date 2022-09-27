@@ -34,7 +34,8 @@ const MessageThreadMeta = props => {
           <i
             className="fas fa-paperclip vads-u-padding-right--0p5"
             label="paperclip"
-            aria-hidden
+            aria-label="Has attachment"
+            role="img"
           />
         )}
         {moment(props.message.attributes.sent_date).format(
