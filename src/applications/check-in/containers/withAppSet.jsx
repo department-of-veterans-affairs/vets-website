@@ -20,7 +20,7 @@ export const withAppSet = (Component, options = {}) => {
           dispatch(setApp(passedApp));
         }
       },
-      [app, passedApp, setApp, dispatch],
+      [app, passedApp, dispatch],
     );
     // Allowing for HOC
     // eslint-disable-next-line react/jsx-props-no-spreading
