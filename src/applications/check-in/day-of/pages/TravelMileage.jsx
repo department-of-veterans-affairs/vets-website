@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import Wrapper from '../../components/layout/Wrapper';
@@ -30,6 +31,10 @@ const TravelMileage = props => {
       </button>
     </Wrapper>
   );
+};
+
+TravelMileage.propTypes = {
+  router: PropTypes.object,
 };
 
 export default TravelMileage;
