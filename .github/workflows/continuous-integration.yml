@@ -636,8 +636,35 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: qa-standards-dashboard-data
+          ref: split-biqgquery-mochawesome
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: qa-standards-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: qa-standards-dashboard-data
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -748,8 +775,35 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: qa-standards-dashboard-data
+          ref: split-biqgquery-mochawesome
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: qa-standards-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: qa-standards-dashboard-data
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -837,8 +891,34 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: qa-standards-dashboard-data
+          ref: split-biqgquery-mochawesome
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: qa-standards-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: qa-standards-dashboard-data
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -917,8 +997,34 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      # - name: Init Dashboard Data Repo
+      #   uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: qa-standards-dashboard-data
+          ref: split-biqgquery-mochawesome
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        working-directory: qa-standards-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: qa-standards-dashboard-data
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1100,22 +1206,22 @@ jobs:
     env:
       DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
       DEV: "{
-          \\\"environment\\\": \\\"vagovdev\\\", 
-          \\\"bucket\\\": \\\"dev.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovdev\\\",
+        \\\"bucket\\\": \\\"dev.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       STAGING: "{
-          \\\"environment\\\": \\\"vagovstaging\\\", 
-          \\\"bucket\\\": \\\"staging.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovstaging\\\",
+        \\\"bucket\\\": \\\"staging.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       PROD: "{
-          \\\"environment\\\": \\\"vagovprod\\\", 
-          \\\"bucket\\\": \\\"www.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovprod\\\",
+        \\\"bucket\\\": \\\"www.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
       - name: Set environments for deploy matrix
@@ -1126,7 +1232,7 @@ jobs:
           else
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
           fi
-  
+
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
