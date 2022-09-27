@@ -341,9 +341,11 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const showBenefitPaymentsAndDebt = canAccess(state)[
-    API_NAMES.PAYMENT_HISTORY
-  ];
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const showBenefitPaymentsAndDebt =
+    canAccessPaymentHistory === undefined
+      ? !showMPIConnectionError && !showNotInMPIError && isLOA3
+      : canAccessPaymentHistory;
   const showBenefitPaymentsAndDebtV2 =
     showBenefitPaymentsAndDebt &&
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
