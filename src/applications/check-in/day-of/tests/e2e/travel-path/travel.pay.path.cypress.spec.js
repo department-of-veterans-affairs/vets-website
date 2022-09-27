@@ -47,12 +47,16 @@ describe('Check In Experience', () => {
       );
       NextOfKin.attemptToGoToNextPage();
       TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
