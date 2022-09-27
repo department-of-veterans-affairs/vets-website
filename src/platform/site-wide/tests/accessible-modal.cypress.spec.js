@@ -37,6 +37,7 @@ describe('Accessible Modal Test', () => {
       .should('be.focused');
 
     cy.get(thirdOpenControl)
+      .first()
       .focus()
       .realPress('Enter');
     cy.get(firstModalItem).should('be.focused');
