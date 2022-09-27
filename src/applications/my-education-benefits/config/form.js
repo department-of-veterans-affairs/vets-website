@@ -11,10 +11,12 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
 
@@ -76,6 +78,7 @@ const formPages = {
   contactInformation: {
     contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
+    mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
@@ -716,7 +719,56 @@ const formConfig = {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
               [formFields.address]: {
-                ...address.uiSchema(''),
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      !formData['view:mailingAddress'].livesOnMilitaryBase),
+                  'ui:disabled': formData =>
+                    formData.showMebDgi40Features &&
+                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['view:mailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['view:mailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (
+                        formData.showMebDgi40Features &&
+                        livesOnMilitaryBase
+                      ) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+
+                      countryUI['ui:disabled'] = false;
+
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -733,7 +785,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -744,17 +795,61 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData.showMebDgi40Features &&
+                        formData['view:mailingAddress']?.livesOnMilitaryBase
+                      ) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
                   },
                 },
+                state: {
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                        formData['view:mailingAddress']?.address?.country ===
+                          'USA')),
+                },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                        formData['view:mailingAddress']?.address?.country ===
+                          'USA')),
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
                   },
                 },
               },

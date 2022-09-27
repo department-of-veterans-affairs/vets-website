@@ -25,6 +25,7 @@ export const App = ({
   location,
   setFormData,
   showUnverifiedUserAlert,
+  showMebDgi40Features,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -59,6 +60,13 @@ export const App = ({
           eligibility,
         });
       }
+
+      if (showMebDgi40Features !== formData.showMebDgi40Features) {
+        setFormData({
+          ...formData,
+          showMebDgi40Features,
+        });
+      }
     },
     [
       claimantInfo,
@@ -73,6 +81,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebDgi40Features,
       showUnverifiedUserAlert,
     ],
   );
@@ -106,6 +115,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebDgi40Features: PropTypes.bool,
   showUnverifiedUserAlert: PropTypes.bool,
 };
 
