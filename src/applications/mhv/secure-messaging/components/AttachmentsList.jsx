@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 const AttachmentsList = props => {
@@ -23,26 +23,29 @@ const AttachmentsList = props => {
         {!!attachments.length &&
           attachments.map(file => (
             <li key={file.name}>
-              <i className="fas fa-paperclip" aria-hidden="true" />
               {editingEnabled && (
-                <div>
-                  <strong>
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
-                  </strong>
-                  <button
-                    type="button"
-                    className="link-button remove-attachment-button"
-                    onClick={() => removeAttachment(file.name)}
-                  >
-                    <i className="fas fa-times" aria-hidden="true" />
-                    Remove
-                  </button>
-                </div>
+                <>
+                  <i className="fas fa-paperclip" aria-hidden="true" />
+                  <div className="editable-attachment">
+                    <span>
+                      {file.name} ({getSize(file.size || file.attachmentSize)})
+                    </span>
+                    <va-button
+                      onClick={() => removeAttachment(file.name)}
+                      secondary
+                      text="Remove"
+                      class="remove-attachment-button"
+                    />
+                  </div>
+                </>
               )}
               {!editingEnabled && (
-                <a href="/">
-                  {file.name} ({getSize(file.size || file.attachmentSize)})
-                </a>
+                <>
+                  <i className="fas fa-paperclip" aria-hidden="true" />
+                  <a href="/">
+                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                  </a>
+                </>
               )}
             </li>
           ))}
