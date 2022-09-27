@@ -27,7 +27,7 @@ export const RatingsStars = ({ rating }) => {
     );
   }
 
-  for (let i = stars.length; i < 5; i++) {
+  for (let i = stars.length; i < 4; i++) {
     stars.push(
       <i
         key={stars.length}
