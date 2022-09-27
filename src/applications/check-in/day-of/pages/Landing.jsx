@@ -17,8 +17,6 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
-import { setApp } from '../../actions/universal';
-import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
   const { location, router } = props;
@@ -52,12 +50,6 @@ const Landing = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      dispatch(setApp(APP_NAMES.CHECK_IN));
-    },
-    [dispatch],
-  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);

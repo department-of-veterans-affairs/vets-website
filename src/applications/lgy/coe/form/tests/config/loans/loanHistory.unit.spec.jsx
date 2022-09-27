@@ -215,6 +215,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                vaLoanNumber: '123456789012',
               },
               {
                 dateRange: {
@@ -227,6 +228,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                vaLoanNumber: '123456789013',
               },
             ],
           }}

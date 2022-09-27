@@ -66,6 +66,7 @@
     }
     .compose-inputs-container {
       border: 2px solid $color-gray-lightest;
+      border-radius: 0 0 4px 4px;
       padding: 0 14px 14px;
       @media (min-width: $medium-screen) {
         padding: 0 36px 36px;
@@ -86,9 +87,6 @@
         padding: 1.2rem;
         margin: 0.4rem 0px;
         resize: none;
-      }
-      .send-button-bottom-text {
-        margin-right: 8px;
       }
       .radio-button > label {
         margin-left: 2.85rem;
@@ -153,31 +151,31 @@
         }
       }
       .compose-form-actions {
-        display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: 1fr 1fr;
-        grid-template-areas: "top" "bottom";
-        .send-button-bottom {
-          grid-area: top;
-        }
+        display: flex;
+        flex-direction: column;
+        .send-button-bottom,
         .save-draft-button {
-          grid-area: bottom;
+          height: 36px;
+          margin: 0;
+        }
+        .send-button-bottom {
+          margin-bottom: 16px;
         }
         @media (min-width: $medium-screen) {
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto;
-          grid-template-areas: "left right";
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          .save-draft-button,
           .send-button-bottom {
-            grid-area: right;
-            justify-self: end;
-            width: 201px;
-          }
-          .save-draft-button {
-            grid-area: left;
-            justify-self: start;
+            width: 210px;
+            margin: 0;
           }
         }
       }
+    }
+    .last-save-time {
+      margin-top: 12px;
     }
   }
 }

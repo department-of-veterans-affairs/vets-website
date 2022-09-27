@@ -16,13 +16,13 @@ import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 import { ServerErrorAlert } from '../components/FormAlerts';
 import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
 
-import { getEnrollmentStatus } from '../actions';
+import { getEnrollmentStatus } from '../utils/actions';
+import { didEnrollmentStatusChange } from '../utils/helpers';
+import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
 import {
-  didEnrollmentStatusChange,
   idFormSchema as schema,
   idFormUiSchema as uiSchema,
-} from '../helpers';
-import { HCA_ENROLLMENT_STATUSES } from '../constants';
+} from '../definitions/idForm';
 
 const IDPage = props => {
   const {

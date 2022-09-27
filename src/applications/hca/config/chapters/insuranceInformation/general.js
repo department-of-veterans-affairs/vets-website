@@ -14,10 +14,8 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import {
-  emptyObjectSchema,
-  NotHighDisabilityOrNotCompensationTypeHigh,
-} from '../../../helpers';
+import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;

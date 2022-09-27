@@ -15,18 +15,14 @@ describe('authenticated experience -- profile -- bad address alert', () => {
         </Router>,
       );
     });
-    it('has accessibility considerations', async () => {
+    it('has accessibility considerations including alert role and aria-live', async () => {
       const { findByRole } = render(
         <Router>
           <ProfileAlert />
         </Router>,
       );
       const alert = await findByRole('alert');
-      expect(alert.getAttribute('aria-label')).to.equal(
-        'The address we have on file for you may not be correct.',
-      );
       expect(alert.getAttribute('aria-live')).to.equal('polite');
-      expect(alert.getAttribute('tabIndex')).to.equal('0');
     });
   });
   describe('FormAlert', () => {

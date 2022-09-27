@@ -14,7 +14,13 @@ import {
   FOLDERS_RETRIEVE_STARTED,
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
+  DRAFT_SAVE_STARTED,
+  DRAFT_SAVE_FAILED,
+  DRAFT_SAVE_SUCCEEDED,
   LOADING_COMPLETE,
+  // THREAD_RETRIEVE_STARTED,
+  THREAD_RETRIEVE_SUCCEEDED,
+  THREAD_RETRIEVE_FAILED,
 } from '../actions';
 
 const initialState = {
@@ -58,11 +64,24 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
+    case DRAFT_SAVE_STARTED:
+      return {
+        ...state,
+        isSaving: true,
+        error: null,
+      };
     case MESSAGE_RETRIEVE_SUCCEEDED:
       return {
         ...state,
         isLoading: false,
         message: action.response,
+        error: null,
+      };
+    case DRAFT_SAVE_SUCCEEDED:
+      return {
+        ...state,
+        isSaving: false,
+        lastSaveTime: Date.now(),
         error: null,
       };
     case MESSAGE_DELETE_FAILED:
@@ -73,6 +92,12 @@ const message = (state = initialState, action) => {
         isLoading: false,
         error: action.response,
       };
+    case DRAFT_SAVE_FAILED:
+      return {
+        ...state,
+        isSaving: false,
+        error: action.response,
+      };
     case MESSAGE_DELETE_SUCCEEDED:
     case MESSAGE_MOVE_SUCCEEDED:
     case LOADING_COMPLETE:
@@ -80,11 +105,22 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
-
+    case THREAD_RETRIEVE_SUCCEEDED:
+      return {
+        ...state,
+        messages: action.response,
+      };
+    case THREAD_RETRIEVE_FAILED:
+      return {
+        ...state,
+        messages: false,
+        error: action.response,
+      };
     default:
       return state;
   }
 };
+
 const folders = (state = initialState, action) => {
   switch (action.type) {
     case FOLDERS_RETRIEVE_STARTED:
@@ -108,4 +144,5 @@ const folders = (state = initialState, action) => {
       return state;
   }
 };
+
 export { allMessages, message, folders };

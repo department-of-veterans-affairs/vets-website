@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   FETCH_TOTAL_RATING_SUCCEEDED,
   FETCH_TOTAL_RATING_FAILED,
-} from '../actions';
+} from '../utils/actions';
 import totalRating from '../reducers/total-disabilities';
 
 const initialState = {
