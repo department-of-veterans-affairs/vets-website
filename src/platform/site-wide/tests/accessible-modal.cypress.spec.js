@@ -1,7 +1,6 @@
 const overlay = '#modal-crisisline';
 const firstModalItem = 'a[href="tel:988"]';
 const closeControl = '.va-crisis-panel.va-modal-inner button';
-const firstOpenControl = '#header-crisis-line';
 const thirdOpenControl = 'footer .va-button-link.va-overlay-trigger';
 const lastModalItem = 'a[href="https://www.veteranscrisisline.net/"]';
 
@@ -10,7 +9,7 @@ describe('Accessible Modal Test', () => {
     cy.visit('/');
 
     // Open modal
-    cy.get(firstOpenControl)
+    cy.get('[id=header-crisis-line]')
       .focus()
       .realPress('Enter');
     cy.injectAxeThenAxeCheck();
@@ -31,7 +30,7 @@ describe('Accessible Modal Test', () => {
     cy.get('body').should('not.have.class', 'va-pos-fixed');
 
     // REturn focus to appropriate open controls
-    cy.get(firstOpenControl).should('be.focused');
+    cy.get('[id=header-crisis-line]').should('be.focused');
 
     cy.get(thirdOpenControl)
       .focus()
