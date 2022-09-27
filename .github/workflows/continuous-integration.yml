@@ -706,6 +706,13 @@ jobs:
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
 
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        run: yarn upload-test-results
+        env:
+          TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
+          TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
+
       - name: Upload Contract Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
 
@@ -844,6 +851,13 @@ jobs:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        run: yarn upload-test-results
+        env:
+          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
 
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
@@ -1065,17 +1079,22 @@ jobs:
           name: cypress-video-artifacts
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-      - name: Create Cypress E2E report and post results to BigQuery
+      - name: Create Cypress E2E Mochawesome report
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
         env:
           IS_MASTER_BUILD: false
-          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      - name: Upload Test Results to BigQuery
+        continue-on-error: true
+        run: yarn upload-test-results
+        env:
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
