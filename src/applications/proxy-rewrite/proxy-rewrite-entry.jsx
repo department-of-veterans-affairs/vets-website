@@ -17,10 +17,8 @@ import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
 import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
 import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
-import { installWebComponentsLibrary } from '~/platform/site-wide/helpers/team-sites/web-components';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -252,12 +250,6 @@ function main() {
   const targetEnvironment = getTargetEnv();
   // Get the AWS S3 Bucket asset-path for the given environment.
   const assetPath = getAssetPath(targetEnvironment);
-
-  // Loads our custom web-components library in the case of IE so that we have support for the web-component
-  // which will display the IE deprecation notice to the user.
-  if (isBrowserIE()) {
-    installWebComponentsLibrary();
-  }
 
   if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
