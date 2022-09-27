@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import AllMessagesInThread from '../AllMessagesInThread';
+import { useSelector } from 'react-redux';
 
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { messageThread } = useSelector(state => state.messageThread);
+  const messageThreadCount = useRef(1);
+
+  useEffect(
+    () => {
+      if (messageThread) {
+        messageThread.message.forEach(() => {
+          messageThreadCount.current += 1;
+        });
+      }
+    },
+    [messageThread],
+  );
+
+  if (isModalVisible === false && printOption !== null) {
+    setPrintOption(null);
+  }
 
   const openModal = () => {
     setIsModalVisible(true);
@@ -20,11 +37,8 @@ const PrintBtn = props => {
   };
 
   const handleConfirmPrint = () => {
-    // if (printOption === 'this message') {
     props.handlePrint(printOption);
-    // } else if (printOption === 'all messages') {
-    //   // console.log('print option: ', printOption);
-    // }
+    setPrintOption(null);
     closeModal();
   };
 
@@ -67,7 +81,10 @@ const PrintBtn = props => {
                   onChange={handleOnChangePrintOption}
                 />
                 <label name="defaultName-0-label" htmlFor="all-messages">
-                  print all messages in this conversation
+                  print all messages in this conversation{' '}
+                  <span className="message-count">
+                    ({messageThreadCount.current} messages)
+                  </span>
                 </label>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -20,6 +20,7 @@ const MessageDetailBlock = props => {
 
   const history = useHistory();
   const casedCategory = capitalize(category);
+  const [printThread, setPrintThread] = useState('dont-print-thread');
 
   const handleReplyButton = useCallback(
     () => {
@@ -27,6 +28,15 @@ const MessageDetailBlock = props => {
     },
     [history],
   );
+
+  const handlePrintThreadStyleClass = option => {
+    if (option === 'print thread') {
+      setPrintThread('print-thread');
+    }
+    if (option !== 'print thread') {
+      setPrintThread('dont-print-thread');
+    }
+  };
 
   return (
     <section className="message-detail-block">
@@ -90,9 +100,14 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons id={id} />
+        <MessageActionButtons
+          id={id}
+          handlePrintThreadStyleClass={handlePrintThreadStyleClass}
+        />
       </main>
-      <AllMessagesInThread messageId={654} />
+      <div className={printThread}>
+        <AllMessagesInThread messageId={id} />
+      </div>
     </section>
   );
 };

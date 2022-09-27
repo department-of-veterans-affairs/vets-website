@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getMessageThread } from '../actions';
@@ -9,10 +9,10 @@ const AllMessagesInThread = props => {
 
   const dispatch = useDispatch();
   const { messageThread } = useSelector(state => state.messageThread);
+  const messageThreadCount = useRef(0);
   useEffect(
     () => {
       if (messageId) {
-        // dispatch(getMessage('message', id)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
         dispatch(getMessageThread(messageId));
       }
     },
@@ -78,34 +78,16 @@ const AllMessagesInThread = props => {
   };
 
   const messageThreadList = () => {
-    // if (messageThread) {
-    // console.log('message Thread: ', messageThread.message);
-    messageThread.message.map(m => {
-      // console.log('message: ', m);
-
-      return <>{message(m)}</>;
-    });
-    // }
+    return (
+      <div className="message-thread-list">
+        {messageThread.message.map(m => {
+          messageThreadCount.current += 1;
+          return <>{message(m)}</>;
+        })}
+      </div>
+    );
   };
-  return (
-    <div>
-      {messageThread
-        ? messageThread.message.map(m => {
-            return <>{message(m)}</>;
-          })
-        : null}
-      lasjdflj
-      {/* {message(messageObj)} */}
-      {messageThread ? messageThreadList() : null}
-      {/* {messageThread
-        ? messageThread.message.map(message => {
-            return (
-              <MessageDetailBlock key={`${message.id}`} message={message} />
-            );
-          })
-        : null} */}
-    </div>
-  );
+  return <div>{messageThread ? messageThreadList() : null}</div>;
 };
 
 AllMessagesInThread.propTypes = {

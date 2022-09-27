@@ -95,7 +95,12 @@
       }
     }
   }
-
+  .message-count {
+    font-weight: bold;
+  }
+}
+.message-thread-list {
+  display: none;
 }
 
 @media print {
@@ -118,9 +123,13 @@
     .older-messages {
       display: none;
     }
+    .print-thread {
+      .message-thread-list {
+        display: contents;
+      }
+    }
   }
   .message-detail-block {
-    position: absolute;
     left: 0;
     top: 0;
     .message-action-buttons {
