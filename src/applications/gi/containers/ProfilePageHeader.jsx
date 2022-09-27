@@ -33,7 +33,6 @@ const ProfilePageHeader = ({
   dispatchRemoveCompareInstitution,
   institution,
   dispatchShowModal,
-  gibctSchoolRatings,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
   const {
@@ -99,8 +98,7 @@ const ProfilePageHeader = ({
 
   const main = facilityMap.main.institution;
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars =
-    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames(
     'small-screen-header',
