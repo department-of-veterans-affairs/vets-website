@@ -48,7 +48,7 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 7,
   },
   {
-    url: URLS.TRAVEL_MILAGE,
+    url: URLS.TRAVEL_MILEAGE,
     order: 8,
   },
   {

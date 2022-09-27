@@ -42,7 +42,7 @@ const updateFormPages = (
     URLS.TRAVEL_QUESTION,
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
-    URLS.TRAVEL_MILAGE,
+    URLS.TRAVEL_MILEAGE,
   ];
   skippablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
@@ -80,7 +80,7 @@ const URLS = Object.freeze({
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
-  TRAVEL_MILAGE: 'travel-milage',
+  TRAVEL_MILEAGE: 'travel-mileage',
 });
 
 export { updateFormPages, URLS };
