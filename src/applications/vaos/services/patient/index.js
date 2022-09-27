@@ -247,20 +247,24 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(clinics, pastAppointments, clinicFilter = false) {
+function hasMatchingClinics(
+  clinics,
+  pastAppointments,
+  featureClinicFilter = false,
+) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
-        if (appt.version === 2 && clinicFilter) {
+        if (appt.version === 2 && featureClinicFilter) {
           return (
             clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId &&
             clinic.patientDirectScheduling === true
           );
         }
-        // TODO remove lines since v0 is pre-filtered where DS = yes
-        // if (appt.version === 1 && clinicFilter) {
+        // TODO remove lines since v0 returns pre-filtered direct schedule clinics
+        // if (appt.version === 1 && featureClinicFilter) {
         //   return (
         //     clinicIds[0] === appt.facilityId &&
         //     clinicIds[1] === appt.clinicId &&
@@ -358,7 +362,7 @@ function logEligibilityExplanation(
  * @param {Location} params.location The current location to check eligibility against
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
- * @param {boolean} [params.clinicFilter=false] feature flag to filter clinics based on VATS
+ * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -367,7 +371,7 @@ export async function fetchFlowEligibilityAndClinics({
   location,
   directSchedulingEnabled,
   useV2 = false,
-  clinicFilter = false,
+  featureClinicFilter = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -395,7 +399,7 @@ export async function fetchFlowEligibilityAndClinics({
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
     // Primary care and mental health is exempt from past appt history requirement
-    const isDirectAppointmentHistoryRequired = clinicFilter
+    const isDirectAppointmentHistoryRequired = featureClinicFilter
       ? typeOfCare.id !== PRIMARY_CARE &&
         typeOfCare.id !== MENTAL_HEALTH &&
         directTypeOfCareSettings.patientHistoryRequired === true
@@ -482,7 +486,7 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (clinicFilter) {
+    if (featureClinicFilter) {
       // v2 uses boolean while v0 uses Yes/No string for patientHistoryRequired
       const enable = useV2 ? true : 'Yes';
       if (
@@ -492,7 +496,7 @@ export async function fetchFlowEligibilityAndClinics({
         !hasMatchingClinics(
           results.clinics,
           results.pastAppointments,
-          clinicFilter,
+          featureClinicFilter,
         )
       ) {
         eligibility.direct = false;
@@ -505,7 +509,7 @@ export async function fetchFlowEligibilityAndClinics({
       !hasMatchingClinics(
         results.clinics,
         results.pastAppointments,
-        clinicFilter,
+        featureClinicFilter,
       )
     ) {
       eligibility.direct = false;

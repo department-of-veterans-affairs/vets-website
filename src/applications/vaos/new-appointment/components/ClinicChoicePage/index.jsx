@@ -46,7 +46,9 @@ function getPageTitle(schema, typeOfCare, usingPastClinics) {
 
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
-  const clinicFilter = useSelector(state => selectFeatureClinicFilter(state));
+  const featureClinicFilter = useSelector(state =>
+    selectFeatureClinicFilter(state),
+  );
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -69,7 +71,7 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
-  const pastMonths = clinicFilter ? 36 : 24;
+  const pastMonths = featureClinicFilter ? 36 : 24;
 
   useEffect(() => {
     scrollAndFocus();
@@ -94,13 +96,13 @@ export default function ClinicChoicePage() {
             <>{typeOfCare.name} appointments are available at </>
           )}
           {firstMatchingClinic.serviceName}:
-          <p>
+          <div className="vads-u-margin-top--2">
             <FacilityAddress
               name={facility.name}
               facility={facility}
               level={2}
             />
-          </p>
+          </div>
         </>
       )}
       {schema.properties.clinicId.enum.length > 2 && (

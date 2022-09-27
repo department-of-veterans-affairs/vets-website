@@ -264,7 +264,7 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
-    const clinicFilter = selectFeatureClinicFilter(state);
+    const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -282,7 +282,7 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
-        clinicFilter,
+        featureClinicFilter,
       });
 
       if (showModal) {

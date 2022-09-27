@@ -39,7 +39,9 @@ export default function useClinicFormState() {
   const selectedTypeOfCare = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const clinicFilter = useSelector(state => selectFeatureClinicFilter(state));
+  const featureClinicFilter = useSelector(state =>
+    selectFeatureClinicFilter(state),
+  );
   const useV2 = useSelector(state =>
     selectFeatureVAOSServiceVAAppointments(state),
   );
@@ -52,7 +54,7 @@ export default function useClinicFormState() {
 
       // filter the clinics based on Direct Scheduling value from VATS
       // v2 uses boolean while v0 uses Yes/No string
-      if (clinicFilter) {
+      if (featureClinicFilter) {
         if (useV2) {
           filteredClinics = clinics.filter(
             clinic => clinic.patientDirectScheduling === true,
@@ -67,8 +69,8 @@ export default function useClinicFormState() {
 
       // Past appointment history check
       // primary care and mental health are exempt
-      // NOTE: Same check is in ../services/patient/index.js:395
-      const isCheckTypeOfCare = clinicFilter
+      // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
+      const isCheckTypeOfCare = featureClinicFilter
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
           initialData.typeOfCareId !== PRIMARY_CARE &&
           location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
