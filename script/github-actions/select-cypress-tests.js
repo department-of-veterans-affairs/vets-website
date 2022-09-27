@@ -306,8 +306,9 @@ function main() {
     testSelectionDisallowedTests,
   );
 }
-
-main();
+if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {
+  main();
+}
 
 module.exports = {
   buildGraph,
