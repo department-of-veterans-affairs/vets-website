@@ -19,7 +19,6 @@ const acceptedFileTypes = {
 };
 
 const FileInput = ({ attachments, setAttachments }) => {
-  const [totalSize, setTotalSize] = useState(0);
   const [error, setError] = useState();
   const fileInputRef = useRef();
 
@@ -28,17 +27,22 @@ const FileInput = ({ attachments, setAttachments }) => {
   };
 
   const handleFiles = event => {
+    const currentTotalSize = attachments.reduce((currentSize, item) => {
+      return currentSize + item.size;
+    }, 0);
     const selectedFile = event.target.files[0];
-    const fileExtension = selectedFile.name.split('.').pop();
+    if (!selectedFile) return;
+    const fileExtension =
+      selectedFile.name && selectedFile.name.split('.').pop();
     setError(null);
 
-    if (!acceptedFileTypes[fileExtension]) {
+    if (!fileExtension || !acceptedFileTypes[fileExtension]) {
       setError({
         title: 'File type not supported',
         message:
           'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
       });
-      fileInputRef.value = null;
+      fileInputRef.current.value = null;
       return;
     }
     if (attachments.length === 4) {
@@ -47,7 +51,7 @@ const FileInput = ({ attachments, setAttachments }) => {
         title: 'Maximum number of files exceeded',
         message: 'You may only attach up to 4 files',
       });
-      fileInputRef.value = null;
+      fileInputRef.current.value = null;
       return;
     }
     if (selectedFile.size > 6000000) {
@@ -55,19 +59,17 @@ const FileInput = ({ attachments, setAttachments }) => {
         title: 'File is too large',
         message: 'File size for a single attachment cannot exceed 6MB',
       });
-      fileInputRef.value = null;
+      fileInputRef.current.value = null;
       return;
     }
-    if (totalSize + selectedFile.size > 10000000) {
+    if (currentTotalSize + selectedFile.size > 10000000) {
       setError({
         title: 'Total size of files is too large',
         message: 'The total size of all attachments cannot exceed 10MB',
       });
-      fileInputRef.value = null;
+      fileInputRef.current.value = null;
       return;
     }
-
-    setTotalSize(prevTotal => prevTotal + selectedFile.size);
 
     if (attachments.length) {
       setAttachments(prevFiles => {
@@ -79,7 +81,6 @@ const FileInput = ({ attachments, setAttachments }) => {
     } else {
       setAttachments([selectedFile]);
     }
-    fileInputRef.value = null;
   };
 
   const useFileInput = () => {
