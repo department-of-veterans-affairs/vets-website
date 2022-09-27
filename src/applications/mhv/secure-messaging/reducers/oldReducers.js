@@ -14,6 +14,7 @@ import {
   FOLDERS_RETRIEVE_STARTED,
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
+  DRAFT_AUTO_SAVE_STARTED,
   DRAFT_SAVE_STARTED,
   DRAFT_SAVE_FAILED,
   DRAFT_SAVE_SUCCEEDED,
@@ -29,6 +30,9 @@ const initialState = {
   folders: null,
   message: null,
   error: null,
+  isSaving: false,
+  lastSaveTime: null,
+  saveError: null,
 };
 
 const allMessages = (state = initialState, action) => {
@@ -64,11 +68,16 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
+    case DRAFT_AUTO_SAVE_STARTED:
+      return {
+        ...state,
+        saveError: null,
+      };
     case DRAFT_SAVE_STARTED:
       return {
         ...state,
         isSaving: true,
-        error: null,
+        saveError: null,
       };
     case MESSAGE_RETRIEVE_SUCCEEDED:
       return {
@@ -82,7 +91,7 @@ const message = (state = initialState, action) => {
         ...state,
         isSaving: false,
         lastSaveTime: Date.now(),
-        error: null,
+        saveError: null,
       };
     case MESSAGE_DELETE_FAILED:
     case MESSAGE_MOVE_FAILED:
@@ -96,7 +105,8 @@ const message = (state = initialState, action) => {
       return {
         ...state,
         isSaving: false,
-        error: action.response,
+        lastSaveTime: null,
+        saveError: action.response,
       };
     case MESSAGE_DELETE_SUCCEEDED:
     case MESSAGE_MOVE_SUCCEEDED:

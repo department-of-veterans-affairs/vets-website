@@ -32,6 +32,7 @@ export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
 
+export const DRAFT_AUTO_SAVE_STARTED = 'DRAFT_AUTO_SAVE_STARTED';
 export const DRAFT_SAVE_STARTED = 'DRAFT_SAVE_STARTED';
 export const DRAFT_SAVE_FAILED = 'DRAFT_SAVE_FAILED';
 export const DRAFT_SAVE_SUCCEEDED = 'DRAFT_SAVE_SUCCEEDED';
@@ -237,8 +238,9 @@ const sendSaveDraft = async messageData => {
   }
 };
 
-export const saveDraft = messageData => async dispatch => {
-  dispatch({ type: DRAFT_SAVE_STARTED });
+export const saveDraft = (messageData, type) => async dispatch => {
+  if (type === 'auto') dispatch({ type: DRAFT_AUTO_SAVE_STARTED });
+  else if (type === 'manual') dispatch({ type: DRAFT_SAVE_STARTED });
 
   const response = await sendSaveDraft(messageData);
   if (response.errors) {
