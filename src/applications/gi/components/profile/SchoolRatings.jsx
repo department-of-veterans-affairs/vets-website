@@ -91,7 +91,7 @@ export default function SchoolRatings({
             </div>
             <div className="vads-u-padding-left--0">
               {renderSchoolCategoryRating(
-                'GI Bill support',
+                'GI Bill Support',
                 'gi_bill_support',
                 'Did you interact with the School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits)?',
               )}
