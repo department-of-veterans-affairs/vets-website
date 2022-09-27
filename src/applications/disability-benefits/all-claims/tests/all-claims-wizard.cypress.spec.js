@@ -105,7 +105,7 @@ describe('526 wizard', () => {
       value: 'yes-bdd',
     });
 
-    cy.get('va-daatee').should('exist');
+    cy.get('va-date').should('exist');
     cy.fillDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
