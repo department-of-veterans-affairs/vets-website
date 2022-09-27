@@ -8,15 +8,10 @@ export default function SchoolRatings({
   ratingCount,
   institutionCategoryRatings = [],
 }) {
-  const [openNames, setOpenNames] = useState({});
+  const [openNames, setOpenNames] = useState([]);
   const stars = convertRatingToStars(ratingAverage);
 
-  const renderSchoolCategoryRating = (
-    title,
-    categoryName,
-    description,
-    groupName,
-  ) => {
+  const renderSchoolCategoryRating = (title, categoryName, description) => {
     const categoryRating = institutionCategoryRatings.find(
       category => category.categoryName === categoryName,
     );
@@ -24,15 +19,17 @@ export default function SchoolRatings({
       <SchoolCategoryRating
         title={title}
         openHandler={() => {
-          const newOpenNames = {
-            ...openNames,
-            [groupName]:
-              openNames[groupName] === categoryName ? '' : categoryName,
-          };
+          let newOpenNames = [...openNames];
+
+          if (newOpenNames.includes(categoryName)) {
+            newOpenNames = newOpenNames.filter(item => item !== categoryName);
+          } else {
+            newOpenNames.push(categoryName);
+          }
 
           setOpenNames(newOpenNames);
         }}
-        open={openNames[groupName] === categoryName}
+        open={openNames.includes(categoryName)}
         categoryRating={categoryRating}
         description={description}
       />
@@ -68,7 +65,6 @@ export default function SchoolRatings({
                 'Quality of Classes',
                 'quality_of_classes',
                 'Instructors’ knowledge in the subject being taught.',
-                'educationRatings',
               )}
             </div>
           </div>
@@ -81,7 +77,6 @@ export default function SchoolRatings({
                 'Veteran Community',
                 'veteran_community',
                 'Extent of school’s support for its Veteran community',
-                '',
               )}
             </div>
           </div>
@@ -99,7 +94,6 @@ export default function SchoolRatings({
                 'GI Bill support',
                 'gi_bill_support',
                 'Did you interact with the School Certifying Officials (school staff who assist Veterans/beneficiaries with enrollment, submit documentation to VA, advise on other VA benefits)?',
-                '',
               )}
             </div>
           </div>
@@ -112,7 +106,6 @@ export default function SchoolRatings({
                 'Overall Experience',
                 'overall_experience',
                 'Overall learning experience',
-                '',
               )}
             </div>
           </div>
