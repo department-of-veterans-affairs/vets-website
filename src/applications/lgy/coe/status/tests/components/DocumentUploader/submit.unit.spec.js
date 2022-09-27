@@ -37,6 +37,7 @@ const initialState = {
       contentBase64: '093abc',
     },
   ],
+  submitted: [],
 };
 
 describe('submitToAPI', () => {
@@ -55,6 +56,7 @@ describe('submitToAPI', () => {
     setTimeout(() => {
       const response2 = setState.secondCall.args[0];
       expect(response2.files.length).to.eq(0);
+      expect(response2.submitted.length).to.eq(1);
       expect(response2.errorMessage).to.be.null;
       expect(response2.successMessage).to.be.true;
       expect(response2.submissionPending).to.be.false;
@@ -75,7 +77,7 @@ describe('submitToAPI', () => {
 
     setTimeout(() => {
       const response2 = setState.secondCall.args[0];
-      expect(response2.files.length).to.eq(0);
+      expect(response2.files.length).to.eq(1);
       expect(response2.errorMessage).to.contain('try again later');
       expect(response2.successMessage).to.be.undefined;
       expect(response2.submissionPending).to.be.false;
