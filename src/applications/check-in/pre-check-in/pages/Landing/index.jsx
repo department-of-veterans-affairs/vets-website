@@ -8,7 +8,7 @@ import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
-import { setError, setApp } from '../../../actions/universal';
+import { setError } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -51,13 +51,6 @@ const Index = props => {
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
     },
     [dispatch],
   );

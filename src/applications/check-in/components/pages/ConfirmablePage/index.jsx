@@ -18,7 +18,6 @@ const ConfirmablePage = ({
   isLoading = false,
   loadingMessageOverride = null,
   withBackButton = false,
-  Footer,
   pageType,
 }) => {
   const { t } = useTranslation();
@@ -106,7 +105,6 @@ const ConfirmablePage = ({
           </button>
         </>
       )}
-      {Footer && <Footer />}
     </Wrapper>
   );
 };
@@ -121,7 +119,6 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
-  Footer: PropTypes.func,
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
   pageType: PropTypes.string,
