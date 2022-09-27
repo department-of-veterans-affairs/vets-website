@@ -16,7 +16,7 @@ const retrievePayments = async () => {
     }
     return response.data.attributes;
   } catch (error) {
-    return error;
+    return { errors: [error] };
   }
 };
 
@@ -40,13 +40,16 @@ export const getAllPayments = () => async dispatch => {
         'api-status': 'failed',
       });
     }
-    dispatch({ type: PAYMENTS_RECEIVED_FAILED, response: error });
+    dispatch({ type: PAYMENTS_RECEIVED_FAILED, error });
   } else {
     recordEvent({
       event: `api_call`,
       'api-name': 'GET payment history',
       'api-status': 'successful',
     });
-    dispatch({ type: PAYMENTS_RECEIVED_SUCCEEDED, response });
+    dispatch({
+      type: PAYMENTS_RECEIVED_SUCCEEDED,
+      payments: response.payments,
+    });
   }
 };

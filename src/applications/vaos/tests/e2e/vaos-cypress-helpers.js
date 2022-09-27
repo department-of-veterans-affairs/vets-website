@@ -3,7 +3,8 @@
 import unset from 'platform/utilities/data/unset';
 import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
-import moment from '../../lib/moment-tz';
+import moment from '../../utils/business-days';
+import * as momentTZ from '../../lib/moment-tz';
 
 import confirmedVA from '../../services/mocks/var/confirmed_va.json';
 import confirmedCC from '../../services/mocks/var/confirmed_cc.json';
@@ -384,6 +385,59 @@ export function vaosSetup() {
     });
   });
   cy.server();
+
+  // TODO: Move to shared location
+  Cypress.Commands.add('assertRequestedPeriod', (string, timezone = null) => {
+    // Strip timezone information.
+    const requestedDate = timezone
+      ? moment(string)
+      : momentTZ.parseZone(string);
+
+    if (!requestedDate.isValid()) return false;
+    // Using custom momentjs wrapper functions 'addBusinessDay' and 'addBusinessMonth'. These functions
+    // will check to see if adding 5 days to the current date falls on a Sat or Sun. If so, add 1 or 2
+    // days to get to Mon since appointment request are only available Mon thru Fri.
+    //
+    // NOTE: This can result in date shifting to the next month. When this happens add 2 months to the date:
+    //
+    // 1 month to account for the shift due to adding 5 days
+    // 1 month to account for the test clicking the 'next' button
+    //
+    // For all other use cases, add 1 month to account for the test clicking the 'next' button.
+    let testDate = moment().addBusinessDay(5, 'd');
+
+    // Did the date flip to the next month?
+    if (testDate.isSame(moment(), 'month')) {
+      testDate.addBusinessMonth(1);
+    } else {
+      testDate.addBusinessMonth(2);
+    }
+
+    // Convert date timezone to that of the facility for scheduled appointment
+    if (timezone) {
+      testDate = moment
+        .tz(testDate.format('YYYY-MM-DDTHH:mm:ss'), 'America/Denver')
+        .utc();
+    }
+
+    Cypress.log({
+      name: 'assertRequestedPeriod',
+      // shorter name for the Command Log
+      displayName: 'assertRequestedPeriod',
+      message: `Requested appointment date: ${requestedDate.format()}, test date: ${testDate.format()}`,
+      consoleProps: () => {
+        // return an object which will
+        // print to dev tools console on click
+        return {
+          Value: string,
+        };
+      },
+    });
+
+    // eslint-disable-next-line no-unused-expressions
+    expect(requestedDate.isSame(testDate, 'day')).to.ok;
+    return true;
+  });
 }
 
 function setupSchedulingMocks({
@@ -742,6 +796,17 @@ export function initVARequestMock({ cernerFacility = false } = {}) {
     url: '/vaos/v0/appointment_requests/testing',
     response: {
       data: requests.data[0],
+    },
+  });
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests/testing/messages*',
+    response: {
+      data: {
+        id: '',
+        type: '',
+        attributes: {},
+      },
     },
   });
 }

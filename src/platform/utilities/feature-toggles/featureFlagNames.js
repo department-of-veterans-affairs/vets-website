@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  caregiverAsync: 'caregiver_async',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
@@ -15,17 +16,17 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
-  checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
+  checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   combinedFinancialStatusReport: 'combined_financial_status_report',
+  combinedFinancialStatusReportEnhancements: 'combined_financial_status_report_enhancements',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
@@ -37,6 +38,7 @@ export default Object.freeze({
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
+  debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
@@ -68,6 +70,7 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaMedicareClaimNumberEnabled: 'hca_medicare_claim_number_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
+  hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrv2: 'hlr_v2',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
@@ -75,7 +78,6 @@ export default Object.freeze({
   medicalCopaysHtmlMedicalStatementsViewEnabled:'medical_copays_html_medical_statements_view_enabled',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
-  myVARedirect: 'my_va_redirect',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
@@ -89,6 +91,7 @@ export default Object.freeze({
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
+  pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
@@ -98,6 +101,7 @@ export default Object.freeze({
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
+  showDigitalForm1095b: 'show_digital_form_1095b',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
@@ -160,5 +164,4 @@ export default Object.freeze({
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
-  showDigitalForm1095b: 'show_digital_form_1095b'
 });

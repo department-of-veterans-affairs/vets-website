@@ -429,7 +429,7 @@ const formConfig = {
         },
         // New text field
         resolutionComment: {
-          title: 'Resolution Comment',
+          title: 'Resolution Amount',
           depends: (formData, index) => {
             return (
               formData.selectedDebtsAndCopays?.length > 0 &&

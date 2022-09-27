@@ -1,10 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { isValidDateString } from 'platform/utilities/date';
-import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
-import { HCA_ENROLLMENT_STATUSES } from './constants';
-import { getMedicalCenterNameByID } from './helpers';
+import {
+  DASHBOARD_ALERT_TYPES,
+  HCA_ENROLLMENT_STATUSES,
+} from './utils/constants';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {
@@ -264,9 +267,10 @@ export function getWarningExplanation(enrollmentStatus) {
           <p>
             If this information is incorrect, please call our enrollment case
             management team at{' '}
-            <a className="help-phone-number-link" href="tel:1-877-222-8387">
-              877-222-8387
-            </a>
+            <va-telephone
+              class="help-phone-number-link"
+              contact={CONTACTS['222_VETS']}
+            />
             .
           </p>
         </>
@@ -345,9 +349,10 @@ export function getFAQContent(enrollmentStatus) {
   const callOurTeam = (
     <>
       call our enrollment case management team at{' '}
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
+      <va-telephone
+        class="help-phone-number-link"
+        contact={CONTACTS['222_VETS']}
+      />
     </>
   );
 
@@ -926,10 +931,11 @@ export function getAlertContent(
   // this block will be used for almost every type of enrollmentstatus
   const whatShouldIDo1 = (
     <p key="what-should-i-do-1">
-      If you have questions, please call our enrollment case management team at
-      <a className="help-phone-number-link" href="tel:1-877-222-8387">
-        877-222-8387
-      </a>
+      If you have questions, please call our enrollment case management team at{' '}
+      <va-telephone
+        class="help-phone-number-link"
+        contact={CONTACTS['222_VETS']}
+      />
       . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   );

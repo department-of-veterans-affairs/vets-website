@@ -1,10 +1,10 @@
 import moment from 'moment';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-shortForm.json';
-import mockUserAiq from './fixtures/mockUserAiq';
-import mockIdentityNoDob from './fixtures/mockIdentityNoDob';
-import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mockPrefillAiq.json';
+import featureToggles from './fixtures/mocks/feature-toggles-shortForm.json';
+import mockUserAiq from './fixtures/mocks/mockUserAiq';
+import mockIdentityNoDob from './fixtures/mocks/mockIdentityNoDob';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import prefillAiq from './fixtures/mocks/mockPrefillAiq.json';
 
 describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
   beforeEach(() => {
@@ -14,7 +14,7 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/disability_compensation_form/rating_info', {
       statusCode: 200,
@@ -46,9 +46,13 @@ describe('HCA-User-Authenticated-Identity-Without-DOB', () => {
       .first()
       .should('exist');
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
+    // cy.findAllByText(/start.+application/i, { selector: 'button' })
+    //   .first()
+    //   .click();
+
+    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+    cy.get('#1-continueButton').click();
+
     cy.wait('@mockSip');
 
     cy.location('pathname').should(
@@ -77,7 +81,7 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/disability_compensation_form/rating_info', {
       statusCode: 200,
@@ -109,9 +113,13 @@ describe('HCA-User-Authenticated-Identity-With-DOB', () => {
       .first()
       .should('exist');
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
+    // cy.findAllByText(/start.+application/i, { selector: 'button' })
+    //   .first()
+    //   .click();
+
+    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+    cy.get('#1-continueButton').click();
+
     cy.wait('@mockSip');
 
     cy.location('pathname').should(

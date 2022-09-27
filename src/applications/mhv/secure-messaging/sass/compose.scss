@@ -4,6 +4,10 @@
   va-text-input.composeInput::part(input) {
     max-width: 100%;
   }
+  va-select.composeSelect::part(label)::after {
+    content: " (*Required)";
+    color: $color-secondary-dark;
+  }
   va-select.composeSelect::part(select) {
     max-width: 100%;
   }
@@ -25,13 +29,13 @@
     margin: 0;
     width: fit-content;
   }
-  .compose-form-container {
+  .compose-form {
     margin: 2rem 0 4rem 0;
     background-color: $color-white;
     .required {
       color: $color-secondary-dark;
     }
-    .compose-header {
+    .compose-form-header {
       border-radius: 4px 4px 0 0;
       background-color: $color-gray-lightest;
       justify-content: space-between;
@@ -60,8 +64,9 @@
         text-decoration: underline;
       }
     }
-    .compose-form {
+    .compose-inputs-container {
       border: 2px solid $color-gray-lightest;
+      border-radius: 0 0 4px 4px;
       padding: 0 14px 14px;
       @media (min-width: $medium-screen) {
         padding: 0 36px 36px;
@@ -83,15 +88,49 @@
         margin: 0.4rem 0px;
         resize: none;
       }
-      .send-button-bottom-text {
-        margin-right: 8px;
-      }
       .radio-button > label {
         margin-left: 2.85rem;
         text-indent: -2.85rem;
       }
       .attachments-section {
         margin-bottom: 3rem;
+        .open-files-modal-button::part(button)::before {
+          display: inline-block;
+          font-style: normal;
+          font-variant: normal;
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          margin-right: 6px;
+          content: "\f0c6";
+        }
+        .attach-file-button {
+          font-weight: bold;
+          padding: 0;
+          margin: 0;
+          margin: 12px 0 32px;
+        }
+        .attach-file-button::before {
+          display: inline-block;
+          font-style: normal;
+          font-variant: normal;
+          text-rendering: auto;
+          -webkit-font-smoothing: antialiased;
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          margin-right: 1rem;
+          content: "\f105";
+          height: 30px;
+          width: 30px;
+          background-color: $color-link-default;
+          color: $color-white;
+          border-radius: 50%;
+          font-size: 3rem;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 30px;
+        }
         .compose-attachments-label {
           margin-top: 27px;
         }
@@ -105,33 +144,38 @@
             color: $color-link-default;
           }
         }
+        .attachments-list {
+          li {
+            margin-bottom: 12px;
+          }
+        }
       }
       .compose-form-actions {
-        display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: 1fr 1fr;
-        grid-template-areas: "top" "bottom";
-        .send-button-bottom {
-          grid-area: top;
-        }
+        display: flex;
+        flex-direction: column;
+        .send-button-bottom,
         .save-draft-button {
-          grid-area: bottom;
+          height: 36px;
+          margin: 0;
+        }
+        .send-button-bottom {
+          margin-bottom: 16px;
         }
         @media (min-width: $medium-screen) {
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto;
-          grid-template-areas: "left right";
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          .save-draft-button,
           .send-button-bottom {
-            grid-area: right;
-            justify-self: end;
-            width: 201px;
-          }
-          .save-draft-button {
-            grid-area: left;
-            justify-self: start;
+            width: 210px;
+            margin: 0;
           }
         }
       }
+    }
+    .last-save-time {
+      margin-top: 12px;
     }
   }
 }

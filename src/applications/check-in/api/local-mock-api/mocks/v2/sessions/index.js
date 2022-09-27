@@ -7,14 +7,14 @@ const createMockSuccessResponse = (uuid, permissions) => {
   };
 };
 
-const createMockFailedResponse = () => {
+const createMockFailedResponse = (status = 400) => {
   return {
     errors: [
       {
         title: 'Operation failed',
         detail: 'Operation failed',
         code: 'VA900',
-        status: '400',
+        status: status.toString(),
       },
     ],
   };

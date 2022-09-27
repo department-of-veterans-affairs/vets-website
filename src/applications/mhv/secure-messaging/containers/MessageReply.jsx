@@ -20,9 +20,8 @@ import { getAllMessages } from '../actions';
 import ReplyHeader from '../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ReplyBox from '../components/ReplyBox';
-import NavigationLinks from '../components/NavigationLinks';
-import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
+// import NavigationLinks from '../components/NavigationLinks';
+import MessageThread from '../components/MessageThread/MessageThread';
 
 const MessageReply = props => {
   const {
@@ -55,15 +54,11 @@ const MessageReply = props => {
   } else {
     content = (
       <>
-        <Breadcrumbs
-          pageName="Reply"
-          link="http://localhost:3001/my-health/secure-messages/reply/"
-        />
         <ReplyHeader />
         <BeforeMessageAddlInfo />
-        <NavigationLinks />
+        {/* <NavigationLinks /> */}
         <ReplyBox />
-        <OlderMessages />
+        <MessageThread />
       </>
     );
   }

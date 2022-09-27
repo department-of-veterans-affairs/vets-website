@@ -37,7 +37,7 @@ describe('Bad Address Alert - Force Bad Address', () => {
     cy.injectAxeThenAxeCheck();
     BadAddressFeature.confirmPersonalInformationAlertIsShowing();
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
+    BadAddressFeature.confirmAlertInFormExists();
   });
   it('should set session storage on address update', () => {
     cy.login(user72Success);
@@ -53,24 +53,20 @@ describe('Bad Address Alert - Force Bad Address', () => {
 
     // first visit the page and see the alerts
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
     cy.injectAxeThenAxeCheck();
 
     // starting to update address
     BadAddressFeature.startEditingAddress();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
 
     // submitting "new address"
     BadAddressFeature.attemptToSubmitAddress();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
     BadAddressFeature.confirmAddressEntered();
 
     // // back to the contact page with no more alerts
     BadAddressFeature.confirmUpdatedMessageIsShown();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
     cy.window().then(win => {
       expect(
@@ -90,7 +86,7 @@ describe('Bad Address Alert - Force Bad Address', () => {
       cy.injectAxeThenAxeCheck();
       BadAddressFeature.confirmPersonalInformationAlertIsShowing();
       BadAddressFeature.visitContactInformationPage();
-      BadAddressFeature.confirmContactInformationAlertIsShowing();
+      BadAddressFeature.confirmAlertInFormExists();
     });
   });
   it('should not show the alerts if session storage exists and the user does not the BAI flag', () => {
@@ -105,7 +101,7 @@ describe('Bad Address Alert - Force Bad Address', () => {
       cy.injectAxeThenAxeCheck();
       BadAddressFeature.confirmPersonalInformationAlertIsNotShowing();
       BadAddressFeature.visitContactInformationPage();
-      BadAddressFeature.confirmContactInformationAlertIsNotShowing();
+      BadAddressFeature.confirmAlertInFormDoesNotExist();
     });
   });
 });

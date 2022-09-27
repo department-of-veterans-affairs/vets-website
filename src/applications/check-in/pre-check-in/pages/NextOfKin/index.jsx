@@ -3,13 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -33,10 +29,6 @@ const NextOfKin = props => {
   const buttonClick = useCallback(
     async answer => {
       setIsLoading(true);
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': `${answer}-to-next-of-kin`,
-      });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();
     },
@@ -64,7 +56,6 @@ const NextOfKin = props => {
     <>
       <BackButton action={goToPreviousPage} router={router} />
       <NextOfKinDisplay
-        Footer={Footer}
         header={header}
         subtitle={subtitle}
         nextOfKin={nextOfKin}
@@ -73,7 +64,6 @@ const NextOfKin = props => {
         isLoading={isLoading}
         jumpToPage={jumpToPage}
       />
-      <BackToHome />
     </>
   );
 };

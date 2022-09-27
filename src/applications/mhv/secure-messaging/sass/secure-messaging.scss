@@ -38,8 +38,8 @@ va-alert button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: transparent;
-  color: $color-link-default;
+  background-color: transparent !important;
+  color: $color-link-default !important;
   font-weight: normal;
   line-height: 24px;
   width: fit-content;
@@ -163,32 +163,6 @@ va-alert button {
   .remove-attachment-text {
     text-decoration: underline;
     font-weight: normal;
-  }
-}
-
-.older-messages {
-  a:visited {
-    color: $color-link-default;
-    text-decoration: underline;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-property: color, background-color, border-color;
-  }
-  i {
-    color: inherit;
-  }
-  .fa-lg {
-    font-size: 1.33333em !important;
-  }
-  .expand-all-messages-btn {
-    margin-top: 14px;
-    margin-bottom: 7px;
-  }
-
-  .older-message {
-    p {
-      margin: 4px 0;
-    }
   }
 }
 

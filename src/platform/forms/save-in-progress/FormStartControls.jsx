@@ -5,21 +5,21 @@ import ProgressButton from '@department-of-veterans-affairs/component-library/Pr
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import {
+  WIZARD_STATUS,
+  WIZARD_STATUS_RESTARTING,
+} from 'platform/site-wide/wizard';
+import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
   APP_TYPE_DEFAULT,
 } from '../../forms-system/src/js/constants';
-
-import {
-  WIZARD_STATUS,
-  WIZARD_STATUS_RESTARTING,
-} from 'platform/site-wide/wizard';
 
 class FormStartControls extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps = newProps => {
     if (!this.props.returnUrl && newProps.returnUrl) {
@@ -59,7 +59,7 @@ class FormStartControls extends React.Component {
     this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
 
   toggleModal = () => {
-    this.setState({ modalOpen: !this.state.modalOpen });
+    this.setState(prevState => ({ modalOpen: !prevState.modalOpen }));
   };
 
   startOver = () => {
@@ -71,18 +71,20 @@ class FormStartControls extends React.Component {
       this.props.prefillTransformer,
     );
 
-    const { formConfig = {} } = this.props.routes?.[1] || {};
+    const { formConfig = {} } =
+      this.props.routes?.[1] || this.props.formConfig || {};
     // Wizard status needs an intermediate value between not-started &
     // complete to prevent infinite loops in the RoutedSavableApp
     sessionStorage.setItem(
-      formConfig.wizardStorageKey || WIZARD_STATUS,
+      formConfig?.wizardStorageKey || WIZARD_STATUS,
       WIZARD_STATUS_RESTARTING,
     );
   };
 
   render() {
     // get access to the formConfig object through this route
-    const { formConfig } = this.props.routes[1];
+    const { formConfig } =
+      this.props.routes?.[1] || this.props.formConfig || {};
     const {
       appType = APP_TYPE_DEFAULT,
       continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
@@ -137,9 +139,10 @@ class FormStartControls extends React.Component {
         </div>
       );
     }
-    const startText = this.props.startText;
+    const { startText } = this.props;
 
     return this.props.testActionLink ? (
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
       <a
         href="#"
         className="vads-c-action-link--green vads-u-padding-left--0"
@@ -168,28 +171,31 @@ class FormStartControls extends React.Component {
 }
 
 FormStartControls.propTypes = {
-  formId: PropTypes.string.isRequired,
-  handleLoadPrefill: PropTypes.func,
-  migrations: PropTypes.array,
-  returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
-  removeInProgressForm: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
+  removeInProgressForm: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired,
   startPage: PropTypes.string.isRequired,
-  startText: PropTypes.string,
-  resumeOnly: PropTypes.bool,
-  gaStartEventName: PropTypes.string,
-  testActionLink: PropTypes.bool,
+  ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
       continueAppButtonText: PropTypes.string,
     }),
   }),
-  ariaLabel: PropTypes.string,
-  ariaDescribedby: PropTypes.string,
+  gaStartEventName: PropTypes.string,
+  handleLoadPrefill: PropTypes.func,
+  isExpired: PropTypes.bool,
+  migrations: PropTypes.array,
+  prefillTransformer: PropTypes.func,
+  resumeOnly: PropTypes.bool,
+  returnUrl: PropTypes.string,
+  routes: PropTypes.array,
+  startText: PropTypes.string,
+  testActionLink: PropTypes.bool,
 };
 
 FormStartControls.defaultProps = {

@@ -38,24 +38,20 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
 
     // first visit the page and see the alerts
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
     cy.injectAxeThenAxeCheck();
 
     // starting to update address
     BadAddressFeature.startEditingAddress();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
 
     // submitting "new address"
     BadAddressFeature.attemptToSubmitAddress();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
     BadAddressFeature.confirmAddressEntered();
 
     // // back to the contact page with no more alerts
     BadAddressFeature.confirmUpdatedMessageIsShown();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
   });
 
@@ -64,7 +60,6 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
 
     // first visit the page and see the alerts
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
     cy.injectAxeThenAxeCheck();
 
@@ -73,10 +68,9 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
 
     BadAddressFeature.attemptToSubmitAddress();
     BadAddressFeature.confirmErrorMessageInFormExists();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
   });
-  it('scenario 4 -- alerts should persist until I click update', () => {
+  it('alerts should persist until I click update', () => {
     cy.login(badAddress);
 
     cy.intercept('POST', '/v0/profile/address_validation', addressValidation);
@@ -89,18 +83,15 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
 
     // first visit the page and see the alerts
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
     cy.injectAxeThenAxeCheck();
 
     // starting to update address
     BadAddressFeature.startEditingAddress();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
 
     BadAddressFeature.cancelAddressUpdate();
 
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
   });
 });

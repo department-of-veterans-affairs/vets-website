@@ -19,6 +19,8 @@ export function transformClinicV2(clinic) {
     stationName: clinic.stationName,
     // Description of service as presented to a consumer while searching
     serviceName: clinic.serviceName,
+    // Allow direct scheduling by patient
+    patientDirectScheduling: clinic.patientDirectScheduling,
   };
 }
 

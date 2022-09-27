@@ -8,8 +8,6 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -65,7 +63,10 @@ const DisplayMultipleAppointments = props => {
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+        event: createAnalyticsSlug(
+          'refresh-appointments-button-clicked',
+          'nav',
+        ),
       });
 
       refreshCheckInData();
@@ -126,8 +127,6 @@ const DisplayMultipleAppointments = props => {
             {t('refresh')}
           </button>
         </p>
-        <Footer />
-        <BackToHome />
       </Wrapper>
     </>
   );

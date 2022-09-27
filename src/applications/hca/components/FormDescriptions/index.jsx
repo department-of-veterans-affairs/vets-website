@@ -1,71 +1,36 @@
 import React from 'react';
-import facilityLocator from '../../../facility-locator/manifest.json';
 
 export const AmericanIndianDescription = (
   <>
-    <p>
-      If you’re recognized as an American Indian or Alaska Native, you may not
-      need to pay a copay for care or services.
-    </p>
-    <va-additional-info
-      trigger="What it means to be recognized as an American Indian or Alaska Native"
-      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-      data-testid="aiq-addl-info"
-    >
-      <p className="vads-u-margin-top--0">
-        For the purposes of this application, we consider this to mean that one
-        of these descriptions is true for you:
-      </p>
+    <ul className="vads-u-margin-top--3">
+      <li>
+        You’re a member—or the first- or second-degree descendant of a member—of
+        a tribe, band, or other organized group of Indians, including those
+        terminated since 1940 and those recognized now or in the future by the
+        state you live in (note: this applies whether or not you live on or near
+        a reservation), <strong>or</strong>
+      </li>
+      <li>
+        You’re an Eskimo or Aleut or other Alaska Native, <strong>or</strong>
+      </li>
+      <li>
+        You’re considered by the Secretary of the Interior to be an Indian for
+        any purpose, <strong>or</strong>
+      </li>
+      <li>
+        You’re determined to be an Indian under regulations put into effect by
+        the Secretary of the Interior, <strong>or</strong>
+      </li>
+      <li>
+        You meet any of these descriptions and you live in an urban center (a
+        community that the Secretary of the Interior has determined has a large
+        enough urban Indian population with unmet health needs to warrant
+        assistance under title V of the Indian Health Care Improvement Act, or
+        IHCIA)
+      </li>
+    </ul>
 
-      <ul>
-        <li>
-          You’re a member of a Federally recognized Indian tribe,{' '}
-          <strong>or</strong>
-        </li>
-        <li>
-          The Secretary of the Interior considers you to be an Indian for any
-          purpose, <strong>or</strong>
-        </li>
-        <li>
-          You’re eligible for Indian Health Service (including as a California
-          Indian, Eskimo, Aleut, or another Alaska Native)
-        </li>
-      </ul>
-
-      <p className="vads-u-margin-bottom--2">
-        <strong>Or</strong>
-      </p>
-
-      <p>
-        You live in an urban area and you meet at least one of these
-        requirements:
-      </p>
-
-      <ul>
-        <li>
-          You’re a member or the first- or second-degree descendant of a tribe,
-          band, or other organized group of Indians (including a tribe, band, or
-          group terminated after 1940 or one that’s recognized by the state
-          where you live), <strong>or</strong>
-        </li>
-        <li>
-          You’re an Eskimo, Aleut, or another Alaska Native, <strong>or</strong>
-        </li>
-        <li>
-          The Secretary of the Interior considers you to be an Indian for any
-          purpose, <strong>or</strong>
-        </li>
-        <li>
-          An official regulation from the Secretary of Health and Human Services
-          considers you an Indian for any purpose
-        </li>
-      </ul>
-
-      <p>
-        We’ve based these descriptions on the Indian Health Care Improvement Act
-        (IHCIA), U.S.C. regulations 1603(13) and 1603(28).
-      </p>
-
+    <div className="vads-u-margin-bottom--3">
       <a
         href="https://www.ihs.gov/ihcia/"
         rel="noopener noreferrer"
@@ -73,7 +38,7 @@ export const AmericanIndianDescription = (
       >
         Learn more about the IHCIA on the Indian Health Service website
       </a>
-    </va-additional-info>
+    </div>
   </>
 );
 
@@ -217,11 +182,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a
-        href={facilityLocator.rootUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>

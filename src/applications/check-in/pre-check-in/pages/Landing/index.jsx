@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
+import { setError } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
@@ -22,7 +21,6 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-import { setApp } from '../../../actions/universal';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
@@ -59,25 +57,14 @@ const Index = props => {
 
   useEffect(
     () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
+        dispatch(setError('no-token'));
         goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
+        dispatch(setError('bad-token'));
         goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
@@ -93,6 +80,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
+                dispatch(setError('session-error'));
                 goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
@@ -110,15 +98,22 @@ const Index = props => {
                 }
               }
             })
-            .catch(() => {
+            .catch(error => {
               clearCurrentSession(window);
-              goToErrorPage();
+              if (error.errors?.find(err => err.status === '401')) {
+                dispatch(setError('uuid-error'));
+                goToErrorPage('?error=uuid-error');
+              } else {
+                dispatch(setError('session-error'));
+                goToErrorPage('?error=session-error');
+              }
             });
         }
       }
     },
     [
       clearCurrentSession,
+      dispatch,
       goToErrorPage,
       initForm,
       isLorotaSecurityUpdatesEnabled,
