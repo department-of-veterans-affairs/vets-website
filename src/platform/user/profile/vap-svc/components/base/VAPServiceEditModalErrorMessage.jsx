@@ -7,7 +7,7 @@ import {
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   INVALID_PHONE_ERROR_CODES,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));
@@ -20,7 +20,7 @@ export default function VAPServiceEditModalErrorMessage({
   switch (true) {
     case hasError(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, errors):
       content = (
-        <p>
+        <p className="vads-u-margin-y--0">
           We’re sorry. We looked up the address you entered and we're not sure
           mail can be delivered there. Please try entering your address again.
         </p>
@@ -29,7 +29,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     case hasError(DECEASED_ERROR_CODES, errors):
       content = (
-        <div>
+        <div className="vads-u-margin-y--0">
           <p>
             We can’t make this update because our records show the Veteran is
             deceased. If this isn’t true, please contact your nearest VA medical
@@ -44,7 +44,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     case hasError(INVALID_EMAIL_ADDRESS_ERROR_CODES, errors):
       content = (
-        <p>
+        <p className="vads-u-margin-y--0">
           It looks like the email you entered isn’t valid. Please enter your
           email address again.
         </p>
@@ -53,7 +53,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     case hasError(INVALID_PHONE_ERROR_CODES, errors):
       content = (
-        <p>
+        <p className="vads-u-margin-y--0">
           We can’t make this update because we currently only support U.S. area
           codes. Please provide a U.S.-based phone number.
         </p>
@@ -62,7 +62,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     default:
       content = (
-        <p id="error-message-details">
+        <p id="error-message-details" className="vads-u-margin-y--0">
           We’re sorry. We can’t update your information right now. We’re working
           to fix this problem. Please check back later.
         </p>
@@ -71,13 +71,8 @@ export default function VAPServiceEditModalErrorMessage({
 
   return (
     <>
-      <va-alert background-only status="error" visible>
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-left--neg1p5 vads-u-margin-y--neg1p5">
-          <i
-            className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
-            aria-hidden="true"
-            role="img"
-          />
+      <va-alert background-only status="error" show-icon visible>
+        <div className="vads-u-display--flex vads-u-align-items--baseline">
           <span className="sr-only">Alert: </span>
           <div role="alert">{content}</div>
         </div>

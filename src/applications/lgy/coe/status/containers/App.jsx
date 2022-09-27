@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -16,37 +17,50 @@ import {
   Ineligible,
   Pending,
 } from '../components/statuses';
+import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
+import { WIP } from '../../shared/components/WIP';
 
 const App = ({
-  certificateOfEligibility: {
-    coe,
-    downloadUrl,
-    generateAutoCoeStatus,
-    profileIsUpdating,
-  },
+  certificateOfEligibility: { coe, generateAutoCoeStatus, profileIsUpdating },
   getCoe,
+  getCoeMock,
   loggedIn,
   user,
+  showCoe,
+  isLoading,
 }) => {
-  const clickHandler = useCallback(
-    () => {
-      getCoe('skip');
-    },
-    [getCoe],
-  );
-
   useEffect(
     () => {
-      if (!profileIsUpdating && loggedIn && !coe) {
-        getCoe();
+      if (
+        // Show WIP alert if the feature flag isn't set - remove once @ 100%
+        !isLoading &&
+        showCoe &&
+        // get COE status
+        !profileIsUpdating &&
+        !coe
+      ) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!loggedIn);
+        } else {
+          getCoe(!loggedIn);
+        }
       }
     },
-    [coe, getCoe, loggedIn, profileIsUpdating],
+    [coe, getCoe, getCoeMock, isLoading, loggedIn, profileIsUpdating, showCoe],
   );
+
+  // Show WIP alert if the feature flag isn't set - remove once @ 100%
+  if (!showCoe && !isLoading) {
+    return <WIP />;
+  }
 
   let content;
 
-  if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
+  if (
+    generateAutoCoeStatus === CALLSTATUS.idle ||
+    profileIsUpdating ||
+    isLoading
+  ) {
     content = <va-loading-indicator message="Loading application..." />;
   } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
     content = (
@@ -58,13 +72,12 @@ const App = ({
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <Available downloadUrl={downloadUrl} />;
+        content = <Available />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
           <Eligible
-            clickHandler={clickHandler}
-            downloadUrl={downloadUrl}
+            clickHandler={() => {}}
             referenceNumber={coe.referenceNumber}
           />
         );
@@ -118,6 +131,8 @@ const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
   loggedIn: isLoggedIn(state),
+  isLoading: isLoadingFeatures(state),
+  showCoe: showCoeFeature(state),
 });
 
 const mapDispatchToProps = {
@@ -127,7 +142,10 @@ const mapDispatchToProps = {
 App.propTypes = {
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
+  getCoeMock: PropTypes.func,
+  isLoading: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  showCoe: PropTypes.bool,
   user: PropTypes.object,
 };
 

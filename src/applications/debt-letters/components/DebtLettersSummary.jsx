@@ -9,14 +9,14 @@ import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
 import OnThisPageLinks from './OnThisPageLinks';
-import OtherVADebts from '../../medical-copays/components/OtherVADebts';
-import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import OtherVADebts from './OtherVADebts';
 import {
+  cdpAccessToggle,
   ALERT_TYPES,
   APP_TYPES,
   API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+} from '../utils/helpers';
+import alertMessage from '../utils/alert-messages';
 
 const ErrorAlert = () => (
   <section

@@ -7,6 +7,6 @@ export const getCoeDocuments = async () => {
     const response = await apiRequest(COE_DOCUMENTS_URI);
     return response.data.attributes;
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };

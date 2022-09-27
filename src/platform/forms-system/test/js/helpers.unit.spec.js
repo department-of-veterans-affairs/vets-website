@@ -37,17 +37,17 @@ describe('Schemaform helpers:', () => {
       });
       expect(parseISODate('2003-02-XX')).to.eql({
         month: '2',
-        day: '',
+        day: null,
         year: '2003',
       });
       expect(parseISODate('2003-02')).to.eql({
         month: '2',
-        day: '',
+        day: null,
         year: '2003',
       });
       expect(parseISODate('2003')).to.eql({
         month: '',
-        day: '',
+        day: null,
         year: '2003',
       });
     });

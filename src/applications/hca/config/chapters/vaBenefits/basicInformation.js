@@ -5,7 +5,7 @@ import {
   CompensationInfoDescription,
   CompensationTypeDescription,
 } from '../../../components/FormDescriptions';
-import { emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { vaCompensationType } = fullSchemaHca.properties;
 

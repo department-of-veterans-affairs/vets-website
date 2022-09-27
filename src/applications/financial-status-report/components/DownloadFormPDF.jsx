@@ -31,21 +31,21 @@ const DownloadFormPDF = () => {
             scope.setExtra(
               `FSR Download failed fetch status: ${response.status}`,
             );
-            Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
+            Sentry.captureMessage(`debt-fsr-pdf-fetch-response-not-ok`);
           });
         }
 
         return recordEvent({
-          event: 'debt-fsr-pdf-download',
+          event: 'debt-fsr-pdf-fetch',
         });
       } catch (error) {
         Sentry.withScope(scope => {
           scope.setExtra(`Error: ${error}`);
-          Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
+          Sentry.captureMessage(`debt-fsr-pdf-fetch-fail`);
         });
 
         return recordEvent({
-          event: 'debt-fsr-pdf-download-fail',
+          event: 'debt-fsr-pdf-fetch-fail',
         });
       }
     };

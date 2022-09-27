@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-import environment from 'platform/utilities/environment';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -49,7 +48,6 @@ const ProfilePageHeader = ({
     ratingAverage,
     cautionFlags,
     highestDegree,
-    ownershipName,
     accreditationType,
     undergradEnrollment,
     localeType,
@@ -58,6 +56,7 @@ const ProfilePageHeader = ({
     preferredProvider,
     vetTecProvider,
     programs,
+    ownershipName,
   } = institution;
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
@@ -65,10 +64,6 @@ const ProfilePageHeader = ({
     physicalState,
     physicalCountry,
   );
-  if (!environment.isProduction()) {
-    // eslint-disable-next-line no-console
-    console.log(institution);
-  }
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
 
@@ -103,7 +98,6 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-
   const stars = convertRatingToStars(ratingAverage);
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
@@ -176,12 +170,10 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            {!environment.isProduction() ?? (
-              <IconWithInfo icon="building" present={ownershipName}>
-                {'   '}
-                Institutional Ownership: {ownershipName}
-              </IconWithInfo>
-            )}
+            <IconWithInfo icon="building" present>
+              {'   '}
+              Institutional Ownership: {ownershipName || 'N/A'}
+            </IconWithInfo>
           </div>
         )}
         {showRightIconSection && (
@@ -237,14 +229,7 @@ const ProfilePageHeader = ({
       >
         <div>
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
-            {'   '}{' '}
-            <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
-            >
-              {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
-            </a>
+            {'   '} <va-telephone contact="" />
           </IconWithInfo>
           {programs[0].schoolLocale && (
             <IconWithInfo

@@ -2,17 +2,25 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { apiRequest } from 'platform/utilities/api';
+import { connect, useDispatch } from 'react-redux';
 import VetCenterInfoSection from './components/VetCenterInfoSection';
 import VetCenterImageSection from './components/VetCenterImageSection';
-import { connect, useDispatch } from 'react-redux';
 import { fetchFacilityStarted, fetchFacilitySuccess } from '../actions';
-import { calculateBoundingBox } from '../../../facility-locator/utils/facilityDistance';
+import {
+  calculateBoundingBox,
+  convertMetersToMiles,
+  distancesToNearbyVetCenters,
+} from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;
 
 const NearByVetCenters = props => {
+  const [originalCoordinates, setOriginalCoordinates] = useState([]);
   const [fetchedVetCenters, setFetchedVetCenters] = useState([]);
+  const [nearbyVetCenterDistances, setNearbyVetCenterDistances] = useState(
+    false,
+  );
   const dispatch = useDispatch();
 
   const fetchVetCenters = query => {
@@ -35,7 +43,9 @@ const NearByVetCenters = props => {
     } ${mainAddress.postalCode}`;
     const mapboxResponse = await getFeaturesFromAddress(query);
     const coordinates = mapboxResponse?.body.features[0].center; // [longitude,latitude]
+
     if (coordinates) {
+      setOriginalCoordinates(coordinates);
       const boundingBox = calculateBoundingBox(
         coordinates[1],
         coordinates[0],
@@ -62,6 +72,59 @@ const NearByVetCenters = props => {
       }
     },
     [props.togglesLoading],
+  );
+
+  useEffect(
+    () => {
+      const noDistancesToMeasure =
+        originalCoordinates.length === 0 || fetchedVetCenters.length === 0;
+
+      if (nearbyVetCenterDistances || noDistancesToMeasure) {
+        return false;
+      }
+
+      const vetCentersCoordinates = fetchedVetCenters
+        .filter(center => center.id !== props.mainVetCenterId)
+        .map(center => {
+          return {
+            id: center.id,
+            coordinates: [center.attributes.long, center.attributes.lat],
+          };
+        });
+
+      const fetchDrivingData = async () => {
+        const response = await fetch(
+          distancesToNearbyVetCenters(
+            originalCoordinates,
+            vetCentersCoordinates.map(center => center.coordinates),
+          ),
+        );
+        const data = await response.json();
+        const nearbyDistances = data.distances.map(distance =>
+          convertMetersToMiles(distance[0]),
+        );
+
+        const vetCentersCoordinatesWithDistances = [
+          ...vetCentersCoordinates,
+        ].map((center, index) => {
+          return {
+            ...center,
+            distance: nearbyDistances[index],
+          };
+        });
+
+        setNearbyVetCenterDistances(vetCentersCoordinatesWithDistances);
+      };
+
+      fetchDrivingData();
+      return false;
+    },
+    [
+      props.mainVetCenterId,
+      originalCoordinates,
+      fetchedVetCenters,
+      nearbyVetCenterDistances,
+    ],
   );
 
   if (props.facilitiesLoading) {
@@ -96,11 +159,22 @@ const NearByVetCenters = props => {
     );
   };
 
-  const normalizeFetchedVetCenters = vcs => {
-    return vcs.map(vc => ({
+  const normalizeFetchedVetCenterProperties = vc => {
+    let centerDistance = false;
+
+    if (nearbyVetCenterDistances) {
+      const vetCenterDistance = nearbyVetCenterDistances.find(
+        distance => distance.id === vc.id,
+      );
+
+      centerDistance = vetCenterDistance.distance;
+    }
+
+    return {
       id: vc.id,
       entityBundle: vc.attributes.facilityType,
       fieldPhoneNumber: vc.attributes.phone.main,
+      distance: centerDistance,
       title: vc.attributes.name,
       fieldAddress: {
         addressLine1: vc.attributes.address.physical.address1,
@@ -111,7 +185,14 @@ const NearByVetCenters = props => {
       fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
       fieldOperatingStatusMoreInfo:
         vc.attributes.operatingStatus?.additionalInfo,
-    }));
+    };
+  };
+
+  const normalizeFetchedVetCenters = vcs => {
+    return vcs
+      .map(vc => normalizeFetchedVetCenterProperties(vc))
+      .filter(center => center.distance < NEARBY_VET_CENTER_RADIUS_MILES)
+      .sort((a, b) => (a.distance < b.distance ? 1 : -1));
   };
 
   const renderNearbyVetCenterContainer = sortedVetCenters => (
@@ -138,9 +219,8 @@ const NearByVetCenters = props => {
     return renderNearbyVetCenterContainer(
       normalizeFetchedVetCenters(filteredVetCenters),
     );
-  } else {
-    return null;
   }
+  return null;
 };
 
 NearByVetCenters.propTypes = {

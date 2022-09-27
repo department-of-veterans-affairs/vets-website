@@ -11,13 +11,14 @@ import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { mcpFeatureToggle, cdpAccessToggle } from '../utils/helpers';
-import AlertView from '../components/AlertView';
-import { getStatements } from '../../combined-debt-portal/combined/actions/copays';
 import {
+  mcpFeatureToggle,
+  cdpAccessToggle,
   ALERT_TYPES,
   API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+} from '../utils/helpers';
+import AlertView from '../components/AlertView';
+import { getStatements } from '../actions';
 import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
 import environment from '~/platform/utilities/environment';
 

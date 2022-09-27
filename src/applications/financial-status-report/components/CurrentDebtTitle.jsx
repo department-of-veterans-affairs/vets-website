@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import { currency } from '../utils/helpers';
 
 export const CurrentDebtTitle = ({ formContext }) => {
@@ -50,12 +50,12 @@ export const CurrentDebtDescription = ({ formContext }) => {
 
 CurrentDebtTitle.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
+    pagePerItemIndex: PropTypes.number.isRequired,
   }),
 };
 
 CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
+    pagePerItemIndex: PropTypes.number.isRequired,
   }),
 };

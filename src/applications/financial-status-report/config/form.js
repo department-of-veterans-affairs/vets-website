@@ -415,13 +415,6 @@ const formConfig = {
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },
-        resolutionComments: {
-          path: 'resolution-comments',
-          title: 'Resolution comments',
-          depends: formData => !formData['view:combinedFinancialStatusReport'],
-          uiSchema: pages.resolutionComments.uiSchema,
-          schema: pages.resolutionComments.schema,
-        },
         // New resolution radio options
         resolutionOption: {
           title: 'Resolution Option',
@@ -436,7 +429,7 @@ const formConfig = {
         },
         // New text field
         resolutionComment: {
-          title: 'Resolution Comment',
+          title: 'Resolution Amount',
           depends: (formData, index) => {
             return (
               formData.selectedDebtsAndCopays?.length > 0 &&
@@ -450,6 +443,12 @@ const formConfig = {
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
+        },
+        resolutionComments: {
+          path: 'resolution-comments',
+          title: 'Resolution comments',
+          uiSchema: pages.resolutionComments.uiSchema,
+          schema: pages.resolutionComments.schema,
         },
       },
     },

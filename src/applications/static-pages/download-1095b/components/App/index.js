@@ -1,6 +1,5 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -8,17 +7,24 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import {
   notFoundComponent,
   radioOptions,
-  radioOptionsAriaLabels,
-  radioLabel,
+  unavailableComponent,
+  phoneComponent,
   dateOptions,
+  LastUpdatedComponent,
+  formatTimeString,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -68,14 +74,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     });
   };
 
-  // VA content time formatting - should be lowercase with periods
-  const formatTimeString = string => {
-    if (string.includes('AM')) {
-      return string.replace('AM', 'a.m.');
-    }
-    return string.replace('PM', 'p.m.');
-  };
-
   const callGetContent = () => {
     getContent().then(result => {
       if (result) {
@@ -108,16 +106,28 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const radioComponent = (
-    <RadioButtons
-      id="1095-download-options"
-      name="1095-download-options"
-      label={radioLabel}
-      options={radioOptions}
-      onValueChange={({ value }) => updateFormType(value)}
-      value={{ value: formType }}
-      ariaDescribedby={radioOptionsAriaLabels}
-      additionalFieldsetClass="vads-u-margin-top--0"
-    />
+    <>
+      <h2>Choose your file format and download your document</h2>
+      <VaRadio
+        id="1095-download-options"
+        label="We offer two file format options for this form. Choose the option that best meets your needs."
+        onRadioOptionSelected={e => {
+          e.preventDefault();
+          updateFormType(e.target.value);
+        }}
+      >
+        {radioOptions.map(({ value, label }) => (
+          <VaRadioOption
+            id={value}
+            key={value}
+            checked={value === formType}
+            label={label}
+            value={value}
+            name="1095b-form-select"
+          />
+        ))}
+      </VaRadio>
+    </>
   );
 
   const downloadButton = (
@@ -140,39 +150,20 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </p>
   );
 
-  const lastUpdatedComponent = (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {lastUpdated}
-      </span>
-    </p>
-  );
-
   const errorComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
-        status="warning"
+        status="error"
         visible
       >
-        <h3 slot="headline">We couldn’t download your form</h3>
+        <h2 slot="headline">We couldn’t download your form</h2>
         <div>
           <p>
             We’re sorry. Something went wrong when we tried to download your
             form. Please try again. If your form still doesn’t download, call us
-            at{' '}
-            <a href="tel:+18006982411" aria-label="1 8 0 0 6 9 8 2 4 1 1">
-              1-800-698-2411
-            </a>{' '}
-            (
-            <a href="tel:711" aria-label="TTY. 7 1 1">
-              TTY: 711
-            </a>
-            ). We’re here 24/7.
+            at {phoneComponent(CONTACTS.HELP_DESK)}. We’re here 24/7.
           </p>
         </div>
       </va-alert>
@@ -189,13 +180,13 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const successComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
         visible
       >
-        <h3 slot="headline">Download Complete</h3>
+        <h2 slot="headline">Download Complete</h2>
         <div>
           <p>
             You successfully downloaded your 1095-B tax form. Please check your
@@ -210,7 +201,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const loggedInComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       {radioComponent}
       {downloadButton}
     </>
@@ -222,9 +213,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       status="continue"
       visible
     >
-      <h3 slot="headline">
+      <h2 slot="headline">
         Please sign in to download your 1095-B tax document
-      </h3>
+      </h2>
       <div>
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
         <ServiceProvidersTextCreateAcct />
@@ -240,7 +231,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   if (!displayToggle) {
-    return <></>;
+    return unavailableComponent();
   }
   if (loggedIn) {
     if (formError.error) {

@@ -21,14 +21,8 @@ export default function FacilityPhone({ contact, className, level }) {
         contact={number}
         extension={extension}
         data-testid="facility-telephone"
-      />
-      <br />
-      <Heading
-        className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
-      >
-        TTY:
-      </Heading>{' '}
-      <VaTelephone contact="711" data-testid="tty-telephone" />
+      />{' '}
+      (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
     </>
   );
 }

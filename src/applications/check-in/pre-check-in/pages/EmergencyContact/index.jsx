@@ -2,8 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
@@ -30,11 +28,6 @@ const EmergencyContact = props => {
   const buttonClick = useCallback(
     async answer => {
       setIsLoading(true);
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': `${answer}-to-emergency-contact`,
-      });
-
       dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
       goToNextPage();
     },

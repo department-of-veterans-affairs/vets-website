@@ -1,4 +1,9 @@
 import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
+import CustomResolutionReview from '../../components/CustomResolutionReview';
+import {
+  validateCurrency,
+  validateResolutionAmount,
+} from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
@@ -11,13 +16,19 @@ export const uiSchema = {
       },
       resolutionComment: {
         'ui:title': ' ',
+        'ui:reviewField': CustomResolutionReview,
         'ui:options': {
           classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-3',
         },
-        'ui:errorMessages': {
-          required: 'Please enter a valid number.',
+        'ui:required': (formData, index) => {
+          return (
+            formData.selectedDebtsAndCopays[index]?.resolutionOption &&
+            formData.selectedDebtsAndCopays[index]?.resolutionOption !==
+              'waiver'
+          );
         },
+        'ui:validations': [validateCurrency, validateResolutionAmount],
       },
     },
   },
@@ -30,7 +41,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        // required: ['resolutionComment'],
         properties: {
           resolutionComment: {
             type: 'string',

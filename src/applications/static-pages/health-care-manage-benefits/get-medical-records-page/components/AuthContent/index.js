@@ -7,6 +7,7 @@ import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import {
   authenticatedWithSSOePropType,
+  useSingleLogoutPropType,
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
@@ -17,6 +18,7 @@ const AuthContent = ({
   cernerFacilities,
   otherFacilities,
   ehrDataByVhaId,
+  useSingleLogout,
 }) => {
   return (
     <>
@@ -31,6 +33,7 @@ const AuthContent = ({
         myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
         myVAHealthLink={getCernerURL(
           '/pages/health_record/clinical_documents/sharing',
+          useSingleLogout,
         )}
       />
       <h3>What are My HealtheVet and My VA Health, and which will I use?</h3>
@@ -254,6 +257,7 @@ AuthContent.propTypes = {
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   otherFacilities: otherFacilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 export default AuthContent;
