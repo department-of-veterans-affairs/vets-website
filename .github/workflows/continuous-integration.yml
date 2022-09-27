@@ -1055,6 +1055,7 @@ jobs:
         run: |
           cat > BUILD_ARTIFACT.txt << EOF
           IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
+          IS_CONTINUOUS_DEPLOYMENT_ENABLED=${{ needs.build.outputs.continuous_deployment == 'true' }}
           REF=${{ github.sha }}
           EOF
 
