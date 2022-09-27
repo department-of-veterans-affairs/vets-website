@@ -48,7 +48,13 @@ import {
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
-import { isValidPhoneField, validateEmail } from '../utils/validation';
+import {
+  isValidGivenName,
+  isValidLastName,
+  isValidPhoneField,
+  nameErrorMessage,
+  validateEmail,
+} from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
@@ -130,8 +136,8 @@ const formConfig = {
                 'ui:title': 'Your first name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
+                    if (!isValidGivenName(field)) {
+                      errors.addError(nameErrorMessage);
                     }
                   },
                 ],
@@ -141,8 +147,8 @@ const formConfig = {
                 'ui:title': 'Your last name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
+                    if (!isValidLastName(field)) {
+                      errors.addError(nameErrorMessage);
                     }
                   },
                 ],
@@ -150,6 +156,13 @@ const formConfig = {
               middle: {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidGivenName(field)) {
+                      errors.addError(nameErrorMessage);
+                    }
+                  },
+                ],
               },
             },
             [formFields.dateOfBirth]: {
