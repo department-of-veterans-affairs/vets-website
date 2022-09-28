@@ -32,7 +32,9 @@ describe('DocumentUploader', () => {
       type: 'image/png',
     });
     const screen = render(<DocumentUploader />);
-    const input = screen.getByLabelText(/Upload your document/i);
+    const input = screen.baseElement.querySelector(
+      'va-file-input[button-text="Upload your document"]',
+    );
     expect(input).to.exist;
     userEvent.selectOptions(screen.getByRole('combobox'), [
       'Discharge or separation papers (DD214)',
