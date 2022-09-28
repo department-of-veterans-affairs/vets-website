@@ -1,27 +1,27 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { APP_NAMES } from '../../utils/appConstants';
-import { makeSelectApp } from '../../selectors';
+import { useFormRouting } from '../../hooks/useFormRouting';
 import ExternalLink from '../ExternalLink';
+import BackToHome from '../BackToHome';
 
-const Footer = ({ header, message }) => {
-  const selectApp = useMemo(makeSelectApp, []);
-  const { app } = useSelector(selectApp);
+const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
+  const { getCurrentPageFromRouter } = useFormRouting(router);
 
+  const currentPage = getCurrentPageFromRouter();
   return (
     <footer>
       <h2
         data-testid="heading"
         className="vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
       >
-        {header ?? t('need-help')}
+        {t('need-help')}
       </h2>
-      {app === APP_NAMES.PRE_CHECK_IN ? (
-        <>
+      {isPreCheckIn ? (
+        <div data-testid="pre-check-in-message">
           <p>
             <span className="vads-u-font-weight--bold">
               {t(
@@ -48,22 +48,33 @@ const Footer = ({ header, message }) => {
           <p>
             {t('if-you-have-hearing-loss-call')}{' '}
             {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
-            <a href="tel:711" aria-label="TTY. 7 1 1.">
-              {t('tty-711')}
-            </a>
+            <va-telephone contact="711" />
           </p>
-        </>
+        </div>
       ) : (
-        <p>{t('ask-a-staff-member')}</p>
+        <p data-testid="day-of-check-in-message">{t('ask-a-staff-member')}</p>
       )}
-      {message}
+      {currentPage === 'introduction' && (
+        <p data-testid="intro-extra-message">
+          <span className="vads-u-font-weight--bold">
+            {t(
+              'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
+            )}
+          </span>{' '}
+          call <va-telephone contact="911" />,{' '}
+          <span className="vads-u-font-weight--bold">or</span>{' '}
+          {t('call-the-veterans-crisis-hotline-at')}{' '}
+          <va-telephone contact="988" /> {t('and-select-1')}
+        </p>
+      )}
+      <BackToHome />
     </footer>
   );
 };
 
 Footer.propTypes = {
-  header: PropTypes.string,
-  message: PropTypes.node,
+  isPreCheckIn: PropTypes.bool,
+  router: PropTypes.object,
 };
 
-export default Footer;
+export default withRouter(Footer);

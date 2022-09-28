@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -76,9 +74,7 @@ const NextOfKin = props => {
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        Footer={Footer}
       />
-      <BackToHome />
     </>
   );
 };

@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../utils/i18n/i18n';
-
+import { scheduledDowntimeState } from '../../tests/unit/utils/initState';
 import {
   singleAppointment,
   multipleAppointments,
@@ -32,6 +32,7 @@ describe('pre-check-in', () => {
         // eslint-disable-next-line camelcase
         check_in_experience_phone_appointments_enabled: false,
       },
+      ...scheduledDowntimeState,
     };
     store = mockStore(initState);
   });

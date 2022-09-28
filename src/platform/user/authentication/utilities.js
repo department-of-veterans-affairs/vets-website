@@ -62,11 +62,11 @@ export const sanitizePath = to => {
   return to.startsWith('/') ? to : `/${to}`;
 };
 
-export const generateReturnURL = (returnUrl, redirectToMyVA) => {
+export const generateReturnURL = returnUrl => {
   return [
     `${environment.BASE_URL}/?next=loginModal`,
     `${environment.BASE_URL}`,
-  ].includes(returnUrl) && redirectToMyVA
+  ].includes(returnUrl)
     ? `${environment.BASE_URL}/my-va/`
     : returnUrl;
 };

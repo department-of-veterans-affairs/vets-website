@@ -8,7 +8,8 @@ import {
 
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 export default {
   uiSchema: {

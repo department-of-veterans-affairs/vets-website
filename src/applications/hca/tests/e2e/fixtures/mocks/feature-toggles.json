@@ -3,7 +3,7 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "caregiverSIGIEnabled",
+        "name": "caregiverSigiEnabled",
         "value": true
       },
       {

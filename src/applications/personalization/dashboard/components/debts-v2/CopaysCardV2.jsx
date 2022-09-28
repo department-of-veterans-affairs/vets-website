@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 import { currency } from '../../utils/helpers';
 
 export const CopaysV2 = ({ copays }) => {
+  const copayTotal =
+    copays?.reduce((acc, copay) => acc + copay.pHAmtDue, 0) ?? 0;
   const lastCopay =
-    copays
-      ?.filter(p => new Date(p.pSStatementDateOutput) > subDays(new Date(), 31))
-      .sort(
-        (a, b) =>
-          new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
-      )[0] ?? null;
+    copays?.sort(
+      (a, b) =>
+        new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
+    )[0] ?? null;
   const copaysCount = copays?.length || 0;
   if (copaysCount < 1) {
     return (
@@ -32,7 +32,7 @@ export const CopaysV2 = ({ copays }) => {
         data-testid="copay-card-v2"
       >
         <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">
-          ({currency(lastCopay.pHAmtDue)})
+          ({currency(copayTotal)})
         </h3>
         <h4 className="vads-u-margin-top--0">
           {copaysCount} copay bill
