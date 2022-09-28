@@ -8,8 +8,10 @@ import DocumentUploader from '../../../components/DocumentUploader/DocumentUploa
 describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
     const screen = render(<DocumentUploader />);
-    expect(screen.getByRole('button', { name: /Upload your document/i })).to
-      .exist;
+    expect(screen.baseElement.querySelector('va-file-input')).to.have.attribute(
+      'button-text',
+      'Upload your document',
+    );
     expect(screen.getAllByRole('combobox').length).to.equal(1);
   });
 
