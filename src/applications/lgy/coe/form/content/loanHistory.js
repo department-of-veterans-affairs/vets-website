@@ -43,6 +43,7 @@ export default {
     value: data => get('vaLoanNumber', data, ''),
     pattern: 'Please enter numbers only (dashes allowed)',
     lengthError: 'Make sure you include 12 digits.',
+    unique: 'Please enter a unique loan number',
   },
   owned: {
     title: 'Do you still own this property?',

@@ -43,8 +43,6 @@ import {
   setNotification,
   setAdditionalEvidenceNotification,
   setUnavailable,
-  SHOW_CONSOLIDATED_MODAL,
-  showConsolidatedMessage,
   SUBMIT_DECISION_REQUEST,
   submitRequest,
   UPDATE_FIELD,
@@ -173,16 +171,7 @@ describe('Actions', () => {
       });
     });
   });
-  describe('showConsolidatedMessage', () => {
-    it('should return the correct action object', () => {
-      const action = showConsolidatedMessage(true);
 
-      expect(action).to.eql({
-        type: SHOW_CONSOLIDATED_MODAL,
-        visible: true,
-      });
-    });
-  });
   describe('setLastPage', () => {
     it('should return the correct action object', () => {
       const action = setLastPage(2);

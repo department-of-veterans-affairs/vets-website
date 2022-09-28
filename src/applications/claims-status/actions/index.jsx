@@ -63,7 +63,6 @@ export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
-export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
@@ -71,7 +70,6 @@ export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
   'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
-export const HIDE_30_DAY_NOTICE = 'HIDE_30_DAY_NOTICE';
 
 export function setNotification(message) {
   return {
@@ -290,12 +288,14 @@ export function filterClaims(filter) {
     filter,
   };
 }
+
 export function sortClaims(sortProperty) {
   return {
     type: SORT_CLAIMS,
     sortProperty,
   };
 }
+
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
@@ -598,23 +598,10 @@ export function setFieldsDirty() {
   };
 }
 
-export function showConsolidatedMessage(visible) {
-  return {
-    type: SHOW_CONSOLIDATED_MODAL,
-    visible,
-  };
-}
-
 export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page,
-  };
-}
-
-export function hide30DayNotice() {
-  return {
-    type: HIDE_30_DAY_NOTICE,
   };
 }
 

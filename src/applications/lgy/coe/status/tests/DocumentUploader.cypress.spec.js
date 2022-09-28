@@ -31,7 +31,7 @@ describe(manifest.appName, () => {
     cy.get('@pendingUpload').then(() => {
       // A status alert should be visible
       cy.findByText(/We need more information from you/i).should('exist');
-      cy.findByText(/Select a document to upload/i).should('exist');
+      cy.get('va-select').should('exist');
     });
   });
 
@@ -41,7 +41,7 @@ describe(manifest.appName, () => {
 
     cy.get('@pendingUpload').then(() => {
       // Find the submit button and click it
-      cy.findByText(/Submit Files/i).click();
+      cy.get('va-button').click();
       cy.findByText(/Please choose a file to upload./i).should('exist');
     });
   });
@@ -51,7 +51,10 @@ describe(manifest.appName, () => {
     cy.injectAxeThenAxeCheck();
 
     cy.get('@pendingUpload').then(() => {
-      cy.get('#errorable-select-1').select('Statement of service');
+      cy.get('va-select')
+        .shadow()
+        .find('select')
+        .select('Statement of service');
       cy.get('input[type="file"]').selectFile(uploadImgPath, { force: true });
       cy.findByText(/testPicture.jpeg/i).should('exist');
     });
@@ -63,7 +66,10 @@ describe(manifest.appName, () => {
 
     cy.get('@pendingUpload').then(() => {
       cy.get('input[type="file"]').selectFile(uploadImgPath, { force: true });
-      cy.get('#errorable-select-1').select('Statement of service');
+      cy.get('va-select')
+        .shadow()
+        .find('select')
+        .select('Statement of service');
       cy.get('input[type="file"]').selectFile(uploadImgPath, { force: true });
       cy.findByText(/Statement of service/i).should('exist');
     });
@@ -74,7 +80,10 @@ describe(manifest.appName, () => {
     cy.injectAxeThenAxeCheck();
 
     cy.get('@pendingUpload').then(() => {
-      cy.get('#errorable-select-1').select('Statement of service');
+      cy.get('va-select')
+        .shadow()
+        .find('select')
+        .select('Statement of service');
       cy.get('input[type="file"]').selectFile(uploadImgPath, { force: true });
       cy.findByText(/testPicture.jpeg/i).should('exist');
       cy.findByText(/Delete file/i).click();

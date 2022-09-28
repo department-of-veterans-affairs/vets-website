@@ -6,7 +6,7 @@ import {
   PensionInfoDescription,
   PensionTypeDescription,
 } from '../../../components/FormDescriptions';
-import { emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { vaPensionType } = fullSchemaHca.properties;
 

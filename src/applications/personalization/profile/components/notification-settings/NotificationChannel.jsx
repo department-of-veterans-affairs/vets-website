@@ -147,7 +147,7 @@ NotificationChannel.propTypes = {
   channelId: PropTypes.string,
   channelType: PropTypes.number,
   isMissingContactInfo: PropTypes.bool,
-  isOptedIn: PropTypes.bool,
+  isOptedIn: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   itemId: PropTypes.string,
   itemName: PropTypes.string,
   permissionId: PropTypes.number,

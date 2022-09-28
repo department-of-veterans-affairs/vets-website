@@ -26,6 +26,22 @@ class Error {
       .contains(messageText);
   };
 
+  validateUUIDErrorPageLoaded = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .should(
+        'contain',
+        'You can still check-in with your phone on the day of your appointment.',
+      )
+      .and(
+        'contain',
+        'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+      );
+  };
+
   validateCanceledPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

@@ -7,12 +7,10 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import AppointmentBlock from './AppointmentBlock';
 import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
-import BackToHome from './BackToHome';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
-import Footer from './layout/Footer';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData } = props;
@@ -85,8 +83,6 @@ const PreCheckinConfirmation = props => {
           nextOfKinUpToDate={nextOfKinUpToDate}
           appointments={appointments}
         />
-        <BackToHome />
-        <Footer />
       </Wrapper>
     );
   };

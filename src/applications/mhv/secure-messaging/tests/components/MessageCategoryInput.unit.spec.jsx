@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import MessageCategoryInput from '../../components/MessageCategoryInput';
+import MessageCategoryInput from '../../components/ComposeForm/MessageCategoryInput';
 
 describe('MessageCategoryInput component', () => {
   it('should not be empty', () => {

@@ -1,5 +1,3 @@
-import flatten from 'lodash/flatten';
-
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 
@@ -210,63 +208,6 @@ export const selectChannelById = (state, channelId) => {
 };
 export const selectChannelUiById = (state, channelId) => {
   return selectChannelById(state, channelId).ui;
-};
-
-// The selectors below are specific to the business requirements for the
-// Notification Settings section of the Profile
-
-// Filter out the channels the user doesn't have contact info for
-const selectAvailableChannels = (
-  state,
-  { hasMobilePhone = false, hasEmailAddress = false } = {},
-) => {
-  const availableItems = selectItems(state);
-  const availableItemsChannels = flatten(
-    availableItems.ids.map(itemId => {
-      return availableItems.entities[itemId].channels;
-    }),
-  );
-  return availableItemsChannels.reduce(
-    (acc, channelId) => {
-      const channel = selectChannelById(state, channelId);
-      const { channelType } = channel;
-      if (
-        (channelType === 1 && hasMobilePhone) ||
-        (channelType === 2 && hasEmailAddress)
-      ) {
-        acc.ids.push(channelId);
-        acc.entities[channelId] = channel;
-      }
-      return acc;
-    },
-    {
-      ids: [],
-      entities: {},
-    },
-  );
-};
-
-export const selectChannelsWithoutSelection = (
-  state,
-  { hasMobilePhone = false, hasEmailAddress = false } = {},
-) => {
-  const availableChannels = selectAvailableChannels(state, {
-    hasMobilePhone,
-    hasEmailAddress,
-  });
-  return availableChannels.ids.reduce(
-    (acc, channelId) => {
-      if (availableChannels.entities[channelId].permissionId === null) {
-        acc.ids.push(channelId);
-        acc.entities[channelId] = selectChannelById(state, channelId);
-      }
-      return acc;
-    },
-    {
-      ids: [],
-      entities: {},
-    },
-  );
 };
 
 // REDUCERS
