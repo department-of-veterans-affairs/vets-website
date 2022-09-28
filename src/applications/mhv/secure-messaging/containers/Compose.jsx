@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMessage, loadingComplete } from '../actions';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
-import ComposeForm from '../components/ComposeForm';
+import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {

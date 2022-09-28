@@ -296,7 +296,7 @@ const ProfilePageHeader = ({
               |
             </span>{' '}
             <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-              {stars.display} of 5
+              {stars.display} of 4
             </span>{' '}
             (
             <a
