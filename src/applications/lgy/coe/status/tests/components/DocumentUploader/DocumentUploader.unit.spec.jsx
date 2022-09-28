@@ -21,7 +21,10 @@ describe('DocumentUploader', () => {
       'Discharge or separation papers (DD214)',
     ]);
     userEvent.click(screen.getByRole('button', { name: /Submit files/ }));
-    expect(screen.getByText(/Please choose a file to upload/i)).to.exist;
+    expect(screen.baseElement.querySelector('va-file-input')).to.have.attribute(
+      'error',
+      'Please choose a file to upload.',
+    );
   });
 
   it('should uploaded file', () => {
