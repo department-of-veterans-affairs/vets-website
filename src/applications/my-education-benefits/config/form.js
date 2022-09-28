@@ -5,7 +5,6 @@ import { createSelector } from 'reselect';
 // import fullSchema from '../22-1990-schema.json';
 // eslint-disable-next-line no-unused-vars
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
@@ -18,6 +17,7 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
+import preSubmitInfo from '../components/preSubmitInfo';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
