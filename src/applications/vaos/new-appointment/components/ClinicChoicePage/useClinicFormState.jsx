@@ -53,7 +53,7 @@ export default function useClinicFormState() {
       let filteredClinics = clinics;
 
       // filter the clinics based on Direct Scheduling value from VATS
-      // v2 uses boolean while v0 uses Yes/No string
+      // v2 uses boolean while v0 uses Y/N string
       if (featureClinicFilter) {
         if (useV2) {
           filteredClinics = clinics.filter(

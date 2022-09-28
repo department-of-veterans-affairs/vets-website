@@ -103,7 +103,6 @@ async function fetchPatientEligibilityFromVAR({
     ).catch(createErrorHandler('request-check-past-visits-error'));
   }
 
-  // TODO this is the check exemption for PC and MH
   if (type !== 'request' && typeOfCare.id !== PRIMARY_CARE) {
     checks.directPastVisit = checkPastVisits(
       location.vistaId,
