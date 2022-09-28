@@ -32,9 +32,7 @@ describe('DocumentUploader', () => {
     });
     const { container } = render(<DocumentUploader />);
 
-    const input = container.querySelector(
-      'va-file-input[button-text="Upload your document"]',
-    );
+    const input = container.querySelector('va-file-input');
     expect(input).to.exist;
     $('va-select', container).value = 'Discharge or separation papers (DD214)';
 
@@ -49,9 +47,7 @@ describe('DocumentUploader', () => {
     const file2 = new File(['there'], 'there.png', { type: 'image/png' });
     const { container } = render(<DocumentUploader />);
 
-    const input = container.querySelector(
-      'va-file-input[button-text="Upload your document"]',
-    );
+    const input = container.querySelector('va-file-input');
     expect(input).to.exist;
     $('va-select', container).value = 'Discharge or separation papers (DD214)';
     userEvent.upload(input, file1);
