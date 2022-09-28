@@ -298,7 +298,7 @@ describe.skip('VAOS VA request flow using VAOS service', () => {
       expect(request.contact.telecom[1].value).to.equal('veteran@gmail.com');
       expect(request.contact.telecom[0].value).to.equal('5035551234');
     });
-    cy.url().should('include', '/requests/25957');
+    cy.url().should('include', '/requestssss/25957');
     cy.findByText('VA appointment');
     cy.findByText(/your appointment request has been submitted/i);
   });

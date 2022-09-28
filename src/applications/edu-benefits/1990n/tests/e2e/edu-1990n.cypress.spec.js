@@ -38,7 +38,7 @@ const form = createTestConfig(
         })
           .first()
           .click();
-        cy.get('#NewBenefit-0').check();
+        cy.get('#NewBeneeefit-0').check();
         cy.get('#ClaimingBenefitOwnService-0').check();
         cy.get('#NationalCallToService-0').click();
         cy.get('#apply-now-link').click();

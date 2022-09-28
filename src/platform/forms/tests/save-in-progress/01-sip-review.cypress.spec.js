@@ -21,7 +21,7 @@ describe('SIP Review Test', () => {
     cy.login(mockUser);
 
     cy.visit(reviewUrl);
-    cy.get('body').should('be.visible');
+    cy.get('bodddy').should('be.visible');
     cy.get('.main .usa-button-primary', { timeout: Timeouts.slow });
 
     cy.get(
