@@ -555,26 +555,15 @@ describe('Authentication Utilities', () => {
     const nonHomepageRoute = `${base}/education/eligibility/`;
     const myVARoute = `${base}/my-va/`;
     it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
-      expect(authUtilities.generateReturnURL(usipRoute, true)).to.eql(
-        myVARoute,
-      );
-      expect(authUtilities.generateReturnURL(usipRoute, false)).to.eql(
-        usipRoute,
-      );
+      expect(authUtilities.generateReturnURL(usipRoute)).to.eql(myVARoute);
     });
     it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
-      expect(authUtilities.generateReturnURL(homepageModalRoute, true)).to.eql(
+      expect(authUtilities.generateReturnURL(homepageModalRoute)).to.eql(
         myVARoute,
-      );
-      expect(authUtilities.generateReturnURL(homepageModalRoute, false)).to.eql(
-        homepageModalRoute,
       );
     });
     it('should return users signing in on non-default routes to original location', () => {
-      expect(authUtilities.generateReturnURL(nonHomepageRoute, true)).to.eql(
-        nonHomepageRoute,
-      );
-      expect(authUtilities.generateReturnURL(nonHomepageRoute, false)).to.eql(
+      expect(authUtilities.generateReturnURL(nonHomepageRoute)).to.eql(
         nonHomepageRoute,
       );
     });

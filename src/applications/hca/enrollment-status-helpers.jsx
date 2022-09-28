@@ -2,9 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { isValidDateString } from 'platform/utilities/date';
-import { DASHBOARD_ALERT_TYPES, HCA_ENROLLMENT_STATUSES } from './constants';
-import { getMedicalCenterNameByID } from './helpers';
+import {
+  DASHBOARD_ALERT_TYPES,
+  HCA_ENROLLMENT_STATUSES,
+} from './utils/constants';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { shouldHideFormFooter } from '../selectors';
+import { shouldHideFormFooter } from '../utils/selectors';
 
 const FormFooter = ({ formConfig, currentLocation, isHidden }) => {
   const GetHelp = formConfig.getHelp;

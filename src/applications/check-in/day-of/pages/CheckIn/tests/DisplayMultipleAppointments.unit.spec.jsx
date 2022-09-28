@@ -1,16 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import format from 'date-fns/format';
-
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
-
 import configureStore from 'redux-mock-store';
-
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-
 import { render } from '@testing-library/react';
 
+import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';
 
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
@@ -30,6 +27,7 @@ describe('check-in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
           },
         },
+        ...scheduledDowntimeState,
       };
       store = mockStore(initState);
     });

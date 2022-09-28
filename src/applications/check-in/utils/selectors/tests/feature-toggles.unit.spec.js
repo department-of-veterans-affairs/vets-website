@@ -17,6 +17,7 @@ describe('check-in', () => {
         check_in_experience_lorota_security_updates_enabled: false,
         check_in_experience_phone_appointments_enabled: false,
         check_in_experience_lorota_deletion_enabled: false,
+        check_in_experience_travel_reimbursement: false,
         loading: false,
       },
     };
@@ -33,6 +34,7 @@ describe('check-in', () => {
           isLorotaSecurityUpdatesEnabled: false,
           isPhoneAppointmentsEnabled: false,
           isLorotaDeletionEnabled: false,
+          isTravelReimbursementEnabled: false,
         });
       });
     });

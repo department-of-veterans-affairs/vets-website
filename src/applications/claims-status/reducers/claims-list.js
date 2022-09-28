@@ -1,7 +1,6 @@
 import orderBy from 'lodash/orderBy';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
-import { appealTypes } from '../utils/appeals-v2-helpers';
 
 import {
   SET_CLAIMS,
@@ -9,14 +8,13 @@ import {
   FILTER_CLAIMS,
   SORT_CLAIMS,
   CHANGE_CLAIMS_PAGE,
-  SHOW_CONSOLIDATED_MODAL,
-  HIDE_30_DAY_NOTICE,
   FETCH_APPEALS,
   FETCH_APPEALS_SUCCESS,
   FETCH_CLAIMS,
   SET_CLAIMS_UNAVAILABLE,
   SET_APPEALS_UNAVAILABLE,
-} from '../actions/index.jsx';
+} from '../actions';
+import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -29,7 +27,6 @@ const initialState = {
   page: 1,
   pages: 1,
   sortProperty: 'phaseChangeDate',
-  consolidatedModal: false,
   show30DayNotice: true,
   claimsLoading: false,
   appealsLoading: false,
@@ -174,12 +171,6 @@ export default function claimsReducer(state = initialState, action) {
         page: action.page,
         visibleRows: getVisibleRows(state.visibleList, action.page),
       };
-    }
-    case SHOW_CONSOLIDATED_MODAL: {
-      return set('consolidatedModal', action.visible, state);
-    }
-    case HIDE_30_DAY_NOTICE: {
-      return set('show30DayNotice', false, state);
     }
     case FETCH_APPEALS: {
       return set('appealsLoading', true, state);

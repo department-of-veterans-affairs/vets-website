@@ -265,7 +265,7 @@ export const moveMessage = (messageId, toFolderId) => {
  * @returns
  */
 export const getTriageTeamList = () => {
-  return apiRequest(`${apiBasePath}/messaging/triage_teams`, {
+  return apiRequest(`${apiBasePath}/messaging/recipients`, {
     headers: {
       'Content-Type': 'application/json',
     },

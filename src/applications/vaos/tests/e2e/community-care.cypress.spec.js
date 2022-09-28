@@ -448,7 +448,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
-  it('should submit request successfully', () => {
+  it.skip('should submit request successfully', () => {
     const provider = {
       id: '1497723753',
       type: 'provider',

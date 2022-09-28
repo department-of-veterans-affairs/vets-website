@@ -10,7 +10,8 @@
         "id": 7169749,
         "name": "test.pdf",
         "attachmentSize": 25632
-      }
+      },
+      { "id": 7169750, "name": "test2.pdf", "attachmentSize": 25632 }
     ]
   },
   "sentDate": "Fri, 15 Jul 2022 15:11:16 GMT",

@@ -6,8 +6,6 @@ import {
   FILTER_CLAIMS,
   SORT_CLAIMS,
   CHANGE_CLAIMS_PAGE,
-  SHOW_CONSOLIDATED_MODAL,
-  HIDE_30_DAY_NOTICE,
 } from '../../actions';
 
 describe('Claims list reducer', () => {
@@ -30,16 +28,6 @@ describe('Claims list reducer', () => {
       claims,
     });
     expect(state.claims).to.deep.equal(claims);
-  });
-  it('should set the sort property', () => {
-    const previousState = {
-      sortProperty: 'dateFiled',
-    };
-    const state = claimsList(previousState, {
-      type: SORT_CLAIMS,
-      sortProperty: 'phaseChangeDate',
-    });
-    expect(state.sortProperty).to.equal('phaseChangeDate');
   });
   it('should sort by id secondarily', () => {
     const claims = [
@@ -266,29 +254,5 @@ describe('Claims list reducer', () => {
 
     expect(state.visibleRows).to.deep.equal(claims.slice(10, 12));
     expect(state.page).to.equal(2);
-  });
-
-  it('should toggle modal flag', () => {
-    const state = claimsList(
-      {},
-      {
-        type: SHOW_CONSOLIDATED_MODAL,
-        visible: true,
-      },
-    );
-
-    expect(state.consolidatedModal).to.be.true;
-  });
-  it('should turn off 30 day notice flag', () => {
-    const state = claimsList(
-      {
-        show30DayNotice: true,
-      },
-      {
-        type: HIDE_30_DAY_NOTICE,
-      },
-    );
-
-    expect(state.show30DayNotice).to.be.false;
   });
 });
