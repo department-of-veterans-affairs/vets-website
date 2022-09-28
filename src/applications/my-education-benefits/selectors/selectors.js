@@ -18,5 +18,8 @@ export const getAppData = state => ({
   showUnverifiedUserAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebUnverifiedUserAlert
   ],
+  showMebDgi40Features: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMEBMailingAddressForeign
+  ],
   user: state.user || {},
 });
