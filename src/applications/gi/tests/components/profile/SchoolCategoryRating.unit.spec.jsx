@@ -51,7 +51,7 @@ describe('<SchoolCategoryRating>', () => {
     expect(wrapper.html().includes('Not yet rated')).to.eq(true);
     wrapper.unmount();
   });
-  it('should render counts correctly', () => {
+  xit('should render counts correctly', () => {
     const wrapper = shallow(
       <SchoolCategoryRating
         categoryRating={{ ...categoryRating, naCount: 3 }}
