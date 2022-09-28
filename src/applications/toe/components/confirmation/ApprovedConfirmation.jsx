@@ -105,8 +105,8 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
+              Building Your Future with the GI Bill Part One: A Guide to
+              Choosing Your Education Pathway
             </a>
             .
           </li>
