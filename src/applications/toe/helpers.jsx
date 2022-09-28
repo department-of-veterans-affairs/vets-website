@@ -137,13 +137,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
     [formFields.viewUserFullName]: {
-      userFullName: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+      [formFields.userFullName]: {
+        first: profile?.userFullName?.first || claimant?.firstName || undefined,
+        middle:
+          profile?.userFullName?.middle || claimant?.middleName || undefined,
+        last: profile?.userFullName?.last || claimant?.lastName || undefined,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
+    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,

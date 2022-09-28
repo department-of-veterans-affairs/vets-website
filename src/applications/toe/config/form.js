@@ -232,13 +232,18 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.userFullName]: {
-                ...fullName,
+              [formFields.viewUserFullName]: {
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.userFullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
