@@ -16,7 +16,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// import { getFolder, getMessageThread } from '../api/SmApi';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { getFolders } from '../actions/folders';
@@ -40,9 +39,6 @@ const LandingPageAuth = () => {
     dispatch(getCategories());
     // dispatch(getMessages(522243));
     // dispatch(retrieveMessage(522265));
-
-    // getFolder(522243);
-    // getMessageThread(519875);
   }, []);
 
   /**
