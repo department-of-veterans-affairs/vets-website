@@ -65,7 +65,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       </tr>
     ));
 
-    const vaBenefitInfoRows = [];
+    const vaBenefitInfoItems = [];
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
       // some value other than null or undefined, so this check should not be
@@ -86,7 +86,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         benefitInfo.awardEffectiveDate,
       );
       if (optionText && displayOption) {
-        vaBenefitInfoRows.push(
+        vaBenefitInfoItems.push(
           <li key={`option${key}`} className="form-checkbox">
             <input
               checked={requestOptions[benefitOptionsMap[key]]}
@@ -101,8 +101,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       }
     });
 
-    const vaBenefitInformation = vaBenefitInfoRows.length ? (
-      <ul className="usa-unstyled-list">{vaBenefitInfoRows}</ul>
+    const vaBenefitInformation = vaBenefitInfoItems.length ? (
+      <ul className="usa-unstyled-list">{vaBenefitInfoItems}</ul>
     ) : null;
 
     let benefitSummaryContent;
