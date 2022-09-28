@@ -87,38 +87,22 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       );
       if (optionText && displayOption) {
         vaBenefitInfoRows.push(
-          <tr key={`option${key}`}>
-            <th scope="row">
-              <input
-                aria-labelledby={`${key}Label`}
-                checked={requestOptions[benefitOptionsMap[key]]}
-                id={key}
-                name={key}
-                type="checkbox"
-                onChange={this.handleChange}
-              />
-              <label htmlFor={key}>
-                <div className="sr-only">{optionText}</div>
-              </label>
-            </th>
-            <td>
-              <div id={`${key}Label`}>{optionText}</div>
-            </td>
-          </tr>,
+          <li key={`option${key}`} className="form-checkbox">
+            <input
+              checked={requestOptions[benefitOptionsMap[key]]}
+              id={key}
+              name={key}
+              type="checkbox"
+              onChange={this.handleChange}
+            />
+            <label htmlFor={key}>{optionText}</label>
+          </li>,
         );
       }
     });
 
     const vaBenefitInformation = vaBenefitInfoRows.length ? (
-      <table id="benefitInfoTable">
-        <thead>
-          <tr>
-            <th scope="col">Include</th>
-            <th scope="col">Statement</th>
-          </tr>
-        </thead>
-        <tbody>{vaBenefitInfoRows}</tbody>
-      </table>
+      <ul className="usa-unstyled-list">{vaBenefitInfoRows}</ul>
     ) : null;
 
     let benefitSummaryContent;
@@ -165,10 +149,13 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <h4 className="vads-u-font-size--h2">
             VA benefit and disability information
           </h4>
-          <p>
-            Please choose what information you want to include in your letter.
-          </p>
-          {vaBenefitInformation}
+
+          <va-checkbox-group
+            error={null}
+            label="Please choose what information you want to include in your letter."
+          >
+            {vaBenefitInformation}
+          </va-checkbox-group>
         </div>
       );
     } else {
