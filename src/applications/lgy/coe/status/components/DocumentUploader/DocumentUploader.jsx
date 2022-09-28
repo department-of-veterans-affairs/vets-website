@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
+import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { submitToAPI } from './submit';
@@ -19,9 +19,6 @@ const DocumentUploader = () => {
     token: localStorage.getItem('csrfToken'),
     reader: new FileReader(),
   });
-
-  const errorMsgClass = null;
-  const disabledOnEmptyDescClass = null;
 
   const onSelectChange = e => {
     setState({ ...state, documentType: e.value });
@@ -109,14 +106,12 @@ const DocumentUploader = () => {
           />
         )}
       </div>
-      <FileInput
-        additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
-        additionalErrorClass="vads-u-margin-bottom--1"
+      <VaFileInput
         buttonText="Upload your document"
-        onChange={onUploadFile}
+        onVaChange={vaChangeEvent => onUploadFile(vaChangeEvent.detail.files)}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-        errorMessage={state.errorMessage}
+        error={state.errorMessage}
       />
       <button type="button" onClick={onSubmit}>
         Submit files
