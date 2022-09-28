@@ -11,6 +11,7 @@ import {
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
+import { signupOrVerify } from 'platform/user/authentication/utilities';
 import * as profileUtils from 'platform/user/profile/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
@@ -378,6 +379,43 @@ describe('OAuth - Utilities', () => {
       const url = oAuthUtils.logoutUrlSiS();
       window.location = url;
       expect(window.location).to.eql(url);
+    });
+  });
+
+  describe('signupOrVerify (OAuth)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          useOAuth: true,
+        });
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=min`);
+        expect(url).to.include(`client_id=web`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+
+      it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
+          useOAuth: true,
+        });
+        const expectedAcr =
+          externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=${expectedAcr}`);
+        expect(url).to.include(`client_id=web`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
     });
   });
 
