@@ -708,6 +708,7 @@ jobs:
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
+        working-directory: qa-standards-dashboard-data
         run: yarn upload-contract-test-results
         env:
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
@@ -854,7 +855,8 @@ jobs:
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
-        run: node src/bigquery/upload-unit-test-results.js
+        run: yarn upload-unit-test-results
+        working-directory: qa-standards-dashboard-data
         env:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
@@ -1091,6 +1093,7 @@ jobs:
 
       - name: Upload Test Results to BigQuery
         continue-on-error: true
+        working-directory: qa-standards-dashboard-data
         run: yarn upload-cypress-test-results
         env:
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
