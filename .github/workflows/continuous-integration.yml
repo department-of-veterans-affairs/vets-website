@@ -858,8 +858,8 @@ jobs:
         run: yarn upload-unit-test-results
         working-directory: qa-standards-dashboard-data
         env:
-          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+          TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
 
       - name: Upload Unit Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
