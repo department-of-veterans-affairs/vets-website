@@ -25,7 +25,7 @@ export const Available = () => (
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <a href={introUrl}>
+      <a className="vads-c-action-link--blue" href={introUrl}>
         Make changes to your COE online by filling out VA Form 26-1880
       </a>
       <DocumentList />

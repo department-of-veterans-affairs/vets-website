@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { getMessageList, getMessage } from '../api/SmApi';
+import { getMessageList, getMessage, getMessageHistory } from '../api/SmApi';
 
 export const getMessages = folderId => async dispatch => {
   const response = await getMessageList(folderId);
@@ -10,11 +10,38 @@ export const getMessages = folderId => async dispatch => {
   });
 };
 
-export const retrieveMessage = messageId => async dispatch => {
+const retrieveMessageHistory = (
+  messageId,
+  isDraft = false,
+) => async dispatch => {
+  const response = await getMessageHistory(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    dispatch({
+      type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
+      response,
+    });
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @param {Boolean} isDraft true if the message is a draft, otherwise false
+ * @returns
+ */
+export const retrieveMessage = (
+  messageId,
+  isDraft = false,
+) => async dispatch => {
   const response = await getMessage(messageId);
-  // TODO Add error handling
-  dispatch({
-    type: Actions.Message.GET,
-    response,
-  });
+  dispatch(retrieveMessageHistory(messageId, isDraft));
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    dispatch({
+      type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
+      response,
+    });
+  }
 };

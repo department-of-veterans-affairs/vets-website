@@ -14,18 +14,9 @@ export const messagesReducer = (state = initialState, action) => {
       return {
         ...state,
         messageList: action.response.data.map(message => {
+          const msgAttr = message.attributes;
           return {
-            id: message.attributes.messageId,
-            category: message.attributes.category,
-            subject: message.attributes.subject,
-            body: message.attributes.body,
-            attachment: message.attributes.attachment,
-            sentDate: message.attributes.sentDate,
-            senderId: message.attributes.senderId,
-            senderName: message.attributes.senderName,
-            recipientId: message.attributes.recipientId,
-            recipientName: message.attributes.recipientName,
-            readReceipt: message.attributes.readReceipt,
+            ...msgAttr,
           };
         }),
       };
