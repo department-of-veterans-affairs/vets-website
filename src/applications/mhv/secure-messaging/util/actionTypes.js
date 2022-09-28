@@ -8,7 +8,7 @@ export const Actions = {
   Draft: {
     GET: 'SM_DRAFT_GET',
     GET_LIST: 'SM_DRAFT_GET_LIST',
-    GET_THREAD: 'SM_DRAFT_GET_THREAD',
+    GET_HISTORY: 'SM_DRAFT_GET_HISTORY',
   },
   Folder: {
     GET_LIST: 'SM_FOLDER_GET_LIST',
@@ -16,7 +16,7 @@ export const Actions = {
   Message: {
     GET: 'SM_MESSAGE_GET',
     GET_LIST: 'SM_MESSAGE_GET_LIST',
-    GET_THREAD: 'SM_MESSAGE_GET_THREAD',
+    GET_HISTORY: 'SM_MESSAGE_GET_HISTORY',
   },
   Search: {
     RUN: 'SM_SEARCH_RUN',
