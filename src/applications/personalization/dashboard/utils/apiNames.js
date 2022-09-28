@@ -1,3 +1,3 @@
 export default Object.freeze({
-  PAYMENT_HISTORY: 'payment_history',
+  PAYMENT_HISTORY: 'paymentHcdistory',
 });
