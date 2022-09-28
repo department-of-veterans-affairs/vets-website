@@ -12,8 +12,9 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
   - navigate to the check-in application `cd src/applications/check-in`
   - run `yarn install`
-  - turn on local mocks `yarn mock-api --responses src/applications/check-in/api/local-mock-api/index.js`
-  - start app `yarn watch --env entry=check-in,pre-check-in`
+  - run `yarn workspace @department-of-veterans-affairs/applications-check-in install`
+  - turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/check-in/api/local-mock-api/index.js`
+  - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=check-in,pre-check-in`
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
