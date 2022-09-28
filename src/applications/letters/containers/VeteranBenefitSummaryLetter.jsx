@@ -102,7 +102,9 @@ export class VeteranBenefitSummaryLetter extends React.Component {
     });
 
     const vaBenefitInformation = vaBenefitInfoItems.length ? (
-      <ul className="usa-unstyled-list">{vaBenefitInfoItems}</ul>
+      <ul className="usa-unstyled-list" id="benefitInfoList">
+        {vaBenefitInfoItems}
+      </ul>
     ) : null;
 
     let benefitSummaryContent;
