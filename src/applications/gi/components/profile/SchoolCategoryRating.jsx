@@ -1,6 +1,6 @@
 import React from 'react';
-import { convertRatingToStars } from '../../utils/helpers';
 import recordEvent from 'platform/monitoring/record-event';
+import { convertRatingToStars } from '../../utils/helpers';
 import RatingsStars from '../RatingsStars';
 
 export default function SchoolCategoryRating({
@@ -79,7 +79,6 @@ export default function SchoolCategoryRating({
           <div className="vads-u-padding-top--1  vads-u-margin-top--2p5 medium-screen:vads-u-padding-left--1 ">
             Distribution of ratings
             <div className="vads-u-margin-top--1">
-              {renderBar('5 star', categoryRating.rated5Count)}
               {renderBar('4 star', categoryRating.rated4Count)}
               {renderBar('3 star', categoryRating.rated3Count)}
               {renderBar('2 star', categoryRating.rated2Count)}

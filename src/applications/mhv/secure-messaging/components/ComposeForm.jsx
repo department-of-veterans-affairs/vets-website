@@ -110,7 +110,7 @@ const ComposeForm = props => {
     dispatch(saveDraft(draftData));
   };
 
-  const draftSaveMessageContentMobile = () => {
+  const draftSaveMessageContent = () => {
     if (isSaving) return <div className="last-save-time">Saving...</div>;
     if (error)
       return (
@@ -220,9 +220,8 @@ const ComposeForm = props => {
         </div>
 
         <section className="attachments-section">
-          <div className="compose-attachments-label">
-            <strong>Attachments</strong>
-          </div>
+          <div className="compose-attachments-heading">Attachments</div>
+
           <AttachmentsList
             attachments={attachments}
             setAttachments={setAttachments}
@@ -249,7 +248,7 @@ const ComposeForm = props => {
         </div>
       </div>
 
-      {draftSaveMessageContentMobile()}
+      {draftSaveMessageContent()}
     </form>
   );
 };

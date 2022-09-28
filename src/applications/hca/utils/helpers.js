@@ -198,6 +198,13 @@ export function transform(formConfig, form) {
     });
   }
 
+  // use logging to track volume of forms submitted with SIGI question answered
+  if (form.data.sigiGenders) {
+    recordEvent({
+      event: 'hca-submission-with-sigi-value',
+    });
+  }
+
   return JSON.stringify({
     gaClientId,
     asyncCompatible: true,

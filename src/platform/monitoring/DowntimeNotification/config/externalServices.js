@@ -50,4 +50,8 @@ export default {
   vre: 'vre',
   // veteran benefit services (used to source medical copay debt)
   vbs: 'vbs',
+  // Day of check-in
+  cie: 'cie',
+  // Pre-check-in
+  pcie: 'pcie',
 };

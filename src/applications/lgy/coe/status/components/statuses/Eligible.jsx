@@ -27,7 +27,11 @@ const Eligible = ({ clickHandler, referenceNumber }) => (
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <a href={introUrl} onClick={clickHandler}>
+      <a
+        className="vads-c-action-link--blue"
+        href={introUrl}
+        onClick={clickHandler}
+      >
         Make changes to your COE online by filling out VA Form 26-1880
       </a>
       <MoreQuestions />
