@@ -712,7 +712,7 @@ jobs:
         run: yarn upload-contract-test-results
         env:
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
+          TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
 
       - name: Upload Contract Test report to s3
         run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
