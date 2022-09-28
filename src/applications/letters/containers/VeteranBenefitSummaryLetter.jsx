@@ -151,13 +151,12 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <h4 className="vads-u-font-size--h2">
             VA benefit and disability information
           </h4>
-
-          <va-checkbox-group
-            error={null}
-            label="Please choose what information you want to include in your letter."
-          >
+          <fieldset>
+            <legend className="vads-u-font-size--base vads-u-font-weight--normal">
+              Please choose what information you want to include in your letter
+            </legend>
             {vaBenefitInformation}
-          </va-checkbox-group>
+          </fieldset>
         </div>
       );
     } else {
