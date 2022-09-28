@@ -1,5 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  LETTER_URL,
+  COMPARISON_TOOL_URL,
+  VA_PROFILE_URL,
+} from '../../constants';
 
 export default function ApprovedConfirmation({ user, dateReceived }) {
   return (
@@ -25,7 +30,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_URL}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
@@ -67,18 +72,14 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a
-              href="/education/download-letters/letters/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
               Download VA education letter
             </a>
             .
           </li>
           <li>
             <a
-              href="/education/gi-bill-comparison-tool/"
+              href={COMPARISON_TOOL_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -93,7 +94,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             of eligibility.
           </li>
           <li>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
+            <a href={VA_PROFILE_URL} target="_blank" rel="noopener noreferrer">
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>
@@ -105,8 +106,8 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
+              Building Your Future with the GI Bill Part One: A Guide to
+              Choosing Your Education Pathway
             </a>
             .
           </li>

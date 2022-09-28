@@ -5,6 +5,12 @@ export const LETTER_URL = `${
   environment.API_URL
 }/education/download-letters/letters`;
 
+export const COMPARISON_TOOL_URL = `${
+  environment.API_URL
+}/education/gi-bill-comparison-tool/`;
+
+export const VA_PROFILE_URL = `${environment.API_URL}/profile`;
+
 export const SPONSOR_RELATIONSHIP = {
   CHILD: 'Child',
   SPOUSE: 'Spouse',
