@@ -234,7 +234,7 @@ export const deleteMessage = messageId => {
  * @param {Long} messageId
  * @returns
  */
-export const getMessageThread = messageId => {
+export const getMessageHistory = messageId => {
   return apiRequest(`${apiBasePath}/messaging/messages/${messageId}/thread`, {
     headers: {
       'Content-Type': 'application/json',
@@ -265,7 +265,7 @@ export const moveMessage = (messageId, toFolderId) => {
  * @returns
  */
 export const getTriageTeamList = () => {
-  return apiRequest(`${apiBasePath}/messaging/triage_teams`, {
+  return apiRequest(`${apiBasePath}/messaging/recipients`, {
     headers: {
       'Content-Type': 'application/json',
     },

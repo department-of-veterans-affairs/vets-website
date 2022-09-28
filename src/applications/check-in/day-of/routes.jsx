@@ -15,6 +15,7 @@ import LoadingPage from './pages/LoadingPage';
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
+import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
@@ -115,14 +116,12 @@ const createRoutesWithStore = () => {
             component = withAuthorization(component, options);
           }
         }
+        // Add feature flip
+        component = withFeatureFlip(component, options);
+        // Add app name
+        component = withAppSet(component, options);
 
-        return (
-          <Route
-            path={`/${route.path}`}
-            component={withFeatureFlip(component, options)}
-            key={i}
-          />
-        );
+        return <Route path={`/${route.path}`} component={component} key={i} />;
       })}
       <Route path="*" component={Error} />
     </Switch>

@@ -3,25 +3,24 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import DocumentUploader from '../../../components/DocumentUploader/DocumentUploader';
 
 describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
-    const screen = render(<DocumentUploader />);
-    expect(screen.baseElement.querySelector('va-file-input')).to.have.attribute(
+    const { container } = render(<DocumentUploader />);
+    expect(container.querySelector('va-file-input')).to.have.attribute(
       'button-text',
       'Upload your document',
     );
-    expect(screen.getAllByRole('combobox').length).to.equal(1);
+    expect($('va-select', container)).to.exist;
   });
 
   it('should not submit with no documents', () => {
-    const screen = render(<DocumentUploader />);
-    userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or separation papers (DD214)',
-    ]);
-    userEvent.click(screen.getByRole('button', { name: /Submit files/ }));
-    expect(screen.baseElement.querySelector('va-file-input')).to.have.attribute(
+    const { container } = render(<DocumentUploader />);
+    $('va-select', container).value = 'Discharge or separation papers (DD214)';
+    userEvent.click($('va-button', container));
+    expect(container.querySelector('va-file-input')).to.have.attribute(
       'error',
       'Please choose a file to upload.',
     );
@@ -31,14 +30,14 @@ describe('DocumentUploader', () => {
     const file = new File(['hello'], 'hello.png', {
       type: 'image/png',
     });
-    const screen = render(<DocumentUploader />);
-    const input = screen.baseElement.querySelector(
+    const { container } = render(<DocumentUploader />);
+
+    const input = container.querySelector(
       'va-file-input[button-text="Upload your document"]',
     );
     expect(input).to.exist;
-    userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or separation papers (DD214)',
-    ]);
+    $('va-select', container).value = 'Discharge or separation papers (DD214)';
+
     userEvent.upload(input, file);
     expect(input.files[0]).to.equal(file);
     expect(input.files.item(0)).to.equal(file);
@@ -48,14 +47,13 @@ describe('DocumentUploader', () => {
   it('should upload multiple files', () => {
     const file1 = new File(['hello'], 'hello.png', { type: 'image/png' });
     const file2 = new File(['there'], 'there.png', { type: 'image/png' });
-    const screen = render(<DocumentUploader />);
-    const input = screen.baseElement.querySelector(
+    const { container } = render(<DocumentUploader />);
+
+    const input = container.querySelector(
       'va-file-input[button-text="Upload your document"]',
     );
     expect(input).to.exist;
-    userEvent.selectOptions(screen.getByRole('combobox'), [
-      'Discharge or separation papers (DD214)',
-    ]);
+    $('va-select', container).value = 'Discharge or separation papers (DD214)';
     userEvent.upload(input, file1);
     userEvent.upload(input, file2);
     expect(input.files[0]).to.equal(file2);

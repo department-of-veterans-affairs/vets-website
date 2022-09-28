@@ -17,6 +17,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getAllMessages } from '../actions';
+import { getTriageTeams } from '../actions/triageTeams';
+import { getFolders } from '../actions/folders';
+import { getCategories } from '../actions/categories';
+// import { getMessages, retrieveMessage } from '../actions/messages';
 import EmergencyNote from '../components/EmergencyNote';
 import InboxListView from '../components/MessageList/InboxListView';
 
@@ -30,6 +34,11 @@ const LandingPageAuth = () => {
   // fire api call to retreive messages
   useEffect(() => {
     dispatch(getAllMessages());
+    dispatch(getTriageTeams());
+    dispatch(getFolders());
+    dispatch(getCategories());
+    // dispatch(getMessages(522243));
+    // dispatch(retrieveMessage(522265));
   }, []);
 
   /**

@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import BackToHome from '../../../components/BackToHome';
 
 const ErrorTest = () => {
   const [value, setValue] = useState({
@@ -16,7 +15,6 @@ const ErrorTest = () => {
       <button type="button" onClick={throwError}>
         {value.item.thing.display}
       </button>
-      <BackToHome />
     </div>
   );
 };
