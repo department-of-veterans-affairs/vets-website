@@ -22,7 +22,7 @@ describe('Pre-Check In Experience ', () => {
       it('error in the body', () => {
         cy.visitPreCheckInWithUUID();
 
-        Error.validatePageLoaded();
+        Error.validateUUIDErrorPageLoaded();
         cy.injectAxeThenAxeCheck();
       });
     });
