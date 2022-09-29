@@ -1,8 +1,9 @@
 name: E2E Stress Test
 
 on:
-  schedule:
-    - cron: '0 14 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 14 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 env:
   BUILDTYPE: vagovprod
@@ -227,7 +228,6 @@ jobs:
       max-parallel: 12
       matrix:
         ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
-        BUILDTYPE: vagovprod
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
