@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
@@ -78,9 +76,7 @@ const Demographics = props => {
         subtitle={t(
           'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
         )}
-        Footer={Footer}
       />
-      <BackToHome />
     </>
   );
 };

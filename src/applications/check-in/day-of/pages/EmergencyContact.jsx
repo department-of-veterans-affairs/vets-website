@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
@@ -77,9 +75,7 @@ const EmergencyContact = props => {
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
-        Footer={Footer}
       />
-      <BackToHome />
     </>
   );
 };

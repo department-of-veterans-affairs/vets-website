@@ -29,7 +29,7 @@ export function chooseVAFacilityTest() {
   cy.findByText(/Continue/).click();
 }
 
-export function chooseVAFacilityV2Test(label) {
+export function chooseVAFacilityV2Test({ label }) {
   cy.url().should('include', '/va-facility-2');
   cy.axeCheckBestPractice();
   cy.findByLabelText(label)

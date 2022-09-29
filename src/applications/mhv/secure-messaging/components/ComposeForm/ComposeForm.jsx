@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { focusElement } from 'platform/utilities/ui';
+import { useDispatch } from 'react-redux';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
-import AttachmentsList from './AttachmentsList';
+import AttachmentsList from '../AttachmentsList';
+import { saveDraft } from '../../actions/index';
+import DraftSavedInfo from './DraftSavedInfo';
+import useDebounce from '../../hooks/use-debounce';
 
 const ComposeForm = props => {
   const { message } = props;
+  const dispatch = useDispatch();
+
   const defaultRecipientsList = [
     { id: 0, name: ' ' },
-    { id: 1, name: 'Doctor A' },
-    { id: 2, name: 'Doctor B' },
-    { id: 3, name: 'Doctor C' },
+    { id: 12, name: 'Doctor A' },
+    { id: 13, name: 'Doctor B' },
+    { id: 14, name: 'Doctor C' },
   ];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [selectedRecipient, setSelectedRecipient] = useState(
@@ -24,6 +31,12 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
+
+  const debouncedSubject = useDebounce(subject, 3000);
+  const debouncedMessageBody = useDebounce(messageBody, 3000);
+  const attachmentNames = attachments.reduce((currentString, item) => {
+    return currentString + item.name;
+  }, '');
 
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
@@ -67,25 +80,50 @@ const ComposeForm = props => {
     return 'New message';
   };
 
-  const handleMessageBodyChange = e => {
-    setMessageBody(e.target.value);
-  };
-
   const sendMessageHandler = event => {
     event.preventDefault();
-    const formData = new FormData();
 
     if (!category) {
       setCategoryError(true);
       focusElement('.message-category');
     }
+  };
 
+  const saveDraftHandler = type => {
+    const formData = new FormData();
+
+    formData.append('recipientId', selectedRecipient);
     formData.append('category', category);
+    formData.append('subject', subject);
+    formData.append('body', messageBody);
 
     for (const file of attachments) {
       formData.append(file.name, file);
     }
+
+    dispatch(saveDraft(formData, type));
   };
+
+  useEffect(
+    () => {
+      if (
+        selectedRecipient ||
+        category ||
+        debouncedSubject ||
+        debouncedMessageBody ||
+        attachmentNames
+      ) {
+        saveDraftHandler('auto');
+      }
+    },
+    [
+      attachmentNames,
+      category,
+      debouncedMessageBody,
+      debouncedSubject,
+      selectedRecipient,
+    ],
+  );
 
   return (
     <form className="compose-form" onSubmit={sendMessageHandler}>
@@ -96,12 +134,13 @@ const ComposeForm = props => {
           <span className="send-button-top-text">Send</span>
         </button>
       </div>
-
       <div className="compose-inputs-container">
-        <va-select
+        <VaSelect
+          id="recipient-dropdown"
           label="To"
           name="to"
           value={selectedRecipient}
+          onVaSelect={e => setSelectedRecipient(e.detail.value)}
           class="composeSelect"
         >
           {recipientsList.map(item => (
@@ -109,29 +148,32 @@ const ComposeForm = props => {
               {item.name}
             </option>
           ))}
-        </va-select>
-
+        </VaSelect>
         <button type="button" className="link-button edit-input-button">
           Edit List
         </button>
-
         <MessageCategoryInput
           category={category}
           categoryError={categoryError}
           setCategory={setCategory}
           setCategoryError={setCategoryError}
         />
+        <div className="message-subject-field">
+          <label htmlFor="message-subject">
+            Subject
+            <span className="required"> (*Required)</span>
+          </label>
 
-        <va-text-input
-          label="Subject"
-          name="subject"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
-          required
-          class="composeInput"
-          value={subject}
-        />
-
+          <input
+            type="text"
+            id="message-subject"
+            name="message-subject"
+            className="message-subject"
+            onChange={e => {
+              setSubject(e.target.value);
+            }}
+          />
+        </div>
         <div className="message-body-field">
           <label htmlFor="message-body">
             Message
@@ -141,15 +183,12 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
-            onChange={handleMessageBodyChange}
-            value={messageBody}
+            onChange={e => setMessageBody(e.target.value)}
           />
         </div>
-
         <section className="attachments-section">
-          <div className="compose-attachments-label">
-            <strong>Attachments</strong>
-          </div>
+          <div className="compose-attachments-heading">Attachments</div>
+
           <AttachmentsList
             attachments={attachments}
             setAttachments={setAttachments}
@@ -161,17 +200,20 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-
         <div className="compose-form-actions">
           <button type="submit" className="send-button-bottom">
-            <span className="send-button-bottom-text">Send</span>
-            <i className="fas fa-paper-plane" aria-hidden="true" />
+            Send
           </button>
-          <button type="button" className="link-button save-draft-button">
-            Save as draft
+          <button
+            type="button"
+            className="usa-button-secondary save-draft-button"
+            onClick={() => saveDraftHandler('manual')}
+          >
+            Save draft
           </button>
         </div>
       </div>
+      <DraftSavedInfo />
     </form>
   );
 };

@@ -10,6 +10,7 @@ import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
+  useSingleLogoutPropType,
 } from '../../../propTypes';
 
 export const AuthContent = ({
@@ -17,6 +18,7 @@ export const AuthContent = ({
   cernerFacilities,
   otherFacilities,
   ehrDataByVhaId,
+  useSingleLogout,
 }) => (
   <>
     <h2 id="send-or-receive-secure-mess">Send or receive a secure message</h2>
@@ -26,7 +28,7 @@ export const AuthContent = ({
       ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Send a secure message to a provider at:"
       myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-      myVAHealthLink={getCernerURL('/pages/messaging/inbox')}
+      myVAHealthLink={getCernerURL('/pages/messaging/inbox', useSingleLogout)}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -187,7 +189,7 @@ export const AuthContent = ({
               </p>
               <ul>
                 <li>
-                  Call <a href="tel:+988">988</a>, then select 1.
+                  Call <va-telephone contact="988" />, then select 1.
                 </li>
                 <li>
                   Start a{' '}
@@ -200,6 +202,7 @@ export const AuthContent = ({
                   .
                 </li>
                 <li>
+                  {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component */}
                   Text <a href="tel:+1838255">838255</a>.
                 </li>
               </ul>
@@ -278,10 +281,7 @@ export const AuthContent = ({
           </li>
           <li>
             Call the My HealtheVet help desk at{' '}
-            <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-              877-327-0022
-            </a>{' '}
-            (
+            <va-telephone contact="8773270022" /> (
             <a
               href=" tel:18008778339."
               aria-label=" TTY. 8 0 0. 8 7 7. 8 3 3 9."
@@ -303,10 +303,7 @@ export const AuthContent = ({
         <h3>For My VA Health questions</h3>
         <p>
           Call My VA Health support anytime at{' '}
-          <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-            800-962-1024
-          </a>
-          .
+          <va-telephone contact="8009621024" />.
         </p>
       </div>
     </div>
@@ -318,6 +315,7 @@ AuthContent.propTypes = {
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   otherFacilities: otherFacilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 export default AuthContent;

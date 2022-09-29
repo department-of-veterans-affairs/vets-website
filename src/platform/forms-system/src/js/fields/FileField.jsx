@@ -87,7 +87,6 @@ class FileField extends React.Component {
       const currentFile = event.target.files[0];
       const files = this.props.formData || [];
       const {
-        requestLockedPdfPassword,
         onChange,
         formContext,
         uiSchema,
@@ -130,7 +129,6 @@ class FileField extends React.Component {
 
       // Check if the file is an encrypted PDF
       if (
-        requestLockedPdfPassword && // feature flag
         currentFile.name?.endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
@@ -255,7 +253,6 @@ class FileField extends React.Component {
       formContext,
       onBlur,
       registry,
-      requestLockedPdfPassword,
       enableShortWorkflow,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'];
@@ -323,15 +320,10 @@ class FileField extends React.Component {
                 errorSchema,
               );
               const attachmentNameErrors = get([index, 'name'], errorSchema);
-              // feature flag
-              const showPasswordContent =
-                requestLockedPdfPassword && file.isEncrypted;
               const showPasswordInput =
-                showPasswordContent && !file.confirmationCode;
+                file.isEncrypted && !file.confirmationCode;
               const showPasswordSuccess =
-                showPasswordContent &&
-                !showPasswordInput &&
-                file.confirmationCode;
+                file.isEncrypted && file.confirmationCode;
               const description =
                 (!file.uploading && uiOptions.itemDescription) || '';
 
@@ -557,7 +549,6 @@ FileField.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
   enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
 });
 

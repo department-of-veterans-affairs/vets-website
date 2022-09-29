@@ -14,7 +14,7 @@ export const QUERY_LIFESPAN = 3600000;
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 
-export const MINIMUM_RATING_COUNT = 5;
+export const MINIMUM_RATING_COUNT = 3;
 
 // Max search area distance in miles
 export const MAX_SEARCH_AREA_DISTANCE = 150;

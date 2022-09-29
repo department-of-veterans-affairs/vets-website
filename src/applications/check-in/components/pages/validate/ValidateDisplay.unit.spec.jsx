@@ -8,6 +8,7 @@ import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import i18n from '../../../utils/i18n/i18n';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ValidateDisplay from './ValidateDisplay';
 
 describe('check-in experience', () => {
@@ -21,10 +22,14 @@ describe('check-in experience', () => {
           context: {
             token: '',
           },
+          form: {
+            pages: [],
+          },
         },
         featureToggles: {
           check_in_experience_lorota_security_updates_enabled: false,
         },
+        ...scheduledDowntimeState,
       };
       beforeEach(() => {
         store = mockStore(initState);
@@ -53,18 +58,6 @@ describe('check-in experience', () => {
             'We need some information to verify your identity so we can check you in.',
           ),
         ).to.exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              {/* eslint-disable-next-line react/jsx-no-bind */}
-              <ValidateDisplay Footer={() => <div>foo</div>} />
-            </I18nextProvider>
-          </Provider>,
-        );
-
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(
@@ -160,6 +153,7 @@ describe('check-in experience', () => {
             featureToggles: {
               check_in_experience_lorota_security_updates_enabled: true,
             },
+            ...scheduledDowntimeState,
           };
           const { getByTestId } = render(
             <Provider store={mockStore(updatedStore)}>

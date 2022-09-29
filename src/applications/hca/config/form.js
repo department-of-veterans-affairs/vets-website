@@ -14,7 +14,7 @@ import IDPage from '../containers/IDPage';
 import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
+import { DowntimeWarning } from '../components/FormAlerts';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, formValue } from '../utils/helpers';
 import {
@@ -135,7 +135,7 @@ const formConfig = {
   },
   downtime: {
     dependencies: [externalServices.es],
-    message: DowntimeMessage,
+    message: DowntimeWarning,
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,

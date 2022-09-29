@@ -63,18 +63,11 @@
 
 #homepage-benefits {
   padding-top: 1.5em;
+
   @include media($medium-large-screen) {
     padding-top: 3em;
-
-  @include media($medium-large-screen) {
     padding-left: 1em;
     padding-right: 1em;
-  }
-
-  @include media($large-screen) {
-    padding-left: 0;
-    padding-right: 0;
-  }
   }
 }
 
@@ -82,11 +75,11 @@
 // usa-grid padding 0 rule
 .homepage-benefits-row {
   padding-bottom: 1.5em;
+  &:last-of-type {
+    padding-bottom: 0;
+  }
   @include media($medium-large-screen) {
     padding-bottom: 3em;
-    &:last-of-type {
-      padding-bottom: 0;
-    }
   }
 }
 
