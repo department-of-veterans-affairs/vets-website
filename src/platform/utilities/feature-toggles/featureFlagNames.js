@@ -93,7 +93,6 @@ export default Object.freeze({
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
-  requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   shiftVetsBanner: 'shift_vets_banner',
