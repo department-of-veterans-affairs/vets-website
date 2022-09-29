@@ -70,17 +70,17 @@ function FlipperClient({
           ]
       }
       */
-    let data;
-
+    let preData;
     if (sessionStorage.getItem('vaFeatureToggles')) {
       const dataFromStorage = sessionStorage.getItem('vaFeatureToggles');
-      data = JSON.parse(dataFromStorage);
+      preData = JSON.parse(dataFromStorage);
     } else {
-      data = await _fetchToggleValues();
-      const saveData = JSON.stringify(data);
+      preData = await _fetchToggleValues();
+      const saveData = JSON.stringify(preData);
       sessionStorage.setItem('vaFeatureToggles', saveData);
     }
 
+    const { data } = preData;
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
