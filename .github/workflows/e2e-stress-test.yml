@@ -2,7 +2,7 @@ name: E2E Stress Test
 
 on:
   # schedule:
-  #   - cron: '0 14 * * 1-5' # 10pm EST/2am UTC, weekdays
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
   push
 
 env:
@@ -232,6 +232,7 @@ jobs:
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+      CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
       # The following statement is included in each step because of a bug in
