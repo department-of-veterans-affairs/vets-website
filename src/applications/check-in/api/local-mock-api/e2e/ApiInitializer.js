@@ -54,6 +54,22 @@ class ApiInitializer {
         }),
       );
     },
+    withTravelPay: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceTranslationDisclaimerSpanishEnabled: true,
+          checkInExperienceDayOfDemographicsFlagsEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
+          checkInExperienceLorotaDeletionEnabled: false,
+          checkInExperienceTravelReimbursement: true,
+        }),
+      );
+    },
     withAllFeatures: () => {
       cy.intercept(
         'GET',

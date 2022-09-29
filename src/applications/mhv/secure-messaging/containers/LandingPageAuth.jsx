@@ -40,6 +40,8 @@ const LandingPageAuth = () => {
     // dispatch(getMessages(522243));
     dispatch(getMessages(Folder.INBOX)); // landing page retrieves only Inbox messages. Separate layout is used for other folders
     // dispatch(retrieveMessage(522265));
+    // dispatch(retrieveMessage(7178447));
+    // dispatch(retrieveFolder(0));
   }, []);
 
   useInterval(() => {

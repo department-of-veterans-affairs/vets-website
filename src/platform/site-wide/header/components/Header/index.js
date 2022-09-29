@@ -27,7 +27,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
       <OfficialGovtWebsite />
 
       {/* Veteran crisis line */}
-      <VeteranCrisisLine />
+      <VeteranCrisisLine id="header-crisis-line" />
 
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
         {/* Logo row */}

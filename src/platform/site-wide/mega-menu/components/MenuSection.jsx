@@ -22,12 +22,6 @@ class MenuSection extends React.Component {
     }
   }
 
-  getCurrentSection() {
-    return this.props.currentSection
-      ? this.props.currentSection
-      : this.props.defaultSection;
-  }
-
   getId(title) {
     return `vetnav-${_.kebabCase(title)}-ms`;
   }
@@ -53,9 +47,9 @@ class MenuSection extends React.Component {
       mobileMediaQuery,
       smallDesktopMediaQuery,
       title,
+      currentSection,
     } = this.props;
 
-    const currentSection = this.getCurrentSection(this.props);
     const show = currentSection === title;
     const isPlainLink = !!href;
 
@@ -153,8 +147,8 @@ MenuSection.propTypes = {
       href: PropTypes.string.isRequired,
     }),
   }),
+  currentSection: PropTypes.string,
   href: PropTypes.string,
-  defaultSection: PropTypes.string.isRequired,
   linkClicked: PropTypes.func.isRequired,
   columnThreeLinkClicked: PropTypes.func.isRequired,
 };
