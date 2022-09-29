@@ -42,11 +42,11 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const [dob, setDob] = useState('');
+  const [dob, setDob] = useState('--');
+  const [dobError, setDobError] = useState(false);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
@@ -72,9 +72,9 @@ const ValidateVeteran = props => {
         last4Ssn,
         lastName,
         dob,
+        dobError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
-        setDobErrorMessage,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -99,6 +99,7 @@ const ValidateVeteran = props => {
       last4Ssn,
       lastName,
       dob,
+      dobError,
       resetAttempts,
       setSession,
       token,
@@ -125,10 +126,11 @@ const ValidateVeteran = props => {
           lastName,
         }}
         dobInput={{
-          dobErrorMessage,
           setDob,
           dob,
         }}
+        dobError={dobError}
+        setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={onClick}
         Footer={Footer}
