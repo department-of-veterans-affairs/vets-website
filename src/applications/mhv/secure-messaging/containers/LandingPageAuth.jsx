@@ -39,7 +39,8 @@ const LandingPageAuth = () => {
     dispatch(getFolders());
     dispatch(getCategories());
     // dispatch(getMessages(522243));
-    // dispatch(retrieveMessage(522265));
+    // dispatch(retrieveMessage(7178447));
+    // dispatch(retrieveFolder(0));
   }, []);
 
   useInterval(() => {

@@ -11,6 +11,7 @@ export const Actions = {
     GET_HISTORY: 'SM_DRAFT_GET_HISTORY',
   },
   Folder: {
+    GET: 'SM_FOLDER_GET',
     GET_LIST: 'SM_FOLDER_GET_LIST',
   },
   Message: {
