@@ -1,0 +1,55 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { DefaultFolders as Folder } from '../../util/constants';
+import EmergencyNote from '../EmergencyNote';
+
+const MessageFolderHeader = props => {
+  const handleHeader = () => {
+    switch (props.folder.folderId) {
+      case Folder.INBOX: // Inbox
+        return `Messages`;
+      case Folder.SENT: // Sent
+        return `Sent messages`;
+      case Folder.DRAFTS: // Drafts
+        return `Drafts`;
+      case Folder.DELETED: // Trash
+        return `Trash`;
+      default:
+        return props.folder.name;
+    }
+  };
+
+  return (
+    <>
+      <h1>{handleHeader()}</h1>
+      {props.folder.folderId === Folder.INBOX ? (
+        <>
+          <p className="va-introtext vads-u-margin-top--0">
+            When you send a message to your care team, it can take up to 3
+            business days to get a response.
+          </p>
+          <EmergencyNote />
+          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+            <Link
+              className="vads-c-action-link--blue compose-message-link"
+              to="/compose"
+            >
+              Compose message
+            </Link>
+          </p>
+        </>
+      ) : (
+        <p className="va-introtext vads-u-margin-top--0">
+          Your care team should respond to your message within 3 business days.
+        </p>
+      )}
+    </>
+  );
+};
+
+MessageFolderHeader.propTypes = {
+  folder: PropTypes.object,
+};
+
+export default MessageFolderHeader;
