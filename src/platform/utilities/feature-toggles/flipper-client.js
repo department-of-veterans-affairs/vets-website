@@ -75,7 +75,10 @@ function FlipperClient({
     let preData;
     if (sessionStorage.getItem('vaFeatureToggles')) {
       const dataFromStorage = sessionStorage.getItem('vaFeatureToggles');
-      preData = JSON.parse(dataFromStorage);
+      // forces the data to be treated as a promise, just like fetch();
+      preData = await Promise.resolve(dataFromStorage).then(dfs =>
+        JSON.parse(dfs),
+      );
     } else {
       preData = await _fetchToggleValues();
       const saveData = JSON.stringify(preData);
