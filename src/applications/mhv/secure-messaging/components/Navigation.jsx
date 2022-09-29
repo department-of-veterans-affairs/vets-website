@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
 const Navigation = () => {
+  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const folderList = useSelector(state => state.sm.folders.folderList);
+
+  useEffect(() => {
+    dispatch(getFolders());
+  });
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
@@ -71,33 +81,34 @@ const Navigation = () => {
               </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
-                  <a href="/my-health/secure-messages">Messages</a>
+                  <Link to="/">Messages</Link>
                 </div>
-                <div className="sidebar-navigation-messages-list-menu">
-                  <ul className="usa-sidenav-list">
-                    <li>
-                      <a href="/my-health/secure-messages">Compose</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Drafts</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Folders</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Sent</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Deleted</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Search messages</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Messages FAQ</a>
-                    </li>
-                  </ul>
-                </div>
+                {folderList && (
+                  <div className="sidebar-navigation-messages-list-menu">
+                    <ul className="usa-sidenav-list">
+                      <li>
+                        <Link to="/compose">Compose</Link>
+                      </li>
+
+                      {folderList
+                        ?.filter(el => el.id !== 0)
+                        .map((folder, i) => (
+                          <li key={i}>
+                            <Link to={`/folder/${folder.id}`}>
+                              {folder.name}
+                            </Link>
+                          </li>
+                        ))}
+
+                      <li>
+                        <Link to="/search">Search messages</Link>
+                      </li>
+                      <li>
+                        <a href="/my-health/secure-messages">Messages FAQ</a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </li>
               <li>
                 <a href="/my-health/secure-messages">Medical records</a>
