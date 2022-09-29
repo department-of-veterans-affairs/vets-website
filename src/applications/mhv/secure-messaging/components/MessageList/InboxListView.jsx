@@ -29,8 +29,10 @@ const MAX_PAGE_LIST_LENGTH = 5;
 
 const InboxListView = props => {
   const { messages } = props;
-  const perPage = messages.meta.pagination.per_page;
-  const totalEntries = messages.meta.pagination.total_entries;
+  // const perPage = messages.meta.pagination.per_page;
+  const perPage = 10;
+  // const totalEntries = messages.meta.pagination.total_entries;
+  const totalEntries = messages?.length;
 
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,19 +61,19 @@ const InboxListView = props => {
       let sorted;
       if (sortOrder === 'desc') {
         sorted = data.sort((a, b) => {
-          return b.attributes.sent_date > a.attributes.sent_date ? 1 : -1;
+          return b.sentDate > a.sentDate ? 1 : -1;
         });
       } else if (sortOrder === 'asc') {
         sorted = data.sort((a, b) => {
-          return a.attributes.sent_date > b.attributes.sent_date ? 1 : -1;
+          return a.sentDate > b.sentDate ? 1 : -1;
         });
       } else if (sortOrder === 'alpha-asc') {
         sorted = data.sort((a, b) => {
-          return a.attributes.sender_name > b.attributes.sender_name ? 1 : -1;
+          return a.senderName > b.senderName ? 1 : -1;
         });
       } else if (sortOrder === 'alpha-desc') {
         sorted = data.sort((a, b) => {
-          return a.attributes.sender_name < b.attributes.sender_name ? 1 : -1;
+          return a.senderName < b.senderName ? 1 : -1;
         });
       }
       return sorted;
@@ -82,9 +84,11 @@ const InboxListView = props => {
   // run once on component mount to set initial message and page data
   useEffect(
     () => {
-      paginatedMessages.current = paginateData(sortMessages(messages.data));
+      if (messages?.length) {
+        paginatedMessages.current = paginateData(sortMessages(messages));
 
-      setCurrentMessages(paginatedMessages.current[currentPage - 1]);
+        setCurrentMessages(paginatedMessages.current[currentPage - 1]);
+      }
     },
     [currentPage, messages, paginateData, sortMessages],
   );
@@ -97,12 +101,12 @@ const InboxListView = props => {
 
   // handle message sorting on sort button click
   const handleMessageSort = () => {
-    paginatedMessages.current = paginateData(sortMessages(messages.data));
+    paginatedMessages.current = paginateData(sortMessages(messages));
     setCurrentMessages(paginatedMessages.current[0]);
     setCurrentPage(1);
   };
 
-  const displayNums = fromToNums(currentPage, messages.data.length);
+  const displayNums = fromToNums(currentPage, messages?.length);
 
   return (
     <div className="message-list vads-l-row vads-u-flex-direction--column">
@@ -133,13 +137,13 @@ const InboxListView = props => {
       </div>
       {currentMessages.map((message, idx) => (
         <InboxListItem
-          key={`${message.id}+${idx}`}
-          senderName={message.attributes.sender_name}
-          sentDate={message.attributes.sent_date}
-          subject={message.attributes.subject}
-          readReceipt={message.attributes.read_receipt}
-          attachment={message.attributes.attachment}
-          link={message.link}
+          key={`${message.messageId}+${idx}`}
+          messageId={message.messageId}
+          senderName={message.senderName}
+          sentDate={message.sentDate}
+          subject={message.subject}
+          readReceipt={message.readReceipt}
+          attachment={message.attachment}
         />
       ))}
       {currentMessages && (
@@ -159,5 +163,4 @@ export default InboxListView;
 
 InboxListView.propTypes = {
   messages: PropTypes.object,
-  meta: PropTypes.object,
 };

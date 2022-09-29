@@ -20,17 +20,16 @@ import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { getFolders } from '../actions/folders';
 import { getCategories } from '../actions/categories';
-// import { getMessages, retrieveMessage } from '../actions/messages';
+import { getMessages } from '../actions/messages';
+import { DefaultFolders as Folder } from '../util/constants';
 import EmergencyNote from '../components/EmergencyNote';
 import InboxListView from '../components/MessageList/InboxListView';
 import useInterval from '../hooks/use-interval';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
-  // const user = useSelector(state => state?.user);
-  const { isLoading, messages, error } = useSelector(
-    state => state?.allMessages,
-  );
+  const error = null;
+  const messages = useSelector(state => state.sm.messages?.messageList);
 
   // fire api call to retreive messages
   useEffect(() => {
@@ -39,6 +38,7 @@ const LandingPageAuth = () => {
     dispatch(getFolders());
     dispatch(getCategories());
     // dispatch(getMessages(522243));
+    dispatch(getMessages(Folder.INBOX)); // landing page retrieves only Inbox messages. Separate layout is used for other folders
     // dispatch(retrieveMessage(522265));
   }, []);
 
@@ -47,12 +47,20 @@ const LandingPageAuth = () => {
   }, 5000);
 
   let content;
-  if (isLoading && messages === null) {
+  if (messages === undefined) {
     content = (
       <va-loading-indicator
         message="Loading your secure messages..."
         setFocus
       />
+    );
+  } else if (messages.length === 0) {
+    // this is a temporary content. There is a separate story to handle empty folder messaging
+    content = (
+      <va-alert status="error" visible>
+        <h2 slot="headline">No messages</h2>
+        <p>There are no messages in this folder</p>
+      </va-alert>
     );
   } else if (error) {
     content = (
@@ -96,18 +104,12 @@ const LandingPageAuth = () => {
           >
             Search the Messages folder
           </label>
-          <VaSearchInput
-            label="search-message-folder-input"
-            // onInput={function noRefCheck() {}}
-            // onSubmit={function noRefCheck() {}}
-          />
+          <VaSearchInput label="search-message-folder-input" />
         </div>
 
         <div>{content}</div>
       </div>
     </div>
-
-    // </RequiredLoginView>
   );
 };
 
