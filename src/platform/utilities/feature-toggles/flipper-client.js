@@ -48,7 +48,9 @@ function FlipperClient({
     _subscriberCallbacks.forEach(callback => callback(toggleValues));
 
   const refreshToggleValues = async () => {
-    const { toggleValues } = await _fetchToggleValues();
+    const {
+      data: { features: toggleValues } = [],
+    } = await _fetchToggleValues(); // sets toggleValues
 
     handleToggleValuesRetrieved(toggleValues);
   };
@@ -101,7 +103,9 @@ function FlipperClient({
 
   const startPollingToggleValues = async () => {
     _pollingActive = true;
-    const { toggleValues } = await _fetchToggleValues();
+    const {
+      data: { features: toggleValues } = [],
+    } = await _fetchToggleValues(); // toggleValues
 
     if (_pollingActive) {
       handleToggleValuesRetrieved(toggleValues);
