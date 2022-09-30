@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { createSetSession } from '../../../actions/authentication';
 import { setError } from '../../../actions/universal';
 
-import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
-import Footer from '../../../components/layout/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -141,11 +139,9 @@ const Index = ({ router }) => {
           setDob,
           dob,
         }}
-        Footer={Footer}
         showValidateError={showValidateError}
         validateErrorMessage={validateErrorMessage}
       />
-      <BackToHome />
     </>
   );
 };

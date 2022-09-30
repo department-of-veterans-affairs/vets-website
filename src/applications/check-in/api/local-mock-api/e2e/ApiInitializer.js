@@ -24,7 +24,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
@@ -51,6 +51,22 @@ class ApiInitializer {
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
+        }),
+      );
+    },
+    withTravelPay: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceTranslationDisclaimerSpanishEnabled: true,
+          checkInExperienceDayOfDemographicsFlagsEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
+          checkInExperienceLorotaDeletionEnabled: false,
+          checkInExperienceTravelReimbursement: true,
         }),
       );
     },
@@ -116,7 +132,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(errorCode, session.get.createMockFailedResponse());
+        req.reply(errorCode, session.get.createMockFailedResponse(errorCode));
       });
     },
   };

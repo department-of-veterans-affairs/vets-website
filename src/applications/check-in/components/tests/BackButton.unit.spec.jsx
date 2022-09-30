@@ -2,9 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-
+import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import i18n from '../../utils/i18n/i18n';
 import BackButton from '../BackButton';
 
 describe('check-in', () => {
@@ -39,7 +40,9 @@ describe('check-in', () => {
       const goBack = sinon.spy();
       const screen = render(
         <Provider store={store}>
-          <BackButton action={goBack} router={mockRouterThirdPage} />
+          <I18nextProvider i18n={i18n}>
+            <BackButton action={goBack} router={mockRouterThirdPage} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -52,7 +55,9 @@ describe('check-in', () => {
       const goBack = sinon.spy();
       const screen = render(
         <Provider store={store}>
-          <BackButton action={goBack} router={mockRouterThirdPage} />
+          <I18nextProvider i18n={i18n}>
+            <BackButton action={goBack} router={mockRouterThirdPage} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -69,7 +74,9 @@ describe('check-in', () => {
       const goBack = sinon.spy();
       const screen = render(
         <Provider store={store}>
-          <BackButton action={goBack} router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <BackButton action={goBack} router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
       expect(screen.queryByTestId('back-button')).to.not.exist;

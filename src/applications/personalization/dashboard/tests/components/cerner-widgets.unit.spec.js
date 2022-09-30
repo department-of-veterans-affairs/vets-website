@@ -21,13 +21,13 @@ describe('General Widget', () => {
       name: /Use My VA Health/i,
     });
     const cernerURL = getCernerURL('');
-    expect(myVAHealthLink.href).to.equal(cernerURL);
+    expect(myVAHealthLink.getAttribute('href')).to.equal(cernerURL);
   });
   it('renders the correct secondary CTA link', () => {
     const ctaLink = view.getByRole('link', {
       name: /Use My HealtheVet/i,
     });
-    expect(ctaLink.href).to.contain(
+    expect(ctaLink.getAttribute('href')).to.contain(
       'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
     );
   });
