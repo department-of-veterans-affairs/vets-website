@@ -38,7 +38,7 @@ describe('Check In Experience ', () => {
     // page: Demographics
     Demographics.validatePageLoaded();
   });
-  it('only allows current and past years', () => {
+  it('only allows submits with valid date', () => {
     cy.visitWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.dayOf();
@@ -46,5 +46,24 @@ describe('Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
     ValidateVeteran.getDobError();
     cy.injectAxeThenAxeCheck();
+  });
+  it('only allows submits with valid date on enter', () => {
+    cy.visitWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePage.dayOf();
+    ValidateVeteran.validateVeteranDobInvalidYear();
+    ValidateVeteran.attemptToGoToNextPageWithEnterKey();
+    ValidateVeteran.getDobError();
+    cy.injectAxeThenAxeCheck();
+  });
+  it('Will submit after correcting errors', () => {
+    cy.visitWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePage.dayOf();
+    ValidateVeteran.validateVeteranDobInvalidYear();
+    ValidateVeteran.attemptToGoToNextPageWithEnterKey();
+    ValidateVeteran.validateVeteranDob();
+    ValidateVeteran.attemptToGoToNextPageWithEnterKey();
+    Demographics.validatePageLoaded();
   });
 });
