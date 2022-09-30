@@ -7,7 +7,7 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import HurricaneAlert from '../components/HurricaneAlert';
+import DisasterAlert from '../components/DisasterAlert';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
@@ -48,7 +48,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        <HurricaneAlert />
+        <DisasterAlert />
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
