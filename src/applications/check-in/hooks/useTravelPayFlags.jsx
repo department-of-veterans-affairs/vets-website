@@ -12,7 +12,12 @@ const useTravelPayFlags = () => {
   const { data } = useSelector(selectForm);
 
   // These will be undefined if the travel pay pages are skipped.
-  const { travelQuestion, travelAddress, travelMileage, travelVehicle } = data;
+  const {
+    'travel-question': travelQuestion,
+    'travel-address': travelAddress,
+    'travel-mileage': travelMileage,
+    'travel-vehicle': travelVehicle,
+  } = data;
 
   let travelPayData = {
     uuid: token,
@@ -21,29 +26,32 @@ const useTravelPayFlags = () => {
   if (travelQuestion !== undefined) {
     travelPayData = {
       ...travelPayData,
-      travelQuestion: 'travel-question' === 'yes',
+      travelQuestion: travelQuestion === 'yes',
     };
   }
   if (travelAddress !== undefined) {
     travelPayData = {
       ...travelPayData,
-      travelAddress: 'travel-address' === 'yes',
+      travelAddress: travelAddress === 'yes',
     };
   }
   if (travelMileage !== undefined) {
     travelPayData = {
       ...travelPayData,
-      travelMileage: 'travel-mileage' === 'yes',
+      travelMileage: travelMileage === 'yes',
     };
   }
   if (travelVehicle !== undefined) {
     travelPayData = {
       ...travelPayData,
-      travelVehicle: 'travel-vehicle' === 'yes',
+      travelVehicle: travelVehicle === 'yes',
     };
   }
 
-  const travelPayEligible = travelAddress && travelMileage && travelVehicle;
+  const travelPayEligible =
+    travelPayData.travelAddress &&
+    travelPayData.travelMileage &&
+    travelPayData.travelVehicle;
 
   return {
     travelPayData,

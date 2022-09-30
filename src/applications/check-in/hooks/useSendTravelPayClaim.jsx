@@ -24,6 +24,7 @@ const useSendTravelPayClaim = () => {
   useEffect(
     () => {
       if (
+        isLoading ||
         !isTravelReimbursementEnabled ||
         travelPayClaimSent ||
         !travelPayEligible ||
@@ -36,14 +37,14 @@ const useSendTravelPayClaim = () => {
       api.v2
         .postDayOfTravelPayClaim(travelPayData)
         .then(json => {
-          setTravelPayClaimData(json.payload);
+          setTravelPayClaimData(json.data);
         })
         .catch(() => {
           setTravelPayClaimError(true);
         })
         .finally(() => {
-          setIsLoading(false);
           setTravelPayClaimSent(true);
+          setIsLoading(false);
         });
     },
     [
@@ -53,6 +54,7 @@ const useSendTravelPayClaim = () => {
       travelPayData,
       travelPayEligible,
       travelPayClaimSent,
+      isLoading,
     ],
   );
 

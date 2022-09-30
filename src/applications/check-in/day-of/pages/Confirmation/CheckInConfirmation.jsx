@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useSelector } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -42,8 +43,9 @@ const CheckInConfirmation = props => {
     date: appointmentDateTime,
   });
 
-  if (isTravelReimbursementEnabled && !isLoading && travelPayEligible) {
-    if (travelPayClaimData) {
+  if (isTravelReimbursementEnabled && !isLoading) {
+    pageTitle += '. ';
+    if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
       pageTitle += t('received-reimbursement-claim');
     } else {
       pageTitle += t('sorry-couldnt-file-reimbursement');
@@ -59,73 +61,77 @@ const CheckInConfirmation = props => {
     );
   };
 
-  const renderConfirmationMessage = (
-    <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
-      <p>{t('your-appointment')}</p>
-      <ol
-        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
-        data-testid="appointment-list"
-      >
-        <AppointmentConfirmationListItem appointment={appointment} key={0} />
-      </ol>
+  const renderConfirmationMessage = () => {
+    return (
+      <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+        <p>{t('your-appointment')}</p>
+        <ol
+          className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
+          data-testid="appointment-list"
+        >
+          <AppointmentConfirmationListItem appointment={appointment} key={0} />
+        </ol>
 
-      <va-alert background-only show-icon data-testid="error-message">
-        <div>
-          {t(
-            'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
+        <va-alert background-only show-icon data-testid="error-message">
+          <div>
+            {t(
+              'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
+            )}
+          </div>
+        </va-alert>
+
+        {isTravelReimbursementEnabled &&
+          travelPayEligible &&
+          travelPayClaimData && (
+            <va-alert
+              background-only
+              show-icon
+              data-testid="travel-pay-success-message"
+            >
+              <div>
+                <p>
+                  {t('reimbursement-claim-number')}
+                  <br />
+                  {travelPayClaimData.claimId}
+                </p>
+                <p>{t('check-travel-claim-status')}</p>
+              </div>
+            </va-alert>
           )}
-        </div>
-      </va-alert>
 
-      {isTravelReimbursementEnabled &&
-        travelPayClaimData && (
-          <va-alert
-            background-only
-            show-icon
-            data-testid="travel-pay-success-message"
-          >
-            <div>
-              <p>
-                {t('reimbursement-claim-number')}
-                <br />
-                {travelPayClaimData.claimId}
-              </p>
-              <p>{t('check-travel-claim-status')}</p>
-            </div>
-          </va-alert>
-        )}
+        {isTravelReimbursementEnabled &&
+          !travelPayEligible && (
+            <va-alert
+              background-only
+              show-icon
+              data-testid="travel-pay-warning-message"
+              status="warning"
+            >
+              <div>
+                <p>{t('travel-pay-cant-file-message')}</p>
+              </div>
+            </va-alert>
+          )}
 
-      {isTravelReimbursementEnabled &&
-        !travelPayEligible && (
-          <va-alert
-            background-only
-            show-icon
-            data-testid="travel-pay-warning-message"
-            status="warning"
-          >
-            <div>
-              <p>{t('travel-pay-cant-file-message')}</p>
-            </div>
-          </va-alert>
-        )}
-
-      {isTravelReimbursementEnabled &&
-        travelPayClaimError && (
-          <va-alert
-            background-only
-            show-icon
-            data-testid="travel-pay-error-message"
-            status="error"
-          >
-            <div>
-              <p>{t('travel-claim-submission-error')}</p>
-            </div>
-          </va-alert>
-        )}
-      <TravelPayReimbursementLink />
-      <BackToAppointments appointments={appointments} />
-    </Wrapper>
-  );
+        {isTravelReimbursementEnabled &&
+          travelPayEligible &&
+          travelPayClaimError && (
+            <va-alert
+              background-only
+              show-icon
+              data-testid="travel-pay-error-message"
+              status="error"
+            >
+              <div>
+                <p>{t('travel-claim-submission-error')}</p>
+              </div>
+            </va-alert>
+          )}
+        <TravelPayReimbursementLink />
+        <BackToAppointments appointments={appointments} />
+      </Wrapper>
+    );
+  };
 
   return isLoading ? renderLoadingMessage() : renderConfirmationMessage();
 };
