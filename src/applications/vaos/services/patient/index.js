@@ -458,6 +458,13 @@ export async function fetchFlowEligibilityAndClinics({
   }
 
   // Similar to above, but for direct scheduling
+  // v2 needs to filter clinics
+  if (useV2 && featureClinicFilter) {
+    results.clinics = results?.clinics?.filter(
+      clinic => clinic.patientDirectScheduling === true,
+    );
+  }
+
   if (!locationSupportsDirectScheduling(location, typeOfCare)) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
