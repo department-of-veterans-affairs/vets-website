@@ -7,6 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
@@ -14,14 +15,18 @@ import Wrapper from '../../layout/Wrapper';
 const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
   const onClick = event => {
     const answer = event.target.innerText.toLowerCase();
     recordEvent({
       event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
-    goToNextPage();
+    if (answer === 'no') {
+      jumpToPage(URLS.DETAILS);
+    } else {
+      goToNextPage();
+    }
   };
   return (
     <>
@@ -72,6 +77,5 @@ TravelPage.propTypes = {
   bodyText: PropTypes.node,
   helpText: PropTypes.node,
   pageType: PropTypes.string,
-  router: PropTypes.object.isRequired,
 };
 export default TravelPage;
