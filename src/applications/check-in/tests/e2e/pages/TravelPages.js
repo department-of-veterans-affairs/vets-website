@@ -2,16 +2,16 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class TravelPages {
   validatePageLoaded = page => {
-    let title = 'Travel Question';
+    let title = 'Would you like to file a travel reimbursement claim now?';
     switch (page) {
       case 'vehicle':
-        title = 'Travel Vehicle';
+        title = 'Did you travel in your own vehicle?';
         break;
       case 'address':
-        title = 'Travel Address';
+        title = 'Did you travel from your home address? ';
         break;
       case 'mileage':
-        title = 'Travel Mileage';
+        title = 'Are you claiming only mileage for your trip?';
         break;
       default:
         break;

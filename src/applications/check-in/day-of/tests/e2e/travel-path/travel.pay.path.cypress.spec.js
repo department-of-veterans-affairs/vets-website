@@ -9,7 +9,7 @@ import Appointments from '../pages/Appointments';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
 describe('Check In Experience', () => {
-  describe('update skip path', () => {
+  describe('travel pay path', () => {
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -28,13 +28,6 @@ describe('Check In Experience', () => {
       });
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
-    });
-    afterEach(() => {
-      cy.window().then(window => {
-        window.sessionStorage.clear();
-      });
-    });
-    it('visits all pages including travel pay pages.', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -46,6 +39,13 @@ describe('Check In Experience', () => {
         'Is this your current next of kin information?',
       );
       NextOfKin.attemptToGoToNextPage();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('visits all pages including travel pay pages with yes answers.', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -58,6 +58,42 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Routes to appointments on no to first question.', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Routes to appointments on no to second question.', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Routes to appointments on no to third question.', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Routes to appointments on no to fourth question.', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
