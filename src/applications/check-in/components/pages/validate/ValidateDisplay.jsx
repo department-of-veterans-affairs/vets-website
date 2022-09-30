@@ -46,7 +46,7 @@ export default function ValidateDisplay({
           setLast4Ssn(event.target.value);
           break;
         case 'date-of-birth':
-          // using a delay here to wait for shadowdom to update with errors
+          // using a delay here to wait for shadowdom to update with errors more of a problem with safari
           setTimeout(() => {
             if (event.target.attributes.error) {
               setDobError(true);
