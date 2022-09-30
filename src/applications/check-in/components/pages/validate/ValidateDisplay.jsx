@@ -19,7 +19,6 @@ export default function ValidateDisplay({
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
   dobInput: { dobErrorMessage, setDob, dob } = {},
-  Footer,
   showValidateError,
   validateErrorMessage,
 }) {
@@ -184,14 +183,11 @@ export default function ValidateDisplay({
           )}
         </button>
       </form>
-
-      {Footer && <Footer />}
     </Wrapper>
   );
 }
 
 ValidateDisplay.propTypes = {
-  Footer: propTypes.elementType,
   dobInput: propTypes.object,
   header: propTypes.string,
   isLoading: propTypes.bool,

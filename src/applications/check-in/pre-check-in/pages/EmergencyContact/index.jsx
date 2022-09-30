@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -55,10 +53,8 @@ const EmergencyContact = props => {
         yesAction={yesClick}
         noAction={noClick}
         isLoading={isLoading}
-        Footer={Footer}
         jumpToPage={jumpToPage}
       />
-      <BackToHome />
     </>
   );
 };

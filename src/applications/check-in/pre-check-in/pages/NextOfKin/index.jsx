@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -58,7 +56,6 @@ const NextOfKin = props => {
     <>
       <BackButton action={goToPreviousPage} router={router} />
       <NextOfKinDisplay
-        Footer={Footer}
         header={header}
         subtitle={subtitle}
         nextOfKin={nextOfKin}
@@ -67,7 +64,6 @@ const NextOfKin = props => {
         isLoading={isLoading}
         jumpToPage={jumpToPage}
       />
-      <BackToHome />
     </>
   );
 };

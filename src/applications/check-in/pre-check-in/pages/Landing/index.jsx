@@ -8,7 +8,7 @@ import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
-import { setError, setApp } from '../../../actions/universal';
+import { setError } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -57,13 +57,6 @@ const Index = props => {
 
   useEffect(
     () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
         dispatch(setError('no-token'));
@@ -105,15 +98,10 @@ const Index = props => {
                 }
               }
             })
-            .catch(error => {
+            .catch(() => {
               clearCurrentSession(window);
-              if (error.errors?.find(err => err.status === '401')) {
-                dispatch(setError('uuid-error'));
-                goToErrorPage('?error=uuid-error');
-              } else {
-                dispatch(setError('session-error'));
-                goToErrorPage('?error=session-error');
-              }
+              dispatch(setError('session-error'));
+              goToErrorPage('?error=session-error');
             });
         }
       }

@@ -28,6 +28,7 @@ describe('check-in', () => {
               emergencyContactUpToDate: 'yes',
               nextOfKinUpToDate: 'yes',
             },
+            pages: [],
           },
           appointments: [],
           veteranData: {},

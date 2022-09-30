@@ -2,9 +2,6 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
-
 import { makeSelectError } from '../../selectors';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Wrapper from '../../components/layout/Wrapper';
@@ -37,8 +34,6 @@ const Error = () => {
       >
         <div>{message}</div>
       </va-alert>
-      <Footer />
-      <BackToHome />
     </Wrapper>
   );
 };
