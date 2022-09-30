@@ -68,15 +68,9 @@ const useFormRouting = (router = {}) => {
     },
     [getCurrentPageFromRouter, pages, router],
   );
-  const goToPreviousPage = useCallback(
-    () => {
-      const here = getCurrentPageFromRouter();
-      const currentPageIndex = pages.findIndex(page => page === here);
-      const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
-      router.push(nextPage);
-    },
-    [getCurrentPageFromRouter, pages, router],
-  );
+  const goToPreviousPage = () => {
+    history.back();
+  };
 
   return {
     getCurrentPageFromRouter,
