@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import BackButton from '../../components/BackButton';
 import LanguagePicker from '../../components/LanguagePicker';
 
@@ -40,8 +38,6 @@ const SeeStaff = props => {
           <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
         )}
         <TravelPayReimbursementLink />
-        <Footer />
-        <BackToHome />
       </div>
     </>
   );

@@ -205,6 +205,7 @@ export function transformVAOSAppointment(appt) {
       isCC && !isRequest
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
+            treatmentSpecialty: appt.extension?.ccTreatingSpecialty,
             address: appt.extension?.ccLocation?.address,
             telecom: appt.extension?.ccLocation?.telecom,
             providers: (providers || []).map(provider => ({

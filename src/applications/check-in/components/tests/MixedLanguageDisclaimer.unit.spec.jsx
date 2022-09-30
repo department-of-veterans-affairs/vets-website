@@ -20,6 +20,9 @@ describe('Mixed Language Disclaimer', () => {
       context: {
         token: '',
       },
+      form: {
+        pages: [],
+      },
     },
     featureToggles: {
       check_in_experience_translation_disclaimer_spanish_enabled: true,

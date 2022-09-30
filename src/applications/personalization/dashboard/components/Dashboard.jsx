@@ -11,6 +11,7 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
+import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -49,6 +50,7 @@ import DebtsV2 from './debts-v2/DebtsV2';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
+import { canAccess } from '../selectors';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -339,8 +341,11 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3;
+    canAccessPaymentHistory === undefined
+      ? !showMPIConnectionError && !showNotInMPIError && isLOA3
+      : canAccessPaymentHistory;
   const showBenefitPaymentsAndDebtV2 =
     showBenefitPaymentsAndDebt &&
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];

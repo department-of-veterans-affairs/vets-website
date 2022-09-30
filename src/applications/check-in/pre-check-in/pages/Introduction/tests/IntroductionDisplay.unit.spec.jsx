@@ -2,6 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { I18nextProvider } from 'react-i18next';
+
+import i18n from '../../../../utils/i18n/i18n';
+import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import { multipleAppointments } from '../../../../tests/unit/mocks/mock-appointments';
 import IntroductionDisplay from '../IntroductionDisplay';
 
@@ -58,13 +62,16 @@ describe('pre-check-in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
           },
         },
+        ...scheduledDowntimeState,
       };
       store = mockStore(initState);
     });
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <IntroductionDisplay router={{ push: () => {} }} />
+          <I18nextProvider i18n={i18n}>
+            <IntroductionDisplay router={{ push: () => {} }} />
+          </I18nextProvider>
         </Provider>,
       );
     });

@@ -15,9 +15,13 @@ export const goToNextPage = pagePath => {
   }
 };
 export const advanceToAiqPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -69,9 +73,13 @@ export const advanceFromAiqToReviewPage = () => {
 };
 
 export const advanceToServiceInfoPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',

@@ -11,6 +11,7 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
+// import { getMessageHistory } from '../api/SmApi';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -30,6 +31,15 @@ export const MESSAGE_MOVE_FAILED = 'MESSAGE_MOVE_FAILED';
 export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
+
+export const DRAFT_AUTO_SAVE_STARTED = 'DRAFT_AUTO_SAVE_STARTED';
+export const DRAFT_SAVE_STARTED = 'DRAFT_SAVE_STARTED';
+export const DRAFT_SAVE_FAILED = 'DRAFT_SAVE_FAILED';
+export const DRAFT_SAVE_SUCCEEDED = 'DRAFT_SAVE_SUCCEEDED';
+
+export const THREAD_RETRIEVE_STARTED = 'THREAD_RETRIEVE_STARTED';
+export const THREAD_RETRIEVE_SUCCEEDED = 'THREAD_RETRIEVE_SUCCEEDED';
+export const THREAD_RETRIEVE_FAILED = 'THREAD_RETRIEVE_FAILED';
 
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
@@ -180,6 +190,83 @@ export const getAllFolders = () => async dispatch => {
       type: FOLDERS_RETRIEVE_SUCCEEDED,
       response,
     });
+  }
+};
+
+const mockSaveDraft = messageData => {
+  const saveDraftResponse = {
+    id: '',
+    category: '',
+    subject: '',
+    body: '',
+    attachments: { attachment: [] },
+    recipientId: 20364,
+    recipientName: 'mock name',
+    sentDate: '',
+  };
+
+  let mockId = 10001;
+
+  for (const [name, value] of messageData) {
+    if (typeof value !== 'string') {
+      saveDraftResponse.attachments.attachment.push({
+        id: mockId,
+        name,
+      });
+      mockId += 1;
+    } else {
+      saveDraftResponse[name] = value;
+    }
+  }
+
+  if (!messageData.id) {
+    saveDraftResponse.id = mockId;
+  }
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(saveDraftResponse);
+    }, 1500);
+  });
+};
+
+const sendSaveDraft = async messageData => {
+  try {
+    return await mockSaveDraft(messageData);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const saveDraft = (messageData, type) => async dispatch => {
+  if (type === 'auto') dispatch({ type: DRAFT_AUTO_SAVE_STARTED });
+  else if (type === 'manual') dispatch({ type: DRAFT_SAVE_STARTED });
+
+  const response = await sendSaveDraft(messageData);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({
+      type: DRAFT_SAVE_FAILED,
+      response: error,
+    });
+  } else {
+    dispatch({
+      type: DRAFT_SAVE_SUCCEEDED,
+      response,
+    });
+  }
+};
+
+// export const getThread = messageId => async dispatch => {
+export const getThread = () => async dispatch => {
+  dispatch({ type: THREAD_RETRIEVE_STARTED });
+  const response = await retrieveData('messages');
+  // const response = await getMessageHistory(messageId);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({ type: THREAD_RETRIEVE_FAILED, response: error });
+  } else {
+    dispatch({ type: THREAD_RETRIEVE_SUCCEEDED, response: response.data });
   }
 };
 

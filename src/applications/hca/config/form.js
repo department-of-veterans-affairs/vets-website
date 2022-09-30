@@ -14,9 +14,9 @@ import IDPage from '../containers/IDPage';
 import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
+import { DowntimeWarning } from '../components/FormAlerts';
 import IntroductionPage from '../containers/IntroductionPage';
-import { prefillTransformer, transform, formValue } from '../helpers';
+import { prefillTransformer, transform, formValue } from '../utils/helpers';
 import {
   IS_LOGGED_IN,
   USER_DOB,
@@ -24,7 +24,7 @@ import {
   IS_SHORT_FORM_ENABLED,
   IS_COMPENSATION_TYPE_HIGH,
   IS_VETERAN_IN_MVI,
-} from '../constants';
+} from '../utils/constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
@@ -135,7 +135,7 @@ const formConfig = {
   },
   downtime: {
     dependencies: [externalServices.es],
-    message: DowntimeMessage,
+    message: DowntimeWarning,
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
