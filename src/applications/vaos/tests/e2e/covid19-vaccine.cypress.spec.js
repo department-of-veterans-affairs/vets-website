@@ -27,7 +27,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       facilityIds: ['983', '983QA'],
       typeOfCareId: 'covid',
     });
-    mockDirectScheduleSlotsApi(); // TODO: rename mockAppointmentSlots
+    mockDirectScheduleSlotsApi({ isCovid: true }); // TODO: rename mockAppointmentSlots
     mockFacilitiesApi({ apiVersion: 1 });
     mockFacilityApi({ id: '983', apiVersion: 1 });
     mockFeatureToggles();
@@ -35,7 +35,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     mockRequestEligibilityCriteriaApi();
   });
 
-  it.skip('should submit form', () => {
+  it('should submit form', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
 
@@ -136,8 +136,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       expect(body).to.have.property(
         'desiredDate',
         `${moment()
-          .add(1, 'day')
-          .add(1, 'months')
+          .add(2, 'months')
           .startOf('month')
           .day(9)
           .startOf('day')
@@ -257,7 +256,7 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
 });
 
 describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
-  it.skip('should submit form', () => {
+  it('should submit form', () => {
     vaosSetup();
 
     mockFeatureToggles({
@@ -362,9 +361,8 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
         'desiredDate',
         `${moment()
           .utc()
-          .add(1, 'months')
+          .add(2, 'months')
           .startOf('month')
-          .add(4, 'days')
           .format()}`,
       );
     });
