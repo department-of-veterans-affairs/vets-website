@@ -12,8 +12,6 @@ import {
   getAppealsV2 as getAppealsV2Action,
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
-  hide30DayNotice as hide30DayNoticeAction,
-  sortClaims as sortClaimsAction,
 } from '../actions/index';
 import {
   appealTypes,
@@ -45,7 +43,16 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.state = { page: 1 };
+    this.hide30DayNotice = this.hide30DayNotice.bind(this);
+
+    if (!sessionStorage.getItem('show30DayNotice')) {
+      sessionStorage.setItem('show30DayNotice', true);
+    }
+
+    this.state = {
+      page: 1,
+      show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
+    };
   }
 
   componentDidMount() {
@@ -82,6 +89,11 @@ class YourClaimsPageV2 extends React.Component {
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
+  }
+
+  hide30DayNotice() {
+    this.setState({ show30DayNotice: false });
+    sessionStorage.setItem('show30DayNotice', false);
   }
 
   renderListItem(claim) {
@@ -140,9 +152,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       claimsLoading,
-      hide30DayNotice,
       list,
-      show30DayNotice,
       stemClaimsLoading,
     } = this.props;
 
@@ -181,10 +191,10 @@ class YourClaimsPageV2 extends React.Component {
 
         content = (
           <>
-            {show30DayNotice && (
+            {this.state.show30DayNotice && (
               <ClosedClaimMessage
                 claims={pageItems}
-                onClose={hide30DayNotice}
+                onClose={this.hide30DayNotice}
               />
             )}
             {pageInfo}
@@ -262,7 +272,6 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaimsV2: PropTypes.func,
   getStemClaims: PropTypes.func,
-  hide30DayNotice: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -270,13 +279,11 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
-  show30DayNotice: PropTypes.bool,
   stemClaimsLoading: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-  const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes(
@@ -306,9 +313,6 @@ function mapStateToProps(state) {
     appealsLoading: claimsV2Root.appealsLoading,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     list: sortedList,
-    sortProperty: claimsRoot.sortProperty,
-    consolidatedModal: claimsRoot.consolidatedModal,
-    show30DayNotice: claimsRoot.show30DayNotice,
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
@@ -320,8 +324,6 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   getClaimsV2: getClaimsV2Action,
   getStemClaims: getStemClaimsAction,
-  sortClaims: sortClaimsAction,
-  hide30DayNotice: hide30DayNoticeAction,
 };
 
 export default connect(

@@ -62,11 +62,11 @@ export const sanitizePath = to => {
   return to.startsWith('/') ? to : `/${to}`;
 };
 
-export const generateReturnURL = (returnUrl, redirectToMyVA) => {
+export const generateReturnURL = returnUrl => {
   return [
     `${environment.BASE_URL}/?next=loginModal`,
     `${environment.BASE_URL}`,
-  ].includes(returnUrl) && redirectToMyVA
+  ].includes(returnUrl)
     ? `${environment.BASE_URL}/my-va/`
     : returnUrl;
 };
@@ -322,37 +322,42 @@ export function logout(
   );
 }
 
-export async function signup({
+export async function signupOrVerify({
   version = API_VERSION,
-  policy = CSP_IDS.ID_ME,
+  policy = '',
+  isSignup = true,
   isLink = false,
-  allowVerification = false,
-} = {}) {
+  useOAuth = false,
+  allowVerification = true,
+}) {
+  const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
-    type: SIGNUP_TYPES[policy],
+    type,
     version,
-    allowVerification,
-    ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+    ...(useOAuth && {
+      // acr determined by signup or verify
+      acr: isSignup
+        ? 'min'
+        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+      useOauth: useOAuth,
+    }),
+    // just verify (<csp>_signup_verified)
+    ...(!isSignup &&
+      !useOAuth && {
+        allowVerification,
+      }),
+    // just signup
+    ...(isSignup &&
+      !useOAuth &&
+      policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
   });
-  return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);
+  const eventBase = isSignup ? AUTH_EVENTS.REGISTER : AUTH_EVENTS.VERIFY;
+  const eventAuthBroker = useOAuth ? 'sis' : 'iam';
+  const eventIsVerified = allowVerification ? '-verified' : '';
+  const event = `${policy}-${eventBase}${eventAuthBroker}${eventIsVerified}`;
+
+  return isLink ? url : redirect(url, event);
 }
-
-export const signupUrl = type => {
-  const signupType = SIGNUP_TYPES[type] ?? SIGNUP_TYPES[CSP_IDS.ID_ME];
-  const queryParams =
-    signupType === SIGNUP_TYPES[CSP_IDS.ID_ME]
-      ? {
-          queryParams: { op: 'signup' },
-        }
-      : {};
-
-  const opts = {
-    type: signupType,
-    ...queryParams,
-  };
-
-  return sessionTypeUrl(opts);
-};
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });

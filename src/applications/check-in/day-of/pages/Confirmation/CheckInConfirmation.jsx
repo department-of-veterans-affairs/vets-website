@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
-import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
-import Footer from '../../../components/layout/Footer';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
 import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
@@ -49,8 +47,6 @@ const CheckInConfirmation = props => {
       </va-alert>
       <TravelPayReimbursementLink />
       <BackToAppointments appointments={appointments} />
-      <Footer />
-      <BackToHome />
     </Wrapper>
   );
 };

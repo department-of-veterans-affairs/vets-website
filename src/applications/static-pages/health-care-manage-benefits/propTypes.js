@@ -41,3 +41,5 @@ export const otherFacilitiesPropType = PropTypes.arrayOf(
     isCerner: PropTypes.bool.isRequired,
   }).isRequired,
 );
+
+export const useSingleLogoutPropType = PropTypes.bool;

@@ -41,10 +41,10 @@ export default function DetailsCC({
   };
 
   const ShowTreatmentSpecialty = () => {
-    if (featureVaosV2Next && treatmentSpecialty) {
+    if (featureVaosV2Next && !!treatmentSpecialty) {
       return (
         <div
-          data-test-id="appointment-treatment-specialty"
+          data-testid="appointment-treatment-specialty"
           className="vads-u-margin-bottom--1"
         >
           {treatmentSpecialty}

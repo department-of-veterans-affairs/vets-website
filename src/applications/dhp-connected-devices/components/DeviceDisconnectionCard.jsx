@@ -37,7 +37,6 @@ export const DeviceDisconnectionCard = ({ device }) => {
             onClick={() => setModalVisible(true)}
             data-testid={`${device.key}-disconnect-link`}
             id={`${device.key}-disconnect-link`}
-            onKeyDown={() => setModalVisible(true)}
             className="usa-button-secondary"
             aria-label={`Disconnect ${device.name}`}
           >

@@ -21,6 +21,7 @@ export default Object.freeze({
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
+  checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
@@ -77,7 +78,6 @@ export default Object.freeze({
   medicalCopaysHtmlMedicalStatementsViewEnabled:'medical_copays_html_medical_statements_view_enabled',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
-  myVARedirect: 'my_va_redirect',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
@@ -91,8 +91,8 @@ export default Object.freeze({
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
+  pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
-  requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
   shiftVetsBanner: 'shift_vets_banner',
@@ -163,4 +163,5 @@ export default Object.freeze({
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showMebDgi40Features: 'show_meb_dgi40_features'
 });
