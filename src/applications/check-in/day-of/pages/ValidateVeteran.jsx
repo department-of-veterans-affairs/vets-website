@@ -106,6 +106,15 @@ const ValidateVeteran = props => {
       updateError,
     ],
   );
+
+  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
+    ? t(
+        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
+      )
+    : t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+      );
+
   return (
     <>
       <ValidateDisplay
@@ -132,9 +141,7 @@ const ValidateVeteran = props => {
         isLoading={isLoading}
         validateHandler={onClick}
         showValidateError={showValidateError}
-        validateErrorMessage={t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-        )}
+        validateErrorMessage={validateErrorMessage}
       />
     </>
   );
