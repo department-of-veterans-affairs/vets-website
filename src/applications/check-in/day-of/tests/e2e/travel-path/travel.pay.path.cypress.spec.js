@@ -48,15 +48,19 @@ describe('Check In Experience', () => {
     it('visits all pages including travel pay pages with yes answers.', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--vehicle-question');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--address-question');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
