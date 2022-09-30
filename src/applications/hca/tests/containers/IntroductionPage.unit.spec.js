@@ -131,7 +131,7 @@ describe('HCA IntroductionPage', () => {
     );
   });
 
-  it('should show sign in to start your applicatin for Loa3 user that is not logged in and not already enrolled', () => {
+  it('should show sign in to start your application for Loa3 user that is not logged in and not already enrolled', () => {
     const { mockStore, props } = getData({
       showMainLoader: false,
       loaState: 3,
@@ -150,7 +150,7 @@ describe('HCA IntroductionPage', () => {
     );
   });
 
-  it('should show start your applicatin for Loa3 user that is logged in and not already enrolled', () => {
+  it('should show start your application for Loa3 user that is logged in and not already enrolled', () => {
     const { mockStore, props } = getData({
       showMainLoader: false,
       loaState: 3,
