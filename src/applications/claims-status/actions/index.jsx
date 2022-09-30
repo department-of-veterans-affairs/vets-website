@@ -84,7 +84,7 @@ const letters = [
 
 export const getClaimLetters = () => {
   try {
-    // const res = await api.post("/update-profile", form);
+    // const res = await apiRequest('/notification_letters');
     // return res;
     return new Promise(res => {
       setTimeout(() => res(letters), 500);

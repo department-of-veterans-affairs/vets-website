@@ -4,13 +4,9 @@ import PropTypes from 'prop-types';
 import ClaimLetterListItem from './ClaimLetterListItem';
 
 const ClaimLetterList = ({ letters }) => {
-  return (
-    <>
-      {letters.map(letter => (
-        <ClaimLetterListItem key={letter.id} letter={letter} />
-      ))}
-    </>
-  );
+  return letters.map(letter => (
+    <ClaimLetterListItem key={letter.id} letter={letter} />
+  ));
 };
 
 ClaimLetterList.propTypes = {
