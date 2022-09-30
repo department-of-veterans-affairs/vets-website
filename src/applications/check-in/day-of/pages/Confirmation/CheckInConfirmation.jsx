@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -80,6 +80,8 @@ const CheckInConfirmation = props => {
           </div>
         </va-alert>
 
+        {isTravelReimbursementEnabled && <br />}
+
         {isTravelReimbursementEnabled &&
           travelPayEligible &&
           travelPayClaimData && (
@@ -89,12 +91,12 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-success-message"
             >
               <div>
-                <p>
-                  {t('reimbursement-claim-number')}
-                  <br />
-                  {travelPayClaimData.claimId}
-                </p>
-                <p>{t('check-travel-claim-status')}</p>
+                <strong>{t('reimbursement-claim-number')}</strong>
+                <br />
+                {travelPayClaimData.claimId}
+                <br />
+                <br />
+                {t('check-travel-claim-status')}
               </div>
             </va-alert>
           )}
@@ -107,9 +109,12 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-warning-message"
               status="warning"
             >
-              <div>
-                <p>{t('travel-pay-cant-file-message')}</p>
-              </div>
+              <Trans
+                i18nKey="travel-pay-cant-file-message"
+                components={[
+                  <span key="bold" className="vads-u-font-weight--bold" />,
+                ]}
+              />
             </va-alert>
           )}
 
@@ -122,9 +127,7 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-error-message"
               status="error"
             >
-              <div>
-                <p>{t('travel-claim-submission-error')}</p>
-              </div>
+              <div>{t('travel-claim-submission-error')}</div>
             </va-alert>
           )}
         <TravelPayReimbursementLink />
