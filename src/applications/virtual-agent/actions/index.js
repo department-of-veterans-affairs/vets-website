@@ -15,6 +15,7 @@ export const startConversationActivity = ({
   baseURL,
   userFirstName,
   userUuid,
+  conversationId,
 }) => {
   return {
     meta: { method: 'keyboard' },
@@ -30,6 +31,7 @@ export const startConversationActivity = ({
           baseURL,
           userFirstName,
           userUuid,
+          conversationId,
         },
       },
     },

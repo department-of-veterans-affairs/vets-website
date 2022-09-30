@@ -19,6 +19,7 @@ export const processActionConnectFulfilled = ({
   baseURL,
   userFirstName,
   userUuid,
+  conversationId,
 }) => () => {
   const options = {
     csrfToken,
@@ -27,6 +28,7 @@ export const processActionConnectFulfilled = ({
     baseURL,
     userFirstName,
     userUuid,
+    conversationId,
   };
   dispatch(startConversationActivity(options));
 

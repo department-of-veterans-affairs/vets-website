@@ -25,7 +25,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
-
+  let conversationId = '';
   const store = useMemo(
     () =>
       createStore(
@@ -37,13 +37,12 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
+          conversationId,
         ),
       ),
     [createStore],
   );
-
   let directLineToken = token;
-  let conversationId = '';
   let directLine = {};
 
   // eslint-disable-next-line sonarjs/no-collapsible-if
