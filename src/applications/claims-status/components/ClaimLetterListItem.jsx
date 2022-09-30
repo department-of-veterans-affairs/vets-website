@@ -11,7 +11,7 @@ const formatDate = timestamp => {
 const downloadUrl = id => `${environment.API_URL}/v0/efolder/${id}`;
 
 const ClaimLetterListItem = ({ letter }) => {
-  const date = formatDate(letter.creationDate);
+  const date = formatDate(letter.receivedAt);
   const heading = `Letter dated ${date}`;
 
   return (
@@ -20,7 +20,7 @@ const ClaimLetterListItem = ({ letter }) => {
       <va-link
         download
         filetype="PDF"
-        href={downloadUrl}
+        href={downloadUrl(letter.documentId)}
         text="Download letter"
       />
     </div>

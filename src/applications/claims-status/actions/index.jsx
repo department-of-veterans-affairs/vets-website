@@ -73,12 +73,12 @@ export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
 
 const letters = [
   {
-    id: 'xyz',
-    creationDate: 1664483529696,
+    documentId: 'xyz',
+    receivedAt: '2022-09-10',
   },
   {
-    id: 'abc',
-    creationDate: 1663705967000,
+    documentId: 'abc',
+    receivedAt: '2022-08-21',
   },
 ];
 
