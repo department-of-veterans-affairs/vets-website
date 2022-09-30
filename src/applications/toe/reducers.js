@@ -39,6 +39,23 @@ export default {
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
+          fetchedSponsorsComplete: true,
+          sponsors: {
+            sponsors: [
+              ...action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements.map(
+                (sponsor, index) => {
+                  return {
+                    ...sponsor,
+                    // ! TODO: CHANGE ID
+                    id: index.toString(),
+                    name: [sponsor.firstName, sponsor.lastName].join(' '),
+                    relationship: sponsor.sponsorRelationship,
+                  };
+                },
+              ),
+            ],
+            someoneNotListed: false,
+          },
         };
       case FETCH_SPONSORS:
         return {

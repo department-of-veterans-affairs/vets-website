@@ -23,18 +23,12 @@ function ToeApp({
   sponsorsSavedState,
   user,
 }) {
-  const [fetchedSponsors, setFetchedSponsors] = useState(false);
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
 
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
-      }
-
-      if (!fetchedSponsors) {
-        setFetchedSponsors(true);
-        getSponsors();
       }
 
       if (
@@ -47,7 +41,6 @@ function ToeApp({
       }
     },
     [
-      fetchedSponsors,
       formData,
       getSponsors,
       location,
@@ -105,7 +98,6 @@ ToeApp.propTypes = {
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   sponsors: state.form?.data?.sponsors,
   sponsorsInitial: state?.data?.sponsors,
