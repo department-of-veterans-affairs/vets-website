@@ -8,8 +8,6 @@ import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
@@ -133,13 +131,11 @@ const ValidateVeteran = props => {
         setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={onClick}
-        Footer={Footer}
         showValidateError={showValidateError}
         validateErrorMessage={t(
           'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
         )}
       />
-      <BackToHome />
     </>
   );
 };

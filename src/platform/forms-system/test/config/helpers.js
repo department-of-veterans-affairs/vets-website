@@ -47,8 +47,6 @@ export const uploadStore = {
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
-      request_locked_pdf_password: true,
-      // eslint-disable-next-line camelcase
       file_upload_short_workflow_enabled: true,
     },
   }),

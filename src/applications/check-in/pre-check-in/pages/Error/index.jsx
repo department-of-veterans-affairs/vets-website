@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { subDays } from 'date-fns';
 
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
 
@@ -85,7 +83,7 @@ const Error = () => {
   );
   let showHowToLink = true;
   const dontShowLinkErrors = [
-    'uuid-error',
+    'session-error',
     'bad-token',
     'no-token',
     'max-validation',
@@ -107,7 +105,7 @@ const Error = () => {
       )
     );
   }
-  const UUIDErrors = ['uuid-error', 'bad-token', 'no-token'];
+  const UUIDErrors = ['session-error', 'bad-token', 'no-token'];
   messages.push({ text: messageText });
   if (appointments && appointments.length > 0) {
     apptType = appointments[0]?.kind ?? 'clinic';
@@ -213,8 +211,6 @@ const Error = () => {
       )}
       {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
-      <Footer />
-      <BackToHome />
     </Wrapper>
   );
 };

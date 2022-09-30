@@ -4,7 +4,7 @@ import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer
 import Error from '../../pages/Error';
 
 describe('Pre-Check In Experience ', () => {
-  describe('401 error handling', () => {
+  describe('500 error handling', () => {
     describe('GET /check_in/v2/session/', () => {
       beforeEach(() => {
         const {
@@ -12,7 +12,7 @@ describe('Pre-Check In Experience ', () => {
           initializeSessionGet,
         } = ApiInitializer;
         initializeFeatureToggle.withCurrentFeatures();
-        initializeSessionGet.withFailure(401);
+        initializeSessionGet.withFailure(500);
       });
       afterEach(() => {
         cy.window().then(window => {

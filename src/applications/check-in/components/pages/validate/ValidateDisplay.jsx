@@ -21,7 +21,6 @@ export default function ValidateDisplay({
   dobInput: { setDob, dob } = {},
   dobError,
   setDobError,
-  Footer,
   showValidateError,
   validateErrorMessage,
 }) {
@@ -171,14 +170,11 @@ export default function ValidateDisplay({
           )}
         </button>
       </form>
-
-      {Footer && <Footer />}
     </Wrapper>
   );
 }
 
 ValidateDisplay.propTypes = {
-  Footer: propTypes.elementType,
   dobInput: propTypes.object,
   dobError: propTypes.bool,
   setDobError: propTypes.func,
