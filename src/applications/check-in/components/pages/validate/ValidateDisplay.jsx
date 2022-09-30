@@ -157,7 +157,7 @@ export default function ValidateDisplay({
           </TextInputErrorWrapper>
         )}
         <button
-          type="button"
+          type="submit"
           className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
