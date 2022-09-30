@@ -19,12 +19,14 @@ export const messageDetailsReducer = (state = initialState, action) => {
         ...state,
         message: {
           ...action.response.data.attributes,
-          attachments: action.response.included.map(attachment => {
-            return {
-              attachmentId: attachment.id,
-              ...attachment.attributes,
-            };
-          }),
+          attachments: action.response.included
+            ? action.response.included.map(attachment => {
+                return {
+                  attachmentId: attachment.id,
+                  ...attachment.attributes,
+                };
+              })
+            : null,
         },
       };
     }
