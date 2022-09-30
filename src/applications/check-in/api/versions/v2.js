@@ -193,6 +193,30 @@ const v2 = {
       ...json,
     };
   },
+
+  postDayOfTravelPayClaim: async ({ uuid }) => {
+    const url = '/check_in/v2/btsss/';
+    const headers = { 'Content-Type': 'application/json' };
+    const data = {
+      travelPayClaim: { uuid },
+    };
+    const body = JSON.stringify(data);
+    const settings = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+
+    const json = await makeApiCallWithSentry(
+      apiRequest(`${environment.API_URL}${url}`, settings),
+      'submit-travel-pay-claim',
+      uuid,
+    );
+    return {
+      ...json,
+    };
+  },
 };
 
 export { v2 };

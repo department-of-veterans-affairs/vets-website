@@ -7,7 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
-    checkInExperienceTravelReimbursement = false,
+    checkInExperienceTravelReimbursement = true,
   } = toggles;
 
   return {
