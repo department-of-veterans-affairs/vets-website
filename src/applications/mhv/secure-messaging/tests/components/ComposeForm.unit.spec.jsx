@@ -1,7 +1,7 @@
 // import React from 'react';
 // import { expect } from 'chai';
 // import { render } from '@testing-library/react';
-// import ComposeForm from '../../components/ComposeForm';
+// import ComposeForm from '../../components/ComposeForm/ComposeForm';
 
 // describe('ComposeForm component', () => {
 //   it('should not be empty', () => {

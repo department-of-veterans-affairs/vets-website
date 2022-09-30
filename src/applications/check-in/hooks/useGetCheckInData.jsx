@@ -2,6 +2,7 @@ import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import {
   receivedDemographicsData,
@@ -17,6 +18,8 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const dispatch = useDispatch();
 
   const refreshCheckInData = () => {
@@ -39,12 +42,13 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
           dispatch(
             updateFormAction({
               patientDemographicsStatus,
+              isTravelReimbursementEnabled,
             }),
           );
         }
       });
     },
-    [appointmentsOnly, dispatch, token],
+    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled],
   );
 
   useLayoutEffect(
