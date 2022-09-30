@@ -71,6 +71,29 @@ export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
   'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
 
+const letters = [
+  {
+    id: 'xyz',
+    creationDate: 1664483529696,
+  },
+  {
+    id: 'abc',
+    creationDate: 1663705967000,
+  },
+];
+
+export const getClaimLetters = () => {
+  try {
+    // const res = await api.post("/update-profile", form);
+    // return res;
+    return new Promise(res => {
+      setTimeout(() => res(letters), 500);
+    });
+  } catch (err) {
+    throw new Error('error.unknown');
+  }
+};
+
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
