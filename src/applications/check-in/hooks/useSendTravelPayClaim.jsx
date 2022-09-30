@@ -7,7 +7,7 @@ import { useTravelPayFlags } from './useTravelPayFlags';
 
 const useSendTravelPayClaim = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [travelPayClaimData, setTravelPayClaimData] = useState({});
+  const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
