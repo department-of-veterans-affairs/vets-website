@@ -162,5 +162,5 @@ const InboxListView = props => {
 export default InboxListView;
 
 InboxListView.propTypes = {
-  messages: PropTypes.object,
+  messages: PropTypes.array,
 };

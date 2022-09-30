@@ -8,7 +8,7 @@ import { getMessageList, getMessage, getMessageHistory } from '../api/SmApi';
  *
  * @returns
  */
-export const getMessages = (folderId, { update }) => async dispatch => {
+export const getMessages = (folderId, update = false) => async dispatch => {
   if (!update) {
     dispatch({ type: Actions.Message.CLEAR_LIST });
   }

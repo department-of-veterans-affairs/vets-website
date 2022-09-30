@@ -1,19 +1,34 @@
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import MessageFolderHeader from '../components/MessageList/MessageFolderHeader';
+import { retrieveFolder } from '../actions/folders';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
+  const { folderId } = useParams();
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
 
+  useEffect(
+    () => {
+      if (folderId) {
+        dispatch(retrieveFolder(folderId));
+        dispatch(getMessages(folderId));
+      }
+    },
+    [folderId, dispatch],
+  );
+
   useInterval(() => {
-    dispatch(getMessages(folder.folderId));
+    if (folder) {
+      dispatch(getMessages(folder.folderId, true));
+    }
   }, 5000);
 
   let content;
@@ -42,7 +57,7 @@ const FolderListView = () => {
         </p>
       </va-alert>
     );
-  } else {
+  } else if (messages.length > 0) {
     content = (
       <>
         <InboxListView messages={messages} />
@@ -53,32 +68,27 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container">
       <div className="main-content">
-        <MessageFolderHeader folder={folder} />
-        {/* <h1>Messages</h1>
-        <p className="va-introtext vads-u-margin-top--0">
-          When you send a message to your care team, it can take up to 3
-          business days to get a response.
-        </p>
-        <EmergencyNote />
-        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-          <a
-            className="vads-c-action-link--blue compose-message-link"
-            href="/my-health/secure-messages/compose"
-          >
-            Compose message
-          </a>
-        </p> */}
-        <div className="search-messages-input">
-          <label
-            className="vads-u-margin-top--2p5"
-            htmlFor="search-message-folder-input"
-          >
-            Search the Messages folder
-          </label>
-          <VaSearchInput label="search-message-folder-input" />
-        </div>
+        {folder === undefined ? (
+          <va-loading-indicator
+            message="Loading your secure messages..."
+            setFocus
+          />
+        ) : (
+          <>
+            <MessageFolderHeader folder={folder} />
+            <div className="search-messages-input">
+              <label
+                className="vads-u-margin-top--2p5"
+                htmlFor="search-message-folder-input"
+              >
+                Search the Messages folder
+              </label>
+              <VaSearchInput label="search-message-folder-input" />
+            </div>
 
-        <div>{content}</div>
+            <div>{content}</div>
+          </>
+        )}
       </div>
     </div>
   );

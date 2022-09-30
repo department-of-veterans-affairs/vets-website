@@ -11,10 +11,10 @@ then additional functionality will need to be added to account for this.
 */
 
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
-import { getFolders, retrieveFolder } from '../actions/folders';
+import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
 import { DefaultFolders as Folder } from '../util/constants';
 import FolderListView from './FolderListView';
@@ -22,22 +22,24 @@ import { getMessages } from '../actions/messages';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
-  const folder = useSelector(state => state.sm.folders.folder);
 
   // fire api call to retreive messages
-  useEffect(() => {
-    dispatch(getAllMessages());
-    dispatch(getTriageTeams());
-    dispatch(getFolders());
-    dispatch(getCategories());
-    dispatch(getMessages(Folder.INBOX));
-    dispatch(retrieveFolder(Folder.INBOX)); // landing page retrieves only Inbox messages. Separate layout is used for other folders
-    // dispatch(retrieveMessage(522265));
-    // dispatch(retrieveMessage(7178447));
-    // dispatch(retrieveFolder(0));
-  });
+  useEffect(
+    () => {
+      dispatch(getAllMessages());
+      dispatch(getTriageTeams());
+      dispatch(getCategories());
+      // landing page retrieves only Inbox messages.
+      dispatch(retrieveFolder(Folder.INBOX));
+      dispatch(getMessages(Folder.INBOX));
+      // dispatch(retrieveMessage(522265));
+      // dispatch(retrieveMessage(7178447));
+      // dispatch(retrieveFolder(0));
+    },
+    [dispatch],
+  );
 
-  return <>{folder && <FolderListView />}</>;
+  return <FolderListView />;
 };
 
 export default LandingPageAuth;

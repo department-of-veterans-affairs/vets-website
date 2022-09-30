@@ -7,6 +7,7 @@ import Compose from './containers/Compose';
 import MessageDetails from './containers/MessageDetails';
 import MessageReply from './containers/MessageReply';
 import SearchMessages from './containers/SearchMessages';
+import FolderListView from './containers/FolderListView';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -40,6 +41,9 @@ const routes = (
           </Route>
           <Route path="/trash/:messageId" key="MessageDetails">
             <MessageDetails />
+          </Route>
+          <Route path="/folder/:folderId" key="FolderListView">
+            <FolderListView />
           </Route>
         </Switch>
       </div>
