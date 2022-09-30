@@ -1,35 +1,34 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
-import Wrapper from '../../components/layout/Wrapper';
+import TravelPage from '../../components/pages/TravelPage';
 
 const TravelQuestion = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const { goToNextPage } = useFormRouting(router);
+  const helpText = (
+    <Trans
+      i18nKey="you-can-also-file-a-claim-online--help-text"
+      components={[<span key="bold" className="vads-u-font-weight--bold" />]}
+    />
+  );
 
   return (
-    <Wrapper pageTitle="Travel Question">
-      <button
-        onClick={goToNextPage}
-        className="usa-button-primary usa-button-big"
-        data-testid="yes-button"
-        type="button"
-      >
-        {t('yes')}
-      </button>
-      <button
-        onClick={goToNextPage}
-        className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
-        data-testid="no-button"
-        type="button"
-      >
-        {t('no')}
-      </button>
-    </Wrapper>
+    <TravelPage
+      header={t('would-you-like-to-file-a-travel-reimbursement-claim-now')}
+      bodyText={
+        <p>
+          {t(
+            'answer-a-few-questions-to-find-out-if-you-can-file-your-claim-now',
+          )}
+        </p>
+      }
+      helpText={helpText}
+      pageType="travel-question"
+      router={router}
+    />
   );
 };
 
