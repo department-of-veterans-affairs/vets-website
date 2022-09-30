@@ -33,7 +33,7 @@ const routes = [
   <Route
     component={AppealLayout}
     key="/appeals"
-    path="/appeals">ƒ
+    path="/appeals">
     <Route
       component={AppealStatusPage}
       key=":id/status"
