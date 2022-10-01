@@ -169,6 +169,7 @@ const ComposeForm = props => {
             id="message-subject"
             name="message-subject"
             className="message-subject"
+            data-testid="message-subject-field"
             onChange={e => {
               setSubject(e.target.value);
             }}
@@ -201,12 +202,17 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions">
-          <button type="submit" className="send-button-bottom">
+          <button
+            type="submit"
+            className="send-button-bottom"
+            data-testid="Send-Button"
+          >
             Send
           </button>
           <button
             type="button"
             className="usa-button-secondary save-draft-button"
+            data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft
