@@ -90,7 +90,7 @@ const FolderListView = () => {
   } else if (messages.length > 0) {
     content = (
       <>
-        <InboxListView messages={messages} />
+        <InboxListView messages={messages} folder={folder} />
       </>
     );
   }
@@ -111,7 +111,7 @@ const FolderListView = () => {
                 className="vads-u-margin-top--2p5"
                 htmlFor="search-message-folder-input"
               >
-                Search the Messages folder
+                Search the {folder.name} messages folder
               </label>
               <VaSearchInput label="search-message-folder-input" />
             </div>

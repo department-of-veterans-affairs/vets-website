@@ -20,6 +20,30 @@ const MessageFolderHeader = props => {
     }
   };
 
+  const handleFolderDescription = () => {
+    let text = '';
+    switch (props.folder.folderId) {
+      case Folder.INBOX || Folder.SENT: // Inbox
+        text = `When you send a message to your care team, it can take up to 3
+            business days to get a response.`;
+        break;
+      // case Folder.SENT: // Sent
+      //   return `When you send a message to your care team, it can take up to 3
+      //       business days to get a response.`;
+      case Folder.DRAFTS: // Drafts
+        text = ``;
+        break;
+      case Folder.DELETED: // Trash
+        text = `Here are the messages you deleted from other folders. 
+        You can't permanently delete messages.`;
+        break;
+      default:
+        text = ``;
+        break;
+    }
+    return text && <p className="va-introtext vads-u-margin-top--0">{text}</p>;
+  };
+
   return (
     <>
       <h1>{handleHeader()}</h1>
@@ -40,9 +64,7 @@ const MessageFolderHeader = props => {
           </p>
         </>
       ) : (
-        <p className="va-introtext vads-u-margin-top--0">
-          Your care team should respond to your message within 3 business days.
-        </p>
+        <>{handleFolderDescription()}</>
       )}
     </>
   );

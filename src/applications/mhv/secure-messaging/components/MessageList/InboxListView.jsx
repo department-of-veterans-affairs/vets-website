@@ -113,7 +113,7 @@ const InboxListView = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label="Show messages by"
+          label={`Sort ${props.folder.name} messages by`}
           name="sort-order"
           value={sortOrder}
           onVaSelect={e => {
@@ -162,5 +162,6 @@ const InboxListView = props => {
 export default InboxListView;
 
 InboxListView.propTypes = {
+  folder: PropTypes.object,
   messages: PropTypes.array,
 };
