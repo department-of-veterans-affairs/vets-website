@@ -69,6 +69,7 @@ const useFormRouting = (router = {}) => {
     [getCurrentPageFromRouter, pages, router],
   );
   const goToPreviousPage = () => {
+    const { history } = window;
     history.back();
   };
 
