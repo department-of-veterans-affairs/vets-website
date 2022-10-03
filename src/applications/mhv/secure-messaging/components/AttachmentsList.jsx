@@ -17,10 +17,6 @@ const AttachmentsList = props => {
     setAttachments(newAttArr);
   };
 
-  // TEMPORARY HARD CODED MESSAGE AND ATTACHMENT IDs
-  const messageId = 522265;
-  const attachmentId = 522260;
-
   return (
     <div>
       {' '}
@@ -50,7 +46,9 @@ const AttachmentsList = props => {
                   <a
                     href={`${
                       environment.API_URL
-                    }/my_health/v1/messaging/messages/${messageId}/attachments/${attachmentId}`}
+                    }/my_health/v1/messaging/messages/${
+                      file.messageId
+                    }/attachments/${file.attachmentId}`}
                     target="_blank"
                     rel="noreferrer"
                   >
