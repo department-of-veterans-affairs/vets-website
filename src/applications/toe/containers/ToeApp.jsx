@@ -7,13 +7,18 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchSponsors, fetchPersonalInformation } from '../actions';
+import {
+  fetchSponsors,
+  fetchPersonalInformation,
+  fetchDirectDeposit,
+} from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
 function ToeApp({
   children,
   formData,
+  getDirectDeposit,
   getSponsors,
   getPersonalInformation,
   location,
@@ -24,6 +29,7 @@ function ToeApp({
   user,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -63,6 +69,19 @@ function ToeApp({
       }
     },
     [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+  );
+
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
   );
 
   return (
@@ -108,6 +127,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
   getPersonalInformation: fetchPersonalInformation,
+  getDirectDeposit: fetchDirectDeposit,
   setFormData: setData,
 };
 
