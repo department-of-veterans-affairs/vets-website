@@ -1,4 +1,7 @@
 # vets-api environment settings
+# Reference for vets-api settings in review instances:
+# https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/roles/review-instance-configure/vars/settings.local.yml
+
 saml:
   authn_requests_signed: false
 
