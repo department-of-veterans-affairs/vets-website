@@ -154,6 +154,13 @@ const analyticsEvents = {
       prefix: 'checkbox-group',
     },
   ],
+  'va-link': [
+    {
+      action: 'click',
+      event: 'nav-link-click',
+      prefix: 'link',
+    },
+  ],
   'va-loading-indicator': [
     {
       action: 'displayed',
