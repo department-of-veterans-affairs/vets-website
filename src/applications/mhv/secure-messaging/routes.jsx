@@ -14,9 +14,12 @@ const routes = (
     <div className="vads-l-row">
       <Breadcrumbs />
     </div>
-    <div className="secure-messaging-container">
-      <Navigation />
-      <div>
+    <div className="secure-messaging-container vads-u-display--flex">
+      <div className="vads-u-flex--auto">
+        <Navigation />
+      </div>
+
+      <div className="vads-u-flex--fill">
         <Switch>
           <Route exact path="/" key="App">
             <App />
