@@ -16,15 +16,13 @@ setup_vets_api() {
   touch config/certs/vetsgov-localhost.key
 
   # Start vets-api server and associated services
-  # make up
+  make up
 }
 
 setup_vets_website() {
   # Install and use node version in .nvmrc
   # Tools like NVM won't work without using -i to put the shell in interactive mode
-  # source $NVM_DIR/nvm.sh
-  # bash -i -c 'nvm install' #|| true # ignore exit code due to npm prefix
-  # nvm use --delete-prefix
+  bash -i -c 'nvm install'
 
   # Install dependencies and build site
   yarn cache clean 
