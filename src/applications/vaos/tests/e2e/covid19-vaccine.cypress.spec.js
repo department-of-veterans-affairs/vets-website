@@ -35,7 +35,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     mockRequestEligibilityCriteriaApi();
   });
 
-  it('should submit form', () => {
+  it.skip('should submit form', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
 
@@ -257,7 +257,7 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
 });
 
 describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
-  it('should submit form', () => {
+  it.skip('should submit form', () => {
     vaosSetup();
 
     mockFeatureToggles({

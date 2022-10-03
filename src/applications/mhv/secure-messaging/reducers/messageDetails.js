@@ -15,11 +15,18 @@ const initialState = {
 export const messageDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Message.GET: {
-      const msgAttr = action.response.data.attributes;
       return {
         ...state,
         message: {
-          ...msgAttr,
+          ...action.response.data.attributes,
+          attachments: action.response.included
+            ? action.response.included.map(attachment => {
+                return {
+                  attachmentId: attachment.id,
+                  ...attachment.attributes,
+                };
+              })
+            : null,
         },
       };
     }
@@ -27,10 +34,7 @@ export const messageDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         messageHistory: action.response.data.map(message => {
-          const msgAttr = message.attributes.attributes;
-          return {
-            ...msgAttr,
-          };
+          return message.attributes.attributes;
         }),
       };
     }

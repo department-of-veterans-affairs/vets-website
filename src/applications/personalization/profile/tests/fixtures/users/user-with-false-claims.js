@@ -45,7 +45,7 @@ export const makeMockUser = () => {
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
           claims: {
             // eslint-disable-next-line camelcase
-            payment_history: true,
+            payment_history: false,
           },
         },
         vaProfile: {
