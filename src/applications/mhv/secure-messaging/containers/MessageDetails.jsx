@@ -19,7 +19,7 @@ const MessageDetail = () => {
     () => {
       setid(messageId);
       if (id) {
-        dispatch(retrieveMessage(id)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
+        dispatch(retrieveMessage(id));
       }
     },
     [dispatch, location, messageId, id],
