@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
@@ -8,7 +8,7 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const folderList = useSelector(state => state.sm.folders.folderList);
+  const location = useLocation();
 
   useEffect(
     () => {
@@ -16,6 +16,18 @@ const Navigation = () => {
     },
     [dispatch],
   );
+
+  const paths = () => {
+    return [
+      { path: '/compose', label: 'Compose' },
+      { path: '/drafts', label: 'Drafts' },
+      { path: '/folders', label: 'Folders' },
+      { path: '/sent', label: 'Sent' },
+      { path: '/trash', label: 'Trash' },
+      { path: '/search', label: 'Search messages' },
+      { path: '/faq', label: 'Messages FAQ' },
+    ];
+  };
 
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -35,14 +47,14 @@ const Navigation = () => {
   }
 
   function openNavigationBurgerButton() {
-    return isMobile ? (
-      <SectionGuideButton
-        onMenuClick={() => {
-          openNavigation();
-        }}
-      />
-    ) : (
-      <></>
+    return (
+      isMobile && (
+        <SectionGuideButton
+          onMenuClick={() => {
+            openNavigation();
+          }}
+        />
+      )
     );
   }
 
@@ -86,33 +98,22 @@ const Navigation = () => {
                 <div className="sidebar-navigation-messages-list-header">
                   <Link to="/">Messages</Link>
                 </div>
-                {folderList && (
-                  <div className="sidebar-navigation-messages-list-menu">
-                    <ul className="usa-sidenav-list">
-                      <li>
-                        <Link to="/compose">Compose</Link>
+
+                <div className="sidebar-navigation-messages-list-menu">
+                  <ul className="usa-sidenav-list">
+                    {paths().map((path, i) => (
+                      <li
+                        key={i}
+                        className={
+                          location.pathname === path.path &&
+                          'vads-u-font-weight--bold'
+                        }
+                      >
+                        <Link to={path.path}>{path.label}</Link>
                       </li>
-                      <li>
-                        <Link to="/drafts">Drafts</Link>
-                      </li>
-                      <li>
-                        <Link to="/folders">Folders</Link>
-                      </li>
-                      <li>
-                        <Link to="/sent">Sent</Link>
-                      </li>
-                      <li>
-                        <Link to="/trash">Trash</Link>
-                      </li>
-                      <li>
-                        <Link to="/search">Search messages</Link>
-                      </li>
-                      <li>
-                        <a href="/my-health/secure-messages">Messages FAQ</a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                    ))}
+                  </ul>
+                </div>
               </li>
               <li>
                 <a href="/my-health/secure-messages">Medical records</a>
