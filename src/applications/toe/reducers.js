@@ -27,7 +27,7 @@ const initialState = {
 };
 
 const ifApiIsDown = action => {
-  if (action.response) {
+  if (action?.response) {
     return {
       ...action?.response?.data?.attributes,
     };
