@@ -47,7 +47,7 @@ export default {
                   return {
                     ...sponsor,
                     // ! TODO: CHANGE ID
-                    id: index.toString(),
+                    id: `${sponsor.sponsorVaId - index}`,
                     name: [sponsor.firstName, sponsor.lastName].join(' '),
                     relationship: sponsor.sponsorRelationship,
                   };
