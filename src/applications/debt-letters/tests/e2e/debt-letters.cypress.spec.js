@@ -13,13 +13,18 @@ import mockCopays from './fixtures/mocks/copays.json';
 describe('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
-      'features',
-    );
+    if (!sessionStorage.getItem('vaFeatureToggles')) {
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
+        'features',
+      );
+    }
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/manage-va-debt/your-debt/');
-    cy.wait(['@features', '@debts']);
+    cy.wait(['@debts']);
+    if (!sessionStorage.getItem('vaFeatureToggles')) {
+      cy.wait(['@features']);
+    }
   });
 
   it('displays the current debts section and navigates to debt details - C1226', () => {
