@@ -33,7 +33,7 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       <BackButton router={router} action={goToPreviousPage} />
       <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
         {bodyText && (
-          <div data-testid="subtitle" className="vads-u-font-family--serif">
+          <div data-testid="body-text" className="vads-u-font-family--serif">
             {bodyText}
           </div>
         )}
