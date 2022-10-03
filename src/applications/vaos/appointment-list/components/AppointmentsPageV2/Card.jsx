@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
   isVAPhoneAppointment,
   isClinicVideoAppointment,
+  getAppointmentDate,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
@@ -61,6 +65,29 @@ VAFacilityName.propTypes = {
   facility: PropTypes.object,
 };
 
+function getIsCommunityCare({ appointment, featureStatusImprovement }) {
+  const { isCommunityCare, isPastAppointment } = appointment.vaos;
+  return isCommunityCare
+    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+        appointment.id
+      }`
+    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+        appointment.id
+      }`;
+}
+
+function isCanceled(appointment) {
+  return appointment.status === APPOINTMENT_STATUS.cancelled;
+}
+
+function getLabelText(appointment) {
+  const appointmentDate = getAppointmentDate(appointment);
+
+  return `Details for ${
+    isCanceled(appointment) ? 'canceled ' : ''
+  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
+}
+
 export default function Card({
   appointment,
   facility,
@@ -73,6 +100,11 @@ export default function Card({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
+  const label = getLabelText(appointment);
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
+  const link = getIsCommunityCare({ appointment, featureStatusImprovement });
 
   return (
     <>
@@ -111,6 +143,20 @@ export default function Card({
               Phone call
             </>
           )}
+        </div>
+        <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
+          <Link
+            className="vaos-appts__focus--hide-outline"
+            aria-label={label}
+            to={link}
+            onClick={e => e.preventDefault()}
+          >
+            Details
+          </Link>
+          <i
+            aria-hidden="true"
+            className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
+          />
         </div>
       </div>
     </>
