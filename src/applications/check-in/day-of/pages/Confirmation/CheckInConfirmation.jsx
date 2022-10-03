@@ -88,7 +88,7 @@ const CheckInConfirmation = props => {
             <va-alert
               background-only
               show-icon
-              data-testid="travel-pay-success-message"
+              data-testid="travel-pay-message"
             >
               <div>
                 <strong>{t('reimbursement-claim-number')}</strong>
@@ -106,7 +106,7 @@ const CheckInConfirmation = props => {
             <va-alert
               background-only
               show-icon
-              data-testid="travel-pay-warning-message"
+              data-testid="travel-pay-message"
               status="warning"
             >
               <Trans
@@ -124,7 +124,7 @@ const CheckInConfirmation = props => {
             <va-alert
               background-only
               show-icon
-              data-testid="travel-pay-error-message"
+              data-testid="travel-pay-message"
               status="error"
             >
               <div>{t('travel-claim-submission-error')}</div>
