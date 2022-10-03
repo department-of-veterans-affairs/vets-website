@@ -35,7 +35,7 @@ const ifApiIsDown = action => {
   return {
     accountType: 'Checking',
     accountNumber: '*********9891',
-    financialInstitutionRoutingNumber: '*****9593',
+    routingNumber: '*****9593',
     financialInstitutionName: 'BANK OF AMERICA N.A.',
   };
 };

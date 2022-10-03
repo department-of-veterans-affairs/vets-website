@@ -16,6 +16,7 @@ import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
 function ToeApp({
+  // bankInformation,
   children,
   formData,
   getDirectDeposit,
@@ -101,10 +102,12 @@ function ToeApp({
 }
 
 ToeApp.propTypes = {
+  // bankInformation: PropTypes.object,
   children: PropTypes.object,
   formData: PropTypes.object,
-  getSponsors: PropTypes.func,
+  getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
@@ -116,6 +119,7 @@ ToeApp.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
+  // bankInformation: state.data?.bankInformation,
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   sponsors: state.form?.data?.sponsors,
