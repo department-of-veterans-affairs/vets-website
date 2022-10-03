@@ -2,7 +2,7 @@
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
  */
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -1123,4 +1123,8 @@ export function getAppointmentTimezone(appointment) {
 export async function fetchPreferredProvider(providerNpi) {
   const prov = await getPreferredCCProvider(providerNpi);
   return transformPreferredProviderV2(prov);
+}
+
+export function getAppointmentDate(appointment) {
+  return moment.parseZone(appointment.start);
 }

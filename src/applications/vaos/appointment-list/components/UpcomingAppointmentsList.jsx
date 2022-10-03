@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import classNames from 'classnames';
 import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
@@ -18,7 +19,10 @@ import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
 } from '../redux/actions';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
 
 export default function UpcomingAppointmentsList() {
   const dispatch = useDispatch();
@@ -32,7 +36,9 @@ export default function UpcomingAppointmentsList() {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
@@ -47,7 +53,7 @@ export default function UpcomingAppointmentsList() {
         scrollAndFocus('h3');
       }
     },
-    [fetchFutureAppointments, futureStatus, hasTypeChanged],
+    [dispatch, featureStatusImprovement, futureStatus, hasTypeChanged],
   );
 
   if (
@@ -97,7 +103,9 @@ export default function UpcomingAppointmentsList() {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="vads-u-padding-left--0"
+              className={classNames('vads-u-padding-left--0', {
+                'vads-u-border-bottom--1px': featureAppointmentList,
+              })}
               data-cy="upcoming-appointment-list"
               role="list"
             >
