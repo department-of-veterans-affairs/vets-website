@@ -10,9 +10,12 @@ const Navigation = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const folderList = useSelector(state => state.sm.folders.folderList);
 
-  useEffect(() => {
-    dispatch(getFolders());
-  });
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
 
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -89,17 +92,18 @@ const Navigation = () => {
                       <li>
                         <Link to="/compose">Compose</Link>
                       </li>
-
-                      {folderList
-                        ?.filter(el => el.id !== 0)
-                        .map((folder, i) => (
-                          <li key={i}>
-                            <Link to={`/folder/${folder.id}`}>
-                              {folder.name}
-                            </Link>
-                          </li>
-                        ))}
-
+                      <li>
+                        <Link to="/drafts">Drafts</Link>
+                      </li>
+                      <li>
+                        <Link to="/folders">Folders</Link>
+                      </li>
+                      <li>
+                        <Link to="/sent">Sent</Link>
+                      </li>
+                      <li>
+                        <Link to="/trash">Trash</Link>
+                      </li>
                       <li>
                         <Link to="/search">Search messages</Link>
                       </li>

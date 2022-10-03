@@ -1,8 +1,9 @@
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
+import { DefaultFolders as Folder } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import MessageFolderHeader from '../components/MessageList/MessageFolderHeader';
@@ -10,10 +11,39 @@ import { retrieveFolder } from '../actions/folders';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
-  const { folderId } = useParams();
+  const [folderId, setFolderId] = useState(null);
+  //   const { folderId } = useParams();
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
+  const location = useLocation();
+  const params = useParams();
+
+  useEffect(
+    () => {
+      if (location.pathname.includes('/folder')) {
+        setFolderId(params.folderId);
+      } else {
+        switch (location.pathname) {
+          case '/':
+            setFolderId(Folder.INBOX);
+            break;
+          case '/sent':
+            setFolderId(Folder.SENT);
+            break;
+          case '/drafts':
+            setFolderId(Folder.DRAFTS);
+            break;
+          case '/trash':
+            setFolderId(Folder.DELETED);
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    [dispatch, location.pathname, params.folderId],
+  );
 
   useEffect(
     () => {

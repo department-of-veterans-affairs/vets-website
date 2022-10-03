@@ -42,7 +42,10 @@ const routes = (
           <Route path="/trash/:messageId" key="MessageDetails">
             <MessageDetails />
           </Route>
-          <Route path="/folder/:folderId" key="FolderListView">
+          <Route
+            path={['/sent', '/trash', '/drafts', '/folder/:folderId']}
+            key="FolderListView"
+          >
             <FolderListView />
           </Route>
         </Switch>
