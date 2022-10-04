@@ -99,7 +99,8 @@ export default function Disclaimer() {
       <h3>More about our chatbot</h3>
 
       <va-accordion>
-        <va-accordion-item header="What to expect when using our chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">What to expect when using our chatbot</h4>
           <p>
             Our chatbot is a resource to help you quickly find information about
             VA benefits and services. You won’t communicate with an actual
@@ -152,7 +153,8 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="How to use our chatbot with a screen reader">
+        <va-accordion-item>
+        <h4 slot="headline">How to use our chatbot with a screen reader</h4>
           <p>
             If you’re blind or have low vision, follow these steps to use our
             chatbot on a desktop computer with a screen reader:
@@ -198,7 +200,10 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="What information we collect when you use the chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">
+            What information we collect when you use the chatbot
+          </h4>
           <p>
             We use certain information you’ve provided to build better tools for
             Veterans, service members, and their families.
