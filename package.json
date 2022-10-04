@@ -161,7 +161,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cy-tr-reporter": "^1.2.5",
+    "cy-tr-reporter": "^1.2.8",
     "cypress": "^10.8.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
@@ -371,7 +371,6 @@
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring",
-
       "src/applications/check-in"
     ],
     "nohoist": [
