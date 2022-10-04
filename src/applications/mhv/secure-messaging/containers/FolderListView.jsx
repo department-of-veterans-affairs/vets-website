@@ -12,7 +12,6 @@ import { retrieveFolder } from '../actions/folders';
 const FolderListView = () => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
-  //   const { folderId } = useParams();
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);

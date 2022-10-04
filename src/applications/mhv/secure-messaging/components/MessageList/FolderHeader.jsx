@@ -43,7 +43,7 @@ const FolderHeader = props => {
       text && (
         <p
           data-testid="folder-description"
-          className="va-introtext vads-u-margin-top--0"
+          className="va-introtext folder-description vads-u-margin-top--0"
         >
           {text}
         </p>

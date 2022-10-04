@@ -46,12 +46,6 @@ const InboxListItem = props => {
       >
         {subject}
       </Link>
-      {/* <a
-        className="vads-u-margin-left--3 vads-u-margin-y--0p5"
-        href={`/message/${messageId}`}
-      >
-        {subject}
-      </a> */}
       <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment && <i className={attachmentClasses} />}
         {formattedDate}
