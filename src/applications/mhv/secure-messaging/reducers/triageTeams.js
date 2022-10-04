@@ -5,7 +5,7 @@ const initialState = {
    * List of triage teams (recipients) for the current user
    * @type {array}
    */
-  triageTeams: undefined,
+  triageTeams: [],
 };
 
 export const triageTeamsReducer = (state = initialState, action) => {
