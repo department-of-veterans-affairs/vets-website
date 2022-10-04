@@ -8,7 +8,7 @@ import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { isLoading, message, error } = useSelector(state => state.message);
+  const { message, error } = useSelector(state => state.message);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const isDraft = window.location.pathname.includes('/draft');
 
@@ -34,7 +34,7 @@ const Compose = () => {
   }
 
   const content = () => {
-    if (isLoading || !triageTeams.length) {
+    if ((isDraft && !message) || !triageTeams) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
