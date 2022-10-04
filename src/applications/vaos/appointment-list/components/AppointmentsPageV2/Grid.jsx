@@ -5,9 +5,10 @@ import classNames from 'classnames';
 import {
   getAppointmentDate,
   getAppointmentTimezone,
+  isClinicVideoAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import { Label } from './Label';
 // import { handleClick, handleKeyDown, Label } from './AppointmentListItem';
@@ -17,6 +18,33 @@ function isInPersonVAAppointment(appointment) {
   const isPhone = isVAPhoneAppointment(appointment);
 
   return !isVideo && !isCommunityCare && !isPhone;
+}
+
+function getVideoAppointmentLocationText(appointment) {
+  const { isAtlas } = appointment.videoData;
+  const videoKind = appointment.videoData.kind;
+  let desc = 'Video appointment at home';
+
+  if (isAtlas) {
+    desc = 'Video appointment at an ATLAS location';
+  } else if (isClinicVideoAppointment(appointment)) {
+    desc = 'Video appointment at a VA location';
+  } else if (videoKind === VIDEO_TYPES.gfe) {
+    desc = 'Video with VA device';
+  }
+
+  return desc;
+}
+
+function getPractitionerName(appointment) {
+  const { practitioners } = appointment;
+
+  if (!practitioners) return '<name here>';
+
+  const practitioner = practitioners[0];
+  const { name } = practitioner;
+
+  return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
 }
 
 function getGridData(appointment) {
@@ -33,8 +61,10 @@ function getGridData(appointment) {
   }
   if (isVideo) {
     return {
-      appointmentDetails: 'VA Appointment with <provider here>',
-      appointmentType: 'Video with VA device',
+      appointmentDetails: `VA Appointment with ${getPractitionerName(
+        appointment,
+      )}`,
+      appointmentType: getVideoAppointmentLocationText(appointment),
       icon: '',
     };
   }
@@ -48,14 +78,14 @@ function getGridData(appointment) {
   if (isInPersonVAAppointment()) {
     const { name } = getTypeOfCareById(serviceType) || {};
     return {
-      appointmentDetails: `${name} with <provider here>`,
-      appointmentType: 'In person at <facility name here>',
+      appointmentDetails: `${name} with ${getPractitionerName(appointment)}`,
+      appointmentType: `In person at ${appointment.vaos.facilityData?.name}`,
       icon: '',
     };
   }
   return {
-    appointmentDetails: 'default',
-    appointmentType: 'default',
+    appointmentDetails: '',
+    appointmentType: '',
     icon: '',
   };
 }
