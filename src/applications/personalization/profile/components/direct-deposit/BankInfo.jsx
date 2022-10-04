@@ -385,7 +385,7 @@ export const BankInfo = ({
           {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
         </p>
         <button
-          className="usa-button-secondary"
+          className="usa-button-primary"
           type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
@@ -394,6 +394,7 @@ export const BankInfo = ({
           Continue Editing
         </button>
         <button
+          className="usa-button-secondary"
           type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
