@@ -34,7 +34,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      'conversationId',
     )(store)(fakeNext)(connectFulfilledAction);
     // fake the session storage using stubs
 
@@ -44,9 +43,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
 
     expect(actions[0].payload.activity).to.own.include({
       name: 'startConversation',
-    });
-    expect(actions[0].payload.activity.value).to.own.include({
-      conversationId: 'conversationId',
     });
     expect(actions[0]).to.own.include({ type: 'DIRECT_LINE/POST_ACTIVITY' });
   });
@@ -59,7 +55,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      'conversationId',
     )(store)(fakeNext)(connectFulfilledAction);
 
     const actions = store.getActions();
@@ -92,7 +87,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'conversationId',
       )(store)(fakeNext)(directIncomingActivity);
       // tests
       const isTrackingUtterances = await sessionStorage.getItem(
@@ -122,7 +116,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'conversationId',
       )(store)(fakeNext)(aboutToSignInActivity);
       // tests
       const isTrackingUtterances = await sessionStorage.getItem(
@@ -156,7 +149,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'conversationId',
       )(store)(fakeNext)(incomingActivity);
 
       const messageEvent = spyDispatchEvent.firstCall.args[0];
@@ -192,7 +184,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         'baseURL',
         'userFirstName',
         'userUuid',
-        'conversationId',
       )(store)(fakeNext)(aboutToSignInActivity);
 
       // tests
@@ -218,7 +209,6 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       'baseURL',
       'userFirstName',
       'userUuid',
-      'conversationId',
     )(store)(fakeNext)(connectSendMessage);
 
     const actions = store.getActions();

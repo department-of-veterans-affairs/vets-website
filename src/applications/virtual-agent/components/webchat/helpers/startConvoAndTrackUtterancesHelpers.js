@@ -8,6 +8,7 @@ import {
   IN_AUTH_EXP,
   IS_TRACKING_UTTERANCES,
   RECENT_UTTERANCES,
+  CONVERSATION_ID_KEY,
 } from '../../chatbox/utils';
 
 // define thunks for actions
@@ -19,8 +20,8 @@ export const processActionConnectFulfilled = ({
   baseURL,
   userFirstName,
   userUuid,
-  conversationId,
 }) => () => {
+  const currentConversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   const options = {
     csrfToken,
     apiSession,
@@ -28,7 +29,7 @@ export const processActionConnectFulfilled = ({
     baseURL,
     userFirstName,
     userUuid,
-    conversationId,
+    currentConversationId,
   };
   dispatch(startConversationActivity(options));
 

@@ -12,7 +12,6 @@ const StartConvoAndTrackUtterances = {
     baseURL,
     userFirstName,
     userUuid,
-    conversationId,
   ) => ({ dispatch }) => next => action => {
     const options = {
       action,
@@ -23,7 +22,6 @@ const StartConvoAndTrackUtterances = {
       baseURL,
       userFirstName,
       userUuid,
-      conversationId,
     };
 
     const processActionType = {
