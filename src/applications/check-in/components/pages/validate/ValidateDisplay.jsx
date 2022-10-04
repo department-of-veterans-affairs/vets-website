@@ -177,11 +177,11 @@ export default function ValidateDisplay({
 ValidateDisplay.propTypes = {
   dobInput: propTypes.object,
   dobError: propTypes.bool,
-  setDobError: propTypes.func,
   header: propTypes.string,
   isLoading: propTypes.bool,
   last4Input: propTypes.object,
   lastNameInput: propTypes.object,
+  setDobError: propTypes.func,
   showValidateError: propTypes.bool,
   subtitle: propTypes.string,
   validateErrorMessage: propTypes.elementType,
