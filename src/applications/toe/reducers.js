@@ -43,11 +43,10 @@ export default {
           sponsors: {
             sponsors: [
               ...action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements.map(
-                (sponsor, index) => {
+                sponsor => {
                   return {
                     ...sponsor,
-                    // ! TODO: CHANGE ID
-                    id: `${sponsor.sponsorVaId - index}`,
+                    id: `${sponsor.sponsorVaId.toString()}`,
                     name: [sponsor.firstName, sponsor.lastName].join(' '),
                     relationship: sponsor.sponsorRelationship,
                   };
