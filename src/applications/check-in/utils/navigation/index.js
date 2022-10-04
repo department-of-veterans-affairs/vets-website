@@ -5,7 +5,12 @@ const isWithInDays = (days, pageLastUpdated) => {
   return daysAgo <= days;
 };
 
-const updateFormPages = (patientDemographicsStatus, pages, URLS) => {
+const updateFormPages = (
+  patientDemographicsStatus,
+  pages,
+  URLS,
+  isTravelReimbursementEnabled = false,
+) => {
   const skippedPages = [];
   const {
     demographicsNeedsUpdate,
@@ -16,7 +21,7 @@ const updateFormPages = (patientDemographicsStatus, pages, URLS) => {
     emergencyContactConfirmedAt,
   } = patientDemographicsStatus;
 
-  const skipablePages = [
+  const skippablePages = [
     {
       url: URLS.DEMOGRAPHICS,
       confirmedAt: demographicsConfirmedAt,
@@ -33,8 +38,13 @@ const updateFormPages = (patientDemographicsStatus, pages, URLS) => {
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-
-  skipablePages.forEach(page => {
+  const travelPayPages = [
+    URLS.TRAVEL_QUESTION,
+    URLS.TRAVEL_VEHICLE,
+    URLS.TRAVEL_ADDRESS,
+    URLS.TRAVEL_MILEAGE,
+  ];
+  skippablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
       ? new Date(page.confirmedAt)
       : null;
@@ -46,6 +56,10 @@ const updateFormPages = (patientDemographicsStatus, pages, URLS) => {
       skippedPages.push(page.url);
     }
   });
+  // Skip travel pay if not enabled.
+  if (!isTravelReimbursementEnabled) {
+    skippedPages.push(...travelPayPages);
+  }
   return pages.filter(page => !skippedPages.includes(page));
 };
 
@@ -63,6 +77,10 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_QUESTION: 'travel-pay',
+  TRAVEL_VEHICLE: 'travel-vehicle',
+  TRAVEL_ADDRESS: 'travel-address',
+  TRAVEL_MILEAGE: 'travel-mileage',
 });
 
 export { updateFormPages, URLS };

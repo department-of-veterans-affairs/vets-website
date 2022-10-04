@@ -4,9 +4,6 @@
   #shadow-root .va-modal-body {
     padding: 0;
   }
-  va-text-input.composeInput::part(input) {
-    max-width: 100%;
-  }
   va-select.composeSelect::part(label)::after {
     content: " (*Required)";
     color: $color-secondary-dark;
@@ -82,6 +79,12 @@
             margin: 0 0 13.9px 0;
           }
         }
+      }
+      .message-subject {
+        max-width: 100%;
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0.4rem 0px;
       }
       .message-body {
         min-height: 5.2rem;

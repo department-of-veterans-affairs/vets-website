@@ -14,22 +14,15 @@ export const messagesReducer = (state = initialState, action) => {
       return {
         ...state,
         messageList: action.response.data.map(message => {
-          return {
-            id: message.attributes.messageId,
-            category: message.attributes.category,
-            subject: message.attributes.subject,
-            body: message.attributes.body,
-            attachment: message.attributes.attachment,
-            sentDate: message.attributes.sentDate,
-            senderId: message.attributes.senderId,
-            senderName: message.attributes.senderName,
-            recipientId: message.attributes.recipientId,
-            recipientName: message.attributes.recipientName,
-            readReceipt: message.attributes.readReceipt,
-          };
+          const msgAttr = message.attributes;
+          return { ...msgAttr };
         }),
       };
-    case 'b':
+    case Actions.Message.CLEAR_LIST:
+      return {
+        ...state,
+        messageList: initialState.messageList,
+      };
     default:
       return state;
   }

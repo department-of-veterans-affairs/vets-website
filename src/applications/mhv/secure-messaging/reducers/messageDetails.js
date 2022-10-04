@@ -6,34 +6,38 @@ const initialState = {
    */
   message: undefined,
   /**
-   * The message thread for the currently displayed message
+   * The message history for the currently displayed message
    * @type {array}
    */
-  messageThread: undefined,
+  messageHistory: undefined,
 };
 
 export const messageDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Message.GET: {
-      const msgAttr = action.response.data.attributes;
       return {
         ...state,
         message: {
-          id: msgAttr.messageId,
-          category: msgAttr.category,
-          subject: msgAttr.subject,
-          body: msgAttr.body,
-          attachment: msgAttr.attachment,
-          sentDate: msgAttr.sentDate,
-          senderId: msgAttr.senderId,
-          senderName: msgAttr.senderName,
-          recipientId: msgAttr.recipientId,
-          recipientName: msgAttr.recipientName,
-          readReceipt: msgAttr.readReceipt,
+          ...action.response.data.attributes,
+          attachments: action.response.included
+            ? action.response.included.map(attachment => {
+                return {
+                  attachmentId: attachment.id,
+                  ...attachment.attributes,
+                };
+              })
+            : null,
         },
       };
     }
-    case 'b':
+    case Actions.Message.GET_HISTORY: {
+      return {
+        ...state,
+        messageHistory: action.response.data.map(message => {
+          return message.attributes.attributes;
+        }),
+      };
+    }
     default:
       return state;
   }

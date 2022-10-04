@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
-import { getMessage } from '../actions';
+import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
   const dispatch = useDispatch();
-  const { isLoading, message, error } = useSelector(state => state.message);
+  const message = useSelector(state => state.sm.messageDetails.message);
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
   const location = useLocation();
@@ -19,7 +19,7 @@ const MessageDetail = () => {
     () => {
       setid(messageId);
       if (id) {
-        dispatch(getMessage('message', id)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
+        dispatch(retrieveMessage(id));
       }
     },
     [dispatch, location, messageId, id],
@@ -36,7 +36,7 @@ const MessageDetail = () => {
   }
 
   const content = () => {
-    if (isLoading) {
+    if (message === undefined) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -44,7 +44,7 @@ const MessageDetail = () => {
         />
       );
     }
-    if (error) {
+    if (message === null || message === false) {
       return (
         <va-alert status="error" visible class="vads-u-margin-y--9">
           <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>

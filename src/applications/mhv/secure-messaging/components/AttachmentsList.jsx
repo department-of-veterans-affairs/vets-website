@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -42,7 +43,15 @@ const AttachmentsList = props => {
               {!editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
-                  <a href="/">
+                  <a
+                    href={`${
+                      environment.API_URL
+                    }/my_health/v1/messaging/messages/${
+                      file.messageId
+                    }/attachments/${file.attachmentId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </a>
                 </>

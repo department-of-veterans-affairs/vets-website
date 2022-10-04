@@ -10,7 +10,15 @@ import { mockUser } from 'applications/personalization/profile/tests/fixtures/us
 
 Cypress.Commands.add(
   'checkMenuItem',
-  (selector, expectedPath, parentMenuSelector = false) => {
+  (
+    selector,
+    expectedPath,
+    parentMenuSelector = false,
+    grandParentMenuSelector = false,
+  ) => {
+    if (grandParentMenuSelector) {
+      cy.get(grandParentMenuSelector).click();
+    }
     if (parentMenuSelector) {
       cy.get(parentMenuSelector).click();
     }
@@ -26,27 +34,35 @@ const testFirstMenuSection = isMobile => {
     'not.exist',
   );
   cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
-  cy.get('[data-e2e-id="vetnav-level2--disability"]').click();
-  cy.get('[data-e2e-id="view-all-in-disability"]');
-  cy.get('[data-e2e-id="vetnav-column-one-header"]');
-  cy.get('[data-e2e-id="eligibility-0"]');
-  cy.get('[data-e2e-id="about-va-1"]');
-  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', 'find-locations');
+  cy.get('[data-e2e-id="vetnav-level2--health-care"]').click();
+  cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
   cy.checkMenuItem(
     '[data-e2e-id="how-to-apply-1"]',
     'health-care/how-to-apply',
+    '[data-e2e-id="vetnav-level2--health-care"]',
     '[data-e2e-id="va-benefits-and-health-care-0"]',
   );
   cy.checkMenuItem(
     '[data-e2e-id="family-and-caregiver-health-benefits-2"]',
     'health-care/family-caregiver-benefits',
+    '[data-e2e-id="vetnav-level2--health-care"]',
     '[data-e2e-id="va-benefits-and-health-care-0"]',
   );
   cy.checkMenuItem(
     '[data-e2e-id="view-your-lab-and-test-results-3"]',
     'health-care/view-test-and-lab-results',
+    '[data-e2e-id="vetnav-level2--health-care"]',
     '[data-e2e-id="va-benefits-and-health-care-0"]',
   );
+
+  cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
+  cy.get('[data-e2e-id="vetnav-level2--disability"]').click();
+  cy.get('[data-e2e-id="view-all-in-disability"]');
+  cy.get('[data-e2e-id="vetnav-column-one-header"]');
+  cy.get('[data-e2e-id="eligibility-0"]');
+
+  cy.get('[data-e2e-id="about-va-1"]');
+  cy.checkMenuItem('[data-e2e-id="find-a-va-location-2"]', 'find-locations');
 };
 
 const testSecondMenuSection = isMobile => {

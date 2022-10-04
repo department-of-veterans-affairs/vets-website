@@ -26,7 +26,7 @@ export function PersonalizationDropdown(props) {
     () => (
       <a
         href={isSSOe ? logoutUrl() : logoutUrlSiS()}
-        onClick={() => logoutEvent(csp)}
+        onClick={() => logoutEvent(csp, { shouldWait: !isSSOe, duration: 350 })}
       >
         Sign Out
       </a>
