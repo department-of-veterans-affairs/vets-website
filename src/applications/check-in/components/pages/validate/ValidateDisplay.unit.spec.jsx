@@ -149,6 +149,9 @@ describe('check-in experience', () => {
             context: {
               token: '',
             },
+            form: {
+              pages: [],
+            },
           },
           featureToggles: {
             check_in_experience_lorota_security_updates_enabled: true,
@@ -158,7 +161,7 @@ describe('check-in experience', () => {
         beforeEach(() => {
           dobStore = mockStore(dobInitState);
         });
-        it.skip('displays the value', () => {
+        it('passes the value to the web component', () => {
           const { getByTestId } = render(
             <Provider store={dobStore}>
               <I18nextProvider i18n={i18n}>
@@ -170,9 +173,8 @@ describe('check-in experience', () => {
               </I18nextProvider>
             </Provider>,
           );
-          // const value = getByTestId('dob-input')[0].childNodes[0].shadowRoot.querySelector('.input-year').shadowRoot.querySelector('#inputField').value;
-          // console.log(value)
-          expect(getByTestId('dob-input').value).to.equal('1989-03-15');
+          const date = getByTestId('dob-input').childNodes[0].value;
+          expect(date).to.equal('1989-03-15');
         });
       });
       describe('validate Error message', () => {
