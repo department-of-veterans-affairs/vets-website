@@ -336,6 +336,10 @@ export function createMilitaryClaimant(submissionForm) {
 }
 
 export function createRelinquishedBenefit(submissionForm) {
+  if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
+    return {};
+  }
+
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
       formFields.benefitRelinquished

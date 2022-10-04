@@ -177,14 +177,14 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapNotificaitonMethod(notificationMethod) {
-  if (notificationMethod === 'mail') {
+function mapContactMethod(contactMethod) {
+  if (contactMethod === 'mail') {
     return 'Mail';
   }
-  if (notificationMethod === 'email') {
+  if (contactMethod === 'email') {
     return 'Email';
   }
-  return notificationMethod;
+  return contactMethod;
 }
 
 export const transformAlphaOnlyLowercase = str =>
@@ -223,9 +223,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
       },
     },
-    'view:contactMethod': {
-      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
-    },
+    [formFields.contactMethod]: mapContactMethod(claimant?.preferredContact),
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: contactInfo?.addressLine1,
