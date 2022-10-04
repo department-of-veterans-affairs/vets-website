@@ -881,6 +881,11 @@ const formConfig = {
                     },
                   },
                 },
+                state: {
+                  'ui:required': formData =>
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
+                },
                 postalCode: {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
