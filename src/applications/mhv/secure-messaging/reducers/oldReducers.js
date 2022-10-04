@@ -14,10 +14,6 @@ import {
   FOLDERS_RETRIEVE_STARTED,
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
-  DRAFT_AUTO_SAVE_STARTED,
-  DRAFT_SAVE_STARTED,
-  DRAFT_SAVE_FAILED,
-  DRAFT_SAVE_SUCCEEDED,
   LOADING_COMPLETE,
   // THREAD_RETRIEVE_STARTED,
   THREAD_RETRIEVE_SUCCEEDED,
@@ -68,30 +64,12 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
-    case DRAFT_AUTO_SAVE_STARTED:
-      return {
-        ...state,
-        saveError: null,
-      };
-    case DRAFT_SAVE_STARTED:
-      return {
-        ...state,
-        isSaving: true,
-        saveError: null,
-      };
     case MESSAGE_RETRIEVE_SUCCEEDED:
       return {
         ...state,
         isLoading: false,
         message: action.response,
         error: null,
-      };
-    case DRAFT_SAVE_SUCCEEDED:
-      return {
-        ...state,
-        isSaving: false,
-        lastSaveTime: Date.now(),
-        saveError: null,
       };
     case MESSAGE_DELETE_FAILED:
     case MESSAGE_MOVE_FAILED:
@@ -100,13 +78,6 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
         error: action.response,
-      };
-    case DRAFT_SAVE_FAILED:
-      return {
-        ...state,
-        isSaving: false,
-        lastSaveTime: null,
-        saveError: action.response,
       };
     case MESSAGE_DELETE_SUCCEEDED:
     case MESSAGE_MOVE_SUCCEEDED:

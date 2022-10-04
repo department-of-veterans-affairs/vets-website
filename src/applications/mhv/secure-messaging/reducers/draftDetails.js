@@ -34,6 +34,31 @@ export const draftDetailsReducer = (state = initialState, action) => {
         }),
       };
     }
+    case Actions.Draft.AUTO_SAVE_STARTED:
+      return {
+        ...state,
+        saveError: null,
+      };
+    case Actions.Draft.SAVE_STARTED:
+      return {
+        ...state,
+        isSaving: true,
+        saveError: null,
+      };
+    case Actions.Draft.SAVE_SUCCEEDED:
+      return {
+        ...state,
+        isSaving: false,
+        lastSaveTime: Date.now(),
+        saveError: null,
+      };
+    case Actions.Draft.SAVE_FAILED:
+      return {
+        ...state,
+        isSaving: false,
+        lastSaveTime: null,
+        saveError: action.response,
+      };
     default:
       return state;
   }

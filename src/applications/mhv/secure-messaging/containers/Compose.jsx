@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMessage, loadingComplete } from '../actions';
+import { getCategories } from '../actions/categories';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
@@ -10,12 +11,14 @@ const Compose = () => {
   const dispatch = useDispatch();
   const { message, error } = useSelector(state => state.message);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
+  const { categories } = useSelector(state => state.sm.categories);
   const isDraft = window.location.pathname.includes('/draft');
 
   useEffect(
     () => {
       const messageId = window.location.pathname.split('/').pop();
       dispatch(getTriageTeams());
+      dispatch(getCategories());
       if (isDraft) {
         dispatch(getMessage('draft', messageId));
       } else {
@@ -34,7 +37,7 @@ const Compose = () => {
   }
 
   const content = () => {
-    if ((isDraft && !message) || !triageTeams) {
+    if ((isDraft && !message) || !triageTeams || !categories) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."

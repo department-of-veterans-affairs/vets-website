@@ -65,6 +65,7 @@ export const getMessageCategoryList = () => {
   return apiRequest(`${apiBasePath}/messaging/messages/categories`, {
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
   });
 };
@@ -122,6 +123,7 @@ export const createDraft = message => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
     body: message,
   });

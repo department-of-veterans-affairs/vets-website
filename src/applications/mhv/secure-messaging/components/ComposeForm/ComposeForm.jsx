@@ -5,9 +5,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
-import MessageCategoryInput from './MessageCategoryInput';
+import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveDraft } from '../../actions/index';
+import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 
@@ -92,28 +92,27 @@ const ComposeForm = props => {
   };
 
   const saveDraftHandler = type => {
-    const formData = new FormData();
+    const messageId = message && message.id;
 
-    formData.append('recipientId', selectedRecipient);
-    formData.append('category', category);
-    formData.append('subject', subject);
-    formData.append('body', messageBody);
+    const formData = {
+      recipientId: selectedRecipient,
+      category,
+      subject,
+      body: messageBody,
+    };
 
-    for (const file of attachments) {
-      formData.append(file.name, file);
-    }
+    if (messageId) formData.id = messageId;
 
-    dispatch(saveDraft(formData, type));
+    dispatch(saveDraft(formData, type, messageId));
   };
 
   useEffect(
     () => {
       if (
-        selectedRecipient ||
-        category ||
-        debouncedSubject ||
-        debouncedMessageBody ||
-        attachmentNames
+        selectedRecipient &&
+        category &&
+        debouncedSubject &&
+        debouncedMessageBody
       ) {
         saveDraftHandler('auto');
       }
@@ -154,7 +153,7 @@ const ComposeForm = props => {
         <button type="button" className="link-button edit-input-button">
           Edit List
         </button>
-        <MessageCategoryInput
+        <CategoryInput
           category={category}
           categoryError={categoryError}
           setCategory={setCategory}

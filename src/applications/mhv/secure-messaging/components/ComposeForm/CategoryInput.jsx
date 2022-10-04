@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MessageCategoryInput = props => {
+const CategoryInput = props => {
   const { category, categoryError, setCategory, setCategoryError } = props;
 
   const categoryChangeHandler = event => {
@@ -13,7 +13,7 @@ const MessageCategoryInput = props => {
     {
       id: 'category-general',
       name: 'category',
-      value: 'GENERAL',
+      value: 'OTHER',
       label: 'General',
       description: 'Ask questions about non urgent, non-emergency issues',
     },
@@ -27,7 +27,7 @@ const MessageCategoryInput = props => {
     {
       id: 'category-appointment',
       name: 'category',
-      value: 'APPOINTMENT',
+      value: 'APPOINTMENTS',
       label: 'Appointment',
       description:
         'Request an appointment or ask about an existing appointment',
@@ -35,7 +35,7 @@ const MessageCategoryInput = props => {
     {
       id: 'category-medication',
       name: 'category',
-      value: 'MEDICATION',
+      value: 'MEDICATIONS',
       label: 'Medication',
       description:
         'Request to renew a medication or ask a question about medication',
@@ -43,7 +43,7 @@ const MessageCategoryInput = props => {
     {
       id: 'category-test',
       name: 'category',
-      value: 'TEST',
+      value: 'TEST_RESULTS',
       label: 'Test',
       description:
         'Ask a question about a test/lab result or about a future test or procedure',
@@ -98,11 +98,11 @@ const MessageCategoryInput = props => {
   );
 };
 
-MessageCategoryInput.propTypes = {
+CategoryInput.propTypes = {
   category: PropTypes.string,
   categoryError: PropTypes.bool,
   setCategory: PropTypes.func,
   setCategoryError: PropTypes.func,
 };
 
-export default MessageCategoryInput;
+export default CategoryInput;
