@@ -8,7 +8,7 @@ class TravelPages {
         title = 'Did you travel in your own vehicle?';
         break;
       case 'address':
-        title = 'Did you travel from your home address? ';
+        title = 'Did you travel from your home address?';
         break;
       case 'mileage':
         title = 'Are you claiming only mileage for your trip?';

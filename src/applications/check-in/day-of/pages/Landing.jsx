@@ -32,6 +32,7 @@ const Landing = props => {
   const {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
     setCurrentToken,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
@@ -75,6 +76,7 @@ const Landing = props => {
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
+              setShouldSendTravelPayClaim(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -104,6 +106,7 @@ const Landing = props => {
       sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
+      setShouldSendTravelPayClaim,
       isLorotaSecurityUpdatesEnabled,
     ],
   );

@@ -122,6 +122,29 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const setShouldSendTravelPayClaim = useCallback(
+    (window, value) => {
+      setSessionKey(
+        window,
+        SESSION_STORAGE_KEYS.SHOULD_SEND_TRAVEL_PAY_CLAIM,
+        value,
+      );
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getShouldSendTravelPayClaim = useCallback(
+    window => {
+      return (
+        getSessionKey(
+          window,
+          SESSION_STORAGE_KEYS.SHOULD_SEND_TRAVEL_PAY_CLAIM,
+        ) ?? true
+      );
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
     setCurrentToken,
@@ -132,6 +155,8 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     getValidateAttempts,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
+    getShouldSendTravelPayClaim,
     resetAttempts,
   };
 };
