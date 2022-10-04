@@ -1,0 +1,30 @@
+{
+  "inbox": {
+    "folderId": 0,
+    "name": "Inbox",
+    "count": 55,
+    "unreadCount": 41,
+    "systemFolder": true
+  },
+  "sent": {
+    "folderId": -1,
+    "name": "Sent",
+    "count": 55,
+    "unreadCount": 41,
+    "systemFolder": true
+  },
+  "drafts": {
+    "folderId": -2,
+    "name": "Drafts",
+    "count": 55,
+    "unreadCount": 41,
+    "systemFolder": true
+  },
+  "trash": {
+    "folderId": -3,
+    "name": "Deleted",
+    "count": 55,
+    "unreadCount": 41,
+    "systemFolder": true
+  }
+}
