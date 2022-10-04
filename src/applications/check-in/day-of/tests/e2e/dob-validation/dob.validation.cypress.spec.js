@@ -65,5 +65,6 @@ describe('Check In Experience ', () => {
     ValidateVeteran.validateVeteranDob();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
     Demographics.validatePageLoaded();
+    cy.injectAxeThenAxeCheck();
   });
 });
