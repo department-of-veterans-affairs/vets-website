@@ -9,7 +9,11 @@ const alertContent = (
 );
 
 export const serviceTreatmentRecordsSubmitLater = (
-  <div id="submit-str-asap" className="service-treatment-records-submit-later">
+  <div
+    id="submit-str-asap"
+    className="service-treatment-records-submit-later"
+    // aria-live="polite"
+  >
     <va-alert status="warning">
       <h3 slot="headline">
         Please submit your service treatment records as soon as possible
