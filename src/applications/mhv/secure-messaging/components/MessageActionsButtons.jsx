@@ -1,97 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders, moveMessageToFolder, deleteMessage } from '../actions';
+import { getAllFolders, deleteMessage } from '../actions';
+import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
+import PrintBtn from './MessageActionButtons/PrintBtn';
 
 const MessageActionButtons = props => {
+  const { id } = props;
   const dispatch = useDispatch();
   const { folders } = useSelector(state => state?.folders);
-  const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+
   useEffect(
     () => {
       const abortCont = new AbortController();
       dispatch(getAllFolders(), { abort: abortCont.signal });
       return () => abortCont.abort();
     },
-    [dispatch, isModalVisible],
+    [dispatch],
   );
-
-  const openMoveModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeMoveModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleOnChangeFolder = e => {
-    setSelectedFolder(e.target.value);
-  };
-
-  const handleConfirmMoveFolderTo = () => {
-    if (selectedFolder !== null) {
-      dispatch(moveMessageToFolder(props.id, selectedFolder));
-    }
-    closeMoveModal();
-  };
 
   const handleDeleteMessage = () => {
     dispatch(deleteMessage(props.id));
   };
 
-  const moveToFolderModal = () => {
-    return (
-      <div className="message-actions-buttons-modal">
-        <VaModal
-          id="move-to-modal"
-          large
-          modalTitle="Move to:"
-          onCloseEvent={closeMoveModal}
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeMoveModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
-          visible={isModalVisible}
-        >
-          <div className="modal-body">
-            <p>
-              This conversation will be moved. Any replies to this message will
-              appear in your inbox
-            </p>
-            <div className="form-radio-buttons">
-              {folders.folder.map(folder => (
-                <div className="radio-button" key={folder.name}>
-                  <input
-                    type="radio"
-                    autoComplete="false"
-                    id={`radiobutton-${folder.name}`}
-                    name="defaultName"
-                    value={folder.id}
-                    onChange={handleOnChangeFolder}
-                  />
-                  <label
-                    name="defaultName-0-label"
-                    htmlFor={`radiobutton-${folder.name}`}
-                  >
-                    {folder.name}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-        </VaModal>
-      </div>
-    );
+  const handlePrint = printOption => {
+    if (printOption === 'all messages') {
+      props.handlePrintThreadStyleClass('print thread');
+    }
+    if (printOption === 'this message') {
+      props.handlePrintThreadStyleClass('this message');
+    }
+    if (printOption !== null) {
+      window.print();
+    }
   };
 
   return (
     <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
-      <button type="button" className="message-action-button">
-        <i className="fas fa-print" aria-hidden="true" />
-        <span className="message-action-button-text">Print</span>
-      </button>
+      <PrintBtn handlePrint={handlePrint} id={id} />
 
       <button
         type="button"
@@ -102,15 +48,7 @@ const MessageActionButtons = props => {
         <span className="message-action-button-text">Delete</span>
       </button>
 
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={openMoveModal}
-      >
-        <i className="fas fa-folder" aria-hidden />
-        <span className="message-action-button-text">Move</span>
-      </button>
-      {isModalVisible ? moveToFolderModal() : null}
+      <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
 
       <button type="button" className="message-action-button">
         <i className="fas fa-reply" aria-hidden="true" />
@@ -121,6 +59,7 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
+  handlePrintThreadStyleClass: PropTypes.func,
   id: PropTypes.number,
 };
 
