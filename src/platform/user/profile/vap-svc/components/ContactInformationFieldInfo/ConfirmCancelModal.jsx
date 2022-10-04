@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 const ConfirmCancelModal = props => {
   const { activeSection, closeModal, onHide, isVisible } = props;
 
   return (
-    <VaModal
-      modalTitle="Are you sure?"
+    <Modal
+      title="Are you sure?"
       status="warning"
       visible={isVisible}
-      onCloseEvent={onHide}
+      onClose={onHide}
     >
       <p>
         {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
@@ -34,7 +34,7 @@ const ConfirmCancelModal = props => {
       >
         Cancel
       </button>
-    </VaModal>
+    </Modal>
   );
 };
 
