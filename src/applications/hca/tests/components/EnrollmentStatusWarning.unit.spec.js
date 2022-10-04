@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { HCA_ENROLLMENT_STATUSES } from 'applications/hca/constants';
+import { HCA_ENROLLMENT_STATUSES } from '../../utils/constants';
 import EnrollmentStatusWarning from '../../components/FormAlerts/EnrollmentStatusWarning';
 
 const expectedOutputs = {

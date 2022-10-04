@@ -135,16 +135,6 @@
           <div id="mega-menu"></div>
         </div>
 
-        <!-- Hidden for modern browsers. -->
-        <va-banner
-          class="ie-deprecation-warning"
-          headline="You'll need to use a different web browser"
-          show-close
-          type="warning"
-          visible="false"
-        >
-          You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
-        </va-banner>
       </div>
     </header>
 
@@ -158,7 +148,7 @@
             <% if (index === breadcrumbs_override.length - 1) { %>
             aria-current="page"
             <% } %>
-            href="<%= path %>">
+            href="/<%= path %>">
             <%= name %>
           </a>
         </li>
@@ -240,14 +230,5 @@
     </script>
     <% } %>
 
-    <!-- Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075 -->
-    <script type="text/javascript">
-      const isIE = /Trident\/[0-7]\.[0-9]/i.test(window.navigator.userAgent);
-
-      if (isIE) {
-        const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
-        ieMessageEl.setAttribute('visible', '');
-      }
-    </script>
   </body>
 </html>

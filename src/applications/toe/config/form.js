@@ -10,8 +10,11 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import get from 'platform/utilities/data/get';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import constants from 'vets-json-schema/dist/constants.json';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
@@ -41,7 +44,7 @@ import {
   isAlphaNumeric,
   applicantIsChildOfSponsor,
   transformTOEForm,
-  // prefillTransformer,
+  prefillTransformer,
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
@@ -61,7 +64,7 @@ const checkImageSrc = environment.isStaging()
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
@@ -81,6 +84,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for survivor dependent benefits.',
     noAuth:
@@ -120,33 +124,35 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.userFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
+            [formFields.viewUserFullName]: {
+              [formFields.userFullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a first name');
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a last name');
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                },
               },
             },
             [formFields.dateOfBirth]: {
@@ -229,13 +235,18 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.userFullName]: {
-                ...fullName,
+              [formFields.viewUserFullName]: {
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.userFullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
@@ -681,12 +692,12 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [formFields.email]: {
+              email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [formFields.confirmEmail]: {
+              confirmEmail: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -722,10 +733,10 @@ const formConfig = {
               },
               [formFields.email]: {
                 type: 'object',
-                required: [formFields.email, formFields.confirmEmail],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  [formFields.email]: email,
-                  [formFields.confirmEmail]: email,
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
@@ -783,7 +794,48 @@ const formConfig = {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
               [formFields.address]: {
-                ...address.uiSchema(''),
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['view:mailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['view:mailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+                      countryUI['ui:disabled'] = false;
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -800,7 +852,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -811,17 +862,49 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.livesOnMilitaryBase
+                      ) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
                   },
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:required': formData =>
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
                   },
                 },
               },

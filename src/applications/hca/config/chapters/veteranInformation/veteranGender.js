@@ -4,7 +4,8 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import { SIGIGenderDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { sigiGenders } = fullSchemaHca.properties;
 

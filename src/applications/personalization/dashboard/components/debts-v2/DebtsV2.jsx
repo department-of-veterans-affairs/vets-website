@@ -17,7 +17,7 @@ const NoOutstandingDebtsText = () => {
       className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
       data-testid="no-outstanding-debts-text"
     >
-      You have no outstanding debts or copays.
+      You have no overpayment debts or copays to show.
     </p>
   );
 };

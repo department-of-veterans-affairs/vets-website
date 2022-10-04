@@ -58,7 +58,6 @@ export default class MegaMenu extends React.Component {
         <MenuSection
           key={`${section}-${i}`}
           title={section.title}
-          defaultSection={this.defaultSection(item.menuSections)}
           currentSection={currentSection}
           updateCurrentSection={() => this.updateCurrentSection(section.title)}
           links={section.links}
@@ -87,6 +86,7 @@ export default class MegaMenu extends React.Component {
   handleDocumentClick = event => {
     if (this.props.currentDropdown && !this.menuRef.contains(event.target)) {
       this.props.toggleDropDown('');
+      this.props.updateCurrentSection('');
     }
   };
 
@@ -99,14 +99,6 @@ export default class MegaMenu extends React.Component {
     this.props.updateCurrentSection('');
     this.props.toggleDropDown('');
   };
-
-  defaultSection(sections) {
-    if (this.mobileMediaQuery?.matches) {
-      return '';
-    }
-
-    return sections[0].title;
-  }
 
   toggleDropDown(title) {
     if (this.props.currentDropdown === title) {
@@ -135,6 +127,8 @@ export default class MegaMenu extends React.Component {
       linkClicked,
       columnThreeLinkClicked,
     } = this.props;
+
+    const hasOpenSubMenu = currentSection !== '';
 
     return (
       <div className="login-container" {...display}>
@@ -172,7 +166,10 @@ export default class MegaMenu extends React.Component {
                       aria-haspopup={!!item.menuSections}
                       className="vetnav-level1"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
-                      onClick={() => this.toggleDropDown(item.title)}
+                      onClick={() => {
+                        this.toggleDropDown(item.title);
+                        this.props.updateCurrentSection('');
+                      }}
                     >
                       {item.title}
                     </button>
@@ -189,7 +186,9 @@ export default class MegaMenu extends React.Component {
                   )}
                   <div
                     id={`vetnav-${_.kebabCase(item.title)}`}
-                    className="vetnav-panel"
+                    className={`vetnav-panel ${
+                      hasOpenSubMenu ? 'vetnav-submenu--expanded' : ''
+                    }`}
                     hidden={currentDropdown !== item.title}
                   >
                     {item.title === currentDropdown &&
@@ -200,9 +199,6 @@ export default class MegaMenu extends React.Component {
                                 <MenuSection
                                   key={`${section}-${j}`}
                                   title={section.title}
-                                  defaultSection={this.defaultSection(
-                                    item.menuSections,
-                                  )}
                                   currentSection={currentSection}
                                   updateCurrentSection={() =>
                                     this.updateCurrentSection(section.title)

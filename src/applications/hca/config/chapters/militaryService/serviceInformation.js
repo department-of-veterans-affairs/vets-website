@@ -3,8 +3,11 @@ import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPref
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-import { dischargeTypeLabels, lastServiceBranchLabels } from '../../../helpers';
-import { validateServiceDates } from '../../../validation';
+import {
+  dischargeTypeLabels,
+  lastServiceBranchLabels,
+} from '../../../utils/constants';
+import { validateServiceDates } from '../../../utils/validation';
 
 const {
   dischargeType,

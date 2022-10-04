@@ -50,12 +50,12 @@ export const CurrentDebtDescription = ({ formContext }) => {
 
 CurrentDebtTitle.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
+    pagePerItemIndex: PropTypes.number.isRequired,
   }),
 };
 
 CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
+    pagePerItemIndex: PropTypes.number.isRequired,
   }),
 };

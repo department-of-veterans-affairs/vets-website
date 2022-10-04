@@ -11,6 +11,7 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
+// import { getMessageHistory } from '../api/SmApi';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -20,6 +21,9 @@ export const MESSAGE_RETRIEVE_STARTED = 'MESSAGE_RETRIEVE_STARTED';
 export const MESSAGE_RETRIEVE_SUCCEEDED = 'MESSAGE_RETRIEVE_SUCCEEDED';
 export const MESSAGE_RETRIEVE_FAILED = 'MESSAGE_RETRIEVE_FAILED';
 
+export const MESSAGE_DELETE_STARTED = 'MESSAGE_DELETE_STARTED';
+export const MESSAGE_DELETE_SUCCEEDED = 'MESSAGE_DELETE_SUCCEEDED';
+export const MESSAGE_DELETE_FAILED = 'MESSAGE_DELETE_FAILED';
 export const MESSAGE_MOVE_STARTED = 'MESSAGE_MOVE_STARTED';
 export const MESSAGE_MOVE_SUCCEEDED = 'MESSAGE_MOVE_SUCCEEDED';
 export const MESSAGE_MOVE_FAILED = 'MESSAGE_MOVE_FAILED';
@@ -27,6 +31,15 @@ export const MESSAGE_MOVE_FAILED = 'MESSAGE_MOVE_FAILED';
 export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
+
+export const DRAFT_AUTO_SAVE_STARTED = 'DRAFT_AUTO_SAVE_STARTED';
+export const DRAFT_SAVE_STARTED = 'DRAFT_SAVE_STARTED';
+export const DRAFT_SAVE_FAILED = 'DRAFT_SAVE_FAILED';
+export const DRAFT_SAVE_SUCCEEDED = 'DRAFT_SAVE_SUCCEEDED';
+
+export const THREAD_RETRIEVE_STARTED = 'THREAD_RETRIEVE_STARTED';
+export const THREAD_RETRIEVE_SUCCEEDED = 'THREAD_RETRIEVE_SUCCEEDED';
+export const THREAD_RETRIEVE_FAILED = 'THREAD_RETRIEVE_FAILED';
 
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
@@ -180,6 +193,114 @@ export const getAllFolders = () => async dispatch => {
   }
 };
 
+const mockSaveDraft = messageData => {
+  const saveDraftResponse = {
+    id: '',
+    category: '',
+    subject: '',
+    body: '',
+    attachments: { attachment: [] },
+    recipientId: 20364,
+    recipientName: 'mock name',
+    sentDate: '',
+  };
+
+  let mockId = 10001;
+
+  for (const [name, value] of messageData) {
+    if (typeof value !== 'string') {
+      saveDraftResponse.attachments.attachment.push({
+        id: mockId,
+        name,
+      });
+      mockId += 1;
+    } else {
+      saveDraftResponse[name] = value;
+    }
+  }
+
+  if (!messageData.id) {
+    saveDraftResponse.id = mockId;
+  }
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(saveDraftResponse);
+    }, 1500);
+  });
+};
+
+const sendSaveDraft = async messageData => {
+  try {
+    return await mockSaveDraft(messageData);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const saveDraft = (messageData, type) => async dispatch => {
+  if (type === 'auto') dispatch({ type: DRAFT_AUTO_SAVE_STARTED });
+  else if (type === 'manual') dispatch({ type: DRAFT_SAVE_STARTED });
+
+  const response = await sendSaveDraft(messageData);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({
+      type: DRAFT_SAVE_FAILED,
+      response: error,
+    });
+  } else {
+    dispatch({
+      type: DRAFT_SAVE_SUCCEEDED,
+      response,
+    });
+  }
+};
+
+// export const getThread = messageId => async dispatch => {
+export const getThread = () => async dispatch => {
+  dispatch({ type: THREAD_RETRIEVE_STARTED });
+  const response = await retrieveData('messages');
+  // const response = await getMessageHistory(messageId);
+  if (response.errors) {
+    const error = response.errors[0];
+    dispatch({ type: THREAD_RETRIEVE_FAILED, response: error });
+  } else {
+    dispatch({ type: THREAD_RETRIEVE_SUCCEEDED, response: response.data });
+  }
+};
+
 export const loadingComplete = () => async dispatch => {
   dispatch({ type: LOADING_COMPLETE });
+};
+
+const deleteMessageResponse = async messageId => {
+  try {
+    // replace with apiRequest when endpoint is ready
+    // `mhv-sm-api/patient/v1/message/${messageId}
+    return messageId; // mock success
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteMessage = messageId => async dispatch => {
+  dispatch({ type: MESSAGE_DELETE_STARTED });
+
+  const response = await deleteMessageResponse(messageId);
+  if (response.errors) {
+    // handles errors and dispatch error action
+    // fire GA event for error
+    const error = response.errors[0];
+    dispatch({
+      type: MESSAGE_DELETE_FAILED,
+      response: error,
+    });
+  } else {
+    // dispatch success action and GA event
+    dispatch({
+      type: MESSAGE_DELETE_SUCCEEDED,
+      response,
+    });
+  }
 };

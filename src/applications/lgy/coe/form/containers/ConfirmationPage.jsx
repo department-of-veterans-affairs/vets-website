@@ -65,7 +65,7 @@ const ConfirmationPage = ({ form }) => {
         )}
 
         <button
-          className="vads-u-margin-top--3 usa-button"
+          className="vads-u-margin-top--3 usa-button screen-only"
           onClick={printPage}
           type="button"
         >

@@ -1,13 +1,13 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
+import localStorage from 'platform/utilities/storage/localStorage';
+
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from '~/platform/utilities/storage/localStorage';
-
-import { ssoKeepAliveSession } from '~/platform/utilities/sso';
-import { removeInfoToken } from '~/platform/utilities/oauth/utilities';
 
 const commonServices = {
   EMIS: 'EMIS',
@@ -45,6 +45,7 @@ export function mapRawUserDataToState(json) {
           middleName: middle,
           multifactor,
           verified,
+          claims,
         },
         services,
         vaProfile,
@@ -75,6 +76,7 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
+    claims,
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},

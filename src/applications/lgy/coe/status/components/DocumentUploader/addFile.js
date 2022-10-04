@@ -31,6 +31,8 @@ export const addFile = (file, state, setState) => {
     };
     setState({
       ...state,
+      documentType: '',
+      documentDescription: '',
       files: [...state.files, fileObject],
       errorMessage: null,
     });

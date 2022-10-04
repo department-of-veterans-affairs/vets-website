@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { fetchTotalDisabilityRating } from './actions';
+import { fetchTotalDisabilityRating } from './utils/actions';
 import formConfig from './config/form';
 
 const HealthCareEntry = ({
   location,
   children,
-  caregiverSIGIEnabled = false,
+  caregiverSigiEnabled = false,
   hcaAmericanIndianEnabled = false,
   hcaMedicareClaimNumberEnabled = false,
   hcaShortFormEnabled = false,
@@ -40,7 +40,7 @@ const HealthCareEntry = ({
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:totalDisabilityRating': totalDisabilityRating || 0,
-        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+        'view:caregiverSIGIEnabled': caregiverSigiEnabled,
         'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
         'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
         'view:useFacilitiesAPI': hcaUseFacilitiesApi,
@@ -70,7 +70,7 @@ const HealthCareEntry = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      caregiverSIGIEnabled,
+      caregiverSigiEnabled,
       hcaAmericanIndianEnabled,
       hcaMedicareClaimNumberEnabled,
       hcaShortFormEnabled,
@@ -91,7 +91,7 @@ const HealthCareEntry = ({
 };
 
 HealthCareEntry.propTypes = {
-  caregiverSIGIEnabled: PropTypes.bool,
+  caregiverSigiEnabled: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -112,7 +112,7 @@ HealthCareEntry.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  caregiverSIGIEnabled: state.featureToggles.caregiverSIGIEnabled,
+  caregiverSigiEnabled: state.featureToggles.caregiverSigiEnabled,
   hcaAmericanIndianEnabled: state.featureToggles.hcaAmericanIndianEnabled,
   hcaMedicareClaimNumberEnabled:
     state.featureToggles.hcaMedicareClaimNumberEnabled,
