@@ -11,15 +11,56 @@
 }
 
 button.webchat__suggested-actions__button:hover {
-  background: rgb(0,62,115) !important;
+  background: rgb(0, 62, 115) !important;
 }
 
 button.webchat__suggested-actions__button:active {
-  background: rgb(17,46,81) !important;
+  background: rgb(17, 46, 81) !important;
 }
 
 #btnAcceptDisclaimer {
   @include media($medium-large-screen) {
     margin-left: 23px;
   }
+}
+
+.fixed-header-chatbot {
+  // font-size: 50px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  margin: 1%;
+  background-color: green;
+  border: 2px solid #4caf50;
+  z-index: 1;
+}
+
+.chatbot-icon {
+  position: fixed;
+  width: 64px;
+  bottom: 0;
+  right: 0;
+  margin: 1%;
+  background-color: #4caf50;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.hide {
+  display: none;
+}
+
+.unhide {
+  display: block;
+}
+
+.close-chatbot-button {
+  width: 30px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  margin: 3px;
+  background-color: white;
 }
