@@ -99,29 +99,64 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+
+  const stateUser = state.user;
+  // const vaProfile = stateUser?.vaProfile;
+  const profile = stateUser?.profile;
+  const vet360ContactInfo = stateUser.vet360ContactInformation;
+
+  const emailAddress =
+    profile?.email ||
+    vet360ContactInfo?.email?.emailAddress ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const v360mp = vet360ContactInfo?.mobilePhone;
+  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
+    mobilePhoneIsInternational = v360mp.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const v360hp = vet360ContactInfo?.homePhone;
+  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
+    homePhoneIsInternational = v360hp.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
   const newData = {
     ...formData,
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    'view:userFullName': {
-      userFullName: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: profile?.userFullName?.first || claimant?.firstName || undefined,
+        middle:
+          profile?.userFullName?.middle || claimant?.middleName || undefined,
+        last: profile?.userFullName?.last || claimant?.lastName || undefined,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
-    email: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
-      phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
     },
   };
