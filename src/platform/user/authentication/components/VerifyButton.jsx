@@ -1,33 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { verify } from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
+import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 
-import { signupOrVerify } from 'platform/user/authentication/utilities';
+export const verifyHandler = ({ policy, useOAuth }) => {
+  verify({
+    policy,
+    useOAuth,
+    acr: defaultWebOAuthOptions.acrVerify[policy],
+  });
 
-export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
-  const verifyHandler = async () => {
-    const url = await signupOrVerify({
-      policy,
-      allowVerification: true,
-      isSignup: false,
-      isLink: true,
-      useOAuth,
-    });
+  if (useOAuth) {
+    updateStateAndVerifier(policy);
+  }
+};
 
-    if (useOAuth) {
-      updateStateAndVerifier(policy);
-    }
-
-    window.location = url;
-  };
-
+export const VerifyButton = ({
+  className,
+  label,
+  image,
+  policy,
+  useOAuth = false,
+  onClick = verifyHandler,
+}) => {
   return (
     <button
       key={policy}
       type="button"
       className={`usa-button ${className}`}
-      onClick={() => verifyHandler()}
+      onClick={() => onClick({ policy, useOAuth })}
+      aria-label={`Verify with ${label}`}
     >
       <strong>
         Verify with <span className="sr-only">{label}</span>
@@ -45,4 +48,5 @@ VerifyButton.propTypes = {
   label: PropTypes.string,
   policy: PropTypes.string,
   useOAuth: PropTypes.bool,
+  onClick: PropTypes.func,
 };
