@@ -1,4 +1,8 @@
 import mockMessage from './fixtures/message-response.json';
+import mockCategories from './fixtures/categories-response.json';
+import mockFolders from './fixtures/folder-response.json';
+import mockMessages from './fixtures/messages-response.json';
+import manifest from '../manifest.json';
 
 beforeEach(() => {
   window.dataLayer = [];
@@ -10,8 +14,28 @@ beforeEach(() => {
   }).as('featureToggle');
 });
 
-describe('Compose Message Test', function() {
+describe(manifest.appName, function() {
+  before(function() {
+    if (Cypress.env('CI')) this.skip();
+  });
+
   it('is test fine accessible', () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/categories',
+      mockCategories,
+    ).as('categories');
+    cy.intercept('GET', '/my_health/v1/messaging/folders', mockFolders).as(
+      'folders',
+    );
+    cy.intercept('GET', '/my_health/v1/messaging/messages', mockMessages).as(
+      'messages',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/recipients',
+      mockCategories,
+    ).as('recipients');
     cy.visit('my-health/secure-messages/');
     cy.injectAxe().axeCheck();
     cy.intercept('/v0/messaging/health/messages/*', mockMessage).as('message');

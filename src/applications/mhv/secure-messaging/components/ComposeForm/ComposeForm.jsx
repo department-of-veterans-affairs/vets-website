@@ -142,6 +142,7 @@ const ComposeForm = props => {
           value={selectedRecipient}
           onVaSelect={e => setSelectedRecipient(e.detail.value)}
           class="composeSelect"
+          data-testid="compose-select"
         >
           {recipientsList.map(item => (
             <option key={item.id} value={item.id}>
@@ -184,6 +185,7 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
+            data-testid="message-body-field"
             onChange={e => setMessageBody(e.target.value)}
           />
         </div>
