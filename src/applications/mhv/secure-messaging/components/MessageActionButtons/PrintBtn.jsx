@@ -45,7 +45,7 @@ const PrintBtn = props => {
     return (
       <div className="message-actions-buttons-modal">
         <VaModal
-          id="move-to-modal"
+          id="print-modal"
           large
           modalTitle="Print"
           onCloseEvent={closeModal}
@@ -100,10 +100,10 @@ const PrintBtn = props => {
         className="message-action-button"
         onClick={openModal}
       >
-        <i className="fas fa-print" />
+        <i className="fas fa-print" aria-hidden="true" />
         <span className="message-action-button-text">Print</span>
-        {isModalVisible ? printModal() : null}
       </button>
+      {isModalVisible ? printModal() : null}
     </>
   );
 };

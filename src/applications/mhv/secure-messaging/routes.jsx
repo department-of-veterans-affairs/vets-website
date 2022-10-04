@@ -10,7 +10,7 @@ import SearchMessages from './containers/SearchMessages';
 
 const routes = (
   <div className="vads-l-grid-container">
-    <div className="vads-l-row">
+    <div className="vads-l-row breadcrumbs">
       <Breadcrumbs />
     </div>
     <div className="secure-messaging-container">

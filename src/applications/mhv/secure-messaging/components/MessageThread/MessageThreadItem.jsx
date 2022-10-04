@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadMeta from './MessageThreadMeta';
@@ -8,6 +8,16 @@ import MessageThreadAttachments from './MessageThreadAttachments';
 const MessageThreadItem = props => {
   const [isExpanded, setIsExpanded] = useState(false);
   const isRead = props.message.attributes.read_receipt;
+
+  useEffect(
+    () => {
+      if (props.printView === 'print view') {
+        setIsExpanded(true);
+      }
+    },
+    [props.printView],
+  );
+
   const handleExpand = e => {
     if (e.keyCode === 32) {
       e.preventDefault(); // prevent from scrolling to the footer
@@ -95,6 +105,7 @@ const MessageThreadItem = props => {
 
 MessageThreadItem.propTypes = {
   message: PropTypes.object,
+  printView: PropTypes.string,
 };
 
 export default MessageThreadItem;
