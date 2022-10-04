@@ -76,6 +76,6 @@ TravelPage.propTypes = {
   router: PropTypes.object.isRequired,
   bodyText: PropTypes.node,
   helpText: PropTypes.node,
-  pageType: PropTypes.string,
+  pageType: PropTypes.string.isRequired,
 };
 export default TravelPage;
