@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
-import { DefaultFolders as Folder } from '../util/constants';
+import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
-import MessageFolderHeader from '../components/MessageList/MessageFolderHeader';
+import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
 
 const FolderListView = () => {
@@ -26,16 +26,16 @@ const FolderListView = () => {
       } else {
         switch (location.pathname) {
           case '/':
-            setFolderId(Folder.INBOX);
+            setFolderId(Folders.INBOX.id);
             break;
           case '/sent':
-            setFolderId(Folder.SENT);
+            setFolderId(Folders.SENT.id);
             break;
           case '/drafts':
-            setFolderId(Folder.DRAFTS);
+            setFolderId(Folders.DRAFTS.id);
             break;
           case '/trash':
-            setFolderId(Folder.DELETED);
+            setFolderId(Folders.DELETED.id);
             break;
           default:
             break;
@@ -105,7 +105,7 @@ const FolderListView = () => {
           />
         ) : (
           <>
-            <MessageFolderHeader folder={folder} />
+            <FolderHeader folder={folder} />
             <div className="search-messages-input">
               <label
                 className="vads-u-margin-top--2p5"
