@@ -174,28 +174,22 @@ export const getEnrollmentVerificationStatus = enrollmentVerification => {
 
 /**
  * Create an Enrollment Verification DTO to submit to the server.
- * @param {object} ev The original EV object we recieved when
- * the application loaded.
- * @param {number} evIndex The index of the enrollment to reference.
+ * @param {object} enrollmentVerification The EV object
  * @param {string} status The status of the enrollment.
  * @returns An Enrollment Verification DTO.
  */
-const mapEnrollmentVerificationForSubmission = (ev, evIndex, status) => {
-  const enrollmentVerification = ev.enrollmentVerifications[evIndex];
+const mapEnrollmentVerificationForSubmission = (
+  enrollmentVerification,
+  status,
+) => {
   return {
-    claimandId: ev.claimantId,
-    enrollmentCertifyRequests: [
-      {
-        claimandId: ev.claimantId,
-        certifiedPeriodBeginDate: enrollmentVerification.certifiedBeginDate,
-        certifiedPeriodEndDate: enrollmentVerification.certifiedEndDate,
-        certifiedThroughDate: enrollmentVerification.certifiedEndDate,
-        certificationMethod: CERTIFICATION_METHOD,
-        appCommunication: {
-          responseType: status,
-        },
-      },
-    ],
+    certifiedPeriodBeginDate: enrollmentVerification.certifiedBeginDate,
+    certifiedPeriodEndDate: enrollmentVerification.certifiedEndDate,
+    certifiedThroughDate: enrollmentVerification.certifiedEndDate,
+    certificationMethod: CERTIFICATION_METHOD,
+    appCommunication: {
+      responseType: status,
+    },
   };
 };
 
@@ -265,8 +259,7 @@ export const mapEnrollmentVerificationsForSubmission = ev => {
 
     enrollmentVerificationsDto.push(
       mapEnrollmentVerificationForSubmission(
-        ev,
-        mostRecentCorrectEnrollmentIndex,
+        ev.enrollmentVerifications[mostRecentCorrectEnrollmentIndex],
         VERIFICATION_RESPONSE.CORRECT,
       ),
     );
@@ -274,12 +267,13 @@ export const mapEnrollmentVerificationsForSubmission = ev => {
   if (e.verificationStatus === VERIFICATION_STATUS_INCORRECT) {
     enrollmentVerificationsDto.push(
       mapEnrollmentVerificationForSubmission(
-        ev,
-        mostRecentVerifiedEnrollmentIndex,
+        ev.enrollmentVerifications[mostRecentVerifiedEnrollmentIndex],
         VERIFICATION_RESPONSE.INCORRECT,
       ),
     );
   }
 
-  return enrollmentVerificationsDto;
+  return {
+    enrollmentCertifyRequests: enrollmentVerificationsDto,
+  };
 };
