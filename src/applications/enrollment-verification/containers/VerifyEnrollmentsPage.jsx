@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -87,10 +87,13 @@ export const VerifyEnrollmentsPage = ({
     ev =>
       ev.certifiedEndDate > enrollmentVerification?.lastCertifiedThroughDate,
   );
-  const unverifiedMonths =
-    earliestUnverifiedMonthIndex > -1
-      ? evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse()
-      : [];
+  const unverifiedMonths = useMemo(
+    () =>
+      earliestUnverifiedMonthIndex === -1
+        ? []
+        : evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse(),
+    [earliestUnverifiedMonthIndex, evs],
+  );
   const month = unverifiedMonths.length && unverifiedMonths[currentMonth];
   const informationIncorrectMonth = unverifiedMonths?.find(
     m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
