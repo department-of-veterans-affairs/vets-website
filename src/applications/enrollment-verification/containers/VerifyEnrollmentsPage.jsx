@@ -88,9 +88,10 @@ export const VerifyEnrollmentsPage = ({
       ev.certifiedEndDate > enrollmentVerification?.lastCertifiedThroughDate,
   );
   const unverifiedMonths =
-    earliestUnverifiedMonthIndex > -1 &&
-    evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse();
-  const month = unverifiedMonths && unverifiedMonths[currentMonth];
+    earliestUnverifiedMonthIndex > -1
+      ? evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse()
+      : [];
+  const month = unverifiedMonths.length && unverifiedMonths[currentMonth];
   const informationIncorrectMonth = unverifiedMonths?.find(
     m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
   );
