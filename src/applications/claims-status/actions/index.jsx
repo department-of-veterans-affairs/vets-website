@@ -71,24 +71,12 @@ export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
   'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
 
-const letters = [
-  {
-    documentId: 'xyz',
-    receivedAt: '2022-09-10',
-  },
-  {
-    documentId: 'abc',
-    receivedAt: '2022-08-21',
-  },
-];
-
-export const getClaimLetters = () => {
+export const getClaimLetters = async () => {
   try {
-    // const res = await apiRequest('/notification_letters');
-    // return res;
-    return new Promise(res => {
-      setTimeout(() => res(letters), 500);
-    });
+    return await apiRequest('/efolder/notification_letters');
+    // return new Promise(res => {
+    //   setTimeout(() => res(letters), 500);
+    // });
   } catch (err) {
     throw new Error('error.unknown');
   }
