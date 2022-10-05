@@ -6,6 +6,8 @@ import PaymentsCardV2 from './PaymentsCardV2';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import { canAccess } from '../../selectors';
+import API_NAMES from '../../utils/apiNames';
 
 const NoRecentPaymentText = () => {
   return (
@@ -148,10 +150,13 @@ BenefitPaymentsV2.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   return {
     payments: state.allPayments.payments || [],
     paymentsError: !!state.allPayments.error || false,
-    shouldShowLoadingIndicator: state.allPayments.isLoading,
+    shouldShowLoadingIndicator: canAccessPaymentHistory
+      ? state.allPayments.isLoading
+      : false,
   };
 };
 

@@ -66,7 +66,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can be found at{' '}
+            Download a copy of your decision letter. This can also be found at{' '}
             <a
               href="/education/download-letters/letters/"
               target="_blank"

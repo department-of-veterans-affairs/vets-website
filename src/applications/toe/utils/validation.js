@@ -3,6 +3,32 @@ import moment from 'moment';
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
 
+export const nameErrorMessage =
+  'Please enter a valid entry. Acceptable entries are letters, spaces, hyphens, and apostrophes.';
+
+/**
+ * Validates a first/middle name.  Acceptable entries are letters,
+ * spaces, hyphens, and apostrophes between 1 and 20 characters.
+ * Leading and trailing whitespace are not counted.  The first
+ * character must be a letter.
+ * @param {string} name The first/middle name.
+ * @returns boolean Is the first/middle name valid?
+ */
+export const isValidGivenName = name => {
+  return name && /^\s*[a-zA-Z]{1}[a-zA-Z '’-]{0,19}\s*$/.test(name);
+};
+
+/**
+ * Validates a last name.  Acceptable entries are letters, spaces
+ * hyphens, and apostrophes between 1 and 26 characters.  Leading and
+ * trailing whitespace are not counted.
+ * @param {string} lastName The last name.
+ * @returns boolean Is last name valid?
+ */
+export const isValidLastName = lastName => {
+  return lastName && /^\s*[a-zA-Z]{1}[a-zA-Z '’-]{0,25}\s*$/.test(lastName);
+};
+
 const isValidPhone = (phone, isInternational) => {
   let stripped;
   try {
