@@ -6,11 +6,12 @@ import { PAGE_NAMES } from '../constants';
 const label = 'What’s this debt related to?';
 const options = [
   {
-    label: 'VA disability compensation, education, or pension benefits',
+    label:
+      'VA disability compensation, education, or pension benefit overpayments',
     value: 'request',
   },
   {
-    label: 'VA health care copays',
+    label: 'VA health care copays bills',
     value: 'copays',
   },
   {
