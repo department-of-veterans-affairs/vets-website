@@ -1,0 +1,42 @@
+.folder-title {
+  h1 {
+    margin-top: 12px;
+  }
+  h2 {
+    margin-top: 24px;
+  }
+}
+
+.folders-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      border-top: 1px solid $color-gray-medium;
+      padding: 8px 0;
+      margin: 0;
+      display: flex;
+      @media (min-width: $medium-screen) {
+        align-items: center;
+      }
+    }
+    li:last-child {
+      border-bottom: 1px solid $color-gray-medium;
+      margin-bottom: 16px;
+    }
+  }
+
+.modal-button {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.modal {
+  va-button {
+    @media (max-width: $small-screen) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import Compose from './containers/Compose';
 import MessageDetails from './containers/MessageDetails';
 import MessageReply from './containers/MessageReply';
 import SearchMessages from './containers/SearchMessages';
+import Folders from './containers/Folders';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -19,6 +20,9 @@ const routes = (
         <Switch>
           <Route exact path="/" key="App">
             <App />
+          </Route>
+          <Route exact path="/folders" key="Folders">
+            <Folders />
           </Route>
           <Route exact path="/compose" key="Compose">
             <Compose />

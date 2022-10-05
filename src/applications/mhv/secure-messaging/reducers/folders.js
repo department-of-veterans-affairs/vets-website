@@ -32,6 +32,10 @@ export const foldersReducer = (state = initialState, action) => {
         ...state,
         folder: action.response.data.attributes,
       };
+    case Actions.Folder.CREATE:
+      return {
+        ...state,
+      };
     default:
       return state;
   }

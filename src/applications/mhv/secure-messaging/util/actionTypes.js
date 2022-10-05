@@ -13,6 +13,7 @@ export const Actions = {
   Folder: {
     GET: 'SM_FOLDER_GET',
     GET_LIST: 'SM_FOLDER_GET_LIST',
+    CREATE: 'SM_FOLDER_CREATE',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',

@@ -8,7 +8,7 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
  * @returns
  */
 export const getFolderList = () => {
-  return apiRequest(`${apiBasePath}/messaging/folders`, {
+  return apiRequest(`${apiBasePath}/messaging/folders?page=1&per_page=999`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -34,12 +34,14 @@ export const getFolder = folderId => {
  * @returns
  */
 export const createFolder = folderName => {
+  // eslint-disable-next-line no-console
+  console.log(folderName);
   return apiRequest(`${apiBasePath}/messaging/folders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: { name: folderName },
+    body: JSON.stringify({ name: folderName }),
   });
 };
 
