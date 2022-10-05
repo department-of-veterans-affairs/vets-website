@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -162,14 +162,13 @@ export default function AppointmentListItem({ appointment, facility }) {
           )}
         </div>
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
-          <Link
+          <va-link
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
             to={link}
             onClick={e => e.preventDefault()}
-          >
-            Details
-          </Link>
+            text="Details"
+          />
           <i
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
