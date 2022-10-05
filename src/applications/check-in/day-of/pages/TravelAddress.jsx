@@ -1,0 +1,43 @@
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+
+import { makeSelectVeteranData } from '../../selectors';
+import AddressBlock from '../../components/AddressBlock';
+import TravelPage from '../../components/pages/TravelPage';
+
+const TravelAddress = props => {
+  const { router } = props;
+  const { t } = useTranslation();
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
+
+  const bodyText = (
+    <>
+      <p>{t('answer-yes-if-you-traveled-from-the-address')}</p>
+      <div className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--4 vads-u-margin-top--3 vads-u-border-color--gray-light vads-u-font-family--sans vads-u-border-bottom--1px vads-u-padding-bottom--2">
+        {t('home-address')}
+        <div className="vads-u-font-weight--normal">
+          <AddressBlock address={demographics.homeAddress} />
+        </div>
+      </div>
+    </>
+  );
+
+  return (
+    <TravelPage
+      header={t('did-you-travel-from-your-home-address')}
+      bodyText={bodyText}
+      helpText={t('if-you-traveled-from-a-different-address--helptext')}
+      pageType="travel-address"
+      router={router}
+    />
+  );
+};
+
+TravelAddress.propTypes = {
+  router: PropTypes.object,
+};
+
+export default TravelAddress;

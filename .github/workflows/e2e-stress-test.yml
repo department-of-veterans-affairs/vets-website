@@ -2,7 +2,7 @@ name: E2E Stress Test
 
 on:
   schedule:
-    - cron: '0 14 * * 1-5' # 10pm EST/2am UTC, weekdays
+    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
 
 env:
   BUILDTYPE: vagovprod
@@ -48,13 +48,13 @@ jobs:
           env_variable_name: MAPBOX_TOKEN
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
         timeout-minutes: 30
 
       - name: Generate build details
         run: |
-          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
-          BUILDTYPE=${{ matrix.buildtype }}
+          cat > build/${{ env.BUILDTYPE }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILDTYPE }}
           NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
           CHANGE_TARGET=null
@@ -65,13 +65,13 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ env.BUILDTYPE }}.tar.bz2
+          path: ${{ env.BUILDTYPE }}.tar.bz2
           retention-days: 1
 
   testing-reports-prep:
@@ -227,11 +227,11 @@ jobs:
       max-parallel: 12
       matrix:
         ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
-        BUILDTYPE: vagovprod
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+      CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
       # The following statement is included in each step because of a bug in

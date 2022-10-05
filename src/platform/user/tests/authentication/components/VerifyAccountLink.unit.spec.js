@@ -46,7 +46,6 @@ describe('VerifyAccountLink', () => {
       });
 
       expect(anchor.href).to.eql(href);
-
       screen.unmount();
     });
 
@@ -55,6 +54,7 @@ describe('VerifyAccountLink', () => {
       const anchor = await screen.findByTestId(policy);
       const expectedAcr =
         externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
+
       expect(anchor.href).to.include(`type=${policy}`);
       expect(anchor.href).to.include(`acr=${expectedAcr}`);
       expect(anchor.href).to.include(`client_id=web`);
