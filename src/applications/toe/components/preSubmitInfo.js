@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default {
-  required: true,
+  required: false,
   notice: (
     <div>
       <strong>Note:</strong> According to federal law, there are criminal
