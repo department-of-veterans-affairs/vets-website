@@ -8,6 +8,8 @@ import {
   SPONSOR_RELATIONSHIP,
 } from './constants';
 
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+
 export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
@@ -99,9 +101,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  // const vaProfile = stateUser?.vaProfile;
 
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
@@ -187,7 +189,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         city: userCity,
         state: userState,
         postalCode: userPostalCode,
-        country: userCountryCode, // getSchemaCountryCode(userCountryCode)
+        country: getSchemaCountryCode(userCountryCode),
       },
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&
