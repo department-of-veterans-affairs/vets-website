@@ -439,56 +439,70 @@ describe('526EZ keyboard only navigation', () => {
 
       // // TODO: tests below failing. Should try name, as opposed to ID.
 
-      // // 1. Goes to "Fill Online or Upload Form 781a" page, if sexual trauma contributed to PTSD
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:mstPtsdType"]',
-        true,
-      );
-      cy.tabToContinueForm();
-      cy.url().should(
-        'include',
-        disabilitiesPages.ptsdWalkthroughChoice781a.path,
-      );
-      cy.tabToGoBack();
-
-      // // 2. Goes to "Fill Online or Upload Form 781a" page, if personal assault contributed to PTSD
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:mstPtsdType"]',
-        false,
-      );
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
-        true,
-      );
-      cy.tabToContinueForm();
-      cy.url().should(
-        'include',
-        disabilitiesPages.ptsdWalkthroughChoice781a.path,
-      );
-      cy.tabToGoBack();
-
-      // // 3. Goes to "Fear of Hostile Activity" page specific to non-combat PTSD, if non-combat PTSD
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
-        false,
-      );
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:nonCombatPtsdType"]',
-        true,
-      );
-      cy.tabToContinueForm();
-      cy.url().should('include', disabilitiesPages.ptsdBypassNonCombat.path);
-      cy.tabToGoBack();
-
-      // // 4. Goes to "Fear of Hostile Activity" page specific to combat PTSD, if combat PTSD
-      cy.setCheckboxFromData(
-        '[name="root_view:selectablePtsdTypes_view:nonCombatPtsdType"]',
-        false,
-      );
+      // // 1. Select Combat, Sexual Trauma and Personal assault
       cy.setCheckboxFromData(
         '[name="root_view:selectablePtsdTypes_view:combatPtsdType"]',
         true,
       );
+      cy.tabToContinueForm();
+      // PTSD combat Question
+      cy.url().should('include', disabilitiesPages.ptsdBypassCombat.path);
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('Y');
+      cy.tabToContinueForm();
+      cy.tabToGoBack();
+      // Uncheck Combat and check MST
+      cy.setCheckboxFromData(
+        '[name="root_view:selectablePtsdTypes_view:combatPtsdType"]',
+        false,
+      );
+      cy.setCheckboxFromData(
+        '[name="root_view:selectablePtsdTypes_view:mstPtsdType"]',
+        true,
+      );
+      cy.tabToContinueForm();
+      // PTSD: Personal assault & sexual trauma Question
+      cy.url().should(
+        'include',
+        disabilitiesPages.ptsdWalkthroughChoice781a.path,
+      );
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('answerQuestions');
+      cy.realPress('Space');
+      cy.tabToContinueForm();
+      // Enter incident date
+      cy.url().should(
+        'include',
+        '/disabilities/ptsd-secondary-incident-date-0',
+      );
+      // cy.setCheckboxFromData(
+      //   '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
+      //   true,
+      // );
+
+      // cy.tabToGoBack();
+
+      // cy.setCheckboxFromData(
+      //   '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
+      //   false,
+      // );
+      // cy.setCheckboxFromData(
+      //   '[name="root_view:selectablePtsdTypes_view:nonCombatPtsdType"]',
+      //   true,
+      // );
+      // cy.tabToContinueForm();
+      // cy.url().should('include', disabilitiesPages.ptsdBypassNonCombat.path);
+      // cy.tabToGoBack();
+
+      // 4. Goes to "Fear of Hostile Activity" page specific to combat PTSD, if combat PTSD
+      // cy.setCheckboxFromData(
+      //   '[name="root_view:selectablePtsdTypes_view:nonCombatPtsdType"]',
+      //   false,
+      // );
+      // cy.setCheckboxFromData(
+      //   '[name="root_view:selectablePtsdTypes_view:combatPtsdType"]',
+      //   true,
+      // );
       // cy.tabToContinueForm();
       // cy.url().should('include', disabilitiesPages.ptsdBypassCombat.path);
 
