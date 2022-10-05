@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
 import { claimantInfo } from './fixtures/data/claimant-info-test-data';
 
@@ -19,8 +20,24 @@ describe('prefillTransformer', () => {
       );
 
       // Check the military claimant section
-      expect(transformedClaimantInfo.claimantId).to.eql(
-        mockClaimantInfo.claimantId,
+      expect(transformedClaimantInfo.formData[formFields.claimantId]).to.eql(
+        '1000000000000246',
+      );
+    });
+  });
+
+  describe('transforms contact method', () => {
+    it('the transformed claimant has the correct contact method', () => {
+      const transformedClaimantInfo = prefillTransformer(
+        null,
+        null,
+        null,
+        mockClaimantInfo,
+      );
+
+      // Check the military claimant section
+      expect(transformedClaimantInfo.formData[formFields.contactMethod]).to.eql(
+        'Mail',
       );
     });
   });

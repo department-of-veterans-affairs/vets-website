@@ -177,14 +177,14 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapNotificaitonMethod(notificationMethod) {
-  if (notificationMethod === 'mail') {
+function mapContactMethod(contactMethod) {
+  if (contactMethod === 'mail') {
     return 'Mail';
   }
-  if (notificationMethod === 'email') {
+  if (contactMethod === 'email') {
     return 'Email';
   }
-  return notificationMethod;
+  return contactMethod;
 }
 
 export const transformAlphaOnlyLowercase = str =>
@@ -301,9 +301,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         isInternational: homePhoneIsInternational,
       },
     },
-    'view:contactMethod': {
-      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
-    },
+    [formFields.contactMethod]: mapContactMethod(claimant?.preferredContact),
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: address?.addressLine1,
