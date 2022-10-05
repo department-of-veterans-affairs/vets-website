@@ -5,6 +5,7 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
+import Confirmation from '../pages/Confirmation';
 import Appointments from '../pages/Appointments';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
@@ -18,6 +19,7 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
+        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withTravelPay();
       initializeSessionGet.withSuccessfulNewSession();
@@ -27,6 +29,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 1,
       });
       initializeCheckInDataPost.withSuccess();
+      initializeBtsssPost.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
@@ -64,6 +67,9 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoadedWithBtsssSubmission();
+      cy.injectAxeThenAxeCheck();
     });
     it('Routes to appointments on no to first question.', () => {
       TravelPages.validatePageLoaded();
@@ -99,6 +105,9 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoadedWithBtsssIneligible();
       cy.injectAxeThenAxeCheck();
     });
   });

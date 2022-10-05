@@ -18,11 +18,13 @@ export const Actions = {
   },
   Folder: {
     GET: 'SM_FOLDER_GET',
+    CLEAR: 'SM_FODLER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
     GET_LIST: 'SM_MESSAGE_GET_LIST',
+    CLEAR_LIST: 'SM_MESSAGE_CLEAR_LIST',
     GET_HISTORY: 'SM_MESSAGE_GET_HISTORY',
   },
   Search: {

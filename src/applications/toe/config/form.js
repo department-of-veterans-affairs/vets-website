@@ -48,7 +48,13 @@ import {
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
-import { isValidPhoneField, validateEmail } from '../utils/validation';
+import {
+  isValidGivenName,
+  isValidLastName,
+  isValidPhoneField,
+  nameErrorMessage,
+  validateEmail,
+} from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
@@ -132,8 +138,8 @@ const formConfig = {
                   'ui:title': 'Your first name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a first name');
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
                       }
                     },
                   ],
@@ -143,8 +149,8 @@ const formConfig = {
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a last name');
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage);
                       }
                     },
                   ],
@@ -152,6 +158,13 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
                 },
               },
             },
@@ -996,37 +1009,43 @@ const formConfig = {
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We recommend that you opt in to text message notifications
-                      about your benefits. These notifications can prompt you to
-                      verify your enrollment so you’ll receive your education
-                      payments. You can verify your monthly enrollment easily
-                      this way.
+                      We recommend that you opt into text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
-                    <va-alert status="info">
-                      <>
-                        If you choose to get text message notifications from
-                        VA’s GI Bill program, message and data rates may apply.
-                        Two messages per month. At this time, we can only send
-                        text messages to U.S. mobile phone numbers. Text STOP to
-                        opt out or HELP for help.{' '}
-                        <a
-                          href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          View Terms and Conditions
-                        </a>{' '}
-                        and{' '}
-                        <a
-                          href="/privacy-policy"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          Privacy Policy
-                        </a>
-                        .
-                      </>
-                    </va-alert>
+                    <div className="meb-list-label">
+                      <strong>What to know about text notifications:</strong>
+                    </div>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notifications terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Note</strong>: At this time, we can only send text
+                      messages to U.S. mobile phone numbers.
+                    </p>
                   </div>
                 </>
               ),

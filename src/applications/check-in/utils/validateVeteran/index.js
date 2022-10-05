@@ -1,5 +1,3 @@
-import isAfter from 'date-fns/isAfter';
-import isValid from 'date-fns/isValid';
 import i18next from 'i18next';
 import { api } from '../../api';
 
@@ -8,9 +6,9 @@ import { api } from '../../api';
  * @param {string} [last4Ssn]
  * @param {string} [lastName]
  * @param {object} [dob]
+ * @param {boolean} [dobError]
  * @param {function} [setLastNameErrorMessage]
  * @param {function} [setLast4ErrorMessage]
- * @param {function} [setDobErrorMessage]
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
  * @param {boolean} [isLorotaSecurityUpdatesEnabled]
@@ -30,9 +28,9 @@ const validateLogin = async (
   last4Ssn,
   lastName,
   dob,
+  dobError,
   setLastNameErrorMessage,
   setLast4ErrorMessage,
-  setDobErrorMessage,
   setIsLoading,
   setShowValidateError,
   isLorotaSecurityUpdatesEnabled,
@@ -49,7 +47,6 @@ const validateLogin = async (
 ) => {
   setLastNameErrorMessage();
   setLast4ErrorMessage();
-  setDobErrorMessage();
 
   let valid = true;
   if (!isLorotaSecurityUpdatesEnabled) {
@@ -70,16 +67,15 @@ const validateLogin = async (
       setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
       valid = false;
     }
-    if (!dob) {
-      setDobErrorMessage(i18next.t('please-provide-a-response'));
+    if (dobError || dob === '--') {
       valid = false;
-    } else if (!isValid(new Date(dob))) {
-      setDobErrorMessage(i18next.t('please-enter-a-valid-date'));
-      valid = false;
-    } else if (isAfter(new Date(dob), new Date())) {
-      setDobErrorMessage(
-        i18next.t('your-date-of-birth-can-not-be-in-the-future'),
-      );
+    }
+    // Use regex here to be able to validate when no error is present
+    // doesnt match the web components validation completely the year can be any 4 digit number
+    const regex = new RegExp(
+      /[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))/,
+    );
+    if (!regex.test(dob)) {
       valid = false;
     }
   }
