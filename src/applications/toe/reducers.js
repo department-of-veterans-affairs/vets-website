@@ -52,7 +52,7 @@ export default {
           fetchedSponsorsComplete: true,
           sponsors: {
             sponsors: [
-              ...state.sponsors,
+              // ...state.sponsors,
               // {
               //   id: '1',
               //   name: 'Hector Stanley',

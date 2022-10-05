@@ -105,6 +105,26 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
+  const userAddressLine1 =
+    profile?.addressLine1 ||
+    vet360ContactInfo?.addressLine1 ||
+    contactInfo?.addressLine1;
+  const userAddressLine2 =
+    profile?.addressLine2 ||
+    vet360ContactInfo?.addressLine2 ||
+    contactInfo?.addressLine2;
+  const userCity =
+    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
+  const userState =
+    profile?.stateCode ||
+    vet360ContactInfo?.stateCode ||
+    contactInfo?.stateCode;
+  const userPostalCode =
+    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
+  const userCountryCode =
+    profile?.countryCode ||
+    vet360ContactInfo?.countryCode ||
+    contactInfo?.countryCode;
   const emailAddress =
     profile?.email ||
     vet360ContactInfo?.email?.emailAddress ||
@@ -131,6 +151,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
     sponsors,
@@ -157,6 +178,21 @@ export function prefillTransformer(pages, formData, metadata, state) {
       [formFields.phoneNumber]: {
         phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
         isInternational: homePhoneIsInternational,
+      },
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        address: {
+          street: '123 ASTREET' || userAddressLine1,
+          street2: userAddressLine2,
+          city: userCity,
+          state: userState,
+          postalCode: userPostalCode,
+          country: userCountryCode, // getSchemaCountryCode(userCountryCode)
+        },
+        livesOnMilitaryBase:
+          contactInfo?.countryCode !== 'US' &&
+          contactInfo?.addressType === 'MILITARY_OVERSEAS',
       },
     },
   };
