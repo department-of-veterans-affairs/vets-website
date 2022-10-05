@@ -8,15 +8,19 @@ import MessageDetails from './containers/MessageDetails';
 import MessageReply from './containers/MessageReply';
 import SearchMessages from './containers/SearchMessages';
 import Folders from './containers/Folders';
+import FolderListView from './containers/FolderListView';
 
 const routes = (
   <div className="vads-l-grid-container">
     <div className="vads-l-row">
       <Breadcrumbs />
     </div>
-    <div className="secure-messaging-container">
-      <Navigation />
-      <div>
+    <div className="secure-messaging-container vads-u-display--flex">
+      <div className="vads-u-flex--auto">
+        <Navigation />
+      </div>
+
+      <div className="vads-u-flex--fill">
         <Switch>
           <Route exact path="/" key="App">
             <App />
@@ -44,6 +48,12 @@ const routes = (
           </Route>
           <Route path="/trash/:messageId" key="MessageDetails">
             <MessageDetails />
+          </Route>
+          <Route
+            path={['/sent', '/trash', '/drafts', '/folder/:folderId']}
+            key="FolderListView"
+          >
+            <FolderListView />
           </Route>
         </Switch>
       </div>
