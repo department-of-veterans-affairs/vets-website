@@ -19,7 +19,7 @@ const cypressConfig = {
     vaTopMobileViewportsIterateUptoIndex: 0,
     vaTopMobileViewports: [
       {
-        list: 'VA Top Mobile Viewports',
+        list: 'VA Toop Mobile Viewports',
         rank: 1,
         devicesWithViewport: 'iPhone 12 Pro, iPhone 12',
         percentTraffic: '7.19%',
