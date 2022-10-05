@@ -17,6 +17,7 @@ export const getFolders = () => async dispatch => {
 };
 
 export const retrieveFolder = folderId => async dispatch => {
+  dispatch({ type: Actions.Folder.CLEAR });
   const response = await getFolder(folderId);
   if (response.errors) {
     dispatch({

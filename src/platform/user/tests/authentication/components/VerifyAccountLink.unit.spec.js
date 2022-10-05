@@ -45,7 +45,6 @@ describe('VerifyAccountLink', () => {
       });
 
       await waitFor(() => expect(anchor.href).to.eql(href));
-
       screen.unmount();
     });
 

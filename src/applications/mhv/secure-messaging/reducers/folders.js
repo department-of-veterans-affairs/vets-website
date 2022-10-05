@@ -28,10 +28,9 @@ export const foldersReducer = (state = initialState, action) => {
         }),
       };
     case Actions.Folder.GET:
-      return {
-        ...state,
-        folder: action.response.data.attributes,
-      };
+      return { ...state, folder: action.response.data.attributes };
+    case Actions.Folder.CLEAR:
+      return { ...state, folder: initialState.folder };
     default:
       return state;
   }

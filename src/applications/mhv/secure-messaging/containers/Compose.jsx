@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMessage, loadingComplete } from '../actions';
+import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { isLoading, message, error } = useSelector(state => state.message);
+  const { message, error } = useSelector(state => state.message);
+  const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const isDraft = window.location.pathname.includes('/draft');
 
   useEffect(
     () => {
       const messageId = window.location.pathname.split('/').pop();
+      dispatch(getTriageTeams());
       if (isDraft) {
         dispatch(getMessage('draft', messageId));
       } else {
@@ -31,7 +34,7 @@ const Compose = () => {
   }
 
   const content = () => {
-    if (isLoading) {
+    if ((isDraft && !message) || !triageTeams) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -50,7 +53,7 @@ const Compose = () => {
         </va-alert>
       );
     }
-    return <ComposeForm message={message} />;
+    return <ComposeForm message={message} recipients={triageTeams} />;
   };
 
   return (

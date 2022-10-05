@@ -3,7 +3,7 @@ import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import GreetUser from './makeBotGreetUser';
+import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
 import {
   LOGGED_IN_FLOW,
@@ -30,14 +30,13 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     () =>
       createStore(
         {},
-        GreetUser.makeBotGreetUser(
+        StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
-          requireAuth,
         ),
       ),
     [createStore],
