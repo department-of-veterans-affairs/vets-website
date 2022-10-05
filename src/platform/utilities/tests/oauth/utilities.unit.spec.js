@@ -67,11 +67,6 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('saveStateAndVerifier', () => {
-    it('should check to see if state is included in window.location', () => {
-      window.location = new URL('https://va.gov/?state=some_random_state');
-      expect(oAuthUtils.saveStateAndVerifier()).to.be.null;
-      window.location.search = '';
-    });
     it('should set sessionStorage', () => {
       oAuthUtils.saveStateAndVerifier();
       expect(!!localStorage.getItem('state')).to.be.true;
