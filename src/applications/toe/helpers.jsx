@@ -101,7 +101,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const sponsors = state.data?.formData?.attributes?.sponsors;
 
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
+  const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
@@ -138,10 +138,18 @@ export function prefillTransformer(pages, formData, metadata, state) {
     claimantId: claimant.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
-        first: profile?.userFullName?.first || claimant?.firstName || undefined,
+        first:
+          vaProfile?.givenNames[0] ||
+          profile?.userFullName?.first ||
+          claimant?.firstName,
         middle:
-          profile?.userFullName?.middle || claimant?.middleName || undefined,
-        last: profile?.userFullName?.last || claimant?.lastName || undefined,
+          vaProfile?.givenNames[1] ||
+          profile?.userFullName?.middle ||
+          claimant?.middleName,
+        last:
+          vaProfile?.familyName ||
+          profile?.userFullName?.last ||
+          claimant?.lastName,
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
