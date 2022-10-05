@@ -194,33 +194,111 @@ export const equalsAlphaOnlyIgnoreCase = (a, b) => {
   return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
 };
 
+/**
+ * Transforms a date in the format YYYYMMDD (e.g. '17760704')
+ * to YYYY-MM-DD (e.g. '1776-07-04').
+ * @param {string} b Date without a string.
+ * @returns Date formatted with hyphens.
+ */
+export const formatHyphenlessDate = b => {
+  if (!b || b.length < 8) {
+    return undefined;
+  }
+
+  return `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}`;
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
 
+  // Using test data for now.
+  const stateUser = {};
+
+  const vaProfile = stateUser?.vaProfile;
+  const profile = stateUser?.profile;
+  const vet360ContactInfo = stateUser.vet360ContactInformation;
+
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (vaProfile?.familyName) {
+    firstName = vaProfile?.givenNames[0];
+    middleName = vaProfile?.givenNames[1];
+    lastName = vaProfile?.familyName;
+    // suffix = ???
+  } else if (profile?.lastName) {
+    firstName = profile?.firstName;
+    middleName = profile?.middleName;
+    lastName = profile?.lastName;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
+  const emailAddress =
+    profile?.email ||
+    vet360ContactInfo?.email?.emailAddress ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const v360mp = vet360ContactInfo?.mobilePhone;
+  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
+    mobilePhoneIsInternational = v360mp.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const v360hp = vet360ContactInfo?.homePhone;
+  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
+    homePhoneIsInternational = v360hp.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
+  const address = vet360ContactInfo?.mailingAddress?.addressLine1
+    ? vet360ContactInfo?.mailingAddress
+    : contactInfo;
+
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant.claimantId,
+    [formFields.claimantId]: claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
       },
     },
-    [formFields.dateOfBirth]: claimant.dateOfBirth,
+    [formFields.dateOfBirth]:
+      formatHyphenlessDate(vaProfile?.birthDate) ||
+      profile?.birthDate ||
+      claimant?.dateOfBirth,
     [formFields.email]: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
     [formFields.viewPhoneNumbers]: {
       [formFields.mobilePhoneNumber]: {
-        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
       [formFields.phoneNumber]: {
-        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
     },
     'view:contactMethod': {
@@ -228,26 +306,26 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: contactInfo?.addressLine1,
-        street2: contactInfo?.addressLine2 || undefined,
-        city: contactInfo?.city,
-        state: contactInfo?.stateCode,
-        postalCode: contactInfo?.zipcode,
-        country: getSchemaCountryCode(contactInfo?.countryCode),
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
       [formFields.livesOnMilitaryBase]:
-        contactInfo?.countryCode !== 'US' &&
-        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+        address?.countryCode !== 'US' &&
+        address?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };
 
-  if (claimant?.suffix) {
+  if (suffix) {
     newData[formFields.viewUserFullName].userFullName.suffix =
       state?.form?.pages?.applicantInformation?.schema?.properties[
         formFields.viewUserFullName
       ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+        equalsAlphaOnlyIgnoreCase(e, suffix),
       ) || undefined;
   }
 
