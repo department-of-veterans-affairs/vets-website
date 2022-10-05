@@ -44,11 +44,17 @@ import {
   isAlphaNumeric,
   applicantIsChildOfSponsor,
   transformTOEForm,
-  // prefillTransformer,
+  prefillTransformer,
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
-import { isValidPhoneField, validateEmail } from '../utils/validation';
+import {
+  isValidGivenName,
+  isValidLastName,
+  isValidPhoneField,
+  nameErrorMessage,
+  validateEmail,
+} from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
@@ -84,6 +90,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for survivor dependent benefits.',
     noAuth:
@@ -123,33 +130,42 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.userFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
+            [formFields.viewUserFullName]: {
+              [formFields.userFullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
               },
             },
             [formFields.dateOfBirth]: {
@@ -232,13 +248,18 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.userFullName]: {
-                ...fullName,
+              [formFields.viewUserFullName]: {
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.userFullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
@@ -684,12 +705,12 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [formFields.email]: {
+              email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [formFields.confirmEmail]: {
+              confirmEmail: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -725,10 +746,10 @@ const formConfig = {
               },
               [formFields.email]: {
                 type: 'object',
-                required: [formFields.email, formFields.confirmEmail],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  [formFields.email]: email,
-                  [formFields.confirmEmail]: email,
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
