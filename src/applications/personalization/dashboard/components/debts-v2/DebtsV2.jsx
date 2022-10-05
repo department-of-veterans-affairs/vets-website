@@ -17,7 +17,7 @@ const NoOutstandingDebtsText = () => {
       className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
       data-testid="no-outstanding-debts-text"
     >
-      You have no overpayment debts or copays.
+      You have no overpayment debts or copays to show.
     </p>
   );
 };
@@ -165,7 +165,6 @@ BenefitPaymentsAndDebtV2.propTypes = {
 
 const mapStateToProps = state => {
   const debtsIsLoading = state.allDebts.isLoading;
-  const paymentsIsLoading = state.allPayments.isLoading;
   const debts = state.allDebts.debts || [];
   const copays = state.allDebts.copays || [];
   return {
@@ -173,7 +172,7 @@ const mapStateToProps = state => {
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
     hasCopayError: state.allDebts.copaysErrors.length > 0,
-    shouldShowLoadingIndicator: debtsIsLoading || paymentsIsLoading,
+    shouldShowLoadingIndicator: debtsIsLoading,
   };
 };
 

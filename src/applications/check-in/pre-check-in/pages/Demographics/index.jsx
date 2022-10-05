@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import Footer from '../../../components/layout/Footer';
 import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import { recordAnswer } from '../../../actions/universal';
@@ -58,9 +56,7 @@ const Demographics = props => {
         noAction={noClick}
         subtitle={subtitle}
         demographics={demographics}
-        Footer={Footer}
       />
-      <BackToHome />
     </>
   );
 };

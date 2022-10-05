@@ -11,7 +11,7 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
-// import { getMessageThread } from '../api/SmApi';
+// import { getMessageHistory } from '../api/SmApi';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -32,6 +32,7 @@ export const FOLDERS_RETRIEVE_STARTED = 'FOLDERS_RETRIEVE_STARTED';
 export const FOLDERS_RETRIEVE_FAILED = 'FOLDERS_RETRIEVE_FAILED';
 export const FOLDERS_RETRIEVE_SUCCEEDED = 'FOLDERS_RETRIEVE_SUCCEEDED';
 
+export const DRAFT_AUTO_SAVE_STARTED = 'DRAFT_AUTO_SAVE_STARTED';
 export const DRAFT_SAVE_STARTED = 'DRAFT_SAVE_STARTED';
 export const DRAFT_SAVE_FAILED = 'DRAFT_SAVE_FAILED';
 export const DRAFT_SAVE_SUCCEEDED = 'DRAFT_SAVE_SUCCEEDED';
@@ -237,8 +238,9 @@ const sendSaveDraft = async messageData => {
   }
 };
 
-export const saveDraft = messageData => async dispatch => {
-  dispatch({ type: DRAFT_SAVE_STARTED });
+export const saveDraft = (messageData, type) => async dispatch => {
+  if (type === 'auto') dispatch({ type: DRAFT_AUTO_SAVE_STARTED });
+  else if (type === 'manual') dispatch({ type: DRAFT_SAVE_STARTED });
 
   const response = await sendSaveDraft(messageData);
   if (response.errors) {
@@ -259,7 +261,7 @@ export const saveDraft = messageData => async dispatch => {
 export const getThread = () => async dispatch => {
   dispatch({ type: THREAD_RETRIEVE_STARTED });
   const response = await retrieveData('messages');
-  // const response = await getMessageThread(messageId);
+  // const response = await getMessageHistory(messageId);
   if (response.errors) {
     const error = response.errors[0];
     dispatch({ type: THREAD_RETRIEVE_FAILED, response: error });

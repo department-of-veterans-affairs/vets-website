@@ -2,10 +2,6 @@ import React from 'react';
 
 import environment from 'platform/utilities/environment';
 
-import DownloadLink from './DownloadLink';
-
-const downloadLinkLabel = 'Download your COE (PDF) 0.20MB';
-
 const downloadUrl = `${environment.API_URL}/v0/coe/download_coe`;
 
 const ReviewAndDownload = () => (
@@ -20,7 +16,13 @@ const ReviewAndDownload = () => (
       </a>
     </p>
     <div className="vads-u-margin-top--4">
-      <DownloadLink href={downloadUrl} label={downloadLinkLabel} />
+      <va-link
+        download
+        filetype="PDF"
+        pages="1"
+        href={downloadUrl}
+        text="Download your COE"
+      />
     </div>
   </>
 );

@@ -7,11 +7,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import {
-  fetchSponsors,
-  fetchPersonalInformation,
-  fetchDirectDeposit,
-} from '../actions';
+import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
@@ -19,7 +15,6 @@ function ToeApp({
   children,
   formData,
   getDirectDeposit,
-  getSponsors,
   getPersonalInformation,
   location,
   setFormData,
@@ -48,7 +43,6 @@ function ToeApp({
     },
     [
       formData,
-      getSponsors,
       location,
       setFormData,
       sponsors,
@@ -105,7 +99,6 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
-  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
@@ -126,7 +119,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSponsors: fetchSponsors,
   getPersonalInformation: fetchPersonalInformation,
   getDirectDeposit: fetchDirectDeposit,
   setFormData: setData,

@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
+    checkInExperienceTravelReimbursement = false,
   } = toggles;
 
   return {
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_lorota_deletion_enabled',
           value: checkInExperienceLorotaDeletionEnabled,
+        },
+        {
+          name: 'check_in_experience_travel_reimbursement',
+          value: checkInExperienceTravelReimbursement,
         },
       ],
     },

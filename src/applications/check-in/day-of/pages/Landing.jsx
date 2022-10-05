@@ -17,8 +17,6 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
-import { setApp } from '../../actions/universal';
-import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
   const { location, router } = props;
@@ -34,6 +32,7 @@ const Landing = props => {
   const {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
     setCurrentToken,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
@@ -52,12 +51,6 @@ const Landing = props => {
     [dispatch],
   );
 
-  useEffect(
-    () => {
-      dispatch(setApp(APP_NAMES.CHECK_IN));
-    },
-    [dispatch],
-  );
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
@@ -83,6 +76,7 @@ const Landing = props => {
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
+              setShouldSendTravelPayClaim(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -112,6 +106,7 @@ const Landing = props => {
       sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
+      setShouldSendTravelPayClaim,
       isLorotaSecurityUpdatesEnabled,
     ],
   );

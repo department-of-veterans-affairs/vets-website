@@ -74,9 +74,9 @@ describe('Authed Letter Test', () => {
       force: true,
     });
     cy.get('#militaryService').should('not.be.checked');
-    cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
+    cy.get('#benefitInfoList input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
-        cy.get(`div#${id}label`).should('be.visible');
+        cy.get(`label[for="${id}"]`).should('be.visible');
         cy.get(`#${id}`).should('be.checked');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(200);

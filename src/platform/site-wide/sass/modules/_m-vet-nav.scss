@@ -353,6 +353,21 @@ body.va-pos-fixed {
   }
 }
 
+#vetnav-va-benefits-and-health-care.vetnav-panel {
+  width: 250px;
+
+  @include media($medium-large-screen) {
+    &.vetnav-submenu--expanded {
+      width: 768px;
+    }
+  }
+  @include media($small-desktop-screen) {
+    &.vetnav-submenu--expanded {
+      width: 1008px;
+    }
+  }
+}
+
 .vetnav-panel--submenu {
   &:not([hidden]) {
     background-color: $color-primary-darkest;

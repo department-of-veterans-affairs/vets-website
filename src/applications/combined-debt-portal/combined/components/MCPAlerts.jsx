@@ -26,7 +26,7 @@ Alert.Error = () => (
       </strong>
       contact us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="866-400-1238" />
+        <va-telephone contact="8664001238" />
       </span>{' '}
       (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -70,7 +70,7 @@ Alert.PastDue = ({ copay }) => {
         </strong>
         contact us at{' '}
         <span className="no-wrap">
-          <va-telephone contact="866-400-1238" />
+          <va-telephone contact="8664001238" />
         </span>{' '}
         (TTY: <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -150,7 +150,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="877-222-8387" />
+        <va-telephone contact="8772228387" />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -173,7 +173,7 @@ Alert.NoHistory = () => (
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at{' '}
       <span className="no-wrap">
-        <va-telephone contact="866-400-1238" />
+        <va-telephone contact="8664001238" />
       </span>
       . (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -205,9 +205,19 @@ Alert.Status = ({ copay }) => (
       </a>
     </p>
     <p>
-      <a className="vads-c-action-link--blue" href="#how-to-get-financial-help">
-        Request help with your bill
-      </a>
+      <div>
+        <a
+          aria-label="Request help with your debt"
+          className="vads-c-action-link--blue"
+          data-testid="link-request-help"
+          href="/manage-va-debt/request-debt-help-form-5655"
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-debt-request-help' });
+          }}
+        >
+          Request help with your bill
+        </a>
+      </div>
     </p>
     <h3 className="vads-u-font-size--h4">
       What if I’ve already requested financial help with my bill?
@@ -216,7 +226,7 @@ Alert.Status = ({ copay }) => (
       You may need to continue making payments while we review your request.
       Call us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="866-400-1238" />
+        <va-telephone contact="8664001238" />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
