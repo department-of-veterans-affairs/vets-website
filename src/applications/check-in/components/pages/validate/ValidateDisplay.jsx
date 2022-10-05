@@ -47,6 +47,7 @@ export default function ValidateDisplay({
           break;
         case 'date-of-birth':
           // using a delay here to wait for shadowdom to update with errors more of a problem with safari
+          // @TODO remove this once we get an updated va-memorable-date component with an onError property
           setTimeout(() => {
             if (event.target.attributes.error) {
               setDobError(true);
@@ -175,8 +176,8 @@ export default function ValidateDisplay({
 }
 
 ValidateDisplay.propTypes = {
-  dobInput: propTypes.object,
   dobError: propTypes.bool,
+  dobInput: propTypes.object,
   header: propTypes.string,
   isLoading: propTypes.bool,
   last4Input: propTypes.object,
