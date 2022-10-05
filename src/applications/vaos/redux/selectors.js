@@ -76,3 +76,6 @@ export const selectFeatureVaosV2Next = state =>
 
 export const selectFeatureAppointmentList = state =>
   toggleValues(state).vaOnlineSchedulingAppointmentList;
+
+export const selectFeatureClinicFilter = state =>
+  toggleValues(state).vaOnlineSchedulingClinicFilter;
