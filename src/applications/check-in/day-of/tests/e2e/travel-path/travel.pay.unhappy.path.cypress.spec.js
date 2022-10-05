@@ -29,7 +29,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 1,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeBtsssPost.withSuccess();
+      initializeBtsssPost.withFailure();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
@@ -48,7 +48,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('visits all pages including travel pay pages with yes answers.', () => {
+    it('shows the correct error message for an api error.', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
@@ -68,46 +68,7 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(2);
-      Confirmation.validatePageLoadedWithBtsssSubmission();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Routes to appointments on no to first question.', () => {
-      TravelPages.validatePageLoaded();
-      TravelPages.attemptToGoToNextPage('no');
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Routes to appointments on no to second question.', () => {
-      TravelPages.validatePageLoaded();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      TravelPages.attemptToGoToNextPage('no');
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Routes to appointments on no to third question.', () => {
-      TravelPages.validatePageLoaded();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage('no');
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('Routes to appointments on no to fourth question.', () => {
-      TravelPages.validatePageLoaded();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
-      TravelPages.attemptToGoToNextPage('no');
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(2);
-      Confirmation.validatePageLoadedWithBtsssIneligible();
+      Confirmation.validatePageLoadedWithBtsssSubmissionFailure();
       cy.injectAxeThenAxeCheck();
     });
   });

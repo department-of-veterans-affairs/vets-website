@@ -73,9 +73,9 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
 };
 TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
+  pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
   bodyText: PropTypes.node,
   helpText: PropTypes.node,
-  pageType: PropTypes.string.isRequired,
 };
 export default TravelPage;
