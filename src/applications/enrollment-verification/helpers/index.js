@@ -131,7 +131,7 @@ export const convertNumberToStringWithMinimumDigits = (n, minDigits) => {
  *
  * @param {string} date
  */
-export const nowAfterPausedDateOfFollowingMonth = date => {
+export const monthlyPaymentsPaused = date => {
   const now = new Date().toISOString();
 
   if (now <= date) {
@@ -153,59 +153,43 @@ export const nowAfterPausedDateOfFollowingMonth = date => {
   return now >= dateSplit.join('-');
 };
 
-function monthlyPaymentsPaused(unverifiedMonths) {
-  const earliestUnverifiedMonth = unverifiedMonths.reduce(
-    (prev, current) =>
-      prev.certifiedEndDate < current.certifiedEndDate ? prev : current,
-  );
-
-  return nowAfterPausedDateOfFollowingMonth(
-    earliestUnverifiedMonth.certifiedEndDate,
-  );
-}
-
-export const getEnrollmentVerificationStatus = status => {
-  if (status?.paymentOnHold) {
+export const getEnrollmentVerificationStatus = enrollmentVerification => {
+  if (enrollmentVerification?.paymentOnHold) {
     return STATUS.SCO_PAUSED;
   }
 
-  const unverifiedMonths = status?.enrollmentVerifications?.filter(
-    month => month.verificationResponse === VERIFICATION_RESPONSE.NOT_RESPONDED,
+  const earliestUnverifiedMonth = enrollmentVerification?.enrollmentVerifications?.findLast(
+    ev =>
+      ev.certifiedEndDate > enrollmentVerification?.lastCertifiedThroughDate,
   );
 
-  if (!unverifiedMonths?.length) {
+  if (!earliestUnverifiedMonth) {
     return STATUS.ALL_VERIFIED;
   }
 
-  return monthlyPaymentsPaused(unverifiedMonths)
+  return monthlyPaymentsPaused(earliestUnverifiedMonth.certifiedEndDate)
     ? STATUS.PAYMENT_PAUSED
     : STATUS.MISSING_VERIFICATION;
 };
 
 /**
  * Create an Enrollment Verification DTO to submit to the server.
- * @param {object} ev The original EV object we recieved when
- * the application loaded.
- * @param {number} evIndex The index of the enrollment to reference.
+ * @param {object} enrollmentVerification The EV object
  * @param {string} status The status of the enrollment.
  * @returns An Enrollment Verification DTO.
  */
-const mapEnrollmentVerificationForSubmission = (ev, evIndex, status) => {
-  const enrollmentVerification = ev.enrollmentVerifications[evIndex];
+const mapEnrollmentVerificationForSubmission = (
+  enrollmentVerification,
+  status,
+) => {
   return {
-    claimandId: ev.claimantId,
-    enrollmentCertifyRequests: [
-      {
-        claimandId: ev.claimantId,
-        certifiedPeriodBeginDate: enrollmentVerification.certifiedBeginDate,
-        certifiedPeriodEndDate: enrollmentVerification.certifiedEndDate,
-        certifiedThroughDate: enrollmentVerification.certifiedEndDate,
-        certificationMethod: CERTIFICATION_METHOD,
-        appCommunication: {
-          responseType: status,
-        },
-      },
-    ],
+    certifiedPeriodBeginDate: enrollmentVerification.certifiedBeginDate,
+    certifiedPeriodEndDate: enrollmentVerification.certifiedEndDate,
+    certifiedThroughDate: enrollmentVerification.certifiedEndDate,
+    certificationMethod: CERTIFICATION_METHOD,
+    appCommunication: {
+      responseType: status,
+    },
   };
 };
 
@@ -275,8 +259,7 @@ export const mapEnrollmentVerificationsForSubmission = ev => {
 
     enrollmentVerificationsDto.push(
       mapEnrollmentVerificationForSubmission(
-        ev,
-        mostRecentCorrectEnrollmentIndex,
+        ev.enrollmentVerifications[mostRecentCorrectEnrollmentIndex],
         VERIFICATION_RESPONSE.CORRECT,
       ),
     );
@@ -284,12 +267,13 @@ export const mapEnrollmentVerificationsForSubmission = ev => {
   if (e.verificationStatus === VERIFICATION_STATUS_INCORRECT) {
     enrollmentVerificationsDto.push(
       mapEnrollmentVerificationForSubmission(
-        ev,
-        mostRecentVerifiedEnrollmentIndex,
+        ev.enrollmentVerifications[mostRecentVerifiedEnrollmentIndex],
         VERIFICATION_RESPONSE.INCORRECT,
       ),
     );
   }
 
-  return enrollmentVerificationsDto;
+  return {
+    enrollmentCertifyRequests: enrollmentVerificationsDto,
+  };
 };
