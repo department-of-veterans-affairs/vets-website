@@ -10,14 +10,14 @@ const defaultProps = {
   onExtendSession: sinon.spy(),
   signOut: sinon.spy(),
   authenticatedWithOAuth: false,
+  serviceName: 'logingov',
 };
 
 describe('SessionTimeoutModal', () => {
   it('should render Modal', () => {
     const component = shallow(<SessionTimeoutModal {...defaultProps} />);
-    const modalWebComponent = component.find('Modal');
     const buttons = component.find('button');
-    expect(modalWebComponent.exists()).to.be.true;
+    expect(component).to.have.lengthOf(1);
     expect(buttons.length).to.eql(2);
     component.unmount();
   });

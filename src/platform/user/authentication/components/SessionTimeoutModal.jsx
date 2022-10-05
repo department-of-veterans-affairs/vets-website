@@ -1,7 +1,7 @@
 import React from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { logout as IAMLogout } from 'platform/user/authentication/utilities';
@@ -16,9 +16,12 @@ class SessionTimeoutModal extends React.Component {
     super(props);
     this.state = { countdown: null };
     this.expirationInterval = null;
+    this.serviceName = '';
   }
 
   componentDidUpdate() {
+    this.serviceName =
+      this.props.serviceName === undefined ? '' : this.props.serviceName;
     if (this.props.isLoggedIn && !this.expirationInterval) {
       this.clearInterval();
       this.expirationInterval = setInterval(this.checkExpiration, 1000);
@@ -68,7 +71,7 @@ class SessionTimeoutModal extends React.Component {
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     if (this.props.authenticatedWithOAuth) {
-      refresh();
+      refresh({ type: this.serviceName });
     } else {
       this.props.onExtendSession();
     }
@@ -85,7 +88,7 @@ class SessionTimeoutModal extends React.Component {
 
   render() {
     return (
-      <Modal
+      <VaModal
         hideCloseButton
         id="session-timeout-modal"
         focusSelector="button"
@@ -118,7 +121,7 @@ class SessionTimeoutModal extends React.Component {
             Sign out
           </button>
         </div>
-      </Modal>
+      </VaModal>
     );
   }
 }
