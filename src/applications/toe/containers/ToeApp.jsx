@@ -99,6 +99,7 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,

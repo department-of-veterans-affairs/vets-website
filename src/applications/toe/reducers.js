@@ -85,27 +85,27 @@ export default {
           ...state,
           fetchedSponsorsComplete: true,
           sponsors: {
-            sponsors: [
-              ...state.sponsors,
-              // {
-              //   id: '1',
-              //   name: 'Hector Stanley',
-              //   dateOfBirth: '1978-07-18',
-              //   relationship: SPONSOR_RELATIONSHIP.CHILD,
-              // },
-              // {
-              //   id: '2',
-              //   name: 'Nancy Stanley',
-              //   dateOfBirth: '1979-10-11',
-              //   relationship: SPONSOR_RELATIONSHIP.CHILD,
-              // },
-              // {
-              //   id: '3',
-              //   name: 'Jane Doe',
-              //   dateOfBirth: '1996-07-18',
-              //   relationship: SPONSOR_RELATIONSHIP.SPOUSE,
-              // },
-            ],
+            sponsors: state.sponsors || [],
+            // [
+            // {
+            //   id: '1',
+            //   name: 'Hector Stanley',
+            //   dateOfBirth: '1978-07-18',
+            //   relationship: SPONSOR_RELATIONSHIP.CHILD,
+            // },
+            // {
+            //   id: '2',
+            //   name: 'Nancy Stanley',
+            //   dateOfBirth: '1979-10-11',
+            //   relationship: SPONSOR_RELATIONSHIP.CHILD,
+            // },
+            // {
+            //   id: '3',
+            //   name: 'Jane Doe',
+            //   dateOfBirth: '1996-07-18',
+            //   relationship: SPONSOR_RELATIONSHIP.SPOUSE,
+            // },
+            // ],
             someoneNotListed: false,
           },
         };
