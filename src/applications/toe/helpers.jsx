@@ -182,18 +182,16 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        address: {
-          street: '123 ASTREET' || userAddressLine1,
-          street2: userAddressLine2,
-          city: userCity,
-          state: userState,
-          postalCode: userPostalCode,
-          country: userCountryCode, // getSchemaCountryCode(userCountryCode)
-        },
-        livesOnMilitaryBase:
-          contactInfo?.countryCode !== 'US' &&
-          contactInfo?.addressType === 'MILITARY_OVERSEAS',
+        street: userAddressLine1,
+        street2: userAddressLine2,
+        city: userCity,
+        state: userState,
+        postalCode: userPostalCode,
+        country: userCountryCode, // getSchemaCountryCode(userCountryCode)
       },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
   };
 
