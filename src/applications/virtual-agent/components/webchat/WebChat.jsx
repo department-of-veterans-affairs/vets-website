@@ -63,7 +63,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   directLine = useMemo(
     () =>
       createDirectLine({
