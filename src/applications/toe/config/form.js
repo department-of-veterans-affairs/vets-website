@@ -142,18 +142,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
                       }
                     },
                   ],
@@ -164,7 +153,18 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
                       }
                     },
                   ],
