@@ -1,4 +1,6 @@
+import { makeField, dirtyAllFields } from 'platform/forms/fields';
 import set from 'platform/utilities/data/set';
+
 import {
   RESET_UPLOADS,
   ADD_FILE,
@@ -11,9 +13,7 @@ import {
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
   SET_UPLOADER,
-} from '../actions/index.jsx';
-
-import { makeField, dirtyAllFields } from 'platform/forms/fields';
+} from '../actions';
 
 const initialState = {
   files: [],
