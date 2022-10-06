@@ -30,10 +30,10 @@ describe('Print button', () => {
   it('displays print button text', () => {
     expect(screen.getByText(/Print/)).to.exist;
   });
-  it('opens modal when print button is clicked and displays 2 options', () => {
+  it('opens modal when print button is clicked and displays both options', () => {
     fireEvent.click(screen.getByTestId('print-button'));
     expect(screen.getByText(/Only print this message/)).to.exist;
-    expect(screen.getByText(/print all messages in this conversation/)).to
+    expect(screen.getByText(/Print all messages in this conversation/)).to
       .exist;
   });
 });

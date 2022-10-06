@@ -81,7 +81,7 @@ const PrintBtn = props => {
                   onChange={handleOnChangePrintOption}
                 />
                 <label name="defaultName-0-label" htmlFor="all-messages">
-                  print all messages in this conversation{' '}
+                  Print all messages in this conversation{' '}
                   <span className="message-count">
                     ({messageThreadCount.current} messages)
                   </span>
