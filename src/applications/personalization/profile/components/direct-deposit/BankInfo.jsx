@@ -141,7 +141,7 @@ export const BankInfo = ({
   };
 
   const editButtonClasses = [
-    'usa-button-secondary',
+    'usa-button-primary',
     ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 

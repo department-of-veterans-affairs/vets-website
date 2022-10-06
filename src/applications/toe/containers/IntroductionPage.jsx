@@ -2,27 +2,23 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import IntroductionLogin from '../components/IntroductionLogin';
 
-const PrefillAlert = (
-  <va-alert
-    class="vads-u-margin-bottom--1"
-    close-btn-aria-label="Close notification"
-    status="info"
-    visible
-  >
-    <p className="vads-u-margin-y--0">
-      <strong>Note:</strong> Since you’re signed in to your account, we can
-      prefill part of your application based on your account details. You can
-      also save your application in progress and come back later to finish
-      filling it out. You may be eligible to receive an instant decision about
-      your application.
-    </p>
-  </va-alert>
-);
+import { getAppData } from '../selectors';
 
-export const IntroductionPage = ({ user, route }) => {
+export const IntroductionPage = ({
+  isLOA3,
+  isLoggedIn,
+  isPersonalInfoFetchComplete,
+  isSponsorsFetchComplete,
+  route,
+  user,
+}) => {
+  const apiCallsComplete =
+    isPersonalInfoFetchComplete && isSponsorsFetchComplete;
+
   return (
     <div className="schemaform-intro">
       <h1>Apply to use transferred education benefits</h1>
@@ -37,17 +33,19 @@ export const IntroductionPage = ({ user, route }) => {
         33) education benefits.
       </p>
 
-      {user?.login?.currentlyLoggedIn && (
-        <SaveInProgressIntro
-          buttonOnly
-          testActionLink
-          user={user}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          pageList={route.pageList}
-          startText="Start your benefits application"
-        />
-      )}
+      {apiCallsComplete &&
+        isLoggedIn &&
+        isLOA3 && (
+          <SaveInProgressIntro
+            buttonOnly
+            testActionLink
+            user={user}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            startText="Start your benefits application"
+          />
+        )}
 
       <h2 className="vads-u-font-size--h3">
         Follow these steps to get started
@@ -110,35 +108,26 @@ export const IntroductionPage = ({ user, route }) => {
         </ol>
       </div>
 
-      {user?.login?.currentlyLoggedIn && (
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--4">
-          Start your application for education benefits
-        </h2>
-      )}
-
-      <SaveInProgressIntro
-        testActionLink
-        user={user}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start your benefits application"
-        verifiedPrefillAlert={PrefillAlert}
-      />
+      <IntroductionLogin route={route} />
 
       <div
         className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
           user?.login?.currentlyLoggedIn ? '4' : '2p5'
         } vads-u-margin-bottom--2`}
       >
-        <OMBInfo resBurden="15" ombNumber="2900-0154" expDate="02/28/2023" />
+        <va-omb-info
+          res-burden="15"
+          omb-number="2900-0154"
+          exp-date="02/28/2023"
+        />
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  user: state.user || {},
+  ...getIntroState(state),
+  ...getAppData(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
@@ -150,6 +139,10 @@ IntroductionPage.propTypes = {
       savedFormMessages: PropTypes.object,
     }),
     pageList: PropTypes.array,
-  }),
+  }).isRequired,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  isPersonalInfoFetchComplete: PropTypes.bool,
+  isSponsorsFetchComplete: PropTypes.bool,
   user: PropTypes.object,
 };
