@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-3-or-10-digits */
 import React from 'react';
 
 export default function Disclaimer() {
@@ -154,7 +156,7 @@ export default function Disclaimer() {
         </va-accordion-item>
 
         <va-accordion-item>
-        <h4 slot="headline">How to use our chatbot with a screen reader</h4>
+          <h4 slot="headline">How to use our chatbot with a screen reader</h4>
           <p>
             If you’re blind or have low vision, follow these steps to use our
             chatbot on a desktop computer with a screen reader:
