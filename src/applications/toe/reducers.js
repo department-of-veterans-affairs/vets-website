@@ -58,19 +58,17 @@ export default {
           formData: action?.response || {},
           fetchedSponsorsComplete: true,
           sponsors: {
-            sponsors: [
-              ...action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements.map(
-                (sponsor, index) => {
-                  return {
-                    ...sponsor,
-                    // ! TODO: CHANGE ID
-                    id: `${sponsor.sponsorVaId - index}`,
-                    name: [sponsor.firstName, sponsor.lastName].join(' '),
-                    relationship: sponsor.sponsorRelationship,
-                  };
-                },
-              ),
-            ],
+            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
+              (sponsor, index) => {
+                return {
+                  ...sponsor,
+                  // ! TODO: CHANGE ID
+                  id: `${sponsor.sponsorVaId - index}`,
+                  name: [sponsor.firstName, sponsor.lastName].join(' '),
+                  relationship: sponsor.sponsorRelationship,
+                };
+              },
+            ),
             someoneNotListed: false,
           },
         };
