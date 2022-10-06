@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -12,30 +12,30 @@ import {
   getAppealsV2 as getAppealsV2Action,
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
-} from '../actions/index';
+} from '../actions';
 import {
+  appealsAvailability,
   appealTypes,
   claimsAvailability,
-  appealsAvailability,
-  sortByLastUpdated,
   getVisibleRows,
   getPageRange,
+  sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setPageFocus, setUpPage } from '../utils/page';
 
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
-import AppealListItem from '../components/appeals-v2/AppealListItemV2';
-import NoClaims from '../components/NoClaims';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
+import NoClaims from '../components/NoClaims';
+import StemClaimListItem from '../components/StemClaimListItem';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -307,16 +307,15 @@ function mapStateToProps(state) {
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
-    claimsAvailable: claimsV2Root.claimsAvailability,
-    // claimsAuthorized: claimsState.claimSync.authorized,
-    claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
-    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    list: sortedList,
-    synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
+    claimsAvailable: claimsV2Root.claimsAvailability,
+    claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    list: sortedList,
+    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
+    synced: claimsState.claimSync.synced,
   };
 }
 

@@ -15,12 +15,14 @@ export const messagesReducer = (state = initialState, action) => {
         ...state,
         messageList: action.response.data.map(message => {
           const msgAttr = message.attributes;
-          return {
-            ...msgAttr,
-          };
+          return { ...msgAttr };
         }),
       };
-    case 'b':
+    case Actions.Message.CLEAR_LIST:
+      return {
+        ...state,
+        messageList: initialState.messageList,
+      };
     default:
       return state;
   }
