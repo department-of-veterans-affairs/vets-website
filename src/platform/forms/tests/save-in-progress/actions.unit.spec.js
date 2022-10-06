@@ -341,8 +341,13 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: environment.API_URL,
+          headers: new Headers({
+            'X-CSRF-Token': 'Fake token',
+            'Content-Type': 'application/json',
+          }),
           ok: false,
+          json: () => Promise.resolve({}),
+          url: environment.API_URL,
           status: 401,
         }),
       );
@@ -359,8 +364,13 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: environment.API_URL,
+          headers: new Headers({
+            'X-CSRF-Token': 'Fake token',
+            'Content-Type': 'application/json',
+          }),
           ok: false,
+          json: () => Promise.resolve({}),
+          url: environment.API_URL,
           status: 404,
         }),
       );
@@ -374,7 +384,18 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a not-found if the api returns an empty object', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0), {});
+      global.fetch.returns(
+        Promise.resolve({
+          headers: new Headers({
+            'X-CSRF-Token': 'Fake token',
+            'Content-Type': 'application/json',
+          }),
+          ok: true,
+          json: () => Promise.resolve({}),
+          url: environment.API_URL,
+          status: 200,
+        }),
+      );
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -385,7 +406,18 @@ describe('Schemaform save / load actions:', () => {
     it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0), []); // return not an object
+      global.fetch.returns(
+        Promise.resolve({
+          headers: new Headers({
+            'X-CSRF-Token': 'Fake token',
+            'Content-Type': 'application/json',
+          }),
+          ok: true,
+          json: () => Promise.resolve('foo'),
+          url: environment.API_URL,
+          status: 200,
+        }),
+      );
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -412,7 +444,18 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on api response error', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONFailure(global.fetch.onCall(0));
+      global.fetch.returns(
+        Promise.resolve({
+          headers: new Headers({
+            'X-CSRF-Token': 'Fake token',
+            'Content-Type': 'application/json',
+          }),
+          ok: false,
+          json: () => Promise.resolve({}),
+          url: environment.API_URL,
+          status: 500,
+        }),
+      );
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -423,15 +466,12 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on network error', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        Promise.reject(new Error('No network connection')),
-      );
+      global.fetch.returns(Promise.reject(new Error('No network connection')));
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
         expect(
-          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.clientFailure)),
+          dispatch.calledWith(setFetchFormStatus(SAVE_STATUSES.clientFailure)),
         ).to.be.true;
       });
     });
@@ -441,8 +481,13 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
-            url: environment.API_URL,
+            headers: new Headers({
+              'X-CSRF-Token': 'Fake token',
+              'Content-Type': 'application/json',
+            }),
             ok: false,
+            json: () => Promise.resolve({}),
+            url: environment.API_URL,
             status: 401,
           }),
         );

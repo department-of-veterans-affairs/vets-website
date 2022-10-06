@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
+import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
@@ -153,7 +153,7 @@ export function migrateFormData(savedData, migrations) {
     return savedData;
   }
 
-  let savedDataCopy = Object.assign({}, savedData);
+  let savedDataCopy = { ...savedData };
   let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
@@ -198,7 +198,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
@@ -265,49 +265,40 @@ export function fetchInProgressForm(
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(apiUrl, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
+    return apiRequest(
+      apiUrl,
+      {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+          'Source-App-Name': window.appName,
+        },
       },
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // Make me a switch?
-        let status = LOAD_STATUSES.failure;
-        if (res.status === 401) {
-          dispatch(logOut());
-          status = LOAD_STATUSES.noAuth;
-        } else if (res.status === 403) {
-          status = LOAD_STATUSES.forbidden;
-        } else if (res.status === 404) {
-          status = LOAD_STATUSES.notFound;
-        }
-        return Promise.reject(status);
-      })
+      null,
+      null,
+      true,
+    )
       .then(resBody => {
         // Just in case something funny happens where the json returned isn’t an object as expected
         // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
         if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
-          return Promise.reject(LOAD_STATUSES.invalidData);
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({ status: 'invalid_data' });
         }
 
         // If an empty object is returned, throw a not-found
         // TODO: When / if we return a 404 for applications that don’t exist, remove this
         if (Object.keys(resBody).length === 0) {
-          return Promise.reject(LOAD_STATUSES.notFound);
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({ status: 404 });
         }
 
         // If we’ve made it this far, we’ve got valid form
@@ -323,7 +314,7 @@ export function fetchInProgressForm(
 
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-          let pages = getState().form.pages;
+          let { pages } = getState().form;
           if (metadata.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
@@ -348,22 +339,35 @@ export function fetchInProgressForm(
             scope.setExtra('metadata', resBody.metadata);
             Sentry.captureMessage('vets_sip_error_migration');
           });
-          return Promise.reject(LOAD_STATUSES.invalidData);
+          // eslint-disable-next-line prefer-promise-reject-errors
+          return Promise.reject({ status: 'invalid_data' });
         }
       })
-      .catch(status => {
-        let loadedStatus = status;
-        if (status instanceof SyntaxError) {
+      .catch(response => {
+        let loadedStatus;
+
+        if (response instanceof SyntaxError) {
           // if res.json() has a parsing error, it’ll reject with a SyntaxError
           Sentry.captureException(
-            new Error(`vets_sip_error_server_json: ${status.message}`),
+            new Error(`vets_sip_error_server_json: ${response.message}`),
           );
           loadedStatus = LOAD_STATUSES.invalidData;
-        } else if (status instanceof Error) {
+        } else if (response instanceof Error) {
           // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
-          Sentry.captureException(status);
+          Sentry.captureException(response);
           Sentry.captureMessage('vets_sip_error_fetch');
-          loadedStatus = LOAD_STATUSES.clientFailure;
+          loadedStatus = SAVE_STATUSES.clientFailure;
+        } else if (response.status === 'invalid_data') {
+          loadedStatus = LOAD_STATUSES.invalidData;
+        } else if (response.status === 401) {
+          dispatch(logOut());
+          loadedStatus = LOAD_STATUSES.noAuth;
+        } else if (response.status === 403) {
+          loadedStatus = LOAD_STATUSES.forbidden;
+        } else if (response.status === 404) {
+          loadedStatus = LOAD_STATUSES.notFound;
+        } else {
+          loadedStatus = LOAD_STATUSES.failure;
         }
 
         // If prefilling went wrong for a non-auth reason, it probably means that
@@ -399,7 +403,7 @@ export function fetchInProgressForm(
 
 export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());

@@ -1,5 +1,5 @@
 import environment from 'platform/utilities/environment';
-import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 
 export const submitToAPI = (state, setState) => {
   // if no file has been added, show an error message
@@ -16,23 +16,19 @@ export const submitToAPI = (state, setState) => {
     submissionPending: true,
   });
 
-  fetchAndUpdateSessionExpiration(
-    `${environment.API_URL}/v0/coe/document_upload`,
-    {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': state.token,
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        files: state.files,
-      }),
+  apiRequest(`${environment.API_URL}/v0/coe/document_upload`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+      'X-CSRF-Token': state.token,
     },
-  )
-    .then(res => res.json())
+    method: 'POST',
+    body: JSON.stringify({
+      files: state.files,
+    }),
+  })
     .then(body => {
       if (body?.errors) {
         throw new Error('error');

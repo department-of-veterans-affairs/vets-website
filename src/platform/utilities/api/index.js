@@ -50,8 +50,18 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
  * the initial fetch request.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ * @param {boolOptionalField} rejectWithFullResponse - If true, request errors
+ * not caused by an expired auth token will cause the promise to be rejected
+ * with the Response object, rather than the json response body. This can be
+ * useful if you need to handle errors based on http status code.
  */
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function apiRequest(
+  resource,
+  optionalSettings = {},
+  success,
+  error,
+  rejectWithFullResponse = false,
+) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
@@ -100,7 +110,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
-      const data = isJson(response)
+      const dataPromise = isJson(response)
         ? response.json()
         : Promise.resolve(response);
 
@@ -117,7 +127,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ((response.status === 403 || response.status === 401) &&
           infoTokenExists())
       ) {
-        return data;
+        return dataPromise;
       }
 
       if (environment.isProduction()) {
@@ -132,8 +142,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
           window.location = '/session-expired';
         }
       }
-
-      return data.then(Promise.reject.bind(Promise));
+      return dataPromise.then(data => {
+        return Promise.reject(rejectWithFullResponse ? response : data);
+      });
     })
     .then(success)
     .catch(error);
