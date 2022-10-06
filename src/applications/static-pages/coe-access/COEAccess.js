@@ -30,7 +30,7 @@ const COEAccess = ({ includedInFlipper }) => {
         Premium <strong>DS Logon</strong> account. If you don’t have a Premium
         account, you can register for one there.
       </p>
-      <a href="/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">
+      <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">
         Request a COE on eBenefits
       </a>
     </>
