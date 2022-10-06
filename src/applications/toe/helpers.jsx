@@ -186,6 +186,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
+    },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: userAddressLine1,
