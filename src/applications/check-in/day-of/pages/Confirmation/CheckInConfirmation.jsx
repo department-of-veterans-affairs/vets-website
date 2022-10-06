@@ -93,11 +93,6 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-message"
             >
               <div>
-                <strong>{t('reimbursement-claim-number')}</strong>
-                <br />
-                {travelPayClaimData.claimId}
-                <br />
-                <br />
                 {t('check-travel-claim-status')}
                 <br />
                 <br />
