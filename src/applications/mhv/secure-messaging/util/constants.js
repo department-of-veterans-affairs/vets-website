@@ -18,3 +18,7 @@ export const DefaultFolders = {
     desc: `Here are the messages you deleted from other folders. You can't permanently delete messages.`,
   },
 };
+
+export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_SUCCESS = 'success';
+export const ALERT_TYPE_WARNING = 'warning';
