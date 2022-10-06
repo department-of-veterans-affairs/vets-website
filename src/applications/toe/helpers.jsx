@@ -8,6 +8,8 @@ import {
   SPONSOR_RELATIONSHIP,
 } from './constants';
 
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+
 export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
@@ -100,12 +102,32 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  // const vaProfile = stateUser?.vaProfile;
 
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
+  const userAddressLine1 =
+    profile?.addressLine1 ||
+    vet360ContactInfo?.addressLine1 ||
+    contactInfo?.addressLine1;
+  const userAddressLine2 =
+    profile?.addressLine2 ||
+    vet360ContactInfo?.addressLine2 ||
+    contactInfo?.addressLine2;
+  const userCity =
+    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
+  const userState =
+    profile?.stateCode ||
+    vet360ContactInfo?.stateCode ||
+    contactInfo?.stateCode;
+  const userPostalCode =
+    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
+  const userCountryCode =
+    profile?.countryCode ||
+    vet360ContactInfo?.countryCode ||
+    contactInfo?.countryCode;
   const emailAddress =
     profile?.email ||
     vet360ContactInfo?.email?.emailAddress ||
@@ -132,6 +154,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
     sponsors,
@@ -163,6 +186,18 @@ export function prefillTransformer(pages, formData, metadata, state) {
     [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: userAddressLine1,
+        street2: userAddressLine2,
+        city: userCity,
+        state: userState,
+        postalCode: userPostalCode,
+        country: getSchemaCountryCode(userCountryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
   };
 
@@ -285,61 +320,3 @@ export const applicantIsChildOfSponsor = formData => {
 
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
-
-const trimObjectValuesWhiteSpace = (key, value) => {
-  if (typeof value === 'string') {
-    return value.trim();
-  }
-
-  return value;
-};
-
-export function transformTOEForm(_formConfig, form) {
-  const payload = {
-    claimant: {
-      claimantId: 0,
-      suffix: form?.data?.userFullName?.suffix,
-      dateOfBirth: form?.data?.dateOfBirth,
-      firstName: form?.data?.userFullName?.first,
-      lastName: form?.data?.userFullName?.last,
-      middleName: form?.data?.userFullName?.middle,
-      notificationMethod: form?.data?.contactMethod,
-      contactInfo: {
-        addressLine1: form?.data['view:mailingAddress']?.address?.street,
-        addressLine2: form?.data['view:mailingAddress']?.address?.street2,
-        city: form?.data['view:mailingAddress']?.address?.city,
-        zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
-        emailAddress: form?.data?.email?.email,
-        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
-          ? 'MILITARY_OVERSEAS'
-          : 'DOMESTIC',
-        mobilePhoneNumber:
-          form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-        homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
-        countryCode: form?.data['view:mailingAddress']?.address?.country,
-        stateCode: form?.data['view:mailingAddress']?.address?.state,
-      },
-      preferredContact: form?.data?.contactMethod,
-    },
-    sponsors: [
-      {
-        firstName: form?.data?.sponsorFullName?.first,
-        middleName: form?.data?.sponsorFullName?.middle,
-        lastName: form?.data?.sponsorFullName?.last,
-        dob: form?.data?.sponsorDateOfBirth,
-        relationship: form?.data?.relationshipToServiceMember,
-      },
-    ],
-    additionalInformation: {
-      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma,
-    },
-    directDeposit: {
-      directDepositAccountType: form?.data?.bankAccount?.accountType,
-      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
-      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
-    },
-  };
-
-  // return JSON.stringify(payload);
-  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
-}

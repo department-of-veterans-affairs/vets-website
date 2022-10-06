@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-3-or-10-digits */
 import React from 'react';
 
 export default function Disclaimer() {
@@ -21,15 +23,12 @@ export default function Disclaimer() {
           If you have questions about VA benefits and services that our chatbot
           can’t answer right now,
         </b>
-         you can get the information in any of these 3 ways:
+         you can get the information in any of these ways:
         <ul>
           <li>
             <a href="/resources/helpful-va-phone-numbers/">
               Call us at one of our helpful VA phone numbers
             </a>
-          </li>
-          <li>
-            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
           </li>
           <li>
             <a href="/resources/">Explore our resources and support content</a>
@@ -65,32 +64,17 @@ export default function Disclaimer() {
           To connect with a Veterans Crisis Line responder anytime day or night:
           <ul>
             <li>
-              Dialing{' '}
-              <a aria-label="9 8 8." href="tel:988">
-                988
-              </a>
-              and press 1.
+              Dialing <va-telephone contact="988" /> and press 1.
             </li>
             <li>
-              Calling{' '}
-              <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
-                800-273-8255
-              </a>
-              and press 1.
+              Calling <va-telephone contact="8002738255" /> and press 1.
             </li>
             <li>
-              Texting:{' '}
-              <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
-                838255
-              </a>
-              .
+              Texting <va-telephone contact="838255" />.
             </li>
             <li>
               If you have hearing loss, call TTY:{' '}
-              <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
-                800-799-4889
-              </a>
-              .
+              <va-telephone contact="8007994889" tty />.
             </li>
           </ul>
         </p>
@@ -99,7 +83,8 @@ export default function Disclaimer() {
       <h3>More about our chatbot</h3>
 
       <va-accordion>
-        <va-accordion-item header="What to expect when using our chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">What to expect when using our chatbot</h4>
           <p>
             Our chatbot is a resource to help you quickly find information about
             VA benefits and services. You won’t communicate with an actual
@@ -152,7 +137,8 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="How to use our chatbot with a screen reader">
+        <va-accordion-item>
+          <h4 slot="headline">How to use our chatbot with a screen reader</h4>
           <p>
             If you’re blind or have low vision, follow these steps to use our
             chatbot on a desktop computer with a screen reader:
@@ -198,7 +184,10 @@ export default function Disclaimer() {
           </p>
         </va-accordion-item>
 
-        <va-accordion-item header="What information we collect when you use the chatbot">
+        <va-accordion-item>
+          <h4 slot="headline">
+            What information we collect when you use the chatbot
+          </h4>
           <p>
             We use certain information you’ve provided to build better tools for
             Veterans, service members, and their families.

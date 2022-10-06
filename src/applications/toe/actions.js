@@ -15,7 +15,9 @@ export const FETCH_MILITARY_INFORMATION_SUCCESS =
 export const FETCH_MILITARY_INFORMATION_FAILED =
   'FETCH_MILITARY_INFORMATION_FAILED';
 
-export const SPONSORS_ENDPOINT = `${environment.API_URL}/meb_api/v0/sponsors`;
+export const SPONSORS_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/forms_sponsors`;
 export const FETCH_SPONSORS = 'FETCH_SPONSORS';
 export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
