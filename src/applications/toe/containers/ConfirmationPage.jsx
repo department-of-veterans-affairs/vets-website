@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,7 +6,20 @@ import ApprovedConfirmation from '../components/confirmation/ApprovedConfirmatio
 import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 
-function ConfirmationPage({ confirmationResult }) {
+import { fetchClaimStatus } from '../actions';
+
+function ConfirmationPage({ confirmationResult }, getClaimStatus, user) {
+  const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+  useEffect(
+    () => {
+      if (!fetchedClaimStatus) {
+        setFetchedClaimStatus(true);
+        getClaimStatus();
+      }
+    },
+    [fetchedClaimStatus, getClaimStatus, user?.login?.currentlyLoggedIn],
+  );
+
   switch (confirmationResult) {
     case 'APPROVED': {
       return <ApprovedConfirmation />;
@@ -35,9 +48,14 @@ ConfirmationPage.propTypes = {
   confirmationResult: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   claimStatus: state.data?.claimStatus,
-// });
+const mapStateToProps = state => {
+  // console.log(state);
+  return {
+    claimStatus: state.data?.claimStatus,
+    getClaimStatus: fetchClaimStatus,
+    user: state.user,
+  };
+};
 
-// export default connect(mapStateToProps)(ConfirmationPage);
-export default connect()(ConfirmationPage);
+export default connect(mapStateToProps)(ConfirmationPage);
+// export default connect()(ConfirmationPage);
