@@ -91,8 +91,8 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   formData: PropTypes.object,
-  getSponsors: PropTypes.func,
   getPersonalInformation: PropTypes.func,
+  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
