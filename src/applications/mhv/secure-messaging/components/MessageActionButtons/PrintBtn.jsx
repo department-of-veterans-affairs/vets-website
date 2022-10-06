@@ -63,6 +63,7 @@ const PrintBtn = props => {
             <div className="form-radio-buttons">
               <div className="radio-button">
                 <input
+                  data-testid="radio-button"
                   type="radio"
                   autoComplete="false"
                   name="defaultName"
@@ -96,6 +97,7 @@ const PrintBtn = props => {
   return (
     <>
       <button
+        data-testid="print-button"
         type="button"
         className="message-action-button"
         onClick={openModal}
