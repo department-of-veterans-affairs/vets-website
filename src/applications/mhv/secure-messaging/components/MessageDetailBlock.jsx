@@ -90,7 +90,7 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons id={messageId} />
+        <MessageActionButtons onReply={handleReplyButton} id={messageId} />
       </main>
     </section>
   );
