@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { submissionForm } from './fixtures/data/form-submission-test-data';
-import { transformTOEForm } from '../helpers';
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 let mockSubmissionForm = {};
 let submissionObject = {};
@@ -98,7 +98,7 @@ describe('form submit transform', () => {
         });
         it('sets up country code', () => {
           expect(submissionObject.toeClaimant.contactInfo.countryCode).to.eql(
-            'USA',
+            'US',
           );
         });
         it('sets up state code', () => {

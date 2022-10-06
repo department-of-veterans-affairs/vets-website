@@ -43,9 +43,10 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  transformTOEForm,
   prefillTransformer,
 } from '../helpers';
+
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import { isValidPhoneField, validateEmail } from '../utils/validation';
