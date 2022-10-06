@@ -57,7 +57,7 @@ function IntroductionLogin({
               </h2>
               <div>
                 <p className="vads-u-margin-top--0">
-                  When you’re signed in to your verified VA.gov account:
+                  When you’ve signed in to your verified VA.gov account:
                 </p>
                 <ul>
                   <li>
