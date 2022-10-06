@@ -313,8 +313,16 @@ export default class AutosuggestField extends React.Component {
 }
 
 AutosuggestField.propTypes = {
+  onBlur: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/sort-prop-types
+  onChange: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
   formContext: PropTypes.shape({
     reviewMode: PropTypes.bool,
+  }),
+  formData: PropTypes.object,
+  idSchema: PropTypes.shape({
+    $id: PropTypes.string,
   }),
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
@@ -329,11 +337,4 @@ AutosuggestField.propTypes = {
     }),
     'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  idSchema: PropTypes.shape({
-    $id: PropTypes.string,
-  }),
-  formData: PropTypes.object,
-  schema: PropTypes.object.isRequired,
 };
