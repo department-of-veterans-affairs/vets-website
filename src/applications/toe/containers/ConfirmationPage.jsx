@@ -8,7 +8,7 @@ import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfi
 
 import { fetchClaimStatus } from '../actions';
 
-function ConfirmationPage({ confirmationResult }, getClaimStatus, user) {
+function ConfirmationPage({ confirmationResult, getClaimStatus, user }) {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
   useEffect(
     () => {
@@ -46,6 +46,8 @@ function ConfirmationPage({ confirmationResult }, getClaimStatus, user) {
 
 ConfirmationPage.propTypes = {
   confirmationResult: PropTypes.string,
+  getClaimStatus: PropTypes.func,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => {
