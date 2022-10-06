@@ -41,7 +41,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       ),
     [createStore],
   );
-
   let directLineToken = token;
   let conversationId = '';
   let directLine = {};

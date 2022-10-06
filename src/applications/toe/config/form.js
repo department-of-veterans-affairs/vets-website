@@ -60,6 +60,7 @@ import {
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -98,6 +99,7 @@ const formConfig = {
   },
   defaultDefinitions: {},
   getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
