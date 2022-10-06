@@ -98,6 +98,7 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
@@ -181,6 +182,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
         phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
         isInternational: homePhoneIsInternational,
       },
+    },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
