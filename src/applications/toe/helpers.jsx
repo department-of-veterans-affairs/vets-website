@@ -289,16 +289,29 @@ const trimObjectValuesWhiteSpace = (key, value) => {
   return value;
 };
 
+const getNotificationMethod = notificationMethod => {
+  switch (notificationMethod) {
+    case 'Yes, send me text message notifications':
+      return 'TEXT';
+    case 'No, just send me email notifications':
+      return 'EMAIL';
+    default:
+      return 'NONE';
+  }
+};
+
 export function transformTOEForm(_formConfig, form) {
   const payload = {
-    claimant: {
-      claimantId: 0,
-      suffix: form?.data?.userFullName?.suffix,
+    '@type': 'ToeSubmission',
+    toeClaimant: {
+      suffix: form?.data['view:userFullName']?.userFullName?.suffix,
       dateOfBirth: form?.data?.dateOfBirth,
-      firstName: form?.data?.userFullName?.first,
-      lastName: form?.data?.userFullName?.last,
-      middleName: form?.data?.userFullName?.middle,
-      notificationMethod: form?.data?.contactMethod,
+      firstName: form?.data['view:userFullName']?.userFullName?.first,
+      lastName: form?.data['view:userFullName']?.userFullName?.last,
+      middleName: form?.data['view:userFullName']?.userFullName?.middle,
+      notificationMethod: getNotificationMethod(
+        form?.data['view:receiveTextMessages']?.receiveTextMessages,
+      ),
       contactInfo: {
         addressLine1: form?.data['view:mailingAddress']?.address?.street,
         addressLine2: form?.data['view:mailingAddress']?.address?.street2,
@@ -316,17 +329,21 @@ export function transformTOEForm(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    sponsors: [
-      {
+    sponsorOptions: {
+      notSureAboutSponsor: false,
+      firstSponsorVaId: form?.data?.firstSponsor ? form.data.firstSponsor : 0,
+      manualSponsor: {
         firstName: form?.data?.sponsorFullName?.first,
         middleName: form?.data?.sponsorFullName?.middle,
         lastName: form?.data?.sponsorFullName?.last,
-        dob: form?.data?.sponsorDateOfBirth,
+        suffix: form?.data?.sponsorFullName?.suffix,
+        dateOfBirth: form?.data?.sponsorDateOfBirth,
         relationship: form?.data?.relationshipToServiceMember,
       },
-    ],
-    additionalInformation: {
-      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma,
+    },
+    highSchoolDiplomaInfo: {
+      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
+      highSchoolDiplomaOrCertificateDate: form?.data?.highSchoolDiplomaDate,
     },
     directDeposit: {
       directDepositAccountType: form?.data?.bankAccount?.accountType,
@@ -335,6 +352,5 @@ export function transformTOEForm(_formConfig, form) {
     },
   };
 
-  // return JSON.stringify(payload);
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }
