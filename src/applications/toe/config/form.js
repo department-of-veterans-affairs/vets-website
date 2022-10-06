@@ -894,12 +894,6 @@ const formConfig = {
                     },
                   },
                 },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
-                  },
-                },
                 postalCode: {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
