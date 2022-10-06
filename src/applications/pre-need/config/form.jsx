@@ -563,7 +563,7 @@ const formConfig = {
                   getCemeteries,
                   {
                     'ui:options': {
-                      widgetProps: {
+                      inputProps: {
                         'aria-describedby': 'burial-cemetary-note',
                       },
                     },
