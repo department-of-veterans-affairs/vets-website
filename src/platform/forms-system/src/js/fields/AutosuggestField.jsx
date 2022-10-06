@@ -211,7 +211,7 @@ export default class AutosuggestField extends React.Component {
 
     // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
-    const comboBoxInputProps = uiSchema['ui:options'].inputProps;
+    const { inputProps } = uiSchema['ui:options'];
     const value = this.state.input?.toLowerCase() || '';
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
@@ -279,7 +279,7 @@ export default class AutosuggestField extends React.Component {
                 className: 'autosuggest-input',
                 onBlur: isOpen ? undefined : this.handleBlur,
                 onKeyDown: this.handleKeyDown,
-                ...comboBoxInputProps,
+                ...inputProps,
               })}
             />
             {isOpen && (
