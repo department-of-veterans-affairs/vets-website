@@ -80,7 +80,7 @@ export const validateCurrency = (errors, currencyAmount) => {
 export const isValidateCurrency = currencyAmount => {
   const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
-  return !regex.test(currencyAmount) || Number(currencyAmount) < 0;
+  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
 };
 
 export const validatePhone = (errors, phone) => {
