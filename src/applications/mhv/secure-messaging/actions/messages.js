@@ -1,7 +1,17 @@
 import { Actions } from '../util/actionTypes';
 import { getMessageList, getMessage, getMessageHistory } from '../api/SmApi';
 
-export const getMessages = folderId => async dispatch => {
+/**
+ * @param {Long} folderId
+ * @param {Boolean} update true if using auto-refresh to prevent messageList redux
+ * object from clearing out and triggering spinning circle
+ *
+ * @returns
+ */
+export const getMessages = (folderId, update = false) => async dispatch => {
+  if (!update) {
+    dispatch({ type: Actions.Message.CLEAR_LIST });
+  }
   const response = await getMessageList(folderId);
   // TODO Add error handling
   dispatch({

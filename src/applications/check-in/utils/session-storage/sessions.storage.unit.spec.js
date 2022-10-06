@@ -22,6 +22,8 @@ describe('check in', () => {
           COMPLETE: 'health.care.check-in.complete',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.check-in.should.send.demographics.flags',
+          SHOULD_SEND_TRAVEL_PAY_CLAIM:
+            'health.care.check-in.should.send.travel.pay.claim',
         });
       });
     });

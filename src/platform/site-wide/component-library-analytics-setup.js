@@ -203,9 +203,10 @@ const analyticsEvents = {
       ga4: {
         event: 'interaction',
         component_name: 'va-on-this-page',
+        custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'click-text': 'value',
+          'click-text': 'click_text',
           version: 'component_version',
         },
       },
@@ -277,9 +278,7 @@ export function subscribeComponentAnalyticsEvents(
 
       recordEvent(clearedDataLayer);
 
-      /**
-       * GA4 dataLayer push.
-       */
+      // GA4 dataLayer push.
       if (!environment.isProduction() && action?.ga4) {
         /**
          * Creating the GA4 dataLayer object by combining the existing
@@ -291,9 +290,7 @@ export function subscribeComponentAnalyticsEvents(
           action: action.event,
         };
 
-        /**
-         * Mapping the GA4 parameters to the Web Component event details.
-         */
+        // Mapping the GA4 parameters to the Web Component event details.
         const ga4Mapping = action?.ga4?.mapping;
 
         if (ga4Mapping) {
@@ -301,11 +298,12 @@ export function subscribeComponentAnalyticsEvents(
             const newKey = action.ga4.mapping[key];
 
             ga4DataLayer[newKey] = dataLayer[key];
+
+            // Clean up old GA dataLayer values.
+            delete ga4DataLayer[key];
           }
 
-          /**
-           * Cleaning up the GA4 mapping object from the dataLayer.
-           */
+          // Clean up the GA4 mapping object from the dataLayer.
           delete ga4DataLayer.mapping;
         }
 

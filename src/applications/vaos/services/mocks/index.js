@@ -577,6 +577,7 @@ const responses = {
         { name: 'vaOnlineFilter36Vats', value: true },
         { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
         { name: 'vaOnlineSchedulingAppointmentList', value: true },
+        { name: 'vaOnlineSchedulingClinicFilter', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
