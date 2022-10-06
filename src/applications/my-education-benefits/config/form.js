@@ -827,12 +827,6 @@ const formConfig = {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
                   },
-                  'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                        formData['view:mailingAddress']?.address?.country ===
-                          'USA')),
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
