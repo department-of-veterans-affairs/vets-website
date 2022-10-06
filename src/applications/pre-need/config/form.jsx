@@ -6,12 +6,10 @@ import set from 'platform/utilities/data/set';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import Footer from '../components/Footer';
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import * as address from '../definitions/address';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -22,6 +20,8 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import * as address from '../definitions/address';
+import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -80,7 +80,7 @@ const {
 const nonRequiredFullName = omit('required', fullName);
 
 function currentlyBuriedPersonsMinItem() {
-  const copy = Object.assign({}, currentlyBuriedPersons);
+  const copy = { ...currentlyBuriedPersons };
   copy.minItems = 1;
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
@@ -561,6 +561,13 @@ const formConfig = {
                 desiredCemetery: autosuggest.uiSchema(
                   'Which VA national cemetery would you prefer to be buried in?',
                   getCemeteries,
+                  {
+                    'ui:options': {
+                      widgetProps: {
+                        'aria-describedby': 'burial-cemetary-note',
+                      },
+                    },
+                  },
                 ),
                 'view:desiredCemeteryNote': {
                   'ui:description': desiredCemeteryNoteDescription,

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import set from '../../../../utilities/data/set';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import set from '../../../../utilities/data/set';
 
 import debounce from '../utilities/data/debounce';
 import sortListByFuzzyMatch from '../utilities/fuzzy-matching';
@@ -79,7 +79,7 @@ export default class AutosuggestField extends React.Component {
   }
 
   getOptions = inputValue => {
-    const getOptions = this.props.uiSchema['ui:options'].getOptions;
+    const { getOptions } = this.props.uiSchema['ui:options'];
     if (getOptions) {
       getOptions(inputValue).then(this.setOptions);
     }
@@ -211,6 +211,7 @@ export default class AutosuggestField extends React.Component {
 
     // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
+    const inputProps = uiSchema['ui:options'].widgetProps;
     const value = this.state.input?.toLowerCase() || '';
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
@@ -279,6 +280,7 @@ export default class AutosuggestField extends React.Component {
                 onBlur: isOpen ? undefined : this.handleBlur,
                 onKeyDown: this.handleKeyDown,
               })}
+              {...inputProps}
             />
             {isOpen && (
               <div className="autosuggest-list" role="listbox">
@@ -323,6 +325,7 @@ AutosuggestField.propTypes = {
       queryForResults: PropTypes.bool,
       freeInput: PropTypes.bool,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
+      widgetProps: PropTypes.object,
     }),
     'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
