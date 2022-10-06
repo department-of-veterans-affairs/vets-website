@@ -34,7 +34,7 @@ const Copays = ({ setWizardStatus }) => {
         <ul>
           <li>
             <p>
-              You can pay your copay bill online, by phone or mail, or in
+              You can pay your copay bill online, by phone, by mail, or in
               person.
               <br />
               <a

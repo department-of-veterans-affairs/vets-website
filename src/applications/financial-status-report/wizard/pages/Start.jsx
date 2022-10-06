@@ -11,7 +11,7 @@ const options = [
     value: 'request',
   },
   {
-    label: 'VA health care copays bills',
+    label: 'VA health care copay bills',
     value: 'copays',
   },
   {

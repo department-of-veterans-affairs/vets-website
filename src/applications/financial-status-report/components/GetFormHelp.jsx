@@ -7,7 +7,8 @@ const GetFormHelp = () => {
       <p>
         If you have trouble using this online form, call our MyVA411 main
         information line at <va-telephone contact="8006982411" /> (
-        <va-telephone contact={CONTACTS[711]} tty />)
+        <va-telephone contact={CONTACTS[711]} tty />
+        ).
       </p>
       <p>
         If you need help to gather your information or fill out your form,
