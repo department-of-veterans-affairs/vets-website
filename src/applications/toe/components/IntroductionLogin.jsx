@@ -10,6 +10,7 @@ import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/con
 
 import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
+import { START_APPLICATION_TEXT } from '../constants';
 
 function IntroductionLogin({
   isLoggedIn,
@@ -89,7 +90,7 @@ function IntroductionLogin({
             </va-alert>
 
             <p className="vads-u-margin-top--4">
-              <a href="/education/apply-for-education-benefits/application/1990E/introduction">
+              <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
                 Start your application without signing in
               </a>
             </p>
@@ -105,7 +106,7 @@ function IntroductionLogin({
             messages={route?.formConfig.savedFormMessages}
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText="Start your application"
+            startText={START_APPLICATION_TEXT}
             testActionLink
             user={user}
           />
