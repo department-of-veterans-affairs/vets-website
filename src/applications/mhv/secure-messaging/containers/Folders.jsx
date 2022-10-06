@@ -32,6 +32,7 @@ const Folders = () => {
 
   const confirmNewFolder = () => {
     dispatch(newFolder(folderName));
+    dispatch(getFolders());
     closeNewModal();
   };
 
