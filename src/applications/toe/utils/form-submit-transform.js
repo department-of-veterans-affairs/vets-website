@@ -259,6 +259,7 @@ export function getSchemaCountryCode(ltsCountryValue) {
   return country?.schemaValue
     ? country.schemaValue
     : DEFAULT_SCHEMA_COUNTRY_CODE;
+}
 
 export function getLTSCountryCode(schemaCountryValue) {
   const country = countries.find(countryInfo => {
