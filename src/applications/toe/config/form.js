@@ -785,7 +785,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
