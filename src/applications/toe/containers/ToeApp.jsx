@@ -7,7 +7,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchSponsors } from '../actions';
+import { fetchSponsors, fetchPersonalInformation } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
@@ -15,6 +15,7 @@ function ToeApp({
   children,
   formData,
   getSponsors,
+  getPersonalInformation,
   location,
   setFormData,
   sponsors,
@@ -23,6 +24,7 @@ function ToeApp({
   user,
 }) {
   const [fetchedSponsors, setFetchedSponsors] = useState(false);
+  const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
 
   useEffect(
     () => {
@@ -57,6 +59,19 @@ function ToeApp({
     ],
   );
 
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
+      }
+    },
+    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+  );
+
   return (
     <>
       <va-breadcrumbs>
@@ -76,6 +91,7 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   formData: PropTypes.object,
+  getPersonalInformation: PropTypes.func,
   getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -99,6 +115,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
+  getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };
 

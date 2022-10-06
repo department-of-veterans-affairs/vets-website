@@ -464,7 +464,7 @@ describe('when the payment history claims is false', () => {
       },
     }).as('featuresD');
   });
-  it('the v2 dashboard does not show up', () => {
+  it('the v2 dashboard should show up', () => {
     cy.visit('my-va/');
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
@@ -474,8 +474,8 @@ describe('when the payment history claims is false', () => {
     cy.findByRole('progressbar').should('not.exist');
     cy.findByText(/loading your information/i).should('not.exist');
     // make sure that the payment and debts sections are shown
-    cy.findByTestId('dashboard-section-payment-v2').should('not.exist');
-    cy.findByTestId('dashboard-section-debts-v2').should('not.exist');
+    cy.findByTestId('dashboard-section-payment-v2').should('exist');
+    cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
     // make the a11y check
     cy.injectAxeThenAxeCheck();

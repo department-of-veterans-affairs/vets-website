@@ -8,14 +8,14 @@ import PrintMessageThread from './PrintMessageThread';
 
 const MessageDetailBlock = props => {
   const {
-    attachments,
-    body,
+    messageId,
     category,
-    id,
-    recipientName,
-    senderName,
-    sentDate,
     subject,
+    body,
+    sentDate,
+    senderName,
+    recipientName,
+    attachments,
   } = props.message;
 
   const history = useHistory();
@@ -73,7 +73,7 @@ const MessageDetailBlock = props => {
           </p>
           <p>
             <strong>Message ID: </strong>
-            {id}
+            {messageId}
           </p>
         </section>
 
@@ -81,14 +81,15 @@ const MessageDetailBlock = props => {
           <pre>{body}</pre>
         </section>
 
-        {!!attachments.attachment.length && (
-          <>
-            <div className="message-body-attachments-label">
-              <strong>Attachments</strong>
-            </div>
-            <AttachmentsList attachments={attachments.attachment} />
-          </>
-        )}
+        {!!attachments &&
+          attachments.length > 0 && (
+            <>
+              <div className="message-body-attachments-label">
+                <strong>Attachments</strong>
+              </div>
+              <AttachmentsList attachments={attachments} />
+            </>
+          )}
 
         <div className="message-detail-note vads-u-text-align--center">
           <p>
@@ -104,6 +105,7 @@ const MessageDetailBlock = props => {
           id={id}
           handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         />
+
       </main>
       <div className={printThread}>
         <PrintMessageThread messageId={id} />

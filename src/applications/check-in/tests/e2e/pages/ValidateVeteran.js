@@ -53,7 +53,7 @@ class ValidateVeteran {
 
   validateVeteranDobInvalidYear = (
     lastName = 'Smith',
-    year = '2050',
+    year = '89',
     month = '01',
     day = '31',
   ) => {
@@ -168,6 +168,10 @@ class ValidateVeteran {
     cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
   };
 
+  attemptToGoToNextPageWithEnterKey = () => {
+    cy.get('[data-testid=check-in-button]').type('{enter}');
+  };
+
   validateAutocorrectDisabled = () => {
     cy.get('[label="Your last name"]')
       .should('have.attr', 'autocorrect', 'false')
@@ -193,8 +197,7 @@ class ValidateVeteran {
   getDobError = () => {
     cy.get('[label="Date of birth"]')
       .shadow()
-      .find('#error-message')
-      .contains('Your date of birth can not be in the future');
+      .find('#error-message');
   };
 
   validateTypedLast4 = (typed = '1234') => {

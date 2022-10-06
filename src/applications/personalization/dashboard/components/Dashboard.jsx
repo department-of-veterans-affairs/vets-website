@@ -125,6 +125,7 @@ DashboardHeader.propTypes = {
 };
 
 const Dashboard = ({
+  canAccessPaymentHistory,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
@@ -186,7 +187,7 @@ const Dashboard = ({
   // fetch data when we determine they are LOA3
   useEffect(
     () => {
-      if (showBenefitPaymentsAndDebt || showBenefitPaymentsAndDebtV2) {
+      if (canAccessPaymentHistory) {
         getPayments();
       }
     },
@@ -270,7 +271,9 @@ const Dashboard = ({
 
               {props.showHealthCare ? <HealthCare /> : null}
 
-              {showBenefitPaymentsAndDebt && !showBenefitPaymentsAndDebtV2 ? (
+              {canAccessPaymentHistory &&
+              showBenefitPaymentsAndDebt &&
+              !showBenefitPaymentsAndDebtV2 ? (
                 <BenefitPaymentsAndDebt
                   payments={payments}
                   showNotifications={showNotifications}
@@ -343,9 +346,7 @@ const mapStateToProps = state => {
     isVAPatient;
   const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
-    canAccessPaymentHistory === undefined
-      ? !showMPIConnectionError && !showNotInMPIError && isLOA3
-      : canAccessPaymentHistory;
+    !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
     showBenefitPaymentsAndDebt &&
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
@@ -361,6 +362,7 @@ const mapStateToProps = state => {
     isLOA3;
 
   return {
+    canAccessPaymentHistory,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
