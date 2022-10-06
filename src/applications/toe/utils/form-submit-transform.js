@@ -259,4 +259,86 @@ export function getSchemaCountryCode(ltsCountryValue) {
   return country?.schemaValue
     ? country.schemaValue
     : DEFAULT_SCHEMA_COUNTRY_CODE;
+
+export function getLTSCountryCode(schemaCountryValue) {
+  const country = countries.find(countryInfo => {
+    return countryInfo.schemaValue === schemaCountryValue;
+  });
+  return country?.ltsValue ? country.ltsValue : 'ZZ'; // ZZ is LTS code for unknown
+}
+
+const trimObjectValuesWhiteSpace = (key, value) => {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  return value;
+};
+
+const getNotificationMethod = notificationMethod => {
+  switch (notificationMethod) {
+    case 'Yes, send me text message notifications':
+      return 'TEXT';
+    case 'No, just send me email notifications':
+      return 'EMAIL';
+    default:
+      return 'NONE';
+  }
+};
+
+export function transformTOEForm(_formConfig, form) {
+  const payload = {
+    '@type': 'ToeSubmission',
+    toeClaimant: {
+      suffix: form?.data['view:userFullName']?.userFullName?.suffix,
+      dateOfBirth: form?.data?.dateOfBirth,
+      firstName: form?.data['view:userFullName']?.userFullName?.first,
+      lastName: form?.data['view:userFullName']?.userFullName?.last,
+      middleName: form?.data['view:userFullName']?.userFullName?.middle,
+      notificationMethod: getNotificationMethod(
+        form?.data['view:receiveTextMessages']?.receiveTextMessages,
+      ),
+      contactInfo: {
+        addressLine1: form?.data['view:mailingAddress']?.address?.street,
+        addressLine2: form?.data['view:mailingAddress']?.address?.street2,
+        city: form?.data['view:mailingAddress']?.address?.city,
+        zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
+        emailAddress: form?.data?.email?.email,
+        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
+          ? 'MILITARY_OVERSEAS'
+          : 'DOMESTIC',
+        mobilePhoneNumber:
+          form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+        homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
+        countryCode: getLTSCountryCode(
+          form?.data['view:mailingAddress']?.address?.country,
+        ),
+        stateCode: form?.data['view:mailingAddress']?.address?.state,
+      },
+      preferredContact: form?.data?.contactMethod,
+    },
+    sponsorOptions: {
+      notSureAboutSponsor: false,
+      firstSponsorVaId: form?.data?.firstSponsor ? form.data.firstSponsor : 0,
+      manualSponsor: {
+        firstName: form?.data?.sponsorFullName?.first,
+        middleName: form?.data?.sponsorFullName?.middle,
+        lastName: form?.data?.sponsorFullName?.last,
+        suffix: form?.data?.sponsorFullName?.suffix,
+        dateOfBirth: form?.data?.sponsorDateOfBirth,
+        relationship: form?.data?.relationshipToServiceMember,
+      },
+    },
+    highSchoolDiplomaInfo: {
+      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
+      highSchoolDiplomaOrCertificateDate: form?.data?.highSchoolDiplomaDate,
+    },
+    directDeposit: {
+      directDepositAccountType: form?.data?.bankAccount?.accountType,
+      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
+      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+    },
+  };
+
+  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }
