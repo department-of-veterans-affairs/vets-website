@@ -11,6 +11,7 @@ import TravelPayReimbursementLink from '../../../components/TravelPayReimburseme
 import Wrapper from '../../../components/layout/Wrapper';
 import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
+import ExternalLink from '../../../components/ExternalLink';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -98,6 +99,16 @@ const CheckInConfirmation = props => {
                 <br />
                 <br />
                 {t('check-travel-claim-status')}
+                <br />
+                <br />
+                <ExternalLink
+                  href="/health-care/get-reimbursed-for-travel-pay/"
+                  hrefLang="en"
+                  eventId="request-travel-pay-reimbursement-from-travel-success--link-clicked"
+                  eventPrefix="nav"
+                >
+                  {t('go-to-the-accessva-travel-claim-portal-now')}
+                </ExternalLink>
               </div>
             </va-alert>
           )}
@@ -116,6 +127,16 @@ const CheckInConfirmation = props => {
                   <span key="bold" className="vads-u-font-weight--bold" />,
                 ]}
               />
+              <br />
+              <br />
+              <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-travel-ineligible--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('go-to-the-accessva-travel-claim-portal-now')}
+              </ExternalLink>
             </va-alert>
           )}
 
@@ -129,6 +150,16 @@ const CheckInConfirmation = props => {
               status="error"
             >
               <div>{t('travel-claim-submission-error')}</div>
+              <br />
+              <br />
+              <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-travel-error--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('go-to-the-accessva-travel-claim-portal-now')}
+              </ExternalLink>
             </va-alert>
           )}
         <TravelPayReimbursementLink />
