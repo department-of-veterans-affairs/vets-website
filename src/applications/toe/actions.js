@@ -23,6 +23,13 @@ export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
 export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
 
+export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
+export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
+export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
+export const DIRECT_DEPOSIT_ENDPOINT = `${
+  environment.API_URL
+}/v0/profile/ch33_bank_accounts`;
+
 // const FIVE_SECONDS = 5000;
 // const ONE_MINUTE_IN_THE_FUTURE = () => {
 //   return new Date(new Date().getTime() + 60000);
@@ -41,6 +48,25 @@ export function fetchPersonalInformation() {
       .catch(errors => {
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_FAILED,
+          errors,
+        });
+      });
+  };
+}
+
+export function fetchDirectDeposit() {
+  return async dispatch => {
+    dispatch({ type: FETCH_DIRECT_DEPOSIT });
+    return apiRequest(DIRECT_DEPOSIT_ENDPOINT)
+      .then(response => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_FAILED,
           errors,
         });
       });
