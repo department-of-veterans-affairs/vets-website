@@ -11,7 +11,6 @@ import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
 import message from '../tests/fixtures/message-response.json';
 import mockFolderData from '../tests/fixtures/folder-response.json';
-// import { getMessageHistory } from '../api/SmApi';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -272,35 +271,4 @@ export const getThread = () => async dispatch => {
 
 export const loadingComplete = () => async dispatch => {
   dispatch({ type: LOADING_COMPLETE });
-};
-
-const deleteMessageResponse = async messageId => {
-  try {
-    // replace with apiRequest when endpoint is ready
-    // `mhv-sm-api/patient/v1/message/${messageId}
-    return messageId; // mock success
-  } catch (error) {
-    return error;
-  }
-};
-
-export const deleteMessage = messageId => async dispatch => {
-  dispatch({ type: MESSAGE_DELETE_STARTED });
-
-  const response = await deleteMessageResponse(messageId);
-  if (response.errors) {
-    // handles errors and dispatch error action
-    // fire GA event for error
-    const error = response.errors[0];
-    dispatch({
-      type: MESSAGE_DELETE_FAILED,
-      response: error,
-    });
-  } else {
-    // dispatch success action and GA event
-    dispatch({
-      type: MESSAGE_DELETE_SUCCEEDED,
-      response,
-    });
-  }
 };

@@ -1,5 +1,12 @@
 import { Actions } from '../util/actionTypes';
-import { getMessageList, getMessage, getMessageHistory } from '../api/SmApi';
+import {
+  getMessageList,
+  getMessage,
+  getMessageHistory,
+  deleteMessage as deleteMessageCall,
+} from '../api/SmApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 /**
  * @param {Long} folderId
@@ -53,5 +60,45 @@ export const retrieveMessage = (
       type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
       response,
     });
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @returns
+ */
+export const deleteMessage = messageId => async dispatch => {
+  try {
+    const response = await deleteMessageCall(messageId);
+    if (response.errors) {
+      // handles errors and dispatch error action
+      // fire GA event for error
+      const error = response.errors[0];
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          `Message was not successfully deleted.${error && ` Error: ${error}`}`,
+        ),
+      );
+    } else {
+      // dispatch success action and GA event
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_SUCCESS,
+          '',
+          'Message was successfully moved to Trash',
+        ),
+      );
+    }
+  } catch (err) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        `Message was not successfully deleted.${err && ` Error: ${err}`}`,
+      ),
+    );
+    throw new Error();
   }
 };
