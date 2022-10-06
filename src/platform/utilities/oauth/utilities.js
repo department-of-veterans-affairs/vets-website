@@ -296,9 +296,19 @@ export const logoutUrlSiS = () => {
   return new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' })).href;
 };
 
-export const logoutEvent = ({ signInServiceName }) => {
+export const logoutEvent = async (signInServiceName, wait = {}) => {
+  const { duration = 500, shouldWait } = wait;
+  const sleep = time => {
+    return new Promise(resolve => setTimeout(resolve, time));
+  };
   recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
   updateLoggedInStatus(false);
-  teardownProfileSession();
+
+  if (shouldWait) {
+    await sleep(duration);
+    teardownProfileSession();
+  } else {
+    teardownProfileSession();
+  }
 };

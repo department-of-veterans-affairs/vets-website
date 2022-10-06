@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
 describe('Check In Experience', () => {
   describe('everything path', () => {
@@ -18,12 +19,14 @@ describe('Check In Experience', () => {
         initializeSessionPost,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
+        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withAllFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
+      initializeBtsssPost.withSuccess();
 
       const rv1 = sharedData.get.createMultipleAppointments();
       const earliest = sharedData.get.createAppointment();
@@ -77,13 +80,26 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
       Appointments.validateAppointmentTime(3, '6:00 p.m.');
       cy.injectAxeThenAxeCheck();
 
       Appointments.attemptCheckIn(2);
-      Confirmation.validatePageLoaded();
+      Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
 
       Confirmation.attemptGoBackToAppointments();

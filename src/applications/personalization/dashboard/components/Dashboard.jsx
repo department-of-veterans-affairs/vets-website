@@ -11,6 +11,7 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
+import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -49,6 +50,7 @@ import DebtsV2 from './debts-v2/DebtsV2';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
+import { canAccess } from '../selectors';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -123,6 +125,7 @@ DashboardHeader.propTypes = {
 };
 
 const Dashboard = ({
+  canAccessPaymentHistory,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
@@ -184,7 +187,7 @@ const Dashboard = ({
   // fetch data when we determine they are LOA3
   useEffect(
     () => {
-      if (showBenefitPaymentsAndDebt || showBenefitPaymentsAndDebtV2) {
+      if (canAccessPaymentHistory) {
         getPayments();
       }
     },
@@ -268,7 +271,9 @@ const Dashboard = ({
 
               {props.showHealthCare ? <HealthCare /> : null}
 
-              {showBenefitPaymentsAndDebt && !showBenefitPaymentsAndDebtV2 ? (
+              {canAccessPaymentHistory &&
+              showBenefitPaymentsAndDebt &&
+              !showBenefitPaymentsAndDebtV2 ? (
                 <BenefitPaymentsAndDebt
                   payments={payments}
                   showNotifications={showNotifications}
@@ -339,6 +344,7 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
@@ -356,6 +362,7 @@ const mapStateToProps = state => {
     isLOA3;
 
   return {
+    canAccessPaymentHistory,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,

@@ -17,23 +17,17 @@
     padding-right: 5px;
   }
 
-  // .message-list-body-expanded {
-
-  // }
+  .message-list-body-expanded {
+    white-space: pre-line;
+  }
   .message-list-body-collapsed {
     text-overflow: ellipsis;
     overflow: hidden;
-    @media (max-width: $small-screen) {
-      display: -webkit-box !important;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      white-space: normal;
-    }
-    @media (min-width: $medium-screen) {
-      display: -webkit-box !important;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
+
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
   }
   .fa-lg {
     font-size: 1.33333em !important;

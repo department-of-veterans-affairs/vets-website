@@ -10,8 +10,11 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import get from 'platform/utilities/data/get';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import constants from 'vets-json-schema/dist/constants.json';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
@@ -41,16 +44,23 @@ import {
   isAlphaNumeric,
   applicantIsChildOfSponsor,
   transformTOEForm,
-  // prefillTransformer,
+  prefillTransformer,
 } from '../helpers';
 
 import { phoneSchema, phoneUISchema } from '../schema';
-import { isValidPhoneField, validateEmail } from '../utils/validation';
+import {
+  isValidGivenName,
+  isValidLastName,
+  isValidPhoneField,
+  nameErrorMessage,
+  validateEmail,
+} from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -81,6 +91,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for survivor dependent benefits.',
     noAuth:
@@ -88,6 +99,7 @@ const formConfig = {
   },
   defaultDefinitions: {},
   getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -120,33 +132,42 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.userFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
+            [formFields.viewUserFullName]: {
+              [formFields.userFullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage);
+                      }
+                    },
+                  ],
+                },
               },
             },
             [formFields.dateOfBirth]: {
@@ -229,13 +250,18 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.userFullName]: {
-                ...fullName,
+              [formFields.viewUserFullName]: {
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.userFullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
@@ -681,12 +707,12 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [formFields.email]: {
+              email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [formFields.confirmEmail]: {
+              confirmEmail: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -722,10 +748,10 @@ const formConfig = {
               },
               [formFields.email]: {
                 type: 'object',
-                required: [formFields.email, formFields.confirmEmail],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  [formFields.email]: email,
-                  [formFields.confirmEmail]: email,
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
@@ -783,7 +809,48 @@ const formConfig = {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
               [formFields.address]: {
-                ...address.uiSchema(''),
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['view:mailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['view:mailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+                      countryUI['ui:disabled'] = false;
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -800,7 +867,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -811,17 +877,49 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.livesOnMilitaryBase
+                      ) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
                   },
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:required': formData =>
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
                   },
                 },
               },
@@ -913,37 +1011,43 @@ const formConfig = {
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We recommend that you opt in to text message notifications
-                      about your benefits. These notifications can prompt you to
-                      verify your enrollment so you’ll receive your education
-                      payments. You can verify your monthly enrollment easily
-                      this way.
+                      We recommend that you opt into text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
-                    <va-alert status="info">
-                      <>
-                        If you choose to get text message notifications from
-                        VA’s GI Bill program, message and data rates may apply.
-                        Two messages per month. At this time, we can only send
-                        text messages to U.S. mobile phone numbers. Text STOP to
-                        opt out or HELP for help.{' '}
-                        <a
-                          href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          View Terms and Conditions
-                        </a>{' '}
-                        and{' '}
-                        <a
-                          href="/privacy-policy"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          Privacy Policy
-                        </a>
-                        .
-                      </>
-                    </va-alert>
+                    <div className="meb-list-label">
+                      <strong>What to know about text notifications:</strong>
+                    </div>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notifications terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Note</strong>: At this time, we can only send text
+                      messages to U.S. mobile phone numbers.
+                    </p>
                   </div>
                 </>
               ),

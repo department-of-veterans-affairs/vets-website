@@ -4,8 +4,8 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 import CallToActionAlert from '../../CallToActionAlert';
 
 const MFA = () => {
-  const verifyLink = useCallback(policy => {
-    verify({ policy, isLink: true });
+  const verifyLink = useCallback(async policy => {
+    await verify({ policy, isLink: true, isSignup: false });
   }, []);
 
   const content = {
@@ -43,7 +43,7 @@ const MFA = () => {
         </p>
         <p>
           <strong>Note:</strong> If you need help updating your direct deposit
-          information, call us at <va-telephone contact="800-827-1000" />
+          information, call us at <va-telephone contact="8008271000" />
           <va-telephone contact="711">TTY : 711</va-telephone>. We’re here
           Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>

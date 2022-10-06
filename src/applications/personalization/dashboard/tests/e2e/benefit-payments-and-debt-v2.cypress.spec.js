@@ -6,6 +6,8 @@
  * @testrailinfo runName My VA - Pmt Info v2
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
+import { mockUser as mockUserWithoutClaims } from '@@profile/tests/fixtures/users/user-without-claims';
+import { mockUser as mockUserWithFalseClaims } from '@@profile/tests/fixtures/users/user-with-false-claims';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
@@ -58,10 +60,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
     });
     it('the v2 dashboard does not show up - C20877', () => {
       cy.visit('my-va/');
-      // make sure that the Notification section is not shown
-      cy.findByTestId('dashboard-section-payment-and-debts-v2').should(
-        'not.exist',
-      );
+      // make sure that the Payments and debts sections are not shown
+      cy.findByTestId('dashboard-section-payment-v2').should('not.exist');
+      cy.findByTestId('dashboard-section-debts-v2').should('not.exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck();
@@ -389,5 +390,94 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
     });
+  });
+});
+// temporary test to prove it still works with the old method since claims is empty.
+describe('when the payment history claims does not exist', () => {
+  beforeEach(() => {
+    mockLocalStorage();
+    cy.login(mockUserWithoutClaims);
+    cy.intercept('/v0/profile/service_history', serviceHistory);
+    cy.intercept('/v0/profile/full_name', fullName);
+    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/appeals', appealsSuccess());
+    cy.intercept(
+      '/v0/disability_compensation_form/rating_info',
+      disabilityRating,
+    );
+    cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
+    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showPaymentAndDebtSection,
+            value: true,
+          },
+        ],
+      },
+    }).as('featuresC');
+  });
+  it('the v2 dashboard shows up', () => {
+    cy.visit('my-va/');
+    // should show a loading indicator
+    cy.findByRole('progressbar').should('exist');
+    cy.findByText(/loading your information/i).should('exist');
+    cy.wait(['@featuresC']);
+    // and then the loading indicator should be removed
+    cy.findByRole('progressbar').should('not.exist');
+    cy.findByText(/loading your information/i).should('not.exist');
+    // make sure that the payment and debts sections are shown
+    cy.findByTestId('dashboard-section-payment-v2').should('exist');
+    cy.findByTestId('dashboard-section-debts-v2').should('exist');
+
+    // make the a11y check
+    cy.injectAxeThenAxeCheck();
+  });
+});
+// test when claim is false
+// temporary test to prove it still works with the old method since claims is empty.
+describe('when the payment history claims is false', () => {
+  beforeEach(() => {
+    mockLocalStorage();
+    cy.login(mockUserWithFalseClaims);
+    cy.intercept('/v0/profile/service_history', serviceHistory);
+    cy.intercept('/v0/profile/full_name', fullName);
+    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/appeals', appealsSuccess());
+    cy.intercept(
+      '/v0/disability_compensation_form/rating_info',
+      disabilityRating,
+    );
+    cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
+    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: featureFlagNames.showPaymentAndDebtSection,
+            value: true,
+          },
+        ],
+      },
+    }).as('featuresD');
+  });
+  it('the v2 dashboard should show up', () => {
+    cy.visit('my-va/');
+    // should show a loading indicator
+    cy.findByRole('progressbar').should('exist');
+    cy.findByText(/loading your information/i).should('exist');
+    cy.wait(['@featuresD']);
+    // and then the loading indicator should be removed
+    cy.findByRole('progressbar').should('not.exist');
+    cy.findByText(/loading your information/i).should('not.exist');
+    // make sure that the payment and debts sections are shown
+    cy.findByTestId('dashboard-section-payment-v2').should('exist');
+    cy.findByTestId('dashboard-section-debts-v2').should('exist');
+
+    // make the a11y check
+    cy.injectAxeThenAxeCheck();
   });
 });

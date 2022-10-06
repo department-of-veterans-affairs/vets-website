@@ -12,10 +12,7 @@ class Introduction {
     appointmentDate = new Date().setDate(new Date().getDate() + 1),
   ) => {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      `Your appointments are on ${format(
-        appointmentDate,
-        'MMMM dd, Y',
-      )} at LOMA LINDA VA CLINIC.`,
+      `Your appointments are on ${format(appointmentDate, 'MMMM dd, Y')}`,
     );
   };
 
