@@ -1,6 +1,8 @@
 import mockCategories from './fixtures/categories-response.json';
 import mockFolders from './fixtures/folder-response.json';
+import mockInboxFolder from './fixtures/folder-inbox-response.json';
 import mockMessages from './fixtures/messages-response.json';
+import mockRecipients from './fixtures/recipients-response.json';
 import manifest from '../manifest.json';
 
 beforeEach(() => {
@@ -26,18 +28,30 @@ describe(manifest.appName, () => {
     cy.intercept('GET', '/my_health/v1/messaging/folders', mockFolders).as(
       'folders',
     );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/*/messages',
+      mockMessages,
+    ).as('inbox');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/*',
+      mockInboxFolder,
+    ).as('inboxFolder');
     cy.intercept('GET', '/my_health/v1/messaging/messages', mockMessages).as(
       'messages',
     );
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients',
-      mockCategories,
+      mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/');
     cy.injectAxe();
     cy.wait('@categories');
     cy.wait('@folders');
+    cy.wait('@inbox');
+    cy.wait('@inboxFolder');
     cy.wait('@recipients');
     cy.injectAxe().axeCheck();
     cy.get('[data-testid="compose-message-link"]').click();

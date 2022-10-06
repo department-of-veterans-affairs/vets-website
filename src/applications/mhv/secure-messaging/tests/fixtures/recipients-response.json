@@ -1,0 +1,16 @@
+{
+    "data": [
+      {
+        "id": "13455",
+        "type": "triage_teams",
+        "attributes": {
+          "triage_team_id": 13455,
+          "name": "Doctor Who",
+          "relation_type": "Patient"
+        }
+      }
+    ],
+    "meta": {
+      "pagination": {}
+    }
+  }

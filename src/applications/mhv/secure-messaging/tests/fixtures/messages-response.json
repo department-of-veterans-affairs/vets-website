@@ -1,6 +1,8 @@
 {
   "data": [
     {
+      "id": "1339331",
+      "type": "messages",
       "attributes": {
         "attachment": true,
         "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
@@ -19,11 +21,9 @@
         "subject": "Message with attachment",
         "triageGroupName": "MyHealtheVet_Questions_PugetSound_ADMIN"
       },
-      "id": "2339331",
       "link": {
         "self": "https://staging-api.va.gov/v0/messaging/health/messages/2339331"
-      },
-      "type": "messages"
+      }
     },
     {
       "attributes": {

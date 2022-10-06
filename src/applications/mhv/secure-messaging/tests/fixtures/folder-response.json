@@ -1,46 +1,102 @@
 {
-  "folderList": [
+  "data": [
     {
-      "id": 0,
-      "name": "Inbox",
-      "count": 55,
-      "unreadCount": 41,
-      "systemFolder": true
+      "id": "0",
+      "type": "folders",
+      "attributes": {
+        "folder_id": 0,
+        "name": "Inbox",
+        "count": 15,
+        "unread_count": 0,
+        "system_folder": true
+      },
+      "links": {
+        "self": "string"
+      }
     },
     {
-      "id": -2,
-      "name": "Drafts",
-      "count": 18,
-      "unreadCount": 16,
-      "systemFolder": true
+      "id": "-2",
+      "type": "folders",
+      "attributes": {
+        "folder_id": -2,
+        "name": "Drafts",
+        "count": 10,
+        "unread_count": 0,
+        "system_folder": true
+      },
+      "links": {
+        "self": "string"
+      }
     },
     {
-      "id": -1,
-      "name": "Sent",
-      "count": 96,
-      "unreadCount": 76,
-      "systemFolder": true
+      "id": "-1",
+      "type": "folders",
+      "attributes": {
+        "folder_id": -1,
+        "name": "Sent",
+        "count": 50,
+        "unread_count": 0,
+        "system_folder": true
+      },
+      "links": {
+        "self": "string"
+      }
     },
     {
-      "id": -3,
-      "name": "Deleted",
-      "count": 2,
-      "unreadCount": 0,
-      "systemFolder": true
+      "id": "-2",
+      "type": "folders",
+      "attributes": {
+        "folder_id": -2,
+        "name": "Drafts",
+        "count": 10,
+        "unread_count": 0,
+        "system_folder": true
+      },
+      "links": {
+        "self": "string"
+      }
     },
     {
-      "id": 7038175,
-      "name": "TEST2",
-      "count": 8,
-      "unreadCount": 3,
-      "systemFolder": false
+      "id": "-3",
+      "type": "folders",
+      "attributes": {
+        "folder_id": -3,
+        "name": "Deleted",
+        "count": 10,
+        "unread_count": 0,
+        "system_folder": true
+      },
+      "links": {
+        "self": "string"
+      }
     },
     {
-      "id": 6976715,
-      "name": "TESTAGAIN",
-      "count": 2,
-      "unreadCount": 0,
-      "systemFolder": false
+      "id": "34578987",
+      "type": "folders",
+      "attributes": {
+        "folder_id": 34578987,
+        "name": "Test Folder B",
+        "count": 10,
+        "unread_count": 0,
+        "system_folder": false
+      },
+      "links": {
+        "self": "string"
+      }
     }
-  ]
-}
+  ],
+  "meta": {
+    "pagination": {
+      "current_page": 0,
+      "per_page": 0,
+      "total_pages": 0,
+      "total_entries": 0
+    }
+  },
+  "links": {
+    "self": "string",
+    "first": "string",
+    "prev": "Unknown Type: string,null",
+    "next": "Unknown Type: string,null",
+    "last": "string"
+  }}
