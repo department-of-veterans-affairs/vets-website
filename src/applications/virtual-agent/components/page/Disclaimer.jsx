@@ -23,15 +23,12 @@ export default function Disclaimer() {
           If you have questions about VA benefits and services that our chatbot
           can’t answer right now,
         </b>
-         you can get the information in any of these 3 ways:
+         you can get the information in any of these ways:
         <ul>
           <li>
             <a href="/resources/helpful-va-phone-numbers/">
               Call us at one of our helpful VA phone numbers
             </a>
-          </li>
-          <li>
-            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
           </li>
           <li>
             <a href="/resources/">Explore our resources and support content</a>
@@ -67,32 +64,17 @@ export default function Disclaimer() {
           To connect with a Veterans Crisis Line responder anytime day or night:
           <ul>
             <li>
-              Dialing{' '}
-              <a aria-label="9 8 8." href="tel:988">
-                988
-              </a>
-              and press 1.
+              Dialing <va-telephone contact="988" /> and press 1.
             </li>
             <li>
-              Calling{' '}
-              <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
-                800-273-8255
-              </a>
-              and press 1.
+              Calling <va-telephone contact="8002738255" /> and press 1.
             </li>
             <li>
-              Texting:{' '}
-              <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
-                838255
-              </a>
-              .
+              Texting <va-telephone contact="838255" />.
             </li>
             <li>
               If you have hearing loss, call TTY:{' '}
-              <a aria-label="8 0 0. 7 9 9. 4 8 8 9." href="tel:800-799-4889">
-                800-799-4889
-              </a>
-              .
+              <va-telephone contact="8007994889" tty />.
             </li>
           </ul>
         </p>
