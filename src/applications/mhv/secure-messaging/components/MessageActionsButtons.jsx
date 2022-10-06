@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders, moveMessageToFolder, deleteMessage } from '../actions';
+import { getAllFolders, moveMessageToFolder } from '../actions';
+import { deleteMessage } from '../actions/messages';
+import { navigateToFolderByFolderId } from '../util/helpers';
+import DeleteMessageModal from './Modals/DeleteMessageModal';
 
 const MessageActionButtons = props => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { folders } = useSelector(state => state?.folders);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDeleteVisible, setIsDeleteVisible] = useState(false);
+  const activeFolder = useSelector(state => state.sm.folders.folder);
+
   useEffect(
     () => {
       const abortCont = new AbortController();
@@ -38,7 +46,33 @@ const MessageActionButtons = props => {
   };
 
   const handleDeleteMessage = () => {
-    dispatch(deleteMessage(props.id));
+    // dispatch(deleteMessage(props.id));
+    setIsDeleteVisible(true);
+  };
+
+  const handleDeleteMessageConfirm = () => {
+    setIsDeleteVisible(false);
+    dispatch(deleteMessage(1234567))
+      .then(navigateToFolderByFolderId(activeFolder.folderId, history))
+      .catch(() => {});
+    // dispatch(deleteMessage(props.id));
+    // .then(navigateToFolderByFolderId(activeFolder.folderId, history))
+    // .catch();
+  };
+
+  const deleteMessageModal = () => {
+    return (
+      <DeleteMessageModal
+        id={props.id}
+        visible={isDeleteVisible}
+        onClose={() => {
+          setIsDeleteVisible(false);
+        }}
+        onDelete={() => {
+          handleDeleteMessageConfirm();
+        }}
+      />
+    );
   };
 
   const moveToFolderModal = () => {
@@ -101,6 +135,7 @@ const MessageActionButtons = props => {
         <i className="fas fa-trash-alt" aria-hidden />
         <span className="message-action-button-text">Delete</span>
       </button>
+      {isDeleteVisible && deleteMessageModal()}
 
       <button
         type="button"
@@ -112,7 +147,11 @@ const MessageActionButtons = props => {
       </button>
       {isModalVisible ? moveToFolderModal() : null}
 
-      <button type="button" className="message-action-button">
+      <button
+        type="button"
+        className="message-action-button"
+        onClick={props.onReply}
+      >
         <i className="fas fa-reply" aria-hidden="true" />
         <span className="message-action-button-text">Reply</span>
       </button>
@@ -122,6 +161,7 @@ const MessageActionButtons = props => {
 
 MessageActionButtons.propTypes = {
   id: PropTypes.number,
+  onReply: PropTypes.func,
 };
 
 export default MessageActionButtons;
