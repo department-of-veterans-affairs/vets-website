@@ -9,6 +9,7 @@ const useSendTravelPayClaim = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
+  const [travelPayClaimRequested, setTravelPayClaimRequested] = useState(true);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
@@ -23,6 +24,10 @@ const useSendTravelPayClaim = () => {
 
   useEffect(
     () => {
+      if (!travelPayData.travelQuestion) {
+        setTravelPayClaimRequested(false);
+        return;
+      }
       if (
         isLoading ||
         !isTravelReimbursementEnabled ||
@@ -32,6 +37,8 @@ const useSendTravelPayClaim = () => {
       ) {
         return;
       }
+
+      setTravelPayClaimRequested(true);
 
       setIsLoading(true);
       api.v2
@@ -63,6 +70,7 @@ const useSendTravelPayClaim = () => {
     travelPayEligible,
     isLoading,
     travelPayClaimData,
+    travelPayClaimRequested,
   };
 };
 

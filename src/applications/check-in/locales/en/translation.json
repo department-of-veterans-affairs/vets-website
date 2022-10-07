@@ -204,5 +204,8 @@
   "reimbursement-claim-number": "Reimbursement claim number",
   "check-travel-claim-status": "You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.",
   "travel-claim-submission-error": "TRAVEL CLAIM ERROR PLACEHOLDER",
-  "travel-pay-cant-file-message": "We can't file this type of reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment."
+  "travel-pay-cant-file-message": "We’re sorry. We can’t file this type of reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
+  "find-out-if-youre-eligible--link": "Find out if you’re eligible and how to file for travel reimbursement",
+  "travel-pay-reimbursement--info-message": "VA travel pay reimbursement pays eligible Veterans and caregivers back for mileage and other travel expenses to and from approved health care appointments.",
+  "find-out-how-to-file--link": "Find out how to file for travel reimbursement"
 }
