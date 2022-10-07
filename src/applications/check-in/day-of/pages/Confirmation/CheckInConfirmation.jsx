@@ -77,6 +77,7 @@ const CheckInConfirmation = props => {
             {t(
               'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
             )}
+            {t('if-you-wait-more-than')}
           </div>
         </va-alert>
 
