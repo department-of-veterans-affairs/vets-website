@@ -313,10 +313,9 @@ export default class AutosuggestField extends React.Component {
 }
 
 AutosuggestField.propTypes = {
-  onBlur: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/sort-prop-types
-  onChange: PropTypes.func.isRequired,
   schema: PropTypes.object.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     reviewMode: PropTypes.bool,
   }),
