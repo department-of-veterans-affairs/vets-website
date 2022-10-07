@@ -166,6 +166,18 @@ const analyticsEvents = {
       action: 'linkClick',
       event: 'nav-promo-banner-link-click',
       prefix: 'promo-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-promo-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'promo-banner-type': 'type',
+          'promo-banner-href': 'href',
+          'promo-banner-text': 'text',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-radio': [
@@ -206,7 +218,7 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'click-text': 'click_text',
+          'click-text': 'value',
           version: 'component_version',
         },
       },
