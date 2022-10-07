@@ -12,15 +12,10 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 
 const ComposeForm = props => {
-  const { message } = props;
+  const { message, recipients } = props;
   const dispatch = useDispatch();
 
-  const defaultRecipientsList = [
-    { id: 0, name: ' ' },
-    { id: 12, name: 'Doctor A' },
-    { id: 13, name: 'Doctor B' },
-    { id: 14, name: 'Doctor C' },
-  ];
+  const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [selectedRecipient, setSelectedRecipient] = useState(
     defaultRecipientsList[0].id,
@@ -37,6 +32,13 @@ const ComposeForm = props => {
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
+
+  useEffect(
+    () => {
+      setRecipientsList([...defaultRecipientsList, ...recipients]);
+    },
+    [recipients],
+  );
 
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
@@ -220,6 +222,7 @@ const ComposeForm = props => {
 
 ComposeForm.propTypes = {
   message: PropTypes.object,
+  recipients: PropTypes.array,
 };
 
 export default ComposeForm;
