@@ -3,9 +3,13 @@ import { getTriageTeamList } from '../api/SmApi';
 
 export const getTriageTeams = () => async dispatch => {
   const response = await getTriageTeamList();
-  // TODO Add error handling
-  dispatch({
-    type: Actions.TriageTeam.GET_LIST,
-    response,
-  });
+
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    dispatch({
+      type: Actions.TriageTeam.GET_LIST,
+      response,
+    });
+  }
 };

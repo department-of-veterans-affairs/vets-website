@@ -143,45 +143,38 @@ describe('check-in experience', () => {
         });
       });
       describe('dobInput', () => {
-        it.skip('displays the value', () => {
-          const updatedStore = {
-            checkInData: {
-              context: {
-                token: '',
-              },
+        let dobStore;
+        const dobInitState = {
+          checkInData: {
+            context: {
+              token: '',
             },
-            featureToggles: {
-              check_in_experience_lorota_security_updates_enabled: true,
+            form: {
+              pages: [],
             },
-            ...scheduledDowntimeState,
-          };
+          },
+          featureToggles: {
+            check_in_experience_lorota_security_updates_enabled: true,
+          },
+          ...scheduledDowntimeState,
+        };
+        beforeEach(() => {
+          dobStore = mockStore(dobInitState);
+        });
+        it('passes the value to the web component', () => {
           const { getByTestId } = render(
-            <Provider store={mockStore(updatedStore)}>
+            <Provider store={dobStore}>
               <I18nextProvider i18n={i18n}>
                 <ValidateDisplay
                   dobInput={{
-                    dob: {
-                      day: {
-                        value: 15,
-                        dirty: false,
-                      },
-                      month: {
-                        value: 3,
-                        dirty: false,
-                      },
-                      year: {
-                        value: '1989',
-                        dirty: false,
-                      },
-                    },
+                    dob: '1989-03-15',
                   }}
                 />
               </I18nextProvider>
             </Provider>,
           );
-          expect(
-            getByTestId('dob-input').querySelector('input').value,
-          ).to.equal('1989');
+          const date = getByTestId('dob-input').childNodes[0].value;
+          expect(date).to.equal('1989-03-15');
         });
       });
       describe('validate Error message', () => {

@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 /**
  * Attaches CustomEvent 'component-library-analytics' listener to document.body
  * to translate component library actions into analytics dataLayer events.
  */
 import _recordEvent from 'platform/monitoring/record-event';
 import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
+import environment from 'platform/utilities/environment';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
@@ -198,6 +200,16 @@ const analyticsEvents = {
     {
       action: 'click',
       event: 'nav-jumplink-click',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-on-this-page',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'click-text': 'click_text',
+          version: 'component_version',
+        },
+      },
     },
   ],
 };
@@ -265,6 +277,38 @@ export function subscribeComponentAnalyticsEvents(
       });
 
       recordEvent(clearedDataLayer);
+
+      // GA4 dataLayer push.
+      if (!environment.isProduction() && action?.ga4) {
+        /**
+         * Creating the GA4 dataLayer object by combining the existing
+         * GA dataLayer with the defined GA4 parameters.
+         */
+        const ga4DataLayer = {
+          ...dataLayer,
+          ...action.ga4,
+          action: action.event,
+        };
+
+        // Mapping the GA4 parameters to the Web Component event details.
+        const ga4Mapping = action?.ga4?.mapping;
+
+        if (ga4Mapping) {
+          for (const key of Object.keys(ga4Mapping)) {
+            const newKey = action.ga4.mapping[key];
+
+            ga4DataLayer[newKey] = dataLayer[key];
+
+            // Clean up old GA dataLayer values.
+            delete ga4DataLayer[key];
+          }
+
+          // Clean up the GA4 mapping object from the dataLayer.
+          delete ga4DataLayer.mapping;
+        }
+
+        recordEvent(ga4DataLayer);
+      }
     }
   }
 }
