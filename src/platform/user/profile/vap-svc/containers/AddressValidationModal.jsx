@@ -13,8 +13,6 @@ import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 import {
   openModal,
   createTransaction,
@@ -23,8 +21,10 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';
 
