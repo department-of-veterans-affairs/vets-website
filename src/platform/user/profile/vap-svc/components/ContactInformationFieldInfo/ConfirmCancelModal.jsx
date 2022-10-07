@@ -5,6 +5,12 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 const ConfirmCancelModal = props => {
   const { activeSection, closeModal, onHide, isVisible } = props;
 
+  // return null to avoid even having the web component in dom
+  // when not needed (this makes testing easier as well)
+  if (!isVisible) {
+    return null;
+  }
+
   const handlers = {
     primary: () => onHide(),
     secondary: () => {
@@ -23,6 +29,7 @@ const ConfirmCancelModal = props => {
       onSecondaryButtonClick={handlers.secondary}
       primaryButtonText="Continue Editing"
       secondaryButtonText="Cancel"
+      data-testid="confirm-cancel-modal"
     >
       <p>
         {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
