@@ -39,7 +39,7 @@ function getVideoAppointmentLocationText(appointment) {
 function getPractitionerName(appointment) {
   const { practitioners } = appointment;
 
-  if (!practitioners) return '<name here>';
+  if (!practitioners?.length) return '<name here>';
 
   const practitioner = practitioners[0];
   const { name } = practitioner;
@@ -149,7 +149,7 @@ export default function Grid({
         <div className="vads-u-flex--auto vads-u-padding-y--2">
           <div style={{ width: '69px' }}>{appointmentDate.format('ddd')}</div>
         </div>
-        <div className="vads-u-flex--auto  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lightest">
+        <div className="vads-u-flex--auto  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
           <div
             style={{
               ...styles.canceled,
@@ -161,7 +161,7 @@ export default function Grid({
               .replace(/\./g, '')} ${abbreviation}`}{' '}
           </div>
         </div>
-        <div className="vads-u-flex--auto  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lightest">
+        <div className="vads-u-flex--auto  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
           <div
             className="vads-u-font-weight--bold"
             style={{
@@ -172,7 +172,7 @@ export default function Grid({
             {appointmentDetails}
           </div>
         </div>
-        <div className="vads-u-flex--1  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lightest">
+        <div className="vads-u-flex--1  vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
           <div style={styles.canceled}>
             <i
               aria-hidden="true"
@@ -186,7 +186,7 @@ export default function Grid({
             {appointmentType}
           </div>
         </div>
-        <div className="vads-u-flex--auto  vads-u-padding-y--2 vaos-hide-for-print vads-u-border-bottom--1px vads-u-border-color--gray-lightest">
+        <div className="vads-u-flex--auto  vads-u-padding-y--2 vaos-hide-for-print vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
           <Link
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
