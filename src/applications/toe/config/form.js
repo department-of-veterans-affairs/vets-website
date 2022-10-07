@@ -43,9 +43,10 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  transformTOEForm,
   prefillTransformer,
 } from '../helpers';
+
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
@@ -60,6 +61,7 @@ import {
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -98,6 +100,7 @@ const formConfig = {
   },
   defaultDefinitions: {},
   getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -139,18 +142,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
                       }
                     },
                   ],
@@ -161,7 +153,18 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
                       }
                     },
                   ],
@@ -782,7 +785,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">

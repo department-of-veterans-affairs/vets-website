@@ -82,16 +82,15 @@ const HomepageSearch = () => {
 
   return (
     <div>
-      <label htmlFor="site-search" className="usa-sr-only">
-        Search the site:
-      </label>
-
-      <VaSearchInput
-        value={userInput}
-        onInput={handleInputChange}
-        onSubmit={handleSubmit}
-        suggestions={latestSuggestions}
-      />
+      <form role="search">
+        <VaSearchInput
+          value={userInput}
+          label="Search VA.gov"
+          onInput={handleInputChange}
+          onSubmit={handleSubmit}
+          suggestions={latestSuggestions}
+        />
+      </form>
     </div>
   );
 };
