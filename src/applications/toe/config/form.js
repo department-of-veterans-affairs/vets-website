@@ -12,6 +12,7 @@ import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import constants from 'vets-json-schema/dist/constants.json';
@@ -62,6 +63,8 @@ import {
   YOUR_PROFILE_URL,
 } from '../constants';
 import preSubmitInfo from '../components/preSubmitInfo';
+import DirectDepositViewField from '../components/DirectDepositViewField';
+// import preSubmitInfo from '../components/preSubmitInfo';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1191,13 +1194,25 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
-            'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: We make payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+            title: 'direct deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
             ),
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'direct deposit information',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
             [formFields.bankAccount]: {
               ...bankAccountUI,
               'ui:order': [
