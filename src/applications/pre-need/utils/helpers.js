@@ -1,5 +1,6 @@
 import React from 'react';
 import { merge } from 'lodash';
+import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
@@ -490,3 +491,8 @@ export function getCemeteries() {
       return Promise.resolve([]);
     });
 }
+
+SSNWidget.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
