@@ -2,9 +2,6 @@ import {
   MESSAGES_RETRIEVE_STARTED,
   MESSAGES_RETRIEVE_SUCCEEDED,
   MESSAGES_RETRIEVE_FAILED,
-  MESSAGE_RETRIEVE_STARTED,
-  MESSAGE_RETRIEVE_SUCCEEDED,
-  MESSAGE_RETRIEVE_FAILED,
   MESSAGE_DELETE_STARTED,
   MESSAGE_DELETE_FAILED,
   MESSAGE_DELETE_SUCCEEDED,
@@ -18,7 +15,6 @@ import {
   DRAFT_SAVE_STARTED,
   DRAFT_SAVE_FAILED,
   DRAFT_SAVE_SUCCEEDED,
-  LOADING_COMPLETE,
   // THREAD_RETRIEVE_STARTED,
   THREAD_RETRIEVE_SUCCEEDED,
   THREAD_RETRIEVE_FAILED,
@@ -63,11 +59,6 @@ const message = (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_DELETE_STARTED:
     case MESSAGE_MOVE_STARTED:
-    case MESSAGE_RETRIEVE_STARTED:
-      return {
-        ...state,
-        isLoading: true,
-      };
     case DRAFT_AUTO_SAVE_STARTED:
       return {
         ...state,
@@ -79,13 +70,6 @@ const message = (state = initialState, action) => {
         isSaving: true,
         saveError: null,
       };
-    case MESSAGE_RETRIEVE_SUCCEEDED:
-      return {
-        ...state,
-        isLoading: false,
-        message: action.response,
-        error: null,
-      };
     case DRAFT_SAVE_SUCCEEDED:
       return {
         ...state,
@@ -95,12 +79,6 @@ const message = (state = initialState, action) => {
       };
     case MESSAGE_DELETE_FAILED:
     case MESSAGE_MOVE_FAILED:
-    case MESSAGE_RETRIEVE_FAILED:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.response,
-      };
     case DRAFT_SAVE_FAILED:
       return {
         ...state,
@@ -110,11 +88,6 @@ const message = (state = initialState, action) => {
       };
     case MESSAGE_DELETE_SUCCEEDED:
     case MESSAGE_MOVE_SUCCEEDED:
-    case LOADING_COMPLETE:
-      return {
-        ...state,
-        isLoading: false,
-      };
     case THREAD_RETRIEVE_SUCCEEDED:
       return {
         ...state,

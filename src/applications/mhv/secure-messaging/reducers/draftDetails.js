@@ -15,11 +15,19 @@ const initialState = {
 export const draftDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Draft.GET: {
-      const msgAttr = action.response.data.attributes;
+      const { data, included } = action.response;
+      const msgAttachments =
+        included &&
+        included.map(item => ({
+          id: item.id,
+          link: item.links.download,
+          ...item.attributes,
+        }));
       return {
         ...state,
         draftMessage: {
-          ...msgAttr,
+          ...data.attributes,
+          attachments: msgAttachments,
         },
       };
     }
