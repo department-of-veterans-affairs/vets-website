@@ -68,7 +68,7 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <AlertBackgroundBox />
+      <AlertBackgroundBox closeable />
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
       <NavigationLinks messageId={id} />

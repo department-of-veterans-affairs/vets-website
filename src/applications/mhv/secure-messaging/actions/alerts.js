@@ -6,7 +6,12 @@ export const closeAlert = () => async dispatch => {
   });
 };
 
-export const addAlert = (alertType, header, content, response) => dispatch => {
+export const addAlert = (
+  alertType,
+  header,
+  content,
+  response,
+) => async dispatch => {
   dispatch({
     type: Actions.Alerts.ADD_ALERT,
     payload: {

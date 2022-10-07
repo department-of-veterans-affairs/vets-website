@@ -8,6 +8,8 @@ import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { closeAlert } from '../actions/alerts';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -52,6 +54,18 @@ const FolderListView = () => {
       }
     },
     [folderId, dispatch],
+  );
+
+  // clear out alerts if user navigates away from this component
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useInterval(() => {
@@ -104,6 +118,7 @@ const FolderListView = () => {
           />
         ) : (
           <>
+            <AlertBackgroundBox closeable />
             <FolderHeader folder={folder} />
             <div className="search-messages-input">
               <label

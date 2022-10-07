@@ -7,6 +7,8 @@ import { getAllFolders, moveMessageToFolder } from '../actions';
 import { deleteMessage } from '../actions/messages';
 import { navigateToFolderByFolderId } from '../util/helpers';
 import DeleteMessageModal from './Modals/DeleteMessageModal';
+import { addAlert } from '../actions/alerts';
+import * as Constants from '../util/constants';
 
 const MessageActionButtons = props => {
   const dispatch = useDispatch();
@@ -45,19 +47,22 @@ const MessageActionButtons = props => {
     closeMoveModal();
   };
 
-  const handleDeleteMessage = () => {
-    // dispatch(deleteMessage(props.id));
-    setIsDeleteVisible(true);
-  };
-
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
-    dispatch(deleteMessage(1234567))
-      .then(navigateToFolderByFolderId(activeFolder.folderId, history))
-      .catch(() => {});
-    // dispatch(deleteMessage(props.id));
-    // .then(navigateToFolderByFolderId(activeFolder.folderId, history))
-    // .catch();
+    dispatch(deleteMessage(props.id))
+      .then(() => {
+        navigateToFolderByFolderId(activeFolder.folderId, history);
+      })
+      .catch(error => {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_ERROR,
+            '',
+            `Message was not successfully deleted.${error &&
+              ` Error: ${error.errors[0].detail}`}`,
+          ),
+        );
+      });
   };
 
   const deleteMessageModal = () => {
@@ -130,7 +135,9 @@ const MessageActionButtons = props => {
       <button
         type="button"
         className="message-action-button"
-        onClick={handleDeleteMessage}
+        onClick={() => {
+          setIsDeleteVisible(true);
+        }}
       >
         <i className="fas fa-trash-alt" aria-hidden />
         <span className="message-action-button-text">Delete</span>
