@@ -1,5 +1,12 @@
 import merge from 'lodash/merge';
+
 import set from 'platform/utilities/data/set';
+
+import {
+  FETCH_STEM_CLAIMS_ERROR,
+  FETCH_STEM_CLAIMS_PENDING,
+  FETCH_STEM_CLAIMS_SUCCESS,
+} from '../actions';
 import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
@@ -15,12 +22,6 @@ import {
   appealsAvailability,
   CHANGE_INDEX_PAGE,
 } from '../utils/appeals-v2-helpers';
-
-import {
-  FETCH_STEM_CLAIMS_ERROR,
-  FETCH_STEM_CLAIMS_PENDING,
-  FETCH_STEM_CLAIMS_SUCCESS,
-} from '../actions';
 
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
 

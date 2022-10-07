@@ -1,17 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { createDraft, updateDraft } from '../api/SmApi';
 
-// const saveDraftResponse = {
-//   id: '',
-//   category: '',
-//   subject: '',
-//   body: '',
-//   attachments: { attachment: [] },
-//   recipientId: 20364,
-//   recipientName: 'mock name',
-//   sentDate: '',
-// };
-
 const sendSaveDraft = async (messageData, id) => {
   try {
     const messageJSON = JSON.stringify(messageData);
