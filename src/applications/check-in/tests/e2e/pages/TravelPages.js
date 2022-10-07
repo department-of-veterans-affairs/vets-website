@@ -30,7 +30,7 @@ class TravelPages {
   validateContent = page => {
     let body = true;
     const helpText = true;
-    if (page === 'vehicle' || 'mileage') {
+    if (page === 'vehicle' || page === 'mileage') {
       body = false;
     }
     if (helpText) {
