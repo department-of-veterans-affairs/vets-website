@@ -8,11 +8,14 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
  * @returns
  */
 export const getFolderList = () => {
-  return apiRequest(`${apiBasePath}/messaging/folders?page=1&per_page=999`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders?page=1&per_page=999&useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**

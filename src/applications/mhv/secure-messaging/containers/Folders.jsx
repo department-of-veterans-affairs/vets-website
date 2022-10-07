@@ -86,18 +86,14 @@ const Folders = () => {
           <va-button text="Confirm" onClick={confirmNewFolder} />
           <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
         </VaModal>
-        <div className="modal-button">
-          <va-button text="Create new folder" onClick={openNewModal} />
-        </div>
+        <button type="button" className="modal-button" onClick={openNewModal}>
+          Create new folder
+        </button>
       </>
     );
   };
 
-  return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      {content()}
-    </div>
-  );
+  return <div className="folders-container">{content()}</div>;
 };
 
 export default Folders;

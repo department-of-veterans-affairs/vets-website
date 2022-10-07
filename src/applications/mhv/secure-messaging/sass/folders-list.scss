@@ -1,3 +1,8 @@
+.folders-container {
+  padding: 0px;
+  margin-bottom: 38px;
+}
+
 .folder-title {
   h1 {
     margin-top: 12px;
@@ -13,7 +18,7 @@
     padding: 0;
     li {
       border-top: 1px solid $color-gray-medium;
-      padding: 8px 0;
+      padding: 16px 0;
       margin: 0;
       display: flex;
       @media (min-width: $medium-screen) {
@@ -27,9 +32,11 @@
   }
 
 .modal-button {
-  display: flex;
-  flex-direction: column;
-
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .modal {

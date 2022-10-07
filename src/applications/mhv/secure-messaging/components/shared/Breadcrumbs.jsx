@@ -17,6 +17,7 @@ const Breadcrumbs = () => {
           { path: '/drafts', breadCrumbArray: [{ label: 'Drafts' }] },
           { path: '/sent', breadCrumbArray: [{ label: 'Sent messages' }] },
           { path: '/trash', breadCrumbArray: [{ label: 'Trash' }] },
+          { path: '/folders', breadCrumbArray: [{ label: 'Folders' }] },
           {
             path: '/search',
             breadCrumbArray: [{ label: 'Search messages', route: '/search' }],
