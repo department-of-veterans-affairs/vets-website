@@ -8,7 +8,7 @@ const PrintMessageThread = props => {
   const { messageId } = props;
   const dispatch = useDispatch();
   const messageThread = useSelector(state => state.message.messages);
-
+  const printView = true;
   useEffect(
     () => {
       if (messageId) {
@@ -24,7 +24,7 @@ const PrintMessageThread = props => {
         {messageThread.map((m, i) => {
           return (
             <div key={i}>
-              <MessageThreadItem message={m} printView="print view" />
+              <MessageThreadItem message={m} printView={printView} />
             </div>
           );
         })}

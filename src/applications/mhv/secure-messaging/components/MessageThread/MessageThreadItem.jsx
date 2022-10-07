@@ -11,7 +11,7 @@ const MessageThreadItem = props => {
 
   useEffect(
     () => {
-      if (props.printView === 'print view') {
+      if (props.printView) {
         setIsExpanded(true);
       }
     },
@@ -105,7 +105,7 @@ const MessageThreadItem = props => {
 
 MessageThreadItem.propTypes = {
   message: PropTypes.object,
-  printView: PropTypes.string,
+  printView: PropTypes.bool,
 };
 
 export default MessageThreadItem;
