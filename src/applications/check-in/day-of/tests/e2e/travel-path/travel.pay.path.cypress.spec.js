@@ -76,7 +76,12 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoadedWithNoBtsssClaim();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--confirmation-no-claim-success',
+      );
     });
     it('Routes to appointments on no to second question.', () => {
       TravelPages.validatePageLoaded();

@@ -7,13 +7,30 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
+  validatePageLoadedWithNoBtsssClaim = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', 'You’re checked in');
+    cy.get('[data-testid="travel-pay-info-message"]', {
+      timeout: Timeouts.slow,
+    })
+      .should('be.visible')
+      .and(
+        'include.text',
+        'VA travel pay reimbursement pays eligible Veterans',
+      );
+  };
+
   validatePageLoadedWithBtsssSubmission = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('include.text', 'And we received your reimbursement claim');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'Reimbursement claim number');
+      .and(
+        'include.text',
+        'You can check the status of your travel reimbursement claim online',
+      );
   };
 
   validatePageLoadedWithBtsssIneligible = () => {
