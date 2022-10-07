@@ -51,14 +51,19 @@ const MessageActionButtons = props => {
     setIsDeleteVisible(false);
     dispatch(deleteMessage(props.id))
       .then(() => {
-        navigateToFolderByFolderId(activeFolder.folderId, history);
+        navigateToFolderByFolderId(
+          activeFolder
+            ? activeFolder.folderId
+            : Constants.DefaultFolders.DELETED.id,
+          history,
+        );
       })
       .catch(error => {
         dispatch(
           addAlert(
             Constants.ALERT_TYPE_ERROR,
             '',
-            `Message was not successfully deleted.${error &&
+            `${Constants.Alerts.Message.DELETE_MESSAGE_ERROR} ${error &&
               ` Error: ${error.errors[0].detail}`}`,
           ),
         );
@@ -132,16 +137,20 @@ const MessageActionButtons = props => {
         <span className="message-action-button-text">Print</span>
       </button>
 
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={() => {
-          setIsDeleteVisible(true);
-        }}
-      >
-        <i className="fas fa-trash-alt" aria-hidden />
-        <span className="message-action-button-text">Delete</span>
-      </button>
+      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
+        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+          <button
+            type="button"
+            className="message-action-button"
+            onClick={() => {
+              setIsDeleteVisible(true);
+            }}
+          >
+            <i className="fas fa-trash-alt" aria-hidden />
+            <span className="message-action-button-text">Trash</span>
+          </button>
+        )}
+
       {isDeleteVisible && deleteMessageModal()}
 
       <button

@@ -86,7 +86,7 @@ export const deleteMessage = messageId => async dispatch => {
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
-        'Message was successfully moved to Trash',
+        Constants.Alerts.Message.DELETE_MESSAGE_SUCCESS,
       ),
     );
   }

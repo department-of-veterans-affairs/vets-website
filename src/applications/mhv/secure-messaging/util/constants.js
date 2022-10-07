@@ -19,6 +19,22 @@ export const DefaultFolders = {
   },
 };
 
+export const Alerts = {
+  Message: {
+    DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
+    DELETE_MESSAGE_ERROR: 'Message was not successfully deleted.',
+  },
+};
+
+export const Prompts = {
+  Message: {
+    DELETE_MESSAGE_CONFIRM:
+      'Are you sure you want to move this message to the trash?',
+    DELETE_MESSAGE_CONFIRM_NOTE:
+      'Messages in the trash folder won’t be permanently deleted.',
+  },
+};
+
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';

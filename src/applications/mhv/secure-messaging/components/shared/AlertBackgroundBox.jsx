@@ -45,7 +45,7 @@ const AlertBackgroundBox = props => {
       onCloseEvent={closeAlertBox}
     >
       <div>
-        <p className="vads-u-margin-top--0">{activeAlert.content}</p>
+        <p className="vads-u-margin-y--0">{activeAlert.content}</p>
       </div>
     </VaAlert>
   ) : (
