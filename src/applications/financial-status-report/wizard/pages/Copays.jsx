@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 import { PAGE_NAMES } from '../constants';
 import DelayedLiveRegion from '../DelayedLiveRegion';
+import StartFormButton from '../components/StartFormButton';
 
-const Copays = () => {
+const Copays = ({ setWizardStatus }) => {
   useEffect(() => {
     recordEvent({
       event: 'howToWizard-alert-displayed',
       'reason-for-alert': 'debt related to VA health care copays',
     });
   }, []);
+  const label = 'Start your request now';
 
   return (
     <DelayedLiveRegion>
@@ -22,52 +20,84 @@ const Copays = () => {
           className="vads-u-margin-top--0 vads-u-font-size--h6 vads-u-font-weight--normal vads-u-font-family--sans"
           id="wizard-results"
         >
-          Based on the information you provided, this isn’t the form you need.
-        </h2>
-        <p>
           <strong>
-            Here’s how to pay or get help with your VA copay bill:
+            If you want to request debt forgiveness or a compromise offer for a
+            VA copay bill
           </strong>
-        </p>
+          , you can use our online Financial Status Report (VA Form 5655) to
+          request help with your debt.
+        </h2>
+        <StartFormButton setWizardStatus={setWizardStatus} label={label} />
         <p>
-          <a
-            href="/health-care/pay-copay-bill/"
-            onClick={() => {
-              recordEvent({
-                event: 'howToWizard-alert-link-click',
-                'howToWizard-alert-link-click-label':
-                  'Find out how to pay your VA copay bill',
-              });
-            }}
-          >
-            Find out how to pay your VA copay bill
-          </a>
+          <strong>Need something else?</strong>
         </p>
+        <ul>
+          <li>
+            <p>
+              You can pay your copay bill online, by phone, by mail, or in
+              person.
+              <br />
+              <a
+                href="/manage-va-debt/#make-a-payment-now"
+                onClick={() => {
+                  recordEvent({
+                    event: 'howToWizard-alert-link-click',
+                    'howToWizard-alert-link-click-label':
+                      'Learn how to make a payment now',
+                  });
+                }}
+              >
+                Learn how to make a payment now
+              </a>
+            </p>
+          </li>
+          <li>
+            <p>
+              You have the right to dispute all or part of your VA copay
+              charges.
+              <br />
+              <a
+                href="/health-care/pay-copay-bill/dispute-charges/"
+                onClick={() => {
+                  recordEvent({
+                    event: 'howToWizard-alert-link-click',
+                    'howToWizard-alert-link-click-label':
+                      'Learn how to dispute your VA copay charges',
+                  });
+                }}
+              >
+                Learn how to dispute your VA copay charges
+              </a>
+            </p>
+          </li>
+          <li>
+            <p>
+              If your income has decreased and you won’t be able to pay future
+              copays, we can help.
+              <br />
+              <a
+                href="/health-care/pay-copay-bill/financial-hardship/#what-can-i-do-if-my-income-has"
+                onClick={() => {
+                  recordEvent({
+                    event: 'howToWizard-alert-link-click',
+                    'howToWizard-alert-link-click-label':
+                      'Learn how to request a VA hardship determination and copay exemption',
+                  });
+                }}
+              >
+                Learn how to request a VA hardship determination and copay
+                exemption
+              </a>
+            </p>
+          </li>
+        </ul>
         <p>
-          <a
-            href="/health-care/pay-copay-bill/financial-hardship/"
-            onClick={() => {
-              recordEvent({
-                event: 'howToWizard-alert-link-click',
-                'howToWizard-alert-link-click-label':
-                  'Learn how to request financial hardship assistance',
-              });
-            }}
-          >
-            Learn how to request financial hardship assistance
-          </a>
+          <strong>Note: </strong>
+          Be sure to pay your full balance or request help by the due date on
+          your billing statement. This will help you avoid late fees, interest,
+          or other collection action.
         </p>
-        <p>
-          Or call us at <Telephone contact="866-400-1238" />. We’re here Monday
-          through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss,
-          call TTY:
-          <Telephone
-            contact={CONTACTS[711]}
-            pattern={PATTERNS['3_DIGIT']}
-            className="vads-u-margin-left--0p5"
-          />
-          .
-        </p>
+        <p />
       </div>
     </DelayedLiveRegion>
   );
