@@ -1,0 +1,18 @@
+services:
+  # What to call the service hosting the site. Because there is only
+  # one service, it is automatically set as the default service, which
+  # does a few things
+  #   1. Clones the git repository into the service container
+  #   2. Exposes port 80 to the Tugboat HTTP proxy
+  #   3. Routes requests to the preview URL to this service
+  apache:
+    # Use the available version of Apache by not specifying a version
+    image: tugboatqa/httpd
+
+    # A set of commands to run while building this service
+    commands:
+      # Commands that set up the basic preview infrastructure
+      init:
+        # Link the document root to the expected path. This example links the
+        # root of the git repository to the docroot
+        - ln -snf "${TUGBOAT_ROOT}" "${DOCROOT}"
