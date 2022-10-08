@@ -106,7 +106,7 @@ const ComposeForm = props => {
   };
 
   const saveDraftHandler = type => {
-    const draftId = draft && draft.id;
+    const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
       rec: selectedRecipient,
       cat: category,
@@ -127,20 +127,16 @@ const ComposeForm = props => {
       body: messageBody,
     };
 
-    if (draftId) formData.id = draftId;
-
     dispatch(saveDraft(formData, type, draftId));
   };
 
   useEffect(
     () => {
       if (
-        formPopulated &&
-        (selectedRecipient ||
-          category ||
-          debouncedSubject ||
-          debouncedMessageBody ||
-          attachmentNames)
+        selectedRecipient &&
+        category &&
+        debouncedSubject &&
+        debouncedMessageBody
       ) {
         saveDraftHandler('auto');
       }

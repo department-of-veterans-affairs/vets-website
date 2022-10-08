@@ -13,16 +13,17 @@ const initialState = {
 };
 
 export const draftDetailsReducer = (state = initialState, action) => {
+  const { data, included } = action.response || {};
+  const msgAttachments =
+    included &&
+    included.map(item => ({
+      id: item.id,
+      link: item.links.download,
+      ...item.attributes,
+    }));
+
   switch (action.type) {
     case Actions.Draft.GET: {
-      const { data, included } = action.response;
-      const msgAttachments =
-        included &&
-        included.map(item => ({
-          id: item.id,
-          link: item.links.download,
-          ...item.attributes,
-        }));
       return {
         ...state,
         draftMessage: {
@@ -42,18 +43,29 @@ export const draftDetailsReducer = (state = initialState, action) => {
         }),
       };
     }
-    case Actions.Draft.AUTO_SAVE_STARTED:
-      return {
-        ...state,
-        saveError: null,
-      };
     case Actions.Draft.SAVE_STARTED:
       return {
         ...state,
         isSaving: true,
         saveError: null,
       };
-    case Actions.Draft.SAVE_SUCCEEDED:
+    case Actions.Draft.AUTO_SAVE_STARTED:
+      return {
+        ...state,
+        saveError: null,
+      };
+    case Actions.Draft.CREATE_SUCCEEDED:
+      return {
+        ...state,
+        isSaving: false,
+        lastSaveTime: Date.now(),
+        saveError: null,
+        draftMessage: {
+          ...data.attributes,
+          attachments: msgAttachments,
+        },
+      };
+    case Actions.Draft.UPDATE_SUCCEEDED:
       return {
         ...state,
         isSaving: false,

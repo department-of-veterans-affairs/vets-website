@@ -125,7 +125,7 @@ export const createDraft = message => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: message,
+    body: JSON.stringify(message),
   });
 };
 
@@ -143,7 +143,7 @@ export const updateDraft = (draftMessageId, message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: message,
+      body: JSON.stringify(message),
     },
   );
 };
