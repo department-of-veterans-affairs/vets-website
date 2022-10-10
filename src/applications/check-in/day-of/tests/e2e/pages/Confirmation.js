@@ -41,7 +41,7 @@ class Confirmation {
       .should('be.visible')
       .and(
         'include.text',
-        "We can't file this type of reimbursement claim for you",
+        'We’re sorry. We can’t file this type of reimbursement claim for you',
       );
   };
 
