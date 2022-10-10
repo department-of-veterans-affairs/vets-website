@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -94,7 +94,7 @@ export default function ConfirmationPage() {
         </div>
       </div>
       <div className="vads-u-margin-y--2">
-        <Link
+        <va-link
           to="/"
           className="usa-button vads-u-padding-right--2"
           onClick={() => {
@@ -102,9 +102,8 @@ export default function ConfirmationPage() {
               event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
             });
           }}
-        >
-          Review your appointments
-        </Link>
+          text="Review your appointments"
+        />
       </div>
     </div>
   );

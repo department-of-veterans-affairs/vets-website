@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 
@@ -54,29 +54,21 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
-          VA online scheduling
-        </Link>
+        <va-link to="/" key="vaos-home" text=" VA online scheduling" />
       )}
       {featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
-          Your appointments
-        </Link>
+        <va-link to="/" key="vaos-home" text="Your appointments" />
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <Link to="/past" key="past">
-            Past
-          </Link>
+          <va-link to="/past" key="past" text="Past" />
         </li>
       )}
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <Link to="/pending" key="pending">
-            Pending
-          </Link>
+          <va-link to="/pending" key="pending" text="Pending" />
         </li>
       )}
 

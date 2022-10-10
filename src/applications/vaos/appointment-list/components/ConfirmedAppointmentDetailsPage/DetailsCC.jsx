@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
@@ -57,7 +56,7 @@ export default function DetailsCC({
   return (
     <>
       <Breadcrumbs>
-        <Link to={`/cc/${appointment.id}`}>Appointment detail</Link>
+        <va-link to={`/cc/${appointment.id}`} text="Appointment detail" />
       </Breadcrumbs>
       <h1>
         <AppointmentDateTime appointment={appointment} />

@@ -1,7 +1,6 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { FLOW_TYPES } from '../../../utils/constants';
 
@@ -55,12 +54,11 @@ export default function ContactDetailSection({ data, flowType }) {
             </span>
           </div>
           <div>
-            <Link
+            <va-link
               to={newAppointmentFlow.contactInfo.url}
               aria-label="Edit call back time"
-            >
-              Edit
-            </Link>
+              text="Edit"
+            />
           </div>
         </div>
       </div>

@@ -16,12 +16,11 @@ export default function PreferredDatesSection(props) {
             </ul>
           </div>
           <div>
-            <Link
+            <va-link
               to={newAppointmentFlow.requestDateTime.url}
               aria-label="Edit preferred date"
-            >
-              Edit
-            </Link>
+              text="Edit"
+            />
           </div>
         </div>
       </div>

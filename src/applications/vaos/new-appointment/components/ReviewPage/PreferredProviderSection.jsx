@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
@@ -42,12 +41,11 @@ export default function PreferredProviderSection(props) {
               </span>
             </div>
             <div>
-              <Link
+              <va-link
                 to={newAppointmentFlow.ccPreferences.url}
                 aria-label="Edit provider preference"
-              >
-                Edit
-              </Link>
+                text="Edit"
+              />
             </div>
           </div>
         </div>
@@ -75,12 +73,11 @@ export default function PreferredProviderSection(props) {
                 </span>
               </div>
               <div>
-                <Link
+                <va-link
                   to={newAppointmentFlow.ccPreferences.url}
                   aria-label="Edit provider preference"
-                >
-                  Edit
-                </Link>{' '}
+                  text="Edit"
+                />{' '}
               </div>
             </div>
           </div>

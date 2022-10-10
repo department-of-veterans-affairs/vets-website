@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
@@ -78,9 +77,10 @@ export default function RequestEligibilityMessage({
             <ul>
               <li>
                 Go to{' '}
-                <Link to={featureStatusImprovement ? '/pending' : '/requested'}>
-                  your appointment list{' '}
-                </Link>
+                <va-link
+                  to={featureStatusImprovement ? '/pending' : '/requested'}
+                  text="your appointment list "
+                />
                 and cancel open requests, or
               </li>
               {facilityDetails && (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -13,7 +13,7 @@ export default function FormLayout({ children, isReviewPage }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
-        <Link to="new-appointment">New appointment</Link>
+        <va-link to="new-appointment" text="New appointment" />
       </Breadcrumbs>
       {location.pathname.endsWith('new-appointment') && (
         <DowntimeNotification

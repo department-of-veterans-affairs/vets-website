@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
@@ -23,12 +22,11 @@ export default function VAAppointmentSection({ data, facility }) {
             {TYPE_OF_VISIT.find(visit => visit.id === data.visitType)?.name}
           </div>
           <div>
-            <Link
+            <va-link
               to={newAppointmentFlow.visitType.url}
               aria-label="Edit how to be seen"
-            >
-              Edit
-            </Link>
+              text="Edit"
+            />
           </div>
         </div>
       </div>

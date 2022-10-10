@@ -37,14 +37,14 @@ function ActionButtons(props) {
     <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
       {eligibleForRequests && (
         <>
-          <Link to={newAppointmentFlow.requestDateTime.url}>
+          <va-link to={newAppointmentFlow.requestDateTime.url}>
             <button
               className="usa-button-secondary vads-u-margin-x--0"
               onClick={onClickRequest}
             >
               Request an earlier appointment
             </button>
-          </Link>
+          </va-link>
           <span className="vads-u-display--inline-block vads-u-margin-x--2p5 vads-u-font-weight--bold">
             OR
           </span>

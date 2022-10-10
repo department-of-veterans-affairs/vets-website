@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -102,9 +102,11 @@ export default function ReviewPage() {
               />
             </div>
           </div>
-          <Link to={flow.contactInfo.url} aria-label="Edit contact information">
-            Edit
-          </Link>
+          <va-link
+            to={flow.contactInfo.url}
+            aria-label="Edit contact information"
+            text="Edit"
+          />
         </div>
       </div>
       <hr aria-hidden="true" className="vads-u-margin-y--2" />

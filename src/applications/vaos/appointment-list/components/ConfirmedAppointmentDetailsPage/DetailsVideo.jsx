@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
@@ -37,7 +36,7 @@ export default function DetailsVideo({ appointment, facilityData }) {
   return (
     <>
       <Breadcrumbs>
-        <Link to={`/va/${appointment.id}`}>Appointment detail</Link>
+        <va-link to={`/va/${appointment.id}`} text="Appointment detail" />
       </Breadcrumbs>
 
       <h1>

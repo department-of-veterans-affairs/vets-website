@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { useDispatch } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
@@ -59,17 +59,18 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             available appointment.
             <br />
             <div className=" vads-u-margin-top--1">
-              <Link to="/" onClick={handleViewClick}>
-                View your appointments
-              </Link>
+              <va-link
+                to="/"
+                onClick={handleViewClick}
+                text="View your appointments"
+              />
             </div>
             <div className=" vads-u-margin-top--1">
-              <Link
+              <va-link
                 to="/new-appointment"
                 onClick={handleNewApptClick(dispatch)}
-              >
-                New appointment
-              </Link>
+                text="New appointment"
+              />
             </div>
           </>
         )}

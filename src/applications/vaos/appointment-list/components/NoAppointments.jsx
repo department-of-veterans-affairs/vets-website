@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function NoAppointments({
@@ -21,13 +20,12 @@ export default function NoAppointments({
             </NewTabAnchor>{' '}
             to schedule an appointment.
           </p>
-          <Link
+          <va-link
             className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
             to="/new-appointment"
             onClick={startNewAppointmentFlow}
-          >
-            Schedule an appointment
-          </Link>
+            text="Schedule an appointment"
+          />
         </>
       )}
       {!showScheduleButton && (
