@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CSP_IDS } from 'platform/user/authentication/constants';
-import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
+import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink.jsx';
 
 export default function VerifyIdentity({ useOAuth }) {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
@@ -27,7 +27,7 @@ export default function VerifyIdentity({ useOAuth }) {
       </p>
       {[ID_ME, LOGIN_GOV].map(policy => (
         <p key={policy}>
-          <VerifyAccountLink policy={policy} useOAuth={useOAuth} />
+          <CreateAccountLink policy={policy} useOAuth={useOAuth} />
         </p>
       ))}
       <p>
