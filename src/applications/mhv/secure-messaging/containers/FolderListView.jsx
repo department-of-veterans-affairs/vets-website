@@ -105,6 +105,24 @@ const FolderListView = () => {
         ) : (
           <>
             <FolderHeader folder={folder} />
+            {folder.folderId > 0 && (
+              <div className="manage-folder-container">
+                <button
+                  type="button"
+                  className="left-button"
+                  onClick={function noRefCheck() {}}
+                >
+                  Edit folder name
+                </button>
+                <button
+                  type="button"
+                  className="right-button"
+                  onClick={function noRefCheck() {}}
+                >
+                  Remove name
+                </button>
+              </div>
+            )}
             <div className="search-messages-input">
               <label
                 className="vads-u-margin-top--2p5"
