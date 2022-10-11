@@ -43,6 +43,11 @@ class EducationWizard extends React.Component {
       case '22-1990':
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
+      // set production flag
+      case '1990N':
+        url = '/find-forms/about-form-22-1990n';
+        break;
+      // producation flag here
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
@@ -286,6 +291,27 @@ class EducationWizard extends React.Component {
                   }
                 />
               )}
+            {serviceBenefitBasedOn === 'own' && (
+              <RadioButtons
+                additionalFieldsetClass="wizard-fieldset"
+                name="vetTecBenefit"
+                id="vetTecBenefit"
+                options={[
+                  { label: 'Yes', value: 'yes' },
+                  { label: 'No', value: 'no' },
+                ]}
+                onValueChange={({ value }) =>
+                  this.answerQuestion('vetTecBenefit', value)
+                }
+                value={{ value: vetTecBenefit }}
+                label={
+                  <span>
+                    Are you applying for Veteran Employment Through Technology
+                    Education Courses (VET TEC)?
+                  </span>
+                }
+              />
+            )}
             {serviceBenefitBasedOn === 'other' && (
               <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
