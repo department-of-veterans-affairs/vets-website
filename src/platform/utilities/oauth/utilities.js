@@ -220,10 +220,10 @@ export const refresh = async ({ type }) => {
   const url = new URL(
     API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
   );
+
   return fetch(url.href, {
     method: 'POST',
     credentials: 'include',
-    type,
   });
 };
 
