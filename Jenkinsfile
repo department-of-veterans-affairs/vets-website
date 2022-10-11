@@ -28,8 +28,7 @@ node('vetsgov-general-purpose') {
 
       final String response = sh(script: "curl --request POST \
         --url '$url' \
-        --header 'authorization: Bearer ${GITHUB_TOKEN}' \
-        "
+        --header 'authorization: Bearer ${GITHUB_TOKEN}'"
     }
     try {
       if (!commonStages.isReviewable()) {
