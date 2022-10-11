@@ -77,6 +77,7 @@ export const submissionForm = {
       routingNumber: '124003116',
       accountNumber: '333333',
     },
+    firstSponsor: '9001001080',
     highSchoolDiploma: 'Yes',
     highSchoolDiplomaDate: '2000-01-02',
     'view:directDepositLearnMore': {},
