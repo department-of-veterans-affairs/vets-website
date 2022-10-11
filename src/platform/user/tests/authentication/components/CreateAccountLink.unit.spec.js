@@ -44,7 +44,7 @@ describe('CreateAccountLink', () => {
       const anchor = await screen.findByTestId(policy);
 
       await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
-      await waitFor(() => expect(anchor.href).to.include(`acr=acr=min`));
+      await waitFor(() => expect(anchor.href).to.include(`acr=min`));
       await waitFor(() => expect(anchor.href).to.include(`client_id=web`));
       await waitFor(() => expect(anchor.href).to.include('/authorize'));
       await waitFor(() => expect(anchor.href).to.include('response_type=code'));
