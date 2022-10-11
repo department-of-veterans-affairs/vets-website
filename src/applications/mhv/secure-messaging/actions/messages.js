@@ -55,6 +55,7 @@ export const retrieveMessage = (
   dispatch(retrieveMessageHistory(messageId, isDraft));
   if (response.errors) {
     // TODO Add error handling
+    // TODO What happens if a message is requested on the draft page but it has already been sent and is no longer a draft?
   } else {
     dispatch({
       type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
