@@ -62,7 +62,8 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
       return sortByPropertyName === ALPHA_ASCENDING
         ? sortIndexToFront
         : sortIndexToBack;
-    } else if (
+    }
+    if (
       `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
       `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
     ) {
@@ -75,33 +76,11 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
   return indexRemainsInPlace;
 };
 
-/**
- * This function finds out if cookie exists.
- * @returns {boolean} boolean value if it does exist.
- */
-export const doesCookieExist = () =>
-  document.cookie
-    .split(';')
-    .some(cookie => cookie.trim().startsWith('findForms='));
-
-/**
- * This function sets a cookie if it does not exist.
- * @returns {boolean} boolean value if it does exist.
- */
-export const setCookie = () => {
-  if (!doesCookieExist()) {
-    const expireDate = new Date(Date.now() + 86400000); // 24hr cookie
-    const utcDateString = expireDate.toUTCString();
-    document.cookie = `findForms=pdfModal; expires=${utcDateString};`;
-  }
-};
-
 export const deriveDefaultModalState = () => {
   return {
     isOpen: false,
     pdfSelected: '',
     pdfUrl: '',
     pdfLabel: '',
-    doesCookieExist: false,
   };
 };
