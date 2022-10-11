@@ -33,11 +33,6 @@ module.exports = {
       },
     ],
     'deprecate/import': [
-      'error',
-      {
-        name: '@department-of-veterans-affairs/component-library/RadioButtons',
-        use: '<va-radio>',
-      },
       'warn',
       {
         name:
