@@ -102,13 +102,12 @@ const MessageDetailBlock = props => {
         </div>
 
         <MessageActionButtons
-          id={id}
+          id={messageId}
           handlePrintThreadStyleClass={handlePrintThreadStyleClass}
         />
-
       </main>
       <div className={printThread}>
-        <PrintMessageThread messageId={id} />
+        <PrintMessageThread messageId={messageId} />
       </div>
     </section>
   );
