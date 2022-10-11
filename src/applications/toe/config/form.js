@@ -43,9 +43,10 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  transformTOEForm,
   prefillTransformer,
 } from '../helpers';
+
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
@@ -141,18 +142,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
                       }
                     },
                   ],
@@ -163,7 +153,18 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
                       }
                     },
                   ],
@@ -784,7 +785,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">

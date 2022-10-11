@@ -53,4 +53,5 @@ export const formFields = {
   viewPhoneNumbers: 'view:phoneNumbers',
   viewReceiveTextMessages: 'view:receiveTextMessages',
   viewUserFullName: 'view:userFullName',
+  viewMailingAddress: 'view:mailingAddress',
 };
