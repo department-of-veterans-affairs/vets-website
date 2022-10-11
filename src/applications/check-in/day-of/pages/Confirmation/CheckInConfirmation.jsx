@@ -72,11 +72,12 @@ const CheckInConfirmation = props => {
           <AppointmentConfirmationListItem appointment={appointment} key={0} />
         </ol>
 
-        <va-alert background-only show-icon data-testid="error-message">
+        <va-alert background-only show-icon data-testid="confirmation-alert">
           <div>
             {t(
               'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
             )}
+            {t('if-you-wait-more-than')}
           </div>
         </va-alert>
 
