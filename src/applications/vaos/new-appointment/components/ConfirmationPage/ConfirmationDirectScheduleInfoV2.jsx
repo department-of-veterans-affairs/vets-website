@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import moment from '../../../lib/moment-tz.js';
-import recordEvent from 'platform/monitoring/record-event.js';
+import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
+import moment from '../../../lib/moment-tz';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
 import InfoAlert from '../../../components/InfoAlert';
@@ -112,10 +112,21 @@ export default function ConfirmationDirectScheduleInfoV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          className="va-button-link"
+          onClick={() => window.print()}
+          type="button"
+        >
           Print
         </button>
       </div>
     </>
   );
 }
+
+ConfirmationDirectScheduleInfoV2.propTypes = {
+  clinic: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  facilityDetails: PropTypes.object.isRequired,
+  slot: PropTypes.object.isRequired,
+};
