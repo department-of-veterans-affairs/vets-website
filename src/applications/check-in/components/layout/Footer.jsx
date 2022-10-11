@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
@@ -52,7 +52,14 @@ const Footer = ({ router, isPreCheckIn }) => {
           </p>
         </div>
       ) : (
-        <p data-testid="day-of-check-in-message">{t('ask-a-staff-member')}</p>
+        <p data-testid="day-of-check-in-message">
+          <Trans
+            i18nKey="for-questions-about-your-appointment"
+            components={[
+              <span key="bold" className="vads-u-font-weight--bold" />,
+            ]}
+          />
+        </p>
       )}
       {currentPage === 'introduction' && (
         <p data-testid="intro-extra-message">
@@ -67,6 +74,34 @@ const Footer = ({ router, isPreCheckIn }) => {
           <va-telephone contact="988" /> {t('and-select-1')}
         </p>
       )}
+      {currentPage === 'complete' &&
+        !isPreCheckIn && (
+          <div data-testid="day-of-travel-extra-message">
+            <p />
+            <p>
+              <Trans
+                i18nKey="for-questions-about-travel-reimbursement"
+                components={[
+                  <span key="bold" className="vads-u-font-weight--bold" />,
+                ]}
+              />
+            </p>
+            <p>
+              <ExternalLink href="/find-locations/" hrefLang="en">
+                {t('find-the-travel-contact-for-your-facility')}
+              </ExternalLink>
+            </p>
+            <p>
+              <Trans
+                i18nKey="or-call-our-BTSSS-toll-free-call-center"
+                components={[
+                  <va-telephone contact="8555747292" key="8555747292" />,
+                  <va-telephone contact="711" tty key="711" />,
+                ]}
+              />
+            </p>
+          </div>
+        )}
       <BackToHome />
     </footer>
   );
