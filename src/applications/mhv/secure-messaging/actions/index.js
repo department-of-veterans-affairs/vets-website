@@ -33,6 +33,8 @@ export const THREAD_RETRIEVE_STARTED = 'THREAD_RETRIEVE_STARTED';
 export const THREAD_RETRIEVE_SUCCEEDED = 'THREAD_RETRIEVE_SUCCEEDED';
 export const THREAD_RETRIEVE_FAILED = 'THREAD_RETRIEVE_FAILED';
 
+export const LOADING_COMPLETE = 'LOADING_COMPLETE';
+
 // const SECURE_MESSAGES_URI = '/mhv/messages';
 
 const mockDataRequest = (request, messageId) => {
