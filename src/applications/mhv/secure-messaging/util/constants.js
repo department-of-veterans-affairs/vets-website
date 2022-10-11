@@ -22,7 +22,8 @@ export const DefaultFolders = {
 export const Alerts = {
   Message: {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
-    DELETE_MESSAGE_ERROR: 'Message was not successfully deleted.',
+    DELETE_MESSAGE_ERROR:
+      'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
   },
 };
 

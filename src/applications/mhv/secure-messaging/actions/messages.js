@@ -79,12 +79,12 @@ export const deleteMessage = messageId => async dispatch => {
       ),
     );
   } catch (e) {
-    const error = e.errors[0].detail;
+    // const error = e.errors[0].detail;
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
         '',
-        `Message was not successfully deleted.${error && ` Error: ${error}`}`,
+        Constants.Alerts.Message.DELETE_MESSAGE_ERROR,
       ),
     );
     throw e;
