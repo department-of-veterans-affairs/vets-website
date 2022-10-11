@@ -2,6 +2,7 @@
 import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
+env.GITHUB_TOKEN = credentials('va-bot')
 
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
@@ -22,7 +23,14 @@ node('vetsgov-general-purpose') {
 
   stage('Review instance') {
     if (commonStages.shouldBail()) { return }
+    script {
+      final String url = "https://api.github.com/repos/departme/dispatches"
 
+      final String response = sh(script: "curl --request POST \
+        --url '$url' \
+        --header 'authorization: Bearer ${GITHUB_TOKEN}' \
+        --data '{"event_type": "hello"}'", returnStdout: true).trim()
+    }
     try {
       if (!commonStages.isReviewable()) {
         return
