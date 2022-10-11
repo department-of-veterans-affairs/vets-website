@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders, moveMessageToFolder, deleteMessage } from '../actions';
+import { useDispatch } from 'react-redux';
+import { moveMessageToFolder } from '../../actions';
 
-const MessageActionButtons = props => {
+const MoveMessageToFolderBtn = props => {
+  const { id, allFolders } = props;
   const dispatch = useDispatch();
-  const { folders } = useSelector(state => state?.folders);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(
     () => {
       const abortCont = new AbortController();
-      dispatch(getAllFolders(), { abort: abortCont.signal });
       return () => abortCont.abort();
     },
-    [dispatch, isModalVisible],
+    [dispatch],
   );
 
-  const openMoveModal = () => {
+  const openModal = () => {
     setIsModalVisible(true);
   };
 
-  const closeMoveModal = () => {
+  const closeModal = () => {
     setIsModalVisible(false);
   };
 
@@ -32,13 +31,9 @@ const MessageActionButtons = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder !== null) {
-      dispatch(moveMessageToFolder(props.id, selectedFolder));
+      dispatch(moveMessageToFolder(id, selectedFolder));
     }
-    closeMoveModal();
-  };
-
-  const handleDeleteMessage = () => {
-    dispatch(deleteMessage(props.id));
+    closeModal();
   };
 
   const moveToFolderModal = () => {
@@ -48,9 +43,9 @@ const MessageActionButtons = props => {
           id="move-to-modal"
           large
           modalTitle="Move to:"
-          onCloseEvent={closeMoveModal}
+          onCloseEvent={closeModal}
           onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeMoveModal}
+          onSecondaryButtonClick={closeModal}
           primaryButtonText="Confirm"
           secondaryButtonText="Cancel"
           visible={isModalVisible}
@@ -61,7 +56,7 @@ const MessageActionButtons = props => {
               appear in your inbox
             </p>
             <div className="form-radio-buttons">
-              {folders.folder.map(folder => (
+              {allFolders.folder.map(folder => (
                 <div className="radio-button" key={folder.name}>
                   <input
                     type="radio"
@@ -87,41 +82,23 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
-      <button type="button" className="message-action-button">
-        <i className="fas fa-print" aria-hidden="true" />
-        <span className="message-action-button-text">Print</span>
-      </button>
-
+    <>
       <button
         type="button"
         className="message-action-button"
-        onClick={handleDeleteMessage}
+        onClick={openModal}
       >
-        <i className="fas fa-trash-alt" aria-hidden />
-        <span className="message-action-button-text">Delete</span>
-      </button>
-
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={openMoveModal}
-      >
-        <i className="fas fa-folder" aria-hidden />
+        <i className="fas fa-folder" aria-hidden="true" />
         <span className="message-action-button-text">Move</span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
-
-      <button type="button" className="message-action-button">
-        <i className="fas fa-reply" aria-hidden="true" />
-        <span className="message-action-button-text">Reply</span>
-      </button>
-    </div>
+    </>
   );
 };
 
-MessageActionButtons.propTypes = {
+MoveMessageToFolderBtn.propTypes = {
+  allFolders: PropTypes.object,
   id: PropTypes.number,
 };
 
-export default MessageActionButtons;
+export default MoveMessageToFolderBtn;
