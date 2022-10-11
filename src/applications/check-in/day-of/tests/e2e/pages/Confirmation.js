@@ -45,6 +45,12 @@ class Confirmation {
       .and('include.text', 'Go to another appointment');
   };
 
+  validateConfirmationAlert = () => {
+    cy.get('[data-testid="confirmation-alert"]')
+      .invoke('text')
+      .should('have.length.gt', 0);
+  };
+
   validateBTSSSLink = () => {
     cy.get('div[data-testid="btsss-link"] a:first').should(
       'have.text',
