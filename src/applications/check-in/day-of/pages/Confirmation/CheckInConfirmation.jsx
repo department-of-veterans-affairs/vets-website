@@ -183,11 +183,9 @@ const CheckInConfirmation = props => {
             </va-alert>
           )
         ) : (
-          <>
-            <TravelPayReimbursementLink />
-            <BackToAppointments appointments={appointments} />
-          </>
+          <TravelPayReimbursementLink />
         )}
+        <BackToAppointments appointments={appointments} />
       </Wrapper>
     );
   };
