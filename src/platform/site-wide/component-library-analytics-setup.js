@@ -248,7 +248,6 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'click-text': 'value',
           version: 'component_version',
         },
       },
