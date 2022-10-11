@@ -7,7 +7,6 @@ import { getAllFolders, moveMessageToFolder } from '../actions';
 import { deleteMessage } from '../actions/messages';
 import { navigateToFolderByFolderId } from '../util/helpers';
 import DeleteMessageModal from './Modals/DeleteMessageModal';
-import { addAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
 
 const MessageActionButtons = props => {
@@ -49,25 +48,14 @@ const MessageActionButtons = props => {
 
   const handleDeleteMessageConfirm = () => {
     setIsDeleteVisible(false);
-    dispatch(deleteMessage(props.id))
-      .then(() => {
-        navigateToFolderByFolderId(
-          activeFolder
-            ? activeFolder.folderId
-            : Constants.DefaultFolders.DELETED.id,
-          history,
-        );
-      })
-      .catch(error => {
-        dispatch(
-          addAlert(
-            Constants.ALERT_TYPE_ERROR,
-            '',
-            `${Constants.Alerts.Message.DELETE_MESSAGE_ERROR} ${error &&
-              ` Error: ${error.errors[0].detail}`}`,
-          ),
-        );
-      });
+    dispatch(deleteMessage(props.id)).then(() => {
+      navigateToFolderByFolderId(
+        activeFolder
+          ? activeFolder.folderId
+          : Constants.DefaultFolders.DELETED.id,
+        history,
+      );
+    });
   };
 
   const deleteMessageModal = () => {

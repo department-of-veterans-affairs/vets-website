@@ -111,6 +111,7 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container">
       <div className="main-content">
+        <AlertBackgroundBox closeable />
         {folder === undefined ? (
           <va-loading-indicator
             message="Loading your secure messages..."
@@ -118,7 +119,6 @@ const FolderListView = () => {
           />
         ) : (
           <>
-            <AlertBackgroundBox closeable />
             <FolderHeader folder={folder} />
             <div className="search-messages-input">
               <label

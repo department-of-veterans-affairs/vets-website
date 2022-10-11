@@ -69,20 +69,8 @@ export const retrieveMessage = (
  * @returns
  */
 export const deleteMessage = messageId => async dispatch => {
-  const response = await deleteMessageCall(messageId);
-  if (response.errors) {
-    // handles errors and dispatch error action
-    // fire GA event for error
-    const error = response.errors[0];
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        `Message was not successfully deleted.${error && ` Error: ${error}`}`,
-      ),
-    );
-  } else {
-    // dispatch success action and GA event
+  try {
+    await deleteMessageCall(messageId);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -90,5 +78,15 @@ export const deleteMessage = messageId => async dispatch => {
         Constants.Alerts.Message.DELETE_MESSAGE_SUCCESS,
       ),
     );
+  } catch (e) {
+    const error = e.errors[0].detail;
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        `Message was not successfully deleted.${error && ` Error: ${error}`}`,
+      ),
+    );
+    throw e;
   }
 };
