@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -20,7 +20,6 @@ import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerific
 import MonthReviewCard from '../components/MonthReviewCard';
 import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
-  VERIFICATION_RESPONSE,
   VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
 } from '../constants';
 import {
@@ -80,22 +79,27 @@ export const VerifyEnrollmentsPage = ({
     scrollToTop('h1');
   }, []);
 
-  const unverifiedMonths =
-    enrollmentVerification?.enrollmentVerifications &&
-    enrollmentVerification?.enrollmentVerifications
-      .filter(
-        m => m.verificationResponse === VERIFICATION_RESPONSE.NOT_RESPONDED,
-      )
-      .reverse();
-  const month = unverifiedMonths && unverifiedMonths[currentMonth];
+  // We recieve enrollments in descending order by date and reverse them
+  // after filtering so we can approve the earliest enrollment period
+  // first.
+  const evs = enrollmentVerification?.enrollmentVerifications;
+  const earliestUnverifiedMonthIndex = evs?.findLastIndex(
+    ev =>
+      ev.certifiedEndDate > enrollmentVerification?.lastCertifiedThroughDate,
+  );
+  const unverifiedMonths = useMemo(
+    () =>
+      earliestUnverifiedMonthIndex === -1
+        ? []
+        : evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse(),
+    [earliestUnverifiedMonthIndex, evs],
+  );
+  const month = unverifiedMonths.length && unverifiedMonths[currentMonth];
   const informationIncorrectMonth = unverifiedMonths?.find(
     m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
   );
 
-  if (
-    editMonthVerification &&
-    enrollmentVerification?.enrollmentVerifications
-  ) {
+  if (editMonthVerification && evs) {
     setCurrentMonth(editMonthVerification);
   }
 
@@ -133,7 +137,7 @@ export const VerifyEnrollmentsPage = ({
     () => {
       dispatch({
         type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: enrollmentVerification?.enrollmentVerifications.map(m => {
+        payload: evs.map(m => {
           return {
             ...m,
             verificationStatus: undefined,
@@ -141,7 +145,7 @@ export const VerifyEnrollmentsPage = ({
         }),
       });
     },
-    [dispatch, enrollmentVerification?.enrollmentVerifications],
+    [dispatch, evs],
   );
 
   const onBackButtonClick = useCallback(
@@ -209,7 +213,7 @@ export const VerifyEnrollmentsPage = ({
 
       dispatch({
         type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: enrollmentVerification?.enrollmentVerifications.map(m => {
+        payload: evs.map(m => {
           if (
             m.certifiedBeginDate ===
               unverifiedMonths[currentMonth].certifiedBeginDate &&
@@ -246,9 +250,10 @@ export const VerifyEnrollmentsPage = ({
       currentMonth,
       dispatch,
       editing,
+      enrollmentVerification,
+      evs,
       monthInformationCorrect,
       unverifiedMonths,
-      enrollmentVerification,
     ],
   );
 

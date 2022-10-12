@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
@@ -8,17 +8,18 @@ import VerifyAccountLink from 'platform/user/authentication/components/VerifyAcc
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
+const oldCrypto = global.window.crypto;
 
 describe('VerifyAccountLink', () => {
   csps.forEach(policy => {
-    const oldCrypto = global.window.crypto;
-
     beforeEach(() => {
       global.window.crypto = mockCrypto;
+      window.location = new URL('https://dev.va.gov/');
     });
 
     afterEach(() => {
       global.window.crypto = oldCrypto;
+      cleanup();
     });
 
     it(`should render correctly for each ${policy}`, async () => {
@@ -44,8 +45,7 @@ describe('VerifyAccountLink', () => {
         useOAuth: false,
       });
 
-      expect(anchor.href).to.eql(href);
-
+      await waitFor(() => expect(anchor.href).to.eql(href));
       screen.unmount();
     });
 
@@ -54,13 +54,14 @@ describe('VerifyAccountLink', () => {
       const anchor = await screen.findByTestId(policy);
       const expectedAcr =
         externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
-      expect(anchor.href).to.include(`type=${policy}`);
-      expect(anchor.href).to.include(`acr=${expectedAcr}`);
-      expect(anchor.href).to.include(`client_id=web`);
-      expect(anchor.href).to.include('/authorize');
-      expect(anchor.href).to.include('response_type=code');
-      expect(anchor.href).to.include('code_challenge=');
-      expect(anchor.href).to.include('state=');
+
+      await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
+      await waitFor(() => expect(anchor.href).to.include(`acr=${expectedAcr}`));
+      await waitFor(() => expect(anchor.href).to.include(`client_id=web`));
+      await waitFor(() => expect(anchor.href).to.include('/authorize'));
+      await waitFor(() => expect(anchor.href).to.include('response_type=code'));
+      await waitFor(() => expect(anchor.href).to.include('code_challenge='));
+      await waitFor(() => expect(anchor.href).to.include('state='));
       screen.unmount();
     });
   });

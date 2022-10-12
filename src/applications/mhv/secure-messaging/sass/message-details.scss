@@ -95,4 +95,49 @@
       }
     }
   }
+  .message-count {
+    font-weight: bold;
+  }
+}
+
+.message-thread-list {
+  display: none;
+}
+
+
+@media print {
+  body {
+    .secure-messaging-navigation {
+    display: none;
+    }
+    .breadcrumbs {
+      display: none;
+    }
+    .send-button-top {
+      display: none;
+    }
+    .page-title {
+      display: none;
+    }
+    .nav-links {
+      display: none;
+    }
+    .older-messages {
+      display: none;
+    }
+    .print-thread {
+      .message-thread-list {
+        display: contents;
+      }
+    }
+  }
+  .message-detail-block {
+    left: 0;
+    top: 0;
+    .message-action-buttons {
+      display: none;
+
+    }
+  }
+
 }

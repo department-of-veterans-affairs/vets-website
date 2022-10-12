@@ -43,9 +43,10 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  transformTOEForm,
   prefillTransformer,
 } from '../helpers';
+
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
@@ -60,6 +61,7 @@ import {
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -98,6 +100,7 @@ const formConfig = {
   },
   defaultDefinitions: {},
   getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -139,18 +142,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
                       }
                     },
                   ],
@@ -161,7 +153,18 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
                       }
                     },
                   ],
@@ -782,7 +785,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -1009,37 +1012,43 @@ const formConfig = {
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We recommend that you opt in to text message notifications
-                      about your benefits. These notifications can prompt you to
-                      verify your enrollment so you’ll receive your education
-                      payments. You can verify your monthly enrollment easily
-                      this way.
+                      We recommend that you opt into text message notifications
+                      about your benefits. These include notifications that
+                      prompt you to verify your enrollment so you’ll receive
+                      your education payments. This is an easy way to verify
+                      your monthly enrollment.
                     </p>
-                    <va-alert status="info">
-                      <>
-                        If you choose to get text message notifications from
-                        VA’s GI Bill program, message and data rates may apply.
-                        Two messages per month. At this time, we can only send
-                        text messages to U.S. mobile phone numbers. Text STOP to
-                        opt out or HELP for help.{' '}
-                        <a
-                          href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          View Terms and Conditions
-                        </a>{' '}
-                        and{' '}
-                        <a
-                          href="/privacy-policy"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          Privacy Policy
-                        </a>
-                        .
-                      </>
-                    </va-alert>
+                    <div className="meb-list-label">
+                      <strong>What to know about text notifications:</strong>
+                    </div>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notifications terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Note</strong>: At this time, we can only send text
+                      messages to U.S. mobile phone numbers.
+                    </p>
                   </div>
                 </>
               ),

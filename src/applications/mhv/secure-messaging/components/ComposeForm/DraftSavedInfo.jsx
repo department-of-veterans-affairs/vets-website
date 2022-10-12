@@ -18,7 +18,7 @@ const DraftSavedInfo = () => {
   };
 
   const { isSaving, lastSaveTime, saveError } = useSelector(
-    state => state.message,
+    state => state.sm.draftDetails,
   );
 
   if (isSaving) return <div className="last-save-time">Saving...</div>;

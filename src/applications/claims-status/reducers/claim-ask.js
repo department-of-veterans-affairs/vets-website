@@ -4,7 +4,7 @@ import {
   SUBMIT_DECISION_REQUEST,
   SET_DECISION_REQUESTED,
   SET_DECISION_REQUEST_ERROR,
-} from '../actions/index.jsx';
+} from '../actions';
 
 const initialState = {
   decisionRequested: false,

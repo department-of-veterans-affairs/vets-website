@@ -70,6 +70,7 @@ export const getMessageCategoryList = () => {
   return apiRequest(`${apiBasePath}/messaging/messages/categories`, {
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
   });
 };
@@ -127,8 +128,9 @@ export const createDraft = message => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-    body: message,
+    body: JSON.stringify(message),
   });
 };
 
@@ -146,7 +148,7 @@ export const updateDraft = (draftMessageId, message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: message,
+      body: JSON.stringify(message),
     },
   );
 };
@@ -230,7 +232,7 @@ export const deleteMessage = messageId => {
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'DEL',
+    method: 'DELETE',
   });
 };
 
