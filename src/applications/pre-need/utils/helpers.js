@@ -99,11 +99,15 @@ export const sponsorMilitaryStatusDescription = (
 );
 
 export const desiredCemeteryNoteDescription = (
-  <va-alert status="info" background-only>
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
-    gravesite in a cemetery with available space at the time of need.
-  </va-alert>
+  <va-additional-info
+    trigger="Learn more about why this doesn’t guarantee you’ll be buried in
+    your preferred cemetery"
+  >
+    <div>
+      We’ll try to fulfill your wishes, but will assign a gravesite in a
+      cemetery with available space at the time of need.
+    </div>
+  </va-additional-info>
 );
 
 export function isVeteran(item) {
