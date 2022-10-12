@@ -14,7 +14,6 @@ import supportedSites from '../../services/mocks/var/sites-supporting-var.json';
 import facilities from '../../services/mocks/var/facilities.json';
 import facilityData from '../../services/mocks/var/facility_data.json';
 import clinicList983 from '../../services/mocks/var/clinicList983.json';
-import slots from '../../services/mocks/var/slots.json';
 import requestEligibilityCriteria from '../../services/mocks/var/request_eligibility_criteria.json';
 import directEligibilityCriteria from '../../services/mocks/var/direct_booking_eligibility_criteria.json';
 
@@ -204,32 +203,6 @@ function updateRequestDates(data) {
 
     item.attributes.optionDate1 = futureDateStr;
   });
-  return data;
-}
-
-function updateTimeslots(data) {
-  const startDateTime = moment()
-    .add(1, 'months')
-    .startOf('month')
-    .day(9)
-    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
-  const endDateTime = moment()
-    .add(1, 'months')
-    .startOf('month')
-    .day(9)
-    .add(60, 'minutes')
-    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
-
-  const newSlot = {
-    bookingStatus: '1',
-    remainingAllowedOverBookings: '3',
-    availability: true,
-    startDateTime,
-    endDateTime,
-  };
-
-  data.data[0].attributes.appointmentTimeSlot = [newSlot];
-
   return data;
 }
 
@@ -968,24 +941,36 @@ export function mockDirectScheduleSlotsApi({
   apiVersion = 0,
 } = {}) {
   if (apiVersion === 0) {
+    const data = [
+      {
+        id: '1',
+        type: 'slot',
+        attributes: {
+          appointmentTimeSlot: [
+            {
+              bookingStatus: '1',
+              remainingAllowedOverBookings: '3',
+              availability: true,
+              startDateTime: start.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+              endDateTime: end.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            },
+          ],
+        },
+      },
+    ];
+
     cy.intercept(
       {
         method: 'GET',
         url: '/vaos/v0/facilities/983/available_appointments*',
       },
       req => {
-        req.reply(updateTimeslots(slots));
+        req.reply({
+          data,
+        });
       },
     ).as('v0:get:slots');
   } else if (apiVersion === 2) {
-    const _start = moment(start)
-      // Set moment to 'utc' mode so formatting will contain 'Z' like api call
-      .utc()
-      .add(1, 'month')
-      .startOf('month')
-      .add(4, 'days');
-    const _end = moment(end).utc();
-
     cy.intercept(
       {
         method: 'GET',
@@ -1001,7 +986,10 @@ export function mockDirectScheduleSlotsApi({
             {
               id: '123',
               type: 'slots',
-              attributes: { start: _start.format(), end: _end.format() },
+              attributes: {
+                start: start.utc().format(),
+                end: end.utc().format(),
+              },
             },
           ],
         });
