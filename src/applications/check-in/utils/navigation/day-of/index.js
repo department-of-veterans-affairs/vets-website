@@ -36,22 +36,46 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 4,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.TRAVEL_QUESTION,
     order: 5,
   },
   {
-    url: URLS.COMPLETE,
+    url: URLS.TRAVEL_VEHICLE,
     order: 6,
+  },
+  {
+    url: URLS.TRAVEL_ADDRESS,
+    order: 7,
+  },
+  {
+    url: URLS.TRAVEL_MILEAGE,
+    order: 8,
+  },
+  {
+    url: URLS.DETAILS,
+    order: 9,
+  },
+  {
+    url: URLS.COMPLETE,
+    order: 10,
   },
 ]);
 
 const createForm = () => {
   return CHECK_IN_FORM_PAGES.map(page => page.url);
 };
-const updateForm = patientDemographicsStatus => {
+const updateForm = (
+  patientDemographicsStatus,
+  isTravelReimbursementEnabled,
+) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(patientDemographicsStatus, pages, URLS);
+  return updateFormPages(
+    patientDemographicsStatus,
+    pages,
+    URLS,
+    isTravelReimbursementEnabled,
+  );
 };
 
 export { CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation, updateForm };

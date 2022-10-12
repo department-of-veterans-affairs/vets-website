@@ -43,6 +43,10 @@ export const makeMockUser = () => {
             ssoe: true,
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            // eslint-disable-next-line camelcase
+            payment_history: true,
+          },
         },
         vaProfile: {
           status: 'OK',

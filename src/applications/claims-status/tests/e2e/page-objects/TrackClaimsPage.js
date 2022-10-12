@@ -273,8 +273,10 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('button.usa-button').should('contain', 'Submit Files for Review');
-    cy.get('button.usa-button')
+    cy.get('[data-cy="submit-files-button"]')
+      .should('contain', 'Submit Files for Review')
+      .click();
+    cy.get('[data-cy="submit-files-button"]')
       .click()
       .then(() => {
         cy.get('.usa-input-error');

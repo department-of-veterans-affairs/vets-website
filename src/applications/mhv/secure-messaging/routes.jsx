@@ -7,7 +7,7 @@ import Compose from './containers/Compose';
 import MessageDetails from './containers/MessageDetails';
 import MessageReply from './containers/MessageReply';
 import SearchMessages from './containers/SearchMessages';
-// import FolderListView from './containers/FolderListView';
+import FolderListView from './containers/FolderListView';
 import MessageFAQs from './containers/MessageFAQs';
 
 // Global authentication placeholder - to be implemented later
@@ -56,7 +56,7 @@ const routes = (
             path={['/sent', '/trash', '/drafts', '/folder/:folderId']}
             key="FolderListView"
           >
-            {/* <FolderListView /> */}
+            <FolderListView />
           </Route>
         </Switch>
       </div>

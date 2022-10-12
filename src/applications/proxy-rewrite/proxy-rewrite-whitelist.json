@@ -67,19 +67,9 @@
       "cookieOnly": false
     },
     {
-      "hostname": "va.gov/formularyadvisor",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "www.va.gov/formularyadvisor",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
-    },
-    {
-      "hostname": "vaww.internet.staging.va.gov/formularyadvisor",
-      "pathnameBeginning": "/",
-      "cookieOnly": true
+      "hostname": "vaww.internet.staging.va.gov",
+      "pathnameBeginning": "/formularyadvisor",
+      "cookieOnly": false
     },
     {
       "hostname": "www.healthquality.va.gov",

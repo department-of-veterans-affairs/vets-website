@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CSP_IDS } from 'platform/user/authentication/constants';
-import AccountLink from 'platform/user/authentication/components/AccountLink';
+import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
 
-export default function VerifyIdentity() {
+export default function VerifyIdentity({ useOAuth }) {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
 
   return (
@@ -25,17 +25,15 @@ export default function VerifyIdentity() {
         <strong>If you don’t have one of these accounts</strong>, you can create
         one and verify your identity now.
       </p>
-      {[ID_ME, LOGIN_GOV].map(csp => (
-        <p key={csp}>
-          <AccountLink csp={csp} className="" allowVerification />
+      {[ID_ME, LOGIN_GOV].map(policy => (
+        <p key={policy}>
+          <VerifyAccountLink policy={policy} useOAuth={useOAuth} />
         </p>
       ))}
       <p>
         <strong>Note:</strong> If you need help updating your direct deposit
-        information, call us at <va-telephone contact="800-827-1000" /> (
-        <a href="tel:711" aria-label="TTY: 7 1 1.">
-          TTY: 711
-        </a>
+        information, call us at <va-telephone contact="8008271000" /> (
+        <va-telephone contact="711" />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-alert>
@@ -43,5 +41,5 @@ export default function VerifyIdentity() {
 }
 
 VerifyIdentity.propTypes = {
-  type: PropTypes.string,
+  useOAuth: PropTypes.bool.isRequired,
 };

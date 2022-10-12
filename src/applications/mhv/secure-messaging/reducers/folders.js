@@ -1,6 +1,9 @@
 import { Actions } from '../util/actionTypes';
 
 const initialState = {
+  /**
+   * The current in-focus folder, i.e. the folder being viewed by the user
+   */
   folder: undefined,
   /**
    * The list of the current user's Secure Messaging folders
@@ -24,7 +27,10 @@ export const foldersReducer = (state = initialState, action) => {
           };
         }),
       };
-    case 'b':
+    case Actions.Folder.GET:
+      return { ...state, folder: action.response.data.attributes };
+    case Actions.Folder.CLEAR:
+      return { ...state, folder: initialState.folder };
     default:
       return state;
   }

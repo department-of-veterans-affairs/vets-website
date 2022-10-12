@@ -1,5 +1,6 @@
 export const Actions = {
-  Alert: {
+  Alerts: {
+    CLOSE_ALERT: 'SM_ALERT_CLOSE_ALERT',
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
   },
   Category: {
@@ -11,11 +12,14 @@ export const Actions = {
     GET_HISTORY: 'SM_DRAFT_GET_HISTORY',
   },
   Folder: {
+    GET: 'SM_FOLDER_GET',
+    CLEAR: 'SM_FODLER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
     GET_LIST: 'SM_MESSAGE_GET_LIST',
+    CLEAR_LIST: 'SM_MESSAGE_CLEAR_LIST',
     GET_HISTORY: 'SM_MESSAGE_GET_HISTORY',
   },
   Search: {
