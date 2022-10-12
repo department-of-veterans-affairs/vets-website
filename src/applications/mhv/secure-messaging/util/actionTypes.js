@@ -1,5 +1,6 @@
 export const Actions = {
-  Alert: {
+  Alerts: {
+    CLOSE_ALERT: 'SM_ALERT_CLOSE_ALERT',
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
   },
   Category: {

@@ -105,8 +105,9 @@ const Navigation = () => {
                       <li
                         key={i}
                         className={
-                          location.pathname === path.path &&
-                          'vads-u-font-weight--bold'
+                          location.pathname === path.path
+                            ? 'vads-u-font-weight--bold'
+                            : undefined
                         }
                       >
                         <Link to={path.path}>{path.label}</Link>

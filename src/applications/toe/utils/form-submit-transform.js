@@ -287,8 +287,46 @@ const getNotificationMethod = notificationMethod => {
   }
 };
 
+const getSponsorInformation = form => {
+  let firstSponsor;
+
+  if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
+    firstSponsor = form?.data?.selectedSponsors[0];
+  } else {
+    firstSponsor = form?.data?.firstSponsor;
+  }
+
+  if (firstSponsor === 'IM_NOT_SURE') {
+    return {
+      notSureAboutSponsor: true,
+      firstSponsorVaId: null,
+      manualSponsor: null,
+    };
+  }
+  if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
+    return {
+      notSureAboutSponsor: false,
+      firstSponsorVaId: firstSponsor,
+      manualSponsor: null,
+    };
+  }
+  return {
+    notSureAboutSponsor: false,
+    firstSponsorVaId: null,
+    manualSponsor: {
+      firstName: form?.data?.sponsorFullName?.first,
+      middleName: form?.data?.sponsorFullName?.middle,
+      lastName: form?.data?.sponsorFullName?.last,
+      suffix: form?.data?.sponsorFullName?.suffix,
+      dateOfBirth: form?.data?.sponsorDateOfBirth,
+      relationship: form?.data?.relationshipToServiceMember,
+    },
+  };
+};
+
 export function transformTOEForm(_formConfig, form) {
   const payload = {
+    formId: form?.formId,
     '@type': 'ToeSubmission',
     toeClaimant: {
       suffix: form?.data['view:userFullName']?.userFullName?.suffix,
@@ -318,18 +356,7 @@ export function transformTOEForm(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
-    sponsorOptions: {
-      notSureAboutSponsor: false,
-      firstSponsorVaId: form?.data?.firstSponsor ? form.data.firstSponsor : 0,
-      manualSponsor: {
-        firstName: form?.data?.sponsorFullName?.first,
-        middleName: form?.data?.sponsorFullName?.middle,
-        lastName: form?.data?.sponsorFullName?.last,
-        suffix: form?.data?.sponsorFullName?.suffix,
-        dateOfBirth: form?.data?.sponsorDateOfBirth,
-        relationship: form?.data?.relationshipToServiceMember,
-      },
-    },
+    sponsorOptions: getSponsorInformation(form),
     highSchoolDiplomaInfo: {
       highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
       highSchoolDiplomaOrCertificateDate: form?.data?.highSchoolDiplomaDate,

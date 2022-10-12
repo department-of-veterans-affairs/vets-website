@@ -28,10 +28,6 @@ export async function pkceChallengeFromVerifier(v) {
 }
 
 export const saveStateAndVerifier = type => {
-  /*
-    Ensures saved state is not overwritten if location has state parameter.
-  */
-  if (window.location.search.includes(OAUTH_KEYS.STATE)) return null;
   const storage = localStorage;
 
   // Create and store a random "state" value
