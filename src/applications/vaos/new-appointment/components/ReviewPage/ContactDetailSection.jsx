@@ -20,7 +20,7 @@ function formatBestTimetoCall(bestTime) {
   }
 
   if (times.length === 1) {
-    output = times[0];
+    [output] = times;
   } else if (times.length === 2) {
     output = `${times[0]} or ${times[1]}`;
   } else {

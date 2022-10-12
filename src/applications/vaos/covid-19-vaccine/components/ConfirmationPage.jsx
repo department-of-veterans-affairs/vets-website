@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import moment from '../../lib/moment-tz.js';
 import { Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event.js';
+import recordEvent from 'platform/monitoring/record-event';
+import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrByFacilityId } from '../../utils/timezone.js';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
-import FacilityAddress from '../../components/FacilityAddress.jsx';
-import { selectConfirmationPage } from '../redux/selectors.js';
+import { getTimezoneAbbrByFacilityId } from '../../utils/timezone';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import FacilityAddress from '../../components/FacilityAddress';
+import { selectConfirmationPage } from '../redux/selectors';
 import AddToCalendar from '../../components/AddToCalendar';
 import InfoAlert from '../../components/InfoAlert';
 import {

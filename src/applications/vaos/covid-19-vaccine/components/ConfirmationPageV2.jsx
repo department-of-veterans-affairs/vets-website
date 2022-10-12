@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event.js';
-import moment from '../../lib/moment-tz.js';
+import recordEvent from 'platform/monitoring/record-event';
+import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
-} from '../../utils/timezone.js';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
+} from '../../utils/timezone';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
-import { selectConfirmationPage } from '../redux/selectors.js';
+import { selectConfirmationPage } from '../redux/selectors';
 import AddToCalendar from '../../components/AddToCalendar';
 import InfoAlert from '../../components/InfoAlert';
 import {
@@ -114,7 +114,11 @@ function ConfirmationPageV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          className="va-button-link"
+          onClick={() => window.print()}
+          type="button"
+        >
           Print
         </button>
       </div>

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import recordEvent from 'platform/monitoring/record-event.js';
+import recordEvent from 'platform/monitoring/record-event';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { GA_PREFIX } from '../../utils/constants.js';
+import { GA_PREFIX } from '../../utils/constants';
 
 const pageTitle = 'We’ve scheduled your appointment';
 

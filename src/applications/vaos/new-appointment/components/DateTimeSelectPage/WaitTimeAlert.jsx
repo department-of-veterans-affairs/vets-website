@@ -40,6 +40,7 @@ function ActionButtons(props) {
             <button
               className="usa-button-secondary vads-u-margin-x--0"
               onClick={onClickRequest}
+              type="button"
             >
               Request an earlier appointment
             </button>
