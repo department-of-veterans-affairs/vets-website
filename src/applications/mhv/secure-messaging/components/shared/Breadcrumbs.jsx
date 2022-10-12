@@ -29,8 +29,8 @@ const Breadcrumbs = () => {
             ],
           },
           {
-            path: '/message-faq',
-            breadCrumbArray: [{ label: 'Message FAQ', route: '/message-faq' }],
+            path: '/faq',
+            breadCrumbArray: [{ label: 'Message FAQ', route: '/faq' }],
           },
         ];
       }

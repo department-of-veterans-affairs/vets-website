@@ -49,7 +49,7 @@ const routes = (
           <Route path="/trash/:messageId" key="MessageDetails">
             <MessageDetails />
           </Route>
-          <Route path="/message-faq" key="MessageFAQ">
+          <Route path="/faq" key="MessageFAQ">
             <MessageFAQs isLoggedIn={isLoggedIn} />
           </Route>
           <Route

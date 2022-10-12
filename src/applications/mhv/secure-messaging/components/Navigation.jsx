@@ -117,11 +117,6 @@ const Navigation = () => {
                 </div>
               </li>
               <li>
-                <a href="/my-health/secure-messages/message-faq">
-                  Messages FAQ
-                </a>
-              </li>
-              <li>
                 <a href="/my-health/secure-messages">Medical records</a>
               </li>
               <li>
