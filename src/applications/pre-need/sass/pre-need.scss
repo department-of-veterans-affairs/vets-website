@@ -41,6 +41,16 @@
   padding-left: 1rem;
 }
 
-#root_application_veteran_race-label + p {
+#root_application_veteran_race-label ~ p {
   display: none;
+}
+
+article[data-location="veteran-applicant-information"] {
+  .schemaform-field-template > p {
+    display: none;
+  }
+
+  .schemaform-widget-wrapper > fieldset > p {
+    margin-top: 0;
+  }
 }
