@@ -66,11 +66,10 @@ function activateHeaderFooter() {
   footerContainer.classList.add('consolidated');
 
   if (skipLink) {
-    document.body.insertBefore(headerContainer, skipLink.nextSibling);
-  } else {
-    document.body.insertBefore(headerContainer, document.body.firstChild);
+    skipLink.after(headerContainer);
+  } else if (document.body.firstChild) {
+    document.body.firstChild.before(headerContainer);
   }
-
   document.body.appendChild(footerContainer);
 }
 
