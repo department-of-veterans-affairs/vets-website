@@ -10,6 +10,7 @@ import * as pages from '../pages';
 import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
+import AddIssue from '../pages/income/employmentEnhanced/AddEmployment';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -141,6 +142,23 @@ const formConfig = {
           schema: pages.employmentRecords.schema,
           depends: ({ questions }) => questions.vetIsEmployed,
           editModeOnReviewPage: true,
+        },
+        listOfIssues: {
+          title: 'Issues eligible for review',
+          path: 'all-issues',
+          // listOfIssues defined in next section
+          uiSchema: pages.listOfIssues.uiSchema,
+          schema: pages.listOfIssues.schema,
+          // needed to bypass bug on review & submit page
+          appStateSelector: state => state.form?.data?.listOfIssues || [],
+        },
+        addIssue: {
+          title: 'Add issue',
+          path: 'add-issue',
+          depends: () => false, // accessed from listOfIssues page
+          CustomPage: AddIssue,
+          uiSchema: pages.addIssue.uiSchema,
+          schema: pages.addIssue.schema,
         },
         income: {
           title: 'Income',
