@@ -104,6 +104,7 @@ const MessageDetailBlock = props => {
         <MessageActionButtons
           id={messageId}
           handlePrintThreadStyleClass={handlePrintThreadStyleClass}
+          onReply={handleReplyButton}
         />
       </main>
       <div className={printThread}>

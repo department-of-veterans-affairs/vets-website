@@ -11,15 +11,11 @@ import {
   addFile,
   CANCEL_UPLOAD,
   cancelUpload,
-  CHANGE_CLAIMS_PAGE,
-  changePage,
   CLEAR_NOTIFICATION,
   clearNotification,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
   clearAdditionalEvidenceNotification,
-  FETCH_APPEALS,
   GET_CLAIM_DETAIL,
-  getAppeals,
   getClaimDetail,
   getClaimsV2,
   getStemClaims,
@@ -28,10 +24,7 @@ import {
   removeFile,
   RESET_UPLOADS,
   resetUploads,
-  SET_APPEALS_UNAVAILABLE,
-  SET_APPEALS,
   SET_CLAIM_DETAIL,
-  SET_CLAIMS_UNAVAILABLE,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
   SET_FIELDS_DIRTY,
@@ -42,7 +35,6 @@ import {
   setLastPage,
   setNotification,
   setAdditionalEvidenceNotification,
-  setUnavailable,
   SUBMIT_DECISION_REQUEST,
   submitRequest,
   UPDATE_FIELD,
@@ -70,25 +62,6 @@ describe('Actions', () => {
       expect(action).to.eql({
         type: SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
         message: 'Testing',
-      });
-    });
-  });
-  describe('changePage', () => {
-    it('should return the correct action object', () => {
-      const action = changePage('Testing');
-
-      expect(action).to.eql({
-        type: CHANGE_CLAIMS_PAGE,
-        page: 'Testing',
-      });
-    });
-  });
-  describe('setUnavailable', () => {
-    it('should return the correct action object', () => {
-      const action = setUnavailable();
-
-      expect(action).to.eql({
-        type: SET_CLAIMS_UNAVAILABLE,
       });
     });
   });
@@ -208,43 +181,7 @@ describe('Actions', () => {
       global.window.dataLayer = oldDataLayer;
     });
   });
-  describe('getAppeals', () => {
-    beforeEach(() => mockFetch());
-    it('should fetch claims', done => {
-      const appeals = [];
-      setFetchJSONResponse(global.fetch.onCall(0), appeals);
-      const thunk = getAppeals();
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(SET_APPEALS);
-          done();
-        }
-      };
 
-      thunk(dispatch);
-    });
-    it('should fail on error', done => {
-      const appeals = [];
-      setFetchJSONFailure(global.fetch.onCall(0), appeals);
-      const thunk = getAppeals();
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_APPEALS);
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(
-            SET_APPEALS_UNAVAILABLE,
-          );
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-  });
   describe('getClaimsV2', () => {
     let dispatchSpy;
     let pollStatusSpy;
