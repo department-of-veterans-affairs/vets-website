@@ -5,6 +5,8 @@ import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { closeAlert } from '../actions/alerts';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
@@ -19,6 +21,7 @@ const MessageDetail = () => {
     () => {
       setid(messageId);
       if (id) {
+        dispatch(closeAlert()); // to clear out any past alerts before landing this page
         dispatch(retrieveMessage(id));
       }
     },
@@ -65,6 +68,7 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+      <AlertBackgroundBox closeable />
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
       <NavigationLinks messageId={id} />

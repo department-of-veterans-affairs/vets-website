@@ -9,6 +9,7 @@ const MoveMessageToFolderBtn = props => {
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   useEffect(
     () => {
       const abortCont = new AbortController();
@@ -56,24 +57,25 @@ const MoveMessageToFolderBtn = props => {
               appear in your inbox
             </p>
             <div className="form-radio-buttons">
-              {allFolders.folder.map(folder => (
-                <div className="radio-button" key={folder.name}>
-                  <input
-                    type="radio"
-                    autoComplete="false"
-                    id={`radiobutton-${folder.name}`}
-                    name="defaultName"
-                    value={folder.id}
-                    onChange={handleOnChangeFolder}
-                  />
-                  <label
-                    name="defaultName-0-label"
-                    htmlFor={`radiobutton-${folder.name}`}
-                  >
-                    {folder.name}
-                  </label>
-                </div>
-              ))}
+              {allFolders &&
+                allFolders.map(folder => (
+                  <div className="radio-button" key={folder.name}>
+                    <input
+                      type="radio"
+                      autoComplete="false"
+                      id={`radiobutton-${folder.name}`}
+                      name="defaultName"
+                      value={folder.id}
+                      onChange={handleOnChangeFolder}
+                    />
+                    <label
+                      name="defaultName-0-label"
+                      htmlFor={`radiobutton-${folder.name}`}
+                    >
+                      {folder.name}
+                    </label>
+                  </div>
+                ))}
             </div>
           </div>
         </VaModal>
