@@ -4,7 +4,7 @@ import {
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getFolders, newFolder } from '../actions/folders';
 import FoldersList from '../components/FoldersList';
 
@@ -58,18 +58,10 @@ const Folders = () => {
     }
     return (
       <>
-        <h1 className="folder-title">Folders</h1>
-        <ul className="folders-list">
-          <li>
-            <Link to="/drafts">Drafts</Link>
-          </li>
-          <li>
-            <Link to="/sent">Sent</Link>
-          </li>
-          <li>
-            <Link to="/trash">Trash</Link>
-          </li>
-        </ul>
+        <h1>My folders</h1>
+        <button type="button" className="modal-button" onClick={openNewModal}>
+          Create new folder
+        </button>
         <FoldersList folders={folders} />
         <VaModal
           className="modal"
@@ -86,9 +78,6 @@ const Folders = () => {
           <va-button text="Confirm" onClick={confirmNewFolder} />
           <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
         </VaModal>
-        <button type="button" className="modal-button" onClick={openNewModal}>
-          Create new folder
-        </button>
       </>
     );
   };

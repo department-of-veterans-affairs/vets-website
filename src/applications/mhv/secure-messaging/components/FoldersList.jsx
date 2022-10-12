@@ -7,10 +7,6 @@ const FoldersList = props => {
 
   return (
     <div>
-      {' '}
-      {!!folders.filter(folder => folder.id > 0).length && (
-        <h2 className="folder-title">My Folders</h2>
-      )}
       <ul className="folders-list">
         {!!folders.length &&
           folders.filter(folder => folder.id > 0).map(folder => (

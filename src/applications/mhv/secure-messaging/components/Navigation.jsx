@@ -21,7 +21,7 @@ const Navigation = () => {
     return [
       { path: '/compose', label: 'Compose' },
       { path: '/drafts', label: 'Drafts' },
-      { path: '/folders', label: 'Folders' },
+      { path: '/folders', label: 'My folders' },
       { path: '/sent', label: 'Sent' },
       { path: '/trash', label: 'Trash' },
       { path: '/search', label: 'Search messages' },
