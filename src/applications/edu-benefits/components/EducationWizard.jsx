@@ -43,11 +43,6 @@ class EducationWizard extends React.Component {
       case '22-1990':
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
-      // set production flag
-      case '1990N':
-        url = '/find-forms/about-form-22-1990n';
-        break;
-      // producation flag here
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
         break;
