@@ -10,16 +10,9 @@ const TravelMileage = props => {
 
   return (
     <TravelPage
-      header={t('are-you-claiming-only-mileage-for-your-trip')}
-      bodyText={
-        <p>
-          {t(
-            'answer-yes-if-you-dont-need-to-submit-any-receipts-for-tolls-meals-lodging-or-other-expenses',
-          )}
-        </p>
-      }
+      header={t('are-you-claiming-only-mileage-and-no-other')}
       helpText={t(
-        'if-you-do-need-to-submit-receipts-for-other-expenses--helptext',
+        'if-you-need-to-submit-receipts-for-other-expenses--helptext',
       )}
       pageType="travel-mileage"
       router={router}
