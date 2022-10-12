@@ -23,14 +23,17 @@ node('vetsgov-general-purpose') {
 
   stage('Review instance') {
     if (commonStages.shouldBail()) { return }
-    steps {
-      script {
+    script {
       final String url = "https://api.github.com/repos/departme/dispatches"
+
+      final String dataString = '{\\"event_type\\": \\"hello\\"}'
 
       final String response = sh(script: "curl --request POST \
         --url '$url' \
-        --header 'authorization: Bearer ${GITHUB_TOKEN}'"
-     }
+        --header 'authorization: Bearer ${GITHUB_TOKEN}' \
+        --data $dataString", returnStdout: true).trim()
+
+        echo response
     }
     try {
       if (!commonStages.isReviewable()) {
