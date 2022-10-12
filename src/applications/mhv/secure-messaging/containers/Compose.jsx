@@ -1,25 +1,28 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMessage, loadingComplete } from '../actions';
+import { useLocation, useParams } from 'react-router-dom';
+import { retrieveMessage } from '../actions/messages';
+import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { isLoading, message, error } = useSelector(state => state.message);
-  const isDraft = window.location.pathname.includes('/draft');
+  const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
+  const { triageTeams } = useSelector(state => state.sm.triageTeams);
+  const { draftId } = useParams();
+  const location = useLocation();
+  const isDraft = location.pathname.includes('/draft');
 
   useEffect(
     () => {
-      const messageId = window.location.pathname.split('/').pop();
-      if (isDraft) {
-        dispatch(getMessage('draft', messageId));
-      } else {
-        dispatch(loadingComplete());
+      dispatch(getTriageTeams());
+      if (isDraft && draftId) {
+        dispatch(retrieveMessage(draftId, true));
       }
     },
-    [isDraft, dispatch],
+    [isDraft, draftId],
   );
 
   let pageTitle;
@@ -31,7 +34,7 @@ const Compose = () => {
   }
 
   const content = () => {
-    if (isLoading) {
+    if ((isDraft && !draftMessage) || !triageTeams) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -50,7 +53,7 @@ const Compose = () => {
         </va-alert>
       );
     }
-    return <ComposeForm message={message} />;
+    return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
   };
 
   return (

@@ -225,7 +225,7 @@ export const deleteMessage = messageId => {
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'DEL',
+    method: 'DELETE',
   });
 };
 

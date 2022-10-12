@@ -15,6 +15,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
       return (
         <EnrollmentVerificationMonth
           key={index}
+          lastCertifiedThroughDate={
+            enrollmentVerification.lastCertifiedThroughDate
+          }
           month={month}
           status={status}
         />

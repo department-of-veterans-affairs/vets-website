@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
+import { Link } from 'react-router-dom';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
@@ -14,7 +15,7 @@ const InboxListItem = props => {
     subject,
     readReceipt,
     attachment,
-    link: { self },
+    messageId,
   } = props;
 
   const getClassNames = () => {
@@ -39,9 +40,12 @@ const InboxListItem = props => {
         )}
         {senderName}
       </p>
-      <a className="vads-u-margin-left--3 vads-u-margin-y--0p5" href={self}>
+      <Link
+        className="vads-u-margin-left--3 vads-u-margin-y--0p5"
+        to={`/message/${messageId}`}
+      >
         {subject}
-      </a>
+      </Link>
       <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment && <i className={attachmentClasses} />}
         {formattedDate}
@@ -55,7 +59,7 @@ export default InboxListItem;
 InboxListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
-  link: PropTypes.object,
+  messageId: PropTypes.number,
   readReceipt: PropTypes.any,
   senderName: PropTypes.string,
   sentDate: PropTypes.string,
