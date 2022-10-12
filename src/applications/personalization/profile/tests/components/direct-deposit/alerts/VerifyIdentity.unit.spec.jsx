@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
-import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import { render, cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
@@ -29,35 +28,47 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       const loginGovAnchor = await screen.findByTestId('logingov');
       const idmeAnchor = await screen.findByTestId('idme');
 
-      expect(loginGovAnchor.href).to.include(`logingov_signup_verified`);
-      expect(idmeAnchor.href).to.include('idme_signup_verified');
+      await waitFor(() =>
+        expect(loginGovAnchor.href).to.include(`logingov_signup_verified`),
+      );
+      await waitFor(() =>
+        expect(idmeAnchor.href).to.include('idme_signup_verified'),
+      );
       screen.unmount();
     });
 
     it('renders the proper URLs for VerifyIdentity (OAuth)', async () => {
       const screen = render(<VerifyIdentity useOAuth />);
-      const logingovAcr =
-        externalApplicationsConfig.default.oAuthOptions.acrVerify.logingov;
-      const idmeAcr =
-        externalApplicationsConfig.default.oAuthOptions.acrVerify.idme;
       const loginGovAnchor = await screen.findByTestId('logingov');
       const idmeAnchor = await screen.findByTestId('idme');
 
-      expect(loginGovAnchor.href).to.include(`type=logingov`);
-      expect(loginGovAnchor.href).to.include(`acr=${logingovAcr}`);
-      expect(loginGovAnchor.href).to.include(`client_id=web`);
-      expect(loginGovAnchor.href).to.include('/authorize');
-      expect(loginGovAnchor.href).to.include('response_type=code');
-      expect(loginGovAnchor.href).to.include('code_challenge=');
-      expect(loginGovAnchor.href).to.include('state=');
+      await waitFor(() =>
+        expect(loginGovAnchor.href).to.include(`type=logingov`),
+      );
+      await waitFor(() => expect(loginGovAnchor.href).to.include(`acr=min`));
+      await waitFor(() =>
+        expect(loginGovAnchor.href).to.include(`client_id=web`),
+      );
+      await waitFor(() => expect(loginGovAnchor.href).to.include('/authorize'));
+      await waitFor(() =>
+        expect(loginGovAnchor.href).to.include('response_type=code'),
+      );
+      await waitFor(() =>
+        expect(loginGovAnchor.href).to.include('code_challenge='),
+      );
+      await waitFor(() => expect(loginGovAnchor.href).to.include('state='));
 
-      expect(idmeAnchor.href).to.include(`type=idme`);
-      expect(idmeAnchor.href).to.include(`acr=${idmeAcr}`);
-      expect(idmeAnchor.href).to.include(`client_id=web`);
-      expect(idmeAnchor.href).to.include('/authorize');
-      expect(idmeAnchor.href).to.include('response_type=code');
-      expect(idmeAnchor.href).to.include('code_challenge=');
-      expect(idmeAnchor.href).to.include('state=');
+      await waitFor(() => expect(idmeAnchor.href).to.include(`type=idme`));
+      await waitFor(() => expect(idmeAnchor.href).to.include(`acr=min`));
+      await waitFor(() => expect(idmeAnchor.href).to.include(`client_id=web`));
+      await waitFor(() => expect(idmeAnchor.href).to.include('/authorize'));
+      await waitFor(() =>
+        expect(idmeAnchor.href).to.include('response_type=code'),
+      );
+      await waitFor(() =>
+        expect(idmeAnchor.href).to.include('code_challenge='),
+      );
+      await waitFor(() => expect(idmeAnchor.href).to.include('state='));
       screen.unmount();
     });
   });

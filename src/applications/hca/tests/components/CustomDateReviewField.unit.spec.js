@@ -13,7 +13,7 @@ describe('hca <CustomDateReviewField>', () => {
 
     const { getByText } = render(
       <CustomDateReviewField>
-        <React.Fragment uiSchema={uiSchema} formData={formData} />
+        <div uiSchema={uiSchema} formData={formData} />
       </CustomDateReviewField>,
     );
 
