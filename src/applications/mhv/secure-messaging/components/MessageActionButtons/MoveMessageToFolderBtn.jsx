@@ -91,7 +91,12 @@ const MoveMessageToFolderBtn = props => {
         onClick={openModal}
       >
         <i className="fas fa-folder" aria-hidden="true" />
-        <span className="message-action-button-text">Move</span>
+        <span
+          className="message-action-button-text"
+          data-testid="move-button-text"
+        >
+          Move
+        </span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
     </>
