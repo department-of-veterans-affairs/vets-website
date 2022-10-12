@@ -51,9 +51,9 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('renders the travel vehicle page with content', () => {
+    it('renders the travel mileage page with content', () => {
       TravelPages.validatePageLoaded('mileage');
-      TravelPages.validateContent();
+      TravelPages.validateContent('mileage');
       cy.injectAxeThenAxeCheck();
     });
   });

@@ -326,6 +326,7 @@ const getSponsorInformation = form => {
 
 export function transformTOEForm(_formConfig, form) {
   const payload = {
+    formId: form?.formId,
     '@type': 'ToeSubmission',
     toeClaimant: {
       suffix: form?.data['view:userFullName']?.userFullName?.suffix,
