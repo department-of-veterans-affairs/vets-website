@@ -302,7 +302,7 @@ describe('OAuth - Utilities', () => {
       await oAuthUtils.refresh({ type: 'logingov' });
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
-      expect(global.fetch.firstCall.args[1].type).to.equal('logingov');
+      expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });
