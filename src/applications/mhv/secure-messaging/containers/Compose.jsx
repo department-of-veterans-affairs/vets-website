@@ -13,28 +13,28 @@ const Compose = () => {
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
   const location = useLocation();
-  const isDraft = location.pathname.includes('/draft');
+  const isDraftPage = location.pathname.includes('/draft');
 
   useEffect(
     () => {
       dispatch(getTriageTeams());
-      if (isDraft && draftId) {
+      if (isDraftPage && draftId) {
         dispatch(retrieveMessage(draftId, true));
       }
     },
-    [isDraft, draftId],
+    [isDraftPage, draftId],
   );
 
   let pageTitle;
 
-  if (isDraft) {
+  if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
     pageTitle = 'Compose message';
   }
 
   const content = () => {
-    if ((isDraft && !draftMessage) || !triageTeams) {
+    if ((isDraftPage && !draftMessage) || !triageTeams) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
