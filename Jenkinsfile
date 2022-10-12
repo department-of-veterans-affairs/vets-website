@@ -3,7 +3,7 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 env.GITHUB_TOKEN = credentials('va-bot')
-
+env.url = 'https://api.github.com/repos/departme/dispatches'
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([booleanParam(name: "cancelBuild",
