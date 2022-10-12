@@ -145,7 +145,9 @@ const confirmWebAddressesAreBlocked = () => {
 
   // cancel out of edit mode and discard unsaved changes
   cy.findByRole('button', { name: /cancel/i }).click();
-  cy.findByRole('alertdialog')
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
     .findByRole('button', { name: /cancel/i })
     .click();
 };

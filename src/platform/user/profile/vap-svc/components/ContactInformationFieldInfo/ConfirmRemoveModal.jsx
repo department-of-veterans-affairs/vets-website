@@ -18,7 +18,7 @@ const ConfirmRemoveModal = ({
 }) => {
   return (
     <Modal
-      title={`Are you sure?`}
+      title="Are you sure?"
       cssClass="overflow-auto"
       status="warning"
       visible={isVisible}

@@ -303,7 +303,12 @@ class AddFilesForm extends React.Component {
           }
         />
         <div>
-          <button type="submit" className="usa-button" onClick={this.submit}>
+          <button
+            type="submit"
+            className="usa-button"
+            data-cy="submit-files-button"
+            onClick={this.submit}
+          >
             Submit Files for Review
           </button>
           <Link to={this.props.backUrl} className="claims-files-cancel">
