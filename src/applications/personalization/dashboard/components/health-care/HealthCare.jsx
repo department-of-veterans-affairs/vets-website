@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useWhatChanged } from '@simbathesailor/use-what-changed';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import HealthCareContent from './HealthCareContent';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
@@ -24,35 +23,12 @@ import HealthCareHeader from './HealthCareHeader';
 
 const HealthCare = ({
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
-  fetchConfirmedFutureAppointmentsV2,
+
   fetchUnreadMessages,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
-  useVaosV2Api,
 }) => {
-  const deps = [
-    fetchConfirmedFutureAppointments,
-    dataLoadingDisabled,
-    useVaosV2Api,
-    fetchConfirmedFutureAppointmentsV2,
-  ];
-
-  useWhatChanged(
-    deps,
-    'fetchConfirmedFutureAppointments, dataLoadingDisabled, useVaosV2Api, fetchConfirmedFutureAppointmentsV2',
-  );
-  // useEffect(() => {
-  //   if (!dataLoadingDisabled) {
-  //     if (useVaosV2Api) {
-  //       fetchConfirmedFutureAppointmentsV2();
-  //     } else {
-  //       fetchConfirmedFutureAppointments();
-  //     }
-  //   }
-  // }, deps);
-
   useEffect(
     () => {
       if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
