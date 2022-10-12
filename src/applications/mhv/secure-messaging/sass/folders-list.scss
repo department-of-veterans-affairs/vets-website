@@ -18,16 +18,18 @@
     margin: 0;
     padding: 0;
     li {
-      border-top: 1px solid $color-gray-medium;
-      padding: 16px 0;
+      padding: 8px 0;
       margin: 0;
       display: flex;
       @media (min-width: $medium-screen) {
         align-items: center;
       }
+      i {
+        color: $color-link-default;
+        margin-right: 5px;
+      }
     }
     li:last-child {
-      border-bottom: 1px solid $color-gray-medium;
       margin-bottom: 16px;
     }
   }

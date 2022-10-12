@@ -11,7 +11,10 @@ const FoldersList = props => {
         {!!folders.length &&
           folders.filter(folder => folder.id > 0).map(folder => (
             <li key={folder.name}>
-              <Link to={`/folder/${folder.id}`}>{folder.name}</Link>
+              <Link to={`/folder/${folder.id}`}>
+                <i className="fas fa-folder" />
+                {folder.name}
+              </Link>
             </li>
           ))}
       </ul>
