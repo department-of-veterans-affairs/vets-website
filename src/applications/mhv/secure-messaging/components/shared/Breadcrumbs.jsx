@@ -1,38 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const Breadcrumbs = () => {
   const location = useLocation();
   const [crumbs, setCrumbs] = useState();
 
-  const paths = [
-    { path: '/message', breadCrumbArray: [{ label: 'Message' }] },
-    { path: '/reply', breadCrumbArray: [{ label: 'Reply' }] },
-    { path: '/compose', breadCrumbArray: [{ label: 'Compose message' }] },
-    { path: '/draft', breadCrumbArray: [{ label: 'Edit draft' }] },
-    { path: '/drafts', breadCrumbArray: [{ label: 'Drafts' }] },
-    { path: '/sent', breadCrumbArray: [{ label: 'Sent messages' }] },
-    { path: '/trash', breadCrumbArray: [{ label: 'Trash' }] },
-    {
-      path: '/search',
-      breadCrumbArray: [{ label: 'Search messages', route: '/search' }],
-    },
-    {
-      path: '/search',
-      breadCrumbArray: [
-        { label: 'Search messages', route: '/search' },
-        { label: 'Advanced search', route: '/search?advanced=true' },
-      ],
-    },
-  ];
-
-  useEffect(() => {
-    paths.forEach(path => {
-      if (path.path === location.pathname) {
-        setCrumbs(path.breadCrumbArray);
+  const paths = useMemo(
+    () => {
+      let arr = [];
+      if (location.pathname) {
+        arr = [
+          { path: '/message', breadCrumbArray: [{ label: 'Message' }] },
+          { path: '/reply', breadCrumbArray: [{ label: 'Reply' }] },
+          { path: '/compose', breadCrumbArray: [{ label: 'Compose message' }] },
+          { path: '/draft', breadCrumbArray: [{ label: 'Edit draft' }] },
+          { path: '/drafts', breadCrumbArray: [{ label: 'Drafts' }] },
+          { path: '/sent', breadCrumbArray: [{ label: 'Sent messages' }] },
+          { path: '/trash', breadCrumbArray: [{ label: 'Trash' }] },
+          {
+            path: '/search',
+            breadCrumbArray: [{ label: 'Search messages', route: '/search' }],
+          },
+          {
+            path: '/search',
+            breadCrumbArray: [
+              { label: 'Search messages', route: '/search' },
+              { label: 'Advanced search', route: '/search?advanced=true' },
+            ],
+          },
+          {
+            path: '/message-faq',
+            breadCrumbArray: [{ label: 'Message FAQ', route: '/message-faq' }],
+          },
+        ];
       }
-    });
-  }, []);
+      return arr;
+    },
+    [location.pathname],
+  );
+
+  useEffect(
+    () => {
+      paths.forEach(path => {
+        if (path.path === location.pathname) {
+          setCrumbs(path.breadCrumbArray);
+        }
+      });
+    },
+    [location.pathname, paths],
+  );
 
   return (
     <va-breadcrumbs>

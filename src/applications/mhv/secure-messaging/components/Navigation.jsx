@@ -1,9 +1,34 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
 const Navigation = () => {
+  const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(
+    () => {
+      dispatch(getFolders());
+    },
+    [dispatch],
+  );
+
+  const paths = () => {
+    return [
+      { path: '/compose', label: 'Compose' },
+      { path: '/drafts', label: 'Drafts' },
+      { path: '/folders', label: 'Folders' },
+      { path: '/sent', label: 'Sent' },
+      { path: '/trash', label: 'Trash' },
+      { path: '/search', label: 'Search messages' },
+      { path: '/faq', label: 'Messages FAQ' },
+    ];
+  };
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
@@ -22,14 +47,14 @@ const Navigation = () => {
   }
 
   function openNavigationBurgerButton() {
-    return isMobile ? (
-      <SectionGuideButton
-        onMenuClick={() => {
-          openNavigation();
-        }}
-      />
-    ) : (
-      <></>
+    return (
+      isMobile && (
+        <SectionGuideButton
+          onMenuClick={() => {
+            openNavigation();
+          }}
+        />
+      )
     );
   }
 
@@ -71,33 +96,30 @@ const Navigation = () => {
               </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
-                  <a href="/my-health/secure-messages">Messages</a>
+                  <Link to="/">Messages</Link>
                 </div>
+
                 <div className="sidebar-navigation-messages-list-menu">
                   <ul className="usa-sidenav-list">
-                    <li>
-                      <a href="/my-health/secure-messages">Compose</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Drafts</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Folders</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Sent</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Deleted</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Search messages</a>
-                    </li>
-                    <li>
-                      <a href="/my-health/secure-messages">Messages FAQ</a>
-                    </li>
+                    {paths().map((path, i) => (
+                      <li
+                        key={i}
+                        className={
+                          (location.pathname === path.path &&
+                            'vads-u-font-weight--bold') ||
+                          ''
+                        }
+                      >
+                        <Link to={path.path}>{path.label}</Link>
+                      </li>
+                    ))}
                   </ul>
                 </div>
+              </li>
+              <li>
+                <a href="/my-health/secure-messages/message-faq">
+                  Messages FAQ
+                </a>
               </li>
               <li>
                 <a href="/my-health/secure-messages">Medical records</a>

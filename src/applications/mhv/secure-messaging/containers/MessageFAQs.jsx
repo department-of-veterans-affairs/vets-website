@@ -4,13 +4,13 @@ MessageFAQs Container
 */
 
 import React from 'react';
-// import MessageFAQ from '../components/MessageFAQ';
+import MessageFAQ from '../components/MessageFAQ';
 
-const MessageFAQs = () => {
-  // const { isLoggedIn } = props;
+const MessageFAQs = props => {
+  const { isLoggedIn } = props;
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-faq-container">
-      {/* <MessageFAQ isLoggedIn={isLoggedIn} /> */}
+      <MessageFAQ isLoggedIn={isLoggedIn} />
     </div>
   );
 };
