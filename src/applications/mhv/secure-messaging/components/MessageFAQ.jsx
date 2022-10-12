@@ -3,7 +3,7 @@ MessageFAQ Component
 @author Vic Saleem
 */
 import React from 'react';
-// import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
+import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import UnAuthBanner from './shared/UnAuthBanner';
 import UnAuthSendMessageSection from './shared/UnAuthSendMessageSection';
 
@@ -27,7 +27,7 @@ const MessageFAQ = props => {
           <UnAuthSendMessageSection />
         </div>
       )}
-      {/* <FrequentlyAskedQuestions /> */}
+      <FrequentlyAskedQuestions />
     </>
   );
 };
