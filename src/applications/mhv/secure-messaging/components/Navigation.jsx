@@ -19,13 +19,17 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose' },
-      { path: '/drafts', label: 'Drafts' },
-      { path: '/folders', label: 'Folders' },
-      { path: '/sent', label: 'Sent' },
-      { path: '/trash', label: 'Trash' },
-      { path: '/search', label: 'Search messages' },
-      { path: '/faq', label: 'Messages FAQ' },
+      { path: '/compose', label: 'Compose', datatestid: 'Compose-SideBar' },
+      { path: '/drafts', label: 'Drafts', datatestid: 'Drafts-SideBar' },
+      { path: '/folders', label: 'Folders', datatestid: 'Folders-SideBar' },
+      { path: '/sent', label: 'Sent', datatestid: 'Sent-SideBar' },
+      { path: '/trash', label: 'Trash', datatestid: 'Trash-SideBar' },
+      {
+        path: '/search',
+        label: 'Search messages',
+        datatestid: 'Search-SideBar',
+      },
+      { path: '/faq', label: 'Messages FAQ', datatestid: 'Compose-SideBar' },
     ];
   };
 
@@ -109,6 +113,7 @@ const Navigation = () => {
                             ? 'vads-u-font-weight--bold'
                             : undefined
                         }
+                        data-testid={path.datatestid}
                       >
                         <Link to={path.path}>{path.label}</Link>
                       </li>

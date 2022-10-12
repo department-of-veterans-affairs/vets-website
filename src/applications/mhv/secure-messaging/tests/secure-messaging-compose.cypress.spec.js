@@ -32,15 +32,12 @@ describe(manifest.appName, () => {
       'GET',
       '/my_health/v1/messaging/folders/*/messages',
       mockMessages,
-    ).as('inbox');
+    ).as('inboxMessages');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/*',
       mockInboxFolder,
-    ).as('inboxFolder');
-    cy.intercept('GET', '/my_health/v1/messaging/messages', mockMessages).as(
-      'messages',
-    );
+    ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/recipients',
@@ -50,10 +47,10 @@ describe(manifest.appName, () => {
     cy.injectAxe();
     cy.wait('@categories');
     cy.wait('@folders');
-    cy.wait('@inbox');
-    cy.wait('@inboxFolder');
+    cy.wait('@inboxMessages');
+    cy.wait('@inboxFolderMetaData');
     cy.wait('@recipients');
-    cy.injectAxe().axeCheck();
+    cy.axeCheck();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.wait('@featureToggle');
     cy.get('[data-testid="compose-select"]')

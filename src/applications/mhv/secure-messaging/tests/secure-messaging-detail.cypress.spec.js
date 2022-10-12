@@ -14,7 +14,7 @@ beforeEach(() => {
   }).as('featureToggle');
 });
 
-describe(manifest.appName, function() {
+describe.skip(manifest.appName, function() {
   before(function() {
     if (Cypress.env('CI')) this.skip();
   });
