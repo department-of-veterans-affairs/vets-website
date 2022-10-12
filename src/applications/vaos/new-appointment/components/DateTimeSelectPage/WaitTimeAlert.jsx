@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link } from 'react-router-dom';
 import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import NewTabAnchor from '../../../components/NewTabAnchor';
