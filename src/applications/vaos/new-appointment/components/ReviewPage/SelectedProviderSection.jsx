@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
@@ -53,3 +54,8 @@ export default function SelectedProviderSection({ data, vaCityState }) {
     </div>
   );
 }
+
+SelectedProviderSection.propTypes = {
+  data: PropTypes.object.isRequired,
+  vaCityState: PropTypes.string,
+};

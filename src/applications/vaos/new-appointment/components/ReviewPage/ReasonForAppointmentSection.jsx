@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -35,3 +36,7 @@ export default function ReasonForAppointmentSection({ data }) {
     </>
   );
 }
+
+ReasonForAppointmentSection.propTypes = {
+  data: PropTypes.object,
+};

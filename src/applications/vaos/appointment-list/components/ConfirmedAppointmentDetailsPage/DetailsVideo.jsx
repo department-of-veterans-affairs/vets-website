@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
@@ -59,3 +60,8 @@ export default function DetailsVideo({ appointment, facilityData }) {
     </>
   );
 }
+
+DetailsVideo.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facilityData: PropTypes.object,
+};

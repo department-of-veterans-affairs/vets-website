@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function NoAppointments({
@@ -42,3 +43,9 @@ export default function NoAppointments({
     </>
   );
 }
+
+NoAppointments.propTypes = {
+  showScheduleButton: PropTypes.bool.isRequired,
+  startNewAppointmentFlow: PropTypes.func.isRequired,
+  description: PropTypes.string,
+};

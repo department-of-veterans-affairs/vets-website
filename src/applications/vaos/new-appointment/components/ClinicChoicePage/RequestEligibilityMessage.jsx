@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -103,3 +104,10 @@ export default function RequestEligibilityMessage({
 
   return <ErrorMessage />;
 }
+
+RequestEligibilityMessage.propTypes = {
+  eligibility: PropTypes.object.isRequired,
+  typeOfCare: PropTypes.object.isRequired,
+  typeOfCareName: PropTypes.string.isRequired,
+  facilityDetails: PropTypes.object,
+};

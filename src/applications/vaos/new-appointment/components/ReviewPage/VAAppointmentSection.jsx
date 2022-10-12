@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
@@ -35,3 +36,7 @@ export default function VAAppointmentSection({ data, facility }) {
     </>
   );
 }
+VAAppointmentSection.propTypes = {
+  data: PropTypes.object.isRequired,
+  facility: PropTypes.object.isRequired,
+};

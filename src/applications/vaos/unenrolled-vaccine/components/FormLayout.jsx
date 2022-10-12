@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
@@ -36,3 +37,7 @@ export default function FormLayout({ children }) {
     </div>
   );
 }
+
+FormLayout.propTypes = {
+  children: PropTypes.string.isRequired,
+};

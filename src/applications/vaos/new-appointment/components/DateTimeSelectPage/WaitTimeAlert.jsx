@@ -59,6 +59,12 @@ function ActionButtons(props) {
   );
 }
 
+ActionButtons.propTypes = {
+  facilityId: PropTypes.string.isRequired,
+  eligibleForRequests: PropTypes.bool,
+  onClickRequest: PropTypes.func,
+};
+
 export const WaitTimeAlert = ({
   eligibleForRequests,
   facilityId,
