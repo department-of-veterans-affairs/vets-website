@@ -1,23 +1,24 @@
 import React from 'react';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { expect } from 'chai';
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, cleanup } from '@testing-library/react';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
+const oldCrypto = global.window.crypto;
 
 describe('CreateAccountLink', () => {
   csps.forEach(policy => {
-    const oldCrypto = global.window.crypto;
-
     beforeEach(() => {
       global.window.crypto = mockCrypto;
+      window.location = new URL('https://dev.va.gov');
     });
 
     afterEach(() => {
       global.window.crypto = oldCrypto;
+      cleanup();
     });
 
     it(`should render correctly for each ${policy}`, async () => {
