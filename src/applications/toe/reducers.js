@@ -62,7 +62,7 @@ export default {
               sponsor => {
                 return {
                   ...sponsor,
-                  id: `${sponsor.sponsorVaId.toString()}`,
+                  id: `${sponsor?.sponsorVaId}`,
                   name: [sponsor.firstName, sponsor.lastName].join(' '),
                   relationship: sponsor.sponsorRelationship,
                 };
