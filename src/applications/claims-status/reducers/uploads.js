@@ -13,7 +13,7 @@ import {
   CANCEL_UPLOAD,
   SET_FIELDS_DIRTY,
   SET_UPLOADER,
-} from '../actions';
+} from '../actions/types';
 
 const initialState = {
   files: [],

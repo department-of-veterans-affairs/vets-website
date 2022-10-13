@@ -3,24 +3,23 @@ import merge from 'lodash/merge';
 import set from 'platform/utilities/data/set';
 
 import {
+  BACKEND_SERVICE_ERROR,
+  FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_APPEALS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_STEM_CLAIMS_SUCCESS,
-} from '../actions';
-import {
-  FETCH_CLAIMS_PENDING,
-  FETCH_CLAIMS_SUCCESS,
-  FETCH_CLAIMS_ERROR,
-  FETCH_APPEALS_SUCCESS,
-  FETCH_APPEALS_PENDING,
-  FETCH_APPEALS_ERROR,
-  USER_FORBIDDEN_ERROR,
   RECORD_NOT_FOUND_ERROR,
+  USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
-  BACKEND_SERVICE_ERROR,
-  claimsAvailability,
+} from '../actions/types';
+import {
   appealsAvailability,
-  CHANGE_INDEX_PAGE,
+  claimsAvailability,
 } from '../utils/appeals-v2-helpers';
 
 // NOTE: Pagination is controlled by reducers in ./claims-list.js
@@ -84,22 +83,16 @@ export default function claimsV2Reducer(state = initialState, action) {
         appealsLoading: false,
         v2Availability: appealsAvailability.FETCH_APPEALS_ERROR,
       });
-
-    case CHANGE_INDEX_PAGE:
-      return set('page', action.page, state);
-
     case FETCH_STEM_CLAIMS_PENDING:
       return {
         ...state,
         stemClaimsLoading: true,
       };
-
     case FETCH_STEM_CLAIMS_ERROR:
       return {
         ...state,
         stemClaimsLoading: false,
       };
-
     case FETCH_STEM_CLAIMS_SUCCESS:
       return {
         ...state,
