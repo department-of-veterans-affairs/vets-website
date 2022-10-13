@@ -1,45 +1,41 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-const IdentityNotVerified = ({
-  alertHeadline,
-  alertContent = (
-    <p>
-      We need to make sure you’re you - and not someone pretending to be you -
-      before we can give you access to your personal and health-related
-      information. This helps to keep your information safe, and to prevent
-      fraud and identity theft.
-    </p>
-  ),
-  additionalInfoClickHandler = null,
-  level = 3,
-}) => {
-  const content = (
-    <>
-      {alertContent}
-
-      <a
-        className="vads-c-action-link--green"
-        href="/verify"
-        onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
-      >
-        Verify your identity
-      </a>
-    </>
-  );
-
+const IdentityNotVerified = ({ additionalInfoClickHandler = null }) => {
   return (
     <>
-      <AlertBox
-        headline={alertHeadline}
-        content={content}
-        status="warning"
-        level={level}
-      />
-      <p>
+      <VaAlert status="continue">
+        <h2 slot="headline" data-testid="verify-identity-alert-headline">
+          Verify your identity to view your complete profile
+        </h2>
+
+        <div className="vads-u-margin-bottom--1">
+          <p>
+            We need to make sure you’re you - and not someone pretending to be
+            you - before we can give you access to your personal and
+            health-related information. This helps to keep your information
+            safe, and to prevent fraud and identity theft.
+          </p>
+
+          <p className="vads-u-font-weight--bold">
+            This one-time process takes about 5-10 minutes.
+          </p>
+
+          <a
+            className="vads-c-action-link--green"
+            href="/verify"
+            onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
+          >
+            Verify your identity
+          </a>
+        </div>
+      </VaAlert>
+
+      <p className="vads-u-margin-y--4">
         <a
           onClick={additionalInfoClickHandler}
           href="/resources/verifying-your-identity-on-vagov/"
@@ -49,6 +45,10 @@ const IdentityNotVerified = ({
       </p>
     </>
   );
+};
+
+IdentityNotVerified.propTypes = {
+  additionalInfoClickHandler: PropTypes.func,
 };
 
 export default IdentityNotVerified;

@@ -32,6 +32,22 @@ export const AccountSecurityContent = ({
   showNotInMPIError,
   signInServiceName,
 }) => {
+  const handlers = {
+    learnMoreIdentity: () => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'view-link',
+        'additional-info': 'learn-more-identity',
+      });
+    },
+    vetsFAQ: () => {
+      recordEvent({
+        event: 'profile-navigation',
+        'profile-action': 'view-link',
+        'profile-section': 'vets-faqs',
+      });
+    },
+  };
   const securitySections = [
     {
       title: '2-factor authentication',
@@ -69,15 +85,7 @@ export const AccountSecurityContent = ({
     <>
       {!isIdentityVerified && (
         <IdentityNotVerified
-          alertHeadline="Verify your identity to view your complete profile"
-          additionalInfoClickHandler={() =>
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'additional-info': 'learn-more-identity',
-            })
-          }
-          level={2}
+          additionalInfoClickHandler={handlers.learnMoreIdentity}
         />
       )}
       {showMPIConnectionError && (
@@ -113,39 +121,21 @@ export const AccountSecurityContent = ({
           <a
             href="/resources/signing-in-to-vagov/"
             className="vads-u-margin-y--1"
-            onClick={() =>
-              recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'vets-faqs',
-              })
-            }
+            onClick={handlers.vetsFAQ}
           >
             Signing in to VA.gov
           </a>
           <a
             href="/resources/verifying-your-identity-on-vagov/"
             className="vads-u-margin-y--1"
-            onClick={() =>
-              recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'vets-faqs',
-              })
-            }
+            onClick={handlers.vetsFAQ}
           >
             Verifying your identity on VA.gov
           </a>
           <a
             href="/resources/privacy-and-security-on-vagov/"
             className="vads-u-margin-y--1"
-            onClick={() =>
-              recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'vets-faqs',
-              })
-            }
+            onClick={handlers.vetsFAQ}
           >
             Privacy and security on VA.gov
           </a>
@@ -159,6 +149,8 @@ AccountSecurityContent.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
   isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
+  showMHVTermsAndConditions: PropTypes.bool.isRequired,
+  signInServiceName: PropTypes.string.isRequired,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
     accountState: PropTypes.string,
@@ -166,8 +158,6 @@ AccountSecurityContent.propTypes = {
     loading: PropTypes.bool,
     termsAndConditionsAccepted: PropTypes.bool.isRequired,
   }),
-  showMHVTermsAndConditions: PropTypes.bool.isRequired,
-  signInServiceName: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = state => {
