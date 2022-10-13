@@ -8,6 +8,8 @@ import {
   SPONSOR_RELATIONSHIP,
 } from './constants';
 
+import { getSchemaCountryCode } from './utils/form-submit-transform';
+
 export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
@@ -96,15 +98,36 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  // const vaProfile = stateUser?.vaProfile;
 
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
+  const userAddressLine1 =
+    profile?.addressLine1 ||
+    vet360ContactInfo?.addressLine1 ||
+    contactInfo?.addressLine1;
+  const userAddressLine2 =
+    profile?.addressLine2 ||
+    vet360ContactInfo?.addressLine2 ||
+    contactInfo?.addressLine2;
+  const userCity =
+    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
+  const userState =
+    profile?.stateCode ||
+    vet360ContactInfo?.stateCode ||
+    contactInfo?.stateCode;
+  const userPostalCode =
+    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
+  const userCountryCode =
+    profile?.countryCode ||
+    vet360ContactInfo?.countryCode ||
+    contactInfo?.countryCode;
   const emailAddress =
     profile?.email ||
     vet360ContactInfo?.email?.emailAddress ||
@@ -131,6 +154,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
     sponsors,
@@ -158,6 +182,23 @@ export function prefillTransformer(pages, formData, metadata, state) {
         phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
         isInternational: homePhoneIsInternational,
       },
+    },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: userAddressLine1,
+        street2: userAddressLine2,
+        city: userCity,
+        state: userState,
+        postalCode: userPostalCode,
+        country: getSchemaCountryCode(userCountryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
   };
 

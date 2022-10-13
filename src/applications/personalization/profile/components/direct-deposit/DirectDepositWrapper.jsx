@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 
 import {
   cnpDirectDepositLoadError,
@@ -19,6 +20,7 @@ const DirectDepositWrapper = props => {
   const cnpError = useSelector(cnpDirectDepositLoadError);
   const eduError = useSelector(eduDirectDepositLoadError);
   const isBlocked = useSelector(cnpDirectDepositIsBlocked);
+  const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   if (loading) {
     return <va-loading-indicator />;
@@ -39,15 +41,11 @@ const DirectDepositWrapper = props => {
     signIn: { serviceName },
   } = profile;
 
-  if (
-    !serviceName ||
-    serviceName === CSP_IDS.DS_LOGON ||
-    serviceName === CSP_IDS.MHV
-  ) {
+  if (!serviceName || [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName)) {
     setViewingIsRestricted(true);
     return (
       <>
-        <VerifyIdentity />
+        <VerifyIdentity useOAuth={useOAuth} />
       </>
     );
   }

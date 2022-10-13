@@ -220,9 +220,8 @@ function mapStateToProps(state, ownProps) {
     appealsLoading,
     v2Availability: appealsAvailability,
   } = state.disability.status.claimsV2;
-  const { v1ToV2IdMap } = state.disability.status.appeals;
   return {
-    appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
+    appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading,
     appealsAvailability,
     fullName: state.user.profile.userFullName,

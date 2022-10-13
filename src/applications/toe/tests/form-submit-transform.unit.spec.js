@@ -109,44 +109,119 @@ describe('form submit transform', () => {
       });
     });
     describe('creates sponsor options', () => {
-      it('sets up firstSponsorVaId', () => {
-        expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(0);
-      });
-      it('sets up notSureAboutSponsor', () => {
-        expect(submissionObject.sponsorOptions.notSureAboutSponsor).to.eql(
-          false,
+      it('sets up firstSponsorVaId if already set', () => {
+        expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(
+          '9001001080',
         );
       });
+      it('sets up firstSponsorVaId if firstSponsor is undefined and there is a single selectedSponsor', () => {
+        mockSubmissionForm.data.firstSponsor = undefined;
+        mockSubmissionForm.data.selectedSponsors = ['90010010981'];
+        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
+        expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(
+          '90010010981',
+        );
+      });
+      it('sets firstSponsorVaId to null if firstSponsor is undefined and there is a more than one selectedSponsor', () => {
+        mockSubmissionForm.data.firstSponsor = undefined;
+        mockSubmissionForm.data.selectedSponsors = [
+          '90010010981',
+          '90010010982',
+        ];
+        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
+        expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(null);
+      });
+      it('sets up notSureAboutSponsor', () => {
+        mockSubmissionForm.data.firstSponsor = 'IM_NOT_SURE';
+        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
+        expect(submissionObject.sponsorOptions.notSureAboutSponsor).to.eql(
+          true,
+        );
+        expect(submissionObject.sponsorOptions.manualSponsor).to.eql(null);
+        expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(null);
+      });
       describe('creates manual sponsor', () => {
-        it('sets up firstName', () => {
-          expect(
-            submissionObject.sponsorOptions.manualSponsor.firstName,
-          ).to.eql('Marga');
+        it('sets to null if firstSponsorVaId present', () => {
+          expect(submissionObject.sponsorOptions.manualSponsor).to.eql(null);
         });
-        it('sets up middleName', () => {
-          expect(
-            submissionObject.sponsorOptions.manualSponsor.middleName,
-          ).to.eql('E');
+
+        describe('sets manual sponsor object if firstSponsorVaId is not defined', () => {
+          beforeEach(() => {
+            mockSubmissionForm.data.firstSponsor = undefined;
+            submissionObject = JSON.parse(
+              transformTOEForm({}, mockSubmissionForm),
+            );
+          });
+          it('sets up firstName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.firstName,
+            ).to.eql('Marga');
+          });
+          it('sets up middleName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.middleName,
+            ).to.eql('E');
+          });
+          it('sets up lastName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.lastName,
+              'Spencer',
+            );
+          });
+          it('sets up suffix', () => {
+            expect(submissionObject.sponsorOptions.manualSponsor.suffix).to.eql(
+              'Jr.',
+            );
+          });
+          it('sets up date of birth', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.dateOfBirth,
+            ).to.eql('1990-02-03');
+          });
+          it('sets up relationship', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.relationship,
+            ).to.eql('Spouse');
+          });
         });
-        it('sets up lastName', () => {
-          expect(submissionObject.sponsorOptions.manualSponsor.lastName).to.eql(
-            'Spencer',
-          );
-        });
-        it('sets up suffix', () => {
-          expect(submissionObject.sponsorOptions.manualSponsor.suffix).to.eql(
-            'Jr.',
-          );
-        });
-        it('sets up date of birth', () => {
-          expect(
-            submissionObject.sponsorOptions.manualSponsor.dateOfBirth,
-          ).to.eql('1990-02-03');
-        });
-        it('sets up relationship', () => {
-          expect(
-            submissionObject.sponsorOptions.manualSponsor.relationship,
-          ).to.eql('Spouse');
+        describe('sets manual sponsor object if firstSponsorVaId is not SPONSOR_NOT_LISTED', () => {
+          beforeEach(() => {
+            mockSubmissionForm.data.firstSponsor = 'SPONSOR_NOT_LISTED';
+            submissionObject = JSON.parse(
+              transformTOEForm({}, mockSubmissionForm),
+            );
+          });
+          it('sets up firstName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.firstName,
+            ).to.eql('Marga');
+          });
+          it('sets up middleName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.middleName,
+            ).to.eql('E');
+          });
+          it('sets up lastName', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.lastName,
+              'Spencer',
+            );
+          });
+          it('sets up suffix', () => {
+            expect(submissionObject.sponsorOptions.manualSponsor.suffix).to.eql(
+              'Jr.',
+            );
+          });
+          it('sets up date of birth', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.dateOfBirth,
+            ).to.eql('1990-02-03');
+          });
+          it('sets up relationship', () => {
+            expect(
+              submissionObject.sponsorOptions.manualSponsor.relationship,
+            ).to.eql('Spouse');
+          });
         });
       });
     });
