@@ -55,13 +55,13 @@ export default function StatusAlert({ appointment, facility }) {
         <br />
         <div className="vads-u-margin-y--1">
           <va-link
-            to="/"
+            href="/"
             onClick={handleClick()}
             text="Review your appointments"
           />
         </div>
         <div>
-          <va-link to="/new-appointment" text="Schedule a new appointment" />
+          <va-link href="/new-appointment" text="Schedule a new appointment" />
         </div>
       </InfoAlert>
     );

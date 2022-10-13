@@ -14,7 +14,7 @@ export default function FormLayout({ children, isReviewPage }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
-        <va-link to="new-appointment" text="New appointment" />
+        <va-link href="new-appointment" text="New appointment" />
       </Breadcrumbs>
       {location.pathname.endsWith('new-appointment') && (
         <DowntimeNotification

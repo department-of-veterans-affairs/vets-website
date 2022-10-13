@@ -54,17 +54,18 @@ function ConfirmationPageV2({
         <br />
         <div className="vads-u-margin-y--1">
           <va-link
-            to="/"
+            href="/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
               });
             }}
             text="Review your appointments"
+            data-testid="review-link"
           />
         </div>
         <div>
-          <va-link to="/new-appointment" text="Schedule a new appointment" />
+          <va-link href="/new-appointment" text="Schedule a new appointment" />
         </div>
       </InfoAlert>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">

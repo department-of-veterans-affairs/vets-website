@@ -54,21 +54,21 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <va-link to="/" key="vaos-home" text=" VA online scheduling" />
+        <va-link href="/" key="vaos-home" text=" VA online scheduling" />
       )}
       {featureStatusImprovement && (
-        <va-link to="/" key="vaos-home" text="Your appointments" />
+        <va-link href="/" key="vaos-home" text="Your appointments" />
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <va-link to="/past" key="past" text="Past" />
+          <va-link href="/past" key="past" text="Past" />
         </li>
       )}
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <va-link to="/pending" key="pending" text="Pending" />
+          <va-link href="/pending" key="pending" text="Pending" />
         </li>
       )}
 

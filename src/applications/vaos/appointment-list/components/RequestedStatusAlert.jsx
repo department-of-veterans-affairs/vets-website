@@ -60,14 +60,14 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             <br />
             <div className=" vads-u-margin-top--1">
               <va-link
-                to="/"
+                href="/"
                 onClick={handleViewClick}
                 text="View your appointments"
               />
             </div>
             <div className=" vads-u-margin-top--1">
               <va-link
-                to="/new-appointment"
+                href="/new-appointment"
                 onClick={handleNewApptClick(dispatch)}
                 text="New appointment"
               />

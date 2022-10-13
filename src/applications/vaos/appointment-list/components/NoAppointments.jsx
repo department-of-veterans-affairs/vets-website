@@ -23,7 +23,7 @@ export default function NoAppointments({
           </p>
           <va-link
             className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-            to="/new-appointment"
+            href="/new-appointment"
             onClick={startNewAppointmentFlow}
             text="Schedule an appointment"
           />

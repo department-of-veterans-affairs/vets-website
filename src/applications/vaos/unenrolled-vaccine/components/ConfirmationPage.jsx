@@ -36,7 +36,7 @@ export default function ConfirmationPage() {
       </div>
       <div className="vads-u-margin-y--2">
         <va-link
-          to="/"
+          href="/"
           className="usa-button vads-u-padding-right--2"
           onClick={() => {
             recordEvent({
