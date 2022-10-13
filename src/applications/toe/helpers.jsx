@@ -108,6 +108,16 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
+function mapNotificaitonMethod(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  }
+  if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
@@ -210,6 +220,11 @@ export function prefillTransformer(pages, formData, metadata, state) {
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.preferredContactMethod]: {
+      [formFields.contactMethod]: {
+        contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
+      },
     },
   };
 
