@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
+
+export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
 export default function ApprovedConfirmation({ user, dateReceived }) {
   return (
@@ -25,7 +28,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
