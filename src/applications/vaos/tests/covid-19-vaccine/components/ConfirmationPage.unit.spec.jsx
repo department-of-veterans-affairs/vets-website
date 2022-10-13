@@ -86,10 +86,12 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
 
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
 
-    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
-      'href',
-      '/',
+    expect(screen.getByTestId('review-link')).to.exist;
+    expect(screen.getByTestId('review-link')).to.have.attribute(
+      'text',
+      'Review your appointments',
     );
+    expect(screen.getByTestId('review-link')).to.have.attribute('href', '/');
   });
 
   it('should redirect to home page if no form data', async () => {
