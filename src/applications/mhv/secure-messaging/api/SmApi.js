@@ -37,8 +37,6 @@ export const getFolder = folderId => {
  * @returns
  */
 export const createFolder = folderName => {
-  // eslint-disable-next-line no-console
-  console.log(folderName);
   return apiRequest(`${apiBasePath}/messaging/folders`, {
     method: 'POST',
     headers: {
