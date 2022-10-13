@@ -46,7 +46,10 @@ const Search = () => {
   } else if (searchRequested) pageTitle = 'Search results';
 
   return (
-    <div className="vads-l-grid-container search-messages">
+    <div
+      className="vads-l-grid-container search-messages"
+      data-testid="search-messages"
+    >
       <h1 className="page-title">{pageTitle}</h1>
 
       {searchRequested ? (

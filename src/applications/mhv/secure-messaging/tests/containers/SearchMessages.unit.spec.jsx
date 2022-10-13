@@ -1,18 +1,22 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import SearchMessages from '../../containers/SearchMessages';
 
 describe('SearchMessages container', () => {
   it('should not be empty', () => {
-    const tree = SkinDeep.shallowRender(<SearchMessages />);
+    const screen = renderWithStoreAndRouter(<SearchMessages />, {
+      path: '/search',
+    });
 
-    expect(tree.subTree('.search-messages')).not.to.be.empty;
+    expect(screen.getByTestId('search-messages')).to.not.be.empty;
   });
 
   it('should contain an h1 element with page title', () => {
-    const tree = SkinDeep.shallowRender(<SearchMessages />);
+    const screen = renderWithStoreAndRouter(<SearchMessages />, {
+      path: '/search',
+    });
 
-    expect(tree.subTree('.page-title').text()).to.equal('Search messages');
+    expect(screen.findByText('Search messages')).to.exist;
   });
 });
