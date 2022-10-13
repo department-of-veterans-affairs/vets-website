@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../redux/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
