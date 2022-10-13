@@ -1,4 +1,5 @@
 import AdditionalIncomeInputList from '../../../components/AdditionalIncomeInputList';
+import { validateAddlIncomeValues } from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
@@ -7,6 +8,7 @@ export const uiSchema = {
     'ui:field': AdditionalIncomeInputList,
     addlIncRecords: {
       'ui:title': 'addlIncRecords',
+      'ui:validations': [validateAddlIncomeValues],
       items: {
         name: {
           'ui:title': 'Type of income',

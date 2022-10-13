@@ -2,26 +2,32 @@ import React from 'react';
 import AdditionalIncomeCheckList from '../../../components/AdditionalIncomeCheckList';
 
 export const uiSchema = {
-  'ui:title': () => (
-    <>
-      <legend className="schemaform-block-title">Your other income</legend>
-      <p className="vads-u-padding-top--neg2 vads-u-margin-bottom--3">
+  'ui:title': 'Your other income',
+  additionalIncomeChecklist: {
+    'ui:title': (
+      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         Select any additional income you receive:
-      </p>
-    </>
-  ),
-  additionalIncome: {
-    'ui:title': 'Your other income checklist',
-    'ui:field': AdditionalIncomeCheckList,
+      </span>
+    ),
+    'ui:widget': AdditionalIncomeCheckList,
+    'ui:required': formData => {
+      const {
+        additionalIncome: { addlIncRecords = [] },
+      } = formData;
+
+      return !addlIncRecords.length;
+    },
+    'ui:errorMessages': {
+      required: 'Please select at least one additional income.',
+    },
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
-      type: 'object',
-      properties: {},
+    additionalIncomeChecklist: {
+      type: 'boolean',
     },
   },
 };

@@ -77,12 +77,6 @@ export const validateCurrency = (errors, currencyAmount) => {
   }
 };
 
-export const isValidateCurrency = currencyAmount => {
-  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
-
-  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
-};
-
 export const validatePhone = (errors, phone) => {
   if (phone && !isValidPhone(phone)) {
     errors.addError('Please enter a valid phone number.');
@@ -130,4 +124,18 @@ export const validateWaiverCheckbox = (errors, fieldData) => {
   ) {
     errors.addError('You must agree by checking the box.');
   }
+};
+
+export const isValidCurrency = currencyAmount => {
+  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+
+  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
+};
+
+export const validateAddlIncomeValues = (errors, addlIncome) => {
+  addlIncome.map(income => {
+    return !isValidCurrency(income.amount)
+      ? errors.addError(income.name)
+      : null;
+  });
 };
