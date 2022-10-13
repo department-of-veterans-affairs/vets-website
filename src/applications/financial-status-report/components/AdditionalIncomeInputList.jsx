@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 const AdditionalIncomeInputList = ({ errorSchema }) => {
-  const testErrList = errorSchema?.addlIncRecords?.__errors;
+  const errorList = errorSchema?.addlIncRecords?.__errors;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
@@ -38,15 +38,12 @@ const AdditionalIncomeInputList = ({ errorSchema }) => {
       {addlIncRecords?.map((income, key) => (
         <div key={income.name + key} className="vads-u-margin-y--2">
           <va-number-input
-            className="test-currency-input"
             label={income.name}
             name={income.name}
             value={income.amount}
             id={income.name + key}
             error={
-              testErrList.includes(income.name)
-                ? 'Enter valid dollar amount'
-                : ''
+              errorList.includes(income.name) ? 'Enter valid dollar amount' : ''
             }
             inputmode="decimal"
             onInput={onChange}
