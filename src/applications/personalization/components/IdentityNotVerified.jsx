@@ -5,12 +5,15 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
-const IdentityNotVerified = ({ additionalInfoClickHandler = null }) => {
+const IdentityNotVerified = ({
+  additionalInfoClickHandler = null,
+  headline = 'Verify your identity to view your complete profile',
+}) => {
   return (
     <>
       <VaAlert status="continue">
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
-          Verify your identity to view your complete profile
+          {headline}
         </h2>
 
         <div className="vads-u-margin-bottom--1">
@@ -49,6 +52,7 @@ const IdentityNotVerified = ({ additionalInfoClickHandler = null }) => {
 
 IdentityNotVerified.propTypes = {
   additionalInfoClickHandler: PropTypes.func,
+  headline: PropTypes.string,
 };
 
 export default IdentityNotVerified;
