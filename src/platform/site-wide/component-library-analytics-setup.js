@@ -95,11 +95,41 @@ const analyticsEvents = {
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],
   'va-accordion': [
-    { action: 'expand', event: 'int-accordion-expand', prefix: 'accordion' },
+    {
+      action: 'expand',
+      event: 'int-accordion-expand',
+      prefix: 'accordion',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-accordion',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'accordion-header': 'heading_1',
+          'accordion-subheader': 'heading_2',
+          'accordion-level': 'custom_number_1',
+          'accordion-sectionHeading': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
+    },
     {
       action: 'collapse',
       event: 'int-accordion-collapse',
       prefix: 'accordion',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-accordion',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'accordion-header': 'heading_1',
+          'accordion-subheader': 'heading_2',
+          'accordion-level': 'custom_number_1',
+          'accordion-sectionHeading': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-additional-info': [
@@ -218,7 +248,6 @@ const analyticsEvents = {
         custom_string_1: 'component-library',
         /* Component to GA4 parameters */
         mapping: {
-          'click-text': 'value',
           version: 'component_version',
         },
       },

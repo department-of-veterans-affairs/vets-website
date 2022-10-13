@@ -30,11 +30,8 @@ const LandingPageAuth = () => {
       dispatch(getTriageTeams());
       dispatch(getCategories());
       // landing page retrieves only Inbox messages.
-      dispatch(retrieveFolder(Folder.INBOX));
-      dispatch(getMessages(Folder.INBOX));
-      // dispatch(retrieveMessage(522265));
-      // dispatch(retrieveMessage(7178447));
-      // dispatch(retrieveFolder(0));
+      dispatch(retrieveFolder(Folder.INBOX.id));
+      dispatch(getMessages(Folder.INBOX.id));
     },
     [dispatch],
   );
