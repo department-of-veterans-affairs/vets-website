@@ -18,8 +18,8 @@ function ConfirmationPage({
   useEffect(
     () => {
       if (!fetchedClaimStatus) {
-        setFetchedClaimStatus(true);
         getClaimStatus();
+        setFetchedClaimStatus(true);
       }
     },
     [
@@ -66,13 +66,18 @@ ConfirmationPage.propTypes = {
 };
 
 const mapStateToProps = state => {
-  // console.log(state);
   return {
     claimStatus: state.data?.claimStatus,
-    getClaimStatus: fetchClaimStatus,
     user: state.user,
   };
 };
 
-export default connect(mapStateToProps)(ConfirmationPage);
+const mapDispatchToProps = {
+  getClaimStatus: fetchClaimStatus,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
 // export default connect()(ConfirmationPage);
