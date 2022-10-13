@@ -1,17 +1,17 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const IdentityNotVerified = ({
   alertHeadline,
   alertContent = (
     <p>
-      We need to make sure you’re you — and not someone pretending to be you —
-      before we give you access to your personal and health-related information.
-      This helps to keep your information safe and prevent fraud and identity
-      theft.
+      We need to make sure you’re you - and not someone pretending to be you -
+      before we can give you access to your personal and health-related
+      information. This helps to keep your information safe, and to prevent
+      fraud and identity theft.
     </p>
   ),
   additionalInfoClickHandler = null,
