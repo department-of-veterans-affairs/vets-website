@@ -319,8 +319,8 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'Which categories best describe you?',
-    'ui:description': 'You may check more than one.',
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
     isSpanishHispanicLatino: {
       'ui:title': 'Hispanic or Latino',
     },

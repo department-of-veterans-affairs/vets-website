@@ -42,7 +42,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
       {loggedIn ? (
         <a
           className="vads-c-action-link--blue vads-u-margin-top--2"
-          href="/health-care/pay-copay-bill/your-current-balances/"
+          href="/manage-va-debt/summary/copay-balances"
         >
           Review your current copay balances
         </a>

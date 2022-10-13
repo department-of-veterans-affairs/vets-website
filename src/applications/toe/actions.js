@@ -3,7 +3,7 @@ import environment from 'platform/utilities/environment';
 
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
-}/meb_api/v0/claimant_info`;
+}/meb_api/v0/forms_claimant_info`;
 
 export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
@@ -15,11 +15,20 @@ export const FETCH_MILITARY_INFORMATION_SUCCESS =
 export const FETCH_MILITARY_INFORMATION_FAILED =
   'FETCH_MILITARY_INFORMATION_FAILED';
 
-export const SPONSORS_ENDPOINT = `${environment.API_URL}/meb_api/v0/sponsors`;
+export const SPONSORS_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/forms_sponsors`;
 export const FETCH_SPONSORS = 'FETCH_SPONSORS';
 export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
 export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
+
+export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
+export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
+export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
+export const DIRECT_DEPOSIT_ENDPOINT = `${
+  environment.API_URL
+}/v0/profile/ch33_bank_accounts`;
 
 // const FIVE_SECONDS = 5000;
 // const ONE_MINUTE_IN_THE_FUTURE = () => {
@@ -39,6 +48,25 @@ export function fetchPersonalInformation() {
       .catch(errors => {
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_FAILED,
+          errors,
+        });
+      });
+  };
+}
+
+export function fetchDirectDeposit() {
+  return async dispatch => {
+    dispatch({ type: FETCH_DIRECT_DEPOSIT });
+    return apiRequest(DIRECT_DEPOSIT_ENDPOINT)
+      .then(response => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_FAILED,
           errors,
         });
       });

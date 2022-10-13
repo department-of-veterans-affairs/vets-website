@@ -16,7 +16,10 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
+import {
+  signInServiceName as signInServiceNameSelector,
+  isAuthenticatedWithOAuth,
+} from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
@@ -40,6 +43,7 @@ const DirectDeposit = ({
   eduUiState,
   isVerifiedUser,
   hideDirectDepositCompAndPen,
+  useOAuth,
 }) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
   const [showEDUSuccessMessage, setShowEDUSuccessMessage] = useState(false);
@@ -160,7 +164,7 @@ const DirectDeposit = ({
             )}
           </DowntimeNotification>
         ) : (
-          <VerifyIdentity />
+          <VerifyIdentity useOAuth={useOAuth} />
         )}
         <FraudVictimAlert />
         {showBankInformation ? (
@@ -191,6 +195,7 @@ DirectDeposit.propTypes = {
   }).isRequired,
   hideDirectDepositCompAndPen: PropTypes.bool.isRequired,
   isVerifiedUser: PropTypes.bool.isRequired,
+  useOAuth: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
@@ -206,6 +211,7 @@ const mapStateToProps = state => {
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
     hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    useOAuth: isAuthenticatedWithOAuth(state),
   };
 };
 

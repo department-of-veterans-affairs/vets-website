@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMessage, loadingComplete } from '../actions';
+import { useLocation, useParams } from 'react-router-dom';
+import { retrieveMessage } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
@@ -8,33 +9,32 @@ import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { message, error } = useSelector(state => state.message);
+  const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
-  const isDraft = window.location.pathname.includes('/draft');
+  const { draftId } = useParams();
+  const location = useLocation();
+  const isDraftPage = location.pathname.includes('/draft');
 
   useEffect(
     () => {
-      const messageId = window.location.pathname.split('/').pop();
       dispatch(getTriageTeams());
-      if (isDraft) {
-        dispatch(getMessage('draft', messageId));
-      } else {
-        dispatch(loadingComplete());
+      if (isDraftPage && draftId) {
+        dispatch(retrieveMessage(draftId, true));
       }
     },
-    [isDraft, dispatch],
+    [isDraftPage, draftId],
   );
 
   let pageTitle;
 
-  if (isDraft) {
+  if (isDraftPage) {
     pageTitle = 'Edit draft';
   } else {
     pageTitle = 'Compose message';
   }
 
   const content = () => {
-    if ((isDraft && !message) || !triageTeams) {
+    if ((isDraftPage && !draftMessage) || !triageTeams) {
       return (
         <va-loading-indicator
           message="Loading your secure message..."
@@ -53,7 +53,7 @@ const Compose = () => {
         </va-alert>
       );
     }
-    return <ComposeForm message={message} recipients={triageTeams} />;
+    return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
   };
 
   return (

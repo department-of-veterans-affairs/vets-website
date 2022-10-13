@@ -22,7 +22,7 @@ describe('Diary Codes - Next Steps', () => {
 
   it('renders debt details with next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
-    cy.get('.usa-button')
+    cy.get('[data-cy="debt-details-button"]')
       .first()
       .click();
     cy.get('[data-testid="diary-code-100-next-step"]');

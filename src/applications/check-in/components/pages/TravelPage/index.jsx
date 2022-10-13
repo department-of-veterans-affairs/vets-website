@@ -33,8 +33,23 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       <BackButton router={router} action={goToPreviousPage} />
       <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
         {bodyText && (
-          <div data-testid="body-text" className="vads-u-font-family--serif">
+          <div
+            data-testid="body-text"
+            className="vads-u-font-family--serif vads-u-margin-bottom--3"
+          >
             {bodyText}
+          </div>
+        )}
+        {helpText && (
+          <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+            <va-alert
+              background-only
+              show-icon
+              status="info"
+              data-testid="help-message"
+            >
+              <div>{helpText}</div>
+            </va-alert>
           </div>
         )}
         <>
@@ -55,27 +70,15 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
             {t('no')}
           </button>
         </>
-        {helpText && (
-          <div className="vads-u-margin-top--3">
-            <va-alert
-              background-only
-              show-icon
-              status="info"
-              data-testid="help-message"
-            >
-              <div>{helpText}</div>
-            </va-alert>
-          </div>
-        )}
       </Wrapper>
     </>
   );
 };
 TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
+  pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
   bodyText: PropTypes.node,
   helpText: PropTypes.node,
-  pageType: PropTypes.string.isRequired,
 };
 export default TravelPage;

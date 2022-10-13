@@ -1,24 +1,24 @@
 {
-  "folder": [
+  "folderList": [
     {
       "id": 0,
       "name": "Inbox",
-      "count": 28,
-      "unreadCount": 18,
+      "count": 55,
+      "unreadCount": 41,
       "systemFolder": true
     },
     {
       "id": -2,
       "name": "Drafts",
-      "count": 4,
-      "unreadCount": 2,
+      "count": 18,
+      "unreadCount": 16,
       "systemFolder": true
     },
     {
       "id": -1,
       "name": "Sent",
-      "count": 67,
-      "unreadCount": 52,
+      "count": 96,
+      "unreadCount": 76,
       "systemFolder": true
     },
     {
@@ -38,7 +38,7 @@
     {
       "id": 6976715,
       "name": "TESTAGAIN",
-      "count": 4,
+      "count": 2,
       "unreadCount": 0,
       "systemFolder": false
     }

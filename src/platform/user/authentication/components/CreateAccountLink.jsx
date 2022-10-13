@@ -22,20 +22,18 @@ export default function CreateAccountLink({
 }) {
   const [href, setHref] = useState('');
 
-  useEffect(
-    () => {
-      (async () => {
-        const url = await authUtilities.signupOrVerify({
-          policy,
-          isLink: true,
-          allowVerification: false,
-          useOAuth,
-        });
-        setHref(url);
-      })();
-    },
-    [policy, useOAuth],
-  );
+  useEffect(() => {
+    async function generateURL() {
+      const url = await authUtilities.signupOrVerify({
+        policy,
+        isLink: true,
+        allowVerification: false,
+        useOAuth,
+      });
+      setHref(url);
+    }
+    generateURL();
+  }, []);
 
   return (
     <a

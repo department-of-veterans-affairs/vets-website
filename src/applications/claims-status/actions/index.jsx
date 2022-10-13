@@ -32,29 +32,19 @@ const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 // -------------------- v1 --------------------
-export const SET_CLAIMS = 'SET_CLAIMS';
-export const SET_APPEALS = 'SET_APPEALS';
-export const FETCH_CLAIMS = 'FETCH_CLAIMS';
-export const FETCH_APPEALS = 'FETCH_APPEALS';
 export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
 export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
-export const FILTER_CLAIMS = 'FILTER_CLAIMS';
-export const SORT_CLAIMS = 'SORT_CLAIMS';
-export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
-export const GET_APPEALS_DETAIL = 'GET_APPEALS_DETAIL';
 export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 export const SET_CLAIMS_UNAVAILABLE = 'SET_CLAIMS_UNAVAILABLE';
-export const SET_APPEALS_UNAVAILABLE = 'SET_APPEALS_UNAVAILABLE';
 export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
-export const SUBMIT_FILES = 'SUBMIT_FILES';
 export const SET_UPLOADING = 'SET_UPLOADING';
 export const SET_UPLOADER = 'SET_UPLOADER';
 export const DONE_UPLOADING = 'DONE_UPLOADING';
@@ -96,23 +86,7 @@ export function setAdditionalEvidenceNotification(message) {
   };
 }
 
-export function getAppeals(filter) {
-  return dispatch => {
-    dispatch({ type: FETCH_APPEALS });
-
-    makeAuthRequest(
-      '/v0/appeals',
-      null,
-      dispatch,
-      appeals => {
-        dispatch({ type: SET_APPEALS, filter, appeals: appeals.data });
-      },
-      () => dispatch({ type: SET_APPEALS_UNAVAILABLE }),
-    );
-  };
-}
-
-export function fetchAppealsSuccess(response) {
+function fetchAppealsSuccess(response) {
   const appeals = response.data;
   return {
     type: FETCH_APPEALS_SUCCESS,
@@ -154,7 +128,7 @@ export function getAppealsV2() {
   };
 }
 
-export function fetchClaimsSuccess(response) {
+function fetchClaimsSuccess(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims: response.data,
@@ -197,7 +171,7 @@ export function pollRequest(options) {
   );
 }
 
-export function getSyncStatus(claimsAsyncResponse) {
+function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
@@ -290,33 +264,6 @@ export function getClaimsV2(options = {}) {
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
       target: '/evss_claims_async',
     });
-  };
-}
-
-export function filterClaims(filter) {
-  return {
-    type: FILTER_CLAIMS,
-    filter,
-  };
-}
-
-export function sortClaims(sortProperty) {
-  return {
-    type: SORT_CLAIMS,
-    sortProperty,
-  };
-}
-
-export function changePage(page) {
-  return {
-    type: CHANGE_CLAIMS_PAGE,
-    page,
-  };
-}
-
-export function setUnavailable() {
-  return {
-    type: SET_CLAIMS_UNAVAILABLE,
   };
 }
 
