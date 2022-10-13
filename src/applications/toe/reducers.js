@@ -9,6 +9,9 @@ import {
   FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
+  FETCH_DIRECT_DEPOSIT,
+  FETCH_DIRECT_DEPOSIT_FAILED,
+  FETCH_DIRECT_DEPOSIT_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -21,6 +24,20 @@ const initialState = {
   form: {
     data: {},
   },
+};
+
+const ifApiIsDown = action => {
+  if (action?.response) {
+    return {
+      ...action?.response?.data?.attributes,
+    };
+  }
+  return {
+    accountType: 'Checking',
+    accountNumber: '*********9891',
+    routingNumber: '*****9593',
+    financialInstitutionName: 'BANK OF AMERICA N.A.',
+  };
 };
 
 export default {
@@ -41,18 +58,17 @@ export default {
           formData: action?.response || {},
           fetchedSponsorsComplete: true,
           sponsors: {
-            sponsors: [
-              ...action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements.map(
-                sponsor => {
-                  return {
-                    ...sponsor,
-                    id: `${sponsor.sponsorVaId.toString()}`,
-                    name: [sponsor.firstName, sponsor.lastName].join(' '),
-                    relationship: sponsor.sponsorRelationship,
-                  };
-                },
-              ),
-            ],
+            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
+              (sponsor, index) => {
+                return {
+                  ...sponsor,
+                  // ! TODO: CHANGE ID
+                  id: `${sponsor.sponsorVaId - index}`,
+                  name: [sponsor.firstName, sponsor.lastName].join(' '),
+                  relationship: sponsor.sponsorRelationship,
+                };
+              },
+            ),
             someoneNotListed: false,
           },
         };
@@ -95,6 +111,18 @@ export default {
         return {
           ...state,
           sponsors: action.payload,
+        };
+      case FETCH_DIRECT_DEPOSIT:
+        return {
+          ...state,
+          fetchDirectDepositInProgress: true,
+        };
+      case FETCH_DIRECT_DEPOSIT_SUCCESS:
+      case FETCH_DIRECT_DEPOSIT_FAILED:
+        return {
+          ...state,
+          fetchDirectDepositInProgress: false,
+          bankInformation: ifApiIsDown(action),
         };
       default:
         return state;
