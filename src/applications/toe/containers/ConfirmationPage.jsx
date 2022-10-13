@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 
 import ApprovedConfirmation from '../components/confirmation/ApprovedConfirmation';
 import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
@@ -10,6 +11,7 @@ import { fetchClaimStatus } from '../actions';
 
 function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+
   useEffect(
     () => {
       if (!fetchedClaimStatus) {
@@ -25,12 +27,34 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
     ],
   );
 
+  const { first, last, middle, suffix } = user?.profile?.userFullName;
+  let newReceivedDate;
+  const claimantName = `${first || ''} ${middle || ''} ${last || ''} ${suffix ||
+    ''}`;
+
+  if (claimStatus?.receivedDate) {
+    newReceivedDate = format(
+      new Date(claimStatus?.receivedDate),
+      'MMMM d, yyyy',
+    );
+  }
+
   switch (claimStatus?.claimStatus) {
     case 'ELIGIBLE': {
-      return <ApprovedConfirmation />;
+      return (
+        <ApprovedConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
     case 'DENIED': {
-      return <DeniedConfirmation />;
+      return (
+        <DeniedConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
     case 'INPROGRESS':
     case 'ERROR': {

@@ -48,7 +48,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             <h3 slot="headline" style={{ marginTop: '1rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -126,5 +126,5 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
 
 ApprovedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  user: PropTypes.object,
+  userFullName: PropTypes.string,
 };
