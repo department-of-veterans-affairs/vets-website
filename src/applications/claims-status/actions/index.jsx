@@ -73,7 +73,7 @@ export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
 
 export const getClaimLetters = async () => {
   try {
-    return await apiRequest('/efolder/notification_letters');
+    return await apiRequest('/claim_letters');
     // return new Promise(res => {
     //   setTimeout(() => res(letters), 500);
     // });

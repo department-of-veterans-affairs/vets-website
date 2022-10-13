@@ -1,22 +1,12 @@
 import React from 'react';
-import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
 
-const formatDate = timestamp => {
-  return format(
-    new Date(timestamp.replace(/-/g, '/').replace(/T.+/, '')),
-    'MMMM dd, yyyy',
-  ); // using replace to fix the off by one day issue
-};
-
-const downloadUrl = id =>
-  `${environment.API_URL}/v0/efolder/notification_letter/${id}`;
+const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const ClaimLetterListItem = ({ letter }) => {
-  const date = formatDate(letter.uploadDate);
-  const heading = `Letter dated ${date}`;
+  const heading = `Letter dated ${letter.uploadDate}`;
 
   return (
     <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
