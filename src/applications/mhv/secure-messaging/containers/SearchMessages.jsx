@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import SearchForm from '../components/SearchForm';
 import SearchResults from '../components/SearchResults';
 import CondensedSearchForm from '../components/CondensedSearchForm';
 
 const Search = () => {
-  const queryParams = new URLSearchParams(window.location.search);
   const searchParams = {};
-  let advanced;
-  for (const [key, value] of queryParams.entries()) {
-    if (key === 'advanced') advanced = value;
-    else searchParams[key] = value;
-  }
+  const history = useHistory();
+  const location = useLocation();
 
-  const advancedSearchOpen = advanced && advanced === 'true';
+  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
   const searchRequested = !!Object.keys(searchParams).length;
 
   const toggleAdvancedSearchHandler = () => {
-    queryParams.append('advanced', 'true');
-    window.location.search = queryParams;
+    history.push('/search?advanced=true');
+    setAdvancedSearchOpen(true);
   };
+
+  useEffect(
+    () => {
+      if (location.search === '?advanced=true') {
+        setAdvancedSearchOpen(true);
+      } else {
+        setAdvancedSearchOpen(false);
+      }
+    },
+    [location.search],
+  );
 
   let pageTitle;
   let altAdvancedSearchToggle;
