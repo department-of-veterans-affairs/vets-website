@@ -28,6 +28,10 @@ const Breadcrumbs = () => {
               { label: 'Advanced search', route: '/search?advanced=true' },
             ],
           },
+          {
+            path: '/faq',
+            breadCrumbArray: [{ label: 'Message FAQ', route: '/faq' }],
+          },
         ];
       }
       return arr;
