@@ -42,11 +42,7 @@
 }
 
 article#pre-need[data-location="veteran-applicant-information"] {
-  .schemaform-field-template > p {
-    display: none;
-  }
-
-  .schemaform-widget-wrapper > fieldset > p {
-    margin-top: 0;
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0 !important;
   }
 }
