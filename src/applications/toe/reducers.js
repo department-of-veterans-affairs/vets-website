@@ -127,7 +127,7 @@ export default {
           claimStatusFetchComplete: true,
           claimStatusFetchInProgress: false,
           claimStatus: {
-            ...action.response?.data?.attributes,
+            ...action?.response?.attributes,
           },
         };
       case FETCH_DIRECT_DEPOSIT:

@@ -8,12 +8,7 @@ import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfi
 
 import { fetchClaimStatus } from '../actions';
 
-function ConfirmationPage({
-  confirmationResult,
-  getClaimStatus,
-  claimStatus,
-  user,
-}) {
+function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
   useEffect(
     () => {
@@ -25,17 +20,13 @@ function ConfirmationPage({
     [
       fetchedClaimStatus,
       getClaimStatus,
+      claimStatus,
       user?.login?.currentlyLoggedIn,
-      confirmationResult,
     ],
   );
 
-  if (claimStatus) {
-    // console.log(claimStatus);
-  }
-
-  switch (confirmationResult) {
-    case 'APPROVED': {
+  switch (claimStatus?.claimStatus) {
+    case 'ELIGIBLE': {
       return <ApprovedConfirmation />;
     }
     case 'DENIED': {
@@ -60,14 +51,15 @@ function ConfirmationPage({
 
 ConfirmationPage.propTypes = {
   claimStatus: PropTypes.object,
-  confirmationResult: PropTypes.string,
   getClaimStatus: PropTypes.func,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   return {
-    claimStatus: state.data?.claimStatus,
+    claimStatus: state?.data?.claimStatus,
+    claimStatusFetchInProgress: state?.data?.claimStatusFetchInProgress,
+    claimStatusFetchComplete: state?.data?.claimStatusFetchComplete,
     user: state.user,
   };
 };
