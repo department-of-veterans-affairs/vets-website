@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
-
-export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function ApprovedConfirmation({ user, dateReceived }) {
   return (
@@ -70,11 +68,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a
-              href="/education/download-letters/letters/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
               Download VA education letter
             </a>
             .

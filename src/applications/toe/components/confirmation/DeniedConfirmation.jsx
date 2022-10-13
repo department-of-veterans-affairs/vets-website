@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LETTER_URL } from '../../constants';
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function DeniedConfirmation({ user, dateReceived }) {
   return (
@@ -29,7 +29,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
