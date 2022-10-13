@@ -102,9 +102,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
-  // const vaProfile = stateUser?.vaProfile;
-
   const stateUser = state.user;
+  const vaProfile = stateUser?.vaProfile;
+
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
@@ -154,6 +154,28 @@ export function prefillTransformer(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (vaProfile?.familyName) {
+    firstName = vaProfile?.givenNames[0];
+    middleName = vaProfile?.givenNames[1];
+    lastName = vaProfile?.familyName;
+    // suffix = ???
+  } else if (profile?.lastName) {
+    firstName = profile?.firstName;
+    middleName = profile?.middleName;
+    lastName = profile?.lastName;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
   // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
@@ -162,10 +184,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     claimantId: claimant.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
-        first: profile?.userFullName?.first || claimant?.firstName || undefined,
-        middle:
-          profile?.userFullName?.middle || claimant?.middleName || undefined,
-        last: profile?.userFullName?.last || claimant?.lastName || undefined,
+        first: firstName,
+        middle: middleName,
+        last: lastName,
+        suffix,
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
