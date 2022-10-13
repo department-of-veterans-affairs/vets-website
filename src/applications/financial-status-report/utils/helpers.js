@@ -54,7 +54,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount?.replaceAll(',', ''));
+      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, ''));
   return formatter.format(value);
 };
 
@@ -75,7 +75,10 @@ export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
+    .reduce(
+      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      0,
+    );
 };
 
 export const otherDeductionsName = (deductions, filters) => {
@@ -90,7 +93,10 @@ export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
+    .reduce(
+      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      0,
+    );
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -138,14 +144,15 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolutionComment?.replaceAll(',', '')),
+            acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '')),
           0,
         )
     : debts
         .filter(item => item.resolution.offerToPay !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolution?.offerToPay?.replaceAll(',', '')),
+            acc +
+            Number(debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '')),
           0,
         );
 };
@@ -183,7 +190,7 @@ export const getMonthlyIncome = ({
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
@@ -201,13 +208,16 @@ export const getMonthlyIncome = ({
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(
+      /[^0-9.-]/g,
+      '',
+    ) ?? 0,
   );
   const spEdu = Number(
-    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
+    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
@@ -233,7 +243,7 @@ export const getMonthlyExpenses = ({
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
   const totalExp = expVals.reduce(
-    (acc, expense) => acc + Number(expense?.replaceAll(',', '')),
+    (acc, expense) => acc + Number(expense?.replaceAll(/[^0-9.-]/g, '')),
     0,
   );
 
@@ -247,7 +257,10 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
     .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount?.replaceAll(',', '')), 0);
+    .reduce(
+      (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
+      0,
+    );
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
