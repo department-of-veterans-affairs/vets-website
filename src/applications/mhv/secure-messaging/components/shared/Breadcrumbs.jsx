@@ -1,65 +1,99 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { setBreadcrumbs } from '../../actions/breadcrumbs';
 
 const Breadcrumbs = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [crumbs, setCrumbs] = useState();
+  const breadcrumbsRef = useRef();
+  const crumbs = useSelector(state => state.sm.breadcrumbs.list);
 
-  const paths = useMemo(
+  const updateBreadcrumbs = () => {
+    if (breadcrumbsRef.current) {
+      const anchorNodes = Array.from(
+        breadcrumbsRef.current.querySelectorAll('a'),
+      );
+
+      anchorNodes.forEach((crumb, index) => {
+        crumb.removeAttribute('aria-current');
+
+        if (index === anchorNodes.length - 1) {
+          crumb.setAttribute('aria-current', 'page');
+        }
+      });
+    }
+  };
+
+  useEffect(
     () => {
-      let arr = [];
-      if (location.pathname) {
-        arr = [
-          { path: '/message', breadCrumbArray: [{ label: 'Message' }] },
-          { path: '/reply', breadCrumbArray: [{ label: 'Reply' }] },
-          { path: '/compose', breadCrumbArray: [{ label: 'Compose message' }] },
-          { path: '/draft', breadCrumbArray: [{ label: 'Edit draft' }] },
-          { path: '/drafts', breadCrumbArray: [{ label: 'Drafts' }] },
-          { path: '/sent', breadCrumbArray: [{ label: 'Sent messages' }] },
-          { path: '/trash', breadCrumbArray: [{ label: 'Trash' }] },
-          {
-            path: '/search',
-            breadCrumbArray: [{ label: 'Search messages', route: '/search' }],
+      const paths = [
+        { path: '/message', label: 'Message' },
+        { path: '/reply', label: 'Reply' },
+        { path: '/compose', label: 'Compose message' },
+        { path: '/draft', label: 'Edit draft' },
+        { path: '/drafts', label: 'Drafts' },
+        { path: '/folders', label: 'Folders' },
+        { path: '/sent', label: 'Sent messages' },
+        { path: '/trash', label: 'Trash' },
+        {
+          path: '/search',
+          label: 'Search messages',
+          child: {
+            path: '/search?advanced=true',
+            label: 'Advanced search',
           },
-          {
-            path: '/search',
-            breadCrumbArray: [
-              { label: 'Search messages', route: '/search' },
-              { label: 'Advanced search', route: '/search?advanced=true' },
-            ],
-          },
-        ];
+        },
+      ];
+
+      function handleBreadCrumbs() {
+        const arr = [];
+        arr.push({ path: 'https://www.va.gov', label: 'VA.gov home' });
+        arr.push({
+          path: 'https://www.va.gov/health-care/',
+          label: 'My Health',
+        });
+        arr.push({ path: '/', label: 'Messages' });
+
+        paths.forEach(path => {
+          if (path.path === location.pathname) {
+            arr.push(path);
+            if (path.child?.path === `${location.pathname}${location.search}`) {
+              arr.push(path.child);
+            }
+          }
+        });
+        dispatch(setBreadcrumbs(arr, location));
       }
-      return arr;
+      handleBreadCrumbs();
     },
-    [location.pathname],
+    [location, dispatch],
   );
 
   useEffect(
     () => {
-      paths.forEach(path => {
-        if (path.path === location.pathname) {
-          setCrumbs(path.breadCrumbArray);
-        }
-      });
+      if (breadcrumbsRef.current) {
+        updateBreadcrumbs();
+      }
     },
-    [location.pathname, paths],
+    [crumbs],
   );
 
   return (
-    <va-breadcrumbs>
-      <a href="/my-health/secure-messages/">VA.gov home</a>
-      <a href="/my-health/secure-messages/">My Health</a>
-      <a href="/my-health/secure-messages/">Messages</a>
-      {crumbs &&
-        crumbs.map((crumb, i) => {
-          return (
-            <a key={i} href={crumb.route}>
-              {crumb.label}
-            </a>
-          );
-        })}
-    </va-breadcrumbs>
+    <>
+      {crumbs && (
+        <VaBreadcrumbs ref={breadcrumbsRef}>
+          {crumbs?.map((crumb, i) => {
+            return (
+              <li key={i} className="va-breadcrumbs-li">
+                <Link to={crumb.path}>{crumb.label}</Link>
+              </li>
+            );
+          })}
+        </VaBreadcrumbs>
+      )}
+    </>
   );
 };
 
