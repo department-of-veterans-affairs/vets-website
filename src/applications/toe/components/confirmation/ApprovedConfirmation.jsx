@@ -126,5 +126,5 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
 
 ApprovedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  userFullName: PropTypes.string,
+  user: PropTypes.string,
 };

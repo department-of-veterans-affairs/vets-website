@@ -86,5 +86,5 @@ export default function DeniedConfirmation({ user, dateReceived }) {
 
 DeniedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  userFullName: PropTypes.string,
+  user: PropTypes.string,
 };
