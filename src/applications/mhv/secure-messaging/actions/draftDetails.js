@@ -3,11 +3,10 @@ import { createDraft, updateDraft } from '../api/SmApi';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
-    const messageJSON = JSON.stringify(messageData);
     if (id) {
-      return await updateDraft(messageJSON);
+      return await updateDraft(id, messageData);
     }
-    return await createDraft(messageJSON);
+    return await createDraft(messageData);
   } catch (error) {
     return error;
   }
@@ -29,9 +28,14 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.SAVE_FAILED,
       response: error,
     });
+  } else if (id) {
+    dispatch({
+      type: Actions.Draft.UPDATE_SUCCEEDED,
+      response,
+    });
   } else {
     dispatch({
-      type: Actions.Draft.SAVE_SUCCEEDED,
+      type: Actions.Draft.CREATE_SUCCEEDED,
       response,
     });
   }

@@ -1,5 +1,5 @@
-import moment from 'moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
+import moment from '../../utils/business-days';
 
 const today = moment();
 
@@ -56,9 +56,10 @@ export function choosePreferredDateTest() {
 
   const preferredDate = today
     .clone()
+    .addBusinessDay(5, 'days')
     .add(1, 'month')
     .startOf('month')
-    .add(4, 'days');
+    .day(9);
 
   cy.findByLabelText('Month').select(preferredDate.format('MMMM'));
   cy.findByLabelText('Day').select(preferredDate.format('D'));

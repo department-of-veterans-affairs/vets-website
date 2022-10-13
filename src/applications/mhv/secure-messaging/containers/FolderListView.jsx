@@ -8,6 +8,8 @@ import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { closeAlert } from '../actions/alerts';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -54,6 +56,18 @@ const FolderListView = () => {
     [folderId, dispatch],
   );
 
+  // clear out alerts if user navigates away from this component
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
   useInterval(() => {
     if (folder) {
       dispatch(getMessages(folder.folderId, true));
@@ -97,6 +111,7 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container">
       <div className="main-content">
+        <AlertBackgroundBox closeable />
         {folder === undefined ? (
           <va-loading-indicator
             message="Loading your secure messages..."

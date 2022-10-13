@@ -21,9 +21,9 @@ const Navigation = () => {
     return [
       { path: '/compose', label: 'Compose' },
       { path: '/drafts', label: 'Drafts' },
-      { path: '/folders', label: 'Folders' },
       { path: '/sent', label: 'Sent' },
       { path: '/trash', label: 'Trash' },
+      { path: '/folders', label: 'My folders' },
       { path: '/search', label: 'Search messages' },
       { path: '/faq', label: 'Messages FAQ' },
     ];
@@ -105,9 +105,9 @@ const Navigation = () => {
                       <li
                         key={i}
                         className={
-                          (location.pathname === path.path &&
-                            'vads-u-font-weight--bold') ||
-                          ''
+                          location.pathname === path.path
+                            ? 'vads-u-font-weight--bold'
+                            : undefined
                         }
                       >
                         <Link to={path.path}>{path.label}</Link>
