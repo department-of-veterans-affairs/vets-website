@@ -32,7 +32,7 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
     case 'DENIED': {
       return <DeniedConfirmation />;
     }
-    case 'IN_PROGRESS':
+    case 'INPROGRESS':
     case 'ERROR': {
       return <UnderReviewConfirmation />;
     }
