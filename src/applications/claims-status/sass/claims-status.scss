@@ -6,6 +6,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
+@media (min-width: $medium-large-screen) {
+  #claim-letters {
+    margin-bottom: 8em;
+  }
+}
+
 .claim-list {
   margin-bottom: 2em;
 }

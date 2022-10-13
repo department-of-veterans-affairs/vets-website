@@ -23,6 +23,17 @@ export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
+
 /**
  * Formats a date in human-readable form. For example:
  * January 1, 2000.

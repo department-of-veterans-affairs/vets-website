@@ -1,0 +1,10 @@
+name: Review Instance Metrics
+
+on: repository_dispatch
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: step 1
+        run: echo "hello"

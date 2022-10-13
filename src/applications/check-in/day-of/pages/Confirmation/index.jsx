@@ -35,7 +35,7 @@ const Confirmation = props => {
       if (getShouldSendDemographicsFlags(window))
         setShouldSendDemographicsFlags(window, false);
       if (getShouldSendTravelPayClaim(window))
-        getShouldSendTravelPayClaim(window, false);
+        setShouldSendTravelPayClaim(window, false);
     },
     [
       getShouldSendDemographicsFlags,
