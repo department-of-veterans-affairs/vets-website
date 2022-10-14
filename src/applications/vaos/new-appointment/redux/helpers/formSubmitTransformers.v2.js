@@ -18,10 +18,19 @@ function getReasonCode({ data, isCC }) {
   )?.serviceName;
 
   let reasonText = null;
+  let preferredDates = null;
+
   if (isCC && data.reasonAdditionalInfo) {
     reasonText = data.reasonAdditionalInfo.slice(0, 250);
   }
   if (!isCC) {
+    const formattedDates = data.selectedDates.map(
+      date =>
+        `${moment(date).format('MM/DD/YYYY')}${
+          moment(date).hour() >= 12 ? 'PM' : 'AM'
+        }`,
+    );
+    preferredDates = `|Preferred Dates: ${formattedDates.toString()}`;
     reasonText = data.reasonAdditionalInfo.slice(0, 100);
   }
 
@@ -33,7 +42,9 @@ function getReasonCode({ data, isCC }) {
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
     // truncated to 100 char for both VA appointment types only. CC appointments will continue
     // to be truncated to 250 char
-    text: data.reasonAdditionalInfo ? reasonText : null,
+    text: data.reasonAdditionalInfo
+      ? `${reasonText}${preferredDates}`
+      : preferredDates,
   };
 }
 
@@ -151,14 +162,14 @@ export function transformFormToVAOSVARequest(state) {
         },
       ],
     },
-    requestedPeriods: data.selectedDates.map(date => ({
-      start: moment.utc(date).format(),
+    requestedPeriods: {
+      start: moment.utc(data.selectedDates[0]).format(),
       end: moment
-        .utc(date)
+        .utc(data.selectedDates[0])
         .add(12, 'hours')
         .subtract(1, 'minute')
         .format(),
-    })),
+    },
     // This field isn't in the schema yet
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
