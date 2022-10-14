@@ -42,6 +42,7 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
+import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
@@ -133,6 +134,7 @@ const Dashboard = ({
   isLOA3,
   payments,
   paymentsError,
+  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
@@ -191,7 +193,7 @@ const Dashboard = ({
         getPayments();
       }
     },
-    [getPayments, showBenefitPaymentsAndDebt, showBenefitPaymentsAndDebtV2],
+    [canAccessPaymentHistory, getPayments],
   );
 
   return (
@@ -257,7 +259,7 @@ const Dashboard = ({
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals ? (
+              {props.showClaimsAndAppeals && !shouldShowV2Dashboard ? (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -266,6 +268,18 @@ const Dashboard = ({
                   render={renderWidgetDowntimeNotification}
                 >
                   <ClaimsAndAppeals />
+                </DowntimeNotification>
+              ) : null}
+
+              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+                <DowntimeNotification
+                  dependencies={[
+                    externalServices.mhv,
+                    externalServices.appeals,
+                  ]}
+                  render={renderWidgetDowntimeNotification}
+                >
+                  <ClaimsAndAppealsV2 />
                 </DowntimeNotification>
               ) : null}
 
@@ -355,6 +369,10 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
 
+  const shouldShowV2Dashboard = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMyVADashboardV2
+  ];
+
   const showNotifications =
     !!hasNotificationFeature &&
     !showMPIConnectionError &&
@@ -373,6 +391,7 @@ const mapStateToProps = state => {
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
+    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
@@ -384,6 +403,7 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
+  canAccessPaymentHistory: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
@@ -402,6 +422,7 @@ Dashboard.propTypes = {
     }),
   ),
   paymentsError: PropTypes.bool,
+  shouldShowV2Dashboard: PropTypes.bool,
   showBenefitPaymentsAndDebt: PropTypes.bool,
   showBenefitPaymentsAndDebtV2: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,

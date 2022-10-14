@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import {
@@ -17,7 +18,7 @@ const capitalizeFirstLetter = input => {
   return `${capitalizedFirstLetter}${input.slice(1)}`;
 };
 
-const Appeal = ({ appeal, name }) => {
+const AppealV2 = ({ appeal, name }) => {
   if (!appeal.attributes) {
     throw new TypeError(
       '`appeal` prop is malformed; it should have an `attributes` property.',
@@ -106,9 +107,15 @@ const Appeal = ({ appeal, name }) => {
         className="vads-u-margin-top--2"
         text="View details"
         href={`/track-claims/appeals/${appeal.id}/status`}
+        showArrow
       />
     </div>
   );
 };
 
-export default Appeal;
+AppealV2.propTypes = {
+  appeal: PropTypes.object.isRequired,
+  name: PropTypes.string,
+};
+
+export default AppealV2;
