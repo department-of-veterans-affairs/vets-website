@@ -58,7 +58,12 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
     }
     case 'INPROGRESS':
     case 'ERROR': {
-      return <UnderReviewConfirmation />;
+      return (
+        <UnderReviewConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
     default: {
       return (
