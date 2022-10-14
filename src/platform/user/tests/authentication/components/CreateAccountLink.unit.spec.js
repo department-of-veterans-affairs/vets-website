@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
-import { render, cleanup } from '@testing-library/react';
+import { render, waitFor, cleanup } from '@testing-library/react';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 
 const csps = ['logingov', 'idme'];
@@ -35,7 +35,7 @@ describe('CreateAccountLink', () => {
       const screen = render(<CreateAccountLink policy={policy} />);
       const anchor = await screen.findByTestId(policy);
       const href = await authUtilities.signupOrVerify({ policy, isLink: true });
-      expect(anchor.href).to.eql(href);
+      await waitFor(() => expect(anchor.href).to.eql(href));
 
       screen.unmount();
     });
@@ -44,13 +44,13 @@ describe('CreateAccountLink', () => {
       const screen = render(<CreateAccountLink policy={policy} useOAuth />);
       const anchor = await screen.findByTestId(policy);
 
-      expect(anchor.href).to.include(`type=${policy}`);
-      expect(anchor.href).to.include(`acr=min`);
-      expect(anchor.href).to.include(`client_id=web`);
-      expect(anchor.href).to.include('/authorize');
-      expect(anchor.href).to.include('response_type=code');
-      expect(anchor.href).to.include('code_challenge=');
-      expect(anchor.href).to.include('state=');
+      await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
+      await waitFor(() => expect(anchor.href).to.include(`acr=min`));
+      await waitFor(() => expect(anchor.href).to.include(`client_id=web`));
+      await waitFor(() => expect(anchor.href).to.include('/authorize'));
+      await waitFor(() => expect(anchor.href).to.include('response_type=code'));
+      await waitFor(() => expect(anchor.href).to.include('code_challenge='));
+      await waitFor(() => expect(anchor.href).to.include('state='));
       screen.unmount();
     });
   });

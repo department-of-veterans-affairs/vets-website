@@ -252,7 +252,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
     expect(formDOM.querySelector('#root_email')).not.to.be.null;
   });
 });
