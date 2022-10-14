@@ -22,6 +22,7 @@ export const Actions = {
     GET: 'SM_FOLDER_GET',
     CLEAR: 'SM_FODLER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
+    CREATE: 'SM_FOLDER_CREATE',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',

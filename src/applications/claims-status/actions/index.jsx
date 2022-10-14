@@ -61,6 +61,17 @@ export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
   'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
 
+export const getClaimLetters = async () => {
+  try {
+    return await apiRequest('/claim_letters');
+    // return new Promise(res => {
+    //   setTimeout(() => res(letters), 500);
+    // });
+  } catch (err) {
+    throw new Error('error.unknown');
+  }
+};
+
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
