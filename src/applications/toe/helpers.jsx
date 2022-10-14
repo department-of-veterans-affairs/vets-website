@@ -108,11 +108,11 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
-function mapNotificaitonMethod(notificationMethod) {
-  if (notificationMethod === 'mail') {
+function mapNotificaitonMethod({ notificationMethod }) {
+  if (notificationMethod === 'MAIL') {
     return 'Mail';
   }
-  if (notificationMethod === 'email') {
+  if (notificationMethod === 'EMAIL') {
     return 'Email';
   }
   return notificationMethod;
@@ -221,11 +221,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    [formFields.preferredContactMethod]: {
-      [formFields.contactMethod]: {
-        contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
-      },
-    },
+    [formFields.contactMethod]: mapNotificaitonMethod(claimant),
   };
 
   if (claimant?.suffix) {
