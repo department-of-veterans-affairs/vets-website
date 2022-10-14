@@ -10,8 +10,9 @@ import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
 
+const signInQuery = { next: window.location.pathname, oauth: true };
 const nextQuery = { next: window.location.pathname };
-const signInUrl = appendQuery('/', nextQuery);
+const signInUrl = appendQuery('/', signInQuery);
 const verifyUrl = appendQuery('/verify', nextQuery);
 
 const RequiredLoginLoader = () => {
@@ -87,10 +88,8 @@ class RequiredLoginView extends React.Component {
       return (
         <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later." />
       );
-    } else if (
-      user.profile.status === 'NOT_FOUND' &&
-      !attemptingAppealsAccess
-    ) {
+    }
+    if (user.profile.status === 'NOT_FOUND' && !attemptingAppealsAccess) {
       // If va_profile is "not found", show message that we cannot find the user in our system.
       return (
         <SystemDownView
