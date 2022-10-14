@@ -59,7 +59,7 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
         <IconCTALink
           text="Learn how to file a claim"
           href="/disability/how-to-file-claim/"
-          icon="clipboard"
+          icon="file"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -73,7 +73,7 @@ const PopularActionsForClaimsAndAppeals = ({ showLearnLink = false }) => {
       <IconCTALink
         text="Manage all claims and appeals"
         href="/claim-or-appeal-status/"
-        icon="clipboard"
+        icon="clipboard-check"
         onClick={() => {
           recordEvent({
             event: 'profile-navigation',
