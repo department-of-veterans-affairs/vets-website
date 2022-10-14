@@ -88,9 +88,6 @@ export const AccountSecurityContent = ({
           additionalInfoClickHandler={handlers.learnMoreIdentity}
         />
       )}
-      <IdentityNotVerified
-        additionalInfoClickHandler={handlers.learnMoreIdentity}
-      />
       {showMPIConnectionError && (
         <MPIConnectionError
           level={2}
