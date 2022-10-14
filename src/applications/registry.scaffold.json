@@ -105,7 +105,7 @@
   {
     "appName": "Connected Devices",
     "rootUrl": "/health-care/connected-devices",
-    "entryName": "dhp-consent-flow"
+    "entryName": "dhp-connected-devices"
   },
   {
     "appName": "Transfer Account",
