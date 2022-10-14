@@ -57,6 +57,7 @@ const Breadcrumbs = () => {
           ...Constants.Breadcrumbs.SEARCH,
           child: Constants.Breadcrumbs.SEARCH_ADVANCED,
         },
+        Constants.Breadcrumbs.FAQ,
       ];
 
       function handleBreadCrumbs() {

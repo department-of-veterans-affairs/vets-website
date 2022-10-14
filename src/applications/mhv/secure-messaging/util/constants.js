@@ -47,6 +47,7 @@ export const Breadcrumbs = {
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },
   SEARCH_ADVANCED: { path: '/search?advanced=true', label: 'Advanced search' },
+  FAQ: { path: '/faq', label: 'Messages FAQs' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
