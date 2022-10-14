@@ -1,7 +1,0 @@
-FROM cypress/included:10.8.0
-RUN mkdir /e2e
-COPY ./config/cypress.config.js /e2e
-COPY ./config/cypress.json /e2e
-RUN ls -l
-
-ENTRYPOINT ["cypress","run"]
