@@ -3,14 +3,14 @@
     "id": "0",
     "type": "folders",
     "attributes": {
-      "folder_id": 0,
+      "folderId": 0,
       "name": "Inbox",
-      "count": 14,
-      "unread_count": 2,
-      "system_folder": true
+      "count": 49,
+      "unreadCount": 36,
+      "systemFolder": true
     },
     "links": {
-      "self": "string"
+      "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0"
     }
   }
 }
