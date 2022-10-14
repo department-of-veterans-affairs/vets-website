@@ -88,6 +88,9 @@ export const AccountSecurityContent = ({
           additionalInfoClickHandler={handlers.learnMoreIdentity}
         />
       )}
+      <IdentityNotVerified
+        additionalInfoClickHandler={handlers.learnMoreIdentity}
+      />
       {showMPIConnectionError && (
         <MPIConnectionError
           level={2}
@@ -150,6 +153,9 @@ AccountSecurityContent.propTypes = {
   isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
+  showMPIConnectionError: PropTypes.bool.isRequired,
+  showNotInMPIError: PropTypes.bool.isRequired,
+  showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
