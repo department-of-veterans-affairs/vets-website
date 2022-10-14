@@ -27,17 +27,14 @@ const initialState = {
 };
 
 const ifApiIsDown = action => {
-  if (action?.response) {
-    return {
-      ...action?.response?.data?.attributes,
-    };
-  }
-  return {
-    accountType: 'Checking',
-    accountNumber: '*********9891',
-    routingNumber: '*****9593',
-    financialInstitutionName: 'BANK OF AMERICA N.A.',
-  };
+  return action?.response
+    ? action?.response?.data?.attributes
+    : {
+        accountType: 'Checking',
+        accountNumber: '1234569891',
+        routingNumber: '031000503',
+        financialInstitutionName: 'Wells Fargo',
+      };
 };
 
 export default {

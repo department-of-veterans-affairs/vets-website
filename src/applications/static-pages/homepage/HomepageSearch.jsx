@@ -3,7 +3,6 @@ import { VaSearchInput } from '@department-of-veterans-affairs/component-library
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
-import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import { apiRequest } from 'platform/utilities/api';
 
 /**
@@ -70,27 +69,23 @@ const HomepageSearch = () => {
 
   const handleSubmit = e => {
     // create a search url
-    const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(
-        e.target.value,
-      )}&t=${false}`,
-    );
+    const searchUrl = `https://www.va.gov/search/?query=${encodeURIComponent(
+      e.target.value,
+    )}&t=${false}`;
 
     // relocate to search results, preserving history
     window.location.assign(searchUrl);
   };
 
   return (
-    <div>
-      <form role="search">
-        <VaSearchInput
-          value={userInput}
-          label="Search VA.gov"
-          onInput={handleInputChange}
-          onSubmit={handleSubmit}
-          suggestions={latestSuggestions}
-        />
-      </form>
+    <div role="search">
+      <VaSearchInput
+        value={userInput}
+        label="Search VA.gov"
+        onInput={handleInputChange}
+        onSubmit={handleSubmit}
+        suggestions={latestSuggestions}
+      />
     </div>
   );
 };

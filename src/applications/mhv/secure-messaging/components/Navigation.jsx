@@ -19,17 +19,25 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose', datatestid: 'Compose-SideBar' },
-      { path: '/drafts', label: 'Drafts', datatestid: 'Drafts-SideBar' },
-      { path: '/folders', label: 'Folders', datatestid: 'Folders-SideBar' },
-      { path: '/sent', label: 'Sent', datatestid: 'Sent-SideBar' },
-      { path: '/trash', label: 'Trash', datatestid: 'Trash-SideBar' },
+      { path: '/compose', label: 'Compose', datatestid: 'compose-sidebar' },
+      { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
+      { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
+      { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
+      {
+        path: '/folders',
+        label: 'My folders',
+        datatestid: 'my-folders-sidebar',
+      },
       {
         path: '/search',
         label: 'Search messages',
-        datatestid: 'Search-SideBar',
+        datatestid: 'search-messages-sidebar',
       },
-      { path: '/faq', label: 'Messages FAQ', datatestid: 'Compose-SideBar' },
+      {
+        path: '/faq',
+        label: 'Messages FAQ',
+        datatestid: 'messages-faq-sidebar',
+      },
     ];
   };
 
