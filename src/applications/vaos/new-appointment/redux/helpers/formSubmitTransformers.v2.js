@@ -162,14 +162,16 @@ export function transformFormToVAOSVARequest(state) {
         },
       ],
     },
-    requestedPeriods: {
-      start: moment.utc(data.selectedDates[0]).format(),
-      end: moment
-        .utc(data.selectedDates[0])
-        .add(12, 'hours')
-        .subtract(1, 'minute')
-        .format(),
-    },
+    requestedPeriods: [
+      {
+        start: moment.utc(data.selectedDates[0]).format(),
+        end: moment
+          .utc(data.selectedDates[0])
+          .add(12, 'hours')
+          .subtract(1, 'minute')
+          .format(),
+      },
+    ],
     // This field isn't in the schema yet
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
