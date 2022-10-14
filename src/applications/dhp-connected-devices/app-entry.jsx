@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/dhp-consent-flow.scss';
+import './sass/dhp-connected-devices.scss';
 
 import startApp from 'platform/startup';
 
