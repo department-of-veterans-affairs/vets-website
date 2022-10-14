@@ -1,18 +1,18 @@
-import issuesWidget from './issuesWidget';
+import employmentHistoryWidget from './employmentHistoryWidget';
 
 export const uiSchema = {
   'ui:title': 'All issues',
-  listOfIssues: {
+  employmentHistory: {
     'ui:title': ' ',
     'ui:field': 'StringField', // this is necessary, but shows type errors
-    'ui:widget': issuesWidget,
+    'ui:widget': employmentHistoryWidget,
   },
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    listOfIssues: {
+    employmentHistory: {
       type: 'array',
       items: {
         type: 'object',
