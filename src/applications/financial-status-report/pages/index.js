@@ -49,7 +49,7 @@ import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as addIssue from './income/employmentEnhanced/addIssue';
-import * as listOfIssues from './income/employmentEnhanced/listOfIssues';
+import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
 
 export {
   veteranInfo,
@@ -103,5 +103,5 @@ export {
   bankruptcyHistoryRecords,
   contactInfo,
   addIssue,
-  listOfIssues,
+  employmentHistory,
 };

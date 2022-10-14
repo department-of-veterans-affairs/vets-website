@@ -10,7 +10,7 @@ import * as pages from '../pages';
 import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
-import AddIssue from '../pages/income/employmentEnhanced/AddEmployment';
+import AdditionalEmployment from '../pages/income/employmentEnhanced/AddEmployment';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -135,6 +135,7 @@ const formConfig = {
           uiSchema: pages.employment.uiSchema,
           schema: pages.employment.schema,
         },
+        // loop pages begin
         employmentRecords: {
           path: 'employment-records',
           title: 'Employment',
@@ -143,20 +144,21 @@ const formConfig = {
           depends: ({ questions }) => questions.vetIsEmployed,
           editModeOnReviewPage: true,
         },
-        listOfIssues: {
-          title: 'Issues eligible for review',
-          path: 'all-issues',
+        employmentHistory: {
+          title: 'Veteran employment history',
+          path: 'employment-history',
           // listOfIssues defined in next section
-          uiSchema: pages.listOfIssues.uiSchema,
-          schema: pages.listOfIssues.schema,
+          uiSchema: pages.employmentHistory.uiSchema,
+          schema: pages.employmentHistory.schema,
           // needed to bypass bug on review & submit page
-          appStateSelector: state => state.form?.data?.listOfIssues || [],
+          appStateSelector: state => state.form?.data?.employmentHistory || [],
         },
-        addIssue: {
-          title: 'Add issue',
-          path: 'add-issue',
+        // loop pages end
+        AdditionalEmployment: {
+          title: 'Add additional employment',
+          path: 'add-additional-job',
           depends: () => false, // accessed from listOfIssues page
-          CustomPage: AddIssue,
+          CustomPage: AdditionalEmployment,
           uiSchema: pages.addIssue.uiSchema,
           schema: pages.addIssue.schema,
         },
