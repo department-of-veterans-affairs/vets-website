@@ -7,9 +7,17 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 const Breadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const messageDetails = useSelector(state => state.sm.messageDetails.message);
+  const activeFolder = useSelector(state => state.sm.folders.folder);
   const breadcrumbsRef = useRef();
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
 
+  /**
+   * <va-breadcrumbs> component is not stable in handling removing crumbs
+   * when rerendering the state. As a result, it errouneously handles current page
+   * attributes when nodes are added or removed. This function was inherited from
+   * VAOS team, removes aria-current from all nodes and then adds to the last one
+   */
   const updateBreadcrumbs = () => {
     if (breadcrumbsRef.current) {
       const anchorNodes = Array.from(
@@ -29,21 +37,25 @@ const Breadcrumbs = () => {
   useEffect(
     () => {
       const paths = [
-        { path: '/message', label: 'Message' },
-        { path: '/reply', label: 'Reply' },
+        {
+          path: `/message/${messageDetails?.messageId}`,
+          label: messageDetails?.subject,
+        },
+        { path: '/reply', label: messageDetails?.subject },
         { path: '/compose', label: 'Compose message' },
-        { path: '/draft', label: 'Edit draft' },
+        { path: '/draft', label: 'Drafts' },
         { path: '/drafts', label: 'Drafts' },
+        {
+          path: `/folder/${activeFolder?.folderId}`,
+          label: activeFolder?.name,
+        },
         { path: '/folders', label: 'Folders' },
         { path: '/sent', label: 'Sent messages' },
         { path: '/trash', label: 'Trash' },
         {
           path: '/search',
           label: 'Search messages',
-          child: {
-            path: '/search?advanced=true',
-            label: 'Advanced search',
-          },
+          child: { path: '/search?advanced=true', label: 'Advanced search' },
         },
       ];
 
@@ -68,7 +80,7 @@ const Breadcrumbs = () => {
       }
       handleBreadCrumbs();
     },
-    [location, dispatch],
+    [location, dispatch, messageDetails, activeFolder],
   );
 
   useEffect(
@@ -87,7 +99,12 @@ const Breadcrumbs = () => {
           {crumbs?.map((crumb, i) => {
             return (
               <li key={i} className="va-breadcrumbs-li">
-                <Link to={crumb.path}>{crumb.label}</Link>
+                {crumb.path.includes('https://') ? (
+                  // links with absolute path must be passed to <a> element
+                  <a href={crumb.path}>{crumb.label}</a>
+                ) : (
+                  <Link to={crumb.path}>{crumb.label}</Link>
+                )}
               </li>
             );
           })}
