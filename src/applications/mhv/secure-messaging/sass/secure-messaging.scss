@@ -2,23 +2,6 @@
 @import "./navigation";
 @import "./folders-list";
 
-.manage-folder-container {
-  display: flex;
-  flex-direction: row;
-  @media (max-width: $small-screen) {
-    .left-button {
-      margin: 0px;
-      border: none;
-      border-radius: 4px, 0px, 0px, 4px;
-    }
-    .right-button {
-      margin: 0px;
-      border: none;
-      border-radius: 0px, 4px, 4px, 0px;
-    }
-  }
-}
-
 .secure-messaging-container {
   display: flex;
   flex-direction: row;

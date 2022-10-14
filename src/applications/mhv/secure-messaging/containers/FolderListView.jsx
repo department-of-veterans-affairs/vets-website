@@ -1,4 +1,7 @@
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -7,7 +10,7 @@ import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { retrieveFolder } from '../actions/folders';
+import { retrieveFolder, delFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 
@@ -19,6 +22,8 @@ const FolderListView = () => {
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const params = useParams();
+  const [isEmptyWarning, setIsEmptyWarning] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(
     () => {
@@ -45,6 +50,24 @@ const FolderListView = () => {
     },
     [dispatch, location.pathname, params.folderId],
   );
+
+  const openDelModal = () => {
+    if (messages.length > 0) {
+      setIsEmptyWarning(true);
+    } else {
+      setIsEmptyWarning(false);
+    }
+    setIsModalVisible(true);
+  };
+
+  const closeDelModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const confirmDelFolder = () => {
+    dispatch(delFolder(folderId));
+    closeDelModal();
+  };
 
   useEffect(
     () => {
@@ -124,17 +147,17 @@ const FolderListView = () => {
               <div className="manage-folder-container">
                 <button
                   type="button"
-                  className="left-button"
+                  className="left-button usa-button-secondary"
                   onClick={function noRefCheck() {}}
                 >
                   Edit folder name
                 </button>
                 <button
                   type="button"
-                  className="right-button"
-                  onClick={function noRefCheck() {}}
+                  className="right-button usa-button-secondary"
+                  onClick={openDelModal}
                 >
-                  Remove name
+                  Remove folder
                 </button>
               </div>
             )}
@@ -149,6 +172,28 @@ const FolderListView = () => {
             </div>
 
             <div>{content}</div>
+            <VaModal
+              className="modal"
+              visible={isModalVisible}
+              large="true"
+              modalTitle="Are you sure you want to remove this folder?"
+              onCloseEvent={closeDelModal}
+            >
+              <p>This aciton can not be undone</p>
+              <va-alert status="error" visible={isEmptyWarning}>
+                The folder must be empty before it can be removed.
+              </va-alert>
+              <va-button
+                text="Remove"
+                disabled={isEmptyWarning}
+                onClick={confirmDelFolder}
+              />
+              <va-button
+                secondary="true"
+                text="Cancel"
+                onClick={closeDelModal}
+              />
+            </VaModal>
           </>
         )}
       </div>
