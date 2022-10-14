@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import * as Constants from '../../util/constants';
 
 const Breadcrumbs = () => {
   const dispatch = useDispatch();
@@ -42,20 +43,19 @@ const Breadcrumbs = () => {
           label: messageDetails?.subject,
         },
         { path: '/reply', label: messageDetails?.subject },
-        { path: '/compose', label: 'Compose message' },
-        { path: '/draft', label: 'Drafts' },
-        { path: '/drafts', label: 'Drafts' },
+        Constants.Breadcrumbs.COMPOSE,
+        Constants.Breadcrumbs.DRAFT,
+        Constants.Breadcrumbs.DRAFTS,
         {
           path: `/folder/${activeFolder?.folderId}`,
           label: activeFolder?.name,
         },
-        { path: '/folders', label: 'Folders' },
-        { path: '/sent', label: 'Sent messages' },
-        { path: '/trash', label: 'Trash' },
+        Constants.Breadcrumbs.FOLDERS,
+        Constants.Breadcrumbs.SENT,
+        Constants.Breadcrumbs.TRASH,
         {
-          path: '/search',
-          label: 'Search messages',
-          child: { path: '/search?advanced=true', label: 'Advanced search' },
+          ...Constants.Breadcrumbs.SEARCH,
+          child: Constants.Breadcrumbs.SEARCH_ADVANCED,
         },
       ];
 
