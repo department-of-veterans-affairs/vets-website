@@ -8,10 +8,6 @@ import {
   FOLDERS_RETRIEVE_STARTED,
   FOLDERS_RETRIEVE_FAILED,
   FOLDERS_RETRIEVE_SUCCEEDED,
-  DRAFT_AUTO_SAVE_STARTED,
-  DRAFT_SAVE_STARTED,
-  DRAFT_SAVE_FAILED,
-  DRAFT_SAVE_SUCCEEDED,
   // THREAD_RETRIEVE_STARTED,
   THREAD_RETRIEVE_SUCCEEDED,
   THREAD_RETRIEVE_FAILED,
@@ -55,31 +51,15 @@ const allMessages = (state = initialState, action) => {
 const message = (state = initialState, action) => {
   switch (action.type) {
     case MESSAGE_MOVE_STARTED:
-    case DRAFT_AUTO_SAVE_STARTED:
       return {
         ...state,
-        saveError: null,
-      };
-    case DRAFT_SAVE_STARTED:
-      return {
-        ...state,
-        isSaving: true,
-        saveError: null,
-      };
-    case DRAFT_SAVE_SUCCEEDED:
-      return {
-        ...state,
-        isSaving: false,
-        lastSaveTime: Date.now(),
-        saveError: null,
+        isLoading: true,
       };
     case MESSAGE_MOVE_FAILED:
-    case DRAFT_SAVE_FAILED:
       return {
         ...state,
-        isSaving: false,
-        lastSaveTime: null,
-        saveError: action.response,
+        isLoading: false,
+        error: action.response,
       };
     case MESSAGE_MOVE_SUCCEEDED:
     case THREAD_RETRIEVE_SUCCEEDED:

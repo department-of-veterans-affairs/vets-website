@@ -11,6 +11,7 @@ import TravelPayReimbursementLink from '../../../components/TravelPayReimburseme
 import Wrapper from '../../../components/layout/Wrapper';
 import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
+import ExternalLink from '../../../components/ExternalLink';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -26,6 +27,7 @@ const CheckInConfirmation = props => {
     travelPayEligible,
     travelPayClaimError,
     travelPayClaimData,
+    travelPayClaimRequested,
   } = useSendTravelPayClaim();
 
   const appointment = selectedAppointment;
@@ -42,13 +44,14 @@ const CheckInConfirmation = props => {
   let pageTitle = t('youre-checked-in', {
     date: appointmentDateTime,
   });
+  const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
 
-  if (isTravelReimbursementEnabled && !isLoading) {
+  if (doTravelPay && !isLoading) {
     pageTitle += '. ';
     if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
       pageTitle += t('received-reimbursement-claim');
     } else {
-      pageTitle += t('sorry-couldnt-file-reimbursement');
+      pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
 
@@ -72,7 +75,12 @@ const CheckInConfirmation = props => {
           <AppointmentConfirmationListItem appointment={appointment} key={0} />
         </ol>
 
-        <va-alert background-only show-icon data-testid="confirmation-alert">
+        <va-alert
+          background-only
+          show-icon
+          data-testid="confirmation-alert"
+          class="vads-u-margin-bottom--2"
+        >
           <div>
             {t(
               'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
@@ -81,9 +89,7 @@ const CheckInConfirmation = props => {
           </div>
         </va-alert>
 
-        {isTravelReimbursementEnabled && <br />}
-
-        {isTravelReimbursementEnabled &&
+        {doTravelPay &&
           travelPayEligible &&
           travelPayClaimData && (
             <va-alert
@@ -92,17 +98,22 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-message"
             >
               <div>
-                <strong>{t('reimbursement-claim-number')}</strong>
-                <br />
-                {travelPayClaimData.claimId}
-                <br />
-                <br />
-                {t('check-travel-claim-status')}
+                <p className="vads-u-margin-top--0">
+                  {t('check-travel-claim-status')}
+                </p>
+                <ExternalLink
+                  href="/health-care/get-reimbursed-for-travel-pay/"
+                  hrefLang="en"
+                  eventId="request-travel-pay-reimbursement-from-travel-success--link-clicked"
+                  eventPrefix="nav"
+                >
+                  {t('go-to-the-accessva-travel-claim-portal-now')}
+                </ExternalLink>
               </div>
             </va-alert>
           )}
 
-        {isTravelReimbursementEnabled &&
+        {doTravelPay &&
           !travelPayEligible && (
             <va-alert
               background-only
@@ -110,16 +121,26 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-message"
               status="warning"
             >
-              <Trans
-                i18nKey="travel-pay-cant-file-message"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
+              <p className="vads-u-margin-top--0">
+                <Trans
+                  i18nKey="travel-pay-cant-file-message"
+                  components={[
+                    <span key="bold" className="vads-u-font-weight--bold" />,
+                  ]}
+                />
+              </p>
+              <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-travel-ineligible--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('find-out-how-to-file--link')}
+              </ExternalLink>
             </va-alert>
           )}
 
-        {isTravelReimbursementEnabled &&
+        {doTravelPay &&
           travelPayEligible &&
           travelPayClaimError && (
             <va-alert
@@ -128,10 +149,42 @@ const CheckInConfirmation = props => {
               data-testid="travel-pay-message"
               status="error"
             >
-              <div>{t('travel-claim-submission-error')}</div>
+              <p className="vads-u-margin-top--0">
+                {t('travel-claim-submission-error')}
+              </p>
+              <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-travel-error--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('go-to-the-accessva-travel-claim-portal-now')}
+              </ExternalLink>
             </va-alert>
           )}
-        <TravelPayReimbursementLink />
+        {isTravelReimbursementEnabled ? (
+          !doTravelPay && (
+            <va-alert
+              background-only
+              show-icon
+              data-testid="travel-pay-info-message"
+            >
+              <p className="vads-u-margin-top--0">
+                {t('travel-pay-reimbursement--info-message')}
+              </p>
+              <ExternalLink
+                href="/health-care/get-reimbursed-for-travel-pay/"
+                hrefLang="en"
+                eventId="request-travel-pay-reimbursement-from-confirmation-with-no-reimbursement--link-clicked"
+                eventPrefix="nav"
+              >
+                {t('find-out-if-youre-eligible--link')}
+              </ExternalLink>
+            </va-alert>
+          )
+        ) : (
+          <TravelPayReimbursementLink />
+        )}
         <BackToAppointments appointments={appointments} />
       </Wrapper>
     );

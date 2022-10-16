@@ -17,6 +17,15 @@ import {
 } from './vaos-cypress-helpers';
 
 describe('VAOS COVID-19 vaccine appointment flow', () => {
+  const start = moment()
+    // Adding number months to account for the test clicking the 'next' button to
+    // advance to the next month.
+    .add(1, 'days')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9);
+  const end = moment(start).add(60, 'minutes');
+
   beforeEach(() => {
     vaosSetup();
 
@@ -27,7 +36,12 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       facilityIds: ['983', '983QA'],
       typeOfCareId: 'covid',
     });
-    mockDirectScheduleSlotsApi(); // TODO: rename mockAppointmentSlots
+
+    mockDirectScheduleSlotsApi({
+      start,
+      end,
+    }); // TODO: rename mockAppointmentSlots
+
     mockFacilitiesApi({ apiVersion: 1 });
     mockFacilityApi({ id: '983', apiVersion: 1 });
     mockFeatureToggles();
@@ -35,7 +49,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     mockRequestEligibilityCriteriaApi();
   });
 
-  it.skip('should submit form', () => {
+  it('should submit form', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
 
@@ -135,13 +149,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       expect(body.clinic.clinicId).to.eq('455');
       expect(body).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'day')
-          .add(1, 'months')
-          .startOf('month')
-          .day(9)
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(body).to.have.property('dateTime');
       expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
@@ -257,7 +265,16 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
 });
 
 describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
-  it.skip('should submit form', () => {
+  const start = moment()
+    // Adding number months to account for the test clicking the 'next' button to
+    // advance to the next month.
+    .add(1, 'days')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9);
+  const end = moment(start).add(60, 'minutes');
+
+  it('should submit form', () => {
     vaosSetup();
 
     mockFeatureToggles({
@@ -271,7 +288,8 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
     mockSchedulingConfigurationApi();
     mockFacilitiesApi({ apiVersion: 2 });
     mockClinicApi({ locations: ['983'], apiVersion: 2 });
-    mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
+
+    mockDirectScheduleSlotsApi({ clinicId: '455', start, end, apiVersion: 2 });
 
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
@@ -360,12 +378,7 @@ describe('VAOS COVID-19 vaccine appointment flow using VAOS service', () => {
       expect(body.clinic).to.eq('455');
       expect(body.extension).to.have.property(
         'desiredDate',
-        `${moment()
-          .utc()
-          .add(1, 'months')
-          .startOf('month')
-          .add(4, 'days')
-          .format()}`,
+        `${start.utc().format()}`,
       );
     });
 

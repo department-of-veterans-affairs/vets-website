@@ -94,7 +94,6 @@
     "lastDischargeDate": "2005-02-01",
     "dischargeType": "general",
     "email": "test@test.com",
-    "view:emailConfirmation": "test@test.com",
     "homePhone": "5555555555",
     "mobilePhone": "4444444444",
     "veteranAddress": {

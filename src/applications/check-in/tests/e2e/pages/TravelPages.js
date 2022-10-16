@@ -11,7 +11,7 @@ class TravelPages {
         title = 'Did you travel from your home address?';
         break;
       case 'mileage':
-        title = 'Are you claiming only mileage for your trip?';
+        title = 'Are you claiming only mileage and no other expenses today?';
         break;
       default:
         break;
@@ -30,7 +30,7 @@ class TravelPages {
   validateContent = page => {
     let body = true;
     const helpText = true;
-    if (page === 'vehicle') {
+    if (page === 'vehicle' || page === 'mileage') {
       body = false;
     }
     if (helpText) {
