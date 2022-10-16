@@ -151,31 +151,27 @@ export default function AppointmentListItemGroup({ data }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <div className={classNames('vads-l-col--1')}>
+          <div className={classNames('vads-l-col vads-u-padding-y--2')}>
             <Label label="Canceled" />
-            <div style={{ widthh: '33px' }}>
-              {index === 0 && (
-                <>
-                  <h4 className="vads-u-margin-y--0 vads-u-font-size--h3  vads-u-padding-y--2">
-                    {appointmentDate.format('D')}
-                  </h4>
-                  <span className="sr-only"> {description}</span>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="vads-l-col--1 vads-u-padding-y--2">
             {index === 0 && (
-              <div style={{ widthh: '69px' }}>
-                {appointmentDate.format('ddd')}
-              </div>
+              <>
+                <h4 className="vads-u-margin-top--neg1px vads-u-margin-bottom--0 vads-u-font-size--h3">
+                  {appointmentDate.format('D')}
+                </h4>
+                <span className="sr-only"> {description}</span>
+              </>
             )}
+          </div>
+          <div className="vads-l-col vads-u-padding-y--2">
+            {index === 0 && <>{appointmentDate.format('ddd')}</>}
           </div>
           <div
             className={classNames(
               'bar',
-              'vads-l-col--1',
+              'vads-l-col',
               'vads-u-padding-y--2',
+              'vads-u-padding-right--1',
+              'vads-u-margin-left--neg2',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
                 'vads-u-border-color--gray-lighter': isBorderBottom,
@@ -185,7 +181,6 @@ export default function AppointmentListItemGroup({ data }) {
             <div
               style={{
                 ...styles.canceled,
-                width: '108px',
               }}
             >
               {`${appointmentDate.format('h:mm')} ${appointmentDate
@@ -203,7 +198,6 @@ export default function AppointmentListItemGroup({ data }) {
               className="vads-u-font-weight--bold"
               style={{
                 ...styles.canceled,
-                width: '297px',
               }}
             >
               {appointmentDetails}
