@@ -93,6 +93,29 @@
     background-color: $color-gray-lighter;
   }
 }
+.vaos-appts__listItem--clickable {
+  list-style: none;
+  // border-radius: 6px;
+  background-color: transparent;
+  // border: 2px solid $color-gray-lightest;
+
+  &:hover {
+    cursor: pointer;
+    // border: 2px solid $color-primary;
+  }
+
+  &:focus,
+  &:focus-within,
+  &:active {
+    outline: 2px solid $color-warning-message;
+    outline-offset: 2px;
+    // border: 2px solid $color-primary;
+  }
+
+  &:active {
+    background-color: transparent;
+  }
+}
 
 .vaos-appts__focus--hide-outline:focus {
   outline: none;
@@ -117,4 +140,12 @@
     margin: 0 0.5em;
     content: "";
   }
+}
+
+li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child div.vads-u-border-bottom--1px {
+  border-bottom: none !important
+}
+
+li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
+  border-bottom: 1px solid !important
 }

@@ -4,24 +4,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SPACE_BAR } from '../../../utils/constants';
-import {
-  selectFeatureAppointmentList,
-  selectFeatureStatusImprovement,
-} from '../../../redux/selectors';
-import Grid from './Grid';
-import ListItem from './ListItem';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import Card from './Card';
-
-function getLink({ featureStatusImprovement, appointment }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
-        appointment.id
-      }`;
-}
+import { getLink } from '../../../services/appointment';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -46,24 +31,17 @@ export default function AppointmentListItem({ appointment, facility }) {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
   const link = getLink({ featureStatusImprovement, appointment });
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
   return (
-    <ListItem appointment={appointment}>
-      {featureAppointmentList && (
-        <Grid
-          appointment={appointment}
-          facility={facility}
-          link={link}
-          handleClick={() => handleClick({ history, link, idClickable })}
-          handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
-        />
-      )}
-      {!featureAppointmentList && (
+    <>
+      <li
+        id={idClickable}
+        data-request-id={appointment.id}
+        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+        data-cy="appointment-list-item"
+      >
         <Card
           appointment={appointment}
           facility={facility}
@@ -71,8 +49,8 @@ export default function AppointmentListItem({ appointment, facility }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         />
-      )}
-    </ListItem>
+      </li>
+    </>
   );
 }
 

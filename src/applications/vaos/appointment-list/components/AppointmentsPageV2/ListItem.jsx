@@ -1,33 +1,30 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { selectFeatureAppointmentList } from '../../../redux/selectors';
+import classNames from 'classnames';
 
-export default function ListItem({ appointment, children }) {
+export default function ListItem({
+  appointment,
+  borderTop,
+  borderBottom,
+  children,
+  status,
+}) {
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
-
-  if (featureAppointmentList)
-    return (
-      <li
-        id={idClickable}
-        data-request-id={appointment.id}
-        className="vaos-appts__card--clickable"
-        style={{ backgroundColor: 'transparent', border: 'none' }}
-        data-cy="appointment-list-item"
-      >
-        {children}
-      </li>
-    );
 
   return (
     <li
       id={idClickable}
       data-request-id={appointment.id}
-      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
-      data-cy="appointment-list-item"
+      data-status={status}
+      className={classNames(
+        'vaos-appts__listItem--clickable',
+        'vads-u-margin--0',
+        {
+          'vads-u-border-top--1px': borderTop,
+          'vads-u-border-bottom--1px': borderBottom,
+        },
+      )}
+      data-cy="appointment-list-item" // TODO: Update e2e tests to look for appointment-list-item
     >
       {children}
     </li>
@@ -35,6 +32,11 @@ export default function ListItem({ appointment, children }) {
 }
 
 ListItem.propTypes = {
-  appointment: PropTypes.object,
-  children: PropTypes.array,
+  appointment: PropTypes.object.isRequired,
+  borderBottom: PropTypes.bool,
+  borderTop: PropTypes.bool,
+  children: PropTypes.object,
+  grouped: PropTypes.bool,
+  index: PropTypes.number,
+  status: PropTypes.string,
 };
