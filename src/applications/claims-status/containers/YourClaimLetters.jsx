@@ -11,7 +11,7 @@ const YourClaimLetters = () => {
     getClaimLetters().then(data => {
       setLetters(data);
     });
-  });
+  }, []);
 
   return (
     <article id="claim-letters" className="row">
