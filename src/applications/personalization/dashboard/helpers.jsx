@@ -224,23 +224,17 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
     return (
       <div>
         <h2>{sectionTitle}</h2>
-        <va-alert
-          content={
-            <div>
-              <h4 className="usa-alert-heading">
-                {appName} is down for maintenance
-              </h4>
-              <p>
-                We’re making some updates to our {appName.toLowerCase()} tool.
-                We’re sorry it’s not working right now and hope to be finished
-                by {downtime.startTime.format('MMMM Do')},{' '}
-                {downtime.endTime.format('LT')}. Please check back soon.
-              </p>
-            </div>
-          }
-          isVisible
-          status="warning"
-        />
+        <va-alert status="warning" isVisible>
+          <h4 className="usa-alert-heading">
+            {appName} is down for maintenance
+          </h4>
+          <div>
+            We’re making some updates to our {appName.toLowerCase()} tool. We’re
+            We’re sorry it’s not working right now and hope to be finished by{' '}
+            {downtime.startTime.format('MMMM Do')},{' '}
+            {downtime.endTime.format('LT')}. Please check back soon.
+          </div>
+        </va-alert>
       </div>
     );
   }
@@ -248,7 +242,7 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
 };
 
 // receiving formatted date strings in the response
-// so we need to convert back to moment before sorting
+// so we need to convert back to a JS date and format before sorting
 export const sortStatementsByDate = statements => {
   const dateFormat = 'MM-dd-yyyy';
   return statements.sort(
