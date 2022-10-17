@@ -20,7 +20,7 @@ node('vetsgov-general-purpose') {
 
   // setupStage
   dockerContainer = commonStages.setup()
-  // extra comment
+
   stage('Review instance') {
     if (commonStages.shouldBail()) { return }
     try {
