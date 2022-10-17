@@ -80,10 +80,10 @@ src/applications/check-in @department-of-veterans-affairs/patient-check-in
 # /--- VSA
 
 # GOVCIO Team
-src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep
-src/applications/gi @department-of-veterans-affairs/govcio-vfep
-src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep
-src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep
+src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers
+src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers
+src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers
+src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers
 
 
 # CTO Health Products
