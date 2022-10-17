@@ -1,6 +1,6 @@
 {
   "id": 7155731,
-  "category": "APPOINTMENTS",
+  "messageCategoryType": "APPOINTMENTS",
   "subject": "Appointment Inquiry",
   "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
   "attachment": false,
