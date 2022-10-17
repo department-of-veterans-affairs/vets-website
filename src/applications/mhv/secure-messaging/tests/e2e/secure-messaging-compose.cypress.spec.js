@@ -3,7 +3,7 @@ import mockFolders from './fixtures/folder-response.json';
 import mockInboxFolder from './fixtures/folder-inbox-response.json';
 import mockMessages from './fixtures/messages-response.json';
 import mockRecipients from './fixtures/recipients-response.json';
-import manifest from '../manifest.json';
+import manifest from '../../manifest.json';
 
 beforeEach(() => {
   cy.intercept('GET', '/v0/feature_toggles?*', {

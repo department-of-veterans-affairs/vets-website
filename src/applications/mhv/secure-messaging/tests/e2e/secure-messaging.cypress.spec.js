@@ -1,4 +1,4 @@
-import manifest from '../manifest.json';
+import manifest from '../../manifest.json';
 
 describe.skip(manifest.appName, () => {
   // Skip tests in CI until the app is released.

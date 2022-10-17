@@ -2,7 +2,7 @@ import mockMessage from './fixtures/message-response.json';
 import mockCategories from './fixtures/categories-response.json';
 import mockFolders from './fixtures/folder-response.json';
 import mockMessages from './fixtures/messages-response.json';
-import manifest from '../manifest.json';
+import manifest from '../../manifest.json';
 
 beforeEach(() => {
   window.dataLayer = [];
