@@ -39,9 +39,13 @@ const MoveMessageToFolderBtn = props => {
 
   const moveToFolderModal = () => {
     return (
-      <div className="message-actions-buttons-modal">
+      <div
+        className="message-actions-buttons-modal"
+        data-testid="message-actions-buttons-modal"
+      >
         <VaModal
           id="move-to-modal"
+          data-testid="move-to-modal"
           large
           modalTitle="Move to:"
           onCloseEvent={closeModal}
@@ -61,6 +65,7 @@ const MoveMessageToFolderBtn = props => {
                 allFolders.map(folder => (
                   <div className="radio-button" key={folder.name}>
                     <input
+                      data-testid="radio-button"
                       type="radio"
                       autoComplete="false"
                       id={`radiobutton-${folder.name}`}
@@ -77,6 +82,15 @@ const MoveMessageToFolderBtn = props => {
                   </div>
                 ))}
             </div>
+            <button
+              style={{ display: 'none' }}
+              type="button"
+              onClick={closeModal}
+              aria-hidden="true"
+              data-testid="hidden-button-close-modal"
+            >
+              Cancel
+            </button>
           </div>
         </VaModal>
       </div>
