@@ -26,15 +26,20 @@ const initialState = {
   },
 };
 
-const ifApiIsDown = action => {
-  return action?.response
-    ? action?.response?.data?.attributes
-    : {
-        accountType: 'Checking',
-        accountNumber: '1234569891',
-        routingNumber: '031000503',
-        financialInstitutionName: 'Wells Fargo',
-      };
+const handleDirectDepositApi = action => {
+  if (action?.response?.data?.attributes) {
+    return {
+      ...action?.response?.data?.attributes,
+      routingNumber:
+        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    };
+  }
+  return {
+    accountType: 'Checking',
+    accountNumber: '1234569891',
+    routingNumber: '031000503',
+    financialInstitutionName: 'Wells Fargo',
+  };
 };
 
 export default {
@@ -119,7 +124,7 @@ export default {
         return {
           ...state,
           fetchDirectDepositInProgress: false,
-          bankInformation: ifApiIsDown(action),
+          bankInformation: handleDirectDepositApi(action),
         };
       default:
         return state;
