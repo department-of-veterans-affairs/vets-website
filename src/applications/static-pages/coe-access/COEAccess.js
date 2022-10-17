@@ -19,46 +19,19 @@ const COEAccess = ({ includedInFlipper }) => {
         >
           Request a COE
         </a>
-        <h3>You can also request a COE:</h3>
-        <h4>Through your lender</h4>
-        <p>
-          Your lender may be able to use an online system (called Web LGY) to
-          get your COE. Ask your lender about this option.
-        </p>
-        <h4>By mail</h4>
-        <p>
-          To request a COE by mail, fill out a Request for a Certificate of
-          Eligibility (VA Form 26-1880) and mail it to the address for your
-          regional loan center. You can find the address on the last page of the
-          form. Please note that mail requests may take longer than requesting a
-          COE online or through your lender.
-        </p>
-        <p>
-          <a href="/find-forms/about-form-26-1880/">
-            Get VA Form 26-1880 to download
-          </a>
-        </p>
       </>
     );
   }
   return (
     <>
-      <p>You can request a COE through your lender or by mail.</p>
-      <h3>Through your lender</h3>
+      <p>You can request a COE online right now on eBenefits.</p>
       <p>
-        Your lender may be able to use an online system (called Web LGY) to get
-        your COE. Ask your lender about this option.
+        When you go to the eBenefits website, you may need to sign in with your
+        Premium <strong>DS Logon</strong> account. If you don’t have a Premium
+        account, you can register for one there.
       </p>
-      <h3>By mail</h3>
-      <p>
-        To request a COE by mail, fill out a Request for a Certificate of
-        Eligibility (VA Form 26-1880) and mail it to the address for your
-        regional loan center. You can find the address on the last page of the
-        form. Please note that mail requests may take longer than requesting a
-        COE through your lender.
-      </p>
-      <a href="/find-forms/about-form-26-1880/">
-        Get VA Form 26-1880 to download
+      <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">
+        Request a COE on eBenefits
       </a>
     </>
   );

@@ -12,6 +12,9 @@ import {
   FETCH_DIRECT_DEPOSIT,
   FETCH_DIRECT_DEPOSIT_FAILED,
   FETCH_DIRECT_DEPOSIT_SUCCESS,
+  FETCH_CLAIM_STATUS,
+  FETCH_CLAIM_STATUS_SUCCESS,
+  FETCH_CLAIM_STATUS_FAILURE,
 } from './actions';
 
 const initialState = {
@@ -26,15 +29,20 @@ const initialState = {
   },
 };
 
-const ifApiIsDown = action => {
-  return action?.response
-    ? action?.response?.data?.attributes
-    : {
-        accountType: 'Checking',
-        accountNumber: '1234569891',
-        routingNumber: '031000503',
-        financialInstitutionName: 'Wells Fargo',
-      };
+const handleDirectDepositApi = action => {
+  if (action?.response?.data?.attributes) {
+    return {
+      ...action?.response?.data?.attributes,
+      routingNumber:
+        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    };
+  }
+  return {
+    accountType: 'Checking',
+    accountNumber: '1234569891',
+    routingNumber: '031000503',
+    financialInstitutionName: 'Wells Fargo',
+  };
 };
 
 export default {
@@ -56,11 +64,10 @@ export default {
           fetchedSponsorsComplete: true,
           sponsors: {
             sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
-              (sponsor, index) => {
+              sponsor => {
                 return {
                   ...sponsor,
-                  // ! TODO: CHANGE ID
-                  id: `${sponsor.sponsorVaId - index}`,
+                  id: `${sponsor?.sponsorVaId}`,
                   name: [sponsor.firstName, sponsor.lastName].join(' '),
                   relationship: sponsor.sponsorRelationship,
                 };
@@ -109,6 +116,21 @@ export default {
           ...state,
           sponsors: action.payload,
         };
+      case FETCH_CLAIM_STATUS:
+        return {
+          ...state,
+          claimStatusFetchInProgress: true,
+        };
+      case FETCH_CLAIM_STATUS_SUCCESS:
+      case FETCH_CLAIM_STATUS_FAILURE:
+        return {
+          ...state,
+          claimStatusFetchComplete: true,
+          claimStatusFetchInProgress: false,
+          claimStatus: {
+            ...action?.response?.attributes,
+          },
+        };
       case FETCH_DIRECT_DEPOSIT:
         return {
           ...state,
@@ -119,7 +141,7 @@ export default {
         return {
           ...state,
           fetchDirectDepositInProgress: false,
-          bankInformation: ifApiIsDown(action),
+          bankInformation: handleDirectDepositApi(action),
         };
       default:
         return state;

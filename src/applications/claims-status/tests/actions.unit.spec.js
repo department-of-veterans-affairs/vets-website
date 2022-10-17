@@ -7,23 +7,32 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import {
-  ADD_FILE,
   addFile,
-  CANCEL_UPLOAD,
   cancelUpload,
-  CLEAR_NOTIFICATION,
-  clearNotification,
-  CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
   clearAdditionalEvidenceNotification,
-  GET_CLAIM_DETAIL,
+  clearNotification,
   getClaimDetail,
   getClaimsV2,
   getStemClaims,
   pollRequest,
-  REMOVE_FILE,
   removeFile,
-  RESET_UPLOADS,
   resetUploads,
+  setAdditionalEvidenceNotification,
+  setFieldsDirty,
+  setLastPage,
+  setNotification,
+  submitRequest,
+  updateField,
+} from '../actions';
+
+import {
+  ADD_FILE,
+  CANCEL_UPLOAD,
+  CLEAR_NOTIFICATION,
+  CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  GET_CLAIM_DETAIL,
+  REMOVE_FILE,
+  RESET_UPLOADS,
   SET_CLAIM_DETAIL,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
@@ -31,18 +40,12 @@ import {
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
-  setFieldsDirty,
-  setLastPage,
-  setNotification,
-  setAdditionalEvidenceNotification,
   SUBMIT_DECISION_REQUEST,
-  submitRequest,
   UPDATE_FIELD,
-  updateField,
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_PENDING,
-} from '../actions';
+} from '../actions/types';
 
 describe('Actions', () => {
   describe('setNotification', () => {

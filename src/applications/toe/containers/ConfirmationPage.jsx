@@ -1,22 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 
 import ApprovedConfirmation from '../components/confirmation/ApprovedConfirmation';
 import DeniedConfirmation from '../components/confirmation/DeniedConfirmation';
 import UnderReviewConfirmation from '../components/confirmation/UnderReviewConfirmation';
 
-function ConfirmationPage({ confirmationResult }) {
-  switch (confirmationResult) {
-    case 'APPROVED': {
-      return <ApprovedConfirmation />;
+import { fetchClaimStatus } from '../actions';
+
+function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
+  const [fetchedClaimStatus, setFetchedClaimStatus] = useState(false);
+
+  useEffect(
+    () => {
+      if (!fetchedClaimStatus) {
+        getClaimStatus();
+        setFetchedClaimStatus(true);
+      }
+    },
+    [
+      fetchedClaimStatus,
+      getClaimStatus,
+      claimStatus,
+      user?.login?.currentlyLoggedIn,
+    ],
+  );
+
+  const { first, last, middle, suffix } = user?.profile?.userFullName;
+  let newReceivedDate;
+  const claimantName = `${first || ''} ${middle || ''} ${last || ''} ${suffix ||
+    ''}`;
+
+  if (claimStatus?.receivedDate) {
+    newReceivedDate = format(
+      new Date(claimStatus?.receivedDate),
+      'MMMM d, yyyy',
+    );
+  }
+
+  switch (claimStatus?.claimStatus) {
+    case 'ELIGIBLE': {
+      return (
+        <ApprovedConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
     case 'DENIED': {
-      return <DeniedConfirmation />;
+      return (
+        <DeniedConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
-    case 'IN_PROGRESS':
+    case 'INPROGRESS':
     case 'ERROR': {
-      return <UnderReviewConfirmation />;
+      return (
+        <UnderReviewConfirmation
+          user={claimantName}
+          dateReceived={newReceivedDate}
+        />
+      );
     }
     default: {
       return (
@@ -32,12 +79,26 @@ function ConfirmationPage({ confirmationResult }) {
 }
 
 ConfirmationPage.propTypes = {
-  confirmationResult: PropTypes.string,
+  claimStatus: PropTypes.object,
+  getClaimStatus: PropTypes.func,
+  user: PropTypes.object,
 };
 
-// const mapStateToProps = state => ({
-//   claimStatus: state.data?.claimStatus,
-// });
+const mapStateToProps = state => {
+  return {
+    claimStatus: state?.data?.claimStatus,
+    claimStatusFetchInProgress: state?.data?.claimStatusFetchInProgress,
+    claimStatusFetchComplete: state?.data?.claimStatusFetchComplete,
+    user: state.user,
+  };
+};
 
-// export default connect(mapStateToProps)(ConfirmationPage);
-export default connect()(ConfirmationPage);
+const mapDispatchToProps = {
+  getClaimStatus: fetchClaimStatus,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
+// export default connect()(ConfirmationPage);
