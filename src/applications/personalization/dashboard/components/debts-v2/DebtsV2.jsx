@@ -25,12 +25,11 @@ const NoOutstandingDebtsText = () => {
 const OutstandingDebtsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert
-        status="warning"
-        show-icon
-        data-testid="outstanding-debts-error"
-      >
-        <div className="vads-u-margin-top--0">
+      <va-alert status="error" show-icon data-testid="outstanding-debts-error">
+        <h2 slot="headline">
+          We can’t access some of your financial information.
+        </h2>
+        <div>
           We’re sorry. We can’t access some of your financial information right
           now. We’re working to fix this problem. Please check back later.
         </div>

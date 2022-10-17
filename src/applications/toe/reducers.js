@@ -12,6 +12,9 @@ import {
   FETCH_DIRECT_DEPOSIT,
   FETCH_DIRECT_DEPOSIT_FAILED,
   FETCH_DIRECT_DEPOSIT_SUCCESS,
+  FETCH_CLAIM_STATUS,
+  FETCH_CLAIM_STATUS_SUCCESS,
+  FETCH_CLAIM_STATUS_FAILURE,
 } from './actions';
 
 const initialState = {
@@ -108,6 +111,21 @@ export default {
         return {
           ...state,
           sponsors: action.payload,
+        };
+      case FETCH_CLAIM_STATUS:
+        return {
+          ...state,
+          claimStatusFetchInProgress: true,
+        };
+      case FETCH_CLAIM_STATUS_SUCCESS:
+      case FETCH_CLAIM_STATUS_FAILURE:
+        return {
+          ...state,
+          claimStatusFetchComplete: true,
+          claimStatusFetchInProgress: false,
+          claimStatus: {
+            ...action?.response?.attributes,
+          },
         };
       case FETCH_DIRECT_DEPOSIT:
         return {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import recordEvent from '~/platform/monitoring/record-event';
@@ -27,7 +28,7 @@ function handleViewClaim() {
   });
 }
 
-const Claim = ({ claim }) => {
+const ClaimV2 = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
@@ -64,12 +65,18 @@ const Claim = ({ claim }) => {
       </div>
       <CTALink
         ariaLabel={`View claim received ${dateRecd}`}
-        className="vads-u-margin-top--2"
+        className="vads-u-margin-top--2 vads-u-font-weight--bold"
         text="View details"
         href={`/track-claims/your-claims/${claim.id}/status`}
         onClick={handleViewClaim}
+        showArrow
       />
     </div>
   );
 };
-export default Claim;
+
+ClaimV2.propTypes = {
+  claim: PropTypes.object.isRequired,
+};
+
+export default ClaimV2;
