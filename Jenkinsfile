@@ -23,24 +23,12 @@ node('vetsgov-general-purpose') {
 
   stage('Review instance') {
     if (commonStages.shouldBail()) { return }
-    script {
-      final String url = "https://api.github.com/repos/departme/dispatches"
-
-      final String dataString = '{\\"event_type\\": \\"hello\\"}'
-
-      final String response = sh(script: "curl --request POST \
-        --url '$url' \
-        --header 'authorization: Bearer ${GITHUB_TOKEN}' \
-        --data $dataString", returnStdout: true).trim()
-
-        echo response
-    }
     try {
       if (!commonStages.isReviewable()) {
         return
       }
       build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
+        stringParam(name: 'devops_branch', value: 'launch-gha'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
         stringParam(name: 'content_branch', value: env.BRANCH_NAME),
