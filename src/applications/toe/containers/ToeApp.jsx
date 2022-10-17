@@ -7,18 +7,13 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import {
-  fetchSponsors,
-  fetchPersonalInformation,
-  fetchDirectDeposit,
-} from '../actions';
+import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
 function ToeApp({
   children,
   formData,
-  getSponsors,
   getDirectDeposit,
   getPersonalInformation,
   location,
@@ -28,7 +23,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
 }) {
-  const [fetchedSponsors, setFetchedSponsors] = useState(false);
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
@@ -37,10 +31,9 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-
-      if (!fetchedSponsors) {
-        setFetchedSponsors(true);
-        getSponsors();
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
       }
 
       if (
@@ -53,29 +46,14 @@ function ToeApp({
       }
     },
     [
-      fetchedSponsors,
+      fetchedUserInfo,
       formData,
-      location,
-      setFormData,
-      getSponsors,
+      getPersonalInformation,
+      user?.login?.currentlyLoggedIn,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      user?.login?.currentlyLoggedIn,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
-      }
-    },
-    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
   );
 
   useEffect(
@@ -112,7 +90,6 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
-  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
@@ -134,7 +111,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
-  getSponsors: fetchSponsors,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };
