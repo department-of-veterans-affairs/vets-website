@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
-
+import { format } from 'date-fns';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -245,4 +245,15 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
     );
   }
   return children;
+};
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM-dd-yyyy';
+  return statements.sort(
+    (a, b) =>
+      format(new Date(b.pSStatementDateOutput), dateFormat) -
+      format(new Date(a.pSStatementDateOutput), dateFormat),
+  );
 };
