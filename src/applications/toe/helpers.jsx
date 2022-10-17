@@ -108,7 +108,7 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
-function mapNotificaitonMethod({ notificationMethod }) {
+function mapNotificationMethod({ notificationMethod }) {
   if (notificationMethod === 'MAIL') {
     return 'No, just send me email notifications';
   }
@@ -223,7 +223,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificaitonMethod(claimant),
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
     },
   };
 
