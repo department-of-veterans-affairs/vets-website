@@ -70,12 +70,18 @@ describe('Check In Experience', () => {
       Appointments.attemptCheckIn(2);
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--confirmation-success');
     });
     it('Routes to appointments on no to first question.', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoadedWithNoBtsssClaim();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--confirmation-no-claim-success',
+      );
     });
     it('Routes to appointments on no to second question.', () => {
       TravelPages.validatePageLoaded();
@@ -109,6 +115,9 @@ describe('Check In Experience', () => {
       Appointments.attemptCheckIn(2);
       Confirmation.validatePageLoadedWithBtsssIneligible();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--confirmation-ineligible',
+      );
     });
   });
 });

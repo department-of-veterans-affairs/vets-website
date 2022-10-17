@@ -1,5 +1,4 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import {
   primaryCaregiverFields,
   emptyObjectSchema,
@@ -15,9 +14,9 @@ import {
 import { primaryInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
 import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
+const { address } = fullSchema.definitions;
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
-const { address } = fullSchema.definitions;
 
 const primaryContactInfoPage = {
   uiSchema: {
@@ -36,10 +35,6 @@ const primaryContactInfoPage = {
     ),
     [primaryCaregiverFields.emailEncouragementMessage]: emailEncouragementUI(),
     [primaryCaregiverFields.email]: emailUI(primaryInputLabel),
-    [primaryCaregiverFields.verifyEmail]: confirmationEmailUI(
-      primaryInputLabel,
-      primaryCaregiverFields.email,
-    ),
     [primaryCaregiverFields.vetRelationship]: vetRelationshipUI(
       primaryInputLabel,
     ),
@@ -65,7 +60,6 @@ const primaryContactInfoPage = {
         primaryCaregiverProps.alternativePhoneNumber,
       [primaryCaregiverFields.emailEncouragementMessage]: emptyObjectSchema,
       [primaryCaregiverFields.email]: primaryCaregiverProps.email,
-      [primaryCaregiverFields.verifyEmail]: primaryCaregiverProps.email,
       [primaryCaregiverFields.vetRelationship]:
         primaryCaregiverProps.vetRelationship,
     },
