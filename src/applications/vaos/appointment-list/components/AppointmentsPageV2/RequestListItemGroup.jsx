@@ -143,10 +143,8 @@ export default function RequestListItemGroup({ data, facilityData }) {
           </div>
           <div className={classNames('vads-l-col', 'vads-u-padding-y--2')}>
             <div
-              className="vads-u-font-weight--bold"
               style={{
                 ...styles.canceled,
-                widthh: '297px',
               }}
             >
               {/* {!!facility && !isCC && facility.name} */}
@@ -180,5 +178,5 @@ export default function RequestListItemGroup({ data, facilityData }) {
 
 RequestListItemGroup.propTypes = {
   data: PropTypes.array.isRequired,
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };
