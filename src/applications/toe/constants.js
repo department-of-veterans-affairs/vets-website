@@ -5,6 +5,8 @@ export const LETTER_URL = `${
   environment.API_URL
 }/education/download-letters/letters`;
 
+export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
+
 export const SPONSOR_RELATIONSHIP = {
   CHILD: 'Child',
   SPOUSE: 'Spouse',

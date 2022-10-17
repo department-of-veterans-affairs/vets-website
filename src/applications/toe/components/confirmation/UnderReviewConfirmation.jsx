@@ -31,11 +31,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             >
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--4">
-              <strong>Confirmation number</strong>
-              {user?.confirmationNumber}
-            </div>
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
