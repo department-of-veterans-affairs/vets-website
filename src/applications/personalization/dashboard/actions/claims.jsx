@@ -64,7 +64,9 @@ export function getAppealsV2() {
         }
         Sentry.withScope(scope => {
           scope.setFingerprint(['{{default}}', status]);
-          Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
+          Sentry.captureException(
+            `va_dashboard_appeals_v2_err_get_appeals ${status}`,
+          );
         });
         return dispatch(action);
       });
@@ -166,7 +168,7 @@ export function getClaimsV2(options = {}) {
           Sentry.withScope(scope => {
             scope.setFingerprint(['{{default}}', errorCode]);
             Sentry.captureException(
-              `vets_claims_v2_err_get_claims ${errorCode}`,
+              `va-dashboard_claims_v2_err_get_claims ${errorCode}`,
             );
           });
         }
