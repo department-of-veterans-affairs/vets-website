@@ -1,5 +1,5 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export function makeUserObject(options = {}) {
   const services = options.services || ['vet360'];
@@ -45,7 +45,7 @@ export function makeUserObject(options = {}) {
           facilities:
             options.isPatient && options.facilities ? options.facilities : null,
           vaPatient: options.isPatient ?? false,
-          mhvAccountState: 'NONE',
+          mhvAccountState: options.mhvAccountState ?? 'OK',
         },
         veteranStatus: {
           status: 'OK',

@@ -1,16 +1,16 @@
-import {
-  submitTransform,
-  isSSNUnique,
-  arrayToSentenceString,
-} from '../helpers';
 import { expect } from 'chai';
-import formConfig from 'applications/caregivers/config/form';
+import formConfig from '../config/form';
 import {
   veteranFields,
   primaryCaregiverFields,
   secondaryOneFields,
   secondaryTwoFields,
-} from 'applications/caregivers/definitions/constants';
+} from '../definitions/constants';
+import {
+  submitTransform,
+  isSSNUnique,
+  arrayToSentenceString,
+} from '../helpers';
 
 // data
 import requiredOnly from './e2e/fixtures/data/requiredOnly.json';

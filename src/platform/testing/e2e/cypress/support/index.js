@@ -29,8 +29,19 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
     // Use 0 because it's expected to pass most validations.
     return originalFn(element, '0{backspace}', options);
   }
+  let newOptions;
+  if (options?.delay) {
+    newOptions = options;
+  } else {
+    // This removes the default 10 ms delay in cy.type().
+    newOptions = { ...options, delay: 0 };
+  }
+  return originalFn(element, text, newOptions);
+});
 
-  return originalFn(element, text, options);
+// This removes the default 10 ms delay in cy.clear().
+Cypress.Commands.overwrite('clear', (originalFn, element) => {
+  return originalFn(element, { delay: 0 });
 });
 
 Cypress.on('uncaught:exception', () => {
@@ -48,9 +59,7 @@ beforeEach(() => {
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
-    let videoName = Cypress.spec.name;
-    videoName = videoName.replace('/.js.*', '.js');
-    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    const videoPath = `${Cypress.spec.relative.replace('/.js.*', '.js')}.mp4`;
     addContext(
       { test },
       {

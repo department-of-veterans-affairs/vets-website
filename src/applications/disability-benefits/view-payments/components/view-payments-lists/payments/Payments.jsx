@@ -1,106 +1,86 @@
-import React, { Component } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import React, { useEffect, useState, useRef } from 'react';
 import Table from '@department-of-veterans-affairs/component-library/Table';
-import { clientServerErrorContent } from '../helpers';
 import { chunk } from 'lodash';
+import PropTypes from 'prop-types';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { clientServerErrorContent } from '../helpers';
 
 const MAX_PAGE_LIST_LENGTH = 10;
-class Payments extends Component {
-  state = {
-    page: 1,
-    maxRows: 6,
-    numberOfPages: null,
-    currentlyShowingData: [],
-    paginatedData: null,
-    fromNumber: null,
-    toNumber: null,
+const MAX_ROWS = 6;
+
+const getAriaLabelledBy = tableVersion =>
+  tableVersion === 'received'
+    ? 'paymentsReceivedHeader paymentsReceivedContent'
+    : 'paymentsReturnedHeader paymentsReturnedContent';
+
+const paginateData = data => {
+  return chunk(data, MAX_ROWS);
+};
+
+const getFromToNums = (page, total) => {
+  const from = (page - 1) * MAX_ROWS + 1;
+  const to = Math.min(page * MAX_ROWS, total);
+
+  return [from, to];
+};
+
+const Payments = ({ data, fields, tableVersion, textContent }) => {
+  const [currentData, setCurrentData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const numPages = useRef(0);
+  const paginatedData = useRef([]);
+
+  useEffect(() => {
+    paginatedData.current = paginateData(data);
+
+    setCurrentData(paginatedData.current[currentPage - 1]);
+    numPages.current = paginatedData.current.length;
+  }, []);
+
+  const onPageChange = page => {
+    setCurrentData(paginatedData.current[page - 1]);
+    setCurrentPage(page);
   };
 
-  componentDidMount() {
-    this.handleLoadData();
+  const tableAriaLabelledBy = getAriaLabelledBy(tableVersion);
+  const fromToNums = getFromToNums(currentPage, data.length);
+
+  if (currentData) {
+    return (
+      <>
+        {textContent}
+        <p className="vads-u-font-size--lg vads-u-font-family--serif">
+          Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
+        </p>
+        <Table
+          ariaLabelledBy={tableAriaLabelledBy}
+          className="va-table"
+          fields={fields}
+          data={currentData}
+          maxRows={MAX_ROWS}
+        />
+        <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={numPages.current}
+          maxPageListLength={MAX_PAGE_LIST_LENGTH}
+          showLastPage
+        />
+      </>
+    );
   }
 
-  // when the page loads, load the initial data set from props into the table
-  handleLoadData() {
-    // Creates an array of arrays of the data passed in as props
-    // in this shape [[{}, {}, {}], [{}, {}, {}], [{}, {}, {}]]
-    const chunkedData = chunk(this.props.data, this.state.maxRows);
-    this.setState({
-      currentlyShowingData: chunkedData[0],
-      paginatedData: chunkedData,
-      numberOfPages: chunkedData.length,
-    });
-    this.handleDisplayNumbers(1);
-  }
+  return (
+    <va-alert status="info">{clientServerErrorContent(tableVersion)}</va-alert>
+  );
+};
 
-  handleDataPagination = page => {
-    this.setState({
-      currentlyShowingData: this.state.paginatedData[page - 1],
-      page,
-    });
-    this.handleDisplayNumbers(page);
-  };
-
-  handleDisplayNumbers = page => {
-    let fromDisplayNumber = 1;
-    let toDisplayNumber = 1;
-    if (this.props.data.length > this.state.maxRows) {
-      toDisplayNumber = this.state.maxRows;
-      if (page > 1) {
-        fromDisplayNumber = (page - 1) * this.state.maxRows + 1;
-        if (this.props.data.length < page * this.state.maxRows) {
-          toDisplayNumber = this.props.data.length;
-        } else {
-          toDisplayNumber = page * this.state.maxRows;
-        }
-      }
-    } else {
-      toDisplayNumber = this.props.data.length;
-    }
-
-    this.setState({ fromNumber: fromDisplayNumber, toNumber: toDisplayNumber });
-  };
-
-  render() {
-    let tableContent = '';
-    let tableAriaLabelldBy = 'paymentsRecievedHeader paymentsRecievedContent';
-    if (this.props.tableVersion === 'returned') {
-      tableAriaLabelldBy = 'paymentsReturnedHeader paymentsReturnedContent';
-    }
-    if (this.state.currentlyShowingData) {
-      tableContent = (
-        <>
-          {this.props.textContent}
-          <p className="vads-u-font-size--lg vads-u-font-family--serif">
-            Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
-            {this.props.data.length}
-          </p>
-          <Table
-            ariaLabelledBy={tableAriaLabelldBy}
-            className="va-table"
-            fields={this.props.fields}
-            data={this.state.currentlyShowingData}
-            maxRows={10}
-          />
-          <Pagination
-            className="vads-u-border-top--0"
-            onPageSelect={page => this.handleDataPagination(page)}
-            page={this.state.page}
-            pages={this.state.numberOfPages}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
-          />
-        </>
-      );
-    } else {
-      tableContent = (
-        <va-alert status="info">
-          {clientServerErrorContent(this.props.tableVersion)}
-        </va-alert>
-      );
-    }
-    return <>{tableContent}</>;
-  }
-}
+Payments.propTypes = {
+  tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
+  data: PropTypes.array,
+  fields: PropTypes.array,
+  textContent: PropTypes.element,
+};
 
 export default Payments;

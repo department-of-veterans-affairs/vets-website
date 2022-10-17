@@ -1,9 +1,6 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const errorMessage = () => (
   <va-alert status="error">
@@ -16,8 +13,8 @@ export const errorMessage = () => (
     </p>
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />
+      <va-telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
+      <va-telephone contact={CONTACTS['711']} />
       ). We’re here Monday though Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
   </va-alert>

@@ -1,25 +1,29 @@
 import React, { useState, useCallback } from 'react';
-
 import { focusElement } from 'platform/utilities/ui';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-
+// import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Pagination } from '@department-of-veterans-affairs/component-library/index';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
-import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import { ENROLLMENT_VERIFICATION_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const MONTHS_PER_PAGE = 6;
 
-function EnrollmentVerificationMonths({ status }) {
-  // We assume that months come sorted.  If that assumption is
-  // incorrect, sort here.
-  const months = status.months.map((month, index) => {
-    return (
-      <EnrollmentVerificationMonth
-        key={index}
-        month={month}
-        paymentStatus={status.paymentStatus}
-      />
-    );
-  });
+function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
+  // We assume that months come sorted from most recent to oldest.  If
+  // that assumption is incorrect, sort here.
+  const months = enrollmentVerification?.enrollmentVerifications?.map(
+    (month, index) => {
+      return (
+        <EnrollmentVerificationMonth
+          key={index}
+          lastCertifiedThroughDate={
+            enrollmentVerification.lastCertifiedThroughDate
+          }
+          month={month}
+          status={status}
+        />
+      );
+    },
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const onPageSelect = useCallback(
@@ -61,10 +65,12 @@ function EnrollmentVerificationMonths({ status }) {
         </p>
       </va-additional-info>
 
-      <p>
-        Showing {lowerDisplayedRange}-{upperDisplayedRange} of {months?.length}{' '}
-        monthly enrollments listed by most recent
-      </p>
+      {enrollmentVerification?.enrollmentVerifications && (
+        <p>
+          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
+          {months?.length} monthly enrollments listed by most recent
+        </p>
+      )}
 
       {months?.slice(minMonth, maxMonth)}
 
@@ -77,8 +83,9 @@ function EnrollmentVerificationMonths({ status }) {
   );
 }
 
-export default EnrollmentVerificationMonths;
-
 EnrollmentVerificationMonths.propTypes = {
-  status: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+  enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+  status: STATUS_PROP_TYPE.isRequired,
 };
+
+export default EnrollmentVerificationMonths;

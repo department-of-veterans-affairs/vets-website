@@ -1,27 +1,31 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { focusElement } from 'platform/utilities/ui';
-
-import { api } from '../../api';
 import { createSetSession } from '../../actions/authentication';
+import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
-
+import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const updateError = useCallback(
+    error => {
+      dispatch(setError(error));
+    },
+    [dispatch],
+  );
 
   const setSession = useCallback(
     (token, permissions) => {
@@ -36,76 +40,81 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
+  const [dob, setDob] = useState('--');
+  const [dobError, setDobError] = useState(false);
+
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    false,
-  );
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
+
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
-
+  const app = '';
   const onClick = useCallback(
-    async () => {
-      setLastNameErrorMessage();
-      setLast4ErrorMessage();
-      if (!lastName || !last4Ssn) {
-        if (!lastName) {
-          setLastNameErrorMessage(t('please-enter-your-last-name'));
-        }
-        if (!last4Ssn) {
-          setLast4ErrorMessage(
-            t('please-enter-the-last-4-digits-of-your-social-security-number'),
-          );
-        }
-      } else {
-        // API call
-        setIsLoading(true);
-        try {
-          const resp = await api.v2.postSession({
-            token,
-            last4: last4Ssn,
-            lastName,
-          });
-          if (resp.errors || resp.error) {
-            setIsLoading(false);
-            goToErrorPage();
-          } else {
-            setSession(token, resp.permissions);
-            goToNextPage();
-          }
-        } catch (e) {
-          setIsLoading(false);
-          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-            goToErrorPage();
-          } else {
-            if (!showValidateError) {
-              setShowValidateError(true);
-            }
-            incrementValidateAttempts(window);
-          }
-        }
-      }
+    () => {
+      setShowValidateError(false);
+      validateLogin(
+        last4Ssn,
+        lastName,
+        dob,
+        dobError,
+        setLastNameErrorMessage,
+        setLast4ErrorMessage,
+        setIsLoading,
+        setShowValidateError,
+        isLorotaSecurityUpdatesEnabled,
+        goToErrorPage,
+        goToNextPage,
+        incrementValidateAttempts,
+        isMaxValidateAttempts,
+        token,
+        setSession,
+        app,
+        resetAttempts,
+        isLorotaDeletionEnabled,
+        updateError,
+      );
     },
     [
+      app,
       goToErrorPage,
       goToNextPage,
-      last4Ssn,
-      lastName,
-      setSession,
-      token,
       incrementValidateAttempts,
       isMaxValidateAttempts,
-      showValidateError,
-      t,
+      last4Ssn,
+      lastName,
+      dob,
+      dobError,
+      resetAttempts,
+      setSession,
+      token,
+      isLorotaDeletionEnabled,
+      isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+
+  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
+    ? t(
+        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
+      )
+    : t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+      );
+
   return (
     <>
       <ValidateDisplay
@@ -123,15 +132,17 @@ const ValidateVeteran = props => {
           setLastName,
           lastName,
         }}
+        dobInput={{
+          setDob,
+          dob,
+        }}
+        dobError={dobError}
+        setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={onClick}
-        Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-        )}
+        validateErrorMessage={validateErrorMessage}
       />
-      <BackToHome />
     </>
   );
 };

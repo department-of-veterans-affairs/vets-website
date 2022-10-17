@@ -9,7 +9,7 @@ on:
   workflow_run:
     workflows: [Continuous Integration]
     types: [completed]
-    branches: [master]
+    branches: [main]
 
 env:
   NUM_CONTAINERS: '8'
@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -88,12 +88,25 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools 
+      # - name: Add istanbul for Cypress code coverage reporting
+      #   run: |
+      #     sed -i -e 's/\"istanbul\",//g' babel.config.json
+      #     sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
-      - name: Add istanbul for Cypress code coverage reporting
-        run: |
-          sed -i -e 's/\"istanbul\",//g' .babelrc
-          sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' .babelrc
-          
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get Mapbox Token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+          env_variable_name: MAPBOX_TOKEN
+
       - name: Build
         run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
         timeout-minutes: 30
@@ -117,7 +130,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -149,14 +162,14 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.14.2-slim-chrome103-ff102
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -171,7 +184,7 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -198,28 +211,32 @@ jobs:
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
-      - name: Instrument code
-        run: npx nyc instrument --compact=false src .nyc_output
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Instrument code
+      #   run: npx nyc instrument --compact=false src .nyc_output
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           CODE_COVERAGE: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
+          NUM_CONTAINERS: 12
 
-      - name: View code coverage summary
-        run: npx nyc report --reporter=text-summary
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: View code coverage summary
+      #   run: npx nyc report --reporter=text-summary
 
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: code-coverage-artifacts
-          path: coverage/coverage-summary.json
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Create coverage artifact
+      #   uses: actions/upload-artifact@v3
+      #   if: ${{ always() }}
+      #   with:
+      #     name: code-coverage-artifacts
+      #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
         uses: actions/upload-artifact@v3
@@ -253,7 +270,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -290,21 +307,22 @@ jobs:
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
     runs-on: ubuntu-latest
-    needs: [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
+    needs:
+      [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
     continue-on-error: true
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
-    
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
 
-    steps: 
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+
+    steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -358,31 +376,32 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           IS_MASTER_BUILD: true
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: 12
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Cypress Tests Summary |
@@ -398,72 +417,73 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  e2e-code-coverage-cypress:
-    name: E2E Code Coverage Reports
-    runs-on: ubuntu-latest
-    needs: [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
-    continue-on-error: true
-    if: ${{ always() && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
-    
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
+  # e2e-code-coverage-cypress:
+  #   name: E2E Code Coverage Reports
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
+  #   continue-on-error: true
+  #   if: ${{ always() && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
 
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-      - name: Get GitHub token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
 
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+  #     - name: Get GitHub token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Generate new application list
-        run: yarn generate-app-list
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Generate new application list
+  #       run: yarn generate-app-list
 
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # --------------------------------------
-      # | Publish Code Coverage Report |
-      # --------------------------------------
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
 
-      - name: Download Code Coverage test results
-        uses: actions/download-artifact@v3
-        with:
-          name: code-coverage-artifacts
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+  #     # --------------------------------------
+  #     # | Publish Code Coverage Report |
+  #     # --------------------------------------
 
-      - name: Push E2E Code Coverage Results to BigQuery
-        run: yarn e2e-code-coverage-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+  #     - name: Download Code Coverage test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: code-coverage-artifacts
+  #         path: qa-standards-dashboard-data/src/testing-reports/data
+
+  #     - name: Push E2E Code Coverage Results to BigQuery
+  #       run: yarn e2e-code-coverage-to-bigquery
+  #       working-directory: qa-standards-dashboard-data
 
   notify-failure:
     name: Notify Failure
@@ -475,7 +495,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 

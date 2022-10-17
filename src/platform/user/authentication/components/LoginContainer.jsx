@@ -1,13 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import {
-  ssoe,
-  loginGovDisabled,
-  loginGovCreateAccount,
-  loginGovMyVAHealth,
-  loginGovMHV,
-} from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
   LoginActions,
@@ -19,15 +11,7 @@ const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 export const LoginContainer = props => {
-  const {
-    externalApplication,
-    isUnifiedSignIn,
-    loggedOut,
-    loginGovOff,
-    loginGovCreateAccountEnabled,
-    loginGovMHVEnabled,
-    loginGovMyVAHealthEnabled,
-  } = props;
+  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
 
   return (
     <section className="login">
@@ -43,13 +27,7 @@ export const LoginContainer = props => {
         )}
         <div className="container">
           <LoginHeader loggedOut={loggedOut} />
-          <LoginActions
-            externalApplication={externalApplication}
-            loginGovOff={loginGovOff}
-            loginGovMHVEnabled={loginGovMHVEnabled}
-            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
-            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
-          />
+          <LoginActions externalApplication={externalApplication} />
           <LoginInfo />
         </div>
       </div>
@@ -57,14 +35,4 @@ export const LoginContainer = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    useSSOe: ssoe(state),
-    loginGovOff: loginGovDisabled(state),
-    loginGovMHVEnabled: loginGovMHV(state),
-    loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
-    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-  };
-}
-
-export default connect(mapStateToProps)(LoginContainer);
+export default LoginContainer;

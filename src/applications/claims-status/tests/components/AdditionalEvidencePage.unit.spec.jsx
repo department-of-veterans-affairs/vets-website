@@ -105,7 +105,7 @@ describe('<AdditionalEvidencePage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('Connect(AddFilesForm)').props.onSubmit();
+    tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.calledWith(1, null, files)).to.be.true;
   });
   it('should reset uploads and set title on mount', () => {

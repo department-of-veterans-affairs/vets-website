@@ -1,5 +1,5 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export const makeMockUser = () => {
   return {
@@ -43,6 +43,10 @@ export const makeMockUser = () => {
             ssoe: true,
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            // eslint-disable-next-line camelcase
+            payment_history: true,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -53,7 +57,7 @@ export const makeMockUser = () => {
           isCernerPatient: false,
           facilities: [{ facilityId: '983', isCerner: false }],
           vaPatient: true,
-          mhvAccountState: 'NONE',
+          mhvAccountState: 'OK',
         },
         veteranStatus: {
           status: 'OK',

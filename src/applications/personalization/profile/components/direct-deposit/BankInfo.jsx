@@ -2,18 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-
-import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
-import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as saveCNPPaymentInformationAction,
@@ -33,6 +25,12 @@ import {
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
 } from '@@profile/selectors';
+import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
+import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
@@ -43,6 +41,9 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
+
+import NotEligible from './alerts/NotEligible';
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
 export const BankInfo = ({
   isLOA3,
@@ -56,6 +57,8 @@ export const BankInfo = ({
   type,
   typeIsCNP,
   setFormIsDirty,
+  setViewingPayments,
+  showSuccessMessage,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -86,7 +89,7 @@ export const BankInfo = ({
     () => {
       setFormIsDirty(isEmptyForm);
     },
-    [isEmptyForm],
+    [isEmptyForm, setFormIsDirty],
   );
 
   useEffect(
@@ -97,7 +100,7 @@ export const BankInfo = ({
         }
       };
     },
-    [isEditingBankInfo],
+    [isEditingBankInfo, toggleEditState],
   );
 
   // when we enter and exit edit mode...
@@ -138,7 +141,7 @@ export const BankInfo = ({
   };
 
   const editButtonClasses = [
-    'usa-button-secondary',
+    'usa-button-primary',
     ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 
@@ -163,7 +166,6 @@ export const BankInfo = ({
   const sectionTitle = typeIsCNP
     ? 'Disability compensation and pension benefits'
     : 'Education benefits';
-
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -175,7 +177,28 @@ export const BankInfo = ({
         <dt className="sr-only">Bank account type:</dt>
         <dd>{`${directDepositAccountInfo?.accountType} account`}</dd>
       </dl>
+
+      <div role="alert" aria-atomic="true">
+        <TransitionGroup>
+          {!!showSuccessMessage && (
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                enter: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                exit: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+              }}
+            >
+              <div data-testid="bankInfoUpdateSuccessAlert">
+                <UpdateSuccessAlert />
+              </div>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
+      </div>
       <button
+        type="button"
         className={classes.editButton}
         aria-label={`Edit your direct deposit for ${benefitTypeLong} bank information`}
         ref={editBankInfoButton}
@@ -201,9 +224,9 @@ export const BankInfo = ({
       </p>
       <button
         className={classes.editButton}
-        aria-label={
-          'Edit your direct deposit for disability compensation and pension benefits bank information'
-        }
+        type="button"
+        data-testid="edit-bank-info-button"
+        aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -219,44 +242,6 @@ export const BankInfo = ({
     </div>
   );
 
-  // When not eligible for DD
-  const notEligibleContent = (
-    <>
-      <p className="vads-u-margin-top--0">
-        Our records show that you’re not receiving {benefitTypeShort} payments.
-        If you think this is an error, please call us at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />.
-      </p>
-      <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': `${benefitTypeShort}-benefits`,
-            });
-          }}
-        >
-          Find out if you’re eligible for VA {benefitTypeShort} benefits
-        </a>
-      </p>
-      {typeIsCNP && (
-        <p className="vads-u-margin-bottom--0">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={`https://www.va.gov/pension/eligibility/`}
-          >
-            Find out if you’re eligible for VA pension benefits
-          </a>
-        </p>
-      )}
-    </>
-  );
-
   // When editing/setting up direct deposit, we'll show a form that accepts bank
   // account information
   const editingBankInfoContent = (
@@ -269,7 +254,6 @@ export const BankInfo = ({
         {!!saveError && (
           <PaymentInformationEditError
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-            level={4}
             responseError={saveError}
           />
         )}
@@ -279,41 +263,30 @@ export const BankInfo = ({
         type.
       </p>
       <div className="vads-u-margin-bottom--2">
-        <AdditionalInfo triggerText="Where can I find these numbers?">
-          <figure
-            className="vads-u-margin-x--0"
-            role="figure"
-            aria-labelledby="check-caption"
-          >
-            {/* eslint-disable jsx-a11y/no-redundant-roles */}
-            <img
-              src="/img/direct-deposit-check-guide.svg"
-              role="img"
-              alt="A personal check"
-            />
-            {/* eslint-enable jsx-a11y/no-redundant-roles */}
-            <figcaption
-              id="check-caption"
-              className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
-            >
-              <p>
-                The bank routing number is the first 9 digits on the bottom left
-                corner of a printed check. Your account number is the second set
-                of numbers on the bottom of a check, just to the right of the
-                bank routing number.
-              </p>
-              <p>If you don’t have a printed check, you can:</p>
-              <ul>
-                <li>
-                  Sign in to your online bank account and check your account
-                  details, or
-                </li>
-                <li>Check your bank statement, or</li>
-                <li>Call your bank</li>
-              </ul>
-            </figcaption>
-          </figure>
-        </AdditionalInfo>
+        <va-additional-info trigger="Where can I find these numbers?">
+          <img
+            src="/img/direct-deposit-check-guide.svg"
+            alt="A personal check"
+          />
+
+          <p className="vads-u-padding-top--2">
+            The bank routing number is the first 9 digits on the bottom left
+            corner of a printed check. Your account number is the second set of
+            numbers on the bottom of a check, just to the right of the bank
+            routing number.
+          </p>
+          <p className="vads-u-padding-y--2">
+            If you don’t have a printed check, you can:
+          </p>
+          <ul>
+            <li>
+              Sign in to your online bank account and check your account
+              details, or
+            </li>
+            <li>Check your bank statement, or</li>
+            <li>Call your bank</li>
+          </ul>
+        </va-additional-info>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
@@ -338,6 +311,7 @@ export const BankInfo = ({
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
+            data-testid={`${formPrefix}-form-cancel-button`}
           >
             Cancel
           </button>
@@ -357,7 +331,9 @@ export const BankInfo = ({
     if (isEligibleToSetUpDirectDeposit) {
       return notSetUpContent;
     }
-    return notEligibleContent;
+    setViewingPayments(old => ({ ...old, [type]: false }));
+
+    return <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />;
   };
 
   const directDepositData = () => {
@@ -385,20 +361,21 @@ export const BankInfo = ({
 
   return (
     <>
-      <Modal
-        title={'Are you sure?'}
+      <VaModal
+        modalTitle="Are you sure?"
         status="warning"
         visible={showConfirmCancelModal}
-        onClose={() => {
+        onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
       >
         <p>
           {' '}
-          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
         </p>
         <button
-          className="usa-button-secondary"
+          className="usa-button-primary"
+          type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
           }}
@@ -406,6 +383,8 @@ export const BankInfo = ({
           Continue Editing
         </button>
         <button
+          className="usa-button-secondary"
+          type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
             toggleEditState();
@@ -413,7 +392,7 @@ export const BankInfo = ({
         >
           Cancel
         </button>
-      </Modal>
+      </VaModal>
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
@@ -425,25 +404,28 @@ export const BankInfo = ({
 };
 
 BankInfo.propTypes = {
-  isLOA3: PropTypes.bool.isRequired,
-  directDepositAccountInfo: PropTypes.shape({
-    accountNumber: PropTypes.string.isRequired,
-    accountType: PropTypes.string.isRequired,
-    financialInstitutionName: PropTypes.string,
-    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
-  }),
-  isDirectDepositSetUp: PropTypes.bool.isRequired,
   directDepositServerError: PropTypes.bool.isRequired,
+  isDirectDepositSetUp: PropTypes.bool.isRequired,
   isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
+  isLOA3: PropTypes.bool.isRequired,
+  saveBankInformation: PropTypes.func.isRequired,
+  setFormIsDirty: PropTypes.func.isRequired,
+  setViewingPayments: PropTypes.func.isRequired,
+  toggleEditState: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  directDepositAccountInfo: PropTypes.shape({
+    accountNumber: PropTypes.string,
+    accountType: PropTypes.string,
+    financialInstitutionName: PropTypes.string,
+    financialInstitutionRoutingNumber: PropTypes.string,
+  }),
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }),
-  saveBankInformation: PropTypes.func.isRequired,
-  toggleEditState: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-  setFormIsDirty: PropTypes.func.isRequired,
+  showSuccessMessage: PropTypes.bool,
+  typeIsCNP: PropTypes.bool,
 };
 
 export const mapStateToProps = (state, ownProps) => {

@@ -16,12 +16,19 @@ import { getBackendStatuses } from 'platform/monitoring/external-services/action
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import {
+  signInServiceName as signInServiceNameSelector,
+  transitionMHVAccount,
+  isAuthenticatedWithOAuth,
+  signInServiceEnabled,
+} from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
   isLOA3,
   selectUser,
+  mhvTransitionEnabled,
+  mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
@@ -63,7 +70,12 @@ export class Main extends Component {
       this.executeRedirect();
       this.closeModals();
 
-      if (mhvTransitionEligible && !accountTransitionPreviouslyDismissed) {
+      if (
+        this.props.signInServiceName === 'mhv' &&
+        mhvTransitionEligible &&
+        !mhvTransitionComplete &&
+        !accountTransitionPreviouslyDismissed
+      ) {
         this.props.toggleAccountTransitionModal(true);
       }
 
@@ -93,14 +105,23 @@ export class Main extends Component {
     return null;
   }
 
-  appendNextParameter(url = 'loginModal', pageTitle = '') {
+  appendOrRemoveParameter({
+    url = 'loginModal',
+    pageTitle = '',
+    useSiS = true,
+  } = {}) {
     if (url === 'loginModal' && this.getNextParameter()) {
       return null;
     }
-
-    const nextQuery = { next: url };
-    const nextPath = appendQuery(window.location.toString(), nextQuery);
+    const location = window.location.toString();
+    const nextQuery = {
+      next: url,
+      ...(useSiS && this.props.useSignInService && { oauth: true }),
+    };
+    const path = useSiS ? location : location.replace('&oauth=true', '');
+    const nextPath = appendQuery(path, nextQuery);
     history.pushState({}, pageTitle, nextPath);
+
     return nextQuery;
   }
 
@@ -146,7 +167,7 @@ export class Main extends Component {
           e.preventDefault();
           const linkHref = el.getAttribute('href');
           const pageTitle = el.textContent;
-          this.appendNextParameter(linkHref, pageTitle);
+          this.appendOrRemoveParameter({ linkHref, pageTitle });
           this.openLoginModal();
         }
       });
@@ -165,6 +186,7 @@ export class Main extends Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
+    this.appendOrRemoveParameter({ useSiS: false });
   };
 
   closeAccountTransitionModal = () => {
@@ -183,7 +205,7 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
-    this.appendNextParameter();
+    this.appendOrRemoveParameter({});
   };
 
   signInSignUp = () => {
@@ -195,11 +217,12 @@ export class Main extends Component {
       // requests when the sign-in modal renders.
       this.props.getBackendStatuses();
       this.props.toggleLoginModal(true, 'header');
-      this.appendNextParameter();
+      this.appendOrRemoveParameter({});
     }
   };
 
   render() {
+    const { mhvTransition, mhvTransitionModal } = this.props;
     // checks if on Unified Sign in Page
     if (loginAppUrlRE.test(window.location.pathname)) {
       return null;
@@ -215,7 +238,6 @@ export class Main extends Component {
           onSignInSignUp={this.signInSignUp}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
           userGreeting={this.props.userGreeting}
-          customText={this.props.customText}
         />
         <FormSignInModal
           onClose={this.closeFormSignInModal}
@@ -225,12 +247,17 @@ export class Main extends Component {
         <SignInModal
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
+          useSiS={this.props.useSignInService}
         />
-        <AccountTransitionModal
-          onClose={this.closeAccountTransitionModal}
-          visible={this.props.showAccountTransitionModal}
-          history={history}
-        />
+        {mhvTransition &&
+          mhvTransitionModal && (
+            <AccountTransitionModal
+              onClose={this.closeAccountTransitionModal}
+              visible={this.props.showAccountTransitionModal}
+              canTransferMHVAccount={this.props.canTransferMHVAccount}
+              history={history}
+            />
+          )}
         <AccountTransitionSuccessModal
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
@@ -238,6 +265,8 @@ export class Main extends Component {
         <SessionTimeoutModal
           isLoggedIn={this.props.currentlyLoggedIn}
           onExtendSession={this.props.initializeProfile}
+          authenticatedWithOAuth={this.props.authenticatedWithOAuth}
+          serviceName={this.props.signInServiceName}
         />
         <AutoSSO />
       </div>
@@ -264,11 +293,16 @@ export const mapStateToProps = state => {
   return {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
+    authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    user: selectUser(state),
+    mhvTransition: mhvTransitionEnabled(state),
+    mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
+    useSignInService: signInServiceEnabled(state),
+    user: selectUser(state),
     userGreeting: selectUserGreeting(state),
+    canTransferMHVAccount: transitionMHVAccount(state),
     ...state.navigation,
   };
 };
@@ -300,16 +334,20 @@ Main.propTypes = {
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
   // From mapStateToProps.
+  authenticatedWithOAuth: PropTypes.bool,
+  canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
+  mhvTransition: PropTypes.bool,
+  mhvTransitionModal: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
   showAccountTransitionModal: PropTypes.bool,
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
+  useSignInService: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
-  customText: PropTypes.string,
 };

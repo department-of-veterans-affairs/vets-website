@@ -1,7 +1,7 @@
 import _ from 'platform/utilities/data';
 import { validateFileField } from 'platform/forms-system/src/js/validation';
 
-import { ancillaryFormUploadUi } from '../utils';
+import { ancillaryFormUploadUi } from '../utils/schemas';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 
 const fileUploadUi = ancillaryFormUploadUi(

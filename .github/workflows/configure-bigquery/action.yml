@@ -10,9 +10,12 @@ runs:
         ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
         env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
 
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
+
     - name: Setup Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: vsp-analytics-and-insights
-        service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-        export_default_credentials: true

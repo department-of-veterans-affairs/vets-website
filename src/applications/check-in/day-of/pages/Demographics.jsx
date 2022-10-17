@@ -2,11 +2,9 @@ import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
-import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 
@@ -30,10 +28,6 @@ const Demographics = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-demographic-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
       }
@@ -44,10 +38,6 @@ const Demographics = props => {
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-demographic-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       }
@@ -74,7 +64,7 @@ const Demographics = props => {
   );
 
   if (!demographics) {
-    goToErrorPage();
+    goToErrorPage('?error=no-demographics');
     return <></>;
   }
   return (
@@ -83,9 +73,10 @@ const Demographics = props => {
         demographics={demographics}
         yesAction={yesClick}
         noAction={noClick}
-        Footer={Footer}
+        subtitle={t(
+          'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+        )}
       />
-      <BackToHome />
     </>
   );
 };

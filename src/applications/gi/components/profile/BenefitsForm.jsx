@@ -1,34 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LearnMoreLabel from '../LearnMoreLabel';
 
-export class BenefitsForm extends React.Component {
-  state = { showYourMilitaryDetails: false };
-
-  static propTypes = {
-    showModal: PropTypes.func,
-    hideModal: PropTypes.func,
-    eligibilityChange: PropTypes.func,
-    showHeader: PropTypes.bool,
-    handleInputFocus: PropTypes.func,
-    giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
-    yourMilitaryDetails: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    showGbBenefit: false,
-    showHeader: false,
-    giBillChapterOpen: [],
-    yourMilitaryDetails: true,
-  };
-
-  cumulativeServiceOptions = () => [
+const BenefitsForm = ({
+  children,
+  cumulativeService,
+  eligForPostGiBill,
+  eligibilityChange,
+  enlistmentService,
+  giBillChapter,
+  giBillChapterOpen,
+  handleInputFocus,
+  militaryStatus,
+  numberOfDependents,
+  optionDisabled,
+  showHeader,
+  showModal,
+  spouseActiveDuty,
+}) => {
+  const cumulativeServiceOptions = () => [
     { optionValue: '1.0', optionLabel: '36+ months: 100%' }, // notice not 1.00
     { optionValue: '0.9', optionLabel: '30 months: 90%' },
     { optionValue: '0.8', optionLabel: '24 months: 80%' },
@@ -43,11 +37,17 @@ export class BenefitsForm extends React.Component {
     { optionValue: 'purple heart', optionLabel: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor, buttonId }) => (
+  const renderLearnMoreLabel = ({
+    text,
+    modal,
+    ariaLabel,
+    labelFor,
+    buttonId,
+  }) => (
     <LearnMoreLabel
       text={text}
       onClick={() => {
-        this.props.showModal(modal);
+        showModal(modal);
       }}
       ariaLabel={ariaLabel}
       labelFor={labelFor || modal}
@@ -55,18 +55,11 @@ export class BenefitsForm extends React.Component {
     />
   );
 
-  handleMilitaryDetailsClick = () => {
-    this.setState({
-      showYourMilitaryDetails: !this.state.showYourMilitaryDetails,
-    });
-  };
-
-  renderYourMilitaryDetails() {
-    const chapter33Check =
-      this.props.giBillChapter === '33a' || this.props.giBillChapter === '33b';
+  const renderYourMilitaryDetails = () => {
+    const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
     return (
       <div>
-        <ExpandingGroup open={this.props.militaryStatus === 'spouse'}>
+        <ExpandingGroup open={militaryStatus === 'spouse'}>
           <Dropdown
             label="What's your military status?"
             name="militaryStatus"
@@ -80,11 +73,11 @@ export class BenefitsForm extends React.Component {
               { optionValue: 'spouse', optionLabel: 'Spouse' },
               { optionValue: 'child', optionLabel: 'Child' },
             ]}
-            value={this.props.militaryStatus}
+            value={militaryStatus}
             alt="What's your military status?"
             visible
-            onChange={this.props.eligibilityChange}
-            onFocus={this.props.handleInputFocus}
+            onChange={eligibilityChange}
+            onFocus={handleInputFocus}
           />
           <Dropdown
             label="Is your spouse currently on active duty?"
@@ -93,21 +86,21 @@ export class BenefitsForm extends React.Component {
               { optionValue: 'yes', optionLabel: 'Yes' },
               { optionValue: 'no', optionLabel: 'No' },
             ]}
-            value={this.props.spouseActiveDuty}
+            value={spouseActiveDuty}
             alt="Is your spouse on active duty?"
             visible
-            onChange={this.props.eligibilityChange}
-            onFocus={this.props.handleInputFocus}
+            onChange={eligibilityChange}
+            onFocus={handleInputFocus}
           />
         </ExpandingGroup>
         <ExpandingGroup
           open={
-            ['30', '31', '33a', '33b'].includes(this.props.giBillChapter) ||
-            this.props.giBillChapterOpen.includes(true)
+            ['30', '31', '33a', '33b'].includes(giBillChapter) ||
+            giBillChapterOpen.includes(true)
           }
         >
           <Dropdown
-            label={this.renderLearnMoreLabel({
+            label={renderLearnMoreLabel({
               text: 'Which GI Bill benefit do you want to use?',
               modal: 'giBillChapter',
               ariaLabel: ariaLabels.learnMore.giBillBenefits,
@@ -130,16 +123,17 @@ export class BenefitsForm extends React.Component {
                 optionValue: '35',
                 optionLabel:
                   "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
+                optionDisabled,
               },
             ]}
-            value={this.props.giBillChapter}
+            value={giBillChapter}
             alt="Which GI Bill benefit do you want to use?"
             visible
-            onChange={this.props.eligibilityChange}
-            onFocus={this.props.handleInputFocus}
+            onChange={eligibilityChange}
+            onFocus={handleInputFocus}
           />
           <div>
-            {this.props.militaryStatus === 'active duty' &&
+            {militaryStatus === 'active duty' &&
               chapter33Check && (
                 <div className="military-status-info warning form-group">
                   <i className="fa fa-warning" />
@@ -157,7 +151,7 @@ export class BenefitsForm extends React.Component {
                   monthly housing allowance.
                 </div>
               )}
-            {this.props.giBillChapter === '31' && (
+            {giBillChapter === '31' && (
               <div className="military-status-info info form-group">
                 <i className="fa fa-info-circle" />
                 To apply for VR&E benefits, please{' '}
@@ -168,22 +162,22 @@ export class BenefitsForm extends React.Component {
               </div>
             )}
             <Dropdown
-              label={this.renderLearnMoreLabel({
+              label={renderLearnMoreLabel({
                 text: 'Cumulative Post-9/11 active-duty service',
                 modal: 'cumulativeService',
                 ariaLabel: ariaLabels.learnMore.post911Chapter33,
                 buttonId: 'cumulative-service-learn-more',
               })}
               name="cumulativeService"
-              options={this.cumulativeServiceOptions()}
-              value={this.props.cumulativeService}
+              options={cumulativeServiceOptions()}
+              value={cumulativeService}
               alt="Cumulative Post-9/11 active-duty service"
               visible={chapter33Check}
-              onChange={this.props.eligibilityChange}
-              onFocus={this.props.handleInputFocus}
+              onChange={eligibilityChange}
+              onFocus={handleInputFocus}
             />
             <Dropdown
-              label={this.renderLearnMoreLabel({
+              label={renderLearnMoreLabel({
                 text: 'Completed an enlistment of:',
                 modal: 'enlistmentService',
                 ariaLabel: ariaLabels.learnMore.montgomeryGIBill,
@@ -194,11 +188,11 @@ export class BenefitsForm extends React.Component {
                 { optionValue: '3', optionLabel: '3 or more years' },
                 { optionValue: '2', optionLabel: '2 or more years' },
               ]}
-              value={this.props.enlistmentService}
+              value={enlistmentService}
               alt="Completed an enlistment of:"
-              visible={this.props.giBillChapter === '30'}
-              onChange={this.props.eligibilityChange}
-              onFocus={this.props.handleInputFocus}
+              visible={giBillChapter === '30'}
+              onChange={eligibilityChange}
+              onFocus={handleInputFocus}
             />
             <Dropdown
               label="Are you eligible for the Post-9/11 GI Bill?"
@@ -207,11 +201,11 @@ export class BenefitsForm extends React.Component {
                 { optionValue: 'yes', optionLabel: 'Yes' },
                 { optionValue: 'no', optionLabel: 'No' },
               ]}
-              value={this.props.eligForPostGiBill}
+              value={eligForPostGiBill}
               alt="Are you eligible for the Post-9/11 GI Bill?"
-              visible={this.props.giBillChapter === '31'}
-              onChange={this.props.eligibilityChange}
-              onFocus={this.props.handleInputFocus}
+              visible={giBillChapter === '31'}
+              onChange={eligibilityChange}
+              onFocus={handleInputFocus}
             />
             <Dropdown
               label="How many dependents do you have?"
@@ -224,30 +218,44 @@ export class BenefitsForm extends React.Component {
                 { optionValue: '4', optionLabel: '4 Dependents' },
                 { optionValue: '5', optionLabel: '5 Dependents' },
               ]}
-              value={this.props.numberOfDependents}
+              value={numberOfDependents}
               alt="How many dependents do you have?"
-              visible={
-                this.props.giBillChapter === '31' &&
-                this.props.eligForPostGiBill === 'no'
-              }
-              onChange={this.props.eligibilityChange}
-              onFocus={this.props.handleInputFocus}
+              visible={giBillChapter === '31' && eligForPostGiBill === 'no'}
+              onChange={eligibilityChange}
+              onFocus={handleInputFocus}
             />
-            {this.props.children}
+            {children}
           </div>
         </ExpandingGroup>
       </div>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div className="eligibility-form">
-        {this.props.showHeader && <h2>Your benefits</h2>}
-        {this.renderYourMilitaryDetails()}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="eligibility-form">
+      {showHeader && <h2>Your benefits</h2>}
+      {renderYourMilitaryDetails()}
+    </div>
+  );
+};
 
 export default BenefitsForm;
+
+BenefitsForm.propTypes = {
+  children: PropTypes.node,
+  cumulativeService: PropTypes.string,
+  eligForPostGiBill: PropTypes.string,
+  eligibilityChange: PropTypes.func,
+  enlistmentService: PropTypes.string,
+  giBillChapter: PropTypes.string,
+  giBillChapterOpen: PropTypes.arrayOf(PropTypes.bool),
+  handleInputFocus: PropTypes.func,
+  hideModal: PropTypes.func,
+  militaryStatus: PropTypes.string,
+  numberOfDependents: PropTypes.string,
+  optionDisabled: PropTypes.bool,
+  showHeader: PropTypes.bool,
+  showModal: PropTypes.func,
+  spouseActiveDuty: PropTypes.string,
+  yourMilitaryDetails: PropTypes.bool,
+};

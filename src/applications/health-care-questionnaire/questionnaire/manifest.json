@@ -2,5 +2,6 @@
   "appName": "Health care Questionnaire",
   "entryFile": "./app-entry.jsx",
   "entryName": "questionnaire",
-  "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions"
+  "rootUrl": "/health-care/health-questionnaires/questionnaires/answer-questions",
+  "productId": "4e3529ee-66e7-4fa6-bc4e-63601dda6aad"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
@@ -10,12 +10,13 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   const title = 'You need to call your VA facility for a Podiatry appointment';
 
   return (
-    <Modal
+    <VaModal
       id="toc-modal"
       status="warning"
       visible
-      onClose={onClose}
-      title={title}
+      onCloseEvent={onClose}
+      modalTitle={title}
+      role="alertdialog"
     >
       You’re not eligible to request a community care Podiatry appointment
       online at this time. Please call your local VA medical center to schedule
@@ -25,12 +26,13 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
         Find your VA health facility’s phone number
       </NewTabAnchor>
       <button
+        type="button"
         onClick={onClose}
         className="vads-u-display--block vads-u-margin-top--2p5"
       >
         Ok
       </button>
-    </Modal>
+    </VaModal>
   );
 };
 

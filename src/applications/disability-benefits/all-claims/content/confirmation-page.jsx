@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import DownloadPDF from '../components/DownloadPDF';
 import { capitalizeEachWord, formatDate } from '../utils';

@@ -15,8 +15,8 @@ export default (store, widgetType) => {
 
     const rawEvents = [...pastEvents, ...allEventTeasers]?.sort(
       (event1, event2) =>
-        event1?.fieldDatetimeRangeTimezone?.value -
-        event2?.fieldDatetimeRangeTimezone?.value,
+        event1?.fieldDatetimeRangeTimezone[0]?.value -
+        event2?.fieldDatetimeRangeTimezone[0]?.value,
     );
 
     ReactDOM.render(

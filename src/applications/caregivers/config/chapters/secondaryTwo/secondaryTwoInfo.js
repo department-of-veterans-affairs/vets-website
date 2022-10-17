@@ -1,23 +1,24 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { secondaryTwoFields } from 'applications/caregivers/definitions/constants';
-import { secondaryTwoHeaderInfo } from 'applications/caregivers/definitions/content';
-import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import { secondaryTwoFields } from '../../../definitions/constants';
+import { secondaryTwoPageIntro } from '../../../definitions/content';
 import {
   ssnUI,
   genderUI,
   fullNameUI,
   dateOfBirthUI,
   addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { secondaryTwoInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;
 
 const secondaryTwoInfoPage = {
   uiSchema: {
-    'ui:description': SecondaryCaregiverInfo({
-      headerInfo: secondaryTwoHeaderInfo,
+    'ui:description': SecondaryCaregiverDescription({
+      introText: secondaryTwoPageIntro,
+      showPageIntro: true,
     }),
     // secondaryTwo UI
     [secondaryTwoFields.fullName]: fullNameUI(secondaryTwoInputLabel),

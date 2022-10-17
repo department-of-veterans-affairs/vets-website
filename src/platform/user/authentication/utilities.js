@@ -1,27 +1,24 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
-
+import environment from 'platform/utilities/environment';
+import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { externalApplicationsConfig } from './usip-config';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   API_VERSION,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
+  GA,
   CSP_IDS,
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  GA_CLIENT_ID_KEY,
-  EBenefitsDefaultPath,
-  API_SIGN_IN_SERVICE_URL,
+  EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
-  MOBILE_APPS,
-  OAUTH_ENABLED_APPS,
-  OAUTH_ENABLED_POLICIES,
+  IDME_TYPES,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -31,16 +28,19 @@ import recordEvent from '../../monitoring/record-event';
 export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const getQueryParams = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const paramsObj = {};
-
-  Object.keys(AUTH_PARAMS).forEach(paramKey => {
-    const paramValue = searchParams.get(AUTH_PARAMS[paramKey]);
-    if (paramValue) paramsObj[paramKey] = paramValue;
-  });
-
-  return paramsObj;
+  return Object.keys(AUTH_PARAMS).reduce((paramsObj, paramKey) => {
+    const paramValue = new URLSearchParams(window.location.search).get(
+      AUTH_PARAMS[paramKey],
+    );
+    return { ...paramsObj, ...(paramValue && { [paramKey]: paramValue }) };
+  }, {});
 };
+
+export const reduceAllowedProviders = obj =>
+  Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value) acc.push(key);
+    return acc;
+  }, []);
 
 export const isExternalRedirect = () => {
   const { application } = getQueryParams();
@@ -50,42 +50,75 @@ export const isExternalRedirect = () => {
   );
 };
 
-export const fixUrl = (url, path = '') => {
+export const sanitizeUrl = (url, path = '') => {
   if (!url) return null;
   const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
-  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
+  const updatedPath = path ?? '';
+  return `${updatedUrl}${updatedPath}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
 
-export const generatePath = (app, to) => {
-  function generateDefaultTo() {
-    return app === EXTERNAL_APPS.EBENEFITS ? EBenefitsDefaultPath : '';
-  }
+export const sanitizePath = to => {
+  if (!to) return '';
+  return to.startsWith('/') ? to : `/${to}`;
+};
 
-  function generateTo() {
-    if (app === EXTERNAL_APPS.MHV) {
-      return `?deeplinking=${to}`;
-    }
-    return to.startsWith('/') ? to : `/${to}`;
-  }
-
-  return !to ? generateDefaultTo() : generateTo();
+export const generateReturnURL = returnUrl => {
+  return [
+    `${environment.BASE_URL}/?next=loginModal`,
+    `${environment.BASE_URL}`,
+  ].includes(returnUrl)
+    ? `${environment.BASE_URL}/my-va/`
+    : returnUrl;
 };
 
 export const createExternalApplicationUrl = () => {
   const { application, to } = getQueryParams();
-
-  const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
-
-  if (
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
-      application,
-    ) &&
-    externalRedirectUrl
-  ) {
-    return fixUrl(`${externalRedirectUrl}${window.location.search}`);
+  if (!application) {
+    return null;
   }
+  const { externalRedirectUrl } = externalApplicationsConfig[application];
+  let URL = '';
 
-  return fixUrl(externalRedirectUrl, generatePath(application, to));
+  switch (application) {
+    case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+    case EXTERNAL_APPS.VA_OCC_MOBILE:
+      URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
+      break;
+    case EXTERNAL_APPS.EBENEFITS:
+      URL = sanitizeUrl(
+        `${externalRedirectUrl}`,
+        `${!to ? EBENEFITS_DEFAULT_PATH : sanitizePath(to)}`,
+      );
+      break;
+    case EXTERNAL_APPS.MHV:
+      URL = sanitizeUrl(
+        `${externalRedirectUrl}`,
+        `${!to ? '' : `?deeplinking=${to}`}`,
+      );
+      break;
+    case EXTERNAL_APPS.MY_VA_HEALTH:
+      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizePath(to));
+      break;
+    default:
+      break;
+  }
+  return URL;
+};
+
+export const getGAClientId = () => {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get(GA.trackingIdKey);
+      return GA.trackingIds.includes(trackingId);
+    });
+
+    return (tracker && tracker.get(GA.clientIdKey)) ?? null;
+  } catch (e) {
+    return null;
+  }
 };
 
 // Return URL is where a user will be forwarded post successful authentication
@@ -103,7 +136,10 @@ export const createAndStoreReturnUrl = () => {
     returnUrl = window.location.toString();
   }
 
-  sessionStorage.setItem(AUTHN_SETTINGS.RETURN_URL, returnUrl);
+  sessionStorage.setItem(
+    AUTHN_SETTINGS.RETURN_URL,
+    returnUrl.replace('&oauth=true', ''),
+  );
   return returnUrl;
 };
 
@@ -111,6 +147,9 @@ export function sessionTypeUrl({
   type = '',
   queryParams = {},
   version = API_VERSION,
+  allowVerification = false,
+  useOauth = false,
+  acr = null,
 }) {
   if (!type) {
     return null;
@@ -122,51 +161,75 @@ export function sessionTypeUrl({
     OAuth,
     codeChallenge,
     codeChallengeMethod,
+    clientId,
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
-  const isMobileApplication = MOBILE_APPS.includes(application);
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
   const isLogin = Object.values(CSP_IDS).includes(type);
-  const appendParams = {};
+  const config =
+    externalApplicationsConfig[application] ||
+    externalApplicationsConfig.default;
 
   // We should use OAuth when the following are true:
-  // OAuth param is true
-  // Application has OAuth enabled
-  // The policy type has OAuth enabled
-  const useOAuth =
-    OAuth === 'true' &&
-    OAUTH_ENABLED_APPS.includes(application) &&
-    OAUTH_ENABLED_POLICIES.includes(type);
+  // OAuth param is 'true'
+  // config.OAuthEnabled is true
+  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect && (isLogin || isSignup) && isMobileApplication
+    allowVerification ||
+    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
 
-  // Append extra params for external MHV login attempts
-  if (externalRedirect && isLogin && application === EXTERNAL_APPS.MHV) {
-    // eslint-disable-next-line camelcase
-    appendParams.skip_dupe = application;
-    appendParams.redirect = createExternalApplicationUrl();
-    appendParams.postLogin = true;
-  }
+  // Passes GA Client ID if it is an `ID.me` type
+  const gaClientId = IDME_TYPES.includes(type) && getGAClientId();
 
-  // Append extra params for mobile sign in service authentication
-  if (useOAuth) {
-    appendParams[AUTH_PARAMS.codeChallenge] = codeChallenge;
-    appendParams[AUTH_PARAMS.codeChallengeMethod] = codeChallengeMethod;
+  const appendParams =
+    externalRedirect && isLogin
+      ? {
+          ...(config.queryParams.allowPostLogin && { postLogin: true }),
+          ...(config.queryParams.allowRedirect && {
+            redirect: createExternalApplicationUrl(),
+          }),
+        }
+      : {};
+
+  if (useOAuth && (isLogin || isSignup)) {
+    return createOAuthRequest({
+      acr,
+      application,
+      clientId,
+      type,
+      config,
+      passedQueryParams: {
+        codeChallenge,
+        codeChallengeMethod,
+        ...(gaClientId && { gaClientId }),
+      },
+      passedOptions: {
+        isSignup,
+      },
+    });
   }
 
   return appendQuery(
-    useOAuth
-      ? API_SIGN_IN_SERVICE_URL({ type })
-      : API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
-    { ...queryParams, ...appendParams },
+    API_SESSION_URL({
+      version,
+      type: `${type}${requireVerification}`,
+    }),
+    {
+      ...queryParams,
+      ...appendParams,
+      ...(gaClientId && {
+        [GA.queryParams.default]: gaClientId,
+      }),
+      application,
+    },
   );
 }
 
@@ -178,28 +241,7 @@ export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
 
-export const redirectWithGAClientId = redirectUrl => {
-  try {
-    // eslint-disable-next-line no-undef
-    const trackers = ga.getAll();
-
-    const tracker = trackers.find(t => {
-      const trackingId = t.get(GA_TRACKING_ID_KEY);
-      return VAGOV_TRACKING_IDS.includes(trackingId);
-    });
-
-    const clientId = tracker && tracker.get(GA_CLIENT_ID_KEY);
-
-    window.location = clientId
-      ? // eslint-disable-next-line camelcase
-        appendQuery(redirectUrl, { client_id: clientId })
-      : redirectUrl;
-  } catch (e) {
-    window.location = redirectUrl;
-  }
-};
-
-export function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
@@ -211,7 +253,7 @@ export function redirect(redirectUrl, clickedEvent) {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: clickedEvent });
+  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
 
   // Trigger USiP External Auth Event
   if (
@@ -223,20 +265,16 @@ export function redirect(redirectUrl, clickedEvent) {
     });
   }
 
-  if (redirectUrl.includes(CSP_IDS.ID_ME)) {
-    redirectWithGAClientId(redirectUrl);
-  } else {
-    window.location = redirectUrl;
-  }
+  window.location = redirectUrl;
 }
 
-export function login({
+export async function login({
   policy,
   version = API_VERSION,
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
-  const url = sessionTypeUrl({ type: policy, version, queryParams });
+  const url = await sessionTypeUrl({ type: policy, version, queryParams });
 
   if (!isExternalRedirect()) {
     setLoginAttempted();
@@ -252,11 +290,24 @@ export function mfa(version = API_VERSION) {
   );
 }
 
-export function verify(version = API_VERSION) {
-  return redirect(
-    sessionTypeUrl({ type: POLICY_TYPES.VERIFY, version }),
-    AUTH_EVENTS.VERIFY,
-  );
+export async function verify({
+  policy = '',
+  version = API_VERSION,
+  clickedEvent = AUTH_EVENTS.VERIFY,
+  isLink = false,
+  useOAuth = false,
+  acr = null,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    useOauth: useOAuth,
+    ...(!useOAuth && { allowVerification: true }),
+    acr,
+  });
+
+  return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
 export function logout(
@@ -271,30 +322,43 @@ export function logout(
   );
 }
 
-export function signup({ version = API_VERSION, csp = CSP_IDS.ID_ME } = {}) {
-  return redirect(
-    sessionTypeUrl({
-      type: `${csp}_signup`,
-      version,
-      ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+export async function signupOrVerify({
+  version = API_VERSION,
+  policy = '',
+  isSignup = true,
+  isLink = false,
+  useOAuth = false,
+  allowVerification = true,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    ...(useOAuth && {
+      // acr determined by signup or verify
+      acr: isSignup
+        ? 'min'
+        : externalApplicationsConfig.default.oAuthOptions.acrVerify[policy],
+      useOauth: useOAuth,
     }),
-    `${csp}-${AUTH_EVENTS.REGISTER}`,
-  );
+    // just verify (<csp>_signup_verified)
+    ...(!isSignup &&
+      !useOAuth && {
+        allowVerification,
+      }),
+    // just signup
+    ...(isSignup &&
+      !useOAuth &&
+      policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  });
+  const eventBase = isSignup ? AUTH_EVENTS.REGISTER : AUTH_EVENTS.VERIFY;
+  const eventAuthBroker = useOAuth ? 'sis' : 'iam';
+  const eventIsVerified = allowVerification ? '-verified' : '';
+  const event = `${policy}-${eventBase}${eventAuthBroker}${eventIsVerified}`;
+
+  return isLink ? url : redirect(url, event);
 }
 
-export const signupUrl = type => {
-  const signupType = SIGNUP_TYPES[type] ?? SIGNUP_TYPES[CSP_IDS.ID_ME];
-  const queryParams =
-    signupType === SIGNUP_TYPES[CSP_IDS.ID_ME]
-      ? {
-          queryParams: { op: 'signup' },
-        }
-      : {};
-
-  const opts = {
-    type: signupType,
-    ...queryParams,
-  };
-
-  return sessionTypeUrl(opts);
+export const logoutUrl = () => {
+  return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
 };

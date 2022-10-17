@@ -21,12 +21,9 @@ module.exports = async (on, config) => {
   if (fs.existsSync('../content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
     appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
-  } else if (fs.existsSync('content-build/src/applications/registry.json')) {
-    // eslint-disable-next-line import/no-unresolved
-    appRegistry = require('../../../../../../content-build/src/applications/registry.json');
   } else {
     const REMOTE_CONTENT_BUILD_REGISTRY =
-      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/applications/registry.json';
+      'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';
 
     const response = await fetch(REMOTE_CONTENT_BUILD_REGISTRY);
 
@@ -75,7 +72,6 @@ module.exports = async (on, config) => {
   };
 
   const bundler = createBundler({
-    entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     external: [

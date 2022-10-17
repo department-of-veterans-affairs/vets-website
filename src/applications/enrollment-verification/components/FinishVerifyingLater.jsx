@@ -9,7 +9,7 @@ export default function FinishVerifyingLater({ onFinishVerifyingLater }) {
       href={REVIEW_ENROLLMENTS_URL}
       onClick={onFinishVerifyingLater}
     >
-      Finish verifying your enrollments later
+      Cancel verification and exit
     </a>
   );
 }

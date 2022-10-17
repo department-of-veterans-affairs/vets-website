@@ -1,13 +1,18 @@
-import React from 'react';
+export const downloadErrorsByCode = {
+  '5':
+    'We’re sorry. VA.gov is down right now. If you need help right now, please call the VA Help Desk at 800-698-2411. If you have hearing loss, call TTY:711.',
+  default:
+    'We’re sorry. Something went wrong on our end. If you need help right now, please call the VA Help Desk at 800-698-2411. If you have hearing loss, call TTY:711.',
+};
 
 export const links = {
   findLocations: {
-    label: 'Find locations with our facility locator tool',
     link: 'https://www.va.gov/find-locations',
+    label: 'Find locations with our facility locator tool',
   },
   caregiverSupportCoordinators: {
     link: 'https://www.caregiver.va.gov/support/New_CSC_Page.asp',
-    label: 'Find a caregiver support coordinator near you.',
+    label: 'Use our online Caregiver Support Coordinator search tool',
   },
   caregiverHelp: {
     link: 'https://www.caregiver.va.gov/help_landing.asp',
@@ -31,10 +36,12 @@ export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 export const representativeLabel = `Representative\u2019s`;
 export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
-export const secondaryOneHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver.';
-export const secondaryTwoHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver (2).';
+export const primaryPageIntro = `Please complete the following information about the Primary Family Caregiver.`;
+export const primaryContactIntro = `If the Primary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryOnePageIntro = `Please complete the following information about the Secondary Family Caregiver.`;
+export const secondaryTwoPageIntro = `Please complete the following information about the Secondary Family Caregiver (2).`;
+export const secondaryOneContactIntro = `If the Secondary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryTwoContactIntro = `If the Secondary Family Caregiver\u2019s (2) address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
 
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -62,37 +69,3 @@ export const representativeSignatureContent = [
 
 export const signatureBoxNoteContent =
   'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
-
-export const PrivacyPolicy = () => (
-  <p>
-    I have read and accept the
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className="vads-u-margin-left--0p5"
-      href={links.privacyPolicy.link}
-    >
-      privacy policy
-    </a>
-    .
-  </p>
-);
-
-export const SecondaryCaregiverCopy = ({ label }) => {
-  const header = title => `${title} statement of truth`;
-  const firstParagraph = secondaryCaregiverContent[0];
-  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
-
-  return (
-    <div>
-      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
-
-      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
-        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
-      })}
-      <PrivacyPolicy />
-    </div>
-  );
-};

@@ -103,8 +103,8 @@ export const UnauthContent = () => (
     <ul>
       <li>
         Call{' '}
-        <a href="tel:8002738255" aria-label="8 0 0 2 7 3 8 2 5 5">
-          800-273-8255
+        <a href="tel:988" aria-label="9 8 8">
+          988
         </a>
         , then select 1.
       </li>

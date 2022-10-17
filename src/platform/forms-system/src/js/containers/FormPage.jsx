@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import classNames from 'classnames';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { isReactComponent, getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
-import classNames from 'classnames';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import FormNavButtons from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
@@ -16,7 +17,6 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { focusElement } from '../utilities/ui';
-import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');
@@ -54,7 +54,11 @@ class FormPage extends React.Component {
       );
     }
     if (typeof pageConfig.updateFormData === 'function') {
-      newData = pageConfig.updateFormData(this.formData(), newData);
+      newData = pageConfig.updateFormData(
+        this.formData(),
+        newData,
+        this.props.params.index,
+      );
     }
     this.props.setData(newData);
   };
@@ -232,6 +236,7 @@ FormPage.propTypes = {
       schema: PropTypes.object.isRequired,
       uiSchema: PropTypes.object.isRequired,
       onContinue: PropTypes.func,
+      updateFormData: PropTypes.func,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

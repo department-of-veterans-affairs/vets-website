@@ -102,8 +102,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/123/)).to.be.ok;
     expect(screen.getByText(/Burke,/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -564,13 +563,21 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
+      },
+      serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
       },
     };
 
@@ -615,6 +622,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText(/Type of care/)).to.be.ok;
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
     expect(
@@ -670,13 +678,17 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
         },
       ],
       description: 'community care appointment',
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
       },
     };
 
@@ -715,6 +727,311 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
 
+  it('should not display type of care when serviceType is missing or null', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the serviceType is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+    // Then the appointment details will not display the type of care label
+    expect(screen.queryByText(/Type of care/i)).not.to.exist;
+  });
+
+  it('should not display treatment specialty if treatmentSpecialty is missing and vaOnlineSchedulingVAOSV2Next is true', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the treatmentSpecialty is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingVAOSV2Next: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
+  });
+
+  it('should not display treatment specialty if treatmentSpecialty is empty and vaOnlineSchedulingVAOSV2Next is true', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the treatmentSpecialty is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+        treatmentSpecialty: '',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingVAOSV2Next: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
+  });
+
+  it('should not display treatment specialty if treatmentSpecialty is null and vaOnlineSchedulingVAOSV2Next is true', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the treatmentSpecialty is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+        treatmentSpecialty: null,
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingVAOSV2Next: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
+  });
+
+  it('should not display treatment specialty if treatmentSpecialty is is present and vaOnlineSchedulingVAOSV2Next is false', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the treatmentSpecialty is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        providerName: 'Atlantic Medical Care',
+        treatmentSpecialty: 'Optometry',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingVAOSV2Next: false,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.queryByTestId('appointment-treatment-specialty')).to.be.null;
+  });
+
   it('should not show "Add to Calendar" for canceled appointments', async () => {
     // Given a user with a canceled CC appointment
     const url = '/cc/01aa456cc';
@@ -732,7 +1049,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
       },
       status: 'cancelled',
     };

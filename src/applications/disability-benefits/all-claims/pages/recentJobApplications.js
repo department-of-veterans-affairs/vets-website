@@ -1,4 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/date';
+
 import {
   unemployabilityTitle,
   unemployabilityPageTitle,
@@ -9,9 +11,8 @@ import {
   substantiallyGainfulEmployment,
 } from '../content/recentJobApplications';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/date';
 import RecentJobApplicationField from '../components/RecentJobApplicationField';
-import { addressUISchema } from '../utils';
+import { addressUISchema } from '../utils/schemas';
 
 const {
   appliedEmployers,

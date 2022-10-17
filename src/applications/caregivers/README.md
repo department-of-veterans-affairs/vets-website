@@ -6,12 +6,12 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 ## Slack Channels
 
-- [vsa-caregiver](https://slack.com/app_redirect?channel=CMJ2V70UV)
+- [1010-health-apps](https://slack.com/app_redirect?channel=CMJ2V70UV)
 
 ## Approval Groups
 
-- [VSA BAM 1](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-bam-1-frontend)
-- [VSA Caregiver](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-caregiver-frontend)
+- [Benefits Team 1](https://github.com/orgs/department-of-veterans-affairs/teams/benefits-team-1-frontend)
+- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation
 
@@ -47,10 +47,6 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 
 This uses the Caregivers API, the main controller is [here](https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/caregivers_assistance_claims_controller.rb).
 
-### Feature toggles
-
-We currently have a feature toggle for document uploads, `can_upload_10_10cg_poa`. Its currently conditional enabled for a `Percentage Of Actors`.
-
 ### How to test new features?
 
 Currently, there are no lower environments for CARMA. We are currently working through that problem.
@@ -64,3 +60,48 @@ Each feature should have unit tests and e2e tests. Since this is an unauthentica
 ### Useful acronym and terms
 
 - CARMA (Caregiver Record Management Application).
+
+### Instructions to upload a document, running va.gov locally
+* change the following rails file - app/uploaders/form1010cg/poa_uploader.rb
+* restart vets-api
+* file will be uploaded to public directory under vets-api source code
+
+```
+diff --git a/app/uploaders/form1010cg/poa_uploader.rb b/app/uploaders/form1010cg/poa_uploader.rb
+index 28ce0a625..c3d81d8f4 100644
+--- a/app/uploaders/form1010cg/poa_uploader.rb
++++ b/app/uploaders/form1010cg/poa_uploader.rb
+@@ -2,23 +2,23 @@
+ 
+ module Form1010cg
+   class PoaUploader < CarrierWave::Uploader::Base
+-    include SetAWSConfig
++    # include SetAWSConfig
+     include LogMetrics
+     include UploaderVirusScan
+ 
+-    storage :aws
++    # storage :aws
+ 
+     attr_reader :store_dir
+ 
+     def initialize(form_attachment_guid)
+       super
+ 
+-      set_aws_config(
+-        Settings.form_10_10cg.poa.s3.aws_access_key_id,
+-        Settings.form_10_10cg.poa.s3.aws_secret_access_key,
+-        Settings.form_10_10cg.poa.s3.region,
+-        Settings.form_10_10cg.poa.s3.bucket
+-      )
++      # set_aws_config(
++      #   Settings.form_10_10cg.poa.s3.aws_access_key_id,
++      #   Settings.form_10_10cg.poa.s3.aws_secret_access_key,
++      #   Settings.form_10_10cg.poa.s3.region,
++      #   Settings.form_10_10cg.poa.s3.bucket
++      # )
+ 
+       @store_dir = form_attachment_guid
+     end 
+```
+

@@ -1,6 +1,5 @@
 import React from 'react';
-import moment from 'moment';
-import { FORMAT_DATE_READABLE } from '../constants';
+import { formatReadableDate } from '../helpers';
 
 export default function ServicePeriodAccordionView({ formData }) {
   const {
@@ -11,16 +10,8 @@ export default function ServicePeriodAccordionView({ formData }) {
     exclusionPeriods,
   } = formData;
 
-  let servicePeriodFrom;
-  let servicePeriodTo;
-  if (formData && formData.dateRange) {
-    servicePeriodFrom = formData.dateRange.from
-      ? moment(formData.dateRange.from).format(FORMAT_DATE_READABLE)
-      : '';
-    servicePeriodTo = formData.dateRange.to
-      ? moment(formData.dateRange.to).format(FORMAT_DATE_READABLE)
-      : '';
-  }
+  const servicePeriodFrom = formatReadableDate(formData?.dateRange?.from, 2);
+  const servicePeriodTo = formatReadableDate(formData?.dateRange?.to, 2);
 
   function formatDateList(periods) {
     if (!trainingPeriods || !trainingPeriods.length) {
@@ -33,8 +24,8 @@ export default function ServicePeriodAccordionView({ formData }) {
         key={`service-period-${key++}`}
         className="service-history-details_period"
       >
-        {moment(period.from).format(FORMAT_DATE_READABLE)} {` – `}
-        {moment(period.to).format(FORMAT_DATE_READABLE)}
+        {formatReadableDate(period.from, 2)} {` – `}
+        {formatReadableDate(period.to, 2)}
       </span>
     ));
   }
@@ -49,19 +40,22 @@ export default function ServicePeriodAccordionView({ formData }) {
 
       <dt className="service-history-details_term">Service period</dt>
       <dd className="service-history-details_definition">
-        {servicePeriodFrom &&
-          servicePeriodTo && (
-            <>
-              {servicePeriodFrom} &ndash; {servicePeriodTo}
-            </>
-          )}
+        {servicePeriodFrom && (
+          <>
+            {servicePeriodFrom} &ndash; {servicePeriodTo}
+          </>
+        )}
       </dd>
 
       <dt className="service-history-details_term">Character of service</dt>
-      <dd className="service-history-details_definition">{serviceCharacter}</dd>
+      <dd className="service-history-details_definition">
+        {servicePeriodTo ? serviceCharacter : 'Not Applicable'}
+      </dd>
 
       <dt className="service-history-details_term">Separation reason</dt>
-      <dd className="service-history-details_definition">{separationReason}</dd>
+      <dd className="service-history-details_definition">
+        {servicePeriodTo ? separationReason : 'Not Applicable'}
+      </dd>
 
       {!!formattedTrainingPeriods.length && (
         <>

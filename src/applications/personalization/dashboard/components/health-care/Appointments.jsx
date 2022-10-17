@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import CTALink from '../CTALink';
 
 export const Appointments = ({ appointments, hasError }) => {
@@ -24,26 +23,20 @@ export const Appointments = ({ appointments, hasError }) => {
   if (hasError) {
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
-        <AlertBox
-          status="error"
-          className="vads-u-margin-top--0"
-          headline="We can’t access your appointment information"
-          content={
-            <>
-              <p>
-                We’re sorry. Something went wrong on our end, and we can’t
-                access your appointment information. Please try again later or
-                go to the appointments tool.
-              </p>
-              <p>
-                <CTALink
-                  text="Schedule and manage your appointments"
-                  href="/health-care/schedule-view-va-appointments/appointments"
-                />
-              </p>
-            </>
-          }
-        />
+        <va-alert status="error" visible class="vads-u-margin-top--0">
+          <h3 slot="headline">We can’t access your appointment information</h3>
+          <p>
+            We’re sorry. Something went wrong on our end, and we can’t access
+            your appointment information. Please try again later or go to the
+            appointments tool.
+          </p>
+          <p>
+            <CTALink
+              text="Schedule and manage your appointments"
+              href="/health-care/schedule-view-va-appointments/appointments"
+            />
+          </p>
+        </va-alert>
       </div>
     );
   }
@@ -58,7 +51,7 @@ export const Appointments = ({ appointments, hasError }) => {
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
           {`Time: ${start.format('h:mm a')} ${nextAppointment?.timeZone}`}
         </p>
-        <p className="vads-u-margin-top--1">{locationName}</p>
+        {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
           text="Schedule and manage your appointments"
           href="/health-care/schedule-view-va-appointments/appointments"
@@ -69,7 +62,6 @@ export const Appointments = ({ appointments, hasError }) => {
 };
 
 Appointments.propTypes = {
-  hasError: PropTypes.bool,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -82,6 +74,7 @@ Appointments.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
+  hasError: PropTypes.bool,
 };
 
 export default Appointments;

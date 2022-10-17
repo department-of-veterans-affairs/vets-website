@@ -57,6 +57,21 @@
       "cookieOnly": true
     },
     {
+      "hostname": "ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "vaww.internet.staging.va.gov",
+      "pathnameBeginning": "/formularyadvisor",
+      "cookieOnly": false
+    },
+    {
       "hostname": "www.healthquality.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
@@ -155,6 +170,16 @@
       "hostname": "www.volunteer.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
+    },
+    {
+      "hostname": "m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
     }
   ]
 }

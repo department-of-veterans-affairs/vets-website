@@ -3,11 +3,9 @@ import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/de
 import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 import { treatmentView } from '../content/vaMedicalRecords';
-import {
-  queryForFacilities,
-  makeSchemaForAllDisabilities,
-  hasVAEvidence,
-} from '../utils';
+import { queryForFacilities, hasVAEvidence } from '../utils';
+import { makeSchemaForAllDisabilities } from '../utils/schemas';
+
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,

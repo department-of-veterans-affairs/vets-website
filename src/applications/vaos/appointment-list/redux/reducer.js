@@ -27,7 +27,7 @@ import {
   FETCH_FACILITY_SETTINGS_FAILED,
   FETCH_FACILITY_SETTINGS_SUCCEEDED,
   FETCH_FACILITY_SETTINGS,
-  UPDATE_BREADCRUMB,
+  FETCH_PROVIDER_SUCCEEDED,
 } from './actions';
 
 import {
@@ -44,6 +44,7 @@ const initialState = {
   confirmed: null,
   confirmedStatus: FETCH_STATUS.notStarted,
   past: null,
+  providerData: null,
   pastStatus: FETCH_STATUS.notStarted,
   pastSelectedIndex: 0,
   showCancelModal: false,
@@ -56,7 +57,6 @@ const initialState = {
   systemClinicToFacilityMap: {},
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
-  breadcrumbs: [],
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -182,7 +182,6 @@ export default function appointmentsReducer(state = initialState, action) {
           [action.facility.id]: action.facility,
         };
       }
-
       return newState;
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
@@ -310,10 +309,10 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         facilitySettingsStatus: FETCH_STATUS.failed,
       };
-    case UPDATE_BREADCRUMB:
+    case FETCH_PROVIDER_SUCCEEDED:
       return {
         ...state,
-        breadcrumbs: action.breadcrumb ? [action.breadcrumb] : [],
+        providerData: action.providerData,
       };
     default:
       return state;

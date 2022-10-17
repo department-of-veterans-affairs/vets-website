@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { VA_FORM4192_URL } from '../constants';
 import { claimsIntakeAddress } from './itfWrapper';

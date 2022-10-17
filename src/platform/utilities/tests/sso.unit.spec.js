@@ -590,12 +590,12 @@ describe('sanitizeAuthn', () => {
   });
 
   it('should strip out the `?skip_dupe` query param', () => {
-    stubbedUrl = '/loa1?skip_dupe=mhv';
+    stubbedUrl = '/loa1?skip_dupe=true';
     expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/loa1');
   });
 
   it('should strip out the `&skip_dupe` query param', () => {
-    stubbedUrl = '/ial2?key=value&skip_dupe=mhv';
+    stubbedUrl = '/ial2?key=value&skip_dupe=true';
     expect(keepAliveMod.sanitizeAuthn(stubbedUrl)).to.eql('/ial2?key=value');
   });
 });
@@ -630,7 +630,7 @@ describe('generateAuthnContext', () => {
             [CSP_METHOD]: `${csp}_auth_method`,
             [IAL]: ial,
             ...(csp === 'idme' && {
-              [AUTHN_CONTEXT]: 'idme-test?skip_dupe=mhv',
+              [AUTHN_CONTEXT]: 'idme-test?skip_dupe=true',
             }),
           },
           status: 200,

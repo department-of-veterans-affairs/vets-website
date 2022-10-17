@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 const SERVER_ERROR_REGEX = /^5\d{2}$/;
 const CLIENT_ERROR_REGEX = /^4\d{2}$/;
@@ -21,8 +18,8 @@ export const ServerErrorAlertContent = (
     </p>
     <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
-      <Telephone contact={CONTACTS.VA_311} />
-      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      <va-telephone contact={CONTACTS.VA_311} />
+      (TTY: <va-telephone contact={CONTACTS['711']} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET
     </p>
   </>
@@ -39,7 +36,7 @@ export const NoPaymentsContent = (
       less than $1 for direct deposit, or $5 for mailed checks, will not show in
       your online payment history. If you think this is an error, or if you have
       questions about your payment history, please call{' '}
-      <Telephone contact={CONTACTS.VA_BENEFITS} />
+      <va-telephone contact={CONTACTS.VA_BENEFITS} />
     </p>
     <p className="vads-u-font-size--base">
       VA pays benefits on the first day of the month for the previous month.

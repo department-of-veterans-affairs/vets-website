@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 const RatedDisabilityListItem = ({ ratedDisability }) => {
   const {
     decisionText,
-    ratingPercentage,
-    name,
     effectiveDate,
+    name,
+    ratingPercentage,
   } = ratedDisability;
+
   return (
     <dl className="vads-u-display--block vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
       <dt className="vads-u-display--block vads-u-font-size--h3 vads-u-font-weight--bold vads-u-margin--0">
@@ -30,7 +31,7 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
             <dfn className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
               Effective date:
             </dfn>
-            {effectiveDate}
+            {effectiveDate.format('MM/DD/YYYY')}
           </dd>
         </>
       ) : null}

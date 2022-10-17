@@ -19,6 +19,7 @@ import {
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
+import { selectFeatureClinicFilter } from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -45,6 +46,10 @@ function getPageTitle(schema, typeOfCare, usingPastClinics) {
 
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
+  const featureClinicFilter = useSelector(state =>
+    selectFeatureClinicFilter(state),
+  );
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -66,6 +71,7 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
     typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
+  const pastMonths = featureClinicFilter ? 36 : 24;
 
   useEffect(() => {
     scrollAndFocus();
@@ -90,13 +96,13 @@ export default function ClinicChoicePage() {
             <>{typeOfCare.name} appointments are available at </>
           )}
           {firstMatchingClinic.serviceName}:
-          <p>
+          <div className="vads-u-margin-top--2">
             <FacilityAddress
               name={facility.name}
               facility={facility}
               level={2}
             />
-          </p>
+          </div>
         </>
       )}
       {schema.properties.clinicId.enum.length > 2 && (
@@ -106,7 +112,7 @@ export default function ClinicChoicePage() {
           </h1>
           {usingPastClinics && (
             <p>
-              In the last 24 months you’ve had{' '}
+              In the last {pastMonths} months you’ve had{' '}
               {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
               appointment at the following {facility.name} clinics:
             </p>

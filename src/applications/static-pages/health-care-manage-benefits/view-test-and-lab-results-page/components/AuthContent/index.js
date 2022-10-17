@@ -1,6 +1,5 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -9,19 +8,32 @@ import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import CernerCallToAction from '../../../components/CernerCallToAction';
+import {
+  authenticatedWithSSOePropType,
+  cernerFacilitiesPropType,
+  ehrDataByVhaIdPropType,
+  otherFacilitiesPropType,
+  useSingleLogoutPropType,
+} from '../../../propTypes';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
   cernerFacilities,
   otherFacilities,
+  ehrDataByVhaId,
+  useSingleLogout,
 }) => (
   <>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
+      ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="View lab and test results from:"
       myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
-      myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
+      myVAHealthLink={getCernerURL(
+        '/pages/health_record/results',
+        useSingleLogout,
+      )}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">
@@ -271,10 +283,8 @@ export const AuthContent = ({
                 </li>
                 <li>
                   Call the My HealtheVet help desk at{' '}
-                  <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-                    877-327-0022
-                  </a>{' '}
-                  (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
+                  <va-telephone contact="8773270022" /> (TTY:{' '}
+                  <Telephone contact={CONTACTS.HELP_TTY} />
                   ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                   ET.
                 </li>
@@ -289,11 +299,7 @@ export const AuthContent = ({
               <h3>For My VA Health questions</h3>
               <p>
                 Call My VA Health support anytime at{' '}
-                <a href="tel:18009621024" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-                  {' '}
-                  800-962-1024
-                </a>
-                .
+                <va-telephone contact="8009621024" />.
               </p>
             </div>
           </div>
@@ -304,29 +310,11 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
-  cernerfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
-  otherfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
+  authenticatedWithSSOe: authenticatedWithSSOePropType,
+  cernerFacilities: cernerFacilitiesPropType,
+  ehrDataByVhaId: ehrDataByVhaIdPropType,
+  otherFacilities: otherFacilitiesPropType,
+  useSingleLogout: useSingleLogoutPropType,
 };
 
 export default AuthContent;

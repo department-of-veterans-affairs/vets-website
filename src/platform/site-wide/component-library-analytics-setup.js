@@ -1,9 +1,11 @@
+/* eslint-disable camelcase */
 /**
  * Attaches CustomEvent 'component-library-analytics' listener to document.body
  * to translate component library actions into analytics dataLayer events.
  */
 import _recordEvent from 'platform/monitoring/record-event';
 import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
+import environment from 'platform/utilities/environment';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
@@ -62,13 +64,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  PromoBanner: [
-    {
-      action: 'linkClick',
-      event: 'nav-promo-banner-link-click',
-      prefix: 'promo-banner',
-    },
-  ],
   RadioButtons: [
     {
       action: 'change',
@@ -100,11 +95,41 @@ const analyticsEvents = {
     { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
   ],
   'va-accordion': [
-    { action: 'expand', event: 'int-accordion-expand', prefix: 'accordion' },
+    {
+      action: 'expand',
+      event: 'int-accordion-expand',
+      prefix: 'accordion',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-accordion',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'accordion-header': 'heading_1',
+          'accordion-subheader': 'heading_2',
+          'accordion-level': 'custom_number_1',
+          'accordion-sectionHeading': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
+    },
     {
       action: 'collapse',
       event: 'int-accordion-collapse',
       prefix: 'accordion',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-accordion',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'accordion-header': 'heading_1',
+          'accordion-subheader': 'heading_2',
+          'accordion-level': 'custom_number_1',
+          'accordion-sectionHeading': 'custom_string_2',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-additional-info': [
@@ -126,6 +151,18 @@ const analyticsEvents = {
       prefix: 'alert-box',
     },
   ],
+  'va-alert-expandable': [
+    {
+      action: 'expand',
+      event: 'int-alert-expandable-expand',
+      prefix: 'alert-expandable',
+    },
+    {
+      action: 'collapse',
+      event: 'int-alert-expandable-collapse',
+      prefix: 'alert-expandable',
+    },
+  ],
   'va-breadcrumbs': [
     {
       action: 'linkClick',
@@ -145,6 +182,32 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+    },
+  ],
+  'va-modal': [
+    {
+      action: 'show',
+      event: 'int-modal-show',
+      prefix: 'modal',
+    },
+  ],
+  'va-promo-banner': [
+    {
+      action: 'linkClick',
+      event: 'nav-promo-banner-link-click',
+      prefix: 'promo-banner',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-promo-banner',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'promo-banner-type': 'type',
+          'promo-banner-href': 'href',
+          'promo-banner-text': 'text',
+          version: 'component_version',
+        },
+      },
     },
   ],
   'va-radio': [
@@ -175,6 +238,21 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-on-this-page',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          version: 'component_version',
+        },
+      },
+    },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -198,7 +276,7 @@ export function subscribeComponentAnalyticsEvents(
       // If the event included additional details / context...
       if (e.detail.details) {
         for (const key of Object.keys(e.detail.details)) {
-          const newKey = `${action.prefix}-${key}`;
+          const newKey = action.prefix ? `${action.prefix}-${key}` : key;
 
           dataLayer[newKey] = e.detail.details[key];
         }
@@ -240,6 +318,38 @@ export function subscribeComponentAnalyticsEvents(
       });
 
       recordEvent(clearedDataLayer);
+
+      // GA4 dataLayer push.
+      if (!environment.isProduction() && action?.ga4) {
+        /**
+         * Creating the GA4 dataLayer object by combining the existing
+         * GA dataLayer with the defined GA4 parameters.
+         */
+        const ga4DataLayer = {
+          ...dataLayer,
+          ...action.ga4,
+          action: action.event,
+        };
+
+        // Mapping the GA4 parameters to the Web Component event details.
+        const ga4Mapping = action?.ga4?.mapping;
+
+        if (ga4Mapping) {
+          for (const key of Object.keys(ga4Mapping)) {
+            const newKey = action.ga4.mapping[key];
+
+            ga4DataLayer[newKey] = dataLayer[key];
+
+            // Clean up old GA dataLayer values.
+            delete ga4DataLayer[key];
+          }
+
+          // Clean up the GA4 mapping object from the dataLayer.
+          delete ga4DataLayer.mapping;
+        }
+
+        recordEvent(ga4DataLayer);
+      }
     }
   }
 }

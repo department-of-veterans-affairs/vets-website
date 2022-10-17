@@ -33,7 +33,7 @@ describe('Pre Check In Experience', () => {
       initializePreCheckInDataPost.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();

@@ -147,7 +147,7 @@ class SearchApp extends React.Component {
     });
   };
 
-  onSearchResultClick = ({ bestBet, title, index, url }) => async e => {
+  onSearchResultClick = ({ bestBet, title, index, url }) => e => {
     e.preventDefault();
 
     // clear the &t query param which is used to track typeahead searches
@@ -175,10 +175,15 @@ class SearchApp extends React.Component {
     };
     const moduleCode = bestBet ? 'BOOS' : 'I14Y';
 
-    await apiRequest(
+    // By implementing in this fashion (i.e. a promise chain), code that follows is not blocked by this api request. Following the link at the end of the
+    // function should happen regardless of the result of this api request, and it can happen before this request resolves.
+    apiRequest(
       `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
       apiRequestOptions,
-    );
+    ).catch(error => {
+      Sentry.captureException(error);
+      Sentry.captureMessage('search_click_tracking_error');
+    });
 
     if (bestBet) {
       recordEvent({
@@ -576,7 +581,8 @@ class SearchApp extends React.Component {
             bestBet: isBestBet,
             title: strippedTitle,
             index,
-            url: result.url,
+            url: replaceWithStagingDomain(result.url),
+            // Trigger a new build
           })}
         >
           <h4

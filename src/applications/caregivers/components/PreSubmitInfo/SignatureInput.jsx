@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const SignatureInput = ({
   fullName,
@@ -13,7 +14,7 @@ const SignatureInput = ({
   isChecked,
   ariaDescribedBy,
 }) => {
-  const [hasError, setError] = useState(false);
+  const [error, setError] = useState();
   const firstName = fullName.first || '';
   const lastName = fullName.last || '';
   const middleName = fullName.middle || '';
@@ -63,6 +64,13 @@ const SignatureInput = ({
 
   const isSignatureComplete = signatureMatches && isChecked;
 
+  const onBlur = useCallback(
+    event => {
+      setSignature({ value: event.target.value, dirty: true });
+    },
+    [setSignature],
+  );
+
   useEffect(
     () => {
       if (!isSignatureComplete) return;
@@ -85,7 +93,7 @@ const SignatureInput = ({
         setSignatures(prevState => {
           return { ...prevState, [label]: '' };
         });
-        setError(true);
+        setError(errorMessage);
       }
 
       /* if input has been touched and signature matches allow submission
@@ -100,7 +108,7 @@ const SignatureInput = ({
         setSignatures(prevState => {
           return { ...prevState, [label]: signature.value };
         });
-        setError(false);
+        setError();
       }
     },
     [
@@ -112,31 +120,32 @@ const SignatureInput = ({
       signature,
       setSignatures,
       label,
+      errorMessage,
     ],
   );
 
   return (
-    <TextInput
-      ariaDescribedBy={ariaDescribedBy}
-      additionalClass="signature-input"
+    <VaTextInput
+      aria-describedby={ariaDescribedBy}
+      class="signature-input"
       label={createInputLabel(label)}
       required={required}
-      onValueChange={signatureValue => setSignature(signatureValue)}
-      field={{ value: signature.value, dirty: signature.dirty }}
-      errorMessage={hasError && errorMessage}
+      value={signature.value}
+      error={error}
+      onBlur={onBlur}
     />
   );
 };
 
 SignatureInput.propTypes = {
   fullName: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool.isRequired,
-  showError: PropTypes.bool.isRequired,
   hasSubmittedForm: PropTypes.bool.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
   setSignatures: PropTypes.func.isRequired,
-  isRepresentative: PropTypes.bool,
+  showError: PropTypes.bool.isRequired,
   ariaDescribedBy: PropTypes.string,
+  isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };
 

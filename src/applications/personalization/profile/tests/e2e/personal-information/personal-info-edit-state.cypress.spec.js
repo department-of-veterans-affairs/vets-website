@@ -1,39 +1,4 @@
-import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
-
-import { mockUser } from '@@profile/tests/fixtures/users/user';
-import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
-import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
-import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
-import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
-import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
-
-const setup = (options = { mockEnhanced: false }) => {
-  const { mockEnhanced } = options;
-  cy.login(mockUser);
-  if (mockEnhanced) {
-    cy.intercept(
-      'v0/profile/personal_information',
-      mockPersonalInformationEnhanced,
-    );
-  } else {
-    cy.intercept('v0/profile/personal_information', mockPersonalInformation);
-  }
-  cy.intercept('v0/profile/service_history', mockServiceHistory);
-  cy.intercept('v0/profile/full_name', mockFullName);
-  cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
-  mockGETEndpoints(['v0/mhv_account', 'v0/ppiu/payment_information']);
-  cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
-  cy.injectAxe();
-
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
-};
+import { setup } from '@@profile/tests/e2e/personal-information/setup';
 
 const checkPersonalInfoFields = () => {
   // preferred name field
@@ -48,7 +13,11 @@ const checkPersonalInfoFields = () => {
 
   cy.findByText(nameEditInputLabel).should('exist');
 
-  cy.get(nameEditInputField).should('exist');
+  cy.get(nameEditInputField)
+    .should('exist')
+    .blur();
+
+  cy.axeCheck();
 
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
@@ -79,6 +48,8 @@ const checkPersonalInfoFields = () => {
     'If not listed, please provide your preferred pronouns (255 characters maximum)',
   ).should('exist');
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
@@ -89,29 +60,34 @@ const checkPersonalInfoFields = () => {
 
   // gender fields
   const genderEditButtonLabel = 'Edit Gender identity';
-  const genderEditInputLabel = 'Select your gender identity';
+  const genderEditInputLegend = 'Select your gender identity';
 
   cy.findByLabelText(genderEditButtonLabel)
     .should('exist')
     .click();
 
-  cy.findByText(genderEditInputLabel).should('exist');
+  cy.findByText(genderEditInputLegend).should('exist');
+
+  // radio options should be grouped into fieldset with a legend element
+  cy.findByRole('group', {
+    name: /Select your gender identity/i,
+  }).should('exist');
 
   cy.findByText('Woman').should('exist');
   cy.findByText('Man').should('exist');
   cy.findByText('Transgender woman').should('exist');
   cy.findByText('Transgender man').should('exist');
   cy.findByText('Non-binary').should('exist');
-  cy.findByText('Prefer not to answer (un-checks other options)').should(
-    'exist',
-  );
+  cy.findByText('Prefer not to answer').should('exist');
   cy.findByText('A gender not listed here').should('exist');
+
+  cy.axeCheck();
 
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
 
-  cy.findByText(genderEditInputLabel).should('not.exist');
+  cy.findByText(genderEditInputLegend).should('not.exist');
 
   // sexual orientation fields
   const sexualOrientationEditButtonLabel = 'Edit Sexual orientation';
@@ -134,6 +110,8 @@ const checkPersonalInfoFields = () => {
     'exist',
   );
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
@@ -145,18 +123,18 @@ const checkPersonalInfoFields = () => {
 
 describe('Content in EDIT state on the personal information page', () => {
   it('should render each edit field with update/cancel buttons and remove field on cancel, when enhanced api data is present.', () => {
-    setup({ mockEnhanced: true });
+    setup({ isEnhanced: true });
+
+    cy.injectAxeThenAxeCheck();
 
     checkPersonalInfoFields();
-
-    cy.axeCheck();
   });
 
   it('should render each edit field with update/cancel buttons even when no applicable data is present', () => {
-    setup({ mockEnhanced: false });
+    setup({ isEnhanced: false });
+
+    cy.injectAxeThenAxeCheck();
 
     checkPersonalInfoFields();
-
-    cy.axeCheck();
   });
 });

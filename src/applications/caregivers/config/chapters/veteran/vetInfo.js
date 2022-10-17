@@ -1,23 +1,26 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { VetInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { veteranFields } from 'applications/caregivers/definitions/constants';
-
-import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
+import { veteranFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
   genderUI,
   ssnUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { vetInputLabel } from '../../../definitions/UIDefinitions/veteranUI';
+import { VeteranSSNDescription } from '../../../components/FormDescriptions';
+import VeteranContactDescription from '../../../components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
 
 const vetInfoPage = {
   uiSchema: {
-    'ui:description': VetInfo({ headerInfo: true }),
+    'ui:description': VeteranContactDescription({ showPageIntro: true }),
     [veteranFields.fullName]: fullNameUI(vetInputLabel),
-    [veteranFields.ssn]: ssnUI(vetInputLabel),
+    [veteranFields.ssn]: {
+      ...ssnUI(vetInputLabel),
+      'ui:description': VeteranSSNDescription,
+    },
     [veteranFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
     [veteranFields.gender]: genderUI(vetInputLabel),
   },

@@ -15,7 +15,7 @@ export const FETCH_VERIFICATION_STATUS_FAILURE =
   'FETCH_VERIFICATION_STATUS_FAILURE';
 
 export const VERIFICATION_STATUS_CORRECT = 'VERIFICATION_STATUS_CORRECT';
-export const VERIFICATION_STATUS_INCORRECT = 'INVERIFICATION_STATUS_CORRECT';
+export const VERIFICATION_STATUS_INCORRECT = 'VERIFICATION_STATUS_INCORRECT';
 
 export const UPDATE_VERIFICATION_STATUS = 'UPDATE_VERIFICATION_STATUS';
 export const UPDATE_VERIFICATION_STATUS_SUCCESS =
@@ -23,19 +23,14 @@ export const UPDATE_VERIFICATION_STATUS_SUCCESS =
 export const UPDATE_VERIFICATION_STATUS_FAILURE =
   'UPDATE_VERIFICATION_STATUS_FAILURE';
 
-export const PAYMENT_STATUS = {
-  ONGOING: 'PAYMENT_STATUS_ONGOING',
-  PAUSED: 'PAYMENT_STATUS_PAUSED',
-  SCO_PAUSED: 'PAYMENT_STATUS_SCO_PAUSED',
-};
-
 export const EDIT_MONTH_VERIFICATION = 'EDIT_MONTH_VERIFICATION';
-export const UPDATE_VERIFICATION_STATUS_MONTHS = 'UPDATE_VERIFICATION_STATUS';
+export const UPDATE_VERIFICATION_STATUS_MONTHS =
+  'UPDATE_VERIFICATION_STATUS_MONTHS';
 
 export function fetchPost911GiBillEligibility() {
   const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
     environment.API_URL
-  }/eligibility/post-911-gi-bill`;
+  }/meb_api/v0/enrollment`;
 
   return async dispatch => {
     dispatch({ type: FETCH_POST_911_GI_BILL_ELIGIBILITY });
@@ -56,59 +51,32 @@ export function fetchPost911GiBillEligibility() {
   };
 }
 
-export function fetchVerificationStatus() {
+export function postEnrollmentVerifications(vs) {
   const VERIFICATION_STATUS_ENDPOINT = `${
     environment.API_URL
-  }/attendance-verification/1/status`;
-  // }/attendance-verification/${userId}/status`;
+  }/meb_api/v0/submit_enrollment_verification`;
 
   return async dispatch => {
-    dispatch({ type: FETCH_VERIFICATION_STATUS });
+    dispatch({ type: UPDATE_VERIFICATION_STATUS });
 
-    return apiRequest(VERIFICATION_STATUS_ENDPOINT)
+    return apiRequest(VERIFICATION_STATUS_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify({
+        enrollmentVerifications: vs,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
       .then(response =>
         dispatch({
-          type: FETCH_VERIFICATION_STATUS_SUCCESS,
+          type: UPDATE_VERIFICATION_STATUS_SUCCESS,
           response,
         }),
       )
       .catch(errors =>
         dispatch({
-          type: FETCH_VERIFICATION_STATUS_FAILURE,
+          type: UPDATE_VERIFICATION_STATUS_FAILURE,
           errors,
         }),
       );
   };
-}
-
-export function updateVerificationStatus(vs) {
-  const VERIFICATION_STATUS_ENDPOINT = `${
-    environment.API_URL
-  }/attendance-verification/1/status`;
-  // }/attendance-verification/${userId}/status`;
-
-  // TODO The following is very much in-progress.
-  // return async dispatch => {
-  //   dispatch({ type: UPDATE_VERIFICATION_STATUS });
-  return apiRequest(VERIFICATION_STATUS_ENDPOINT, {
-    method: 'PUT',
-    body: JSON.stringify(vs),
-  })
-    .then(
-      () => window.console.log(UPDATE_VERIFICATION_STATUS_SUCCESS),
-      // response => window.console.log(UPDATE_VERIFICATION_STATUS_SUCCESS),
-      // dispatch({
-      //   type: UPDATE_VERIFICATION_STATUS_SUCCESS,
-      //   response,
-      // }),
-    )
-    .catch(
-      () => window.console.log(UPDATE_VERIFICATION_STATUS_FAILURE),
-      // errors => window.console.log(UPDATE_VERIFICATION_STATUS_FAILURE),
-      // dispatch({
-      //   type: UPDATE_VERIFICATION_STATUS_FAILURE,
-      //   errors,
-      // }),
-    );
-  // };
 }

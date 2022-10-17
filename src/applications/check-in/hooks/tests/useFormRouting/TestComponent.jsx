@@ -14,6 +14,12 @@ export default function TestComponent({ router }) {
   } = useFormRouting(router);
   const currentPage = getCurrentPageFromRouter();
   const previousPage = getPreviousPageFromRouter();
+
+  const errorTest = () => {
+    // strip out button click event stuff from being sent as a param to the function
+    goToErrorPage('?error=test-error');
+  };
+
   return (
     <div>
       <h1>Test component for the useFormRouting hook</h1>
@@ -34,7 +40,7 @@ export default function TestComponent({ router }) {
       <button type="button" onClick={goToNextPage} data-testid="next-button">
         Next
       </button>
-      <button type="button" onClick={goToErrorPage} data-testid="error-button">
+      <button type="button" onClick={errorTest} data-testid="error-button">
         Error
       </button>
       <button

@@ -9,13 +9,17 @@ import EmergencyContact from './pages/EmergencyContact';
 import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
-import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 import LoadingPage from './pages/LoadingPage';
+import TravelQuestion from './pages/TravelQuestion';
+import TravelVehicle from './pages/TravelVehicle';
+import TravelAddress from './pages/TravelAddress';
+import TravelMileage from './pages/TravelMileage';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
+import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
@@ -57,14 +61,6 @@ const routes = [
     },
   },
   {
-    path: URLS.UPDATE_INSURANCE,
-    component: UpdateInformationQuestion,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
     path: URLS.DETAILS,
     component: CheckIn,
     permissions: {
@@ -98,6 +94,38 @@ const routes = [
     },
   },
   {
+    path: URLS.TRAVEL_QUESTION,
+    component: TravelQuestion,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_VEHICLE,
+    component: TravelVehicle,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_ADDRESS,
+    component: TravelAddress,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.TRAVEL_MILEAGE,
+    component: TravelMileage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
     path: URLS.ERROR,
     component: Error,
   },
@@ -124,14 +152,12 @@ const createRoutesWithStore = () => {
             component = withAuthorization(component, options);
           }
         }
+        // Add feature flip
+        component = withFeatureFlip(component, options);
+        // Add app name
+        component = withAppSet(component, options);
 
-        return (
-          <Route
-            path={`/${route.path}`}
-            component={withFeatureFlip(component, options)}
-            key={i}
-          />
-        );
+        return <Route path={`/${route.path}`} component={component} key={i} />;
       })}
       <Route path="*" component={Error} />
     </Switch>

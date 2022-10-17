@@ -2,84 +2,69 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { api } from '../../../api';
-import MultipleAppointment from './MultipleAppointments';
+import CheckInConfirmation from './CheckInConfirmation';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
-import { useDemographicsFlags } from '../../../hooks/useDemographicsFlags';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation';
 
 const Confirmation = props => {
-  const { router } = props;
   const dispatch = useDispatch();
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const featureToggles = useSelector(selectFeatureToggles);
-  const { isDayOfDemographicsFlagsEnabled } = featureToggles;
-  const { goToErrorPage } = useFormRouting(router);
-  const {
-    getDemographicsConfirmed,
-    setDemographicsConfirmed,
-  } = useSessionStorage(false);
-  const {
-    demographicsData,
-    demographicsFlagsSent,
-    setDemographicsFlagsSent,
-    demographicsFlagsEmpty,
-  } = useDemographicsFlags();
   const refreshAppointments = useCallback(
     () => {
       dispatch(triggerRefresh());
     },
     [dispatch],
   );
-
+  const { router } = props;
+  const { jumpToPage } = useFormRouting(router);
   const selectConfirmationData = useMemo(makeSelectConfirmationData, []);
   const { appointments, selectedAppointment } = useSelector(
     selectConfirmationData,
   );
+  const {
+    getShouldSendDemographicsFlags,
+    setShouldSendDemographicsFlags,
+    getShouldSendTravelPayClaim,
+    setShouldSendTravelPayClaim,
+  } = useSessionStorage(false);
 
   useEffect(
     () => {
-      if (
-        !isDayOfDemographicsFlagsEnabled ||
-        demographicsFlagsSent ||
-        demographicsFlagsEmpty ||
-        getDemographicsConfirmed(window)
-      )
-        return;
-      api.v2
-        .patchDayOfDemographicsData(demographicsData)
-        .then(resp => {
-          if (resp.data.error || resp.data.errors) {
-            throw new Error();
-          } else {
-            setDemographicsFlagsSent(true);
-            setDemographicsConfirmed(window, true);
-          }
-        })
-        .catch(() => {});
+      if (getShouldSendDemographicsFlags(window))
+        setShouldSendDemographicsFlags(window, false);
+      if (getShouldSendTravelPayClaim(window))
+        setShouldSendTravelPayClaim(window, false);
     },
     [
-      demographicsData,
-      demographicsFlagsEmpty,
-      demographicsFlagsSent,
-      getDemographicsConfirmed,
-      goToErrorPage,
-      isDayOfDemographicsFlagsEnabled,
-      setDemographicsConfirmed,
-      setDemographicsFlagsSent,
+      getShouldSendDemographicsFlags,
+      setShouldSendDemographicsFlags,
+      getShouldSendTravelPayClaim,
+      setShouldSendTravelPayClaim,
     ],
   );
 
+  useEffect(
+    () => {
+      if (!selectedAppointment) {
+        triggerRefresh();
+        jumpToPage(URLS.DETAILS);
+      }
+    },
+    [selectedAppointment, jumpToPage],
+  );
+
   return (
-    <MultipleAppointment
-      selectedAppointment={selectedAppointment}
-      appointments={appointments}
-      triggerRefresh={refreshAppointments}
-    />
+    <>
+      {selectedAppointment && (
+        <CheckInConfirmation
+          selectedAppointment={selectedAppointment}
+          appointments={appointments}
+          triggerRefresh={refreshAppointments}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UploadDescription } from '../content/fileUploadDescriptions';
-import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils';
+import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils/schemas';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
 const PTSD_4192_ATTACHMENT_ID = 'L115';

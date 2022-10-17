@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CTALink from '../CTALink';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export const Payments = ({ lastPayment }) => {
   return (
@@ -11,9 +12,21 @@ export const Payments = ({ lastPayment }) => {
         data-testid="payment-card"
       >
         <h3 className="vads-u-margin-top--0" data-testid="deposit-header">
-          We deposited {lastPayment.payCheckAmount} in your account ending in{' '}
-          {lastPayment.accountNumber.substr(-4)} on{' '}
-          {moment(lastPayment.payCheckDt).format('MMMM D, YYYY')}
+          {lastPayment.paymentMethod === 'Paper Check' ? (
+            // eslint-disable-next-line jsx-a11y/aria-role
+            <span role="text">
+              We sent you a payment in the amount of{' '}
+              {lastPayment.payCheckAmount} on{' '}
+              {moment(lastPayment.payCheckDt).format('MMMM D, YYYY')}
+            </span>
+          ) : (
+            // eslint-disable-next-line jsx-a11y/aria-role
+            <span role="text">
+              We deposited {lastPayment.payCheckAmount} in your account ending
+              in {lastPayment.accountNumber.substr(-4)} on{' '}
+              {moment(lastPayment.payCheckDt).format('MMMM D, YYYY')}
+            </span>
+          )}
         </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
           Type: {lastPayment.payCheckType}
@@ -22,6 +35,13 @@ export const Payments = ({ lastPayment }) => {
           text="View your payment history"
           href="/va-payment-history/payments/"
           testId="payment-card-view-history-link"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'View your payment history',
+              'links-list-section-header': 'Benefit payments and debts',
+            });
+          }}
         />
       </div>
     </div>

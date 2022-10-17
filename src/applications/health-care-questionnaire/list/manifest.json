@@ -2,5 +2,6 @@
   "appName": "Questionnaire List",
   "entryFile": "./app-entry.jsx",
   "entryName": "questionnaire-list",
-  "rootUrl": "/health-care/health-questionnaires/questionnaires"
+  "rootUrl": "/health-care/health-questionnaires/questionnaires",
+  "productId": "028188dc-1b83-4d1b-a663-e2206430e823"
 }

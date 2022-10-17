@@ -7,16 +7,12 @@ import './components/LogoRow/styles.scss';
 import './components/OfficialGovtWebsite/styles.scss';
 import './components/Search/styles.scss';
 import './containers/Menu/styles.scss';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import App from './components/App';
 
 export default (store, megaMenuData) => {
   // Derive the widget and its data properties for props.
   const root = document.querySelector(`[data-widget-type="header"]`);
   const props = root?.dataset;
-
-  // Connect feature toggles.
-  connectFeatureToggle(store.dispatch);
 
   // Render the widget.
   if (root) {

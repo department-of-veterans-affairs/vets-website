@@ -7,6 +7,7 @@ import moment from 'moment';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -15,7 +16,6 @@ import {
   setClinic,
   setPreferredDate,
 } from '../../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
@@ -181,7 +181,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     ).to.be.ok;
 
     // it should display link to phone number
-    expect(screen.getByText(/800-273-8255/)).to.have.tagName('a');
+    expect(screen.getByTestId('crisis-hotline-telephone')).to.exist;
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {

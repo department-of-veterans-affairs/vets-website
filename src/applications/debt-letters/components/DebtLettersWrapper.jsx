@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { fetchDebtLetters } from '../actions';
@@ -13,15 +12,19 @@ const DebtLettersWrapper = ({
   showDebtLetters,
   isProfileUpdating,
   isLoggedIn,
-  getDebtLetters,
 }) => {
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (showDebtLetters) {
-        getDebtLetters();
+        const generateFetchDebtLetters = () => {
+          fetchDebtLetters(dispatch);
+        };
+        dispatch(generateFetchDebtLetters);
       }
     },
-    [getDebtLetters, showDebtLetters],
+    [dispatch, showDebtLetters],
   );
 
   if (isPending || isPendingVBMS || isProfileUpdating) {
@@ -66,13 +69,8 @@ const mapStateToProps = state => ({
   ],
 });
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ getDebtLetters: fetchDebtLetters }, dispatch),
-});
-
 DebtLettersWrapper.propTypes = {
   children: PropTypes.array,
-  getDebtLetters: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   isPending: PropTypes.bool,
   isPendingVBMS: PropTypes.bool,
@@ -85,7 +83,4 @@ DebtLettersWrapper.defaultProps = {
   isPendingVBMS: false,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DebtLettersWrapper);
+export default connect(mapStateToProps)(DebtLettersWrapper);

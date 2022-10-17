@@ -38,7 +38,7 @@ export const INITIAL_STATE = {
   isValid: true,
 };
 
-const validateForm = (oldState, payload) => {
+export const validateForm = (oldState, payload) => {
   const newState = {
     ...oldState,
     ...payload,

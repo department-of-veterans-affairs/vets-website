@@ -9,30 +9,37 @@ import {
 } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import CopyAddressModal from './CopyAddressModal';
+import { formatAddressTitle } from '@@profile/util/contact-information/addressUtils';
+
+import CopyAddressModalController from './CopyAddressModalController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
+import BadAddressAlert from '../../alerts/bad-address/FormAlert';
 
-const AddressesTable = ({ className }) => (
+const AddressesTable = ({ className, showBadAddress }) => (
   <>
-    <CopyAddressModal />
+    <CopyAddressModalController />
     <ProfileInfoTable
       title="Addresses"
       level={2}
       namedAnchor="addresses"
       data={[
         {
-          title: FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS],
+          title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]),
           description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
           id: FIELD_IDS[FIELD_NAMES.MAILING_ADDRESS],
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.MAILING_ADDRESS}
+              ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
             />
           ),
+          alertMessage: showBadAddress ? <BadAddressAlert /> : null,
         },
         {
-          title: FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+          title: formatAddressTitle(
+            FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+          ),
           description:
             FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
           id: FIELD_IDS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
@@ -51,6 +58,7 @@ const AddressesTable = ({ className }) => (
 
 AddressesTable.propTypes = {
   className: PropTypes.string,
+  showBadAddress: PropTypes.bool,
 };
 
 export default AddressesTable;

@@ -16,27 +16,32 @@ export function ConnectedAppDeleteModal({
       cssClass="va-modal"
       id="disconnect-alert"
       onClose={closeModal}
-      title={`Please confirm that you want to disconnect ${title}`}
+      title="Are you sure?"
       visible={modalOpen}
       status="warning"
     >
       <p>
-        Once you disconnect this app, it won’t have access to new information
-        from your VA.gov profile. This may affect how useful the app is to you.
+        After you disconnect this app, the app won’t have access to new
+        information from your VA.gov profile. This may affect how useful the app
+        is to you.
+      </p>
+      <p>
+        Some apps might store information you’ve already shared after you
+        disconnect. If you want your stored information deleted from the app,
+        contact the app’s customer support.
       </p>
 
       {!deleting && (
         <>
-          <button className="usa-button-secondary" onClick={closeModal}>
-            Cancel
-          </button>
-
           <button
             className="usa-button-primary"
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
           >
             Disconnect
+          </button>
+          <button className="usa-button-secondary" onClick={closeModal}>
+            Cancel
           </button>
         </>
       )}

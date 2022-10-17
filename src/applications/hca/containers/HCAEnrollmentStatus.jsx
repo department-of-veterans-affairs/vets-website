@@ -1,34 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getEnrollmentStatus } from '../actions';
+import EnrollmentStatusWarning from '../components/FormAlerts/EnrollmentStatusWarning';
+import EnrollmentStatusFAQ from '../components/EnrollmentStatus/EnrollmentStatusFAQ';
+import { getEnrollmentStatus as getEnrollmentStatusAction } from '../utils/actions';
 
-import HCAEnrollmentStatusWarning from '../components/HCAEnrollmentStatusWarning';
-import HCAEnrollmentStatusFAQ from '../components/HCAEnrollmentStatusFAQ';
+const HCAEnrollmentStatus = props => {
+  const { route, enrollmentStatus, getEnrollmentStatus } = props;
 
-class HCAEnrollmentStatus extends React.Component {
-  componentDidMount() {
-    this.props.getEnrollmentStatus();
-  }
+  useEffect(() => {
+    getEnrollmentStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  render() {
-    const { enrollmentStatus, route } = this.props;
-    if (enrollmentStatus) {
-      return (
-        <>
-          <HCAEnrollmentStatusWarning {...this.props} />
-          <HCAEnrollmentStatusFAQ
-            enrollmentStatus={enrollmentStatus}
-            route={route}
-          />
-        </>
-      );
-    }
-    return null;
-  }
-}
+  return enrollmentStatus ? (
+    <>
+      <EnrollmentStatusWarning {...props} />
+      <EnrollmentStatusFAQ enrollmentStatus={enrollmentStatus} route={route} />
+    </>
+  ) : null;
+};
 
-export { HCAEnrollmentStatus };
+HCAEnrollmentStatus.propTypes = {
+  enrollmentStatus: PropTypes.string,
+  getEnrollmentStatus: PropTypes.func,
+  route: PropTypes.object,
+};
 
 const mapStateToProps = state => {
   const {
@@ -46,9 +44,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getEnrollmentStatus,
+  getEnrollmentStatus: getEnrollmentStatusAction,
 };
 
+export { HCAEnrollmentStatus };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

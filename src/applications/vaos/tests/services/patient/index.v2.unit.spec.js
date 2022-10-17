@@ -64,6 +64,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same
@@ -79,7 +84,8 @@ describe('VAOS Patient service v0/v2 comparison', () => {
 
       // And the user has available clinics
       const clinic = {
-        id: '455',
+        // Changed to a invalid clinic id so eligibility check failed reasons will match
+        id: '4555',
         stationId: '983',
         name: 'BAD NAME',
         friendlyName: 'Clinic name',
@@ -94,6 +100,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             '125': {
               direct: {
                 enabled: true,
+                patientHistoryRequired: true,
               },
               request: {
                 enabled: true,
@@ -144,10 +151,21 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
-      // Then both results are the same
-      expect(differences).to.be.empty;
+      // Then the results have the following differences
+      expect(differences).to.have.deep.members([
+        {
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
+        },
+      ]);
     });
 
     it('should match when using primary care', async () => {
@@ -226,8 +244,14 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       ]);
       const differences = diff(v0Result, v2Result);
 
-      // Then both results are the same
-      expect(differences).to.be.empty;
+      // Then the results have the following differences
+      expect(differences).to.have.deep.members([
+        {
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
+        },
+      ]);
     });
 
     it('should match when requests and direct scheduling are disabled', async () => {
@@ -401,10 +425,21 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
-      // Then both results are the same
-      expect(differences).to.be.empty;
+      // Then the results have the following differences
+      expect(differences).to.have.deep.members([
+        {
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
+        },
+      ]);
     });
 
     it('should match when passing past clinic check', async () => {
@@ -431,6 +466,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             '125': {
               direct: {
                 enabled: true,
+                patientHistoryRequired: true,
               },
               request: {
                 enabled: true,
@@ -465,6 +501,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             version: 2,
           }),
         ],
+        pastClinics: true,
         version: 2,
       });
 
@@ -483,10 +520,26 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
-      // Then both results are the same
-      expect(differences).to.be.empty;
+      // Then the results have the following differences
+      expect(differences).to.have.deep.members([
+        {
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
+        },
+        {
+          op: 'add',
+          path: ['eligibility', 'directReasons', 1],
+          value: 'noMatchingClinics',
+        },
+      ]);
     });
 
     it('should match when DS is disabled by toggle', async () => {
@@ -596,6 +649,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             '125': {
               direct: {
                 enabled: true,
+                patientHistoryRequired: true,
               },
               request: {
                 enabled: true,
@@ -632,6 +686,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             version: 2,
           }),
         ],
+        pastClinics: true,
         version: 2,
       });
 
@@ -650,10 +705,27 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
-      // Then both results are the same
-      expect(differences).to.be.empty;
+      // Then the results have the following differences
+      expect(differences).to.have.deep.members([
+        { op: 'replace', path: ['eligibility', 'direct'], value: false },
+        {
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
+        },
+        {
+          op: 'add',
+          path: ['eligibility', 'directReasons', 0],
+          value: 'noMatchingClinics',
+        },
+      ]);
     });
   });
 });

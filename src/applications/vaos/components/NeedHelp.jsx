@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
@@ -25,14 +22,20 @@ export default function NeedHelp() {
       <p className="vads-u-margin-top--0">
         To report a technical issue with the VA appointments tool, or if you
         have a question about using the tool, please call{' '}
-        <Telephone contact="8774705947" /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        <VaTelephone
+          contact="8774705947"
+          data-testid="technical-issue-telephone"
+        />{' '}
+        (<VaTelephone contact="711" tty data-testid="tty-telephone" />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         For questions about joining a VA Video Connect appointment, please call{' '}
-        <Telephone contact="8666513180" /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+        <VaTelephone
+          contact="8666513180"
+          data-testid="video-question-telephone"
+        />{' '}
+        (<VaTelephone contact="711" tty />
         ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">

@@ -1,29 +1,7 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { selectProfile } from 'platform/user/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-export const loginGov = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGov];
-
-export const loginGovDisabled = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovDisabled];
-
-export const loginGovCreateAccount = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
-
-export const loginGovMHV = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovMHV];
-
-export const loginGovMyVAHealth = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovMyVAHealth];
-
-export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
-
-export const ssoeInbound = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.ssoeInbound];
-
-export const ssoeEbenefitsLinks = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.ssoeEbenefitsLinks];
+import { selectProfile } from 'platform/user/selectors';
+import { infoTokenExists } from 'platform/utilities/oauth/utilities';
 
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
@@ -34,8 +12,14 @@ export const signInServiceName = state =>
 export const isAuthenticatedWithSSOe = state =>
   selectProfile(state)?.session?.ssoe;
 
+export const isAuthenticatedWithOAuth = state =>
+  selectProfile(state)?.session?.authBroker === 'sis' || infoTokenExists();
+
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
 
 export const transitionMHVAccount = state =>
-  state.user.profile.mhvTransitionEligible ?? false;
+  selectProfile(state)?.mhvTransitionEligible;
+
+export const signInServiceEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];

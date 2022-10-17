@@ -350,7 +350,7 @@ describe('VAOS <VAFacilityPage>', () => {
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
-      expect(screen.getByText(/406-555-5858/i)).to.exist;
+      expect(screen.getAllByTestId('facility-telephone')).to.exist;
       expect(screen.getByText(/Facility 124/i)).to.exist;
       expect(screen.queryByText(/Facility 125/i)).not.to.exist;
     });
@@ -455,7 +455,7 @@ describe('VAOS <VAFacilityPage>', () => {
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
-      expect(screen.getByText(/406-555-5858/i)).to.exist;
+      expect(screen.getAllByTestId('facility-telephone')).to.exist;
       expect(screen.getByText(/Facility 124/i)).to.exist;
       expect(screen.getByText(/Facility 125/i)).to.exist;
       expect(screen.getByText(/Facility 126/i)).to.exist;
@@ -583,7 +583,7 @@ describe('VAOS <VAFacilityPage>', () => {
       await screen.findByText(/Facility that is disabled/i);
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
       expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
-      expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
+      expect(screen.getByTestId('facility-telephone')).to.exist;
       expect(
         screen.queryByText(
           /Facility that is over 100 miles away and disabled/i,
@@ -887,10 +887,12 @@ describe('VAOS <VAFacilityPage>', () => {
       ).to.contain('pages%2Fscheduling%2Fupcoming');
 
       userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
-      expect(await screen.findByText(/Vista facility/i)).to.be.ok;
+      await waitFor(() => {
+        expect(screen.getByText(/Vista facility/i));
+      });
+
       // Make sure Cerner facilities show up only once
       expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
-
       userEvent.click(screen.getByLabelText(/First cerner facility/i));
       userEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>

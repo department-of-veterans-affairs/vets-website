@@ -1,18 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { loginGovDisabled } from 'platform/user/authentication/selectors';
 
 const ServiceProvidersList = React.memo(() => {
-  const loginGovOff = useSelector(state => loginGovDisabled(state));
-
   return (
     <>
       <ul>
-        {!loginGovOff && (
-          <li>
-            A verified <strong>Login.gov</strong> account, <strong>or</strong>
-          </li>
-        )}
+        <li>
+          A verified <strong>Login.gov</strong> account, <strong>or</strong>
+        </li>
         <li>
           A verified <strong>ID.me</strong> account, <strong>or</strong>
         </li>
@@ -25,12 +19,7 @@ const ServiceProvidersList = React.memo(() => {
       </ul>
       <p>
         If you don’t have one of these accounts, you can create a free{' '}
-        {!loginGovOff && (
-          <>
-            <strong>Login.gov</strong> or{' '}
-          </>
-        )}
-        <strong>ID.me</strong> account.
+        <strong>Login.gov</strong> or <strong>ID.me</strong> account.
       </p>
     </>
   );

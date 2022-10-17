@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import ViewPaymentsLists from '../components/view-payments-lists/ViewPaymentsLists.jsx';
+import backendServices from 'platform/user/profile/constants/backendServices';
+
+import ViewPaymentsLists from '../components/view-payments-lists/ViewPaymentsLists';
 
 function ViewPaymentsApp(props) {
   return (
@@ -41,6 +44,10 @@ function ViewPaymentsApp(props) {
 const mapStateToProps = state => ({
   user: state.user,
 });
+
+ViewPaymentsApp.propTypes = {
+  user: PropTypes.object,
+};
 
 export default connect(mapStateToProps)(ViewPaymentsApp);
 export { ViewPaymentsApp };

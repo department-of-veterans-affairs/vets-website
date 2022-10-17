@@ -6,7 +6,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { employmentDescription } from '../content/employmentHistory';
 import EmploymentHistoryCard from '../components/EmploymentHistoryCard';
-import { addressUISchema } from '../utils';
+import { addressUISchema } from '../utils/schemas';
 
 const {
   previousEmployers,

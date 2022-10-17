@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -12,7 +13,7 @@ import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 
 export class LetterList extends React.Component {
   componentDidMount() {
-    focusElement('.nav-header');
+    focusElement('h2#nav-form-header');
   }
 
   render() {
@@ -124,9 +125,9 @@ export class LetterList extends React.Component {
               </strong>
             </a>
           </li>
-          <li>
+          {/* <li> // COE to be launched on VA.gov soon
             <a
-              href="https://eauth.va.gov/ebenefits/coe"
+              href="/housing-assistance/home-loans/request-coe-form-26-1880"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -135,16 +136,15 @@ export class LetterList extends React.Component {
                 (COE) for your home loan benefits.
               </strong>
             </a>
-          </li>
+          </li> */}
           <li>
             <a
-              href="https://eauth.va.gov/ebenefits/DPRIS"
+              href="/records/get-military-service-records/"
               rel="noopener noreferrer"
               target="_blank"
             >
               <strong>
-                Sign in to eBenefits to request a copy of your discharge or
-                separation papers (DD 214).
+                Request your military service records (including DD214).
               </strong>
             </a>
           </li>
@@ -172,5 +172,17 @@ function mapStateToProps(state) {
     optionsAvailable: letterState.optionsAvailable,
   };
 }
+
+LetterList.propTypes = {
+  letterDownloadStatus: PropTypes.shape({}),
+  letters: PropTypes.arrayOf(
+    PropTypes.shape({
+      letterType: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  ),
+  lettersAvailability: PropTypes.string,
+  optionsAvailable: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(LetterList);

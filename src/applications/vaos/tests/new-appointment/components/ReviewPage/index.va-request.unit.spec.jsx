@@ -147,7 +147,7 @@ describe('VAOS <ReviewPage> VA request', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('2345678902');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
@@ -200,7 +200,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',
     );
 
-    await screen.findByText('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
@@ -326,6 +326,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     store = createTestStore(defaultState);
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -347,10 +350,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
-        text: 'Routine Follow-up',
+        text: 'I need an appt',
       },
       contact: {
         telecom: [
@@ -392,6 +394,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     });
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -413,9 +418,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
-        coding: [],
         text: 'I need an appt',
       },
       contact: {
@@ -458,7 +461,11 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     });
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
+    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -520,7 +527,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(alert).to.contain.text('Cheyenne, WyomingWY');
     expect(within(alert).getByText(/82001-5356/)).to.be.ok;
-    expect(within(alert).getByText(/307-778-7550/)).to.be.ok;
+    expect(within(alert).getByTestId('facility-telephone')).to.be.ok;
 
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {

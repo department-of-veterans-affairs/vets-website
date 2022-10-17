@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import claimDetail from '../../reducers/claim-detail';
-import { SET_CLAIM_DETAIL, GET_CLAIM_DETAIL } from '../../actions';
+import { SET_CLAIM_DETAIL, GET_CLAIM_DETAIL } from '../../actions/types';
 
 describe('Claim detail reducer', () => {
   it('should set detail', () => {

@@ -4,10 +4,17 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 /* eslint-disable camelcase */
 const mockUser = {
   data: {
+    id: '',
+    type: 'users_scaffolds',
     attributes: {
+      account: {
+        account_uuid: '777bfa-2cbb-98fc-zz-9231fbac',
+      },
       profile: {
         sign_in: {
-          service_name: CSP_IDS.ID_ME,
+          service_name: CSP_IDS.DS_LOGON,
+          account_type: '2',
+          ssoe: false,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
@@ -17,6 +24,10 @@ const mockUser = {
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
+        authn_context: 'dslogon',
+        multifactor: true,
+        zip: '21076',
+        last_signed_in: '2022-05-18T22:02:02.188Z',
       },
       veteran_status: {
         status: 'OK',
@@ -43,10 +54,10 @@ const mockUser = {
       ],
       va_profile: {
         status: 'OK',
-        birth_date: '19511118',
-        family_name: 'Hunter',
-        gender: 'M',
-        given_names: ['Julio', 'E'],
+        birth_date: '19850101',
+        family_name: 'Doe',
+        gender: 'F',
+        given_names: ['Jane', 'E'],
         active_status: 'active',
         facilities: [
           {
@@ -58,6 +69,9 @@ const mockUser = {
             isCerner: false,
           },
         ],
+        is_cerner_patient: false,
+        va_patient: true,
+        mhv_account_state: 'OK',
       },
     },
   },

@@ -1,9 +1,9 @@
 import React from 'react';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import { ancillaryFormUploadUi } from '../utils';
+import { ancillaryFormUploadUi } from '../utils/schemas';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const { unemployabilityAttachments } = fullSchema.properties;
 

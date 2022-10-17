@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { fetchVAFacility } from '../actions';
 import AccessToCare from '../components/AccessToCare';
 import LocationAddress from '../components/search-results-items/common/LocationAddress';
@@ -9,16 +10,17 @@ import LocationDirectionsLink from '../components/search-results-items/common/Lo
 import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
-import { OperatingStatus, FacilityType } from '../constants';
+import { FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+
+import OperationStatus from '../components/facility-details/OperationStatus';
 
 class FacilityDetail extends Component {
   headerRef = React.createRef();
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id, null);
@@ -44,60 +46,6 @@ class FacilityDetail extends Component {
     document.title = this.__previousDocTitle;
   }
 
-  visitText(facilityType, website) {
-    if (facilityType === FacilityType.VA_CEMETARY) {
-      return (
-        <p>
-          For more information about the cemetery including interment, visit our{' '}
-          <a href={website}>cemetery website</a>.
-        </p>
-      );
-    }
-    return (
-      <p>
-        Visit the <a href={website}>website</a> to learn more about hours and
-        services.
-      </p>
-    );
-  }
-
-  showOperationStatus(operatingStatus, website, facilityType) {
-    if (!operatingStatus || operatingStatus.code === 'NORMAL') {
-      return null;
-    }
-    let operationStatusTitle;
-    let alertClass;
-    if (operatingStatus.code === OperatingStatus.NOTICE) {
-      operationStatusTitle = 'Facility notice';
-      alertClass = 'info';
-    }
-    if (operatingStatus.code === OperatingStatus.LIMITED) {
-      operationStatusTitle = 'Limited services and hours';
-      alertClass = 'info';
-    }
-    if (operatingStatus.code === OperatingStatus.CLOSED) {
-      operationStatusTitle = 'Facility Closed';
-      alertClass = 'error';
-    }
-    return (
-      <AlertBox
-        level={2}
-        headline={`${operationStatusTitle}`}
-        content={
-          <div>
-            {operatingStatus.additionalInfo && (
-              <p>{operatingStatus.additionalInfo} </p>
-            )}
-            {website &&
-              website !== 'NULL' &&
-              this.visitText(facilityType, website)}
-          </div>
-        }
-        status={`${alertClass}`}
-      />
-    );
-  }
-
   renderFacilityInfo() {
     const { facility } = this.props;
     const {
@@ -114,12 +62,12 @@ class FacilityDetail extends Component {
         <h1 ref={this.headerRef} tabIndex={-1}>
           {name}
         </h1>
-        {this.showOperationStatus(operatingStatus, website, facilityType)}
+        <OperationStatus {...{ operatingStatus, website, facilityType }} />
         <div className="p1">
           <LocationAddress location={facility} />
         </div>
         <div>
-          <LocationPhoneLink location={facility} from={'FacilityDetail'} />
+          <LocationPhoneLink location={facility} from="FacilityDetail" />
         </div>
         {website &&
           website !== 'NULL' && (
@@ -131,7 +79,7 @@ class FacilityDetail extends Component {
             </span>
           )}
         <div>
-          <LocationDirectionsLink location={facility} from={'FacilityDetail'} />
+          <LocationDirectionsLink location={facility} from="FacilityDetail" />
         </div>
         {phone &&
           phone.main &&
@@ -159,7 +107,7 @@ class FacilityDetail extends Component {
     if (currentQuery.inProgress) {
       return (
         <div>
-          <LoadingIndicator message="Loading information..." />
+          <va-loading-indicator message="Loading information..." />
         </div>
       );
     }
@@ -210,3 +158,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(FacilityDetail);
+
+FacilityDetail.propTypes = {
+  currentQuery: PropTypes.object,
+  facility: PropTypes.object,
+  fetchVAFacility: PropTypes.func,
+  params: PropTypes.object,
+  showHoursSpecialInstructions: PropTypes.bool,
+};

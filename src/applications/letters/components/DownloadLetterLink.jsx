@@ -37,7 +37,7 @@ export class DownloadLetterLink extends React.Component {
         buttonDisabled = true;
         break;
       case DOWNLOAD_STATUSES.success:
-        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonClasses = 'usa-button-primary';
         buttonText = 'Download letter';
         buttonDisabled = false;
         message = (
@@ -51,7 +51,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       case DOWNLOAD_STATUSES.failure:
-        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonClasses = 'usa-button-primary';
         buttonText = 'Retry download';
         buttonDisabled = false;
         message = (
@@ -65,7 +65,7 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       default:
-        buttonClasses = 'usa-button-primary va-button-primary';
+        buttonClasses = 'usa-button-primary';
         buttonText = 'Download letter';
         buttonDisabled = false;
     }

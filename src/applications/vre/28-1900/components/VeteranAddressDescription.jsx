@@ -13,7 +13,7 @@ export const VeteranAddressDescription = () => (
       contact information for all of your VA accounts, please go to your profile
       page.{' '}
     </p>
-    <a href="/profile">
+    <a href="/profile/contact-information">
       Go to your profile page to update your contact information
     </a>
   </div>

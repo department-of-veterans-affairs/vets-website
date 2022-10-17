@@ -17,6 +17,6 @@ describe('Pre-Check In Experience ', () => {
   it('a new sessions redirects to validate page', () => {
     cy.visitPreCheckInWithUUID();
     cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
   });
 });

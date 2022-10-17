@@ -15,8 +15,10 @@ describe('Pre-Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializePreCheckInDataGet,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
+      initializeDemographicsPatch.withSuccess();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();

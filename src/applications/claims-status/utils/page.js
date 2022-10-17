@@ -1,12 +1,5 @@
-import Scroll from 'react-scroll';
-
-const scroller = Scroll.animateScroll;
-
-import { getScrollOptions } from 'platform/utilities/ui';
-
-export function scrollToTop() {
-  scroller.scrollToTop(getScrollOptions());
-}
+import { scrollAndFocus } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 export function setFocus(selector) {
   const el =
@@ -20,7 +13,7 @@ export function setFocus(selector) {
 export function setPageFocus(selector = '.va-nav-breadcrumbs') {
   const el = document.querySelector(selector);
   if (el) {
-    setFocus(el);
+    scrollAndFocus(el);
   } else {
     setFocus('#main h1');
   }
@@ -33,7 +26,7 @@ export function setUpPage(
   if (!scroll) {
     scrollToTop();
   }
-  setPageFocus(focusSelector);
+  scrollAndFocus(document.querySelector(focusSelector));
 }
 
 export function isTab(url) {

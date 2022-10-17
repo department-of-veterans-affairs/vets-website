@@ -29,7 +29,7 @@ describe('Check In Experience -- ', () => {
     cy.visit(featureRoute);
     // redirected back to landing page to reload the data
     cy.url().should('match', /verify/);
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     cy.injectAxeThenAxeCheck();
   });
 });

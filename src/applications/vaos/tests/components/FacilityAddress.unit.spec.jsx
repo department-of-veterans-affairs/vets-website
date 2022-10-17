@@ -24,7 +24,7 @@ const facility = {
 
 describe('VAOS <FacilityAddress>', () => {
   it('should render address for va facility', () => {
-    const address = facility.address;
+    const { address } = facility;
     const screen = render(<FacilityAddress facility={facility} />);
 
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
@@ -33,14 +33,13 @@ describe('VAOS <FacilityAddress>', () => {
         address.postalCode
       }`,
     );
-    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
-      .exist;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.queryByText('Directions')).not.to.exist;
   });
 
   it('should show directions link if showDirectionsLink === true', () => {
-    const address = facility.address;
+    const { address } = facility;
     const screen = render(
       <FacilityAddress facility={facility} showDirectionsLink />,
     );
@@ -51,14 +50,13 @@ describe('VAOS <FacilityAddress>', () => {
         address.postalCode
       }`,
     );
-    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 4 1.' })).to
-      .exist;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.getByText(/^Directions/)).to.exist;
   });
 
   it('should render COVID vaccine phone line for va facility', () => {
-    const address = facility.address;
+    const { address } = facility;
     const facilityWithCovidLine = {
       ...facility,
       telecom: [
@@ -78,8 +76,7 @@ describe('VAOS <FacilityAddress>', () => {
         address.postalCode
       }`,
     );
-    expect(screen.getByRole('link', { name: '8 5 8. 6 8 9. 2 2 2 2.' })).to
-      .exist;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.queryByText('Directions')).not.to.exist;
   });

@@ -2,7 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { PersonalizationDropdown } from '../../components/PersonalizationDropdown';
+import { logoutUrl } from 'platform/user/authentication/utilities';
+import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
+import { PersonalizationDropdown } from 'platform/site-wide/user-nav/components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
   let oldWindow = null;
@@ -58,6 +60,22 @@ describe('<PersonalizationDropdown>', () => {
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent.event).to.equal('nav-user');
     expect(recordedEvent['nav-user-section']).to.equal('profile');
+    wrapper.unmount();
+  });
+
+  it('should use the logoutUrl if using SSOe', () => {
+    const wrapper = shallow(<PersonalizationDropdown isSSOe />);
+    const signoutLink = wrapper.find('a').at(3);
+    const expectedUrl = logoutUrl();
+    expect(signoutLink.prop('href')).to.equal(expectedUrl);
+    wrapper.unmount();
+  });
+
+  it('should use the logoutUrlSiS if using OAuth', () => {
+    const wrapper = shallow(<PersonalizationDropdown />);
+    const signoutLink = wrapper.find('a').at(3);
+    const expectedUrl = logoutUrlSiS();
+    expect(signoutLink.prop('href')).to.equal(expectedUrl);
     wrapper.unmount();
   });
 });

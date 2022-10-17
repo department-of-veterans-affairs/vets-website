@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -24,7 +23,7 @@ class ConfirmationPage extends React.Component {
   };
 
   render() {
-    const form = this.props.form;
+    const { form } = this.props;
     const response = form.submission.response ? form.submission.response : {};
     const {
       'view:claimedBenefits': benefits,
@@ -37,20 +36,32 @@ class ConfirmationPage extends React.Component {
 
     const submittedAt = moment(form.submission.submittedAt);
     const offset = submittedAt.isDST() ? '-0500' : '-0600';
+    const handlers = {
+      print: () => window.print(),
+    };
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim submitted</h3>
+        <div className="print-only">
+          <img
+            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+            alt="VA logo"
+            width="300"
+          />
+        </div>
+        <h2 className="confirmation-page-title vads-u-font-size--h3">
+          Claim submitted
+        </h2>
         <p>
           We process claims in the order we receive them. Please print this page
           for your records.
         </p>
         <p>We may contact you for more information or documents.</p>
         <div className="inset">
-          <h4>
+          <h3 className="vads-u-margin-top--0">
             Burial Benefit Claim{' '}
             <span className="additional">(Form 21P-530)</span>
-          </h4>
+          </h3>
           <span>
             for {claimantName.first} {claimantName.middle} {claimantName.last}{' '}
             {claimantName.suffix}
@@ -58,13 +69,11 @@ class ConfirmationPage extends React.Component {
 
           <ul className="claim-list">
             <li>
-              <strong>Confirmation number</strong>
-              <br />
+              <h4>Confirmation number</h4>
               <span>{response.confirmationNumber}</span>
             </li>
             <li>
-              <strong>Date submitted</strong>
-              <br />
+              <h4>Date submitted</h4>
               <span>
                 {submittedAt
                   .utcOffset(offset)
@@ -72,28 +81,26 @@ class ConfirmationPage extends React.Component {
               </span>
             </li>
             <li>
-              <strong>Deceased Veteran</strong>
-              <br />
+              <h4>Deceased Veteran</h4>
               <span>
                 {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
                 {veteranName.suffix}
               </span>
             </li>
             <li>
-              <strong>Benefits claimed</strong>
-              <br />
-              {_.map(
-                benefits,
-                (isRequested, benefitName) =>
-                  isRequested && (
-                    <p key={benefitName}>{benefitsLabels[benefitName]}</p>
-                  ),
-              )}
+              <h4>Benefits claimed</h4>
+              <ul>
+                {Object.entries(benefits).map(([benefitName, isRequested]) => {
+                  const label = benefitsLabels[benefitName];
+                  return isRequested && label ? (
+                    <li key={benefitName}>{label}</li>
+                  ) : null;
+                })}
+              </ul>
             </li>
             {hasDocuments && (
               <li>
-                <strong>Documents uploaded</strong>
-                <br />
+                <h4>Documents uploaded</h4>
                 {deathCertificate && <p>Death certificate: 1 file</p>}
                 {transportationReceipts && (
                   <p>
@@ -105,31 +112,35 @@ class ConfirmationPage extends React.Component {
               </li>
             )}
             <li>
-              <strong>Your claim was sent to</strong>
-              <br />
+              <h4>Your claim was sent to</h4>
               <address className="schemaform-address-view">
-                {_.map(response.regionalOffice, (line, index) => (
+                {response?.regionalOffice?.map((line, index) => (
                   <p key={index}>{line}</p>
                 ))}
               </address>
             </li>
           </ul>
+          <button
+            type="button"
+            className="usa-button screen-only"
+            onClick={handlers.print}
+          >
+            Print for your records
+          </button>
         </div>
         <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">Need help?</h4>
+          <h3 className="confirmation-guidance-heading">Need help?</h3>
           <p className="confirmation-guidance-message">
-            If you have questions, call{' '}
-            <a href="tel:1-800-827-1000">800-827-1000</a>, Monday &#8211;
-            Friday, 8:00 a.m. &#8211; 9:00 p.m. ET. Please have your Social
-            Security number or VA file number ready. For Telecommunication Relay
-            Services, dial <a href="tel:711">711</a>.
+            If you have questions, call <va-telephone contact="8008271000" />,
+            Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. Please have your
+            Social Security number or VA file number ready. For
+            Telecommunication Relay Services, dial{' '}
+            <va-telephone contact="711" />.
           </p>
         </div>
         <div className="row form-progress-buttons schemaform-back-buttons">
           <div className="small-6 usa-width-one-half medium-6 columns">
-            <a href="/">
-              <button className="usa-button-primary">Go back to VA.gov</button>
-            </a>
+            <a href="/">Go back to VA.gov</a>
           </div>
         </div>
       </div>

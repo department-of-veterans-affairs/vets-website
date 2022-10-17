@@ -1,22 +1,27 @@
-// Node modules.
+// 3rd-party imports
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-// Relative imports.
+
+// 1st-party imports
 import { Header } from '.';
 
 describe('Header <Header>', () => {
-  it('renders content', () => {
-    // Set up.
-    const wrapper = shallow(<Header showMegaMenu showNavLogin />);
+  const renderHeader = () => shallow(<Header showMegaMenu showNavLogin />);
 
+  // Component Wrapper
+  let wrapper;
+
+  beforeEach(() => {
+    // Set up.
+    wrapper = renderHeader();
+  });
+
+  it('renders content', () => {
     // Assertions.
     expect(wrapper.find('OfficialGovtWebsite')).to.have.lengthOf(1);
     expect(wrapper.find('VeteranCrisisLine')).to.have.lengthOf(1);
     expect(wrapper.find('Connect(LogoRow)')).to.have.lengthOf(1);
     expect(wrapper.find('Connect(Menu)')).to.have.lengthOf(1);
-
-    // Clean up.
-    wrapper.unmount();
   });
 });

@@ -1,24 +1,46 @@
-import React from 'react';
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import InsuranceProviderView from '../../../components/InsuranceProviderView';
-
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import InsuranceProviderViewField from '../../../components/FormFields/InsuranceProviderViewField';
 import {
-  healthInsuranceCoverageQuestionDescription,
-  hasTricareWhatIsMyPolicyNumberDescription,
-  healthInsuranceDescription,
-} from '../../../helpers';
+  GroupCodeDescription,
+  HealthInsuranceDescription,
+  HealthInsuranceCoverageDescription,
+  PolicyNumberDescription,
+  PolicyOrDescription,
+  PolicyOrGroupDescription,
+  TricarePolicyDescription,
+} from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
+const ariaLabelfunc = data => {
+  const INSURANCE_TITLE = `${data.insuranceName} ${data.insurancePolicyNumber ??
+    data.insuranceGroupCode}`;
+  return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
+};
+
 export default {
   uiSchema: {
-    'ui:description': healthInsuranceDescription,
+    'view:generalShortFormMessage': {
+      'ui:description': ShortFormAlert,
+      'ui:options': {
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+      },
+    },
+    'view:healthInsuranceDescription': {
+      'ui:description': HealthInsuranceDescription,
+    },
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
-      'ui:description': healthInsuranceCoverageQuestionDescription,
+      'ui:description': HealthInsuranceCoverageDescription,
+      'ui:reviewField': CustomYesNoReviewField,
       'ui:widget': 'yesNo',
     },
     providers: {
@@ -26,12 +48,16 @@ export default {
         expandUnder: 'isCoveredByHealthInsurance',
         itemName: 'insurance policy',
         hideTitle: true,
-        viewField: InsuranceProviderView,
+        viewField: InsuranceProviderViewField,
+        itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
+        'ui:options': {
+          itemAriaLabel: ariaLabelfunc,
+        },
         insuranceName: {
           'ui:title': 'Name of insurance provider',
         },
@@ -40,45 +66,23 @@ export default {
             'Name of policyholder (the person whose name the policy is in)',
         },
         'view:policyOrGroupDesc': {
-          'ui:description': (
-            <div className="vads-u-margin-top--6 vads-u-margin-bottom--2 schemaform-block-title schemaform-block-subtitle vads-u-color--primary-darkest">
-              {' '}
-              Provide either your insurance policy number or group code.{' '}
-              <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-                (*Required)
-              </span>
-            </div>
-          ),
+          'ui:description': PolicyOrGroupDescription,
         },
         'view:hasTricare': {
-          'ui:description': hasTricareWhatIsMyPolicyNumberDescription,
+          'ui:description': TricarePolicyDescription,
         },
         insurancePolicyNumber: {
-          'ui:title': (
-            <div>
-              <p className="vads-u-margin-bottom--1">Policy number</p>
-              <p className="vads-u-color--gray vads-u-margin-top--0 vads-u-margin-bottom--0">
-                Either this or the group code is required
-              </p>
-            </div>
-          ),
+          'ui:title': 'Policy Number',
+          'ui:description': PolicyNumberDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'view:or': {
-          'ui:description': (
-            <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darkest">
-              or
-            </div>
-          ),
+          'ui:description': PolicyOrDescription,
         },
         insuranceGroupCode: {
-          'ui:title': (
-            <div>
-              <p className="vads-u-margin-bottom--1">Group code</p>
-              <p className="vads-u-color--gray vads-u-margin-top--0 vads-u-margin-bottom--0">
-                Either this or the policy number is required
-              </p>
-            </div>
-          ),
+          'ui:title': 'Group Code',
+          'ui:description': GroupCodeDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'ui:validations': [
           (errors, field) => {
@@ -108,6 +112,8 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
+      'view:generalShortFormMessage': emptyObjectSchema,
+      'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {
         type: 'array',
@@ -115,18 +121,9 @@ export default {
         items: merge({}, provider, {
           required: ['insuranceName', 'insurancePolicyHolderName'],
           properties: {
-            'view:policyOrGroupDesc': {
-              type: 'object',
-              properties: {},
-            },
-            'view:hasTricare': {
-              type: 'object',
-              properties: {},
-            },
-            'view:or': {
-              type: 'object',
-              properties: {},
-            },
+            'view:policyOrGroupDesc': emptyObjectSchema,
+            'view:hasTricare': emptyObjectSchema,
+            'view:or': emptyObjectSchema,
           },
         }),
       },

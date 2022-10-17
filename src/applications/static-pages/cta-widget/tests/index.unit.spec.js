@@ -20,7 +20,12 @@ const defaultOptions = {
   mviStatus: {},
 };
 
-const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
+const getData = ({
+  profile = {},
+  mhvAccount = {},
+  mviStatus = {},
+  featureToggles = {},
+} = {}) => ({
   props: {
     profile: {
       ...defaultOptions.profile,
@@ -40,6 +45,7 @@ const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
     getState: () => ({
       featureToggles: {
         loading: false,
+        ...featureToggles,
       },
       user: {
         profile: {
@@ -76,7 +82,6 @@ describe('<CallToActionWidget>', () => {
         mviStatus={{}}
         featureToggles={{
           loading: false,
-          loginGov: false,
         }}
       />,
     );
@@ -125,6 +130,27 @@ describe('<CallToActionWidget>', () => {
     expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
     tree.unmount();
   });
+
+  it('should show direct deposit sign in state', () => {
+    const { props, mockStore } = getData();
+    const tree = mount(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{
+            loading: false,
+          }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+          ariaLabel="test aria-label"
+          ariaDescribedby="test-id"
+        />
+      </Provider>,
+    );
+    expect(tree.find('Unauthed').exists()).to.be.true;
+
+    tree.unmount();
+  });
+
   it('should show verify link', () => {
     const tree = mount(
       <CallToActionWidget
@@ -322,7 +348,7 @@ describe('<CallToActionWidget>', () => {
           <CallToActionWidget
             appId={CTA_WIDGET_TYPES.RX}
             {...props}
-            featureToggles={{ loading: false, loginGov: false }}
+            featureToggles={{ loading: false }}
           />
           ,
         </Provider>,
@@ -335,7 +361,7 @@ describe('<CallToActionWidget>', () => {
               appId={CTA_WIDGET_TYPES.RX}
               {...props}
               isLoggedIn
-              featureToggles={{ loading: false, loginGov: false }}
+              featureToggles={{ loading: false }}
             />
             ,
           </Provider>
@@ -455,7 +481,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show multifactor message for direct deposit', () => {
+    it('should show revised multifactor message for direct deposit', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -477,8 +503,16 @@ describe('<CallToActionWidget>', () => {
           }}
         />,
       );
-
-      expect(tree.find('MFA').exists()).to.be.true;
+      expect(tree.find('[data-testid="direct-deposit-mfa-message"]').exists())
+        .to.be.true;
+      expect(
+        tree
+          .find('[data-testid="direct-deposit-login-gov-sign-up-link"]')
+          .exists(),
+      ).to.be.true;
+      expect(
+        tree.find('[data-testid="direct-deposit-id-me-sign-up-link"]').exists(),
+      ).to.be.true;
       tree.unmount();
     });
 
@@ -508,6 +542,7 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('DirectDeposit').exists()).to.be.true;
       tree.unmount();
     });
+
     describe('account state errors', () => {
       const defaultProps = {
         fetchMHVAccount: d => d,

@@ -2,6 +2,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { I18nextProvider } from 'react-i18next';
+
+import i18n from '../../../../utils/i18n/i18n';
+import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
+import { multipleAppointments } from '../../../../tests/unit/mocks/mock-appointments';
 import IntroductionDisplay from '../IntroductionDisplay';
 
 describe('pre-check-in', () => {
@@ -12,47 +17,7 @@ describe('pre-check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
-          appointments: [
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-other-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-          ],
+          appointments: multipleAppointments,
           veteranData: {
             demographics: {
               nextOfKin1: {
@@ -97,13 +62,16 @@ describe('pre-check-in', () => {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
           },
         },
+        ...scheduledDowntimeState,
       };
       store = mockStore(initState);
     });
     it('page passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <IntroductionDisplay router={{ push: () => {} }} />
+          <I18nextProvider i18n={i18n}>
+            <IntroductionDisplay router={{ push: () => {} }} />
+          </I18nextProvider>
         </Provider>,
       );
     });

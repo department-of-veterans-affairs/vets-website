@@ -5,10 +5,14 @@ const APP_NAMES = Object.freeze({
   PRE_CHECK_IN: 'preCheckIn',
 });
 
-const EDITING_PAGE_NAMES = Object.freeze({
-  DEMOGRAPHICS: 'demographics',
-  NEXT_OF_KIN: 'nextOfKin',
-  EMERGENCY_CONTACT: 'emergencyContact',
+// Taken from https://dsva.slack.com/archives/C022AC2STBM/p1631650347300600?thread_ts=1631210248.227300&cid=C022AC2STBM
+const VISTA_CHECK_IN_STATUS_IENS = Object.freeze({
+  PRE_CHECK_IN_STARTED: 1,
+  PRE_CHECK_IN_COMPLETE: 2,
+  CHECK_IN_STARTED: 3,
+  CHECK_IN_COMPLETE: 4,
+  E_CHECK_IN_STARTED: 5,
+  E_CHECK_IN_COMPLETE: 6,
 });
 
 const getLabelForEditField = (
@@ -230,7 +234,7 @@ const addressFormFields = Object.freeze({
 
 export {
   APP_NAMES,
-  EDITING_PAGE_NAMES,
+  VISTA_CHECK_IN_STATUS_IENS,
   getLabelForEditField,
   addressFormFields,
   baseCities,

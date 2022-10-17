@@ -1,0 +1,7 @@
+{
+  "appName": "Debt and bills",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "combined-debt-portal",
+  "rootUrl": "/manage-va-debt/summary",
+  "productId": "1a3f7e62-027f-414b-80a5-fa033431faa7"
+}

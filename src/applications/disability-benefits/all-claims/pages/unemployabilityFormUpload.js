@@ -1,5 +1,5 @@
 import { UploadDescription } from '../content/fileUploadDescriptions';
-import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils';
+import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils/schemas';
 
 const UNEMPLOYABILITY_8940_ATTACHMENT_ID = 'L149';
 

@@ -14,12 +14,7 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
   const label = 'File a BDD disability claim online';
   const linkText = 'Learn more about the BDD program';
 
-  const dateDischarge = moment({
-    day: stateBDD.day.value,
-    // moment takes 0-indexed months, but the date picker provides 1-indexed months
-    month: parseInt(stateBDD.month.value, 10) - 1,
-    year: stateBDD.year.value,
-  });
+  const dateDischarge = moment(stateBDD);
   const dateToday = moment();
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;

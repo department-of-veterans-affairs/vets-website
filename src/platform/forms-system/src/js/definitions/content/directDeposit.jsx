@@ -7,10 +7,18 @@ import Telephone, {
 export const directDepositDescription = () => {
   return (
     <div className="vads-u-margin-top--2">
-      <img
-        src="/img/direct-deposit-check-guide.svg"
-        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-      />
+      <figure style={{ margin: 0 }}>
+        <img
+          src="/img/direct-deposit-check-guide.svg"
+          alt="Personal checks have all the information to set up direct deposit"
+        />
+        <figcaption style={{ color: '#000', marginTop: '4px' }}>
+          Your bank’s routing number is listed along the bottom-left edge of a
+          personal check. Your account number is listed to the right of that.
+          Routing numbers must be nine digits and account numbers can be up to
+          17 digits.
+        </figcaption>
+      </figure>
     </div>
   );
 };

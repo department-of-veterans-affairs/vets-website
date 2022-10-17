@@ -12,6 +12,9 @@ export const mcpHTMLStatementToggle = state =>
     FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
   ];
 
+export const cdpAccessToggle = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -80,3 +83,19 @@ export const transform = data => {
     };
   });
 };
+
+export const ALERT_TYPES = Object.freeze({
+  ALL_ERROR: 'ALL_ERROR',
+  ALL_ZERO: 'ALL_ZERO',
+  ERROR: 'ERROR',
+  ZERO: 'ZERO',
+});
+
+export const APP_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});
+
+export const API_RESPONSES = Object.freeze({
+  ERROR: -1,
+});

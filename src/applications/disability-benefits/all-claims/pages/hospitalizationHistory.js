@@ -1,5 +1,6 @@
-import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+import HospitalizationPeriodView from '../components/HospitalizationPeriodView';
 import {
   unemployabilityTitle,
   unemployabilityPageTitle,
@@ -8,7 +9,7 @@ import {
   recordsDescription,
   datesDescription,
 } from '../content/hospitalizationHistory';
-import { addressUISchema } from '../utils';
+import { addressUISchema } from '../utils/schemas';
 
 const {
   hospitalProvidedCare,

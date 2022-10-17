@@ -17,7 +17,7 @@ const NationalCallToService = ({
     label={
       <span>
         Are you claiming a <strong>National Call to Service</strong> education
-        benefit? (This is uncommon)
+        benefit? (This is uncommon.)
       </span>
     }
     id={`${pageNames.nationalCallToService}`}
@@ -35,15 +35,15 @@ const NationalCallToService = ({
         value === 'no'
       ) {
         return setPageState({ selected: value }, pageNames.vetTec);
-      } else if (
+      }
+      if (
         newBenefitAnswer === 'new' &&
         claimingBenefitAnswer === 'yes' &&
         value === 'yes'
       ) {
         return setPageState({ selected: value }, pageNames.warningAlert);
-      } else {
-        return setPageState({ selected: value });
       }
+      return setPageState({ selected: value });
     }}
     value={{ value: state.selected }}
   />

@@ -10,9 +10,9 @@ describe('COVID19Alert component', () => {
     expect(wrapper.html()).to.not.be.empty;
     wrapper.unmount();
   });
-  it('renders an AlertBox component', () => {
+  it('renders an va-alert component', () => {
     const wrapper = shallow(<COVID19Alert />);
-    expect(wrapper.find('AlertBox').length).to.equal(1);
+    expect(wrapper.find('va-alert').length).to.equal(1);
     wrapper.unmount();
   });
   it('renders the default chat hours if no props are set', () => {

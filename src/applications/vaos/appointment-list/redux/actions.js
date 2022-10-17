@@ -32,8 +32,9 @@ import {
   fetchRequestById,
   fetchBookedAppointment,
   cancelAppointment,
+  fetchPreferredProvider,
+  getPreferredCCProviderNPI,
 } from '../../services/appointment';
-
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -76,6 +77,8 @@ export const FETCH_REQUEST_MESSAGES_FAILED =
 export const FETCH_REQUEST_MESSAGES_SUCCEEDED =
   'vaos/FETCH_REQUEST_MESSAGES_SUCCEEDED';
 
+export const FETCH_PROVIDER_SUCCEEDED = 'vaos/FETCH_PROVIDER_SUCCEEDED';
+
 export const CANCEL_APPOINTMENT = 'vaos/CANCEL_APPOINTMENT';
 export const CANCEL_APPOINTMENT_CONFIRMED = 'vaos/CANCEL_APPOINTMENT_CONFIRMED';
 export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
@@ -83,14 +86,15 @@ export const CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED =
 export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
   'vaos/CANCEL_APPOINTMENT_CONFIRMED_FAILED';
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
+
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
+
 export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
 export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
-export const UPDATE_BREADCRUMB = 'vaos/UPDATE_BREADCRUMB';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -447,7 +451,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
             featureFacilitiesServiceV2,
           );
         }
-
         if (facilityData && facilityData.length > 0) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,
@@ -513,7 +516,6 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
-
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
         appointment: request,
@@ -562,7 +564,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       ]);
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
-
       if (!appointment || (facilityId && !facility)) {
         dispatch({
           type: FETCH_CONFIRMED_DETAILS,
@@ -613,7 +614,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           captureError(e);
         }
       }
-
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_SUCCEEDED,
         appointment,
@@ -725,8 +725,36 @@ export function fetchFacilitySettings() {
   };
 }
 
-export function updateBreadcrumb(breadcrumb) {
-  return async (dispatch, _getState) => {
-    dispatch({ type: UPDATE_BREADCRUMB, breadcrumb });
+/**
+ * Function to retrieve provider information from the provider
+ * endpoint when using the v2 api.
+ *
+ * @param {*} appointment
+ */
+export function getProviderInfoV2(appointment) {
+  // Provider information included with v2 provider api call.
+  return async (dispatch, getState) => {
+    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+      getState(),
+    );
+    if (featureVAOSServiceCCAppointments && appointment.practitioners?.length) {
+      const ProviderNpi = getPreferredCCProviderNPI(appointment);
+
+      const providerData = await fetchPreferredProvider(ProviderNpi);
+
+      dispatch({
+        type: FETCH_PROVIDER_SUCCEEDED,
+        providerData,
+      });
+    }
+    if (
+      featureVAOSServiceCCAppointments &&
+      !appointment.practitioners?.length
+    ) {
+      dispatch({
+        type: FETCH_PROVIDER_SUCCEEDED,
+        providerData: null,
+      });
+    }
   };
 }

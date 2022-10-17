@@ -79,7 +79,7 @@
   pointer-events: none;
 }
 
-.limited {
+.limited, .warning {
   background-color: $color-primary-alt-lightest !important;
 
   span.status-label:hover {
@@ -92,7 +92,7 @@
 
 }
 
-.closed {
+.closed, .error {
   background-color: $color-red-lightest !important;
 
   span.status-label:hover {
@@ -105,7 +105,7 @@
 
 }
 
-.notice {
+.notice, .info {
   background-color: $color-aqua-lightest !important;
 
   span.status-label:hover {
@@ -116,3 +116,17 @@
     background-color: $color-primary-alt-light !important;
   }
 }
+
+.vamc-facility-expandable-alert {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.operating-status-info,
+.operating-status-flag {
+  i.fa {
+    padding-right: 7px;
+  }
+}
+

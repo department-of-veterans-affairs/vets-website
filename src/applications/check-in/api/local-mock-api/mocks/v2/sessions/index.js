@@ -7,14 +7,14 @@ const createMockSuccessResponse = (uuid, permissions) => {
   };
 };
 
-const createMockFailedResponse = () => {
+const createMockFailedResponse = (status = 400) => {
   return {
     errors: [
       {
         title: 'Operation failed',
         detail: 'Operation failed',
         code: 'VA900',
-        status: '400',
+        status: status.toString(),
       },
     ],
   };
@@ -41,6 +41,18 @@ const mocks = {
             detail: 'Authentication Error',
             code: 'LOROTA-MAPPED-API_401',
             status: '401',
+          },
+        ],
+      };
+    },
+    createMockMaxValidateErrorResponse: () => {
+      return {
+        errors: [
+          {
+            title: 'Authentication Error',
+            detail: 'Authentication Error',
+            code: 'LOROTA-MAPPED-API_401',
+            status: '410',
           },
         ],
       };

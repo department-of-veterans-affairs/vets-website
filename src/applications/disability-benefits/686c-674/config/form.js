@@ -8,7 +8,7 @@ import { isChapterFieldRequired } from './helpers';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
-import GetFormHelp from '../components/GetFormHelp.jsx';
+import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
@@ -131,6 +131,7 @@ const formConfig = {
           title: 'Veteran Address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
+          updateFormData: veteranAddress.updateFormData,
         },
       },
     },
@@ -160,6 +161,7 @@ const formConfig = {
           path: 'current-marriage-address',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
+          updateFormData: doesLiveWithSpouse.updateFormData,
         },
         spouseMarriageHistory: {
           depends: formData =>
@@ -240,6 +242,7 @@ const formConfig = {
           arrayPath: 'childrenToAdd',
           uiSchema: childAdditionalInformation.uiSchema,
           schema: childAdditionalInformation.schema,
+          updateFormData: childAdditionalInformation.updateFormData,
         },
         childAdditionalEvidence: {
           depends: formData =>
@@ -274,6 +277,7 @@ const formConfig = {
           path: 'report-674-student-address',
           uiSchema: studentAddressMarriageTuition.uiSchema,
           schema: studentAddressMarriageTuition.schema,
+          updateFormData: studentAddressMarriageTuition.updateFormData,
         },
         studentSchoolAddress: {
           depends: formData =>
@@ -358,6 +362,7 @@ const formConfig = {
           arrayPath: 'stepChildren',
           uiSchema: stepchildInformation.uiSchema,
           schema: stepchildInformation.schema,
+          updateFormData: stepchildInformation.updateFormData,
         },
       },
     },

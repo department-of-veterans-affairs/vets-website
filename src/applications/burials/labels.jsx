@@ -23,5 +23,5 @@ export const allowanceLabels = {
 export const benefitsLabels = {
   burialAllowance: 'Burial allowance',
   plotAllowance: 'Plot allowance',
-  transportation: 'Tranportation',
+  transportation: 'Transportation',
 };

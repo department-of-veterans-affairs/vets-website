@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const Debts = ({ debts, hasError }) => {
+export const Debts = ({ debts, hasError, removeBottomPadding }) => {
   if (hasError) {
     return (
       <div
@@ -30,11 +30,18 @@ export const Debts = ({ debts, hasError }) => {
     );
   }
 
+  let classes =
+    'vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1';
+  classes = removeBottomPadding
+    ? classes
+    : classes.concat(' vads-u-margin-bottom--2p5');
+
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+    <div className={classes}>
       <va-alert status="warning" show-icon data-testid="debt-count-alert">
         <div className="vads-u-margin-top--0">
-          You have {debtsCount} outstanding debts.{' '}
+          You have {debtsCount} outstanding debt
+          {debtsCount === 1 ? '. ' : 's. '}
           <CTALink
             text="Manage your VA debt"
             href="/manage-va-debt/your-debt"
@@ -54,19 +61,11 @@ export const Debts = ({ debts, hasError }) => {
 };
 
 Debts.propTypes = {
-  hasError: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
       amountOverpaid: PropTypes.number.isRequired,
       amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
+      benefitType: PropTypes.string.isRequired,
       currentAr: PropTypes.number.isRequired,
       debtHistory: PropTypes.arrayOf(
         PropTypes.shape({
@@ -75,8 +74,17 @@ Debts.propTypes = {
           description: PropTypes.string.isRequired,
         }),
       ),
+      deductionCode: PropTypes.string.isRequired,
+      diaryCode: PropTypes.string.isRequired,
+      diaryCodeDescription: PropTypes.string,
+      fileNumber: PropTypes.string.isRequired,
+      originalAr: PropTypes.number.isRequired,
+      payeeNumber: PropTypes.string.isRequired,
+      personEntitled: PropTypes.string.isRequired,
     }),
   ),
+  hasError: PropTypes.bool,
+  removeBottomPadding: PropTypes.bool,
 };
 
 export default Debts;

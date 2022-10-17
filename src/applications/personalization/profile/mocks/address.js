@@ -42,6 +42,19 @@ const mailingAddressStatusSuccess = {
   },
 };
 
+const mailingAddresUpdateNoChangeDetected = {
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_address_transactions',
+    attributes: {
+      transactionId: 'f00afa69-691f-4155-aac0-34c93d3fb504',
+      transactionStatus: 'COMPLETED_NO_CHANGES_DETECTED',
+      type: 'AsyncTransaction::VAProfile::AddressTransaction',
+      metadata: [],
+    },
+  },
+};
+
 const homeAddressUpdateReceived = {
   route: 'v0/profile/addresses',
   method: 'PUT',
@@ -107,6 +120,7 @@ const addressValidation = {
 
 module.exports = {
   mailingAddressUpdateReceived,
+  mailingAddresUpdateNoChangeDetected,
   mailingAddressStatusSuccess,
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,

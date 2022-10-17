@@ -4,6 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import { errorFragment } from '../../layouts/helpers';
+import { PAGE_TITLE } from '../../util';
 
 const form686Url = getAppUrl('686C-674');
 
@@ -73,7 +74,7 @@ function ViewDependentsHeader(props) {
   return (
     <div className="vads-l-row">
       <div className="vads-l-col--12">
-        <h1>Your VA Dependents</h1>
+        <h1>{PAGE_TITLE}</h1>
         {alertProps && (
           <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
         )}
@@ -83,13 +84,15 @@ function ViewDependentsHeader(props) {
           dependent.
         </p>
         {props.dependentsToggle && (
-          <a
-            href={form686Url}
-            className="usa-button-primary va-button-primary"
-            onClick={handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          <p>
+            <a
+              href={form686Url}
+              className="vads-c-action-link--green"
+              onClick={handleClick}
+            >
+              Add or remove a dependent
+            </a>
+          </p>
         )}
       </div>
     </div>

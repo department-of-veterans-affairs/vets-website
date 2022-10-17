@@ -32,11 +32,29 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     return data ? JSON.parse(data) : null;
   };
 
-  const setCurrentToken = useCallback(
-    (window, token) => {
-      setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+  const resetAttempts = useCallback(
+    (window, uuid, complete = false) => {
+      if (uuid !== SESSION_STORAGE_KEYS.CURRENT_UUID || complete === true) {
+        window.sessionStorage.removeItem(
+          SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS,
+        );
+      }
     },
     [SESSION_STORAGE_KEYS],
+  );
+
+  const setCurrentToken = useCallback(
+    (window, token) => {
+      const lastToken = JSON.parse(
+        sessionStorage.getItem(SESSION_STORAGE_KEYS.CURRENT_UUID),
+      );
+
+      if (lastToken && lastToken.token !== token) {
+        resetAttempts(window, token);
+      }
+      setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+    },
+    [SESSION_STORAGE_KEYS, resetAttempts],
   );
 
   const getCurrentToken = useCallback(
@@ -81,18 +99,47 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     };
   };
 
-  const setDemographicsConfirmed = useCallback(
+  const setShouldSendDemographicsFlags = useCallback(
     (window, value) => {
-      setSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED, value);
+      setSessionKey(
+        window,
+        SESSION_STORAGE_KEYS.SHOULD_SEND_DEMOGRAPHICS_FLAGS,
+        value,
+      );
     },
     [SESSION_STORAGE_KEYS],
   );
 
-  const getDemographicsConfirmed = useCallback(
+  const getShouldSendDemographicsFlags = useCallback(
     window => {
       return (
-        getSessionKey(window, SESSION_STORAGE_KEYS.DEMOGRAPHICS_CONFIRMED) ??
-        false
+        getSessionKey(
+          window,
+          SESSION_STORAGE_KEYS.SHOULD_SEND_DEMOGRAPHICS_FLAGS,
+        ) ?? true
+      );
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const setShouldSendTravelPayClaim = useCallback(
+    (window, value) => {
+      setSessionKey(
+        window,
+        SESSION_STORAGE_KEYS.SHOULD_SEND_TRAVEL_PAY_CLAIM,
+        value,
+      );
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getShouldSendTravelPayClaim = useCallback(
+    window => {
+      return (
+        getSessionKey(
+          window,
+          SESSION_STORAGE_KEYS.SHOULD_SEND_TRAVEL_PAY_CLAIM,
+        ) ?? true
       );
     },
     [SESSION_STORAGE_KEYS],
@@ -106,8 +153,11 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     getPreCheckinComplete,
     incrementValidateAttempts,
     getValidateAttempts,
-    setDemographicsConfirmed,
-    getDemographicsConfirmed,
+    setShouldSendDemographicsFlags,
+    getShouldSendDemographicsFlags,
+    setShouldSendTravelPayClaim,
+    getShouldSendTravelPayClaim,
+    resetAttempts,
   };
 };
 

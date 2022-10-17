@@ -3,8 +3,14 @@ import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import GreetUser from './makeBotGreetUser';
+import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
+import {
+  LOGGED_IN_FLOW,
+  CONVERSATION_ID_KEY,
+  TOKEN_KEY,
+  clearBotSessionStorage,
+} from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -14,30 +20,59 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const userFirstName = useSelector(state =>
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
+  const userUuid = useSelector(state => state.user.profile.accountUuid);
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
 
   const store = useMemo(
     () =>
       createStore(
         {},
-        GreetUser.makeBotGreetUser(
+        StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
+          userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
       ),
     [createStore],
   );
+  let directLineToken = token;
+  let conversationId = '';
+  let directLine = {};
 
-  const directLine = useMemo(
+  // eslint-disable-next-line sonarjs/no-collapsible-if
+
+  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    directLineToken = sessionStorage.getItem(TOKEN_KEY);
+    conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+  }
+
+  addEventListener('beforeunload', () => {
+    clearBotSessionStorage(false, isLoggedIn);
+  });
+
+  const links = document.querySelectorAll('div#account-menu ul li a');
+  if (links && links.length) {
+    const link = links[links.length - 1];
+    if (link.innerText === 'Sign Out') {
+      link.addEventListener('click', () => {
+        clearBotSessionStorage(true);
+      });
+    }
+  }
+
+  directLine = useMemo(
     () =>
       createDirectLine({
-        token,
+        token: directLineToken,
         domain:
           'https://northamerica.directline.botframework.com/v3/directline',
+        conversationId,
+        watermark: '',
       }),
-    [token, createDirectLine],
+    [createDirectLine],
   );
 
   const styleOptions = {

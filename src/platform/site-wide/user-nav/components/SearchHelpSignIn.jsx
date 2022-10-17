@@ -17,7 +17,6 @@ class SearchHelpSignIn extends Component {
     isProfileLoading: PropTypes.bool.isRequired,
     onSignInSignUp: PropTypes.func.isRequired,
     toggleMenu: PropTypes.func.isRequired,
-    customText: PropTypes.string,
     userGreeting: PropTypes.oneOfType([
       PropTypes.node,
       PropTypes.arrayOf(PropTypes.node),
@@ -65,7 +64,7 @@ class SearchHelpSignIn extends Component {
       <div className="sign-in-links">
         {!isSubdomain && (
           <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-            {this.props.customText ? this.props.customText : 'Sign in'}
+            Sign in
           </button>
         )}
         {isSubdomain && (
@@ -74,7 +73,7 @@ class SearchHelpSignIn extends Component {
             href="https://www.va.gov/my-va"
             onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
-            {this.props.customText ? this.props.customText : 'Sign in'}
+            Sign in
           </a>
         )}
       </div>

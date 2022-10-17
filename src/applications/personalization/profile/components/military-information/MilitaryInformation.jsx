@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
@@ -16,9 +11,9 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 import { selectVeteranStatus } from 'platform/user/selectors';
+import facilityLocator from 'applications/facility-locator/manifest.json';
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import facilityLocator from 'applications/facility-locator/manifest.json';
 
 import Headline from '../ProfileSectionHeadline';
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -27,44 +22,39 @@ import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 // Alert to show when a user does not appear to be a Veteran
 const NotAVeteranAlert = () => {
   return (
-    <AlertBox
-      isVisible
-      status="warning"
-      headline="We don’t seem to have your military records"
-      content={
-        <>
-          <p>
-            We’re sorry. We can’t match your information to our records. If you
-            think this is an error, please call the VA.gov help desk at{' '}
-            <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-            <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
-            ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
-          </p>
-          <p>
-            Or you can learn how to{' '}
-            <a
-              href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
-              target="blank"
-              rel="noopener noreferrer"
-            >
-              update or correct your military service history
-            </a>
-            .
-          </p>
-        </>
-      }
-    />
+    <>
+      <va-alert status="warning">
+        <h2 slot="headline">We don’t seem to have your military records</h2>
+
+        <p>
+          We’re sorry. We can’t match your information to our records. If you
+          think this is an error, please call the VA.gov help desk at{' '}
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['711']} />
+          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+        </p>
+        <p>
+          Or you can learn how to{' '}
+          <a
+            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
+            target="blank"
+            rel="noopener noreferrer"
+          >
+            update or correct your military service history
+          </a>
+          .
+        </p>
+      </va-alert>
+    </>
   );
 };
 
 // Alert to show if `GET service_history` returned a 403
 const NotInDEERSAlert = () => {
   return (
-    <AlertBox
-      isVisible
-      status="warning"
-      headline="We can’t access your military information"
-      content={
+    <>
+      <va-alert status="warning">
+        <h2 slot="headline">We can’t access your military information</h2>
         <div>
           <p>
             We’re sorry. We can’t find your Department of Defense (DoD) ID. We
@@ -73,10 +63,10 @@ const NotInDEERSAlert = () => {
             Data Center (DMDC).
           </p>
           <p>
-            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />.
-            This office is open Monday through Friday (except federal holidays),
-            8:00 a.m. to 8:00 p.m. ET. If you have hearing loss, call TTY:{' '}
-            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
+            To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
+            . This office is open Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss, call
+            TTY: <va-telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
           <p>Or you can visit your nearest VA regional office for help.</p>
           <a href={facilityLocator.rootUrl}>
@@ -84,27 +74,25 @@ const NotInDEERSAlert = () => {
           </a>
           .
         </div>
-      }
-    />
+      </va-alert>
+    </>
   );
 };
 
 // Alert to show if `GET service_history` returned an empty service history array
 const NoServiceHistoryAlert = () => {
   return (
-    <AlertBox
-      isVisible
-      status="warning"
-      headline="We can’t access your military information"
-      content={
+    <>
+      <va-alert status="warning">
+        <h2 slot="headline">We can’t access your military information</h2>
         <p>
           We’re sorry. We can’t access your military service records. If you
           think you should be able to view your service information here, please
           file a request to change or correct your DD214 or other military
           records.
         </p>
-      }
-    />
+      </va-alert>
+    </>
   );
 };
 
@@ -131,9 +119,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
   if (error) {
     if (some(error.errors, ['code', '403'])) {
       return <NotInDEERSAlert />;
-    } else {
-      return <LoadFail information="military" />;
     }
+    return <LoadFail information="military" />;
   }
 
   if (serviceHistory.length === 0) {
@@ -151,8 +138,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         level={2}
       />
       <div className="vads-u-margin-top--4">
-        <AdditionalInfo
-          triggerText="What if my military service information doesn’t look right?"
+        <va-additional-info
+          trigger="What if my military service information doesn’t look right?"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -174,15 +161,20 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             work with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call <Telephone contact={CONTACTS.DS_LOGON} />,
-            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
+            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             p.m. ET. If you have hearing loss, call TTY:{' '}
-            <Telephone contact={CONTACTS.DS_LOGON_TTY} />.
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} />.
           </p>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
     </>
   );
+};
+
+MilitaryInformationContent.propTypes = {
+  militaryInformation: PropTypes.object,
+  veteranStatus: PropTypes.object,
 };
 
 const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {

@@ -64,6 +64,7 @@ const responses = {
     data: {
       type: 'feature_toggles',
       features: [
+        { name: 'showExpandableVamcAlert', value: true },
         { name: 'facilityLocatorShowCommunityCares', value: true },
         { name: 'profile_show_profile_2.0', value: false },
         { name: 'vaOnlineScheduling', value: true },
@@ -83,9 +84,6 @@ const responses = {
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
         { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'ssoe', value: true },
-        { name: 'ssoe_inbound', value: false },
-        { name: 'ssoe_ebenefits_links', value: false },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
