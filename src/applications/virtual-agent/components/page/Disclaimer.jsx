@@ -31,6 +31,9 @@ export default function Disclaimer() {
             </a>
           </li>
           <li>
+            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+          </li>
+          <li>
             <a href="/resources/">Explore our resources and support content</a>
           </li>
         </ul>
