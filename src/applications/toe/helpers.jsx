@@ -110,11 +110,12 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 
 function mapNotificaitonMethod({ notificationMethod }) {
   if (notificationMethod === 'MAIL') {
-    return 'Mail';
+    return 'No, just send me email notifications';
   }
-  if (notificationMethod === 'EMAIL') {
-    return 'Email';
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
   }
+
   return notificationMethod;
 }
 
@@ -221,7 +222,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    [formFields.contactMethod]: mapNotificaitonMethod(claimant),
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificaitonMethod(claimant),
+    },
   };
 
   if (claimant?.suffix) {
