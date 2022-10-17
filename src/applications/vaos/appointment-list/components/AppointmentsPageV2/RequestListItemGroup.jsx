@@ -138,7 +138,10 @@ export default function RequestListItemGroup({ data, facilityData }) {
               {appointmentType}
             </div>
           </div>
-          <div className={classNames('vads-l-col', 'vads-u-padding-y--2')}>
+          <div
+            className={classNames('vads-l-col', 'vads-u-padding-y--2')}
+            style={styles.canceled}
+          >
             {typeOfCareName}
           </div>
           <div className={classNames('vads-l-col', 'vads-u-padding-y--2')}>
