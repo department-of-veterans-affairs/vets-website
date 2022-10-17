@@ -189,6 +189,7 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
+        {/* Commenting out temporarily see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/48126 */}
         {/* <BackToAppointments appointments={appointments} /> */}
       </Wrapper>
     );
