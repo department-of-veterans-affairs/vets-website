@@ -230,7 +230,7 @@ export const renderWidgetDowntimeNotification = (appName, sectionTitle) => (
           </h4>
           <div>
             We’re making some updates to our {appName.toLowerCase()} tool. We’re
-            We’re sorry it’s not working right now and hope to be finished by{' '}
+            sorry it’s not working right now and hope to be finished by{' '}
             {downtime.startTime.format('MMMM Do')},{' '}
             {downtime.endTime.format('LT')}. Please check back soon.
           </div>
