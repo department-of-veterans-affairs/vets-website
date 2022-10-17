@@ -74,7 +74,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
     }
   }
 
-  appealTitle += ` updated on ${moment(updatedEventDateString).format(
+  appealTitle += `\n updated on ${moment(updatedEventDateString).format(
     'MMMM D, YYYY',
   )}`;
   appealTitle = capitalizeWord(appealTitle);
@@ -121,7 +121,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       )}
       {external && (
         <Link
-          aria-label={`View details of ${appealTitle} `}
+          aria-label={`View details of ${appealTitle}`}
           className="vads-c-action-link--blue"
           href={`/track-claims/appeals/${appeal.id}/status`}
         >

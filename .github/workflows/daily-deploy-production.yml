@@ -11,7 +11,7 @@ on:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -47,7 +47,7 @@ jobs:
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -57,7 +57,7 @@ jobs:
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
-        run: echo 'RELEASE_WAIT=60' >> $GITHUB_ENV
+        run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
 
       - name: Get release wait time (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -77,7 +77,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -100,16 +100,34 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
+        env:
+          RELEASE_WAIT_MINUTES: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
         with:
-          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          payload: | 
+            {
+              "attachments": [
+                {
+                  "color": "#07711E",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what's coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
 
   build:
     name: Build
@@ -121,7 +139,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
@@ -217,7 +235,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -260,7 +278,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -299,7 +317,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -318,7 +336,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}

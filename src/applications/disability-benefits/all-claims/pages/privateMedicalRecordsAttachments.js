@@ -1,7 +1,8 @@
-import { UploadDescription } from '../content/fileUploadDescriptions';
-import _ from 'platform/utilities/data';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { ancillaryFormUploadUi } from '../utils';
+import _ from 'platform/utilities/data';
+
+import { UploadDescription } from '../content/fileUploadDescriptions';
+import { ancillaryFormUploadUi } from '../utils/schemas';
 import { DATA_PATHS } from '../constants';
 
 const { privateMedicalRecordAttachments } = fullSchema.properties;

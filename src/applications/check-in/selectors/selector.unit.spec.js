@@ -3,42 +3,16 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import {
   makeSelectCurrentContext,
-  makeSelectEditContext,
   makeSelectForm,
   makeSelectVeteranData,
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
-  makeSelectPendingEdits,
+  makeSelectError,
 } from './index';
 
 describe('check-in', () => {
   describe('selector', () => {
-    describe('makeSelectEditContext', () => {
-      const state = {
-        checkInData: {
-          context: {
-            editing: {
-              originatingUrl: 'contact-information',
-              editingPage: 'demographics',
-              value: 'kermit.frog@sesameenterprises.us',
-              key: 'emailAddress',
-            },
-          },
-        },
-      };
-      it('returns the correct structure from state', () => {
-        const selectEditContext = makeSelectEditContext();
-        expect(selectEditContext(state)).to.eql({
-          editing: {
-            originatingUrl: 'contact-information',
-            editingPage: 'demographics',
-            value: 'kermit.frog@sesameenterprises.us',
-            key: 'emailAddress',
-          },
-        });
-      });
-    });
     describe('makeSelectForm', () => {
       const state = {
         checkInData: {
@@ -175,24 +149,16 @@ describe('check-in', () => {
         });
       });
     });
-    describe('makeSelectPendingEdits', () => {
+    describe('makeSelectError', () => {
       const state = {
         checkInData: {
-          context: {
-            pendingEdits: {
-              key: 'emailAddress',
-              value: 'some@email.com',
-            },
-          },
+          error: 'max-validation',
         },
       };
-      it('returns pending edits', () => {
-        const selectPendingEdits = makeSelectPendingEdits();
-        expect(selectPendingEdits(state)).to.eql({
-          pendingEdits: {
-            key: 'emailAddress',
-            value: 'some@email.com',
-          },
+      it('returns error string', () => {
+        const selectError = makeSelectError();
+        expect(selectError(state)).to.eql({
+          error: 'max-validation',
         });
       });
     });

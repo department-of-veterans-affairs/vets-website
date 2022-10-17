@@ -2,7 +2,6 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 import formConfig from '../config/form';
 
 import {
-  FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
   FETCH_CLAIM_STATUS_SUCCESS,
@@ -10,6 +9,7 @@ import {
   FETCH_ELIGIBILITY_SUCCESS,
   FETCH_ELIGIBILITY_FAILURE,
   ELIGIBILITY,
+  FETCH_PERSONAL_INFORMATION,
 } from '../actions';
 
 const initialState = {
@@ -32,6 +32,7 @@ export default {
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
         };
@@ -45,6 +46,7 @@ export default {
       case FETCH_ELIGIBILITY_FAILURE:
         return {
           ...state,
+          eligibilityFetchComplete: true,
           eligibility:
             action?.response?.data?.attributes?.eligibility
               ?.filter(

@@ -1,18 +1,23 @@
 import React from 'react';
 
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-
 export default function FeaturesWarning() {
   return (
     <div>
       <h2 id="additional-services">Additional services</h2>
       <p>
-        To update your personal information, get help filing claims or appeals,
-        or view your uploaded documents, go to{' '}
-        <EbenefitsLink path="ebenefits-portal/ebenefits.portal">
-          eBenefits
-        </EbenefitsLink>
-        .
+        <a href="/change-address/">
+          Change your address and other contact information
+        </a>
+      </p>
+      <p>
+        <a href="/resources/how-to-change-your-legal-name-on-file-with-va/">
+          Change your legal name on file with VA
+        </a>
+      </p>
+      <p>
+        <a href="/disability/get-help-filing-claim/">
+          Get help filing your VA claim or appeal
+        </a>
       </p>
     </div>
   );

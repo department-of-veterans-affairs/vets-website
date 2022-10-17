@@ -1,0 +1,8 @@
+{
+  "appName": "Mock Form",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mock-form",
+  "rootUrl": "/mock-form",
+  "production": false,
+  "productId": "b00f9ad9-f81a-402b-957f-eeb9b2554f2d"
+}

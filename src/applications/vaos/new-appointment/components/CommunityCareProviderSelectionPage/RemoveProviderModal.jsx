@@ -1,5 +1,6 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 export default function RemoveProviderModal({ onClose, provider }) {
   const title = 'Are you sure you want to remove this provider?';
@@ -28,8 +29,19 @@ export default function RemoveProviderModal({ onClose, provider }) {
   );
 
   return (
-    <Modal id="removeProviderModal" visible onClose={onClose} title={title}>
+    <VaModal
+      id="removeProviderModal"
+      visible
+      onCloseEvent={onClose}
+      modalTitle={title}
+      data-testid="removeProviderModal"
+      status="warning"
+    >
       {content}
-    </Modal>
+    </VaModal>
   );
 }
+RemoveProviderModal.propTypes = {
+  provider: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

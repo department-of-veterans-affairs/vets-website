@@ -10,11 +10,11 @@ import { MoreQuestions } from '../MoreQuestions';
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
 
-const Eligible = ({ clickHandler, downloadUrl, referenceNumber }) => (
+const Eligible = ({ clickHandler, referenceNumber }) => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
       <StatusAlert.Eligible referenceNumber={referenceNumber} />
-      <ReviewAndDownload downloadUrl={downloadUrl} />
+      <ReviewAndDownload />
       <h2>What if I need to make changes to my COE?</h2>
       <p>
         Complete and submit a Request for a Certificate of Eligibility (VA Form
@@ -27,7 +27,11 @@ const Eligible = ({ clickHandler, downloadUrl, referenceNumber }) => (
         </li>
         <li>Request a restoration of entitlement</li>
       </ul>
-      <a href={introUrl} onClick={clickHandler}>
+      <a
+        className="vads-c-action-link--blue"
+        href={introUrl}
+        onClick={clickHandler}
+      >
         Make changes to your COE online by filling out VA Form 26-1880
       </a>
       <MoreQuestions />
@@ -37,7 +41,6 @@ const Eligible = ({ clickHandler, downloadUrl, referenceNumber }) => (
 
 Eligible.propTypes = {
   clickHandler: PropTypes.func,
-  downloadUrl: PropTypes.string,
   referenceNumber: PropTypes.string,
 };
 

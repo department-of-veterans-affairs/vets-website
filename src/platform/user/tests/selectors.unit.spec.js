@@ -359,10 +359,10 @@ describe('user selectors', () => {
           facilityId: '757',
           isCerner: true,
           usesCernerAppointments: true,
-          usesCernerMedicalRecords: false,
-          usesCernerMessaging: false,
-          usesCernerRx: false,
-          usesCernerTestResults: false,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
         },
       ];
       expect(selectors.selectPatientFacilities(state)).to.deep.equal(expected);
@@ -376,6 +376,7 @@ describe('user selectors', () => {
       expect(selectors.selectPatientFacilities(state)).to.be.null;
     });
   });
+
   describe('selectIsCernerOnlyPatient', () => {
     it('should return true if Cerner only', () => {
       const state = {
@@ -411,6 +412,7 @@ describe('user selectors', () => {
       expect(selectors.selectIsCernerOnlyPatient(state)).to.be.false;
     });
   });
+
   describe('selectIsCernerPatient', () => {
     it('should return true if single cerner response', () => {
       const state = {
@@ -581,7 +583,7 @@ describe('user selectors', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false }, // not cerner
-              { facilityId: '757', isCerner: false }, // cerner, but blocked from RX
+              { facilityId: '757', isCerner: true }, // cerner, was but blocked from RX but no longer
               { facilityId: '668', isCerner: true }, // cerner, not blocked from RX
             ],
             isCernerPatient: true,
@@ -589,6 +591,15 @@ describe('user selectors', () => {
         },
       };
       const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
         {
           facilityId: '668',
           isCerner: true,
@@ -614,7 +625,7 @@ describe('user selectors', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false }, // not cerner
-              { facilityId: '757', isCerner: false }, // cerner, but blocked from messaging
+              { facilityId: '757', isCerner: false }, // cerner, was but blocked from messaging but no longer
               { facilityId: '668', isCerner: true }, // cerner, not blocked from messaging
             ],
             isCernerPatient: true,
@@ -622,6 +633,15 @@ describe('user selectors', () => {
         },
       };
       const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
         {
           facilityId: '668',
           isCerner: true,
@@ -649,7 +669,7 @@ describe('user selectors', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false }, // not cerner
-              { facilityId: '757', isCerner: false }, // cerner, not blocked from appointments
+              { facilityId: '757', isCerner: true }, // cerner, not blocked from appointments
               { facilityId: '668', isCerner: true }, // cerner, not blocked from appointments
             ],
             isCernerPatient: true,
@@ -661,10 +681,10 @@ describe('user selectors', () => {
           facilityId: '757',
           isCerner: true,
           usesCernerAppointments: true,
-          usesCernerMedicalRecords: false,
-          usesCernerMessaging: false,
-          usesCernerRx: false,
-          usesCernerTestResults: false,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
         },
         {
           facilityId: '668',
@@ -693,7 +713,7 @@ describe('user selectors', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false }, // not cerner
-              { facilityId: '757', isCerner: false }, // cerner, blocked from medical records
+              { facilityId: '757', isCerner: true }, // cerner, was blocked from medical records but no longer
               { facilityId: '668', isCerner: true }, // cerner, not blocked from medical records
             ],
             isCernerPatient: true,
@@ -701,6 +721,15 @@ describe('user selectors', () => {
         },
       };
       const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
         {
           facilityId: '668',
           isCerner: true,
@@ -728,7 +757,7 @@ describe('user selectors', () => {
           profile: {
             facilities: [
               { facilityId: '983', isCerner: false }, // not cerner
-              { facilityId: '757', isCerner: false }, // cerner, blocked from test results
+              { facilityId: '757', isCerner: true }, // cerner, was blocked from test results but no longer
               { facilityId: '668', isCerner: true }, // cerner, not blocked from test results
             ],
             isCernerPatient: true,
@@ -736,6 +765,15 @@ describe('user selectors', () => {
         },
       };
       const expected = [
+        {
+          facilityId: '757',
+          isCerner: true,
+          usesCernerAppointments: true,
+          usesCernerMedicalRecords: true,
+          usesCernerMessaging: true,
+          usesCernerRx: true,
+          usesCernerTestResults: true,
+        },
         {
           facilityId: '668',
           isCerner: true,

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import classNames from 'classnames';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
+import { mask } from '../../util';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -34,54 +35,48 @@ function ViewDependentsListItem(props) {
     }
   };
 
+  const fullName = `${firstName} ${lastName}`;
+
   return (
-    <div className="vads-l-row vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-x--2">
+    <div className="mng-dependents-list-item vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding--2">
+      <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-margin-top--0 mng-dependents-name">
+        {fullName}
+      </h3>
       <dl
-        className={classNames({
-          'vads-l-row': true,
-          'vads-u-margin-bottom--0': manageDependentsToggle === true,
-          'vads-u-margin-bottom--2': manageDependentsToggle === false,
-        })}
+        className={`vads-u-margin-bottom--${
+          manageDependentsToggle ? '0p5' : '1'
+        }`}
       >
-        <dt
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-          tabIndex="-1"
-          className="vads-u-font-family--serif vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
-        >
-          {firstName} {lastName}
-        </dt>
-        {manageDependentsToggle &&
-          submittedDependents.includes(stateKey) && (
-            <dd
-              aria-live="polite"
-              className="vads-l-col--12 vads-u-margin-y--1p5"
-            >
-              <dfn title="status">
-                <i
-                  aria-hidden="true"
-                  role="img"
-                  className="fas fa-exclamation-triangle"
-                />{' '}
-                Status:
-              </dfn>{' '}
-              Removal of dependent pending
-            </dd>
-          )}
-        <dd className="vads-l-col--12 vads-u-margin--0">
-          <dfn title="relationship">Relationship:</dfn> {relationship}
-        </dd>
+        {manageDependentsToggle && submittedDependents.includes(stateKey) ? (
+          <div aria-live="polite">
+            <dt>
+              <i
+                aria-hidden="true"
+                role="img"
+                className="fas fa-exclamation-triangle"
+              />{' '}
+              Status:&nbsp;
+            </dt>
+            <dd>Removal of dependent pending</dd>
+          </div>
+        ) : null}
+        <div>
+          <dt>Relationship:&nbsp;</dt>
+          <dd>{relationship}</dd>
+        </div>
 
         {ssn ? (
-          <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="ssn">SSN:</dfn> {ssn.replace(/[0-9](?=.{4,}$)/g, '*')}
-          </dd>
+          <div>
+            <dt>SSN:&nbsp;</dt>
+            <dd>{mask(ssn)}</dd>
+          </div>
         ) : null}
 
         {dateOfBirth ? (
-          <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="birthdate">Date of birth: </dfn>
-            {moment(dateOfBirth).format('MMMM D, YYYY')}
-          </dd>
+          <div>
+            <dt>Date of birth:&nbsp;</dt>
+            <dd>{moment(dateOfBirth).format('MMMM D, YYYY')}</dd>
+          </div>
         ) : null}
       </dl>
       {manageDependentsToggle && (
@@ -92,6 +87,7 @@ function ViewDependentsListItem(props) {
               onClick={handleClick}
               className="usa-button-secondary vads-u-background-color--white"
               disabled={openFormlett || submittedDependents.includes(stateKey)}
+              aria-label={`remove ${fullName} as a dependent`}
             >
               Remove this dependent
             </button>
@@ -134,10 +130,13 @@ export default connect(
 export { ViewDependentsListItem };
 
 ViewDependentsListItem.propTypes = {
+  dateOfBirth: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  manageDependentsToggle: PropTypes.bool,
+  openFormlett: PropTypes.bool,
   relationship: PropTypes.string,
   ssn: PropTypes.string,
-  dateOfBirth: PropTypes.string,
   stateKey: PropTypes.number,
+  submittedDependents: PropTypes.array,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { VaSelect } from 'web-components/react-bindings';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import {

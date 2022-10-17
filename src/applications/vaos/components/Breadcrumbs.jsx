@@ -1,19 +1,46 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
-import { updateBreadcrumb } from '../appointment-list/redux/actions';
 
 export default function VAOSBreadcrumbs({ children }) {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const dispatch = useDispatch();
-  const breadcrumbs = useSelector(state => state.appointments.breadcrumbs);
+  const location = useLocation();
+  const isPast = location.pathname.includes('/past');
+  const isPending = location.pathname.includes('/pending');
+  const breadcrumbsRef = useRef(null);
+
+  useEffect(
+    () => {
+      const updateBreadcrumbs = () => {
+        const anchorNodes = Array.from(
+          breadcrumbsRef.current.querySelectorAll('a'),
+        );
+
+        anchorNodes.forEach((crumb, index) => {
+          crumb.removeAttribute('aria-current');
+
+          if (index === anchorNodes.length - 1) {
+            crumb.setAttribute('aria-current', 'page');
+          }
+        });
+      };
+      updateBreadcrumbs();
+    },
+    [location, breadcrumbsRef],
+  );
 
   return (
-    <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
+    <VaBreadcrumbs
+      role="navigation"
+      aria-label="Breadcrumbs"
+      ref={breadcrumbsRef}
+      className="vaos-hide-for-print"
+    >
       <a href="/" key="home">
         Home
       </a>
@@ -32,23 +59,32 @@ export default function VAOSBreadcrumbs({ children }) {
         </Link>
       )}
       {featureStatusImprovement && (
-        <Link
-          to="/"
-          key="vaos-home"
-          onClick={() => dispatch(updateBreadcrumb())}
-        >
+        <Link to="/" key="vaos-home">
           Your appointments
         </Link>
       )}
-      {featureStatusImprovement &&
-        breadcrumbs.map(breadcrumb => {
-          return (
-            <Link to={breadcrumb.path} key="breadcrumb.path">
-              {breadcrumb.title}
-            </Link>
-          );
-        })}
+
+      {isPast && (
+        <li className="va-breadcrumbs-li">
+          <Link to="/past" key="past">
+            Past
+          </Link>
+        </li>
+      )}
+
+      {isPending && (
+        <li className="va-breadcrumbs-li">
+          <Link to="/pending" key="pending">
+            Pending
+          </Link>
+        </li>
+      )}
+
       {children}
-    </Breadcrumbs>
+    </VaBreadcrumbs>
   );
 }
+
+VAOSBreadcrumbs.propTypes = {
+  children: PropTypes.object,
+};

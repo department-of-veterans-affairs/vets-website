@@ -13,15 +13,12 @@ import reducer, {
   saveCommunicationPreferenceChannel,
   selectChannelById,
   selectGroups,
-  selectChannelsWithoutSelection,
   selectItemById,
   selectGroupById,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
 import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
-import allSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-all-selections.json';
-import noSelectionsMade from '../fixtures/communication-preferences/get-200-maximal-no-selections.json';
 import postSuccess from '../fixtures/communication-preferences/post-200-success.json';
 import patchSuccess from '../fixtures/communication-preferences/patch-200-success.json';
 
@@ -71,7 +68,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(3);
+          expect(communicationGroups.ids.length).to.equal(4);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           const rxTrackingItem = selectItemById(state, 'item4');
@@ -99,7 +96,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(3);
+          expect(communicationGroups.ids.length).to.equal(4);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item exists
@@ -123,7 +120,7 @@ describe('fetching communication preferences', () => {
           expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
           expect(state.loadingErrors).to.be.null;
           const communicationGroups = selectGroups(state);
-          expect(communicationGroups.ids.length).to.equal(3);
+          expect(communicationGroups.ids.length).to.equal(4);
           // The first group is the Health Care group
           expect(communicationGroups.ids[0]).to.equal('group3');
           // The Rx-tracking item does not exist
@@ -148,7 +145,7 @@ describe('fetching communication preferences', () => {
         expect(state.loadingErrors).to.be.null;
         const communicationGroups = selectGroups(state);
         // The Health Care group is not in the state
-        expect(communicationGroups.ids.length).to.equal(2);
+        expect(communicationGroups.ids.length).to.equal(3);
         expect(selectGroupById(state, 'group3')).to.not.exist;
         // The first group is the Applications, claims, etc group
         expect(communicationGroups.ids[0]).to.equal('group1');
@@ -484,88 +481,4 @@ describe('saveCommunicationPreferenceChannel', () => {
       });
     },
   );
-});
-
-describe('selectors', () => {
-  let server;
-  let state;
-  before(() => {
-    server = setupServer(
-      rest.get(apiURL, (req, res, ctx) => {
-        return res(ctx.json(getMaximalCommunicationGroupsSuccess));
-      }),
-    );
-    server.listen();
-  });
-  beforeEach(() => {
-    const store = mockStore(createState({}));
-    const promise = store.dispatch(fetchCommunicationPreferenceGroups());
-    return promise.then(() => {
-      state = store.getState();
-    });
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
-  });
-  describe('selectChannelsWithoutSelection', () => {
-    context('when user has not made any selections', () => {
-      beforeEach(() => {
-        server.use(
-          rest.get(apiURL, (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(noSelectionsMade));
-          }),
-        );
-
-        const store = mockStore(createState({}));
-        const promise = store.dispatch(
-          fetchCommunicationPreferenceGroups({
-            facilities: [{ facilityId: '983' }],
-          }),
-        );
-        return promise.then(() => {
-          state = store.getState();
-        });
-      });
-      it('returns the first channel', () => {
-        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
-          hasMobilePhone: true,
-          hasEmailAddress: true,
-        });
-        const ids = channelsWithoutSelection.ids;
-        expect(ids.length).to.equal(4);
-        expect(channelsWithoutSelection.entities[ids[0]].parentItem).to.equal(
-          'item3',
-        );
-      });
-    });
-    context('when user has made a selection for all available channels', () => {
-      beforeEach(() => {
-        server.use(
-          rest.get(apiURL, (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(allSelectionsMade));
-          }),
-        );
-
-        const store = mockStore(createState({}));
-        const promise = store.dispatch(
-          fetchCommunicationPreferenceGroups({
-            facilities: [{ facilityId: '983' }],
-          }),
-        );
-        return promise.then(() => {
-          state = store.getState();
-        });
-      });
-      it('returns no channels', () => {
-        const channelsWithoutSelection = selectChannelsWithoutSelection(state, {
-          hasMobilePhone: true,
-          hasEmailAddress: true,
-        });
-        expect(channelsWithoutSelection.ids).to.deep.equal([]);
-      });
-    });
-  });
 });

@@ -60,7 +60,7 @@ describe('Dependency Verification', () => {
     }).should('exist');
     cy.injectAxe();
     cy.axeCheck();
-    cy.findByRole('button', { name: /Verify this is correct/i }).click();
+    cy.findByRole('button', { name: /This is correct/i }).click();
     cy.findByRole('heading', {
       name: /Thank you for verifying your dependents/i,
     }).should('exist');
@@ -84,7 +84,7 @@ describe('Dependency Verification', () => {
     }).should('exist');
     cy.injectAxe();
     cy.axeCheck();
-    cy.findByRole('button', { name: /Verify this is correct/i }).click();
+    cy.findByRole('button', { name: /This is correct/i }).click();
     cy.findByRole('heading', {
       name: /We’re sorry. Something went wrong on our end/i,
     }).should('exist');

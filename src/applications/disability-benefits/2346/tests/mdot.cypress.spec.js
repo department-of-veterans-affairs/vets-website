@@ -56,6 +56,8 @@ const testConfig = createTestConfig(
       supplies: () => {
         cy.get('@testKey').then(testKey => {
           if (testKey === 'noBatteries') {
+            // #1 is "Order batteries for this device"
+            // #3 & #5 are "order this accessory" for the available accessories
             cy.get('#3').click({ force: true });
             cy.get('#5').click({ force: true });
           } else if (testKey === 'noAccessories') {
@@ -72,10 +74,9 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       let postData = [];
       cy.get('@testKey').then(testKey => {
-        cy.server();
         cy.login(testKey);
         if (testKey === 'noBatteries') {
-          cy.route('GET', '/v0/user', noBatteries);
+          cy.intercept('GET', '/v0/user', noBatteries);
           postData = [
             {
               status: 'Order Processed',
@@ -89,7 +90,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noAccessories') {
-          cy.route('GET', '/v0/user', noAccessories);
+          cy.intercept('GET', '/v0/user', noAccessories);
           postData = [
             {
               status: 'Order Processed',
@@ -98,7 +99,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noTempAddress') {
-          cy.route('GET', '/v0/user', noTempAddress);
+          cy.intercept('GET', '/v0/user', noTempAddress);
           postData = [
             {
               status: 'Order Processed',
@@ -117,7 +118,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else {
-          cy.route('GET', '/v0/user', happyPath);
+          cy.intercept('GET', '/v0/user', happyPath);
           postData = [
             {
               status: 'Order Processed',
@@ -138,10 +139,10 @@ const testConfig = createTestConfig(
         }
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/MDOT', testData);
       });
       cy.get('@testKey').then(() => {
-        cy.route('POST', '/v0/mdot/supplies', postData);
+        cy.intercept('POST', '/v0/mdot/supplies', postData);
       });
     },
     skip: false,

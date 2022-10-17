@@ -6,12 +6,12 @@ import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import { notLoggedInContent } from './introduction-content/notLoggedInContent';
-import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import LoggedInContent from './introduction-content/loggedInContent';
+import COEIntroPageBox from '../content/COEIntroPageBox';
+import LoggedInContent from '../content/LoggedInContent';
+import NotLoggedInContent from '../content/NotLoggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
-const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
+const IntroductionPage = ({ coe, loggedIn, route, status }) => {
   let content;
 
   useEffect(() => {
@@ -24,13 +24,12 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
 
   if (!loggedIn && coeCallEnded.includes(status)) {
-    content = notLoggedInContent(route);
+    content = <NotLoggedInContent route={route} />;
   }
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
-      <>
+      <div className="vads-u-margin-bottom--2">
         <COEIntroPageBox
-          downloadUrl={downloadUrl}
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
           status={coe.status}
@@ -38,31 +37,29 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
         )}
-      </>
+      </div>
     );
   }
 
   return (
     <>
-      <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
-      <p className="vads-u-padding-bottom--3">
-        Request for a Certificate of Eligibility (VA Form 26-1880)
-      </p>
+      <FormTitle
+        title="Request a VA home loan Certificate of Eligibility (COE)"
+        subTitle="Request for a Certificate of Eligibility (VA Form 26-1880)"
+      />
       {content}
     </>
   );
 };
 
 const mapStateToProps = state => ({
-  coe: state.certificateOfEligibility.coe,
-  downloadUrl: state.certificateOfEligibility.downloadUrl,
+  coe: state.certificateOfEligibility.coe || {},
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
 });
 
 IntroductionPage.propTypes = {
   coe: PropTypes.object,
-  downloadUrl: PropTypes.string,
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,

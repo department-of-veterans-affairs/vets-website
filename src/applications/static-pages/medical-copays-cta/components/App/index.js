@@ -17,11 +17,11 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
   return (
     <va-alert status={loggedIn ? 'info' : 'continue'}>
       {/* Title */}
-      <h2 slot="headline" className="vads-u-font-size--h3">
+      <h3 slot="headline">
         {loggedIn
           ? 'Review your VA copay balances'
           : 'Please sign in to review your VA copay balances'}
-      </h2>
+      </h3>
 
       {/* Explanation */}
       {loggedIn ? (
@@ -42,7 +42,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
       {loggedIn ? (
         <a
           className="vads-c-action-link--blue vads-u-margin-top--2"
-          href="/health-care/pay-copay-bill/your-current-balances/"
+          href="/manage-va-debt/summary/copay-balances"
         >
           Review your current copay balances
         </a>
@@ -50,6 +50,7 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
         <button
           className="va-button-primary"
           onClick={() => toggleLoginModal(true)}
+          type="button"
         >
           Sign in or create an account
         </button>
@@ -59,11 +60,11 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
 };
 
 App.propTypes = {
+  // From mapDispatchToProps.
+  toggleLoginModal: PropTypes.func.isRequired,
   // From mapStateToProps.
   loggedIn: PropTypes.bool,
   show: PropTypes.bool,
-  // From mapDispatchToProps.
-  toggleLoginModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

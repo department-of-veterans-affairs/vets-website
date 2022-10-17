@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { apiRequest } from 'platform/utilities/api';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
 import OnThisPageLinks from './OnThisPageLinks';
+import OtherVADebts from './OtherVADebts';
+import {
+  cdpAccessToggle,
+  ALERT_TYPES,
+  APP_TYPES,
+  API_RESPONSES,
+} from '../utils/helpers';
+import alertMessage from '../utils/alert-messages';
 
 const ErrorAlert = () => (
   <section
@@ -53,9 +62,45 @@ const EmptyItemsAlert = () => (
   </section>
 );
 
+const renderAlert = (alertType, hasCopays) => {
+  const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
+  const showOther = hasCopays > 0;
+  return (
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+      <h2 className="vads-u-font-size--h3" slot="headline">
+        {alertInfo.header}
+      </h2>
+      {alertInfo.body}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
+      {alertType === ALERT_TYPES.ALL_ERROR && (
+        <>
+          <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
+          {alertInfo.secondBody}
+        </>
+      )}
+    </va-alert>
+  );
+};
+
+const fetchCopaysResponseAsync = async () => {
+  return apiRequest('/medical_copays')
+    .then(response => {
+      return response.data.length;
+    })
+    .catch(() => {
+      return API_RESPONSES.ERROR;
+    });
+};
+
 const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
+  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
+  const [hasCopays, setHasCopays] = useState(null);
+
   useEffect(() => {
     scrollToTop();
+    fetchCopaysResponseAsync().then(hasCopaysResponse =>
+      setHasCopays(hasCopaysResponse),
+    );
   }, []);
 
   const allDebtsFetchFailure = isVBMSError && isError;
@@ -70,8 +115,14 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
       </Breadcrumbs>
 
-      <section className="vads-l-row vads-u-margin-x--neg2p5">
-        <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
+      <section
+        className="vads-l-row vads-u-margin-x--neg2p5"
+        data-testid="current-va-debt"
+      >
+        <h1
+          data-testid="summary-page-title"
+          className="vads-u-padding-x--2p5 vads-u-margin-bottom--2"
+        >
           Current VA debt
         </h1>
 
@@ -83,22 +134,36 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
               how to pay your debt and what to do if you need financial
               assistance.
             </p>
-
-            {allDebtsFetchFailure && <ErrorAlert />}
-
-            {allDebtsEmpty && <EmptyItemsAlert />}
-
-            {!allDebtsFetchFailure && (
+            {showCDPComponents && (isError || debts.length === 0) ? (
               <>
-                <OnThisPageLinks />
+                {isError
+                  ? renderAlert(
+                      hasCopays === API_RESPONSES.ERROR
+                        ? ALERT_TYPES.ALL_ERROR
+                        : ALERT_TYPES.ERROR,
+                      hasCopays,
+                    )
+                  : renderAlert(ALERT_TYPES.ZERO, hasCopays)}
+              </>
+            ) : (
+              <>
+                {allDebtsFetchFailure && <ErrorAlert />}
 
-                <DebtCardsList />
+                {allDebtsEmpty && <EmptyItemsAlert />}
+
+                {!allDebtsFetchFailure && (
+                  <>
+                    <OnThisPageLinks />
+
+                    <DebtCardsList hasCopays={hasCopays} />
+                  </>
+                )}
+
+                <HowDoIPay />
+
+                <NeedHelp />
               </>
             )}
-
-            <HowDoIPay />
-
-            <NeedHelp />
           </div>
         </div>
       </section>

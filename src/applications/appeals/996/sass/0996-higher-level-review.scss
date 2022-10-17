@@ -1,0 +1,429 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.schemaform-intro {
+  padding: 0 0 2rem 0;
+
+  .process-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .omb-info--container {
+    margin-top: 1em;
+  }
+}
+
+/* Global */
+.nowrap {
+  white-space: nowrap;
+}
+
+fieldset.vads-u-margin-y--2,
+/* Wizard */
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0 !important;
+}
+
+/* Fix margins around the form back & continue buttons */
+.input-section,
+.row.form-progress-buttons {
+  margin-bottom: 1em;
+}
+
+/* Step 1a */
+/* Veteran details block */
+.blue-bar-block {
+  border-left: 7px solid $color-primary;
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+/* Step 2 */
+/*** Contested issues block ***/
+
+/* global definitions */
+// hide Required label (added to description)
+#root_contestedIssues-label {
+  display: none;
+}
+
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
+dl.review {
+  /* v2 cards */
+  .widget-wrapper-v2 {
+    display: flex;
+
+    dt.widget-checkbox-wrap {
+      margin: 0;
+      width: 5rem;
+      min-width: 5rem;
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    dt label {
+      margin-top: 0;
+    }
+
+    .widget-title {
+      margin: 0;
+      white-space: nowrap;
+      text-transform: capitalize;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: calc(100% - 7rem);
+    }
+
+    dd.widget-content {
+      width: 100%;
+      margin-inline-start: 0; /* override user agent */
+      text-align: left;
+      margin: 0;
+    }
+    dd.widget-content.widget-edit {
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+    .change-issue-link:visited {
+      color: inherit;
+    }
+  }
+
+  .widget-outline {
+    background: transparent;
+    border: solid 4px $color-primary-alt-light;
+    border-radius: 7px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: auto; /* IE11 */
+    max-width: unset;
+
+    &.selected {
+      border-color: $color-primary;
+    }
+
+    &::before {
+      position: absolute;
+      margin-left: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  .checkbox-hidden {
+    dt.widget-checkbox-wrap {
+      width: 0;
+    }
+
+    .widget-title {
+      margin-left: 0;
+      width: 100%;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    .widget-content {
+      margin: 2rem 0 0 2rem;
+    }
+  }
+}
+
+.usa-input-error #root_additionalIssues_0_decisionDate-label {
+  font-weight: bold;
+}
+
+.review-row > dd {
+  word-break: break-word;
+}
+
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
+}
+
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
+}
+/* IE11 fix legend not wrapping on small screens */
+legend.schemaform-block-title {
+  width: 100%;
+}
+
+.eligible-issues-error h3 {
+  font-size: 1.7rem /* vads-u-font-size--md */
+}
+
+/* Contested issue page specific definitions */
+article[data-location="contested-issues"] {
+  /* hide error; we have a huge alert box instead; but it needs to show on
+   * the review & submit page because the alert doesn't show up
+   */
+  #root_contestedIssues-error-message {
+    display: none;
+  }
+
+  .usa-input-error {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  dl.review {
+    border-bottom-width: 0;
+  }
+}
+
+/* Contestable issues - HLR v2 */
+article[data-location="contestable-issues"] {
+  /* fixes va.gov-team/issues/34714 */
+  fieldset > div {
+    clear: both;
+  }
+  fieldset legend {
+    float: left; /* moves legend inside fieldset */
+  }
+}
+
+/* Add issue loop page */
+article[data-location="add-issue"] {
+  .usa-input-error {
+    margin-top: 0;
+  }
+  legend {
+    padding-bottom: 0;
+  }
+  /* override !important normal weight on legend */
+  .input-error-date legend {
+    font-weight: bold !important;
+  }
+  #add-hlr-issue {
+    margin-top: 0;
+  }
+  /* Hide extra "Required" label */
+  p.label-description + span {
+    display: none;
+  }
+}
+
+/* Area of disagreement */
+.area-of-disagreement-label {
+  margin-top: 0;
+
+  .usa-input-error-message {
+    display: none;
+  }
+}
+.area-of-disagreement-label[data-submitted="true"].usa-input-error {
+  .usa-input-error-message {
+    display: block;
+  }
+  .input-section {
+    margin-bottom: 0;
+  }
+}
+.area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+label[for^="root_disagreementOptions"] {
+  margin-top: 3rem;
+}
+
+/* override formation to maintain margin between checkboxes */
+.usa-input-error label {
+  margin-top: 3rem;
+}
+#root_otherEntry-label {
+  margin-top: 2rem;
+}
+.usa-input-error > label {
+  margin-top: 0;
+}
+
+/* Step 3 */
+/* Informal conference */
+/* global */
+#root_informalConferenceTimes-label {
+  p {
+    margin-top: 0;
+  }
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
+.schemaform-block-header > p + p {
+  margin-top: 1rem;
+}
+
+/* page specific */
+article[data-contact-choice] .contact-choice {
+  display: none;
+}
+
+article[data-location^="area-of-disagreement"],
+article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .area-of-disagreement-label.usa-input-error ~ div {
+    /* add left red border to 2 associated divs */
+    border-left: 4px solid var(--color-secondary-dark);
+    position: relative;
+    right: 1.9rem;
+    padding-left: 1.9rem;
+
+    .vads-u-margin-y--2 {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    #root_otherEntry-label {
+      margin-top: 0 !important;
+      padding-top: 2rem;
+    }
+    label[for="root_disagreementOptions_evaluation"] {
+      margin-bottom: 0;
+    }
+  }
+}
+
+article[data-contact-choice="rep"] .contact-choice.selected-rep,
+article[data-contact-choice="me"] .contact-choice.selected-me {
+  display: inline-block;
+}
+
+article[data-location="informal-conference/representative-info"],
+article[data-location="informal-conference/representative-information"] {
+  .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
+article[data-location="informal-conference/availability"] {
+  #root_informalConferenceTimes_time2-label {
+    margin-top: 2rem;
+  }
+}
+
+/* Step 4 Review Application */
+article[data-location="review-and-submit"] {
+  .normal-weight-in-review {
+    font-weight: normal;
+  }
+  dl.review .widget-wrapper-v2.checkbox-hidden {
+    margin-top: 1rem;
+
+    dt.widget-checkbox-wrap {
+      width: 0;
+      min-width: 0;
+    }
+  }
+  dd {
+    word-break: break-all;
+  }
+}
+
+@media (max-width: $small-screen) {
+  dl.review,
+  div.review {
+    .review-row {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .review-row > dd {
+      padding-left: 0;
+      text-align: left;
+    }
+
+    .review-row > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    dd.widget-content {
+      margin: 2.5rem 0 0 1rem;
+    }
+
+    .checkbox-hidden {
+      .widget-content {
+        margin: 0 0 0 1rem;
+      }
+    }
+  }
+}
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
+  }
+
+  @media print {
+    .confirmation-page-title,
+    a {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
+  }
+}

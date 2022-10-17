@@ -2,6 +2,7 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
@@ -11,8 +12,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
@@ -99,7 +99,7 @@ async function getScaffoldAssets() {
   const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
 
   const REMOTE_CONTENT_BUILD_ROOT =
-    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
+    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main';
 
   const loadAsset = async contentBuildPath => {
     const filename = path.basename(contentBuildPath);
@@ -130,11 +130,9 @@ async function getScaffoldAssets() {
     return [filename, fileContents];
   };
 
-  const inlineScripts = [
-    'incompatible-browser.js',
-    'record-event.js',
-    'static-page-widgets.js',
-  ].map(filename => path.join('src/site/assets/js', filename));
+  const inlineScripts = ['record-event.js', 'static-page-widgets.js'].map(
+    filename => path.join('src/site/assets/js', filename),
+  );
 
   const appRegistry = path.join('src/applications', 'registry.json');
 
@@ -257,17 +255,12 @@ module.exports = async (env = {}) => {
   };
 
   const apps = getEntryPoints(buildOptions.entry);
-  const entryFiles = Object.assign({}, apps, globalEntryFiles);
+  const entryFiles = { ...apps, ...globalEntryFiles };
   const isOptimizedBuild = [VAGOVSTAGING, VAGOVPROD].includes(buildtype);
   const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
-
-  // enable css sourcemaps for all non-localhost builds
-  // or if build options include local-css-sourcemaps or entry
-  const enableCSSSourcemaps =
-    buildtype !== LOCALHOST ||
-    buildOptions['local-css-sourcemaps'] ||
-    !!buildOptions.entry;
+  const envBucketUrl = BUCKETS[buildtype];
+  const sourceMapSlug = envBucketUrl || '';
 
   const buildPath = path.resolve(
     __dirname,
@@ -277,7 +270,8 @@ module.exports = async (env = {}) => {
   );
 
   const baseConfig = {
-    mode: 'development',
+    mode: isOptimizedBuild ? 'production' : 'development',
+    devtool: false,
     entry: entryFiles,
     output: {
       path: path.resolve(buildPath, 'generated'),
@@ -308,7 +302,7 @@ module.exports = async (env = {}) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: enableCSSSourcemaps,
+                sourceMap: true,
               },
             },
             {
@@ -379,6 +373,10 @@ module.exports = async (env = {}) => {
       symlinks: false,
     },
     optimization: {
+      // 'chunkIds' and 'moduleIds' are set to 'named' for preserving
+      // consistency between full and single app builds
+      chunkIds: 'named',
+      moduleIds: 'named',
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -408,6 +406,14 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.MAPBOX_TOKEN': JSON.stringify(
+          process.env.MAPBOX_TOKEN || '',
+        ),
+      }),
+
+      new webpack.SourceMapDevToolPlugin({
+        append: `\n//# sourceMappingURL=${sourceMapSlug}/generated/[url]`,
+        filename: '[file].map',
       }),
 
       new StylelintPlugin({
@@ -421,6 +427,15 @@ module.exports = async (env = {}) => {
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/,
+      }),
+
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'src/site/assets',
+            to: buildPath,
+          },
+        ],
       }),
 
       new WebpackBar(),
@@ -437,18 +452,6 @@ module.exports = async (env = {}) => {
     );
   }
 
-  // Copy over image assets for when metalsmith is removed
-  baseConfig.plugins.push(
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/site/assets',
-          to: buildPath,
-        },
-      ],
-    }),
-  );
-
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
     const scaffoldedHtml = generateHtmlFiles(buildPath, scaffoldAssets);
@@ -463,30 +466,6 @@ module.exports = async (env = {}) => {
           getEntryManifests(buildOptions.entry)[0].rootUrl
         : '';
     baseConfig.devServer.open = { target };
-  }
-
-  if (isOptimizedBuild) {
-    const bucket = BUCKETS[buildtype];
-
-    baseConfig.plugins.push(
-      new webpack.SourceMapDevToolPlugin({
-        append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
-        filename: '[file].map',
-      }),
-    );
-
-    // baseConfig.plugins.optimization.moduleIds = 'deterministic';
-    baseConfig.mode = 'production';
-  } else {
-    baseConfig.devtool = 'eval-source-map';
-
-    // The eval-source-map devtool doesn't seem to work for CSS, so we
-    // add a separate plugin for CSS source maps.
-    baseConfig.plugins.push(
-      new webpack.SourceMapDevToolPlugin({
-        test: /\.css$/,
-      }),
-    );
   }
 
   if (buildOptions.analyzer) {

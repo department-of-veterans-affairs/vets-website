@@ -1,6 +1,6 @@
-import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import moment from '../../../lib/moment-tz';
 import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import {
   getTypeOfCare,
@@ -10,6 +10,32 @@ import {
   getChosenSlot,
 } from '../selectors';
 import { getClinicId } from '../../../services/healthcare-service';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
+
+function getReasonCode({ data, isCC }) {
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.serviceName;
+
+  let reasonText = null;
+  if (isCC && data.reasonAdditionalInfo) {
+    reasonText = data.reasonAdditionalInfo.slice(0, 250);
+  }
+  if (!isCC) {
+    reasonText = data.reasonAdditionalInfo.slice(0, 100);
+  }
+
+  return {
+    // If the user selects one of the three preset radio selections
+    // ("Routine Follow-up", "New Problem", or "Medication Concern"), then that values goes
+    // in reasonCode.coding[0].code.
+    coding: code ? [{ code }] : undefined,
+    // Per Brad - All comments should be sent in the reasonCode.text field and should should be
+    // truncated to 100 char for both VA appointment types only. CC appointments will continue
+    // to be truncated to 250 char
+    text: data.reasonAdditionalInfo ? reasonText : null,
+  };
+}
 
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
@@ -57,13 +83,14 @@ export function transformFormToVAOSCCRequest(state) {
   }
 
   const typeOfCare = getTypeOfCare(data);
-
+  const facilityTimezone = getTimezoneByFacilityId(data.communityCareSystemId);
   return {
     kind: 'cc',
     status: 'proposed',
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
-    comment: data.reasonAdditionalInfo,
+    // comment: data.reasonAdditionalInfo,
+    reasonCode: getReasonCode({ data, isCC: true }),
     contact: {
       telecom: [
         {
@@ -77,9 +104,13 @@ export function transformFormToVAOSCCRequest(state) {
       ],
     },
     requestedPeriods: data.selectedDates.map(date => ({
-      start: moment.utc(date).format(),
+      start: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .format(),
       end: moment
-        .utc(date)
+        .tz(date, facilityTimezone)
+        .utc()
         .add(12, 'hours')
         .subtract(1, 'minute')
         .format(),
@@ -99,9 +130,6 @@ export function transformFormToVAOSCCRequest(state) {
 export function transformFormToVAOSVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const code = PURPOSE_TEXT_V2.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  )?.serviceName;
 
   return {
     kind: data.visitType,
@@ -109,21 +137,8 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reasonCode:
-      code === 'Other'
-        ? {
-            coding: [],
-            text: data.reasonAdditionalInfo,
-          }
-        : {
-            coding: [
-              {
-                code,
-              },
-            ],
-            text: code,
-          },
-    comment: data.reasonAdditionalInfo,
+    reasonCode: getReasonCode({ data, isCC: false }),
+    // comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
         {
@@ -151,14 +166,6 @@ export function transformFormToVAOSVARequest(state) {
   };
 }
 
-// function getUserMessage(data) {
-//   const label = PURPOSE_TEXT.find(
-//     purpose => purpose.id === data.reasonForAppointment,
-//   ).short;
-
-//   return `${label}: ${data.reasonAdditionalInfo}`;
-// }
-
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
@@ -179,5 +186,6 @@ export function transformFormToVAOSAppointment(state) {
     locationId: data.vaFacility,
     // removing this for now, it's preventing QA from testing, will re-introduce when the team figures out how we're handling the comment field
     // comment: getUserMessage(data),
+    reasonCode: getReasonCode({ data, isCC: false }),
   };
 }

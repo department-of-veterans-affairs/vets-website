@@ -9,12 +9,12 @@ import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
+import { beforeEach } from 'mocha';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
-import { beforeEach } from 'mocha';
 
 // the list of number fields that we need to test
 const numbers = [
@@ -58,7 +58,7 @@ function editPhoneNumber(numberName) {
     `${numberName} (U.S. numbers only)`,
     { exact: false },
   );
-  const extensionInput = view.getByLabelText(/Extension/);
+  const extensionInput = view.getByLabelText('Extension (6 digits maximum)');
   expect(phoneNumberInput).to.exist;
 
   // enter a new phone number in the form
@@ -151,8 +151,6 @@ async function testTransactionCreationFails(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
-  // TODO: would be nice to be able to check the contents against a RegExp
   expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
@@ -170,8 +168,6 @@ async function testQuickFailure(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
-  // TODO: would be nice to be able to check the contents against a RegExp
   expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited

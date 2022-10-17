@@ -87,18 +87,6 @@
         "value": true
       },
       {
-        "name": "ssoe",
-        "value": false
-      },
-      {
-        "name": "ssoe_inbound",
-        "value": false
-      },
-      {
-        "name": "ssoe_ebenefits_links",
-        "value": false
-      },
-      {
         "name": "eduBenefitsStemScholarship",
         "value": true
       },
@@ -127,11 +115,11 @@
         "value": true
       },
       {
-        "name": "canUpload1010cgPOA",
+        "name": "caregiverUseFacilitiesApi",
         "value": true
       },
       {
-        "name": "can_upload_10_10cg_poa",
+        "name": "caregiver_use_facilities_API",
         "value": true
       }
     ]

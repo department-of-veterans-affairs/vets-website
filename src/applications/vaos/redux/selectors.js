@@ -67,3 +67,18 @@ export const selectFeaturePocHealthApt = state =>
 
 export const selectFeatureStatusImprovement = state =>
   toggleValues(state).vaOnlineSchedulingStatusImprovement;
+
+export const selectFeatureFilter36Vats = state =>
+  toggleValues(state).vaOnlineFilter36Vats;
+
+export const selectFeatureVaosV2Next = state =>
+  toggleValues(state).vaOnlineSchedulingVAOSV2Next;
+
+export const selectFeatureAppointmentList = state =>
+  toggleValues(state).vaOnlineSchedulingAppointmentList;
+
+export const selectFeatureClinicFilter = state =>
+  toggleValues(state).vaOnlineSchedulingClinicFilter;
+
+export const selectFeatureAcheronService = state =>
+  toggleValues(state).vaOnlineSchedulingAcheronService;

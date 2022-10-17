@@ -1,44 +1,45 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
-import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
 import {
-  secondaryOneInputLabel,
-  hasSecondaryCaregiverTwoUI,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+  secondaryOneFields,
+  emptyObjectSchema,
+} from '../../../definitions/constants';
+import { secondaryOneContactIntro } from '../../../definitions/content';
 import {
   emailUI,
   vetRelationshipUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
-  addressWithoutCountryUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+  addressWithAutofillUI,
+  emailEncouragementUI,
+} from '../../../definitions/UIDefinitions/sharedUI';
+import {
+  secondaryOneInputLabel,
+  hasSecondaryCaregiverTwoUI,
+} from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
+const { address } = fullSchema.definitions;
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
 
-const { address } = fullSchema.definitions;
-
 const secondaryCaregiverContactPage = {
   uiSchema: {
-    'ui:description': SecondaryCaregiverInfo({
-      pageTitle: 'Contact information',
-    }),
-    // secondaryOne UI
-    [secondaryOneFields.address]: addressWithoutCountryUI(
-      secondaryOneInputLabel,
-    ),
+    'ui:description': formContext =>
+      SecondaryCaregiverDescription({
+        formContext,
+        pageTitle: 'Secondary Family Caregiver contact information',
+        introText: secondaryOneContactIntro,
+        showContactIntro: true,
+      }),
+    [secondaryOneFields.address]: addressWithAutofillUI(),
     [secondaryOneFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       secondaryOneInputLabel,
     ),
     [secondaryOneFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       secondaryOneInputLabel,
     ),
+    [secondaryOneFields.emailEncouragementMessage]: emailEncouragementUI(),
     [secondaryOneFields.email]: emailUI(secondaryOneInputLabel),
-    [secondaryOneFields.verifyEmail]: confirmationEmailUI(
-      secondaryOneInputLabel,
-      secondaryOneFields.email,
-    ),
     [secondaryOneFields.vetRelationship]: vetRelationshipUI(
       secondaryOneInputLabel,
     ),
@@ -52,14 +53,19 @@ const secondaryCaregiverContactPage = {
       secondaryOneFields.primaryPhoneNumber,
     ],
     properties: {
-      // secondaryOne properties
-      [secondaryOneFields.address]: address,
+      [secondaryOneFields.address]: {
+        ...address,
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
+      },
       [secondaryOneFields.primaryPhoneNumber]:
         secondaryCaregiverOneProps.primaryPhoneNumber,
       [secondaryOneFields.alternativePhoneNumber]:
         secondaryCaregiverOneProps.alternativePhoneNumber,
+      [secondaryOneFields.emailEncouragementMessage]: emptyObjectSchema,
       [secondaryOneFields.email]: secondaryCaregiverOneProps.email,
-      [secondaryOneFields.verifyEmail]: secondaryCaregiverOneProps.email,
       [secondaryOneFields.vetRelationship]:
         secondaryCaregiverOneProps.vetRelationship,
       [secondaryOneFields.hasSecondaryCaregiverTwo]: {

@@ -1,20 +1,24 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { fetchVerificationStatus } from '../actions';
+import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
-import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import {
+  ENROLLMENT_VERIFICATION_TYPE,
+  getEnrollmentVerificationStatus,
+} from '../helpers';
 
 export const EnrollmentVerificationPage = ({
-  getVerificationStatus,
+  enrollmentVerification,
+  getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   loggedIn,
-  verificationStatus,
+  post911GiBillEligibility,
 }) => {
   const history = useHistory();
 
@@ -24,22 +28,25 @@ export const EnrollmentVerificationPage = ({
         history.push('/');
       }
 
-      if (!verificationStatus) {
-        getVerificationStatus();
+      if (!enrollmentVerification) {
+        getPost911GiBillEligibility();
       }
     },
     [
-      getVerificationStatus,
       hasCheckedKeepAlive,
       history,
       loggedIn,
-      verificationStatus,
+      post911GiBillEligibility,
+      getPost911GiBillEligibility,
+      enrollmentVerification,
     ],
   );
 
-  if (!verificationStatus) {
+  if (!enrollmentVerification) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
+
+  const status = getEnrollmentVerificationStatus(enrollmentVerification);
 
   return (
     <EnrollmentVerificationPageWrapper>
@@ -49,13 +56,16 @@ export const EnrollmentVerificationPage = ({
         both) under the Post-9/11 GI Bill
         <sup>&reg;</sup> (Chapter 33), you’ll need to verify your enrollment
         each month. If you don’t verify your enrollment for{' '}
-        <strong>three months in a row</strong>, we will pause your monthly
+        <strong>two months in a row</strong>, we will pause your monthly
         education payments.
       </p>
 
-      <EnrollmentVerificationAlert status={verificationStatus} />
+      <EnrollmentVerificationAlert status={status} />
 
-      <EnrollmentVerificationMonths status={verificationStatus} />
+      <EnrollmentVerificationMonths
+        status={status}
+        enrollmentVerification={enrollmentVerification}
+      />
 
       <div className="ev-highlighted-content-container">
         <header className="ev-highlighted-content-container_header">
@@ -80,24 +90,26 @@ export const EnrollmentVerificationPage = ({
   );
 };
 
+EnrollmentVerificationPage.propTypes = {
+  enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
+  getPost911GiBillEligibility: PropTypes.func,
+  hasCheckedKeepAlive: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  post911GiBillEligibility: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
   hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  verificationStatus: state?.data?.verificationStatus,
+  enrollmentVerification: state?.data?.enrollmentVerification,
+  post911GiBillEligibility: state?.data?.post911GiBillEligibility,
 });
 
 const mapDispatchToProps = {
-  getVerificationStatus: fetchVerificationStatus,
+  getPost911GiBillEligibility: fetchPost911GiBillEligibility,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationPage);
-
-EnrollmentVerificationPage.propTypes = {
-  getVerificationStatus: PropTypes.func,
-  hasCheckedKeepAlive: PropTypes.bool,
-  loggedIn: PropTypes.bool,
-  verificationStatus: ENROLLMENT_VERIFICATION_TYPE,
-};

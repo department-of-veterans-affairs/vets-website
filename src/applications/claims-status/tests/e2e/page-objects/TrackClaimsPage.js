@@ -4,12 +4,14 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 class TrackClaimsPage {
   loadPage(claimsList, mock = null, submitForm = false) {
     if (submitForm) {
-      cy.intercept('POST', `/v0/evss_claims/11/request_decision`, {
+      cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
         body: {},
       }).as('askVA');
     }
     if (mock) {
-      cy.intercept('GET', `/v0/evss_claims_async/11`, mock).as('detailRequest');
+      cy.intercept('GET', `/v0/evss_claims_async/189685`, mock).as(
+        'detailRequest',
+      );
     }
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
@@ -84,7 +86,7 @@ class TrackClaimsPage {
     cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
       .click()
       .then(() => {
-        cy.url().should('contain', '/your-claims/11/status');
+        cy.url().should('contain', '/your-claims/189685/status');
       });
   }
 
@@ -99,7 +101,7 @@ class TrackClaimsPage {
         cy.injectAxeThenAxeCheck();
       });
 
-    cy.get('.main .usa-alert')
+    cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
         cy.wrap(alertElem).should('contain', 'Your claim decision is ready');
@@ -119,7 +121,7 @@ class TrackClaimsPage {
         cy.injectAxeThenAxeCheck();
       });
 
-    cy.url().should('contain', '/your-claims/11/status');
+    cy.url().should('contain', '/your-claims/189685/status');
 
     // Disabled until COVID-19 message removed
     // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
@@ -216,7 +218,7 @@ class TrackClaimsPage {
         cy.get('.claim-details').should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
-    cy.url().should('contain', '/your-claims/11/details');
+    cy.url().should('contain', '/your-claims/189685/details');
   }
 
   verifyClaimDetails() {
@@ -271,8 +273,10 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('button.usa-button').should('contain', 'Submit Files for Review');
-    cy.get('button.usa-button')
+    cy.get('[data-cy="submit-files-button"]')
+      .should('contain', 'Submit Files for Review')
+      .click();
+    cy.get('[data-cy="submit-files-button"]')
       .click()
       .then(() => {
         cy.get('.usa-input-error');

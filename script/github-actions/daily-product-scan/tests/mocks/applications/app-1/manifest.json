@@ -1,0 +1,7 @@
+{
+  "appName": "Mock App 1",
+  "entryFile": "./index.js",
+  "entryName": "app-1",
+  "rootUrl": "/app-1",
+  "productId": "b1ad72a5-aac8-4331-aa0b-8d0c2e9c1915"
+}

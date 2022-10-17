@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { kebabCase } from 'lodash';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   openModal,
-} from '@@vap-svc/actions';
+} from 'platform/user/profile/vap-svc/actions';
 
 import {
   selectAddressValidationType,
@@ -24,24 +23,31 @@ import {
   selectVAPServiceTransaction,
   selectEditViewData,
   selectMostRecentlyUpdatedField,
-} from '@@vap-svc/selectors';
+  selectUseInformationEditViewVAFSC,
+} from 'platform/user/profile/vap-svc/selectors';
 
-import { selectVAProfilePersonalInformation } from '@@profile/selectors';
+import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
-import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
-import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
+import VAPServiceTransaction from 'platform/user/profile/vap-svc/components/base/VAPServiceTransaction';
+import AddressValidationView from 'platform/user/profile/vap-svc/containers/AddressValidationView';
 
-import ProfileInformationEditView from '@@profile/components/ProfileInformationEditView';
-import ProfileInformationView from '@@profile/components/ProfileInformationView';
+import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
+import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
+import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
 
-import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
-import { isVAPatient } from '~/platform/user/selectors';
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
+import { isFieldEmpty } from 'applications/personalization/profile/util';
 
-import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
+import { isVAPatient } from 'platform/user/selectors';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
+
+import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
@@ -54,9 +60,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
-export const getEditButtonId = fieldName => {
-  return `edit-${kebabCase(VAP_SERVICE.FIELD_TITLES[fieldName])}`;
-};
+import { getEditButtonId } from '../util/id-factory';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -72,53 +76,23 @@ const classes = {
 };
 
 class ProfileInformationFieldController extends React.Component {
-  static propTypes = {
-    activeEditView: PropTypes.string,
-    analyticsSectionName: PropTypes.oneOf(
-      Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-    ).isRequired,
-    apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-    blockEditMode: PropTypes.bool.isRequired,
-    cancelCallback: PropTypes.func,
-    clearTransactionRequest: PropTypes.func.isRequired,
-    convertCleanDataToPayload: PropTypes.func.isRequired,
-    createTransaction: PropTypes.func.isRequired,
-    data: PropTypes.object,
-    editViewData: PropTypes.object,
-    fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
-      .isRequired,
-    forceEditView: PropTypes.bool,
-    formSchema: PropTypes.object.isRequired,
-    hasUnsavedEdits: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
-    openModal: PropTypes.func.isRequired,
-    refreshTransactionRequest: PropTypes.func,
-    showEditView: PropTypes.bool.isRequired,
-    isDeleteDisabled: PropTypes.bool,
-    showValidationView: PropTypes.bool.isRequired,
-    successCallback: PropTypes.func,
-    title: PropTypes.string,
-    transaction: PropTypes.object,
-    transactionRequest: PropTypes.object,
-    uiSchema: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    fieldName: '',
-    hasUnsavedEdits: false,
-    isDeleteDisabled: false,
-  };
-
-  state = {
-    showCannotEditModal: false,
-    showConfirmCancelModal: false,
-  };
-
   closeModalTimeoutID = null;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCannotEditModal: false,
+      showConfirmCancelModal: false,
+    };
+  }
+
   componentDidUpdate(prevProps) {
-    const { fieldName, forceEditView, successCallback } = this.props;
+    const {
+      fieldName,
+      forceEditView,
+      successCallback,
+      showUpdateSuccessAlert,
+    } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
@@ -135,6 +109,13 @@ class ProfileInformationFieldController extends React.Component {
       );
     }
 
+    // component should clear timeout if the showUpdateSuccessAlert is set to true
+    // this is used to prevent the alerts from disappearing when a user directly updates
+    // their mailing address from the home address flow
+    if (showUpdateSuccessAlert) {
+      clearTimeout(this.closeModalTimeoutID);
+    }
+
     // Do not auto-exit edit view if the transaction failed
     if (this.transactionJustFailed(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
@@ -143,7 +124,7 @@ class ProfileInformationFieldController extends React.Component {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
-      } else if (this.props.showUpdateSuccessAlert) {
+      } else if (showUpdateSuccessAlert) {
         focusElement('[data-testid=update-success-alert]');
         // Success check after confirming suggested address
         if (forceEditView && typeof successCallback === 'function') {
@@ -223,22 +204,22 @@ class ProfileInformationFieldController extends React.Component {
     this.openEditModal();
   };
 
-  justClosedModal(prevProps, props) {
+  justClosedModal = (prevProps, props) => {
     return (
       (prevProps.showEditView && !props.showEditView) ||
       (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
-  }
+  };
 
-  transactionJustFailed(prevProps, props) {
+  transactionJustFailed = (prevProps, props) => {
     const previousTransaction = prevProps.transaction;
     const currentTransaction = props.transaction;
     return (
       !isFailedTransaction(previousTransaction) &&
       isFailedTransaction(currentTransaction)
     );
-  }
+  };
 
   closeModal = () => {
     this.props.openModal(null);
@@ -267,13 +248,13 @@ class ProfileInformationFieldController extends React.Component {
     );
   };
 
-  captureEvent(actionName) {
+  captureEvent = actionName => {
     recordEvent({
       event: 'profile-navigation',
       'profile-action': actionName,
       'profile-section': this.props.analyticsSectionName,
     });
-  }
+  };
 
   isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
 
@@ -284,6 +265,32 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.openRemoveModal();
+  };
+
+  // only require certain fields based on initial data from api on that field
+  requireFieldBasedOnInitialValue = formSchema => {
+    const activeFields = [
+      VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY,
+    ];
+
+    // TODO: handle multi-select values for when sexual orientation and pronouns are released
+    const newFormSchema = { ...formSchema };
+    const { fieldName, data, editViewData } = this.props;
+
+    // only check field value if field is one of personal info fields
+    if (Object.values(activeFields).includes(fieldName)) {
+      const initialValues = getInitialFormValues({
+        fieldName,
+        data,
+        modalData: editViewData,
+      });
+
+      // only make the field required if there is an initial value for the field
+      if (initialValues?.[fieldName]) {
+        newFormSchema.required = [fieldName];
+      }
+    }
+    return newFormSchema;
   };
 
   render() {
@@ -301,8 +308,9 @@ class ProfileInformationFieldController extends React.Component {
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
+      ariaDescribedBy,
+      shouldUseInformationEditViewVAFSC,
     } = this.props;
-
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -329,7 +337,6 @@ class ProfileInformationFieldController extends React.Component {
         </VAPServiceTransaction>
       );
     };
-
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
@@ -337,10 +344,14 @@ class ProfileInformationFieldController extends React.Component {
           data={data}
           fieldName={fieldName}
           title={title}
+          id={ariaDescribedBy}
         />
 
         {this.props.showUpdateSuccessAlert ? (
-          <div data-testid="update-success-alert">
+          <div
+            data-testid="update-success-alert"
+            className="vads-u-width--full"
+          >
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
@@ -352,6 +363,7 @@ class ProfileInformationFieldController extends React.Component {
                 aria-label={`Edit ${title}`}
                 type="button"
                 data-action="edit"
+                aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
@@ -379,7 +391,28 @@ class ProfileInformationFieldController extends React.Component {
     );
 
     if (showEditView || forceEditView) {
-      content = (
+      content = shouldUseInformationEditViewVAFSC ? (
+        <>
+          <ProfileInformationEditViewVAFSC
+            getInitialFormValues={() =>
+              getInitialFormValues({
+                fieldName,
+                data: this.props.data,
+                modalData: this.props.editViewData,
+              })
+            }
+            onCancel={this.onCancel}
+            fieldName={this.props.fieldName}
+            apiRoute={this.props.apiRoute}
+            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
+            uiSchema={this.props.uiSchema}
+            formSchema={this.requireFieldBasedOnInitialValue(
+              this.props.formSchema,
+            )}
+            title={title}
+          />
+        </>
+      ) : (
         <ProfileInformationEditView
           getInitialFormValues={() =>
             getInitialFormValues({
@@ -393,7 +426,9 @@ class ProfileInformationFieldController extends React.Component {
           apiRoute={this.props.apiRoute}
           convertCleanDataToPayload={this.props.convertCleanDataToPayload}
           uiSchema={this.props.uiSchema}
-          formSchema={this.props.formSchema}
+          formSchema={this.requireFieldBasedOnInitialValue(
+            this.props.formSchema,
+          )}
           title={title}
         />
       );
@@ -459,6 +494,46 @@ const shouldShowUpdateSuccessAlert = (state, field) => {
     : mostRecentSaveField === field;
 };
 
+ProfileInformationFieldController.defaultProps = {
+  isDeleteDisabled: false,
+};
+
+ProfileInformationFieldController.propTypes = {
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  blockEditMode: PropTypes.bool.isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  hasUnsavedEdits: PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
+  isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
+  openModal: PropTypes.func.isRequired,
+  shouldUseInformationEditViewVAFSC: PropTypes.bool.isRequired,
+  showEditView: PropTypes.bool.isRequired,
+  showValidationView: PropTypes.bool.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  activeEditView: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
+  cancelCallback: PropTypes.func,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  forceEditView: PropTypes.bool,
+  isDeleteDisabled: PropTypes.bool,
+  refreshTransaction: PropTypes.func,
+  refreshTransactionRequest: PropTypes.func,
+  showRemoveModal: PropTypes.bool,
+  showUpdateSuccessAlert: PropTypes.bool,
+  successCallback: PropTypes.func,
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
+
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
 
@@ -470,7 +545,7 @@ export const mapStateToProps = (state, ownProps) => {
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName);
 
-  const isEmpty = !data;
+  const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =
@@ -517,6 +592,10 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
+    shouldUseInformationEditViewVAFSC: selectUseInformationEditViewVAFSC(
+      state,
+      fieldName,
+    ),
   };
 };
 

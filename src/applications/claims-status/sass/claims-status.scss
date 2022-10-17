@@ -1,11 +1,23 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+// TODO: Look at moving the .process-step css into this file
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+// TODO: Determine if we are actually using any of these
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
 
+@media (min-width: $medium-large-screen) {
+  #claim-letters {
+    margin-bottom: 8em;
+  }
+}
+
 .claim-list {
   margin-bottom: 2em;
+}
+
+#claims-combined {
+  margin: 1em 0;
 }
 
 .claim-file-border,
@@ -40,6 +52,10 @@
   p {
     margin: 0 0 4px;
   }
+}
+
+.claim-list-item-container a {
+  position: relative;
 }
 
 @media (max-width: $medium-screen) {
@@ -157,6 +173,7 @@
 
 .claim-list-item-header-v2 {
   margin-top: -2rem;
+  white-space: pre-line;
 }
 
 .claim-list-item:hover .claim-list-item-header {
@@ -297,12 +314,6 @@
 }
 
 .help-phone-number {
-  margin: 0.5em 0;
-}
-
-.help-phone-number-link {
-  font-weight: bold;
-  text-decoration: none;
   margin: 0.5em 0;
 }
 

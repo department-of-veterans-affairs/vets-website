@@ -19,7 +19,7 @@ describe('Check In Experience', () => {
       initializeCheckInDataGet.withSuccess();
 
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.attemptToGoToNextPage();
     });
     afterEach(() => {
@@ -29,7 +29,7 @@ describe('Check In Experience', () => {
     });
     it('validation failed shows error messages', () => {
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
 
       ValidateVeteran.attemptToGoToNextPage();
       cy.injectAxeThenAxeCheck();

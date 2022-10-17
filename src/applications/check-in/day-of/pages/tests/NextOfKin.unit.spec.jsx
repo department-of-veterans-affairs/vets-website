@@ -4,9 +4,12 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { I18nextProvider } from 'react-i18next';
 
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
+import i18n from '../../../utils/i18n/i18n';
 import NextOfKin from '../NextOfKin';
 
 import { createMockRouter } from '../../../tests/unit/mocks/router';
@@ -41,6 +44,7 @@ describe('check in', () => {
           },
         },
       },
+      ...scheduledDowntimeState,
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
@@ -64,7 +68,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -96,6 +102,7 @@ describe('check in', () => {
             },
           },
         },
+        ...scheduledDowntimeState,
       };
       const push = sinon.spy();
       const mockRouter = createMockRouter({
@@ -104,7 +111,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={mockStore(updatedStore)}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -126,7 +135,9 @@ describe('check in', () => {
       });
       axeCheck(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
     });
@@ -145,6 +156,7 @@ describe('check in', () => {
             demographics: {},
           },
         },
+        ...scheduledDowntimeState,
       };
       const push = sinon.spy();
       const mockRouter = createMockRouter({
@@ -153,7 +165,9 @@ describe('check in', () => {
       });
       render(
         <Provider store={mockStore(updatedStore)}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -168,7 +182,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -187,7 +203,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -206,7 +224,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin isUpdatePageEnabled router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 
@@ -224,7 +244,9 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin router={mockRouter} />
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
         </Provider>,
       );
 

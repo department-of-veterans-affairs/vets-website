@@ -22,7 +22,7 @@ describe('Pre-Check In Experience', () => {
     });
     it('shows the numeric keypad on mobile devices', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.injectAxeThenAxeCheck();
 
       cy.get('[label="Last 4 digits of your Social Security number"]').should(

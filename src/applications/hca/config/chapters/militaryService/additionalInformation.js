@@ -1,5 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import MilitaryPrefillMessage from 'platform/forms/save-in-progress/MilitaryPrefillMessage';
+import { emptyObjectSchema } from '../../../definitions';
 
 const {
   campLejeune,
@@ -56,10 +57,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:textObject': {
-        type: 'object',
-        properties: {},
-      },
+      'view:textObject': emptyObjectSchema,
       purpleHeartRecipient,
       isFormerPow,
       postNov111998Combat,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaAdditionalInfo } from 'web-components/react-bindings';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 

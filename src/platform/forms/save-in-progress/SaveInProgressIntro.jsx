@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
@@ -14,12 +12,12 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { fetchInProgressForm, removeInProgressForm } from './actions';
-import FormStartControls from './FormStartControls';
-import { getIntroState } from './selectors';
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
+import FormStartControls from './FormStartControls';
+import { getIntroState } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 import {
   APP_TYPE_DEFAULT,
@@ -200,6 +198,7 @@ class SaveInProgressIntro extends React.Component {
           onClick={this.openLoginModal}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedby}
+          type="button"
         >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
@@ -209,14 +208,15 @@ class SaveInProgressIntro extends React.Component {
           {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
-              <button
-                className="va-button-link schemaform-start-button"
-                onClick={this.goToBeginning}
+              <Link
+                onClick={this.handleClick}
+                to={this.getStartPage}
+                className="schemaform-start-button"
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
-              </button>
+              </Link>
             </p>
           )}
         </>
@@ -250,14 +250,15 @@ class SaveInProgressIntro extends React.Component {
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
-                  <button
-                    className="va-button-link schemaform-start-button"
-                    onClick={this.goToBeginning}
+                  <Link
+                    onClick={this.handleClick}
+                    to={this.getStartPage}
+                    className="schemaform-start-button"
                     aria-label={ariaLabel}
                     aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
-                  </button>
+                  </Link>
                 </p>
               )}
             </div>
@@ -279,6 +280,7 @@ class SaveInProgressIntro extends React.Component {
                 onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
+                type="button"
               >
                 Sign in to your account.
               </button>
@@ -299,9 +301,8 @@ class SaveInProgressIntro extends React.Component {
     return pageList[1].path;
   };
 
-  goToBeginning = () => {
+  handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
-    this.props.router.push(this.getStartPage());
   };
 
   openLoginModal = () => {
@@ -330,7 +331,7 @@ class SaveInProgressIntro extends React.Component {
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator
+          <va-loading-indicator
             message={`Checking to see if you have a saved version of this ${appType} ...`}
           />
           <br />
@@ -388,41 +389,45 @@ class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
-  buttonOnly: PropTypes.bool,
-  afterButtonContent: PropTypes.element,
-  prefillEnabled: PropTypes.bool,
-  formId: PropTypes.string.isRequired,
-  messages: PropTypes.object,
-  migrations: PropTypes.array,
-  prefillTransformer: PropTypes.func,
-  returnUrl: PropTypes.string,
-  lastSavedDate: PropTypes.number,
-  user: PropTypes.object.isRequired,
-  pageList: PropTypes.array.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
+  formId: PropTypes.string.isRequired,
+  pageList: PropTypes.array.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
-  retentionPeriod: PropTypes.string,
-  startText: PropTypes.string,
-  pathname: PropTypes.string,
   toggleLoginModal: PropTypes.func.isRequired,
-  renderSignInMessage: PropTypes.func,
-  verifyRequiredPrefill: PropTypes.bool,
-  verifiedPrefillAlert: PropTypes.element,
-  unverifiedPrefillAlert: PropTypes.element,
+  user: PropTypes.object.isRequired,
+  afterButtonContent: PropTypes.element,
+  ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  buttonOnly: PropTypes.bool,
+  children: PropTypes.any,
   downtime: PropTypes.object,
-  gaStartEventName: PropTypes.string,
-  startMessageOnly: PropTypes.bool,
-  hideUnauthedStartLink: PropTypes.bool,
-  unauthStartText: PropTypes.string,
-  testActionLink: PropTypes.bool,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
   }),
+  formData: PropTypes.object,
+  gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
-  ariaLabel: PropTypes.string,
-  ariaDescribedby: PropTypes.string,
+  hideUnauthedStartLink: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  lastSavedDate: PropTypes.number,
+  messages: PropTypes.object,
+  migrations: PropTypes.array,
+  pathname: PropTypes.string,
+  prefillEnabled: PropTypes.bool,
+  prefillTransformer: PropTypes.func,
+  renderSignInMessage: PropTypes.func,
+  resumeOnly: PropTypes.bool,
+  retentionPeriod: PropTypes.string,
+  returnUrl: PropTypes.string,
+  startMessageOnly: PropTypes.bool,
+  startText: PropTypes.string,
+  testActionLink: PropTypes.bool,
+  unauthStartText: PropTypes.string,
+  unverifiedPrefillAlert: PropTypes.element,
+  verifiedPrefillAlert: PropTypes.element,
+  verifyRequiredPrefill: PropTypes.bool,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -434,7 +439,7 @@ SaveInProgressIntro.defaultProps = {
       appType: '',
     },
   },
-  headingLevel: 3,
+  headingLevel: 2,
   ariaLabel: null,
   ariaDescribedby: null,
 };
@@ -451,11 +456,9 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SaveInProgressIntro),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };

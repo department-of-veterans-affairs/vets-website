@@ -527,7 +527,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'preferredName'),
     ).to.deep.equal({
-      preferredName: 'Wes',
+      preferredName: 'WES',
     });
   });
 
@@ -535,7 +535,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'genderIdentity'),
     ).to.deep.equal({
-      genderIdentity: ['man'],
+      genderIdentity: { code: 'M', name: 'Male' },
     });
   });
 

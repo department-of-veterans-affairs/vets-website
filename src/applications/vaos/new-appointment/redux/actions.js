@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
@@ -13,6 +14,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureClinicFilter,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -29,7 +31,6 @@ import {
   sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
-import { createAppointment } from '../../services/appointment';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -255,7 +256,6 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
-
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -264,6 +264,7 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -281,6 +282,7 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
+        featureClinicFilter,
       });
 
       if (showModal) {
@@ -515,21 +517,33 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(page, uiSchema, schema) {
+export function openReasonForAppointment(
+  page,
+  uiSchema,
+  schema,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
+    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(page, uiSchema, data) {
+export function updateReasonForAppointmentData(
+  page,
+  uiSchema,
+  data,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
+    useV2,
   };
 }
 
@@ -610,16 +624,15 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              let time = moment(slot.start);
-              if (slot.start.endsWith('Z') && timezone) {
-                // The moment.tz() function will parse a given time with offset
-                // and convert it to the time zone provided.
-                //
-                // NOTE: Stripping off the timezone information 'Z' so that it will
-                // not be used during formatting elsewhere. Including the 'Z' would
-                // result in the formatted string using the local timezone.
-                time = moment.tz(time, timezone).format('YYYY-MM-DDTHH:mm:ss');
-              }
+              // The moment.tz() function will parse a given time with offset
+              // and convert it to the time zone provided.
+              //
+              // NOTE: Stripping off the timezone information 'Z' so that it will
+              // not be used during formatting elsewhere. Including the 'Z' would
+              // result in the formatted string using the local timezone.
+              const time = moment
+                .tz(slot.start, timezone)
+                .format('YYYY-MM-DDTHH:mm:ss');
 
               return { ...slot, start: time };
             }
@@ -767,28 +780,20 @@ export function submitAppointmentOrRequest(history) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
-
-          // BG 3/29/2022: This logic is to resolve issue:
-          // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-          // This will need to be removed once var resources is sunset.
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
+        }
 
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
+        // BG 3/29/2022: This logic is to resolve issue:
+        // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+        // This will need to be removed once var resources is sunset.
+        try {
+          await buildPreferencesDataAndUpdate(data.email);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          captureError(error);
         }
 
         dispatch({
@@ -907,6 +912,17 @@ export function submitAppointmentOrRequest(history) {
                 '\n',
               ),
             });
+          }
+        } else {
+          // // BG 3/29/2022: This logic is to resolve issue:
+          // // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+          // // This will need to be removed once var resources is sunset.
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
           }
         }
 

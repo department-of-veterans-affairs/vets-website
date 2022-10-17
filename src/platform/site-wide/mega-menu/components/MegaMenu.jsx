@@ -58,7 +58,6 @@ export default class MegaMenu extends React.Component {
         <MenuSection
           key={`${section}-${i}`}
           title={section.title}
-          defaultSection={this.defaultSection(item.menuSections)}
           currentSection={currentSection}
           updateCurrentSection={() => this.updateCurrentSection(section.title)}
           links={section.links}
@@ -87,6 +86,7 @@ export default class MegaMenu extends React.Component {
   handleDocumentClick = event => {
     if (this.props.currentDropdown && !this.menuRef.contains(event.target)) {
       this.props.toggleDropDown('');
+      this.props.updateCurrentSection('');
     }
   };
 
@@ -99,14 +99,6 @@ export default class MegaMenu extends React.Component {
     this.props.updateCurrentSection('');
     this.props.toggleDropDown('');
   };
-
-  defaultSection(sections) {
-    if (this.mobileMediaQuery?.matches) {
-      return '';
-    }
-
-    return sections[0].title;
-  }
 
   toggleDropDown(title) {
     if (this.props.currentDropdown === title) {
@@ -136,6 +128,8 @@ export default class MegaMenu extends React.Component {
       columnThreeLinkClicked,
     } = this.props;
 
+    const hasOpenSubMenu = currentSection !== '';
+
     return (
       <div className="login-container" {...display}>
         <div
@@ -145,13 +139,12 @@ export default class MegaMenu extends React.Component {
           }}
         >
           <div id="vetnav" role="navigation">
-            <ul id="vetnav-menu" role="menubar">
-              <li role="menuitem">
+            <ul id="vetnav-menu">
+              <li>
                 <a
                   className="vetnav-level1"
                   data-testid="mobile-home-nav-link"
                   href="/"
-                  tabIndex={currentSection ? -1 : undefined}
                 >
                   Home
                 </a>
@@ -164,21 +157,19 @@ export default class MegaMenu extends React.Component {
                       ? 'current-page medium-screen:vads-u-margin-right--0'
                       : ''
                   }`}
-                  role="menuitem"
-                  aria-haspopup={!!item.menuSections}
                 >
                   {item.menuSections ? (
                     <button
+                      type="button"
                       aria-expanded={currentDropdown === item.title}
                       aria-controls={`vetnav-${_.kebabCase(item.title)}`}
+                      aria-haspopup={!!item.menuSections}
                       className="vetnav-level1"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
-                      onClick={() => this.toggleDropDown(item.title)}
-                      tabIndex={
-                        currentSection && currentSection !== item.title
-                          ? -1
-                          : undefined
-                      }
+                      onClick={() => {
+                        this.toggleDropDown(item.title);
+                        this.props.updateCurrentSection('');
+                      }}
                     >
                       {item.title}
                     </button>
@@ -189,31 +180,25 @@ export default class MegaMenu extends React.Component {
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
                       target={item.target || null}
-                      tabIndex={
-                        currentSection && currentSection !== item.title
-                          ? -1
-                          : undefined
-                      }
                     >
                       {item.title}
                     </a>
                   )}
                   <div
                     id={`vetnav-${_.kebabCase(item.title)}`}
-                    className="vetnav-panel"
+                    className={`vetnav-panel ${
+                      hasOpenSubMenu ? 'vetnav-submenu--expanded' : ''
+                    }`}
                     hidden={currentDropdown !== item.title}
                   >
                     {item.title === currentDropdown &&
                       item.menuSections && (
-                        <ul aria-label={item.title} role="menu">
+                        <ul aria-label={item.title}>
                           {Array.isArray(item.menuSections)
                             ? item.menuSections.map((section, j) => (
                                 <MenuSection
                                   key={`${section}-${j}`}
                                   title={section.title}
-                                  defaultSection={this.defaultSection(
-                                    item.menuSections,
-                                  )}
                                   currentSection={currentSection}
                                   updateCurrentSection={() =>
                                     this.updateCurrentSection(section.title)

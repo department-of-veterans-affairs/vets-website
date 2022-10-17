@@ -7,6 +7,29 @@ import set from 'platform/utilities/data/set';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
+const localStorageMock = (() => {
+  let store = {};
+
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
+    },
+    clear() {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'sessionStorage', {
+  value: localStorageMock,
+});
+
 describe('<YourClaimsPageV2>', () => {
   const defaultProps = {
     canAccessClaims: true,
@@ -22,17 +45,27 @@ describe('<YourClaimsPageV2>', () => {
       {
         type: 'claimSeries',
         id: '1122334455',
+        attributes: {
+          dateField: '2022-01-01',
+          decisionLetterSent: true,
+          phase: null,
+        },
       },
       {
         type: 'legacyAppeal',
         id: '1122334455',
+        attributes: {
+          updated: '2018-05-29T19:38:40-04:00',
+          events: [{ date: '2018-06-01' }],
+          issues: [],
+          status: {
+            details: {},
+          },
+        },
       },
     ],
     pages: 1,
     page: 1,
-    show30DayNotice: false,
-    hide30DayNotice: true,
-    consolidatedModal: false,
     getClaimsV2: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
@@ -40,7 +73,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.type()).to.equal(React.Fragment);
     wrapper.unmount();
   });
 
@@ -71,15 +104,20 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render a closed claim message if show30DayNotice is true', () => {
-    const props = set('show30DayNotice', true, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();
   });
 
   it('should render Pagination', () => {
-    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('Pagination').length).to.equal(1);
+    const props = {
+      ...defaultProps,
+      list: new Array(12).fill(defaultProps.list[0]),
+    };
+    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    expect(wrapper.text()).to.include('Showing 1 \u2012 10 of 12 events');
+    // web component isn't rendering? But page info does...
+    // expect(wrapper.find('va-pagination').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -131,7 +169,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should include combined claims additional info', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('.claims-combined').length).to.equal(1);
+    expect(wrapper.find('#claims-combined').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -155,6 +193,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should not render 30 day notice', () => {
+    sessionStorage.setItem('show30DayNotice', false);
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(0);
     wrapper.unmount();

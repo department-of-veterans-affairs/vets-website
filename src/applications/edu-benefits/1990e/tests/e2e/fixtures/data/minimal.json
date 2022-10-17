@@ -31,5 +31,9 @@
   "relativeSocialSecurityNumber": "796136639",
   "relativeDateOfBirth": "1980-01-01",
   "relationship": "spouse",
-  "bankAccount": {}
+  "bankAccount": {
+    "accountType": "checking",
+    "routingNumber": "000000000",
+    "accountNumber": "000000000"
+  }
 }

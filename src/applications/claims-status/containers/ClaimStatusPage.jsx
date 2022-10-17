@@ -1,19 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
 } from '../utils/helpers';
 
-import { clearNotification } from '../actions/index.jsx';
+import { clearNotification } from '../actions';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -29,6 +31,7 @@ class ClaimStatusPage extends React.Component {
       setFocus('.va-tab-trigger--current');
     }
   }
+
   componentDidUpdate(prevProps) {
     if (
       !this.props.loading &&
@@ -41,14 +44,17 @@ class ClaimStatusPage extends React.Component {
       this.setTitle();
     }
   }
+
   componentWillUnmount() {
     this.props.clearNotification();
   }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Status - Your Claim'
       : `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
+
   render() {
     const { claim, loading, message, synced } = this.props;
 
@@ -56,7 +62,7 @@ class ClaimStatusPage extends React.Component {
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
     if (!loading) {
-      const phase = attributes.phase;
+      const { phase } = attributes;
       const filesNeeded = itemsNeedingAttentionFromVet(
         attributes.eventsTimeline,
       );

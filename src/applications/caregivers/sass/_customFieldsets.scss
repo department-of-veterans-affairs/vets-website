@@ -1,0 +1,6 @@
+/** Applied overrides for form fields within a custom fieldset **/
+
+.cg-input-size-medium::part(input) { max-width: 12rem; }
+
+.cg-address-input[error]::part(label) { margin-top: 0; }
+.cg-address-input[error]::part(input) { border-width: 3px; }

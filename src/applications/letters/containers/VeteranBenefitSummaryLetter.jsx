@@ -65,7 +65,7 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       </tr>
     ));
 
-    const vaBenefitInfoRows = [];
+    const vaBenefitInfoItems = [];
     Object.keys(benefitInfo).forEach(key => {
       // Need to verify with EVSS and vets-api: values should be true, false, or
       // some value other than null or undefined, so this check should not be
@@ -86,39 +86,25 @@ export class VeteranBenefitSummaryLetter extends React.Component {
         benefitInfo.awardEffectiveDate,
       );
       if (optionText && displayOption) {
-        vaBenefitInfoRows.push(
-          <tr key={`option${key}`}>
-            <th scope="row">
-              <input
-                aria-labelledby={`${key}Label`}
-                checked={requestOptions[benefitOptionsMap[key]]}
-                id={key}
-                name={key}
-                type="checkbox"
-                onChange={this.handleChange}
-              />
-              <label htmlFor={key}>
-                <div className="sr-only">{optionText}</div>
-              </label>
-            </th>
-            <td>
-              <div id={`${key}Label`}>{optionText}</div>
-            </td>
-          </tr>,
+        vaBenefitInfoItems.push(
+          <li key={`option${key}`} className="form-checkbox">
+            <input
+              checked={requestOptions[benefitOptionsMap[key]]}
+              id={key}
+              name={key}
+              type="checkbox"
+              onChange={this.handleChange}
+            />
+            <label htmlFor={key}>{optionText}</label>
+          </li>,
         );
       }
     });
 
-    const vaBenefitInformation = vaBenefitInfoRows.length ? (
-      <table id="benefitInfoTable">
-        <thead>
-          <tr>
-            <th scope="col">Include</th>
-            <th scope="col">Statement</th>
-          </tr>
-        </thead>
-        <tbody>{vaBenefitInfoRows}</tbody>
-      </table>
+    const vaBenefitInformation = vaBenefitInfoItems.length ? (
+      <ul className="usa-unstyled-list" id="benefitInfoList">
+        {vaBenefitInfoItems}
+      </ul>
     ) : null;
 
     let benefitSummaryContent;
@@ -165,10 +151,12 @@ export class VeteranBenefitSummaryLetter extends React.Component {
           <h4 className="vads-u-font-size--h2">
             VA benefit and disability information
           </h4>
-          <p>
-            Please choose what information you want to include in your letter.
-          </p>
-          {vaBenefitInformation}
+          <fieldset>
+            <legend className="vads-u-font-size--base vads-u-font-weight--normal">
+              Please choose what information you want to include in your letter
+            </legend>
+            {vaBenefitInformation}
+          </fieldset>
         </div>
       );
     } else {
@@ -199,7 +187,9 @@ export class VeteranBenefitSummaryLetter extends React.Component {
 
 VeteranBenefitSummaryLetter.propTypes = {
   benefitSummaryOptions: PropTypes.shape({
-    benefitInfo: PropTypes.shape({}),
+    benefitInfo: PropTypes.shape({
+      awardEffectiveDate: PropTypes.string,
+    }),
     serviceInfo: PropTypes.array,
   }),
   isVeteran: PropTypes.bool,

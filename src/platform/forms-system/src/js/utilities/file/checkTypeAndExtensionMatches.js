@@ -85,14 +85,18 @@ export const fileTypeSignatures = {
 export default function checkTypeAndExtensionMatches({ file, result }) {
   // file.name and file.type may be undefined in some browsers, see
   // https://developer.mozilla.org/en-US/docs/Web/API/File#browser_compatibility
-  const [, extension] = (file.name || '').toLowerCase().split('.');
+  const extension = (file.name || '')
+    .toLowerCase()
+    .split('.')
+    .pop();
   const match = extension && fileTypeSignatures[extension];
   const signature = match?.sig;
 
   if (match?.mime === file.type) {
     if (extension === 'txt') {
       return true;
-    } else if (signature) {
+    }
+    if (signature) {
       return arrayIncludesArray(
         result,
         Array.isArray(signature)

@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { diff } from 'just-diff';
@@ -14,6 +15,11 @@ import {
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import {
+  getDateRanges,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 
 describe('VAOS Appointment service', () => {
   describe('fetchBookedAppointment', () => {
@@ -56,20 +62,23 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the clinic name
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'replace', path: ['comment'], value: null },
           {
             op: 'replace',
             path: ['location', 'clinicName'],
             value: 'Friendly clinic name',
           }, // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
-          { op: 'remove', path: ['practitioners'] },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -111,20 +120,23 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
           {
             op: 'replace',
             path: ['description'],
             value: 'CANCELLED BY PATIENT',
           },
-          { op: 'remove', path: ['practitioners'] },
+          { op: 'replace', path: ['comment'], value: null },
           { op: 'replace', path: ['cancelationReason'], value: 'pat' },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -166,15 +178,18 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -216,15 +231,18 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -267,15 +285,18 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -298,8 +319,10 @@ describe('VAOS Appointment service', () => {
         },
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'Doe',
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
           },
         ],
       };
@@ -326,15 +349,32 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'firstName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'lastName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'display'],
+            value: 'undefined undefined',
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -370,8 +410,10 @@ describe('VAOS Appointment service', () => {
         },
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'Doe',
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
           },
         ],
       };
@@ -398,15 +440,32 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'firstName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'lastName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'display'],
+            value: 'undefined undefined',
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -451,6 +510,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -504,6 +565,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -556,6 +619,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -608,6 +673,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -638,7 +705,13 @@ describe('VAOS Appointment service', () => {
             state: 'DC',
             postalCode: '20005-3477',
           },
-          practiceName: 'CAMPBELL, WILLIAM',
+          providers: {
+            name: {
+              firstName: 'WILLIAM',
+              lastName: 'CAMPBELL',
+            },
+          },
+          treatmentSpecialty: 'Optometry',
         },
       };
 
@@ -659,10 +732,11 @@ describe('VAOS Appointment service', () => {
         }),
         fetchBookedAppointment({ id: data.id, type: 'cc' }),
       ]);
-
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // The CC date transformer logic sets the date in UTC mode, which creates
       // a format difference when this test is run on a machine in GMT/UTC
@@ -675,6 +749,22 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           {
+            op: 'remove',
+            path: ['communityCareProvider', 'providers'],
+          },
+          {
+            op: 'remove',
+            path: ['communityCareProvider', 'treatmentSpecialty'],
+          },
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['comment'], value: null },
+          {
+            op: 'replace',
+            path: ['communityCareProvider', 'telecom'],
+            value: null,
+          },
+          {
             op: 'replace',
             path: ['vaos', 'timeZone'],
             value: moment(data.start)
@@ -683,14 +773,19 @@ describe('VAOS Appointment service', () => {
           },
           {
             op: 'add',
-            path: ['preferredCommunityCareProviders'],
+            path: ['communityCareProvider', 'firstName'],
             value: null,
           },
           {
-            op: 'remove',
-            path: ['practitioners'],
+            op: 'add',
+            path: ['communityCareProvider', 'lastName'],
+            value: null,
           },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
+          {
+            op: 'add',
+            path: ['preferredCommunityCareProviders'],
+            value: null,
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -827,6 +922,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -838,6 +935,8 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -847,7 +946,6 @@ describe('VAOS Appointment service', () => {
       // Given CC appointment request
       const data = {
         id: '1234',
-        cancellable: true,
         email: 'test@va.gov',
         phone: '2125551212',
         kind: 'cc',
@@ -924,6 +1022,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -932,8 +1032,12 @@ describe('VAOS Appointment service', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members(
         [
-          { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
+
           {
             op: 'replace',
             path: ['type', 'coding', 0, 'code'],
@@ -945,7 +1049,6 @@ describe('VAOS Appointment service', () => {
             path: ['preferredCommunityCareProviders'],
             value: null,
           },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -1028,6 +1131,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -1036,9 +1141,12 @@ describe('VAOS Appointment service', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members(
         [
-          { op: 'remove', path: ['description'] },
+          // { op: 'remove', path: ['reason'] },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -1112,6 +1220,33 @@ describe('VAOS Appointment service', () => {
 
       // Then the results have the following differences
       expect(differences).to.be.empty;
+    });
+  });
+
+  describe('getLongTermAppointmentHistoryV2', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    it('should fetch 3 years of appointment history', async () => {
+      const dateRanges = getDateRanges(3);
+      dateRanges.forEach(range => {
+        mockVAOSAppointmentsFetch({
+          start: range.start,
+          end: range.end,
+          requests: [],
+          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        });
+      });
+
+      await getLongTermAppointmentHistoryV2();
+      expect(global.fetch.callCount).to.equal(3);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].start);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].end);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].start);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].end);
     });
   });
 });

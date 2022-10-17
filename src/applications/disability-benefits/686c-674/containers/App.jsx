@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
+import { DOC_TITLE } from '../config/constants';
 
 function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
+  // Must match the H1
+  document.title = DOC_TITLE;
   const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </article>
   );
 
   // If on intro page, just return

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import {
   isPendingTransaction,
   isFailedTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 import VAPServiceTransactionInlineErrorMessage from './VAPServiceTransactionInlineErrorMessage';
 import VAPServiceTransactionPending from './VAPServiceTransactionPending';

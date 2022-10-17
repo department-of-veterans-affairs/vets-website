@@ -100,6 +100,7 @@ export const mockContactInformation = {
     updatedAt: '2018-04-21T20:09:50Z',
     zipCode: '97062',
     zipCodeSuffix: '1234',
+    badAddress: false,
   },
   residentialAddress: {
     addressLine1: 'PSC 808 Box 37',

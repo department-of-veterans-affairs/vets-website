@@ -27,7 +27,7 @@ export class SearchMenu extends React.Component {
   componentDidMount() {
     const { searchDropdownComponentEnabled } = this.props;
     if (!searchDropdownComponentEnabled) {
-      document.addEventListener('keyup', () => {
+      document.addEventListener('keyup', event => {
         if (
           ((event.which || event.keyCode) === SPACE_KEY ||
             (event.which || event.keyCode) === ENTER_KEY) &&
@@ -60,7 +60,7 @@ export class SearchMenu extends React.Component {
   componentWillUnmount() {
     const { searchDropdownComponentEnabled } = this.props;
     if (!searchDropdownComponentEnabled) {
-      document.removeEventListener('keyup', () => {
+      document.removeEventListener('keyup', event => {
         if (
           ((event.which || event.keyCode) === SPACE_KEY ||
             (event.which || event.keyCode) === ENTER_KEY) &&

@@ -23,7 +23,7 @@ describe('Check In Experience -- ', () => {
         numberOfCheckInAbledAppointments: 1,
       });
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
     });
     afterEach(() => {
       cy.window().then(window => {

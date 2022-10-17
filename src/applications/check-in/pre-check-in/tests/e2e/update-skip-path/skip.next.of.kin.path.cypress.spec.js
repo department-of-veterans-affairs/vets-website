@@ -18,8 +18,10 @@ describe('Pre Check In Experience', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
+      initializeDemographicsPatch.withSuccess();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializePreCheckInDataGet.withSuccess({
@@ -33,7 +35,7 @@ describe('Pre Check In Experience', () => {
       initializePreCheckInDataPost.withSuccess();
 
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();

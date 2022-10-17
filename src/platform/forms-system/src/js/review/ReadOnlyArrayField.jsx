@@ -21,31 +21,38 @@ class ReadOnlyArrayField extends React.Component {
       readonly,
       registry,
     } = this.props;
-    const definitions = registry.definitions;
+    const { definitions } = registry;
     const { SchemaField } = registry.fields;
     const uiOptions = uiSchema['ui:options'] || {};
 
     const items = formData || [];
+    const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
     return (
       <div className="schemaform-field-container">
-        <div>
-          {items.map((item, index) => {
-            const itemSchema = this.getItemSchema(index);
-            const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(
-              itemSchema,
-              itemIdPrefix,
-              definitions,
-            );
+        {items.map((item, index) => {
+          const itemSchema = this.getItemSchema(index);
+          const itemIdPrefix = `${idSchema.$id}_${index}`;
+          const itemIdSchema = toIdSchema(
+            itemSchema,
+            itemIdPrefix,
+            definitions,
+          );
 
-            return (
-              <div key={index} className="va-growable-background">
-                <div className="row small-collapse">
-                  <div className="small-12 columns">
-                    <h5 className="schemaform-array-readonly-header">
-                      {uiOptions.itemName}
-                    </h5>
+          return (
+            <div
+              key={index}
+              className="va-growable-background vads-u-margin-top--1"
+            >
+              <div className="row small-collapse">
+                <div className="small-12 columns">
+                  <h5 className="schemaform-array-readonly-header">
+                    {uiOptions.itemName}
+                  </h5>
+                  {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
+                    * rendering of a <dl> around the schemaform-field-container
+                    */}
+                  <Wrapper className="review">
                     <SchemaField
                       key={index}
                       schema={itemSchema}
@@ -60,12 +67,12 @@ class ReadOnlyArrayField extends React.Component {
                       disabled={disabled}
                       readonly={readonly}
                     />
-                  </div>
+                  </Wrapper>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -73,11 +80,10 @@ class ReadOnlyArrayField extends React.Component {
 
 ReadOnlyArrayField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  idSchema: PropTypes.object,
-  formData: PropTypes.array,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formData: PropTypes.array,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
     widgets: PropTypes.objectOf(
@@ -85,8 +91,11 @@ ReadOnlyArrayField.propTypes = {
     ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
+    formContext: PropTypes.shape({
+      onReviewPage: PropTypes.bool,
+    }).isRequired,
   }),
+  uiSchema: PropTypes.object,
 };
 
 export default ReadOnlyArrayField;

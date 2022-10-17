@@ -1,0 +1,31 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.no-bullets {
+  list-style: none;
+}
+
+.card-balance {
+  font-size: 24px;
+}
+
+.card-content {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 16px;
+  pointer-events: auto;
+  p {
+    margin: 0;
+  }
+}
+
+.balance-activity {
+  list-style-type: none;
+  padding-left: 0;
+  li {
+    margin-bottom: 5px;
+  }
+}

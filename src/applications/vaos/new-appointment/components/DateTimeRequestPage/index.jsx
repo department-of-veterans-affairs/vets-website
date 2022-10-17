@@ -56,7 +56,14 @@ export default function DateTimeRequestPage() {
     scrollAndFocus();
   }, []);
 
-  const selectedDates = data.selectedDates;
+  const { selectedDates } = data;
+
+  // Calendar displays business days so check if adding 5 days falls on a Sat or Sun
+  // If so, add 1 or 2 days to get to Mon. This fixes displaying and empty calendar
+  // error.
+  const minDate = moment().add(5, 'd');
+  if (minDate.day() === 6) minDate.add(2, 'days');
+  if (minDate.day() === 0) minDate.add(1, 'days');
 
   return (
     <div className="vaos-form__detailed-radio">
@@ -71,9 +78,7 @@ export default function DateTimeRequestPage() {
         maxSelections={maxSelections}
         maxSelectionsError="You can only choose up to 3 dates for your appointment"
         onChange={(...args) => dispatch(onCalendarChange(...args))}
-        minDate={moment()
-          .add(5, 'days')
-          .format('YYYY-MM-DD')}
+        minDate={minDate.format('YYYY-MM-DD')}
         maxDate={moment()
           .add(120, 'days')
           .format('YYYY-MM-DD')}

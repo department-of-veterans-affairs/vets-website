@@ -1,31 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import DownloadLink from './DownloadLink';
+import environment from 'platform/utilities/environment';
 
-const downloadLinkLabel = 'Download your COE (PDF) 0.20MB';
+const downloadUrl = `${environment.API_URL}/v0/coe/download_coe`;
 
-const ReviewAndDownload = ({ downloadUrl }) => (
+const ReviewAndDownload = () => (
   <>
-    <div>
-      <h2>Review and download your COE</h2>
-      <p>
-        You can download your COE right now. If you need help, go to our
-        instructions for how to download and open a VA.gov PDF form.
-        <br />
-        <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
-          Get instructions for downloading a VA.gov PDF
-        </a>
-      </p>
-    </div>
+    <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
+    <p>
+      You can download your COE right now. If you need help, go to our
+      instructions for how to download and open a VA.gov PDF form.
+      <br />
+      <a href="/resources/how-to-download-and-open-a-vagov-pdf-form/">
+        Get instructions for downloading a VA.gov PDF
+      </a>
+    </p>
     <div className="vads-u-margin-top--4">
-      <DownloadLink href={downloadUrl} label={downloadLinkLabel} />
+      <va-link
+        download
+        filetype="PDF"
+        pages="1"
+        href={downloadUrl}
+        text="Download your COE"
+      />
     </div>
   </>
 );
-
-ReviewAndDownload.propTypes = {
-  downloadUrl: PropTypes.string.isRequired,
-};
 
 export default ReviewAndDownload;

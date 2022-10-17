@@ -79,7 +79,7 @@ export const contactInfoUpdateHelpDescription = () => (
       Any updates you make here to your contact information will only apply to
       this application. If you want to update your contact information for all
       of your VA accounts,{' '}
-      <a href="/profile">please go to your profile page.</a>
+      <a href="/profile/contact-information">please go to your profile page.</a>
     </p>
   </div>
 );

@@ -7,25 +7,22 @@
         "id": "25956",
         "kind": "cc",
         "status": "proposed",
-        "cancellable": true,
         "serviceType": "408",
         "locationId": "983",
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "identifier": [{ "value": "1801312053" }] },
-          { "identifier": [{ "value": "1053355479" }] },
-          { "identifier": [{ "value": "1396153797" }] }
+          { "identifier": [{ "value": "1801312053" }] }
         ],
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code":"Routine Follow-up"}]},
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2021-12-16T01:30:00Z" },
-          { "start": "2021-12-17T04:00:00Z" },
-          { "start": "2021-12-17T07:00:00Z" }
+          { "start": "2022-07-16T01:30:00Z" },
+          { "start": "2022-07-17T04:00:00Z" },
+          { "start": "2022-08-17T07:00:00Z" }
         ],
         "contact": {
           "telecom": [
@@ -38,7 +35,7 @@
         "cancelationReason": null,
         "description": null,
         "comment": "I have a headache",
-        "created": "2021-12-16T01:30:00Z"
+        "created": "2022-10-16T01:30:00Z"
       }
     },
     {
@@ -48,20 +45,19 @@
         "id": "25957",
         "kind": "clinic",
         "status": "proposed",
-        "cancellable": true,
         "serviceType": "323",
         "locationId": "983GC",
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reason": "Routine Follow-up",
+        "reasonCode": {"text": "Routine Follow-up: I have a headache"},
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2021-12-16T01:30:00Z" },
-          { "start": "2021-12-17T04:00:00Z" }
+          { "start": "2022-06-16T01:30:00Z" },
+          { "start": "2022-06-17T04:00:00Z" }
         ],
         "contact": {
           "telecom": [
@@ -84,20 +80,19 @@
         "id": "25958",
         "kind": "phone",
         "status": "proposed",
-        "cancellable": true,
         "serviceType": "408",
         "locationId": "983HK",
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reason": "Routine Follow-up",
+        "reasonCode": {"text": "Need telephone consult for pink eye"},
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2021-11-16T01:30:00Z" },
-          { "start": "2021-11-17T04:00:00Z" }
+          { "start": "2022-07-05T01:30:00Z" },
+          { "start": "2022-07-05T04:00:00Z" }
         ],
         "contact": {
           "telecom": [
@@ -110,7 +105,7 @@
         "cancelationReason": null,
         "description": null,
         "comment": "Pink eye",
-        "created": "2021-11-16T01:30:00Z"
+        "created": "2022-08-16T01:30:00Z"
       }
     },
     {
@@ -120,20 +115,19 @@
         "id": "25959",
         "kind": "telehealth",
         "status": "proposed",
-        "cancellable": true,
         "serviceType": "160",
         "locationId": "983",
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reason": "New Issue",
+        "reasonCode": { "text": "telehealth consult" },
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2021-11-16T01:30:00Z" },
-          { "start": "2021-11-17T04:00:00Z" }
+          { "start": "2022-06-16T01:30:00Z" },
+          { "start": "2022-06-17T04:00:00Z" }
         ],
         "contact": {
           "telecom": [
@@ -146,7 +140,7 @@
         "cancelationReason": null,
         "description": null,
         "comment": "Renew medication",
-        "created": "2021-11-16T01:30:00Z"
+        "created": "2022-06-16T01:30:00Z"
       }
     },
     {
@@ -155,22 +149,20 @@
       "attributes": {
         "id": "32152",
         "kind": "clinic",
-        "status": "proposed",
-        "cancellable": true,
+        "status": "cancelled",
         "serviceType": "323",
         "locationId": "983",
         "clinic": null,
         "telehealth": null,
         "practitioners": null,
-        "reason": "Routine Follow-up",
-        "start": null,
+        "reasonCode": {"text": "cancel this appointment"},
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
           {
-            "start": "2021-06-29T12:00:00Z",
-            "end": "2021-06-29T23:59:59.999Z"
+            "start": "2022-06-29T12:00:00Z",
+            "end": "2022-06-29T23:59:59.999Z"
           }
         ],
         "contact": {
@@ -181,10 +173,10 @@
         },
         "preferredTimesForPhoneCall": null,
         "priority": null,
-        "cancelationReason": null,
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
         "description": null,
         "comment": null,
-        "created": "2021-06-29T12:00:00Z"
+        "created": "2022-06-29T12:00:00Z"
       }
     }
   ],

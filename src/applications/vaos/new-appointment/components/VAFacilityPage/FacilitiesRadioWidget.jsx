@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
-import { VaSelect } from 'web-components/react-bindings';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from 'platform/monitoring/record-event';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
@@ -13,7 +14,6 @@ import {
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
-import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 

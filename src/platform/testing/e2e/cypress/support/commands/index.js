@@ -6,6 +6,7 @@ import './keyboard';
 import './login';
 import './mockHelpers';
 import './upload';
+import './keyboardNavigation';
 import './injectAxeThenAxeCheck';
 import './viewportPreset';
 import './hasCount';

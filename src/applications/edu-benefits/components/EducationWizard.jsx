@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
   }
 
   answerQuestion = (field, answer) => {
-    const newState = Object.assign({}, { [field]: answer });
+    const newState = { [field]: answer };
 
     if (field === 'newBenefit') {
       recordEvent({
@@ -259,7 +259,7 @@ class EducationWizard extends React.Component {
                 label={
                   <span>
                     Are you claiming a <strong>National Call to Service</strong>{' '}
-                    education benefit? (This is uncommon)
+                    education benefit? (This is uncommon.)
                   </span>
                 }
               />
@@ -355,7 +355,7 @@ class EducationWizard extends React.Component {
                     this.answerQuestion('post911GIBill', value)
                   }
                   value={{ value: post911GIBill }}
-                  label="Are you applying for the post- 9/11 GI Bill?"
+                  label="Are you applying for the Post-9/11 GI Bill?"
                 />
               )}
             {newBenefit === 'yes' &&
@@ -510,27 +510,22 @@ class EducationWizard extends React.Component {
               nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
               this.getButton('1990')}
-            {!showWizard &&
-              newBenefit === 'yes' &&
+            {newBenefit === 'yes' &&
               nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
-            {!showWizard &&
-              newBenefit === 'no' &&
+            {newBenefit === 'no' &&
               (transferredEduBenefits === 'transferred' ||
                 transferredEduBenefits === 'own') &&
               this.getButton('1995')}
-            {!showWizard &&
-              newBenefit === 'no' &&
+            {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
               this.getButton('5495')}
-            {!showWizard &&
-              newBenefit === 'yes' &&
+            {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'yes' &&
               this.getButton('5490')}
-            {!showWizard &&
-              newBenefit === 'yes' &&
+            {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorDeceasedDisabledMIA === 'no' &&
               sponsorTransferredBenefits !== null &&

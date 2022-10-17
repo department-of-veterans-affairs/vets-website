@@ -1,17 +1,13 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
+import localStorage from 'platform/utilities/storage/localStorage';
+
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from '~/platform/utilities/storage/localStorage';
-
-import { ssoKeepAliveSession } from '~/platform/utilities/sso';
-
-import {
-  isVAProfileServiceConfigured,
-  mockContactInformation,
-} from '@@vap-svc/util/local-vapsvc';
 
 const commonServices = {
   EMIS: 'EMIS',
@@ -49,6 +45,7 @@ export function mapRawUserDataToState(json) {
           middleName: middle,
           multifactor,
           verified,
+          claims,
         },
         services,
         vaProfile,
@@ -79,9 +76,8 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vapContactInfo: isVAProfileServiceConfigured()
-      ? vet360ContactInformation
-      : mockContactInformation,
+    claims,
+    vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
   };
@@ -149,16 +145,15 @@ export function setupProfileSession(userProfile) {
 }
 
 export function teardownProfileSession() {
-  // Legacy keys (entryTime, userToken) can be removed
-  // after session cookie is fully in place.
-  const sessionKeys = [
+  [
     'hasSession',
     'userFirstName',
     'sessionExpiration',
     'hasSessionSSO',
     'sessionExpirationSSO',
-  ];
-  for (const key of sessionKeys) localStorage.removeItem(key);
+    'atExpires',
+  ].forEach(key => localStorage.removeItem(key));
+  removeInfoToken();
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();
 }

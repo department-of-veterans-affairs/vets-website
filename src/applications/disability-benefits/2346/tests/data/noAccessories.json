@@ -34,16 +34,16 @@
         "productGroup": "Battery",
         "productId": 1,
         "availableForReorder": true,
-        "lastOrderDate": "2020-01-01",
-        "nextAvailabilityDate": "2020-01-01",
+        "lastOrderDate": "2022-01-01",
+        "nextAvailabilityDate": "2022-01-01",
         "quantity": 60,
-        "prescribedDate": "2020-12-20"
+        "prescribedDate": "2022-12-20"
       },
       {
         "productName": "DOME",
         "productGroup": "Accessory",
         "productId": 3,
-        "lastOrderDate": "2019-06-30",
+        "lastOrderDate": "2021-06-30",
         "nextAvailabilityDate": "2022-12-15",
         "quantity": 10,
         "size": "6mm"
@@ -52,7 +52,7 @@
         "productName": "DOME",
         "productGroup": "Accessory",
         "productId": 4,
-        "lastOrderDate": "2019-06-30",
+        "lastOrderDate": "2021-06-30",
         "nextAvailabilityDate": "2022-12-15",
         "quantity": 10,
         "size": "7mm"
@@ -61,7 +61,7 @@
         "productName": "WaxBuster Single Unit",
         "productGroup": "Accessory",
         "productId": 5,
-        "lastOrderDate": "2019-06-30",
+        "lastOrderDate": "2021-06-30",
         "nextAvailabilityDate": "2022-12-15",
         "quantity": 10
       }

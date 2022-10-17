@@ -16,7 +16,9 @@ describe('Check In Experience', () => {
         initializeFeatureToggle,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
+      initializeDemographicsPatch.withSuccess();
       initializeFeatureToggle.withCurrentFeatures();
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         if (testState.authed) {
@@ -48,7 +50,7 @@ describe('Check In Experience', () => {
     it('validate that demographics check still happens', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();

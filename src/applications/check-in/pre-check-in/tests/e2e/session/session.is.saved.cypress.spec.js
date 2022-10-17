@@ -23,13 +23,13 @@ describe('Pre Check In Experience', () => {
     });
     it('Data is saved to session storage', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(
           'health.care.pre.check.in.current.uuid',
         );
         const sample = JSON.stringify({
-          token: '0429dda5-4165-46be-9ed1-1e652a8dfd83',
+          token: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
         });
         expect(data).to.equal(sample);
         cy.injectAxeThenAxeCheck();

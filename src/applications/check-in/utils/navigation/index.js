@@ -7,14 +7,10 @@ const isWithInDays = (days, pageLastUpdated) => {
 
 const updateFormPages = (
   patientDemographicsStatus,
-  checkInExperienceUpdateInformationPageEnabled,
   pages,
   URLS,
+  isTravelReimbursementEnabled = false,
 ) => {
-  let newPages = pages;
-  if (!checkInExperienceUpdateInformationPageEnabled) {
-    newPages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
-  }
   const skippedPages = [];
   const {
     demographicsNeedsUpdate,
@@ -25,7 +21,7 @@ const updateFormPages = (
     emergencyContactConfirmedAt,
   } = patientDemographicsStatus;
 
-  const skipablePages = [
+  const skippablePages = [
     {
       url: URLS.DEMOGRAPHICS,
       confirmedAt: demographicsConfirmedAt,
@@ -42,8 +38,13 @@ const updateFormPages = (
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-
-  skipablePages.forEach(page => {
+  const travelPayPages = [
+    URLS.TRAVEL_QUESTION,
+    URLS.TRAVEL_VEHICLE,
+    URLS.TRAVEL_ADDRESS,
+    URLS.TRAVEL_MILEAGE,
+  ];
+  skippablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
       ? new Date(page.confirmedAt)
       : null;
@@ -55,8 +56,11 @@ const updateFormPages = (
       skippedPages.push(page.url);
     }
   });
-  newPages = newPages.filter(page => !skippedPages.includes(page));
-  return newPages;
+  // Skip travel pay if not enabled.
+  if (!isTravelReimbursementEnabled) {
+    skippedPages.push(...travelPayPages);
+  }
+  return pages.filter(page => !skippedPages.includes(page));
 };
 
 const URLS = Object.freeze({
@@ -71,14 +75,12 @@ const URLS = Object.freeze({
   VERIFY: 'verify',
   COMPLETE: 'complete',
   DETAILS: 'details',
-  UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
-  EDIT_ADDRESS: 'edit-address',
-  EDIT_PHONE_NUMBER: 'edit-phone-number',
-  EDIT_EMAIL: 'edit-email',
-  EDIT_RELATIONSHIP: 'edit-relationship',
-  EDIT_NAME: 'edit-name',
+  TRAVEL_QUESTION: 'travel-pay',
+  TRAVEL_VEHICLE: 'travel-vehicle',
+  TRAVEL_ADDRESS: 'travel-address',
+  TRAVEL_MILEAGE: 'travel-mileage',
 });
 
 export { updateFormPages, URLS };

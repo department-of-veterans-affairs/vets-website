@@ -26,7 +26,7 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation failed shows error messages', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
 
       ValidateVeteran.attemptToGoToNextPage();
       cy.injectAxeThenAxeCheck();

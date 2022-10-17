@@ -48,7 +48,7 @@ describe('Check In Experience', () => {
     it('happy path with confirmed demographics', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -95,13 +95,13 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 200);
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      Appointments.attemptCheckIn(3);
-      Confirmation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Appointments.attemptCheckIn(3);
+      // Confirmation.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
       // call should not occur a second time if first call was successful
       cy.get('@demographicsPatchSpy').then(spy => {
@@ -126,7 +126,8 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400);
+      // Response delayed by 5 seconds.
+      initializeDemographicsPatch.withFailure(400, 5000);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -136,7 +137,7 @@ describe('Check In Experience', () => {
     it('check-in confirmation with demographics API error', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -164,18 +165,18 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 400);
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      Appointments.attemptCheckIn(3);
-      Confirmation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Appointments.attemptCheckIn(3);
+      // Confirmation.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      cy.wait('@demographicsPatchFailureAlias');
-      cy.get('@demographicsPatchFailureAlias')
-        .its('response.statusCode')
-        .should('equal', 400);
+      // cy.wait('@demographicsPatchFailureAlias');
+      // cy.get('@demographicsPatchFailureAlias')
+      //   .its('response.statusCode')
+      //   .should('equal', 400);
     });
   });
   describe('All confirmation pages skipped', () => {
@@ -218,7 +219,7 @@ describe('Check In Experience', () => {
       );
 
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
     });

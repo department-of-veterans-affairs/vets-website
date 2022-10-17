@@ -14,12 +14,12 @@ describe('Check In Experience ', () => {
       initializeSessionGet,
       initializeSessionPost,
       initializeCheckInDataGet,
+      initializeDemographicsPatch,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
-
     initializeSessionPost.withSuccess();
-
+    initializeDemographicsPatch.withSuccess();
     initializeCheckInDataGet.withBadData();
   });
   afterEach(() => {
@@ -30,7 +30,7 @@ describe('Check In Experience ', () => {
   it('Render Error is caught', () => {
     cy.visitWithUUID();
 
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();

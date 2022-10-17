@@ -1,36 +1,37 @@
 #!/bin/bash -e
 
-# Removes global assets in a single/grouped app build directory.
+# Removes global assets from the given build directory. This is
+# called before archiving single/grouped app builds to S3.
 
 # Exit if app entry names or directories are missing
 if [ -z "$ENTRY_NAMES" ] || [ -z "$APP_DIRS" ] || [ -z "$BUILD_DIR" ]; then
-    echo "Error: Missing entry names, app directories, or working directory."
+    echo "Error: Missing entry names, app directories, or build directory."
     exit 1
 fi
 
-# Get lazy loaded Webpack chunk filenames from application directories
-webpackChunkNames=$(grep -r 'webpackChunkName:' $(eval echo "{,$APP_DIRS}") | grep -o '"[^"]\+"' | tr -d \" | tr '\n', ',')
-if [ -z "$webpackChunkNames" ]; then echo "No lazy loaded app chunks found."; fi
+# Generate arrays for entry names, chunk ids, and lazy loaded Webpack chunk names.
+# Chunk ids follow the convention of the 'named' option that's set in the Webpack config.
+entryNames=(${ENTRY_NAMES//,/ })
+chunkIds=($(echo ${APP_DIRS//,/ } | tr '/' '_'))
+webpackChunkNames=($(grep -r 'webpackChunkName:' ${APP_DIRS//,/ } | grep -o '"[^"]\+"' | tr -d \"))
 
-# Generate string of filenames to sync
-filesToSync="$ENTRY_NAMES,$webpackChunkNames"
-echo "Filenames to sync: $filesToSync"
+# Generate array of file patterns to sync
+filesToSync=("${entryNames[@]/%/.*}" "${chunkIds[@]/%/*}" "${webpackChunkNames[@]/%/.*}")
+
+if [ -z "$chunkIds" ] || [ -z "$webpackChunkNames" ]; then echo "No lazy loaded app chunks found."; fi
+echo "Files to sync:" && printf "%s\n" "${filesToSync[@]}" | sort
 
 # Make temp directory for storing filtered app assets
-tempdir=$(mktemp -d -t assets-XXXXXXXXXX)
+tempdir=$(mktemp -d) && mkdir -p $tempdir/generated
 
-# Move app assets to temp directory
-for filename in $(tr ',' '\n' <<< "$filesToSync") ; do find $BUILD_DIR/generated/ -name "$filename.*" -exec cp {} $tempdir/ \;; done
+# Copy app assets into temp directory
+for filename in ${filesToSync[@]}
+do 
+    find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;
+done
 
-# Sync app assets in 'generated' directory and delete global assets
-rsync -a --delete --remove-source-files $tempdir/ $BUILD_DIR/generated/
-
-# Remove all files that aren't '.js', '.css', or '.txt'
-find $BUILD_DIR/ -type f -not \( -name '*.js' -or -name '*.css' -or -name '*.txt' \) -delete
-
-# Remove 'js' directory with global assets
-rm -rf $BUILD_DIR/js
+# Sync build directory with temp directory and remove global assets
+rsync -a --delete --remove-source-files $tempdir/ $BUILD_DIR/
 
 # Clean up
 rm -rf $tempdir
-find $BUILD_DIR/ -type d -empty -delete

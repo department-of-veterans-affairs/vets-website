@@ -1,10 +1,7 @@
 import React from 'react';
 
-export const HCAPrivacyActStatement = () => (
+const HCAPrivacyActStatement = () => (
   <>
-    <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-      Privacy Act Statement
-    </h2>
     <p>
       <strong>The Paperwork Reduction Act</strong> of 1995 requires us to notify
       you that this information collection is in accordance with the clearance

@@ -14,7 +14,7 @@ const PactBrokerClient = require('../src/platform/testing/contract/client');
 
 /**
  * Reports whether the changes on the current commit can be deployed
- * to master based on Pact verification results. Can be configured to
+ * to main based on Pact verification results. Can be configured to
  * retry at increasing intervals while verification status is unknown.
  * Throws if status can't be determined after retries.
  *
@@ -34,7 +34,7 @@ const checkDeployability = async (retries = 3, timeout = 30) => {
   const { verificationResults, canDeploy } = await pactBrokerClient.canDeploy({
     pactDir: pactsFolder,
     version: commitHash,
-    tag: 'master',
+    tag: 'main',
   });
 
   if (canDeploy) {

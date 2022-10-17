@@ -1,16 +1,16 @@
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
 import {
   unemployabilityTitle,
   unemployabilityPageTitle,
 } from '../content/unemployabilityFormIntro';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
 import UnemployabilityDoctorCareField from '../components/UnemployabilityDoctorCareField';
 import {
   doctorDatesDecription,
   doctorCareDescription,
   privateMedicalFacilityDescription,
 } from '../content/unemployabilityDoctorCare';
-import { addressUISchema } from '../utils';
+import { addressUISchema } from '../utils/schemas';
 
 const {
   doctorProvidedCare,

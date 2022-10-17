@@ -1,7 +1,7 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import formConfig from './config/form';
-import HealthCareApp from './HealthCareApp.jsx';
+import HealthCareApp from './HealthCareApp';
 
 const routes = {
   path: '/',

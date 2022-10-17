@@ -28,7 +28,10 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
   };
 
   return (
-    <article className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+    <article
+      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+      data-testid="debt-list-item"
+    >
       <h3 className="vads-u-margin--0">{debtCardHeading}</h3>
 
       {mostRecentHistory && (
@@ -73,6 +76,7 @@ const DebtLetterCard = ({ debt, setActiveDebt }) => {
         onClick={onDetailLinkClick}
         to={`/debt-detail/${debt.fileNumber + debt.deductionCode}`}
         data-testclass="debt-details-button"
+        data-cy="debt-details-button"
       >
         Go to debt details
         <i

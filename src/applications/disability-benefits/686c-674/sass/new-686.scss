@@ -41,3 +41,16 @@ div.review {
 div.form-review-panel-page-header-row {
   margin-bottom: 1rem;
 }
+
+article[data-location="confirmation"] {
+  @media print {
+    .usa-width-two-thirds {
+      width: 100%;
+    }
+
+    /* hide page title above VA logo */
+    .schemaform-title {
+      display: none;
+    }
+  }
+}

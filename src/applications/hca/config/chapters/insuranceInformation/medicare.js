@@ -1,11 +1,11 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { medicarePartADescription } from '../../../helpers';
+import { MedicarePartADescription } from '../../../components/FormDescriptions';
 
 const { isEnrolledMedicarePartA } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:description': medicarePartADescription,
+    'ui:description': MedicarePartADescription,
     isEnrolledMedicarePartA: {
       'ui:title': 'Are you enrolled in Medicare Part A (hospital insurance)?',
       'ui:widget': 'yesNo',

@@ -4,7 +4,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
-} from 'applications/caregivers/definitions/constants';
+} from './definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values
@@ -66,6 +66,7 @@ export const submitTransform = (formConfig, form) => {
 
     const sortedDataByChapter = {
       [chapterName]: {},
+      signAsRepresentative: false, // sign as veteran is default and false
     };
 
     const lowerCaseFirstLetter = string =>
@@ -82,8 +83,12 @@ export const submitTransform = (formConfig, form) => {
 
         const documentUpload = data[key][0].guid;
         sortedDataByChapter.poaAttachmentId = documentUpload;
-
-        // if has same prefix
+      } else if (key === 'signAsRepresentativeYesNo') {
+        if (data[key] === 'yes') {
+          sortedDataByChapter.signAsRepresentative = true; // sign as representative
+        } else {
+          sortedDataByChapter.signAsRepresentative = false; // sign as veteran
+        }
       } else if (key.includes(dataPrefix)) {
         // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {
@@ -150,9 +155,8 @@ export const isSSNUnique = formData => {
   const checkIfPartyIsPresent = (comparator, data) => {
     if (comparator(formData)) {
       return data;
-    } else {
-      return undefined;
     }
+    return undefined;
   };
 
   const presentPrimarySsn = checkIfPartyIsPresent(
@@ -208,11 +212,7 @@ export const shouldHideAlert = formData => {
   const isSecondaryOneUndefined =
     formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
 
-  if (hasPrimary) return true;
-  if (hasSecondary) return true;
-  if (isSecondaryOneUndefined) return true;
-  if (!hasPrimary && !hasSecondary) return false;
-  return false;
+  return hasPrimary || hasSecondary || isSecondaryOneUndefined;
 };
 
 /**

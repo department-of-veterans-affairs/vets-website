@@ -1,16 +1,23 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import recordEvent from '~/platform/monitoring/record-event';
 import GetFormHelp from '../components/GetFormHelp';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
+import {
+  fsrConfirmationEmailToggle,
+  DEBT_TYPES,
+  fsrReasonDisplay,
+} from '../utils/helpers';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -23,9 +30,39 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
+  const combinedFSR = data['view:combinedFinancialStatusReport'];
   const windowPrint = useCallback(() => {
     window.print();
   }, []);
+
+  const debtListItem = (debt, index) => {
+    const debtFor =
+      debt.debtType === DEBT_TYPES.DEBT
+        ? deductionCodes[debt.deductionCode]
+        : debt.station.facilityName ||
+          getMedicalCenterNameByID(debt.station.facilitYNum);
+    const resolution = fsrReasonDisplay(debt.resolutionOption);
+
+    return (
+      <li key={index}>
+        {resolution}
+        <span className="vads-u-margin--0p5">for</span>
+        {debtFor}
+      </li>
+    );
+  };
+
+  const reliefList = combinedFSR
+    ? data.selectedDebtsAndCopays?.map((debt, index) =>
+        debtListItem(debt, index),
+      )
+    : data.selectedDebts?.map((debt, index) => (
+        <li key={index}>
+          {debt.resolution?.resolutionType}
+          <span className="vads-u-margin--0p5">for</span>
+          {deductionCodes[debt.deductionCode]}
+        </li>
+      ));
 
   return (
     <div className="inset">
@@ -41,15 +78,7 @@ const RequestDetailsCard = ({ data, response }) => {
         <p>
           <strong>Requested repayment or relief options</strong>
         </p>
-        <ul>
-          {data.selectedDebts?.map((debt, index) => (
-            <li key={index}>
-              {debt.resolution?.resolutionType}
-              <span className="vads-u-margin--0p5">for</span>
-              {deductionCodes[debt.deductionCode]}
-            </li>
-          ))}
-        </ul>
+        <ul>{reliefList}</ul>
         <p className="vads-u-margin-bottom--0">
           <strong>Date submitted</strong>
         </p>
@@ -63,7 +92,10 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <DownloadFormPDF />
+          <DownloadFormPDF
+            pdfContent={response.content}
+            useContent={combinedFSR}
+          />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={windowPrint}
@@ -84,13 +116,27 @@ RequestDetailsCard.propTypes = {
 };
 
 const ConfirmationPage = ({ form, download }) => {
+  const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
+  const successVBAResponse =
+    'Document has been successfully uploaded to filenet';
+
   const { response } = form.submission;
   const { data } = form;
 
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    scrollToTop();
-  }, []);
+  useEffect(
+    () => {
+      focusElement('.schemaform-title > h1');
+      if (response.vbaStatus.status === successVBAResponse) {
+        recordEvent({ event: 'cfsr-5655-vba-submitted' });
+      }
+
+      if (response.vhaStatus.status.includes(200)) {
+        recordEvent({ event: 'cfsr-5655-vha-submitted' });
+      }
+      scrollToTop();
+    },
+    [response],
+  );
 
   return (
     <div>
@@ -98,7 +144,18 @@ const ConfirmationPage = ({ form, download }) => {
         <strong>Please print this page for your records.</strong>
       </p>
 
-      <h3 className="confirmation-page-title">We’ve received your request</h3>
+      {showFSREmail && (
+        <va-alert status="success">
+          <h3 className="confirmation-page-title">
+            We’ve received your request
+          </h3>
+          <p>
+            We’ll send you an email confirming your request to{' '}
+            <strong>{data.personalData.emailAddress}.</strong>
+          </p>
+        </va-alert>
+      )}
+
       <p>
         We’ll send you a letter with our decision and any next steps. If you
         experience changes that may affect our decision (like a job loss or a
@@ -160,7 +217,7 @@ const ConfirmationPage = ({ form, download }) => {
         </p>
 
         <a
-          className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+          className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
           href={`${environment.BASE_URL}`}
         >
           Go back to VA.gov

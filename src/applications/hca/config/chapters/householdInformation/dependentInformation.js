@@ -1,9 +1,14 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import DependentView from '../../../components/DependentView';
+import DependentViewField from '../../../components/FormFields/DependentViewField';
 import { uiSchema as dependentUI } from '../../../definitions/dependent';
 
 const { dependents } = fullSchemaHca.properties;
+
+const ariaLabelfunc = data =>
+  data.fullName && data.fullName.first && data.fullName.last
+    ? `${data.fullName.first} ${data.fullName.last}`
+    : 'Dependent';
 
 export default {
   uiSchema: {
@@ -12,12 +17,18 @@ export default {
       'ui:widget': 'yesNo',
     },
     dependents: {
-      items: dependentUI,
+      items: {
+        ...dependentUI,
+        'ui:options': {
+          itemAriaLabel: ariaLabelfunc,
+        },
+      },
       'ui:options': {
         expandUnder: 'view:reportDependents',
         itemName: 'Dependent',
         hideTitle: true,
-        viewField: DependentView,
+        viewField: DependentViewField,
+        itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {
         minItems: 'You must add at least one dependent.',

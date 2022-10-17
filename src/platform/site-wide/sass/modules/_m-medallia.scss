@@ -20,6 +20,8 @@
 .ng-scope .edge-labels {
   display: flex;
   justify-content: space-between;
+  font-size: 12px;
+  color: $color-gray-dark !important;
 }
 
 /* "Very Dissatisfied" label below "1 of 5" rating element */
@@ -33,6 +35,7 @@
 .ng-scope #rightEdge {
   text-align: right;
   width: 50px;
+  color: $color-gray-dark !important;
 }
 
 /* CSS Overrides for the 3-question survey on /find-locations */
@@ -49,6 +52,13 @@
 
   /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
   position: relative;
+}
+
+/* Very specific override that fixes an issue where the modal is unreadable because it is constrained to the width of col-sm-1 on tablet screens */
+@media (min-width: 576px) {
+  #liveForm>div>div.row.neb-form-close-btn-container.ng-hide>div.col-sm-offset-11.col-sm-1 {
+    max-width: 100% !important;
+  }
 }
 
 /* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
@@ -108,4 +118,76 @@
   right: 12px !important;
   z-index: 9999999;
   color: $color-gray-light !important;
+}
+
+/* helper text under textarea */
+#liveForm .kpl_builder.neb-form-wcag .description.help-block {
+  color: $color-gray-dark !important;
+  font-size: 16px !important;
+}
+
+/* yes or no option label*/
+.neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
+  color: $color-gray-dark !important;
+  font-size: 16px !important;
+}
+
+/* labels for all questions */
+.control-label {
+  color: $color-gray-dark !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+/* submit and close buttons */
+.footer-right-buttons {
+  float: left !important;
+  margin-right: 10px;
+}
+
+#liveForm .kpl_builder .panel-footer .btn.submit-btn {
+ margin-right: 10px;
+}
+
+#liveForm .kpl_builder .panel-footer .btn.cancel-btn {
+  float: right;
+}
+
+/* Very specific selectors to move 'do not inclide PII'helper text before the textarea */
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
+  display: flex;
+  flex-direction: column;
+}
+
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>label {
+  order: 1;
+}
+
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>p {
+  order: 2;
+}
+
+#liveForm>div>div>div>div>div>div>div.neb-component.neb-web-component.neb-textArea.kplFormHolder>.neb-content.neb-wcag {
+  order: 3;
+}
+
+/* thank you page to align elements left */
+.thankYouPageLogoPreviewImage {
+  text-align: left !important;
+}
+
+.thankYouPageLogoPreviewText>div>p>span>span>span[style] {
+  text-align: left !important;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.thankYouPageLogoPreviewText>div>p {
+  text-align: left !important;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.btn-close-wrapper {
+  text-align: left !important;
 }

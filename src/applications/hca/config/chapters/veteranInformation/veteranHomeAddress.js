@@ -1,19 +1,29 @@
-import React from 'react';
 import merge from 'lodash/merge';
-
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { AddressDescription } from '../../../components/ContentComponents';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
+import { HomeAddressDescription } from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
+
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
+    'view:homeAddressShortFormMessage': {
+      'ui:description': ShortFormAlert,
+      'ui:options': {
+        hideIf: NotHighDisability,
+      },
+    },
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
     veteranHomeAddress: merge({}, addressUI('Home address', true), {
-      'ui:description': <AddressDescription addressType="home" />,
+      'ui:description': HomeAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -35,6 +45,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:homeAddressShortFormMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {

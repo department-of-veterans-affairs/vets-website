@@ -1,32 +1,28 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import recordEvent from 'platform/monitoring/record-event';
 
-import withTranslationEnabled from '../containers/withTranslationEnabled';
+import { createAnalyticsSlug } from '../utils/analytics';
 
-function LanguagePicker() {
+function LanguagePicker(props) {
+  const { withTopMargin } = props;
   const { i18n } = useTranslation();
-
+  const { language } = i18n;
   function changeLanguage(e) {
-    i18n.changeLanguage(e.target.value);
+    e.preventDefault();
+    recordEvent({
+      event: createAnalyticsSlug(`language-switch-${e.target.lang}`, 'nav'),
+    });
+    i18n.changeLanguage(e.target.getAttribute('lang'));
   }
 
-  function buttonClass(language) {
-    let configuredLanguage;
-    if (i18n.language.startsWith('en-')) {
-      configuredLanguage = 'en';
-    } else if (i18n.language.startsWith('es-')) {
-      configuredLanguage = 'es';
-    } else {
-      configuredLanguage = i18n.language;
-    }
-
-    return configuredLanguage === language
-      ? 'usa-button'
-      : 'usa-button-secondary';
-  }
+  let classNames =
+    'vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray';
+  if (withTopMargin) classNames += ' vads-u-margin-top--2';
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2">
+    <div className={classNames} data-testid="language-picker">
       {[
         {
           label: 'English',
@@ -36,20 +32,44 @@ function LanguagePicker() {
           label: 'Español',
           lang: 'es',
         },
-      ].map((link, i) => (
-        <button
-          key={i}
-          onClick={changeLanguage}
-          className={buttonClass(link.lang)}
-          data-testid={`translate-button-${link.lang}`}
-          type="button"
-          value={link.lang}
-        >
-          {link.label}
-        </button>
+        // {
+        //   label: 'Tagalog',
+        //   lang: 'tl',
+        // },
+      ].map((link, i, links) => (
+        <Fragment key={i}>
+          {/* Using starts with to capture all of the sub-lang strings for each language */}
+          {language.startsWith(link.lang) ? (
+            <span
+              className="vads-u-font-weight--bold"
+              data-testid={`translate-button-${link.lang}`}
+            >
+              {link.label}
+            </span>
+          ) : (
+            <a
+              onClick={changeLanguage}
+              data-testid={`translate-button-${link.lang}`}
+              href={`#${link.lang}`}
+              lang={link.lang}
+            >
+              {link.label}
+            </a>
+          )}
+
+          {i + 1 !== links.length && (
+            <span className="vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray vads-u-height--20">
+              |
+            </span>
+          )}
+        </Fragment>
       ))}
     </div>
   );
 }
 
-export default withTranslationEnabled(LanguagePicker);
+LanguagePicker.propTypes = {
+  withTopMargin: PropTypes.bool,
+};
+
+export default LanguagePicker;

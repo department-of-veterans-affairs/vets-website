@@ -53,7 +53,6 @@ This is a multi-team project and questions are highly encouraged. There are seve
 ``` markdown
 /health-care/appointment-check-in/?id=xxxxxx
 /health-care/appointment-check-in/verify
-/health-care/appointment-check-in/update-information
 /health-care/appointment-check-in/contact-information
 /health-care/appointment-check-in/details
 /health-care/appointment-check-in/see-staff
@@ -67,7 +66,7 @@ Currently, we are using the `v2` of the API. The mocks in [api/mocks](/api/mocks
 
 ### How to run locally
 
-Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/master/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
+Follow the standard directions to run the app. The API needs to be running in order to run the app locally. Currently I would use the mock api in `src/applications/check-in/api/local-mock-api` using the directions in the [README](https://github.com/department-of-veterans-affairs/vets-website/blob/main/README.md#running-a-mock-api-for-local-development). This makes development easier since creating a valid token is tedious.
 
 ### Enable local type checking with jsconfig (Optional)
 
@@ -138,16 +137,16 @@ Though we have the HOC, its now considered best practice to query redux using th
 
 - `check_in_experience_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_update_information_page_enabled` : Enables or disabled the update information page
-  - when to sunset: when we expand to multiple facilities and address the edge cases around it
-- `check_in_experience_editing_day_of_enabled` : Enables or disabled editing the demographics information for the day of
-  - when to sunset: once we have successfully tested this feature in production with users
-- `check_in_experience_translation_day_of_enabled` : Enables or disables translation to Spanish
-  - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
+  - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_day_of_demographics_flags_enabled` : Enables the capture of user responses to demographics up-to-date questions (demographics, emergency contact, and next of kin)
   - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
-  - when to sunset: once we have successfully tested this feature in production with users and the backend has full switched over
+  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
+- `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
+  - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_lorota_deletion_enabled`: Enables tracking validation attempts on the server side. When toggle is on, the backend will count the attempts, then delete the entry in LoRota when it reaches the max amount of attempts, and send the frontend a status 410. When it is off, attempts are tracked in local storage.
+- `check_in_experience_travel_reimbursement`: Enables travel reimbursement workflow for day-of check-in.
 
 ### How to test this?
 

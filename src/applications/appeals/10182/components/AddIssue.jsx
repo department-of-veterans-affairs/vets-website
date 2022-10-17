@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { VaTextInput } from '@department-of-veterans-affairs/web-components/react-bindings';
-// using React component because the WC doesn't allow JSX in the label
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import { SimpleDate } from '@department-of-veterans-affairs/component-library/Date';
+import {
+  VaDate,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
-import { isDirtyDate } from 'platform/forms/validations';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import { SELECTED, MAX_LENGTH, LAST_NOD_ITEM } from '../constants';
@@ -24,9 +23,10 @@ import {
 import {
   addIssueTitle,
   issueNameLabel,
+  issueNameHintText,
   dateOfDecisionLabel,
+  dateOfDecisionHintText,
 } from '../content/addIssue';
-import { getIsoDateFromSimpleDate, getSimpleDateFromIso } from '../utils/dates';
 
 const ISSUES_PAGE = '/contestable-issues';
 const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -56,28 +56,18 @@ const AddIssue = props => {
   const dateValidations = [validateDate];
   const uniqueValidations = [uniqueIssue];
 
-  const [fieldObj, setFieldObj] = useState({
-    value: currentData.issue || '',
-    dirty: false,
-  });
+  const [issueName, setIssueName] = useState(currentData.issue || '');
+  const [inputDirty, setInputDirty] = useState(false);
+
+  const [issueDate, setIssueDate] = useState(currentData.decisionDate);
+  const [dateDirty, setDateDirty] = useState(false);
+
   const [submitted, setSubmitted] = useState(false);
 
-  const [date, setDate] = useState(
-    getSimpleDateFromIso(currentData.decisionDate),
-  );
-
   // check name
-  const nameErrorMessage = checkValidations(
-    nameValidations,
-    fieldObj.value,
-    data,
-  );
+  const nameErrorMessage = checkValidations(nameValidations, issueName, data);
   // check dates
-  const dateErrorMessage = checkValidations(
-    dateValidations,
-    getIsoDateFromSimpleDate(date),
-    data,
-  );
+  const dateErrorMessage = checkValidations(dateValidations, issueDate, data);
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
     contestableIssues,
@@ -85,7 +75,7 @@ const AddIssue = props => {
       // remove current issue from list - clicking "update issue" won't show
       // unique issue error message
       ...additionalIssues.filter((_, indx) => offsetIndex !== indx),
-      { issue: fieldObj.value, decisionDate: getIsoDateFromSimpleDate(date) },
+      { issue: issueName, decisionDate: issueDate },
     ],
   });
   const showError = nameErrorMessage[0] || uniqueErrorMessage[0];
@@ -100,8 +90,8 @@ const AddIssue = props => {
       const issues = [...additionalIssues];
       // index based on combined contestable issues + additional issues
       issues[offsetIndex] = {
-        issue: fieldObj.value,
-        decisionDate: getIsoDateFromSimpleDate(date),
+        issue: issueName,
+        decisionDate: issueDate,
         // select new item, if the max number isn't already selected
         [SELECTED]: selectedCount <= MAX_LENGTH.SELECTIONS,
       };
@@ -112,8 +102,18 @@ const AddIssue = props => {
 
   const handlers = {
     onSubmit: event => event.preventDefault(),
-    onIssueNameChange: updatedField => {
-      setFieldObj(updatedField);
+    onIssueNameChange: event => {
+      setIssueName(event.target.value);
+    },
+    onInputBlur: () => {
+      setInputDirty(true);
+    },
+    onDateChange: event => {
+      setIssueDate(event.target.value);
+    },
+    onDateBlur: () => {
+      // this is currently called for each of the 3 elements
+      setDateDirty(true);
     },
     onCancel: event => {
       event.preventDefault();
@@ -135,28 +135,32 @@ const AddIssue = props => {
         >
           {addIssueTitle}
         </legend>
-        <TextInput
+        <VaTextInput
           id="add-nod-issue"
           name="add-nod-issue"
           type="text"
           label={issueNameLabel}
           required
-          field={fieldObj}
-          onValueChange={handlers.onIssueNameChange}
-          errorMessage={
-            (submitted || fieldObj.dirty) && showError ? showError : null
-          }
-        />
+          value={issueName}
+          onInput={handlers.onIssueNameChange}
+          onBlur={handlers.onInputBlur}
+          error={((submitted || inputDirty) && showError) || null}
+        >
+          {issueNameHintText}
+        </VaTextInput>
         <br />
-        <SimpleDate
+        <VaDate
           name="decision-date"
           label={dateOfDecisionLabel}
           required
-          onValueChange={setDate}
-          date={date}
-          errorMessage={(submitted || isDirtyDate(date)) && dateErrorMessage[0]}
+          onDateChange={handlers.onDateChange}
+          onDateBlur={handlers.onDateBlur}
+          value={issueDate}
+          error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
           ariaDescribedby="decision-date-description"
-        />
+        >
+          {dateOfDecisionHintText}
+        </VaDate>
         <p>
           <button
             type="button"

@@ -1,14 +1,5 @@
 import { updateForm } from '../../utils/navigation/day-of';
 
-export const RECORD_ANSWER = 'RECORD_ANSWER';
-
-export const recordAnswer = answer => {
-  return {
-    type: RECORD_ANSWER,
-    payload: answer,
-  };
-};
-
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedMultipleAppointmentDetails = payload => {
@@ -64,11 +55,11 @@ export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
 export const updateFormAction = ({
   patientDemographicsStatus,
-  checkInExperienceUpdateInformationPageEnabled = false,
+  isTravelReimbursementEnabled,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
-    checkInExperienceUpdateInformationPageEnabled,
+    isTravelReimbursementEnabled,
   );
   return {
     type: UPDATE_DAY_OF_CHECK_IN_FORM,

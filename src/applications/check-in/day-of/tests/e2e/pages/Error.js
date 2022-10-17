@@ -5,17 +5,17 @@ const messages = {
     en:
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
     es:
-      'Lo lamentamos. Algo salió mal de nuestra parte. Regístrese con un miembro del personal.',
+      'Lo sentimos. Algo no funcionó de nuestra parte. Regístrese con un miembro del personal.',
   },
   messageTextLastValidateAttempt: {
     en:
-      "We're sorry. We couldn't match your information to our records. Please ask a staff member for help.",
+      'We’re sorry. We couldn’t match your information to our records. Please ask a staff member for help.',
     es:
-      'Lo lamentamos. No pudimos hacer coincidir su información con nuestros registros. Pida ayuda a un miembro del personal.',
+      'Lo sentimos. No encontramos información en nuestros archivos que corresponda a esta información. Pídale asistencia a un miembro del personal.',
   },
   couldntCheckIn: {
     en: 'We couldn’t check you in',
-    es: 'No pudimos registrarte',
+    es: 'No pudimos completar el registro.',
   },
 };
 class Error {

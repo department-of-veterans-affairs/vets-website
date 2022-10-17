@@ -17,8 +17,10 @@ describe('Pre-Check In Experience ', () => {
       initializeSessionPost,
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
+      initializeDemographicsPatch,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
+    initializeDemographicsPatch.withSuccess();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
@@ -35,31 +37,36 @@ describe('Pre-Check In Experience ', () => {
   it('Happy Path', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Validate');
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-
+    Introduction.expandAccordion();
+    cy.createScreenshots('Pre-check-in--Introduction');
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Contact-info');
     Demographics.attemptToGoToNextPage();
 
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Emergency-contact');
     EmergencyContact.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Next-of-kin');
     NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
@@ -81,5 +88,7 @@ describe('Pre-Check In Experience ', () => {
       .should('equal', 200);
 
     cy.injectAxeThenAxeCheck();
+    Confirmation.expandAllAccordions();
+    cy.createScreenshots('Pre-check-in--Confirmation-answer-yes-to-all');
   });
 });

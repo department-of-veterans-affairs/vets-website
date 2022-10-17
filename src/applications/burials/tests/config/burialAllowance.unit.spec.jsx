@@ -1,14 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   submitForm,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+} from 'platform/testing/unit/schemaform-utils';
+
+import formConfig from '../../config/form';
 
 describe('Burials burial allowance', () => {
   const {
@@ -32,7 +33,7 @@ describe('Burials burial allowance', () => {
     );
   });
 
-  it('should show warning when ineligible for non-service connected death allowance', () => {
+  it('should show warning when ineligible for non-service connected death allowance', done => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -45,7 +46,12 @@ describe('Burials burial allowance', () => {
     );
     const formDOM = getFormDOM(form);
     formDOM.fillData('#root_burialAllowanceRequested_1', 'nonService');
-    expect(formDOM.querySelectorAll('.usa-alert-warning').length).to.equal(1);
+    setTimeout(() => {
+      expect(formDOM.querySelector('va-alert')).to.not.be.null;
+      done();
+      // va-alert should render after 1000ms, using 1010ms because 1000ms
+      // didn't seem to be enough for the test to pass
+    }, 1010);
   });
 
   it('should not show vaMC option when neither vaMC nor nursing home selected as burial location', () => {

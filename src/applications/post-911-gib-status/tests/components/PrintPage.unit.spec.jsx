@@ -16,7 +16,7 @@ describe('<PrintPage/>', () => {
 
   it('should render', () => {
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -25,7 +25,7 @@ describe('<PrintPage/>', () => {
 
   it('renders a UserInfoSection child', () => {
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -34,7 +34,7 @@ describe('<PrintPage/>', () => {
 
   it('should render a print button', () => {
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -44,7 +44,7 @@ describe('<PrintPage/>', () => {
 
   it('should render a back to statement button', () => {
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -57,7 +57,7 @@ describe('<PrintPage/>', () => {
     const printSpy = sinon.spy();
     global.window.print = printSpy;
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });
@@ -70,7 +70,7 @@ describe('<PrintPage/>', () => {
 
   it('should navigate to statement when back to statement button clicked', () => {
     // Not necessary if not componentWillUnmount
-    // eslint-disable-next-line va/enzyme-unmount
+    // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
     const wrapper = shallow(<PrintPage {...defaultProps} />, {
       disableLifecycleMethods: true,
     });

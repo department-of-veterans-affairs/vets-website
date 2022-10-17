@@ -3,6 +3,9 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import {
   mockAppointmentInfo,
   mockSingleAppointmentFetch,
@@ -12,10 +15,7 @@ import {
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../../mocks/setup';
-import { waitFor } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
-import sinon from 'sinon';
 import { getICSTokens } from '../../../../utils/calendar';
 import { getVAOSAppointmentMock } from '../../../mocks/v2';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
@@ -682,9 +682,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.baseElement).to.contain.text('Clinic: CHY PC VAR2');
-      expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
-      expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
-        .be.ok;
+      expect(screen.baseElement).to.contain.text('Main phone:');
+      expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
     it('should show address info for store forward appointment', async () => {
@@ -773,9 +772,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.baseElement).to.contain.text('Clinic: Green team clinic');
-      expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
-      expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
-        .be.ok;
+      expect(screen.baseElement).to.contain.text('Main phone:');
+      expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
     it('should print appointment details', async () => {
@@ -1415,8 +1413,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         status: 'booked',
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'lastname',
+            name: {
+              family: 'lastname',
+              given: ['Meg'],
+            },
           },
         ],
       };
@@ -1463,8 +1463,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       // And the facility information is shown
       // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
       expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-      expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-        .ok;
+      expect(screen.getByTestId('facility-telephone')).to.exist;
 
       // And practitioners are displayed
       expect(screen.getByText(/You’ll be meeting with/)).to.be.ok;

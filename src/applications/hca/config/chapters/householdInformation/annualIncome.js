@@ -1,11 +1,12 @@
 import merge from 'lodash/merge';
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
-import { incomeDescription } from '../../../helpers';
-import { validateCurrency } from '../../../validation';
+import { IncomeDescription } from '../../../components/FormDescriptions';
+import { validateCurrency } from '../../../utils/validation';
 import {
   dependentIncomeUiSchema,
   createDependentIncomeSchema,
@@ -35,7 +36,7 @@ const {
 export default {
   uiSchema: {
     'ui:title': 'Annual income',
-    'ui:description': incomeDescription,
+    'ui:description': IncomeDescription,
     veteranGrossIncome: set(
       'ui:validations',
       [validateCurrency],

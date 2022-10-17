@@ -8,7 +8,6 @@ import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
-import Edit from '../components/pages/Edit';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
@@ -16,6 +15,7 @@ import { URLS } from '../utils/navigation';
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
+import { withAppSet } from '../containers/withAppSet';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
@@ -72,46 +72,6 @@ const routes = [
     },
   },
   {
-    path: URLS.EDIT_ADDRESS,
-    component: Edit.Address,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_EMAIL,
-    component: Edit.Email,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_NAME,
-    component: Edit.Name,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_PHONE_NUMBER,
-    component: Edit.PhoneNumber,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_RELATIONSHIP,
-    component: Edit.Relationship,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
     path: URLS.ERROR,
     component: Error,
   },
@@ -138,14 +98,12 @@ const createRoutesWithStore = () => {
             component = withAuthorization(component, options);
           }
         }
+        // Add feature flip
+        component = withFeatureFlip(component, options);
+        // Add app name
+        component = withAppSet(component, options);
 
-        return (
-          <Route
-            path={`/${route.path}`}
-            component={withFeatureFlip(component, options)}
-            key={i}
-          />
-        );
+        return <Route path={`/${route.path}`} component={component} key={i} />;
       })}
       {!environment.isProduction() && (
         <Route

@@ -2,7 +2,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdLocationDescription } from '../content/incidentLocation';
-import { incidentLocationUISchema } from '../utils';
+import { incidentLocationUISchema } from '../utils/schemas';
 
 const {
   incidentLocation,

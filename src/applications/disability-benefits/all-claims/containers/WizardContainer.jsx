@@ -29,7 +29,7 @@ const setWizardStatus = value => {
 
 const WizardContainer = () => {
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('va-breadcrumbs');
     scrollToTop();
   });
 

@@ -1,5 +1,5 @@
-import manifest from '../manifest.json';
 import environments from 'site/constants/environments';
+import manifest from '../manifest.json';
 
 describe('Caregivers test', () => {
   it('Loads the page body', () => {

@@ -1,4 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
+import { FIELD_NAMES } from '@@vap-svc/constants';
 
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
@@ -130,4 +131,13 @@ export const createCNPDirectDepositAnalyticsDataObject = (
     'profile-section': `cnp-direct-deposit-information`,
     [key]: errorCode,
   };
+};
+
+// checks for basic field data or data for nested object like gender identity
+export const isFieldEmpty = (data, fieldName) => {
+  // checks whether data is available and in the case of gender identity if there is a code present
+  return (
+    !data ||
+    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
+  );
 };

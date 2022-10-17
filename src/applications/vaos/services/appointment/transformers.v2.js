@@ -1,11 +1,10 @@
 import moment from 'moment';
-import { getPatientInstruction } from '.';
+import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
-  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
@@ -108,10 +107,10 @@ export function transformVAOSAppointment(appt) {
       duration: appt.minutesDuration,
       providers: (providers || []).map(provider => ({
         name: {
-          firstName: provider.firstName,
-          lastName: provider.lastName,
+          firstName: provider.name?.given,
+          lastName: provider.name?.family,
         },
-        display: `${provider.firstName} ${provider.lastName}`,
+        display: `${provider.name?.given} ${provider.name?.family}`,
       })),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
@@ -133,12 +132,16 @@ export function transformVAOSAppointment(appt) {
         'YYYY-MM-DDTHH:mm:ss',
       )}.999`,
     }));
+    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+    const reason = hasReasonCode
+      ? PURPOSE_TEXT.find(
+          purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
+        )?.short
+      : null;
     requestFields = {
       requestedPeriod: reqPeriods,
       created,
-      reason: PURPOSE_TEXT.find(
-        purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
-      )?.short,
+      reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       type: {
@@ -158,27 +161,26 @@ export function transformVAOSAppointment(appt) {
     };
   }
 
+  // TODO: verfy in RI
   let facilityData;
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
+  let comment = null;
+  const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const text = appt.reasonCode ? appt.reasonCode.text : null;
+  if (coding && coding[0]?.code && text) {
+    comment = `${coding[0].code}: ${text}`;
+  } else if (coding && coding[0].code) {
+    comment = coding[0].code;
+  } else {
+    comment = text;
+  }
+
   return {
     resourceType: 'Appointment',
     id: appt.id,
-    /*
-      When cancelling a CC appointment request in V2 the appointment status remains in 
-      a state of proposed until the scheduler cancels it. Typically the status is immediately 
-      set to cancelled as is the case with a standard VA request.  In order to maintain
-      consistent behavior for both VA and CC requests on the RequestedAppointmentDetailsPage
-      we are setting the CC appointment request status to cancelled using the logic below.
-
-      Cancellable is a new field on the appointment object that *is* set immediately upon cancellation
-      of the appointment.
-    */
-    status:
-      isCC && appt.status === APPOINTMENT_STATUS.proposed && !appt.cancellable
-        ? APPOINTMENT_STATUS.cancelled
-        : appt.status,
+    status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     start: !isRequest ? start.format() : null,
     // This contains the vista status for v0 appointments, but
@@ -197,17 +199,26 @@ export function transformVAOSAppointment(appt) {
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
-        : appt.comment || null,
+        : comment,
     videoData,
     communityCareProvider:
       isCC && !isRequest
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
+            treatmentSpecialty: appt.extension?.ccTreatingSpecialty,
             address: appt.extension?.ccLocation?.address,
-            telecom: null,
-            firstName: null,
-            lastName: null,
-            providerName: null,
+            telecom: appt.extension?.ccLocation?.telecom,
+            providers: (providers || []).map(provider => ({
+              name: {
+                firstName: provider.name?.given.join(' '),
+                lastName: provider.name?.family,
+              },
+              providerName: provider.name
+                ? `${provider.name.given.join(' ')} ${provider.name.family}`
+                : null,
+            })),
+            providerName:
+              providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
     practitioners: appt.practitioners,
@@ -224,9 +235,26 @@ export function transformVAOSAppointment(appt) {
       timeZone: null,
       facilityData,
     },
+    version: 2,
   };
 }
 
 export function transformVAOSAppointments(appts) {
   return appts.map(appt => transformVAOSAppointment(appt));
+}
+
+/**
+ * Transforms a provider object from the providers endpoint into our
+ * VAOS format
+ *
+ * @export
+ * @param {provider} provider A provider from the providers endpoint
+ * @returns {Provider} A Provider resource
+ */
+export function transformPreferredProviderV2(provider) {
+  return {
+    resourceType: 'Provider',
+    id: provider.providerIdentifier,
+    name: provider.name,
+  };
 }

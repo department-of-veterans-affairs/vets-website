@@ -1,5 +1,6 @@
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { FLOW_TYPES } from '../../../utils/constants';
@@ -40,7 +41,11 @@ export default function ContactDetailSection({ data, flowType }) {
             <span>
               {data.email}
               <br />
-              <Telephone notClickable contact={data.phoneNumber} />
+              <VaTelephone
+                notClickable
+                contact={data.phoneNumber}
+                data-testid="patient-telephone"
+              />
               {flowType !== FLOW_TYPES.DIRECT && (
                 <>
                   <br />
@@ -62,3 +67,8 @@ export default function ContactDetailSection({ data, flowType }) {
     </>
   );
 }
+
+ContactDetailSection.propTypes = {
+  data: PropTypes.object,
+  flowType: PropTypes.string,
+};

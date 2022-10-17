@@ -12,7 +12,7 @@ import formConfig1990n from '../../1990n/config/form';
 import formConfig1990e from '../../1990e/config/form';
 import formConfig5490 from '../../5490/config/form';
 
-const pageTests = (page, requiredErrors = 0) => {
+const pageTests = (page, requiredErrors = 0, inputs = 4) => {
   const { schema, uiSchema } = page;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
@@ -21,7 +21,7 @@ const pageTests = (page, requiredErrors = 0) => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input').length).to.equal(inputs);
   });
 
   it('should show correct number of required errors', () => {
@@ -62,6 +62,8 @@ describe('Edu directDepositChangePage', () => {
   describe('1990e', () =>
     pageTests(
       formConfig1990e.chapters.personalInformation.pages.directDeposit,
+      3,
+      5,
     ));
   describe('1990n', () =>
     pageTests(

@@ -1,29 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
-
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
+import {
+  VaModal,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import UploadStatus from './UploadStatus';
-import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
   isNotBlank,
@@ -37,8 +34,8 @@ import {
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_MB,
 } from '../utils/validations';
-import { setFocus } from '../utils/page';
-import { uploadPdfLimitFeature } from '../utils/appeals-v2-helpers';
+import UploadStatus from './UploadStatus';
+import mailMessage from './MailMessage';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -51,40 +48,62 @@ const scrollToError = () => {
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
+    const errorID = errors[0].querySelector('label').getAttribute('for');
+    const errorInput = document.getElementById(`${errorID}`);
+    const inputType = errorInput.getAttribute('type');
     scrollTo(errorPosition, options);
-    errors[0].querySelector('label').focus();
+
+    if (inputType === 'file') {
+      // Sends focus to the file input button
+      errors[0].querySelector('label[role="button"]').focus();
+    } else {
+      errorInput.focus();
+    }
   }
 };
 const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
-  state = {
-    errorMessage: null,
-    checked: false,
-    errorMessageCheckbox: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorMessage: null,
+      checked: false,
+      errorMessageCheckbox: null,
+    };
+  }
 
   getErrorMessage = () => {
     if (this.state.errorMessage) {
       return this.state.errorMessage;
     }
+
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
   };
 
+  handleDocTypeChange = (docType, index) => {
+    this.props.onFieldChange(`files[${index}].docType`, {
+      value: docType,
+      dirty: true,
+    });
+  };
+
+  handlePasswordChange = (password, index) => {
+    this.props.onFieldChange(`files[${index}].password`, {
+      value: password,
+      dirty: true,
+    });
+  };
+
   add = async files => {
     const file = files[0];
-    const {
-      requestLockedPdfPassword,
-      onAddFile,
-      pdfSizeFeature,
-      mockReadAndCheckFile,
-    } = this.props;
+    const { onAddFile, mockReadAndCheckFile } = this.props;
     const extraData = {};
-    const hasPdfSizeLimit = isPdf(file) && pdfSizeFeature;
+    const hasPdfSizeLimit = isPdf(file);
 
-    if (isValidFile(file, pdfSizeFeature)) {
+    if (isValidFile(file)) {
       // Check if the file is an encrypted PDF
       const checks = { checkTypeAndExtensionMatches, checkIsEncryptedPdf };
       const checkResults = mockReadAndCheckFile
@@ -98,10 +117,7 @@ class AddFilesForm extends React.Component {
         return;
       }
 
-      if (
-        requestLockedPdfPassword && // feature flag
-        file.name?.toLowerCase().endsWith('pdf')
-      ) {
+      if (file.name?.toLowerCase().endsWith('pdf')) {
         extraData.isEncrypted = checkResults.checkIsEncryptedPdf;
       }
 
@@ -119,7 +135,7 @@ class AddFilesForm extends React.Component {
       this.setState({
         errorMessage: 'Please choose a file from one of the accepted types.',
       });
-    } else if (!isValidFileSize(file, pdfSizeFeature)) {
+    } else if (!isValidFileSize(file)) {
       const maxSize = hasPdfSizeLimit ? MAX_PDF_SIZE_MB : MAX_FILE_SIZE_MB;
       this.setState({
         errorMessage: `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
@@ -133,45 +149,47 @@ class AddFilesForm extends React.Component {
   };
 
   submit = () => {
-    this.setState(
-      this.state.checked
-        ? { errorMessageCheckbox: null }
-        : { errorMessageCheckbox: 'Please accept the above' },
-    );
-
     const { files } = this.props;
     const hasPasswords = files.every(
       file => !file.isEncrypted || (file.isEncrypted && file.password.value),
     );
 
-    if (
-      files.length > 0 &&
-      files.every(isValidDocument) &&
-      hasPasswords &&
-      this.state.checked
-    ) {
-      this.props.onSubmit();
-    } else {
-      this.props.onDirtyFields();
-      setTimeout(scrollToError);
+    if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+      // This nested state prevents VoiceOver from accouncing an
+      // unchecked checkbox if the file is missing.
+      const { checked } = this.state;
+
+      this.setState({
+        errorMessageCheckbox: checked
+          ? null
+          : 'Please confirm these documents apply to this claim only',
+      });
+
+      if (this.state.checked) {
+        this.props.onSubmit();
+        return;
+      }
     }
+
+    this.props.onDirtyFields();
+    setTimeout(scrollToError);
   };
 
   render() {
     return (
-      <div>
-        <div>
-          <p>
-            <va-additional-info trigger="Need to mail your files?">
-              {mailMessage}
-            </va-additional-info>
-          </p>
-        </div>
+      <>
+        <va-additional-info
+          class="vads-u-margin-y--2"
+          trigger="Need to mail your files?"
+        >
+          {mailMessage}
+        </va-additional-info>
         <Element name="filesList" />
         <div>
           <FileInput
             errorMessage={this.getErrorMessage()}
             label={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <span className="claims-upload-input-title">
                 Select files to upload
               </span>
@@ -181,23 +199,22 @@ class AddFilesForm extends React.Component {
             buttonText="Add Files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
           />
         </div>
-        <div className="file-requirements">
-          <p className="file-requirement-header">Accepted file types:</p>
-          <p className="file-requirement-text">{displayTypes}</p>
-          <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">
-            {`${MAX_FILE_SIZE_MB}MB${
-              this.props.pdfSizeFeature ? ' (non-PDF)' : ''
-            }`}
-          </p>
-          {this.props.pdfSizeFeature && (
+        <dl className="file-requirements" id="file-requirements">
+          <dt className="file-requirement-header">Accepted file types:</dt>
+          <dd className="file-requirement-text">{displayTypes}</dd>
+          <dt className="file-requirement-header">Maximum file size:</dt>
+          <dd>
+            <p className="file-requirement-text">
+              {`${MAX_FILE_SIZE_MB}MB (non-PDF)`}
+            </p>
             <p className="file-requirement-text">
               {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
             </p>
-          )}
-        </div>
+          </dd>
+        </dl>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
@@ -212,6 +229,7 @@ class AddFilesForm extends React.Component {
                   </div>
                   <div className="remove-document-button">
                     <button
+                      type="button"
                       className="usa-button-secondary"
                       onClick={() => this.props.onRemoveFile(index)}
                     >
@@ -222,26 +240,22 @@ class AddFilesForm extends React.Component {
                 {isEncrypted && (
                   <>
                     <p className="clearfix">
-                      This is en encrypted PDF document. In order for us to be
+                      This is an encrypted PDF document. In order for us to be
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
-                    <TextInput
+                    <VaTextInput
                       required
-                      errorMessage={
+                      error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
                           : 'Please provide a password to decrypt this file'
                       }
-                      name="password"
                       label="PDF password"
-                      field={password}
-                      onValueChange={update => {
-                        this.props.onFieldChange(
-                          `files[${index}].password`,
-                          update,
-                        );
-                      }}
+                      name="password"
+                      onInput={e =>
+                        this.handlePasswordChange(e.target.value, index)
+                      }
                     />
                   </>
                 )}
@@ -273,6 +287,7 @@ class AddFilesForm extends React.Component {
           checked={this.state.checked}
           errorMessage={this.state.errorMessageCheckbox}
           label={
+            // eslint-disable-next-line react/jsx-wrap-multilines
             <div>
               <strong>
                 The files I uploaded are supporting documents for this claim
@@ -288,50 +303,47 @@ class AddFilesForm extends React.Component {
           }
         />
         <div>
-          <button className="usa-button" onClick={this.submit}>
+          <button
+            type="submit"
+            className="usa-button"
+            data-cy="submit-files-button"
+            onClick={this.submit}
+          >
             Submit Files for Review
           </button>
           <Link to={this.props.backUrl} className="claims-files-cancel">
             Cancel
           </Link>
         </div>
-        <Modal
-          onClose={() => true}
-          visible={this.props.uploading}
-          hideCloseButton
-          cssClass=""
+        <VaModal
           id="upload-status"
-          contents={
-            <UploadStatus
-              progress={this.props.progress}
-              files={this.props.files.length}
-              onCancel={this.props.onCancel}
-            />
-          }
-        />
-      </div>
+          onCloseEvent={() => true}
+          visible={Boolean(this.props.uploading)}
+        >
+          <UploadStatus
+            progress={this.props.progress}
+            files={this.props.files.length}
+            onCancel={this.props.onCancel}
+          />
+        </VaModal>
+      </>
     );
   }
 }
 
 AddFilesForm.propTypes = {
-  files: PropTypes.array.isRequired,
   field: PropTypes.object.isRequired,
-  uploading: PropTypes.bool,
-  backUrl: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
+  files: PropTypes.array.isRequired,
   onAddFile: PropTypes.func.isRequired,
-  onRemoveFile: PropTypes.func.isRequired,
-  onFieldChange: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onDirtyFields: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  backUrl: PropTypes.string,
+  mockReadAndCheckFile: PropTypes.bool,
+  progress: PropTypes.number,
+  uploading: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
-  pdfSizeFeature: uploadPdfLimitFeature(state),
-});
-
-export { AddFilesForm };
-
-export default connect(mapStateToProps)(AddFilesForm);
+export default AddFilesForm;

@@ -15,10 +15,10 @@ jobs:
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
           repository: department-of-veterans-affairs/content-build
-          ref: refs/heads/master
+          ref: refs/heads/main
           path: ./content-build
 
       - name: Get registries
@@ -44,7 +44,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -109,17 +109,17 @@ jobs:
         run: yarn generate-app-list
 
       - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
+          path: qa-standards-dashboard-data
           ref: qas-coverage-app-names
 
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -131,23 +131,26 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline --production=false
         env:
           YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
 
       - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: vsp-analytics-and-insights
-          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
-          export_default_credentials: true
 
       - name: Copy results file to data dir
         run: |
-          mkdir testing-tools-team-dashboard-data/src/testing-reports/data
-          cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} testing-tools-team-dashboard-data/src/testing-reports/data
+          mkdir qa-standards-dashboard-data/src/testing-reports/data
+          cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Upload Lighthouse results to BigQuery
         run: yarn lighthouse-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           APPLICATION_LIST: ${{ env.APPLICATION_LIST }}
 
@@ -158,7 +161,7 @@ jobs:
     needs: [lighthouse]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
-import Payments from './payments/Payments.jsx';
-import ViewPaymentsHeader from '../../components/view-payments-header/ViewPaymentsHeader.jsx';
+
+import { getAllPayments } from '../../actions';
+import {
+  isClientError,
+  ServerErrorAlertContent,
+  NoPaymentsContent,
+} from '../../utils';
 import IdentityNotVerified from '../IdentityNotVerified';
+import ViewPaymentsHeader from '../view-payments-header/ViewPaymentsHeader';
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
@@ -16,12 +22,7 @@ import {
   reformatReturnPaymentDates,
   reformatPaymentDates,
 } from './helpers';
-import { getAllPayments } from '../../actions';
-import {
-  isClientError,
-  ServerErrorAlertContent,
-  NoPaymentsContent,
-} from '../../utils';
+import Payments from './payments/Payments';
 
 class ViewPaymentsLists extends Component {
   componentDidMount() {
@@ -54,7 +55,7 @@ class ViewPaymentsLists extends Component {
           <p className="vads-u-font-size--base">
             We can’t find any returned VA payments. If you think this is an
             error, or if you have questions about your payment history, please
-            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+            call <va-telephone contact={CONTACTS.VA_BENEFITS} />.
           </p>
         </va-alert>
       );
@@ -87,7 +88,7 @@ class ViewPaymentsLists extends Component {
           <p className="vads-u-font-size--base">
             We can’t find any VA payments made to you. If you think this is an
             error, or if you have questions about your payment history, please
-            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+            call <va-telephone contact={CONTACTS.VA_BENEFITS} />.
           </p>
         </va-alert>
       );
@@ -143,7 +144,7 @@ class ViewPaymentsLists extends Component {
             </p>
             <p>
               If you have questions about payments made by VA, please call the
-              VA Help Desk at <Telephone contact={CONTACTS.VA_BENEFITS} />
+              VA Help Desk at <va-telephone contact={CONTACTS.VA_BENEFITS} />
             </p>
             {paymentsReturnedTable}
             <h3>What if I find a check that I reported missing?</h3>
@@ -179,7 +180,7 @@ class ViewPaymentsLists extends Component {
             <p className="vads-u-margin-bottom--3">
               {' '}
               To report a missing payment, contact us at{' '}
-              <Telephone contact={CONTACTS.VA_BENEFITS} />. Please have the
+              <va-telephone contact={CONTACTS.VA_BENEFITS} />. Please have the
               following information ready for the call: your address, Social
               Security number or VA claim number. If you receive payments
               through direct deposit, you’ll need your bank account information
@@ -193,10 +194,10 @@ class ViewPaymentsLists extends Component {
               eligibility? Call our toll free number:
             </p>
             <p className="vads-u-font-weight--bold vads-u-margin-y--0">
-              <Telephone contact={CONTACTS.VA_BENEFITS} />
+              <va-telephone contact={CONTACTS.VA_BENEFITS} />
             </p>
             <p className="vads-u-font-weight--bold vads-u-margin-y--0">
-              TTY <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />
+              TTY <va-telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />
             </p>
             <p className="vads-u-margin-bottom--4">
               Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
@@ -222,6 +223,14 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAllPayments,
+};
+
+ViewPaymentsLists.propTypes = {
+  error: PropTypes.object,
+  getAllPayments: PropTypes.func,
+  isIdentityVerified: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  payments: PropTypes.object,
 };
 
 export default connect(

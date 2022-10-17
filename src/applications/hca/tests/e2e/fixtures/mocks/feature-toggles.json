@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "caregiverSigiEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaMedicareClaimNumberEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaUseFacilitiesApi",
+        "value": true
+      }
+    ]
+  }
+}

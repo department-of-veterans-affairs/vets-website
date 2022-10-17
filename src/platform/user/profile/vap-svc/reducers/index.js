@@ -1,8 +1,8 @@
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import { isEmpty, isEqual, pickBy } from 'lodash';
 
-import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
+import { COPY_ADDRESS_MODAL_STATUS } from 'platform/user/profile/vap-svc/constants';
 
 import { isFailedTransaction } from '../util/transactions';
 
@@ -19,6 +19,7 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
+  VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
@@ -113,8 +114,6 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
-      // console.log('VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED');
-      // console.log(JSON.stringify({ state, action }, null, 2));
       return {
         ...state,
         transactions: state.transactions.concat(action.transaction),
@@ -125,6 +124,20 @@ export default function vapService(state = initialState, action) {
             isPending: false,
             transactionId: action.transaction.data.attributes.transactionId,
           },
+        },
+        initialFormFields: {},
+        hasUnsavedEdits: false,
+      };
+    }
+
+    case VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED: {
+      return {
+        ...state,
+        modal: null,
+        mostRecentlySavedField: action.fieldName,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: null,
         },
         initialFormFields: {},
         hasUnsavedEdits: false,

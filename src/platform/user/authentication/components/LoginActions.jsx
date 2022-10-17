@@ -1,53 +1,35 @@
 import React from 'react';
-import { CSP_IDS, EXTERNAL_APPS } from '../constants';
+import { externalApplicationsConfig } from '../usip-config';
+import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
-import AccountLink from './AccountLink';
+import CreateAccountLink from './CreateAccountLink';
 
-export default ({
-  externalApplication,
-  loginGovOff,
-  loginGovCreateAccountEnabled,
-  loginGovMHVEnabled,
-  loginGovMyVAHealthEnabled,
-}) => {
-  const externalLoginGovSupport = {
-    [EXTERNAL_APPS.MHV]: loginGovMHVEnabled,
-    [EXTERNAL_APPS.MY_VA_HEALTH]: loginGovMyVAHealthEnabled,
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: !loginGovOff,
-    [EXTERNAL_APPS.VA_OCC_MOBILE]: !loginGovOff,
-    [EXTERNAL_APPS.EBENEFITS]: !loginGovOff,
-  };
-
-  const showLoginGov = () => {
-    if (loginGovOff) {
-      return false;
-    }
-
-    if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
-      return true;
-    }
-
-    return externalLoginGovSupport[externalApplication];
-  };
+export default function LoginActions({ externalApplication }) {
+  const { OAuth } = getQueryParams();
+  const { allowedSignInProviders, allowedSignUpProviders, OAuthEnabled } =
+    externalApplicationsConfig[externalApplication] ??
+    externalApplicationsConfig.default;
+  const useSignInService = OAuthEnabled && OAuth === 'true';
 
   return (
     <div className="row">
       <div className="columns small-12" id="sign-in-wrapper">
-        {showLoginGov() && <LoginButton csp={CSP_IDS.LOGIN_GOV} />}
-        <LoginButton csp={CSP_IDS.ID_ME} />
-        <LoginButton csp={CSP_IDS.DS_LOGON} />
-        <LoginButton csp={CSP_IDS.MHV} />
+        {reduceAllowedProviders(allowedSignInProviders).map(csp => (
+          <LoginButton csp={csp} key={csp} useOAuth={useSignInService} />
+        ))}
         <div id="create-account">
           <h2 className="vads-u-margin-top--3">Or create an account</h2>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {showLoginGov() &&
-              loginGovCreateAccountEnabled && (
-                <AccountLink csp={CSP_IDS.LOGIN_GOV} />
-              )}
-            <AccountLink csp={CSP_IDS.ID_ME} />
+            {reduceAllowedProviders(allowedSignUpProviders).map(policy => (
+              <CreateAccountLink
+                key={policy}
+                policy={policy}
+                useOAuth={useSignInService}
+              />
+            ))}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

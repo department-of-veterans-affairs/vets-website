@@ -6,14 +6,16 @@ import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
 } from 'platform/utilities/api';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
-import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
+import * as Sentry from '@sentry/browser';
+import { deductionCodes } from '../constants/deduction-codes';
+import { debtMockResponse } from '../utils/debtMockResponses';
 import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
+  DEBTS_FETCH_SUCCESS,
 } from '../constants/actionTypes';
+import { DEBT_TYPES } from '../utils/helpers';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
@@ -29,33 +31,36 @@ export const fetchFormStatus = () => async dispatch => {
     });
   }
 
-  fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-    },
-  })
-    .then(response => response.json())
-    .then(response => {
-      if (response.errors) {
-        dispatch({
-          type: FSR_API_ERROR,
-          error: response,
-        });
-      }
+  try {
+    fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response.errors) {
+          dispatch({
+            type: FSR_API_ERROR,
+            error: response,
+          });
+        }
+      });
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
     });
+  }
   return dispatch({
     type: FSR_RESET_ERRORS,
   });
 };
 
-export const fetchDebts = () => async (dispatch, getState) => {
-  const state = getState();
-  const { currentlyLoggedIn } = state.user.login;
-  const fetchApiData = currentlyLoggedIn && isVAProfileServiceConfigured();
-
+export const fetchDebts = async dispatch => {
   const getDebts = () => {
     const options = {
       method: 'GET',
@@ -67,7 +72,7 @@ export const fetchDebts = () => async (dispatch, getState) => {
       },
     };
 
-    return fetchApiData
+    return isVAProfileServiceConfigured()
       ? apiRequest(`${environment.API_URL}/v0/debts`, options)
       : debtMockResponse();
   };
@@ -80,13 +85,21 @@ export const fetchDebts = () => async (dispatch, getState) => {
     const filteredResponse = response.debts
       .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
-      .map((debt, index) => ({ ...debt, id: index }));
+      .map((debt, index) => ({
+        ...debt,
+        id: index,
+        debtType: DEBT_TYPES.DEBT,
+      }));
 
     return dispatch({
       type: DEBTS_FETCH_SUCCESS,
       debts: filteredResponse,
     });
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+    });
     dispatch({
       type: FSR_API_ERROR,
       error,

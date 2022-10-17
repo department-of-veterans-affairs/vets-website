@@ -1,20 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
-import { sortStatementsByDate } from '../utils/helpers';
+import {
+  sortStatementsByDate,
+  cdpAccessToggle,
+  ALERT_TYPES,
+  APP_TYPES,
+  API_RESPONSES,
+} from '../utils/helpers';
+import OtherVADebts from '../components/OtherVADebts';
+import alertMessage from '../utils/alert-messages';
+import { fetchDebtResponseAsync } from './MedicalCopaysApp';
 
 const OverviewPage = () => {
+  const [hasDebts, setHasDebts] = useState(false);
+
+  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
   const sortedStatements = sortStatementsByDate(statements);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
 
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.DEBT);
+    if (hasDebts > 0) {
+      return <OtherVADebts module={APP_TYPES.DEBT} />;
+    }
+    if (hasDebts === API_RESPONSES.ERROR) {
+      return (
+        <>
+          <h3>Your other VA debts</h3>
+          <va-alert
+            data-testid={alertInfo.testID}
+            status={alertInfo.alertStatus}
+          >
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
+  };
+
   useEffect(() => {
     scrollToTop();
+    fetchDebtResponseAsync().then(hasDebtsResponse =>
+      setHasDebts(hasDebtsResponse),
+    );
   }, []);
 
   return (
@@ -32,6 +71,7 @@ const OverviewPage = () => {
         help.
       </p>
       <Balances statements={statementsByUniqueFacility} />
+      {showCDPComponents && renderOtherVA()}
       <BalanceQuestions />
     </>
   );

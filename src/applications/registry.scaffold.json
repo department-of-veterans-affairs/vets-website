@@ -2,20 +2,22 @@
   {
     "appName": "About VA Disability Ratings",
     "rootUrl": "/disability/about-disability-ratings",
-    "widgetType": "disability-rating-calculator"
-  },
-  {
-    "appName": "Coronavirus Chatbot",
-    "rootUrl": "/coronavirus-chatbot",
-    "widgetType": "va-coronavirus-chatbot",
-    "template": {
-      "title": "VA coronavirus chatbot"
+    "widgetType": "disability-rating-calculator",
+    "productDirectory": {
+      "filePath": "src/applications/disability-benefits/disability-rating-calculator",
+      "productId": 202,
+      "entryName": "disability-rating-calculator"
     }
   },
   {
     "appName": "Find Forms",
     "rootUrl": "/find-forms",
-    "widgetType": "find-va-forms"
+    "widgetType": "find-va-forms",
+    "productDirectory": {
+      "filePath": "src/applications/find-forms",
+      "productId": 206,
+      "entryName": "find-va-forms"
+    }
   },
   {
     "appName": "Homepage",
@@ -104,5 +106,15 @@
     "appName": "Connected Devices",
     "rootUrl": "/health-care/connected-devices",
     "entryName": "dhp-consent-flow"
+  },
+  {
+    "appName": "Transfer Account",
+    "rootUrl": "/transfer-account",
+    "entryName": "mhv-inherited-proofing"
+  },
+  {
+    "appName": "Notice of Disagreement",
+    "rootUrl": "/decision-reviews/board-appeal/",
+    "entryName": "form-10182-cta"
   }
 ]

@@ -5,9 +5,6 @@ import classNames from 'classnames';
 import sortListByFuzzyMatch from 'platform/forms-system/src/js/utilities/fuzzy-matching';
 
 const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
-  // form data can potentially use the same object name which results in duplicate ids
-  // adding idPrefix generates a unique id
-  const { idPrefix } = uiSchema['ui:options'];
   const [input, setInput] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -105,10 +102,9 @@ const Typeahead = ({ uiSchema, idSchema, formData, onChange, onBlur }) => {
     return (
       <div className="autosuggest-container">
         <input
-          aria-label="autosuggest-input"
           {...getInputProps({
             autoComplete: 'off',
-            id: idPrefix ? `${idPrefix}_${idSchema.$id}` : idSchema.$id,
+            id: idSchema.$id,
             name: idSchema.$id,
             className: 'autosuggest-input',
             onBlur: isOpen ? undefined : handleBlur,
