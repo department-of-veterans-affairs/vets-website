@@ -84,7 +84,7 @@ const testConfig = createTestConfig(
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
-            /What is the estimated value of your trailers, campers, and boats?/,
+            /What is the estimated value of all of your trailers, campers, and boats?/,
           )
             .type('2500')
             .type('{downarrow}{enter}');

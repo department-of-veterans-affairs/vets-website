@@ -139,7 +139,6 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
       <div className="vads-u-margin-top--4">
         <va-additional-info
-          disable-border
           trigger="What if my military service information doesn’t look right?"
           onClick={() => {
             recordEvent({

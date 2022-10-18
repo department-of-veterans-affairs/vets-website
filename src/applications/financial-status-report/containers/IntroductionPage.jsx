@@ -38,7 +38,7 @@ const IntroductionPage = ({ route, formId }) => {
         hideUnauthedStartLink
       />
       <h2 className="vads-u-font-size--h3">
-        Follow these steps to request help with a VA debt payment
+        Follow these steps to request help
       </h2>
       <p>
         If you don’t think this is the right form for you,
@@ -140,7 +140,8 @@ const IntroductionPage = ({ route, formId }) => {
           </li>
           <li className="process-step list-three">
             <h3 className="vads-u-font-size--h4">
-              Take any needed next steps to resolve the debt
+              Take any needed next steps to resolve the overpayment or copay
+              bill{' '}
             </h3>
             <p>We’ll send you this information by mail:</p>
             <ul>

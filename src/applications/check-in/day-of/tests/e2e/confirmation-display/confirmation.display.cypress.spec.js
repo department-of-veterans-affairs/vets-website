@@ -52,10 +52,10 @@ describe('Check In Experience -- ', () => {
       Confirmation.validateBTSSSLink();
       cy.injectAxeThenAxeCheck();
     });
-    it('confirm back button', () => {
-      Confirmation.validateBackButton();
-      cy.injectAxeThenAxeCheck();
-    });
+    // it('confirm back button', () => {
+    //   Confirmation.validateBackButton();
+    //   cy.injectAxeThenAxeCheck();
+    // });
     it('refreshes appointment data when pressing the browser back button', () => {
       Confirmation.validatePageLoaded();
       cy.intercept(

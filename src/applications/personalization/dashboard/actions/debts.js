@@ -1,6 +1,8 @@
 import recordEvent from 'platform/monitoring/record-event';
+import { uniqBy } from 'lodash';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
+import { sortStatementsByDate } from '../helpers';
 
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
 export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
@@ -112,7 +114,14 @@ export const fetchCopays = () => async dispatch => {
         errors,
       });
     }
-    const filteredResponse = data.filter(statement => statement.pHAmtDue > 0);
+    const sortedStatements = sortStatementsByDate(data ?? []);
+    const statementsByUniqueFacility = uniqBy(
+      sortedStatements,
+      'pSFacilityNum',
+    );
+    const filteredResponse = statementsByUniqueFacility.filter(
+      statement => statement.pHAmtDue > 0,
+    );
     recordEvent({
       event: `api_call`,
       'api-name': 'GET copays',

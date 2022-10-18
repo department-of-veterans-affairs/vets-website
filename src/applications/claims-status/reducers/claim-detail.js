@@ -4,7 +4,7 @@ import {
   GET_CLAIM_DETAIL,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
-} from '../actions';
+} from '../actions/types';
 
 const initialState = {
   detail: null,

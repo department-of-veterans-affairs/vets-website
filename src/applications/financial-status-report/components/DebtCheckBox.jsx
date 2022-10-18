@@ -63,9 +63,9 @@ const DebtCheckBox = ({ debt }) => {
     );
   };
 
-  const checkboxMainText = `${currency(debt?.currentAr)} for ${deductionCodes[
-    debt.deductionCode
-  ] || debt.benefitType}`;
+  const checkboxMainText = `${currency(
+    debt?.currentAr,
+  )} overpayment for ${deductionCodes[debt.deductionCode] || debt.benefitType}`;
   const dateby = endDate(mostRecentDate, 30);
   const checkboxSubText = dateby ? `Pay or request help by ${dateby}` : '';
 
