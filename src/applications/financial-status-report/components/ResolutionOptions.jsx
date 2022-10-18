@@ -59,7 +59,7 @@ const ResolutionOptions = ({ formContext }) => {
           Debt forgiveness (waiver)
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
-          If we accept your request, we will stop collection on and forgive (or
+          If we accept your request, we’ll stop collection on and forgive (or
           "waive") the debt.
         </span>
       </>
@@ -73,9 +73,8 @@ const ResolutionOptions = ({ formContext }) => {
           Compromise
         </span>
         <span className="vads-u-display--block vads-u-font-size--sm vads-u-margin-left--3">
-          If you’re unable to pay the debt in full or make smaller monthly
-          payments, we can consider a smaller, one-time payment to resolve your
-          debt.
+          If you can’t to pay the debt in full or make smaller monthly payments,
+          we can consider a smaller, one-time payment to resolve your debt.
         </span>
       </>
     );
