@@ -73,7 +73,7 @@ export const transform = (formConfig, form) => {
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
@@ -91,13 +91,13 @@ export const transform = (formConfig, form) => {
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.spouse?.socialSecAmt?.replaceAll(',', '') ?? 0,
+    socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
   );
   const spEdu = Number(
-    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
+    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
