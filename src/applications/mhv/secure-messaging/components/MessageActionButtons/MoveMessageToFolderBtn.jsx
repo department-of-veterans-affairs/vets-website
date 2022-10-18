@@ -65,7 +65,7 @@ const MoveMessageToFolderBtn = props => {
                 allFolders.map(folder => (
                   <div className="radio-button" key={folder.name}>
                     <input
-                      data-testid="radio-button"
+                      data-testid="folder-list-radio-button"
                       type="radio"
                       autoComplete="false"
                       id={`radiobutton-${folder.name}`}

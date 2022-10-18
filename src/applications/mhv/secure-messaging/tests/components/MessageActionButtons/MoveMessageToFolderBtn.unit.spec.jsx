@@ -41,7 +41,7 @@ describe('Move button', () => {
       ),
     ).to.exist;
     expect(screen.getByTestId('move-to-modal')).to.exist;
-    const listOfFolders = screen.queryAllByTestId('radio-button');
+    const listOfFolders = screen.queryAllByTestId('folder-list-radio-button');
     expect(listOfFolders.length).to.equal(6);
   });
   // This test uses a button that is hidden. The reason for this is because I am not able to access the shadow dom to select the cancel button on the web component to test the closing modal functionality.
