@@ -59,14 +59,17 @@ const checkModals = options => {
   });
 
   // Confirmation modal appears, confirm cancel
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You haven’t finished editing your ${sectionName}.`).should(
-      'exist',
-    );
-    cy.findByRole('button', { name: /Cancel/i }).click({
-      force: true,
-    });
-  });
+
+  cy.findByTestId('confirm-cancel-modal')
+    .findByText(
+      `You haven't finished editing and saving the changes to your ${sectionName}. If you cancel now, we won't save your changes.`,
+    )
+    .should('exist');
+
+  cy.findByTestId('confirm-cancel-modal')
+    .shadow()
+    .findByRole('button', { name: /cancel/i })
+    .click();
 };
 
 const checkRemovalWhileEditingModal = options => {
@@ -267,14 +270,12 @@ describe('when moving to other profile sections', () => {
       name: /military information/i,
     }).click({
       // using force: true since there are times when the click does not
-      // register and the bank info form does not open
+      // register and the form does not open
       force: true,
     });
     cy.findByRole('link', {
       name: /contact.*information/i,
     }).click({
-      // using force: true since there are times when the click does not
-      // register and the bank info form does not open
       force: true,
     });
     cy.findByRole('button', {

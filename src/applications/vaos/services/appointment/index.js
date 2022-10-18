@@ -381,6 +381,8 @@ export function isClinicVideoAppointment(appointment) {
  * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
+  if (appointment === undefined) return null;
+
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
@@ -1116,7 +1118,7 @@ export function getAppointmentTimezone(appointment) {
  *
  * @export
  * @param {String} providerNpi An id for the provider to fetch info for
- * @returns {transformed Provider} transformed Provider info
+ * @returns {Provider} A transformed Provider resource
  */
 export async function fetchPreferredProvider(providerNpi) {
   const prov = await getPreferredCCProvider(providerNpi);

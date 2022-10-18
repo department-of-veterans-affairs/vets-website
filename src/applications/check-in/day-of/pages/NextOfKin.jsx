@@ -3,11 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
@@ -41,10 +38,6 @@ const NextOfKin = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
       }
@@ -55,10 +48,6 @@ const NextOfKin = props => {
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
       }
@@ -75,7 +64,7 @@ const NextOfKin = props => {
   );
 
   if (!nextOfKin) {
-    goToErrorPage();
+    goToErrorPage('?error=no-next-of-kin');
     return <></>;
   }
   return (
@@ -85,9 +74,7 @@ const NextOfKin = props => {
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        Footer={Footer}
       />
-      <BackToHome />
     </>
   );
 };

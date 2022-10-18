@@ -7,23 +7,31 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
+  AUTH_EVENTS,
   AUTHN_SETTINGS,
+  CSP_IDS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  CSP_IDS,
-  AUTH_EVENTS,
+  FORCE_NEEDED,
 } from 'platform/user/authentication/constants';
+import {
+  AUTH_LEVEL,
+  AUTH_ERRORS,
+  SENTRY_TAGS,
+  getAuthError,
+} from 'platform/user/authentication/errors';
 import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
-import { shouldRedirectToMyVA } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { requestToken } from 'platform/utilities/oauth/utilities';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import {
   OAUTH_ERRORS,
   OAUTH_ERROR_RESPONSES,
+  OAUTH_EVENTS,
+  OAUTH_KEYS,
 } from 'platform/utilities/oauth/constants';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
@@ -32,34 +40,56 @@ const REDIRECT_IGNORE_PATTERN = new RegExp(
   ['/auth/login/callback', '/session-expired'].join('|'),
 );
 
+const generateSentryAuthError = ({
+  error = {},
+  loginType,
+  code,
+  requestId,
+}) => {
+  const { message, errorCode } = getAuthError(code);
+
+  Sentry.withScope(scope => {
+    scope.setExtra('error', error);
+    scope.setExtra(SENTRY_TAGS.REQUEST_ID, requestId);
+    scope.setTag(SENTRY_TAGS.LOGIN_TYPE, loginType);
+    scope.setTag(SENTRY_TAGS.ERROR_CODE, errorCode);
+    Sentry.captureMessage(`Auth Error: ${errorCode} - ${message}`);
+  });
+};
+
 export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hasError: this.props.location.query.auth === 'fail',
-      loginType: this.props.location.query.type || '',
+      loginType: this.props.location.query.type || 'Login type not found',
       returnUrl: sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '',
-      auth: this.props.location.query.auth || '',
+      auth: this.props.location.query.auth || 'fail',
       code: this.props.location.query.code || '',
       state: this.props.location.query.state || '',
-      requestId: sessionStorage.getItem(AUTHN_SETTINGS.REQUEST_ID),
+      requestId:
+        this.props.location.query.request_id ||
+        'No corresponding Request ID was found',
     };
   }
 
   componentDidMount() {
-    if (!this.state.hasError || hasSession()) {
+    if (this.state.hasError) {
+      this.handleAuthError();
+    } else if (!this.state.hasError || hasSession()) {
       this.validateSession();
     }
   }
 
   handleAuthError = error => {
-    const { loginType, code } = this.state;
-    const errorCode = code.length === 3 ? code : '007';
+    const { loginType, code, requestId } = this.state;
+    const { errorCode } = getAuthError(code);
 
-    Sentry.withScope(scope => {
-      scope.setExtra('error', error);
-      scope.setTag('loginType', loginType);
-      Sentry.captureMessage(`User fetch error: ${error.message}`);
+    generateSentryAuthError({
+      error,
+      loginType,
+      code,
+      requestId,
     });
 
     recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
@@ -91,12 +121,11 @@ export class AuthApp extends React.Component {
 
   redirect = (userProfile = {}) => {
     const { returnUrl } = this.state;
-    const { redirectToMyVA } = this.props;
 
     const handleRedirect = () => {
       sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-      const updatedUrl = generateReturnURL(returnUrl, redirectToMyVA);
+      const updatedUrl = generateReturnURL(returnUrl);
 
       const postAuthUrl = updatedUrl
         ? appendQuery(updatedUrl, 'postLogin=true')
@@ -113,7 +142,7 @@ export class AuthApp extends React.Component {
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
       !userProfile.verified
     ) {
-      window.location.replace('/sign-in/verify');
+      window.location.replace('/verify');
       return;
     }
 
@@ -139,11 +168,11 @@ export class AuthApp extends React.Component {
   handleTokenRequest = async ({ code, state, csp }) => {
     // Verify the state matches in storage
     if (
-      !sessionStorage.getItem('state') ||
-      sessionStorage.getItem('state') !== state
+      !localStorage.getItem(OAUTH_KEYS.STATE) ||
+      localStorage.getItem(OAUTH_KEYS.STATE) !== state
     ) {
       this.generateOAuthError({
-        code: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+        code: AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
         event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
       });
     } else {
@@ -153,9 +182,10 @@ export class AuthApp extends React.Component {
       } catch (error) {
         const { errors } = await error.json();
         const errorCode = OAUTH_ERROR_RESPONSES[errors];
+        const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR.DEFAULT;
         this.generateOAuthError({
           code: errorCode,
-          event: AUTH_EVENTS.OAUTH_ERROR_USER_FETCH,
+          event,
         });
       }
     }
@@ -169,7 +199,7 @@ export class AuthApp extends React.Component {
       await this.handleTokenRequest({ code, state, csp: this.state.loginType });
     }
 
-    if (auth === 'force-needed') {
+    if (auth === FORCE_NEEDED) {
       this.handleAuthForceNeeded();
     } else {
       try {
@@ -181,20 +211,21 @@ export class AuthApp extends React.Component {
     }
   };
 
-  generateOAuthError = ({ code, event = AUTH_EVENTS.OAUTH_ERROR_DEFAULT }) => {
+  generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
     recordEvent({ event });
+    const { errorCode } = getAuthError(code);
 
     this.setState(prevState => ({
       ...prevState,
-      code,
-      auth: 'fail',
+      code: errorCode,
+      auth: AUTH_LEVEL.FAIL,
       hasError: true,
     }));
   };
 
   render() {
     const renderErrorProps = {
-      code: this.state.code,
+      code: getAuthError(this.state.code).errorCode,
       auth: this.state.auth,
       requestId: this.state.requestId,
       recordEvent,
@@ -210,15 +241,11 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  redirectToMyVA: shouldRedirectToMyVA(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);

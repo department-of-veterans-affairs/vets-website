@@ -6,8 +6,15 @@ import { getClinicId } from '../../../services/healthcare-service';
 import {
   getClinicsForChosenFacility,
   getFormData,
+  getTypeOfCare,
+  selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
+import {
+  selectFeatureClinicFilter,
+  selectFeatureVAOSServiceVAAppointments,
+} from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -27,15 +34,49 @@ const uiSchema = {
 
 export default function useClinicFormState() {
   const initialData = useSelector(getFormData);
+  const location = useSelector(selectChosenFacilityInfo);
+
+  const selectedTypeOfCare = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
+  const featureClinicFilter = useSelector(state =>
+    selectFeatureClinicFilter(state),
+  );
+  const useV2 = useSelector(state =>
+    selectFeatureVAOSServiceVAAppointments(state),
+  );
 
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
+
       let filteredClinics = clinics;
 
-      if (pastAppointments) {
+      // filter the clinics based on Direct Scheduling value from VATS
+      // v2 uses boolean while v0 uses Y/N string
+      if (featureClinicFilter) {
+        if (useV2) {
+          filteredClinics = clinics.filter(
+            clinic => clinic.patientDirectScheduling === true,
+          );
+        } else {
+          // v0 is pre-filtered; don't need this this line
+          filteredClinics = clinics.filter(
+            clinic => clinic.patientDirectScheduling === 'Y',
+          );
+        }
+      }
+
+      // Past appointment history check
+      // primary care and mental health are exempt
+      // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
+      const isCheckTypeOfCare = featureClinicFilter
+        ? initialData.typeOfCareId !== MENTAL_HEALTH &&
+          initialData.typeOfCareId !== PRIMARY_CARE &&
+          location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+            ?.patientHistoryRequired === true
+        : !!pastAppointments;
+      if (isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
@@ -54,9 +95,8 @@ export default function useClinicFormState() {
             pastAppointmentDateMap.set(clinicId, apptTime);
           }
         });
-
-        filteredClinics = clinics.filter(clinic =>
-          // Get clinic portion of id
+        // filter clinic where past appts contains clinicId
+        filteredClinics = filteredClinics.filter(clinic =>
           pastAppointmentDateMap.has(getClinicId(clinic)),
         );
       }

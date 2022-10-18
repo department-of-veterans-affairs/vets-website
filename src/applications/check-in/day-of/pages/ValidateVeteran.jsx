@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../actions/authentication';
+import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
-import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/layout/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
@@ -20,6 +19,13 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const updateError = useCallback(
+    error => {
+      dispatch(setError(error));
+    },
+    [dispatch],
+  );
 
   const setSession = useCallback(
     (token, permissions) => {
@@ -34,17 +40,20 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const [dob, setDob] = useState('');
+  const [dob, setDob] = useState('--');
+  const [dobError, setDobError] = useState(false);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const {
     getValidateAttempts,
@@ -61,9 +70,9 @@ const ValidateVeteran = props => {
         last4Ssn,
         lastName,
         dob,
+        dobError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
-        setDobErrorMessage,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -75,6 +84,8 @@ const ValidateVeteran = props => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
+        updateError,
       );
     },
     [
@@ -86,12 +97,24 @@ const ValidateVeteran = props => {
       last4Ssn,
       lastName,
       dob,
+      dobError,
       resetAttempts,
       setSession,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
+
+  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
+    ? t(
+        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
+      )
+    : t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+      );
+
   return (
     <>
       <ValidateDisplay
@@ -110,19 +133,16 @@ const ValidateVeteran = props => {
           lastName,
         }}
         dobInput={{
-          dobErrorMessage,
           setDob,
           dob,
         }}
+        dobError={dobError}
+        setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={onClick}
-        Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-        )}
+        validateErrorMessage={validateErrorMessage}
       />
-      <BackToHome />
     </>
   );
 };

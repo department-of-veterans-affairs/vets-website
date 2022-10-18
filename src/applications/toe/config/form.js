@@ -1,131 +1,87 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
+import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import get from 'platform/utilities/data/get';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import constants from 'vets-json-schema/dist/constants.json';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
+import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
+import GetHelp from '../components/GetHelp';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
-import NewGetHelp from '../components/NewGetHelp';
-import PhoneReviewField from '../components/PhoneReviewField';
-import PhoneViewField from '../components/PhoneViewField';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
 import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
+import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 import {
   isOnlyWhitespace,
-  titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  // prefillTransformer,
+  prefillTransformer,
 } from '../helpers';
 
+import { transformTOEForm } from '../utils/form-submit-transform';
+
+import { phoneSchema, phoneUISchema } from '../schema';
 import {
-  isValidPhone,
-  validatePhone,
+  isValidGivenName,
+  isValidLastName,
+  isValidPhoneField,
+  nameErrorMessage,
   validateEmail,
 } from '../utils/validation';
+import {
+  formFields,
+  SPONSOR_RELATIONSHIP,
+  YOUR_PROFILE_URL,
+} from '../constants';
 
-import { SPONSOR_RELATIONSHIP, newFormFields } from '../constants';
-
-const newFormPages = {
-  newApplicantInformation: 'newApplicantInformation',
-  newContactInformation: {
-    newContactInformation: 'newContactInformation',
-    newMailingAddress: 'newMailingAddress',
-    newPreferredContactMethod: 'newPreferredContactMethod',
-  },
-  newServiceHistory: 'newServiceHistory',
-  newBenefitSelection: 'newBenefitSelection',
-  newDirectDeposit: 'newDirectDeposit',
-  newFirstSponsorSelection: 'newFirstSponsorSelection',
-  newSponsorInformation: 'newSponsorInformation',
-  newSponsorHighSchool: 'newSponsorHighSchool',
-  newSponsorSelection: 'newSponsorSelection',
-  newSponsorSelectionReview: 'newSponsorSelectionReview',
-  newVerifyHighSchool: 'newVerifyHighSchool',
-};
-
-const { fullName, date, usaPhone, email } = commonDefinitions;
+const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
-function phoneUISchema(category, parent, international) {
-  return {
-    [parent]: {
-      'ui:options': {
-        hideLabelText: true,
-        showFieldLabel: false,
-        viewComponent: PhoneViewField,
-      },
-      'ui:objectViewField': PhoneReviewField,
-      phone: {
-        ...phoneUI(`${titleCase(category)} phone number`),
-        'ui:validations': [validatePhone],
-      },
-    },
-    [international]: {
-      'ui:title': `This ${category} phone number is international`,
-      'ui:reviewField': YesNoReviewField,
-      'ui:options': {
-        // expandUnder: parent,
-        hideIf: formData =>
-          !isValidPhone(
-            formData[newFormFields.newViewPhoneNumbers][parent].phone,
-          ),
-      },
-    },
-  };
-}
-
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-    },
-  };
-}
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990E',
+  formId: VA_FORM_IDS.FORM_22_1990EMEB,
   title: 'Apply to use transferred education benefits',
   subTitle:
     'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)',
@@ -138,20 +94,22 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for survivor dependent benefits.',
     noAuth:
       'Please sign in again to continue your application for survivor dependent benefits.',
   },
   defaultDefinitions: {},
-  getHelp: NewGetHelp,
+  getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
-    newApplicantInformationChapter: {
+    applicantInformationChapter: {
       title: 'Your information',
       pages: {
-        [newFormPages.newApplicantInformation]: {
+        applicantInformation: {
           title: 'Your information',
-          path: 'new/applicant-information/personal-information',
+          path: 'applicant-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -161,52 +119,61 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this personal information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--3">
-                    <GoToYourProfileLink />
+                    information for other VA benefits,{' '}
+                    <a href={YOUR_PROFILE_URL}>
+                      update your information on your profile
+                    </a>
+                    .
                   </p>
                 </>
               ),
             },
-            [newFormFields.newUserFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': 'Your first name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': 'Your last name',
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your middle name',
+            [formFields.viewUserFullName]: {
+              [formFields.userFullName]: {
+                ...fullNameUI,
+                first: {
+                  ...fullNameUI.first,
+                  'ui:title': 'Your first name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                middle: {
+                  ...fullNameUI.middle,
+                  'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidGivenName(field)) {
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
+                      }
+                    },
+                  ],
+                },
               },
             },
-            [newFormFields.newDateOfBirth]: {
+            [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
@@ -226,13 +193,12 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData[newFormFields.newDateOfBirth]) {
+                  if (!formData || !formData[formFields.dateOfBirth]) {
                     return true;
                   }
 
                   const dateParts =
-                    formData &&
-                    formData[newFormFields.newDateOfBirth].split('-');
+                    formData && formData[formFields.dateOfBirth].split('-');
 
                   if (!dateParts || dateParts.length !== 3) {
                     return true;
@@ -258,14 +224,14 @@ const formConfig = {
                 },
               },
             },
-            [newFormFields.newParentGuardianSponsor]: {
+            [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
                 hideIf: formData =>
-                  hideUnder18Field(formData, newFormFields.newDateOfBirth),
+                  hideUnder18Field(formData, formFields.dateOfBirth),
               },
               'ui:required': formData =>
-                !hideUnder18Field(formData, newFormFields.newDateOfBirth),
+                !hideUnder18Field(formData, formFields.dateOfBirth),
               'ui:validations': [
                 (errors, field) =>
                   addWhitespaceOnlyError(
@@ -281,28 +247,33 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newDateOfBirth],
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newUserFullName]: {
-                ...fullName,
+              [formFields.viewUserFullName]: {
+                type: 'object',
                 properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
+                  [formFields.userFullName]: {
+                    ...fullName,
+                    properties: {
+                      ...fullName.properties,
+                      middle: {
+                        ...fullName.properties.middle,
+                        maxLength: 30,
+                      },
+                    },
                   },
                 },
               },
-              [newFormFields.newDateOfBirth]: date,
+              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newParentGuardianSponsor]: {
+              [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
             },
@@ -313,16 +284,21 @@ const formConfig = {
     sponsorInformationChapter: {
       title: 'Sponsor information',
       pages: {
-        [newFormPages.newSponsorSelection]: {
-          title: 'Choose your sponsor',
-          path: 'new/sponsor/select-sponsor',
+        sponsorSelection: {
+          title: 'Choose your sponsors',
+          path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
-              'ui:description': <Sponsors />,
+              'ui:description': (
+                <>
+                  <SponsorsSelectionHeadings />
+                  <Sponsors />
+                </>
+              ),
             },
-            [newFormFields.selectedSponsors]: {
+            [formFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
               'ui:options': {
@@ -359,7 +335,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.selectedSponsors]: {
+              [formFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
                 items: {
@@ -373,20 +349,30 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newSponsorInformation]: {
-          title: 'Enter your sponsor’s info',
-          path: 'new/sponsor/information',
-          depends: formData => formData.sponsors?.someoneNotListed,
+        sponsorInformation: {
+          title: 'Enter your sponsor’s information',
+          path: 'sponsor-information',
+          depends: formData =>
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.someoneNotListed,
           uiSchema: {
+            'view:enterYourSponsorsInformationHeading': {
+              'ui:description': (
+                <h3 className="vads-u-margin-bottom--3">
+                  Enter your sponsor’s information
+                </h3>
+              ),
+            },
             'view:noSponsorWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
                   <h3 slot="headline">
-                    We do not have any sponsor information on file
+                    We don’t have any sponsor information on file
                   </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
@@ -398,7 +384,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -409,13 +395,12 @@ const formConfig = {
             'view:sponsorNotOnFileWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
-                  <h3 slot="headline">
-                    One of your selected sponsors is not on file
-                  </h3>
+                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
@@ -426,7 +411,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -434,16 +419,18 @@ const formConfig = {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
-            [newFormFields.newRelationshipToServiceMember]: {
+            [formFields.relationshipToServiceMember]: {
               'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
+                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
             },
-            [newFormFields.newSponsorFullName]: {
+            'view:yourSponsorsInformationHeading': {
+              'ui:description': <h4>Your sponsor’s information</h4>,
+            },
+            [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -455,7 +442,6 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -465,22 +451,22 @@ const formConfig = {
                     ),
                 ],
               },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your sponsor’s middle name',
-              },
             },
-            [newFormFields.newSponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Your sponsor’s date of birth'),
+            [formFields.sponsorDateOfBirth]: {
+              ...currentOrPastDateUI('Date of birth'),
             },
           },
           schema: {
             type: 'object',
             required: [
-              newFormFields.newRelationshipToServiceMember,
-              newFormFields.newSponsorDateOfBirth,
+              formFields.relationshipToServiceMember,
+              formFields.sponsorDateOfBirth,
             ],
             properties: {
+              'view:enterYourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
+              },
               'view:noSponsorWarning': {
                 type: 'object',
                 properties: {},
@@ -489,11 +475,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newRelationshipToServiceMember]: {
+              [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
               },
-              [newFormFields.newSponsorFullName]: {
+              'view:yourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.sponsorFullName]: {
                 ...fullName,
                 required: ['first', 'last'],
                 properties: {
@@ -504,13 +494,13 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newSponsorDateOfBirth]: date,
+              [formFields.sponsorDateOfBirth]: date,
             },
           },
         },
-        [newFormPages.newFirstSponsorSelection]: {
+        firstSponsorSelection: {
           title: 'Choose your first sponsor',
-          path: 'new/sponsor/select-first-sponsor',
+          path: 'first-sponsor',
           CustomPageReview: FirstSponsorReviewPage,
           depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -526,7 +516,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.firstSponsor]: {
+            [formFields.firstSponsor]: {
               'ui:title':
                 'Which sponsor’s benefits would you like to use first?',
               'ui:widget': FirstSponsorRadioGroup,
@@ -557,13 +547,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.firstSponsor],
+            required: [formFields.firstSponsor],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.firstSponsor]: {
+              [formFields.firstSponsor]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
@@ -573,9 +563,9 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newVerifyHighSchool]: {
+        highSchool: {
           title: 'Verify your high school education',
-          path: 'new/child/high-school-education',
+          path: 'high-school',
           depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
@@ -597,7 +587,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiploma]: {
+            [formFields.highSchoolDiploma]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -605,25 +595,25 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiploma],
+            required: [formFields.highSchoolDiploma],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiploma]: {
+              [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
             },
           },
         },
-        [newFormPages.newSponsorHighSchool]: {
+        highSchoolGraduationDate: {
           title: 'Verify your high school graduation date',
-          path: 'new/sponsor/high-school-education',
+          path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[newFormFields.newHighSchoolDiploma] === 'Yes',
+            formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -644,7 +634,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -652,24 +642,24 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDate],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
       },
     },
-    newContactInformationChapter: {
+    contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [newFormPages.newContactInformation.newContactInformation]: {
+        contactInformation: {
           title: 'Phone numbers and email address',
-          path: 'new/contact-information/email-phone',
+          path: 'phone-email',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -685,23 +675,21 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this contact information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
             },
-            [newFormFields.newViewPhoneNumbers]: {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -713,29 +701,21 @@ const formConfig = {
                   </p>
                 </>
               ),
-              ...phoneUISchema(
-                'mobile',
-                newFormFields.newMobilePhoneNumber,
-                newFormFields.newMobilePhoneNumberInternational,
-              ),
-              ...phoneUISchema(
-                'home',
-                newFormFields.newPhoneNumber,
-                newFormFields.newPhoneNumberInternational,
-              ),
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
-            [newFormFields.newEmail]: {
+            [formFields.email]: {
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [newFormFields.newEmail]: {
+              email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [newFormFields.newConfirmEmail]: {
+              confirmEmail: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -745,10 +725,9 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[newFormFields.newEmail] !==
-                    field[newFormFields.newConfirmEmail]
+                    field[formFields.email] !== field[formFields.confirmEmail]
                   ) {
-                    errors[newFormFields.newConfirmEmail].addError(
+                    errors[formFields.confirmEmail].addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -763,36 +742,27 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newViewPhoneNumbers]: {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [newFormFields.newMobilePhoneNumber]: phoneSchema(),
-                  [newFormFields.newMobilePhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
-                  [newFormFields.newPhoneNumber]: phoneSchema(),
-                  [newFormFields.newPhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.phoneNumber]: phoneSchema(),
                 },
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 type: 'object',
-                required: [
-                  newFormFields.newEmail,
-                  newFormFields.newConfirmEmail,
-                ],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
-                  [newFormFields.newEmail]: email,
-                  [newFormFields.newConfirmEmail]: email,
+                  email,
+                  confirmEmail: email,
                 },
               },
             },
           },
         },
-        [newFormPages.newContactInformation.newMailingAddress]: {
+        mailingAddress: {
           title: 'Mailing address',
-          path: 'new/contact-information/mailing-address',
+          path: 'mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -803,23 +773,21 @@ const formConfig = {
                     to this address.
                   </p>
                   <p>
-                    This is the mailing address we have on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
+                    We have this mailing address on file for you. If you notice
+                    any errors, please correct them now. Any updates you make
+                    will change the information for your education benefits
                     only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--4">
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -843,8 +811,49 @@ const formConfig = {
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
-              [newFormFields.newAddress]: {
-                ...address.uiSchema(''),
+              [formFields.address]: {
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['view:mailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['view:mailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+                      countryUI['ui:disabled'] = false;
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -861,7 +870,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -872,17 +880,49 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.livesOnMilitaryBase
+                      ) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
                   },
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:required': formData =>
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
                   },
                 },
               },
@@ -910,7 +950,7 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  [newFormFields.newAddress]: {
+                  [formFields.address]: {
                     ...address.schema(fullSchema1990e, true),
                   },
                 },
@@ -918,9 +958,9 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newContactInformation.newPreferredContactMethod]: {
+        preferredContactMethod: {
           title: 'Contact preferences',
-          path: 'new/contact-information/contact-preferences',
+          path: 'preferred-contact-method',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -931,7 +971,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newContactMethod]: {
+            [formFields.contactMethod]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
@@ -942,13 +982,12 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
+                      form[formFields.viewPhoneNumbers][
+                        formFields.mobilePhoneNumber
                       ]?.phone,
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newPhoneNumber
-                      ]?.phone,
+                      form[formFields.viewPhoneNumbers][formFields.phoneNumber]
+                        ?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -969,62 +1008,75 @@ const formConfig = {
                 })(),
               },
             },
-            'view:receiveTextMessages': {
+            [formFields.viewReceiveTextMessages]: {
               'ui:description': (
                 <>
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
-                      We recommend that you opt in to text message notifications
+                      We recommend that you opt into text message notifications
                       about your benefits. These include notifications that
                       prompt you to verify your enrollment so you’ll receive
                       your education payments. This is an easy way to verify
                       your monthly enrollment.
                     </p>
-                    <va-alert status="info">
-                      <>
-                        If you choose to get text message notifications from
-                        VA’s GI Bill program, message and data rates may apply.
-                        Two messages per month. At this time, we can only send
-                        text messages to U.S. mobile phone numbers. Text STOP to
-                        opt out or HELP for help.{' '}
-                        <a
-                          href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          View Terms and Conditions and Privacy Policy.
-                        </a>
-                      </>
-                    </va-alert>
+                    <div className="meb-list-label">
+                      <strong>What to know about text notifications:</strong>
+                    </div>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notifications terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Note</strong>: At this time, we can only send text
+                      messages to U.S. mobile phone numbers.
+                    </p>
                   </div>
                 </>
               ),
-              [newFormFields.newReceiveTextMessages]: {
+              [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[
-                      newFormFields.newViewPhoneNumbers
-                    ][newFormFields.newMobilePhoneNumber].phone;
-                    const isInternational =
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1051,14 +1103,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
-                  ],
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  isValidPhoneField(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1067,21 +1124,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].phone,
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  !isValidPhoneField(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ],
                   ) ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
-                  ],
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1092,15 +1157,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newContactMethod]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
-                required: [newFormFields.newReceiveTextMessages],
+                required: [formFields.receiveTextMessages],
                 properties: {
-                  [newFormFields.newReceiveTextMessages]: {
+                  [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
                       'Yes, send me text message notifications',
@@ -1118,7 +1183,7 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [newFormFields.newContactMethod],
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -1126,25 +1191,41 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [newFormPages.newDirectDeposit]: {
-          path: 'new/direct-deposit',
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
-            'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+            title: 'direct deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
             ),
-            [newFormFields.newBankAccount]: {
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'account information',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
+            [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-              accountType: {
+              'ui:order': [
+                formFields.accountType,
+                formFields.accountNumber,
+                formFields.routingNumber,
+              ],
+              [formFields.accountType]: {
                 ...bankAccountUI.accountType,
                 'ui:errorMessages': {
                   required: 'Please select an account type',
                 },
               },
-              accountNumber: {
+              [formFields.accountNumber]: {
                 ...bankAccountUI.accountNumber,
                 'ui:validations': [
                   (errors, field) => {
@@ -1176,19 +1257,23 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [newFormFields.newBankAccount]: {
+              [formFields.bankAccount]: {
                 type: 'object',
-                required: ['accountType', 'routingNumber', 'accountNumber'],
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
                 properties: {
-                  accountType: {
+                  [formFields.accountType]: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
-                  routingNumber: {
+                  [formFields.routingNumber]: {
                     type: 'string',
                     pattern: '^\\d{9}$',
                   },
-                  accountNumber: {
+                  [formFields.accountNumber]: {
                     type: 'string',
                   },
                 },

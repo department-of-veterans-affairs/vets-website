@@ -4,15 +4,21 @@ import {
   FSR_API_CALL_INITIATED,
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
+  DEBTS_FETCH_SUCCESS,
 } from '../constants/actionTypes';
-import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
+import {
+  MCP_STATEMENTS_FETCH_INIT,
+  MCP_STATEMENTS_FETCH_SUCCESS,
+  MCP_STATEMENTS_FETCH_FAILURE,
+} from '../actions/copays';
 
 const initialState = {
   isError: false,
   errorCode: {},
   pending: true,
-  pendingDebts: true,
+  pendingCopays: true,
   debts: [],
+  statements: [],
 };
 
 const fsrApi = (state = initialState, action) => {
@@ -38,7 +44,25 @@ const fsrApi = (state = initialState, action) => {
       return {
         ...state,
         debts: action.debts,
-        pendingDebts: false,
+        pending: false,
+      };
+    case MCP_STATEMENTS_FETCH_SUCCESS:
+      return {
+        ...state,
+        statements: action.statements,
+        pendingCopays: false,
+      };
+    case MCP_STATEMENTS_FETCH_INIT:
+      return {
+        ...state,
+        pendingCopays: true,
+      };
+    case MCP_STATEMENTS_FETCH_FAILURE:
+      return {
+        ...state,
+        statements: action.statements,
+        pendingCopays: false,
+        copayError: action.copayError,
       };
     default:
       return state;

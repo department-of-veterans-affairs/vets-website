@@ -115,11 +115,11 @@
         "value": true
       },
       {
-        "name": "canAutofill1010cgAddress",
+        "name": "caregiverUseFacilitiesApi",
         "value": true
       },
       {
-        "name": "can_autofill_10_10cg_address",
+        "name": "caregiver_use_facilities_API",
         "value": true
       }
     ]

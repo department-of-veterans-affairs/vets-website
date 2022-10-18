@@ -26,8 +26,6 @@ import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import {
   startAppointmentCancel,
-  closeCancelAppointment,
-  confirmCancelAppointment,
   fetchRequestDetails,
   getProviderInfoV2,
 } from '../redux/actions';
@@ -60,7 +58,6 @@ export default function RequestedAppointmentDetailsPage() {
   const {
     appointmentDetailsStatus,
     facilityData,
-    cancelInfo,
     appointment,
     message,
     useV2,
@@ -91,18 +88,6 @@ export default function RequestedAppointmentDetailsPage() {
       scrollAndFocus();
     },
     [appointment],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
   useEffect(
@@ -259,7 +244,7 @@ export default function RequestedAppointmentDetailsPage() {
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
+            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
               <i
                 aria-hidden="true"
                 className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
@@ -281,11 +266,7 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <CancelAppointmentModal
-        {...cancelInfo}
-        onConfirm={() => dispatch(confirmCancelAppointment())}
-        onClose={() => dispatch(closeCancelAppointment())}
-      />
+      <CancelAppointmentModal />
     </PageLayout>
   );
 }

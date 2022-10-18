@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';
 
@@ -273,8 +273,7 @@ export const mapStateToProps = (state, ownProps) => {
   );
   const data = selectVAPContactInfoField(state, fieldName);
   const isEmpty = !data;
-  const addressValidationType =
-    state.vapService.addressValidation.addressValidationType;
+  const { addressValidationType } = state.vapService.addressValidation;
   const showValidationModal =
     ownProps.ValidationModal &&
     addressValidationType === fieldName &&

@@ -1,13 +1,17 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import { validateFileField } from 'platform/forms-system/src/js/validation';
+
 import FileField from './FileField';
 import UploadRequirements from './UploadRequirements';
-import { updateFilesSchema } from '../../helpers';
+import { validateDocumentDescription } from '../../../validations';
 import { DOCUMENT_TYPES } from '../../../../status/constants';
 
 const DocumentUploadDescription = () => (
   <div>
+    <h3 className="vads-u-font-size--h4">
+      Having problems uploading your document?
+    </h3>
     <p>
       You can upload your document in a .pdf, .jpg, .jpeg, or .png file format.
       You’ll first need to scan a copy of your document onto your computer or
@@ -70,21 +74,23 @@ export const schema = {
 
 export const uiSchema = {
   'view:documentRequirements': {
-    'ui:field': UploadRequirements,
+    'ui:title': ' ',
+    'ui:description': UploadRequirements,
     'ui:options': {
       classNames: 'schemaform-block-override',
+      forceDivWrapper: true,
     },
   },
   files: {
-    'ui:title': 'Your uploaded documents',
+    'ui:title': ' ',
     'ui:field': FileField,
     'ui:options': {
       addAnotherLabel: 'Upload another document',
+      attachmentType: {
+        'ui:title': 'Document type',
+      },
       attachmentDescription: {
         'ui:title': 'Document description',
-      },
-      attachmentType: {
-        'ui:title': 'Select a document to upload',
       },
       buttonText: 'Upload document',
       classNames: 'schemaform-file-upload',
@@ -111,20 +117,18 @@ export const uiSchema = {
         confirmationCode: fileInfo.data.attributes.confirmationCode,
       }),
       showFieldLabel: true,
-      updateSchema: updateFilesSchema,
     },
     'ui:errorMessages': {
       required: 'Please upload a file',
       minItems: 'Please upload at least one file',
     },
-    'ui:validations': [validateFileField],
+    'ui:validations': [validateFileField, validateDocumentDescription],
   },
   'view:documentUploadDescription': {
-    'ui:title': () => (
-      <legend className="schemaform-block-title">
-        Having problems uploading your document?
-      </legend>
-    ),
+    'ui:title': ' ',
     'ui:description': DocumentUploadDescription,
+    'ui:options': {
+      forceDivWrapper: true,
+    },
   },
 };

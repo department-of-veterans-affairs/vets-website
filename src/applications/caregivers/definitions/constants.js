@@ -13,7 +13,6 @@ export const veteranFields = {
   previousTreatmentFacility: 'veteranLastTreatmentFacility',
   primaryPhoneNumber: 'veteranPrimaryPhoneNumber',
   ssn: 'veteranSsnOrTin',
-  verifyEmail: 'view:veteranEmail',
 };
 
 export const primaryCaregiverFields = {
@@ -21,12 +20,12 @@ export const primaryCaregiverFields = {
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
   dateOfBirth: 'primaryDateOfBirth',
   email: 'primaryEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOne: 'view:hasSecondaryCaregiverOne',
   primaryPhoneNumber: 'primaryPrimaryPhoneNumber',
   ssn: 'primarySsnOrTin',
-  verifyEmail: 'view:primaryEmail',
   vetRelationship: 'primaryVetRelationship',
   hasHealthInsurance: 'primaryHasHealthInsurance',
   hasPrimaryCaregiver: 'view:hasPrimaryCaregiver',
@@ -37,12 +36,12 @@ export const secondaryOneFields = {
   alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
   dateOfBirth: 'secondaryOneDateOfBirth',
   email: 'secondaryOneEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'secondaryOneFullName',
   gender: 'secondaryOneGender',
   hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
   primaryPhoneNumber: 'secondaryOnePrimaryPhoneNumber',
   ssn: 'secondaryOneSsnOrTin',
-  verifyEmail: 'view:secondaryOneEmail',
   vetRelationship: 'secondaryOneVetRelationship',
 };
 
@@ -51,17 +50,22 @@ export const secondaryTwoFields = {
   alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
   dateOfBirth: 'secondaryTwoDateOfBirth',
   email: 'secondaryTwoEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'secondaryTwoFullName',
   gender: 'secondaryTwoGender',
   primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
   ssn: 'secondaryTwoSsnOrTin',
-  verifyEmail: 'view:secondaryTwoEmail',
   vetRelationship: 'secondaryTwoVetRelationship',
 };
 
 export const representativeFields = {
   signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
   documentUpload: 'signAsRepresentativeDocumentUpload',
+};
+
+export const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
 };
 
 export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];

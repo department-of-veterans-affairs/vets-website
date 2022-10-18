@@ -3,17 +3,13 @@ import path from 'path';
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
 
-import {
-  mockContestableIssues,
-  // getRandomDate,
-  fixDecisionDates,
-} from './hlr.cypress.helpers';
+import { mockContestableIssues, fixDecisionDates } from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
 
-describe('Notice of Disagreement keyboard only navigation', () => {
+describe('Higher-Level Review keyboard only navigation', () => {
   before(() => {
     window.sessionStorage.removeItem(WIZARD_STATUS);
 

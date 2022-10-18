@@ -11,6 +11,7 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
+import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -41,12 +42,16 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
+import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
+import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
+import DebtsV2 from './debts-v2/DebtsV2';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
+import { canAccess } from '../selectors';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -121,6 +126,7 @@ DashboardHeader.propTypes = {
 };
 
 const Dashboard = ({
+  canAccessPaymentHistory,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
@@ -128,11 +134,13 @@ const Dashboard = ({
   isLOA3,
   payments,
   paymentsError,
+  shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
   showNameTag,
   showNotInMPIError,
   showBenefitPaymentsAndDebt,
+  showBenefitPaymentsAndDebtV2,
   showNotifications,
   ...props
 }) => {
@@ -181,11 +189,11 @@ const Dashboard = ({
   // fetch data when we determine they are LOA3
   useEffect(
     () => {
-      if (showBenefitPaymentsAndDebt) {
+      if (canAccessPaymentHistory) {
         getPayments();
       }
     },
-    [getPayments, showBenefitPaymentsAndDebt],
+    [canAccessPaymentHistory, getPayments],
   );
 
   return (
@@ -243,15 +251,12 @@ const Dashboard = ({
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified
-                      alertHeadline="Verify your identity to access more VA.gov tools and features"
-                      level={2}
-                    />
+                    <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
                   </div>
                 </div>
               ) : null}
 
-              {props.showClaimsAndAppeals ? (
+              {props.showClaimsAndAppeals && !shouldShowV2Dashboard ? (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -263,13 +268,36 @@ const Dashboard = ({
                 </DowntimeNotification>
               ) : null}
 
+              {props.showClaimsAndAppeals && shouldShowV2Dashboard ? (
+                <DowntimeNotification
+                  dependencies={[
+                    externalServices.mhv,
+                    externalServices.appeals,
+                  ]}
+                  render={renderWidgetDowntimeNotification}
+                >
+                  <ClaimsAndAppealsV2 />
+                </DowntimeNotification>
+              ) : null}
+
               {props.showHealthCare ? <HealthCare /> : null}
 
-              {showBenefitPaymentsAndDebt ? (
+              {canAccessPaymentHistory &&
+              showBenefitPaymentsAndDebt &&
+              !showBenefitPaymentsAndDebtV2 ? (
                 <BenefitPaymentsAndDebt
                   payments={payments}
                   showNotifications={showNotifications}
                 />
+              ) : null}
+              {showBenefitPaymentsAndDebtV2 ? (
+                <>
+                  <DebtsV2 />
+                  <BenefitPaymentsV2
+                    payments={payments}
+                    showNotifications={showNotifications}
+                  />
+                </>
               ) : null}
 
               <ApplyForBenefits />
@@ -327,11 +355,19 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
+  const showBenefitPaymentsAndDebtV2 =
+    showBenefitPaymentsAndDebt &&
+    toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
+  ];
+
+  const shouldShowV2Dashboard = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
 
   const showNotifications =
@@ -341,6 +377,7 @@ const mapStateToProps = state => {
     isLOA3;
 
   return {
+    canAccessPaymentHistory,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
@@ -351,16 +388,19 @@ const mapStateToProps = state => {
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
+    shouldShowV2Dashboard,
     showMPIConnectionError,
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
+    showBenefitPaymentsAndDebtV2,
     showNotifications,
-    payments: state.allPayments.payments?.payments || [],
+    payments: state.allPayments.payments || [],
     paymentsError: state.allPayments.error,
   };
 };
 
 Dashboard.propTypes = {
+  canAccessPaymentHistory: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
@@ -379,7 +419,9 @@ Dashboard.propTypes = {
     }),
   ),
   paymentsError: PropTypes.bool,
+  shouldShowV2Dashboard: PropTypes.bool,
   showBenefitPaymentsAndDebt: PropTypes.bool,
+  showBenefitPaymentsAndDebtV2: PropTypes.bool,
   showClaimsAndAppeals: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,

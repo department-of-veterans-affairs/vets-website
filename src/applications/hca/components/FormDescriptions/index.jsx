@@ -1,71 +1,36 @@
 import React from 'react';
-import facilityLocator from '../../../facility-locator/manifest.json';
 
 export const AmericanIndianDescription = (
   <>
-    <p>
-      If you’re recognized as an American Indian or Alaska Native, you may not
-      need to pay a copay for care or services.
-    </p>
-    <va-additional-info
-      trigger="What it means to be recognized as an American Indian or Alaska Native"
-      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-      data-testid="aiq-addl-info"
-    >
-      <p className="vads-u-margin-top--0">
-        For the purposes of this application, we consider this to mean that one
-        of these descriptions is true for you:
-      </p>
+    <ul className="vads-u-margin-top--3">
+      <li>
+        You’re a member—or the first- or second-degree descendant of a member—of
+        a tribe, band, or other organized group of Indians, including those
+        terminated since 1940 and those recognized now or in the future by the
+        state you live in (note: this applies whether or not you live on or near
+        a reservation), <strong>or</strong>
+      </li>
+      <li>
+        You’re an Eskimo or Aleut or other Alaska Native, <strong>or</strong>
+      </li>
+      <li>
+        You’re considered by the Secretary of the Interior to be an Indian for
+        any purpose, <strong>or</strong>
+      </li>
+      <li>
+        You’re determined to be an Indian under regulations put into effect by
+        the Secretary of the Interior, <strong>or</strong>
+      </li>
+      <li>
+        You meet any of these descriptions and you live in an urban center (a
+        community that the Secretary of the Interior has determined has a large
+        enough urban Indian population with unmet health needs to warrant
+        assistance under title V of the Indian Health Care Improvement Act, or
+        IHCIA)
+      </li>
+    </ul>
 
-      <ul>
-        <li>
-          You’re a member of a Federally recognized Indian tribe,{' '}
-          <strong>or</strong>
-        </li>
-        <li>
-          The Secretary of the Interior considers you to be an Indian for any
-          purpose, <strong>or</strong>
-        </li>
-        <li>
-          You’re eligible for Indian Health Service (including as a California
-          Indian, Eskimo, Aleut, or another Alaska Native)
-        </li>
-      </ul>
-
-      <p className="vads-u-margin-bottom--2">
-        <strong>Or</strong>
-      </p>
-
-      <p>
-        You live in an urban area and you meet at least one of these
-        requirements:
-      </p>
-
-      <ul>
-        <li>
-          You’re a member or the first- or second-degree descendant of a tribe,
-          band, or other organized group of Indians (including a tribe, band, or
-          group terminated after 1940 or one that’s recognized by the state
-          where you live), <strong>or</strong>
-        </li>
-        <li>
-          You’re an Eskimo, Aleut, or another Alaska Native, <strong>or</strong>
-        </li>
-        <li>
-          The Secretary of the Interior considers you to be an Indian for any
-          purpose, <strong>or</strong>
-        </li>
-        <li>
-          An official regulation from the Secretary of Health and Human Services
-          considers you an Indian for any purpose
-        </li>
-      </ul>
-
-      <p>
-        We’ve based these descriptions on the Indian Health Care Improvement Act
-        (IHCIA), U.S.C. regulations 1603(13) and 1603(28).
-      </p>
-
+    <div className="vads-u-margin-bottom--3">
       <a
         href="https://www.ihs.gov/ihcia/"
         rel="noopener noreferrer"
@@ -73,7 +38,7 @@ export const AmericanIndianDescription = (
       >
         Learn more about the IHCIA on the Indian Health Service website
       </a>
-    </va-additional-info>
+    </div>
   </>
 );
 
@@ -195,9 +160,9 @@ export const DeductibleExpensesDescription = (
 export const DemographicInfoDescription = (
   <legend className="schemaform-label vads-u-margin-bottom--4">
     What is your race, ethnicity, or origin? (Please check all that apply.)
-    <span className="vads-u-display--block vads-u-margin-top--0p5 vads-u-color--gray-medium">
+    <div className="vads-u-color--gray-medium">
       Information is gathered for statistical purposes only.
-    </span>
+    </div>
   </legend>
 );
 
@@ -217,11 +182,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a
-        href={facilityLocator.rootUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>
@@ -316,13 +277,9 @@ export const FinancialDisclosureDescription = (
 );
 
 export const GroupCodeDescription = (
-  <span>
-    Group code
-    <br />
-    <span className="vads-u-color--gray-medium">
-      Either this or the policy number is required
-    </span>
-  </span>
+  <div className="vads-u-color--gray-medium">
+    Either this or the policy number is required
+  </div>
 );
 
 export const HealthInsuranceDescription = (
@@ -412,7 +369,7 @@ export const MailingAddressDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
   >
     <p className="vads-u-margin-top--0">
       We want to make sure we understand your household’s financial situation.
@@ -437,6 +394,48 @@ export const MedicaidDescription = (
       programs.
     </p>
   </>
+);
+
+export const MedicareClaimNumberDescription = (
+  <>
+    <div className="vads-u-color--gray-medium">
+      You’ll find this number on the front of your Medicare card. Enter all 11
+      numbers and letters.
+    </div>
+
+    <va-additional-info
+      trigger="Why we ask for this information"
+      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+    >
+      <p className="vads-u-margin-top--0">
+        We use your Medicare claim number to keep track of the health care
+        services that Medicare covers. We use your claim number when we need to
+        create a Medicare explanation of benefits.
+      </p>
+      <p>
+        We don’t bill Medicare for any services. By law, Medicare can’t pay for
+        our services. But this explanation shows what Medicare would have paid
+        for services if they could.
+      </p>
+      <p>
+        We may need to bill medicare supplimental insurance or a private
+        insurance provider for certain services. And some providers must have
+        this explanation before they’ll pay the bill.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <strong>Note:</strong> Having Medicare or other health insurance doesn’t
+        affect the VA health care benefits you can get. And you won’t have to
+        pay any unpaid balance that a health insurance provider doesn’t cover.
+      </p>
+    </va-additional-info>
+  </>
+);
+
+export const MedicareEffectiveDateDescription = (
+  <div className="vads-u-margin-bottom--3 vads-u-color--gray-medium">
+    You’ll find this date under “coverage starts” on the front of your Medicare
+    card.
+  </div>
 );
 
 export const MedicarePartADescription = (
@@ -486,13 +485,9 @@ export const PensionTypeDescription = (
 );
 
 export const PolicyNumberDescription = (
-  <span>
-    Policy number
-    <br />
-    <span className="vads-u-color--gray">
-      Either this or the group code is required
-    </span>
-  </span>
+  <div className="vads-u-color--gray-medium">
+    Either this or the group code is required
+  </div>
 );
 
 export const PolicyOrDescription = (
@@ -514,9 +509,9 @@ export const SIGIGenderDescription = (
   <>
     <legend className="schemaform-label">
       What is your gender?
-      <span className="vads-u-display--block vads-u-margin-top--0p5 vads-u-color--gray-medium">
+      <div className="vads-u-color--gray-medium">
         Choose the option that best fits how you describe yourself.
-      </span>
+      </div>
     </legend>
 
     <va-additional-info
@@ -541,16 +536,14 @@ export const SIGIGenderDescription = (
 );
 
 export const TricarePolicyDescription = (
-  <div className="vads-u-margin-y--2">
-    <va-additional-info trigger="I have TRICARE. What’s my policy number?">
-      <p className="vads-u-margin-top--0">
-        You can use your Department of Defense benefits number (DBN) or your
-        Social Security number as your policy number.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        Your DBN is an 11-digit number. You’ll find this number on the back of
-        your military ID card.
-      </p>
-    </va-additional-info>
-  </div>
+  <va-additional-info trigger="I have TRICARE. What’s my policy number?">
+    <p className="vads-u-margin-top--0">
+      You can use your Department of Defense benefits number (DBN) or your
+      Social Security number as your policy number.
+    </p>
+    <p className="vads-u-margin-bottom--0">
+      Your DBN is an 11-digit number. You’ll find this number on the back of
+      your military ID card.
+    </p>
+  </va-additional-info>
 );

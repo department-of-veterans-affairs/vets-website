@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
+import { setError } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
@@ -22,7 +21,6 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-import { setApp } from '../../../actions/universal';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
@@ -40,6 +38,7 @@ const Index = props => {
   } = useSessionStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -58,32 +57,22 @@ const Index = props => {
 
   useEffect(
     () => {
-      dispatch(setApp(APP_NAMES.PRE_CHECK_IN));
-    },
-    [dispatch],
-  );
-
-  useEffect(
-    () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        dispatch(setError('no-token'));
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
+        dispatch(setError('bad-token'));
+        goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        if (token)
+        if (token && !sessionCallMade) {
+          setSessionCallMade(true);
           api.v2
             .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
             .then(session => {
@@ -91,7 +80,8 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                goToErrorPage();
+                dispatch(setError('session-error'));
+                goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);
@@ -110,17 +100,21 @@ const Index = props => {
             })
             .catch(() => {
               clearCurrentSession(window);
-              goToErrorPage();
+              dispatch(setError('session-error'));
+              goToErrorPage('?error=session-error');
             });
+        }
       }
     },
     [
       clearCurrentSession,
+      dispatch,
       goToErrorPage,
       initForm,
       isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
+      sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,

@@ -2,20 +2,21 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-  - [Contract tests](#contract-tests)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
+- [What is this?](#what-is-this)	
+- [Common commands](#common-commands)	
+- [Building `vets-website`](#building-vets-website)	
+  - [Building applications](#building-applications)	
+  - [Building static content](#building-static-content)	
+  - [Building both together](#building-both-together)	
+- [Working in GitHub Codespaces](#working-in-github-codespaces)	
+- [Running tests](#running-tests)	
+  - [Unit tests](#unit-tests)	
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)	
+  - [Contract tests](#contract-tests)	
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)	
+- [More commands](#more-commands)	
 - [Supported Browsers](#supported-browsers)
+- [API Keys](#api-keys)
 - [Additional Resources](#additional-resources)
 
 ## What is this?
@@ -260,7 +261,7 @@ for doing very specific things.
 | run lint on JS and fix anything that changed                                                                | `yarn lint:js:changed:fix`                                                                                                                                                                                                                |
 | run visual regression testing                                                                               | Start the site. Generate your baseline image set using `yarn test:visual:baseline`. Make your changes. Then run `yarn test:visual`.                                                                                                       |
 | add new npm modules                                                                                         | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related.                                                                                                                                                    |
-| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit.              |
+| get the latest json schema                                                                                  | `yarn update:schema`. This updates our [`vets-json-schema`](https://github.com/department-of-veterans-affairs/vets-json-schema) to the most recent commit.              |
 | check test coverage                                                                                         | `yarn test:coverage`                                                                                                                                                                                                                      |
 | run bundle analyzer on our production JS bundles                                                            | `yarn build-analyze`                                                                                                                                                                                                                      |
 | generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
@@ -287,3 +288,4 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 
 1. [Frontend developer documentation home](https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-developer-documentation)
 1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing
+1. [Using yarn Workspaces](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces)

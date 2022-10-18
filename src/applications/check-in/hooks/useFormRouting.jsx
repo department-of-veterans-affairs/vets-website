@@ -36,7 +36,7 @@ const useFormRouting = (router = {}) => {
         }
         router.push(query);
       } else {
-        goToErrorPage();
+        goToErrorPage('?error=routing-error');
       }
     },
     [goToErrorPage, router],
@@ -45,7 +45,7 @@ const useFormRouting = (router = {}) => {
   const getCurrentPageFromRouter = useCallback(
     () => {
       // substring to remove the leading /
-      return router.location.pathname.substring(1);
+      return router?.location?.pathname.substring(1) || null;
     },
     [router],
   );
@@ -68,15 +68,10 @@ const useFormRouting = (router = {}) => {
     },
     [getCurrentPageFromRouter, pages, router],
   );
-  const goToPreviousPage = useCallback(
-    () => {
-      const here = getCurrentPageFromRouter();
-      const currentPageIndex = pages.findIndex(page => page === here);
-      const nextPage = pages[currentPageIndex - 1] ?? URLS.ERROR;
-      router.push(nextPage);
-    },
-    [getCurrentPageFromRouter, pages, router],
-  );
+  const goToPreviousPage = () => {
+    const { history } = window;
+    history.back();
+  };
 
   return {
     getCurrentPageFromRouter,

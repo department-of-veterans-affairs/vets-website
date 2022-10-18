@@ -7,8 +7,6 @@ import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
-import Footer from '../../../components/layout/Footer';
-import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -94,21 +92,6 @@ const IntroductionDisplay = props => {
       </a>
     </div>
   );
-  const additionalFooterInfo = (
-    <>
-      <p>
-        <span className="vads-u-font-weight--bold">
-          {t(
-            'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
-          )}
-        </span>{' '}
-        call <va-telephone contact="911" />,{' '}
-        <span className="vads-u-font-weight--bold">or</span>{' '}
-        {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <va-telephone contact="988" /> {t('and-select-1')}
-      </p>
-    </>
-  );
   return (
     <Wrapper
       testID="intro-wrapper"
@@ -159,8 +142,6 @@ const IntroductionDisplay = props => {
           {t('privacy-act-statement')}
         </a>
       </div>
-      <Footer message={additionalFooterInfo} />
-      <BackToHome />
       <VaModal
         onClose={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,

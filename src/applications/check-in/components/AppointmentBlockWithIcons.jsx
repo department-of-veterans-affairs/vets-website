@@ -1,12 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../utils/appointment';
 
 const AppointmentBlock = props => {
   const { appointments, page } = props;
   const { t } = useTranslation();
 
   const appointmentsDateTime = new Date(appointments[0].startTime);
+
+  const infoBlockMessage = appointment => {
+    if (appointment?.kind === 'phone') {
+      if (page === 'confirmation') {
+        return t(
+          'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
+        );
+      }
+      return t('your-provider-will-call-you');
+    }
+    return t('please-bring-your-insurance-cards-with-you-to-your-appointment');
+  };
 
   return (
     <div>
@@ -35,7 +48,7 @@ const AppointmentBlock = props => {
               data-testid="appointment-list-item"
             >
               <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
-                <div className="check-in--label vads-u-margin-right--1 appointment-type-label">
+                <div className="vads-u-margin-right--1 check-in--label">
                   <i
                     aria-label="Appointment type"
                     className={`fas ${
@@ -45,10 +58,12 @@ const AppointmentBlock = props => {
                   />
                 </div>
                 <div
-                  className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold"
                   data-testid="appointment-type-label"
+                  className="check-in--value vads-u-font-weight--bold"
                 >
-                  {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
+                  {appointment?.kind === 'phone'
+                    ? t('phone-call')
+                    : t('in-person')}
                 </div>
                 {appointment?.kind !== 'phone' && (
                   <>
@@ -70,6 +85,22 @@ const AppointmentBlock = props => {
                   {t('date-time', { date: appointmentDateTime })}
                 </div>
                 <div className="check-in--label vads-u-margin-right--1">
+                  {t('type-of-care')}:
+                </div>
+                <div className="check-in--value" data-testid="type-of-care">
+                  {appointment.clinicStopCodeName ?? t('VA-appointment')}
+                </div>
+                {appointment.doctorName && (
+                  <>
+                    <div className="check-in--label vads-u-margin-right--1">
+                      {t('provider')}:
+                    </div>
+                    <div className="check-in--value" data-testid="provider">
+                      {appointment.doctorName}
+                    </div>
+                  </>
+                )}
+                <div className="check-in--label vads-u-margin-right--1">
                   {t('clinic')}:
                 </div>
                 <div
@@ -78,7 +109,7 @@ const AppointmentBlock = props => {
                 >
                   {clinic}
                 </div>
-                {appointment.clinicLocation && (
+                {locationShouldBeDisplayed(appointment) && (
                   <>
                     <div className="check-in--label vads-u-margin-right--1">
                       {t('location')}:
@@ -99,17 +130,7 @@ const AppointmentBlock = props => {
                   data-testid="appointment-message"
                   class="vads-u-margin-bottom--2"
                 >
-                  <div>
-                    {appointment?.kind === 'phone'
-                      ? `${t('your-provider-will-call-you')} ${
-                          page === 'confirmation'
-                            ? t('you-may-need-to-wait')
-                            : ''
-                        }`
-                      : t(
-                          'please-bring-your-insurance-cards-with-you-to-your-appointment',
-                        )}
-                  </div>
+                  <div>{infoBlockMessage(appointment)}</div>
                 </va-alert>
               ) : (
                 ''

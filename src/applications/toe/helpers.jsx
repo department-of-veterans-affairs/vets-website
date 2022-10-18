@@ -2,11 +2,13 @@ import { cloneDeep } from 'lodash';
 
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import {
-  newFormFields,
+  formFields,
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
   SPONSOR_RELATIONSHIP,
 } from './constants';
+
+import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -19,6 +21,17 @@ export function isAlphaNumeric(str) {
 
 export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
 }
 
 /**
@@ -95,34 +108,144 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
+function mapNotificationMethod({ notificationMethod }) {
+  if (notificationMethod === 'MAIL') {
+    return 'No, just send me email notifications';
+  }
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
+  }
+
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  const stateUser = state.user;
+  const vaProfile = stateUser?.vaProfile;
+
+  const profile = stateUser?.profile;
+  const vet360ContactInfo = stateUser.vet360ContactInformation;
+
+  const userAddressLine1 =
+    profile?.addressLine1 ||
+    vet360ContactInfo?.addressLine1 ||
+    contactInfo?.addressLine1;
+  const userAddressLine2 =
+    profile?.addressLine2 ||
+    vet360ContactInfo?.addressLine2 ||
+    contactInfo?.addressLine2;
+  const userCity =
+    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
+  const userState =
+    profile?.stateCode ||
+    vet360ContactInfo?.stateCode ||
+    contactInfo?.stateCode;
+  const userPostalCode =
+    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
+  const userCountryCode =
+    profile?.countryCode ||
+    vet360ContactInfo?.countryCode ||
+    contactInfo?.countryCode;
+  const emailAddress =
+    profile?.email ||
+    vet360ContactInfo?.email?.emailAddress ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const v360mp = vet360ContactInfo?.mobilePhone;
+  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
+    mobilePhoneIsInternational = v360mp.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const v360hp = vet360ContactInfo?.homePhone;
+  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
+    homePhoneIsInternational = v360hp.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (vaProfile?.familyName) {
+    firstName = vaProfile?.givenNames[0];
+    middleName = vaProfile?.givenNames[1];
+    lastName = vaProfile?.familyName;
+    // suffix = ???
+  } else if (profile?.lastName) {
+    firstName = profile?.firstName;
+    middleName = profile?.middleName;
+    lastName = profile?.lastName;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
+  // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
-    'view:userFullName': {
-      userFullName: {
-        first: claimant.firstName || undefined,
-        middle: claimant.middleName || undefined,
-        last: claimant.lastName || undefined,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: firstName,
+        middle: middleName,
+        last: lastName,
+        suffix,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
-    email: {
-      email: contactInfo.emailAddress,
-      confirmEmail: contactInfo.emailAddress,
+    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
       },
-      phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
       },
+    },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: userAddressLine1,
+        street2: userAddressLine2,
+        city: userCity,
+        state: userState,
+        postalCode: userPostalCode,
+        country: getSchemaCountryCode(userCountryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
     },
   };
 
@@ -223,7 +346,7 @@ export function mapSponsorsToCheckboxOptions(sponsors) {
 }
 
 export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
 
   if (
     !numSelectedSponsors ||
@@ -232,7 +355,7 @@ export const applicantIsChildOfSponsor = formData => {
       formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
   ) {
     return (
-      formData[newFormFields.newRelationshipToServiceMember] ===
+      formData[formFields.relationshipToServiceMember] ===
       SPONSOR_RELATIONSHIP.CHILD
     );
   }

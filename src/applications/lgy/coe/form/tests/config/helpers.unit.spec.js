@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import * as helpers from 'platform/forms-system/src/js/helpers';
-import { customCOEsubmit, updateFilesSchema } from '../../config/helpers';
+import { customCOEsubmit } from '../../config/helpers';
 
 const form = {
   data: {
@@ -28,6 +27,7 @@ const formattedProperties = {
         from: '1990-01-01T05:00:00.000Z',
         to: '1992-02-01T05:00:00.000Z',
       },
+      vaLoanNumber: '1-2-3-4-5-6-7-8-9-0-1-2',
     },
   ],
 };
@@ -40,44 +40,19 @@ const result = JSON.stringify({
   },
 });
 
-describe.skip('coe helpers', () => {
-  describe('customCOEsubmit', () => {
-    it('should correctly format the form data', () => {
-      sinon.stub(helpers, 'transformForSubmit').returns(formattedProperties);
-      expect(customCOEsubmit({}, form)).to.equal(result);
-    });
-  });
-  describe('updateFilesSchema', () => {
-    it('should return an empty object when no files are present', () => {
-      expect(updateFilesSchema({}, {})).to.deep.equal({});
-    });
-    it('should return a single item not requiring an attachmentDescription', () => {
-      expect(
-        updateFilesSchema(
-          { files: [{ attachmentType: 'Test' }] },
-          { items: [{ required: ['attachmentType'] }] },
-        ),
-      ).to.deep.equal({
-        items: [
-          {
-            required: ['attachmentType'],
-          },
-        ],
-      });
-    });
-    it('should return a single item requiring an attachmentDescription', () => {
-      expect(
-        updateFilesSchema(
-          { files: [{ attachmentType: 'Other' }] },
-          { items: [{ required: ['attachmentType'] }] },
-        ),
-      ).to.deep.equal({
-        items: [
-          {
-            required: ['attachmentType', 'attachmentDescription'],
-          },
-        ],
-      });
-    });
+let sandbox;
+
+beforeEach(() => {
+  sandbox = sinon.sandbox.create();
+});
+
+afterEach(() => {
+  sandbox.restore();
+});
+
+describe('customCOEsubmit', () => {
+  it('should correctly format the form data', () => {
+    sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
+    expect(customCOEsubmit({}, form)).to.equal(result);
   });
 });

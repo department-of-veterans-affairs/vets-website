@@ -6,8 +6,9 @@ import { expect } from 'chai';
 import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
+import environment from 'platform/utilities/environment';
 
-import configureMockStore from 'redux-mock-store';
+// import configureMockStore from 'redux-mock-store';
 // import thunk from 'redux-thunk';
 
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -19,19 +20,19 @@ import {
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
-import GreetUser from '../components/webchat/makeBotGreetUser';
+import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
 import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   RECENT_UTTERANCES,
-  IN_AUTH_EXP,
+  // IN_AUTH_EXP,
 } from '../components/chatbox/utils';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
 const disclaimerText =
-  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.';
+  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room, dial 988 and press 1 for mental health support, or call 911 to get medical care right away.';
 
 /**
  * @testing-library/dom
@@ -74,7 +75,10 @@ describe('App', () => {
     oldWindow = global.window;
     global.window.localStorage.setItem('csrfToken', 'FAKECSRF');
     sandbox.spy(Sentry, 'captureException');
-    sandbox.spy(GreetUser, 'makeBotGreetUser');
+    sandbox.spy(
+      StartConvoAndTrackUtterances,
+      'makeBotStartConvoAndTrackUtterances',
+    );
   });
 
   afterEach(() => {
@@ -91,20 +95,12 @@ describe('App', () => {
   describe('user lands on chatbot page (default behaviors)', () => {
     const providerObject = {
       initialState: {
-        featureToggles: {
-          loading: false,
-        },
-        virtualAgentData: {
-          termsAccepted: true,
-        },
+        featureToggles: { loading: false },
+        virtualAgentData: { termsAccepted: true },
         user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
+          login: { currentlyLoggedIn: true },
           profile: {
-            userFullName: {
-              first: 'MARK',
-            },
+            userFullName: { first: 'MARK' },
             accountUuid: 'fake_uuid',
           },
         },
@@ -144,24 +140,17 @@ describe('App', () => {
 
       it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+          apiSession: 'FAKEAPISESSION',
+        });
         const unacknowledgedUserStore = {
           initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            virtualAgentData: {
-              termsAccepted: false,
-            },
+            featureToggles: { loading: false },
+            virtualAgentData: { termsAccepted: false },
             user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-              profile: {
-                userFullName: {
-                  first: 'Steve',
-                },
-              },
+              login: { currentlyLoggedIn: true },
+              profile: { userFullName: { first: 'Steve' } },
             },
           },
           reducers: virtualAgentReducer,
@@ -186,24 +175,17 @@ describe('App', () => {
 
       it('displays sign in modal when user clicks sign in button', async () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+          apiSession: 'FAKEAPISESSION',
+        });
         const unacknowledgedUserStore = {
           initialState: {
-            featureToggles: {
-              loading: false,
-            },
-            virtualAgentData: {
-              termsAccepted: false,
-            },
+            featureToggles: { loading: false },
+            virtualAgentData: { termsAccepted: false },
             user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-              profile: {
-                userFullName: {
-                  first: 'Steve',
-                },
-              },
+              login: { currentlyLoggedIn: true },
+              profile: { userFullName: { first: 'Steve' } },
             },
           },
           reducers: virtualAgentReducer,
@@ -237,7 +219,10 @@ describe('App', () => {
       describe('user is logged in initially', () => {
         it('passes CSRF Token, Api Session, Api Url, Base Url, userFirstName to greet user', async () => {
           loadWebChat();
-          mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+          mockApiRequest({
+            token: 'FAKETOKEN',
+            apiSession: 'FAKEAPISESSION',
+          });
 
           const { getByTestId } = renderInReduxProvider(
             <Chatbox {...defaultProps} />,
@@ -247,20 +232,22 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'Mark',
             'fake_uuid',
-            undefined, // requireAuth toggle
           );
         });
 
         it('passes blank string when user is signed in but doesnt have a name', async () => {
           loadWebChat();
-          mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+          mockApiRequest({
+            token: 'FAKETOKEN',
+            apiSession: 'FAKEAPISESSION',
+          });
 
           const { getByTestId } = renderInReduxProvider(
             <Chatbox {...defaultProps} />,
@@ -291,14 +278,13 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'noFirstNameFound',
             'fake_uuid',
-            undefined, // requireAuth toggle
           );
         });
       });
@@ -309,22 +295,17 @@ describe('App', () => {
             showLoginModal: false,
             utilitiesMenuIsOpen: { search: false },
           },
-          user: {
-            login: {
-              currentlyLoggedIn: false,
-            },
-          },
-          virtualAgentData: {
-            termsAccepted: true,
-          },
-          featureToggles: {
-            virtualAgentAuth: false,
-          },
+          user: { login: { currentlyLoggedIn: false } },
+          virtualAgentData: { termsAccepted: true },
+          featureToggles: { virtualAgentAuth: false },
         };
 
         it('passes CSRF Token, Api Session, Api Url, Base Url, noFirstNameFound to greet user', async () => {
           loadWebChat();
-          mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+          mockApiRequest({
+            token: 'FAKETOKEN',
+            apiSession: 'FAKEAPISESSION',
+          });
 
           // const { getByTestId } = renderInReduxProvider(
           //   <Chatbox {...defaultProps} />,
@@ -342,14 +323,13 @@ describe('App', () => {
           await waitFor(() => expect(getByTestId('webchat')).to.exist);
 
           sinon.assert.calledWithExactly(
-            GreetUser.makeBotGreetUser,
+            StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'noFirstNameFound',
             'noUserUuid',
-            false, // requireAuth toggle
           );
         });
       });
@@ -407,21 +387,11 @@ describe('App', () => {
 
       const initialStoreStateWithLoadingToggleTrue = {
         initialState: {
-          featureToggles: {
-            loading: true,
-          },
-          virtualAgentData: {
-            termsAccepted: true,
-          },
+          featureToggles: { loading: true },
+          virtualAgentData: { termsAccepted: true },
           user: {
-            login: {
-              currentlyLoggedIn: true,
-            },
-            profile: {
-              userFullName: {
-                first: 'MARK',
-              },
-            },
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'MARK' } },
           },
         },
         reducers: virtualAgentReducer,
@@ -482,21 +452,11 @@ describe('App', () => {
 
         const store = createTestStore(
           {
-            featureToggles: {
-              loading: true,
-            },
-            virtualAgentData: {
-              termsAccepted: true,
-            },
+            featureToggles: { loading: true },
+            virtualAgentData: { termsAccepted: true },
             user: {
-              login: {
-                currentlyLoggedIn: true,
-              },
-              profile: {
-                userFullName: {
-                  first: 'MARK',
-                },
-              },
+              login: { currentlyLoggedIn: true },
+              profile: { userFullName: { first: 'MARK' } },
             },
           },
           virtualAgentReducer,
@@ -510,7 +470,10 @@ describe('App', () => {
 
         expect(wrapper.getByRole('progressbar')).to.exist;
 
-        store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
+        store.dispatch({
+          type: FETCH_TOGGLE_VALUES_SUCCEEDED,
+          payload: {},
+        });
 
         wait(100);
 
@@ -537,7 +500,10 @@ describe('App', () => {
 
         expect(wrapper.getByRole('progressbar')).to.exist;
 
-        store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
+        store.dispatch({
+          type: FETCH_TOGGLE_VALUES_SUCCEEDED,
+          payload: {},
+        });
 
         await waitFor(() => expect(getTokenCalled()).to.equal(true));
       });
@@ -546,7 +512,9 @@ describe('App', () => {
     describe('on initial load', () => {
       it('should show loading indicator', () => {
         loadWebChat();
-        mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
+        mockApiRequest({
+          token: 'ANOTHERFAKETOKEN',
+        });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
           providerObject,
@@ -559,7 +527,9 @@ describe('App', () => {
     describe('when token is valid', () => {
       it('should render web chat', async () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+        });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
           providerObject,
@@ -573,8 +543,8 @@ describe('App', () => {
             token: 'FAKETOKEN',
             domain:
               'https://northamerica.directline.botframework.com/v3/directline',
-            // conversationId: '',
-            // watermark: '',
+            conversationId: '',
+            watermark: '',
           }),
         ).to.be.true;
       });
@@ -604,8 +574,16 @@ describe('App', () => {
       it('should render web chat', async () => {
         loadWebChat();
         mockMultipleApiRequests([
-          { response: {}, shouldResolve: false },
-          { response: { token: 'FAKETOKEN' }, shouldResolve: true },
+          {
+            response: {},
+            shouldResolve: false,
+          },
+          {
+            response: {
+              token: 'FAKETOKEN',
+            },
+            shouldResolve: true,
+          },
         ]);
 
         const wrapper = renderInReduxProvider(
@@ -626,17 +604,9 @@ describe('App', () => {
             showLoginModal: false,
             utilitiesMenuIsOpen: { search: false },
           },
-          user: {
-            login: {
-              currentlyLoggedIn: false,
-            },
-          },
-          virtualAgentData: {
-            termsAccepted: true,
-          },
-          featureToggles: {
-            virtualAgentAuth: true,
-          },
+          user: { login: { currentlyLoggedIn: false } },
+          virtualAgentData: { termsAccepted: true },
+          featureToggles: { virtualAgentAuth: true },
         };
 
         waitFor(
@@ -645,7 +615,9 @@ describe('App', () => {
         );
 
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+        });
 
         // const wrapper = renderInReduxProvider(<Chatbox timeout={10} />);
         const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
@@ -661,7 +633,9 @@ describe('App', () => {
 
       it('loads the webchat framework only once', async () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+        });
         const wrapper = renderInReduxProvider(
           <Chatbox {...defaultProps} />,
           providerObject,
@@ -679,21 +653,15 @@ describe('App', () => {
             showLoginModal: false,
             utilitiesMenuIsOpen: { search: false },
           },
-          user: {
-            login: {
-              currentlyLoggedIn: false,
-            },
-          },
-          virtualAgentData: {
-            termsAccepted: true,
-          },
-          featureToggles: {
-            virtualAgentAuth: true,
-          },
+          user: { login: { currentlyLoggedIn: false } },
+          virtualAgentData: { termsAccepted: true },
+          featureToggles: { virtualAgentAuth: true },
         };
 
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+        });
 
         waitFor(() => {
           expect(window.React).to.not.exist;
@@ -713,152 +681,15 @@ describe('App', () => {
     });
   });
 
-  describe('virtualAgentAuth is toggled false', () => {
-    const middlewares = [thunk];
-    const mockStore = configureMockStore(middlewares);
-    const mockServiceCreator = (body, succeeds = true) => () =>
-      new Promise((resolve, reject) => {
-        setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
-      });
-
-    let store;
-    const storeClean = mockStore(
-      {},
-      GreetUser.makeBotGreetUser(
-        'fakeCsrfToken',
-        'fakeApiSession',
-        'http://apiURL',
-        'http://baseURL',
-        'noFirstNameFound',
-        'fakeUserUuid',
-        true, // requireAuth,
-      ),
-      mockServiceCreator(screen, true),
-    );
-
-    const authActivityHandlerSpy = sinon.spy();
-    const messageActivityHandlerSpy = sinon.spy();
-
-    before(() => {
-      window.addEventListener(
-        'webchat-message-activity',
-        messageActivityHandlerSpy,
-      );
-      window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
-    });
-
-    beforeEach(() => {
-      store = { ...storeClean };
-      authActivityHandlerSpy.reset();
-      messageActivityHandlerSpy.reset();
-      sessionStorage.removeItem(IN_AUTH_EXP);
-      sessionStorage.removeItem(LOGGED_IN_FLOW);
-    });
-
-    after(() => {
-      window.removeEventListener(
-        'webchat-message-activity',
-        authActivityHandlerSpy,
-      );
-      window.removeEventListener(
-        'webchat-auth-activity',
-        authActivityHandlerSpy,
-      );
-    });
-    // const notLoggedInUser = {
-    //   navigation: {
-    //     showLoginModal: false,
-    //     utilitiesMenuIsOpen: { search: false },
-    //   },
-    //   user: {
-    //     login: {
-    //       currentlyLoggedIn: false,
-    //     },
-    //   },
-    //   virtualAgentData: {
-    //     termsAccepted: true,
-    //   },
-    //   featureToggles: {
-    //     virtualAgentAuth: false,
-    //   },
-    // };
-
-    it('makebotgreetuser test for firing message activity', done => {
-      window.addEventListener(
-        'webchat-message-activity',
-        messageActivityHandlerSpy,
-      );
-
-      store.dispatch({
-        payload: {
-          activity: {
-            type: 'message',
-            text: 'Hello, world!',
-          },
-        },
-        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
-      });
-
-      done();
-
-      const actions = store.getActions();
-      expect(actions.length).to.equal(1);
-      expect(actions[0].payload.activity).to.own.include({
-        text: 'Hello, world!',
-      });
-      expect(messageActivityHandlerSpy.callCount).to.equal(1);
-    });
-
-    // // TODO: conditions to resend latest utterance (I think this is covered in the other test(s))
-
-    it('makebotgreetuser test for firing auth activity', done => {
-      sessionStorage.setItem(IN_AUTH_EXP, 'false');
-
-      window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
-
-      store.dispatch({
-        payload: {
-          activity: {
-            type: 'message',
-            text: 'Alright. Sending you to the sign in page...',
-            from: {
-              role: 'bot',
-            },
-          },
-        },
-        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
-      });
-
-      done();
-
-      const actions = store.getActions();
-      expect(actions.length).to.equal(1);
-      // console.log(JSON.stringify(actions));
-      expect(actions[0].payload.activity).to.own.include({
-        text: 'Alright. Sending you to the sign in page...',
-      });
-      expect(authActivityHandlerSpy.callCount).to.equal(1);
-      expect(sessionStorage.getItem(IN_AUTH_EXP)).to.equal('false');
-    });
-  });
-
   describe('virtualAgentAuth is toggled true', () => {
     const notLoggedInUser = {
       navigation: {
         showLoginModal: false,
         utilitiesMenuIsOpen: { search: false },
       },
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-      },
-      virtualAgentData: {
-        termsAccepted: true,
-      },
-      featureToggles: {
-        virtualAgentAuth: true,
-      },
+      user: { login: { currentlyLoggedIn: false } },
+      virtualAgentData: { termsAccepted: true },
+      featureToggles: { virtualAgentAuth: true },
     };
 
     const loggedInUser = {
@@ -866,22 +697,17 @@ describe('App', () => {
         showLoginModal: false,
         utilitiesMenuIsOpen: { search: false },
       },
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-      },
-      virtualAgentData: {
-        termsAccepted: true,
-      },
-      featureToggles: {
-        virtualAgentAuth: true,
-      },
+      user: { login: { currentlyLoggedIn: true } },
+      virtualAgentData: { termsAccepted: true },
+      featureToggles: { virtualAgentAuth: true },
     };
 
-    it('when message activity is fired, then utterances should be stored in sessionStorage', done => {
+    it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
       loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+      mockApiRequest({
+        token: 'FAKETOKEN',
+        apiSession: 'FAKEAPISESSION',
+      });
 
       const messageActivityHandlerSpy = sinon.spy();
       // console.log('--- ', messageActivityHandlerSpy);
@@ -896,27 +722,25 @@ describe('App', () => {
       });
 
       const event = new Event('webchat-message-activity');
-      event.data = {
-        type: 'message',
-        text: 'first',
-        from: { role: 'user' },
-      };
+      event.data = { type: 'message', text: 'first', from: { role: 'user' } };
       window.dispatchEvent(event);
 
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
       expect(messageActivityHandlerSpy.calledWith(event));
 
-      done();
-
-      expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.not.be.null;
-      expect(
-        JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
-      ).to.have.members(['', 'first']);
+      waitFor(() =>
+        expect(
+          JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
+        ).to.have.members(['', 'first']),
+      );
     });
 
-    it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', done => {
+    it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', () => {
       loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+      mockApiRequest({
+        token: 'FAKETOKEN',
+        apiSession: 'FAKEAPISESSION',
+      });
 
       const messageActivityHandlerSpy = sinon.spy();
       window.addEventListener(
@@ -938,20 +762,25 @@ describe('App', () => {
       event.data = { type: 'message', text: 'third', from: { role: 'user' } };
       window.dispatchEvent(event);
 
-      done();
-
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
-      expect(
-        JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
-      ).to.have.members(['second', 'third']);
+
+      waitFor(() =>
+        expect(
+          JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
+        ).to.have.members(['second', 'third']),
+      );
     });
 
     describe('when user is not logged in initially', () => {
       // this is a good test, but failed after adding setTimeout call (also added requiredAuth toggle)
       // commented out for now. testing manually.
-      it('when auth activity event is fired, then loggedInFlow is set to true', done => {
+
+      it('when auth activity event is fired, then loggedInFlow is set to true', () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+          apiSession: 'FAKEAPISESSION',
+        });
 
         const authActivityHandlerSpy = sinon.spy();
         window.addEventListener(
@@ -965,17 +794,21 @@ describe('App', () => {
         });
 
         window.dispatchEvent(new Event('webchat-auth-activity'));
-        done();
 
         expect(authActivityHandlerSpy.callCount).to.equal(1);
-        expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
+        waitFor(() =>
+          expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true'),
+        );
       });
     });
 
     describe('when user is logged in initially', () => {
       it('when auth activity event is fired then no changes occur to state', () => {
         loadWebChat();
-        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        mockApiRequest({
+          token: 'FAKETOKEN',
+          apiSession: 'FAKEAPISESSION',
+        });
 
         const authActivityHandlerSpy = sinon.spy();
         window.addEventListener(
@@ -998,7 +831,7 @@ describe('App', () => {
     });
 
     describe('when user is prompted to sign in by the bot and has finished signing in', () => {
-      it('should render webchat with pre-existing conversation id and token', done => {
+      it('should render webchat with pre-existing conversation id and token', () => {
         // TEST SETUP
         // logged in flow should be set to true
         // user should be logged in
@@ -1017,49 +850,53 @@ describe('App', () => {
           reducers: virtualAgentReducer,
         });
         waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-        done();
 
-        expect(directLineSpy.called).to.be.true;
-        expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('false');
-        expect(sessionStorage.getItem(CONVERSATION_ID_KEY)).to.equal(
-          'FAKECONVOID',
+        waitFor(() => expect(directLineSpy.called).to.be.true);
+        waitFor(
+          () =>
+            expect(
+              directLineSpy.calledWithExactly({
+                token: 'FAKETOKEN',
+                domain:
+                  'https://northamerica.directline.botframework.com/v3/directline',
+                conversationId: 'FAKECONVOID',
+                watermark: '',
+              }),
+            ).to.be.true,
         );
-        expect(sessionStorage.getItem(TOKEN_KEY)).to.equal('FAKETOKEN');
-        expect(
-          directLineSpy.calledWithExactly({
-            token: 'FAKETOKEN',
-            domain:
-              'https://northamerica.directline.botframework.com/v3/directline',
-            conversationId: 'FAKECONVOID',
-            watermark: '',
-          }),
-        ).to.be.true;
+
+        waitFor(() =>
+          expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('false'),
+        );
+        waitFor(() =>
+          expect(sessionStorage.getItem(CONVERSATION_ID_KEY)).to.equal(
+            'FAKECONVOID',
+          ),
+        );
+        waitFor(() =>
+          expect(sessionStorage.getItem(TOKEN_KEY)).to.equal('FAKETOKEN'),
+        );
       });
     });
 
-    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', done => {
+    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', () => {
       const loggedInUser2 = {
         navigation: {
           showLoginModal: false,
           utilitiesMenuIsOpen: { search: false },
         },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-        virtualAgentData: {
-          termsAccepted: false,
-        },
-        featureToggles: {
-          virtualAgentAuth: false,
-        },
+        user: { login: { currentlyLoggedIn: true } },
+        virtualAgentData: { termsAccepted: false },
+        featureToggles: { virtualAgentAuth: false },
       };
 
       sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
 
       loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+      mockApiRequest({
+        token: 'FAKETOKEN',
+        apiSession: 'FAKEAPISESSION',
+      });
 
       const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
         initialState: loggedInUser2,
@@ -1067,12 +904,10 @@ describe('App', () => {
       });
 
       waitFor(() => expect(wrapper.queryByText(disclaimerText)).to.not.exist);
-      // done();
 
       location.reload();
 
       waitFor(() => expect(wrapper.queryByText(disclaimerText)).to.not.exist);
-      done();
     });
   });
 });

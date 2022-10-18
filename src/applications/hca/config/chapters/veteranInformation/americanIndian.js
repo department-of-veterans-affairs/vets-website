@@ -1,7 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { AmericanIndianDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
@@ -10,20 +11,16 @@ export default {
     'view:aiqShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:aiqDescription': {
-      'ui:description': AmericanIndianDescription,
+      'ui:description':
+        'If any of these descriptions are true for you, you may not need to pay a copay for care or services.',
     },
     sigiIsAmericanIndian: {
-      'ui:title':
-        'Are you recognized as an American Indian or Alaska Native by any tribal, state, or federal law or regulation?',
+      'ui:title': 'Are any of these descriptions true for you?',
+      'ui:description': AmericanIndianDescription,
       'ui:widget': 'yesNo',
     },
   },

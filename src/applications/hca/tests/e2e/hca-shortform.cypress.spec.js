@@ -1,13 +1,13 @@
 import moment from 'moment';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-shortForm.json';
-import mockUserAiq from './fixtures/mockUserAiq';
-import minTestData from './fixtures/schema/minimal-test.json';
-import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mockPrefillAiq.json';
+import featureToggles from './fixtures/mocks/feature-toggles-shortForm.json';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import mockFacilities from './fixtures/mocks/mockFacilities.json';
+import prefillAiq from './fixtures/mocks/mockPrefillAiq.json';
+import mockUserAiq from './fixtures/mocks/mockUserAiq';
+import minTestData from './fixtures/data/minimal-test.json';
 import * as aiqHelpers from './helpers';
 
-const mockUserAttrs = mockUserAiq.data.attributes;
 const testData = minTestData.data;
 
 const disabilityRating = 90;
@@ -20,7 +20,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/in_progress_forms/1010ez', {
       statusCode: 200,
@@ -43,6 +43,9 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
         timestamp: moment().format('YYYY-MM-DD'),
       },
     }).as('mockSubmit');
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+      'getFacilities',
+    );
   });
 
   it('works with total disability rating greater than or equal to 50%', () => {
@@ -61,9 +64,13 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .should('exist');
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
+    // cy.findAllByText(/start.+application/i, { selector: 'button' })
+    //   .first()
+    //   .click();
+
+    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+    cy.get('#1-continueButton').click();
+
     cy.wait('@mockSip');
 
     cy.location('pathname').should(
@@ -127,9 +134,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     aiqHelpers.shortFormAdditionalHelpAssertion();
 
     cy.wait('@mockSip');
-    cy.get('[name*="emailConfirmation"]')
-      .scrollIntoView()
-      .type(mockUserAttrs.profile.email);
 
     // medicaid
     aiqHelpers.goToNextPage('/insurance-information/medicaid');
@@ -153,10 +157,11 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
       testData['view:preferredFacility']['view:facilityState'],
     );
-    cy.wait('@mockSip');
-    cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
-      testData['view:preferredFacility'].vaMedicalFacility,
-    );
+    cy.wait(['@mockSip', '@getFacilities']);
+    cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
+      .shadow()
+      .find('select')
+      .select(testData['view:preferredFacility'].vaMedicalFacility);
 
     aiqHelpers.goToNextPage('review-and-submit');
 
@@ -177,7 +182,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/disability_compensation_form/rating_info', {
       statusCode: 200,
@@ -200,6 +205,9 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
         timestamp: moment().format('YYYY-MM-DD'),
       },
     }).as('mockSubmit');
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+      'getFacilities',
+    );
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
@@ -218,9 +226,13 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       .first()
       .should('exist');
 
-    cy.findAllByText(/start.+application/i, { selector: 'button' })
-      .first()
-      .click();
+    // cy.findAllByText(/start.+application/i, { selector: 'button' })
+    //   .first()
+    //   .click();
+
+    // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+    cy.get('#1-continueButton').click();
+
     cy.wait('@mockSip');
     cy.location('pathname').should(
       'include',
@@ -243,9 +255,6 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
 
     aiqHelpers.goToNextPage('/veteran-information/contact-information');
     cy.wait('@mockSip');
-    cy.get('[name*="emailConfirmation"]')
-      .scrollIntoView()
-      .type(mockUserAttrs.profile.email);
 
     cy.injectAxe();
     cy.axeCheck();
@@ -261,7 +270,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
@@ -270,6 +279,9 @@ describe('HCA-Shortform-UnAuthenticated', () => {
         timestamp: moment().format('YYYY-MM-DD'),
       },
     }).as('mockSubmit');
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+      'getFacilities',
+    );
   });
 
   it('works with self disclosure of va compensation type of High Disability', () => {

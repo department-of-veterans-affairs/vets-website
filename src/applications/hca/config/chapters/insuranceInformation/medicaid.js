@@ -1,7 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { MedicaidDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { isMedicaidEligible } = fullSchemaHca.properties;
 
@@ -10,13 +11,7 @@ export default {
     'view:medicaidShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            ((form['view:totalDisabilityRating'] &&
-              form['view:totalDisabilityRating'] >= HIGH_DISABILITY) ||
-              form.vaCompensationType === 'highDisability')
-          ),
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
     'view:medicaidDescription': {

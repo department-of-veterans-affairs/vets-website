@@ -3,8 +3,9 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
 
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import CustomReviewField from '../../../components/CustomReviewField';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 const { gender } = fullSchemaHca.properties;
 
@@ -13,12 +14,7 @@ export default {
     'view:birthSexShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {

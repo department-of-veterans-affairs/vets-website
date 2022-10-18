@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';

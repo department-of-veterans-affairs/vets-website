@@ -3,12 +3,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-import {
-  addCompareInstitution,
-  removeCompareInstitution,
-  showModal,
-} from '../actions';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   convertRatingToStars,
   createId,
@@ -16,10 +14,11 @@ import {
   locationInfo,
   schoolSize,
 } from '../utils/helpers';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import recordEvent from 'platform/monitoring/record-event';
+import {
+  addCompareInstitution,
+  removeCompareInstitution,
+  showModal,
+} from '../actions';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
@@ -34,7 +33,6 @@ const ProfilePageHeader = ({
   dispatchRemoveCompareInstitution,
   institution,
   dispatchShowModal,
-  gibctSchoolRatings,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
   const {
@@ -57,6 +55,7 @@ const ProfilePageHeader = ({
     preferredProvider,
     vetTecProvider,
     programs,
+    ownershipName,
   } = institution;
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
@@ -64,7 +63,6 @@ const ProfilePageHeader = ({
     physicalState,
     physicalCountry,
   );
-
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
 
@@ -99,10 +97,8 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars =
-    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames(
     'small-screen-header',
@@ -169,8 +165,12 @@ const ProfilePageHeader = ({
                   dispatchShowModal('typeAccredited');
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId={'typeAccredited-button'}
+                buttonId="typeAccredited-button"
               />
+            </IconWithInfo>
+            <IconWithInfo icon="building" present>
+              {'   '}
+              Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
           </div>
         )}
@@ -227,14 +227,7 @@ const ProfilePageHeader = ({
       >
         <div>
           <IconWithInfo icon="phone" present={hasVetTecPhone}>
-            {'   '}{' '}
-            <a
-              href={`tel:${programs[0].phoneAreaCode}${
-                programs[0].phoneNumber
-              }`}
-            >
-              {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
-            </a>
+            {'   '} <va-telephone contact="" />
           </IconWithInfo>
           {programs[0].schoolLocale && (
             <IconWithInfo
@@ -289,7 +282,7 @@ const ProfilePageHeader = ({
                   dispatchShowModal('preferredProviders');
                 }}
                 ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId={'preferredProviders-button'}
+                buttonId="preferredProviders-button"
               />
             </span>
           )}
@@ -303,7 +296,7 @@ const ProfilePageHeader = ({
               |
             </span>{' '}
             <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-              {stars.display} of 5
+              {stars.display} of 4
             </span>{' '}
             (
             <a

@@ -8,6 +8,7 @@ import {
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectError,
 } from './index';
 
 describe('check-in', () => {
@@ -145,6 +146,19 @@ describe('check-in', () => {
         const selectApp = makeSelectApp();
         expect(selectApp(state)).to.eql({
           app: 'preCheckIn',
+        });
+      });
+    });
+    describe('makeSelectError', () => {
+      const state = {
+        checkInData: {
+          error: 'max-validation',
+        },
+      };
+      it('returns error string', () => {
+        const selectError = makeSelectError();
+        expect(selectError(state)).to.eql({
+          error: 'max-validation',
         });
       });
     });

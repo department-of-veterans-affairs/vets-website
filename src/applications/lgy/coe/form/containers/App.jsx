@@ -3,39 +3,73 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import environment from 'platform/utilities/environment';
+import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
+import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
+import { WIP } from '../../shared/components/WIP';
 
-function App(props) {
-  const { children, getCoe, location } = props;
-
+function App({
+  children,
+  getCoe,
+  getCoeMock,
+  isLoading,
+  location,
+  loggedIn,
+  showCoe,
+}) {
   useEffect(
     () => {
-      getCoe();
+      if (showCoe) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!loggedIn);
+        } else {
+          getCoe(!loggedIn);
+        }
+      }
     },
-    [getCoe],
+    [showCoe, getCoe, getCoeMock, loggedIn],
   );
 
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+  if (isLoading) {
+    return <va-loading-indicator message="Loading application..." />;
+  }
+
+  // Show WIP alert if the feature flag isn't set
+  return showCoe ? (
+    <article
+      id="form-26-1880"
+      data-location={`${location?.pathname?.slice(1)}`}
+    >
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </article>
+  ) : (
+    <WIP />
   );
 }
-
-const mapStateToProps = state => ({
-  certificateOfEligibility: state.certificateOfEligibility,
-});
 
 const mapDispatchToProps = {
   getCoe: generateCoe,
 };
 
+const mapStateToProps = state => ({
+  isLoading: isLoadingFeatures(state),
+  loggedIn: isLoggedIn(state),
+  showCoe: showCoeFeature(state),
+});
+
 App.propTypes = {
   children: PropTypes.node.isRequired,
   getCoe: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  getCoeMock: PropTypes.func,
+  isLoading: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  showCoe: PropTypes.bool,
 };
 
 export default connect(

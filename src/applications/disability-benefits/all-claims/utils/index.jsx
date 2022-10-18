@@ -706,9 +706,7 @@ export const wrapWithBreadcrumb = (title, component) => (
     <va-breadcrumbs>
       <a href="/">Home</a>
       <a href="/disability">Disability Benefits</a>
-      <span className="vads-u-color--black">
-        <strong>{title}</strong>
-      </span>
+      <a href="/disability/file-disability-claim-form-21-526ez">{title}</a>
     </va-breadcrumbs>
     {component}
   </>

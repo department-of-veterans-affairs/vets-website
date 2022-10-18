@@ -89,7 +89,6 @@ class FileField extends React.Component {
         enableShortWorkflow,
         formContext,
         onChange,
-        requestLockedPdfPassword,
         uiSchema,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
@@ -129,7 +128,6 @@ class FileField extends React.Component {
 
       // Check if the file is an encrypted PDF
       if (
-        requestLockedPdfPassword && // feature flag
         currentFile.name?.endsWith('pdf') &&
         !password &&
         checkResults.checkIsEncryptedPdf
@@ -259,7 +257,6 @@ class FileField extends React.Component {
       idSchema,
       onBlur,
       registry,
-      requestLockedPdfPassword,
       schema,
       uiSchema,
     } = this.props;
@@ -302,6 +299,9 @@ class FileField extends React.Component {
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
       >
+        <legend className="vads-u-font-size--base">
+          Your uploaded documents
+        </legend>
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -330,15 +330,10 @@ class FileField extends React.Component {
                 [index, 'attachmentDescription'],
                 errorSchema,
               );
-              // feature flag
-              const showPasswordContent =
-                requestLockedPdfPassword && file.isEncrypted;
               const showPasswordInput =
-                showPasswordContent && !file.confirmationCode;
+                file.isEncrypted && !file.confirmationCode;
               const showPasswordSuccess =
-                showPasswordContent &&
-                !showPasswordInput &&
-                file.confirmationCode;
+                file.isEncrypted && !showPasswordInput && file.confirmationCode;
               const description =
                 (!file.uploading && uiOptions.itemDescription) || '';
 
@@ -538,8 +533,8 @@ class FileField extends React.Component {
         <input
           type="file"
           ref={this.fileInputRef}
+          className="vads-u-display--none"
           accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-          style={{ display: 'none' }}
           id={idSchema.$id}
           name={idSchema.$id}
           onChange={this.onAddFile}
@@ -560,7 +555,6 @@ FileField.propTypes = {
   idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.object,
-  requestLockedPdfPassword: PropTypes.bool,
   requiredSchema: PropTypes.object,
   uiSchema: PropTypes.object,
   onBlur: PropTypes.func,
@@ -568,7 +562,6 @@ FileField.propTypes = {
 
 const mapStateToProps = state => ({
   enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
-  requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
 });
 
 export { FileField };

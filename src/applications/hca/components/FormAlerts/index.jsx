@@ -3,10 +3,24 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import recordEvent from 'platform/monitoring/record-event';
 
-export const FinancialDisclosureAlert = () => (
-  <va-alert status="info" class="vads-u-margin-top--4">
-    If you don’t provide your financial information and you don’t have another
-    qualifying eligibility factor, VA can’t enroll you.
+export const DowntimeWarning = () => (
+  <va-alert status="warning">
+    <h2 slot="headline">
+      The health care application is down for maintenance.
+    </h2>
+    <p>
+      We’re sorry. The health care application is currently down while we fix a
+      few things. We’ll be back up as soon as we can.
+    </p>
+    <p>
+      In the meantime, you can call{' '}
+      <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
+      8:00 a.m. to 8:00 p.m. (
+      <dfn>
+        <abbr title="Eastern Time">ET</abbr>
+      </dfn>
+      ) and press 2 to complete this application over the phone.
+    </p>
   </va-alert>
 );
 
@@ -19,6 +33,13 @@ export const ExpensesGreaterThanIncomeWarning = () => (
       You can stop entering your expenses. We’ll adjust your expenses to be
       equal to your income. This won’t affect your application or benefits.
     </p>
+  </va-alert>
+);
+
+export const FinancialDisclosureAlert = () => (
+  <va-alert status="info" class="vads-u-margin-top--4">
+    If you don’t provide your financial information and you don’t have another
+    qualifying eligibility factor, VA can’t enroll you.
   </va-alert>
 );
 
@@ -76,9 +97,10 @@ export const VerificationRequiredAlert = () => (
       </li>
       <li>
         Or call us at <va-telephone contact={CONTACTS['222_VETS']} />. If you
-        have hearing hearing loss, call TTY:{' '}
-        <va-telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday through
-        Friday, 8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
+        have hearing hearing loss, call{' '}
+        <va-telephone contact={CONTACTS['711']} tty />. We’re here Monday
+        through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        <abbr title="eastern time">ET</abbr>.
       </li>
     </ul>
     <p>

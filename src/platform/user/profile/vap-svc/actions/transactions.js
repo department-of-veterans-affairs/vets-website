@@ -4,12 +4,15 @@ import {
   ADDRESS_POU,
   FIELD_NAMES,
   TRANSACTION_STATUS,
-} from '@@vap-svc/constants';
-import { showAddressValidationModal, inferAddressType } from '@@vap-svc/util';
-import { hasBadAddress } from '@@profile/selectors';
-import { apiRequest } from '~/platform/utilities/api';
-import { refreshProfile } from '~/platform/user/profile/actions';
-import recordEvent from '~/platform/monitoring/record-event';
+} from 'platform/user/profile/vap-svc/constants';
+import {
+  showAddressValidationModal,
+  inferAddressType,
+} from 'platform/user/profile/vap-svc/util';
+import { hasBadAddress } from 'applications/personalization/profile/selectors';
+import { apiRequest } from 'platform/utilities/api';
+import { refreshProfile } from 'platform/user/profile/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 import localVAProfileService, {
   isVAProfileServiceConfigured,
@@ -111,9 +114,7 @@ export function refreshTransaction(
       });
 
       const route = _route || `/profile/status/${transactionId}`;
-      const transactionRefreshed = isVAProfileServiceConfigured()
-        ? await apiRequest(route)
-        : await localVAProfileService.updateTransaction(transactionId);
+      const transactionRefreshed = await apiRequest(route);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;

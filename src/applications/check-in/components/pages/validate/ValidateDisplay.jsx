@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VaMemorableDate } from '@department-of-veterans-affairs/web-components/react-bindings';
+import {
+  VaTextInput,
+  VaMemorableDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
 import TextInputErrorWrapper from '../../TextInputErrorWrapper';
@@ -16,8 +18,9 @@ export default function ValidateDisplay({
   isLoading,
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
-  dobInput: { dobErrorMessage, setDob, dob } = {},
-  Footer,
+  dobInput: { setDob, dob } = {},
+  dobError,
+  setDobError,
   showValidateError,
   validateErrorMessage,
 }) {
@@ -25,20 +28,12 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
-  const [willSubmit, setWillSubmit] = useState(false);
 
   useEffect(
     () => {
       if (showValidateError) focusElement('.validate-error-alert');
     },
     [showValidateError],
-  );
-
-  useEffect(
-    () => {
-      if (willSubmit) validateHandler();
-    },
-    [willSubmit, validateHandler],
   );
 
   const updateField = useCallback(
@@ -51,38 +46,36 @@ export default function ValidateDisplay({
           setLast4Ssn(event.target.value);
           break;
         case 'date-of-birth':
+          // using a delay here to wait for shadowdom to update with errors more of a problem with safari
+          // @TODO remove this once we get an updated va-memorable-date component with an onError property
+          setTimeout(() => {
+            if (event.target.attributes.error) {
+              setDobError(true);
+            } else {
+              setDobError(false);
+            }
+          }, 50);
           setDob(event.target.value);
           break;
         default:
           break;
       }
     },
-    [setLastName, setLast4Ssn, setDob],
+    [setLastName, setLast4Ssn, setDob, setDobError],
   );
-  const handleDateEnterPress = e => {
-    const { value } = e.target;
-    const [year, month, day] = (value || '').split('-').map(val => val);
-    let newValue = value;
-    let newMonth = month;
-    let newDay = day;
-    if (month.length === 1) {
-      newMonth = `0${month}`;
-    }
-    if (day.length === 1) {
-      newDay = `0${day}`;
-    }
 
-    newValue = `${year}-${newMonth}-${newDay}`;
-    setDob(newValue);
-    setWillSubmit(true);
-  };
   const handleEnter = e => {
     if (e.key === 'Enter') {
+      e.preventDefault();
+      // doing this to trigger validation on enter
       if (e.target.name === 'date-of-birth') {
-        handleDateEnterPress(e);
-      } else {
-        validateHandler();
+        const nestedShadowElement = e.target.shadowRoot.activeElement.shadowRoot.getElementById(
+          'inputField',
+        );
+        focusElement('.usa-button');
+        focusElement(nestedShadowElement);
       }
+      validateHandler();
     }
   };
   const handleFormSubmit = e => {
@@ -133,9 +126,7 @@ export default function ValidateDisplay({
           <div
             data-testid="dob-input"
             className={`vads-u-margin-top--3 ${
-              dobErrorMessage && dobErrorMessage.length
-                ? 'vads-u-padding-left--2p5'
-                : ''
+              dobError ? 'vads-u-padding-left--2p5' : ''
             }`}
           >
             <VaMemorableDate
@@ -145,7 +136,6 @@ export default function ValidateDisplay({
               name="date-of-birth"
               value={dob}
               required
-              error={dobErrorMessage}
               onKeyDown={handleEnter}
             />
           </div>
@@ -168,8 +158,7 @@ export default function ValidateDisplay({
           </TextInputErrorWrapper>
         )}
         <button
-          type="button"
-          onClick={validateHandler}
+          type="submit"
           className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
@@ -182,19 +171,18 @@ export default function ValidateDisplay({
           )}
         </button>
       </form>
-
-      {Footer && <Footer />}
     </Wrapper>
   );
 }
 
 ValidateDisplay.propTypes = {
-  Footer: propTypes.elementType,
+  dobError: propTypes.bool,
   dobInput: propTypes.object,
   header: propTypes.string,
   isLoading: propTypes.bool,
   last4Input: propTypes.object,
   lastNameInput: propTypes.object,
+  setDobError: propTypes.func,
   showValidateError: propTypes.bool,
   subtitle: propTypes.string,
   validateErrorMessage: propTypes.elementType,

@@ -12,6 +12,7 @@ class LocationData {
     ];
     return this;
   }
+
   constructor() {
     this.id = 'I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000';
     this.identifier = [

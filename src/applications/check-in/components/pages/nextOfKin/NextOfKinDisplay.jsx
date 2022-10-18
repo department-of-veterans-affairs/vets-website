@@ -11,7 +11,6 @@ export default function NextOfKinDisplay({
   yesAction = () => {},
   noAction = () => {},
   isLoading = false,
-  Footer,
 }) {
   const { t } = useTranslation();
   const nextOfKinFields = [
@@ -60,15 +59,14 @@ export default function NextOfKinDisplay({
         noAction={noAction}
         isLoading={isLoading}
         loadingMessageOverride={loadingMessage}
-        Footer={Footer}
         withBackButton
+        pageType="next-of-kin"
       />
     </>
   );
 }
 
 NextOfKinDisplay.propTypes = {
-  Footer: propTypes.elementType,
   header: propTypes.string,
   isLoading: propTypes.bool,
   nextOfKin: propTypes.object,

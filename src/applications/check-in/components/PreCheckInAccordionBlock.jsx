@@ -42,6 +42,8 @@ const PreCheckInAccordionBlock = ({
                     key="link"
                     href="https://www.va.gov/profile/personal-information"
                     hrefLang="en"
+                    eventId="sign-in-from-accordion-clicked"
+                    eventPrefix="nav"
                   >
                     link
                   </ExternalLink>,
@@ -71,7 +73,7 @@ const PreCheckInAccordionBlock = ({
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
-                  <va-telephone key="or-you-can-call" contact="800-698-2411">
+                  <va-telephone key="or-you-can-call" contact="8006982411">
                     link
                   </va-telephone>,
                 ]}
@@ -104,7 +106,7 @@ const PreCheckInAccordionBlock = ({
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact="800-698-2411">
+                <va-telephone key="please call" contact="8006982411">
                   link
                 </va-telephone>,
               ]}
@@ -137,8 +139,23 @@ const PreCheckInAccordionBlock = ({
             {appointments.map((appointment, index) => {
               return (
                 <p key={index}>
-                  {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-                  <va-telephone contact={appointment.clinicPhoneNumber} />
+                  <Trans
+                    i18nKey="facility-name-at-phone"
+                    components={[
+                      <va-telephone
+                        key="facility-name-at-phone"
+                        contact={appointment.clinicPhoneNumber}
+                      >
+                        phone
+                      </va-telephone>,
+                    ]}
+                    values={{
+                      facility:
+                        appointment.clinicFriendlyName ||
+                        appointment.clinicName,
+                      phone: appointment.clinicPhoneNumber,
+                    }}
+                  />
                 </p>
               );
             })}

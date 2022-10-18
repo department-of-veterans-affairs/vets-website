@@ -12,10 +12,7 @@ class Introduction {
     appointmentDate = new Date().setDate(new Date().getDate() + 1),
   ) => {
     cy.get('p[data-testid="appointment-day-location"]').contains(
-      `Your appointments are on ${format(
-        appointmentDate,
-        'MMMM dd, Y',
-      )} at LOMA LINDA VA CLINIC.`,
+      `Your appointments are on ${format(appointmentDate, 'MMMM dd, Y')}`,
     );
   };
 
@@ -80,6 +77,21 @@ class Introduction {
       .shadow()
       .find('button[aria-controls="content"]')
       .click();
+  };
+
+  validateAppointmentType = type => {
+    if (type === 'phone') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone Call');
+      });
+      cy.get('[data-testid="appointment-message"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Your provider will call you.');
+      });
+    } else if (type === 'in-person') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('In person');
+      });
+    }
   };
 }
 

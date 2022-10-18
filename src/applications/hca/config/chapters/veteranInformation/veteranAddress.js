@@ -8,19 +8,15 @@ import {
 
 import { MailingAddressDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { NotHighDisability } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 export default {
   uiSchema: {
     'view:veteranAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {

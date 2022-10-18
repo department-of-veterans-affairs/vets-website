@@ -4,7 +4,9 @@ const delay = require('mocker-api/lib/delay');
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const checkInData = require('./mocks/v2/check-in-data/index');
 const preCheckInData = require('./mocks/v2/pre-check-in-data/index');
+const sharedData = require('./mocks/v2/shared/index');
 const sessions = require('./mocks/v2/sessions/index');
+const btsss = require('./mocks/v2/btsss/index');
 
 const featureToggles = require('./mocks/v2/feature-toggles/index');
 
@@ -56,9 +58,9 @@ const responses = {
     const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(checkInData.get.createMultipleAppointments(uuid, 3));
+      return res.json(sharedData.get.createMultipleAppointments(uuid, 3));
     }
-    return res.json(checkInData.get.createMultipleAppointments(uuid));
+    return res.json(sharedData.get.createMultipleAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
     const { uuid, appointmentIen, facilityId } =
@@ -88,6 +90,13 @@ const responses = {
       return res.status(400).json(checkInData.patch.createMockFailedResponse());
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));
+  },
+  'POST /check_in/v2/btsss/': (req, res) => {
+    const { uuid } = req.body || {};
+    if (!uuid) {
+      return res.status(500).json(btsss.post.createMockFailedResponse());
+    }
+    return res.json(btsss.post.createMockSuccessResponse({}));
   },
 };
 

@@ -9,6 +9,8 @@ import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
+import { isUUID } from '../../../utils/token-format-validator';
+
 import {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -55,7 +57,7 @@ const Confirmation = props => {
         try {
           const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
           if (resp.data.error || resp.data.errors) {
-            goToErrorPage();
+            goToErrorPage('?error=pre-check-in-post-error');
           } else {
             setPreCheckinComplete(window, true);
             // hide loading screen
@@ -63,11 +65,11 @@ const Confirmation = props => {
             focusElement('h1');
           }
         } catch (error) {
-          goToErrorPage();
+          goToErrorPage('?error=error-completing-pre-check-in');
         }
       }
 
-      if (!getPreCheckinComplete(window)?.complete) {
+      if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
         sendPreCheckInData();
       }
 

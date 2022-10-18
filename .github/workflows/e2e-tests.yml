@@ -88,11 +88,11 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-
-      - name: Add istanbul for Cypress code coverage reporting
-        run: |
-          sed -i -e 's/\"istanbul\",//g' .babelrc
-          sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' .babelrc
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools 
+      # - name: Add istanbul for Cypress code coverage reporting
+      #   run: |
+      #     sed -i -e 's/\"istanbul\",//g' babel.config.json
+      #     sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -162,14 +162,14 @@ jobs:
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.14.2-slim-chrome103-ff102
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -211,28 +211,32 @@ jobs:
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
-      - name: Instrument code
-        run: npx nyc instrument --compact=false src .nyc_output
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Instrument code
+      #   run: npx nyc instrument --compact=false src .nyc_output
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           CODE_COVERAGE: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
+          NUM_CONTAINERS: 12
 
-      - name: View code coverage summary
-        run: npx nyc report --reporter=text-summary
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: View code coverage summary
+      #   run: npx nyc report --reporter=text-summary
 
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: code-coverage-artifacts
-          path: coverage/coverage-summary.json
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Create coverage artifact
+      #   uses: actions/upload-artifact@v3
+      #   if: ${{ always() }}
+      #   with:
+      #     name: code-coverage-artifacts
+      #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
         uses: actions/upload-artifact@v3
@@ -390,6 +394,7 @@ jobs:
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: 12
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}

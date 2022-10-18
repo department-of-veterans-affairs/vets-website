@@ -2,37 +2,44 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
+import environment from 'platform/utilities/environment';
+import { formatDateLong } from 'platform/utilities/date';
+
 import ListItem from './ListItem';
 
-const formatDate = timestamp => moment(timestamp).format('MMMM DD, YYYY');
-const formatLabelDate = timestamp => moment(timestamp).format('MMDDYYYY');
+export const formatLabelDate = timestamp =>
+  moment(timestamp).format('MM-DD-YYYY');
 
-// ex docType: '.pdf'
-const getDocumentType = docType => docType.slice(1).toUpperCase();
+// Example documentType: 'pdf', but the local mock data has '54'; this has been
+// updated to extract the file extension from the `mimeType` (e.g. `file.pdf`),
+// which really should contain the mime type (expecting `application/pdf`) -
+// still awaiting a response from LGY
+export const getDocumentType = fileName =>
+  fileName
+    .split('.')
+    .pop()
+    .toUpperCase();
 
-const getDownloadLinkLabel = (timestamp, documentType) =>
-  `Download Notification Letter ${formatLabelDate(
-    timestamp,
-  )} (${getDocumentType(documentType)})`;
+export const getDownloadLinkLabel = timestamp =>
+  `Download Notification Letter ${formatLabelDate(timestamp)}`;
 
-const List = ({ documents }) => {
-  return documents.map(({ createDate, description, documentType }, i) => {
-    const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
-    // This will come from the document payload in the future
-    const downloadUrl = '∂';
-    const sentDate = formatDate(createDate);
+const List = ({ documents }) =>
+  documents.map((document, i) => {
+    const { createDate, description, mimeType, id } = document;
+    const downloadLinkLabel = getDownloadLinkLabel(createDate);
+    const sentDate = formatDateLong(createDate);
 
     return (
       <ListItem
         key={i}
         downloadLinkLabel={downloadLinkLabel}
-        downloadUrl={downloadUrl}
+        downloadUrl={`${environment.API_URL}/v0/coe/document_download/${id}`}
+        fileType={getDocumentType(mimeType)}
         sentDate={sentDate}
         title={description}
       />
     );
   });
-};
 
 List.propTypes = {
   documents: PropTypes.array,

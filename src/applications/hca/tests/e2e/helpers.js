@@ -1,7 +1,5 @@
-import mockUserAiq from './fixtures/mockUserAiq';
-import minTestData from './fixtures/schema/minimal-test.json';
+import minTestData from './fixtures/data/minimal-test.json';
 
-const mockUserAttrs = mockUserAiq.data.attributes;
 const testData = minTestData.data;
 
 export const goToNextPage = pagePath => {
@@ -15,9 +13,13 @@ export const goToNextPage = pagePath => {
   }
 };
 export const advanceToAiqPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -37,9 +39,6 @@ export const advanceFromAiqToReviewPage = () => {
     .check('Y');
   goToNextPage('/veteran-information/contact-information');
   cy.wait('@mockSip');
-  cy.get('[name*="emailConfirmation"]')
-    .scrollIntoView()
-    .type(mockUserAttrs.profile.email);
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');
   goToNextPage('/va-benefits/pension-information');
@@ -60,17 +59,22 @@ export const advanceFromAiqToReviewPage = () => {
   cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
     testData['view:preferredFacility']['view:facilityState'],
   );
-  cy.wait('@mockSip');
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
-    testData['view:preferredFacility'].vaMedicalFacility,
-  );
+  cy.wait(['@mockSip', '@getFacilities']);
+  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
+    .shadow()
+    .find('select')
+    .select(testData['view:preferredFacility'].vaMedicalFacility);
   goToNextPage('review-and-submit');
 };
 
 export const advanceToServiceInfoPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -96,9 +100,6 @@ export const advanceToServiceInfoPage = () => {
 
   goToNextPage('/veteran-information/contact-information');
   cy.wait('@mockSip');
-  cy.get('[name*="emailConfirmation"]')
-    .scrollIntoView()
-    .type(mockUserAttrs.profile.email);
 
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');
@@ -161,9 +162,11 @@ export const shortFormSelfDisclosureToSubmit = () => {
     testData['view:preferredFacility']['view:facilityState'],
   );
 
-  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
-    testData['view:preferredFacility'].vaMedicalFacility,
-  );
+  cy.wait('@getFacilities');
+  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
+    .shadow()
+    .find('select')
+    .select(testData['view:preferredFacility'].vaMedicalFacility);
 
   goToNextPage('review-and-submit');
 

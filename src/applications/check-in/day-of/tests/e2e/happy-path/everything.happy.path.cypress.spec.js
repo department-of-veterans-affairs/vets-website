@@ -7,7 +7,8 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
-import checkInData from '../../../../api/local-mock-api/mocks/v2/check-in-data';
+import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
 describe('Check In Experience', () => {
   describe('everything path', () => {
@@ -18,24 +19,26 @@ describe('Check In Experience', () => {
         initializeSessionPost,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
+        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withAllFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
+      initializeBtsssPost.withSuccess();
 
-      const rv1 = checkInData.get.createMultipleAppointments();
-      const earliest = checkInData.get.createAppointment();
+      const rv1 = sharedData.get.createMultipleAppointments();
+      const earliest = sharedData.get.createAppointment();
       earliest.startTime = '2021-08-19T03:00:00';
-      const midday = checkInData.get.createAppointment();
+      const midday = sharedData.get.createAppointment();
       midday.startTime = '2021-08-19T13:00:00';
-      const latest = checkInData.get.createAppointment();
+      const latest = sharedData.get.createAppointment();
       latest.startTime = '2027-08-19T18:00:00';
       rv1.payload.appointments = [latest, earliest, midday];
 
-      const rv2 = checkInData.get.createMultipleAppointments();
-      const newLatest = checkInData.get.createAppointment();
+      const rv2 = sharedData.get.createMultipleAppointments();
+      const newLatest = sharedData.get.createAppointment();
       newLatest.startTime = '2027-08-19T17:00:00';
       rv2.payload.appointments = [newLatest, earliest, midday];
       const responses = [rv1, rv2];
@@ -77,21 +80,34 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
       Appointments.validateAppointmentTime(3, '6:00 p.m.');
       cy.injectAxeThenAxeCheck();
 
       Appointments.attemptCheckIn(2);
-      Confirmation.validatePageLoaded();
+      Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      Appointments.validateAppointmentLength(3);
-      // Validate that appointments are refreshed.
-      Appointments.validateAppointmentTime(3, '5:00 p.m.');
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // Appointments.validateAppointmentLength(3);
+      // // Validate that appointments are refreshed.
+      // Appointments.validateAppointmentTime(3, '5:00 p.m.');
+      // cy.injectAxeThenAxeCheck();
     });
   });
 });

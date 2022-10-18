@@ -1,4 +1,11 @@
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
+
+export const LETTER_URL = `${
+  environment.API_URL
+}/education/download-letters/letters`;
+
+export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
 export const SPONSOR_RELATIONSHIP = {
   CHILD: 'Child',
@@ -21,44 +28,33 @@ export const SPONSORS_TYPE = PropTypes.shape({
 
 export const YOUR_PROFILE_URL = '/profile';
 
-export const newFormFields = {
-  newAccountNumber: 'newAccountNumber',
-  newAccountType: 'newAccountType',
-  newActiveDutyKicker: 'newActiveDutyKicker',
-  newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
-  newAddress: 'newAddress',
-  newBankAccount: 'newBankAccount',
-  newContactMethod: 'newContactMethod',
-  newConfirmEmail: 'newConfirmEmail',
-  newDateOfBirth: 'newDateOfBirth',
-  newEmail: 'newEmail',
-  newFederallySponsoredAcademy: 'newFederallySponsoredAcademy',
+export const formFields = {
+  accountNumber: 'accountNumber',
+  accountType: 'accountType',
+  address: 'address',
+  bankAccount: 'bankAccount',
+  contactMethod: 'contactMethod',
+  confirmEmail: 'confirmEmail',
+  dateOfBirth: 'dateOfBirth',
+  email: 'email',
   firstSponsor: 'firstSponsor',
-  newFullName: 'newFullName',
-  newHasDoDLoanPaymentPeriod: 'newHasDoDLoanPaymentPeriod',
-  newHighSchoolDiploma: 'newHighSchoolDiploma',
-  newHighSchoolDiplomaDate: 'newHighSchoolDiplomaDate',
-  newIncorrectServiceHistoryExplanation:
-    'newIncorrectServiceHistoryExplanation',
-  newLoanPayment: 'newLoanPayment',
-  newMobilePhoneNumber: 'newMobilePhoneNumber',
-  newMobilePhoneNumberInternational: 'newMobilePhoneNumberInternational',
-  newParentGuardianSponsor: 'newParentGuardianSponsor',
-  newPhoneNumber: 'newPhoneNumber',
-  newPhoneNumberInternational: 'newPhoneNumberInternational',
-  newRelationshipToServiceMember: 'newRelationshipToServiceMember',
-  newReceiveTextMessages: 'newReceiveTextMessages',
-  newRoutingNumber: 'newRoutingNumber',
-  newServiceHistoryIncorrect: 'newServiceHistoryIncorrect',
+  highSchoolDiploma: 'highSchoolDiploma',
+  highSchoolDiplomaDate: 'highSchoolDiplomaDate',
+  mobilePhoneNumber: 'mobilePhoneNumber',
+  mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
+  parentGuardianSponsor: 'parentGuardianSponsor',
+  phoneNumber: 'phoneNumber',
+  phoneNumberInternational: 'phoneNumberInternational',
+  preferredContactMethod: 'preferredContactMethod',
+  relationshipToServiceMember: 'relationshipToServiceMember',
+  receiveTextMessages: 'receiveTextMessages',
+  routingNumber: 'routingNumber',
   selectedSponsors: 'selectedSponsors',
-  newSponsorDateOfBirth: 'newSponsorDateOfBirth',
-  newSponsorFullName: 'newSponsorFullName',
-  newSsn: 'newSsn',
-  newToursOfDuty: 'newToursOfDuty',
-  newUserFullName: 'newUserFullName',
-  newViewBenefitSelection: 'view:newBenefitSelection',
-  newViewNoDirectDeposit: 'view:newNoDirectDeposit',
-  newViewPhoneNumbers: 'view:newPhoneNumbers',
-  newViewSelectedSponsor: 'view:newSelectedSponsor',
-  newViewStopWarning: 'view:newStopWarning',
+  sponsorDateOfBirth: 'sponsorDateOfBirth',
+  sponsorFullName: 'sponsorFullName',
+  userFullName: 'userFullName',
+  viewPhoneNumbers: 'view:phoneNumbers',
+  viewReceiveTextMessages: 'view:receiveTextMessages',
+  viewUserFullName: 'view:userFullName',
+  viewMailingAddress: 'view:mailingAddress',
 };

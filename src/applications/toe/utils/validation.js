@@ -1,23 +1,73 @@
 import { isValidEmail } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../helpers';
+import { formFields } from '../constants';
 
-export const isValidPhone = value => {
-  let stripped;
-  try {
-    stripped = value.replace(/[^\d]/g, '');
-  } catch (err) {
-    stripped = value;
-  }
-  return /^\d{10}$/.test(stripped);
+export const nameErrorMessage = maxLength =>
+  `Please enter a valid entry. Acceptable entries are letters, spaces, hyphens, and apostrophes and can't be more than ${maxLength} characters.`;
+
+/**
+ * Validates a first/middle name.  Acceptable entries are letters,
+ * spaces, hyphens, and apostrophes between 1 and 20 characters.
+ * Leading and trailing whitespace are not counted.  The first
+ * character must be a letter.
+ * @param {string} name The first/middle name.
+ * @returns boolean Is the first/middle name valid?
+ */
+export const isValidGivenName = name => {
+  return name && /^\s*[a-zA-Z]{1}[a-zA-Z '’-]{0,19}\s*$/.test(name);
 };
 
-export const validatePhone = (errors, phone) => {
-  if (phone && !isValidPhone(phone)) {
+/**
+ * Validates a last name.  Acceptable entries are letters, spaces
+ * hyphens, and apostrophes between 1 and 26 characters.  Leading and
+ * trailing whitespace are not counted.
+ * @param {string} lastName The last name.
+ * @returns boolean Is last name valid?
+ */
+export const isValidLastName = lastName => {
+  return lastName && /^\s*[a-zA-Z]{1}[a-zA-Z '’-]{0,25}\s*$/.test(lastName);
+};
+
+const isValidPhone = (phone, isInternational) => {
+  let stripped;
+  try {
+    stripped = phone.replace(/[^\d]/g, '');
+  } catch (err) {
+    stripped = phone;
+  }
+  return isInternational
+    ? /^\d{10,15}$/.test(stripped)
+    : /^\d{10}$/.test(stripped);
+};
+
+export const isValidPhoneField = phoneField => {
+  const { isInternational } = phoneField;
+  return isValidPhone(phoneField.phone, isInternational);
+};
+
+const validatePhone = (errors, phone, isInternational) => {
+  if (phone && !isValidPhone(phone, isInternational)) {
+    const numDigits = isInternational ? '10 to 15' : '10';
     errors.addError(
-      'Please enter a 10-digit phone number (with or without dashes)',
+      `Please enter a ${numDigits}-digit phone number (with or without dashes)`,
     );
   }
+};
+
+export const validateHomePhone = (errors, phone, formData) => {
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.phoneNumber
+  ];
+
+  validatePhone(errors, phone, isInternational);
+};
+
+export const validateMobilePhone = (errors, phone, formData) => {
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.mobilePhoneNumber
+  ];
+  validatePhone(errors, phone, isInternational);
 };
 
 export const validateEmail = (errors, email) => {

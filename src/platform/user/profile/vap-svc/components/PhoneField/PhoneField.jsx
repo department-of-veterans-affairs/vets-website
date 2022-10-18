@@ -8,11 +8,10 @@ import {
   FIELD_TITLES,
   PHONE_TYPE,
   USA,
-} from '@@vap-svc/constants';
+} from 'platform/user/profile/vap-svc/constants';
 
-import PhoneNumberWidget from '~/platform/forms-system/src/js/widgets/PhoneNumberWidget';
-
-import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
+import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
+import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
 import PhoneEditModal from './PhoneEditModal';
 import PhoneView from './PhoneView';
@@ -61,7 +60,6 @@ export default class PhoneField extends React.Component {
     fieldName: PropTypes.oneOf([
       FIELD_NAMES.HOME_PHONE,
       FIELD_NAMES.MOBILE_PHONE,
-      FIELD_NAMES.TEMP_PHONE,
       FIELD_NAMES.WORK_PHONE,
       FIELD_NAMES.FAX_NUMBER,
     ]).isRequired,

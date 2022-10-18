@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { setAppHandler } from './index';
+import { setAppHandler, setErrorHandler } from './index';
 
-import { setApp } from '../../actions/universal';
+import { setApp, setError } from '../../actions/universal';
 
 import appReducer from '../index';
 
@@ -22,6 +22,23 @@ describe('check in', () => {
           const action = setApp('preCheckIn');
           state = appReducer.checkInData(undefined, action);
           expect(state.app).to.equal('preCheckIn');
+        });
+      });
+    });
+    describe('setError', () => {
+      describe('setErrorHandler', () => {
+        it('should return form structure', () => {
+          const action = setError('');
+          const state = setErrorHandler({ error: '' }, action);
+          expect(state).haveOwnProperty('error');
+        });
+      });
+      describe('reducer is called; finds the correct handler', () => {
+        it('should set the error string', () => {
+          let state = {};
+          const action = setError('max-validation');
+          state = appReducer.checkInData(undefined, action);
+          expect(state.error).to.equal('max-validation');
         });
       });
     });

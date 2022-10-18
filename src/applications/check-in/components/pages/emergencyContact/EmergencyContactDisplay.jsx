@@ -8,7 +8,6 @@ export default function EmergencyContactDisplay({
   yesAction = () => {},
   noAction = () => {},
   isLoading,
-  Footer,
 }) {
   const { t } = useTranslation();
   const dataFields = [
@@ -41,16 +40,15 @@ export default function EmergencyContactDisplay({
         data={emergencyContact}
         yesAction={yesAction}
         noAction={noAction}
-        Footer={Footer}
         isLoading={isLoading}
         withBackButton
+        pageType="emergency-contact"
       />
     </>
   );
 }
 
 EmergencyContactDisplay.propTypes = {
-  Footer: PropTypes.elementType,
   emergencyContact: PropTypes.object,
   isLoading: PropTypes.bool,
   noAction: PropTypes.func,

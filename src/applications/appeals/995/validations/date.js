@@ -7,7 +7,7 @@ import { FORMAT_YMD } from '../constants';
 
 import { issueErrorMessages } from '../content/addIssue';
 
-const minDate = moment()
+export const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
 
@@ -16,6 +16,7 @@ const maxDate = moment().startOf('day');
 export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString, FORMAT_YMD);
+
   if (
     dateString === 'XXXX-XX-XX' ||
     dateString === '' ||

@@ -34,7 +34,9 @@ export function profileLoadingFinished() {
 async function saveAndRefresh(payload) {
   const newPayloadObject = { payload };
   if (payload.errors === 'Access token has expired' && infoTokenExists()) {
-    const refreshResponse = await refresh();
+    const refreshResponse = await refresh({
+      type: sessionStorage.getItem('serviceName'),
+    });
     if (!refreshResponse.ok) {
       throw new Error('Could not refresh AT');
     }
@@ -58,6 +60,12 @@ export function refreshProfile(
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
 
     const payload = await apiRequest(url);
+    if (!payload.errors) {
+      sessionStorage.setItem(
+        'serviceName',
+        payload.data.attributes.profile?.signIn?.serviceName,
+      );
+    }
     const saved = await saveAndRefresh(payload);
 
     recordEvent({

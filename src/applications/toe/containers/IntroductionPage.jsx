@@ -2,31 +2,50 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import IntroductionLogin from '../components/IntroductionLogin';
 
-export const IntroductionPage = ({ user, route }) => {
+import { getAppData } from '../selectors';
+
+export const IntroductionPage = ({
+  isLOA3,
+  isLoggedIn,
+  isPersonalInfoFetchComplete,
+  isSponsorsFetchComplete,
+  route,
+  user,
+}) => {
+  const apiCallsComplete =
+    isPersonalInfoFetchComplete && isSponsorsFetchComplete;
+
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply to use transferred education benefits" />
-      <p className="vads-u-font-size--h3">
+      <h1>Apply to use transferred education benefits</h1>
+      <h2 className="vads-u-font-size--h3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2p5">
         Equal to VA Form 22-1990e (Application for Family Member to Use
         Transferred Benefits)
+      </h2>
+
+      <p className="vads-u-margin-top--4">
+        <strong>Note:</strong> This application is only for{' '}
+        <strong>Transfer of Entitlement for Post-9/11 GI Bill</strong> (Chapter
+        33) education benefits.
       </p>
 
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3 slot="headline">
-          This application is only for Transfer of Entitlement for Post-9/11 GI
-          Bill®
-        </h3>
-        <p className="vads-u-margin-bottom--0">
-          <a href="https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/">
-            Learn more about the Transfer of Entitlement for Post-9/11 GI Bill®
-            (Chapter 33).
-          </a>
-        </p>
-      </va-alert>
+      {apiCallsComplete &&
+        isLoggedIn &&
+        isLOA3 && (
+          <SaveInProgressIntro
+            buttonOnly
+            testActionLink
+            user={user}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            startText="Start your benefits application"
+          />
+        )}
 
       <h2 className="vads-u-font-size--h3">
         Follow these steps to get started
@@ -54,13 +73,13 @@ export const IntroductionPage = ({ user, route }) => {
               <strong>Here’s what you’ll need to apply</strong>:
             </p>
             <ul>
-              <li>Knowledge of your sponsor’s military service history</li>
+              <li>Your sponsor’s military service history</li>
               <li>Your current address and contact information</li>
-              <li>Bank account direct deposit information</li>
+              <li>Your bank account direct deposit information</li>
             </ul>
             <p className="vads-u-margin-bottom--0">
-              <strong>Note</strong>: If you are under 18, your parent or
-              guardian must sign the application.
+              <strong>Note</strong>: If you aren’t legally an adult (at least 18
+              years old), your parent or guardian must sign your application.
             </p>
           </li>
           <li className="process-step list-three">
@@ -89,34 +108,26 @@ export const IntroductionPage = ({ user, route }) => {
         </ol>
       </div>
 
-      {user?.login?.currentlyLoggedIn && (
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Begin your application for education benefits
-        </h2>
-      )}
-
-      <SaveInProgressIntro
-        testActionLink
-        user={user}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start your application"
-      />
+      <IntroductionLogin route={route} />
 
       <div
         className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
           user?.login?.currentlyLoggedIn ? '4' : '2p5'
         } vads-u-margin-bottom--2`}
       >
-        <OMBInfo resBurden="15" ombNumber="2900-0154" expDate="02/28/2023" />
+        <va-omb-info
+          res-burden="15"
+          omb-number="2900-0154"
+          exp-date="02/28/2023"
+        />
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  user: state.user || {},
+  ...getIntroState(state),
+  ...getAppData(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
@@ -128,6 +139,10 @@ IntroductionPage.propTypes = {
       savedFormMessages: PropTypes.object,
     }),
     pageList: PropTypes.array,
-  }),
+  }).isRequired,
+  isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  isPersonalInfoFetchComplete: PropTypes.bool,
+  isSponsorsFetchComplete: PropTypes.bool,
   user: PropTypes.object,
 };

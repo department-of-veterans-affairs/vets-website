@@ -15,7 +15,7 @@
         "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
         "secondaryStopCode": null,
         "secondaryStopCodeName": "*Missing*",
-        "patientDirectScheduling": null,
+        "patientDirectScheduling": true,
         "patientDisplay": null,
         "char4": null
       }
@@ -35,7 +35,7 @@
         "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
         "secondaryStopCode": null,
         "secondaryStopCodeName": "*Missing*",
-        "patientDirectScheduling": null,
+        "patientDirectScheduling": true,
         "patientDisplay": null,
         "char4": null
       }
@@ -55,7 +55,7 @@
         "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
         "secondaryStopCode": 117,
         "secondaryStopCodeName": "NURSING (2ND ONLY)",
-        "patientDirectScheduling": null,
+        "patientDirectScheduling": true,
         "patientDisplay": null,
         "char4": null
       }
@@ -75,7 +75,7 @@
         "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
         "secondaryStopCode": null,
         "secondaryStopCodeName": "*Missing*",
-        "patientDirectScheduling": null,
+        "patientDirectScheduling": true,
         "patientDisplay": null,
         "char4": null
       }

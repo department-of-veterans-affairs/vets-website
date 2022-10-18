@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import { signup, signupUrl } from 'platform/user/authentication/utilities';
+import { verify } from 'platform/user/authentication/utilities';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import CallToActionAlert from '../../CallToActionAlert';
 
 const MFA = () => {
-  const signUp = useCallback(csp => {
-    signup({ csp });
+  const verifyLink = useCallback(async policy => {
+    await verify({ policy, isLink: true, isSignup: false });
   }, []);
 
   const content = {
@@ -27,8 +27,7 @@ const MFA = () => {
         </p>
         <p>
           <a
-            href="#create-login.gov-account"
-            onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
+            href={verifyLink(CSP_IDS.LOGIN_GOV)}
             data-testid="direct-deposit-login-gov-sign-up-link"
           >
             Create a Login.gov account
@@ -36,7 +35,7 @@ const MFA = () => {
         </p>
         <p>
           <a
-            href={signupUrl(CSP_IDS.ID_ME)}
+            href={verifyLink(CSP_IDS.ID_ME)}
             data-testid="direct-deposit-id-me-sign-up-link"
           >
             Create an ID.me account
@@ -44,7 +43,7 @@ const MFA = () => {
         </p>
         <p>
           <strong>Note:</strong> If you need help updating your direct deposit
-          information, call us at <va-telephone contact="800-827-1000" />
+          information, call us at <va-telephone contact="8008271000" />
           <va-telephone contact="711">TTY : 711</va-telephone>. We’re here
           Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
         </p>

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ConfirmablePage from './index';
 import i18n from '../../../utils/i18n/i18n';
 
@@ -20,11 +21,11 @@ describe('pre-check-in experience', () => {
         context: {
           token: '',
         },
+        form: {
+          pages: [],
+        },
       },
-      featureToggles: {
-        check_in_experience_translation_pre_check_in_enabled: true,
-        check_in_experience_translation_day_of_enabled: true,
-      },
+      ...scheduledDowntimeState,
     };
     beforeEach(() => {
       store = mockStore(initState);
@@ -38,17 +39,6 @@ describe('pre-check-in experience', () => {
             </I18nextProvider>
           </Provider>,
         );
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage Footer={() => <div>foo</div>} />,
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(

@@ -5,28 +5,36 @@ import PropTypes from 'prop-types';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-const COEAccess = props => {
-  if (props.includedInFlipper === undefined) {
+const COEAccess = ({ includedInFlipper }) => {
+  if (includedInFlipper === undefined) {
     return <va-loading-indicator set-focus message="Loading..." />;
   }
-  if (props.includedInFlipper) {
+  if (includedInFlipper) {
     return (
-      <a
-        className="vads-c-action-link--green"
-        href="/housing-assistance/home-loans/check-coe-status/your-coe"
-      >
-        Check your eligibility
-      </a>
+      <>
+        <p>You can request a COE online right now.</p>
+        <a
+          className="vads-c-action-link--green"
+          href="/housing-assistance/home-loans/request-coe-form-26-1880"
+        >
+          Request a COE
+        </a>
+      </>
     );
   }
-  // TODO; Update href destination
-  /* eslint-disable jsx-a11y/anchor-is-valid */
   return (
-    <a className="vads-c-action-link--green" href="#">
-      Go to eBenefits
-    </a>
+    <>
+      <p>You can request a COE online right now on eBenefits.</p>
+      <p>
+        When you go to the eBenefits website, you may need to sign in with your
+        Premium <strong>DS Logon</strong> account. If you don’t have a Premium
+        account, you can register for one there.
+      </p>
+      <a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=cert-of-eligibility-home-loan">
+        Request a COE on eBenefits
+      </a>
+    </>
   );
-  /* eslint-enable jsx-a11y/anchor-is-valid */
 };
 
 COEAccess.propTypes = {
