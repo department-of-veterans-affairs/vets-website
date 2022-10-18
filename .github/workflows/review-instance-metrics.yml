@@ -8,8 +8,6 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Log event
-        run: echo ${{ github.event }}
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -51,3 +49,10 @@ jobs:
       - name: Log Review Instance Status
         run: yarn log-review-instance
         working-directory: qa-standards-dashboard-data
+        env:
+          API_BRANCH: ${{ github.event.client_payload.api_branch }}
+          WEB_BRANCH: ${{ github.event.client_payload.web_branch }}
+          CONTENT_BRANCH: ${{ github.event.client_payload.content_branch }}
+          DEPLOYMENT_ID: ${{ github.event.client_payload.deployment_id }}
+          INSTANCE_STATUS: ${{ github.event.client_payload.instance_status }}
+          ERROR: ${{ github.event.client_payload.error }}
