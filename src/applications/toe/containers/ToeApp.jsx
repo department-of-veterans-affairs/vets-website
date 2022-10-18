@@ -50,6 +50,7 @@ function ToeApp({
       formData,
       getPersonalInformation,
       user?.login?.currentlyLoggedIn,
+      setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
