@@ -13,7 +13,7 @@ import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 const levels = [
   ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
-  ['nationalCallToService', 'sponsorDeceasedDisabledMIA'],
+  ['sponsorDeceasedDisabledMIA'],
   ['vetTecBenefit'],
   ['sponsorTransferredBenefits'],
   ['applyForScholarship'],
@@ -120,7 +120,6 @@ class EducationWizard extends React.Component {
       'edu-isBenefitClaimForSelf': this.isBenefitClaimForSelf(
         this.state.serviceBenefitBasedOn,
       ),
-      'edu-isNationalCallToServiceBenefit': this.state.nationalCallToService,
       'edu-isVetTec': this.state.vetTecBenefit,
       'edu-hasSponsorTransferredBenefits': this.state
         .sponsorTransferredBenefits,
@@ -136,7 +135,6 @@ class EducationWizard extends React.Component {
     const {
       newBenefit,
       serviceBenefitBasedOn,
-      nationalCallToService,
       transferredEduBenefits,
       sponsorDeceasedDisabledMIA,
       sponsorTransferredBenefits,
@@ -246,49 +244,6 @@ class EducationWizard extends React.Component {
             {serviceBenefitBasedOn === 'own' && (
               <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
-                name="nationalCallToService"
-                id="nationalCallToService"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('nationalCallToService', value)
-                }
-                value={{ value: nationalCallToService }}
-                label={
-                  <span>
-                    Are you claiming a <strong>National Call to Service</strong>{' '}
-                    education benefit? (This is uncommon.)
-                  </span>
-                }
-              />
-            )}
-            {serviceBenefitBasedOn === 'own' &&
-              nationalCallToService === 'no' && (
-                <RadioButtons
-                  additionalFieldsetClass="wizard-fieldset"
-                  name="vetTecBenefit"
-                  id="vetTecBenefit"
-                  options={[
-                    { label: 'Yes', value: 'yes' },
-                    { label: 'No', value: 'no' },
-                  ]}
-                  onValueChange={({ value }) =>
-                    this.answerQuestion('vetTecBenefit', value)
-                  }
-                  value={{ value: vetTecBenefit }}
-                  label={
-                    <span>
-                      Are you applying for Veteran Employment Through Technology
-                      Education Courses (VET TEC)?
-                    </span>
-                  }
-                />
-              )}
-            {serviceBenefitBasedOn === 'own' && (
-              <RadioButtons
-                additionalFieldsetClass="wizard-fieldset"
                 name="vetTecBenefit"
                 id="vetTecBenefit"
                 options={[
@@ -362,7 +317,6 @@ class EducationWizard extends React.Component {
             {showWizard &&
               newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'own' &&
-              nationalCallToService === 'no' &&
               vetTecBenefit === 'no' && (
                 <RadioButtons
                   additionalFieldsetClass="wizard-fieldset"
@@ -378,33 +332,6 @@ class EducationWizard extends React.Component {
                   value={{ value: post911GIBill }}
                   label="Are you applying for the Post-9/11 GI Bill?"
                 />
-              )}
-            {newBenefit === 'yes' &&
-              nationalCallToService === 'yes' && (
-                <div>
-                  <div className="usa-alert usa-alert-warning">
-                    <div className="usa-alert-body">
-                      <h4 className="usa-alert-heading vads-u-padding--0">
-                        Are you sure?
-                      </h4>
-                      <p>
-                        Are all of the following things true of your service?
-                      </p>
-                      <ul>
-                        <li>
-                          Enlisted under the National Call to Service program,{' '}
-                          <strong>and</strong>
-                        </li>
-                        <li>
-                          Entered service between 10/01/03 and 12/31/07,{' '}
-                          <strong>and</strong>
-                        </li>
-                        <li>Chose education benefits</li>
-                      </ul>
-                    </div>
-                  </div>
-                  {this.getButton('1990N')}
-                </div>
               )}
             {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
@@ -517,22 +444,18 @@ class EducationWizard extends React.Component {
               (post911GIBill === 'yes' &&
                 newBenefit === 'yes' &&
                 serviceBenefitBasedOn === 'own' &&
-                nationalCallToService === 'no' &&
                 vetTecBenefit === 'no' &&
                 this.getButton('22-1990'))}
             {showWizard &&
               (post911GIBill === 'no' &&
                 newBenefit === 'yes' &&
-                nationalCallToService === 'no' &&
                 vetTecBenefit === 'no' &&
                 this.getButton('1990'))}
             {!showWizard &&
               newBenefit === 'yes' &&
-              nationalCallToService === 'no' &&
               vetTecBenefit === 'no' &&
               this.getButton('1990')}
             {newBenefit === 'yes' &&
-              nationalCallToService === 'no' &&
               vetTecBenefit === 'yes' &&
               this.getButton('0994')}
             {newBenefit === 'no' &&
