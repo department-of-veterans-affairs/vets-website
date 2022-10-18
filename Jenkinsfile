@@ -26,7 +26,7 @@ node('vetsgov-general-purpose') {
     try {
       if (!commonStages.isReviewable()) {
         return
-      } // comment
+      } 
       build job: 'deploys/vets-review-instance-deploy', parameters: [
         stringParam(name: 'devops_branch', value: 'launch-gha'),
         stringParam(name: 'api_branch', value: 'master'),
