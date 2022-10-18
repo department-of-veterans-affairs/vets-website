@@ -1,6 +1,8 @@
 name: Review Instance Metrics
 
-on: repository_dispatch
+on:
+  repository_dispatch:
+    types: [review_instance_run]
 
 jobs:
   test-job:
