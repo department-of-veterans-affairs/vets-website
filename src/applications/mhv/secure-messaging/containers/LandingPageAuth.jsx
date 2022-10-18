@@ -24,6 +24,7 @@ const LandingPageAuth = () => {
   const dispatch = useDispatch();
 
   // fire api call to retreive messages
+
   useEffect(
     () => {
       dispatch(getAllMessages());

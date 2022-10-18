@@ -12,11 +12,11 @@ const ConfirmCancelModal = props => {
   }
 
   const handlers = {
-    primary: () => onHide(),
-    secondary: () => {
+    primary: () => {
       onHide();
       closeModal();
     },
+    secondary: () => onHide(),
   };
 
   return (
@@ -27,8 +27,8 @@ const ConfirmCancelModal = props => {
       onCloseEvent={onHide}
       onPrimaryButtonClick={handlers.primary}
       onSecondaryButtonClick={handlers.secondary}
-      primaryButtonText="Continue Editing"
-      secondaryButtonText="Cancel"
+      primaryButtonText="Yes, cancel my changes"
+      secondaryButtonText="No, go back to editing"
       data-testid="confirm-cancel-modal"
     >
       <p>

@@ -167,6 +167,7 @@ const ComposeForm = props => {
           value={selectedRecipient}
           onVaSelect={e => setSelectedRecipient(e.detail.value)}
           class="composeSelect"
+          data-testid="compose-select"
         >
           {recipientsList.map(item => (
             <option key={item.id} value={item.id}>
@@ -194,6 +195,7 @@ const ComposeForm = props => {
             id="message-subject"
             name="message-subject"
             className="message-subject"
+            data-testid="message-subject-field"
             onChange={e => {
               setSubject(e.target.value);
             }}
@@ -209,6 +211,7 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
+            data-testid="message-body-field"
             onChange={e => setMessageBody(e.target.value)}
             value={messageBody}
           />
@@ -228,12 +231,17 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions">
-          <button type="submit" className="send-button-bottom">
+          <button
+            type="submit"
+            className="send-button-bottom"
+            data-testid="Send-Button"
+          >
             Send
           </button>
           <button
             type="button"
             className="usa-button-secondary save-draft-button"
+            data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft
