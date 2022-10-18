@@ -233,7 +233,12 @@ export const formatInfoCookie = cookieStringRaw => {
     : cookieStringRaw;
   return decoded.split(',+:').reduce((obj, cookieString) => {
     const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
+    const formattedValue = value
+      .replaceAll('++00:00', '')
+      .replaceAll('+', ' ')
+      .replace(',', '')
+      .replace(/\.\d+/g, '');
+
     return { ...obj, [key]: new Date(formattedValue) };
   }, {});
 };
