@@ -8,6 +8,8 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     steps:
+      - name: Log event
+        run: echo ${{ github.event }}
       - name: Checkout
         uses: actions/checkout@v3
 
