@@ -7,7 +7,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveDraft } from '../../actions/index';
+import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 
@@ -106,6 +106,7 @@ const ComposeForm = props => {
   };
 
   const saveDraftHandler = type => {
+    const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
       rec: selectedRecipient,
       cat: category,
@@ -119,29 +120,23 @@ const ComposeForm = props => {
 
     setFieldsString(newFieldsString);
 
-    const formData = new FormData();
+    const formData = {
+      recipientId: selectedRecipient,
+      category,
+      subject,
+      body: messageBody,
+    };
 
-    formData.append('recipientId', selectedRecipient);
-    formData.append('category', category);
-    formData.append('subject', subject);
-    formData.append('body', messageBody);
-
-    for (const file of attachments) {
-      formData.append(file.name, file);
-    }
-
-    dispatch(saveDraft(formData, type));
+    dispatch(saveDraft(formData, type, draftId));
   };
 
   useEffect(
     () => {
       if (
-        formPopulated &&
-        (selectedRecipient ||
-          category ||
-          debouncedSubject ||
-          debouncedMessageBody ||
-          attachmentNames)
+        selectedRecipient &&
+        category &&
+        debouncedSubject &&
+        debouncedMessageBody
       ) {
         saveDraftHandler('auto');
       }
@@ -172,6 +167,7 @@ const ComposeForm = props => {
           value={selectedRecipient}
           onVaSelect={e => setSelectedRecipient(e.detail.value)}
           class="composeSelect"
+          data-testid="compose-select"
         >
           {recipientsList.map(item => (
             <option key={item.id} value={item.id}>
@@ -199,6 +195,7 @@ const ComposeForm = props => {
             id="message-subject"
             name="message-subject"
             className="message-subject"
+            data-testid="message-subject-field"
             onChange={e => {
               setSubject(e.target.value);
             }}
@@ -214,6 +211,7 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
+            data-testid="message-body-field"
             onChange={e => setMessageBody(e.target.value)}
             value={messageBody}
           />
@@ -233,12 +231,17 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions">
-          <button type="submit" className="send-button-bottom">
+          <button
+            type="submit"
+            className="send-button-bottom"
+            data-testid="Send-Button"
+          >
             Send
           </button>
           <button
             type="button"
             className="usa-button-secondary save-draft-button"
+            data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft

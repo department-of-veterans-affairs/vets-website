@@ -21,10 +21,12 @@ import {
   APPEAL_TYPES,
   EVENT_TYPES,
   isolateAppeal,
-  RECORD_NOT_FOUND_ERROR,
-  AVAILABLE,
   getTypeName,
 } from '../utils/appeals-v2-helpers';
+
+import { RECORD_NOT_FOUND_ERROR } from '../actions/types';
+
+const AVAILABLE = 'AVAILABLE';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
