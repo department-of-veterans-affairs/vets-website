@@ -77,7 +77,6 @@ const Footer = ({ router, isPreCheckIn }) => {
       {currentPage === 'complete' &&
         !isPreCheckIn && (
           <div data-testid="day-of-travel-extra-message">
-            <p />
             <p>
               <Trans
                 i18nKey="for-questions-about-travel-reimbursement"
