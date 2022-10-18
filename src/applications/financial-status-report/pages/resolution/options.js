@@ -16,7 +16,7 @@ export const uiSchema = {
       <ul>
         <li>
           <strong>Waiver: </strong>
-          If we accept your request, we will stop collection on and forgive (or
+          If we accept your request, we’ll stop collection on and forgive (or
           “waive”) the debt.
         </li>
         <li>
