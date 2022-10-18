@@ -5,7 +5,7 @@ const employmentHistoryWidget = items => {
   return (
     <Link
       className="add-additional-job"
-      to={{ pathname: '/add-additional-job', search: `?index=${items.length}` }}
+      to={{ pathname: '/employment-records', search: `?index=${items.length}` }}
     >
       Add additional job
     </Link>

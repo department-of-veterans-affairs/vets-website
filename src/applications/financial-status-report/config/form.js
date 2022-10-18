@@ -154,7 +154,7 @@ const formConfig = {
           appStateSelector: state => state.form?.data?.employmentHistory || [],
         },
         // loop pages end
-        AdditionalEmployment: {
+        additionalEmployment: {
           title: 'Add additional employment',
           path: 'add-additional-job',
           depends: () => false, // accessed from listOfIssues page
