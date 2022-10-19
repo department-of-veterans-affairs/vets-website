@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
-
 import {
   fetchPersonalInformation,
   fetchEligibility,
   fetchDirectDeposit,
 } from '../actions';
-
 import formConfig from '../config/form';
 import { formFields } from '../constants';
 import { getAppData } from '../selectors/selectors';
