@@ -6,7 +6,11 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchEligibility } from '../actions';
+import {
+  fetchPersonalInformation,
+  fetchEligibility,
+  fetchDirectDeposit,
+} from '../actions';
 import { prefillTransformer } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 
@@ -16,6 +20,7 @@ export const App = ({
   featureTogglesLoaded,
   formData,
   setFormData,
+  getDirectDeposit,
   getPersonalInfo,
   claimantInfo,
   firstName,
@@ -27,6 +32,7 @@ export const App = ({
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -76,6 +82,19 @@ export const App = ({
     ],
   );
 
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+  );
+
   return (
     <>
       <va-breadcrumbs>
@@ -99,6 +118,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -126,9 +146,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getDirectDeposit: fetchDirectDeposit,
+  getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
-  getEligibility: fetchEligibility,
 };
 
 export default connect(
