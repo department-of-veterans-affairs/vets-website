@@ -2,37 +2,36 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-const formatCompletedDate = completedDate =>
-  moment(completedDate).format('MMM D, YYYY');
+const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
 
-const completedDateText = completedDate =>
-  `We finished reviewing your claim on ${formatCompletedDate(completedDate)}.`;
+const headerText = closedDate =>
+  `We closed your claim on ${formatDate(closedDate)}`;
 
 const ClaimsDecision = ({ completedDate }) => (
-  <va-alert background-only>
-    <h3 className="claims-alert-header vads-u-font-size--h4">
-      Your claim decision is ready
-    </h3>
-    <p>
-      {completedDate ? (
-        <>
-          {completedDateText(completedDate)}
-          <br />
-          <br />
-        </>
-      ) : null}
-      You’ll receive a packet by mail that includes details of your claim
-      decision.
-      <br />
-      <br />
-      <strong>Note:</strong> Please allow 7 to 10 business days for your packet
-      to arrive before contacting us.
-      <br />
-      <br />
-      If you haven’t received your packet yet, you can check your claim decision
-      online.
-    </p>
-    <h4 className="claims-paragraph-header vads-u-font-size--h5">Next steps</h4>
+  <>
+    <va-alert>
+      <h3 className="claims-alert-header vads-u-font-size--h4" slot="headline">
+        {headerText(completedDate)}
+      </h3>
+      <p>
+        We finished reviewing your claim and a decision has been made. You can
+        find your decision letter in the claim letters page.
+      </p>
+      <p>
+        A decision packet will also be mailed to you. Typically, decision
+        notices are received within 10 days, but this is dependent upon U.S.
+        Postal Service timeframes.
+      </p>
+      <p>
+        <a
+          className="vads-c-action-link--blue"
+          href="/track-claims/your-claim-letters"
+        >
+          Get your claim letters
+        </a>
+      </p>
+    </va-alert>
+    <h4 className="claims-paragraph-header vads-u-font-size--h3">Next steps</h4>
     <p>
       <strong>If you agree with your claim decision</strong>, you don’t need to
       do anything else.
@@ -72,7 +71,7 @@ const ClaimsDecision = ({ completedDate }) => (
         Apply for VA health care benefits
       </a>
     </p>
-  </va-alert>
+  </>
 );
 
 ClaimsDecision.propTypes = {
