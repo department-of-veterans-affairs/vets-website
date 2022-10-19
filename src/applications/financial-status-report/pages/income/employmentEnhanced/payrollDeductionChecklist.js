@@ -1,8 +1,9 @@
 import React from 'react';
 import PayrollDeductionCheckList from '../../../components/PayrollDeductionChecklist';
+import { SelectedJobEmployerTitle } from '../../../components/SelectedJobEmployerTitle';
 
 export const uiSchema = {
-  'ui:title': 'Your other income',
+  'ui:title': SelectedJobEmployerTitle,
   payrollDeductionCheckList: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
