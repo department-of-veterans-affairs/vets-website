@@ -1,8 +1,9 @@
-// import { Breadcrumbs as Crumbs } from '@department-of-veterans-affairs/component-library';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+// temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
+// import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Breadcrumbs as Crumbs } from '@department-of-veterans-affairs/component-library';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 
@@ -13,28 +14,6 @@ const Breadcrumbs = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const breadcrumbsRef = useRef();
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
-
-  /**
-   * <va-breadcrumbs> component is not stable in handling removing crumbs
-   * when rerendering the state. As a result, it errouneously handles current page
-   * attributes when nodes are added or removed. This function was inherited from
-   * VAOS team, removes aria-current from all nodes and then adds to the last one
-   */
-  // const updateBreadcrumbs = () => {
-  //   if (breadcrumbsRef.current) {
-  //     const anchorNodes = Array.from(
-  //       breadcrumbsRef.current.querySelectorAll('a'),
-  //     );
-
-  //     anchorNodes.forEach((crumb, index) => {
-  //       crumb.removeAttribute('aria-current');
-
-  //       if (index === anchorNodes.length - 1) {
-  //         crumb.setAttribute('aria-current', 'page');
-  //       }
-  //     });
-  //   }
-  // };
 
   useEffect(
     () => {
@@ -85,58 +64,25 @@ const Breadcrumbs = () => {
     [location, dispatch, messageDetails, activeFolder],
   );
 
-  // useEffect(
-  //   () => {
-  //     if (breadcrumbsRef.current) {
-  //       updateBreadcrumbs();
-  //     }
-  //   },
-  //   [crumbs],
-  // );
-
-  // return (
-  //   <>
-  //     {crumbs.length > 0 && (
-  //       <Crumbs ref={breadcrumbsRef}>
-  //         {crumbs?.map((crumb, i) => {
-  //           if (crumb.path.includes('https://')) {
-  //             return (
-  //               <a key={i} href={crumb.path}>
-  //                 {crumb.label}
-  //               </a>
-  //             );
-  //           }
-  //           return (
-  //             <Link key={i} to={crumb.path}>
-  //               {crumb.label}
-  //             </Link>
-  //           );
-  //         })}
-  //       </Crumbs>
-  //     )}
-  //   </>
-  // );
-
   return (
     <>
       {crumbs.length > 0 && (
-        <VaBreadcrumbs ref={breadcrumbsRef}>
+        <Crumbs ref={breadcrumbsRef}>
           {crumbs?.map((crumb, i) => {
+            if (crumb.path.includes('https://')) {
+              return (
+                <a key={i} href={crumb.path}>
+                  {crumb.label}
+                </a>
+              );
+            }
             return (
-              <>
-                {crumb.path.includes('https://') ? (
-                  <a key={i} href={crumb.path}>
-                    {crumb.label}
-                  </a>
-                ) : (
-                  <Link key={i} to={crumb.path}>
-                    {crumb.label}
-                  </Link>
-                )}
-              </>
+              <Link key={i} to={crumb.path}>
+                {crumb.label}
+              </Link>
             );
           })}
-        </VaBreadcrumbs>
+        </Crumbs>
       )}
     </>
   );
