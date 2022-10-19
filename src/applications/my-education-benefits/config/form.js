@@ -13,6 +13,7 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -39,6 +40,7 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
+import DirectDepositViewField from '../components/DirectDepositReviewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import YesNoReviewField from '../components/YesNoReviewField';
 
@@ -1432,6 +1434,23 @@ const formConfig = {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
           uiSchema: {
+            title: 'direct-deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
+            ),
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'account informaiton',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
