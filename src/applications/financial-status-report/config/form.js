@@ -153,12 +153,12 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
-        payrollDeductionAmounts: {
-          title: 'Veteran employment history',
-          path: 'employment-history',
+        payrollDeductionInputList: {
+          title: 'Deduction amounts',
+          path: 'deduction-values',
           // listOfIssues defined in next section
-          uiSchema: pages.employmentHistory.uiSchema,
-          schema: pages.employmentHistory.schema,
+          uiSchema: pages.payrollDeductionInputList.uiSchema,
+          schema: pages.payrollDeductionInputList.schema,
           // needed to bypass bug on review & submit page
           depends: formData =>
             formData.questions.vetIsEmployed &&
