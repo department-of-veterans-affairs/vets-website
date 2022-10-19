@@ -3,9 +3,8 @@ import { validateAddlIncomeValues } from '../../../utils/validations';
 import { SelectedJobEmployerTitle } from '../../../components/SelectedJobEmployerTitle';
 
 export const uiSchema = {
-  'ui:title': '',
+  'ui:title': SelectedJobEmployerTitle,
   additionalIncome: {
-    'ui:title': SelectedJobEmployerTitle,
     'ui:field': PayrollDeductionInputList,
     'ui:options': {
       hideOnReview: true,

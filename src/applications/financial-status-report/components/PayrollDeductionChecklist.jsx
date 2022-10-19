@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { payrollDeductions } from '../constants/checkboxSelections';
+import { payrollDeductionOptions } from '../constants/checkboxSelections';
 
 const PayrollDeductionChecklist = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const PayrollDeductionChecklist = () => {
 
   return (
     <div className="checkbox-list">
-      {payrollDeductions?.map((option, key) => (
+      {payrollDeductionOptions?.map((option, key) => (
         <div key={option + key} className="checkbox-list-item">
           <input
             type="checkbox"

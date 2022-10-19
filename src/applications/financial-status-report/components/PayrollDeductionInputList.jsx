@@ -33,9 +33,6 @@ const PayrollDeductionInputList = ({ errorSchema }) => {
 
   return (
     <div>
-      <legend className="schemaform-block-title">
-        Your job at EMPLOYER.NAME
-      </legend>
       <p>How much do you pay for each of your payroll deductions?</p>
       {payrollDeductionRecords?.map((income, key) => (
         <div key={income.name + key} className="vads-u-margin-y--2">

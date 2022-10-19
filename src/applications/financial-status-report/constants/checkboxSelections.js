@@ -12,7 +12,7 @@ export const otherIncome = [
   'Other',
 ];
 
-export const payrollDeductions = [
+export const payrollDeductionOptions = [
   'State tax',
   'Federal tax',
   'Local tax',
