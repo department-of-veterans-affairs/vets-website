@@ -29,3 +29,7 @@ export const folderPathByFolderId = folderId => {
 export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
+
+export const navigateToFoldersPage = history => {
+  history.push('/folders');
+};

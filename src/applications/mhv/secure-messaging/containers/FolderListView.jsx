@@ -4,15 +4,16 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
 import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { retrieveFolder, delFolder } from '../actions/folders';
+import { retrieveFolder, delFolder, getFolders } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
+import { navigateToFoldersPage } from '../util/helpers';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const FolderListView = () => {
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const params = useParams();
+  const history = useHistory();
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -67,6 +69,7 @@ const FolderListView = () => {
   const confirmDelFolder = () => {
     dispatch(delFolder(folderId));
     closeDelModal();
+    dispatch(getFolders()).then(navigateToFoldersPage(history));
   };
 
   useEffect(
@@ -144,6 +147,7 @@ const FolderListView = () => {
           <>
             <FolderHeader folder={folder} />
             {folder.folderId > 0 && (
+              // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
               <div className="manage-folder-container">
                 <button
                   type="button"
@@ -172,28 +176,40 @@ const FolderListView = () => {
             </div>
 
             <div>{content}</div>
-            <VaModal
-              className="modal"
-              visible={isModalVisible}
-              large="true"
-              modalTitle="Are you sure you want to remove this folder?"
-              onCloseEvent={closeDelModal}
-            >
-              <p>This aciton can not be undone</p>
-              <va-alert status="error" visible={isEmptyWarning}>
-                The folder must be empty before it can be removed.
-              </va-alert>
-              <va-button
-                text="Remove"
-                disabled={isEmptyWarning}
-                onClick={confirmDelFolder}
-              />
-              <va-button
-                secondary="true"
-                text="Cancel"
-                onClick={closeDelModal}
-              />
-            </VaModal>
+            {isEmptyWarning && (
+              <VaModal
+                className="modal"
+                visible={isModalVisible}
+                large="true"
+                modalTitle="Empty this folder before removing it from the list."
+                onCloseEvent={closeDelModal}
+                status="warning"
+              >
+                <p>
+                  Before this folder can be removed, all of the messages in it
+                  must be moved to another folder, such as Trash, Messages, or a
+                  different custom folder.
+                </p>
+                <va-button text="Ok" onClick={closeDelModal} />
+              </VaModal>
+            )}
+            {!isEmptyWarning && (
+              <VaModal
+                className="modal"
+                visible={isModalVisible}
+                large="true"
+                modalTitle="Are you sure you want to remove this folder?"
+                onCloseEvent={closeDelModal}
+              >
+                <p>This action cannot be undone</p>
+                <va-button text="Remove" onClick={confirmDelFolder} />
+                <va-button
+                  secondary="true"
+                  text="Cancel"
+                  onClick={closeDelModal}
+                />
+              </VaModal>
+            )}
           </>
         )}
       </div>
