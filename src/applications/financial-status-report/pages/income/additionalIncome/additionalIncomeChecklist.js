@@ -20,6 +20,9 @@ export const uiSchema = {
     'ui:errorMessages': {
       required: 'Please select at least one additional income.',
     },
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

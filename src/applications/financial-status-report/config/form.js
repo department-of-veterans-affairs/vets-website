@@ -187,11 +187,11 @@ const formConfig = {
         additionalIncomeValues: {
           path: 'additional-income-values',
           title: 'Additional income values',
+          uiSchema: pages.additionalIncomeValues.uiSchema,
+          schema: pages.additionalIncomeValues.schema,
           depends: formData =>
             formData.questions.hasAdditionalIncome &&
             formData['view:enhancedFinancialStatusReport'],
-          uiSchema: pages.additionalIncomeValues.uiSchema,
-          schema: pages.additionalIncomeValues.schema,
         },
         spouseInformation: {
           path: 'spouse-information',

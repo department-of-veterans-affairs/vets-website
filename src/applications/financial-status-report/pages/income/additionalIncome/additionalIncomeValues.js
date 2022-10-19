@@ -6,6 +6,9 @@ export const uiSchema = {
   additionalIncome: {
     'ui:title': 'Your other income',
     'ui:field': AdditionalIncomeInputList,
+    'ui:options': {
+      hideOnReview: true,
+    },
     addlIncRecords: {
       'ui:title': 'addlIncRecords',
       'ui:validations': [validateAddlIncomeValues],
