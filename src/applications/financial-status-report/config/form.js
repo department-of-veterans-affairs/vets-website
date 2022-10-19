@@ -186,7 +186,7 @@ const formConfig = {
         },
         additionalIncomeValues: {
           path: 'additional-income-values',
-          title: 'Additional income records',
+          title: 'Additional income values',
           depends: formData =>
             formData.questions.hasAdditionalIncome &&
             formData['view:enhancedFinancialStatusReport'],
