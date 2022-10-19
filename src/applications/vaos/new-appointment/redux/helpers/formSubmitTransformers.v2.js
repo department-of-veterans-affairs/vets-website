@@ -12,26 +12,36 @@ import {
 import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
-function getReasonCode({ data, isCC }) {
+function getReasonCode({ data, isCC, isAcheron }) {
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.serviceName;
 
   let reasonText = null;
-  let preferredDates = null;
+  let appointmentInfo = null;
 
   if (isCC && data.reasonAdditionalInfo) {
     reasonText = data.reasonAdditionalInfo.slice(0, 250);
   }
   if (!isCC) {
+    reasonText = data.reasonAdditionalInfo.slice(0, 100);
+  }
+  if (!isCC && isAcheron) {
     const formattedDates = data.selectedDates.map(
       date =>
         `${moment(date).format('MM/DD/YYYY')}${
-          moment(date).hour() >= 12 ? 'PM' : 'AM'
+          moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
-    preferredDates = `|Preferred Dates: ${formattedDates.toString()}`;
-    reasonText = data.reasonAdditionalInfo.slice(0, 100);
+    const phoneNumber = `Phone Number: 410-660-6475|`;
+    const email = `Email: s@yahoo.com|`;
+    const preferredDates = `Preferred Dates:${formattedDates.toString()}|`;
+    const reasonCode = `Reason Code: code_1|`;
+    reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
+    // Add phone number, email, preferred Date, reason Code to
+    // appointmentInfo string in this order (phone number, email,
+    // preferred Date, reason Code)
+    appointmentInfo = `${phoneNumber}${email}${preferredDates}${reasonCode}`;
   }
 
   return {
@@ -42,9 +52,10 @@ function getReasonCode({ data, isCC }) {
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
     // truncated to 100 char for both VA appointment types only. CC appointments will continue
     // to be truncated to 250 char
-    text: data.reasonAdditionalInfo
-      ? `${reasonText}${preferredDates}`
-      : preferredDates,
+    text:
+      data.reasonAdditionalInfo && isAcheron
+        ? `${appointmentInfo}${reasonText}`
+        : reasonText,
   };
 }
 
@@ -138,7 +149,10 @@ export function transformFormToVAOSCCRequest(state) {
   };
 }
 
-export function transformFormToVAOSVARequest(state) {
+export function transformFormToVAOSVARequest(
+  state,
+  featureAcheronVAOSServiceRequests,
+) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
@@ -148,7 +162,11 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reasonCode: getReasonCode({ data, isCC: false }),
+    reasonCode: getReasonCode({
+      data,
+      isCC: false,
+      isAcheron: featureAcheronVAOSServiceRequests,
+    }),
     // comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -162,16 +180,25 @@ export function transformFormToVAOSVARequest(state) {
         },
       ],
     },
-    requestedPeriods: [
-      {
-        start: moment.utc(data.selectedDates[0]).format(),
-        end: moment
-          .utc(data.selectedDates[0])
-          .add(12, 'hours')
-          .subtract(1, 'minute')
-          .format(),
-      },
-    ],
+    requestedPeriods: featureAcheronVAOSServiceRequests
+      ? [
+          {
+            start: moment.utc(data.selectedDates[0]).format(),
+            end: moment
+              .utc(data.selectedDates[0])
+              .add(12, 'hours')
+              .subtract(1, 'minute')
+              .format(),
+          },
+        ]
+      : data.selectedDates.map(date => ({
+          start: moment.utc(date).format(),
+          end: moment
+            .utc(date)
+            .add(12, 'hours')
+            .subtract(1, 'minute')
+            .format(),
+        })),
     // This field isn't in the schema yet
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])

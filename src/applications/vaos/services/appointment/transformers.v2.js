@@ -82,6 +82,75 @@ function getAtlasLocation(appt) {
     },
   };
 }
+/**
+ * Gets appointment info from comments field for Va appointment Requests.
+ *
+ * @param {String} comments VA appointment comments value
+ * @param {String} key key of appointment info you want returned
+ * @returns {Array} returns formatted data
+ */
+function getAppointmentInfoFromComments(comments, key) {
+  const data = [];
+  const appointmentInfo = comments?.split('|');
+  if (key === 'phone') {
+    const phone = appointmentInfo ? appointmentInfo[0]?.split(':')[1] : null;
+    const transformedPhone = { type: 'phone', value: phone };
+    data.push(transformedPhone);
+  }
+  if (key === 'email') {
+    const email = appointmentInfo ? appointmentInfo[1]?.split(':')[1] : null;
+    const transformedemail = { type: 'email', value: email };
+    data.push(transformedemail);
+  }
+  if (key === 'preferredDate') {
+    const preferredDates = appointmentInfo
+      ? appointmentInfo[2]?.split(':')[1]?.split(',')
+      : null;
+    preferredDates?.map(date => {
+      const preferredDatePeriod = date?.split(' ');
+      if (preferredDatePeriod[1] === 'AM') {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0]).format(
+            'YYYY-MM-DD',
+          )}T00:00:00Z`,
+          end: `${moment(preferredDatePeriod[0]).format(
+            'YYYY-MM-DD',
+          )}T11:59:00Z"`,
+        };
+        data.push(transformedDate);
+      } else {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0]).format(
+            'YYYY-MM-DD',
+          )}T12:00:00Z`,
+          end: `${moment(preferredDatePeriod[0]).format(
+            'YYYY-MM-DD',
+          )}T23:59:00Z`,
+        };
+        data.push(transformedDate);
+      }
+      return data;
+    });
+  }
+  if (key === 'reasonCode') {
+    const reasonCode = appointmentInfo
+      ? appointmentInfo[3]?.split(':')[1]
+      : null;
+    const transformedReasonCode = { reasonCode };
+    data.push(transformedReasonCode);
+  }
+  if (key === 'comments') {
+    const appointmentComments = appointmentInfo
+      ? appointmentInfo[4]?.split(':')[1]
+      : null;
+    const transformedComments = { text: appointmentComments };
+    if (appointmentComments) {
+      data.push(transformedComments);
+    }
+    return data;
+  }
+  return data;
+}
 
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
@@ -121,7 +190,12 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const reqPeriods = appt.requestedPeriods.map(d => ({
+    const requestedPeriods =
+      getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
+        .length > 0
+        ? getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
+        : appt.requestedPeriods;
+    const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring
       // which was causing incorrect dates to be displayed
@@ -168,7 +242,11 @@ export function transformVAOSAppointment(appt) {
   }
   let comment = null;
   const coding = appt.reasonCode ? appt.reasonCode.coding : null;
-  const text = appt.reasonCode ? appt.reasonCode.text : null;
+  const comments =
+    getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
+      ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]
+      : appt.reasonCode;
+  const text = appt.reasonCode ? comments.text : null;
   if (coding && coding[0]?.code && text) {
     comment = `${coding[0].code}: ${text}`;
   } else if (coding && coding[0].code) {
