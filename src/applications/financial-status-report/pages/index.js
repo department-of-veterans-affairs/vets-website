@@ -45,6 +45,7 @@ import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 import * as addIssue from './income/employmentEnhanced/addIssue';
 import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
+import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollDeductionChecklist';
 
 export {
   veteranInfo,
@@ -94,4 +95,5 @@ export {
   contactInfo,
   addIssue,
   employmentHistory,
+  payrollDeductionChecklist,
 };
