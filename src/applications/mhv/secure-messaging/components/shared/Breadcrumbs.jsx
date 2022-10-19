@@ -1,3 +1,4 @@
+// import { Breadcrumbs as Crumbs } from '@department-of-veterans-affairs/component-library';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,21 +20,21 @@ const Breadcrumbs = () => {
    * attributes when nodes are added or removed. This function was inherited from
    * VAOS team, removes aria-current from all nodes and then adds to the last one
    */
-  const updateBreadcrumbs = () => {
-    if (breadcrumbsRef.current) {
-      const anchorNodes = Array.from(
-        breadcrumbsRef.current.querySelectorAll('a'),
-      );
+  // const updateBreadcrumbs = () => {
+  //   if (breadcrumbsRef.current) {
+  //     const anchorNodes = Array.from(
+  //       breadcrumbsRef.current.querySelectorAll('a'),
+  //     );
 
-      anchorNodes.forEach((crumb, index) => {
-        crumb.removeAttribute('aria-current');
+  //     anchorNodes.forEach((crumb, index) => {
+  //       crumb.removeAttribute('aria-current');
 
-        if (index === anchorNodes.length - 1) {
-          crumb.setAttribute('aria-current', 'page');
-        }
-      });
-    }
-  };
+  //       if (index === anchorNodes.length - 1) {
+  //         crumb.setAttribute('aria-current', 'page');
+  //       }
+  //     });
+  //   }
+  // };
 
   useEffect(
     () => {
@@ -84,29 +85,55 @@ const Breadcrumbs = () => {
     [location, dispatch, messageDetails, activeFolder],
   );
 
-  useEffect(
-    () => {
-      if (breadcrumbsRef.current) {
-        updateBreadcrumbs();
-      }
-    },
-    [crumbs],
-  );
+  // useEffect(
+  //   () => {
+  //     if (breadcrumbsRef.current) {
+  //       updateBreadcrumbs();
+  //     }
+  //   },
+  //   [crumbs],
+  // );
+
+  // return (
+  //   <>
+  //     {crumbs.length > 0 && (
+  //       <Crumbs ref={breadcrumbsRef}>
+  //         {crumbs?.map((crumb, i) => {
+  //           if (crumb.path.includes('https://')) {
+  //             return (
+  //               <a key={i} href={crumb.path}>
+  //                 {crumb.label}
+  //               </a>
+  //             );
+  //           }
+  //           return (
+  //             <Link key={i} to={crumb.path}>
+  //               {crumb.label}
+  //             </Link>
+  //           );
+  //         })}
+  //       </Crumbs>
+  //     )}
+  //   </>
+  // );
 
   return (
     <>
-      {crumbs && (
+      {crumbs.length > 0 && (
         <VaBreadcrumbs ref={breadcrumbsRef}>
           {crumbs?.map((crumb, i) => {
             return (
-              <li key={i} className="va-breadcrumbs-li">
+              <>
                 {crumb.path.includes('https://') ? (
-                  // links with absolute path must be passed to <a> element
-                  <a href={crumb.path}>{crumb.label}</a>
+                  <a key={i} href={crumb.path}>
+                    {crumb.label}
+                  </a>
                 ) : (
-                  <Link to={crumb.path}>{crumb.label}</Link>
+                  <Link key={i} to={crumb.path}>
+                    {crumb.label}
+                  </Link>
                 )}
-              </li>
+              </>
             );
           })}
         </VaBreadcrumbs>
