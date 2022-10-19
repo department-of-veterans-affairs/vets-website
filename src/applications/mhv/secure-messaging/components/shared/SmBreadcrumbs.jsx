@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Breadcrumbs as Crumbs } from '@department-of-veterans-affairs/component-library';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 
-const Breadcrumbs = () => {
+const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const messageDetails = useSelector(state => state.sm.messageDetails.message);
@@ -67,7 +67,9 @@ const Breadcrumbs = () => {
   return (
     <>
       {crumbs.length > 0 && (
-        <Crumbs ref={breadcrumbsRef}>
+        // per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library
+        <Breadcrumbs ref={breadcrumbsRef}>
           {crumbs?.map((crumb, i) => {
             if (crumb.path.includes('https://')) {
               return (
@@ -82,10 +84,10 @@ const Breadcrumbs = () => {
               </Link>
             );
           })}
-        </Crumbs>
+        </Breadcrumbs>
       )}
     </>
   );
 };
 
-export default Breadcrumbs;
+export default SmBreadcrumbs;

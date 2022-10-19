@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import Breadcrumbs from '../../components/shared/Breadcrumbs';
+import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
@@ -16,7 +16,7 @@ describe('Breadcrumbs', () => {
   };
 
   it('on Message Details renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: `/message/${messageResponse.messageId}`,
@@ -25,7 +25,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Compose renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.COMPOSE.path,
@@ -36,7 +36,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Drafts Folder renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.DRAFTS.path,
@@ -49,7 +49,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Sent Folder renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.SENT.path,
@@ -62,7 +62,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Trash Folder renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.TRASH.path,
@@ -75,7 +75,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Search Folder renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.SEARCH.path,
@@ -88,7 +88,7 @@ describe('Breadcrumbs', () => {
   });
 
   it('on Advanced Search Folder renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<Breadcrumbs />, {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.SEARCH_ADVANCED.path,
