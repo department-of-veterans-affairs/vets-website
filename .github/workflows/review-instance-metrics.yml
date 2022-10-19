@@ -5,7 +5,8 @@ on:
     types: [review_instance_run]
 
 jobs:
-  test-job:
+  collect-review-instance-metrics:
+    name: Collect Review Instance Metrics
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
