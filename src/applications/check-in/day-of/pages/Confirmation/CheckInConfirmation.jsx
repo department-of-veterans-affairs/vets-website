@@ -51,7 +51,7 @@ const CheckInConfirmation = props => {
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
 
   if (doTravelPay && !isLoading) {
-    pageTitle += '. ';
+    pageTitle += ' ';
     if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
       pageTitle += t('received-reimbursement-claim');
     } else {

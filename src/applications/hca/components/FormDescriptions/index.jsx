@@ -515,21 +515,27 @@ export const SIGIGenderDescription = (
     </legend>
 
     <va-additional-info
-      trigger="Why we ask for this information"
+      trigger="What to know before you decide to share your gender identity"
       class="vads-u-margin-y--4"
     >
       <p className="vads-u-margin-top--0">
-        This information helps your health care team know how you wish to be
-        addressed as a person. It also helps your team better assess your health
-        needs and risks. Gender identity is one of the factors that can affect a
-        person’s health, well-being, and quality of life. We call these factors
-        “social determinants of health.”
+        Sharing your gender identity on this application is optional. This
+        information can help your health care team know how you wish to be
+        addressed as a person. It can also help your team better assess your
+        health needs and risks. We also use this information to help make sure
+        we’re serving the needs of all Veterans.
+      </p>
+
+      <p>
+        But you should know that any information you share here goes into your
+        VA-wide records. VA staff outside of the health care system may be able
+        to read this information.
       </p>
 
       <p className="vads-u-margin-bottom--0">
-        We also collect this information to better understand our Veteran
-        community. This helps us make sure that we’re serving the needs of all
-        Veterans.
+        We follow strict security and privacy practices to keep your personal
+        information secure. But if you want to share your gender identity in
+        your health records only, talk with your health care team.
       </p>
     </va-additional-info>
   </>
