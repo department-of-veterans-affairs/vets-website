@@ -27,11 +27,11 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
+          NB: 'Non-binary',
           M: 'Man',
           F: 'Woman',
-          NB: 'Non-binary',
-          TM: 'Transgender Man',
-          TF: 'Transgender Female',
+          TM: 'Transgender man',
+          TF: 'Transgender woman',
           O: 'A gender not listed here',
           NA: 'Prefer not to answer',
         },
