@@ -7,6 +7,7 @@ import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
 import ChatboxDisclaimer from './ChatboxDisclaimer.jsx';
+import './external-links.css';
 import {
   combineLoadingStatus,
   COMPLETE,
@@ -100,7 +101,7 @@ export default function Chatbox(props) {
 
   const ONE_MINUTE = 60 * 1000;
   return (
-    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
+    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest use-external-link-icon">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
         <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
           VA chatbot (beta)
