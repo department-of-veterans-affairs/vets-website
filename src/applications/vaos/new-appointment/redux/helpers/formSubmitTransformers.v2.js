@@ -34,7 +34,7 @@ function getReasonCode({ data, isCC, isAcheron }) {
         }`,
     );
     const phoneNumber = `Phone Number: 410-660-6475|`;
-    const email = `Email: s@yahoo.com|`;
+    const email = `Email: s@test.com|`;
     const preferredDates = `Preferred Dates:${formattedDates.toString()}|`;
     const reasonCode = `Reason Code: code_1|`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
