@@ -10,10 +10,7 @@ const WIP = () => (
       ready yet. Please check back again soon.
     </p>
     <p>
-      <a
-        href="/track-claims/your-claims"
-        className="u-vads-display--block u-vads-margin-top--2"
-      >
+      <a href="/track-claims/your-claims">
         Return to VA Claims and Appeals page
       </a>
     </p>
