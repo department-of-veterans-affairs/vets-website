@@ -1,46 +1,51 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 
-// Example of an imported schema:
-// import fullSchema from '../22-1990-schema.json';
-// eslint-disable-next-line no-unused-vars
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import get from 'platform/utilities/data/get';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
+
 import fullSchema from '../22-1990-schema.json';
 
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import GetFormHelp from '../components/GetFormHelp';
-
 import manifest from '../manifest.json';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 import toursOfDutyUI from '../definitions/toursOfDuty';
-import CustomReviewDOBField from '../components/CustomReviewDOBField';
-import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
-import EmailViewField from '../components/EmailViewField';
-import PhoneViewField from '../components/PhoneViewField';
+
 import AccordionField from '../components/AccordionField';
 import BenefitGivenUpReviewField from '../components/BenefitGivenUpReviewField';
-import YesNoReviewField from '../components/YesNoReviewField';
-import PhoneReviewField from '../components/PhoneReviewField';
+import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
+import EmailViewField from '../components/EmailViewField';
+import GetFormHelp from '../components/GetFormHelp';
+import IntroductionPage from '../containers/IntroductionPage';
+import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import MailingAddressViewField from '../components/MailingAddressViewField';
+import PhoneReviewField from '../components/PhoneReviewField';
+import PhoneViewField from '../components/PhoneViewField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
+import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
+import YesNoReviewField from '../components/YesNoReviewField';
+
+import { ELIGIBILITY } from '../actions';
+import { formFields } from '../constants';
 
 import {
   unsureDescription,
@@ -48,10 +53,6 @@ import {
   prefillTransformer,
   customDirectDepositDescription,
 } from '../helpers';
-
-import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
-import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
-import MailingAddressViewField from '../components/MailingAddressViewField';
 
 import {
   isValidPhone,
@@ -63,8 +64,6 @@ import {
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
-import { ELIGIBILITY } from '../actions';
-
 const {
   fullName,
   // ssn,
@@ -75,46 +74,13 @@ const {
   toursOfDuty,
 } = commonDefinitions;
 
-// Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  userFullName: 'userFullName',
-  dateOfBirth: 'dateOfBirth',
-  ssn: 'ssn',
-  toursOfDuty: 'toursOfDuty',
-  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  address: 'address',
-  email: 'email',
-  viewPhoneNumbers: 'view:phoneNumbers',
-  phoneNumber: 'phoneNumber',
-  mobilePhoneNumber: 'mobilePhoneNumber',
-  viewBenefitSelection: 'view:benefitSelection',
-  benefitRelinquished: 'benefitRelinquished',
-  benefitEffectiveDate: 'benefitEffectiveDate',
-  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  contactMethod: 'contactMethod',
-  receiveTextMessages: 'receiveTextMessages',
-  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
-  activeDutyKicker: 'activeDutyKicker',
-  selectedReserveKicker: 'selectedReserveKicker',
-  federallySponsoredAcademy: 'federallySponsoredAcademy',
-  seniorRotcCommission: 'seniorRotcCommission',
-  loanPayment: 'loanPayment',
-  additionalConsiderationsNote: 'additionalConsiderationsNote',
-};
-
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
   applicantInformation: 'applicantInformation',
   contactInformation: {
     contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
+    mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
@@ -216,10 +182,12 @@ function phoneUISchema(category) {
       'ui:options': {
         hideIf: formData => {
           if (category === 'mobile') {
-            if (!formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
+            if (
+              !formData[formFields.viewPhoneNumbers].mobilePhoneNumber.phone
+            ) {
               return true;
             }
-          } else if (!formData['view:phoneNumbers'].phoneNumber.phone) {
+          } else if (!formData[formFields.viewPhoneNumbers].phoneNumber.phone) {
             return true;
           }
           return false;
@@ -407,7 +375,6 @@ const formConfig = {
   subTitle: 'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
   defaultDefinitions: {
     fullName,
-    // ssn,
     date,
     dateRange,
     usaPhone,
@@ -449,21 +416,21 @@ const formConfig = {
                 </>
               ),
             },
-            formId: {
+            [formFields.formId]: {
               'ui:title': 'Form ID',
               'ui:disabled': true,
               'ui:options': {
                 hideOnReview: true,
               },
             },
-            claimantId: {
+            [formFields.claimantId]: {
               'ui:title': 'Claimant ID',
               'ui:disabled': true,
               'ui:options': {
                 hideOnReview: true,
               },
             },
-            'view:userFullName': {
+            [formFields.viewUserFullName]: {
               'ui:description': (
                 <p className="meb-review-page-only">
                   If you’d like to update your personal information, please edit
@@ -550,17 +517,17 @@ const formConfig = {
             type: 'object',
             required: [formFields.dateOfBirth],
             properties: {
-              formId: {
+              [formFields.formId]: {
                 type: 'string',
               },
-              claimantId: {
+              [formFields.claimantId]: {
                 type: 'integer',
               },
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              'view:userFullName': {
+              [formFields.viewUserFullName]: {
                 required: [formFields.userFullName],
                 type: 'object',
                 properties: {
@@ -729,7 +696,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
@@ -741,7 +708,7 @@ const formConfig = {
                   </p>
                 </>
               ),
-              livesOnMilitaryBase: {
+              [formFields.livesOnMilitaryBase]: {
                 'ui:title': (
                   <span id="LiveOnMilitaryBaseTooltip">
                     I live on a United States military base outside of the
@@ -754,7 +721,56 @@ const formConfig = {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
               [formFields.address]: {
-                ...address.uiSchema(''),
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      !formData['view:mailingAddress'].livesOnMilitaryBase),
+                  'ui:disabled': formData =>
+                    formData.showMebDgi40Features &&
+                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['view:mailingAddress', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['view:mailingAddress', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (
+                        formData.showMebDgi40Features &&
+                        livesOnMilitaryBase
+                      ) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+
+                      countryUI['ui:disabled'] = false;
+
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
+                },
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -771,7 +787,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -782,17 +797,61 @@ const formConfig = {
                       }
                     },
                   ],
-                },
-                state: {
-                  'ui:title': 'State/Province/Region',
-                  'ui:errorMessages': {
-                    required: 'State is required',
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData.showMebDgi40Features &&
+                        formData['view:mailingAddress']?.livesOnMilitaryBase
+                      ) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
                   },
                 },
+                state: {
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                        formData['view:mailingAddress']?.address?.country ===
+                          'USA')),
+                },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:required': formData =>
+                    !formData.showMebDgi40Features ||
+                    (formData.showMebDgi40Features &&
+                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                        formData['view:mailingAddress']?.address?.country ===
+                          'USA')),
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData['view:mailingAddress']?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
                   },
                 },
               },
@@ -810,10 +869,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:mailingAddress': {
+              [formFields.viewMailingAddress]: {
                 type: 'object',
                 properties: {
-                  livesOnMilitaryBase: {
+                  [formFields.livesOnMilitaryBase]: {
                     type: 'boolean',
                   },
                   livesOnMilitaryBaseInfo: {
@@ -851,8 +910,9 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
-                    form => form['view:phoneNumbers'].mobilePhoneNumber.phone,
-                    form => form['view:phoneNumbers'].phoneNumber.phone,
+                    form =>
+                      form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
+                    form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -873,7 +933,7 @@ const formConfig = {
                 })(),
               },
             },
-            'view:receiveTextMessages': {
+            [formFields.viewReceiveTextMessages]: {
               'ui:description': (
                 <>
                   <div className="meb-form-page-only">
@@ -895,10 +955,10 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData['view:phoneNumbers']
+                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
                       .mobilePhoneNumber.phone;
                     const { isInternational } = formData[
-                      'view:phoneNumbers'
+                      formFields.viewPhoneNumbers
                     ].mobilePhoneNumber;
 
                     if (isYes) {
@@ -1008,7 +1068,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
@@ -1373,7 +1433,6 @@ const formConfig = {
       pages: {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
-          title: 'Direct deposit',
           uiSchema: {
             title: 'direct-deposit',
             'ui:title': (
