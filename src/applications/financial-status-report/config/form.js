@@ -224,8 +224,28 @@ const formConfig = {
           title: 'Additional income',
           uiSchema: pages.additionalIncomeRecords.uiSchema,
           schema: pages.additionalIncomeRecords.schema,
-          depends: ({ questions }) => questions.hasAdditionalIncome,
+          depends: formData =>
+            formData.questions.hasAdditionalIncome &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        additionalIncomeChecklist: {
+          path: 'additional-income-checklist',
+          title: 'Additional income options',
+          uiSchema: pages.additionalIncomeChecklist.uiSchema,
+          schema: pages.additionalIncomeChecklist.schema,
+          depends: formData =>
+            formData.questions.hasAdditionalIncome &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        additionalIncomeValues: {
+          path: 'additional-income-values',
+          title: 'Additional income values',
+          uiSchema: pages.additionalIncomeValues.uiSchema,
+          schema: pages.additionalIncomeValues.schema,
+          depends: formData =>
+            formData.questions.hasAdditionalIncome &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         spouseInformation: {
           path: 'spouse-information',
