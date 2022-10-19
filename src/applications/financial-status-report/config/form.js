@@ -128,28 +128,16 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: (formData, { questions }) =>
-            questions.vetIsEmployed &&
-            !formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
-        },
-        efsrEmploymentRecords: {
-          path: 'employment-records',
-          title: 'Employment',
-          uiSchema: pages.employmentRecords.uiSchema,
-          schema: pages.employmentRecords.schema,
-          depends: (formData, { questions }) =>
-            questions.vetIsEmployed &&
-            formData['view:enhancedFinancialStatusReport'],
+          depends: formData => formData.questions.vetIsEmployed,
           editModeOnReviewPage: true,
         },
         payrollDeductionChecklist: {
-          path: 'employment-records',
-          title: 'Employment',
+          path: 'deduction-checklist',
+          title: 'Payroll deductions',
           uiSchema: pages.payrollDeductionChecklist.uiSchema,
           schema: pages.payrollDeductionChecklist.schema,
-          depends: (formData, { questions }) =>
-            questions.vetIsEmployed &&
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
@@ -160,10 +148,10 @@ const formConfig = {
           uiSchema: pages.employmentHistory.uiSchema,
           schema: pages.employmentHistory.schema,
           // needed to bypass bug on review & submit page
-          depends: (formData, { questions }) =>
-            questions.vetIsEmployed &&
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
-          appStateSelector: state => state.form?.data?.employmentHistory || [],
+          // appStateSelector: state => state.form?.data?.employmentHistory || [],
         },
         // loop ends with option to re enter here
         employmentHistorySummary: {
@@ -171,19 +159,11 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employmentHistory.uiSchema,
           schema: pages.employmentHistory.schema,
-          depends: (formData, { questions }) =>
-            questions.vetIsEmployed &&
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
-        // additionalEmployment: {
-        //   title: 'Add additional employment',
-        //   path: 'add-additional-job',
-        //   depends: () => false, // accessed from listOfIssues page
-        //   CustomPage: AdditionalEmployment,
-        //   uiSchema: pages.addIssue.uiSchema,
-        //   schema: pages.addIssue.schema,
-        // },
         income: {
           title: 'Income',
           path: 'income/:index',
