@@ -1,11 +1,11 @@
 import React from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { logout as IAMLogout } from 'platform/user/authentication/utilities';
 import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 const MODAL_DURATION = 30; // seconds
 
@@ -86,7 +86,7 @@ class SessionTimeoutModal extends React.Component {
 
   render() {
     return (
-      <VaModal
+      <Modal
         hideCloseButton
         id="session-timeout-modal"
         focusSelector="button"
@@ -119,7 +119,7 @@ class SessionTimeoutModal extends React.Component {
             Sign out
           </button>
         </div>
-      </VaModal>
+      </Modal>
     );
   }
 }

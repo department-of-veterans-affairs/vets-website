@@ -8,9 +8,9 @@ export const uiSchema = {
     <>
       <legend className="schemaform-block-title">Your work history</legend>
       <p className="vads-u-padding-top--2">
-        Tell us about the jobs you’ve had in the past two years that you
-        received paychecks for. You’ll need to provide your income information
-        for any current job.
+        Tell us about the jobs you’ve had in the past 2 years that you received
+        paychecks for. You’ll need to provide your income information for any
+        current job.
       </p>
     </>
   ),

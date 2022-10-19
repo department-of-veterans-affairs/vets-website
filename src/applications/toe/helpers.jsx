@@ -23,6 +23,17 @@ export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
+
 /**
  * Formats a date in human-readable form. For example:
  * January 1, 2000.
@@ -97,13 +108,25 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
+function mapNotificationMethod({ notificationMethod }) {
+  if (notificationMethod === 'MAIL') {
+    return 'No, just send me email notifications';
+  }
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
+  }
+
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  const stateUser = state.user;
   // const vaProfile = stateUser?.vaProfile;
 
-  const stateUser = state.user;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
@@ -153,6 +176,28 @@ export function prefillTransformer(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
+  // let firstName;
+  // let middleName;
+  // let lastName;
+  // let suffix;
+  //
+  // if (vaProfile?.familyName) {
+  //   firstName = vaProfile?.givenNames[0];
+  //   middleName = vaProfile?.givenNames[1];
+  //   lastName = vaProfile?.familyName;
+  //   // suffix = ???
+  // } else if (profile?.lastName) {
+  //   firstName = profile?.firstName;
+  //   middleName = profile?.middleName;
+  //   lastName = profile?.lastName;
+  //   // suffix = ???
+  // } else {
+  //   firstName = claimant.firstName;
+  //   middleName = claimant.middleName;
+  //   lastName = claimant?.lastName;
+  //   suffix = claimant.suffix;
+  // }
+
   // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
@@ -182,6 +227,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
         isInternational: homePhoneIsInternational,
       },
     },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: userAddressLine1,
@@ -194,6 +243,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
     },
   };
 
