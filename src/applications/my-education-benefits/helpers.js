@@ -43,6 +43,19 @@ export const post911GiBillNote = (
   </div>
 );
 
+export function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
 /**
  * Converts a number to a string, preserving a minimum number of integer
  * digits.
