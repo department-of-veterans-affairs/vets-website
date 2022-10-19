@@ -33,7 +33,8 @@ function getReasonCode({ data, isCC, isAcheron }) {
           moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
-    const phoneNumber = `Phone Number: 410-660-6475|`;
+    // TODO: Replace hard codded values.
+    const phoneNumber = `Phone Number: 123-456-7890|`;
     const email = `Email: s@test.com|`;
     const preferredDates = `Preferred Dates:${formattedDates.toString()}|`;
     const reasonCode = `Reason Code: code_1|`;
