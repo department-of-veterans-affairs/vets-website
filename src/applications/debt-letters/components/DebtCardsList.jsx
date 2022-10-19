@@ -112,13 +112,10 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
           here, call us at{' '}
-          <va-telephone
-            contact="800-827-0648"
-            className="vads-u-margin-x--0p5"
-          />{' '}
+          <va-telephone contact="8008270648" className="vads-u-margin-x--0p5" />{' '}
           (or{' '}
           <va-telephone
-            contact="1-612-713-6415"
+            contact="16127136415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
           />{' '}

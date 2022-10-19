@@ -331,6 +331,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
         address?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
+    },
+    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
     [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
