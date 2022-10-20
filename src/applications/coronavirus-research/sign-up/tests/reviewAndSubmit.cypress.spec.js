@@ -8,10 +8,10 @@ describe('COVID-19 Research Form', () => {
         'feature',
       );
       cy.visit('coronavirus-research/volunteer/sign-up');
+      cy.injectAxe();
     });
 
     it('should load form page', () => {
-      cy.injectAxe();
       cy.url().should('include', 'coronavirus-research/volunteer/sign-up');
       cy.axeCheck();
       cy.get('h1').contains(
