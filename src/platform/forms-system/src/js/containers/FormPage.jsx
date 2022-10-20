@@ -181,7 +181,6 @@ class FormPage extends React.Component {
             goForward={this.onSubmit}
             goToPath={this.goToPath}
             setFormData={this.props.setData}
-            formContext={formContext}
             contentBeforeButtons={contentBeforeButtons}
             contentAfterButtons={contentAfterButtons}
           />

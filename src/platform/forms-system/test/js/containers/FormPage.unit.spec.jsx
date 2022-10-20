@@ -477,7 +477,6 @@ describe('Schemaform <FormPage>', () => {
 
     it('should render a custom component instead of SchemaForm', () => {
       const CustomPage = () => <div>Hello, world!</div>;
-      const formContext = { onReviewPage: false };
       const contentBeforeButtons = 'before';
       const contentAfterButtons = 'after';
       const tree = SkinDeep.shallowRender(
@@ -485,7 +484,6 @@ describe('Schemaform <FormPage>', () => {
           form={makeBypassForm(CustomPage)()}
           route={makeBypassRoute(CustomPage)()}
           location={location}
-          formContext={formContext}
           contentBeforeButtons={contentBeforeButtons}
           contentAfterButtons={contentAfterButtons}
         />,
@@ -494,7 +492,6 @@ describe('Schemaform <FormPage>', () => {
       expect(tree.everySubTree('SchemaForm')).to.be.empty;
       expect(tree.everySubTree('CustomPage')).not.to.be.empty;
       const { props } = tree.everySubTree('CustomPage')[0].getRenderOutput();
-      expect(props.formContext).to.deep.equal(formContext);
       expect(props.contentBeforeButtons).to.equal(contentBeforeButtons);
       expect(props.contentAfterButtons).to.equal(contentAfterButtons);
     });
