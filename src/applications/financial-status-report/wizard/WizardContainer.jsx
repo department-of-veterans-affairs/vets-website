@@ -36,19 +36,10 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
           />
           <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
-            Use this form if you’re a Veteran or service member who needs help
-            with one of these types of VA debt:
-          </p>
-          <ul>
-            <li>
-              Debt related to VA disability compensation, education, or pension
-              benefit overpayments, <strong>or</strong>
-            </li>
-            <li>Debt related to VA health care copay bills</li>
-          </ul>
-          <p>
-            Answer a few questions to find out if this is the form you need. If
-            not, we’ll guide you to the best way to get help.
+            This form is for Veterans or service members who need help with debt
+            related to VA benefit overpayments or health care copays. Answer a
+            few questions to find out if this is the form you need. If not,
+            we’ll guide you to the best way to get help.
           </p>
           <p>
             If you already know this is the form you need, you can go to the
