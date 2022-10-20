@@ -43,8 +43,14 @@ const ComposeForm = props => {
         ),
         ...recipients,
       ]);
+      if (!draft) {
+        setSelectedRecipient('');
+        setSubject('');
+        setMessageBody('');
+        setCategory('');
+      }
     },
-    [recipients],
+    [recipients, draft],
   );
 
   const recipientExists = recipientId => {
