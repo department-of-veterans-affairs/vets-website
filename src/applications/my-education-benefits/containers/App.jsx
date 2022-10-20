@@ -5,33 +5,41 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
+import {
+  fetchPersonalInformation,
+  fetchEligibility,
+  fetchDirectDeposit,
+} from '../actions';
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchEligibility } from '../actions';
-import { prefillTransformer } from '../helpers';
+import { formFields } from '../constants';
 import { getAppData } from '../selectors/selectors';
+import { prefillTransformer } from '../helpers';
 
 export const App = ({
-  location,
   children,
-  featureTogglesLoaded,
-  formData,
-  setFormData,
-  getPersonalInfo,
   claimantInfo,
-  firstName,
-  getEligibility,
-  isLOA3,
   eligibility,
+  featureTogglesLoaded,
+  firstName,
+  formData,
+  getDirectDeposit,
+  getEligibility,
+  getPersonalInfo,
+  isLOA3,
+  isLoggedIn,
+  location,
+  setFormData,
   showUnverifiedUserAlert,
-  user,
+  showMebDgi40Features,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
       if (
-        !user.login.currentlyLoggedIn ||
+        !isLoggedIn ||
         !featureTogglesLoaded ||
         (showUnverifiedUserAlert && isLOA3 !== true)
       ) {
@@ -41,7 +49,7 @@ export const App = ({
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
         getPersonalInfo();
-      } else if (!formData?.claimantId && claimantInfo.claimantId) {
+      } else if (!formData[formFields.claimantId] && claimantInfo.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,
@@ -58,6 +66,13 @@ export const App = ({
           eligibility,
         });
       }
+
+      if (showMebDgi40Features !== formData.showMebDgi40Features) {
+        setFormData({
+          ...formData,
+          showMebDgi40Features,
+        });
+      }
     },
     [
       claimantInfo,
@@ -70,10 +85,24 @@ export const App = ({
       getEligibility,
       getPersonalInfo,
       isLOA3,
+      isLoggedIn,
       setFormData,
+      showMebDgi40Features,
       showUnverifiedUserAlert,
-      user,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoggedIn) {
+        return;
+      }
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn],
   );
 
   return (
@@ -95,21 +124,19 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  eligibility: PropTypes.object,
+  eligibility: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
-  location: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebDgi40Features: PropTypes.bool,
   showUnverifiedUserAlert: PropTypes.bool,
-  user: PropTypes.shape({
-    login: PropTypes.shape({
-      currentlyLoggedIn: PropTypes.bool,
-    }),
-  }),
 };
 
 const mapStateToProps = state => {
@@ -126,9 +153,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getDirectDeposit: fetchDirectDeposit,
+  getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
-  getEligibility: fetchEligibility,
 };
 
 export default connect(
