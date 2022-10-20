@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { getClaimDetail } from '../actions/index.jsx';
+import { getClaimDetail } from '../actions';
 
 class ClaimPage extends React.Component {
   componentDidMount() {
     this.props.getClaimDetail(this.props.params.id, this.props.router);
   }
+
   render() {
     return this.props.children;
   }

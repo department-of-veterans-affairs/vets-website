@@ -13,12 +13,12 @@ import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
 import startUserNavWidget from 'platform/site-wide/user-nav';
 import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
 import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
+import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
+import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
 import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
-import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -57,6 +57,7 @@ function createMutationObserverCallback() {
 function activateHeaderFooter() {
   // Set up elements for the new header and footer
   const headerContainer = document.createElement('div');
+  const skipLink = document.getElementById('skiplink');
   headerContainer.innerHTML = headerPartial;
   headerContainer.classList.add('consolidated');
 
@@ -64,7 +65,11 @@ function activateHeaderFooter() {
   footerContainer.innerHTML = footerPartial;
   footerContainer.classList.add('consolidated');
 
-  document.body.insertBefore(headerContainer, document.body.firstChild);
+  if (skipLink) {
+    skipLink.after(headerContainer);
+  } else if (document.body.firstChild) {
+    document.body.firstChild.before(headerContainer);
+  }
   document.body.appendChild(footerContainer);
 }
 

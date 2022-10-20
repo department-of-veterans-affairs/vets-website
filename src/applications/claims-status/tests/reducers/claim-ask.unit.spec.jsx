@@ -5,7 +5,7 @@ import {
   SET_DECISION_REQUESTED,
   SUBMIT_DECISION_REQUEST,
   SET_DECISION_REQUEST_ERROR,
-} from '../../actions';
+} from '../../actions/types';
 
 describe('Claim ask reducer', () => {
   it('should set loading request', () => {

@@ -102,12 +102,12 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      Appointments.validateAppointmentLength(3);
-      // Validate that appointments are refreshed.
-      Appointments.validateAppointmentTime(3, '5:00 p.m.');
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // Appointments.validateAppointmentLength(3);
+      // // Validate that appointments are refreshed.
+      // Appointments.validateAppointmentTime(3, '5:00 p.m.');
+      // cy.injectAxeThenAxeCheck();
     });
   });
 });

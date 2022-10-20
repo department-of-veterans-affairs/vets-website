@@ -168,6 +168,37 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should render gender page', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.veteranGender;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input').length).to.equal(7);
+    expect(formDOM.querySelector('#root_sigiGenders_0')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_1')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_2')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_3')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_4')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_5')).not.to.be.null;
+    expect(formDOM.querySelector('#root_sigiGenders_6')).not.to.be.null;
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
   it('should render maritalStatus page', () => {
     const onSubmit = sinon.spy();
     const {
@@ -216,6 +247,34 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 
+  it('should render american indian question page', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranInformation.pages.americanIndian;
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelector('#root_sigiIsAmericanIndianYes')).not.to.be
+      .null;
+    expect(formDOM.querySelector('#root_sigiIsAmericanIndianNo')).not.to.be
+      .null;
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('should render veteranAddress page', () => {
     const onSubmit = sinon.spy();
     const {
@@ -252,7 +311,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(4);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
     expect(formDOM.querySelector('#root_email')).not.to.be.null;
   });
 });
