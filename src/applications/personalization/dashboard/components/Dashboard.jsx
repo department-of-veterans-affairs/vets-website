@@ -30,7 +30,6 @@ import {
   DowntimeNotification,
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
@@ -52,31 +51,7 @@ import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../selectors';
-
-const renderWidgetDowntimeNotification = (downtime, children) => {
-  if (downtime.status === externalServiceStatus.down) {
-    return (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <va-alert status="error">
-            <h2 slot="headline">
-              We can’t access any claims or appeals information right now
-            </h2>
-            <div>
-              <p>
-                We’re sorry. We’re working to fix some problems with the claims
-                or appeals tool right now and cannot display your information on
-                this page. Please check back after{' '}
-                {downtime.endTime.format('MMMM D [at] LT')}
-              </p>
-            </div>
-          </va-alert>
-        </div>
-      </div>
-    );
-  }
-  return children;
-};
+import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
 
 const DashboardHeader = ({ showNotifications, paymentsError }) => {
   return (
@@ -262,7 +237,7 @@ const Dashboard = ({
                     externalServices.mhv,
                     externalServices.appeals,
                   ]}
-                  render={renderWidgetDowntimeNotification}
+                  render={RenderClaimsWidgetDowntimeNotification}
                 >
                   <ClaimsAndAppeals />
                 </DowntimeNotification>
@@ -274,7 +249,7 @@ const Dashboard = ({
                     externalServices.mhv,
                     externalServices.appeals,
                   ]}
-                  render={renderWidgetDowntimeNotification}
+                  render={RenderClaimsWidgetDowntimeNotification}
                 >
                   <ClaimsAndAppealsV2 />
                 </DowntimeNotification>
