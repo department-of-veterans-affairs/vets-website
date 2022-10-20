@@ -439,7 +439,7 @@ describe('526EZ keyboard only navigation', () => {
 
       // // TODO: tests below failing. Should try name, as opposed to ID.
 
-      // // 1. Select Combat, Sexual Trauma and Personal assault
+      // // 1. Select Combat
       cy.setCheckboxFromData(
         '[name="root_view:selectablePtsdTypes_view:combatPtsdType"]',
         true,
@@ -461,11 +461,17 @@ describe('526EZ keyboard only navigation', () => {
         true,
       );
       cy.tabToContinueForm();
-      // PTSD: Personal assault & sexual trauma Question
+      // PTSD: Personal assault & sexual trauma Question & answer questions path
       cy.url().should(
         'include',
         disabilitiesPages.ptsdWalkthroughChoice781a.path,
       );
+      cy.tabToElement('[type="radio"]');
+      cy.findOption('upload');
+      // TO DO: mock upload a file for option: "I’ve already filled out VA Form 21-0781a and want to upload it."
+      cy.tabToContinueForm();
+      cy.tabToGoBack();
+      // Go back and answer questions instead of uploading a file
       cy.tabToElement('[type="radio"]');
       cy.findOption('answerQuestions');
       cy.realPress('Space');
@@ -475,12 +481,19 @@ describe('526EZ keyboard only navigation', () => {
         'include',
         '/disabilities/ptsd-secondary-incident-date-0',
       );
-      // cy.setCheckboxFromData(
-      //   '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
-      //   true,
-      // );
+      idRoot = '#root_secondaryIncident';
+      cy.tabToElement(`${idRoot}0_incidentDateMonth`);
+      cy.chooseSelectOptionByTyping('April');
+      cy.tabToElement(`${idRoot}0_incidentDateDay`);
+      cy.chooseSelectOptionByTyping('22');
+      cy.typeInIfDataExists(`${idRoot}0_incidentDateYear`, '2020');
+      cy.tabToContinueForm();
 
-      // cy.tabToGoBack();
+      // Enter duty station assigned to at the time of incident
+      cy.url().should(
+        'include',
+        '/disabilities/ptsd-secondary-incident-unit-assignment-0',
+      );
 
       // cy.setCheckboxFromData(
       //   '[name="root_view:selectablePtsdTypes_view:assaultPtsdType"]',
