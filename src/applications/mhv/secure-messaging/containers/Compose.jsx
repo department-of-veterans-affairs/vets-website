@@ -6,6 +6,7 @@ import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
+      <AlertBackgroundBox closeable />
       <h1 className="page-title">{pageTitle}</h1>
       <EmergencyNote />
       <div>

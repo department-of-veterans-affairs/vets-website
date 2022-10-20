@@ -10,6 +10,7 @@ import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
+import DiscardDraft from '../Draft/DiscardDraft';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -238,6 +239,7 @@ const ComposeForm = props => {
           >
             Save draft
           </button>
+          {draft && <DiscardDraft draft={draft} />}
         </div>
       </div>
       <DraftSavedInfo />
