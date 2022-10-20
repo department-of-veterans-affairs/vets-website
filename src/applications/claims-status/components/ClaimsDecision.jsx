@@ -11,7 +11,7 @@ const ClaimsDecision = ({ completedDate }) => (
   <>
     <va-alert>
       <h3 className="claims-alert-header vads-u-font-size--h4" slot="headline">
-        {headerText(completedDate)}
+        {completedDate && headerText(completedDate)}
       </h3>
       <p>
         We finished reviewing your claim and a decision has been made. You can
