@@ -58,17 +58,31 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     IS_TRACKING_UTTERANCES,
   );
   const data = action.payload.activity;
+
   const dataIsMessageWithTextFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
 
   if (isAtBeginningOfConversation) {
     setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
   }
+  const loginGovText =
+    'Sending you to Login.gov Create your Login.gov account page...';
+  const loginGovURL = 'https://secure.login.gov/sign_up/enter_email';
+
+  const openLink = (text, link) => {
+    const linkText = data.text.includes(text);
+    if (linkText) {
+      window.open(link);
+    }
+  };
 
   if (dataIsMessageWithTextFromBot) {
+    openLink(loginGovText, loginGovURL);
+
     const botWantsToSignInUser = data.text.includes(
       'Alright. Sending you to the sign in page...',
     );
+
     const isNewAuthedConversation =
       data.text.includes('To get started') &&
       sessionStorage.getItem(IN_AUTH_EXP) === 'true';
