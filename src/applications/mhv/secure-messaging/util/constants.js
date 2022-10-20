@@ -35,6 +35,20 @@ export const Prompts = {
       'Messages in the trash folder won’t be permanently deleted.',
   },
 };
+export const Breadcrumbs = {
+  COMPOSE: {
+    path: '/compose',
+    label: 'Compose message',
+  },
+  DRAFTS: { path: '/drafts', label: 'Drafts' },
+  DRAFT: { path: '/draft', label: 'Drafts' },
+  FOLDERS: { path: '/folders', label: 'Folders' },
+  SENT: { path: '/sent', label: 'Sent messages' },
+  TRASH: { path: '/trash', label: 'Trash' },
+  SEARCH: { path: '/search', label: 'Search messages' },
+  SEARCH_ADVANCED: { path: '/search?advanced=true', label: 'Advanced search' },
+  FAQ: { path: '/faq', label: 'Messages FAQs' },
+};
 
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
