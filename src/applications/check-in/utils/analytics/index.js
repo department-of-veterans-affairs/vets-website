@@ -1,4 +1,5 @@
 import environment from 'platform/utilities/environment';
+import { datadogRum } from '@datadog/browser-rum';
 import * as Sentry from '@sentry/browser';
 
 /**
@@ -94,4 +95,34 @@ const captureError = (error, details) => {
   }
 };
 
-export { createAnalyticsSlug, createApiEvent, captureError, ERROR_SOURCES };
+const initializeDatadogRum = () => {
+  // Ensure that we don't send data from local/CI environments.
+  if (environment.BASE_URL.indexOf('localhost') < 0) {
+    return;
+  }
+
+  if (!environment.isProduction()) {
+    datadogRum.init({
+      applicationId: '',
+      clientToken: '',
+      site: 'ddog-gov.com',
+      service: 'patient-check-in',
+      env: environment.vspEnvironment(),
+      sampleRate: 100,
+      sessionReplaySampleRate: 20,
+      trackInteractions: true,
+      trackResources: true,
+      trackLongTasks: true,
+      defaultPrivacyLevel: 'mask',
+    });
+    datadogRum.startSessionReplayRecording();
+  }
+};
+
+export {
+  createAnalyticsSlug,
+  createApiEvent,
+  captureError,
+  ERROR_SOURCES,
+  initializeDatadogRum,
+};
