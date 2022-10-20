@@ -67,9 +67,10 @@ const FolderListView = () => {
   };
 
   const confirmDelFolder = () => {
-    dispatch(delFolder(folderId));
     closeDelModal();
-    dispatch(getFolders()).then(navigateToFoldersPage(history));
+    dispatch(delFolder(folderId)).then(
+      dispatch(getFolders()).then(navigateToFoldersPage(history)),
+    );
   };
 
   useEffect(

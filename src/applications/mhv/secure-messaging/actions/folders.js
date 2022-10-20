@@ -5,6 +5,8 @@ import {
   createFolder,
   deleteFolder,
 } from '../api/SmApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 export const getFolders = () => async dispatch => {
   const response = await getFolderList();
@@ -55,14 +57,20 @@ export const newFolder = folderName => async dispatch => {
 export const delFolder = folderId => async dispatch => {
   const response = await deleteFolder(folderId);
   if (response.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
-    });
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Folder.DELETE_FOLDER_ERROR,
+      ),
+    );
   } else {
-    dispatch({
-      type: Actions.Folder.DELETE,
-      payload: folderId,
-    });
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Folder.DELETE_FOLDER_SUCCESS,
+      ),
+    );
   }
 };

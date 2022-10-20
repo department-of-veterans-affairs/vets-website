@@ -7,6 +7,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { getFolders, newFolder } from '../actions/folders';
 import FoldersList from '../components/FoldersList';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Folders = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ const Folders = () => {
     return (
       <>
         <h1>My folders</h1>
+        <AlertBackgroundBox closeable />
         <button type="button" className="modal-button" onClick={openNewModal}>
           Create new folder
         </button>
