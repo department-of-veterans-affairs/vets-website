@@ -143,6 +143,16 @@ const formConfig = {
           depends: formData => formData.questions.vetIsEmployed,
           editModeOnReviewPage: true,
         },
+        grossMonthlyIncome: {
+          path: 'gross-monthly-income',
+          title: 'Gross monthly income',
+          uiSchema: pages.grossMonthlyIncomeInput.uiSchema,
+          schema: pages.grossMonthlyIncomeInput.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+        },
         payrollDeductionChecklist: {
           path: 'deduction-checklist',
           title: 'Payroll deductions',

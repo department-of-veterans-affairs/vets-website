@@ -353,3 +353,7 @@ export const getDebtName = debt => {
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
+
+export const getCurrentEmploymentHistoryObject = () => {
+  return null;
+};
