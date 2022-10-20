@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import { currency } from '../../utils/helpers';
 
 export const DebtsV2 = ({ debts }) => {
-  const totalDebt = debts.reduce((acc, d) => acc + d.currentAr, 0);
   const debtHistory = debts.reduce(
     (acc, debt) => (debt.debtHistory ? acc.concat(debt.debtHistory) : acc),
     [],
@@ -47,23 +45,13 @@ export const DebtsV2 = ({ debts }) => {
         className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5"
         data-testid="debt-card-v2"
       >
-        <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">
+        <h3 className="vads-u-margin-top--0" data-testid="debt-total-header-v2">
           {debtsCount} overpayment debt
           {debtsCount > 1 ? 's' : ''}
         </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
           Updated on{' '}
           {format(new Date(formattedLastUpdatedDate), 'MMMM dd, yyyy')}
-        </p>
-        <h3 className="vads-u-margin-top--0" data-testid="debt-total-header-v2">
-          ({currency(totalDebt)})
-        </h3>
-        <h4 className="vads-u-margin-top--0">
-          {debtsCount} overpayment debt
-          {debtsCount > 1 ? 's' : ''}
-        </h4>
-        <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Last updated {formattedLastUpdatedDate}
         </p>
         <CTALink
           text="Manage your VA debt"
