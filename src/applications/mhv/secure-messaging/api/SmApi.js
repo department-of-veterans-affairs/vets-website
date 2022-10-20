@@ -53,7 +53,7 @@ export const createFolder = folderName => {
  */
 export const deleteFolder = folderId => {
   return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
-    method: 'DEL',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
