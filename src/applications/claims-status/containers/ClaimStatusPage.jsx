@@ -8,13 +8,13 @@ import ClaimsDecision from '../components/ClaimsDecision';
 import ClaimComplete from '../components/ClaimComplete';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { showClaimLettersFeature } from '../selectors';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
 } from '../utils/helpers';
-
 import { clearNotification } from '../actions';
 
 class ClaimStatusPage extends React.Component {
@@ -56,7 +56,13 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const {
+      claim,
+      loading,
+      message,
+      showClaimLettersLink,
+      synced,
+    } = this.props;
 
     let content = null;
     // claim can be null
@@ -78,7 +84,10 @@ class ClaimStatusPage extends React.Component {
             <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
           ) : null}
           {attributes.decisionLetterSent && !attributes.open ? (
-            <ClaimsDecision completedDate={getCompletedDate(claim)} />
+            <ClaimsDecision
+              completedDate={getCompletedDate(claim)}
+              showClaimLettersLink={showClaimLettersLink}
+            />
           ) : null}
           {!attributes.decisionLetterSent && !attributes.open ? (
             <ClaimComplete completedDate={getCompletedDate(claim)} />
@@ -120,6 +129,7 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
+    showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
   };
 }
