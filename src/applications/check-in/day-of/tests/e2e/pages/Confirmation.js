@@ -24,7 +24,7 @@ class Confirmation {
   validatePageLoadedWithBtsssSubmission = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'And we received your reimbursement claim');
+      .and('include.text', 'And we received your travel claim');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
@@ -41,7 +41,7 @@ class Confirmation {
       .should('be.visible')
       .and(
         'include.text',
-        'We’re sorry. We can’t file this type of reimbursement claim for you',
+        'We’re sorry. We can’t file this type of travel reimbursement claim for you',
       );
   };
 

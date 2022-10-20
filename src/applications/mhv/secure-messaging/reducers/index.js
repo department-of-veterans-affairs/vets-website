@@ -10,10 +10,12 @@ import { searchReducer } from './search';
 import { triageTeamsReducer } from './triageTeams';
 
 import { allMessages, message, folders } from './oldReducers';
+import { breadcrumbsReducer } from './breadcrumbs';
 
 const rootReducer = {
   sm: combineReducers({
     alerts: alertsReducer,
+    breadcrumbs: breadcrumbsReducer,
     categories: categoriesReducer,
     draftDetails: draftDetailsReducer,
     folders: foldersReducer,

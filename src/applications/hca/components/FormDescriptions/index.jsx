@@ -62,24 +62,26 @@ export const BirthSexDescription = (
     trigger="Why we ask for this information"
     class="vads-u-margin-y--2"
   >
-    <p className="vads-u-margin-top--0">
-      Population data shows that a person’s sex can affect things like their
-      health risks and the way their body responds to medications. Knowing your
-      sex assigned at birth, along with other factors, helps your health care
-      team use data to:
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        Population data shows that a person’s sex can affect things like their
+        health risks and the way their body responds to medications. Knowing
+        your sex assigned at birth, along with other factors, helps your health
+        care team use data to:
+      </p>
 
-    <ul>
-      <li>Interpret your lab results</li>
-      <li>Prescribe the right dose of medications</li>
-      <li>Recommend health prevention screenings</li>
-    </ul>
+      <ul>
+        <li>Interpret your lab results</li>
+        <li>Prescribe the right dose of medications</li>
+        <li>Recommend health prevention screenings</li>
+      </ul>
 
-    <p className="vads-u-margin-bottom--0">
-      We also collect this information to better understand our Veteran
-      community. This helps us make sure that we’re serving the needs of all
-      Veterans.
-    </p>
+      <p className="vads-u-margin-bottom--0">
+        We also collect this information to better understand our Veteran
+        community. This helps us make sure that we’re serving the needs of all
+        Veterans.
+      </p>
+    </div>
   </va-additional-info>
 );
 
@@ -113,29 +115,32 @@ export const CompensationTypeDescription = (
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
   >
-    <p className="vads-u-margin-top--0">
-      We use this information to help us decide these 4 things:
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        We use this information to help us decide these 4 things:
+      </p>
 
-    <ul>
-      <li>
-        If you can fill out a shorter application, <strong>and</strong>
-      </li>
-      <li>
-        What types of VA health care benefits you’re eligible for,{' '}
-        <strong>and</strong>
-      </li>
-      <li>
-        How soon we enroll you in VA health care, <strong>and</strong>
-      </li>
-      <li>
-        How much (if anything) you’ll have to pay toward the cost of your care
-      </li>
-    </ul>
+      <ul>
+        <li>
+          If you can fill out a shorter application, <strong>and</strong>
+        </li>
+        <li>
+          What types of VA health care benefits you’re eligible for,{' '}
+          <strong>and</strong>
+        </li>
+        <li>
+          How soon we enroll you in VA health care, <strong>and</strong>
+        </li>
+        <li>
+          How much (if anything) you’ll have to pay toward the cost of your care
+        </li>
+      </ul>
 
-    <p className="vads-u-margin-bottom--0">
-      We give veterans with service-connected disabilities the highest priority.
-    </p>
+      <p className="vads-u-margin-bottom--0">
+        We give veterans with service-connected disabilities the highest
+        priority.
+      </p>
+    </div>
   </va-additional-info>
 );
 
@@ -295,29 +300,32 @@ export const HealthInsuranceCoverageDescription = (
     trigger="Why we ask this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
   >
-    <p className="vads-u-margin-top--0">
-      We ask for this information for billing purposes only. Your health
-      insurance coverage doesn’t affect the VA health care benefits you can get.
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        We ask for this information for billing purposes only. Your health
+        insurance coverage doesn’t affect the VA health care benefits you can
+        get.
+      </p>
 
-    <p>
-      Giving us your health insurance information helps you for these reasons:
-    </p>
+      <p>
+        Giving us your health insurance information helps you for these reasons:
+      </p>
 
-    <ul className="vads-u-margin-bottom--0">
-      <li>
-        We must bill your private health insurance provider for any care,
-        supplies, or medicines we provide to treat your non-service-connected
-        conditions. If you have a VA copayment, we may be able to use the
-        payments from your provider to cover some or all of your copayment.
-      </li>
-      <li>
-        Your private insurance provider may apply your VA health care charges
-        toward your annual deductible. Your annual deductible is the amount of
-        money you pay toward your care each year before your insurance starts to
-        pay for care.
-      </li>
-    </ul>
+      <ul className="vads-u-margin-bottom--0">
+        <li>
+          We must bill your private health insurance provider for any care,
+          supplies, or medicines we provide to treat your non-service-connected
+          conditions. If you have a VA copayment, we may be able to use the
+          payments from your provider to cover some or all of your copayment.
+        </li>
+        <li>
+          Your private insurance provider may apply your VA health care charges
+          toward your annual deductible. Your annual deductible is the amount of
+          money you pay toward your care each year before your insurance starts
+          to pay for care.
+        </li>
+      </ul>
+    </div>
   </va-additional-info>
 );
 
@@ -371,15 +379,17 @@ export const MaritalStatusDescription = (
     trigger="Why we ask for this information"
     class="vads-u-margin-top--3 vads-u-margin-bottom--4"
   >
-    <p className="vads-u-margin-top--0">
-      We want to make sure we understand your household’s financial situation.
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        We want to make sure we understand your household’s financial situation.
+      </p>
 
-    <p className="vads-u-margin-bottom--0">
-      We’ll ask about your income. If you’re married, we also need to understand
-      your spouse’s financial situation. This allows us to make a more informed
-      decision about your application.
-    </p>
+      <p className="vads-u-margin-bottom--0">
+        We’ll ask about your income. If you’re married, we also need to
+        understand your spouse’s financial situation. This allows us to make a
+        more informed decision about your application.
+      </p>
+    </div>
   </va-additional-info>
 );
 
@@ -407,26 +417,29 @@ export const MedicareClaimNumberDescription = (
       trigger="Why we ask for this information"
       class="vads-u-margin-top--3 vads-u-margin-bottom--4"
     >
-      <p className="vads-u-margin-top--0">
-        We use your Medicare claim number to keep track of the health care
-        services that Medicare covers. We use your claim number when we need to
-        create a Medicare explanation of benefits.
-      </p>
-      <p>
-        We don’t bill Medicare for any services. By law, Medicare can’t pay for
-        our services. But this explanation shows what Medicare would have paid
-        for services if they could.
-      </p>
-      <p>
-        We may need to bill medicare supplimental insurance or a private
-        insurance provider for certain services. And some providers must have
-        this explanation before they’ll pay the bill.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        <strong>Note:</strong> Having Medicare or other health insurance doesn’t
-        affect the VA health care benefits you can get. And you won’t have to
-        pay any unpaid balance that a health insurance provider doesn’t cover.
-      </p>
+      <div>
+        <p className="vads-u-margin-top--0">
+          We use your Medicare claim number to keep track of the health care
+          services that Medicare covers. We use your claim number when we need
+          to create a Medicare explanation of benefits.
+        </p>
+        <p>
+          We don’t bill Medicare for any services. By law, Medicare can’t pay
+          for our services. But this explanation shows what Medicare would have
+          paid for services if they could.
+        </p>
+        <p>
+          We may need to bill medicare supplimental insurance or a private
+          insurance provider for certain services. And some providers must have
+          this explanation before they’ll pay the bill.
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          <strong>Note:</strong> Having Medicare or other health insurance
+          doesn’t affect the VA health care benefits you can get. And you won’t
+          have to pay any unpaid balance that a health insurance provider
+          doesn’t cover.
+        </p>
+      </div>
     </va-additional-info>
   </>
 );
@@ -460,27 +473,29 @@ export const PensionTypeDescription = (
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
   >
-    <p className="vads-u-margin-top--0">
-      We use this information to help us decide these 3 things:
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        We use this information to help us decide these 3 things:
+      </p>
 
-    <ul>
-      <li>
-        What types of VA health care benefits you’re eligible for,{' '}
-        <strong>and</strong>
-      </li>
-      <li>
-        How soon we enroll you in a VA health care, <strong>and</strong>
-      </li>
-      <li>
-        How much (if anything) you’ll have to pay toward the cost of your care
-      </li>
-    </ul>
+      <ul>
+        <li>
+          What types of VA health care benefits you’re eligible for,{' '}
+          <strong>and</strong>
+        </li>
+        <li>
+          How soon we enroll you in a VA health care, <strong>and</strong>
+        </li>
+        <li>
+          How much (if anything) you’ll have to pay toward the cost of your care
+        </li>
+      </ul>
 
-    <p>
-      If you have a Veterans Pension, you may pay a lower copay, or no copay,
-      for certain types of care and services.
-    </p>
+      <p>
+        If you have a Veterans Pension, you may pay a lower copay, or no copay,
+        for certain types of care and services.
+      </p>
+    </div>
   </va-additional-info>
 );
 
@@ -507,43 +522,46 @@ export const PolicyOrGroupDescription = (
 
 export const SIGIGenderDescription = (
   <>
-    <legend className="schemaform-label">
-      What is your gender?
-      <div className="vads-u-color--gray-medium">
-        Choose the option that best fits how you describe yourself.
-      </div>
-    </legend>
-
     <va-additional-info
-      trigger="Why we ask for this information"
-      class="vads-u-margin-y--4"
+      trigger="What to know before you decide to share your gender identity"
+      class="vads-u-margin-top--2"
     >
-      <p className="vads-u-margin-top--0">
-        This information helps your health care team know how you wish to be
-        addressed as a person. It also helps your team better assess your health
-        needs and risks. Gender identity is one of the factors that can affect a
-        person’s health, well-being, and quality of life. We call these factors
-        “social determinants of health.”
-      </p>
+      <div>
+        <p className="vads-u-margin-top--0">
+          Sharing your gender identity on this application is optional. This
+          information can help your health care team know how you wish to be
+          addressed as a person. It can also help your team better assess your
+          health needs and risks. We also use this information to help make sure
+          we’re serving the needs of all Veterans.
+        </p>
 
-      <p className="vads-u-margin-bottom--0">
-        We also collect this information to better understand our Veteran
-        community. This helps us make sure that we’re serving the needs of all
-        Veterans.
-      </p>
+        <p>
+          But you should know that any information you share here goes into your
+          VA-wide records. VA staff outside of the health care system may be
+          able to read this information.
+        </p>
+
+        <p className="vads-u-margin-bottom--0">
+          We follow strict security and privacy practices to keep your personal
+          information secure. But if you want to share your gender identity in
+          your health records only, talk with your health care team.
+        </p>
+      </div>
     </va-additional-info>
   </>
 );
 
 export const TricarePolicyDescription = (
   <va-additional-info trigger="I have TRICARE. What’s my policy number?">
-    <p className="vads-u-margin-top--0">
-      You can use your Department of Defense benefits number (DBN) or your
-      Social Security number as your policy number.
-    </p>
-    <p className="vads-u-margin-bottom--0">
-      Your DBN is an 11-digit number. You’ll find this number on the back of
-      your military ID card.
-    </p>
+    <div>
+      <p className="vads-u-margin-top--0">
+        You can use your Department of Defense benefits number (DBN) or your
+        Social Security number as your policy number.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        Your DBN is an 11-digit number. You’ll find this number on the back of
+        your military ID card.
+      </p>
+    </div>
   </va-additional-info>
 );
