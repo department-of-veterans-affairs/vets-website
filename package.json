@@ -211,7 +211,7 @@
     "mocker-api": "^2.9.0",
     "msw": "^0.35.0",
     "node-fetch": "^2.6.7",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
     "path-browserify": "^1.0.1",
@@ -241,7 +241,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0 <16",
+    "node": ">=14.15.0 <17",
     "yarn": "1.19.1"
   },
   "private": true,
