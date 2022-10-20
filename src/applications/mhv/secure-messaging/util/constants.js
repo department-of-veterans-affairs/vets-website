@@ -34,6 +34,11 @@ export const Prompts = {
     DELETE_MESSAGE_CONFIRM_NOTE:
       'Messages in the trash folder won’t be permanently deleted.',
   },
+  Draft: {
+    DISCARD_DRAFT_CONFIRM: 'Are you sure you want to discard this draft?',
+    DISCARD_DRAFT_CONFIRM_NOTE:
+      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+  },
 };
 export const Breadcrumbs = {
   COMPOSE: {
