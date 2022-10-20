@@ -24,6 +24,9 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
+    DELETE_DRAFT_ERROR:
+      'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
   },
 };
 

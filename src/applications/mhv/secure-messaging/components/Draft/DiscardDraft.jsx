@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
 import DiscardDraftModal from '../Modals/DiscardDraftModal';
 import * as Constants from '../../util/constants';
-import { deleteMessage } from '../../actions/messages';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import { deleteDraft } from '../../actions/draftDetails';
 
 const DiscardDraft = props => {
   const history = useHistory();
@@ -15,7 +15,7 @@ const DiscardDraft = props => {
 
   const handleDeleteDraftConfirm = () => {
     setIsModalVisible(false);
-    dispatch(deleteMessage(props.draft.messageId)).then(() => {
+    dispatch(deleteDraft(props.draft.messageId)).then(() => {
       navigateToFolderByFolderId(
         activeFolder
           ? activeFolder.folderId

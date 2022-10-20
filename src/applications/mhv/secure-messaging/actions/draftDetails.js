@@ -1,5 +1,7 @@
 import { Actions } from '../util/actionTypes';
-import { createDraft, updateDraft } from '../api/SmApi';
+import { createDraft, deleteMessage, updateDraft } from '../api/SmApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -38,5 +40,33 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.CREATE_SUCCEEDED,
       response,
     });
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @returns
+ */
+export const deleteDraft = messageId => async dispatch => {
+  try {
+    await deleteMessage(messageId);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
+      ),
+    );
+    dispatch({ type: Actions.Draft.CLEAR_DRAFT });
+  } catch (e) {
+    // const error = e.errors[0].detail;
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.DELETE_DRAFT_ERROR,
+      ),
+    );
+    throw e;
   }
 };
