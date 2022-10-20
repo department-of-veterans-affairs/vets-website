@@ -1,9 +1,29 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
 import DiscardDraftModal from '../Modals/DiscardDraftModal';
+import * as Constants from '../../util/constants';
+import { deleteMessage } from '../../actions/messages';
+import { navigateToFolderByFolderId } from '../../util/helpers';
 
-const DiscardDraft = () => {
+const DiscardDraft = props => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const activeFolder = useSelector(state => state.sm.folders.folder);
+
+  const handleDeleteDraftConfirm = () => {
+    setIsModalVisible(false);
+    dispatch(deleteMessage(props.draft.messageId)).then(() => {
+      navigateToFolderByFolderId(
+        activeFolder
+          ? activeFolder.folderId
+          : Constants.DefaultFolders.DRAFTS.id,
+        history,
+      );
+    });
+  };
 
   return (
     <>
@@ -23,7 +43,7 @@ const DiscardDraft = () => {
         onClose={() => {
           setIsModalVisible(false);
         }}
-        onDelete={() => {}}
+        onDelete={handleDeleteDraftConfirm}
       />
     </>
   );
