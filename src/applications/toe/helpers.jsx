@@ -109,7 +109,7 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 };
 
 function mapNotificationMethod({ notificationMethod }) {
-  if (notificationMethod === 'MAIL') {
+  if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
   }
   if (notificationMethod === 'TEXT') {
@@ -130,26 +130,36 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
-  const userAddressLine1 =
-    profile?.addressLine1 ||
-    vet360ContactInfo?.addressLine1 ||
-    contactInfo?.addressLine1;
-  const userAddressLine2 =
-    profile?.addressLine2 ||
-    vet360ContactInfo?.addressLine2 ||
-    contactInfo?.addressLine2;
-  const userCity =
-    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
-  const userState =
-    profile?.stateCode ||
-    vet360ContactInfo?.stateCode ||
-    contactInfo?.stateCode;
-  const userPostalCode =
-    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
-  const userCountryCode =
-    profile?.countryCode ||
-    vet360ContactInfo?.countryCode ||
-    contactInfo?.countryCode;
+  let userAddressLine1;
+  let userAddressLine2;
+  let userCity;
+  let userState;
+  let userPostalCode;
+  let userCountryCode;
+
+  if (profile?.addressLine1) {
+    userAddressLine1 = profile?.addressLine1;
+    userAddressLine2 = profile?.addressLine2;
+    userCity = profile?.city;
+    userState = profile?.stateCode;
+    userPostalCode = profile?.zipcode;
+    userCountryCode = profile?.countryCode;
+  } else if (vet360ContactInfo?.addressLine1) {
+    userAddressLine1 = vet360ContactInfo?.addressLine1;
+    userAddressLine2 = vet360ContactInfo?.addressLine2;
+    userCity = vet360ContactInfo?.city;
+    userState = vet360ContactInfo?.stateCode;
+    userPostalCode = vet360ContactInfo?.zipCode;
+    userCountryCode = vet360ContactInfo?.countryCode;
+  } else {
+    userAddressLine1 = contactInfo?.addressLine1;
+    userAddressLine2 = contactInfo?.addressLine2;
+    userCity = contactInfo?.city;
+    userState = contactInfo?.stateCode;
+    userPostalCode = contactInfo?.zipcode;
+    userCountryCode = contactInfo?.countryCode;
+  }
+
   const emailAddress =
     profile?.email ||
     vet360ContactInfo?.email?.emailAddress ||
@@ -234,7 +244,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: userAddressLine1,
-        street2: userAddressLine2,
+        street2: userAddressLine2 || '',
         city: userCity,
         state: userState,
         postalCode: userPostalCode,
