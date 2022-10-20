@@ -132,6 +132,7 @@
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "@tlei123/vagov-cy-tr-reporter": "^0.0.4",
     "@webpack-cli/serve": "^1.6.0",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
