@@ -15,14 +15,11 @@ const DiscardDraft = props => {
 
   const handleDeleteDraftConfirm = () => {
     setIsModalVisible(false);
-    dispatch(deleteDraft(props.draft.messageId)).then(() => {
-      navigateToFolderByFolderId(
-        activeFolder
-          ? activeFolder.folderId
-          : Constants.DefaultFolders.DRAFTS.id,
-        history,
-      );
-    });
+    dispatch(deleteDraft(props.draft.messageId));
+    navigateToFolderByFolderId(
+      activeFolder ? activeFolder.folderId : Constants.DefaultFolders.DRAFTS.id,
+      history,
+    );
   };
 
   return (
