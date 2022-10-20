@@ -50,8 +50,7 @@ export const DebtsV2 = ({ debts }) => {
           {debtsCount > 1 ? 's' : ''}
         </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Updated on{' '}
-          {format(new Date(formattedLastUpdatedDate), 'MMMM dd, yyyy')}
+          Updated on {formattedLastUpdatedDate}
         </p>
         <CTALink
           text="Manage your VA debt"
