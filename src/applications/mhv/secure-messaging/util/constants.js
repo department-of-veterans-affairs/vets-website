@@ -28,7 +28,7 @@ export const Alerts = {
   Folder: {
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
-      'Folder could not be deleted. Try again later. If this problem persists, contact the help desk.',
+      'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',

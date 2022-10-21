@@ -77,21 +77,21 @@ export const delFolder = folderId => async dispatch => {
 };
 
 export const renameFolder = (folderId, newName) => async dispatch => {
-  const response = await updateFolderName(folderId, newName);
-  if (response.errors) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
-      ),
-    );
-  } else {
+  try {
+    await updateFolderName(folderId, newName);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
         '',
         Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
       ),
     );
   }
