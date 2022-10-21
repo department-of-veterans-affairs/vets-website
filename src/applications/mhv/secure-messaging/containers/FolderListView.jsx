@@ -1,19 +1,16 @@
-import {
-  VaModal,
-  VaSearchInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
 import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import InboxListView from '../components/MessageList/InboxListView';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { retrieveFolder, delFolder, getFolders } from '../actions/folders';
+import { retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
-import { navigateToFoldersPage } from '../util/helpers';
+import ManageFolderButtons from '../components/ManageFolderButtons';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -23,9 +20,6 @@ const FolderListView = () => {
   const folder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const params = useParams();
-  const history = useHistory();
-  const [isEmptyWarning, setIsEmptyWarning] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(
     () => {
@@ -52,26 +46,6 @@ const FolderListView = () => {
     },
     [dispatch, location.pathname, params.folderId],
   );
-
-  const openDelModal = () => {
-    if (messages.length > 0) {
-      setIsEmptyWarning(true);
-    } else {
-      setIsEmptyWarning(false);
-    }
-    setIsModalVisible(true);
-  };
-
-  const closeDelModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const confirmDelFolder = () => {
-    closeDelModal();
-    dispatch(delFolder(folderId)).then(
-      dispatch(getFolders()).then(navigateToFoldersPage(history)),
-    );
-  };
 
   useEffect(
     () => {
@@ -147,25 +121,7 @@ const FolderListView = () => {
         ) : (
           <>
             <FolderHeader folder={folder} />
-            {folder.folderId > 0 && (
-              // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
-              <div className="manage-folder-container">
-                <button
-                  type="button"
-                  className="left-button usa-button-secondary"
-                  onClick={function noRefCheck() {}}
-                >
-                  Edit folder name
-                </button>
-                <button
-                  type="button"
-                  className="right-button usa-button-secondary"
-                  onClick={openDelModal}
-                >
-                  Remove folder
-                </button>
-              </div>
-            )}
+            <ManageFolderButtons />
             <div className="search-messages-input">
               <label
                 className="vads-u-margin-top--2p5"
@@ -175,42 +131,7 @@ const FolderListView = () => {
               </label>
               <VaSearchInput label="search-message-folder-input" />
             </div>
-
             <div>{content}</div>
-            {isEmptyWarning && (
-              <VaModal
-                className="modal"
-                visible={isModalVisible}
-                large="true"
-                modalTitle="Empty this folder before removing it from the list."
-                onCloseEvent={closeDelModal}
-                status="warning"
-              >
-                <p>
-                  Before this folder can be removed, all of the messages in it
-                  must be moved to another folder, such as Trash, Messages, or a
-                  different custom folder.
-                </p>
-                <va-button text="Ok" onClick={closeDelModal} />
-              </VaModal>
-            )}
-            {!isEmptyWarning && (
-              <VaModal
-                className="modal"
-                visible={isModalVisible}
-                large="true"
-                modalTitle="Are you sure you want to remove this folder?"
-                onCloseEvent={closeDelModal}
-              >
-                <p>This action cannot be undone</p>
-                <va-button text="Remove" onClick={confirmDelFolder} />
-                <va-button
-                  secondary="true"
-                  text="Cancel"
-                  onClick={closeDelModal}
-                />
-              </VaModal>
-            )}
           </>
         )}
       </div>
