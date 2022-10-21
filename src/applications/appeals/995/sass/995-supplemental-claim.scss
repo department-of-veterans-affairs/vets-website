@@ -156,11 +156,9 @@ dl.review {
 }
 
 /* Hide home & mobile phone extension entry, per design */
-article[data-location="edit-mobile-phone"],
-article[data-location="edit-home-phone"] {
-  .schemaform-field-template:not(.schemaform-first-field) {
-    display: none;
-  }
+article[data-location="edit-mobile-phone"] .schemaform-field-template:not(.schemaform-first-field),
+article[data-location="edit-home-phone"] va-text-input[name="extension"] {
+  display: none;
 }
 
 article[data-location$="va-medical-records"] {
