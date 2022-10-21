@@ -1,24 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getClaimLetters } from '../actions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimLetterList from '../components/ClaimLetterList';
 import WIP from '../components/WIP';
+import { ITEMS_PER_PAGE } from '../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
 
+const paginateItems = items => {
+  return chunk(items, ITEMS_PER_PAGE);
+};
+
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
-  const [letters, setLetters] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [lettersLoading, setLettersLoading] = useState(true);
+  const numPages = useRef(0);
+  const paginatedItems = useRef([]);
 
   useEffect(() => {
     getClaimLetters().then(data => {
-      setLetters(data);
+      paginatedItems.current = paginateItems(data);
+
+      setCurrentItems(paginatedItems.current[currentPage - 1]);
+      numPages.current = paginatedItems.current.length;
       setLettersLoading(false);
     });
   }, []);
+
+  const onPageChange = page => {
+    setCurrentItems(paginatedItems.current[page - 1]);
+    setCurrentPage(page);
+  };
 
   if (isLoading) {
     return <va-loading-indicator message="Loading application..." />;
@@ -38,7 +56,15 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         {lettersLoading ? (
           <va-loading-indicator message="Loading your claim letters..." />
         ) : (
-          <ClaimLetterList letters={letters} />
+          <>
+            <ClaimLetterList letters={currentItems} />
+            <VaPagination
+              onPageSelect={e => onPageChange(e.detail.page)}
+              page={currentPage}
+              pages={numPages.current}
+              maxPageListLength={ITEMS_PER_PAGE}
+            />
+          </>
         )}
       </>
     );
