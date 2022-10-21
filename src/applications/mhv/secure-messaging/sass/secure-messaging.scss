@@ -1,6 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 @import "./folders-list";
+@forward "usa-button-group";
 
 .secure-messaging-container {
   display: flex;
