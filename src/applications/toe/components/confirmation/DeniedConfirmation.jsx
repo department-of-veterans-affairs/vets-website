@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LETTER_URL } from '../../constants';
+import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 
 export default function DeniedConfirmation({ user, dateReceived }) {
   return (
@@ -29,7 +29,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <a
               className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
-              href="/demo"
+              href={LETTER_ENDPOINT}
             >
               <i
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
@@ -52,7 +52,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <h3 slot="headline" style={{ marginTop: '1rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
-            For {user?.fullName}
+            For {user}
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -86,5 +86,5 @@ export default function DeniedConfirmation({ user, dateReceived }) {
 
 DeniedConfirmation.propTypes = {
   dateReceived: PropTypes.string,
-  user: PropTypes.object,
+  user: PropTypes.string,
 };

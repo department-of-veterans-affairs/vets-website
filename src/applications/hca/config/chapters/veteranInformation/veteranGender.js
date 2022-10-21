@@ -20,20 +20,23 @@ export default {
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
-    sigiGenders: {
-      'ui:title': ' ',
+    'view:genderIdentity': {
+      'ui:title': 'Gender identity',
       'ui:description': SIGIGenderDescription,
-      'ui:reviewField': CustomReviewField,
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: {
-          M: 'Man',
-          F: 'Woman',
-          NB: 'Non-binary',
-          TM: 'Transgender Man',
-          TF: 'Transgender Female',
-          O: 'A gender not listed here',
-          NA: 'Prefer not to answer',
+      sigiGenders: {
+        'ui:title': 'Select your gender identity',
+        'ui:reviewField': CustomReviewField,
+        'ui:widget': 'radio',
+        'ui:options': {
+          labels: {
+            NB: 'Non-binary',
+            M: 'Man',
+            F: 'Woman',
+            TM: 'Transgender man',
+            TF: 'Transgender woman',
+            O: 'A gender not listed here',
+            NA: 'Prefer not to answer',
+          },
         },
       },
     },
@@ -44,8 +47,12 @@ export default {
     properties: {
       'view:genderShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
-      'view:sigiDescription': emptyObjectSchema,
-      sigiGenders,
+      'view:genderIdentity': {
+        type: 'object',
+        properties: {
+          sigiGenders,
+        },
+      },
     },
   },
 };

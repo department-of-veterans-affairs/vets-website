@@ -31,6 +31,10 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
+      }
 
       if (
         !sponsors?.loadedFromSavedState &&
@@ -42,27 +46,15 @@ function ToeApp({
       }
     },
     [
+      fetchedUserInfo,
       formData,
-      location,
+      getPersonalInformation,
+      user?.login?.currentlyLoggedIn,
       setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      user?.login?.currentlyLoggedIn,
     ],
-  );
-
-  useEffect(
-    () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
-      }
-    },
-    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
   );
 
   useEffect(
@@ -99,7 +91,6 @@ ToeApp.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
-  getSponsors: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
@@ -120,8 +111,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getPersonalInformation: fetchPersonalInformation,
   getDirectDeposit: fetchDirectDeposit,
+  getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };
 
