@@ -62,6 +62,7 @@ import {
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
+import { formFields } from '../constants';
 import { ELIGIBILITY } from '../actions';
 
 const {
@@ -73,40 +74,6 @@ const {
   email,
   toursOfDuty,
 } = commonDefinitions;
-
-// Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  userFullName: 'userFullName',
-  dateOfBirth: 'dateOfBirth',
-  ssn: 'ssn',
-  toursOfDuty: 'toursOfDuty',
-  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  address: 'address',
-  email: 'email',
-  viewPhoneNumbers: 'view:phoneNumbers',
-  phoneNumber: 'phoneNumber',
-  mobilePhoneNumber: 'mobilePhoneNumber',
-  viewBenefitSelection: 'view:benefitSelection',
-  benefitRelinquished: 'benefitRelinquished',
-  benefitEffectiveDate: 'benefitEffectiveDate',
-  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  contactMethod: 'contactMethod',
-  receiveTextMessages: 'receiveTextMessages',
-  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
-  activeDutyKicker: 'activeDutyKicker',
-  selectedReserveKicker: 'selectedReserveKicker',
-  federallySponsoredAcademy: 'federallySponsoredAcademy',
-  seniorRotcCommission: 'seniorRotcCommission',
-  loanPayment: 'loanPayment',
-  additionalConsiderationsNote: 'additionalConsiderationsNote',
-};
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
