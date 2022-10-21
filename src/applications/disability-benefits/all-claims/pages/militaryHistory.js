@@ -49,9 +49,10 @@ export const uiSchema = {
         serviceBranch: {
           'ui:title': 'Branch of service',
           'ui:options': {
-            updateSchema: (formData, schema) => {
-              console.log({ schema, formData });
-              const options = formData.militaryServiceBranches || [];
+            updateSchema: (_formData, schema) => {
+              const options = JSON.parse(
+                sessionStorage.getItem('militaryServiceBranches'),
+              );
               return set('enum', options, schema);
             },
           },
