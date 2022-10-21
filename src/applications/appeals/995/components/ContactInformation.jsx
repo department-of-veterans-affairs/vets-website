@@ -47,43 +47,67 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
   // loop to separate pages when editing
   const contactSection = (
     <>
-      <h4 className="vads-u-font-size--h3">Home phone number</h4>
-      <va-telephone
-        contact={getPhoneString(homePhone)}
-        extension={homePhone?.extension}
-        not-clickable
-      />
-      <p>
-        <Link to="/edit-home-phone" aria-label="Edit home phone number">
-          Edit
-        </Link>
-      </p>
+      <h4 className="vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-width--auto vads-u-display--inline-block">
+        Home phone number
+      </h4>
+      <Link
+        to="/edit-home-phone"
+        aria-label="Edit home phone number"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <va-telephone
+          contact={getPhoneString(homePhone)}
+          extension={homePhone?.extension}
+          not-clickable
+        />
+      </div>
 
-      <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
-      <va-telephone
-        contact={getPhoneString(mobilePhone)}
-        extension={mobilePhone?.extension}
-        not-clickable
-      />
-      <p>
-        <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
-          Edit
-        </Link>
-      </p>
-      <h4 className="vads-u-font-size--h3">Email address</h4>
-      <span>{email?.emailAddress || ''}</span>
-      <p>
-        <Link to="/edit-email-address" aria-label="Edit email address">
-          Edit
-        </Link>
-      </p>
-      <h4 className="vads-u-font-size--h3">Mailing address</h4>
-      <AddressView data={mailingAddress} />
-      <p>
-        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
-          Edit
-        </Link>
-      </p>
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Mobile phone number
+      </h4>
+      <Link
+        to="/edit-mobile-phone"
+        aria-label="Edit mobile phone number"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <va-telephone
+          contact={getPhoneString(mobilePhone)}
+          extension={mobilePhone?.extension}
+          not-clickable
+        />
+      </div>
+
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Email address
+      </h4>
+      <Link
+        to="/edit-email-address"
+        aria-label="Edit email address"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>{email?.emailAddress || ''}</div>
+
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Mailing address
+      </h4>
+      <Link
+        to="/edit-mailing-address"
+        aria-label="Edit mailing address"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <AddressView data={mailingAddress} />
+      </div>
     </>
   );
 
