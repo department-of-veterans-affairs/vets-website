@@ -11,10 +11,10 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 import { selectVeteranStatus } from 'platform/user/selectors';
+
 import facilityLocator from 'applications/facility-locator/manifest.json';
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-
 import Headline from '../ProfileSectionHeadline';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';

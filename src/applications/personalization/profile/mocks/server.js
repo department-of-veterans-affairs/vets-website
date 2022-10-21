@@ -64,7 +64,10 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    return res.status(200).json(serviceHistory.airForce);
+    // return res.status(200).json(serviceHistory.airForce);
+    return res
+      .status(200)
+      .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

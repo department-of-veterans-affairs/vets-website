@@ -62,10 +62,21 @@ const noServiceFound = {
   ],
 };
 
+const generateServiceHistoryError = (errorType = '500') => {
+  return {
+    data: {
+      attributes: {
+        error: errorType === '403' ? noServiceFound : error,
+      },
+    },
+  };
+};
+
 module.exports = {
   none,
   noServiceFound,
   error,
   airForce,
   spaceForce,
+  generateServiceHistoryError,
 };
