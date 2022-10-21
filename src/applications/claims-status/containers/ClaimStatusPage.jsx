@@ -1,21 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import ClaimsDecision from '../components/ClaimsDecision';
+import { clearNotification } from '../actions';
 import ClaimComplete from '../components/ClaimComplete';
-import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimsTimeline from '../components/ClaimsTimeline';
+import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import { showClaimLettersFeature } from '../selectors';
-import { setUpPage, isTab, setFocus } from '../utils/page';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
 } from '../utils/helpers';
-import { clearNotification } from '../actions';
+import { setUpPage, isTab, setFocus } from '../utils/page';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -136,6 +137,17 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   clearNotification,
+};
+
+ClaimStatusPage.propTypes = {
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  message: PropTypes.string,
+  params: PropTypes.object,
+  showClaimLettersLink: PropTypes.bool,
+  synced: PropTypes.bool,
 };
 
 export default connect(
