@@ -58,12 +58,14 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         ) : (
           <>
             <ClaimLetterList letters={currentItems} />
-            <VaPagination
-              onPageSelect={e => onPageChange(e.detail.page)}
-              page={currentPage}
-              pages={numPages.current}
-              maxPageListLength={ITEMS_PER_PAGE}
-            />
+            {numPages.current > 1 && (
+              <VaPagination
+                onPageSelect={e => onPageChange(e.detail.page)}
+                page={currentPage}
+                pages={numPages.current}
+                maxPageListLength={ITEMS_PER_PAGE}
+              />
+            )}
           </>
         )}
       </>
