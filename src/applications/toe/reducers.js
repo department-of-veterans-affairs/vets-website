@@ -2,9 +2,6 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 import formConfig from './config/form';
 
 import {
-  FETCH_SPONSORS,
-  FETCH_SPONSORS_FAILED,
-  FETCH_SPONSORS_SUCCESS,
   UPDATE_SPONSORS,
   FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -29,15 +26,20 @@ const initialState = {
   },
 };
 
-const ifApiIsDown = action => {
-  return action?.response
-    ? action?.response?.data?.attributes
-    : {
-        accountType: 'Checking',
-        accountNumber: '1234569891',
-        routingNumber: '031000503',
-        financialInstitutionName: 'Wells Fargo',
-      };
+const handleDirectDepositApi = action => {
+  if (action?.response?.data?.attributes) {
+    return {
+      ...action?.response?.data?.attributes,
+      routingNumber:
+        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    };
+  }
+  return {
+    accountType: 'Checking',
+    accountNumber: '1234569891',
+    routingNumber: '031000503',
+    financialInstitutionName: 'Wells Fargo',
+  };
 };
 
 export default {
@@ -59,51 +61,15 @@ export default {
           fetchedSponsorsComplete: true,
           sponsors: {
             sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
-              (sponsor, index) => {
+              sponsor => {
                 return {
                   ...sponsor,
-                  // ! TODO: CHANGE ID
-                  id: `${sponsor.sponsorVaId - index}`,
+                  id: `${sponsor?.sponsorVaId}`,
                   name: [sponsor.firstName, sponsor.lastName].join(' '),
                   relationship: sponsor.sponsorRelationship,
                 };
               },
             ),
-            someoneNotListed: false,
-          },
-        };
-      case FETCH_SPONSORS:
-        return {
-          ...state,
-          fetchedSponsors: true,
-        };
-      case FETCH_SPONSORS_SUCCESS:
-      case FETCH_SPONSORS_FAILED:
-        return {
-          ...state,
-          fetchedSponsorsComplete: true,
-          sponsors: {
-            sponsors: state.sponsors || [],
-            // [
-            // {
-            //   id: '1',
-            //   name: 'Hector Stanley',
-            //   dateOfBirth: '1978-07-18',
-            //   relationship: SPONSOR_RELATIONSHIP.CHILD,
-            // },
-            // {
-            //   id: '2',
-            //   name: 'Nancy Stanley',
-            //   dateOfBirth: '1979-10-11',
-            //   relationship: SPONSOR_RELATIONSHIP.CHILD,
-            // },
-            // {
-            //   id: '3',
-            //   name: 'Jane Doe',
-            //   dateOfBirth: '1996-07-18',
-            //   relationship: SPONSOR_RELATIONSHIP.SPOUSE,
-            // },
-            // ],
             someoneNotListed: false,
           },
         };
@@ -137,7 +103,7 @@ export default {
         return {
           ...state,
           fetchDirectDepositInProgress: false,
-          bankInformation: ifApiIsDown(action),
+          bankInformation: handleDirectDepositApi(action),
         };
       default:
         return state;

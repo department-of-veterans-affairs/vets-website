@@ -121,10 +121,10 @@ const PreSubmitSignature = ({
   return (
     <>
       <p>
-        Please click on each of the sections above to review the information you
-        entered for this request. Then read and sign the Veteran’s statement of
-        truth. The name you enter will serve as your electronic signature for
-        this request.
+        Select each of the sections above to review the information you entered
+        for this request. Then read and sign the Veteran’s statement of truth.
+        The name you enter will serve as your electronic signature for this
+        request.
       </p>
 
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">

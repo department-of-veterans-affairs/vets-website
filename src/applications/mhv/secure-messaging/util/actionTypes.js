@@ -3,7 +3,9 @@ export const Actions = {
     CLOSE_ALERT: 'SM_ALERT_CLOSE_ALERT',
     ADD_ALERT: 'SM_ALERT_ADD_ALERT',
   },
-  Breadcrumbs: { SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS' },
+  Breadcrumbs: {
+    SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
+  },
   Category: { GET_LIST: 'SM_CATEGORY_GET_LIST' },
   Draft: {
     GET: 'SM_DRAFT_GET',
@@ -23,6 +25,7 @@ export const Actions = {
     CLEAR: 'SM_FODLER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
     CREATE: 'SM_FOLDER_CREATE',
+    DELETE: 'SM_FOLDER_DELETE',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',

@@ -45,6 +45,7 @@ export const formFields = {
   parentGuardianSponsor: 'parentGuardianSponsor',
   phoneNumber: 'phoneNumber',
   phoneNumberInternational: 'phoneNumberInternational',
+  preferredContactMethod: 'preferredContactMethod',
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',

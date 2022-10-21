@@ -1,5 +1,6 @@
 {
   "view:combinedFinancialStatusReport": true,
+  "view:enhancedFinancialStatusReport": true,
   "otherExpenses": [
     {
       "name": "Pool service",
@@ -78,12 +79,12 @@
     },
     "addlIncRecords": [
       {
-        "name": "Bonus payment",
-        "amount": "1500.67"
+        "name": "Social Security",
+        "amount": "150.67"
       },
       {
-        "name": "Freelance service",
-        "amount": "1000.43"
+        "name": "Alimony",
+        "amount": "210.43"
       }
     ]
   },

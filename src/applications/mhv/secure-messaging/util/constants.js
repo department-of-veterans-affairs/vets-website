@@ -28,6 +28,11 @@ export const Alerts = {
     DELETE_DRAFT_ERROR:
       'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
   },
+  Folder: {
+    DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
+    DELETE_FOLDER_ERROR:
+      'Folder could not be deleted. Try again later. If this problem persists, contact the help desk.',
+  },
 };
 
 export const Prompts = {
