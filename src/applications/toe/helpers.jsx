@@ -142,7 +142,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     userAddressLine2 = profile?.addressLine2;
     userCity = profile?.city;
     userState = profile?.stateCode;
-    userPostalCode = profile?.zipcode;
+    userPostalCode = profile?.zipCode;
     userCountryCode = profile?.countryCode;
   } else if (vet360ContactInfo?.addressLine1) {
     userAddressLine1 = vet360ContactInfo?.addressLine1;
@@ -156,7 +156,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     userAddressLine2 = contactInfo?.addressLine2;
     userCity = contactInfo?.city;
     userState = contactInfo?.stateCode;
-    userPostalCode = contactInfo?.zipcode;
+    userPostalCode = contactInfo?.zipCode;
     userCountryCode = contactInfo?.countryCode;
   }
 
@@ -244,7 +244,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: userAddressLine1,
-        street2: userAddressLine2 || '',
+        street2: userAddressLine2 || undefined,
         city: userCity,
         state: userState,
         postalCode: userPostalCode,
