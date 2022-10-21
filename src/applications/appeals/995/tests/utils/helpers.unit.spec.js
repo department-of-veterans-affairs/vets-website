@@ -377,9 +377,9 @@ describe('readableList', () => {
     expect(readableList(['one'])).to.eq('one');
     expect(readableList(['', 'one', null])).to.eq('one');
     expect(readableList(['one', 'two'])).to.eq('one and two');
-    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
+    expect(readableList([1, 2, 'three'])).to.eq('1, 2, and three');
     expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
-      'v, w, x, y and z',
+      'v, w, x, y, and z',
     );
   });
 });
