@@ -70,9 +70,11 @@ export const saveInProgressReducers = {
   },
   [SET_IN_PROGRESS_FORM]: (state, action) => {
     let newState;
+    console.log({ fxn: 'set in progress form action', state });
 
     // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
+      console.log('PREFILL');
       const formData = merge({}, state.data, action.data.formData);
       const loadedData = set('formData', formData, action.data);
       newState = set('loadedData', loadedData, state);
@@ -88,12 +90,16 @@ export const saveInProgressReducers = {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
       }
     } else {
+      // action.data is directly from our API's fetch in progress form endpoint.
+      // 
+      console.log({ fxn: 'NO PREFILL', "action.data": action.data });
+      // state.loadedData = action.data
       newState = set('loadedData', action.data, state);
       newState.prefillStatus = PREFILL_STATUSES.notAttempted;
     }
 
     newState.loadedStatus = LOAD_STATUSES.success;
-    newState.data = newState.loadedData.formData;
+    newState.data = newState.loadedData.formData; // overwriting not merging
     newState.pages = action.pages;
 
     return recalculateSchemaAndData(newState);

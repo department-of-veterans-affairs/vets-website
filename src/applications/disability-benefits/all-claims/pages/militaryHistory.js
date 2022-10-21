@@ -1,3 +1,4 @@
+import set from 'platform/utilities/data/set';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
@@ -47,6 +48,13 @@ export const uiSchema = {
       items: {
         serviceBranch: {
           'ui:title': 'Branch of service',
+          'ui:options': {
+            updateSchema: (formData, schema) => {
+              console.log({ schema, formData });
+              const options = formData.militaryServiceBranches || [];
+              return set('enum', options, schema);
+            },
+          },
         },
         dateRange: dateRangeUISchema,
         'ui:options': {
@@ -65,8 +73,24 @@ export const schema = {
       required: ['servicePeriods'], // required in fullSchema
       type: 'object',
       properties: {
-        servicePeriods:
-          fullSchema.properties.serviceInformation.properties.servicePeriods,
+        servicePeriods: {
+          type: 'array',
+          minItems: 1,
+          maxItems: 100,
+          items: {
+            type: 'object',
+            required: ['serviceBranch', 'dateRange'],
+            properties: {
+              serviceBranch: {
+                type: 'string',
+                enum: [],
+              },
+              dateRange: {
+                $ref: '#/definitions/dateRangeAllRequired',
+              },
+            },
+          },
+        },
         'view:militaryHistoryNote': {
           type: 'object',
           properties: {},

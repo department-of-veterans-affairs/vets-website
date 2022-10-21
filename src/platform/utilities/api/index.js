@@ -91,6 +91,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
+      console.log({ err });
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
         scope.setFingerprint(['{{default}}', scope._tags?.source]);
@@ -100,6 +101,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
+      console.log({ response })
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);
@@ -117,6 +119,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         ((response.status === 403 || response.status === 401) &&
           infoTokenExists())
       ) {
+        console.log({ dataApiRequest: data })
         return data;
       }
 

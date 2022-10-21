@@ -43,6 +43,13 @@ export const MVI_ADD_INITIATED = 'MVI_ADD_INITIATED';
 export const MVI_ADD_SUCCEEDED = 'MVI_ADD_SUCCEEDED';
 export const MVI_ADD_FAILED = 'MVI_ADD_FAILED';
 
+export const GET_MILITARY_SERVICE_BRANCHES_INITIATED =
+  'GET_MILITARY_SERVICE_BRANCHES_INITIATED';
+export const GET_MILITARY_SERVICE_BRANCHES_SUCCEEDED =
+  'GET_MILITARY_SERVICE_BRANCHES_SUCCEEDED';
+export const GET_MILITARY_SERVICE_BRANCHES_FAILED =
+  'GET_MILITARY_SERVICE_BRANCHES_FAILED';
+
 export function addPerson() {
   return dispatch => {
     dispatch({ type: MVI_ADD_INITIATED });
@@ -52,6 +59,30 @@ export function addPerson() {
       .catch(() => {
         Sentry.captureMessage('mvi_add_failed');
         dispatch({ type: MVI_ADD_FAILED });
+      });
+  };
+}
+
+export function getMilitaryServiceBranches() {
+  return dispatch => {
+    dispatch({ type: GET_MILITARY_SERVICE_BRANCHES_INITIATED });
+
+    console.log('getMilitaryServiceBranches called!')
+
+    return apiRequest('/benefits_reference_data/service-branches')
+      .then(data => {
+        console.log({ data });
+        const items = data.items.map(item => item.description);
+        console.log({ items });
+        return dispatch({
+          type: GET_MILITARY_SERVICE_BRANCHES_SUCCEEDED,
+          items,
+        });
+      })
+      .catch(error => {
+        console.log({ error });
+        Sentry.captureMessage('get_military_service_branches_failed');
+        dispatch({ type: GET_MILITARY_SERVICE_BRANCHES_FAILED });
       });
   };
 }

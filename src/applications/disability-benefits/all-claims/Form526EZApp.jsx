@@ -10,6 +10,7 @@ import {
   WIZARD_STATUS_RESTARTING,
 } from 'platform/site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -22,7 +23,7 @@ import {
   MissingDob,
 } from './containers/MissingServices';
 
-import { MVI_ADD_SUCCEEDED } from './actions';
+import { MVI_ADD_SUCCEEDED, getMilitaryServiceBranches } from './actions';
 import {
   WIZARD_STATUS,
   SHOW_8940_4192,
@@ -73,6 +74,10 @@ export const Form526Entry = ({
   showSubforms,
   showWizard,
   user,
+  militaryServiceBranches,
+  fetchMilitaryServiceBranches,
+  setFormData,
+  formData,
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
@@ -120,6 +125,24 @@ export const Form526Entry = ({
       }
     },
     [showSubforms, wizardStatus, inProgressFormId, profile, location],
+  );
+
+  useEffect(
+    () => {
+      console.log('Fetch use Effect called!');
+      if (loggedIn && !militaryServiceBranches.length) {
+        fetchMilitaryServiceBranches();
+      }
+    },
+    [loggedIn],
+  );
+  useEffect(
+    () => {
+      console.log('SetFormData use Effect called');
+      console.log({ formData, militaryServiceBranches });
+      setFormData({ ...formData, militaryServiceBranches });
+    },
+    [militaryServiceBranches],
   );
 
   // The router should be doing this, but we're getting lots of Sentry errors
@@ -209,6 +232,17 @@ const mapStateToProps = state => ({
   showSubforms: showSubform8940And4192(state),
   showWizard: show526Wizard(state),
   user: state.user,
+  militaryServiceBranches:
+    state?.serviceBranchesReducer?.militaryServiceBranches || [],
+  formData: state?.form?.data,
 });
 
-export default connect(mapStateToProps)(Form526Entry);
+const mapDispatchToProps = {
+  fetchMilitaryServiceBranches: getMilitaryServiceBranches, // () => (dispatch) => Promise
+  setFormData: setData, // (data) => object
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form526Entry);

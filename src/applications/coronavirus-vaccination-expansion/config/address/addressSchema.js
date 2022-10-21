@@ -119,7 +119,7 @@ export const addressUISchema = (
         'ui:required': callback,
         'ui:title': 'Country',
         'ui:options': {
-          updateSchema: (formData, schema, uiSchema, index) => {
+          updateSchema: (formData, schema, uiSchema, index, path) => {
             let militaryBasePath = livesOnMilitaryBasePath;
             let countryPath = path;
             if (typeof index === 'number') {
