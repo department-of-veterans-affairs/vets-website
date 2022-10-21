@@ -109,7 +109,7 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 };
 
 function mapNotificationMethod({ notificationMethod }) {
-  if (notificationMethod === 'MAIL') {
+  if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
   }
   if (notificationMethod === 'TEXT') {

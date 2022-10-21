@@ -13,7 +13,7 @@ function AppContent({ children, isDataAvailable }) {
   return (
     <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable />}
-      {canUseApp && <div>{children}</div>}
+      {canUseApp && <>{children}</>}
     </div>
   );
 }
