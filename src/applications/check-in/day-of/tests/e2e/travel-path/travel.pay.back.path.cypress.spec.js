@@ -11,6 +11,7 @@ import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 describe('Check In Experience', () => {
   describe('travel pay back path', () => {
     beforeEach(() => {
+      const appointments = [{ startTime: '2021-08-19T03:00:00' }];
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -25,6 +26,7 @@ describe('Check In Experience', () => {
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
         numberOfCheckInAbledAppointments: 1,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
