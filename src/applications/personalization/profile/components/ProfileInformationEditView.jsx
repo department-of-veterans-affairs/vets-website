@@ -43,11 +43,13 @@ import {
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 import { getEditButtonId } from '@@vap-svc/util/id-factory';
 
-import { focusElement } from '~/platform/utilities/ui';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import recordEvent from '~/platform/monitoring/record-event';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
+import { recordCustomProfileEvent } from '../util/analytics';
 
 const propTypes = {
   analyticsSectionName: PropTypes.oneOf(
@@ -148,6 +150,33 @@ export class ProfileInformationEditView extends Component {
       focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
+
+  // 48147 - remove when onClickUpdatehandler is removed
+  recordInlineValidationErrors = errors => {
+    const errorCount = errors.length;
+    const fieldTitle = VAP_SERVICE.FIELD_TITLES[this.props.fieldName];
+    const payload = {
+      title: `Address Validation Errors - ${fieldTitle}`,
+      status: `Error Count - ${errorCount}`,
+    };
+    recordCustomProfileEvent(payload);
+  };
+
+  // 48147 - Temporary click handler that will be removed once the analytics stats have been gathered around
+  // multiple inline validation errors.
+  onClickUpdateHandler = () => {
+    const errors = $$('.usa-input-error-message');
+
+    // only gather analytics if there are inline validation errors and if the field is an address
+    const shouldReportErrors =
+      [FIELD_NAMES.RESIDENTIAL_ADDRESS, FIELD_NAMES.MAILING_ADDRESS].includes(
+        this.props.fieldName,
+      ) && errors.length > 0;
+
+    if (shouldReportErrors) {
+      this.recordInlineValidationErrors(errors);
+    }
+  };
 
   copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...this.props.field.value, ...mailingAddress };
@@ -291,6 +320,7 @@ export class ProfileInformationEditView extends Component {
         transaction,
         transactionRequest,
       },
+      onClickUpdateHandler,
     } = this;
 
     const isLoading =
@@ -351,6 +381,7 @@ export class ProfileInformationEditView extends Component {
                     isLoading={isLoading}
                     loadingText="Saving changes"
                     className="vads-u-margin-top--0"
+                    onClick={onClickUpdateHandler}
                   >
                     Update
                   </LoadingButton>
