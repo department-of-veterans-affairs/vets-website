@@ -10,6 +10,7 @@ import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
+import ManageFolderButtons from '../components/ManageFolderButtons';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -120,6 +121,7 @@ const FolderListView = () => {
         ) : (
           <>
             <FolderHeader folder={folder} />
+            <ManageFolderButtons />
             <div className="search-messages-input">
               <label
                 className="vads-u-margin-top--2p5"
@@ -129,7 +131,6 @@ const FolderListView = () => {
               </label>
               <VaSearchInput label="search-message-folder-input" />
             </div>
-
             <div>{content}</div>
           </>
         )}

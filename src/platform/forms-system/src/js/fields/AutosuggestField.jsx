@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import set from '../../../../utilities/data/set';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import set from '../../../../utilities/data/set';
 
 import debounce from '../utilities/data/debounce';
 import sortListByFuzzyMatch from '../utilities/fuzzy-matching';
@@ -79,7 +79,7 @@ export default class AutosuggestField extends React.Component {
   }
 
   getOptions = inputValue => {
-    const getOptions = this.props.uiSchema['ui:options'].getOptions;
+    const { getOptions } = this.props.uiSchema['ui:options'];
     if (getOptions) {
       getOptions(inputValue).then(this.setOptions);
     }
@@ -211,6 +211,7 @@ export default class AutosuggestField extends React.Component {
 
     // wrap matching text in a <span> element
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
+    const { inputProps } = uiSchema['ui:options'];
     const value = this.state.input?.toLowerCase() || '';
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
@@ -278,6 +279,7 @@ export default class AutosuggestField extends React.Component {
                 className: 'autosuggest-input',
                 onBlur: isOpen ? undefined : this.handleBlur,
                 onKeyDown: this.handleKeyDown,
+                ...inputProps,
               })}
             />
             {isOpen && (
@@ -311,8 +313,15 @@ export default class AutosuggestField extends React.Component {
 }
 
 AutosuggestField.propTypes = {
+  schema: PropTypes.object.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   formContext: PropTypes.shape({
     reviewMode: PropTypes.bool,
+  }),
+  formData: PropTypes.object,
+  idSchema: PropTypes.shape({
+    $id: PropTypes.string,
   }),
   uiSchema: PropTypes.shape({
     'ui:options': PropTypes.shape({
@@ -322,15 +331,9 @@ AutosuggestField.propTypes = {
       maxOptions: PropTypes.number,
       queryForResults: PropTypes.bool,
       freeInput: PropTypes.bool,
+      inputProps: PropTypes.object,
       inputTransformers: PropTypes.arrayOf(PropTypes.func),
     }),
     'ui:title': PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  idSchema: PropTypes.shape({
-    $id: PropTypes.string,
-  }),
-  formData: PropTypes.object,
-  schema: PropTypes.object.isRequired,
 };
