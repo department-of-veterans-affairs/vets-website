@@ -17,13 +17,6 @@ export const uiSchema = {
       </p>
     ),
     'ui:widget': GrossMonthlyIncomeInput,
-    'ui:required': formData => {
-      const {
-        additionalIncome: { addlIncRecords = [] },
-      } = formData;
-
-      return !addlIncRecords.length;
-    },
     'ui:options': {
       hideOnReview: true,
     },
