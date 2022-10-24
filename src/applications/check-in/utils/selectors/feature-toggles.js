@@ -30,6 +30,9 @@ const selectFeatureToggles = createSelector(
     isTravelReimbursementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
     ],
+    isBrowserMonitoringEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
+    ],
   }),
   toggles => toggles,
 );
