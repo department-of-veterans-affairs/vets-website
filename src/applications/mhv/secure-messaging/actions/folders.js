@@ -4,6 +4,7 @@ import {
   getFolder,
   createFolder,
   deleteFolder,
+  updateFolderName,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -70,6 +71,27 @@ export const delFolder = folderId => async dispatch => {
         Constants.ALERT_TYPE_SUCCESS,
         '',
         Constants.Alerts.Folder.DELETE_FOLDER_SUCCESS,
+      ),
+    );
+  }
+};
+
+export const renameFolder = (folderId, newName) => async dispatch => {
+  try {
+    await updateFolderName(folderId, newName);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
       ),
     );
   }
