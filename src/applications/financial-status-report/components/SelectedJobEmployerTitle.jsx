@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 export const SelectedJobEmployerTitle = () => {
   const formData = useSelector(state => state.form.data);
 
-  const { employerName } = formData?.currEmployment[0];
+  const { employerName } =
+    formData.personalData.employmentHistory.veteran.employmentRecords[0] ?? '';
 
   return (
     <div>
