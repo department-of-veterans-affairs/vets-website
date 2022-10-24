@@ -49,7 +49,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateErrorAlert(true);
 
       // Second Attempt
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });
