@@ -31,6 +31,7 @@ const CategoryInput = props => {
       {categories?.length > 0 && (
         <VaRadio
           required
+          data-testid="compose-message-categories"
           label="Category"
           className=" fieldset-input message-category"
           error={categoryError && 'Please select a category'}
@@ -38,7 +39,7 @@ const CategoryInput = props => {
         >
           {categories?.map((item, i) => (
             <VaRadioOption
-              className="radio-button"
+              data-testid="compose-category-radio-button"
               key={i}
               label={item}
               name={item}

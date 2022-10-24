@@ -7,6 +7,7 @@ const DiscardDraftModal = props => {
   return (
     <VaModal
       id="discard-draft-modal"
+      data-testid="discard-draft-modal"
       modalTitle={Prompts.Draft.DISCARD_DRAFT_CONFIRM}
       onCloseEvent={props.onClose}
       onPrimaryButtonClick={props.onDelete}
@@ -16,9 +17,9 @@ const DiscardDraftModal = props => {
       visible={props.visible}
       status="warning"
     >
-      {/* <p>{Prompts.Draft.DISCARD_DRAFT_CONFIRM_NOTE}</p> */}
-      <p>Drafts are permanently deleted and this action can’t be undone.</p>
-      <p>Deleting a draft won’t affect other messages in this conversation</p>
+      <p style={{ whiteSpace: 'pre-line' }}>
+        {Prompts.Draft.DISCARD_DRAFT_CONFIRM_NOTE}
+      </p>
     </VaModal>
   );
 };
