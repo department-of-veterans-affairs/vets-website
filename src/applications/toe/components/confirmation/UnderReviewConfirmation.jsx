@@ -102,7 +102,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           </li>
           <li>
             <a
-              href="/?next=%2Fprofile"
+              href="/profile/direct-deposit"
               target="_blank"
               rel="noopener noreferrer"
             >
