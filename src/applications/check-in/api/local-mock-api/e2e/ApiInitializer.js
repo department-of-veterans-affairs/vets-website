@@ -82,6 +82,7 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
