@@ -7,25 +7,24 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import { selectProfile } from 'platform/user/selectors';
 
-import { readableList } from '../utils/helpers';
+import { readableList, getPhoneString } from '../utils/helpers';
 
 export const ContactInfoDescription = ({ formContext, profile }) => {
   const [hadError, setHadError] = useState(false);
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
+  const { email = {}, homePhone = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
   const { submitted } = formContext || {};
 
   const missingInfo = [
+    homePhone?.phoneNumber || mobilePhone?.phoneNumber
+      ? ''
+      : 'home or mobile phone',
     email?.emailAddress ? '' : 'email',
-    mobilePhone?.phoneNumber ? '' : 'phone',
     mailingAddress?.addressLine1 ? '' : 'address',
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-  const phoneNumber = `${mobilePhone?.areaCode ||
-    ''}${mobilePhone?.phoneNumber || ''}`;
-  const phoneExt = mobilePhone?.extension;
 
   const handler = {
     onSubmit: event => {
@@ -48,27 +47,67 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
   // loop to separate pages when editing
   const contactSection = (
     <>
-      <h4 className="vads-u-font-size--h3">Mobile phone number</h4>
-      <va-telephone contact={phoneNumber} extension={phoneExt} not-clickable />
-      <p>
-        <Link to="/edit-mobile-phone" aria-label="Edit mobile phone number">
-          Edit
-        </Link>
-      </p>
-      <h4 className="vads-u-font-size--h3">Email address</h4>
-      <span>{email?.emailAddress || ''}</span>
-      <p>
-        <Link to="/edit-email-address" aria-label="Edit email address">
-          Edit
-        </Link>
-      </p>
-      <h4 className="vads-u-font-size--h3">Mailing address</h4>
-      <AddressView data={mailingAddress} />
-      <p>
-        <Link to="/edit-mailing-address" aria-label="Edit mailing address">
-          Edit
-        </Link>
-      </p>
+      <h4 className="vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-width--auto vads-u-display--inline-block">
+        Home phone number
+      </h4>
+      <Link
+        to="/edit-home-phone"
+        aria-label="Edit home phone number"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <va-telephone
+          contact={getPhoneString(homePhone)}
+          extension={homePhone?.extension}
+          not-clickable
+        />
+      </div>
+
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Mobile phone number
+      </h4>
+      <Link
+        to="/edit-mobile-phone"
+        aria-label="Edit mobile phone number"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <va-telephone
+          contact={getPhoneString(mobilePhone)}
+          extension={mobilePhone?.extension}
+          not-clickable
+        />
+      </div>
+
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Email address
+      </h4>
+      <Link
+        to="/edit-email-address"
+        aria-label="Edit email address"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>{email?.emailAddress || ''}</div>
+
+      <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
+        Mailing address
+      </h4>
+      <Link
+        to="/edit-mailing-address"
+        aria-label="Edit mailing address"
+        className="vads-u-padding-left--2"
+      >
+        edit
+      </Link>
+      <div>
+        <AddressView data={mailingAddress} />
+      </div>
     </>
   );
 
@@ -135,6 +174,12 @@ ContactInfoDescription.propTypes = {
     vapContactInfo: PropTypes.shape({
       email: PropTypes.shape({
         emailAddress: PropTypes.string,
+      }),
+      homePhone: PropTypes.shape({
+        countryCode: PropTypes.string,
+        areaCode: PropTypes.string,
+        phoneNumber: PropTypes.string,
+        extension: PropTypes.string,
       }),
       mobilePhone: PropTypes.shape({
         countryCode: PropTypes.string,

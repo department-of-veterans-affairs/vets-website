@@ -199,8 +199,9 @@ export const getAddress = formData => {
  * @returns {Object} submittable address
  */
 export const getPhone = ({ veteran = {} } = {}) => {
+  // use homePhone, for now, until we add primary phone page
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran.homePhone?.[value] || '').substring(0, max);
   return removeEmptyEntries({
     countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
