@@ -5,6 +5,8 @@ import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import {
   addCompareInstitution,
   removeCompareInstitution,
@@ -21,7 +23,6 @@ import {
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function ResultCard({
   compare,
@@ -140,33 +141,40 @@ export function ResultCard({
     </>
   );
 
-  const stars = convertRatingToStars(ratingAverage);
-  const displayStars =
-    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+  // toggle for production/staging------------------------------------------------
+  let ratingsInformation = ''; // delete when ready for production, this will be a const
+  if (!environment.isProduction()) {
+    const stars = convertRatingToStars(ratingAverage);
+    const displayStars =
+      gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-  const ratingsInformation = displayStars ? (
-    <div>
-      <div className="vads-u-margin-bottom--2">
-        <RatingsStars rating={ratingAverage} />
-        {location && <br />}
-        <strong>
-          ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount} Veteran
-          {ratingCount > 1 && 's'}
-        </strong>
+    ratingsInformation = displayStars ? ( // changed to a const when ready for production
+      <div>
+        <div className="vads-u-margin-bottom--2">
+          <RatingsStars rating={ratingAverage} />
+          {location && <br />}
+          <strong>
+            ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount}{' '}
+            Veteran
+            {ratingCount > 1 && 's'}
+          </strong>
+        </div>
       </div>
-    </div>
-  ) : (
-    <div>
-      <p>
-        <strong>Not yet rated by Veterans</strong>
-      </p>
-    </div>
-  );
+    ) : (
+      <div>
+        <p>
+          <strong>Not yet rated by Veterans</strong>
+        </p>
+      </div>
+    );
+  }
+  // end toggle for production/staging------------------------------------------------
 
   const estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
-    } else if (qualifier === null) {
+    }
+    if (qualifier === null) {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
