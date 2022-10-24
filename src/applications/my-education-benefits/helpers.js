@@ -227,8 +227,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
 
-  // Using test data for now.
-  const stateUser = {};
+  const stateUser = state.user || {};
 
   const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
