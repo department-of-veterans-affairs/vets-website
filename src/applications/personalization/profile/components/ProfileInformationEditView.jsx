@@ -46,42 +46,9 @@ import { getEditButtonId } from '@@vap-svc/util/id-factory';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { focusElement } from 'platform/utilities/ui';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+
 import recordEvent from 'platform/monitoring/record-event';
-
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
-import { recordCustomProfileEvent } from '../util/analytics';
-
-const propTypes = {
-  analyticsSectionName: PropTypes.oneOf(
-    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-  ).isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-  clearTransactionRequest: PropTypes.func.isRequired,
-  convertCleanDataToPayload: PropTypes.func.isRequired,
-  createPersonalInfoUpdate: PropTypes.func.isRequired,
-  createTransaction: PropTypes.func.isRequired,
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  formSchema: PropTypes.object.isRequired,
-  getInitialFormValues: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  refreshTransaction: PropTypes.func.isRequired,
-  uiSchema: PropTypes.object.isRequired,
-  updateFormFieldWithSchema: PropTypes.func.isRequired,
-  validateAddress: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  activeEditView: PropTypes.string,
-  data: PropTypes.object,
-  editViewData: PropTypes.object,
-  field: PropTypes.shape({
-    value: PropTypes.object,
-    validations: PropTypes.object,
-    formSchema: PropTypes.object,
-    uiSchema: PropTypes.object,
-  }),
-  title: PropTypes.string,
-  transaction: PropTypes.object,
-  transactionRequest: PropTypes.object,
-};
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
@@ -159,7 +126,7 @@ export class ProfileInformationEditView extends Component {
       title: `Address Validation Errors - ${fieldTitle}`,
       status: `Error Count - ${errorCount}`,
     };
-    recordCustomProfileEvent(payload);
+    this.props.recordCustomProfileEvent(payload);
   };
 
   // 48147 - Temporary click handler that will be removed once the analytics stats have been gathered around
@@ -406,7 +373,38 @@ export class ProfileInformationEditView extends Component {
   }
 }
 
-ProfileInformationEditView.propTypes = propTypes;
+ProfileInformationEditView.propTypes = {
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createPersonalInfoUpdate: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  getInitialFormValues: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  recordCustomProfileEvent: PropTypes.func.isRequired,
+  refreshTransaction: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  updateFormFieldWithSchema: PropTypes.func.isRequired,
+  validateAddress: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  activeEditView: PropTypes.string,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  field: PropTypes.shape({
+    value: PropTypes.object,
+    validations: PropTypes.object,
+    formSchema: PropTypes.object,
+    uiSchema: PropTypes.object,
+  }),
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
