@@ -1,7 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import { SIGIGenderDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import { NotHighDisability } from '../../../utils/helpers';
@@ -25,7 +24,6 @@ export default {
       'ui:description': SIGIGenderDescription,
       sigiGenders: {
         'ui:title': 'Select your gender identity',
-        'ui:reviewField': CustomReviewField,
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
