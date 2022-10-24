@@ -191,7 +191,7 @@ export function transformVAOSAppointment(appt) {
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     const requestedPeriods =
-      getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
+      getAppointmentInfoFromComments(appt.reasonCode?.text, 'preferredDate')
         .length > 0
         ? getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
         : appt.requestedPeriods;
