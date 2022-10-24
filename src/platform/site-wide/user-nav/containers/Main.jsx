@@ -136,7 +136,6 @@ export class Main extends Component {
   }
 
   checkLoggedInStatus = () => {
-    console.log("checkLoggedInStatus called!")
     if (hasSession()) {
       this.props.initializeProfile();
     } else {

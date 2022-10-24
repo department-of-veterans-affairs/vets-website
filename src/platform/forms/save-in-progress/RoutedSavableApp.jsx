@@ -12,9 +12,6 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import environment from 'platform/utilities/environment';
 import { getScrollOptions } from 'platform/utilities/ui';
 import { restartShouldRedirect } from 'platform/site-wide/wizard';
-import { isInProgressPath } from '../helpers';
-import { getSaveInProgressState } from './selectors';
-import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -22,6 +19,9 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
+import { isInProgressPath } from '../helpers';
+import { getSaveInProgressState } from './selectors';
+import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
 const { Element } = Scroll;
 

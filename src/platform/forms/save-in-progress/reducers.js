@@ -1,7 +1,12 @@
 // eslint-disable-next-line no-restricted-imports
 import { merge } from 'lodash';
-import set from '../../utilities/data/set';
 
+import createSchemaFormReducer from 'platform/forms-system/src/js/state';
+import {
+  createInitialState,
+  recalculateSchemaAndData,
+} from 'platform/forms-system/src/js/state/helpers';
+import reducers from 'platform/forms-system/src/js/state/reducers';
 import {
   SET_SAVE_FORM_STATUS,
   SET_AUTO_SAVE_FORM_STATUS,
@@ -15,13 +20,7 @@ import {
   PREFILL_STATUSES,
   saveErrors,
 } from './actions';
-
-import createSchemaFormReducer from 'platform/forms-system/src/js/state';
-import {
-  createInitialState,
-  recalculateSchemaAndData,
-} from 'platform/forms-system/src/js/state/helpers';
-import reducers from 'platform/forms-system/src/js/state/reducers';
+import set from '../../utilities/data/set';
 
 export const saveInProgressReducers = {
   [SET_SAVE_FORM_STATUS]: (state, action) => {
@@ -70,11 +69,9 @@ export const saveInProgressReducers = {
   },
   [SET_IN_PROGRESS_FORM]: (state, action) => {
     let newState;
-    console.log({ fxn: 'set in progress form action', state });
 
     // if we’re prefilling, we want to use whatever initial data the form has
     if (state.prefillStatus === PREFILL_STATUSES.pending) {
-      console.log('PREFILL');
       const formData = merge({}, state.data, action.data.formData);
       const loadedData = set('formData', formData, action.data);
       newState = set('loadedData', loadedData, state);
@@ -90,36 +87,34 @@ export const saveInProgressReducers = {
         newState.prefillStatus = PREFILL_STATUSES.unfilled;
       }
     } else {
-      // action.data is directly from our API's fetch in progress form endpoint.
-      // 
-      console.log({ fxn: 'NO PREFILL', "action.data": action.data });
       // state.loadedData = action.data
       newState = set('loadedData', action.data, state);
       newState.prefillStatus = PREFILL_STATUSES.notAttempted;
     }
 
     newState.loadedStatus = LOAD_STATUSES.success;
-    newState.data = newState.loadedData.formData; // overwriting not merging
+    newState.data = newState.loadedData.formData;
     newState.pages = action.pages;
 
     return recalculateSchemaAndData(newState);
   },
-  [SET_START_OVER]: state =>
-    Object.assign({}, state, {
-      isStartingOver: true,
-      data: state.initialData,
-      loadedStatus: LOAD_STATUSES.pending,
-    }),
-  [SET_PREFILL_UNFILLED]: state =>
-    Object.assign({}, state, {
-      prefillStatus: PREFILL_STATUSES.unfilled,
-      data: state.initialData,
-      loadedStatus: LOAD_STATUSES.notAttempted,
-    }),
+  [SET_START_OVER]: state => ({
+    ...state,
+    isStartingOver: true,
+    data: state.initialData,
+    loadedStatus: LOAD_STATUSES.pending,
+  }),
+  [SET_PREFILL_UNFILLED]: state => ({
+    ...state,
+    prefillStatus: PREFILL_STATUSES.unfilled,
+    data: state.initialData,
+    loadedStatus: LOAD_STATUSES.notAttempted,
+  }),
 };
 
 export function createSaveInProgressInitialState(formConfig, initialState) {
-  return Object.assign({}, initialState, {
+  return {
+    ...initialState,
     initialData: initialState.data,
     savedStatus: SAVE_STATUSES.notAttempted,
     autoSavedStatus: SAVE_STATUSES.notAttempted,
@@ -139,7 +134,7 @@ export function createSaveInProgressInitialState(formConfig, initialState) {
     prefillTransformer: formConfig.prefillTransformer,
     trackingPrefix: formConfig.trackingPrefix,
     additionalRoutes: formConfig.additionalRoutes,
-  });
+  };
 }
 
 export function createSaveInProgressFormReducer(formConfig) {
@@ -147,7 +142,7 @@ export function createSaveInProgressFormReducer(formConfig) {
   let initialState = createInitialState(formConfig);
 
   if (!formConfig.disableSave) {
-    formReducers = Object.assign({}, formReducers, saveInProgressReducers);
+    formReducers = { ...formReducers, ...saveInProgressReducers };
     initialState = createSaveInProgressInitialState(formConfig, initialState);
   }
 
