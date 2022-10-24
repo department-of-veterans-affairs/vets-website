@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -8,7 +7,11 @@ import {
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
-import { getTypeOfCareById } from '../../utils/appointment';
+import {
+  getPatientInstruction,
+  getProviderName,
+  getTypeOfCareById,
+} from '../../utils/appointment';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {

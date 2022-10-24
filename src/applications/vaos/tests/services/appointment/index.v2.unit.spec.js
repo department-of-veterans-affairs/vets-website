@@ -11,11 +11,11 @@ import {
 import {
   fetchBookedAppointment,
   getAppointmentRequests,
+  getLongTermAppointmentHistoryV2,
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
-import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
 import {
   getDateRanges,
   mockVAOSAppointmentsFetch,

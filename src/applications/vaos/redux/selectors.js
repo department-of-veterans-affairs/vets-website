@@ -4,19 +4,40 @@ import {
   selectVAPResidentialAddress,
 } from 'platform/user/selectors';
 
+import {
+  selectPatientFacilities as selectPatientFacilitiesDsot,
+  selectIsCernerOnlyPatient as selectIsCernerOnlyPatientDsot,
+  selectIsCernerPatient as selectIsCernerPatientDsot,
+} from 'platform/user/cerner-dsot/selectors';
+
+export const selectFeatureAcheronService = state =>
+  toggleValues(state).vaOnlineSchedulingAcheronService;
+
 export const selectIsCernerOnlyPatient = state =>
-  !!selectPatientFacilities(state)?.every(
-    f => f.isCerner && f.usesCernerAppointments,
-  );
+  selectFeatureAcheronService(state)
+    ? selectIsCernerOnlyPatientDsot(state)
+    : !!selectPatientFacilities(state)?.every(
+        f => f.isCerner && f.usesCernerAppointments,
+      );
 
 export const selectIsCernerPatient = state =>
-  selectPatientFacilities(state)?.some(
-    f => f.isCerner && f.usesCernerAppointments,
+  selectFeatureAcheronService(state)
+    ? selectIsCernerPatientDsot(state)
+    : selectPatientFacilities(state)?.some(
+        f => f.isCerner && f.usesCernerAppointments,
+      );
+
+export const selectRegisteredCernerFacilityIds = state => {
+  const data = selectFeatureAcheronService(state)
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state);
+
+  return (
+    data
+      ?.filter(f => f.isCerner && f.usesCernerAppointments)
+      .map(f => f.facilityId) || []
   );
-export const selectRegisteredCernerFacilityIds = state =>
-  selectPatientFacilities(state)
-    ?.filter(f => f.isCerner && f.usesCernerAppointments)
-    .map(f => f.facilityId) || [];
+};
 
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');
@@ -79,6 +100,3 @@ export const selectFeatureAppointmentList = state =>
 
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeatureAcheronService = state =>
-  toggleValues(state).vaOnlineSchedulingAcheronService;

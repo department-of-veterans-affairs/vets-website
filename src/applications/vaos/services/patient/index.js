@@ -13,10 +13,8 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import {
-  getLongTermAppointmentHistoryV2,
-  getPatientEligibility,
-} from '../vaos';
+import { getPatientEligibility } from '../vaos';
+import { getLongTermAppointmentHistoryV2 } from '../appointment';
 
 /**
  * @typedef PatientEligibilityForType

@@ -20,7 +20,7 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
-import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
