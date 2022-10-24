@@ -28,14 +28,14 @@ class ValidateVeteran {
     },
   };
 
-  validateVeteran = (lastName = 'Smith', last4 = '1234') => {
+  validateVeteranSsn4 = (lastName = 'Smith', last4 = '1234') => {
     this.clearLastName();
     this.typeLastName(lastName);
     this.clearLast4();
     this.typeLast4(last4);
   };
 
-  validateVeteranDob = (
+  validateVeteran = (
     lastName = 'Smith',
     year = '1989',
     month = '03',
