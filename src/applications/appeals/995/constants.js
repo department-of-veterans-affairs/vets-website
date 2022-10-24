@@ -25,7 +25,7 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 // TODO: Update to common contestable issues endpoint, once it is set up
 // not shown are the `v0` prefix and `{benefit_type}` suffix
 export const CONTESTABLE_ISSUES_API =
-  '/higher_level_reviews/contestable_issues/';
+  '/supplemental_claims/contestable_issues/';
 
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';

@@ -23,13 +23,15 @@ describe('requireRatedDisability', () => {
 describe('contactInfoValidation', () => {
   const getData = ({
     email = true,
-    phone = true,
+    homePhone = true,
+    mobilePhone = true,
     address = true,
     homeless = false,
   } = {}) => ({
     veteran: {
       email: email ? 'placeholder' : '',
-      phone: phone ? { phoneNumber: 'placeholder' } : {},
+      homePhone: homePhone ? { phoneNumber: 'placeholder' } : {},
+      mobilePhone: mobilePhone ? { phoneNumber: 'placeholder' } : {},
       address: address ? { addressLine1: 'placeholder' } : {},
     },
     homeless,
@@ -45,28 +47,34 @@ describe('contactInfoValidation', () => {
     expect(addError.called).to.be.true;
     expect(addError.args[0][0]).to.contain('add an email');
   });
-  it('should have multiple errors when email & phone are missing', () => {
+  it('should have one error when email & home phone are missing', () => {
     const addError = sinon.spy();
     contactInfoValidation(
       { addError },
       null,
-      getData({ email: false, phone: false }),
+      getData({ email: false, homePhone: false }),
     );
     expect(addError.called).to.be.true;
     expect(addError.firstCall.args[0]).to.contain('add an email');
-    expect(addError.secondCall.args[0]).to.contain('add a phone');
   });
   it('should have multiple errors when everything is missing', () => {
     const addError = sinon.spy();
     contactInfoValidation(
       { addError },
       null,
-      getData({ email: false, phone: false, address: false }),
+      getData({
+        email: false,
+        homePhone: false,
+        mobilePhone: false,
+        address: false,
+      }),
     );
     expect(addError.called).to.be.true;
     expect(addError.firstCall.args[0]).to.contain('add an email');
-    expect(addError.secondCall.args[0]).to.contain('add a phone');
-    expect(addError.thirdCall.args[0]).to.contain('add an address');
+    expect(addError.secondCall.args[0]).to.contain(
+      'add a home or mobile phone',
+    );
+    expect(addError.lastCall.args[0]).to.contain('add an address');
   });
   it('should not include address when homeless is true', () => {
     const addError = sinon.spy();

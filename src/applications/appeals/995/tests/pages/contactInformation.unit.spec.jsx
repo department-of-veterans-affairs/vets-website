@@ -53,6 +53,6 @@ describe('contact information page', () => {
 
     const formDOM = getFormDOM(form);
     expect($('h3', formDOM).textContent).to.contain('Contact Information');
-    expect($$('a[aria-label^="Edit "]', formDOM).length).to.eq(3);
+    expect($$('a[aria-label^="Edit "]', formDOM).length).to.eq(4);
   });
 });
