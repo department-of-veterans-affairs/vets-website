@@ -4,14 +4,14 @@ import OMBInfoShared from '@department-of-veterans-affairs/component-library/OMB
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
+import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
+import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import WizardContainer from '../../wizard/containers/WizardContainer';
-import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -37,8 +37,8 @@ export class IntroductionPage extends React.Component {
     const ombInfo = (
       <OMBInfoShared
         resBurden={10}
-        ombNumber="2900-0866"
-        expDate="04/30/2022"
+        ombNumber={'2900-0866'}
+        expDate={'04/30/2022'}
       />
     );
 
