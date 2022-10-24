@@ -128,7 +128,19 @@ const formConfig = {
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: formData => formData.questions.vetIsEmployed,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+        },
+        enhancedEmploymentRecords: {
+          path: 'enhanced-employment-records',
+          title: 'Employment',
+          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
+          schema: pages.enhancedEmploymentRecords.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         grossMonthlyIncome: {
