@@ -67,7 +67,7 @@ class ValidateVeteran {
     this.typeYear(year);
   };
 
-  validateVeteranDobWithFailure = (
+  validateVeteranWithFailure = (
     lastName = 'Smith',
     year = '1988',
     month = '01',
@@ -224,7 +224,7 @@ class ValidateVeteran {
     );
   };
 
-  validateErrorAlert = (withLorotaSecurityUpdate = false) => {
+  validateErrorAlert = (withLorotaSecurityUpdate = true) => {
     const messageText = withLorotaSecurityUpdate
       ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
       : 'We’re sorry. We couldn’t match your information to our records. Please try again.';

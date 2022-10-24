@@ -25,7 +25,7 @@ describe('Check In Experience -- ', () => {
     });
     it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteran('Sith');
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);

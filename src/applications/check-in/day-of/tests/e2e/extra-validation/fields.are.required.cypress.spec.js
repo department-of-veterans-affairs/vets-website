@@ -39,11 +39,11 @@ describe('Check In Experience', () => {
         .find('#error-message')
         .contains('Please enter your last name.');
 
-      cy.get('[label="Last 4 digits of your Social Security number"]')
+      cy.get('[label="Date of birth"]')
         .shadow()
-        .find('#error-message')
+        .find('#dateHint')
         .contains(
-          'Please enter the last 4 digits of your Social Security number',
+          'Please enter two digits for the month and day and four digits for the year.',
         );
 
       ValidateVeteran.validateVeteran();

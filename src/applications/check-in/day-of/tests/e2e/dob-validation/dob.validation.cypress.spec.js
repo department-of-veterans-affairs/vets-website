@@ -13,7 +13,7 @@ describe('Check In Experience ', () => {
       initializeCheckInDataPost,
       initializeCheckInDataGet,
     } = ApiInitializer;
-    initializeFeatureToggle.withLorotaSecurityUpdate();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeCheckInDataGet.withSuccess({
       numberOfCheckInAbledAppointments: 1,
@@ -31,7 +31,7 @@ describe('Check In Experience ', () => {
     cy.visitWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.dayOf();
-    ValidateVeteran.validateVeteranDob();
+    ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Day-of-check-in--Validate-with-DOB');
     ValidateVeteran.attemptToGoToNextPage();
@@ -62,7 +62,7 @@ describe('Check In Experience ', () => {
     ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteranDobInvalidYear();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
-    ValidateVeteran.validateVeteranDob();
+    ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

@@ -13,7 +13,7 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataPost,
       initializePreCheckInDataGet,
     } = ApiInitializer;
-    initializeFeatureToggle.withLorotaSecurityUpdate();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializePreCheckInDataGet.withSuccess();
 
@@ -30,7 +30,7 @@ describe('Pre-Check In Experience ', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
     ValidateVeteran.validatePage.preCheckIn();
-    ValidateVeteran.validateVeteranDob();
+    ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Pre-check-in--Validate-with-DOB');
     ValidateVeteran.attemptToGoToNextPage();

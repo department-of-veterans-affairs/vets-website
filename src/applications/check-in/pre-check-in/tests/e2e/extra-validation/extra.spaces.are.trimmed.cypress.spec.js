@@ -13,7 +13,7 @@ describe('Pre-Check In Experience', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
+      initializeFeatureToggle.withLorotaSecurityUpdateDisabled();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess(req => {
@@ -31,7 +31,7 @@ describe('Pre-Check In Experience', () => {
       cy.visitPreCheckInWithUUID();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validatePage.preCheckIn();
-      ValidateVeteran.validateVeteran('Smith        ', '1234          ');
+      ValidateVeteran.validateVeteranSsn4('Smith        ', '1234          ');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

@@ -13,7 +13,7 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
+      initializeFeatureToggle.withLorotaSecurityUpdateDisabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess(req => {
         expect(req.body.session.lastName).to.equal('Smith');
@@ -32,7 +32,7 @@ describe('Check In Experience -- ', () => {
     });
     it('validation trims white space before posting', () => {
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran('Smith           ', '4837          ');
+      ValidateVeteran.validateVeteranSsn4('Smith           ', '4837          ');
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });

@@ -28,12 +28,12 @@ describe('Check In Experience -- ', () => {
     it('validation failed with failed response from server', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteran('Sith');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteran('Sith');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
       cy.createScreenshots('Day-of-check-in--inline-validation-error');
@@ -41,12 +41,12 @@ describe('Check In Experience -- ', () => {
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteran('Sith');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
-      ValidateVeteran.validateVeteran('Smith', '1234');
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });

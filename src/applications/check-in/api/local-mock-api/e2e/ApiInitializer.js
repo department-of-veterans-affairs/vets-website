@@ -85,7 +85,7 @@ class ApiInitializer {
         }),
       );
     },
-    withLorotaSecurityUpdate: () => {
+    withLorotaSecurityUpdateDisabled: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -94,7 +94,7 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperiencePhoneAppointmentsEnabled: false,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
