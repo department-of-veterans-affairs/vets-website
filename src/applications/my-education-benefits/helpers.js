@@ -43,6 +43,19 @@ export const post911GiBillNote = (
   </div>
 );
 
+export function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
 /**
  * Converts a number to a string, preserving a minimum number of integer
  * digits.
@@ -209,6 +222,7 @@ export const formatHyphenlessDate = b => {
 };
 
 export function prefillTransformer(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
@@ -314,6 +328,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
       [formFields.livesOnMilitaryBase]:
         address?.countryCode !== 'US' &&
         address?.addressType === 'MILITARY_OVERSEAS',
+    },
+    'view:bankAccount': {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
     },
     [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };

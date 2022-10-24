@@ -8,6 +8,7 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
@@ -31,6 +32,7 @@ import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import DateReviewField from '../components/DateReviewField';
+import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
@@ -1425,7 +1427,25 @@ const formConfig = {
       pages: {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
+            title: 'direct-deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
+            ),
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'account informaiton',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,

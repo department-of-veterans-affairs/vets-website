@@ -5,11 +5,15 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
-import { fetchPersonalInformation, fetchEligibility } from '../actions';
 import formConfig from '../config/form';
+import {
+  fetchPersonalInformation,
+  fetchEligibility,
+  fetchDirectDeposit,
+} from '../actions';
 import { formFields } from '../constants';
-import { getAppData } from '../selectors/selectors';
 import { prefillTransformer } from '../helpers';
+import { getAppData } from '../selectors/selectors';
 
 export const App = ({
   children,
@@ -18,17 +22,19 @@ export const App = ({
   featureTogglesLoaded,
   firstName,
   formData,
+  getDirectDeposit,
   getEligibility,
   getPersonalInfo,
   isLOA3,
   isLoggedIn,
   location,
   setFormData,
-  showUnverifiedUserAlert,
   showMebDgi40Features,
+  showUnverifiedUserAlert,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -86,6 +92,19 @@ export const App = ({
     ],
   );
 
+  useEffect(
+    () => {
+      if (!isLoggedIn) {
+        return;
+      }
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
+      }
+    },
+    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn],
+  );
+
   return (
     <>
       <va-breadcrumbs>
@@ -109,6 +128,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
+  getDirectDeposit: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -133,9 +153,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  getDirectDeposit: fetchDirectDeposit,
+  getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
-  getEligibility: fetchEligibility,
 };
 
 export default connect(
