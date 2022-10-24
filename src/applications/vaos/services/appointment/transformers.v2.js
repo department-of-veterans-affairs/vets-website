@@ -242,8 +242,9 @@ export function transformVAOSAppointment(appt) {
   }
   let comment = null;
   const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const reasonCodeComments = appt.reasonCode?.text;
   const comments =
-    getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
+    getAppointmentInfoFromComments(reasonCodeComments, 'comments').length > 0
       ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]
       : appt.reasonCode;
   const text = appt.reasonCode ? comments.text : null;
