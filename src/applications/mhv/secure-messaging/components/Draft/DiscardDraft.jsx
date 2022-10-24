@@ -27,12 +27,12 @@ const DiscardDraft = props => {
       <button
         type="button"
         data-testid="discard-draft-button"
-        className="usa-button-secondary discard-draft-button"
+        className="usa-button-secondary"
         onClick={() => {
           setIsModalVisible(true);
         }}
       >
-        <i className="fas fa-trash-alt" aria-hidden />
+        <i className="fas fa-trash-alt vads-u-padding-right--0p5" aria-hidden />
         Discard
       </button>
       <DiscardDraftModal
