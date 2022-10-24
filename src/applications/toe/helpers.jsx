@@ -142,21 +142,21 @@ export function prefillTransformer(pages, formData, metadata, state) {
     userAddressLine2 = profile?.addressLine2;
     userCity = profile?.city;
     userState = profile?.stateCode;
-    userPostalCode = profile?.zipCode;
+    userPostalCode = profile?.zipcode;
     userCountryCode = profile?.countryCode;
   } else if (vet360ContactInfo?.addressLine1) {
     userAddressLine1 = vet360ContactInfo?.addressLine1;
     userAddressLine2 = vet360ContactInfo?.addressLine2;
     userCity = vet360ContactInfo?.city;
     userState = vet360ContactInfo?.stateCode;
-    userPostalCode = vet360ContactInfo?.zipCode;
+    userPostalCode = vet360ContactInfo?.zipcode;
     userCountryCode = vet360ContactInfo?.countryCode;
   } else {
     userAddressLine1 = contactInfo?.addressLine1;
     userAddressLine2 = contactInfo?.addressLine2;
     userCity = contactInfo?.city;
     userState = contactInfo?.stateCode;
-    userPostalCode = contactInfo?.zipCode;
+    userPostalCode = contactInfo?.zipcode;
     userCountryCode = contactInfo?.countryCode;
   }
 
