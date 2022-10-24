@@ -543,8 +543,8 @@ describe('App', () => {
             token: 'FAKETOKEN',
             domain:
               'https://northamerica.directline.botframework.com/v3/directline',
-            // conversationId: '',
-            // watermark: '',
+            conversationId: '',
+            watermark: '',
           }),
         ).to.be.true;
       });

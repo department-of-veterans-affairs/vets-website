@@ -7,13 +7,30 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
+  validatePageLoadedWithNoBtsssClaim = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', 'You’re checked in');
+    cy.get('[data-testid="travel-pay-info-message"]', {
+      timeout: Timeouts.slow,
+    })
+      .should('be.visible')
+      .and(
+        'include.text',
+        'VA travel pay reimbursement pays eligible Veterans',
+      );
+  };
+
   validatePageLoadedWithBtsssSubmission = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'And we received your reimbursement claim');
+      .and('include.text', 'And we received your travel claim');
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'Reimbursement claim number');
+      .and(
+        'include.text',
+        'You can check the status of your travel reimbursement claim online',
+      );
   };
 
   validatePageLoadedWithBtsssIneligible = () => {
@@ -24,7 +41,7 @@ class Confirmation {
       .should('be.visible')
       .and(
         'include.text',
-        "We can't file this type of reimbursement claim for you",
+        'We’re sorry. We can’t file this type of travel reimbursement claim for you',
       );
   };
 
@@ -37,12 +54,18 @@ class Confirmation {
       .and('include.text', 'TRAVEL CLAIM ERROR PLACEHOLDER');
   };
 
-  validateBackButton = () => {
-    cy.get('[data-testid=go-to-appointments-button]', {
-      timeout: Timeouts.slow,
-    })
-      .should('be.visible')
-      .and('include.text', 'Go to another appointment');
+  // validateBackButton = () => {
+  //   cy.get('[data-testid=go-to-appointments-button]', {
+  //     timeout: Timeouts.slow,
+  //   })
+  //     .should('be.visible')
+  //     .and('include.text', 'Go to another appointment');
+  // };
+
+  validateConfirmationAlert = () => {
+    cy.get('[data-testid="confirmation-alert"]')
+      .invoke('text')
+      .should('have.length.gt', 0);
   };
 
   validateBTSSSLink = () => {

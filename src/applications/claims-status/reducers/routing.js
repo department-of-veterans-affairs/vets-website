@@ -1,4 +1,4 @@
-import { SET_LAST_PAGE } from '../actions/index.jsx';
+import { SET_LAST_PAGE } from '../actions/types';
 
 const initialState = {
   lastPage: null,

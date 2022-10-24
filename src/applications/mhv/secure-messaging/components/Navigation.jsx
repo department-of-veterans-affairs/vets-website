@@ -19,13 +19,25 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose' },
-      { path: '/drafts', label: 'Drafts' },
-      { path: '/folders', label: 'Folders' },
-      { path: '/sent', label: 'Sent' },
-      { path: '/trash', label: 'Trash' },
-      { path: '/search', label: 'Search messages' },
-      { path: '/faq', label: 'Messages FAQ' },
+      { path: '/compose', label: 'Compose', datatestid: 'compose-sidebar' },
+      { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
+      { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
+      { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
+      {
+        path: '/folders',
+        label: 'My folders',
+        datatestid: 'my-folders-sidebar',
+      },
+      {
+        path: '/search',
+        label: 'Search messages',
+        datatestid: 'search-messages-sidebar',
+      },
+      {
+        path: '/faq',
+        label: 'Messages FAQ',
+        datatestid: 'messages-faq-sidebar',
+      },
     ];
   };
 
@@ -105,9 +117,11 @@ const Navigation = () => {
                       <li
                         key={i}
                         className={
-                          location.pathname === path.path &&
-                          'vads-u-font-weight--bold'
+                          location.pathname === path.path
+                            ? 'vads-u-font-weight--bold'
+                            : undefined
                         }
+                        data-testid={path.datatestid}
                       >
                         <Link to={path.path}>{path.label}</Link>
                       </li>

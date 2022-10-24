@@ -14,11 +14,18 @@ const profile = {
     email: {
       emailAddress: 'test@user.com',
     },
+    homePhone: {
+      countryCode: '2',
+      areaCode: '345',
+      phoneNumber: '6789013',
+      phoneNumberExt: '34',
+      updatedAt: '2021-01-01',
+    },
     mobilePhone: {
       countryCode: '2',
       areaCode: '345',
       phoneNumber: '6789012',
-      phoneNumberExt: '34',
+      phoneNumberExt: '',
       updatedAt: '2021-01-01',
     },
     mailingAddress: {
@@ -141,6 +148,7 @@ describe('Form0995App', () => {
     const mockProfile = {
       vapContactInfo: {
         email: null,
+        homePhone: null,
         mobilePhone: null,
         mailingAddress: null,
       },
@@ -216,7 +224,8 @@ describe('Form0995App', () => {
     const formData = setFormData.args[0][0];
     const result = {
       address: profile.vapContactInfo.mailingAddress,
-      phone: profile.vapContactInfo.mobilePhone,
+      homePhone: profile.vapContactInfo.homePhone,
+      mobilePhone: profile.vapContactInfo.mobilePhone,
       email: profile.vapContactInfo.email.emailAddress,
     };
     expect(formData.veteran).to.deep.equal(result);

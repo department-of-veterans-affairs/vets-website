@@ -51,6 +51,28 @@ describe('check-in', () => {
       expect(heading).to.contain.text('Need Help?');
       expect(component.getByTestId('day-of-check-in-message')).to.exist;
       expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
+      expect(component.queryByTestId('day-of-travel-extra-message')).to.not
+        .exist;
+    });
+    it('Renders extra messages on the day of footer', () => {
+      const checkInStateComplete = JSON.parse(JSON.stringify(initState));
+      checkInStateComplete.checkInData.form.pages.currentPage = 'complete';
+      const completeMockRouter = {
+        params: {
+          token: 'token-123',
+        },
+        location: {
+          pathname: '/complete',
+        },
+      };
+      const component = render(
+        <Provider store={mockStore(initState)}>
+          <I18nextProvider i18n={i18n}>
+            <Footer router={completeMockRouter} isPreCheckIn={false} />
+          </I18nextProvider>
+        </Provider>,
+      );
+      expect(component.getByTestId('day-of-travel-extra-message')).to.exist;
     });
     it('passes axeCheck for pre-check-in', () => {
       axeCheck(

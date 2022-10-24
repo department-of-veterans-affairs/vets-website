@@ -2,8 +2,11 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import newAppointmentFlow from '../../newAppointmentFlow';
-import { FLOW_TYPES } from '../../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
+import { selectFeatureAcheronService } from '../../../redux/selectors';
+import { getFlowType, getFormData } from '../../redux/selectors';
 
 function formatBestTimetoCall(bestTime) {
   const times = [];
@@ -31,7 +34,12 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-export default function ContactDetailSection({ data, flowType }) {
+export default function ContactDetailSection({ data }) {
+  const formData = useSelector(getFormData);
+  const featureAcheronService = useSelector(state =>
+    selectFeatureAcheronService(state),
+  );
+  const flowType = useSelector(getFlowType);
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -46,12 +54,21 @@ export default function ContactDetailSection({ data, flowType }) {
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
               />
-              {flowType !== FLOW_TYPES.DIRECT && (
-                <>
-                  <br />
-                  <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
-                </>
-              )}
+              {featureAcheronService &&
+                formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+                flowType === FLOW_TYPES.REQUEST && (
+                  <>
+                    <br />
+                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+                  </>
+                )}
+              {!featureAcheronService &&
+                flowType !== FLOW_TYPES.DIRECT && (
+                  <>
+                    <br />
+                    <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
+                  </>
+                )}
             </span>
           </div>
           <div>

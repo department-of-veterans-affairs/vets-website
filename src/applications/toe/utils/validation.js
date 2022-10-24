@@ -3,8 +3,8 @@ import moment from 'moment';
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
 
-export const nameErrorMessage =
-  'Please enter a valid entry. Acceptable entries are letters, spaces, hyphens, and apostrophes.';
+export const nameErrorMessage = maxLength =>
+  `Please enter a valid entry. Acceptable entries are letters, spaces, hyphens, and apostrophes and can't be more than ${maxLength} characters.`;
 
 /**
  * Validates a first/middle name.  Acceptable entries are letters,
