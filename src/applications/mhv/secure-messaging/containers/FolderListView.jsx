@@ -1,4 +1,7 @@
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -84,12 +87,29 @@ const FolderListView = () => {
       />
     );
   } else if (messages.length === 0) {
-    // this is a temporary content. There is a separate story to handle empty folder messaging
     content = (
-      <va-alert status="error" visible>
-        <h2 slot="headline">No messages</h2>
-        <p>There are no messages in this folder</p>
-      </va-alert>
+      <>
+        <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+          Displaying 0 of 0 messages
+        </div>
+        <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
+          <VaAlert
+            background-only
+            class="vads-u-margin-bottom--1"
+            close-btn-aria-label="Close notification"
+            disable-analytics="false"
+            full-width="false"
+            status="info"
+          >
+            <div>
+              <p className="vads-u-margin-y--0">
+                There are no messages in this folder.
+              </p>
+            </div>
+          </VaAlert>
+          <AlertBackgroundBox />
+        </div>
+      </>
     );
   } else if (error) {
     content = (
@@ -122,15 +142,18 @@ const FolderListView = () => {
           <>
             <FolderHeader folder={folder} />
             <ManageFolderButtons />
-            <div className="search-messages-input">
-              <label
-                className="vads-u-margin-top--2p5"
-                htmlFor="search-message-folder-input"
-              >
-                Search the {folder.name} messages folder
-              </label>
-              <VaSearchInput label="search-message-folder-input" />
-            </div>
+            {messages?.length > 0 ? (
+              <div className="search-messages-input">
+                <label
+                  className="vads-u-margin-top--2p5"
+                  htmlFor="search-message-folder-input"
+                >
+                  Search the {folder.name} messages folder
+                </label>
+                <VaSearchInput label="search-message-folder-input" />
+              </div>
+            ) : null}
+
             <div>{content}</div>
           </>
         )}
