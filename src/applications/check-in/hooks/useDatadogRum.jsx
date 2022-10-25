@@ -7,7 +7,10 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 const initializeDatadogRum = () => {
   // Prevent RUM from running on local/CI environments.
-  if (environment.BASE_URL.indexOf('localhost') < 0) {
+  if (
+    environment.BASE_URL.indexOf('localhost') < 0 &&
+    !window.DD_RUM?.getInitConfiguration()
+  ) {
     datadogRum.init({
       applicationId: 'f61cc984-0ba6-4502-b4d0-fcae00cb8422',
       clientToken: 'pub65530b937303a0163a4ab3320e818340',
