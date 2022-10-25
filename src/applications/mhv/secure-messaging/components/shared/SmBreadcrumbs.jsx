@@ -35,7 +35,10 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.TRASH,
         {
           ...Constants.Breadcrumbs.SEARCH,
-          child: Constants.Breadcrumbs.SEARCH_ADVANCED,
+          children: [
+            Constants.Breadcrumbs.SEARCH_ADVANCED,
+            Constants.Breadcrumbs.SEARCH_RESULTS,
+          ],
         },
         Constants.Breadcrumbs.FAQ,
       ];
@@ -50,10 +53,18 @@ const SmBreadcrumbs = () => {
         arr.push({ path: '/', label: 'Messages' });
 
         paths.forEach(path => {
-          if (path.path === location.pathname) {
+          const [
+            ,
+            locationBasePath,
+            locationChildPath,
+          ] = location.pathname.split('/');
+          if (path.path.substring(1) === locationBasePath) {
             arr.push(path);
-            if (path.child?.path === `${location.pathname}${location.search}`) {
-              arr.push(path.child);
+            if (locationChildPath && path.children) {
+              const child = path.children.find(
+                item => item.path.substring(1) === locationChildPath,
+              );
+              arr.push(child);
             }
           }
         });

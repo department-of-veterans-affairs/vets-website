@@ -1,9 +1,12 @@
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { navigateToFoldersPage } from '../util/helpers';
-import { delFolder, getFolders } from '../actions/folders';
+import { delFolder, getFolders, renameFolder } from '../actions/folders';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -14,7 +17,10 @@ const ManageFolderButtons = () => {
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [nameWarning, setNameWarning] = useState('');
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [renameModal, setRenameModal] = useState(false);
+  const [folderName, setFolderName] = useState('');
 
   useEffect(
     () => {
@@ -31,11 +37,11 @@ const ManageFolderButtons = () => {
     } else {
       setIsEmptyWarning(false);
     }
-    setIsModalVisible(true);
+    setDeleteModal(true);
   };
 
   const closeDelModal = () => {
-    setIsModalVisible(false);
+    setDeleteModal(false);
   };
 
   const confirmDelFolder = () => {
@@ -43,6 +49,29 @@ const ManageFolderButtons = () => {
     dispatch(delFolder(folderId)).then(
       dispatch(getFolders()).then(navigateToFoldersPage(history)),
     );
+  };
+
+  const openRenameModal = () => {
+    setRenameModal(true);
+  };
+
+  const closeRenameModal = () => {
+    setFolderName('');
+    setNameWarning('');
+    setRenameModal(false);
+  };
+
+  const confirmRenameFolder = () => {
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning('Folder name cannot be blank');
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      closeRenameModal();
+      dispatch(renameFolder(folderId, folderName));
+    } else {
+      setNameWarning(
+        'Folder name can only contain letters, numbers, and spaces.',
+      );
+    }
   };
 
   return (
@@ -53,7 +82,7 @@ const ManageFolderButtons = () => {
           <button
             type="button"
             className="left-button usa-button-secondary"
-            onClick={function noRefCheck() {}}
+            onClick={openRenameModal}
           >
             Edit folder name
           </button>
@@ -69,7 +98,7 @@ const ManageFolderButtons = () => {
       {isEmptyWarning && (
         <VaModal
           className="modal"
-          visible={isModalVisible}
+          visible={deleteModal}
           large="true"
           modalTitle="Empty this folder before removing it from the list."
           onCloseEvent={closeDelModal}
@@ -86,7 +115,7 @@ const ManageFolderButtons = () => {
       {!isEmptyWarning && (
         <VaModal
           className="modal"
-          visible={isModalVisible}
+          visible={deleteModal}
           large="true"
           modalTitle="Are you sure you want to remove this folder?"
           onCloseEvent={closeDelModal}
@@ -96,6 +125,28 @@ const ManageFolderButtons = () => {
           <va-button secondary="true" text="Cancel" onClick={closeDelModal} />
         </VaModal>
       )}
+      <VaModal
+        className="modal"
+        visible={renameModal}
+        large="true"
+        modalTitle={`Editing: ${folder.name}`}
+        onCloseEvent={closeRenameModal}
+      >
+        <p className="no-margin">
+          <strong>Edit the folder name</strong>
+        </p>
+        <p className="no-margin">(50 characters maximum)</p>
+        <VaTextInput
+          value={folderName}
+          className="input"
+          error={nameWarning}
+          onInput={e => setFolderName(e.target.value)}
+          maxlength="50"
+          name="new-folder-name"
+        />
+        <va-button text="Save" onClick={confirmRenameFolder} />
+        <va-button secondary="true" text="Cancel" onClick={closeRenameModal} />
+      </VaModal>
     </>
   );
 };

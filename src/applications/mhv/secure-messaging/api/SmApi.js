@@ -47,6 +47,24 @@ export const createFolder = folderName => {
 };
 
 /**
+ * Update a folder's name.
+ * @param {Long} folderId
+ * @param {String} folderName
+ * @returns
+ */
+export const updateFolderName = (folderId, folderName) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/rename/${folderName}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
  * Delete a folder.
  * @param {Long} folderId
  * @returns
@@ -84,6 +102,22 @@ export const getMessageList = folderId => {
       'Content-Type': 'application/json',
     },
   });
+};
+
+/**
+ * Get the list of messages in the specified folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getMessageListAll = folderId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=9999`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 };
 
 /**
@@ -274,5 +308,22 @@ export const getTriageTeamList = () => {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+};
+
+/**
+ * Search a folder for messages based on criteria
+ * @param {Int} folderId
+ * @param {Object} query
+ * @returns
+ */
+export const searchFolderAdvanced = (folderId = 0, query) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(query),
   });
 };
