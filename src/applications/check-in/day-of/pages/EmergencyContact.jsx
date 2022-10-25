@@ -20,12 +20,7 @@ const EmergencyContact = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
 
-  const {
-    goToNextPage,
-    jumpToPage,
-    goToErrorPage,
-    goToPreviousPage,
-  } = useFormRouting(router);
+  const { goToNextPage, jumpToPage, goToPreviousPage } = useFormRouting(router);
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',
   );
@@ -64,10 +59,6 @@ const EmergencyContact = props => {
     ],
   );
 
-  if (!emergencyContact) {
-    goToErrorPage('?error=no-emergency-contact');
-    return <></>;
-  }
   return (
     <>
       <BackButton router={router} action={goToPreviousPage} />

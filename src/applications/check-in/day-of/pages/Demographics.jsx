@@ -17,7 +17,7 @@ const Demographics = props => {
   const { t } = useTranslation();
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage, jumpToPage } = useFormRouting(router);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -63,10 +63,6 @@ const Demographics = props => {
     ],
   );
 
-  if (!demographics) {
-    goToErrorPage('?error=no-demographics');
-    return <></>;
-  }
   return (
     <>
       <DemographicsDisplay

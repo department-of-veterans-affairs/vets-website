@@ -11,7 +11,11 @@ import {
   updateFormAction,
 } from '../actions/day-of';
 
-const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
+const useGetCheckInData = (
+  refreshNeeded,
+  appointmentsOnly = false,
+  reload = false,
+) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [checkInDataError, setCheckInDataError] = useState(false);
@@ -47,6 +51,10 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
             }),
           );
         }
+
+        if (reload) {
+          dispatch(receivedDemographicsData(demo));
+        }
       });
     },
     [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled],
@@ -54,9 +62,8 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
 
   useLayoutEffect(
     () => {
-      if (isStale) {
+      if (isStale && token && !isLoading) {
         setIsLoading(true);
-
         api.v2
           .getCheckInData(token)
           .then(json => {

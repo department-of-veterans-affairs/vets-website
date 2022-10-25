@@ -18,12 +18,7 @@ const NextOfKin = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
-  const {
-    jumpToPage,
-    goToNextPage,
-    goToPreviousPage,
-    goToErrorPage,
-  } = useFormRouting(router);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
@@ -63,10 +58,6 @@ const NextOfKin = props => {
     ],
   );
 
-  if (!nextOfKin) {
-    goToErrorPage('?error=no-next-of-kin');
-    return <></>;
-  }
   return (
     <>
       <BackButton router={router} action={goToPreviousPage} />
