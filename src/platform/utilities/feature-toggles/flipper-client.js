@@ -5,6 +5,7 @@ import { getFlipperId } from './helpers';
 const FLIPPER_ID = getFlipperId();
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
+const TOGGLE_STORAGE_KEY = 'featureToggles';
 
 let flipperClientInstance;
 
@@ -71,15 +72,14 @@ function FlipperClient({
       }
       */
     let data;
+    const featureToggles = sessionStorage.getItem(TOGGLE_STORAGE_KEY);
 
-    if (sessionStorage.getItem('vaFeatureToggles')) {
-      const dataFromStorage = sessionStorage.getItem('vaFeatureToggles');
-      data = JSON.parse(dataFromStorage);
+    if (featureToggles) {
+      data = JSON.parse(featureToggles);
     } else {
       const response = await _fetchToggleValues();
       data = response.data;
-      const saveData = JSON.stringify(data);
-      sessionStorage.setItem('vaFeatureToggles', saveData);
+      sessionStorage.setItem(TOGGLE_STORAGE_KEY, JSON.stringify(data));
     }
 
     const { features = [] } = data;
