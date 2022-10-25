@@ -16,8 +16,9 @@ const GrossMonthlyIncomeInput = () => {
       const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
 
       if (
-        !regex.test(grossMonthlyIncome.value) ||
-        Number(grossMonthlyIncome.value) < 0
+        grossMonthlyIncome.value &&
+        (!regex.test(grossMonthlyIncome.value) ||
+          Number(grossMonthlyIncome.value) < 0)
       ) {
         setIncomeError(true);
       } else {
@@ -39,7 +40,7 @@ const GrossMonthlyIncomeInput = () => {
       <va-text-input
         id="gross-monthly-income"
         name="gross-monthly-income"
-        onInput={setNewGrossMonthlyIncome}
+        onBlur={setNewGrossMonthlyIncome}
         type="text"
         required
         error={
