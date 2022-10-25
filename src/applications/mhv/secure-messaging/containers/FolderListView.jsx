@@ -130,7 +130,7 @@ const FolderListView = () => {
   }
 
   return (
-    <div className="vads-l-grid-container">
+    <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
         <AlertBackgroundBox closeable />
         {folder === undefined ? (
