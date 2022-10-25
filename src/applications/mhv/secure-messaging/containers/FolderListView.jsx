@@ -15,6 +15,7 @@ import ManageFolderButtons from '../components/ManageFolderButtons';
 const FolderListView = () => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
+  const [hideOtherAlerts, setHideOtherAlerts] = useState(false);
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
@@ -84,6 +85,7 @@ const FolderListView = () => {
       />
     );
   } else if (messages.length === 0) {
+    setHideOtherAlerts(true);
     content = (
       <>
         <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
@@ -115,7 +117,7 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
-        <AlertBackgroundBox closeable />
+        {hideOtherAlerts ? null : <AlertBackgroundBox closeable />}
         {folder === undefined ? (
           <va-loading-indicator
             message="Loading your secure messages..."
