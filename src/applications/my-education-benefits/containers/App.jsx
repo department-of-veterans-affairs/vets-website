@@ -55,6 +55,30 @@ export const App = ({
           ...claimantInfo,
         });
       }
+    },
+    [
+      claimantInfo,
+      featureTogglesLoaded,
+      fetchedPersonalInfo,
+      formData,
+      getPersonalInfo,
+      isLOA3,
+      isLoggedIn,
+      setFormData,
+      showUnverifiedUserAlert,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !isLoggedIn ||
+        !featureTogglesLoaded ||
+        (showUnverifiedUserAlert && isLOA3 !== true)
+      ) {
+        return;
+      }
+
       // the firstName check ensures that eligibility only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
       if (firstName && !fetchedEligibility) {
@@ -66,7 +90,23 @@ export const App = ({
           eligibility,
         });
       }
+    },
+    [
+      eligibility,
+      featureTogglesLoaded,
+      fetchedEligibility,
+      firstName,
+      formData,
+      getEligibility,
+      isLOA3,
+      isLoggedIn,
+      setFormData,
+      showUnverifiedUserAlert,
+    ],
+  );
 
+  useEffect(
+    () => {
       if (showMebDgi40Features !== formData.showMebDgi40Features) {
         setFormData({
           ...formData,
@@ -74,22 +114,7 @@ export const App = ({
         });
       }
     },
-    [
-      claimantInfo,
-      eligibility,
-      featureTogglesLoaded,
-      fetchedEligibility,
-      fetchedPersonalInfo,
-      firstName,
-      formData,
-      getEligibility,
-      getPersonalInfo,
-      isLOA3,
-      isLoggedIn,
-      setFormData,
-      showMebDgi40Features,
-      showUnverifiedUserAlert,
-    ],
+    [formData, setFormData, showMebDgi40Features],
   );
 
   useEffect(
