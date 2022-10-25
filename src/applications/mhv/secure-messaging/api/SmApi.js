@@ -105,6 +105,22 @@ export const getMessageList = folderId => {
 };
 
 /**
+ * Get the list of messages in the specified folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getMessageListAll = folderId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=9999`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
  * Get a single message.
  * @param {Long} messageId
  * @returns
@@ -292,5 +308,22 @@ export const getTriageTeamList = () => {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+};
+
+/**
+ * Search a folder for messages based on criteria
+ * @param {Int} folderId
+ * @param {Object} query
+ * @returns
+ */
+export const searchFolderAdvanced = (folderId = 0, query) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(query),
   });
 };
