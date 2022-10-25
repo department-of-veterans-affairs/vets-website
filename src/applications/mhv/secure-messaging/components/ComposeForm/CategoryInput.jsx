@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../actions/categories';
-// import { RadioCategories } from '../../util/inputContants';
+import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
   const dispatch = useDispatch();
@@ -42,7 +42,13 @@ const CategoryInput = props => {
             <VaRadioOption
               data-testid="compose-category-radio-button"
               key={i}
-              label={item}
+              label={
+                RadioCategories[item]
+                  ? `${RadioCategories[item].label}: ${
+                      RadioCategories[item].description
+                    }`
+                  : item
+              }
               name={item}
               value={item}
               checked={category === item}
