@@ -159,7 +159,7 @@ const ComposeForm = props => {
 
   return (
     <form className="compose-form" onSubmit={sendMessageHandler}>
-      <div className="compose-form-header">
+      <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
         <button type="submit" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />

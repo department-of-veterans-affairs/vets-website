@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../actions/categories';
+// import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
   const dispatch = useDispatch();

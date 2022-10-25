@@ -11,10 +11,12 @@ import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
 
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [letters, setLetters] = useState([]);
+  const [lettersLoading, setLettersLoading] = useState(true);
 
   useEffect(() => {
     getClaimLetters().then(data => {
       setLetters(data);
+      setLettersLoading(false);
     });
   }, []);
 
@@ -33,7 +35,11 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
           appeals, and decision reviews. Download your claim letters on this
           page.
         </div>
-        <ClaimLetterList letters={letters} />
+        {lettersLoading ? (
+          <va-loading-indicator message="Loading your claim letters..." />
+        ) : (
+          <ClaimLetterList letters={letters} />
+        )}
       </>
     );
   } else {

@@ -26,6 +26,7 @@ export const Actions = {
     GET_LIST: 'SM_FOLDER_GET_LIST',
     CREATE: 'SM_FOLDER_CREATE',
     DELETE: 'SM_FOLDER_DELETE',
+    RENAME: 'SM_FOLDER_RENAME',
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
@@ -33,6 +34,11 @@ export const Actions = {
     CLEAR_LIST: 'SM_MESSAGE_CLEAR_LIST',
     GET_HISTORY: 'SM_MESSAGE_GET_HISTORY',
   },
-  Search: { RUN: 'SM_SEARCH_RUN' },
-  TriageTeam: { GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST' },
+  Search: {
+    RUN: 'SM_SEARCH_RUN',
+    CLEAR: 'SM_SEARCH_CLEAR',
+  },
+  TriageTeam: {
+    GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',
+  },
 };
