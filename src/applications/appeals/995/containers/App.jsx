@@ -29,7 +29,7 @@ export const Form0995App = ({
   contestableIssues = {},
   legacyCount,
 }) => {
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
+  const { email = {}, homePhone = {}, mobilePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
 
   // Make sure we're only loading issues once - see
@@ -56,7 +56,8 @@ export const Form0995App = ({
           getContestableIssues({ benefitType: formData.benefitType });
         } else if (
           email?.emailAddress !== veteran.email ||
-          mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
+          homePhone?.updatedAt !== veteran.homePhone?.updatedAt ||
+          mobilePhone?.updatedAt !== veteran.mobilePhone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
@@ -70,7 +71,8 @@ export const Form0995App = ({
             veteran: {
               ...veteran,
               address: mailingAddress,
-              phone: mobilePhone,
+              mobilePhone,
+              homePhone,
               email: email?.emailAddress,
             },
             contestedIssues: processContestableIssues(
@@ -86,6 +88,7 @@ export const Form0995App = ({
       email,
       formData,
       getContestableIssues,
+      homePhone,
       isLoadingIssues,
       legacyCount,
       loggedIn,

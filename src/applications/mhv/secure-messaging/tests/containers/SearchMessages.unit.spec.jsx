@@ -1,22 +1,24 @@
 import React from 'react';
-import { expect } from 'chai';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { expect } from 'chai';
+import { folderList } from '../fixtures/folder-response.json';
+import reducer from '../../reducers';
 import SearchMessages from '../../containers/SearchMessages';
 
-describe('SearchMessages container', () => {
-  it('should not be empty', () => {
+describe('Message search', () => {
+  const initialState = {
+    sm: {
+      folders: { folderList },
+      search: {},
+    },
+  };
+
+  it('renders without errors', () => {
     const screen = renderWithStoreAndRouter(<SearchMessages />, {
-      path: '/search',
+      initialState,
+      reducers: reducer,
+      path: `/search`,
     });
-
-    expect(screen.getByTestId('search-messages')).to.not.be.empty;
-  });
-
-  it('should contain an h1 element with page title', () => {
-    const screen = renderWithStoreAndRouter(<SearchMessages />, {
-      path: '/search',
-    });
-
-    expect(screen.findByText('Search messages')).to.exist;
+    expect(screen.findByText('Search messages', { exact: true }));
   });
 });

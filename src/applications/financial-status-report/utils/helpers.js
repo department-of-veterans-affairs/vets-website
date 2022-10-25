@@ -66,7 +66,8 @@ export const sumValues = (arr, key) => {
   const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
   if (!isArrValid) return 0;
   return arr.reduce(
-    (acc, item) => acc + (Number(item[key]?.replaceAll(/[^0-9.-]/g, '')) ?? 0),
+    (acc, item) =>
+      acc + (item[key] ? Number(item[key]?.replaceAll(/[^0-9.-]/g, '')) : 0),
     0,
   );
 };

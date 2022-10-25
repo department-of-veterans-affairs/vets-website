@@ -1,5 +1,3 @@
-import set from 'platform/utilities/data/set';
-
 // platform imports
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -149,7 +147,7 @@ const formConfig = {
   ],
   confirmation: ConfirmationPage,
   submissionError: SubmissionErrorAlert,
-  title: 'Apply for health care',
+  title: 'Apply for VA health care',
   subTitle: 'Form 10-10EZ',
   preSubmitInfo,
   footerContent: FormFooter,
@@ -157,8 +155,8 @@ const formConfig = {
   defaultDefinitions: {
     date,
     provider,
-    fullName: set('properties.middle.maxLength', 30, fullName),
-    ssn: ssn.oneOf[0], // Mmm...not a fan.
+    fullName,
+    ssn,
     phone,
     dependent: dependentSchema,
     monetaryValue,

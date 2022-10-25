@@ -35,7 +35,10 @@ const buildPage = ({ title, field, goToPath }) => {
   );
 };
 
-export const EditPhone = ({ title, goToPath }) =>
+export const EditHomePhone = ({ title, goToPath }) =>
+  buildPage({ title, goToPath, field: 'HOME_PHONE' });
+
+export const EditMobilePhone = ({ title, goToPath }) =>
   buildPage({ title, goToPath, field: 'MOBILE_PHONE' });
 
 export const EditEmail = ({ title, goToPath }) =>
