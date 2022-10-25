@@ -5,6 +5,7 @@ import {
   MILITARY_CITIES,
 } from './constants';
 import { viewifyFields } from './utils';
+import { migrateBranches } from './utils/serviceBranches';
 
 // ****************************************
 // This entire file _may_ be obsolete once form 526EZ v1 is no longer supported
@@ -136,6 +137,7 @@ export default function prefillTransformer(pages, formData, metadata) {
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
+    migrateBranches, // backend is prefilling with older branch names
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);
