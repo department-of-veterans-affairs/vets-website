@@ -38,7 +38,11 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
-import { getBranches, fetchBranches } from './utils/serviceBranches';
+import {
+  getBranches,
+  fetchBranches,
+  clearBranches,
+} from './utils/serviceBranches';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -132,6 +136,11 @@ export const Form526Entry = ({
     },
     [loggedIn],
   );
+
+  if (!loggedIn) {
+    // clear service branches if not logged in
+    clearBranches();
+  }
 
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893

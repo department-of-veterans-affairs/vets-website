@@ -100,8 +100,8 @@ export default function prefillTransformer(pages, formData, metadata) {
         newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
       }
     }
-
-    return newData;
+    // backend is prefilling with older branch names
+    return migrateBranches(newData);
   };
 
   const prefillBankInformation = data => {
@@ -137,7 +137,6 @@ export default function prefillTransformer(pages, formData, metadata) {
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
-    migrateBranches, // backend is prefilling with older branch names
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);

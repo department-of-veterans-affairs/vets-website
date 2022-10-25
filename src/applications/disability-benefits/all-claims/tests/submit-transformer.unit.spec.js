@@ -14,7 +14,7 @@ import maximalData from './fixtures/data/maximal-test.json';
 describe('transform', () => {
   const servicePeriodsBDD = [
     {
-      serviceBranch: 'Air Force Reserves',
+      serviceBranch: 'Air Force Reserve', // no "s", testing submit transform
       dateRange: {
         from: '2001-03-21',
         to: moment()

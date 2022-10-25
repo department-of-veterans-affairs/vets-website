@@ -23,11 +23,15 @@ export const getBranches = () => {
   return serviceBranches;
 };
 
+// for testing purposes
+export const clearBranches = () => {
+  window.sessionStorage.removeItem(SERVICE_BRANCHES);
+  serviceBranches = [];
+};
+
 export const fetchBranches = () =>
   apiRequest('/benefits_reference_data/service-branches')
-    .then(data => {
-      return processBranches(data.items?.length ? data.items : branches);
-    })
+    .then(data => processBranches(data.items?.length ? data.items : branches))
     .catch(() => {
       Sentry.captureMessage('get_military_service_branches_failed');
       // pulled from mock data
@@ -45,22 +49,22 @@ const reMapBranches = {
   // 'Navy': () => 'Navy',
   // 'Public Health Service': () => 'Public Health Service',
 
-  'Air Force Reserve': () => 'Air Force Reserves',
-  'Army Reserve': () => 'Army Reserves',
-  'Coast Guard Reserve': () => 'Coast Guard Reserves',
-  'Marine Corps Reserve': () => 'Marine Corps Reserves',
-  NOAA: () => 'National Oceanic & Atmospheric Administration',
-  'Navy Reserve': () => 'Navy Reserves',
+  'air force reserve': () => 'Air Force Reserves',
+  'army reserve': () => 'Army Reserves',
+  'coast guard reserve': () => 'Coast Guard Reserves',
+  'marine corps reserve': () => 'Marine Corps Reserves',
+  noaa: () => 'National Oceanic & Atmospheric Administration',
+  'navy reserve': () => 'Navy Reserves',
 };
 
 // Used by prefill transformer & data migrations
 export const migrateBranches = data => {
   let formData = _.clone(data);
-  const periods = formData.serviceInformation.servicePeriods || [];
+  const periods = formData.serviceInformation?.servicePeriods || [];
   if (periods.length) {
     periods.forEach((period, index) => {
       const branch = period.serviceBranch?.trim() || '';
-      const newBranch = reMapBranches[branch]?.() || branch;
+      const newBranch = reMapBranches[branch.toLowerCase()]?.() || branch;
       if (branch !== newBranch) {
         formData = _.set(
           ['serviceInformation', 'servicePeriods', index, 'serviceBranch'],

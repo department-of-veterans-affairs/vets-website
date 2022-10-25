@@ -8,9 +8,15 @@ import {
   DefinitionTester,
   fillData,
   fillDate,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
+
+import {
+  processBranches,
+  getBranches,
+  clearBranches,
+} from '../../utils/serviceBranches';
 
 describe('Military history', () => {
   const {
@@ -22,7 +28,16 @@ describe('Military history', () => {
     dob: '1990-01-01',
   };
 
+  beforeEach(() => {
+    processBranches();
+  });
+
+  after(() => {
+    clearBranches();
+  });
+
   it('should render', () => {
+    const branches = getBranches();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -36,6 +51,12 @@ describe('Military history', () => {
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(5);
+    // test service branch list. Add 1 for empty option
+    expect(
+      form.find(
+        'select#root_serviceInformation_servicePeriods_0_serviceBranch option',
+      ).length,
+    ).to.equal(branches.length + 1);
     form.unmount();
   });
 
