@@ -25,6 +25,6 @@ describe(manifest.appName, () => {
     cy.get('[id="category-COVID"]').click();
     cy.get('[data-testid="message-subject-field"]').type('Test Subject');
     cy.get('[data-testid="message-body-field"]').type('message Test');
-    composePage.sendMessage();
+    composePage.saveDraft();
   });
 });
