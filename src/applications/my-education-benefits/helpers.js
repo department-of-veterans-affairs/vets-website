@@ -321,7 +321,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
         street2: address?.addressLine2 || undefined,
         city: address?.city,
         state: address?.stateCode,
-        postalCode: address?.zipcode,
+        postalCode: address?.zipCode || address?.zipcode,
         country: getSchemaCountryCode(address?.countryCode),
       },
       [formFields.livesOnMilitaryBase]:
