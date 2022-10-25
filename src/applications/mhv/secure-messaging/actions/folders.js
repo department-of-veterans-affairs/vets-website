@@ -4,21 +4,28 @@ import {
   getFolder,
   createFolder,
   deleteFolder,
+  updateFolderName,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
 export const getFolders = () => async dispatch => {
-  const response = await getFolderList();
-  if (response.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
-    });
-  } else {
+  try {
+    const response = await getFolderList();
     dispatch({
       type: Actions.Folder.GET_LIST,
       response,
+    });
+  } catch (error) {
+    const err = error.errors[0];
+    dispatch({
+      type: Actions.Alerts.ADD_ALERT,
+      payload: {
+        alertType: 'error',
+        header: err.title,
+        content: err.detail,
+        response: err,
+      },
     });
   }
 };
@@ -70,6 +77,27 @@ export const delFolder = folderId => async dispatch => {
         Constants.ALERT_TYPE_SUCCESS,
         '',
         Constants.Alerts.Folder.DELETE_FOLDER_SUCCESS,
+      ),
+    );
+  }
+};
+
+export const renameFolder = (folderId, newName) => async dispatch => {
+  try {
+    await updateFolderName(folderId, newName);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Folder.RENAME_FOLDER_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
       ),
     );
   }

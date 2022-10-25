@@ -130,35 +130,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
-  let userAddressLine1;
-  let userAddressLine2;
-  let userCity;
-  let userState;
-  let userPostalCode;
-  let userCountryCode;
-
-  if (profile?.addressLine1) {
-    userAddressLine1 = profile?.addressLine1;
-    userAddressLine2 = profile?.addressLine2;
-    userCity = profile?.city;
-    userState = profile?.stateCode;
-    userPostalCode = profile?.zipCode;
-    userCountryCode = profile?.countryCode;
-  } else if (vet360ContactInfo?.addressLine1) {
-    userAddressLine1 = vet360ContactInfo?.addressLine1;
-    userAddressLine2 = vet360ContactInfo?.addressLine2;
-    userCity = vet360ContactInfo?.city;
-    userState = vet360ContactInfo?.stateCode;
-    userPostalCode = vet360ContactInfo?.zipCode;
-    userCountryCode = vet360ContactInfo?.countryCode;
-  } else {
-    userAddressLine1 = contactInfo?.addressLine1;
-    userAddressLine2 = contactInfo?.addressLine2;
-    userCity = contactInfo?.city;
-    userState = contactInfo?.stateCode;
-    userPostalCode = contactInfo?.zipCode;
-    userCountryCode = contactInfo?.countryCode;
-  }
+  const address = vet360ContactInfo?.mailingAddress?.addressLine1
+    ? vet360ContactInfo?.mailingAddress
+    : contactInfo;
 
   const emailAddress =
     profile?.email ||
@@ -243,12 +217,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: userAddressLine1,
-        street2: userAddressLine2 || undefined,
-        city: userCity,
-        state: userState,
-        postalCode: userPostalCode,
-        country: getSchemaCountryCode(userCountryCode),
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&
