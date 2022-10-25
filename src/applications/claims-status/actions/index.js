@@ -7,21 +7,48 @@ import get from 'platform/utilities/data/get';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import {
-  getErrorStatus,
-  USER_FORBIDDEN_ERROR,
-  RECORD_NOT_FOUND_ERROR,
-  VALIDATION_ERROR,
-  BACKEND_SERVICE_ERROR,
-  FETCH_APPEALS_ERROR,
-  FETCH_APPEALS_PENDING,
-  FETCH_CLAIMS_PENDING,
-  FETCH_CLAIMS_SUCCESS,
-  FETCH_CLAIMS_ERROR,
-  UNKNOWN_STATUS,
-} from '../utils/appeals-v2-helpers';
+import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
+
+import {
+  ADD_FILE,
+  BACKEND_SERVICE_ERROR,
+  CANCEL_UPLOAD,
+  CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  CLEAR_NOTIFICATION,
+  DONE_UPLOADING,
+  FETCH_APPEALS_ERROR,
+  FETCH_APPEALS_PENDING,
+  FETCH_APPEALS_SUCCESS,
+  FETCH_CLAIMS_ERROR,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
+  FETCH_STEM_CLAIMS_ERROR,
+  FETCH_STEM_CLAIMS_PENDING,
+  FETCH_STEM_CLAIMS_SUCCESS,
+  GET_CLAIM_DETAIL,
+  RECORD_NOT_FOUND_ERROR,
+  REMOVE_FILE,
+  RESET_UPLOADS,
+  SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  SET_CLAIM_DETAIL,
+  SET_CLAIMS_UNAVAILABLE,
+  SET_DECISION_REQUEST_ERROR,
+  SET_DECISION_REQUESTED,
+  SET_FIELDS_DIRTY,
+  SET_LAST_PAGE,
+  SET_NOTIFICATION,
+  SET_PROGRESS,
+  SET_UNAUTHORIZED,
+  SET_UPLOAD_ERROR,
+  SET_UPLOADER,
+  SET_UPLOADING,
+  SUBMIT_DECISION_REQUEST,
+  UPDATE_FIELD,
+  USER_FORBIDDEN_ERROR,
+  VALIDATION_ERROR,
+} from './types';
 
 // This should make it a bit easier to turn mocks on and off manually
 const SHOULD_USE_MOCKS = true;
@@ -29,37 +56,16 @@ const SHOULD_USE_MOCKS = true;
 const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
-// -------------------- v2 and v1 -------------
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
-// -------------------- v1 --------------------
-export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
-export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
-export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
-export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
-export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
-export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
-export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
-export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
-export const SET_CLAIMS_UNAVAILABLE = 'SET_CLAIMS_UNAVAILABLE';
-export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
-export const RESET_UPLOADS = 'RESET_UPLOADS';
-export const ADD_FILE = 'ADD_FILE';
-export const REMOVE_FILE = 'REMOVE_FILE';
-export const SET_UPLOADING = 'SET_UPLOADING';
-export const SET_UPLOADER = 'SET_UPLOADER';
-export const DONE_UPLOADING = 'DONE_UPLOADING';
-export const SET_PROGRESS = 'SET_PROGRESS';
-export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
-export const UPDATE_FIELD = 'UPDATE_FIELD';
-export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
-export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
-export const SET_LAST_PAGE = 'SET_LAST_PAGE';
-export const SET_NOTIFICATION = 'SET_NOTIFICATION';
-export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
-  'SET_ADDITIONAL_EVIDENCE_NOTIFICATION';
-export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
-export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
-  'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
+export const getClaimLetters = async () => {
+  try {
+    return await apiRequest('/claim_letters');
+    // return new Promise(res => {
+    //   setTimeout(() => res(letters), 500);
+    // });
+  } catch (err) {
+    throw new Error('error.unknown');
+  }
+};
 
 export function setNotification(message) {
   return {

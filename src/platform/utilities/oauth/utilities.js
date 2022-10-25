@@ -216,10 +216,10 @@ export const refresh = async ({ type }) => {
   const url = new URL(
     API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
   );
+
   return fetch(url.href, {
     method: 'POST',
     credentials: 'include',
-    type,
   });
 };
 
@@ -233,7 +233,12 @@ export const formatInfoCookie = cookieStringRaw => {
     : cookieStringRaw;
   return decoded.split(',+:').reduce((obj, cookieString) => {
     const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
+    const formattedValue = value
+      .replaceAll('++00:00', '')
+      .replaceAll('+', ' ')
+      .replace(',', '')
+      .replace(/\.\d+/g, '');
+
     return { ...obj, [key]: new Date(formattedValue) };
   }, {});
 };

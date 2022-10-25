@@ -1,8 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import PrivacyAgreement from './PrivacyAgreement';
 
 import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
 import FinishVerifyingLater from './FinishVerifyingLater';
@@ -33,12 +31,6 @@ function VerifyEnrollments({
   showPrivacyAgreement = false,
   totalProgressBarSegments,
 }) {
-  const [privacyAgreementChecked, setPrivacyAgreementChecked] = useState(false);
-
-  const onPrivacyAgreementChange = useCallback(checked => {
-    setPrivacyAgreementChecked(checked);
-  }, []);
-
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
@@ -60,13 +52,16 @@ function VerifyEnrollments({
           <p className="vads-u-margin-top--4">
             <strong>Note:</strong> According to federal law, there are criminal
             penalties, including a fine and/or imprisonment for up to 5 years,
-            for withholding information or for providing incorrect information.
-            (See 18 U.S.C. 1001)
+            for withholding information or for providing incorrect information
+            (See 18 U.S.C. 1001).{' '}
+            <a
+              href="https://www.va.gov/privacy-policy/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Learn more about our privacy policy
+            </a>
           </p>
-          <PrivacyAgreement
-            checked={privacyAgreementChecked}
-            onChange={onPrivacyAgreementChange}
-          />
         </>
       )}
 

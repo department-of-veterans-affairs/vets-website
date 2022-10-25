@@ -24,7 +24,8 @@ import {
 } from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
-import { FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
+import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
+import { selectFeatureAcheronService } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -99,6 +100,9 @@ export default function ContactInfoPage() {
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
+  const featureAcheronService = useSelector(state =>
+    selectFeatureAcheronService(state),
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -136,11 +140,17 @@ export default function ContactInfoPage() {
     bestTimeToCall: {
       'ui:title': 'What are the best times for us to call you?',
       'ui:validations':
-        flowType === FLOW_TYPES.REQUEST ? [validateBooleanGroup] : [],
+        !featureAcheronService && flowType === FLOW_TYPES.REQUEST
+          ? [validateBooleanGroup]
+          : [],
       'ui:options': {
         showFieldLabel: true,
         classNames: 'vaos-form__checkboxgroup',
-        hideIf: () => flowType === FLOW_TYPES.DIRECT,
+        hideIf: () => {
+          if (featureAcheronService)
+            return userData.facilityType === FACILITY_TYPES.VAMC;
+          return flowType === FLOW_TYPES.DIRECT;
+        },
       },
       morning: {
         'ui:title': 'Morning (8:00 a.m. – noon)',

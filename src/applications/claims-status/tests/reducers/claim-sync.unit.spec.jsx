@@ -5,7 +5,7 @@ import {
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
   SET_UNAUTHORIZED,
-} from '../../actions';
+} from '../../actions/types';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {

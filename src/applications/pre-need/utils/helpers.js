@@ -1,5 +1,6 @@
 import React from 'react';
 import { merge } from 'lodash';
+import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
@@ -99,7 +100,7 @@ export const sponsorMilitaryStatusDescription = (
 );
 
 export const desiredCemeteryNoteDescription = (
-  <va-alert status="info" background-only>
+  <va-alert status="info" background-only id="burial-cemetary-note">
     <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
@@ -319,8 +320,8 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'Which categories best describe you?',
-    'ui:description': 'You may check more than one.',
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
     isSpanishHispanicLatino: {
       'ui:title': 'Hispanic or Latino',
     },
@@ -490,3 +491,8 @@ export function getCemeteries() {
       return Promise.resolve([]);
     });
 }
+
+SSNWidget.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
