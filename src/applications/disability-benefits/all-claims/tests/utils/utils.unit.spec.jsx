@@ -54,7 +54,7 @@ describe('526 helpers', () => {
       const formData = {
         servicePeriods: [
           {
-            serviceBranch: 'Air Force Reserve',
+            serviceBranch: 'Air Force Reserves',
             dateRange: {
               to: '2011-05-06',
               from: '2015-05-06',
@@ -118,14 +118,14 @@ describe('526 helpers', () => {
               },
             },
             {
-              serviceBranch: 'Air Force Reserve',
+              serviceBranch: 'Air Force Reserves',
               dateRange: {
                 from: '2000-05-08',
                 to: '2011-10-08',
               },
             },
             {
-              serviceBranch: 'Marine Corps Reserve',
+              serviceBranch: 'Marine Corps Reserves',
               dateRange: {
                 from: '2000-05-08',
                 to: '2018-10-08',
@@ -136,7 +136,7 @@ describe('526 helpers', () => {
       };
 
       const renderedText = shallow(ReservesGuardDescription(form));
-      expect(renderedText.render().text()).to.contain('Marine Corps Reserve');
+      expect(renderedText.render().text()).to.contain('Marine Corps Reserves');
       renderedText.unmount();
     });
 
