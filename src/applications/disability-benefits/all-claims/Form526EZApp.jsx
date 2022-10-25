@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import PropTypes from 'prop-types';
 
-import { apiRequest } from 'platform/utilities/api';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -29,6 +29,7 @@ import {
   SHOW_8940_4192,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
+  SERVICE_BRANCHES,
 } from './constants';
 import {
   show526Wizard,
@@ -38,6 +39,7 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
+import { fetchBranches } from './utils/serviceBranches';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -125,23 +127,12 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      let militaryServiceBranches = JSON.parse(
-        sessionStorage.getItem('militaryServiceBranches') || '[]',
+      const militaryServiceBranches = JSON.parse(
+        sessionStorage.getItem(SERVICE_BRANCHES) || '[]',
       );
 
       if (loggedIn && !militaryServiceBranches.length) {
-        apiRequest('/benefits_reference_data/service-branches')
-          .then(data => {
-            militaryServiceBranches = data.items.map(item => item.description);
-            sessionStorage.setItem(
-              'militaryServiceBranches',
-              JSON.stringify(militaryServiceBranches),
-            );
-          })
-          .catch(error => {
-            Sentry.captureMessage('get_military_service_branches_failed');
-            // pull from schema
-          });
+        fetchBranches();
       }
     },
     [loggedIn],
@@ -221,6 +212,30 @@ export const Form526Entry = ({
       </RequiredLoginView>
     </article>,
   );
+};
+
+Form526Entry.propTypes = {
+  accountUuid: PropTypes.string,
+  children: PropTypes.any,
+  inProgressFormId: PropTypes.number,
+  isBDDForm: PropTypes.bool,
+  isStartingOver: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  mvi: PropTypes.shape({
+    addPersonState: PropTypes.string,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  savedForms: PropTypes.array,
+  showSubforms: PropTypes.bool,
+  showWizard: PropTypes.bool,
+  user: PropTypes.shape({
+    profile: PropTypes.shape({}),
+  }),
 };
 
 const mapStateToProps = state => ({

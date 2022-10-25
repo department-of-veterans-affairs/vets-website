@@ -1,6 +1,6 @@
 import set from 'platform/utilities/data/set';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+// import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
@@ -8,6 +8,7 @@ import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView
 import ArrayField from '../components/ArrayField';
 import { isValidServicePeriod, formatDate } from '../utils';
 import { validateAge, validateSeparationDate } from '../validations';
+import { SERVICE_BRANCHES } from '../constants';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -50,10 +51,13 @@ export const uiSchema = {
           'ui:title': 'Branch of service',
           'ui:options': {
             updateSchema: (_formData, schema) => {
-              const options = JSON.parse(
-                sessionStorage.getItem('militaryServiceBranches'),
-              );
-              return set('enum', options, schema);
+              if (!schema.enum?.length) {
+                const options = JSON.parse(
+                  sessionStorage.getItem(SERVICE_BRANCHES),
+                );
+                return set('enum', options, schema);
+              }
+              return schema;
             },
           },
         },
@@ -74,6 +78,7 @@ export const schema = {
       required: ['servicePeriods'], // required in fullSchema
       type: 'object',
       properties: {
+        // fullSchema.properties.serviceInformation.properties.servicePeriods
         servicePeriods: {
           type: 'array',
           minItems: 1,
@@ -84,7 +89,6 @@ export const schema = {
             properties: {
               serviceBranch: {
                 type: 'string',
-                enum: [],
               },
               dateRange: {
                 $ref: '#/definitions/dateRangeAllRequired',
