@@ -54,7 +54,8 @@ export const Breadcrumbs = {
   SENT: { path: '/sent', label: 'Sent messages' },
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/search?advanced=true', label: 'Advanced search' },
+  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
+  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
   FAQ: { path: '/faq', label: 'Messages FAQs' },
 };
 
