@@ -47,6 +47,24 @@ export const createFolder = folderName => {
 };
 
 /**
+ * Update a folder's name.
+ * @param {Long} folderId
+ * @param {String} folderName
+ * @returns
+ */
+export const updateFolderName = (folderId, folderName) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/rename/${folderName}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+/**
  * Delete a folder.
  * @param {Long} folderId
  * @returns
