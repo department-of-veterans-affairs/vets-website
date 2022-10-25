@@ -24,6 +24,7 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    NO_MESSAGES: 'There are no messages in this folder.',
   },
   Folder: {
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
@@ -62,3 +63,4 @@ export const Breadcrumbs = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
+export const ALERT_TYPE_INFO = 'info';

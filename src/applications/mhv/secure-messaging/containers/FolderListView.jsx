@@ -1,7 +1,4 @@
-import {
-  VaAlert,
-  VaSearchInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -93,21 +90,7 @@ const FolderListView = () => {
           Displaying 0 of 0 messages
         </div>
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
-          <VaAlert
-            background-only
-            class="vads-u-margin-bottom--1"
-            close-btn-aria-label="Close notification"
-            disable-analytics="false"
-            full-width="false"
-            status="info"
-          >
-            <div>
-              <p className="vads-u-margin-y--0">
-                There are no messages in this folder.
-              </p>
-            </div>
-          </VaAlert>
-          <AlertBackgroundBox />
+          <AlertBackgroundBox noIcon />
         </div>
       </>
     );

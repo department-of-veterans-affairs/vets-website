@@ -28,6 +28,12 @@ const AlertBackgroundBox = props => {
     [alertList],
   );
 
+  const handleShowIcon = () => {
+    if (props.noIcon) {
+      return 'false';
+    }
+    return 'true';
+  };
   const closeAlertBox = () => {
     dispatch(closeAlert());
   };
@@ -40,7 +46,7 @@ const AlertBackgroundBox = props => {
       close-btn-aria-label="Close notification"
       disable-analytics="false"
       full-width="false"
-      show-icon
+      show-icon={handleShowIcon()}
       status={activeAlert.alertType} // success, error, warning, info, continue
       onCloseEvent={closeAlertBox}
     >
@@ -55,6 +61,7 @@ const AlertBackgroundBox = props => {
 
 AlertBackgroundBox.propTypes = {
   closeable: PropTypes.bool,
+  noIcon: PropTypes.bool,
 };
 
 export default AlertBackgroundBox;
