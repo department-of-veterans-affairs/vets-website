@@ -1,4 +1,4 @@
-import manifest from '../manifest.json';
+import manifest from '../../manifest.json';
 
 describe.skip(manifest.appName, () => {
   // Skip tests in CI until the app is released.
@@ -7,7 +7,7 @@ describe.skip(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('is accessible', () => {
+  it.skip('is accessible', () => {
     cy.visit(manifest.rootUrl)
       .injectAxe()
       .axeCheck();

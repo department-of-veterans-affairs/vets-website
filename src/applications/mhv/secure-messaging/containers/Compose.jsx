@@ -1,28 +1,41 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessage } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import EmergencyNote from '../components/EmergencyNote';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { DefaultFolders } from '../util/constants';
 
 const Compose = () => {
   const dispatch = useDispatch();
   const { draftMessage, error } = useSelector(state => state.sm.draftDetails);
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
+  const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
+  const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
 
   useEffect(
     () => {
+      // to prevent users from accessing draft edit view if directly hitting url path with messageId
+      // in case that message no longer is a draft
+      if (isDraftPage && activeFolder?.folderId !== DefaultFolders.DRAFTS.id) {
+        history.push('/drafts');
+      }
+      if (location.pathname === '/compose') {
+        dispatch(clearDraft());
+      }
       dispatch(getTriageTeams());
       if (isDraftPage && draftId) {
         dispatch(retrieveMessage(draftId, true));
       }
     },
-    [isDraftPage, draftId],
+    [isDraftPage, draftId, activeFolder, dispatch, history],
   );
 
   let pageTitle;
@@ -58,6 +71,7 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
+      <AlertBackgroundBox closeable />
       <h1 className="page-title">{pageTitle}</h1>
       <EmergencyNote />
       <div>

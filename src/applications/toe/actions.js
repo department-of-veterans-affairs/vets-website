@@ -81,25 +81,6 @@ export function fetchDirectDeposit() {
   };
 }
 
-export function fetchSponsors() {
-  return async dispatch => {
-    dispatch({ type: FETCH_SPONSORS });
-    return apiRequest(SPONSORS_ENDPOINT)
-      .then(response => {
-        dispatch({
-          type: FETCH_SPONSORS_SUCCESS,
-          response,
-        });
-      })
-      .catch(errors => {
-        dispatch({
-          type: FETCH_SPONSORS_FAILED,
-          errors,
-        });
-      });
-  };
-}
-
 export function updateSponsors(sponsors) {
   return { type: UPDATE_SPONSORS, payload: sponsors };
 }

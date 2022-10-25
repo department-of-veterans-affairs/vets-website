@@ -90,7 +90,11 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             of eligibility.
           </li>
           <li>
-            <a href="/profile" target="_blank" rel="noopener noreferrer">
+            <a
+              href="/profile/direct-deposit"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>

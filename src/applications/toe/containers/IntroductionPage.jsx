@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
 import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
+import { START_APPLICATION_TEXT } from '../constants';
 
 export const IntroductionPage = ({
   isLOA3,
@@ -43,7 +45,7 @@ export const IntroductionPage = ({
             prefillEnabled={route.formConfig.prefillEnabled}
             messages={route.formConfig.savedFormMessages}
             pageList={route.pageList}
-            startText="Start your benefits application"
+            startText={START_APPLICATION_TEXT}
           />
         )}
 

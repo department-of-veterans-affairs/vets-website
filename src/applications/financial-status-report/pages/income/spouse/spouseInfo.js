@@ -8,7 +8,7 @@ const MaritalStatusInfo = (
     </p>
     <p>
       If you’re married, we also need to understand your spouse’s financial
-      situation. This allows us to make a more informed decision regarding your
+      situation. This allows us to make a more informed decision on your
       request.
     </p>
   </AdditionalInfo>
