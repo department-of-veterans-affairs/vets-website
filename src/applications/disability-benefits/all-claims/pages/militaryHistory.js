@@ -8,7 +8,7 @@ import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView
 import ArrayField from '../components/ArrayField';
 import { isValidServicePeriod, formatDate } from '../utils';
 import { validateAge, validateSeparationDate } from '../validations';
-import { SERVICE_BRANCHES } from '../constants';
+import { getBranches } from '../utils/serviceBranches';
 
 const dateRangeUISchema = dateRangeUI(
   'Service start date',
@@ -52,9 +52,7 @@ export const uiSchema = {
           'ui:options': {
             updateSchema: (_formData, schema) => {
               if (!schema.enum?.length) {
-                const options = JSON.parse(
-                  sessionStorage.getItem(SERVICE_BRANCHES),
-                );
+                const options = getBranches();
                 return set('enum', options, schema);
               }
               return schema;

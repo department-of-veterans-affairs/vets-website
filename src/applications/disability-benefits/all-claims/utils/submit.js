@@ -12,7 +12,9 @@ import {
   disabilityIsSelected,
   hasGuardOrReservePeriod,
   sippableId,
-} from '../utils';
+} from './index';
+
+import { migrateBranches } from './serviceBranches';
 
 import { ptsdBypassDescription } from '../content/ptsdBypassContent';
 
@@ -223,7 +225,8 @@ export function getPtsdChangeText(changeFields = {}) {
 }
 
 export function filterServicePeriods(formData) {
-  const { serviceInformation } = formData;
+  // migrate branches in case prefill migration is skipped somehow
+  const { serviceInformation } = migrateBranches(formData);
   if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
     return formData;
   }

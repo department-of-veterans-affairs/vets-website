@@ -29,7 +29,6 @@ import {
   SHOW_8940_4192,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
-  SERVICE_BRANCHES,
 } from './constants';
 import {
   show526Wizard,
@@ -39,7 +38,7 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
-import { fetchBranches } from './utils/serviceBranches';
+import { getBranches, fetchBranches } from './utils/serviceBranches';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -127,11 +126,7 @@ export const Form526Entry = ({
 
   useEffect(
     () => {
-      const militaryServiceBranches = JSON.parse(
-        sessionStorage.getItem(SERVICE_BRANCHES) || '[]',
-      );
-
-      if (loggedIn && !militaryServiceBranches.length) {
+      if (loggedIn && !getBranches().length) {
         fetchBranches();
       }
     },

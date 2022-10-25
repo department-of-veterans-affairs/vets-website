@@ -12,8 +12,19 @@ export const processBranches = (data = branches) => {
   return result;
 };
 
-export const fetchBranches = () => {
-  return apiRequest('/benefits_reference_data/service-branches')
+let serviceBranches = [];
+export const getBranches = () => {
+  if (!serviceBranches.length) {
+    const storedBranches = JSON.parse(
+      window.sessionStorage.getItem(SERVICE_BRANCHES) || '[]',
+    );
+    serviceBranches = storedBranches;
+  }
+  return serviceBranches;
+};
+
+export const fetchBranches = () =>
+  apiRequest('/benefits_reference_data/service-branches')
     .then(data => {
       return processBranches(data.items?.length ? data.items : branches);
     })
@@ -22,7 +33,6 @@ export const fetchBranches = () => {
       // pulled from mock data
       return processBranches();
     });
-};
 
 const reMapBranches = {
   // Unchanged values
