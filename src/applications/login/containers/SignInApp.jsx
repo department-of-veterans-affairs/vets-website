@@ -8,48 +8,40 @@ import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-import { signInServiceEnabled } from 'platform/user/authentication/selectors';
+import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
 
 export function UnifiedSigninPage({ router, location }) {
-  const useSignInService = useSelector(state => signInServiceEnabled(state));
   const isAuthenticated = useSelector(state => isLoggedIn(state));
   const { query } = location;
   const loggedOut = query?.auth === 'logged_out';
   const externalApplication = query.application;
-  const { OAuthEnabled } = externalApplication
-    ? externalApplicationsConfig[externalApplication]
-    : externalApplicationsConfig.default;
 
-  useEffect(
-    () => {
-      if (isAuthenticated) {
-        window.location = '/';
-      }
-    },
-    [isAuthenticated],
-  );
+  const { OAuthEnabled } =
+    externalApplicationsConfig[externalApplication] ??
+    externalApplicationsConfig.default;
+  const isQueryAlreadySet = ['true', 'false'].includes(query?.oauth);
 
-  // immediately add oauth=true on component mount
-  useEffect(
-    () => {
-      // check if oauth=false, leave it alone
-      if (query?.oauth === 'false') {
-        return;
-      }
+  // Check if authenticated and redirect if necessary
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location = '/';
+    }
+  }, []);
 
-      const url = appendQuery(
-        '',
-        {
-          ...query,
-          oauth: OAuthEnabled && useSignInService ? 'true' : 'false',
-        },
-        { removeNull: true },
-      );
+  // Immediately check if OAuthEnabled
+  useEffect(() => {
+    if (
+      isAuthenticated ||
+      (isQueryAlreadySet &&
+        OAuthEnabledApplications.includes(externalApplication))
+    ) {
+      return;
+    }
 
-      router.push(url);
-    },
-    [query, OAuthEnabled, useSignInService, router],
-  );
+    router.push(
+      appendQuery('', { ...query, oauth: OAuthEnabled }, { removeNull: true }),
+    );
+  }, []);
 
   return (
     <>
