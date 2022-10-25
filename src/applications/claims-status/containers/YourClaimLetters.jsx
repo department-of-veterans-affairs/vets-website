@@ -16,19 +16,30 @@ const paginateItems = items => {
   return chunk(items, ITEMS_PER_PAGE);
 };
 
+// const getFromToNums = (page, total) => {
+//   const from = (page - 1) * ITEMS_PER_PAGE + 1;
+//   const to = Math.min(page * ITEMS_PER_PAGE, total);
+
+//   return [from, to];
+// };
+
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lettersLoading, setLettersLoading] = useState(true);
-  const numPages = useRef(0);
+  // Using `useRef` here to avoid triggering a rerender whenever these are
+  // updated
+  const totalItems = useRef(0);
+  const totalPages = useRef(0);
   const paginatedItems = useRef([]);
 
   useEffect(() => {
     getClaimLetters().then(data => {
       paginatedItems.current = paginateItems(data);
+      totalItems.current = data.length;
+      totalPages.current = paginatedItems.current.length;
 
       setCurrentItems(paginatedItems.current[currentPage - 1]);
-      numPages.current = paginatedItems.current.length;
       setLettersLoading(false);
     });
   }, []);
@@ -45,6 +56,8 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   let content;
 
   if (showClaimLetters) {
+    // const fromToNums = getFromToNums(currentPage, totalItems.current);
+
     content = (
       <>
         <h1>Your VA claim letters</h1>
@@ -57,12 +70,16 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
           <va-loading-indicator message="Loading your claim letters..." />
         ) : (
           <>
+            {/* <p className="vads-u-font-size--lg vads-u-font-family--serif">
+              Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
+              claim letters
+            </p> */}
             <ClaimLetterList letters={currentItems} />
-            {numPages.current > 1 && (
+            {totalPages.current > 1 && (
               <VaPagination
                 onPageSelect={e => onPageChange(e.detail.page)}
                 page={currentPage}
-                pages={numPages.current}
+                pages={totalPages.current}
                 maxPageListLength={ITEMS_PER_PAGE}
               />
             )}
