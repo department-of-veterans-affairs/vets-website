@@ -109,6 +109,7 @@ class SearchDropdownComponent extends React.Component {
      * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
      * */
     fullWidthSuggestions: PropTypes.bool,
+    updateSearchAppState: PropTypes.func,
   };
 
   static defaultProps = {
@@ -209,6 +210,7 @@ class SearchDropdownComponent extends React.Component {
   };
 
   handleInputChange = event => {
+    this.props.updateSearchAppState(event);
     // update the input value to the new value
     const inputValue = event.target.value;
     this.setState({
