@@ -79,6 +79,10 @@ export const draftDetailsReducer = (state = initialState, action) => {
         lastSaveTime: null,
         saveError: action.response,
       };
+    case Actions.Draft.CLEAR_DRAFT:
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { DefaultFolders } from '../../util/constants';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
@@ -17,6 +19,7 @@ const InboxListItem = props => {
     attachment,
     messageId,
   } = props;
+  const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const getClassNames = () => {
     return !!readReceipt === false
@@ -42,7 +45,11 @@ const InboxListItem = props => {
       </p>
       <Link
         className="vads-u-margin-left--3 vads-u-margin-y--0p5"
-        to={`/message/${messageId}`}
+        to={`/${
+          activeFolder?.folderId === DefaultFolders.DRAFTS.id
+            ? 'draft'
+            : 'message'
+        }/${messageId}`}
       >
         {subject}
       </Link>
