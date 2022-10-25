@@ -92,7 +92,7 @@ describe('CG veteranInformation', () => {
     expect(formDOM.querySelector('#root_veteranAddress_city')).not.to.be.null;
     expect(
       formDOM.querySelector('#root_veteranAddress_city').maxLength,
-    ).to.equal(51);
+    ).to.equal(40);
     expect(formDOM.querySelector('#root_veteranAddress_state')).not.to.be.null;
 
     expect(formDOM.querySelector('#root_veteranAddress_postalCode')).not.to.be
