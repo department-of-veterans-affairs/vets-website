@@ -8,7 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
 import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
-import InboxListView from '../components/MessageList/InboxListView';
+import MessageList from '../components/MessageList/MessageList';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
@@ -124,7 +124,7 @@ const FolderListView = () => {
   } else if (messages.length > 0) {
     content = (
       <>
-        <InboxListView messages={messages} folder={folder} />
+        <MessageList messages={messages} folder={folder} />
       </>
     );
   }

@@ -7,29 +7,33 @@ const formatDate = closedDate => moment(closedDate).format('MMMM D, YYYY');
 const headerText = closedDate =>
   `We closed your claim on ${formatDate(closedDate)}`;
 
-const ClaimsDecision = ({ completedDate }) => (
+const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
   <>
     <va-alert>
       <h3 className="claims-alert-header vads-u-font-size--h4" slot="headline">
         {completedDate && headerText(completedDate)}
       </h3>
       <p>
-        We finished reviewing your claim and a decision has been made. You can
-        find your decision letter in the claim letters page.
+        We finished reviewing your claim and a decision has been made.{' '}
+        {showClaimLettersLink && (
+          <>You can find your decision letter in the claim letters page.</>
+        )}
       </p>
       <p>
         A decision packet will also be mailed to you. Typically, decision
         notices are received within 10 days, but this is dependent upon U.S.
         Postal Service timeframes.
       </p>
-      <p>
-        <a
-          className="vads-c-action-link--blue"
-          href="/track-claims/your-claim-letters"
-        >
-          Get your claim letters
-        </a>
-      </p>
+      {showClaimLettersLink && (
+        <p>
+          <a
+            className="vads-c-action-link--blue"
+            href="/track-claims/your-claim-letters"
+          >
+            Get your claim letters
+          </a>
+        </p>
+      )}
     </va-alert>
     <h4 className="claims-paragraph-header vads-u-font-size--h3">Next steps</h4>
     <p>
@@ -76,6 +80,7 @@ const ClaimsDecision = ({ completedDate }) => (
 
 ClaimsDecision.propTypes = {
   completedDate: PropTypes.string,
+  showClaimLettersLink: PropTypes.bool,
 };
 
 export default ClaimsDecision;

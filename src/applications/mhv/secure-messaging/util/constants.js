@@ -28,7 +28,10 @@ export const Alerts = {
   Folder: {
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
-      'Folder could not be deleted. Try again later. If this problem persists, contact the help desk.',
+      'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
+    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_ERROR:
+      'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
   },
 };
 
@@ -51,7 +54,8 @@ export const Breadcrumbs = {
   SENT: { path: '/sent', label: 'Sent messages' },
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },
-  SEARCH_ADVANCED: { path: '/search?advanced=true', label: 'Advanced search' },
+  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
+  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
   FAQ: { path: '/faq', label: 'Messages FAQs' },
 };
 

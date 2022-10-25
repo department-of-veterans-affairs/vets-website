@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
   const { category, categoryError, setCategory, setCategoryError } = props;
@@ -8,54 +9,6 @@ const CategoryInput = props => {
     setCategory(event.target.value);
     setCategoryError(null);
   };
-
-  const categories = [
-    {
-      id: 'category-general',
-      name: 'category',
-      value: 'OTHER',
-      label: 'General',
-      description: 'Ask questions about non urgent, non-emergency issues',
-    },
-    {
-      id: 'category-COVID',
-      name: 'category',
-      value: 'COVID',
-      label: 'COVID',
-      description: 'Ask COVID related questions',
-    },
-    {
-      id: 'category-appointment',
-      name: 'category',
-      value: 'APPOINTMENTS',
-      label: 'Appointment',
-      description:
-        'Request an appointment or ask about an existing appointment',
-    },
-    {
-      id: 'category-medication',
-      name: 'category',
-      value: 'MEDICATIONS',
-      label: 'Medication',
-      description:
-        'Request to renew a medication or ask a question about medication',
-    },
-    {
-      id: 'category-test',
-      name: 'category',
-      value: 'TEST_RESULTS',
-      label: 'Test',
-      description:
-        'Ask a question about a test/lab result or about a future test or procedure',
-    },
-    {
-      id: 'category-education',
-      name: 'category',
-      value: 'EDUCATION',
-      label: 'Education',
-      description: 'Request health education information',
-    },
-  ];
 
   return (
     <fieldset
@@ -77,13 +30,13 @@ const CategoryInput = props => {
         </span>
       )}
 
-      {categories.map(item => (
+      {RadioCategories.map(item => (
         <div className="form-radio-buttons" key={item.id}>
           <div className="radio-button">
             <input
               type="radio"
               id={item.id}
-              name={item.name}
+              name="category"
               value={item.value}
               checked={category === item.value}
               onChange={categoryChangeHandler}
