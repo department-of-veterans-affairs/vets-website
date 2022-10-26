@@ -6,15 +6,6 @@ import { connect } from 'react-redux';
 import FormApp from 'platform/forms-system/src/js/containers/FormApp';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import environment from 'platform/utilities/environment';
-import { getScrollOptions } from 'platform/utilities/ui';
-import { restartShouldRedirect } from 'platform/site-wide/wizard';
-import { isInProgressPath } from '../helpers';
-import { getSaveInProgressState } from './selectors';
-import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
@@ -22,8 +13,17 @@ import {
   setFetchFormStatus,
   fetchInProgressForm,
 } from './actions';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-const { Element } = Scroll;
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { isInProgressPath } from '../helpers';
+import { getSaveInProgressState } from './selectors';
+import environment from 'platform/utilities/environment';
+import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
+import { getScrollOptions } from 'platform/utilities/ui';
+import { restartShouldRedirect } from 'platform/site-wide/wizard';
+
+const Element = Scroll.Element;
 
 /*
  * Primary component for a schema generated form app.
@@ -33,7 +33,6 @@ class RoutedSavableApp extends React.Component {
     super(props);
     this.location = props.location || window.location;
   }
-
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
@@ -72,7 +71,6 @@ class RoutedSavableApp extends React.Component {
       this.redirectOrLoad(this.props);
     }
   }
-
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     // When a user is logged in, the profile finishes loading after the component
