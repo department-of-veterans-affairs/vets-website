@@ -10,6 +10,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { makeSelectApp } from '../../selectors';
 import { APP_NAMES } from '../../utils/appConstants';
+import { useDatadogRum } from '../../hooks/useDatadogRum';
 import MixedLanguageDisclaimer from '../MixedLanguageDisclaimer';
 import LanguagePicker from '../LanguagePicker';
 import Footer from './Footer';
@@ -25,6 +26,8 @@ const Wrapper = props => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  useDatadogRum();
 
   const topPadding = withBackButton
     ? 'vads-u-padding-y--2'
