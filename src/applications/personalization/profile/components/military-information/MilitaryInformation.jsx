@@ -26,8 +26,8 @@ const NotAVeteranAlert = () => {
 
         <p>
           If you think this is an error, call us at{' '}
-          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-          <va-telephone contact={CONTACTS['711']} />
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
         </p>
       </va-alert>
@@ -51,9 +51,9 @@ const NotInDEERSAlert = () => {
               for you
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON} /> TTY:{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} />. The DMDC office is
-            open Monday through Friday (except federal holidays), 8:00 a.m. to
+            <va-telephone contact={CONTACTS.DS_LOGON} />
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />. The DMDC
+            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
             8:00 p.m. ET.
           </p>
           <p>
@@ -158,8 +158,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           <p>
             To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call TTY:{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} />.
+            p.m. ET. If you have hearing loss, call
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />.
           </p>
         </va-additional-info>
       </div>
