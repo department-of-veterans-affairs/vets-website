@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import { closeAlert } from '../../actions/alerts';
 
 const AlertBackgroundBox = props => {
@@ -9,6 +10,7 @@ const AlertBackgroundBox = props => {
   const alertVisible = useSelector(state => state.sm.alerts?.alertVisible);
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const [activeAlert, setActiveAlert] = useState(null);
+  const alertRef = useRef();
 
   useEffect(
     () => {
@@ -40,15 +42,21 @@ const AlertBackgroundBox = props => {
 
   return alertVisible && activeAlert ? (
     <VaAlert
+      ref={alertRef}
       background-only
       closeable={props.closeable}
-      class="vads-u-margin-bottom--1"
+      className="vads-u-margin-bottom--1 va-alert"
       close-btn-aria-label="Close notification"
       disable-analytics="false"
       full-width="false"
       show-icon={handleShowIcon()}
-      status={activeAlert.alertType} // success, error, warning, info, continue
-      onCloseEvent={closeAlertBox}
+      status={activeAlert.alertType}
+      onCloseEvent={
+        closeAlertBox // success, error, warning, info, continue
+      }
+      onVa-component-did-load={() => {
+        focusElement(alertRef.current);
+      }}
     >
       <div>
         <p className="vads-u-margin-y--0">{activeAlert.content}</p>

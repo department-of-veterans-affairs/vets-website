@@ -25,6 +25,9 @@ export const Alerts = {
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
+    DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
+    DELETE_DRAFT_ERROR:
+      'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
   },
   Folder: {
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
@@ -42,6 +45,11 @@ export const Prompts = {
       'Are you sure you want to move this message to the trash?',
     DELETE_MESSAGE_CONFIRM_NOTE:
       'Messages in the trash folder won’t be permanently deleted.',
+  },
+  Draft: {
+    DISCARD_DRAFT_CONFIRM: 'Are you sure you want to discard this draft?',
+    DISCARD_DRAFT_CONFIRM_NOTE:
+      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
 export const Breadcrumbs = {
