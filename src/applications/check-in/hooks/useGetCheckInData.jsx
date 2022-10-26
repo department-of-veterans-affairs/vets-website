@@ -65,7 +65,7 @@ const useGetCheckInData = (
       if (isStale && token && !isLoading) {
         setIsLoading(true);
         api.v2
-          .getCheckInData(token)
+          .getCheckInData(token, reload)
           .then(json => {
             setSessionData(json.payload);
           })

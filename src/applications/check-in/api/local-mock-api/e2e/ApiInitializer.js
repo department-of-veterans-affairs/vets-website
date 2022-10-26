@@ -377,6 +377,66 @@ class ApiInitializer {
         req.reply(errorCode, checkInData.get.createMockFailedResponse());
       });
     },
+    withBadReload: ({
+      extraValidation = null,
+      appointments = null,
+      token = sharedData.get.defaultUUID,
+      numberOfCheckInAbledAppointments = 2,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      timezone = 'browser',
+    } = {}) => {
+      cy.intercept(
+        'GET',
+        `/check_in/v2/patient_check_ins/*?reload=true`,
+        req => {
+          req.reply(400, checkInData.get.createMockFailedResponse());
+        },
+      );
+      cy.intercept(
+        'GET',
+        `/check_in/v2/patient_check_ins/*?reload=false`,
+        req => {
+          const rv = sharedData.get.createMultipleAppointments(
+            token,
+            numberOfCheckInAbledAppointments,
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+            timezone,
+          );
+          if (appointments && appointments.length) {
+            const customAppointments = [];
+            appointments.forEach((appointment, index) => {
+              const createdAppointment = sharedData.get.createAppointment(
+                'ELIGIBLE',
+                'some-facility',
+                `000${index}`,
+                'TEST CLINIC',
+                false,
+                '',
+                timezone,
+              );
+              customAppointments.push(
+                Object.assign(createdAppointment, appointment),
+              );
+            });
+            rv.payload.appointments = customAppointments;
+          }
+          if (extraValidation) {
+            extraValidation(req);
+          }
+          req.reply(rv);
+        },
+      );
+    },
   };
 
   initializeCheckInDataPost = {
