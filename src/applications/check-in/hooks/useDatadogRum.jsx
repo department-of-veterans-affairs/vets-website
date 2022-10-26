@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 const initializeDatadogRum = () => {
-  // Prevent RUM from running on local/CI environments.
   if (
+    // Prevent RUM from running on local/CI environments.
     environment.BASE_URL.indexOf('localhost') < 0 &&
+    // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration()
   ) {
     datadogRum.init({
