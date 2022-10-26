@@ -35,9 +35,12 @@ export const messageDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         messageHistory: action.response.data.map(message => {
-          return message.attributes.attributes;
+          return message.attributes;
         }),
       };
+    }
+    case Actions.Message.CLEAR_HISTORY: {
+      return { ...state, messageHistory: { ...initialState } };
     }
     default:
       return state;

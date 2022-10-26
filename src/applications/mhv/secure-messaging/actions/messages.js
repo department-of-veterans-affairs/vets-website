@@ -27,7 +27,7 @@ export const getMessages = (folderId, update = false) => async dispatch => {
   });
 };
 
-const retrieveMessageHistory = (
+export const retrieveMessageHistory = (
   messageId,
   isDraft = false,
 ) => async dispatch => {
@@ -40,6 +40,10 @@ const retrieveMessageHistory = (
       response,
     });
   }
+};
+
+export const clearMessageHistory = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
 
 /**
