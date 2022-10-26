@@ -58,6 +58,15 @@ const FolderListView = () => {
     [folderId, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (messages?.length === 0) {
+        setHideOtherAlerts(true);
+      }
+    },
+    [messages],
+  );
+
   // clear out alerts if user navigates away from this component
   useEffect(
     () => {
@@ -85,7 +94,6 @@ const FolderListView = () => {
       />
     );
   } else if (messages.length === 0) {
-    setHideOtherAlerts(true);
     content = (
       <>
         <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
