@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 const NeedsToVerify = ({ pathname }) => (
   <va-alert status="warning">
+    {/* <a href="tel:888-442-4551">888-442-4551 (711)</a> */}
+    <va-telephone contact="8884424551" />
     <h2 slot="headline">Verify your identity to start your request</h2>
     <p>
       Before we give you access to your personal information, we need to make
