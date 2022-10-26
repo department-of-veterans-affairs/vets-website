@@ -28,7 +28,7 @@ describe('Check In Experience', () => {
       initializeDemographicsPatch.withSuccess();
       initializeBtsssPost.withSuccess();
 
-      const rv = sharedData.get.createMultipleAppointments();
+      const rv = sharedData.get.createAppointments();
       const appointment = sharedData.get.createAppointment();
       appointment.startTime = '2021-08-19T18:00:00';
       rv.payload.appointments = [appointment];
