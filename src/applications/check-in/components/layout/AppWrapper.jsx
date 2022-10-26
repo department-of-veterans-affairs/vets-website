@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -8,10 +9,12 @@ import { createSetSession } from '../../actions/authentication';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../hooks/useFormRouting';
+import { isAnInternalPage } from '../../utils/navigation';
 
 const AppWrapper = props => {
   const { children, router } = props;
   const location = window.location.pathname;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const {
     getProgressState,
@@ -31,19 +34,18 @@ const AppWrapper = props => {
   const [refreshData, setRefreshData] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router);
-  const url = location.split('/');
-  const pageFromUrl = url[3];
   const sessionToken = getCurrentToken(window);
   const { token: reduxToken } = useSelector(selectCurrentContext);
+  const validReloadPage = isAnInternalPage(location);
 
+  const loadingMessage = (
+    <>
+      <va-loading-indicator message={t('loading')} />
+    </>
+  );
   useEffect(
     () => {
-      if (
-        !reduxToken &&
-        sessionToken?.token &&
-        pageFromUrl &&
-        pageFromUrl !== 'verify'
-      ) {
+      if (!reduxToken && sessionToken?.token && validReloadPage) {
         const savedPermissions = getPermissions(window);
         const savedToken = sessionToken.token;
         if (savedPermissions && savedToken) {
@@ -60,7 +62,7 @@ const AppWrapper = props => {
         setRefreshData(false);
       }
     },
-    [reduxToken, sessionToken, pageFromUrl, refreshCheckInData, dispatch],
+    [reduxToken, sessionToken, location, refreshCheckInData, dispatch],
   );
 
   useEffect(
@@ -78,7 +80,8 @@ const AppWrapper = props => {
     },
     [checkInDataError],
   );
-  return <>{refreshData ? <va-loading-indicator /> : children}</>;
+
+  return <>{refreshData ? loadingMessage : children}</>;
 };
 
 AppWrapper.propTypes = {
