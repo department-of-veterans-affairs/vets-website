@@ -5,6 +5,7 @@ import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import {
   processBranches,
   getBranches,
+  testBranches,
   clearBranches,
   fetchBranches,
   migrateBranches,
@@ -34,7 +35,14 @@ describe('Service branches utils', () => {
   describe('getBranches', () => {
     it('should populate the internal array and session storage', () => {
       processBranches(mockData);
-      expect(getBranches).to.deep.equal(mockResult);
+      expect(getBranches()).to.deep.equal(mockResult);
+    });
+  });
+
+  describe('testBranches', () => {
+    it('should populate the internal array and session storage', () => {
+      testBranches();
+      expect(getBranches().length).to.not.equal(3);
     });
   });
 

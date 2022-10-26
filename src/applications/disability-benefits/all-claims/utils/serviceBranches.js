@@ -23,6 +23,11 @@ export const getBranches = () => {
   return serviceBranches;
 };
 
+// set for testing purposes
+export const testBranches = () => {
+  serviceBranches = processBranches();
+};
+
 // for testing purposes
 export const clearBranches = () => {
   window.sessionStorage.removeItem(SERVICE_BRANCHES);

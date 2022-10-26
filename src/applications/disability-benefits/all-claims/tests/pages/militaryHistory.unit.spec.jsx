@@ -13,8 +13,8 @@ import {
 import formConfig from '../../config/form';
 
 import {
-  processBranches,
   getBranches,
+  testBranches,
   clearBranches,
 } from '../../utils/serviceBranches';
 
@@ -29,7 +29,7 @@ describe('Military history', () => {
   };
 
   beforeEach(() => {
-    processBranches();
+    testBranches();
   });
 
   after(() => {
