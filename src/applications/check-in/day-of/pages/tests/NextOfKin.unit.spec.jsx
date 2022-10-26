@@ -142,38 +142,6 @@ describe('check in', () => {
       );
     });
 
-    it('goes to the error page when the next of kin data is unavailable', () => {
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {
-            demographics: {},
-          },
-        },
-        ...scheduledDowntimeState,
-      };
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
-      render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <NextOfKin router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      sinon.assert.calledOnce(push);
-    });
-
     it('has a clickable no button', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
