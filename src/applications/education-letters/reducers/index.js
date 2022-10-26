@@ -3,7 +3,6 @@ import {
   FETCH_CLAIM_STATUS_FAILED,
   FETCH_CLAIM_STATUS_SUCCESS,
 } from '../actions';
-// import formConfig from "../../toe/config/form";
 
 const initialState = {};
 
