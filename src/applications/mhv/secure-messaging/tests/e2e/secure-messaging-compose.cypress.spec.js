@@ -1,17 +1,9 @@
-import mockCategories from './fixtures/categories-response.json';
-import mockFolders from './fixtures/folder-response.json';
-import mockInboxFolder from './fixtures/folder-inbox-response.json';
-import mockMessages from './fixtures/messages-response.json';
-import mockRecipients from './fixtures/recipients-response.json';
+import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
 beforeEach(() => {
-  cy.intercept('GET', '/v0/feature_toggles?*', {
-    data: {
-      type: 'feature_toggles',
-      features: [{ name: 'loop_pages', value: true }],
-    },
-  }).as('featureToggle');
+  window.dataLayer = [];
 });
 
 describe(manifest.appName, () => {
@@ -20,48 +12,19 @@ describe(manifest.appName, () => {
   });
 
   it('can send message', () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/categories',
-      mockCategories,
-    ).as('categories');
-    cy.intercept('GET', '/my_health/v1/messaging/folders', mockFolders).as(
-      'folders',
-    );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/*/messages',
-      mockMessages,
-    ).as('inboxMessages');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/*',
-      mockInboxFolder,
-    ).as('inboxFolderMetaData');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/recipients',
-      mockRecipients,
-    ).as('recipients');
-    cy.visit('my-health/secure-messages/');
-    cy.injectAxe();
-    cy.wait('@categories');
-    cy.wait('@folders');
-    cy.wait('@inboxMessages');
-    cy.wait('@inboxFolderMetaData');
-    cy.wait('@recipients');
-    cy.axeCheck();
+    const landingPage = new PatientMessagesLandingPage();
+    const composePage = new PatientComposePage();
+    landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
-    cy.wait('@featureToggle');
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('[data-testid="compose-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('Doctor A');
+      .select('BLUE ANCILLARY_TEAM');
     cy.get('[id="category-COVID"]').click();
     cy.get('[data-testid="message-subject-field"]').type('Test Subject');
     cy.get('[data-testid="message-body-field"]').type('message Test');
-    cy.get('[data-testid="Send-Button"]')
-      .contains('Send')
-      .click();
+    composePage.sendMessage();
   });
 });

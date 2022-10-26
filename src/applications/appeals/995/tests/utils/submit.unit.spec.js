@@ -166,7 +166,7 @@ describe('getAddress', () => {
 
 describe('getPhone', () => {
   it('should return a cleaned up phone object', () => {
-    const wrap = obj => ({ veteran: { phone: obj } });
+    const wrap = obj => ({ veteran: { homePhone: obj } });
     expect(getPhone()).to.deep.equal({});
     expect(getPhone(wrap({}))).to.deep.equal({});
     expect(getPhone(wrap({ temp: 'test' }))).to.deep.equal({});

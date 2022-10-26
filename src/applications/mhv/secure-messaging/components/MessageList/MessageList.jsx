@@ -21,14 +21,14 @@ import {
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import InboxListItem from './InboxListItem';
+import InboxListItem from './MessageListItem';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
 
-const InboxListView = props => {
-  const { messages } = props;
+const MessageList = props => {
+  const { messages, folder } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -113,7 +113,7 @@ const InboxListView = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${props.folder.name} messages by`}
+          label={`Sort ${(folder && folder.name) || ''} messages by`}
           name="sort-order"
           value={sortOrder}
           onVaSelect={e => {
@@ -159,9 +159,9 @@ const InboxListView = props => {
   );
 };
 
-export default InboxListView;
+export default MessageList;
 
-InboxListView.propTypes = {
+MessageList.propTypes = {
   folder: PropTypes.object,
   messages: PropTypes.array,
 };

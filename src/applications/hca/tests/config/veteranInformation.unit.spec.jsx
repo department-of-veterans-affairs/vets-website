@@ -185,14 +185,6 @@ describe('HCA veteranInformation', () => {
     const formDOM = findDOMNode(form);
 
     expect(formDOM.querySelectorAll('input').length).to.equal(7);
-    expect(formDOM.querySelector('#root_sigiGenders_0')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_1')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_2')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_3')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_4')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_5')).not.to.be.null;
-    expect(formDOM.querySelector('#root_sigiGenders_6')).not.to.be.null;
-
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
