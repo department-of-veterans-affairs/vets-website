@@ -939,6 +939,39 @@ const formConfig = {
                       your education payments. This is an easy way to verify
                       your monthly enrollment.
                     </p>
+
+                    <h4>
+                      <b>What to know about text notifications</b>
+                    </h4>
+                    <ul>
+                      <li>We’ll send you 2 messages per month.</li>
+                      <li>Message and data rates may apply.</li>
+                      <li>If you want to opt out, text STOP.</li>
+                      <li>If you need help, text HELP.</li>
+                    </ul>
+
+                    <p>
+                      <a
+                        href="https://www.va.gov/privacy-policy/digital-notifications-terms-and-conditions/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our text notification terms and conditions
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        href="https://va.gov/privacy-policy/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Read our privacy policy
+                      </a>
+                    </p>
+                    <p>
+                      Note: At this time, we can only send text messages to U.S.
+                      mobile phone numbers
+                    </p>
                   </div>
                 </>
               ),
