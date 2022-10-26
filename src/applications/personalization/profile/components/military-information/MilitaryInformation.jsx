@@ -21,7 +21,7 @@ import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 const NotAVeteranAlert = () => {
   return (
     <>
-      <va-alert status="info">
+      <va-alert status="info" data-testid="not-a-veteran-alert">
         <h2 slot="headline">We don’t have military service records for you</h2>
 
         <p>
@@ -39,7 +39,7 @@ const NotAVeteranAlert = () => {
 const NotInDEERSAlert = () => {
   return (
     <>
-      <va-alert status="warning">
+      <va-alert status="warning" data-testid="not-in-deers-alert">
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
