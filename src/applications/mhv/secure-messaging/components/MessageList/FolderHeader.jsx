@@ -62,6 +62,7 @@ const FolderHeader = props => {
             <Link
               className="vads-c-action-link--blue compose-message-link"
               to="/compose"
+              data-testid="compose-message-link"
             >
               Compose message
             </Link>

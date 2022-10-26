@@ -155,6 +155,12 @@ dl.review {
   display: none !important;
 }
 
+/* Hide home & mobile phone extension entry, per design */
+article[data-location="edit-mobile-phone"] .schemaform-field-template:not(.schemaform-first-field),
+article[data-location="edit-home-phone"] va-text-input[name="extension"] {
+  display: none;
+}
+
 article[data-location$="va-medical-records"] {
   /* editing location card */
   label#root_locations_0_locationAndName-label,

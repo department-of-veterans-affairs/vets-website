@@ -13,11 +13,17 @@
         "stateCode": "NY",
         "zipCode": "30012"
       },
-      "phone": {
+      "homePhone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
         "phoneNumberExt": "2"
+      },
+      "mobilePhone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8002222",
+        "phoneNumberExt": ""
       },
       "email": "user@example.com"
     },
