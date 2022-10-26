@@ -47,6 +47,10 @@ export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
   if (str.length <= numVisibleChars) {
     return str;
   }
