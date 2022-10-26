@@ -23,9 +23,7 @@ describe('Check In Experience -- ', () => {
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
     initializeDemographicsPatch.withSuccess();
-    initializeCheckInDataGet.withSuccess({
-      numberOfCheckInAbledAppointments: 1,
-    });
+    initializeCheckInDataGet.withSuccess();
     initializeCheckInDataPost.withFailure(500);
 
     cy.visitWithUUID();
@@ -36,7 +34,7 @@ describe('Check In Experience -- ', () => {
     NextOfKin.attemptToGoToNextPage();
     EmergencyContact.attemptToGoToNextPage();
     Appointments.validatePageLoaded();
-    Appointments.attemptCheckIn(2);
+    Appointments.attemptCheckIn(1);
   });
   afterEach(() => {
     cy.window().then(window => {

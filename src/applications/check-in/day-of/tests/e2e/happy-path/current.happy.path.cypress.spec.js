@@ -22,9 +22,7 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
-      });
+      initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
     });
@@ -60,11 +58,11 @@ describe('Check In Experience', () => {
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
-      Appointments.validateAppointmentLength(3);
+      Appointments.validateAppointmentLength(1);
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Appointments');
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Confirmation');
