@@ -110,11 +110,11 @@ describe('Military Information - NotInDeers', () => {
       handleGetPersonalInformationRoute(req, res);
     });
     cy.intercept('GET', '/v0/profile/service_history', resp => {
-      return resp.reply(403, serviceHistory.generateServiceHistoryError('403'));
+      return resp.reply(200, serviceHistory.generateServiceHistoryError('403'));
     });
   });
   it('should display non veteran user error on military information page', () => {
-    cy.login(nonVeteranUser);
+    cy.login(user72Success);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
