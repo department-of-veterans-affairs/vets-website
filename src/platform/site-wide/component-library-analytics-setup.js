@@ -140,6 +140,13 @@ const analyticsEvents = {
       prefix: 'breadcrumbs',
     },
   ],
+  'va-banner': [
+    {
+      action: 'close',
+      event: 'int-banner-close',
+      prefix: 'banner',
+    },
+  ],
   'va-button': [
     {
       action: 'click',
@@ -147,11 +154,25 @@ const analyticsEvents = {
       prefix: 'button',
     },
   ],
+  'va-button-pair': [
+    {
+      action: 'click',
+      event: 'int-button-pair-click',
+      prefix: 'button-pair',
+    },
+  ],
   'va-checkbox-group': [
     {
       action: 'change',
       event: 'int-checkbox-group-option-click',
       prefix: 'checkbox-group',
+    },
+  ],
+  'va-date': [
+    {
+      action: 'blur',
+      event: 'int-date-blur',
+      prefix: 'date',
     },
   ],
   'va-link': [
