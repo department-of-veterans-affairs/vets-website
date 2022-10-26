@@ -940,9 +940,7 @@ const formConfig = {
                       your monthly enrollment.
                     </p>
 
-                    <h4>
-                      <b>What to know about text notifications</b>
-                    </h4>
+                    <h4>What to know about text notifications</h4>
                     <ul>
                       <li>We’ll send you 2 messages per month.</li>
                       <li>Message and data rates may apply.</li>
@@ -969,8 +967,8 @@ const formConfig = {
                       </a>
                     </p>
                     <p>
-                      Note: At this time, we can only send text messages to U.S.
-                      mobile phone numbers
+                      <strong>Note:</strong> At this time, we can only send text
+                      messages to U.S. mobile phone numbers
                     </p>
                   </div>
                 </>
