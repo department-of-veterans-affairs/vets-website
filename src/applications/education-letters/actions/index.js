@@ -31,10 +31,11 @@ const fetchAPIs = (endpoints, dispatch) =>
           });
         }),
     )
-    .reduce((a, b) => {
-      return a?.claimStatus?.receivedDate > b?.claimStatus?.receivedDate
-        ? a
-        : b;
+    .reduce((currentDate, nextDate) => {
+      return currentDate?.claimStatus?.receivedDate >
+        nextDate?.claimStatus?.receivedDate
+        ? currentDate
+        : nextDate;
     });
 
 export function fetchClaimStatus() {
