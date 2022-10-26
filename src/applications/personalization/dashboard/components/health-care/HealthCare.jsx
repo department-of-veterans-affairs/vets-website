@@ -23,32 +23,12 @@ import HealthCareHeader from './HealthCareHeader';
 
 const HealthCare = ({
   shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
-  fetchConfirmedFutureAppointmentsV2,
+
   fetchUnreadMessages,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
-  useVaosV2Api,
 }) => {
-  useEffect(
-    () => {
-      if (!dataLoadingDisabled) {
-        if (useVaosV2Api) {
-          fetchConfirmedFutureAppointmentsV2();
-        } else {
-          fetchConfirmedFutureAppointments();
-        }
-      }
-    },
-    [
-      fetchConfirmedFutureAppointments,
-      dataLoadingDisabled,
-      useVaosV2Api,
-      fetchConfirmedFutureAppointmentsV2,
-    ],
-  );
-
   useEffect(
     () => {
       if (shouldFetchUnreadMessages && !dataLoadingDisabled) {

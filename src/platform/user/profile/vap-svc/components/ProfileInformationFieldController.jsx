@@ -27,6 +27,7 @@ import {
 } from 'platform/user/profile/vap-svc/selectors';
 
 import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
+import { recordCustomProfileEvent } from 'applications/personalization/profile/util/analytics';
 
 import {
   ACTIVE_EDIT_VIEWS,
@@ -430,6 +431,7 @@ class ProfileInformationFieldController extends React.Component {
             this.props.formSchema,
           )}
           title={title}
+          recordCustomProfileEvent={recordCustomProfileEvent}
         />
       );
     }

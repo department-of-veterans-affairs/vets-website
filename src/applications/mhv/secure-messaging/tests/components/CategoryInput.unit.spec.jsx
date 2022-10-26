@@ -1,18 +1,30 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
 import { expect } from 'chai';
+import reducer from '../../reducers';
 import CategoryInput from '../../components/ComposeForm/CategoryInput';
+import { categories } from '../fixtures/compose-categories.json';
 
 describe('CategoryInput component', () => {
-  it('should not be empty', () => {
-    const tree = SkinDeep.shallowRender(<CategoryInput />);
-
-    expect(tree.subTree('.message-category')).not.to.be.empty;
+  const initialState = { sm: { categories: { categories } } };
+  let screen = null;
+  beforeEach(() => {
+    screen = renderInReduxProvider(<CategoryInput />, {
+      initialState,
+      reducers: reducer,
+    });
   });
 
-  it('should contain a legend element with "Category" text', () => {
-    const tree = SkinDeep.shallowRender(<CategoryInput />);
+  it('should render without errors', () => {
+    expect(screen.getByTestId('compose-message-categories')).not.to.be.empty;
+  });
 
-    expect(tree.subTree('legend').text()).to.contain('Category');
+  it('should contain all category options', async () => {
+    const values = screen
+      .getAllByTestId('compose-category-radio-button')
+      ?.map(el => el.value);
+    expect(values).to.be.not.empty;
+    expect(values).deep.equal(categories);
   });
 });
