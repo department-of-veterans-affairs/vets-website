@@ -40,7 +40,7 @@ const form = createTestConfig(
           .click();
         cy.get('#NewBenefit-0').check();
         cy.get('#ClaimingBenefitOwnService-0').check();
-        cy.get('#NationalCallToService-1').click();
+        // cy.get('#NationalCallToService-1').click();
         cy.get('#VetTec-1').click();
         cy.get('#apply-now-link').click();
 
