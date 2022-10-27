@@ -1,53 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../actions/categories';
 import { RadioCategories } from '../../util/inputContants';
 
 const CategoryInput = props => {
+  const dispatch = useDispatch();
   const { category, categoryError, setCategory, setCategoryError } = props;
+  const categories = useSelector(state => state.sm.categories.categories);
 
-  const categoryChangeHandler = event => {
-    setCategory(event.target.value);
+  useEffect(
+    () => {
+      dispatch(getCategories());
+    },
+    [dispatch],
+  );
+
+  const categoryChangeHandler = ({ target }) => {
+    setCategory(target.value);
     setCategoryError(null);
   };
 
   return (
-    <fieldset
-      id="message-category"
-      className={`fieldset-input message-category ${categoryError &&
-        'usa-input-error'}`}
-    >
-      <legend className="legend-label usa-input-error-label">
-        Category <span className="required">(*Required)</span>
-      </legend>
+    <>
+      {categories === undefined && <va-loading-indicator />}
 
-      {categoryError && (
-        <span
-          className="usa-input-error-message"
-          role="alert"
-          id="defaultId-error-message"
+      {categories?.length > 0 && (
+        <VaRadio
+          required
+          data-testid="compose-message-categories"
+          label="Category"
+          className=" fieldset-input message-category"
+          error={categoryError && 'Please select a category'}
+          onRadioOptionSelected={categoryChangeHandler}
         >
-          <span className="sr-only">Error</span> Please select a category
-        </span>
-      )}
-
-      {RadioCategories.map(item => (
-        <div className="form-radio-buttons" key={item.id}>
-          <div className="radio-button">
-            <input
-              type="radio"
-              id={item.id}
-              name="category"
-              value={item.value}
-              checked={category === item.value}
-              onChange={categoryChangeHandler}
+          {categories?.map((item, i) => (
+            <VaRadioOption
+              data-testid="compose-category-radio-button"
+              key={i}
+              label={
+                RadioCategories[item]
+                  ? `${RadioCategories[item].label}: ${
+                      RadioCategories[item].description
+                    }`
+                  : item
+              }
+              name={item}
+              value={item}
+              checked={category === item}
             />
-            <label name={`${item.id}-label`} htmlFor={item.id}>
-              <strong>{item.label}:</strong> {item.description}
-            </label>
-          </div>
-        </div>
-      ))}
-    </fieldset>
+          ))}
+        </VaRadio>
+      )}
+    </>
   );
 };
 
