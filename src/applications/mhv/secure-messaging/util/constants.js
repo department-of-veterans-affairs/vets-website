@@ -26,12 +26,17 @@ export const Alerts = {
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
   },
   Folder: {
+    CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
+    CREATE_FOLDER_ERROR:
+      'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
+    FOLDER_NAME_TAKEN:
+      'That folder name is already in use. Please use another name.',
   },
 };
 

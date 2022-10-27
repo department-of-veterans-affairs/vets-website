@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const FoldersList = props => {
-  const { folders } = props;
+  const { folders, highlightId } = props;
+  // eslint-disable-next-line no-console
+  console.log(highlightId);
 
   return (
     <div>
@@ -24,6 +26,7 @@ const FoldersList = props => {
 
 FoldersList.propTypes = {
   folders: PropTypes.array,
+  highlightId: PropTypes.string,
 };
 
 export default FoldersList;

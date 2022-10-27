@@ -13,6 +13,7 @@ const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const folders = useSelector(state => state.sm.folders.folderList);
+  const [nameWarning, setNameWarning] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [folderName, setFolderName] = useState('');
 
@@ -28,13 +29,22 @@ const Folders = () => {
   };
 
   const closeNewModal = () => {
+    setFolderName('');
+    setNameWarning('');
     setIsModalVisible(false);
   };
 
   const confirmNewFolder = () => {
-    dispatch(newFolder(folderName));
-    dispatch(getFolders());
-    closeNewModal();
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning('Folder name cannot be blank');
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      closeNewModal();
+      dispatch(newFolder(folderName));
+    } else {
+      setNameWarning(
+        'Folder name can only contain letters, numbers, and spaces.',
+      );
+    }
   };
 
   const content = () => {
@@ -73,7 +83,11 @@ const Folders = () => {
           onCloseEvent={closeNewModal}
         >
           <VaTextInput
+            className="input"
+            value={folderName}
             onInput={e => setFolderName(e.target.value)}
+            maxlength="50"
+            error={nameWarning}
             name="folder-name"
             label="Please enter your folder name"
           />

@@ -41,17 +41,33 @@ export const retrieveFolder = folderId => async dispatch => {
 };
 
 export const newFolder = folderName => async dispatch => {
-  const response = await createFolder(folderName);
-  if (response.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
-    });
-  } else {
-    dispatch({
-      type: Actions.Folder.CREATE,
-      payload: folderName,
-    });
+  try {
+    await createFolder(folderName);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Folder.FOLDER_NAME_TAKEN,
+        ),
+      );
+    } else {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Folder.CREATE_FOLDER_ERROR,
+        ),
+      );
+    }
   }
 };
 
@@ -87,12 +103,22 @@ export const renameFolder = (folderId, newName) => async dispatch => {
       ),
     );
   } catch (e) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
-      ),
-    );
+    if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Folder.FOLDER_NAME_TAKEN,
+        ),
+      );
+    } else {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Folder.RENAME_FOLDER_ERROR,
+        ),
+      );
+    }
   }
 };
