@@ -261,8 +261,8 @@ export function transformVAOSAppointment(appt) {
       : appt.reasonCode?.coding;
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose =>
-      purpose.serviceName === coding[0]?.code ||
-      purpose.commentShort === coding[0]?.code,
+      purpose.serviceName === coding?.[0]?.code ||
+      purpose.commentShort === coding?.[0]?.code,
   )?.short;
   const comments =
     getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
