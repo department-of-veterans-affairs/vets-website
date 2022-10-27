@@ -11,6 +11,6 @@ services:
         - chmod +x /etc/service/node/run
       build:
         - yarn
-        - yarn build
+        - yarn build --host=0.0.0.0 --public=$TUGBOAT_DEFAULT_SERVICE_URL_HOST
       start:
         - yarn watch &
