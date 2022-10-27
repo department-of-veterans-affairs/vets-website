@@ -43,15 +43,19 @@ function getReasonCode({ data, isCC, isAcheron }) {
     // preferred Date, reason Code)
     appointmentInfo = `phone number: ${phoneNumber}|email: ${email}|${preferredDates}|${reasonCode}`;
   }
-
-  return {
-    // Per Brad - All comments should be sent in the reasonCode.text field and should should be
-    // truncated to 100 char for both VA appointment types only. CC appointments will continue
-    // to be truncated to 250 char
+  const reasonCodeBody = {
     text:
       data.reasonAdditionalInfo && isAcheron
         ? `${appointmentInfo}|${reasonText}`
-        : reasonText,
+        : null,
+  };
+  if (isAcheron) return reasonCodeBody;
+  return {
+    coding: code ? [{ code }] : undefined,
+    // Per Brad - All comments should be sent in the reasonCode.text field and should should be
+    // truncated to 100 char for both VA appointment types only. CC appointments will continue
+    // to be truncated to 250 char
+    text: data.reasonAdditionalInfo ? reasonText : null,
   };
 }
 

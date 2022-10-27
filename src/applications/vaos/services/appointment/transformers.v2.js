@@ -5,6 +5,7 @@ import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
+  PURPOSE_TEXT_V2,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
@@ -137,7 +138,10 @@ function getAppointmentInfoFromComments(comments, key) {
       ? appointmentInfo[3]?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };
-    data.push(transformedReasonCode);
+    if (reasonCode) {
+      data.push(transformedReasonCode);
+    }
+    return data;
   }
   if (key === 'comments') {
     const appointmentComments = appointmentInfo
@@ -255,7 +259,7 @@ export function transformVAOSAppointment(appt) {
     0
       ? getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
       : appt.reasonCode?.coding;
-  const code = PURPOSE_TEXT.filter(purpose => purpose.id !== 'other').find(
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose =>
       purpose.serviceName === coding[0]?.code ||
       purpose.commentShort === coding[0]?.code,
