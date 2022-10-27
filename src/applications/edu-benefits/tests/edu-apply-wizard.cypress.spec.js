@@ -20,25 +20,25 @@ describe('Education Application Wizard', () => {
       .should('be.visible');
 
     // Select veteran
-    cy.get('input[id="serviceBenefitBasedOn-0"]')
-      .click()
-      .get('label[for="nationalCallToService-0"]')
-      .should('be.visible');
+    // cy.get('input[id="serviceBenefitBasedOn-0"]')
+    //   .click()
+    //   .get('label[for="nationalCallToService-0"]')
+    //   .should('be.visible');
 
     // Select national call to service
-    cy.get('#nationalCallToService-0')
-      .click()
-      .get('#apply-now-link')
-      .should('be.visible');
+    // cy.get('#nationalCallToService-0')
+    //   .click()
+    //   .get('#apply-now-link')
+    //   .should('be.visible');
 
-    cy.get('#apply-now-link')
-      .should('have.attr', 'href')
-      .and(
-        'contain',
-        '/education/apply-for-education-benefits/application/1990N',
-      );
+    // cy.get('#apply-now-link')
+    //   .should('have.attr', 'href')
+    //   .and(
+    //     'contain',
+    //     '/education/apply-for-education-benefits/application/1990N',
+    //   );
 
-    cy.get('main .usa-alert-warning').should('be.visible');
+    // cy.get('main .usa-alert-warning').should('be.visible');
 
     // Select non-veteran
     cy.get('#serviceBenefitBasedOn-1').click();

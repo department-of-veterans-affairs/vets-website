@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from '../../utils/business-days';
 import {
   mockCCEligibilityApi,
   mockClinicApi,
@@ -24,6 +24,15 @@ import {
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
 describe('VAOS direct schedule flow', () => {
+  const start = moment()
+    .addBusinessDay(5, 'days')
+    // Adding number months to account for the test clicking the 'next' button to
+    // advance to the next month.
+    .add(1, 'months')
+    .startOf('month')
+    .day(9);
+  const end = moment(start).add(60, 'minutes');
+
   beforeEach(() => {
     vaosSetup();
 
@@ -40,7 +49,7 @@ describe('VAOS direct schedule flow', () => {
     mockDirectBookingEligibilityCriteriaApi();
     mockRequestLimitsApi();
     mockClinicApi({ facilityId: '983', apiVersion: 0 });
-    mockDirectScheduleSlotsApi({ apiVersion: 0 });
+    mockDirectScheduleSlotsApi({ start, end, apiVersion: 0 });
     mockPreferencesApi();
     mockVisitsApi();
   });
@@ -95,12 +104,7 @@ describe('VAOS direct schedule flow', () => {
       expect(body.clinic.clinicId).to.eq('455');
       expect(body).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'month')
-          .startOf('month')
-          .add(4, 'days')
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(body).to.have.property('dateTime');
       expect(body).to.have.property('bookingNotes', fullReason);
@@ -172,12 +176,7 @@ describe('VAOS direct schedule flow', () => {
       expect(body.clinic.clinicId).to.eq('455');
       expect(body).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'month')
-          .startOf('month')
-          .add(4, 'days')
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(body).to.have.property('dateTime');
       expect(body).to.have.property(
@@ -243,12 +242,7 @@ describe('VAOS direct schedule flow', () => {
       expect(body.clinic.clinicId).to.eq('455');
       expect(body).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'month')
-          .startOf('month')
-          .add(4, 'days')
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(body).to.have.property('dateTime');
       expect(body).to.have.property(
@@ -264,6 +258,15 @@ describe('VAOS direct schedule flow', () => {
 });
 
 describe('VAOS direct schedule flow using VAOS service', () => {
+  const start = moment()
+    .addBusinessDay(5, 'days')
+    // Adding number months to account for the test clicking the 'next' button to
+    // advance to the next month.
+    .add(1, 'months')
+    .startOf('month')
+    .day(9);
+  const end = moment(start).add(60, 'minutes');
+
   beforeEach(() => {
     vaosSetup();
 
@@ -271,7 +274,12 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     mockAppointmentsApi({ apiVersion: 2 });
     mockCCEligibilityApi();
     mockClinicApi({ locations: ['983'], apiVersion: 2 });
-    mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
+    mockDirectScheduleSlotsApi({
+      clinicId: '455',
+      start,
+      end,
+      apiVersion: 2,
+    });
     mockEligibilityApi({ isEligible: true });
     mockFacilityApi({ id: '983', apiVersion: 2 });
     mockFacilitiesApi({ apiVersion: 2 });
@@ -334,12 +342,7 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       expect(request.clinic).to.eq('455');
       expect(request.extension).to.have.property(
         'desiredDate',
-        `${moment()
-          .add(1, 'month')
-          .startOf('month')
-          .add(4, 'days')
-          .startOf('day')
-          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+        `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(request.status).to.eq('booked');
     });

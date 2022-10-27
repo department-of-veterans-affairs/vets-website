@@ -24,17 +24,15 @@ const LandingPageAuth = () => {
   const dispatch = useDispatch();
 
   // fire api call to retreive messages
+
   useEffect(
     () => {
       dispatch(getAllMessages());
       dispatch(getTriageTeams());
       dispatch(getCategories());
       // landing page retrieves only Inbox messages.
-      dispatch(retrieveFolder(Folder.INBOX));
-      dispatch(getMessages(Folder.INBOX));
-      // dispatch(retrieveMessage(522265));
-      // dispatch(retrieveMessage(7178447));
-      // dispatch(retrieveFolder(0));
+      dispatch(retrieveFolder(Folder.INBOX.id));
+      dispatch(getMessages(Folder.INBOX.id));
     },
     [dispatch],
   );

@@ -12,6 +12,7 @@ import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import constants from 'vets-json-schema/dist/constants.json';
@@ -23,19 +24,21 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
+import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
+import GetHelp from '../components/GetHelp';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
-import GetHelp from '../components/GetHelp';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
-import Sponsors from '../components/Sponsors';
 import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
+import Sponsors from '../components/Sponsors';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
+import preSubmitInfo from '../components/preSubmitInfo';
 
 import {
   isOnlyWhitespace,
@@ -43,9 +46,10 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
-  transformTOEForm,
   prefillTransformer,
 } from '../helpers';
+
+import { transformTOEForm } from '../utils/form-submit-transform';
 
 import { phoneSchema, phoneUISchema } from '../schema';
 import {
@@ -98,6 +102,7 @@ const formConfig = {
   },
   defaultDefinitions: {},
   getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -139,18 +144,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
                       }
                     },
                   ],
@@ -161,7 +155,18 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidGivenName(field)) {
-                        errors.addError(nameErrorMessage);
+                        errors.addError(nameErrorMessage(20));
+                      }
+                    },
+                  ],
+                },
+                last: {
+                  ...fullNameUI.last,
+                  'ui:title': 'Your last name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidLastName(field)) {
+                        errors.addError(nameErrorMessage(26));
                       }
                     },
                   ],
@@ -782,7 +787,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -894,13 +899,15 @@ const formConfig = {
                     },
                   },
                 },
+                state: {
+                  'ui:required': formData =>
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
+                },
                 postalCode: {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
                   },
-                  'ui:required': formData =>
-                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                    formData['view:mailingAddress']?.address?.country === 'USA',
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
@@ -1188,13 +1195,25 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
-            'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: We make payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+            title: 'direct deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
             ),
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'account information',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
             [formFields.bankAccount]: {
               ...bankAccountUI,
               'ui:order': [

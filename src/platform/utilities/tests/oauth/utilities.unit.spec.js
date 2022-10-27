@@ -69,7 +69,7 @@ describe('OAuth - Utilities', () => {
   describe('saveStateAndVerifier', () => {
     it('should check to see if state is included in window.location', () => {
       window.location = new URL('https://va.gov/?state=some_random_state');
-      expect(oAuthUtils.saveStateAndVerifier()).to.be.null;
+      expect(oAuthUtils.saveStateAndVerifier()).to.not.be.null;
       window.location.search = '';
     });
     it('should set sessionStorage', () => {
@@ -299,9 +299,10 @@ describe('OAuth - Utilities', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      await oAuthUtils.refresh();
+      await oAuthUtils.refresh({ type: 'logingov' });
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });

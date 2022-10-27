@@ -1,0 +1,222 @@
+{
+  "data": [
+    {
+      "id": "7192838",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7192838,
+        "category": "OTHER",
+        "subject": "PT2CL: JPEG/JFIF/PNG/JPG",
+        "body": null,
+        "attachment": true,
+        "sentDate": "2022-10-05T20:54:15.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7192838"
+      }
+    },
+    {
+      "id": "7191448",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7191448,
+        "category": "EDUCATION",
+        "subject": "Education Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-10-03T15:32:09.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 7107671,
+        "recipientName": "Jeasmitha's dist group.",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7191448"
+      }
+    },
+    {
+      "id": "7185771",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7185771,
+        "category": "COVID",
+        "subject": "Covid-Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-19T21:13:23.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7185771"
+      }
+    },
+    {
+      "id": "7183467",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7183467,
+        "category": "COVID",
+        "subject": "Covid-Inquiry-17",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-15T20:20:56.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7183467"
+      }
+    },
+    {
+      "id": "7181007",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7181007,
+        "category": "TEST_RESULTS",
+        "subject": "Test Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-13T16:09:26.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7181007"
+      }
+    },
+    {
+      "id": "7180407",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7180407,
+        "category": "COVID",
+        "subject": "Covid-Inquiry-17",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-13T12:53:37.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7180407"
+      }
+    },
+    {
+      "id": "7179970",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7179970,
+        "category": "MEDICATIONS",
+        "subject": "Medication-Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-12T15:10:13.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179970"
+      }
+    },
+    {
+      "id": "7179963",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7179963,
+        "category": "MEDICATIONS",
+        "subject": "Medication-Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-12T15:06:07.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179963"
+      }
+    },
+    {
+      "id": "7179613",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7179613,
+        "category": "COVID",
+        "subject": "Covid-Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-12T14:34:28.000Z",
+        "senderId": 20029,
+        "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179613"
+      }
+    },
+    {
+      "id": "7177474",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7177474,
+        "category": "APPOINTMENTS",
+        "subject": "Appointment Inquiry",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-09-08T00:55:51.000Z",
+        "senderId": 6177,
+        "senderName": "MANIVASAGAM, RAJESH ",
+        "recipientId": 6820911,
+        "recipientName": "ECSTEN, THOMAS ",
+        "readReceipt": "READ"
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7177474"
+      }
+    }
+  ],
+  "links": {
+    "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?",
+    "first": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=1&per_page=10",
+    "prev": null,
+    "next": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=2&per_page=10",
+    "last": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0/messages?page=5&per_page=10"
+  },
+  "meta": {
+    "sort": {
+      "sentDate": "DESC"
+    },
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 5,
+      "totalEntries": 49
+    }
+  }
+}

@@ -2,34 +2,71 @@ import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { setStoredSubTask } from 'platform/forms/sub-task';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import {
+  mockContestableIssues,
+  // getRandomDate,
+  // fixDecisionDates,
+} from './995.cypress.helpers';
+import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockSubmit from './fixtures/mocks/application-submit.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
+import mockUser from './fixtures/mocks/user.json';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataDir: path.join(__dirname, 'data'),
+    // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
     dataSets: ['test-data'],
 
+    fixtures: {
+      data: path.join(__dirname, 'fixtures', 'data'),
+      mocks: path.join(__dirname, 'fixtures', 'mocks'),
+    },
+
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
+          // Hit the start action link
+          cy.findAllByText(/start your claim/i, { selector: 'a' })
+            .first()
             .click();
         });
       },
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
+      cy.login(mockUser);
+      setStoredSubTask({ benefitType: 'compensation' });
 
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
+
+      cy.intercept(
+        'GET',
+        `/v1${CONTESTABLE_ISSUES_API}compensation`,
+        mockContestableIssues,
+      );
+
+      cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
+
+      cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
+
+      cy.get('@testData').then(testData => {
+        cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
+        cy.intercept('GET', '/v0/feature_toggles?*', {
+          data: { features: [] },
+        });
+      });
+
+      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.

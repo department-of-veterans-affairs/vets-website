@@ -5,9 +5,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import { getMessages } from '../actions/messages';
 import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
-import InboxListView from '../components/MessageList/InboxListView';
+import MessageList from '../components/MessageList/MessageList';
 import FolderHeader from '../components/MessageList/FolderHeader';
 import { retrieveFolder } from '../actions/folders';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import { closeAlert } from '../actions/alerts';
+import ManageFolderButtons from '../components/ManageFolderButtons';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -54,6 +57,18 @@ const FolderListView = () => {
     [folderId, dispatch],
   );
 
+  // clear out alerts if user navigates away from this component
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
+
   useInterval(() => {
     if (folder) {
       dispatch(getMessages(folder.folderId, true));
@@ -89,7 +104,7 @@ const FolderListView = () => {
   } else if (messages.length > 0) {
     content = (
       <>
-        <InboxListView messages={messages} folder={folder} />
+        <MessageList messages={messages} folder={folder} />
       </>
     );
   }
@@ -97,6 +112,7 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container">
       <div className="main-content">
+        <AlertBackgroundBox closeable />
         {folder === undefined ? (
           <va-loading-indicator
             message="Loading your secure messages..."
@@ -105,6 +121,7 @@ const FolderListView = () => {
         ) : (
           <>
             <FolderHeader folder={folder} />
+            <ManageFolderButtons />
             <div className="search-messages-input">
               <label
                 className="vads-u-margin-top--2p5"
@@ -114,7 +131,6 @@ const FolderListView = () => {
               </label>
               <VaSearchInput label="search-message-folder-input" />
             </div>
-
             <div>{content}</div>
           </>
         )}

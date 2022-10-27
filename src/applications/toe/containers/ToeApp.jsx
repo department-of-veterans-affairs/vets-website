@@ -7,14 +7,14 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchSponsors, fetchPersonalInformation } from '../actions';
+import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
 function ToeApp({
   children,
   formData,
-  getSponsors,
+  getDirectDeposit,
   getPersonalInformation,
   location,
   setFormData,
@@ -23,18 +23,17 @@ function ToeApp({
   sponsorsSavedState,
   user,
 }) {
-  const [fetchedSponsors, setFetchedSponsors] = useState(false);
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-
-      if (!fetchedSponsors) {
-        setFetchedSponsors(true);
-        getSponsors();
+      if (!fetchedUserInfo) {
+        setFetchedUserInfo(true);
+        getPersonalInformation();
       }
 
       if (
@@ -47,15 +46,14 @@ function ToeApp({
       }
     },
     [
-      fetchedSponsors,
+      fetchedUserInfo,
       formData,
-      getSponsors,
-      location,
+      getPersonalInformation,
+      user?.login?.currentlyLoggedIn,
       setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      user?.login?.currentlyLoggedIn,
     ],
   );
 
@@ -64,12 +62,12 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedUserInfo) {
-        setFetchedUserInfo(true);
-        getPersonalInformation();
+      if (!fetchedDirectDeposit) {
+        setFetchedDirectDeposit(true);
+        getDirectDeposit();
       }
     },
-    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
   );
 
   return (
@@ -91,7 +89,7 @@ function ToeApp({
 ToeApp.propTypes = {
   children: PropTypes.object,
   formData: PropTypes.object,
-  getSponsors: PropTypes.func,
+  getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -105,7 +103,6 @@ ToeApp.propTypes = {
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   sponsors: state.form?.data?.sponsors,
   sponsorsInitial: state?.data?.sponsors,
@@ -114,7 +111,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getSponsors: fetchSponsors,
+  getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };

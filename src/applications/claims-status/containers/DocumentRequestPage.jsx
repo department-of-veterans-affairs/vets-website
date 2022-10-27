@@ -3,14 +3,16 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
+
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setPageFocus, setUpPage } from '../utils/page';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import {
   addFile,
   removeFile,
@@ -21,13 +23,13 @@ import {
   getClaimDetail,
   setFieldsDirty,
   clearNotification,
-} from '../actions/index.jsx';
+} from '../actions';
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
@@ -43,6 +45,7 @@ class DocumentRequestPage extends React.Component {
       scrollToTop();
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
@@ -52,6 +55,7 @@ class DocumentRequestPage extends React.Component {
       this.goToFilesPage();
     }
   }
+
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       document.querySelector('.claims-alert').focus();
@@ -61,19 +65,22 @@ class DocumentRequestPage extends React.Component {
       setPageFocus();
     }
   }
+
   componentWillUnmount() {
     if (!this.props.uploadComplete) {
       this.props.clearNotification();
     }
   }
+
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
+
   render() {
     let content;
     const filesPath = `your-claims/${this.props.params.id}/files`;
-    const trackedItem = this.props.trackedItem;
+    const { trackedItem } = this.props;
 
     if (this.props.loading) {
       content = (
@@ -83,7 +90,7 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const message = this.props.message;
+      const { message } = this.props;
 
       content = (
         <>
