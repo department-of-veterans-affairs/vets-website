@@ -189,11 +189,25 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
+  'va-memorable-date': [
+    {
+      action: 'blur',
+      event: 'int-memorable-date-blur',
+      prefix: 'memorable-date',
+    },
+  ],
   'va-modal': [
     {
       action: 'show',
       event: 'int-modal-show',
       prefix: 'modal',
+    },
+  ],
+  'va-number-input': [
+    {
+      action: 'blur',
+      event: 'int-number-input-blur',
+      prefix: 'number-input',
     },
   ],
   'va-promo-banner': [
