@@ -40,8 +40,10 @@ export function getPreviousPagePath(pageList, data, pathname) {
  * @returns {Boolean}
  */
 export function checkValidPagePath(pageList, data, pathname) {
+  // ignore search parameters for custom pages goToPath
+  const name = (pathname || '').split('?')[0];
   return getActiveExpandedPages(pageList, data).some(
-    page => page.path === pathname,
+    page => page.path === name,
   );
 }
 

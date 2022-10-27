@@ -34,15 +34,14 @@ function getReasonCode({ data, isCC, isAcheron }) {
         }`,
     );
     // TODO: Replace hard coded values.
-    const phoneNumber = `Phone Number: 123-456-7890|`;
-    const email = `Email: s@test.com|`;
-    const preferredDates = `Preferred Dates:${formattedDates.toString()}|`;
-    const reasonCode = `Reason Code: code_1|`;
+    const { phoneNumber, email } = data;
+    const preferredDates = `Preferred Dates:${formattedDates.toString()}`;
+    const reasonCode = `Reason Code: code_1`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
     // Add phone number, email, preferred Date, reason Code to
     // appointmentInfo string in this order (phone number, email,
     // preferred Date, reason Code)
-    appointmentInfo = `${phoneNumber}${email}${preferredDates}${reasonCode}`;
+    appointmentInfo = `phone number: ${phoneNumber}|email: ${email}|${preferredDates}|${reasonCode}`;
   }
 
   return {
@@ -55,7 +54,7 @@ function getReasonCode({ data, isCC, isAcheron }) {
     // to be truncated to 250 char
     text:
       data.reasonAdditionalInfo && isAcheron
-        ? `${appointmentInfo}${reasonText}`
+        ? `${appointmentInfo}|${reasonText}`
         : reasonText,
   };
 }
