@@ -68,6 +68,10 @@ export const retrieveMessage = (
   }
 };
 
+export const clearMessage = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR });
+};
+
 /**
  * @param {Long} messageId
  * @returns

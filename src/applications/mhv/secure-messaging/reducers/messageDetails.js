@@ -31,6 +31,10 @@ export const messageDetailsReducer = (state = initialState, action) => {
         },
       };
     }
+    case Actions.Message.CLEAR:
+      return {
+        ...initialState,
+      };
     case Actions.Message.GET_HISTORY: {
       return {
         ...state,
