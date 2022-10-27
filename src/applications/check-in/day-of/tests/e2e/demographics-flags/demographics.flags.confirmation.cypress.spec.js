@@ -95,13 +95,13 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 200);
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      Appointments.attemptCheckIn(3);
-      Confirmation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Appointments.attemptCheckIn(3);
+      // Confirmation.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
       // call should not occur a second time if first call was successful
       cy.get('@demographicsPatchSpy').then(spy => {
@@ -165,18 +165,18 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 400);
 
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Confirmation.attemptGoBackToAppointments();
+      // Appointments.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      Appointments.attemptCheckIn(3);
-      Confirmation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      // Appointments.attemptCheckIn(3);
+      // Confirmation.validatePageLoaded();
+      // cy.injectAxeThenAxeCheck();
 
-      cy.wait('@demographicsPatchFailureAlias');
-      cy.get('@demographicsPatchFailureAlias')
-        .its('response.statusCode')
-        .should('equal', 400);
+      // cy.wait('@demographicsPatchFailureAlias');
+      // cy.get('@demographicsPatchFailureAlias')
+      //   .its('response.statusCode')
+      //   .should('equal', 400);
     });
   });
   describe('All confirmation pages skipped', () => {

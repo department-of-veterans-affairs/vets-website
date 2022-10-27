@@ -155,23 +155,6 @@ export const ISSUE_STATUS = {
   cavcRemand: 'cavc_remand',
 };
 
-// Action Types & Availability statuses
-// TO-DO: Separate action types and availability statuses
-// Note: excludes FETCH_APPEALS_SUCCESS because there are defined in actions
-// and used in v1 as well
-export const FETCH_APPEALS_PENDING = 'FETCH_APPEALS_PENDING';
-export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
-export const USER_FORBIDDEN_ERROR = 'USER_FORBIDDEN_ERROR';
-export const RECORD_NOT_FOUND_ERROR = 'RECORD_NOT_FOUND_ERROR';
-export const VALIDATION_ERROR = 'VALIDATION_ERROR';
-export const BACKEND_SERVICE_ERROR = 'BACKEND_SERVICE_ERROR';
-export const FETCH_APPEALS_ERROR = 'FETCH_APPEALS_ERROR';
-export const AVAILABLE = 'AVAILABLE';
-export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
-export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
-export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
-export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
-
 export const claimsAvailability = {
   AVAILABLE: 'AVAILABLE',
   UNAVAILABLE: 'UNAVAILABLE',

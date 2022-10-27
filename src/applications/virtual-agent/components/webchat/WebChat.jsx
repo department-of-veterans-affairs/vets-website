@@ -3,7 +3,7 @@ import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import GreetUser from './makeBotGreetUser';
+import StartConvoAndTrackUtterances from './startConvoAndTrackUtterances';
 import MarkdownRenderer from './markdownRenderer';
 import {
   LOGGED_IN_FLOW,
@@ -22,78 +22,58 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const requireAuth = useSelector(
-    state => state.featureToggles.virtualAgentAuth,
-  );
 
   const store = useMemo(
     () =>
       createStore(
         {},
-        GreetUser.makeBotGreetUser(
+        StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
-          requireAuth,
         ),
       ),
     [createStore],
   );
-
   let directLineToken = token;
   let conversationId = '';
   let directLine = {};
 
   // eslint-disable-next-line sonarjs/no-collapsible-if
-  if (requireAuth) {
-    if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
-      directLineToken = sessionStorage.getItem(TOKEN_KEY);
-      conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+
+  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    directLineToken = sessionStorage.getItem(TOKEN_KEY);
+    conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+  }
+
+  addEventListener('beforeunload', () => {
+    clearBotSessionStorage(false, isLoggedIn);
+  });
+
+  const links = document.querySelectorAll('div#account-menu ul li a');
+  if (links && links.length) {
+    const link = links[links.length - 1];
+    if (link.innerText === 'Sign Out') {
+      link.addEventListener('click', () => {
+        clearBotSessionStorage(true);
+      });
     }
   }
 
-  if (requireAuth) {
-    addEventListener('beforeunload', () => {
-      clearBotSessionStorage(false, isLoggedIn);
-    });
-
-    const links = document.querySelectorAll('div#account-menu ul li a');
-    if (links && links.length) {
-      const link = links[links.length - 1];
-      if (link.innerText === 'Sign Out') {
-        link.addEventListener('click', () => {
-          clearBotSessionStorage(true);
-        });
-      }
-    }
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    directLine = useMemo(
-      () =>
-        createDirectLine({
-          token: directLineToken,
-          domain:
-            'https://northamerica.directline.botframework.com/v3/directline',
-          conversationId,
-          watermark: '',
-        }),
-      [createDirectLine],
-    );
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    directLine = useMemo(
-      () =>
-        createDirectLine({
-          token,
-          domain:
-            'https://northamerica.directline.botframework.com/v3/directline',
-        }),
-      [createDirectLine, token],
-    );
-  }
+  directLine = useMemo(
+    () =>
+      createDirectLine({
+        token: directLineToken,
+        domain:
+          'https://northamerica.directline.botframework.com/v3/directline',
+        conversationId,
+        watermark: '',
+      }),
+    [createDirectLine],
+  );
 
   const styleOptions = {
     hideUploadButton: true,

@@ -21,10 +21,12 @@ import {
   APPEAL_TYPES,
   EVENT_TYPES,
   isolateAppeal,
-  RECORD_NOT_FOUND_ERROR,
-  AVAILABLE,
   getTypeName,
 } from '../utils/appeals-v2-helpers';
+
+import { RECORD_NOT_FOUND_ERROR } from '../actions/types';
+
+const AVAILABLE = 'AVAILABLE';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
@@ -220,9 +222,8 @@ function mapStateToProps(state, ownProps) {
     appealsLoading,
     v2Availability: appealsAvailability,
   } = state.disability.status.claimsV2;
-  const { v1ToV2IdMap } = state.disability.status.appeals;
   return {
-    appeal: isolateAppeal(state, ownProps.params.id, v1ToV2IdMap),
+    appeal: isolateAppeal(state, ownProps.params.id),
     appealsLoading,
     appealsAvailability,
     fullName: state.user.profile.userFullName,

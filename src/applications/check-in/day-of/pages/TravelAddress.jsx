@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { useFormRouting } from '../../hooks/useFormRouting';
-import Wrapper from '../../components/layout/Wrapper';
+import { makeSelectVeteranData } from '../../selectors';
+import AddressBlock from '../../components/AddressBlock';
+import TravelPage from '../../components/pages/TravelPage';
 
 const TravelAddress = props => {
   const { router } = props;
   const { t } = useTranslation();
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { demographics } = useSelector(selectVeteranData);
 
-  const { goToNextPage } = useFormRouting(router);
+  const bodyText = (
+    <>
+      <p>{t('answer-yes-if-you-traveled-from-the-address')}</p>
+      <div className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--4 vads-u-border-color--gray-light vads-u-font-family--sans vads-u-border-bottom--1px vads-u-padding-bottom--2">
+        {t('home-address')}
+        <div className="vads-u-font-weight--normal">
+          <AddressBlock address={demographics.homeAddress} />
+        </div>
+      </div>
+    </>
+  );
 
   return (
-    <Wrapper pageTitle="Travel Address">
-      <button
-        onClick={goToNextPage}
-        className="usa-button-primary usa-button-big"
-        data-testid="yes-button"
-        type="button"
-      >
-        {t('yes')}
-      </button>
-      <button
-        onClick={goToNextPage}
-        className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
-        data-testid="no-button"
-        type="button"
-      >
-        {t('no')}
-      </button>
-    </Wrapper>
+    <TravelPage
+      header={t('did-you-travel-from-your-home-address')}
+      bodyText={bodyText}
+      helpText={t('if-you-traveled-from-a-different-address--helptext')}
+      pageType="travel-address"
+      router={router}
+    />
   );
 };
 

@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { SET_UNAUTHORIZED } from '../actions/index';
+import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 

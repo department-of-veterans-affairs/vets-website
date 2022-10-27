@@ -155,7 +155,7 @@ export const assetTypes = [
   'Antiques (based on appraised value)',
   'Furniture (based on appraised value)',
   'Artwork (based on appraised value)',
-  'Collectibles or collection(s) (based on appraised value)',
+  'Collectibles or collections (based on appraised value)',
 ];
 
 export const expenseTypes = [

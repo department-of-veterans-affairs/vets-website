@@ -12,10 +12,7 @@ export const WIP = () => (
           stages. It’s not quite ready yet. Please check back again soon.
         </p>
         <p>
-          <a
-            href="/housing-assistance/home-loans/"
-            className="u-vads-display--block u-vads-margin-top--2"
-          >
+          <a href="/housing-assistance/home-loans/">
             Return to VA-backed Veterans home loans information page
           </a>
         </p>

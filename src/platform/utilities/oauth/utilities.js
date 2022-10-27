@@ -28,10 +28,6 @@ export async function pkceChallengeFromVerifier(v) {
 }
 
 export const saveStateAndVerifier = type => {
-  /*
-    Ensures saved state is not overwritten if location has state parameter.
-  */
-  if (window.location.search.includes(OAUTH_KEYS.STATE)) return null;
   const storage = localStorage;
 
   // Create and store a random "state" value
@@ -216,9 +212,9 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async () => {
+export const refresh = async ({ type }) => {
   const url = new URL(
-    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH }),
+    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH, type }),
   );
 
   return fetch(url.href, {
@@ -237,7 +233,12 @@ export const formatInfoCookie = cookieStringRaw => {
     : cookieStringRaw;
   return decoded.split(',+:').reduce((obj, cookieString) => {
     const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
-    const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
+    const formattedValue = value
+      .replaceAll('++00:00', '')
+      .replaceAll('+', ' ')
+      .replace(',', '')
+      .replace(/\.\d+/g, '');
+
     return { ...obj, [key]: new Date(formattedValue) };
   }, {});
 };

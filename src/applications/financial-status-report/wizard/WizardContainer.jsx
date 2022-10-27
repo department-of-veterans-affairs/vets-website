@@ -20,7 +20,7 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
           title="Request help with VA debt (VA Form 5655)"
-          subTitle="Equal to VA Form 5655 (Financial Status Report)"
+          subTitle="Financial Status Report"
         />
         <div className="wizard-container">
           <DowntimeNotification
@@ -37,9 +37,9 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
           <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt
-            related to VA disability compensation, education, or pension
-            benefits. Answer a few questions to find out if this is the form you
-            need. If not, we’ll guide you to the best way to get help.
+            related to VA benefit overpayments or health care copays. Answer a
+            few questions to find out if this is the form you need. If not,
+            we’ll guide you to the best way to get help.
           </p>
           <p>
             If you already know this is the form you need, you can go to the
@@ -57,15 +57,6 @@ const WizardContainer = ({ setWizardStatus, showFSR }) => {
             >
               Request help with VA Form 5655
             </button>
-          </p>
-          <p>
-            If you need help with a VA copay debt,
-            <a
-              href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
-              className="vads-u-margin-left--0p5"
-            >
-              learn how to request financial hardship assistance.
-            </a>
           </p>
           <section aria-live="polite">
             <Wizard

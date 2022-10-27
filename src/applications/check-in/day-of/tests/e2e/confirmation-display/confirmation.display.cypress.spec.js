@@ -44,14 +44,18 @@ describe('Check In Experience -- ', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
+    it('confirm page has confirmation message alert', () => {
+      Confirmation.validateConfirmationAlert();
+      cy.injectAxeThenAxeCheck();
+    });
     it('confirm page has BTSSS link', () => {
       Confirmation.validateBTSSSLink();
       cy.injectAxeThenAxeCheck();
     });
-    it('confirm back button', () => {
-      Confirmation.validateBackButton();
-      cy.injectAxeThenAxeCheck();
-    });
+    // it('confirm back button', () => {
+    //   Confirmation.validateBackButton();
+    //   cy.injectAxeThenAxeCheck();
+    // });
     it('refreshes appointment data when pressing the browser back button', () => {
       Confirmation.validatePageLoaded();
       cy.intercept(

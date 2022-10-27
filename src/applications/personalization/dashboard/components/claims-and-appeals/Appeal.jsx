@@ -5,9 +5,10 @@ import {
   APPEAL_TYPES,
   EVENT_TYPES,
   getTypeName,
-  getStatusContents,
   programAreaMap,
-} from '~/applications/claims-status/utils/appeals-v2-helpers';
+} from '../../utils/appeals-v2-helpers';
+
+import { getStatusContents } from '../../utils/getStatusContents';
 
 import CTALink from '../CTALink';
 
@@ -80,7 +81,7 @@ const Appeal = ({ appeal, name }) => {
       <div className="vads-u-display--flex">
         <i
           aria-hidden="true"
-          className={`fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green`}
+          className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
           <p className="vads-u-margin-y--0">

@@ -14,6 +14,8 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureClinicFilter,
+  selectFeatureAcheronService,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -263,6 +265,7 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -280,6 +283,7 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
+        featureClinicFilter,
       });
 
       if (showModal) {
@@ -750,6 +754,9 @@ export function submitAppointmentOrRequest(history) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -880,7 +887,10 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(getState());
+          requestBody = transformFormToVAOSVARequest(
+            getState(),
+            featureAcheronVAOSServiceRequests,
+          );
           requestData = await createAppointment({ appointment: requestBody });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());

@@ -8,7 +8,6 @@ import mockUserAiq from './fixtures/mocks/mockUserAiq';
 import minTestData from './fixtures/data/minimal-test.json';
 import * as aiqHelpers from './helpers';
 
-const mockUserAttrs = mockUserAiq.data.attributes;
 const testData = minTestData.data;
 
 const disabilityRating = 90;
@@ -135,9 +134,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     aiqHelpers.shortFormAdditionalHelpAssertion();
 
     cy.wait('@mockSip');
-    cy.get('[name*="emailConfirmation"]')
-      .scrollIntoView()
-      .type(mockUserAttrs.profile.email);
 
     // medicaid
     aiqHelpers.goToNextPage('/insurance-information/medicaid');
@@ -259,9 +255,6 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
 
     aiqHelpers.goToNextPage('/veteran-information/contact-information');
     cy.wait('@mockSip');
-    cy.get('[name*="emailConfirmation"]')
-      .scrollIntoView()
-      .type(mockUserAttrs.profile.email);
 
     cy.injectAxe();
     cy.axeCheck();

@@ -5,22 +5,18 @@ import { focusElement } from 'platform/utilities/ui';
 import { useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
-import MessageCategoryInput from './MessageCategoryInput';
+import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
-import { saveDraft } from '../../actions/index';
+import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
+import DiscardDraft from '../Draft/DiscardDraft';
 
 const ComposeForm = props => {
-  const { message } = props;
+  const { draft, recipients } = props;
   const dispatch = useDispatch();
 
-  const defaultRecipientsList = [
-    { id: 0, name: ' ' },
-    { id: 12, name: 'Doctor A' },
-    { id: 13, name: 'Doctor B' },
-    { id: 14, name: 'Doctor C' },
-  ];
+  const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
   const [selectedRecipient, setSelectedRecipient] = useState(
     defaultRecipientsList[0].id,
@@ -31,6 +27,7 @@ const ComposeForm = props => {
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
+  const [fieldsString, setFieldsString] = useState('');
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -38,15 +35,33 @@ const ComposeForm = props => {
     return currentString + item.name;
   }, '');
 
+  useEffect(
+    () => {
+      setRecipientsList(prevRecipientsList => [
+        ...prevRecipientsList.filter(
+          oldRecip => !recipients.find(newRecip => newRecip.id === oldRecip.id),
+        ),
+        ...recipients,
+      ]);
+      if (!draft) {
+        setSelectedRecipient('');
+        setSubject('');
+        setMessageBody('');
+        setCategory('');
+      }
+    },
+    [recipients, draft],
+  );
+
   const recipientExists = recipientId => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
   const populateForm = () => {
-    if (!recipientExists(message.recipientId)) {
+    if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
-        id: message.recipientId,
-        name: message.recipientName,
+        id: draft.recipientId,
+        name: draft.recipientName,
       };
       setRecipientsList(prevRecipientsList => [
         ...prevRecipientsList,
@@ -54,16 +69,24 @@ const ComposeForm = props => {
       ]);
       setSelectedRecipient(newRecipient.id);
     }
-    setCategory(message.category);
-    setSubject(message.subject);
-    setMessageBody(message.body);
-    if (message.attachments.attachment.length) {
-      setAttachments(message.attachments.attachment);
+    setCategory(draft.category);
+    setSubject(draft.subject);
+    setMessageBody(draft.body);
+    if (draft.attachments) {
+      setAttachments(draft.attachments);
     }
     setFormPopulated(true);
+    setFieldsString(
+      JSON.stringify({
+        rec: draft.recipientId,
+        cat: draft.category,
+        sub: draft.subject,
+        bod: draft.body,
+      }),
+    );
   };
 
-  if (message && !formPopulated) populateForm();
+  if (draft && recipients && !formPopulated) populateForm();
 
   const setMessageTitle = () => {
     const casedCategory =
@@ -90,28 +113,37 @@ const ComposeForm = props => {
   };
 
   const saveDraftHandler = type => {
-    const formData = new FormData();
+    const draftId = draft && draft.messageId;
+    const newFieldsString = JSON.stringify({
+      rec: selectedRecipient,
+      cat: category,
+      sub: subject,
+      bod: messageBody,
+    });
 
-    formData.append('recipientId', selectedRecipient);
-    formData.append('category', category);
-    formData.append('subject', subject);
-    formData.append('body', messageBody);
-
-    for (const file of attachments) {
-      formData.append(file.name, file);
+    if (newFieldsString === fieldsString) {
+      return;
     }
 
-    dispatch(saveDraft(formData, type));
+    setFieldsString(newFieldsString);
+
+    const formData = {
+      recipientId: selectedRecipient,
+      category,
+      subject,
+      body: messageBody,
+    };
+
+    dispatch(saveDraft(formData, type, draftId));
   };
 
   useEffect(
     () => {
       if (
-        selectedRecipient ||
-        category ||
-        debouncedSubject ||
-        debouncedMessageBody ||
-        attachmentNames
+        selectedRecipient &&
+        category &&
+        debouncedSubject &&
+        debouncedMessageBody
       ) {
         saveDraftHandler('auto');
       }
@@ -127,7 +159,7 @@ const ComposeForm = props => {
 
   return (
     <form className="compose-form" onSubmit={sendMessageHandler}>
-      <div className="compose-form-header">
+      <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
         <button type="submit" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />
@@ -142,6 +174,7 @@ const ComposeForm = props => {
           value={selectedRecipient}
           onVaSelect={e => setSelectedRecipient(e.detail.value)}
           class="composeSelect"
+          data-testid="compose-select"
         >
           {recipientsList.map(item => (
             <option key={item.id} value={item.id}>
@@ -152,7 +185,7 @@ const ComposeForm = props => {
         <button type="button" className="link-button edit-input-button">
           Edit List
         </button>
-        <MessageCategoryInput
+        <CategoryInput
           category={category}
           categoryError={categoryError}
           setCategory={setCategory}
@@ -169,9 +202,11 @@ const ComposeForm = props => {
             id="message-subject"
             name="message-subject"
             className="message-subject"
+            data-testid="message-subject-field"
             onChange={e => {
               setSubject(e.target.value);
             }}
+            value={subject}
           />
         </div>
         <div className="message-body-field">
@@ -183,7 +218,9 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
+            data-testid="message-body-field"
             onChange={e => setMessageBody(e.target.value)}
+            value={messageBody}
           />
         </div>
         <section className="attachments-section">
@@ -201,16 +238,22 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions">
-          <button type="submit" className="send-button-bottom">
+          <button
+            type="submit"
+            className="send-button-bottom"
+            data-testid="Send-Button"
+          >
             Send
           </button>
           <button
             type="button"
             className="usa-button-secondary save-draft-button"
+            data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft
           </button>
+          {draft && <DiscardDraft draft={draft} />}
         </div>
       </div>
       <DraftSavedInfo />
@@ -219,7 +262,8 @@ const ComposeForm = props => {
 };
 
 ComposeForm.propTypes = {
-  message: PropTypes.object,
+  draft: PropTypes.object,
+  recipients: PropTypes.array,
 };
 
 export default ComposeForm;

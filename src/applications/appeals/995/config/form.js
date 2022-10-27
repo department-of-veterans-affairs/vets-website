@@ -9,7 +9,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import {
-  EditPhone,
+  EditHomePhone,
+  EditMobilePhone,
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
@@ -48,6 +49,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
+
 // const { } = fullSchema.properties;
 
 const formConfig = {
@@ -79,8 +81,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
   },
-  title: 'Request a Supplemental Claim',
-  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
+  title: 'File a Supplemental Claim',
+  subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   chapters: {
@@ -118,11 +120,20 @@ const formConfig = {
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
+        editHomePhone: {
+          title: 'Edit phone number',
+          path: 'edit-home-phone',
+          CustomPage: EditHomePhone,
+          CustomPageReview: EditHomePhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
         editMobilePhone: {
-          title: 'Edit mobile phone',
+          title: 'Edit phone number',
           path: 'edit-mobile-phone',
-          CustomPage: EditPhone,
-          CustomPageReview: EditPhone,
+          CustomPage: EditMobilePhone,
+          CustomPageReview: EditMobilePhone,
           depends: () => false, // accessed from contact info page
           uiSchema: {},
           schema: { type: 'object', properties: {} },
