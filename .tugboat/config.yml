@@ -12,5 +12,4 @@ services:
       build:
         - yarn
         - yarn build --host=0.0.0.0 --public=$TUGBOAT_DEFAULT_SERVICE_URL_HOST
-      start:
         - yarn watch &
