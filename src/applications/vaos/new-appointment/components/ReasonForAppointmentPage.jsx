@@ -30,7 +30,7 @@ function isValidComment(value) {
 
 function validComment(errors, input) {
   if (input && !isValidComment(input)) {
-    errors.addError('following special character is not allowed: ^ |');
+    errors.addError('following special characters are not allowed: ^ |');
   }
   if (input && !/\S/.test(input)) {
     errors.addError('Please provide a response');

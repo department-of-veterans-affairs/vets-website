@@ -156,7 +156,7 @@ export function transformFormToVAOSVARequest(
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
 
-  return {
+  const postBody = {
     kind: data.visitType,
     status: 'proposed',
     locationId: data.vaFacility,
@@ -168,18 +168,7 @@ export function transformFormToVAOSVARequest(
       isAcheron: featureAcheronVAOSServiceRequests,
     }),
     // comment: data.reasonAdditionalInfo,
-    contact: {
-      telecom: [
-        {
-          type: 'phone',
-          value: data.phoneNumber,
-        },
-        {
-          type: 'email',
-          value: data.email,
-        },
-      ],
-    },
+    // contact field removed for acheron service
     requestedPeriods: featureAcheronVAOSServiceRequests
       ? [
           {
@@ -203,6 +192,25 @@ export function transformFormToVAOSVARequest(
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall || {})
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
+  };
+
+  if (featureAcheronVAOSServiceRequests) return postBody;
+
+  // add the contact field for non acheron service
+  return {
+    ...postBody,
+    contact: {
+      telecom: [
+        {
+          type: 'phone',
+          value: data.phoneNumber,
+        },
+        {
+          type: 'email',
+          value: data.email,
+        },
+      ],
+    },
   };
 }
 

@@ -92,16 +92,21 @@ function getAtlasLocation(appt) {
 function getAppointmentInfoFromComments(comments, key) {
   const data = [];
   const appointmentInfo = comments?.split('|');
-  if (key === 'phone') {
-    const phone = appointmentInfo ? appointmentInfo[0]?.split(':')[1] : null;
+  if (key === 'contact') {
+    const phone = appointmentInfo
+      ? appointmentInfo[0]?.split(':')[1].trim()
+      : null;
+    const email = appointmentInfo
+      ? appointmentInfo[1]?.split(':')[1].trim()
+      : null;
+
     const transformedPhone = { system: 'phone', value: phone };
-    data.push(transformedPhone);
+    const transformedEmail = { system: 'email', value: email };
+
+    data.push(transformedPhone, transformedEmail);
+    return data;
   }
-  if (key === 'email') {
-    const email = appointmentInfo ? appointmentInfo[1]?.split(':')[1] : null;
-    const transformedemail = { system: 'email', value: email };
-    data.push(transformedemail);
-  }
+
   if (key === 'preferredDate') {
     const preferredDates = appointmentInfo
       ? appointmentInfo[2]?.split(':')[1]?.split(',')
@@ -150,6 +155,21 @@ function getAppointmentInfoFromComments(comments, key) {
     return data;
   }
   return data;
+}
+
+function getPatientContact(appt) {
+  if (appt.contact?.telecom?.length > 0) {
+    // for non acheron service
+    return {
+      telecom: appt.contact?.telecom.map(contact => ({
+        system: contact.type,
+        value: contact.value,
+      })),
+    };
+  }
+  return {
+    telecom: getAppointmentInfoFromComments(appt.reasonCode.text, 'contact'),
+  };
 }
 
 export function transformVAOSAppointment(appt) {
@@ -226,12 +246,7 @@ export function transformVAOSAppointment(appt) {
           },
         ],
       },
-      contact: {
-        telecom: appt.contact?.telecom.map(contact => ({
-          system: contact.type,
-          value: contact.value,
-        })),
-      },
+      contact: getPatientContact(appt),
     };
   }
 
