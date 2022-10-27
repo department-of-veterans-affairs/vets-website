@@ -167,16 +167,16 @@ describe('the Education Benefits Wizard', () => {
     expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
       selected: 'yes',
     });
-    wrapper.find('#NationalCallToService-1').invoke('onChange')({
-      target: { value: 'no' },
-    });
-    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
-      selected: 'no',
-    });
+    // wrapper.find('#NationalCallToService-1').invoke('onChange')({
+    //   target: { value: 'no' },
+    // });
+    // expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+    //   selected: 'no',
+    // });
     wrapper.find('#VetTec-1').invoke('onChange')({
       target: { value: 'no' },
     });
-    expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
       selected: 'no',
     });
     const benefit = sessionStorage.getItem('benefitReferred');
@@ -204,16 +204,16 @@ describe('the Education Benefits Wizard', () => {
     expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
       selected: 'yes',
     });
-    wrapper.find('#NationalCallToService-1').invoke('onChange')({
-      target: { value: 'no' },
-    });
-    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
-      selected: 'no',
-    });
+    // wrapper.find('#NationalCallToService-1').invoke('onChange')({
+    //   target: { value: 'no' },
+    // });
+    // expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+    //   selected: 'no',
+    // });
     wrapper.find('#VetTec-0').invoke('onChange')({
       target: { value: 'yes' },
     });
-    expect(wrapper.state('pageHistory')[3].state).to.deep.equal({
+    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
       selected: 'yes',
     });
     const benefit = sessionStorage.getItem('benefitReferred');
