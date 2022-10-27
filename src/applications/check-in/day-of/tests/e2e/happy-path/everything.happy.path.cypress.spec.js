@@ -58,7 +58,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('everything Happy path', () => {
+    it.skip('everything Happy path', () => {
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
