@@ -216,6 +216,11 @@ const analyticsEvents = {
       event: 'nav-promo-banner-link-click',
       prefix: 'promo-banner',
     },
+    {
+      action: 'close',
+      event: 'int-promo-banner-close',
+      prefix: 'promo-banner',
+    }
   ],
   'va-radio': [
     {
