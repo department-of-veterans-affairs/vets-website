@@ -226,38 +226,39 @@ describe('the Education Benefits Wizard', () => {
     wrapper.unmount();
   });
   // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10187/tests
-  it.skip('should take you to the 1990N form', () => {
-    const wrapper = mount(<Wizard {...defaultProps} />);
-    wrapper.find('.wizard-button').simulate('click');
-    expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
-    wrapper.find('#NewBenefit-0').invoke('onChange')({
-      target: { value: 'new' },
-    });
-    expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
-      selected: 'new',
-    });
-    wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
-      target: { value: 'yes' },
-    });
-    expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
-      selected: 'yes',
-    });
-    wrapper.find('#NationalCallToService-0').invoke('onChange')({
-      target: { value: 'yes' },
-    });
-    expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
-      selected: 'yes',
-    });
-    expect(wrapper.find('WarningAlert').exists()).to.equal(true);
-    const benefit = sessionStorage.getItem('benefitReferred');
-    expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990N);
-    wrapper.find('#apply-now-link').invoke('onClick')({
-      preventDefault: () => {},
-    });
-    const wizardStatus = sessionStorage.getItem('wizardStatus');
-    expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
-    wrapper.unmount();
-  });
+  // Online Form 1990n is being removed. Only PDF version will remian for download
+  // it.skip('should take you to the 1990N form', () => {
+  //   const wrapper = mount(<Wizard {...defaultProps} />);
+  //   wrapper.find('.wizard-button').simulate('click');
+  //   expect(wrapper.state('pageHistory')[0].state).to.be.undefined;
+  //   wrapper.find('#NewBenefit-0').invoke('onChange')({
+  //     target: { value: 'new' },
+  //   });
+  //   expect(wrapper.state('pageHistory')[0].state).to.deep.equal({
+  //     selected: 'new',
+  //   });
+  //   wrapper.find('#ClaimingBenefitOwnService-1').invoke('onChange')({
+  //     target: { value: 'yes' },
+  //   });
+  //   expect(wrapper.state('pageHistory')[1].state).to.deep.equal({
+  //     selected: 'yes',
+  //   });
+  //   wrapper.find('#NationalCallToService-0').invoke('onChange')({
+  //     target: { value: 'yes' },
+  //   });
+  //   expect(wrapper.state('pageHistory')[2].state).to.deep.equal({
+  //     selected: 'yes',
+  //   });
+  //   expect(wrapper.find('WarningAlert').exists()).to.equal(true);
+  //   const benefit = sessionStorage.getItem('benefitReferred');
+  //   expect(benefit).to.equal(formIdSuffixes.FORM_ID_1990N);
+  //   wrapper.find('#apply-now-link').invoke('onClick')({
+  //     preventDefault: () => {},
+  //   });
+  //   const wizardStatus = sessionStorage.getItem('wizardStatus');
+  //   expect(wizardStatus).to.equal(WIZARD_STATUS_COMPLETE);
+  //   wrapper.unmount();
+  // });
   it('should take you to the 1995 form when using your own benefit', () => {
     const wrapper = mount(<Wizard {...defaultProps} />);
     wrapper.find('.wizard-button').simulate('click');
