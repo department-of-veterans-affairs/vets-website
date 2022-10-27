@@ -113,7 +113,7 @@ describe('Military Information - NotInDeers', () => {
       return resp.reply(200, serviceHistory.generateServiceHistoryError('403'));
     });
   });
-  it('should display non veteran user error on military information page', () => {
+  it('should display user not in deers error on military information page', () => {
     cy.login(user72Success);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
