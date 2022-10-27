@@ -15,6 +15,7 @@ import ManageFolderButtons from '../components/ManageFolderButtons';
 const FolderListView = () => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
+  const [hideOtherAlerts, setHideOtherAlerts] = useState(false);
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
@@ -57,6 +58,15 @@ const FolderListView = () => {
     [folderId, dispatch],
   );
 
+  useEffect(
+    () => {
+      if (messages?.length === 0) {
+        setHideOtherAlerts(true);
+      }
+    },
+    [messages],
+  );
+
   // clear out alerts if user navigates away from this component
   useEffect(
     () => {
@@ -84,12 +94,15 @@ const FolderListView = () => {
       />
     );
   } else if (messages.length === 0) {
-    // this is a temporary content. There is a separate story to handle empty folder messaging
     content = (
-      <va-alert status="error" visible>
-        <h2 slot="headline">No messages</h2>
-        <p>There are no messages in this folder</p>
-      </va-alert>
+      <>
+        <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+          Displaying 0 of 0 messages
+        </div>
+        <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
+          <AlertBackgroundBox noIcon />
+        </div>
+      </>
     );
   } else if (error) {
     content = (
@@ -110,9 +123,9 @@ const FolderListView = () => {
   }
 
   return (
-    <div className="vads-l-grid-container">
+    <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
-        <AlertBackgroundBox closeable />
+        {hideOtherAlerts ? null : <AlertBackgroundBox closeable />}
         {folder === undefined ? (
           <va-loading-indicator
             message="Loading your secure messages..."
@@ -122,15 +135,18 @@ const FolderListView = () => {
           <>
             <FolderHeader folder={folder} />
             <ManageFolderButtons />
-            <div className="search-messages-input">
-              <label
-                className="vads-u-margin-top--2p5"
-                htmlFor="search-message-folder-input"
-              >
-                Search the {folder.name} messages folder
-              </label>
-              <VaSearchInput label="search-message-folder-input" />
-            </div>
+            {messages?.length > 0 ? (
+              <div className="search-messages-input">
+                <label
+                  className="vads-u-margin-top--2p5"
+                  htmlFor="search-message-folder-input"
+                >
+                  Search the {folder.name} messages folder
+                </label>
+                <VaSearchInput label="search-message-folder-input" />
+              </div>
+            ) : null}
+
             <div>{content}</div>
           </>
         )}

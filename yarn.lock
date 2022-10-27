@@ -2558,10 +2558,10 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.4.0.tgz#72d5ed8490bba9867c7c1a567b332a532bf7f233"
-  integrity sha512-Gd+x2clQXnCl4HeNIuLtQZ/kCfy3+8vFETpEZCDSKek6NeIus4edlO1UOlJIIamP2nwam53jTr8xt7Q2/3sAgA==
+"@department-of-veterans-affairs/eslint-plugin@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.0.tgz#9a34ae8ab8d0e65e2cdabf9e446176c25dc1b9b9"
+  integrity sha512-Gpjotl1Wh6pBZIAtOY2s80meXSvawCOpfaIaBHYkbAxngOmDLYNDFFLMwbV+jtR+5teAIbUPJvLaPoaoWy4ZWw==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
