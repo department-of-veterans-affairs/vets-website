@@ -75,6 +75,14 @@ const MessageList = props => {
         sorted = data.sort((a, b) => {
           return a.senderName < b.senderName ? 1 : -1;
         });
+      } else if (sortOrder === 'recepient-alpha-asc') {
+        sorted = data.sort((a, b) => {
+          return a.recipientName > b.recipientName ? 1 : -1;
+        });
+      } else if (sortOrder === 'recepient-alpha-desc') {
+        sorted = data.sort((a, b) => {
+          return a.recipientName < b.recipientName ? 1 : -1;
+        });
       }
       return sorted;
     },
@@ -124,6 +132,8 @@ const MessageList = props => {
           <option value="asc">Oldest to newest</option>
           <option value="alpha-asc">A to Z - Sender’s name</option>
           <option value="alpha-desc">Z to A - Sender’s name</option>
+          <option value="recepient-alpha-asc">A to Z - Recepient’s name</option>
+          <option value="recepient-alpha-desc">Z to A - Recepient name</option>
         </VaSelect>
 
         <button type="button" onClick={handleMessageSort}>
