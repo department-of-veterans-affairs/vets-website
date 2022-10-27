@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import sinon from 'sinon';
 import { expect } from 'chai';
 
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -10,6 +11,8 @@ import {
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
+import { signupOrVerify } from 'platform/user/authentication/utilities';
+import * as profileUtils from 'platform/user/profile/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -66,7 +69,7 @@ describe('OAuth - Utilities', () => {
   describe('saveStateAndVerifier', () => {
     it('should check to see if state is included in window.location', () => {
       window.location = new URL('https://va.gov/?state=some_random_state');
-      expect(oAuthUtils.saveStateAndVerifier()).to.be.null;
+      expect(oAuthUtils.saveStateAndVerifier()).to.not.be.null;
       window.location.search = '';
     });
     it('should set sessionStorage', () => {
@@ -296,9 +299,10 @@ describe('OAuth - Utilities', () => {
     it('should create a POST request to the /refresh endpoint', async () => {
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      await oAuthUtils.refresh();
+      await oAuthUtils.refresh({ type: 'logingov' });
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0]).to.include('type=logingov');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
   });
@@ -370,12 +374,74 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('logout', () => {
+  describe('logoutUrlSiS', () => {
     it('should redirect to backend for logout', () => {
       window.location = new URL('https://va.gov/?state=some_random_state');
       const url = oAuthUtils.logoutUrlSiS();
       window.location = url;
       expect(window.location).to.eql(url);
+    });
+  });
+
+  describe('signupOrVerify (OAuth)', () => {
+    ['idme', 'logingov'].forEach(policy => {
+      it(`should generate the default URL for signup 'type=${policy}&acr=min' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          useOAuth: true,
+        });
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=min`);
+        expect(url).to.include(`client_id=web`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+
+      it(`should generate a verified URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth`, async () => {
+        const url = await signupOrVerify({
+          policy,
+          isLink: true,
+          isSignup: false,
+          useOAuth: true,
+        });
+        const expectedAcr =
+          externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
+        expect(url).to.include(`type=${policy}`);
+        expect(url).to.include(`acr=${expectedAcr}`);
+        expect(url).to.include(`client_id=web`);
+        expect(url).to.include('/authorize');
+        expect(url).to.include('response_type=code');
+        expect(url).to.include('code_challenge=');
+        expect(url).to.include('state=');
+      });
+    });
+  });
+
+  describe('logoutEvent', () => {
+    it('should teardown profile', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      oAuthUtils.logoutEvent('logingov');
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+      teardownSpy.restore();
+    });
+    it('should teardown profile after a certain duration', async () => {
+      localStorage.setItem('hasSession', true);
+      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+      await oAuthUtils.logoutEvent('logingov', {
+        shouldWait: true,
+        duration: 300,
+      });
+
+      expect(teardownSpy.called).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+
+      teardownSpy.restore();
     });
   });
 });

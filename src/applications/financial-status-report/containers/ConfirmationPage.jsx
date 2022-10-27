@@ -9,7 +9,7 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
@@ -92,7 +92,10 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <DownloadFormPDF />
+          <DownloadFormPDF
+            pdfContent={response.content}
+            useContent={combinedFSR}
+          />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={windowPrint}
@@ -120,16 +123,20 @@ const ConfirmationPage = ({ form, download }) => {
   const { response } = form.submission;
   const { data } = form;
 
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    if (response.vbaStatus.status === successVBAResponse)
-      recordEvent({ event: 'cfsr-5655-vba-submitted' });
+  useEffect(
+    () => {
+      focusElement('.schemaform-title > h1');
+      if (response.vbaStatus.status === successVBAResponse) {
+        recordEvent({ event: 'cfsr-5655-vba-submitted' });
+      }
 
-    if (response.vhaStatus.status.includes(200))
-      recordEvent({ event: 'cfsr-5655-vha-submitted' });
-
-    scrollToTop();
-  });
+      if (response.vhaStatus.status.includes(200)) {
+        recordEvent({ event: 'cfsr-5655-vha-submitted' });
+      }
+      scrollToTop();
+    },
+    [response],
+  );
 
   return (
     <div>

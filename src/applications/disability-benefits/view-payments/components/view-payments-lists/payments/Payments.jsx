@@ -28,14 +28,16 @@ const getFromToNums = (page, total) => {
 const Payments = ({ data, fields, tableVersion, textContent }) => {
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const numPages = useRef(0);
+  // Using `useRef` here to avoid triggering a rerender whenever these are
+  // updated
+  const totalPages = useRef(0);
   const paginatedData = useRef([]);
 
   useEffect(() => {
     paginatedData.current = paginateData(data);
 
     setCurrentData(paginatedData.current[currentPage - 1]);
-    numPages.current = paginatedData.current.length;
+    totalPages.current = paginatedData.current.length;
   }, []);
 
   const onPageChange = page => {
@@ -63,7 +65,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={currentPage}
-          pages={numPages.current}
+          pages={totalPages.current}
           maxPageListLength={MAX_PAGE_LIST_LENGTH}
           showLastPage
         />

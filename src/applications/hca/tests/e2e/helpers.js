@@ -1,7 +1,5 @@
-import mockUserAiq from './fixtures/mocks/mockUserAiq';
 import minTestData from './fixtures/data/minimal-test.json';
 
-const mockUserAttrs = mockUserAiq.data.attributes;
 const testData = minTestData.data;
 
 export const goToNextPage = pagePath => {
@@ -15,9 +13,13 @@ export const goToNextPage = pagePath => {
   }
 };
 export const advanceToAiqPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -37,9 +39,6 @@ export const advanceFromAiqToReviewPage = () => {
     .check('Y');
   goToNextPage('/veteran-information/contact-information');
   cy.wait('@mockSip');
-  cy.get('[name*="emailConfirmation"]')
-    .scrollIntoView()
-    .type(mockUserAttrs.profile.email);
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');
   goToNextPage('/va-benefits/pension-information');
@@ -69,9 +68,13 @@ export const advanceFromAiqToReviewPage = () => {
 };
 
 export const advanceToServiceInfoPage = () => {
-  cy.findAllByText(/start.+application/i, { selector: 'button' })
-    .first()
-    .click();
+  // cy.findAllByText(/start.+application/i, { selector: 'button' })
+  //   .first()
+  //   .click();
+
+  // changed above to the following because of flaky test due to cy.findAllByText(/start.+application/i, { selector: 'button' })
+  cy.get('#1-continueButton').click();
+
   cy.wait('@mockSip');
   cy.location('pathname').should(
     'include',
@@ -97,9 +100,6 @@ export const advanceToServiceInfoPage = () => {
 
   goToNextPage('/veteran-information/contact-information');
   cy.wait('@mockSip');
-  cy.get('[name*="emailConfirmation"]')
-    .scrollIntoView()
-    .type(mockUserAttrs.profile.email);
 
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('none');

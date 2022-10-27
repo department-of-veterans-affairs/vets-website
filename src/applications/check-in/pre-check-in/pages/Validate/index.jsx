@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { createSetSession } from '../../../actions/authentication';
 import { setError } from '../../../actions/universal';
 
-import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
-import Footer from '../../../components/layout/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -54,10 +52,10 @@ const Index = ({ router }) => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
   const [dob, setDob] = useState('');
+  const [dobError, setDobError] = useState(false);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
-  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const {
     getValidateAttempts,
@@ -73,9 +71,9 @@ const Index = ({ router }) => {
         last4Ssn,
         lastName,
         dob,
+        dobError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
-        setDobErrorMessage,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -100,6 +98,7 @@ const Index = ({ router }) => {
       last4Ssn,
       lastName,
       dob,
+      dobError,
       resetAttempts,
       setSession,
       token,
@@ -124,8 +123,6 @@ const Index = ({ router }) => {
         subtitle={t(
           'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
         )}
-        validateHandler={validateHandler}
-        isLoading={isLoading}
         last4Input={{
           last4ErrorMessage,
           setLast4Ssn,
@@ -137,15 +134,16 @@ const Index = ({ router }) => {
           lastName,
         }}
         dobInput={{
-          dobErrorMessage,
           setDob,
           dob,
         }}
-        Footer={Footer}
+        dobError={dobError}
+        setDobError={setDobError}
+        isLoading={isLoading}
+        validateHandler={validateHandler}
         showValidateError={showValidateError}
         validateErrorMessage={validateErrorMessage}
       />
-      <BackToHome />
     </>
   );
 };

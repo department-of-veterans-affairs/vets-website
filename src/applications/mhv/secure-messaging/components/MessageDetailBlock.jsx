@@ -1,24 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import MessageActionButtons from './MessageActionsButtons';
+import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
+import PrintMessageThread from './PrintMessageThread';
 
 const MessageDetailBlock = props => {
   const {
-    attachments,
-    body,
+    messageId,
     category,
-    id,
-    recipientName,
-    senderName,
-    sentDate,
     subject,
+    body,
+    sentDate,
+    senderName,
+    recipientName,
+    attachments,
   } = props.message;
 
   const history = useHistory();
   const casedCategory = capitalize(category);
+  const [printThread, setPrintThread] = useState('dont-print-thread');
 
   const handleReplyButton = useCallback(
     () => {
@@ -26,6 +28,15 @@ const MessageDetailBlock = props => {
     },
     [history],
   );
+
+  const handlePrintThreadStyleClass = option => {
+    if (option === 'print thread') {
+      setPrintThread('print-thread');
+    }
+    if (option !== 'print thread') {
+      setPrintThread('dont-print-thread');
+    }
+  };
 
   return (
     <section className="message-detail-block">
@@ -62,7 +73,7 @@ const MessageDetailBlock = props => {
           </p>
           <p>
             <strong>Message ID: </strong>
-            {id}
+            {messageId}
           </p>
         </section>
 
@@ -70,14 +81,15 @@ const MessageDetailBlock = props => {
           <pre>{body}</pre>
         </section>
 
-        {!!attachments.attachment.length && (
-          <>
-            <div className="message-body-attachments-label">
-              <strong>Attachments</strong>
-            </div>
-            <AttachmentsList attachments={attachments.attachment} />
-          </>
-        )}
+        {!!attachments &&
+          attachments.length > 0 && (
+            <>
+              <div className="message-body-attachments-label">
+                <strong>Attachments</strong>
+              </div>
+              <AttachmentsList attachments={attachments} />
+            </>
+          )}
 
         <div className="message-detail-note vads-u-text-align--center">
           <p>
@@ -89,8 +101,15 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons id={id} />
+        <MessageActionButtons
+          id={messageId}
+          handlePrintThreadStyleClass={handlePrintThreadStyleClass}
+          onReply={handleReplyButton}
+        />
       </main>
+      <div className={printThread}>
+        <PrintMessageThread messageId={messageId} />
+      </div>
     </section>
   );
 };

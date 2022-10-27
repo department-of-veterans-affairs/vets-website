@@ -7,6 +7,7 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { selectPatientFacilities } from 'platform/user/selectors';
 import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import PropTypes from 'prop-types';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 import {
@@ -15,7 +16,12 @@ import {
   facilitiesPropType,
 } from '../../../propTypes';
 
-export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
+export const App = ({
+  authenticatedWithSSOe,
+  ehrDataByVhaId,
+  facilities,
+  useSingleLogout,
+}) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
   const otherFacilities = facilities?.filter(f => !f.usesCernerMedicalRecords);
   if (!isEmpty(cernerFacilities)) {
@@ -25,6 +31,7 @@ export const App = ({ authenticatedWithSSOe, ehrDataByVhaId, facilities }) => {
         otherFacilities={otherFacilities}
         ehrDataByVhaId={ehrDataByVhaId}
         authenticatedWithSSOe={authenticatedWithSSOe}
+        useSingleLogout={useSingleLogout}
       />
     );
   }
@@ -36,6 +43,7 @@ App.propTypes = {
   authenticatedWithSSOe: authenticatedWithSSOePropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   facilities: facilitiesPropType,
+  useSingleLogout: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -44,6 +52,7 @@ const mapStateToProps = state => ({
   facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
     ? selectPatientFacilitiesDsot(state)
     : selectPatientFacilities(state),
+  useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
 });
 
 export default connect(

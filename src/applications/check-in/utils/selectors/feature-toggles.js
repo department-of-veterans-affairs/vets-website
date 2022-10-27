@@ -27,6 +27,12 @@ const selectFeatureToggles = createSelector(
     isLorotaDeletionEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
     ],
+    isTravelReimbursementEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
+    ],
+    isBrowserMonitoringEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
+    ],
   }),
   toggles => toggles,
 );

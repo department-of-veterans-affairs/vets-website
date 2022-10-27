@@ -26,6 +26,22 @@ export const validateDocumentDescription = (errors, fileList) => {
   });
 };
 
+export const validateUniqueVALoanNumber = (errors, data) => {
+  const loans = (data || []).map(loan =>
+    replaceNonDigits(loan?.vaLoanNumber || ''),
+  );
+  const unique = new Set(loans);
+  if (loans.length && loans.length !== unique.size) {
+    loans.forEach((loan, index) => {
+      const indx = loans.findIndex(number => number === loan);
+      if (indx !== index) {
+        errors[index].vaLoanNumber.addError(text.loanNumber.unique);
+        errors[indx].vaLoanNumber.addError(text.loanNumber.unique);
+      }
+    });
+  }
+};
+
 export const validateVALoanNumber = (errors, loanNumber) => {
   const number = replaceNonDigits(loanNumber || '');
 

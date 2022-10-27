@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -23,26 +24,37 @@ const AttachmentsList = props => {
         {!!attachments.length &&
           attachments.map(file => (
             <li key={file.name}>
-              <i className="fas fa-paperclip" aria-hidden="true" />
               {editingEnabled && (
-                <div>
-                  <strong>
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
-                  </strong>
-                  <button
-                    type="button"
-                    className="link-button remove-attachment-button"
-                    onClick={() => removeAttachment(file.name)}
-                  >
-                    <i className="fas fa-times" aria-hidden="true" />
-                    Remove
-                  </button>
-                </div>
+                <>
+                  <i className="fas fa-paperclip" aria-hidden="true" />
+                  <div className="editable-attachment">
+                    <span>
+                      {file.name} ({getSize(file.size || file.attachmentSize)})
+                    </span>
+                    <va-button
+                      onClick={() => removeAttachment(file.name)}
+                      secondary
+                      text="Remove"
+                      class="remove-attachment-button"
+                    />
+                  </div>
+                </>
               )}
               {!editingEnabled && (
-                <a href="/">
-                  {file.name} ({getSize(file.size || file.attachmentSize)})
-                </a>
+                <>
+                  <i className="fas fa-paperclip" aria-hidden="true" />
+                  <a
+                    href={`${
+                      environment.API_URL
+                    }/my_health/v1/messaging/messages/${
+                      file.messageId
+                    }/attachments/${file.attachmentId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                  </a>
+                </>
               )}
             </li>
           ))}

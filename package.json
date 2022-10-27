@@ -161,7 +161,7 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "3.6.0",
     "cssnano": "^5.0.8",
-    "cy-tr-reporter": "^1.2.5",
+    "cy-tr-reporter": "^1.2.8",
     "cypress": "^10.8.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
@@ -242,7 +242,7 @@
   "optionalDependencies": {},
   "engines": {
     "node": ">=14.15.0 <16",
-    "yarn": ">=1.21.1"
+    "yarn": "1.19.1"
   },
   "private": true,
   "dependencies": {
@@ -272,7 +272,6 @@
     "history-v4": "npm:history@4.9.0",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
-    "i18next-resources-to-backend": "^1.0.0",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.4.0",
@@ -290,7 +289,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-focus-lock": "^2.6.0",
-    "react-i18next": "^11.15.6",
     "react-is": "^17.0.2",
     "react-leaflet": "^3.2.2",
     "react-meta-tags": "^1.0.1",
@@ -314,7 +312,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7c1e7fb2acb8e972535d8dcd251bf41cc8ef9608"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#903758f74de791951b64467ef4c7047fcd05f65a"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
@@ -372,9 +370,12 @@
       "src/platform/site-wide",
       "src/platform/forms",
       "src/platform/forms-system",
-      "src/platform/monitoring"
+      "src/platform/monitoring",
+      "src/applications/check-in"
     ],
     "nohoist": [
+      "**/applications-check-in/i18next-resources-to-backend",
+      "**/applications-check-in/react-i18next",
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
       "**/platform-polyfills/@formatjs/intl-getcanonicallocales",
       "**/platform-polyfills/@formatjs/intl-locale",

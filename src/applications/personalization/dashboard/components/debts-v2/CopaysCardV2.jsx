@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import { currency } from '../../utils/helpers';
 
 export const CopaysV2 = ({ copays }) => {
   const lastCopay =
-    copays
-      ?.filter(p => new Date(p.pSStatementDateOutput) > subDays(new Date(), 31))
-      .sort(
-        (a, b) =>
-          new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
-      )[0] ?? null;
+    copays?.sort(
+      (a, b) =>
+        new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
+    )[0] ?? null;
   const copaysCount = copays?.length || 0;
   if (copaysCount < 1) {
     return (
@@ -32,20 +29,18 @@ export const CopaysV2 = ({ copays }) => {
         data-testid="copay-card-v2"
       >
         <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">
-          ({currency(lastCopay.pHAmtDue)})
-        </h3>
-        <h4 className="vads-u-margin-top--0">
           {copaysCount} copay bill
           {copaysCount > 1 ? 's' : ''}
-        </h4>
+        </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Due by{' '}
+          Updated on{' '}
           {format(new Date(lastCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
         </p>
         <CTALink
           text="Manage your VA bills"
           href="/manage-va-debt/summary/copay-balances"
           showArrow
+          className="vads-u-font-weight--bold"
           onClick={() =>
             recordEvent({
               event: 'profile-navigation',

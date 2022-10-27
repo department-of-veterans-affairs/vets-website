@@ -1,6 +1,426 @@
 {
   "data": [
     {
+      "id": "1150111CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "1150111CC",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "description": "Eye Care Examination SEOC 1.3.10 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "BERMEL",
+              "given": [
+                "MICHAEL"
+              ]
+            }
+          }
+        ],
+        "start": "2022-08-22T12:00:00Z",
+        "created": "2022-08-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "10640 MAIN ST ; STE 100"
+              ],
+              "city": "FAIRFAX",
+              "state": "VA",
+              "postalCode": "22030",
+              "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "703-691-2020"
+              }
+            ]
+          },
+          "hsrmTaskId": "",
+          "hsrmConsultId": "984_644056",
+          "ccTreatingSpecialty": "Optometrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "115069",
+      "type": "appointments",
+      "attributes": {
+        "id": "115069",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "description": "Eye Care Examination SEOC 1.3.10 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "BERMEL",
+              "given": [
+                "MICHAEL"
+              ]
+            }
+          }
+        ],
+        "start": "2022-12-22T12:00:00Z",
+        "created": "2022-12-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "10640 MAIN ST ; STE 100"
+              ],
+              "city": "FAIRFAX",
+              "state": "VA",
+              "postalCode": "22030",
+              "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "703-691-2020"
+              }
+            ]
+          },
+          "hsrmTaskId": "",
+          "hsrmConsultId": "984_644056",
+          "ccTreatingSpecialty": "Podiatrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "124063",
+      "type": "appointments",
+      "attributes": {
+        "id": "124063",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "cancelled",
+        "description": "Podiatry DS SEOC 1.0.8 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "RICHMOND",
+              "given": [
+                "TANISHA R"
+              ]
+            }
+          }
+        ],
+        "start": "2022-10-22T12:00:00Z",
+        "created": "2022-10-22T20:33:54Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1323 W 3RD ST"
+              ],
+              "city": "DAYTON",
+              "state": "OH",
+              "postalCode": "45402",
+              "text": "1323 W 3RD ST\nDAYTON OH 45402"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "937-228-3668"
+              }
+            ]
+          },
+          "hsrmTaskId": "12881",
+          "hsrmConsultId": "984_644233",
+          "ccTreatingSpecialty": "Podiatrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "124999CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "124999CC",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "cancelled",
+        "description": "Podiatry DS SEOC 1.0.8 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "RICHMOND",
+              "given": [
+                "TANISHA R"
+              ]
+            }
+          }
+        ],
+        "start": "2022-06-22T12:00:00Z",
+        "created": "2022-06-22T20:33:54Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1323 W 3RD ST"
+              ],
+              "city": "DAYTON",
+              "state": "OH",
+              "postalCode": "45402",
+              "text": "1323 W 3RD ST\nDAYTON OH 45402"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "937-228-3668"
+              }
+            ]
+          },
+          "hsrmTaskId": "12881",
+          "hsrmConsultId": "984_644233",
+          "ccTreatingSpecialty": "Podiatrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "110143CC",
       "type": "appointments",
       "attributes": {
@@ -31,7 +451,8 @@
             },
             "telecom": []
           },
-          "hsrmTaskId": ""
+          "hsrmTaskId": "",
+          "ccTreatingSpecialty": ""
         },
         "location": {
           "id": "984",
@@ -108,7 +529,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": { "text": "Follow-up/Routine: I have a headache" },
+        "reasonCode": {
+          "text": "Follow-up/Routine: I have a headache"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -142,7 +565,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: Covid shot"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: Covid shot"
+        },
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
@@ -204,12 +629,14 @@
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
             },
-            "telecom": [{
-              "system": "phone",
-              "value": "723-234-4565"
-            }]
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "723-234-4565"
+              }
+            ]
           }
-        },        
+        },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reasonCode": {},
@@ -225,7 +652,13 @@
       "id": "22aa789cc",
       "type": "cc_appointments",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "test",
         "contact": {
@@ -264,7 +697,8 @@
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
             }
-          }
+          },
+          "ccTreatingSpecialty": ""
         },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
@@ -302,10 +736,12 @@
         "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Normal",
               "given": [
@@ -316,7 +752,13 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "New Issue"}]},
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
@@ -354,10 +796,12 @@
         "patientInstruction": "Medication Review",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Smith",
               "given": [
@@ -419,11 +863,13 @@
         "patientInstruction": "Medication Review to prepare patient",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "name":{
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
               "family": "Smith",
               "given": [
                 "Megan"
@@ -432,11 +878,13 @@
             "practiceName": null
           },
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "name":{
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
               "family": "Dali",
               "given": [
                 "Salvador"
@@ -522,10 +970,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Nightingale",
               "given": [
@@ -574,7 +1024,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "New issue: Phone appointment"},
+        "reasonCode": {
+          "text": "New issue: Phone appointment"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -587,7 +1039,13 @@
       "id": "11aa456ph",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": "308",
         "comment": "New issue: Phone appointment",
         "contact": {
@@ -608,7 +1066,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "New issue: Phone appointment"},
+        "reasonCode": {
+          "text": "New issue: Phone appointment"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -642,7 +1102,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Medication concern: I ran out of meds"},
+        "reasonCode": {
+          "text": "Medication concern: I ran out of meds"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -676,10 +1138,12 @@
         "patientInstruction": "Video Visit Preparation",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Jones",
               "given": [
@@ -707,7 +1171,13 @@
       "id": "08aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "prov" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "prov"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -728,7 +1198,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: comment test"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: comment test"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -741,7 +1213,13 @@
       "id": "08aa457va",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -762,7 +1240,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: comment test"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: comment test"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -859,6 +1339,6 @@
           }
         }
       }
-    }    
+    }
   ]
 }

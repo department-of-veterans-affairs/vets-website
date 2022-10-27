@@ -1,5 +1,4 @@
 import React from 'react';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -37,7 +36,7 @@ const LoggedInContent = ({ route }) => (
         headingLevel={2}
       />
     </div>
-    <OMBInfo expDate="11/30/2022" ombNumber="2900-0086" resBurden={15} />
+    <va-omb-info exp-date="11/30/2022" omb-number="2900-0086" res-burden={15} />
   </>
 );
 

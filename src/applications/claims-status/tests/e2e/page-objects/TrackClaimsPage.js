@@ -104,7 +104,7 @@ class TrackClaimsPage {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'Your claim decision is ready');
+        cy.wrap(alertElem).should('contain', 'We closed your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');
@@ -273,8 +273,10 @@ class TrackClaimsPage {
         cy.get('.file-requirements');
         cy.injectAxeThenAxeCheck();
       });
-    cy.get('button.usa-button').should('contain', 'Submit Files for Review');
-    cy.get('button.usa-button')
+    cy.get('[data-cy="submit-files-button"]')
+      .should('contain', 'Submit Files for Review')
+      .click();
+    cy.get('[data-cy="submit-files-button"]')
       .click()
       .then(() => {
         cy.get('.usa-input-error');

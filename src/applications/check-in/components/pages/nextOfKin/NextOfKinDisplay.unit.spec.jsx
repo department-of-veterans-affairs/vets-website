@@ -5,6 +5,9 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { I18nextProvider } from 'react-i18next';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
+import i18n from '../../../utils/i18n/i18n';
 import NextOfKinDisplay from './NextOfKinDisplay';
 
 describe('pre-check-in experience', () => {
@@ -19,41 +22,41 @@ describe('pre-check-in experience', () => {
             context: {
               token: '',
             },
-            form: {},
+            form: {
+              pages: [],
+            },
           },
+          ...scheduledDowntimeState,
         };
         store = mockStore(initState);
       });
       it('passes axeCheck', () => {
         axeCheck(
           <Provider store={store}>
-            <NextOfKinDisplay />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay />
+            </I18nextProvider>
           </Provider>,
         );
       });
       it('renders with default values', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <NextOfKinDisplay />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay />
+            </I18nextProvider>
           </Provider>,
         );
 
         expect(getByText('Is this your current next of kin information?')).to
           .exist;
       });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
-            <NextOfKinDisplay Footer={() => <div>foo</div>} />
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
       it('renders custom header', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <NextOfKinDisplay header="foo" />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay header="foo" />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('foo')).to.exist;
@@ -61,7 +64,9 @@ describe('pre-check-in experience', () => {
       it('renders custom subtitle', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <NextOfKinDisplay subtitle="foo" />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay subtitle="foo" />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('foo')).to.exist;
@@ -86,7 +91,9 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <NextOfKinDisplay nextOfKin={nextOfKinData} />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay nextOfKin={nextOfKinData} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('Name')).to.exist;
@@ -115,7 +122,9 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <NextOfKinDisplay nextOfKin={nextOfKinData} />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay nextOfKin={nextOfKinData} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('VETERAN,JONAH')).to.exist;
@@ -130,7 +139,9 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay yesAction={yesClick} />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay yesAction={yesClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -140,7 +151,9 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay noAction={noClick} />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay noAction={noClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
@@ -149,7 +162,9 @@ describe('pre-check-in experience', () => {
       it('renders the loading message', () => {
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay isLoading />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay isLoading />
+            </I18nextProvider>
           </Provider>,
         );
         expect(screen.queryByTestId('no-button')).to.not.exist;
@@ -159,7 +174,9 @@ describe('pre-check-in experience', () => {
       it('renders the buttons', () => {
         const screen = render(
           <Provider store={store}>
-            <NextOfKinDisplay isLoading={false} />
+            <I18nextProvider i18n={i18n}>
+              <NextOfKinDisplay isLoading={false} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(screen.getByTestId('no-button')).to.exist;

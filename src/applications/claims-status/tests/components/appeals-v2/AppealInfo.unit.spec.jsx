@@ -11,10 +11,11 @@ import {
   VALIDATION_ERROR,
   BACKEND_SERVICE_ERROR,
   FETCH_APPEALS_ERROR,
-  AVAILABLE,
-} from '../../../utils/appeals-v2-helpers';
+} from '../../../actions/types';
 
 const appealIdParam = mockData.data[0].id;
+
+const AVAILABLE = 'AVAILABLE';
 
 const defaultProps = {
   params: { id: appealIdParam },

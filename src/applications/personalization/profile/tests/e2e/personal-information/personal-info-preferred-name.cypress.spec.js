@@ -33,8 +33,9 @@ describe('Preferred name field tests on the personal information page', () => {
     // should show cancel editing alert
     cy.findByRole('alertdialog').should('exist');
 
-    cy.findByRole('button', { name: 'Cancel' })
-      .should('exist')
+    cy.findByTestId('confirm-cancel-modal')
+      .shadow()
+      .findByRole('button', { name: /cancel/i })
       .click();
 
     cy.findByText(nameEditInputLabel).should('not.exist');

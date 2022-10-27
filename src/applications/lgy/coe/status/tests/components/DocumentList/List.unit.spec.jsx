@@ -16,7 +16,7 @@ import documentList from '../../../../form/tests/fixtures/mocks/document-list.js
 // Using this process to get around the time zone issues with parsing dates
 const testDates = ['2022-02-02', '2021-12-31'].map(date => {
   const mDate = moment(date);
-  return { time: mDate.valueOf(), str: mDate.format('MMDDYYYY') };
+  return { time: mDate.valueOf(), str: mDate.format('MM-DD-YYYY') };
 });
 
 describe('List', () => {
@@ -31,9 +31,13 @@ describe('List', () => {
     $$('.coe-list-item', container).forEach((item, index) => {
       const data = documents[index];
       expect($('h3', item).textContent).to.equal(data.title);
-      const link = $('a', item);
-      expect(link.textContent).to.contain('Download Notification Letter');
-      expect(link.href).to.contain(`v0/coe/document_download/${data.id}`);
+      const link = $('va-link', item);
+      expect(link.getAttribute('text')).to.contain(
+        'Download Notification Letter',
+      );
+      expect(link.getAttribute('href')).to.contain(
+        `v0/coe/document_download/${data.id}`,
+      );
 
       expect(item.textContent).to.contain(
         `Date sent: ${formatDateLong(data.createDate)}`,
@@ -53,25 +57,22 @@ describe('getDocumentType', () => {
   // assuming documentType matches `.{file-extension}`
   // which isn't what is seen in the mock data
   it('should return a PDF extension', () => {
-    expect(getDocumentType('.pdf')).to.equal('PDF');
+    expect(getDocumentType('some-file.pdf')).to.equal('PDF');
+    expect(getDocumentType('some.file.with.periods.pdf')).to.equal('PDF');
   });
   it('should return a jpeg extension', () => {
-    expect(getDocumentType('.jpeg')).to.equal('JPEG');
+    expect(getDocumentType('image.jpeg')).to.equal('JPEG');
   });
 });
 
 describe('getDownloadLinkLabel', () => {
   const prefix = 'Download Notification Letter';
-  // assuming documentType matches `.{file-extension}`
-  // which isn't what is seen in the mock data
-  it('should return link text with a PDF file extension', () => {
-    expect(getDownloadLinkLabel(testDates[0].time, '.pdf')).to.equal(
-      `${prefix} ${testDates[0].str} (PDF)`,
+  it('should return link text with a date', () => {
+    expect(getDownloadLinkLabel(testDates[0].time)).to.equal(
+      `${prefix} ${testDates[0].str}`,
     );
-  });
-  it('should return link text with a JPEG file extension', () => {
-    expect(getDownloadLinkLabel(testDates[1].time, '.jpeg')).to.equal(
-      `${prefix} ${testDates[1].str} (JPEG)`,
+    expect(getDownloadLinkLabel(testDates[1].time)).to.equal(
+      `${prefix} ${testDates[1].str}`,
     );
   });
 });

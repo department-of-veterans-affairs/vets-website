@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -12,32 +12,30 @@ import {
   getAppealsV2 as getAppealsV2Action,
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
-  hide30DayNotice as hide30DayNoticeAction,
-  sortClaims as sortClaimsAction,
-} from '../actions/index';
+} from '../actions';
 import {
+  appealsAvailability,
   appealTypes,
   claimsAvailability,
-  appealsAvailability,
-  sortByLastUpdated,
   getVisibleRows,
   getPageRange,
+  sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setPageFocus, setUpPage } from '../utils/page';
 
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
 import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
-import AppealListItem from '../components/appeals-v2/AppealListItemV2';
-import NoClaims from '../components/NoClaims';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
+import NoClaims from '../components/NoClaims';
+import StemClaimListItem from '../components/StemClaimListItem';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -45,7 +43,16 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.state = { page: 1 };
+    this.hide30DayNotice = this.hide30DayNotice.bind(this);
+
+    if (!sessionStorage.getItem('show30DayNotice')) {
+      sessionStorage.setItem('show30DayNotice', true);
+    }
+
+    this.state = {
+      page: 1,
+      show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
+    };
   }
 
   componentDidMount() {
@@ -82,6 +89,11 @@ class YourClaimsPageV2 extends React.Component {
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
+  }
+
+  hide30DayNotice() {
+    this.setState({ show30DayNotice: false });
+    sessionStorage.setItem('show30DayNotice', false);
   }
 
   renderListItem(claim) {
@@ -140,9 +152,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       claimsLoading,
-      hide30DayNotice,
       list,
-      show30DayNotice,
       stemClaimsLoading,
     } = this.props;
 
@@ -181,10 +191,10 @@ class YourClaimsPageV2 extends React.Component {
 
         content = (
           <>
-            {show30DayNotice && (
+            {this.state.show30DayNotice && (
               <ClosedClaimMessage
                 claims={pageItems}
-                onClose={hide30DayNotice}
+                onClose={this.hide30DayNotice}
               />
             )}
             {pageInfo}
@@ -262,7 +272,6 @@ YourClaimsPageV2.propTypes = {
   getAppealsV2: PropTypes.func,
   getClaimsV2: PropTypes.func,
   getStemClaims: PropTypes.func,
-  hide30DayNotice: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string,
@@ -270,13 +279,11 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
-  show30DayNotice: PropTypes.bool,
   stemClaimsLoading: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
-  const claimsRoot = claimsState.claims;
   const claimsV2Root = claimsState.claimsV2; // this is where all the meat is for v2
   const profileState = state.user.profile;
   const canAccessAppeals = profileState.services.includes(
@@ -300,19 +307,15 @@ function mapStateToProps(state) {
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
-    claimsAvailable: claimsV2Root.claimsAvailability,
-    // claimsAuthorized: claimsState.claimSync.authorized,
-    claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
-    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    list: sortedList,
-    sortProperty: claimsRoot.sortProperty,
-    consolidatedModal: claimsRoot.consolidatedModal,
-    show30DayNotice: claimsRoot.show30DayNotice,
-    synced: claimsState.claimSync.synced,
     canAccessAppeals,
     canAccessClaims,
+    claimsAvailable: claimsV2Root.claimsAvailability,
+    claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
+    list: sortedList,
+    stemClaimsLoading: claimsV2Root.stemClaimsLoading,
+    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -320,8 +323,6 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   getClaimsV2: getClaimsV2Action,
   getStemClaims: getStemClaimsAction,
-  sortClaims: sortClaimsAction,
-  hide30DayNotice: hide30DayNoticeAction,
 };
 
 export default connect(

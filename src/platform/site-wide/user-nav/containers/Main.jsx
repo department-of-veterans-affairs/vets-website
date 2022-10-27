@@ -266,6 +266,7 @@ export class Main extends Component {
           isLoggedIn={this.props.currentlyLoggedIn}
           onExtendSession={this.props.initializeProfile}
           authenticatedWithOAuth={this.props.authenticatedWithOAuth}
+          serviceName={this.props.signInServiceName}
         />
         <AutoSSO />
       </div>

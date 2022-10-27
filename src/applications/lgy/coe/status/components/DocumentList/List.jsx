@@ -8,23 +8,25 @@ import { formatDateLong } from 'platform/utilities/date';
 import ListItem from './ListItem';
 
 export const formatLabelDate = timestamp =>
-  moment(timestamp).format('MMDDYYYY');
+  moment(timestamp).format('MM-DD-YYYY');
 
-// Example docType: 'pdf', but the mock data has '54'; this may need to be
+// Example documentType: 'pdf', but the local mock data has '54'; this has been
 // updated to extract the file extension from the `mimeType` (e.g. `file.pdf`),
-// which should contain the mime type (expecting `application/pdf`) - awaiting
-// response from LGY
-export const getDocumentType = docType => docType.slice(1).toUpperCase();
+// which really should contain the mime type (expecting `application/pdf`) -
+// still awaiting a response from LGY
+export const getDocumentType = fileName =>
+  fileName
+    .split('.')
+    .pop()
+    .toUpperCase();
 
-export const getDownloadLinkLabel = (timestamp, documentType) =>
-  `Download Notification Letter ${formatLabelDate(
-    timestamp,
-  )} (${getDocumentType(documentType)})`;
+export const getDownloadLinkLabel = timestamp =>
+  `Download Notification Letter ${formatLabelDate(timestamp)}`;
 
 const List = ({ documents }) =>
   documents.map((document, i) => {
-    const { createDate, description, documentType, id } = document;
-    const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
+    const { createDate, description, mimeType, id } = document;
+    const downloadLinkLabel = getDownloadLinkLabel(createDate);
     const sentDate = formatDateLong(createDate);
 
     return (
@@ -32,6 +34,7 @@ const List = ({ documents }) =>
         key={i}
         downloadLinkLabel={downloadLinkLabel}
         downloadUrl={`${environment.API_URL}/v0/coe/document_download/${id}`}
+        fileType={getDocumentType(mimeType)}
         sentDate={sentDate}
         title={description}
       />

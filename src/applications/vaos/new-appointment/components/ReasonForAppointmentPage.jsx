@@ -23,14 +23,14 @@ import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
   if (value !== null) {
-    return /^[^^]+$/g.test(value);
+    return /^[^|^]+$/g.test(value);
   }
   return true;
 }
 
 function validComment(errors, input) {
   if (input && !isValidComment(input)) {
-    errors.addError('following special character is not allowed: ^');
+    errors.addError('following special character is not allowed: ^ |');
   }
   if (input && !/\S/.test(input)) {
     errors.addError('Please provide a response');

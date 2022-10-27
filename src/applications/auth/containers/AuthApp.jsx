@@ -24,7 +24,6 @@ import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
-import { shouldRedirectToMyVA } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { requestToken } from 'platform/utilities/oauth/utilities';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
@@ -77,9 +76,7 @@ export class AuthApp extends React.Component {
   componentDidMount() {
     if (this.state.hasError) {
       this.handleAuthError();
-    }
-
-    if (!this.state.hasError || hasSession()) {
+    } else if (!this.state.hasError || hasSession()) {
       this.validateSession();
     }
   }
@@ -124,12 +121,11 @@ export class AuthApp extends React.Component {
 
   redirect = (userProfile = {}) => {
     const { returnUrl } = this.state;
-    const { redirectToMyVA } = this.props;
 
     const handleRedirect = () => {
       sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-      const updatedUrl = generateReturnURL(returnUrl, redirectToMyVA);
+      const updatedUrl = generateReturnURL(returnUrl);
 
       const postAuthUrl = updatedUrl
         ? appendQuery(updatedUrl, 'postLogin=true')
@@ -146,7 +142,7 @@ export class AuthApp extends React.Component {
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
       !userProfile.verified
     ) {
-      window.location.replace('/sign-in/verify');
+      window.location.replace('/verify');
       return;
     }
 
@@ -245,15 +241,11 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  redirectToMyVA: shouldRedirectToMyVA(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);

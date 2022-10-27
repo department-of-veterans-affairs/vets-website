@@ -1,6 +1,7 @@
 import session from '../mocks/v2/sessions';
 import preCheckInData from '../mocks/v2/pre-check-in-data';
 import checkInData from '../mocks/v2/check-in-data';
+import btsss from '../mocks/v2/btsss';
 import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
@@ -24,8 +25,10 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperienceLorotaDeletionEnabled: true,
+          checkInExperienceTravelReimbursement: false,
         }),
       );
     },
@@ -54,6 +57,22 @@ class ApiInitializer {
         }),
       );
     },
+    withTravelPay: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceTranslationDisclaimerSpanishEnabled: true,
+          checkInExperienceDayOfDemographicsFlagsEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
+          checkInExperienceLorotaDeletionEnabled: false,
+          checkInExperienceTravelReimbursement: true,
+        }),
+      );
+    },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
@@ -62,6 +81,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
+          checkInExperienceTravelReimbursement: true,
         }),
       );
     },
@@ -116,7 +136,7 @@ class ApiInitializer {
     },
     withFailure: (errorCode = 400) => {
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
-        req.reply(errorCode, session.get.createMockFailedResponse());
+        req.reply(errorCode, session.get.createMockFailedResponse(errorCode));
       });
     },
   };
@@ -407,6 +427,19 @@ class ApiInitializer {
         });
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
+    },
+  };
+
+  initializeBtsssPost = {
+    withSuccess: () => {
+      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
+        req.reply(btsss.post.createMockSuccessResponse());
+      });
+    },
+    withFailure: (errorCode = 500) => {
+      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
+        req.reply(errorCode, btsss.post.createMockFailedResponse({}));
+      });
     },
   };
 }

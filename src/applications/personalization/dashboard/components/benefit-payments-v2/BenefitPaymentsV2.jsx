@@ -6,6 +6,8 @@ import PaymentsCardV2 from './PaymentsCardV2';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import { canAccess } from '../../selectors';
+import API_NAMES from '../../utils/apiNames';
 
 const NoRecentPaymentText = () => {
   return (
@@ -13,7 +15,7 @@ const NoRecentPaymentText = () => {
       className="vads-u-margin-bottom--3 vads-u-margin-top--0"
       data-testid="no-recent-payments-paragraph-v2"
     >
-      You don’t have any recent payments to show.
+      You have no recent payments to show.
     </p>
   );
 };
@@ -66,8 +68,9 @@ PopularActionsForPayments.propTypes = {
 const PaymentsError = () => {
   return (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="payments-v2-error">
-        <div className="vads-u-margin-top--0">
+      <va-alert status="error" show-icon data-testid="payments-v2-error">
+        <h2 slot="headline">We can’t access your payment history</h2>
+        <div>
           We’re sorry. We can’t access your payment history right now. We’re
           working to fix this problem. Please check back later.
         </div>
@@ -148,10 +151,13 @@ BenefitPaymentsV2.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   return {
     payments: state.allPayments.payments || [],
     paymentsError: !!state.allPayments.error || false,
-    shouldShowLoadingIndicator: state.allPayments.isLoading,
+    shouldShowLoadingIndicator: canAccessPaymentHistory
+      ? state.allPayments.isLoading
+      : false,
   };
 };
 
