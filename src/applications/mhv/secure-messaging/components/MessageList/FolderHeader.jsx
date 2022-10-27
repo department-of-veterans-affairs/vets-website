@@ -77,9 +77,10 @@ const FolderHeader = props => {
           className="vads-u-margin-top--2p5"
           htmlFor="search-message-folder-input"
         >
-          Search the {folder.name} messages folder
+          Search the {folder.folderId === -3 ? 'Trash' : folder.name} messages
+          folder
         </label>
-        <VaSearchInput label="search-message-folder-input" ref={folder} />
+        <VaSearchInput label="search-message-folder-input" />
       </div>
     </>
   );
