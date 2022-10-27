@@ -81,8 +81,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
   },
-  title: 'Request a Supplemental Claim',
-  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
+  title: 'File a Supplemental Claim',
+  subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   chapters: {
