@@ -346,14 +346,14 @@ export const getDebtName = debt => {
 export const calculateMonetaryAssets = (monetaryAssets, category) => {
   switch (category) {
     case 'cash':
-      return monetaryAssets.reduce((acc, asset) => {
+      return monetaryAssets?.reduce((acc, asset) => {
         return asset.name === 'Cash'
           ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
           : acc;
       }, 0);
 
     case 'cashInBank':
-      return monetaryAssets.reduce((acc, asset) => {
+      return monetaryAssets?.reduce((acc, asset) => {
         return asset.name === 'Checking accounts' ||
           asset.name === 'Savings accounts'
           ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
@@ -361,14 +361,14 @@ export const calculateMonetaryAssets = (monetaryAssets, category) => {
       }, 0);
 
     case 'usSavingsBonds':
-      return monetaryAssets.reduce((acc, asset) => {
+      return monetaryAssets?.reduce((acc, asset) => {
         return asset.name === 'U.S. Savings Bonds'
           ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
           : acc;
       }, 0);
 
     case 'stocksAndOther':
-      return monetaryAssets.reduce((acc, asset) => {
+      return monetaryAssets?.reduce((acc, asset) => {
         return asset.name ===
           'Other stocks and bonds (not in your retirement accounts)' ||
           asset.name === 'Retirement accounts (401k, IRAs, 403b, TSP)' ||
