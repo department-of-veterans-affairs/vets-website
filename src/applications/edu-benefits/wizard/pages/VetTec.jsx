@@ -1,7 +1,7 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from './pageList';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
+import { pageNames } from './pageList';
 
 const vetTecOptions = [
   { label: 'Yes', value: 'yes' },
@@ -29,28 +29,17 @@ const VetTec = ({
       const claimingBenefitOwnServiceAnswer = getPageStateFromPageName(
         pageNames.claimingBenefitOwnService,
       )?.selected;
-      const nationalCallToServiceAnswer = getPageStateFromPageName(
-        pageNames.nationalCallToService,
-      )?.selected;
-      if (
-        claimingBenefitOwnServiceAnswer === 'yes' &&
-        nationalCallToServiceAnswer === 'no' &&
-        value === 'yes'
-      ) {
+      if (claimingBenefitOwnServiceAnswer === 'yes' && value === 'yes') {
         const { FORM_ID_0994 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_0994);
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (
-        claimingBenefitOwnServiceAnswer === 'yes' &&
-        nationalCallToServiceAnswer === 'no' &&
-        value === 'no'
-      ) {
+      }
+      if (claimingBenefitOwnServiceAnswer === 'yes' && value === 'no') {
         const { FORM_ID_1990 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_1990);
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else {
-        return setPageState({ selected: value });
       }
+      return setPageState({ selected: value });
     }}
     value={{ value: state.selected }}
   />

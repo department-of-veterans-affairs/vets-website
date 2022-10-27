@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { pageNames } from './pageList';
 import {
   WIZARD_STATUS_COMPLETE,
   getReferredBenefit,
   formIdSuffixes,
 } from 'applications/static-pages/wizard/';
 import recordEvent from 'platform/monitoring/record-event';
+import { pageNames } from './pageList';
 
 const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
   const [url, setUrl] = useState('');
@@ -14,9 +14,6 @@ const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
     ?.selected;
   const claimingBenefitAnswer = getPageStateFromPageName(
     pageNames.claimingBenefitOwnService,
-  )?.selected;
-  const nationalCallToServiceAnswer = getPageStateFromPageName(
-    pageNames.nationalCallToService,
   )?.selected;
   const sponsorDeceasedAnswer = getPageStateFromPageName(
     pageNames.sponsorDeceased,
@@ -80,7 +77,6 @@ const ApplyNow = ({ getPageStateFromPageName, setWizardStatus }) => {
           event: 'edu-howToApply-applyNow',
           'edu-benefitUpdate': newBenefitAnswer,
           'edu-isBenefitClaimForSelf': claimingBenefitAnswer,
-          'edu-isNationalCallToServiceBenefit': nationalCallToServiceAnswer,
           'edu-isVetTec': vetTecAnswer,
           'edu-hasSponsorTransferredBenefits': hasSponsoredTransferredBenefitsAnswer,
           'edu-isReceivingSponsorBenefits': receivingSponsorBenefitsAnswer,

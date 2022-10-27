@@ -28,7 +28,6 @@ export const formIdSuffixes = {
   FORM_ID_5495: '5495',
   FORM_ID_5490: '5490',
   FORM_ID_1990E: '1990E',
-  FORM_ID_1990N: '1990N',
 };
 
 export const getReferredBenefit = async () =>
@@ -48,6 +47,7 @@ export class Wizard extends React.Component {
       wizardStatus: getWizardStatus(),
     };
   }
+
   get currentPage() {
     const { pageHistory, currentPageIndex } = this.state;
     return pageHistory[currentPageIndex];

@@ -1,7 +1,7 @@
 import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { pageNames } from './pageList';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
+import { pageNames } from './pageList';
 
 const newBenefitOptions = [
   { label: 'Applying for a new benefit', value: 'new' },
@@ -46,43 +46,37 @@ const NewBenefit = ({
       const transferredBenefitsAnswer = getPageStateFromPageName(
         pageNames.transferredBenefits,
       )?.selected;
-      const nationalCallToServiceAnswer = getPageStateFromPageName(
-        pageNames.nationalCallToService,
-      )?.selected;
       if (
-        value === 'new' &&
-        claimingBenefitOwnServiceAnswer === 'yes' &&
-        nationalCallToServiceAnswer === 'yes'
-      ) {
-        return setPageState({ selected: value }, pageNames.warningAlert);
-      } else if (
         (value === 'new' &&
           claimingBenefitOwnServiceAnswer === 'no' &&
           sponsorDeceasedAnswer === 'no') ||
         value === 'update'
       ) {
         return setPageState({ selected: value }, pageNames.transferredBenefits);
-      } else if (
+      }
+      if (
         (value === 'update' && transferredBenefitsAnswer === 'own') ||
         (value === 'update' && transferredBenefitsAnswer === 'transferred')
       ) {
         const { FORM_ID_1995 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_1995);
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (value === 'update' && transferredBenefitsAnswer === 'fry') {
+      }
+      if (value === 'update' && transferredBenefitsAnswer === 'fry') {
         const { FORM_ID_5495 } = formIdSuffixes;
         setReferredBenefit(FORM_ID_5495);
         return setPageState({ selected: value }, pageNames.applyNow);
-      } else if (value === 'new') {
+      }
+      if (value === 'new') {
         return setPageState(
           { selected: value },
           pageNames.claimingBenefitOwnService,
         );
-      } else if (value === 'extend') {
-        return setPageState({ selected: value }, pageNames.STEMScholarship);
-      } else {
-        return setPageState({ selected: value });
       }
+      if (value === 'extend') {
+        return setPageState({ selected: value }, pageNames.STEMScholarship);
+      }
+      return setPageState({ selected: value });
     }}
     value={{ value: state.selected }}
   />

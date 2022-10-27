@@ -1,7 +1,7 @@
 import React from 'react';
-import { pageNames } from './pageList';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
+import { pageNames } from './pageList';
 
 const claimingBenefitOwnServiceOptions = [
   { label: 'Yes', value: 'yes' },
@@ -29,16 +29,14 @@ const ClaimingBenefitOwnService = ({
         const transferredBenefitsAnswer = getPageStateFromPageName(
           pageNames.transferredBenefits,
         )?.selected;
-        const nationalCallToServiceAnswer = getPageStateFromPageName(
-          pageNames.nationalCallToService,
-        )?.selected;
         if (
           newBenefitAnswer === 'new' &&
           value === 'no' &&
           transferredBenefitsAnswer === 'no'
         ) {
           return setPageState({ selected: value }, pageNames.sponsorDeceased);
-        } else if (
+        }
+        if (
           newBenefitAnswer === 'new' &&
           value === 'no' &&
           sponsorDeceasedAnswer === 'yes'
@@ -46,22 +44,14 @@ const ClaimingBenefitOwnService = ({
           const { FORM_ID_5490 } = formIdSuffixes;
           setReferredBenefit(FORM_ID_5490);
           return setPageState({ selected: value }, pageNames.applyNow);
-        } else if (
-          newBenefitAnswer === 'new' &&
-          nationalCallToServiceAnswer === 'no' &&
-          value === 'yes'
-        ) {
-          return setPageState({ selected: value }, pageNames.vetTec);
-        } else if (newBenefitAnswer === 'new' && value === 'yes') {
-          return setPageState(
-            { selected: value },
-            pageNames.nationalCallToService,
-          );
-        } else if (newBenefitAnswer === 'new' && value === 'no') {
-          return setPageState({ selected: value }, pageNames.sponsorDeceased);
-        } else {
-          return setPageState({ selected: value });
         }
+        if (newBenefitAnswer === 'new' && value === 'yes') {
+          return setPageState({ selected: value }, pageNames.vetTec);
+        }
+        if (newBenefitAnswer === 'new' && value === 'no') {
+          return setPageState({ selected: value }, pageNames.sponsorDeceased);
+        }
+        return setPageState({ selected: value });
       }}
       value={{ value: state.selected }}
     />
