@@ -58,9 +58,8 @@ const AppWrapper = props => {
           );
           refreshCheckInData();
         }
-      } else {
-        setRefreshData(false);
       }
+      setRefreshData(false);
     },
     [reduxToken, sessionToken, location, refreshCheckInData, dispatch],
   );
