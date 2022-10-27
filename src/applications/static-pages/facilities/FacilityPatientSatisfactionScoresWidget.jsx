@@ -4,6 +4,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import { displayPercent } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
 import FacilityApiAlert from './FacilityApiAlert';
+import FacilityDataLink from './FacilityDataLink';
 
 export function FacilityPatientSatisfactionScoresWidget(props) {
   if (props.loading || !Object.keys(props.facility).length) {
@@ -109,13 +110,10 @@ export function FacilityPatientSatisfactionScoresWidget(props) {
         Current as of {formatDateLong(facility.feedback.effectiveDate)}
       </p>
       <p>
-        <a
-          href={`https://www.accesstocare.va.gov/FacilityPerformanceData/FacilityData?stationNumber=${
-            facility.uniqueId
-          }`}
-        >
-          Learn more about Veteran satisfaction with access to care
-        </a>
+        <FacilityDataLink
+          facilityId={facility.uniqueId}
+          text="Learn more about Veteran satisfaction with access to care"
+        />
       </p>
     </div>
   );

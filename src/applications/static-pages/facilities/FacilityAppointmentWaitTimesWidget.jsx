@@ -4,6 +4,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import FacilityApiAlert from './FacilityApiAlert';
+import FacilityDataLink from './FacilityDataLink';
 
 export class FacilityAppointmentWaitTimesWidget extends React.Component {
   appointmentWaitTime(waitTime, service, established = false) {
@@ -77,13 +78,10 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
                   Current as of {formatDateLong(facility.access.effectiveDate)}
                 </p>
                 <p className="vads-u-margin--0">
-                  <a
-                    href={`https://www.accesstocare.va.gov/FacilityPerformanceData/FacilityData?stationNumber=${
-                      facility.uniqueId
-                    }`}
-                  >
-                    Learn more about VA appointment wait times
-                  </a>
+                  <FacilityDataLink
+                    facilityId={facility.uniqueId}
+                    text="Learn more about VA appointment wait times"
+                  />
                 </p>
               </div>
             </div>
