@@ -26,7 +26,7 @@ const AppWrapper = props => {
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
   const progressState = getProgressState(window);
-  const { checkInDataError, refreshCheckInData } = useGetCheckInData(
+  const { checkInDataError, refreshCheckInData, isLoading } = useGetCheckInData(
     false,
     true,
     true,
@@ -80,7 +80,7 @@ const AppWrapper = props => {
     [checkInDataError],
   );
 
-  return <>{refreshData ? loadingMessage : children}</>;
+  return <>{refreshData || isLoading ? loadingMessage : children}</>;
 };
 
 AppWrapper.propTypes = {
