@@ -194,14 +194,15 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapContactMethod(contactMethod) {
-  if (contactMethod === 'mail') {
-    return 'Mail';
+function mapNotificationMethod({ notificationMethod }) {
+  if (notificationMethod === 'EMAIL') {
+    return 'No, just send me email notifications';
   }
-  if (contactMethod === 'email') {
-    return 'Email';
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
   }
-  return contactMethod;
+
+  return notificationMethod;
 }
 
 export const transformAlphaOnlyLowercase = str =>
@@ -318,7 +319,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
         isInternational: homePhoneIsInternational,
       },
     },
-    [formFields.contactMethod]: mapContactMethod(claimant?.preferredContact),
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
+    },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
         street: address?.addressLine1,
