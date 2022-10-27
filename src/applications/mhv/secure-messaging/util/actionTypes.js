@@ -22,7 +22,7 @@ export const Actions = {
   },
   Folder: {
     GET: 'SM_FOLDER_GET',
-    CLEAR: 'SM_FODLER_CLEAR',
+    CLEAR: 'SM_FOLDER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
     CREATE: 'SM_FOLDER_CREATE',
     DELETE: 'SM_FOLDER_DELETE',

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
-import { retrieveMessage, clearMessage } from '../actions/messages';
+import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
@@ -33,11 +33,6 @@ const MessageDetail = () => {
         dispatch(closeAlert()); // to clear out any past alerts before landing this page
         dispatch(retrieveMessage(id));
       }
-      return () => {
-        // clear out message reducer to prevent from previous message data flashing
-        // when navigating between messages
-        dispatch(clearMessage());
-      };
     },
     [dispatch, location, messageId, id, activeFolder, history],
   );
