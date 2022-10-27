@@ -1,35 +1,25 @@
 import React from 'react';
 import MonetaryCheckList from '../../../components/monetary/MonetaryCheckList';
 
-export const TuiSchema = {
-  'ui:title': 'Your other income',
-  additionalIncomeChecklist: {
+export const uiSchema = {
+  'ui:title': 'Your household assets',
+  monetaryAssets: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Select any additional income you receive:
+        Select any of these financial assets you have:
       </span>
     ),
     'ui:widget': MonetaryCheckList,
-    'ui:required': formData => {
-      const {
-        assets: { monetaryAssets = [] },
-      } = formData;
-
-      return !monetaryAssets.length;
-    },
-    'ui:errorMessages': {
-      required: 'I am an error message',
-    },
     'ui:options': {
       hideOnReview: true,
     },
   },
 };
 
-export const Tschema = {
+export const schema = {
   type: 'object',
   properties: {
-    additionalIncomeChecklist: {
+    monetaryAssets: {
       type: 'boolean',
     },
   },

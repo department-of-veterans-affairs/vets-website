@@ -12,7 +12,6 @@ export const otherIncome = [
   'Other',
 ];
 
-
 export const monetaryAssets = [
   'Cash',
   'Checking accounts',

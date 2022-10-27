@@ -1,23 +1,23 @@
 import MonetaryInputList from '../../../components/monetary/MonetaryInputList';
-import { validateAddlIncomeValues } from '../../../utils/validations';
+import { validateCurrencyArray } from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
-  additionalIncome: {
-    'ui:title': 'Your other income',
+  assets: {
+    'ui:title': 'Your household assets',
     'ui:field': MonetaryInputList,
     'ui:options': {
       hideOnReview: true,
     },
-    addlIncRecords: {
-      'ui:title': 'addlIncRecords',
-      'ui:validations': [validateAddlIncomeValues],
+    monetaryAssets: {
+      'ui:title': 'monetaryAssetValues',
+      'ui:validations': [validateCurrencyArray],
       items: {
         name: {
-          'ui:title': 'Type of income',
+          'ui:title': 'Name of asset',
         },
         amount: {
-          'ui:title': 'Monthly income amount',
+          'ui:title': 'Asset amount',
         },
       },
     },
@@ -27,10 +27,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
+    assets: {
       type: 'object',
       properties: {
-        addlIncRecords: {
+        monetaryAssets: {
           type: 'array',
           items: {
             type: 'object',

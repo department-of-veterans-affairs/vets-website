@@ -36,7 +36,7 @@ const MonetaryCheckList = () => {
   };
 
   const isBoxChecked = option => {
-    return monetaryAssets.some(incomeValue => incomeValue.name === option);
+    return monetaryAssets.some(asset => asset.name === option);
   };
 
   return (

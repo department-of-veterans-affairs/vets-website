@@ -1,30 +1,31 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
 
 const MonetaryInputList = ({ errorSchema }) => {
-  const errorList = errorSchema?.addlIncRecords?.__errors;
+  const errorList = errorSchema?.monetaryAssets?.__errors;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
   const {
-    additionalIncome: { addlIncRecords },
+    assets: { monetaryAssets = [] },
   } = data;
 
   const onChange = ({ target }) => {
     return dispatch(
       setData({
         ...data,
-        additionalIncome: {
-          ...data.additionalIncome,
-          addlIncRecords: addlIncRecords.map(income => {
-            if (income.name === target.name) {
+        assets: {
+          ...data.assets,
+          monetaryAssets: monetaryAssets.map(asset => {
+            if (asset.name === target.name) {
               return {
-                ...income,
+                ...asset,
                 amount: target.value,
               };
             }
-            return income;
+            return asset;
           }),
         },
       }),
@@ -33,17 +34,20 @@ const MonetaryInputList = ({ errorSchema }) => {
 
   return (
     <div>
-      <legend className="schemaform-block-title">Your other income</legend>
-      <p>How much is your monthly income for each income source?</p>
-      {addlIncRecords?.map((income, key) => (
-        <div key={income.name + key} className="vads-u-margin-y--2">
+      <legend className="schemaform-block-title">Your household assets</legend>
+      <p>
+        How much are each of your financial assets worth? Include the total
+        amounts for you and your spouse.
+      </p>
+      {monetaryAssets?.map((asset, key) => (
+        <div key={asset.name + key} className="vads-u-margin-y--2">
           <va-number-input
-            label={income.name}
-            name={income.name}
-            value={income.amount}
-            id={income.name + key}
+            label={asset.name}
+            name={asset.name}
+            value={asset.amount}
+            id={asset.name + key}
             error={
-              errorList.includes(income.name) ? 'Enter valid dollar amount' : ''
+              errorList.includes(asset.name) ? 'Enter valid dollar amount' : ''
             }
             inputmode="decimal"
             onInput={onChange}
@@ -53,6 +57,12 @@ const MonetaryInputList = ({ errorSchema }) => {
       ))}
     </div>
   );
+};
+
+MonetaryInputList.propTypes = {
+  errorSchema: PropTypes.shape({
+    monetaryAssets: PropTypes.array,
+  }),
 };
 
 export default MonetaryInputList;

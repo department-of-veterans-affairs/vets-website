@@ -341,3 +341,43 @@ export const getDebtName = debt => {
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
+
+// Returns the amount for assets depending on the type
+export const calculateMonetaryAssets = (monetaryAssets, category) => {
+  switch (category) {
+    case 'cash':
+      return monetaryAssets.reduce((acc, asset) => {
+        return asset.name === 'Cash'
+          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
+          : acc;
+      }, 0);
+
+    case 'cashInBank':
+      return monetaryAssets.reduce((acc, asset) => {
+        return asset.name === 'Checking accounts' ||
+          asset.name === 'Savings accounts'
+          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
+          : acc;
+      }, 0);
+
+    case 'usSavingsBonds':
+      return monetaryAssets.reduce((acc, asset) => {
+        return asset.name === 'U.S. Savings Bonds'
+          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
+          : acc;
+      }, 0);
+
+    case 'stocksAndOther':
+      return monetaryAssets.reduce((acc, asset) => {
+        return asset.name ===
+          'Other stocks and bonds (not in your retirement accounts)' ||
+          asset.name === 'Retirement accounts (401k, IRAs, 403b, TSP)' ||
+          asset.name === 'Pension' ||
+          asset.name === 'Cryptocurrency'
+          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
+          : acc;
+      }, 0);
+    default:
+      return 0;
+  }
+};

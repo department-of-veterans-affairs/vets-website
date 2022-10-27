@@ -13,6 +13,7 @@ import {
   nameStr,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
+  calculateMonetaryAssets,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -120,6 +121,22 @@ export const transform = (formConfig, form) => {
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
+  // monetary assets
+  const { monetaryAssets } = assets;
+  const calculatedCashOnHand = calculateMonetaryAssets(monetaryAssets, 'cash');
+  const calculatedCashInBank = calculateMonetaryAssets(
+    monetaryAssets,
+    'cashInBank',
+  );
+  const calculatedUsSavingsBonds = calculateMonetaryAssets(
+    monetaryAssets,
+    'usSavingsBonds',
+  );
+  const calculatedStocksAndOther = calculateMonetaryAssets(
+    monetaryAssets,
+    'stocksAndOther',
+  );
+
   // combined fsr options
   const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
   const fsrReason = getFsrReason(
@@ -130,6 +147,9 @@ export const transform = (formConfig, form) => {
     combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
     combinedFSRActive,
   );
+
+  // enhanced fsr flag
+  const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
   const submissionObj = {
     personalIdentification: {
@@ -224,12 +244,16 @@ export const transform = (formConfig, form) => {
       amountCanBePaidTowardDebt,
     },
     assets: {
-      cashInBank: assets.cashInBank,
-      cashOnHand: assets.cashOnHand,
+      cashInBank: enhancedFSRActive ? calculatedCashInBank : assets.cashInBank,
+      cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
       trailersBoatsCampers: assets.recVehicleAmount,
-      usSavingsBonds: assets.usSavingsBonds,
-      stocksAndOtherBonds: assets.stocksAndOtherBonds,
+      usSavingsBonds: enhancedFSRActive
+        ? calculatedUsSavingsBonds
+        : assets.usSavingsBonds,
+      stocksAndOtherBonds: enhancedFSRActive
+        ? calculatedStocksAndOther
+        : assets.stocksAndOtherBonds,
       realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
       otherAssets: assets.otherAssets,
       totalAssets,
