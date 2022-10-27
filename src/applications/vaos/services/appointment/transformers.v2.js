@@ -94,12 +94,12 @@ function getAppointmentInfoFromComments(comments, key) {
   const appointmentInfo = comments?.split('|');
   if (key === 'phone') {
     const phone = appointmentInfo ? appointmentInfo[0]?.split(':')[1] : null;
-    const transformedPhone = { type: 'phone', value: phone };
+    const transformedPhone = { system: 'phone', value: phone };
     data.push(transformedPhone);
   }
   if (key === 'email') {
     const email = appointmentInfo ? appointmentInfo[1]?.split(':')[1] : null;
-    const transformedemail = { type: 'email', value: email };
+    const transformedemail = { system: 'email', value: email };
     data.push(transformedemail);
   }
   if (key === 'preferredDate') {
