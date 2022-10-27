@@ -136,7 +136,7 @@ function getAppointmentInfoFromComments(comments, key) {
     const reasonCode = appointmentInfo
       ? appointmentInfo[3]?.split(':')[1]
       : null;
-    const transformedReasonCode = { reasonCode };
+    const transformedReasonCode = { code: reasonCode };
     data.push(transformedReasonCode);
   }
   if (key === 'comments') {
@@ -206,10 +206,19 @@ export function transformVAOSAppointment(appt) {
         'YYYY-MM-DDTHH:mm:ss',
       )}.999`,
     }));
-    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+    const hasReasonCode =
+      getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
+        .length > 0 || appt.reasonCode?.coding?.length > 0;
+    const reasonCode =
+      getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
+        .length > 0
+        ? getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')[0]
+        : appt.reasonCode?.coding?.[0];
     const reason = hasReasonCode
       ? PURPOSE_TEXT.find(
-          purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
+          purpose =>
+            purpose.serviceName === reasonCode.code ||
+            purpose.commentShort === reasonCode.code,
         )?.short
       : null;
     requestFields = {
@@ -241,20 +250,28 @@ export function transformVAOSAppointment(appt) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
   let comment = null;
-  const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const coding =
+    getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode').length >
+    0
+      ? getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
+      : appt.reasonCode?.coding;
+  const code = PURPOSE_TEXT.filter(purpose => purpose.id !== 'other').find(
+    purpose =>
+      purpose.serviceName === coding[0]?.code ||
+      purpose.commentShort === coding[0]?.code,
+  )?.short;
   const comments =
     getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
       ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]
       : appt.reasonCode;
   const text = appt.reasonCode ? comments.text : null;
-  if (coding && coding[0]?.code && text) {
-    comment = `${coding[0].code}: ${text}`;
-  } else if (coding && coding[0].code) {
-    comment = coding[0].code;
+  if (coding && code && text) {
+    comment = `${code}: ${text}`;
+  } else if (coding && code) {
+    comment = code;
   } else {
     comment = text;
   }
-
   return {
     resourceType: 'Appointment',
     id: appt.id,

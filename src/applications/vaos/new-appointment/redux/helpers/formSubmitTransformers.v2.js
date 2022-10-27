@@ -13,9 +13,9 @@ import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 function getReasonCode({ data, isCC, isAcheron }) {
-  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+  const code = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
-  )?.serviceName;
+  )?.commentShort;
 
   let reasonText = null;
   let appointmentInfo = null;
@@ -35,8 +35,8 @@ function getReasonCode({ data, isCC, isAcheron }) {
     );
     // TODO: Replace hard coded values.
     const { phoneNumber, email } = data;
-    const preferredDates = `Preferred Dates:${formattedDates.toString()}`;
-    const reasonCode = `Reason Code: code_1`;
+    const preferredDates = `preferred dates:${formattedDates.toString()}`;
+    const reasonCode = `reason code:${code}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
     // Add phone number, email, preferred Date, reason Code to
     // appointmentInfo string in this order (phone number, email,
@@ -45,10 +45,6 @@ function getReasonCode({ data, isCC, isAcheron }) {
   }
 
   return {
-    // If the user selects one of the three preset radio selections
-    // ("Routine Follow-up", "New Problem", or "Medication Concern"), then that values goes
-    // in reasonCode.coding[0].code.
-    coding: code ? [{ code }] : undefined,
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
     // truncated to 100 char for both VA appointment types only. CC appointments will continue
     // to be truncated to 250 char
