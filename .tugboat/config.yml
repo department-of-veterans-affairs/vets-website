@@ -4,6 +4,11 @@ services:
     default: true
     expose: 3001
     commands:
+      init:
+        - mkdir -p /etc/service/node
+        - echo "#!/bin/sh" > /etc/service/node/run
+        - echo "npm --prefix=$TUGBOAT_ROOT run heroku-serve -- build/localhost -p 3001" >> /etc/service/node/run
+        - chmod +x /etc/service/node/run
       build:
         - yarn
         - yarn build
