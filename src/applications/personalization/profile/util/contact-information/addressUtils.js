@@ -6,6 +6,8 @@ import {
   ADDRESS_POU,
 } from '@@vap-svc/constants';
 import pickBy from 'lodash/pickBy';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import * as VAP_SERVICE from '@@vap-svc/constants';
 
 const inferAddressType = (countryCodeIso3, stateCode) => {
   let addressType = ADDRESS_TYPES.DOMESTIC;
@@ -83,3 +85,30 @@ export const addressConvertCleanDataToPayload = (data, fieldName) => {
 };
 
 export const formatAddressTitle = title => title.replace('address', '').trim();
+
+export const getErrorsFromDom = () => $$('.usa-input-error-message');
+
+export const handleUpdateButtonClick = (
+  queryForErrors,
+  fieldName,
+  recordCustomProfileEvent,
+) => {
+  const errors = queryForErrors();
+
+  // only gather analytics if there are inline validation errors and if the field is an address
+  const shouldReportErrors =
+    [FIELD_NAMES.RESIDENTIAL_ADDRESS, FIELD_NAMES.MAILING_ADDRESS].includes(
+      fieldName,
+    ) && errors.length > 0;
+
+  if (shouldReportErrors) {
+    const payload = {
+      title: `Address Validation Errors - ${
+        VAP_SERVICE.FIELD_TITLES[fieldName]
+      }`,
+      status: `Error Count - ${errors.length}`,
+    };
+
+    recordCustomProfileEvent(payload);
+  }
+};
