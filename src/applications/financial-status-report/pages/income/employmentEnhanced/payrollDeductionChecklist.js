@@ -11,16 +11,6 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': PayrollDeductionCheckList,
-    'ui:required': formData => {
-      const {
-        additionalIncome: { addlIncRecords = [] },
-      } = formData;
-
-      return !addlIncRecords.length;
-    },
-    'ui:errorMessages': {
-      required: 'Please select at least one payroll deduction.',
-    },
     'ui:options': {
       hideOnReview: true,
     },
