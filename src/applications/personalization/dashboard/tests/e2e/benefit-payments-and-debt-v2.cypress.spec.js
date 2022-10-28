@@ -3,7 +3,7 @@
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
  * @testrailinfo groupId 3426
- * @testrailinfo runName My VA - Pmt Info v2
+ * @testrailinfo runName MyVA-PmtsDebtsV2
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import { mockUser as mockUserWithoutClaims } from '@@profile/tests/fixtures/users/user-without-claims';
@@ -48,7 +48,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
     cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
-  Cypress.config({ defaultCommandTimeout: 12000 });
+  Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 20000 });
   describe('when the feature is hidden', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
@@ -419,7 +419,7 @@ describe('when the payment history claims does not exist', () => {
       },
     }).as('featuresC');
   });
-  it('the v2 dashboard shows up', () => {
+  it('the v2 dashboard shows up - C22832', () => {
     cy.visit('my-va/');
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
@@ -464,7 +464,7 @@ describe('when the payment history claims is false', () => {
       },
     }).as('featuresD');
   });
-  it('the v2 dashboard should show up', () => {
+  it('the v2 dashboard should show up - C22831', () => {
     cy.visit('my-va/');
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
