@@ -20,6 +20,15 @@ export const getMessages = (folderId, update = false) => async dispatch => {
     dispatch({ type: Actions.Message.CLEAR_LIST });
   }
   const response = await getMessageList(folderId);
+  if (response?.data.length === 0) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        '',
+        Constants.Alerts.Message.NO_MESSAGES,
+      ),
+    );
+  }
   // TODO Add error handling
   dispatch({
     type: Actions.Message.GET_LIST,

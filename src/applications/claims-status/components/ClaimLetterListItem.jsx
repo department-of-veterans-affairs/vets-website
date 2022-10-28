@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const ClaimLetterListItem = ({ letter }) => {
-  const heading = `Letter dated ${letter.uploadDate}`;
+  const heading = `Letter dated ${letter.receivedAt}`;
 
   return (
     <div className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
