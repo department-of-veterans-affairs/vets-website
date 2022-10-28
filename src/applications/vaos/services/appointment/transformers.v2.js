@@ -192,12 +192,23 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
+  const commentsReasonCode = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'reasonCode',
+  );
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
+  const appointmentComments = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'comments',
+  );
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     const requestedPeriods =
-      getAppointmentInfoFromComments(appt.reasonCode?.text, 'preferredDate')
-        .length > 0
-        ? getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
+      commentsPreferredDate.length > 0
+        ? commentsPreferredDate
         : appt.requestedPeriods;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
@@ -210,13 +221,12 @@ export function transformVAOSAppointment(appt) {
         'YYYY-MM-DDTHH:mm:ss',
       )}.999`,
     }));
+
     const hasReasonCode =
-      getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
-        .length > 0 || appt.reasonCode?.coding?.length > 0;
+      commentsReasonCode.length > 0 || appt.reasonCode?.coding?.length > 0;
     const reasonCode =
-      getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
-        .length > 0
-        ? getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')[0]
+      commentsReasonCode.length > 0
+        ? commentsReasonCode[0]
         : appt.reasonCode?.coding?.[0];
     const reason = hasReasonCode
       ? PURPOSE_TEXT.find(
@@ -255,9 +265,8 @@ export function transformVAOSAppointment(appt) {
   }
   let comment = null;
   const coding =
-    getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode').length >
-    0
-      ? getAppointmentInfoFromComments(appt.reasonCode?.text, 'reasonCode')
+    commentsReasonCode.length > 0
+      ? commentsReasonCode
       : appt.reasonCode?.coding;
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose =>
@@ -265,9 +274,7 @@ export function transformVAOSAppointment(appt) {
       purpose.commentShort === coding?.[0]?.code,
   )?.serviceName;
   const comments =
-    getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
-      ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]
-      : appt.reasonCode;
+    appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
   const text = appt.reasonCode ? comments.text : null;
   if (coding && code && text) {
     comment = `${code}: ${text}`;
