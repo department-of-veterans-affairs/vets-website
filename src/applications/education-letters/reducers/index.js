@@ -8,7 +8,7 @@ const initialState = {};
 
 const getLatestClaim = action => {
   return {
-    ...action.response?.data?.attributes.reduce(
+    ...action?.response?.data?.attributes.reduce(
       (currentDate, nextDate) =>
         currentDate?.claimStatus?.receivedDate >
         nextDate?.claimStatus?.receivedDate
