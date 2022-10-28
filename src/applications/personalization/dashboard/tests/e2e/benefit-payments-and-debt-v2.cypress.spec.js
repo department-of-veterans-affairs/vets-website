@@ -2,7 +2,7 @@
  * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt V2
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
- * @testrailinfo groupId 3426
+ * @testrailinfo groupId 5892
  * @testrailinfo runName MyVA-PmtsDebtsV2
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
