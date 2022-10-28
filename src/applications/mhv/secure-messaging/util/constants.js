@@ -24,6 +24,8 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    CANNOT_REPLY_INFO: '',
+    CANNOT_REPLY_INFO_HEADER: '',
   },
 };
 
@@ -39,3 +41,4 @@ export const Prompts = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
+export const ALERT_TYPE_INFO = 'info';
