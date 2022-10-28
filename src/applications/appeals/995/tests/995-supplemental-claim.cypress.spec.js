@@ -62,7 +62,7 @@ const testConfig = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
         cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [] },
+          data: { features: [{ name: 'supplemental_claim', value: true }] },
         });
       });
 
