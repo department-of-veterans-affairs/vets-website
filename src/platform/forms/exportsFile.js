@@ -2,6 +2,7 @@ import dataImports from './address/data/index';
 
 const { states, militaryStates, militaryCities } = dataImports;
 import {
+  militaryBranches,
   countryValues,
   countryLabels,
   states as statesLabels,
@@ -139,6 +140,7 @@ export default {
   states,
   militaryStates,
   militaryCities,
+  militaryBranches,
   countryValues,
   countryLabels,
   statesLabels,
