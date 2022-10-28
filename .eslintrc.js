@@ -62,10 +62,6 @@ module.exports = {
         use: '<va-textarea>',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/RadioButtons',
-        use: '<va-radio>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/FileInput',
         use: '<va-file-input>',
       },

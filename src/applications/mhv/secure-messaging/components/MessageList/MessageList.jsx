@@ -121,7 +121,9 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${(folder && folder.name) || ''} messages by`}
+          label={`Sort ${
+            folder.folderId === -3 ? 'Trash' : folder.name
+          } messages by`}
           name="sort-order"
           value={sortOrder}
           onVaSelect={e => {
