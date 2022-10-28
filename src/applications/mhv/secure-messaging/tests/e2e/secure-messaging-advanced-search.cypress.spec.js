@@ -1,0 +1,19 @@
+import manifest from '../../manifest.json';
+import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+
+beforeEach(() => {});
+
+describe(manifest.appName, () => {
+  before(() => {
+    if (Cypress.env('CI')) this.skip();
+  });
+
+  it('is test fine accessible', () => {
+    const landingPage = new PatientMessagesLandingPage();
+    landingPage.loadPage();
+    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.get('[data-testid="advanced-search-link"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+});
