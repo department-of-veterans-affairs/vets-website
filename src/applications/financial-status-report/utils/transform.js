@@ -7,13 +7,12 @@ import {
   getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
-  filterDeductions,
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
-  calculateMonetaryAssets,
+  filterReduceByName,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -80,9 +79,9 @@ export const transform = (formConfig, form) => {
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
   const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
-  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
-  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
+  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
+  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
   const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
   const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
   const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
@@ -102,9 +101,9 @@ export const transform = (formConfig, form) => {
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterDeductions(spDeductions, taxFilters);
-  const spRetirement = filterDeductions(spDeductions, retirementFilters);
-  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spTaxes = filterReduceByName(spDeductions, taxFilters);
+  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
+  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
   const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
   const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
@@ -121,20 +120,28 @@ export const transform = (formConfig, form) => {
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
+  // monetary asset filters
+  const cashFilters = ['Cash'];
+  const bankFilters = ['Checking accounts', 'Savings accounts'];
+  const usSavingsFilters = ['U.S. Savings Bonds'];
+  const otherStocksFilters = [
+    'Other stocks and bonds (not in your retirement accounts)',
+    'Retirement accounts (401k, IRAs, 403b, TSP)',
+    'Pension',
+    'Cryptocurrency',
+  ];
+
   // monetary assets
   const { monetaryAssets } = assets;
-  const calculatedCashOnHand = calculateMonetaryAssets(monetaryAssets, 'cash');
-  const calculatedCashInBank = calculateMonetaryAssets(
+  const calculatedCashOnHand = filterReduceByName(monetaryAssets, cashFilters);
+  const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
+  const calculatedUsSavingsBonds = filterReduceByName(
     monetaryAssets,
-    'cashInBank',
+    usSavingsFilters,
   );
-  const calculatedUsSavingsBonds = calculateMonetaryAssets(
+  const calculatedStocksAndOther = filterReduceByName(
     monetaryAssets,
-    'usSavingsBonds',
-  );
-  const calculatedStocksAndOther = calculateMonetaryAssets(
-    monetaryAssets,
-    'stocksAndOther',
+    otherStocksFilters,
   );
 
   // combined fsr options

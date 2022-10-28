@@ -72,7 +72,7 @@ export const sumValues = (arr, key) => {
   );
 };
 
-export const filterDeductions = (deductions, filters) => {
+export const filterReduceByName = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
@@ -197,9 +197,9 @@ export const getMonthlyIncome = ({
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
   const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
-  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
-  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
+  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
+  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
   const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
   const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
   const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
@@ -222,9 +222,9 @@ export const getMonthlyIncome = ({
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterDeductions(spDeductions, taxFilters);
-  const spRetirement = filterDeductions(spDeductions, retirementFilters);
-  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spTaxes = filterReduceByName(spDeductions, taxFilters);
+  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
+  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
   const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
   const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
@@ -340,44 +340,4 @@ export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
-};
-
-// Returns the amount for assets depending on the type
-export const calculateMonetaryAssets = (monetaryAssets, category) => {
-  switch (category) {
-    case 'cash':
-      return monetaryAssets?.reduce((acc, asset) => {
-        return asset.name === 'Cash'
-          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
-          : acc;
-      }, 0);
-
-    case 'cashInBank':
-      return monetaryAssets?.reduce((acc, asset) => {
-        return asset.name === 'Checking accounts' ||
-          asset.name === 'Savings accounts'
-          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
-          : acc;
-      }, 0);
-
-    case 'usSavingsBonds':
-      return monetaryAssets?.reduce((acc, asset) => {
-        return asset.name === 'U.S. Savings Bonds'
-          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
-          : acc;
-      }, 0);
-
-    case 'stocksAndOther':
-      return monetaryAssets?.reduce((acc, asset) => {
-        return asset.name ===
-          'Other stocks and bonds (not in your retirement accounts)' ||
-          asset.name === 'Retirement accounts (401k, IRAs, 403b, TSP)' ||
-          asset.name === 'Pension' ||
-          asset.name === 'Cryptocurrency'
-          ? acc + Number(asset?.amount?.replaceAll(/[^0-9.-]/g, ''))
-          : acc;
-      }, 0);
-    default:
-      return 0;
-  }
 };
