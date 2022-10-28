@@ -134,6 +134,7 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
+    updateSearchAppState: undefined,
   };
 
   constructor(props) {
