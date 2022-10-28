@@ -11,9 +11,13 @@ function GetFormHelp({ showMebDgi40Features }) {
         <>
           If you need help with your application or have questions about
           enrollment or eligibility, submit a request with{' '}
-          <a href="/contact-us"> Ask VA. </a> If you have technical difficulties
-          using this online application, call our MyVA411 main information line
-          at <va-telephone contact="8006982411" extension="711" />. We're here
+          <a target="_blank" href="/contact-us">
+            {' '}
+            Ask VA.{' '}
+          </a>{' '}
+          If you have technical difficulties using this online application, call
+          our MyVA411 main information line at{' '}
+          <va-telephone contact="8006982411" extension="711" />. We're here
           24/7.
         </>
       ) : (
