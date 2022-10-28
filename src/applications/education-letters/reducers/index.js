@@ -6,6 +6,18 @@ import {
 
 const initialState = {};
 
+const getLatestClaim = action => {
+  return {
+    ...action.response?.data?.attributes.reduce(
+      (currentDate, nextDate) =>
+        currentDate?.claimStatus?.receivedDate >
+        nextDate?.claimStatus?.receivedDate
+          ? currentDate
+          : nextDate,
+    ),
+  };
+};
+
 export default {
   data: (state = initialState, action) => {
     switch (action.type) {
@@ -20,9 +32,7 @@ export default {
           ...state,
           claimStatusFetchComplete: true,
           claimStatusFetchInProgress: false,
-          claimStatus: {
-            ...action.response?.data?.attributes,
-          },
+          claimStatus: getLatestClaim(action),
         };
       default:
         return state;
