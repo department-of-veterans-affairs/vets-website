@@ -72,16 +72,18 @@ const FolderHeader = props => {
         </>
       )}
       <ManageFolderButtons />
-      <div className="search-messages-input">
-        <label
-          className="vads-u-margin-top--2p5"
-          htmlFor="search-message-folder-input"
-        >
-          Search the {folder.folderId === -3 ? 'Trash' : folder.name} messages
-          folder
-        </label>
-        <VaSearchInput label="search-message-folder-input" />
-      </div>
+      {folder.count > 0 && (
+        <div className="search-messages-input">
+          <label
+            className="vads-u-margin-top--2p5"
+            htmlFor="search-message-folder-input"
+          >
+            Search the {folder.folderId === -3 ? 'Trash' : folder.name} messages
+            folder
+          </label>
+          <VaSearchInput label="search-message-folder-input" />
+        </div>
+      )}
     </>
   );
 };
