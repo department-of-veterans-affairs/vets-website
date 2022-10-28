@@ -47,6 +47,7 @@ const testConfig = createTestConfig(
       setStoredSubTask({ benefitType: 'compensation' });
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/maintenance_windows', []);
 
       cy.intercept(
         'GET',

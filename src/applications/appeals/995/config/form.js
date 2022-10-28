@@ -83,7 +83,7 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     infoPages: {
-      title: 'Veteran Details',
+      title: 'Veteran Information',
       pages: {
         veteranInfo: {
           title: 'Veteran Information',
