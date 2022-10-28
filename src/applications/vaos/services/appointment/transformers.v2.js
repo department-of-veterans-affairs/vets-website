@@ -263,7 +263,7 @@ export function transformVAOSAppointment(appt) {
     purpose =>
       purpose.serviceName === coding?.[0]?.code ||
       purpose.commentShort === coding?.[0]?.code,
-  )?.short;
+  )?.serviceName;
   const comments =
     getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
       ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]

@@ -13,10 +13,12 @@ import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 function getReasonCode({ data, isCC, isAcheron }) {
-  const code = PURPOSE_TEXT_V2.find(
+  const apptReasonCode = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.commentShort;
-
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.serviceName;
   let reasonText = null;
   let appointmentInfo = null;
 
@@ -36,7 +38,7 @@ function getReasonCode({ data, isCC, isAcheron }) {
     // TODO: Replace hard coded values.
     const { phoneNumber, email } = data;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
-    const reasonCode = `reason code:${code}`;
+    const reasonCode = `reason code:${apptReasonCode}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
     // Add phone number, email, preferred Date, reason Code to
     // appointmentInfo string in this order (phone number, email,
