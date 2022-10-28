@@ -4,6 +4,7 @@ import {
   getMessage,
   getMessageHistory,
   deleteMessage as deleteMessageCall,
+  moveMessage as moveMessageCall,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -88,5 +89,31 @@ export const deleteMessage = messageId => async dispatch => {
       ),
     );
     throw e;
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @param {Long} folderId
+ * @returns
+ */
+export const moveMessage = (messageId, folderId) => async dispatch => {
+  try {
+    await moveMessageCall(messageId, folderId);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.MOVE_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
+      ),
+    );
   }
 };

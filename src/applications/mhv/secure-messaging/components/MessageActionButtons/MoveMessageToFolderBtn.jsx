@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch } from 'react-redux';
-import { moveMessageToFolder } from '../../actions';
+import { moveMessage } from '../../actions/messages';
 
 const MoveMessageToFolderBtn = props => {
   const { id, allFolders } = props;
@@ -32,7 +32,7 @@ const MoveMessageToFolderBtn = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder !== null) {
-      dispatch(moveMessageToFolder(id, selectedFolder));
+      dispatch(moveMessage(id, selectedFolder));
     }
     closeModal();
   };
@@ -118,7 +118,7 @@ const MoveMessageToFolderBtn = props => {
 };
 
 MoveMessageToFolderBtn.propTypes = {
-  allFolders: PropTypes.object,
+  allFolders: PropTypes.array,
   id: PropTypes.number,
 };
 
