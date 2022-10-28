@@ -165,6 +165,7 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
+        // MAKE THIS CONDITIONAL BASED ON CURRENT EMPLOYMENT ONLY
         payrollDeductionChecklist: {
           path: 'deduction-checklist',
           title: 'Payroll deductions',
@@ -175,6 +176,7 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
+        // MAKE THIS CONDITIONAL BASED ON CURRENT EMPLOYMENT ONLY
         payrollDeductionInputList: {
           title: 'Deduction amounts',
           path: 'deduction-values',

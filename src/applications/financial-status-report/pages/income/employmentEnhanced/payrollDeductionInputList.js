@@ -1,17 +1,15 @@
 import PayrollDeductionInputList from '../../../components/PayrollDeductionInputList';
-import { validateAddlIncomeValues } from '../../../utils/validations';
 import { SelectedJobEmployerTitle } from '../../../components/SelectedJobEmployerTitle';
 
 export const uiSchema = {
   'ui:title': SelectedJobEmployerTitle,
-  additionalIncome: {
+  currEmployment: {
     'ui:field': PayrollDeductionInputList,
     'ui:options': {
       hideOnReview: true,
     },
-    payrollDeductionRecords: {
+    deductions: {
       'ui:title': 'payrollDeductionRecords',
-      'ui:validations': [validateAddlIncomeValues],
       items: {
         name: {
           'ui:title': 'Type of income',
@@ -27,14 +25,17 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncome: {
-      type: 'object',
-      properties: {
-        payrollDeductionRecords: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {},
+    currEmployment: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          deductions: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {},
+            },
           },
         },
       },

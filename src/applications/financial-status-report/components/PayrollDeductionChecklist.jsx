@@ -7,36 +7,46 @@ const PayrollDeductionChecklist = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { additionalIncome } = formData;
-  const { addlIncRecords = [] } = additionalIncome;
+  const { currEmployment = [] } = formData;
+  const selectedEmployment = currEmployment[0];
+  const { deductions = [] } = selectedEmployment;
 
   const onChange = ({ target }) => {
     const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
+
+    return deductions.some(source => source.name === value)
       ? dispatch(
           setData({
             ...formData,
-            additionalIncome: {
-              ...additionalIncome,
-              addlIncRecords: addlIncRecords.filter(
-                source => source.name !== value,
+            currEmployment: [
+              {
+                ...selectedEmployment,
+                deductions: deductions.filter(source => source.name !== value),
+              },
+              ...currEmployment.filter(
+                job => job.employerName !== selectedEmployment.employerName,
               ),
-            },
+            ],
           }),
         )
       : dispatch(
           setData({
             ...formData,
-            additionalIncome: {
-              ...additionalIncome,
-              addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
-            },
+            currEmployment: [
+              {
+                ...selectedEmployment,
+                deductions: [...deductions, { name: value, amount: '' }],
+              },
+              ...currEmployment.filter(
+                job => job.employerName !== selectedEmployment.employerName,
+              ),
+            ],
           }),
         );
   };
 
   const isBoxChecked = option => {
-    return addlIncRecords.some(incomeValue => incomeValue.name === option);
+    return deductions.some(incomeValue => incomeValue.name === option);
   };
 
   return (
