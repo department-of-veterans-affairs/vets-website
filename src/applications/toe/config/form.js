@@ -14,6 +14,7 @@ import get from 'platform/utilities/data/get';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from 'platform/forms/components/FormFooter';
 
 import constants from 'vets-json-schema/dist/constants.json';
 
@@ -101,6 +102,7 @@ const formConfig = {
       'Please sign in again to continue your application for survivor dependent benefits.',
   },
   defaultDefinitions: {},
+  footerContent: FormFooter,
   getHelp: GetHelp,
   preSubmitInfo,
   chapters: {
