@@ -71,7 +71,12 @@ const SearchMessagesForm = props => {
         data-testid="search-messages-button"
       >
         <i className="fas fa-search" aria-hidden="true" />
-        <span className="search-messages-button-text">Search</span>
+        <span
+          className="search-messages-button-text"
+          data-testid="basic-search-submit"
+        >
+          Search
+        </span>
       </button>
 
       <button

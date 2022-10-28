@@ -1,6 +1,8 @@
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-import PatientComposePage from './pages/PatientComposePage';
+// import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
+import mockMessages from '../fixtures/messages-response.json';
+// import mockDraftResponse from '../fixtures/message-draft-response.json';
 
 beforeEach(() => {
   window.dataLayer = [];
@@ -13,18 +15,27 @@ describe(manifest.appName, () => {
 
   it('can send message', () => {
     const landingPage = new PatientMessagesLandingPage();
-    const composePage = new PatientComposePage();
+    // const composePage = new PatientComposePage();
     landingPage.loadPage(false);
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.intercept('GET', '/my_health/v1/messaging/folders/-2', mockMessages).as(
+      'draftsResponse',
+    );
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-select"]')
-      .shadow()
-      .find('[id="select"]')
-      .select('BLUE ANCILLARY_TEAM');
-    cy.get('[id="category-COVID"]').click();
+    /*
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/*',
+      mockDraftResponse,
+    ).as('draftMessageResponse');
+    cy.contains('Test Inquiry').click();
+    cy.wait('@draftMessageResponse');
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('[data-testid="message-subject-field"]').type('Test Subject');
     cy.get('[data-testid="message-body-field"]').type('message Test');
     composePage.saveDraft();
+    */
   });
 });

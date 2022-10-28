@@ -9,20 +9,18 @@ describe(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('test Advanced Search Accessibility', () => {
+  it('is test fine accessible', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
+      'trashFolder',
+    );
     cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/folders/*/search',
+      'GET',
+      '/my_health/v1/messaging/folders/-3/messages',
       mockMessages,
-    ).as('advancedSearchRequest');
-    cy.get('[data-testid="advanced-search-link"]').click();
-    cy.injectAxe();
-    cy.axeCheck();
-
-    cy.get('[data-testid="advanced-search-submit"]').click();
+    ).as('trashFolderMessages');
+    cy.get('[data-testid="trash-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
   });

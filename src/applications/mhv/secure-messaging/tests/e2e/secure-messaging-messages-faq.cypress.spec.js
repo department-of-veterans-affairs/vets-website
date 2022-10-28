@@ -1,6 +1,5 @@
 import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-import mockMessages from '../fixtures/messages-response.json';
 
 beforeEach(() => {});
 
@@ -12,15 +11,7 @@ describe(manifest.appName, () => {
   it('is test fine accessible', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/folders/*/messages*',
-      mockMessages,
-    ).as('basicSearchRequest');
-    cy.get('[data-testid="basic-search-submit"]').click();
+    cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
   });

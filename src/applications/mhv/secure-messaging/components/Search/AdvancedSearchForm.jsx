@@ -117,7 +117,9 @@ const SearchMessagesForm = props => {
       </VaSelect>
 
       <div className="advanced-search-actions">
-        <button type="submit">Advanced Search</button>
+        <button type="submit" data-testid="advanced-search-submit">
+          Advanced Search
+        </button>
         <button type="button" className="reset">
           Reset Search
         </button>
