@@ -13,7 +13,7 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   paymentsError,
   paymentsSuccess,
