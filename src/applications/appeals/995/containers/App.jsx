@@ -40,7 +40,7 @@ export const App = ({
 
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
-  const [isLoadingFeaturesIssues, setIsLoadingFeaturesIssues] = useState(false);
+  const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   const subTaskBenefitType =
     formData?.benefitType || getStoredSubTask()?.benefitType;
@@ -57,12 +57,9 @@ export const App = ({
           });
         } else if (loggedIn && formData.benefitType) {
           const { veteran = {} } = formData || {};
-          if (
-            !isLoadingFeaturesIssues &&
-            (contestableIssues?.status || '') === ''
-          ) {
+          if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
-            setIsLoadingFeaturesIssues(true);
+            setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             email?.emailAddress !== veteran.email ||
@@ -100,7 +97,7 @@ export const App = ({
       formData,
       getContestableIssues,
       homePhone,
-      isLoadingFeaturesIssues,
+      isLoadingIssues,
       legacyCount,
       loggedIn,
       mailingAddress,
