@@ -29,3 +29,9 @@ export const defaultWebOAuthOptions = {
   acrSignup: { idme_signup: 'min', logingov_signup: 'min' },
   acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };
+
+export const OAuthEnabledApplications = [
+  undefined /* default */,
+  'vamobile',
+  'vaoccmobile',
+];
