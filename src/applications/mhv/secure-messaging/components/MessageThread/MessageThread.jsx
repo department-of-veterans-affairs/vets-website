@@ -38,7 +38,7 @@ const MessageThread = props => {
         viewCount && (
           <div className="older-messages vads-u-margin-y--3 vads-u-padding-left--0p5">
             <h3 className="vads-u-font-weight--bold">
-              Messages in this conversation (test)
+              Messages in this conversation
             </h3>
             <HorizontalRule />
 

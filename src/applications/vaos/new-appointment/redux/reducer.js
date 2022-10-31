@@ -149,7 +149,7 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
 }
 
 export default function formReducer(state = initialState, action) {
-  const { useV2 } = action;
+  const { useV2, useAcheron } = action;
 
   switch (action.type) {
     case FORM_PAGE_OPENED: {
@@ -626,8 +626,11 @@ export default function formReducer(state = initialState, action) {
       // VA direct schedule and appointment request is 100.
       let reasonMaxChars =
         formData.facilityType === FACILITY_TYPES.COMMUNITY_CARE ? 250 : 100;
-
-      if (state.flowType === FLOW_TYPES.DIRECT) {
+      if (state.flowType === FLOW_TYPES.REQUEST) {
+        if (useV2 && useAcheron) {
+          reasonMaxChars = REASON_MAX_CHARS.request;
+        }
+      } else if (state.flowType === FLOW_TYPES.DIRECT) {
         if (useV2) {
           const prependText = PURPOSE_TEXT_V2.find(
             purpose => purpose.id === formData.reasonForAppointment,
