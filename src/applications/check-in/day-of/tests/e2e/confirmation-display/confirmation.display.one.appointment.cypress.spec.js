@@ -10,6 +10,7 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
   describe('Confirmation display one appointment -- ', () => {
+    const appointments = [{ startTime: '2021-08-19T03:00:00' }];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -23,7 +24,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        appointments: [{ startTime: '2021-08-19T03:00:00' }],
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
@@ -46,28 +47,8 @@ describe('Check In Experience -- ', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
-    it('confirm page has confirmation message alert', () => {
-      Confirmation.validateConfirmationAlert();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('confirm page has BTSSS link', () => {
-      Confirmation.validateBTSSSLink();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('confirm back button', () => {
-      Confirmation.validateBackButton(1);
-      cy.injectAxeThenAxeCheck();
-    });
-    it('refreshes appointment data when pressing the browser back button', () => {
-      Confirmation.validatePageLoaded();
-      cy.intercept(
-        '/check_in/v2/patient_check_ins/*',
-        cy.spy().as('apptRefresh'),
-      );
-      cy.go('back');
-      cy.get('@apptRefresh')
-        .its('callCount')
-        .should('equal', 1);
+    it("confirm back button isn't shown when there is only one appointment", () => {
+      Confirmation.validateBackButton(appointments.length);
       cy.injectAxeThenAxeCheck();
     });
   });

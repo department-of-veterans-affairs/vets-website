@@ -10,6 +10,10 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
   describe('Confirmation display -- ', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -23,10 +27,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        appointments: [
-          { startTime: '2021-08-19T03:00:00' },
-          { startTime: '2021-08-19T03:30:00' },
-        ],
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
@@ -58,7 +59,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('confirm back button', () => {
-      Confirmation.validateBackButton(2);
+      Confirmation.validateBackButton(appointments.length);
       cy.injectAxeThenAxeCheck();
     });
     it('refreshes appointment data when pressing the browser back button', () => {
