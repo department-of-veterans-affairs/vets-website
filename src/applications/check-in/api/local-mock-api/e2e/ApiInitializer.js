@@ -381,7 +381,6 @@ class ApiInitializer {
       extraValidation = null,
       appointments = null,
       token = sharedData.get.defaultUUID,
-      numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
       nextOfKinNeedsUpdate = true,
@@ -401,16 +400,14 @@ class ApiInitializer {
         'GET',
         `/check_in/v2/patient_check_ins/*?reload=false`,
         req => {
-          const rv = sharedData.get.createMultipleAppointments(
+          const rv = sharedData.get.createAppointments(
             token,
-            numberOfCheckInAbledAppointments,
             demographicsNeedsUpdate,
             demographicsConfirmedAt,
             nextOfKinNeedsUpdate,
             nextOfKinConfirmedAt,
             emergencyContactNeedsUpdate,
             emergencyContactConfirmedAt,
-            timezone,
           );
           if (appointments && appointments.length) {
             const customAppointments = [];

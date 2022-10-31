@@ -22,9 +22,7 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withBadReload({
-        numberOfCheckInAbledAppointments: 1,
-      });
+      initializeCheckInDataGet.withBadReload();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
     });
