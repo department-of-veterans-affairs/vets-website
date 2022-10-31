@@ -288,6 +288,10 @@ export const getMessageHistory = messageId => {
  * @returns
  */
 export const moveMessage = (messageId, toFolderId) => {
+  // eslint-disable-next-line no-console
+  console.log(
+    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
+  );
   return apiRequest(
     `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
     {

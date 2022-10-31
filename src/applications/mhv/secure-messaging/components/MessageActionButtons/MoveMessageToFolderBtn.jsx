@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { moveMessage } from '../../actions/messages';
 
 const MoveMessageToFolderBtn = props => {
-  const { id, allFolders } = props;
+  const { messageId, allFolders } = props;
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -32,7 +32,7 @@ const MoveMessageToFolderBtn = props => {
 
   const handleConfirmMoveFolderTo = () => {
     if (selectedFolder !== null) {
-      dispatch(moveMessage(id, selectedFolder));
+      dispatch(moveMessage(messageId, selectedFolder));
     }
     closeModal();
   };
@@ -119,7 +119,7 @@ const MoveMessageToFolderBtn = props => {
 
 MoveMessageToFolderBtn.propTypes = {
   allFolders: PropTypes.array,
-  id: PropTypes.number,
+  messageId: PropTypes.number,
 };
 
 export default MoveMessageToFolderBtn;
