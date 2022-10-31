@@ -116,15 +116,17 @@ export default function ValidateDisplay({
           onKeyDown={handleEnter}
         />
         {isLorotaSecurityUpdatesEnabled ? (
-          <VaMemorableDate
-            label={t('date-of-birth')}
-            onDateBlur={updateField}
-            onDateChange={updateField}
-            name="date-of-birth"
-            value={dob}
-            required
-            onKeyDown={handleEnter}
-          />
+          <div data-testid="dob-input">
+            <VaMemorableDate
+              label={t('date-of-birth')}
+              onDateBlur={updateField}
+              onDateChange={updateField}
+              name="date-of-birth"
+              value={dob}
+              required
+              onKeyDown={handleEnter}
+            />
+          </div>
         ) : (
           <VaTextInput
             error={last4ErrorMessage}
