@@ -5,6 +5,7 @@ import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   COVID_VACCINE_ID,
+  PURPOSE_TEXT_V2,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
@@ -92,16 +93,21 @@ function getAtlasLocation(appt) {
 function getAppointmentInfoFromComments(comments, key) {
   const data = [];
   const appointmentInfo = comments?.split('|');
-  if (key === 'phone') {
-    const phone = appointmentInfo ? appointmentInfo[0]?.split(':')[1] : null;
+  if (key === 'contact') {
+    const phone = appointmentInfo
+      ? appointmentInfo[0]?.split(':')[1].trim()
+      : null;
+    const email = appointmentInfo
+      ? appointmentInfo[1]?.split(':')[1].trim()
+      : null;
+
     const transformedPhone = { system: 'phone', value: phone };
-    data.push(transformedPhone);
+    const transformedEmail = { system: 'email', value: email };
+
+    data.push(transformedPhone, transformedEmail);
+    return data;
   }
-  if (key === 'email') {
-    const email = appointmentInfo ? appointmentInfo[1]?.split(':')[1] : null;
-    const transformedemail = { system: 'email', value: email };
-    data.push(transformedemail);
-  }
+
   if (key === 'preferredDate') {
     const preferredDates = appointmentInfo
       ? appointmentInfo[2]?.split(':')[1]?.split(',')
@@ -136,8 +142,11 @@ function getAppointmentInfoFromComments(comments, key) {
     const reasonCode = appointmentInfo
       ? appointmentInfo[3]?.split(':')[1]
       : null;
-    const transformedReasonCode = { reasonCode };
-    data.push(transformedReasonCode);
+    const transformedReasonCode = { code: reasonCode };
+    if (reasonCode) {
+      data.push(transformedReasonCode);
+    }
+    return data;
   }
   if (key === 'comments') {
     const appointmentComments = appointmentInfo
@@ -150,6 +159,21 @@ function getAppointmentInfoFromComments(comments, key) {
     return data;
   }
   return data;
+}
+
+function getPatientContact(appt) {
+  if (appt.contact?.telecom?.length > 0) {
+    // for non acheron service
+    return {
+      telecom: appt.contact?.telecom.map(contact => ({
+        system: contact.type,
+        value: contact.value,
+      })),
+    };
+  }
+  return {
+    telecom: getAppointmentInfoFromComments(appt.reasonCode.text, 'contact'),
+  };
 }
 
 export function transformVAOSAppointment(appt) {
@@ -188,12 +212,23 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
+  const commentsReasonCode = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'reasonCode',
+  );
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
+  const appointmentComments = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'comments',
+  );
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
     const requestedPeriods =
-      getAppointmentInfoFromComments(appt.reasonCode?.text, 'preferredDate')
-        .length > 0
-        ? getAppointmentInfoFromComments(appt.reasonCode.text, 'preferredDate')
+      commentsPreferredDate.length > 0
+        ? commentsPreferredDate
         : appt.requestedPeriods;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
@@ -206,10 +241,18 @@ export function transformVAOSAppointment(appt) {
         'YYYY-MM-DDTHH:mm:ss',
       )}.999`,
     }));
-    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+
+    const hasReasonCode =
+      commentsReasonCode.length > 0 || appt.reasonCode?.coding?.length > 0;
+    const reasonCode =
+      commentsReasonCode.length > 0
+        ? commentsReasonCode[0]
+        : appt.reasonCode?.coding?.[0];
     const reason = hasReasonCode
       ? PURPOSE_TEXT.find(
-          purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
+          purpose =>
+            purpose.serviceName === reasonCode.code ||
+            purpose.commentShort === reasonCode.code,
         )?.short
       : null;
     requestFields = {
@@ -226,12 +269,7 @@ export function transformVAOSAppointment(appt) {
           },
         ],
       },
-      contact: {
-        telecom: appt.contact?.telecom.map(contact => ({
-          system: contact.type,
-          value: contact.value,
-        })),
-      },
+      contact: getPatientContact(appt),
     };
   }
 
@@ -241,20 +279,25 @@ export function transformVAOSAppointment(appt) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
   let comment = null;
-  const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const coding =
+    commentsReasonCode.length > 0
+      ? commentsReasonCode
+      : appt.reasonCode?.coding;
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+    purpose =>
+      purpose.serviceName === coding?.[0]?.code ||
+      purpose.commentShort === coding?.[0]?.code,
+  )?.serviceName;
   const comments =
-    getAppointmentInfoFromComments(appt.reasonCode?.text, 'comments').length > 0
-      ? getAppointmentInfoFromComments(appt.reasonCode.text, 'comments')[0]
-      : appt.reasonCode;
+    appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
   const text = appt.reasonCode ? comments.text : null;
-  if (coding && coding[0]?.code && text) {
-    comment = `${coding[0].code}: ${text}`;
-  } else if (coding && coding[0].code) {
-    comment = coding[0].code;
+  if (coding && code && text) {
+    comment = `${code}: ${text}`;
+  } else if (coding && code) {
+    comment = code;
   } else {
     comment = text;
   }
-
   return {
     resourceType: 'Appointment',
     id: appt.id,

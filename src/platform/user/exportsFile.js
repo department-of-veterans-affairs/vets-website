@@ -32,7 +32,6 @@ export {
   selectCernerTestResultsFacilities,
   mhvTransitionEnabled,
   mhvTransitionModalEnabled,
-  shouldRedirectToMyVA,
 } from './selectors';
 
 /* authentication */
@@ -126,14 +125,13 @@ export {
   IDME_TYPES,
   POLICY_TYPES,
   SIGNUP_TYPES,
-  AUTH_LEVEL,
-  AUTH_ERROR,
   MHV_TRANSITION_DATE,
   MHV_TRANSITION_TIME,
   ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
 } from './authentication/constants';
+export { AUTH_LEVEL, AUTH_ERRORS } from './authentication/errors';
 export {
   hasCheckedKeepAlive,
   signInServiceName,
@@ -142,6 +140,7 @@ export {
   transitionMHVAccount,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';
+export { OAuthEnabledApplications } from './authentication/config/constants';
 export {
   loginAppUrlRE,
   getQueryParams,
