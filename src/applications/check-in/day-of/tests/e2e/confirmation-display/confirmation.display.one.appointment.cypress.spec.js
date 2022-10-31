@@ -9,7 +9,7 @@ import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
-  describe('Confirmation display -- ', () => {
+  describe('Confirmation display one appointment -- ', () => {
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -23,10 +23,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        appointments: [
-          { startTime: '2021-08-19T03:00:00' },
-          { startTime: '2021-08-19T03:30:00' },
-        ],
+        appointments: [{ startTime: '2021-08-19T03:00:00' }],
       });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
@@ -38,7 +35,7 @@ describe('Check In Experience -- ', () => {
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -58,7 +55,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('confirm back button', () => {
-      Confirmation.validateBackButton(2);
+      Confirmation.validateBackButton(1);
       cy.injectAxeThenAxeCheck();
     });
     it('refreshes appointment data when pressing the browser back button', () => {
