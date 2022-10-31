@@ -24,6 +24,18 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    NO_MESSAGES: 'There are no messages in this folder.',
+    DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
+    DELETE_DRAFT_ERROR:
+      'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+  },
+  Folder: {
+    DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
+    DELETE_FOLDER_ERROR:
+      'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
+    RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
+    RENAME_FOLDER_ERROR:
+      'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
   },
 };
 
@@ -34,8 +46,29 @@ export const Prompts = {
     DELETE_MESSAGE_CONFIRM_NOTE:
       'Messages in the trash folder won’t be permanently deleted.',
   },
+  Draft: {
+    DISCARD_DRAFT_CONFIRM: 'Are you sure you want to discard this draft?',
+    DISCARD_DRAFT_CONFIRM_NOTE:
+      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+  },
+};
+export const Breadcrumbs = {
+  COMPOSE: {
+    path: '/compose',
+    label: 'Compose message',
+  },
+  DRAFTS: { path: '/drafts', label: 'Drafts' },
+  DRAFT: { path: '/draft', label: 'Drafts' },
+  FOLDERS: { path: '/folders', label: 'Folders' },
+  SENT: { path: '/sent', label: 'Sent messages' },
+  TRASH: { path: '/trash', label: 'Trash' },
+  SEARCH: { path: '/search', label: 'Search messages' },
+  SEARCH_ADVANCED: { path: '/advanced', label: 'Advanced search' },
+  SEARCH_RESULTS: { path: '/results', label: 'Search results' },
+  FAQ: { path: '/faq', label: 'Messages FAQs' },
 };
 
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
+export const ALERT_TYPE_INFO = 'info';

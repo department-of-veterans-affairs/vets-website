@@ -10,17 +10,18 @@ import { Provider } from 'react-redux';
 import startReactApp from 'platform/startup/react';
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import ClaimsStatusApp from './containers/ClaimsStatusApp.jsx';
-import routes from './routes.jsx';
-import reducer from './reducers';
+import { setLastPage } from './actions';
+import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import manifest from './manifest.json';
-
-import { setLastPage } from './actions/index.jsx';
+import routes from './routes';
+import reducer from './reducers';
 
 window.appName = manifest.entryName;
 
 const store = createCommonStore(reducer);
+connectFeatureToggle(store.dispatch);
 
 /* eslint-disable react-hooks/rules-of-hooks */
 const history = useRouterHistory(createHistory)({

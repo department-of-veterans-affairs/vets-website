@@ -13,11 +13,17 @@
         "stateCode": "NY",
         "zipCode": "30012"
       },
-      "phone": {
+      "homePhone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
         "phoneNumberExt": "2"
+      },
+      "mobilePhone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8002222",
+        "phoneNumberExt": ""
       },
       "email": "user@example.com"
     },
@@ -76,18 +82,6 @@
           {
             "from": "2022-01-01",
             "to": "2022-01-02"
-          },
-          {
-            "from": "2022-02-01",
-            "to": "2022-02-02"
-          },
-          {
-            "from": "2022-03-01",
-            "to": "2022-03-02"
-          },
-          {
-            "from": "2022-04-01",
-            "to": "2022-04-02"
           }
         ]
       },

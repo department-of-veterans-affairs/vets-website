@@ -3,12 +3,14 @@ import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
+import * as additionalIncomeRecords from './income/additionalIncome/records';
 import * as income from './income/currentIncome';
 import * as benefits from './income/benefits';
 import * as socialSecurity from './income/socialSecurity';
 import * as socialSecurityRecords from './income/socialSecurity/records';
 import * as additionalIncome from './income/additionalIncome';
-import * as additionalIncomeRecords from './income/additionalIncome/records';
+import * as additionalIncomeChecklist from './income/additionalIncome/additionalIncomeChecklist';
+import * as additionalIncomeValues from './income/additionalIncome/additionalIncomeValues';
 import * as spouseInformation from './income/spouse/spouseInfo';
 import * as spouseSocialSecurity from './income/spouse/socialSecurity';
 import * as spouseSocialSecurityRecords from './income/spouse/socialSecurity/records';
@@ -22,6 +24,8 @@ import * as spouseIncome from './income/spouse/currentIncome';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
+import * as monetaryChecklist from './assets/monetary/monetaryChecklist';
+import * as monetaryValues from './assets/monetary/monetaryValues';
 import * as realEstate from './assets/realEstate';
 import * as realEstateRecords from './assets/realEstate/records';
 import * as recreationalVehicles from './assets/recreationalVehicles';
@@ -55,6 +59,8 @@ export {
   socialSecurityRecords,
   additionalIncome,
   additionalIncomeRecords,
+  additionalIncomeChecklist,
+  additionalIncomeValues,
   spouseAdditionalIncome,
   spouseAdditionalIncomeRecords,
   spouseInformation,
@@ -68,6 +74,8 @@ export {
   dependents,
   dependentRecords,
   monetary,
+  monetaryChecklist,
+  monetaryValues,
   realEstate,
   realEstateRecords,
   recreationalVehicles,

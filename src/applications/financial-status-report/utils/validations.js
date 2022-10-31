@@ -125,3 +125,27 @@ export const validateWaiverCheckbox = (errors, fieldData) => {
     errors.addError('You must agree by checking the box.');
   }
 };
+
+export const isValidCurrency = currencyAmount => {
+  const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+
+  return regex.test(currencyAmount) || !Number(currencyAmount) < 0;
+};
+
+export const validateAddlIncomeValues = (errors, addlIncome) => {
+  addlIncome.map(income => {
+    return !isValidCurrency(income.amount)
+      ? errors.addError(income.name)
+      : null;
+  });
+};
+
+export const validateCurrencyArray = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      return !isValidCurrency(income.amount)
+        ? errors.addError(income.name)
+        : null;
+    });
+  }
+};

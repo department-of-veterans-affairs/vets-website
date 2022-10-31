@@ -6,7 +6,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import BackToAppointments from '../../../components/BackToAppointments';
+// import BackToAppointments from '../../../components/BackToAppointments';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
 import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
@@ -14,7 +14,11 @@ import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh } = props;
+  const {
+    // appointments,
+    selectedAppointment,
+    triggerRefresh,
+  } = props;
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
@@ -47,7 +51,7 @@ const CheckInConfirmation = props => {
   const doTravelPay = isTravelReimbursementEnabled && travelPayClaimRequested;
 
   if (doTravelPay && !isLoading) {
-    pageTitle += '. ';
+    pageTitle += ' ';
     if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
       pageTitle += t('received-reimbursement-claim');
     } else {
@@ -185,7 +189,8 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        <BackToAppointments appointments={appointments} />
+        {/* Commenting out temporarily see: https://github.com/department-of-veterans-affairs/va.gov-team/issues/48126 */}
+        {/* <BackToAppointments appointments={appointments} /> */}
       </Wrapper>
     );
   };

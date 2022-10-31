@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { DefaultFolders as Folders } from './constants';
 
 export const folderPathByFolderId = folderId => {
@@ -28,4 +29,20 @@ export const folderPathByFolderId = folderId => {
 
 export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
+};
+
+export const navigateToFoldersPage = history => {
+  history.push('/folders');
+};
+
+/**
+ * @param {*} timestamp
+ * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @returns {String} fromatted timestamp
+ */
+export const dateFormat = (timestamp, format = null) => {
+  const timeZone = moment.tz.guess();
+  return moment
+    .tz(timestamp, timeZone)
+    .format(format || 'MMMM d, YYYY, h:mm a z');
 };

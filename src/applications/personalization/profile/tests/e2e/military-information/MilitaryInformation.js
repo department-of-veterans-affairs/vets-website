@@ -20,6 +20,14 @@ class MilitaryInformationPage {
   serviceDownMessageShouldExist = () => {
     cy.get('[data-testid="service-is-down-banner"]').should('exist');
   };
+
+  notAVeteranMessageShouldExist = () => {
+    cy.findByTestId('not-a-veteran-alert').should('exist');
+  };
+
+  notInDeersMessageShouldExist = () => {
+    cy.findByTestId('not-in-deers-alert').should('exist');
+  };
 }
 
 export default new MilitaryInformationPage();

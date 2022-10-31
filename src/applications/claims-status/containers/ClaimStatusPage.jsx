@@ -1,19 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import ClaimsDecision from '../components/ClaimsDecision';
-import ClaimComplete from '../components/ClaimComplete';
-import ClaimsTimeline from '../components/ClaimsTimeline';
-import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { setUpPage, isTab, setFocus } from '../utils/page';
+import PropTypes from 'prop-types';
+
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+
+import { clearNotification } from '../actions';
+import ClaimComplete from '../components/ClaimComplete';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimsTimeline from '../components/ClaimsTimeline';
+import NeedFilesFromYou from '../components/NeedFilesFromYou';
+import { showClaimLettersFeature } from '../selectors';
 import {
   itemsNeedingAttentionFromVet,
   getClaimType,
   getCompletedDate,
 } from '../utils/helpers';
-
-import { clearNotification } from '../actions/index.jsx';
+import { setUpPage, isTab, setFocus } from '../utils/page';
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -29,6 +32,7 @@ class ClaimStatusPage extends React.Component {
       setFocus('.va-tab-trigger--current');
     }
   }
+
   componentDidUpdate(prevProps) {
     if (
       !this.props.loading &&
@@ -41,22 +45,31 @@ class ClaimStatusPage extends React.Component {
       this.setTitle();
     }
   }
+
   componentWillUnmount() {
     this.props.clearNotification();
   }
+
   setTitle() {
     document.title = this.props.loading
       ? 'Status - Your Claim'
       : `Status - Your ${getClaimType(this.props.claim)} Claim`;
   }
+
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const {
+      claim,
+      loading,
+      message,
+      showClaimLettersLink,
+      synced,
+    } = this.props;
 
     let content = null;
     // claim can be null
     const attributes = (claim && claim.attributes) || {};
     if (!loading) {
-      const phase = attributes.phase;
+      const { phase } = attributes;
       const filesNeeded = itemsNeedingAttentionFromVet(
         attributes.eventsTimeline,
       );
@@ -72,7 +85,10 @@ class ClaimStatusPage extends React.Component {
             <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
           ) : null}
           {attributes.decisionLetterSent && !attributes.open ? (
-            <ClaimsDecision completedDate={getCompletedDate(claim)} />
+            <ClaimsDecision
+              completedDate={getCompletedDate(claim)}
+              showClaimLettersLink={showClaimLettersLink}
+            />
           ) : null}
           {!attributes.decisionLetterSent && !attributes.open ? (
             <ClaimComplete completedDate={getCompletedDate(claim)} />
@@ -114,12 +130,24 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
+    showClaimLettersLink: showClaimLettersFeature(state),
     synced: claimsState.claimSync.synced,
   };
 }
 
 const mapDispatchToProps = {
   clearNotification,
+};
+
+ClaimStatusPage.propTypes = {
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  message: PropTypes.string,
+  params: PropTypes.object,
+  showClaimLettersLink: PropTypes.bool,
+  synced: PropTypes.bool,
 };
 
 export default connect(

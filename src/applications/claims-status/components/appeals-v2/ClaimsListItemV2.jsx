@@ -46,12 +46,12 @@ export default function ClaimsListItem({ claim }) {
             We sent you a development letter
           </li>
         ) : null}
-        {claim.attributes.decisionLetterSent ? (
+        {claim.attributes.decisionLetterSent && (
           <li className="claim-list-item-text">
             <i className="fa fa-envelope claim-list-item-icon" />
-            We sent you a decision letter
+            You have a decision letter ready
           </li>
-        ) : null}
+        )}
         {inProgress && claim.attributes.documentsNeeded ? (
           <li className="claim-list-item-text">
             <i className="fa fa-exclamation-triangle claim-list-item-icon" />

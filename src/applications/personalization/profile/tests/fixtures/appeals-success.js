@@ -1,6 +1,6 @@
 import { daysAgo } from '../helpers';
 
-const appealsSuccess = (updatedDaysAgo = 10) => {
+const appealsSuccess = (updatedDaysAgo = 10, active = true) => {
   return {
     data: [
       {
@@ -12,7 +12,7 @@ const appealsSuccess = (updatedDaysAgo = 10) => {
           incompleteHistory: false,
           type: 'original',
           // this determines if the appeal is open or closed
-          active: true,
+          active,
           description: 'Benefits as a result of VA error (Section 1151)',
           aod: false,
           location: 'bva',

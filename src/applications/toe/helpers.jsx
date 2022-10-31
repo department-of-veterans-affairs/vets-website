@@ -24,10 +24,13 @@ export function titleCase(str) {
 }
 
 export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
   if (str.length <= numVisibleChars) {
     return str;
   }
-
   return (
     obfuscateChar.repeat(str.length - numVisibleChars) +
     str.substring(str.length - numVisibleChars, str.length)
@@ -108,37 +111,32 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
   }
 };
 
+function mapNotificationMethod({ notificationMethod }) {
+  if (notificationMethod === 'EMAIL') {
+    return 'No, just send me email notifications';
+  }
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
+  }
+
+  return notificationMethod;
+}
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
+  const stateUser = state.user;
   // const vaProfile = stateUser?.vaProfile;
 
-  const stateUser = state.user;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
-  const userAddressLine1 =
-    profile?.addressLine1 ||
-    vet360ContactInfo?.addressLine1 ||
-    contactInfo?.addressLine1;
-  const userAddressLine2 =
-    profile?.addressLine2 ||
-    vet360ContactInfo?.addressLine2 ||
-    contactInfo?.addressLine2;
-  const userCity =
-    profile?.city || vet360ContactInfo?.city || contactInfo?.city;
-  const userState =
-    profile?.stateCode ||
-    vet360ContactInfo?.stateCode ||
-    contactInfo?.stateCode;
-  const userPostalCode =
-    profile?.zipcode || vet360ContactInfo?.zipcode || contactInfo?.zipcode;
-  const userCountryCode =
-    profile?.countryCode ||
-    vet360ContactInfo?.countryCode ||
-    contactInfo?.countryCode;
+  const address = vet360ContactInfo?.mailingAddress?.addressLine1
+    ? vet360ContactInfo?.mailingAddress
+    : contactInfo;
+
   const emailAddress =
     profile?.email ||
     vet360ContactInfo?.email?.emailAddress ||
@@ -164,6 +162,28 @@ export function prefillTransformer(pages, formData, metadata, state) {
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
+
+  // let firstName;
+  // let middleName;
+  // let lastName;
+  // let suffix;
+  //
+  // if (vaProfile?.familyName) {
+  //   firstName = vaProfile?.givenNames[0];
+  //   middleName = vaProfile?.givenNames[1];
+  //   lastName = vaProfile?.familyName;
+  //   // suffix = ???
+  // } else if (profile?.lastName) {
+  //   firstName = profile?.firstName;
+  //   middleName = profile?.middleName;
+  //   lastName = profile?.lastName;
+  //   // suffix = ???
+  // } else {
+  //   firstName = claimant.firstName;
+  //   middleName = claimant.middleName;
+  //   lastName = claimant?.lastName;
+  //   suffix = claimant.suffix;
+  // }
 
   // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
@@ -200,16 +220,19 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: userAddressLine1,
-        street2: userAddressLine2,
-        city: userCity,
-        state: userState,
-        postalCode: userPostalCode,
-        country: getSchemaCountryCode(userCountryCode),
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
     },
   };
 

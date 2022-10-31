@@ -1,5 +1,6 @@
 {
   "view:combinedFinancialStatusReport": true,
+  "view:enhancedFinancialStatusReport": true,
   "otherExpenses": [
     {
       "name": "Pool service",
@@ -51,6 +52,40 @@
         "year": "2020",
         "resaleValue": "40000.54"
       }
+    ],
+    "monetaryAssets": [
+      {
+        "name": "Cash",
+        "amount": "100"
+      },
+      {
+        "name": "Checking accounts",
+        "amount": "100"
+      },
+      {
+        "name": "Savings accounts",
+        "amount": "100"
+      },
+      {
+        "name": "U.S. Savings Bonds",
+        "amount": "100"
+      },
+      {
+        "name": "Retirement accounts (401k, IRAs, 403b, TSP)",
+        "amount": "100"
+      },
+      {
+        "name": "Other stocks and bonds (not in your retirement accounts)",
+        "amount": "100"
+      },
+      {
+        "name": "Pension",
+        "amount": "100"
+      },
+      {
+        "name": "Cryptocurrency",
+        "amount": "100"
+      }
     ]
   },
   "realEstateRecords": [
@@ -78,12 +113,12 @@
     },
     "addlIncRecords": [
       {
-        "name": "Bonus payment",
-        "amount": "1500.67"
+        "name": "Social Security",
+        "amount": "150.67"
       },
       {
-        "name": "Freelance service",
-        "amount": "1000.43"
+        "name": "Alimony",
+        "amount": "210.43"
       }
     ]
   },

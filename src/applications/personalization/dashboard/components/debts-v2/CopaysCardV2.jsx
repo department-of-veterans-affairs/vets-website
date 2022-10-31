@@ -40,6 +40,7 @@ export const CopaysV2 = ({ copays }) => {
           text="Manage your VA bills"
           href="/manage-va-debt/summary/copay-balances"
           showArrow
+          className="vads-u-font-weight--bold"
           onClick={() =>
             recordEvent({
               event: 'profile-navigation',
