@@ -22,7 +22,7 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[id="select"]')
       .select('BLUE ANCILLARY_TEAM');
-    cy.get('[name="covid"]').click();
+    cy.get('[name="COVID"]').click();
     cy.get('[data-testid="message-subject-field"]').type('Test Subject');
     cy.get('[data-testid="message-body-field"]').type('message Test');
     composePage.sendMessage();
