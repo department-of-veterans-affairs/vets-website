@@ -63,14 +63,23 @@ const AppWrapper = props => {
       }
       setRefreshData(false);
     },
-    [reduxToken, sessionToken, location, refreshCheckInData, dispatch],
+    [
+      reduxToken,
+      sessionToken,
+      location,
+      refreshCheckInData,
+      dispatch,
+      getPermissions,
+      validReloadPage,
+      progressState,
+    ],
   );
 
   useEffect(
     () => {
       setProgressState(window, currentForm);
     },
-    [currentForm],
+    [currentForm, setProgressState],
   );
 
   useEffect(
@@ -79,7 +88,7 @@ const AppWrapper = props => {
         goToErrorPage('?error=reload-data-error');
       }
     },
-    [checkInDataError],
+    [checkInDataError, goToErrorPage],
   );
 
   return <>{refreshData || isLoading ? loadingMessage : children}</>;
@@ -87,6 +96,7 @@ const AppWrapper = props => {
 
 AppWrapper.propTypes = {
   children: PropTypes.node,
+  router: PropTypes.object,
 };
 
 export default AppWrapper;
