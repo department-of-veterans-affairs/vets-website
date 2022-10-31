@@ -11,10 +11,8 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 import { selectVeteranStatus } from 'platform/user/selectors';
-import facilityLocator from 'applications/facility-locator/manifest.json';
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-
 import Headline from '../ProfileSectionHeadline';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
@@ -23,26 +21,14 @@ import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 const NotAVeteranAlert = () => {
   return (
     <>
-      <va-alert status="warning">
-        <h2 slot="headline">We don’t seem to have your military records</h2>
+      <va-alert status="info" data-testid="not-a-veteran-alert">
+        <h2 slot="headline">We don’t have military service records for you</h2>
 
         <p>
-          We’re sorry. We can’t match your information to our records. If you
-          think this is an error, please call the VA.gov help desk at{' '}
-          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-          <va-telephone contact={CONTACTS['711']} />
+          If you think this is an error, call us at{' '}
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
-        </p>
-        <p>
-          Or you can learn how to{' '}
-          <a
-            href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html"
-            target="blank"
-            rel="noopener noreferrer"
-          >
-            update or correct your military service history
-          </a>
-          .
         </p>
       </va-alert>
     </>
@@ -53,24 +39,33 @@ const NotAVeteranAlert = () => {
 const NotInDEERSAlert = () => {
   return (
     <>
-      <va-alert status="warning">
-        <h2 slot="headline">We can’t access your military information</h2>
+      <va-alert status="warning" data-testid="not-in-deers-alert">
+        <h2 slot="headline">
+          We can’t match your information to any military service records
+        </h2>
         <div>
+          <p>We’re sorry for this issue.</p>
           <p>
-            We’re sorry. We can’t find your Department of Defense (DoD) ID. We
-            need this to access your military service records. If you need help
-            updating your information in DEERS, please call the Defense Manpower
-            Data Center (DMDC).
+            <b>
+              If you want to learn what military service records may be on file
+              for you
+            </b>
+            , call the Defense Manpower Data Center (DMDC) at{' '}
+            <va-telephone contact={CONTACTS.DS_LOGON} />
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />. The DMDC
+            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
+            8:00 p.m. ET.
           </p>
           <p>
-            To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
-            . This office is open Monday through Friday (except federal
-            holidays), 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss, call
-            TTY: <va-telephone contact={CONTACTS.DS_LOGON_TTY} />.
+            <b>
+              If you think there might be a problem with your military service
+              records
+            </b>
+            , you can apply for a correction.
           </p>
-          <p>Or you can visit your nearest VA regional office for help.</p>
-          <a href={facilityLocator.rootUrl}>
-            Find your nearest VA regional office
+          <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
+            Learn how to correct your military service records on the National
+            Archives website
           </a>
           .
         </div>
@@ -163,8 +158,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           <p>
             To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
             , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call TTY:{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} />.
+            p.m. ET. If you have hearing loss, call
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />.
           </p>
         </va-additional-info>
       </div>

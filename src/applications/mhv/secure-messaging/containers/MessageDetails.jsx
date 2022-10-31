@@ -13,6 +13,9 @@ const MessageDetail = () => {
   const { messageId } = useParams();
   const dispatch = useDispatch();
   const message = useSelector(state => state.sm.messageDetails.message);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
   const activeFolder = useSelector(state => state.sm.folders.folder);
@@ -31,7 +34,7 @@ const MessageDetail = () => {
         dispatch(retrieveMessage(id));
       }
     },
-    [dispatch, location, messageId, id, activeFolder],
+    [dispatch, location, messageId, id, activeFolder, history],
   );
 
   let pageTitle;
@@ -67,7 +70,7 @@ const MessageDetail = () => {
     return (
       <>
         <MessageDetailBlock message={message} />
-        <MessageThread />
+        <MessageThread messageHistory={messageHistory} />
       </>
     );
   };

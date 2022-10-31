@@ -38,6 +38,10 @@
   }
 
   .older-message {
+    p {
+      margin-top: 2px;
+      margin-bottom: 1px;
+    }
     .message-date {
       color: $color-gray-medium !important;
       font-style: italic;

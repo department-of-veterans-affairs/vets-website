@@ -1,70 +1,63 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
+import { isLoggedIn } from 'platform/user/selectors';
+import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
 
-import {
-  isAuthenticatedWithSSOe,
-  signInServiceEnabled,
-} from 'platform/user/authentication/selectors';
-import { selectProfile } from 'platform/user/selectors';
-import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
+export function UnifiedSigninPage({ router, location }) {
+  const isAuthenticated = useSelector(state => isLoggedIn(state));
+  const { query } = location;
+  const loggedOut = query?.auth === 'logged_out';
+  const externalApplication = query.application;
 
-export class SignInPage extends React.Component {
-  componentDidUpdate() {
-    const {
-      router,
-      location,
-      authenticatedWithSSOe,
-      profile,
-      useSignInService,
-    } = this.props;
-    const { query } = location;
-    const { application } = query;
+  const { OAuthEnabled } =
+    externalApplicationsConfig[externalApplication] ??
+    externalApplicationsConfig.default;
+  const isQueryAlreadySet = ['true', 'false'].includes(query?.oauth);
 
+  // Check if authenticated and redirect if necessary
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location = '/';
+    }
+  }, []);
+
+  // Immediately check if OAuthEnabled
+  useEffect(() => {
     if (
-      authenticatedWithSSOe &&
-      !profile.verified &&
-      application === EXTERNAL_APPS.MY_VA_HEALTH
+      isAuthenticated ||
+      (isQueryAlreadySet &&
+        OAuthEnabledApplications.includes(externalApplication))
     ) {
-      router.push(appendQuery('/verify', window.location.search.slice(1)));
+      return;
     }
 
-    if (
-      useSignInService &&
-      !window.location.search.includes('oauth') &&
-      !window.location.search.includes('application')
-    ) {
-      router.push(`?oauth=true`);
-    }
-  }
-
-  render() {
-    const { location } = this.props;
-    const { query } = location;
-    const externalApplication = query.application;
-    const loggedOut = query.auth === 'logged_out';
-
-    return (
-      <>
-        <AutoSSO />
-        <LoginContainer
-          isUnifiedSignIn
-          externalApplication={externalApplication}
-          loggedOut={loggedOut}
-        />
-      </>
+    router.push(
+      appendQuery('', { ...query, oauth: OAuthEnabled }, { removeNull: true }),
     );
-  }
+  }, []);
+
+  return (
+    <>
+      <AutoSSO />
+      <LoginContainer
+        isUnifiedSignIn
+        externalApplication={externalApplication}
+        loggedOut={loggedOut}
+      />
+    </>
+  );
 }
 
-const mapStateToProps = state => ({
-  profile: selectProfile(state),
-  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  useSignInService: signInServiceEnabled(state),
-});
+UnifiedSigninPage.propTypes = {
+  location: PropTypes.object,
+  router: PropTypes.object,
+};
 
-export default connect(mapStateToProps)(SignInPage);
+export default UnifiedSigninPage;
