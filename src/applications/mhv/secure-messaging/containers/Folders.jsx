@@ -16,6 +16,7 @@ const Folders = () => {
   const [nameWarning, setNameWarning] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [folderName, setFolderName] = useState('');
+  let folderMatch = null;
 
   useEffect(
     () => {
@@ -35,8 +36,12 @@ const Folders = () => {
   };
 
   const confirmNewFolder = () => {
+    folderMatch = null;
+    folderMatch = folders.filter(folder => folder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning('Folder name cannot be blank');
+    } else if (folderMatch.length > 0) {
+      setNameWarning('Folder name alreeady in use. Please use another name.');
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeNewModal();
       dispatch(newFolder(folderName));
