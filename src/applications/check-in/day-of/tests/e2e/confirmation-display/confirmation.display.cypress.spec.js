@@ -33,7 +33,7 @@ describe('Check In Experience -- ', () => {
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
     });
     afterEach(() => {
       cy.window().then(window => {

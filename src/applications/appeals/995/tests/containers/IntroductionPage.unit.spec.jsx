@@ -39,6 +39,13 @@ const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
           metadata: {},
         },
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
