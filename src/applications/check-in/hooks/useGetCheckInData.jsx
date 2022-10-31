@@ -53,7 +53,7 @@ const useGetCheckInData = ({
         }
 
         if (reload) {
-          dispatch(receivedDemographicsData(demo));
+          dispatch(receivedDemographicsData(demographics));
         }
       });
     },
