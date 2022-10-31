@@ -22,9 +22,7 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
-      });
+      initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
 
@@ -67,7 +65,7 @@ describe('Check In Experience', () => {
 
       Appointments.validatePageLoaded();
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
@@ -122,9 +120,7 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
-      });
+      initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       // Response delayed by 5 seconds.
       initializeDemographicsPatch.withFailure(400, 5000);
@@ -156,7 +152,7 @@ describe('Check In Experience', () => {
 
       Appointments.validatePageLoaded();
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
@@ -195,7 +191,6 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
         demographicsNeedsUpdate: false,
         demographicsConfirmedAt: today.toISOString(),
         nextOfKinNeedsUpdate: false,
@@ -230,7 +225,7 @@ describe('Check In Experience', () => {
     });
     it('Do not send demographics confirmations if all confirm pages skipped', () => {
       Appointments.validatePageLoaded();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
 
       cy.injectAxeThenAxeCheck();
       Confirmation.validatePageLoaded();
