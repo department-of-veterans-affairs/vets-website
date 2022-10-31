@@ -1,3 +1,4 @@
+import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
@@ -76,9 +77,11 @@ const v2 = {
 
   getCheckInData: async (token, reload = false) => {
     const url = '/check_in/v2/patient_check_ins/';
-    const reloadSlug = reload ? '?reload=true' : '?reload=false';
+    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
+      reload,
+    });
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}${reloadSlug}`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );
