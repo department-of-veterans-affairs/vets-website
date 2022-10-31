@@ -6,7 +6,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import titleCase from 'platform/utilities/data/titleCase';
 
 import { fetchAllDependents } from '../actions/index';

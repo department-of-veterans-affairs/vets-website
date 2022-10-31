@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 
 export function EducationGate({ user, location, children }) {

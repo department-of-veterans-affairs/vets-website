@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 import React from 'react';
 import { connect } from 'react-redux';
 
