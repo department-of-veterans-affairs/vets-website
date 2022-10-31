@@ -27,9 +27,11 @@ const AppWrapper = props => {
   const currentForm = useSelector(selectForm);
   const progressState = getProgressState(window);
   const { checkInDataError, refreshCheckInData, isLoading } = useGetCheckInData(
-    false,
-    true,
-    true,
+    {
+      refreshNeeded: false,
+      appointmentsOnly: true,
+      reload: true,
+    },
   );
   const [refreshData, setRefreshData] = useState(true);
 

@@ -11,11 +11,11 @@ import {
   updateFormAction,
 } from '../actions/day-of';
 
-const useGetCheckInData = (
+const useGetCheckInData = ({
   refreshNeeded,
   appointmentsOnly = false,
   reload = false,
-) => {
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [checkInDataError, setCheckInDataError] = useState(false);

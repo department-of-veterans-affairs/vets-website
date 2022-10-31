@@ -29,8 +29,10 @@ const DisplayMultipleAppointments = props => {
   const { shouldRefresh } = context;
 
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
-    shouldRefresh,
-    true,
+    {
+      shouldRefresh,
+      appointmentsOnly: true,
+    },
   );
 
   const refreshTimer = useRef(null);
