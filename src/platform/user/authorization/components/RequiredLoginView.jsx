@@ -27,7 +27,7 @@ const RequiredLoginLoader = () => {
   );
 };
 
-const RequiredLoginView = props => {
+export const RequiredLoginView = props => {
   const { user, verify, useSiS } = props;
 
   const shouldSignIn = useCallback(() => !user.login.currentlyLoggedIn, [
@@ -140,7 +140,7 @@ const RequiredLoginView = props => {
 
     if (shouldSignIn()) {
       return (
-        <div className="vads-u-margin-y--5">
+        <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
           <LoadingIndicator setFocus message="Redirecting to login..." />;
         </div>
       );
@@ -164,6 +164,7 @@ RequiredLoginView.propTypes = {
     PropTypes.arrayOf(validService),
   ]).isRequired,
   user: PropTypes.object.isRequired,
+  useSiS: PropTypes.bool,
   verify: PropTypes.bool,
 };
 

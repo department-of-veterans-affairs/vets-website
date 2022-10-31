@@ -1,17 +1,89 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+
 import { expect } from 'chai';
-import _ from 'lodash';
 import sinon from 'sinon';
-import RequiredLoginView from '../../../authorization/components/RequiredLoginView.jsx';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import { mount } from 'enzyme';
 import backendServices from '../../../profile/constants/backendServices';
 import localStorage from '../../../../utilities/storage/localStorage';
+// import { render } from '@testing-library/react';
+
+const anonymousUser = {
+  login: { currentlyLoggedIn: false },
+  profile: {
+    accountType: null,
+    dob: null,
+    email: null,
+    gender: null,
+    loading: false,
+    userFullName: { first: null, last: null, middle: null, suffix: null },
+  },
+  verified: false,
+};
+
+const loa1User = {
+  login: { currentlyLoggedIn: true },
+  profile: {
+    accountType: 1,
+    dob: null,
+    email: 'fake@aol.com',
+    gender: null,
+    loading: false,
+    services: ['user-profile'],
+    userFullName: { first: null, last: null, middle: null, suffix: null },
+    verified: false,
+  },
+};
+
+const loa3User = {
+  login: { currentlyLoggedIn: true },
+  profile: {
+    accountType: 3,
+    dob: '1984-07-17',
+    email: 'fake@aol.com',
+    gender: 'M', // TODO: use services that actually require LOA3 for clarity?
+    loading: false,
+    services: [
+      backendServices.FACILITIES,
+      backendServices.HCA,
+      backendServices.USER_PROFILE,
+      backendServices.EDUCATION_BENEFITS,
+    ],
+    status: 'OK',
+    userFullName: {
+      first: 'WILLIAM',
+      last: 'RYAN',
+      middle: 'PETER',
+      suffix: null,
+    },
+    verified: true,
+  },
+};
+
+const generateProps = ({
+  verify = true,
+  serviceRequired = backendServices.HCA,
+  user = loa1User,
+  loginUrl = 'http://fake-login-url',
+  verifyUrl = 'http://fake-verify-url',
+}) => ({
+  verify,
+  serviceRequired,
+  user,
+  loginUrl,
+  verifyUrl,
+});
+
+function TestChildComponent({ name }) {
+  return <div>Child Component {name}</div>;
+}
 
 describe('<RequiredLoginView>', () => {
   const redirectFunc = sinon.spy();
   let oldWindow;
+  let props;
 
-  const initialSetup = () => {
+  beforeEach(() => {
     localStorage.setItem('hasSession', true);
     oldWindow = global.window;
     global.window = Object.create(global.window);
@@ -21,127 +93,51 @@ describe('<RequiredLoginView>', () => {
         replace: redirectFunc,
       },
     });
-  };
+  });
 
-  const teardown = () => {
+  afterEach(() => {
     global.window = oldWindow;
     localStorage.clear();
-  };
+    props = {};
+  });
 
-  beforeEach(initialSetup);
-  afterEach(teardown);
+  it('should render', () => {
+    props = generateProps({
+      user: { ...anonymousUser },
+    });
 
-  const anonymousUser = {
-    login: {
-      currentlyLoggedIn: false,
-    },
-    profile: {
-      accountType: null,
-      dob: null,
-      email: null,
-      gender: null,
-      userFullName: {
-        first: null,
-        last: null,
-        middle: null,
-        suffix: null,
-      },
-    },
-    verified: false,
-  };
-
-  const loa1User = {
-    login: {
-      currentlyLoggedIn: true,
-    },
-    profile: {
-      accountType: 1,
-      dob: null,
-      email: 'fake@aol.com',
-      gender: null,
-      services: ['user-profile'],
-      userFullName: {
-        first: null,
-        last: null,
-        middle: null,
-        suffix: null,
-      },
-      verified: false,
-    },
-  };
-
-  const loa3User = {
-    login: {
-      currentlyLoggedIn: true,
-    },
-    profile: {
-      accountType: 3,
-      dob: '1984-07-17',
-      email: 'fake@aol.com',
-      gender: 'M',
-      // TODO: use services that actually require LOA3 for clarity?
-      services: [
-        backendServices.FACILITIES,
-        backendServices.HCA,
-        backendServices.USER_PROFILE,
-        backendServices.EDUCATION_BENEFITS,
-      ],
-      status: 'OK',
-      userFullName: {
-        first: 'WILLIAM',
-        last: 'RYAN',
-        middle: 'PETER',
-        suffix: null,
-      },
-      verified: true,
-    },
-  };
-
-  const defaultProps = {
-    verify: true,
-    serviceRequired: backendServices.HCA,
-    user: loa1User,
-    loginUrl: 'http://fake-login-url',
-    verifyUrl: 'http://fake-verify-url',
-  };
-
-  function TestChildComponent({ name }) {
-    return <div>Child Component {name}</div>;
-  }
-
-  function setup(props = {}) {
-    const mergedProps = _.merge({}, defaultProps, props);
-    const tree = SkinDeep.shallowRender(
-      <RequiredLoginView {...mergedProps}>
-        <div>Test Child</div>
+    const wrapper = mount(
+      <RequiredLoginView {...props}>
+        <TestChildComponent name="one" />
       </RequiredLoginView>,
     );
 
-    const vdom = tree.getRenderOutput();
-
-    return { tree, mergedProps, vdom };
-  }
-
-  it('should render', () => {
-    const { vdom } = setup();
-    expect(vdom).to.not.be.undefined;
+    expect(wrapper.text()).to.contain('Redirecting');
+    wrapper.unmount();
   });
 
   it('should render a loading graphic while loading', () => {
-    const { tree } = setup({
-      user: { profile: { loading: true } },
+    props = generateProps({
+      user: { ...loa1User, profile: { loading: true } },
     });
-    const loadingIndicator = tree.dive(['RequiredLoginLoader']);
-    const loadingIndicatorElement = loadingIndicator.dive(['LoadingIndicator']);
-    expect(loadingIndicatorElement.text()).to.contain(
-      'Loading your information',
+    const wrapper = mount(
+      <RequiredLoginView {...props}>
+        <TestChildComponent name="one" />
+        <TestChildComponent name="two" />
+        <TestChildComponent name="three" />
+      </RequiredLoginView>,
     );
+
+    expect(wrapper.text()).to.contain('Loading your information...');
+    wrapper.unmount();
   });
 
   it('should display children when service is available', () => {
-    const loa3Props = _.merge({}, defaultProps, { user: loa3User });
-    const tree = SkinDeep.shallowRender(
-      <RequiredLoginView {...loa3Props}>
+    props = generateProps({
+      user: loa3User,
+    });
+    const wrapper = mount(
+      <RequiredLoginView {...props}>
         <TestChildComponent name="one" />
         <TestChildComponent name="two" />
         <TestChildComponent name="three" />
@@ -149,17 +145,21 @@ describe('<RequiredLoginView>', () => {
     );
 
     // Child components should not be passed an isDataAvailable prop
-    tree.props.children.forEach(child => {
-      expect(child.props.isDataAvailable).to.be.undefined;
-    });
+    wrapper
+      // .props()
+      .children()
+      .forEach(child => {
+        expect(child.props().isDataAvailable).to.be.undefined;
+      });
+    wrapper.unmount();
   });
 
   it('should display children and pass prop when service is not available', () => {
-    const props = _.merge({}, defaultProps, {
+    props = generateProps({
       user: loa3User,
       serviceRequired: backendServices.MESSAGING,
     });
-    const tree = SkinDeep.shallowRender(
+    const wrapper = mount(
       <RequiredLoginView {...props}>
         <TestChildComponent name="one" />
         <TestChildComponent name="two" />
@@ -168,77 +168,128 @@ describe('<RequiredLoginView>', () => {
     );
 
     // Each direct child component should be passed a false isDataAvailable prop
-    tree.props.children.forEach(child => {
-      expect(child.props.isDataAvailable).to.equal(false);
+    wrapper.children().forEach(child => {
+      expect(child.props().isDataAvailable).to.equal(false);
     });
+    wrapper.unmount();
   });
 
   describe('logged in at LOA 1', () => {
     describe('needs verification', () => {
       it('should prompt for verification', () => {
-        const { tree } = setup({ user: loa1User });
-        tree.getMountedInstance().componentDidUpdate();
+        props = generateProps({ user: loa1User });
+        const wrapper = mount(
+          <RequiredLoginView {...props}>
+            <TestChildComponent name="three" />
+          </RequiredLoginView>,
+        );
+
         expect(redirectFunc.calledWith(sinon.match('/verify'))).to.be.true;
+        wrapper.unmount();
       });
     });
 
     describe('does not need verification', () => {
       it('should display children elements', () => {
-        const { tree } = setup({
+        props = generateProps({
           verify: false,
           serviceRequired: backendServices.USER_PROFILE,
         });
+        const wrapper = mount(
+          <RequiredLoginView {...props}>
+            <TestChildComponent name="three" />
+          </RequiredLoginView>,
+        );
+
         expect(
-          tree
-            .subTree('div')
-            .subTree('div')
-            .text(),
-        ).to.equal('Test Child');
+          wrapper.containsMatchingElement(<TestChildComponent name="three" />),
+        );
+        expect(wrapper.text()).to.contain('Child Component three');
+        wrapper.unmount();
       });
     });
   });
 
   describe('logged in at LOA 3', () => {
     it('should display children elements', () => {
-      const { tree } = setup({ user: loa3User });
-      expect(
-        tree
-          .subTree('div')
-          .subTree('div')
-          .text(),
-      ).to.equal('Test Child');
+      props = generateProps({ user: loa3User });
+      const wrapper = mount(
+        <RequiredLoginView {...props}>
+          <TestChildComponent name="One" />
+        </RequiredLoginView>,
+      );
+      expect(wrapper.text()).to.include('Child Component One');
+      expect(wrapper.containsMatchingElement(<TestChildComponent name="One" />))
+        .to.be.true;
+      expect(wrapper.text()).to.contain('Child Component One');
+      wrapper.unmount();
     });
 
     describe('user profile with SERVER_ERROR', () => {
       it('should display server error message', () => {
-        const serverErrorProfile = _.merge({}, loa3User, {
-          profile: { status: 'SERVER_ERROR' },
+        props = generateProps({
+          user: {
+            // profile: { status: 'SERVER_ERROR' },
+            ...loa3User,
+            profile: { ...loa3User.profile, status: 'SERVER_ERROR' },
+          },
         });
-        const { tree } = setup({ user: serverErrorProfile });
-        expect(tree.toString()).to.contain(
+        const wrapper = mount(
+          <RequiredLoginView {...props}>
+            <TestChildComponent name="One" />
+          </RequiredLoginView>,
+        );
+        expect(wrapper.text()).to.contain(
           'Sorry, our system is temporarily down while we fix a few things',
         );
+        wrapper.unmount();
       });
     });
 
     describe('user profile NOT_FOUND', () => {
       it('should display not found message', () => {
-        const notFoundProfile = _.merge({}, loa3User, {
-          profile: { status: 'NOT_FOUND' },
+        props = generateProps({
+          user: {
+            // profile: { status: 'SERVER_ERROR' },
+            ...loa3User,
+            profile: { ...loa3User.profile, status: 'NOT_FOUND' },
+          },
         });
-        const { tree } = setup({ user: notFoundProfile });
-        expect(tree.subTree('SystemDownView').props.messageLine1).to.equal(
+        const wrapper = mount(
+          <RequiredLoginView {...props}>
+            <TestChildComponent name="One" />
+          </RequiredLoginView>,
+        );
+        expect(wrapper.text()).to.contain(
           'We couldn’t find your records with that information.',
         );
+        wrapper.unmount();
       });
     });
   });
 
   describe('not logged in', () => {
-    it('should prompt for login', () => {
-      const { tree } = setup({ user: anonymousUser });
-      tree.getMountedInstance().componentDidUpdate();
+    it("should return user to '/'", () => {
+      props = generateProps({ user: anonymousUser });
+      const wrapper = mount(
+        <RequiredLoginView {...props}>
+          <TestChildComponent name="three" />
+        </RequiredLoginView>,
+      );
+
       expect(redirectFunc.calledWith(sinon.match('/'))).to.be.true;
+      wrapper.unmount();
+    });
+
+    it('should prompt user to login', () => {
+      props = generateProps({ user: anonymousUser });
+      const wrapper = mount(
+        <RequiredLoginView {...props}>
+          <TestChildComponent name="three" />
+        </RequiredLoginView>,
+      );
+      expect(wrapper.text()).to.include('Redirecting to login...');
+      wrapper.unmount();
     });
   });
 });
