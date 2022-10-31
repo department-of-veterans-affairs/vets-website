@@ -1,8 +1,8 @@
 export const DateRanges = [
   { value: 'any', label: 'Any' },
-  { value: '3', label: 'Last 3 months' },
-  { value: '6', label: 'Last 6 months' },
-  { value: '12', label: 'Last 12 months' },
+  { value: 'last3', label: 'Last 3 months' },
+  { value: 'last6', label: 'Last 6 months' },
+  { value: 'last12', label: 'Last 12 months' },
   { value: 'custom', label: 'Custom date range' },
 ];
 
@@ -12,27 +12,27 @@ export const SelectCategories = [
     label: ' ',
   },
   {
-    value: 'OTHER',
+    value: 'other',
     label: 'General',
   },
   {
-    value: 'COVID',
+    value: 'covid',
     label: 'COVID',
   },
   {
-    value: 'APPOINTMENTS',
+    value: 'appointment',
     label: 'Appointment',
   },
   {
-    value: 'MEDICATIONS',
+    value: 'medication',
     label: 'Medication',
   },
   {
-    value: 'TEST_RESULTS',
+    value: 'test',
     label: 'Test',
   },
   {
-    value: 'EDUCATION',
+    value: 'education',
     label: 'Education',
   },
 ];

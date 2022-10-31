@@ -47,7 +47,7 @@ const Search = () => {
     if (!folders) {
       return (
         <va-loading-indicator
-          message="Loading your secure message..."
+          message="Loading your secure messages..."
           setFocus
         />
       );
