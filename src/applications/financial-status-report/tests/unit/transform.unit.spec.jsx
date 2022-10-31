@@ -6,7 +6,7 @@ import {
   sumValues,
   dateFormatter,
   getFsrReason,
-  filterDeductions,
+  filterReduceByName,
   getMonthlyIncome,
   otherDeductionsAmt,
   getMonthlyExpenses,
@@ -56,7 +56,7 @@ describe('fsr transform helper functions', () => {
     });
   });
 
-  describe('filterDeductions helper', () => {
+  describe('filterReduceByName helper', () => {
     it('should return deductions based on elements in filter array', () => {
       const deductions = [
         {
@@ -77,12 +77,12 @@ describe('fsr transform helper functions', () => {
         },
       ];
       const filter = ['State tax', 'Federal tax', 'Local tax'];
-      expect(filterDeductions(deductions, filter)).to.equal(581.01);
+      expect(filterReduceByName(deductions, filter)).to.equal(581.01);
     });
     it('should return 0 if deduction list is empty', () => {
       const deductions = [];
       const filter = ['State tax', 'Federal tax', 'Local tax'];
-      expect(filterDeductions(deductions, filter)).to.equal(0);
+      expect(filterReduceByName(deductions, filter)).to.equal(0);
     });
   });
 
@@ -119,7 +119,7 @@ describe('fsr transform helper functions', () => {
     });
   });
 
-  // Depends on sumValues, filterDeductions, otherDeductionsAmt
+  // Depends on sumValues, filterReduceByName, otherDeductionsAmt
   describe('getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
       expect(getMonthlyIncome(inputObject.data)).to.equal(20398.05);

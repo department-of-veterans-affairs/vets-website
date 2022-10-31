@@ -73,7 +73,7 @@ export const sumValues = (arr, key) => {
 };
 
 export const filterReduceByName = (deductions, filters) => {
-  if (!deductions.length) return 0;
+  if (!deductions?.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
     .reduce(
