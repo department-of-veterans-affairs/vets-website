@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { getFolders, newFolder } from '../actions/folders';
+import { closeAlert } from '../actions/alerts';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
@@ -17,6 +18,18 @@ const Folders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [folderName, setFolderName] = useState('');
   let folderMatch = null;
+
+  // clear out alerts if user navigates away from this component
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
   useEffect(
     () => {
