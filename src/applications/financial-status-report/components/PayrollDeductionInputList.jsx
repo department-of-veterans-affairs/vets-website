@@ -9,26 +9,32 @@ const PayrollDeductionInputList = () => {
   const selectedEmployment = currEmployment[0];
   const { deductions = [] } = selectedEmployment;
 
-  const onChange = ({ target }) => {
+  const mapDeductions = target => {
+    return deductions.map(deduction => {
+      if (deduction.name === target.name) {
+        return {
+          ...deduction,
+          amount: target.value,
+        };
+      }
+      return deduction;
+    });
+  };
+
+  const onChange = obj => {
+    const { target } = obj;
+
     return dispatch(
       setData({
         ...data,
         currEmployment: [
           {
             ...selectedEmployment,
-            deductions: deductions.map(deduction => {
-              if (deduction.name === target.name) {
-                return {
-                  ...deduction,
-                  amount: target.value,
-                };
-              }
-              return deduction;
-            }),
+            deductions: mapDeductions(target),
+            ...currEmployment.filter(
+              job => job.employerName !== selectedEmployment.employerName,
+            ),
           },
-          ...currEmployment.filter(
-            job => job.employerName !== selectedEmployment.employerName,
-          ),
         ],
       }),
     );
@@ -45,6 +51,7 @@ const PayrollDeductionInputList = () => {
             value={income.amount}
             id={income.name + key}
             inputmode="decimal"
+            error="Hello"
             onInput={onChange}
             required
           />
