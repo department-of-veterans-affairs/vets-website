@@ -58,9 +58,9 @@ const responses = {
     const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(sharedData.get.createMultipleAppointments(uuid, 3));
+      return res.json(sharedData.get.createAppointments(uuid));
     }
-    return res.json(sharedData.get.createMultipleAppointments(uuid));
+    return res.json(sharedData.get.createAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
     const { uuid, appointmentIen, facilityId } =

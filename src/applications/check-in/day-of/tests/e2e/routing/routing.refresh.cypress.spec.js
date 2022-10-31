@@ -37,9 +37,7 @@ describe('Check In Experience', () => {
           session.post.createMockSuccessResponse('some-token', 'read.full'),
         );
       });
-      initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
-      });
+      initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
     });
     afterEach(() => {

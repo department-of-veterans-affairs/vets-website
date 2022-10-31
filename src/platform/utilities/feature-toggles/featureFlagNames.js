@@ -73,7 +73,6 @@ export default Object.freeze({
   hcaMedicareClaimNumberEnabled: 'hca_medicare_claim_number_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
-  hlrv2: 'hlr_v2',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
@@ -90,6 +89,7 @@ export default Object.freeze({
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
+  profileShowAppealStatusNotificationSetting: 'profile_show_appeal_status_notification_setting',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
@@ -134,6 +134,7 @@ export default Object.freeze({
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
+  supplementalClaim: 'supplemental_claim',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
   vaHomePreview:

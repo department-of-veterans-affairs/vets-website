@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
+import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
   const dispatch = useDispatch();
   const message = useSelector(state => state.sm.messageDetails.message);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
+  const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
+  const history = useHistory();
   const [id, setid] = useState(null);
 
   useEffect(
     () => {
+      if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
+        history.push(`/draft/${messageId}`);
+      }
       setid(messageId);
       if (id) {
         dispatch(closeAlert()); // to clear out any past alerts before landing this page
         dispatch(retrieveMessage(id));
       }
     },
-    [dispatch, location, messageId, id],
+    [dispatch, location, messageId, id, activeFolder, history],
   );
 
   let pageTitle;
@@ -61,7 +70,7 @@ const MessageDetail = () => {
     return (
       <>
         <MessageDetailBlock message={message} />
-        <MessageThread />
+        <MessageThread messageHistory={messageHistory} />
       </>
     );
   };

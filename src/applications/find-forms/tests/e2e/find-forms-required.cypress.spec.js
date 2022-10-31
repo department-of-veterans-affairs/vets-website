@@ -99,7 +99,6 @@ describe('functionality of Find Forms', () => {
   });
 
   it('opens PDF modal - C12431', () => {
-    cy.clearCookie('findForms');
     cy.visit('/find-forms/?q=health');
     cy.get('a[data-testid^="pdf-link"]').then($links => {
       const randomIndex = Math.floor(Math.random() * $links.length);

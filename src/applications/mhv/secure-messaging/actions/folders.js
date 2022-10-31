@@ -10,22 +10,28 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
 export const getFolders = () => async dispatch => {
-  const response = await getFolderList();
-  if (response.errors) {
-    dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
-    });
-  } else {
+  try {
+    const response = await getFolderList();
     dispatch({
       type: Actions.Folder.GET_LIST,
       response,
+    });
+  } catch (error) {
+    const err = error.errors[0];
+    dispatch({
+      type: Actions.Alerts.ADD_ALERT,
+      payload: {
+        alertType: 'error',
+        header: err.title,
+        content: err.detail,
+        response: err,
+      },
     });
   }
 };
 
 export const retrieveFolder = folderId => async dispatch => {
-  dispatch({ type: Actions.Folder.CLEAR });
+  // dispatch({ type: Actions.Folder.CLEAR });
   const response = await getFolder(folderId);
   if (response.errors) {
     dispatch({
@@ -38,6 +44,10 @@ export const retrieveFolder = folderId => async dispatch => {
       response,
     });
   }
+};
+
+export const clearFolder = () => async dispatch => {
+  dispatch({ type: Actions.Folder.CLEAR });
 };
 
 export const newFolder = folderName => async dispatch => {

@@ -127,7 +127,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'following special character is not allowed: ^',
+      'following special characters are not allowed: ^ |',
     );
   });
 
