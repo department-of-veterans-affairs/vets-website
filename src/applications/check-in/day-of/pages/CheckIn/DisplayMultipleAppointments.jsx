@@ -27,10 +27,9 @@ const DisplayMultipleAppointments = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { shouldRefresh } = context;
-
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
     {
-      shouldRefresh,
+      refreshNeeded: shouldRefresh,
       appointmentsOnly: true,
     },
   );
