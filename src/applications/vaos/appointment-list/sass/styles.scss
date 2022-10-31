@@ -101,6 +101,7 @@
   &:hover {
     cursor: pointer;
     // border: 2px solid $color-primary;
+    background-color: $color-gray-lightest;
   }
 
   &:focus,
@@ -109,10 +110,12 @@
     outline: 2px solid $color-warning-message;
     outline-offset: 2px;
     // border: 2px solid $color-primary;
+    // background-color: $color-gray-lightest;
   }
 
   &:active {
-    background-color: transparent;
+    // background-color: transparent;
+    background-color: $color-gray-lightest;
   }
 }
 

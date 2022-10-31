@@ -151,19 +151,22 @@ export default function AppointmentListItemGroup({ data }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <div className={classNames('vads-l-col vads-u-padding-y--2')}>
+          <div className={classNames('vads-l-col vads-u-padding-y--1p5')}>
             <Label label="Canceled" />
             {index === 0 && (
               <>
-                <h4 className="vads-u-margin-top--neg1px vads-u-margin-bottom--0 vads-u-font-size--h3">
+                <h4
+                  className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-size--h3"
+                  style={{ width: '24px' }}
+                >
                   {appointmentDate.format('D')}
                 </h4>
+                <span className="vads-u-margin-left--1">
+                  {appointmentDate.format('ddd')}
+                </span>
                 <span className="sr-only"> {description}</span>
               </>
             )}
-          </div>
-          <div className="vads-l-col vads-u-padding-y--2">
-            {index === 0 && <>{appointmentDate.format('ddd')}</>}
           </div>
           <div
             className={classNames(
@@ -171,7 +174,6 @@ export default function AppointmentListItemGroup({ data }) {
               'vads-l-col',
               'vads-u-padding-y--2',
               'vads-u-padding-right--1',
-              'vads-u-margin-left--neg2',
               {
                 'vads-u-border-bottom--1px': isBorderBottom,
                 'vads-u-border-color--gray-lighter': isBorderBottom,
