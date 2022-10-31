@@ -45,7 +45,7 @@ export const DebtsV2 = ({ debts }) => {
         className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5"
         data-testid="debt-card-v2"
       >
-        <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">
+        <h3 className="vads-u-margin-top--0" data-testid="debt-due-header-v2">
           {debtsCount} overpayment debt
           {debtsCount > 1 ? 's' : ''}
         </h3>

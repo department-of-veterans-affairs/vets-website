@@ -70,7 +70,7 @@ const HealthCareV2 = ({
         data-testid="health-care-section-header-v2"
         className={headerClassNames}
       >
-        Health Care
+        Health care
       </h2>
       <HealthCareContent
         dataLoadingDisabled={dataLoadingDisabled}
