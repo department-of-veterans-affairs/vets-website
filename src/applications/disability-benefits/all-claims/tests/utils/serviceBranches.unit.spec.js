@@ -13,6 +13,10 @@ import {
 import { SERVICE_BRANCHES } from '../../constants';
 
 describe('Service branches utils', () => {
+  afterEach(() => {
+    clearBranches();
+  });
+
   const mockData = [
     { description: 'a' },
     { description: 'c' },
@@ -21,9 +25,6 @@ describe('Service branches utils', () => {
   const mockResult = ['a', 'b', 'c'];
 
   describe('processBranches', () => {
-    afterEach(() => {
-      clearBranches();
-    });
     it('should return a sorted descriptions array & set sessionStorage', () => {
       expect(processBranches(mockData)).to.deep.equal(mockResult);
       expect(window.sessionStorage.getItem(SERVICE_BRANCHES)).to.equal(
