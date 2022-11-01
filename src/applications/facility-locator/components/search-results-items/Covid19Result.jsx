@@ -14,7 +14,6 @@ import CovidPhoneLink from './common/Covid19PhoneLink';
 const Covid19Result = ({
   location,
   index,
-  showCovidVaccineSchedulingLinks,
   showCovidVaccineWalkInAvailabilityText,
 }) => {
   const {
@@ -65,20 +64,19 @@ const Covid19Result = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {showCovidVaccineSchedulingLinks &&
-          covidSchedulingAvailable && (
-            <a
-              className="vads-c-action-link--blue vads-u-margin-bottom--1 vads-u-display--inline-block vads-u-margin-top--0"
-              href="/health-care/schedule-view-va-appointments/appointments/"
-              onClick={() =>
-                recordEvent({
-                  'cta-action-link-click': 'fl-schedule-covid-vaccine',
-                })
-              }
-            >
-              Schedule an appointment online
-            </a>
-          )}
+        {covidSchedulingAvailable && (
+          <a
+            className="vads-c-action-link--blue vads-u-margin-bottom--1 vads-u-display--inline-block vads-u-margin-top--0"
+            href="/health-care/schedule-view-va-appointments/appointments/"
+            onClick={() =>
+              recordEvent({
+                'cta-action-link-click': 'fl-schedule-covid-vaccine',
+              })
+            }
+          >
+            Schedule an appointment online
+          </a>
+        )}
         {showCovidVaccineWalkInAvailabilityText && (
           <strong className="vads-u-margin-bottom--2 vads-u-display--block">
             Walk-ins accepted
@@ -87,9 +85,7 @@ const Covid19Result = ({
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
-            showCovidVaccineSchedulingLink={
-              showCovidVaccineSchedulingLinks && covidSchedulingAvailable
-            }
+            showCovidVaccineSchedulingLink={covidSchedulingAvailable}
             showCovidVaccineWalkInAvailabilityText={
               showCovidVaccineWalkInAvailabilityText
             }
@@ -122,7 +118,6 @@ Covid19Result.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
-  showCovidVaccineSchedulingLinks: PropTypes.bool,
   showCovidVaccineWalkInAvailabilityText: PropTypes.bool,
 };
 
