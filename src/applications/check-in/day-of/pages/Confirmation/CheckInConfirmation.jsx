@@ -196,7 +196,10 @@ const CheckInConfirmation = props => {
     );
   };
 
-  if (travelPayClaimRequested === false || travelPayClaimSent) {
+  if (
+    !isTravelReimbursementEnabled ||
+    (travelPayClaimRequested === false || travelPayClaimSent)
+  ) {
     return renderConfirmationMessage();
   }
 
