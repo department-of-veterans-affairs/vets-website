@@ -14,11 +14,7 @@ describe('Personal and contact information', () => {
       addressPage.loadPage('bad-unit');
       addressPage.fillAddressForm(formFields);
       addressPage.saveForm();
-      addressPage.validateSavedForm(
-        formFields,
-        false,
-        'Please update or confirm your unit number',
-      );
+      addressPage.validateSavedForm(formFields, false, 'Confirm your address');
       addressPage.saveForm(true);
       addressPage.confirmAddress(formFields, [], true);
       cy.injectAxeThenAxeCheck();
