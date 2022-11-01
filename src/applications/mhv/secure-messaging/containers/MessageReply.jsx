@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-
-import { getAllMessages } from '../actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReplyHeader from '../components/ReplyHeader';
