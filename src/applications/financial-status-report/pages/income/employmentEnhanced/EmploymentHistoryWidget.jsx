@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
 
-const EmploymentHistoryWidget = items => {
+const EmploymentHistoryWidget = () => {
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
@@ -22,7 +22,15 @@ const EmploymentHistoryWidget = items => {
         className="add-additional-job"
         to={{
           pathname: '/enhanced-employment-records',
-          search: `?index=${items.length}`,
+          search: `?index=0`,
+        }}
+      >
+        Add additional job
+      </Link>
+      <Link
+        className="add-additional-job"
+        to={{
+          pathname: '/enhanced-employment-records',
         }}
       >
         Add additional job
