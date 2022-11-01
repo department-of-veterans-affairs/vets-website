@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -103,26 +103,25 @@ const App = props => {
         <LoadingIndicator message="Please wait while we load your appointment details..." />
       </>
     );
-  } else {
-    return (
-      <>
-        <RequiredLoginView
-          serviceRequired={[backendServices.USER_PROFILE]}
-          user={user}
-          verify={!environment.isLocalhost()}
-        >
-          <DowntimeNotification
-            appTitle="health questionnaire"
-            dependencies={[externalServices.hcq]}
-          >
-            <RoutedSavableApp formConfig={form} currentLocation={location}>
-              {children}
-            </RoutedSavableApp>
-          </DowntimeNotification>
-        </RequiredLoginView>
-      </>
-    );
   }
+  return (
+    <>
+      <RequiredLoginView
+        serviceRequired={[backendServices.USER_PROFILE]}
+        user={user}
+        verify={!environment.isLocalhost()}
+      >
+        <DowntimeNotification
+          appTitle="health questionnaire"
+          dependencies={[externalServices.hcq]}
+        >
+          <RoutedSavableApp formConfig={form} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        </DowntimeNotification>
+      </RequiredLoginView>
+    </>
+  );
 };
 
 const mapStateToProps = state => ({

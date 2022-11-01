@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -23,7 +23,7 @@ function AppContent({ children, isDataAvailable }) {
           <h4>
             If none of the above situations applies to you, and you think your
             Statement of Benefits should be here, please call the GI Bill
-            Hotline at <a href="tel:18884424551">888-442-4551</a>.
+            Hotline at <a href="tel:8884424551">888-442-4551</a>.
           </h4>
           <br />
         </div>

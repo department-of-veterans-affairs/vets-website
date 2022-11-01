@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import DowntimeBanner from 'platform/monitoring/DowntimeNotification/components/Banner';
 import CallVBACenter from 'platform/static-data/CallVBACenter';

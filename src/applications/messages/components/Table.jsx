@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchInquiries } from '../actions';
 import Table from '@department-of-veterans-affairs/component-library/Table';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { fetchInquiries } from '../actions';
 
 export class MessageTable extends React.Component {
   componentDidMount() {
@@ -17,12 +17,8 @@ export class MessageTable extends React.Component {
         serviceRequired={[backendServices.USER_PROFILE]}
         user={this.props.user}
       >
-        <h1 className={'vads-u-padding-x--2'}>My messages</h1>
-        <div
-          className={
-            'vads-u-padding-x--2 medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--6'
-          }
-        >
+        <h1 className="vads-u-padding-x--2">My messages</h1>
+        <div className="vads-u-padding-x--2 medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--6">
           <Table
             fields={[
               {

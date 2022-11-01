@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import environment from 'platform/utilities/environment';
 import {
@@ -13,6 +13,7 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import recordEvent from 'platform/monitoring/record-event';
 
+import { focusElement } from 'platform/utilities/ui';
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
 import CompletedQuestionnaires from '../CompletedQuestionnaires';
@@ -22,7 +23,6 @@ import {
   questionnaireListLoaded,
   questionnaireListLoadedWithError,
 } from '../../../actions';
-import { focusElement } from 'platform/utilities/ui';
 
 import { GetHelpFooter } from '../../../../shared/components/footer';
 
@@ -90,7 +90,7 @@ const Home = props => {
           <p className="va-introtext">
             Review and keep track of your completed health care questionnaires
             and any you need to fill out before your upcoming appointment. You
-            can also print a copy of questionnaires you've completed.
+            can also print a copy of questionnaires you’ve completed.
           </p>
           {isLoading ? (
             <>

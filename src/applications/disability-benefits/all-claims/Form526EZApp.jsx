@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   WIZARD_STATUS_COMPLETE,
