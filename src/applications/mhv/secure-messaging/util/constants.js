@@ -24,6 +24,9 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    MOVE_MESSAGE_SUCCESS: 'Message was successfully moved',
+    MOVE_MESSAGE_ERROR:
+      'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
     DELETE_DRAFT_ERROR:
