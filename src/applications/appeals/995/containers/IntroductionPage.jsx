@@ -53,7 +53,7 @@ class IntroductionPage extends React.Component {
         </h2>
         <p className="vads-u-margin-top--2">
           If you don’t think this is the right form for you, find out about the
-          other decision review options.
+          other decision review options.{' '}
           <a href="/resources/choosing-a-decision-review-option">
             Learn about choosing a decision review
           </a>
