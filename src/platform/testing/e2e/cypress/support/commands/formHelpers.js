@@ -26,7 +26,15 @@ Cypress.Commands.add('fill', (selector, value) => {
 });
 Cypress.Commands.add('selectRadio', (fieldName, value) => {
   if (value !== 'undefined') {
-    cy.get(`input[name="${fieldName}"][value="${value}"]`).click();
+    cy.document().then(doc => {
+      const attrs = `[name="${fieldName}"][value="${value}"]`;
+      const vaRadioOption = doc.querySelector(`va-radio-option${attrs}`);
+      if (vaRadioOption) {
+        cy.wrap(vaRadioOption).click();
+      } else {
+        cy.get(`input${attrs}`).click();
+      }
+    });
   }
 });
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {

@@ -10,7 +10,7 @@ import SubTask, {
   resetStoredSubTask,
 } from 'platform/forms/sub-task';
 
-import pages from 'applications/appeals/995/subtask/pages';
+import pages from '../../subtask/pages';
 
 const mouseClick = new MouseEvent('click', {
   bubbles: true,
@@ -70,7 +70,7 @@ describe('the Supplemental Claims Sub-task', () => {
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
   });
-  it.skip('should show an error when no selection is made', () => {
+  it('should show an error when no selection is made', () => {
     const { container } = render(
       <Provider store={mockStore()}>
         <SubTask pages={pages} />
@@ -84,7 +84,7 @@ describe('the Supplemental Claims Sub-task', () => {
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
-    expect(vaRadio.error).to.contain('choose');
+    expect(vaRadio.error).to.contain('choose a claim type');
   });
   it('should go to the Introduction page when complete', () => {
     const router = { push: sinon.spy() };
