@@ -43,15 +43,14 @@ const PayrollDeductionInputList = () => {
   return (
     <div>
       <p>How much do you pay for each of your payroll deductions?</p>
-      {deductions?.map((income, key) => (
-        <div key={income.name + key} className="vads-u-margin-y--2">
+      {deductions?.map((deduction, key) => (
+        <div key={deduction.name + key} className="vads-u-margin-y--2">
           <va-number-input
-            label={income.name}
-            name={income.name}
-            value={income.amount}
-            id={income.name + key}
+            label={deduction.name}
+            name={deduction.name}
+            value={deduction.amount}
+            id={deduction.name + key}
             inputmode="decimal"
-            error="Hello"
             onInput={onChange}
             required
           />

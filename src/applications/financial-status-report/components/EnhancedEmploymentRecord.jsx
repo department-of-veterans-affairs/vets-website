@@ -7,6 +7,7 @@ import { VaDate } from '@department-of-veterans-affairs/component-library/dist/r
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import URLSearchParams from 'url-search-params';
 
 const defaultRecord = [
   {
@@ -19,7 +20,6 @@ const defaultRecord = [
 ];
 
 const EmploymentRecord = ({
-  idSchema,
   uiSchema,
   formData,
   setFormData,
@@ -29,14 +29,28 @@ const EmploymentRecord = ({
   const [fromDateError, setFromDateError] = useState();
   const [toDateError, setToDateError] = useState();
 
-  const index = Number.isNaN(Number(idSchema.$id.slice(-1)))
-    ? 0
-    : Number(idSchema.$id.slice(-1));
+  let index = new URLSearchParams(window.location.search).get('index');
 
   const { userType, userArray } = uiSchema['ui:options'];
-  const { employmentRecords } = employmentHistory[`${userType}`];
+  const { employmentRecords } = employmentHistory
+    ? employmentHistory[`${userType}`]
+    : {};
   const employment = employmentRecords || defaultRecord;
-  const { from, to } = employment ? employment[index] : [];
+  // const { from, to } = employment && index ? employment[index] : [...employment];
+  let from;
+  let to;
+
+  if (!index || !employment) {
+    // adding the first one ever or adding a new one
+    from = '';
+    to = '';
+    index = employment ? employment.length : 0;
+  } else {
+    // editing an existing one
+    to = employment[index].to;
+    from = employment[index].from;
+  }
+
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
   const { submitted } = formContext;
