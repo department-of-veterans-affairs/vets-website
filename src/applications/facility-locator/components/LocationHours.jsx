@@ -8,7 +8,7 @@ import { formatOperatingHours } from '../utils/helpers';
 /**
  * VA Facility Known Operational Hours
  */
-const LocationHours = ({ location, showHoursSpecialInstructions }) => {
+const LocationHours = ({ location }) => {
   // Derive the formatted hours info.
   const hoursInfo = get(location, 'attributes.hours');
 
@@ -97,7 +97,6 @@ const LocationHours = ({ location, showHoursSpecialInstructions }) => {
       )}
 
       {isVaHealth &&
-        showHoursSpecialInstructions &&
         operationalHoursSpecialInstructions && (
           <p id="operational-special-p">
             {operationalHoursSpecialInstructions}
