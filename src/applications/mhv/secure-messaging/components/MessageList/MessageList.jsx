@@ -21,13 +21,15 @@ import {
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation } from 'react-router-dom';
 import InboxListItem from './MessageListItem';
 
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
-
+let sortOrderSelection;
 const MessageList = props => {
+  const location = useLocation();
   const { messages, folder } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
@@ -112,6 +114,11 @@ const MessageList = props => {
     paginatedMessages.current = paginateData(sortMessages(messages));
     setCurrentMessages(paginatedMessages.current[0]);
     setCurrentPage(1);
+    setSortOrder(sortOrderSelection);
+  };
+
+  const handleOnSelect = e => {
+    sortOrderSelection = e.detail.value;
   };
 
   const displayNums = fromToNums(currentPage, messages?.length);
@@ -125,17 +132,30 @@ const MessageList = props => {
             folder.folderId === -3 ? 'Trash' : folder.name
           } messages by`}
           name="sort-order"
-          value={sortOrder}
+          value={sortOrderSelection}
           onVaSelect={e => {
-            setSortOrder(e.detail.value);
+            handleOnSelect(e);
           }}
         >
           <option value="desc">Newest to oldest</option>
           <option value="asc">Oldest to newest</option>
-          <option value="alpha-asc">A to Z - Sender’s name</option>
-          <option value="alpha-desc">Z to A - Sender’s name</option>
-          <option value="recepient-alpha-asc">A to Z - Recepient’s name</option>
-          <option value="recepient-alpha-desc">Z to A - Recepient name</option>
+
+          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+            <>
+              <option value="alpha-asc">A to Z - Sender’s name</option>
+              <option value="alpha-desc">Z to A - Sender’s name</option>
+            </>
+          ) : null}
+          {location.pathname !== '/' ? (
+            <>
+              <option value="recepient-alpha-asc">
+                A to Z - Recepient’s name
+              </option>
+              <option value="recepient-alpha-desc">
+                Z to A - Recepient’s name
+              </option>
+            </>
+          ) : null}
         </VaSelect>
 
         <button type="button" onClick={handleMessageSort}>
