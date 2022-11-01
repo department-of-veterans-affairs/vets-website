@@ -1132,7 +1132,31 @@ const formConfig = {
           title: 'Service history',
           uiSchema: {
             'view:subHeading': {
-              'ui:description': <h3>Review your service history</h3>,
+              // 'ui:description': <h3>Review your service history</h3>,
+              'ui:options': {
+                replaceSchema: formData => {
+                  if (formData.showMebDgi40Features) {
+                    return (
+                      <>
+                        <p>
+                          The displayed service history is reported to VA by DOD
+                          and may include service which is not creditable for
+                          the Post-9/11 GI Bill.
+                        </p>
+                        <p>
+                          VA will only consider active duty service (Authority
+                          38 U.S.C. 3301(1)) when determining your eligibility.
+                          Please review your service history and indicate if
+                          anything is incorrect.
+                        </p>
+                        <h3>Review your service history</h3>
+                      </>
+                    );
+                  }
+
+                  return <h3>Review your service history</h3>;
+                },
+              },
             },
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
