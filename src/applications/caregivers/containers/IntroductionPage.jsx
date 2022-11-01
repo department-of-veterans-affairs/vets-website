@@ -15,13 +15,7 @@ import { focusElement } from 'platform/utilities/ui';
 import CaregiversPrivacyActStatement from '../components/IntroductionPage/CaregiversPrivacyActStatement';
 import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
 
-export const IntroductionPage = ({
-  route,
-  router,
-  formData,
-  setFormData,
-  useFacilitiesAPI,
-}) => {
+export const IntroductionPage = ({ route, router, formData, setFormData }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
@@ -30,11 +24,11 @@ export const IntroductionPage = ({
     () => {
       setFormData({
         ...formData,
-        'view:useFacilitiesAPI': useFacilitiesAPI,
+        'view:useFacilitiesAPI': true,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [useFacilitiesAPI],
+    [],
   );
 
   const startForm = useCallback(
@@ -102,12 +96,10 @@ IntroductionPage.propTypes = {
   route: PropTypes.object,
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  useFacilitiesAPI: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  useFacilitiesAPI: state.featureToggles?.caregiverUseFacilitiesApi,
 });
 
 const mapDispatchToProps = {
