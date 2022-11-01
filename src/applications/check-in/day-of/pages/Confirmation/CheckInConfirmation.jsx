@@ -198,6 +198,7 @@ const CheckInConfirmation = props => {
 
   if (
     !isTravelReimbursementEnabled ||
+    !travelPayEligible ||
     (travelPayClaimRequested === false || travelPayClaimSent)
   ) {
     return renderConfirmationMessage();
