@@ -59,8 +59,6 @@ export default Object.freeze({
   facilityLocatorRestoreCommunityCarePagination:
     'facility_locator_restore_community_care_pagination',
   facilityLocatorShowCommunityCares: 'facility_locator_show_community_cares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
-  facilityLocatorShowOperationalHoursSpecialInstructions:
-    'facility_locator_show_operational_hours_special_instructions',
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
