@@ -99,12 +99,12 @@ const mapStateToProps = state => {
   if (MEBClaimStatus?.receivedDate && TOEClaimStatus?.receivedDate) {
     latestClaim =
       MEBClaimStatus?.receivedDate > TOEClaimStatus?.receivedDate
-        ? MEBClaimStatus
-        : TOEClaimStatus;
+        ? { ...MEBClaimStatus }
+        : { ...TOEClaimStatus };
   } else {
     latestClaim = MEBClaimStatus?.receivedDate
-      ? MEBClaimStatus
-      : TOEClaimStatus;
+      ? { ...MEBClaimStatus }
+      : { ...TOEClaimStatus };
   }
 
   return {
