@@ -5,16 +5,18 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 const MixedLanguageDisclaimer = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isTranslationDisclaimerSpanishEnabled, isTranslationDisclaimerTagalogEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  const {
+    isTranslationDisclaimerSpanishEnabled,
+    isTranslationDisclaimerTagalogEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const { t, i18n } = useTranslation();
   const { language } = i18n;
 
   const displaySpanish =
     language === 'es' && isTranslationDisclaimerSpanishEnabled;
-  const displayTagalog = (language === 'tl' && isTranslationDisclaimerTagalogEnabled)
+  const displayTagalog =
+    language === 'tl' && isTranslationDisclaimerTagalogEnabled;
 
   return displaySpanish || displayTagalog ? (
     <div className="vads-u-margin-bottom--2">
