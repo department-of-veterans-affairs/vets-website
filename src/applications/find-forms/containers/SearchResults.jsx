@@ -14,11 +14,7 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  doesCookieExist,
-  setCookie,
-  deriveDefaultModalState,
-} from '../helpers';
+import { deriveDefaultModalState } from '../helpers';
 import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -72,15 +68,6 @@ export const SearchResults = ({
     }
   });
 
-  useEffect(() => {
-    if (doesCookieExist()) {
-      setModalState({
-        ...deriveDefaultModalState(),
-        doesCookieExist: doesCookieExist(),
-      });
-    }
-  }, []);
-
   const onPageSelect = p => {
     // Derive the new start index.
     let startIn = p * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
@@ -120,40 +107,30 @@ export const SearchResults = ({
     pdfLabel,
     closingModal,
   ) => {
-    if (!doesCookieExist() || closingModal) {
-      if (!doesCookieExist()) {
-        setCookie();
-        setModalState({
-          isOpen: !modalState.isOpen,
-          pdfSelected,
-          pdfUrl,
-          pdfLabel,
-        });
-      }
-      if (closingModal) {
-        /**
-         * This is set here due to a race condition where:
-         * 1. the state would be updated to the cookie would exist which would fire the href download
-         * 2. we open the modal because the cookie did not exist at the time of the browser click event
-         */
-        setModalState({
-          ...modalState,
-          isOpen: !modalState.isOpen,
-          doesCookieExist: true,
-        });
-        recordEvent({
-          event: 'int-modal-click',
-          'modal-status': 'closed',
-          'modal-title': 'Download this PDF and open it in Acrobat Reader',
-        });
-      }
+    if (closingModal) {
+      setModalState({
+        ...modalState,
+        isOpen: !modalState.isOpen,
+      });
+      recordEvent({
+        event: 'int-modal-click',
+        'modal-status': 'closed',
+        'modal-title': 'Download this PDF and open it in Acrobat Reader',
+      });
+    } else {
+      setModalState({
+        isOpen: !modalState.isOpen,
+        pdfSelected,
+        pdfUrl,
+        pdfLabel,
+      });
     }
   };
 
   // Show loading indicator if we are fetching.
   if (fetching) {
     return (
-      <va-loading-indicator setFocus message={'Loading search results...'} />
+      <va-loading-indicator setFocus message="Loading search results..." />
     );
   }
 
@@ -229,7 +206,6 @@ export const SearchResults = ({
     .slice(startIndex, lastIndex)
     .map((form, index) => (
       <SearchResult
-        doesCookieExist={modalState.doesCookieExist}
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
@@ -283,7 +259,7 @@ export const SearchResults = ({
             document.getElementById(prevFocusedLink).focus();
           }}
           title="Download this PDF and open it in Acrobat Reader"
-          initialFocusSelector={'#va-modal-title'}
+          initialFocusSelector="#va-modal-title"
           visible={isOpen}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">

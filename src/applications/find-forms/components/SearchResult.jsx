@@ -139,7 +139,6 @@ const deriveRelatedTo = ({
 };
 
 const SearchResult = ({
-  doesCookieExist,
   form,
   formMetaInfo,
   showPDFInfoVersionOne,
@@ -187,16 +186,12 @@ const SearchResult = ({
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
     if (showPDFInfoVersionOne) {
-      if (!doesCookieExist) {
-        recordEvent({
-          event: 'int-modal-click',
-          'modal-status': 'opened',
-          'modal-title': 'Download this PDF and open it in Acrobat Reader',
-        });
-        toggleModalState(formName, url, pdfLabel);
-      } else {
-        recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
-      }
+      recordEvent({
+        event: 'int-modal-click',
+        'modal-status': 'opened',
+        'modal-title': 'Download this PDF and open it in Acrobat Reader',
+      });
+      toggleModalState(formName, url, pdfLabel);
     } else {
       recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
     }
@@ -247,7 +242,7 @@ const SearchResult = ({
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
           rel="noreferrer noopener"
-          href={showPDFInfoVersionOne && !doesCookieExist ? null : url}
+          href={showPDFInfoVersionOne ? null : url}
           tabIndex="0"
           onKeyDown={event => {
             if (event.keyCode === 13) {
@@ -273,7 +268,6 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
-  doesCookieExist: PropTypes.bool,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
   showPDFInfoVersionOne: PropTypes.bool,

@@ -523,6 +523,7 @@ export function openReasonForAppointment(
   uiSchema,
   schema,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -530,6 +531,7 @@ export function openReasonForAppointment(
     uiSchema,
     schema,
     useV2,
+    useAcheron,
   };
 }
 
@@ -538,6 +540,7 @@ export function updateReasonForAppointmentData(
   uiSchema,
   data,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
@@ -545,6 +548,7 @@ export function updateReasonForAppointmentData(
     uiSchema,
     data,
     useV2,
+    useAcheron,
   };
 }
 

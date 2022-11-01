@@ -28,20 +28,12 @@ describe('Check In Experience', () => {
       initializeDemographicsPatch.withSuccess();
       initializeBtsssPost.withSuccess();
 
-      const rv1 = sharedData.get.createMultipleAppointments();
-      const earliest = sharedData.get.createAppointment();
-      earliest.startTime = '2021-08-19T03:00:00';
-      const midday = sharedData.get.createAppointment();
-      midday.startTime = '2021-08-19T13:00:00';
-      const latest = sharedData.get.createAppointment();
-      latest.startTime = '2027-08-19T18:00:00';
-      rv1.payload.appointments = [latest, earliest, midday];
+      const rv = sharedData.get.createAppointments();
+      const appointment = sharedData.get.createAppointment();
+      appointment.startTime = '2021-08-19T18:00:00';
+      rv.payload.appointments = [appointment];
 
-      const rv2 = sharedData.get.createMultipleAppointments();
-      const newLatest = sharedData.get.createAppointment();
-      newLatest.startTime = '2027-08-19T17:00:00';
-      rv2.payload.appointments = [newLatest, earliest, midday];
-      const responses = [rv1, rv2];
+      const responses = [rv];
 
       cy.intercept(
         {
@@ -58,12 +50,12 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('everything Happy path', () => {
+    it.skip('everything Happy path', () => {
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
 
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -94,11 +86,11 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
-      Appointments.validateAppointmentLength(3);
-      Appointments.validateAppointmentTime(3, '6:00 p.m.');
+      Appointments.validateAppointmentLength(1);
+      Appointments.validateAppointmentTime(1, '6:00 p.m.');
       cy.injectAxeThenAxeCheck();
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
 

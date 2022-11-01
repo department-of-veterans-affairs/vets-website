@@ -74,7 +74,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
               Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
               claim letters
             </p> */}
-            <ClaimLetterList letters={currentItems} />
+            {currentItems.length ? (
+              <ClaimLetterList letters={currentItems} />
+            ) : null}
             {totalPages.current > 1 && (
               <VaPagination
                 onPageSelect={e => onPageChange(e.detail.page)}
