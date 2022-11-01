@@ -36,6 +36,7 @@ describe('995 contact info loop', () => {
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
     cy.injectAxe();
