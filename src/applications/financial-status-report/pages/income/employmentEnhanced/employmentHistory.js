@@ -1,11 +1,11 @@
-import employmentHistoryWidget from './employmentHistoryWidget';
+import EmploymentHistoryWidget from './EmploymentHistoryWidget';
 
 export const uiSchema = {
-  'ui:title': 'All issues',
+  'ui:title': 'Employment history',
   employmentHistory: {
     'ui:title': ' ',
     'ui:field': 'StringField', // this is necessary, but shows type errors
-    'ui:widget': employmentHistoryWidget,
+    'ui:widget': EmploymentHistoryWidget,
   },
 };
 
