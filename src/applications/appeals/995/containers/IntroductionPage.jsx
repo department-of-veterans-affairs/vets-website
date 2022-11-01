@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
   render() {
     const { isVerified, loggedIn, route, location } = this.props;
     const { formConfig, pageList } = route;
-    const { formId, prefillEnabled, savedFormMessages } = formConfig;
+    const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
@@ -27,6 +27,7 @@ class IntroductionPage extends React.Component {
       formId,
       pageList,
       prefillEnabled,
+      downtime,
       headingLevel: 2,
       hideUnauthedStartLink: true,
       messages: savedFormMessages,

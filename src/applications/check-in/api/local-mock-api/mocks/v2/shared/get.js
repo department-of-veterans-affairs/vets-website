@@ -8,6 +8,7 @@ const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
+const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
 
 const mockDemographics = {
   emergencyContact: {
@@ -163,9 +164,8 @@ const createAppointment = ({
   };
 };
 
-const createMultipleAppointments = (
-  token,
-  numberOfCheckInAbledAppointments = 2,
+const createAppointments = (
+  token = defaultUUID,
   demographicsNeedsUpdate = false,
   demographicsConfirmedAt = null,
   nextOfKinNeedsUpdate = false,
@@ -173,18 +173,56 @@ const createMultipleAppointments = (
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
 ) => {
-  const rv = {
-    id: token || defaultUUID,
+  const timezone =
+    token === pacificTimezoneUUID ? 'America/Los_Angeles' : 'browser';
+
+  let appointments = [
+    createAppointment({
+      eligibility: 'ELIGIBLE',
+      facilityId: 'ABC_123',
+      appointmentIen: `0001`,
+      clinicFriendlyName: `HEART CLINIC-1`,
+      uuid: token,
+      timezone,
+    }),
+  ];
+
+  if (token === allAppointmentTypesUUID) {
+    appointments = [
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        facilityId: 'ABC_123',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+    ];
+    for (let i = 0; i < 3; i += 1) {
+      appointments.push(
+        createAppointment({
+          eligibility: 'ELIGIBLE',
+          facilityId: 'ABC_123',
+          appointmentIen: `000${i + 1}`,
+          clinicFriendlyName: `HEART CLINIC-${i}`,
+          uuid: token,
+          timezone,
+        }),
+      );
+    }
+    appointments.push(
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_EARLY',
+        facilityId: 'ABC_123',
+        appointmentIen: `0050`,
+        clinicFriendlyName: `HEART CLINIC-E`,
+      }),
+    );
+  }
+
+  return {
+    id: token,
     payload: {
       demographics: mockDemographics,
-      appointments: [
-        createAppointment({
-          eligibility: 'INELIGIBLE_TOO_LATE',
-          facilityId: 'ABC_123',
-          appointmentIen: '0000',
-          clinicFriendlyName: `HEART CLINIC-1`,
-        }),
-      ],
+      appointments,
       patientDemographicsStatus: {
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
@@ -195,38 +233,11 @@ const createMultipleAppointments = (
       },
     },
   };
-
-  let timezone = 'browser';
-  if (token === pacificTimezoneUUID) {
-    timezone = 'America/Los_Angeles';
-  }
-  for (let i = 0; i < numberOfCheckInAbledAppointments; i += 1) {
-    rv.payload.appointments.push(
-      createAppointment({
-        eligibility: 'ELIGIBLE',
-        facilityId: 'ABC_123',
-        appointmentIen: `000${i + 1}`,
-        clinicFriendlyName: `HEART CLINIC-${i}`,
-        uuid: token,
-        timezone,
-      }),
-    );
-  }
-  rv.payload.appointments.push(
-    createAppointment({
-      eligibility: 'INELIGIBLE_TOO_EARLY',
-      facilityId: 'ABC_123',
-      appointmentIen: `0050`,
-      clinicFriendlyName: `HEART CLINIC-E`,
-    }),
-  );
-
-  return rv;
 };
 
 module.exports = {
   aboutToExpireUUID,
-  createMultipleAppointments,
+  createAppointments,
   createAppointment,
   defaultUUID,
   mockDemographics,

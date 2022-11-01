@@ -7,11 +7,13 @@ import 'url-search-params-polyfill';
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 import { isLoggedIn } from 'platform/user/selectors';
+import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
 
 export function UnifiedSigninPage({ router, location }) {
   const isAuthenticated = useSelector(state => isLoggedIn(state));
+  const isSiSEnabled = useSelector(state => signInServiceEnabled(state));
   const { query } = location;
   const loggedOut = query?.auth === 'logged_out';
   const externalApplication = query.application;
@@ -29,19 +31,26 @@ export function UnifiedSigninPage({ router, location }) {
   }, []);
 
   // Immediately check if OAuthEnabled
-  useEffect(() => {
-    if (
-      isAuthenticated ||
-      (isQueryAlreadySet &&
-        OAuthEnabledApplications.includes(externalApplication))
-    ) {
-      return;
-    }
+  useEffect(
+    () => {
+      if (
+        isAuthenticated ||
+        (isQueryAlreadySet &&
+          OAuthEnabledApplications.includes(externalApplication))
+      ) {
+        return;
+      }
 
-    router.push(
-      appendQuery('', { ...query, oauth: OAuthEnabled }, { removeNull: true }),
-    );
-  }, []);
+      router.push(
+        appendQuery(
+          '',
+          { ...query, oauth: isSiSEnabled && OAuthEnabled },
+          { removeNull: true },
+        ),
+      );
+    },
+    [isSiSEnabled],
+  );
 
   return (
     <>

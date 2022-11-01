@@ -133,3 +133,9 @@ export const selectShowPaymentsNotificationSetting = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
   ];
+
+// select the feature flag from appeals status notification settings
+export const selectShowAppealStatusNotificationSetting = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileShowAppealStatusNotificationSetting
+  ];

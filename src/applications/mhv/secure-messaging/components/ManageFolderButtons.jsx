@@ -14,6 +14,7 @@ const ManageFolderButtons = () => {
   const params = useParams();
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
+  const folders = useSelector(state => state.sm.folders.folderList);
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
@@ -21,6 +22,7 @@ const ManageFolderButtons = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
+  let folderMatch = null;
 
   useEffect(
     () => {
@@ -62,8 +64,12 @@ const ManageFolderButtons = () => {
   };
 
   const confirmRenameFolder = () => {
+    folderMatch = null;
+    folderMatch = folders.filter(testFolder => testFolder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning('Folder name cannot be blank');
+    } else if (folderMatch.length > 0) {
+      setNameWarning('Folder name alreeady in use. Please use another name.');
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeRenameModal();
       dispatch(renameFolder(folderId, folderName));
