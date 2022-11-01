@@ -19,7 +19,7 @@ describe('check in', () => {
     MockDate.reset();
   });
 
-  const { createAppointment, createMultipleAppointments } = get;
+  const { createAppointment, createAppointments } = get;
 
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {
@@ -35,7 +35,7 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns true if selected Appointment is undefined and more eligible appointments found', () => {
-        const response = createMultipleAppointments();
+        const response = createAppointments();
         const { appointments } = response.payload;
 
         expect(
