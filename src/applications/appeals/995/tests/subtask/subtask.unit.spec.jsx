@@ -10,14 +10,15 @@ import SubTask, {
   resetStoredSubTask,
 } from 'platform/forms/sub-task';
 
-import pages from 'applications/appeals/995/subtask/pages';
+import SubTaskContainer from '../../subtask/SubTaskContainer';
+import pages from '../../subtask/pages';
 
 const mouseClick = new MouseEvent('click', {
   bubbles: true,
   cancelable: true,
 });
 
-const mockStore = (data = {}) => {
+const mockStore = ({ data = {}, show995 = true, loading = false } = {}) => {
   setStoredSubTask(data);
   return {
     getState: () => ({
@@ -29,6 +30,11 @@ const mockStore = (data = {}) => {
         reviewMode: false,
         touched: {},
         submitted: false,
+      },
+      featureToggles: {
+        loading,
+        // eslint-disable-next-line camelcase
+        supplemental_claim: show995,
       },
     }),
     subscribe: () => {},
@@ -42,10 +48,32 @@ describe('the Supplemental Claims Sub-task', () => {
   after(() => {
     resetStoredSubTask();
   });
+
+  it('should render feature toggle loading indicator', () => {
+    const { container } = render(
+      <Provider store={mockStore({ loading: true })}>
+        <SubTaskContainer />
+      </Provider>,
+    );
+    expect(
+      $('va-loading-indicator', container).getAttribute('message'),
+    ).to.contain('Loading application');
+  });
+  it('should render WIP alert', () => {
+    const { container } = render(
+      <Provider store={mockStore({ show995: false })}>
+        <SubTaskContainer />
+      </Provider>,
+    );
+    const alert = $('va-alert', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain('still working on this feature');
+  });
+
   it('should render the SubTask as a form element', () => {
     const { container } = render(
       <Provider store={mockStore()}>
-        <SubTask pages={pages} />
+        <SubTaskContainer />
       </Provider>,
     );
     const form = $('form[data-page="start"]', container);
@@ -54,10 +82,11 @@ describe('the Supplemental Claims Sub-task', () => {
     expect($('va-radio-option[value="other"]', form)).to.exist;
     expect($('va-button[continue]', container)).to.exist;
   });
+
   it('should go to the "other" SubTask page and back to "start"', () => {
     const { container } = render(
-      <Provider store={mockStore({ benefitType: 'other' })}>
-        <SubTask pages={pages} />
+      <Provider store={mockStore({ data: { benefitType: 'other' } })}>
+        <SubTaskContainer />
       </Provider>,
     );
 
@@ -70,10 +99,10 @@ describe('the Supplemental Claims Sub-task', () => {
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
   });
-  it.skip('should show an error when no selection is made', () => {
+  it('should show an error when no selection is made', () => {
     const { container } = render(
       <Provider store={mockStore()}>
-        <SubTask pages={pages} />
+        <SubTaskContainer />
       </Provider>,
     );
 
@@ -84,12 +113,14 @@ describe('the Supplemental Claims Sub-task', () => {
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
-    expect(vaRadio.error).to.contain('choose');
+    expect(vaRadio.error).to.contain('choose a claim type');
   });
   it('should go to the Introduction page when complete', () => {
     const router = { push: sinon.spy() };
+    // using SubTask here since SubTaskContainer isn't passing the router to the
+    // SubTask component
     const { container } = render(
-      <Provider store={mockStore({ benefitType: 'compensation' })}>
+      <Provider store={mockStore({ data: { benefitType: 'compensation' } })}>
         <SubTask pages={pages} router={router} />
       </Provider>,
     );

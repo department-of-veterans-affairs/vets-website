@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
   render() {
     const { isVerified, loggedIn, route, location } = this.props;
     const { formConfig, pageList } = route;
-    const { formId, prefillEnabled, savedFormMessages } = formConfig;
+    const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
@@ -27,6 +27,7 @@ class IntroductionPage extends React.Component {
       formId,
       pageList,
       prefillEnabled,
+      downtime,
       headingLevel: 2,
       hideUnauthedStartLink: true,
       messages: savedFormMessages,
@@ -47,10 +48,12 @@ class IntroductionPage extends React.Component {
         </p>
         {loggedIn && showVerifyLink && <NeedsToVerify pathname={pathname} />}
         {loggedIn && !showVerifyLink && <SaveInProgressIntro {...sipOptions} />}
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        <h2 className="vad-u-margin-top--0">
           Follow these steps to get started
         </h2>
         <p className="vads-u-margin-top--2">
+          If you don’t think this is the right form for you, find out about the
+          other decision review options.{' '}
           <a href="/resources/choosing-a-decision-review-option">
             Learn about choosing a decision review
           </a>
@@ -111,12 +114,12 @@ class IntroductionPage extends React.Component {
                 <li>
                   Medical records from a VA medical center, another federal
                   health facility, or your private health care provider that
-                  relate to your claimed condition or how it has gotten worse
+                  relate to your claimed condition or how it has gotten worse.
                 </li>
                 <li>
                   Supporting statements from family, friends, coworkers, clergy,
                   or law enforcement personnel who know how and when your
-                  illness or injury happened or how it has gotten worse
+                  illness or injury happened or how it has gotten worse.
                 </li>
               </ul>
             </va-additional-info>

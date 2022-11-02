@@ -28,6 +28,7 @@ const CheckInConfirmation = props => {
     travelPayClaimError,
     travelPayClaimData,
     travelPayClaimRequested,
+    travelPayClaimSent,
   } = useSendTravelPayClaim();
 
   const appointment = selectedAppointment;
@@ -190,7 +191,15 @@ const CheckInConfirmation = props => {
     );
   };
 
-  return isLoading ? renderLoadingMessage() : renderConfirmationMessage();
+  if (
+    !isTravelReimbursementEnabled ||
+    !travelPayEligible ||
+    (travelPayClaimRequested === false || travelPayClaimSent)
+  ) {
+    return renderConfirmationMessage();
+  }
+
+  return renderLoadingMessage();
 };
 
 CheckInConfirmation.propTypes = {

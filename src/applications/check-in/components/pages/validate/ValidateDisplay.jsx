@@ -9,7 +9,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
-import TextInputErrorWrapper from '../../TextInputErrorWrapper';
 
 export default function ValidateDisplay({
   header = '',
@@ -19,7 +18,6 @@ export default function ValidateDisplay({
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
   dobInput: { setDob, dob } = {},
-  dobError,
   setDobError,
   showValidateError,
   validateErrorMessage,
@@ -105,30 +103,20 @@ export default function ValidateDisplay({
         <></>
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
-        {/* @TODO This error wrapper can go away once fixed in DS. Evaluate during next audit */}
-        <TextInputErrorWrapper
-          error={lastNameErrorMessage && lastNameErrorMessage.length}
-        >
-          <VaTextInput
-            autoCorrect="false"
-            error={lastNameErrorMessage}
-            label={t('your-last-name')}
-            name="last-name"
-            onInput={updateField}
-            required
-            spellCheck="false"
-            value={lastName}
-            data-testid="last-name-input"
-            onKeyDown={handleEnter}
-          />
-        </TextInputErrorWrapper>
+        <VaTextInput
+          autoCorrect="false"
+          error={lastNameErrorMessage}
+          label={t('your-last-name')}
+          name="last-name"
+          onInput={updateField}
+          required
+          spellCheck="false"
+          value={lastName}
+          data-testid="last-name-input"
+          onKeyDown={handleEnter}
+        />
         {isLorotaSecurityUpdatesEnabled ? (
-          <div
-            data-testid="dob-input"
-            className={`vads-u-margin-top--3 ${
-              dobError ? 'vads-u-padding-left--2p5' : ''
-            }`}
-          >
+          <div data-testid="dob-input">
             <VaMemorableDate
               label={t('date-of-birth')}
               onDateBlur={updateField}
@@ -140,22 +128,18 @@ export default function ValidateDisplay({
             />
           </div>
         ) : (
-          <TextInputErrorWrapper
-            error={last4ErrorMessage && last4ErrorMessage.length}
-          >
-            <VaTextInput
-              error={last4ErrorMessage}
-              inputmode="numeric"
-              label={t('last-4-digits-of-your-social-security-number')}
-              maxlength="4"
-              onInput={updateField}
-              name="last-4-ssn"
-              required
-              value={last4Ssn}
-              data-testid="last-4-input"
-              onKeyDown={handleEnter}
-            />
-          </TextInputErrorWrapper>
+          <VaTextInput
+            error={last4ErrorMessage}
+            inputmode="numeric"
+            label={t('last-4-digits-of-your-social-security-number')}
+            maxlength="4"
+            onInput={updateField}
+            name="last-4-ssn"
+            required
+            value={last4Ssn}
+            data-testid="last-4-input"
+            onKeyDown={handleEnter}
+          />
         )}
         <button
           type="submit"
@@ -176,7 +160,6 @@ export default function ValidateDisplay({
 }
 
 ValidateDisplay.propTypes = {
-  dobError: propTypes.bool,
   dobInput: propTypes.object,
   header: propTypes.string,
   isLoading: propTypes.bool,

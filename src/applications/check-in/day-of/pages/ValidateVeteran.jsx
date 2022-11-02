@@ -136,7 +136,6 @@ const ValidateVeteran = props => {
           setDob,
           dob,
         }}
-        dobError={dobError}
         setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={onClick}

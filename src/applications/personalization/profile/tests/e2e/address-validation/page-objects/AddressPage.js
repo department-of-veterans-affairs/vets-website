@@ -104,14 +104,17 @@ class AddressPage {
     !secondSave &&
       cy
         .findByTestId('mailingAddress')
-        .should('contain', 'Please confirm your address');
+        .should(
+          'contain',
+          'We can’t confirm the address you entered with the U.S. Postal Service.',
+        );
     alternateSuggestions.forEach(field =>
       cy.findByTestId('mailingAddress').should('contain', field),
     );
     missingUnit &&
       cy
         .findByTestId('mailingAddress')
-        .should('contain', 'Please add a unit number');
+        .should('contain', 'Confirm your address');
     cy.findByTestId('confirm-address-button').click({
       force: true,
     });
@@ -125,7 +128,7 @@ class AddressPage {
   };
 
   editAddress = (labels, fields) => {
-    cy.findByRole('button', { name: /edit your address/i }).click();
+    cy.findByRole('button', { name: /edit address/i }).click();
     this.confirmAddressFields(labels, fields);
     cy.findByRole('button', { name: /^Update$/i }).click({ force: true });
     cy.findByRole('button', { name: /^use this address$/i }).click({

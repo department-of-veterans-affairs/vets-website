@@ -24,6 +24,7 @@ const FoldersList = props => {
 
 FoldersList.propTypes = {
   folders: PropTypes.array,
+  highlightId: PropTypes.string,
 };
 
 export default FoldersList;
