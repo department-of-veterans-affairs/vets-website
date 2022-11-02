@@ -151,7 +151,11 @@ export default function AppointmentListItemGroup({ data }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <div className={classNames('vads-l-col vads-u-padding-y--1p5')}>
+          <div
+            className={classNames(
+              'vads-l-col vads-u-margin-left--1 vads-u-padding-y--1p5',
+            )}
+          >
             <Label label="Canceled" />
             {index === 0 && (
               <>
@@ -170,7 +174,6 @@ export default function AppointmentListItemGroup({ data }) {
           </div>
           <div
             className={classNames(
-              'bar',
               'vads-l-col',
               'vads-u-padding-y--2',
               'vads-u-padding-right--1',
@@ -191,7 +194,7 @@ export default function AppointmentListItemGroup({ data }) {
             </div>
           </div>
           <div
-            className={classNames('bar vads-l-col--4', 'vads-u-padding-y--2', {
+            className={classNames('vads-l-col--4', 'vads-u-padding-y--2', {
               'vads-u-border-bottom--1px': isBorderBottom,
               'vads-u-border-color--gray-lighter': isBorderBottom,
             })}
@@ -227,6 +230,7 @@ export default function AppointmentListItemGroup({ data }) {
           <div
             className={classNames(
               'vads-l-col',
+              'vads-u-margin-right--1',
               'vads-u-padding-y--2',
               'vaos-hide-for-print',
               'vads-u-text-align--right',

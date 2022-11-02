@@ -96,26 +96,26 @@
 .vaos-appts__listItem--clickable {
   list-style: none;
   background-color: transparent;
-  // border: 2px solid $color-gray-lightest;
 
   &:hover {
     cursor: pointer;
-    // border: 2px solid $color-primary;
     background-color: $color-gray-lightest;
+    background-clip: content-box;
+    padding: 2px;
   }
 
   &:focus,
-  &:focus-within,
-  &:active {
+  &:focus-within
+  {
     outline: 2px solid $color-warning-message;
-    outline-offset: 2px;
-    // border: 2px solid $color-primary;
-    // background-color: $color-gray-lightest;
+    outline-offset: -1px;
   }
 
   &:active {
-    // background-color: transparent;
+    padding: 4px !important;
+    box-sizing: content-box;
     background-color: $color-gray-lightest;
+    background-clip: content-box;
   }
 }
 

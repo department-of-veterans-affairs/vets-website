@@ -124,7 +124,13 @@ export default function RequestListItemGroup({ data, facilityData }) {
           handleClick={() => handleClick({ history, link, idClickable })}
           handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
         >
-          <div className={classNames('vads-l-col', 'vads-u-padding-y--2')}>
+          <div
+            className={classNames(
+              'vads-l-col',
+              'vads-u-margin-left--1',
+              'vads-u-padding-y--2',
+            )}
+          >
             <div style={styles.canceled}>
               <i
                 aria-hidden="true"
@@ -158,6 +164,7 @@ export default function RequestListItemGroup({ data, facilityData }) {
           <div
             className={classNames(
               'vads-l-col',
+              'vads-u-margin-right--1',
               'vads-u-padding-y--2',
               'vaos-hide-for-print',
 
