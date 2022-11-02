@@ -23,7 +23,7 @@ const Footer = ({ router, isPreCheckIn }) => {
       {isPreCheckIn ? (
         <div data-testid="pre-check-in-message">
           <p>
-            <span className="vads-u-font-weight--bold">
+            <span className="vads-font-weight-bold">
               {t(
                 'for-questions-about-your-appointment-or-if-you-have-a-health-related-concern',
               )}
@@ -36,7 +36,7 @@ const Footer = ({ router, isPreCheckIn }) => {
             .
           </p>
           <p>
-            <span className="vads-u-font-weight--bold">
+            <span className="vads-font-weight-bold">
               {t(
                 'for-questions-about-how-to-fill-out-your-pre-check-in-tasks-or-if-you-need-help-with-the-form',
               )}
@@ -55,21 +55,19 @@ const Footer = ({ router, isPreCheckIn }) => {
         <p data-testid="day-of-check-in-message">
           <Trans
             i18nKey="for-questions-about-your-appointment"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
+            components={[<span key="bold" className="vads-font-weight-bold" />]}
           />
         </p>
       )}
       {currentPage === 'introduction' && (
         <p data-testid="intro-extra-message">
-          <span className="vads-u-font-weight--bold">
+          <span className="vads-font-weight-bold">
             {t(
               'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
             )}
           </span>{' '}
           call <va-telephone contact="911" />,{' '}
-          <span className="vads-u-font-weight--bold">or</span>{' '}
+          <span className="vads-font-weight-bold">or</span>{' '}
           {t('call-the-veterans-crisis-hotline-at')}{' '}
           <va-telephone contact="988" /> {t('and-select-1')}
         </p>
@@ -81,7 +79,7 @@ const Footer = ({ router, isPreCheckIn }) => {
               <Trans
                 i18nKey="for-questions-about-travel-reimbursement"
                 components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
+                  <span key="bold" className="vads-font-weight-bold" />,
                 ]}
               />
             </p>
