@@ -4,10 +4,10 @@ const generateFeatureToggles = (toggles = {}) => {
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
-    checkInExperienceLorotaSecurityUpdatesEnabled = true,
+    checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
-    checkInExperienceTravelReimbursement = true,
+    checkInExperienceTravelReimbursement = false,
     checkInExperienceBrowserMonitoring = false,
   } = toggles;
 
