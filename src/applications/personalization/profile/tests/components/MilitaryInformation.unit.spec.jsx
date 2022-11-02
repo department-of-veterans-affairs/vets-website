@@ -215,13 +215,10 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We don’t seem to have your military records/i)).to
+      expect(view.getByText(/We don’t have military service records for you/i))
+        .to.exist;
+      expect(view.getByText(/If you think this is an error, call us at/i)).to
         .exist;
-      expect(
-        view.getByText(
-          /We’re sorry. We can’t match your information to our records./i,
-        ),
-      ).to.exist;
     });
   });
   describe('when the military service history is empty', () => {
@@ -254,15 +251,18 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      view.getByText(/We can’t access your military information/i);
       view.getByText(
-        /We’re sorry. We can’t find your Department of Defense \(DoD\) ID. We need this to access your military service records/i,
+        /We can’t match your information to any military service records/i,
+      );
+      view.getByText(/We’re sorry for this issue/i);
+      view.getByText(
+        /If you want to learn what military service records may be on file for you/i,
       );
       expect(
         view.container.querySelector('va-telephone').getAttribute('contact'),
       ).to.equal('8005389552');
       view.getByRole('link', {
-        name: /Find your nearest VA regional office/i,
+        name: /Learn how to correct your military service records on the National Archives website/i,
       });
     });
   });

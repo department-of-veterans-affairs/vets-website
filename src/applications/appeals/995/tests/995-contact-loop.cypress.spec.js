@@ -17,7 +17,7 @@ describe('995 contact info loop', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
+        features: [],
       },
     });
 
@@ -36,6 +36,7 @@ describe('995 contact info loop', () => {
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
     cy.injectAxe();
@@ -43,7 +44,7 @@ describe('995 contact info loop', () => {
 
   const getToContactPage = () => {
     // start form
-    cy.findAllByText(/start the request/i, { selector: 'a' })
+    cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
 
@@ -54,7 +55,7 @@ describe('995 contact info loop', () => {
       .click();
   };
 
-  it('should edit info on a new page & cancel returns to contact info page - C12883', () => {
+  it('should edit info on a new page & cancel returns to contact info page', () => {
     getToContactPage();
 
     // Contact info
@@ -62,7 +63,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Mobile phone
+    // Home phone
     cy.get('a[href$="home-phone"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-home-phone`);
     cy.injectAxe();

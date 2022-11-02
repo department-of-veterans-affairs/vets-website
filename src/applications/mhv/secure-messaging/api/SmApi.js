@@ -289,7 +289,7 @@ export const getMessageHistory = messageId => {
  */
 export const moveMessage = (messageId, toFolderId) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move/${toFolderId}`,
+    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
     {
       method: 'PATCH',
       headers: {
