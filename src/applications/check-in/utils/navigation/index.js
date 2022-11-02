@@ -5,6 +5,8 @@ const isWithInDays = (days, pageLastUpdated) => {
   return daysAgo <= days;
 };
 
+const travelAllowList = ['0001'];
+
 const updateFormPages = (
   patientDemographicsStatus,
   pages,
@@ -59,8 +61,12 @@ const updateFormPages = (
     URLS.TRAVEL_MILEAGE,
   ];
 
-  // Skip travel pay if not enabled or if veteran has more than one appoinement for the day.
-  if (!isTravelReimbursementEnabled || appointments.length > 1) {
+  // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
+  if (
+    !isTravelReimbursementEnabled ||
+    appointments.length > 1 ||
+    !travelAllowList.includes(appointments[0].stationNo)
+  ) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));
