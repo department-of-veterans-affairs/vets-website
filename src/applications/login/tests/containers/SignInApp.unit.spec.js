@@ -83,7 +83,7 @@ describe.skip('SignInApp', () => {
     expect(defaultProps.router.push.called).to.be.false;
   });
 
-  ['ebenefits', 'mhv'].forEach(app => {
+  ['ebenefits', 'mhv', 'vaoccmobile'].forEach(app => {
     it(`should change 'oauth=true' to 'oauth=false' if the 'application=${app}' is not OAuth authorized`, () => {
       const defaultProps = generateProps({
         query: { oauth: true, application: app },
@@ -100,7 +100,7 @@ describe.skip('SignInApp', () => {
     });
   });
 
-  ['vamobile', 'vaoccmobile'].forEach(app => {
+  ['vamobile'].forEach(app => {
     it(`should keep 'oauth=false' if 'application=${app}' specified it`, () => {
       const defaultProps = generateProps({
         query: { oauth: false, application: app },
