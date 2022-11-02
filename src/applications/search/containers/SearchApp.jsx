@@ -339,47 +339,27 @@ class SearchApp extends React.Component {
       >
         <div>Enter a keyword</div>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-          {!this.props.searchDropdownComponentEnabled && (
-            <form
-              onSubmit={this.handleSearch}
-              className="va-flex vads-u-width--full"
-            >
-              <input
-                type="text"
-                name="query"
-                aria-label="Enter a keyword"
-                value={this.state.userInput}
-                onChange={this.handleInputChange}
-              />
-              <button type="submit">
-                <IconSearch color="#fff" />
-                <span className="button-text">Search</span>
-              </button>
-            </form>
-          )}
-          {this.props.searchDropdownComponentEnabled && (
-            <SearchDropdownComponent
-              buttonText="Search"
-              canSubmit
-              id="search-results-page-dropdown"
-              componentClassName=""
-              containerClassName=""
-              buttonClassName=""
-              inputClassName=""
-              suggestionsListClassName=""
-              suggestionClassName=""
-              formatSuggestions
-              fullWidthSuggestions={false}
-              mobileResponsive
-              startingValue={userInput}
-              submitOnClick
-              submitOnEnter
-              fetchSuggestions={this.fetchSuggestions}
-              onInputSubmit={this.onInputSubmit}
-              onSuggestionSubmit={this.onSuggestionSubmit}
-              updateSearchAppState={this.handleInputChange}
-            />
-          )}
+          <SearchDropdownComponent
+            buttonText="Search"
+            canSubmit
+            id="search-results-page-dropdown"
+            componentClassName=""
+            containerClassName=""
+            buttonClassName=""
+            inputClassName=""
+            suggestionsListClassName=""
+            suggestionClassName=""
+            formatSuggestions
+            fullWidthSuggestions={false}
+            mobileResponsive
+            startingValue={userInput}
+            submitOnClick
+            submitOnEnter
+            fetchSuggestions={this.fetchSuggestions}
+            onInputSubmit={this.onInputSubmit}
+            onSuggestionSubmit={this.onSuggestionSubmit}
+            updateSearchAppState={this.handleInputChange}
+          />
         </div>
       </div>
     );
