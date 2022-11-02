@@ -68,8 +68,8 @@ ol.appointment-list{
       }
     }
   }
-}// Missing styles from the DS. Evaluate if still needed when auditing sass.
+}// DS removes label margin now, this maintains it.
 va-text-input[error]:not([error=""])::part(label) ,
 va-text-input[error]:not([error=""])::part(span)  {
-  margin-top: 0;
+  margin-top: 3rem;
 }

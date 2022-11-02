@@ -41,9 +41,9 @@ describe('Check In Experience', () => {
       });
     });
     it('The second appointment is selected', () => {
-      Appointments.validateAppointmentLength(4);
+      Appointments.validateAppointmentLength(1);
       cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(3);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });

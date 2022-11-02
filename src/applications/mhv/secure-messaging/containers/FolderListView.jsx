@@ -1,16 +1,14 @@
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { getMessages } from '../actions/messages';
+import { clearMessage, getMessages } from '../actions/messages';
 import { DefaultFolders as Folders } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import MessageList from '../components/MessageList/MessageList';
 import FolderHeader from '../components/MessageList/FolderHeader';
-import { retrieveFolder } from '../actions/folders';
+import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
-import ManageFolderButtons from '../components/ManageFolderButtons';
 
 const FolderListView = () => {
   const dispatch = useDispatch();
@@ -24,6 +22,9 @@ const FolderListView = () => {
 
   useEffect(
     () => {
+      // clear out folder reducer to prevent from previous folder data flashing
+      // when navigating between folders
+      dispatch(clearFolder());
       if (location.pathname.includes('/folder')) {
         setFolderId(params.folderId);
       } else {
@@ -51,9 +52,13 @@ const FolderListView = () => {
   useEffect(
     () => {
       if (folderId) {
-        dispatch(retrieveFolder(folderId));
-        dispatch(getMessages(folderId));
+        dispatch(retrieveFolder(folderId)).then(() => {
+          dispatch(getMessages(folderId));
+        });
       }
+      // clear out message reducer to prevent from previous message data flashing
+      // when navigating between messages
+      dispatch(clearMessage());
     },
     [folderId, dispatch],
   );
@@ -126,27 +131,12 @@ const FolderListView = () => {
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
         {hideOtherAlerts ? null : <AlertBackgroundBox closeable />}
-        {folder === undefined ? (
-          <va-loading-indicator
-            message="Loading your secure messages..."
-            setFocus
-          />
-        ) : (
+        {folder?.folderId === undefined && (
+          <va-loading-indicator message="Loading your messages..." setFocus />
+        )}
+        {folder?.folderId !== undefined && (
           <>
             <FolderHeader folder={folder} />
-            <ManageFolderButtons />
-            {messages?.length > 0 ? (
-              <div className="search-messages-input">
-                <label
-                  className="vads-u-margin-top--2p5"
-                  htmlFor="search-message-folder-input"
-                >
-                  Search the {folder.name} messages folder
-                </label>
-                <VaSearchInput label="search-message-folder-input" />
-              </div>
-            ) : null}
-
             <div>{content}</div>
           </>
         )}

@@ -1,3 +1,4 @@
+import recordEvent from 'platform/monitoring/record-event';
 import { Actions } from '../util/actionTypes';
 import { createDraft, deleteMessage, updateDraft } from '../api/SmApi';
 import { addAlert } from './alerts';
@@ -20,6 +21,11 @@ const sendSaveDraft = async (messageData, id) => {
  * @returns
  */
 export const saveDraft = (messageData, type, id) => async dispatch => {
+  recordEvent({
+    // For Google Analytics
+    event: 'secure-messaging-save-draft',
+    label: type,
+  });
   if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
   else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
