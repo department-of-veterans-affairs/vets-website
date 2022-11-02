@@ -42,6 +42,7 @@ class ApiInitializer {
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceTravelReimbursement: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
