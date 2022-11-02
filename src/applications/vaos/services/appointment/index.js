@@ -129,16 +129,17 @@ export async function fetchAppointments({
   endDate,
   useV2VA = false,
   useV2CC = false,
+  useAcheron = false,
 }) {
   try {
     const appointments = [];
     if (useV2VA || useV2CC) {
-      const allAppointments = await getAppointments(startDate, endDate, [
-        'booked',
-        'arrived',
-        'fulfilled',
-        'cancelled',
-      ]);
+      const allAppointments = await getAppointments(
+        startDate,
+        endDate,
+        ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        useAcheron,
+      );
 
       const filteredAppointments = allAppointments.filter(appt => {
         if (
@@ -237,13 +238,16 @@ export async function getAppointmentRequests({
   startDate,
   endDate,
   useV2 = false,
+  useAcheron = false,
 }) {
   try {
     if (useV2) {
-      const appointments = await getAppointments(startDate, endDate, [
-        'proposed',
-        'cancelled',
-      ]);
+      const appointments = await getAppointments(
+        startDate,
+        endDate,
+        ['proposed', 'cancelled'],
+        useAcheron,
+      );
 
       const requestsWithoutAppointments = appointments.filter(
         appt => !!appt.requestedPeriods,
@@ -274,10 +278,10 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useV2 }) {
+export async function fetchRequestById({ id, useV2, useAcheron }) {
   try {
     if (useV2) {
-      const appointment = await getAppointment(id);
+      const appointment = await getAppointment(id, useAcheron);
 
       return transformVAOSAppointment(appointment);
     }
@@ -303,12 +307,17 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, type, useV2 = false }) {
+export async function fetchBookedAppointment({
+  id,
+  type,
+  useV2 = false,
+  useAcheron = false,
+}) {
   try {
     let appointment;
 
     if (useV2) {
-      appointment = await getAppointment(id);
+      appointment = await getAppointment(id, useAcheron);
       return transformVAOSAppointment(appointment);
     }
 
@@ -729,8 +738,8 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment }) {
-  const result = await postAppointment(appointment);
+export async function createAppointment({ appointment, useAcheron = false }) {
+  const result = await postAppointment(appointment, useAcheron);
 
   return transformVAOSAppointment(result);
 }
@@ -774,7 +783,7 @@ async function cancelRequestedAppointment(request) {
   }
 }
 
-async function cancelV2Appointment(appointment) {
+async function cancelV2Appointment(appointment, useAcheron) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -789,9 +798,13 @@ async function cancelV2Appointment(appointment) {
   });
 
   try {
-    const updatedAppointment = await putAppointment(appointment.id, {
-      status: APPOINTMENT_STATUS.cancelled,
-    });
+    const updatedAppointment = await putAppointment(
+      appointment.id,
+      {
+        status: APPOINTMENT_STATUS.cancelled,
+      },
+      useAcheron,
+    );
 
     recordEvent({
       event: `${eventPrefix}-successful`,
@@ -899,12 +912,16 @@ async function cancelBookedAppointment(appointment) {
  * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment, useV2 = false }) {
+export async function cancelAppointment({
+  appointment,
+  useV2 = false,
+  useAcheron = false,
+}) {
   const isConfirmedAppointment =
     appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
 
   if (useV2) {
-    return cancelV2Appointment(appointment);
+    return cancelV2Appointment(appointment, useAcheron);
   }
   if (isConfirmedAppointment) {
     return cancelBookedAppointment(appointment);
