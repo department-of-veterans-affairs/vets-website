@@ -7,7 +7,11 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
-import { DateRanges, SelectCategories } from '../../util/inputContants';
+import {
+  DateRangeValues,
+  DateRangeOptions,
+  SelectCategories,
+} from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
@@ -41,11 +45,11 @@ const SearchMessagesForm = props => {
   const getRelativeDate = range => {
     const today = new Date();
 
-    if (range === 'last3') {
+    if (range === DateRangeValues.LAST3) {
       today.setMonth(today.getMonth() - 3);
-    } else if (range === 'last6') {
+    } else if (range === DateRangeValues.LAST6) {
       today.setMonth(today.getMonth() - 6);
-    } else if (range === 'last12') {
+    } else if (range === DateRangeValues.LAST12) {
       today.setMonth(today.getMonth() - 12);
     }
 
@@ -85,9 +89,9 @@ const SearchMessagesForm = props => {
     let relativeFromDate;
 
     if (
-      dateRange === 'last3' ||
-      dateRange === 'last6' ||
-      dateRange === 'last12'
+      dateRange === DateRangeValues.LAST3 ||
+      dateRange === DateRangeValues.LAST6 ||
+      dateRange === DateRangeValues.LAST12
     ) {
       relativeToDate = dateFormat(new Date(), 'yyyy-MM-DD');
       relativeFromDate = getRelativeDate(dateRange);
@@ -190,7 +194,7 @@ const SearchMessagesForm = props => {
         onVaSelect={e => setDateRange(e.detail.value)}
         data-testid="search-select"
       >
-        {DateRanges.map(item => (
+        {DateRangeOptions.map(item => (
           <option key={item.value} value={item.value}>
             {item.label}
           </option>

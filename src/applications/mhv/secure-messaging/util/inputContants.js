@@ -1,9 +1,17 @@
-export const DateRanges = [
-  { value: 'any', label: 'Any' },
-  { value: 'last3', label: 'Last 3 months' },
-  { value: 'last6', label: 'Last 6 months' },
-  { value: 'last12', label: 'Last 12 months' },
-  { value: 'custom', label: 'Custom date range' },
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 'last3',
+  LAST6: 'last6',
+  LAST12: 'last12',
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom date range' },
 ];
 
 export const SelectCategories = [
