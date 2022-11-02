@@ -32,8 +32,8 @@
     "view:otherContactInfo": {
       "email": "test2@test1.net",
       "view:confirmEmail": "test2@test1.net",
-      "homePhone": "4445551212",
-      "mobilePhone": "4445551213"
+      "mobilePhone": "4445551213",
+      "homePhone": "4445551212"
     },
     "newSchoolName": "Test",
     "educationType": "correspondence",

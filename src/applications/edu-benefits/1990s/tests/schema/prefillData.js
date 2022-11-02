@@ -35,8 +35,8 @@ export const maxPrefillData = {
   },
   veteranSocialSecurityNumber: '796121200',
   email: 'test@email.com',
-  homePhone: '5551234567',
   mobilePhone: '5551112222',
+  homePhone: '5551234567',
   address: {
     street: 'MILITARY ADDY 3',
     street2: 'ADDRESS LINE 2',

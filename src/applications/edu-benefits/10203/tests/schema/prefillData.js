@@ -16,8 +16,8 @@ export const minTransformedPrefillData = {
   veteranSocialSecurityNumber: '796121200',
   'view:otherContactInfo': {
     email: undefined,
-    homePhone: undefined,
     mobilePhone: undefined,
+    homePhone: undefined,
   },
   'view:remainingEntitlement': {
     totalDays: 0,
@@ -32,8 +32,8 @@ export const maxPrefillData = {
   },
   veteranSocialSecurityNumber: '796121200',
   email: 'test@email.com',
-  homePhone: '5551234567',
   mobilePhone: '5551112222',
+  homePhone: '5551234567',
   veteranAddress: {
     street: 'MILITARY ADDY 3',
     street2: 'ADDRESS LINE 2',
@@ -61,8 +61,8 @@ export const transformedMaxPrefillData = {
   veteranSocialSecurityNumber: '796121200',
   'view:otherContactInfo': {
     email: 'test@email.com',
-    homePhone: '5551234567',
     mobilePhone: '5551112222',
+    homePhone: '5551234567',
   },
   veteranAddress: {
     street: 'MILITARY ADDY 3',

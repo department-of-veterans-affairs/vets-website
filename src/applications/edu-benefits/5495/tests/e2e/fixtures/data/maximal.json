@@ -82,8 +82,8 @@
     "view:otherContactInfo": {
       "email": "test@test.com",
       "view:confirmEmail": "test@test.com",
-      "homePhone": "1234433444",
-      "mobilePhone": "2332244555"
+      "mobilePhone": "2332244555",
+      "homePhone": "1234433444"
     },
     "bankAccountChange": "startUpdate",
     "bankAccount": {

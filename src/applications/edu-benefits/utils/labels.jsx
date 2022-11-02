@@ -144,8 +144,8 @@ export const survivorBenefitsLabels = {
 export const preferredContactMethodLabels = {
   mail: 'Mail',
   email: 'Email',
-  phone: 'Home phone number',
   mobile: 'Mobile phone number',
+  phone: 'Home phone number',
 };
 
 export const hoursTypeLabels = {

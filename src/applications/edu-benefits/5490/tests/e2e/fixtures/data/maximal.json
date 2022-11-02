@@ -157,8 +157,8 @@
     "view:otherContactInfo": {
       "email": "test@test.com",
       "view:confirmEmail": "test@test.com",
-      "homePhone": "2344344444",
-      "mobilePhone": "1231312333"
+      "mobilePhone": "1231312333",
+      "homePhone": "2344344444"
     },
     "secondaryContact": {
       "fullName": "Secondary person",

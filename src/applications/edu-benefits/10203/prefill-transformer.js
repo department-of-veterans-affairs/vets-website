@@ -9,14 +9,14 @@ export function prefillTransformer(pages, formData, metadata) {
 
   const newFormData = {
     ..._.omit(formData, [
-      'homePhone',
       'mobilePhone',
+      'homePhone',
       'email',
       'remainingEntitlement',
     ]),
     'view:otherContactInfo': {
-      homePhone,
       mobilePhone,
+      homePhone,
       email,
     },
     'view:remainingEntitlement': {

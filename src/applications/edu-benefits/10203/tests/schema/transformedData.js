@@ -52,8 +52,8 @@ const transformedMaximalDataActual = {
     postalCode: '22312',
   },
   email: 'test2@test1.net',
-  homePhone: '4445551212',
   mobilePhone: '4445551213',
+  homePhone: '4445551212',
   veteranFullName: {
     first: 'Max',
     middle: 'A',

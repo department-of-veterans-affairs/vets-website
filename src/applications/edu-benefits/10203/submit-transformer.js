@@ -33,8 +33,8 @@ export function transform(formConfig, form) {
     ...formData,
     mail: formData?.['view:otherContactInfo']?.mail,
     email: formData?.['view:otherContactInfo']?.email,
-    homePhone: formData?.['view:otherContactInfo']?.homePhone,
     mobilePhone: formData?.['view:otherContactInfo']?.mobilePhone,
+    homePhone: formData?.['view:otherContactInfo']?.homePhone,
   });
 
   const transformedData = [

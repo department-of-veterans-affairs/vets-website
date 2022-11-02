@@ -28,15 +28,15 @@ export const uiSchema = {
     ...ciUiSchema['view:otherContactInfo'],
     'ui:description':
       'Please enter your contact details below so we can get in touch with you, if necessary.',
-    homePhone: {
-      ...phoneUI('Home phone number'),
-      'ui:required': form => form.preferredContactMethod === 'homePhone',
-    },
     mobilePhone: {
       ...phoneUI('Mobile phone number'),
       'ui:required': form =>
         form.preferredContactMethod === 'mobilePhone' ||
         form.receiveTexts === true,
+    },
+    homePhone: {
+      ...phoneUI('Home phone number'),
+      'ui:required': form => form.preferredContactMethod === 'homePhone',
     },
   },
   preferredContactMethod: {
@@ -46,8 +46,8 @@ export const uiSchema = {
       labels: {
         mail: 'Mail',
         email: 'Email',
-        homePhone: 'Home phone',
         mobilePhone: 'Mobile phone',
+        homePhone: 'Home phone',
       },
     },
   },
