@@ -185,9 +185,7 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        {appointments.length > 1 && (
-          <BackToAppointments appointments={appointments} />
-        )}
+        {appointments.length > 1 && <BackToAppointments />}
       </Wrapper>
     );
   };
