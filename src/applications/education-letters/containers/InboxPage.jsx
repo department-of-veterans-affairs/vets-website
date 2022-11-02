@@ -96,7 +96,7 @@ const mapStateToProps = state => {
 
   let latestClaim;
 
-  if (MEBClaimStatus?.receivedDate && TOEClaimStatus?.receivedDate) {
+  if (!!MEBClaimStatus?.claimStatus && !!TOEClaimStatus?.claimStatus) {
     latestClaim =
       MEBClaimStatus?.receivedDate > TOEClaimStatus?.receivedDate
         ? { ...MEBClaimStatus }
