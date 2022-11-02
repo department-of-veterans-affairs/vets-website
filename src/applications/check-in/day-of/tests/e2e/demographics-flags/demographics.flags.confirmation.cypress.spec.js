@@ -10,6 +10,11 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
   describe('check-in with demographics confirmation', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -22,7 +27,9 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        appointments,
+      });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
 
@@ -48,7 +55,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -108,6 +115,11 @@ describe('Check In Experience', () => {
     });
   });
   describe('check-in demographics confirmation - With API error', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -120,7 +132,9 @@ describe('Check In Experience', () => {
       initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        appointments,
+      });
       initializeCheckInDataPost.withSuccess();
       // Response delayed by 5 seconds.
       initializeDemographicsPatch.withFailure(400, 5000);
@@ -135,7 +149,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -176,6 +190,11 @@ describe('Check In Experience', () => {
     });
   });
   describe('All confirmation pages skipped', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
@@ -191,6 +210,7 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
+        appointments,
         demographicsNeedsUpdate: false,
         demographicsConfirmedAt: today.toISOString(),
         nextOfKinNeedsUpdate: false,
@@ -215,7 +235,7 @@ describe('Check In Experience', () => {
 
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
     });
     afterEach(() => {

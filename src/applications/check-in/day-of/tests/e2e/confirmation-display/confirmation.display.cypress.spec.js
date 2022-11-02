@@ -62,17 +62,12 @@ describe('Check In Experience -- ', () => {
       Confirmation.validateBackButton(appointments.length);
       cy.injectAxeThenAxeCheck();
     });
-    it('refreshes appointment data when pressing the browser back button', () => {
-      Confirmation.validatePageLoaded();
-      cy.intercept(
-        '/check_in/v2/patient_check_ins/*',
-        cy.spy().as('apptRefresh'),
-      );
-      cy.go('back');
-      cy.get('@apptRefresh')
-        .its('callCount')
-        .should('equal', 1);
-      cy.injectAxeThenAxeCheck();
+    it('refreshes appointments when using the back to appointments link', () => {
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+      Appointments.validateAppointmentLength(2);
+      // Validate that appointments are refreshed.
+      Appointments.validateAppointmentTime(2, '3:30 a.m.');
     });
   });
 });
