@@ -451,7 +451,9 @@ describe('<AddressValidationView/>', () => {
         .find('h4')
         .at(0)
         .text(),
-    ).to.equal('Please confirm your address');
+    ).to.equal(
+      'We can’t confirm the address you entered with the U.S. Postal Service.',
+    );
     component.unmount();
   });
 });
