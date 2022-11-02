@@ -24,11 +24,19 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Page language may be switched', () => {
+  it('Page language may be switched from spanish to english', () => {
     // App is translated.
     ValidateVeteran.validatePage.dayOf('es');
     cy.get('[data-testid="translate-button-en"]').click();
     ValidateVeteran.validatePage.dayOf('en');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('Page language may be switched from spanish to tagalog', () => {
+    // App is translated.
+    ValidateVeteran.validatePage.dayOf('es');
+    cy.get('[data-testid="translate-button-tl"]').click();
+    ValidateVeteran.validatePage.dayOf('tl');
     cy.injectAxe();
     cy.axeCheck();
   });
