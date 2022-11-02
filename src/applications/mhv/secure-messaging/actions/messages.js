@@ -1,4 +1,6 @@
+import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
+
 import {
   getMessageList,
   getMessage,
@@ -61,6 +63,20 @@ export const retrieveMessage = (
       type: isDraft ? Actions.Draft.GET : Actions.Message.GET,
       response,
     });
+
+    const { sentDate } = response.data.attributes;
+    const today = new Date();
+    const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
+    const cannotReplyDate = addDays(new Date(messageSentDate), 45);
+    if (today > cannotReplyDate) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_INFO,
+          Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+          Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        ),
+      );
+    }
   }
 };
 

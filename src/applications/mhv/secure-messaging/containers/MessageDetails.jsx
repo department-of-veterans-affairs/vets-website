@@ -7,6 +7,7 @@ import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
+import AlertBox from '../components/shared/AlertBox';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
@@ -68,6 +69,7 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+      <AlertBox />
       <AlertBackgroundBox closeable />
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
