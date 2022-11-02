@@ -226,16 +226,16 @@ export function getPtsdChangeText(changeFields = {}) {
 
 export function filterServicePeriods(formData) {
   // migrate branches in case prefill migration is skipped somehow
-  const { serviceInformation } = migrateBranches(formData);
+  const newFormData = migrateBranches(formData);
+  const { serviceInformation } = newFormData;
   if (!serviceInformation || hasGuardOrReservePeriod(serviceInformation)) {
-    return formData;
+    return newFormData;
   }
   // remove `reservesNationalGuardService` since no associated
   // Reserve or National guard service periods have been provided
   // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/6797
-  const clonedData = _.cloneDeep(formData);
-  delete clonedData.serviceInformation.reservesNationalGuardService;
-  return clonedData;
+  delete newFormData.serviceInformation.reservesNationalGuardService;
+  return newFormData;
 }
 
 // Transform the related disabilities lists into an array of strings
