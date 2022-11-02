@@ -40,7 +40,6 @@ const HealthCareContentV2 = ({
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
-  shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
   useVaosV2Api,
@@ -86,10 +85,7 @@ const HealthCareContentV2 = ({
     shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
 
   const shouldShowOnOneColumn =
-    !isVAPatient ||
-    (!shouldShowUnreadMessageAlert &&
-      !hasUpcomingAppointment &&
-      !hasAppointmentsError);
+    !isVAPatient || (!shouldShowUnreadMessageAlert && !hasUpcomingAppointment);
 
   const NoUpcomingAppointmentsText = () => {
     return (
@@ -122,30 +118,26 @@ const HealthCareContentV2 = ({
           data-testid="outstanding-debts-error-v2"
         >
           <h2 slot="headline">
-            We can’t access your health care information right now
+            We can’t access your appointment information right now
           </h2>
           <div>
-            We’re sorry. Something went wrong on our end. If you get health care
-            through VA, you can go to My HealtheVet to access your health care
-            information.
+            We’re sorry. Something went wrong on our end and we can’t access
+            your appointment information. Please try again later or go to the
+            appointments tool
           </div>
           <CTALink
-            text="Visit My Healthe Vet"
-            newTab
-            href={mhvUrl(
-              authenticatedWithSSOe,
-              'web/myhealthevet/refill-prescriptions',
-            )}
+            text="Schedule and manage your appointments"
+            href="/health-care/schedule-view-va-appointments/appointments"
             showArrow
             className="vads-u-font-weight--bold"
             onClick={() =>
               recordEvent({
-                event: 'profile-navigation',
-                'profile-action': 'view-link',
-                'profile-section': 'view-my-healthe-vet',
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and manage your appointments',
+                'links-list-section-header': 'Health care',
               })
             }
-            testId="view-my-healthe-vet-link-from-error"
+            testId="view-manage-appointments-link-from-error"
           />
         </va-alert>
       </div>
@@ -206,14 +198,14 @@ const HealthCareContentV2 = ({
         {isVAPatient &&
           !hasUpcomingAppointment &&
           !hasAppointmentsError && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn && !hasAppointmentsError ? (
+        {shouldShowOnOneColumn ? (
           <HealthCareCTA
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
-            shouldShowPrescriptions={shouldShowPrescriptions}
             unreadMessagesCount={unreadMessagesCount}
             isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
           />
         ) : null}
       </DashboardWidgetWrapper>
@@ -223,9 +215,9 @@ const HealthCareContentV2 = ({
             hasInboxError={hasInboxError}
             authenticatedWithSSOe={authenticatedWithSSOe}
             hasUpcomingAppointment={hasUpcomingAppointment}
-            shouldShowPrescriptions={shouldShowPrescriptions}
             unreadMessagesCount={unreadMessagesCount}
             isVAPatient={isVAPatient}
+            hasAppointmentsError={hasAppointmentsError}
           />
         </DashboardWidgetWrapper>
       ) : null}
@@ -244,9 +236,6 @@ const mapStateToProps = state => {
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
-  );
-  const shouldShowPrescriptions = selectAvailableServices(state).includes(
-    backendServices.RX,
   );
 
   const fetchingAppointments = state.health?.appointments?.fetching;
@@ -275,7 +264,6 @@ const mapStateToProps = state => {
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
-    shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
     useVaosV2Api: selectUseVaosV2APi(state),
   };
@@ -314,7 +302,6 @@ HealthCareContentV2.propTypes = {
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
-  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
   useVaosV2Api: PropTypes.bool,
 };

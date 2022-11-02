@@ -8,8 +8,8 @@ const HealthCareCTAV2 = ({
   hasInboxError,
   unreadMessagesCount,
   authenticatedWithSSOe,
+  hasAppointmentsError,
   hasUpcomingAppointment,
-  shouldShowPrescriptions,
   isVAPatient,
 }) => {
   return (
@@ -21,6 +21,7 @@ const HealthCareCTAV2 = ({
           icon="file-medical"
           newTab
           href="/health-care/apply/application"
+          testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({
               event: 'nav-linkslist',
@@ -39,6 +40,7 @@ const HealthCareCTAV2 = ({
                 icon="comments"
                 newTab
                 href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                testId="view-your-messages-link-from-cta"
                 onClick={() =>
                   recordEvent({
                     event: 'nav-linkslist',
@@ -48,41 +50,43 @@ const HealthCareCTAV2 = ({
                 }
               />
             ))}
-          {!hasUpcomingAppointment && (
-            <IconCTALink
-              href="/health-care/schedule-view-va-appointments/appointments"
-              icon="calendar-check"
-              newTab
-              text="Schedule and manage your appointments"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Schedule and view your appointments',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          )}
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <IconCTALink
+                href="/health-care/schedule-view-va-appointments/appointments"
+                icon="calendar-check"
+                newTab
+                text="Schedule and manage your appointments"
+                testId="view-manage-appointments-link-from-cta"
+                onClick={() => {
+                  recordEvent({
+                    event: 'nav-linkslist',
+                    'links-list-header':
+                      'Schedule and manage your appointments',
+                    'links-list-section-header': 'Health care',
+                  });
+                }}
+              />
+            )}
 
           {/* Prescriptions */}
-          {shouldShowPrescriptions ? (
-            <IconCTALink
-              href={mhvUrl(
-                authenticatedWithSSOe,
-                'web/myhealthevet/refill-prescriptions',
-              )}
-              icon="prescription-bottle"
-              newTab
-              text="Refill and track your prescriptions"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Refill and track your prescriptions',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          ) : null}
+          <IconCTALink
+            href={mhvUrl(
+              authenticatedWithSSOe,
+              'web/myhealthevet/refill-prescriptions',
+            )}
+            icon="prescription-bottle"
+            newTab
+            text="Refill and track your prescriptions"
+            testId="refill-prescriptions-link-from-cta"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Refill and track your prescriptions',
+                'links-list-section-header': 'Health care',
+              });
+            }}
+          />
 
           {/* Request travel reimbursement */}
           <IconCTALink
@@ -90,6 +94,7 @@ const HealthCareCTAV2 = ({
             icon="suitcase"
             newTab
             text="Request travel reimbursement"
+            testId="request-travel-reimbursement-link-from-cta"
             onClick={() => {
               recordEvent({
                 event: 'nav-linkslist',
@@ -105,6 +110,7 @@ const HealthCareCTAV2 = ({
             icon="file-medical"
             newTab
             text="Get your VA medical records and lab and test results"
+            testId="get-medical-records-link-from-cta"
             onClick={() => {
               recordEvent({
                 event: 'nav-linkslist',
@@ -121,9 +127,10 @@ const HealthCareCTAV2 = ({
 
 HealthCareCTAV2.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   hasUpcomingAppointment: PropTypes.bool,
-  shouldShowPrescriptions: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
 };
 

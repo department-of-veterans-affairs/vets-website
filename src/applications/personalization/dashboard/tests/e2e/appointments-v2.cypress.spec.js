@@ -67,7 +67,7 @@ const spyOnFacilitiesEndpoint = stub => {
   });
 };
 
-const alertText = /We’re sorry. Something went wrong on our end. If you get health care through VA, you can go to My HealtheVet to access your health care information./i;
+const alertText = /We’re sorry. Something went wrong on our end and we can’t access your appointment information. Please try again later or go to the appointments tool/i;
 
 describe('The My VA Dashboard Claims and Appeals section', () => {
   beforeEach(() => {
@@ -95,7 +95,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         },
       }).as('featuresA');
     });
-    it('the v2 dashboard does not show up - C20877', () => {
+    it('the v2 dashboard does not show up', () => {
       cy.visit('my-va/');
       cy.findByTestId('dashboard-section-health-care').should('exist');
       cy.findByTestId('dashboard-section-health-care-v2').should('not.exist');
@@ -121,32 +121,37 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       getFacilitiesStub = cy.stub();
     });
     context('when the next appointment is within 30 days', () => {
-      it('when the next upcoming appointment is a community cares appointment - C15731', () => {
+      it('when the next upcoming appointment is a community cares appointment', () => {
         cy.visit('my-va/');
         mockVAAppointmentsSuccess();
         mockCCAppointmentsSuccess();
         // make sure that the Health care section is shown
         cy.findByTestId('dashboard-section-health-care-v2').should('exist');
+
         cy.findByRole('link', { name: /manage your appointments/i }).should(
           'exist',
         );
         cy.findByRole('heading', { name: /next appointment/i }).should('exist');
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('exist');
+
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
     });
     context('when the next appointment is over 30 days', () => {
-      it('when the next upcoming appointment is a community cares appointment - C15787', () => {
+      it('when the next upcoming appointment is a community cares appointment', () => {
         cy.visit('my-va/');
         mockVAAppointmentsPast30Days();
         mockCCAppointmentsPast30Days();
@@ -156,44 +161,51 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
           'exist',
         );
         cy.findByRole('heading', { name: /next appointment/i }).should('exist');
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('exist');
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
     });
     context('when there is no appointment', () => {
-      it('when the next upcoming appointment is a community cares appointment - C15788', () => {
+      it('when the next upcoming appointment is a community cares appointment', () => {
         cy.visit('my-va/');
         mockVAAppointmentsEmpty();
         mockCCAppointmentsEmpty();
         // make sure that the Health care section is shown
         cy.findByTestId('dashboard-section-health-care-v2').should('exist');
         cy.findByTestId('no-upcoming-appointments-text-v2').should('exist');
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('exist');
+
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
     });
     context('when there is a 500 error fetching VA appointments', () => {
-      it('should show the appointments error alert and never call the facilities API - C15725', () => {
+      it('should show the appointments error alert and never call the facilities API', () => {
         cy.intercept('GET', VA_APPOINTMENTS_ENDPOINT, {
           statusCode: 500,
           body: ERROR_500,
@@ -206,15 +218,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.should(() => {
           expect(getFacilitiesStub).not.to.be.called;
         });
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('not.exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
@@ -222,7 +240,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
     });
 
     context('when there is a 400 error fetching VA appointments', () => {
-      it('should show the appointments error alert and never call the facilities API - C15726', () => {
+      it('should show the appointments error alert and never call the facilities API', () => {
         cy.intercept('GET', VA_APPOINTMENTS_ENDPOINT, {
           statusCode: 400,
           body: ERROR_400,
@@ -235,15 +253,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.should(() => {
           expect(getFacilitiesStub).not.to.be.called;
         });
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('not.exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
@@ -251,7 +275,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
     });
 
     context('when there is a 400 error fetching CC appointments', () => {
-      it('should show the appointments error alert and never call the facilities API - C15727', () => {
+      it('should show the appointments error alert and never call the facilities API', () => {
         mockVAAppointmentsSuccess();
         cy.intercept('GET', CC_APPOINTMENTS_ENDPOINT, {
           statusCode: 400,
@@ -264,15 +288,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.should(() => {
           expect(getFacilitiesStub).not.to.be.called;
         });
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('not.exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
@@ -280,7 +310,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
     });
 
     context('when there is a partial error fetching VA appointments', () => {
-      it('should show the appointments error alert and never call the facilities API - C15728', () => {
+      it('should show the appointments error alert and never call the facilities API', () => {
         cy.intercept('GET', VA_APPOINTMENTS_ENDPOINT, PARTIAL_ERROR);
         mockCCAppointmentsSuccess();
         spyOnFacilitiesEndpoint(getFacilitiesStub);
@@ -290,15 +320,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.should(() => {
           expect(getFacilitiesStub).not.to.be.called;
         });
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('not.exist');
-        cy.findByRole('link', {
-          name: /VA medical records/i,
-        }).should('not.exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
 
         // make the a11y check
         cy.injectAxeThenAxeCheck();
@@ -331,15 +367,22 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         mockVAAppointmentsEmpty();
         mockCCAppointmentsEmpty();
         cy.findByTestId('unread-messages-alert-v2').should('exist');
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /refill and track.*prescriptions/i,
-        }).should('exist');
-        cy.findByRole('link', {
-          name: /request travel reimbursement/i,
-        }).should('exist');
+
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('not.exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
         cy.injectAxeThenAxeCheck();
       });
     });
@@ -364,13 +407,21 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
         cy.visit('my-va/');
         mockVAAppointmentsEmpty();
         mockCCAppointmentsEmpty();
-        cy.findByRole('link', {
-          name: /schedule and manage.*appointments/i,
-        }).should('exist');
-        cy.findByRole('link', { name: /send a.*message/i }).should('exist');
-        cy.findByRole('link', {
-          name: /refill and track.*prescriptions/i,
-        }).should('not.exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should('exist');
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should('exist');
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should(
+          'not.exist',
+        );
         cy.injectAxeThenAxeCheck();
       });
     });
@@ -396,11 +447,28 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
           },
         }).as('featuresC');
       });
-      it('the v2 dashboard shows up and shows no healthcare text - C20877', () => {
+      it('the v2 dashboard shows up and shows no healthcare text', () => {
         cy.visit('my-va/');
         cy.findByTestId('dashboard-section-health-care').should('not.exist');
         cy.findByTestId('dashboard-section-health-care-v2').should('exist');
         cy.findByTestId('no-healthcare-text-v2').should('exist');
+        cy.findByTestId('view-manage-appointments-link-from-error').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-manage-appointments-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-your-messages-link-from-cta').should('not.exist');
+        cy.findByTestId('refill-prescriptions-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('request-travel-reimbursement-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('get-medical-records-link-from-cta').should(
+          'not.exist',
+        );
+        cy.findByTestId('apply-va-healthcare-link-from-cta').should('exist');
         // make the a11y check
         cy.injectAxeThenAxeCheck();
       });
