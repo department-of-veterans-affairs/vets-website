@@ -2537,6 +2537,11 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
+"@department-of-veterans-affairs/css-library@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.1.0.tgz#287b6f67daad87e81bb55395d36f508aa21a3082"
+  integrity sha512-Bu4a+Yms4W3QbIf+aRWKHSK1V5tE/ThnYemnDZZoN5VSLb5AQeqG4yFXC4s2VLVfGdKZChrFmUoPNd/LDQ8mOg==
+
 "@department-of-veterans-affairs/eslint-plugin@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.0.tgz#9a34ae8ab8d0e65e2cdabf9e446176c25dc1b9b9"
