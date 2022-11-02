@@ -80,6 +80,15 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
+  const handleOnClick = path => {
+    recordEvent({
+      // For Google Analytics
+      event: 'secure-messaging-navigation-clicked',
+      'secure-messaging-navigation-option': path.label,
+      'secure-messaging-navigation-path': path.path,
+    });
+  };
+
   return (
     <div className="secure-messaging-navigation">
       {openNavigationBurgerButton()}
@@ -127,11 +136,7 @@ const Navigation = () => {
                         <Link
                           to={path.path}
                           onClick={() => {
-                            recordEvent({
-                              // For Google Analytics
-                              event: 'secure-messaging-navigation-clicked',
-                              label: path.path,
-                            });
+                            handleOnClick(path);
                           }}
                         >
                           {path.label}
