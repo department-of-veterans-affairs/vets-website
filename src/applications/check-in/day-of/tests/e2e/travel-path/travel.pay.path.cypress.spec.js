@@ -12,6 +12,7 @@ import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 describe('Check In Experience', () => {
   describe('travel pay path', () => {
     beforeEach(() => {
+      const appointments = [{ startTime: '2021-08-19T03:00:00' }];
       const {
         initializeFeatureToggle,
         initializeSessionGet,
@@ -26,7 +27,7 @@ describe('Check In Experience', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       initializeBtsssPost.withSuccess();
@@ -67,7 +68,7 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--confirmation-success');
@@ -76,7 +77,7 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithNoBtsssClaim();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(
@@ -112,7 +113,7 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithBtsssIneligible();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(

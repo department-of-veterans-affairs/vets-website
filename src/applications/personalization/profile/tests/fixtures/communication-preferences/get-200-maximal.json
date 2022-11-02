@@ -28,6 +28,17 @@
                   "description": "Email Notification"
                 }
               ]
+            },
+            {
+              "id": 6,
+              "name": "Appeal status updates",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification"
+                }
+              ]
             }
           ]
         },

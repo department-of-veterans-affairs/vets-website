@@ -3,7 +3,7 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Error from '../pages/Error';
 
-describe('Check In Experience -- ', () => {
+describe('Check In Experience -- Error page is translated - Spanish', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withDayOfTranslationEnabled();
@@ -18,6 +18,26 @@ describe('Check In Experience -- ', () => {
   });
   it('Error page - spanish', () => {
     Error.validatePageLoaded(null, 'es');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+});
+
+describe('Check In Experience -- Error page is translated - Tagalog', () => {
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeSessionGet.withFailure();
+    // Verifies that browser language detection is working.
+    cy.visitWithUUID(null, 'tl');
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('Error page - tagalog', () => {
+    Error.validatePageLoaded(null, 'tl');
     cy.injectAxe();
     cy.axeCheck();
   });

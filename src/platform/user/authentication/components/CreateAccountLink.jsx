@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
@@ -22,18 +22,21 @@ export default function CreateAccountLink({
 }) {
   const [href, setHref] = useState('');
 
-  useEffect(() => {
-    async function generateURL() {
-      const url = await authUtilities.signupOrVerify({
-        policy,
-        isLink: true,
-        allowVerification: false,
-        useOAuth,
-      });
-      setHref(url);
-    }
-    generateURL();
-  }, []);
+  useEffect(
+    () => {
+      async function generateURL() {
+        const url = await authUtilities.signupOrVerify({
+          policy,
+          isLink: true,
+          allowVerification: false,
+          useOAuth,
+        });
+        setHref(url);
+      }
+      generateURL();
+    },
+    [policy, useOAuth],
+  );
 
   return (
     <a

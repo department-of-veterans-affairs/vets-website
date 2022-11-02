@@ -24,17 +24,26 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    MOVE_MESSAGE_SUCCESS: 'Message was successfully moved',
+    MOVE_MESSAGE_ERROR:
+      'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
+    NO_MESSAGES: 'There are no messages in this folder.',
     DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
     DELETE_DRAFT_ERROR:
       'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
   },
   Folder: {
+    CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
+    CREATE_FOLDER_ERROR:
+      'Folder could not be created. Try again later. If this problem persists, contact the help desk.',
     DELETE_FOLDER_SUCCESS: 'Folder was successfully removed.',
     DELETE_FOLDER_ERROR:
       'Folder could not be removed. Try again later. If this problem persists, contact the help desk.',
     RENAME_FOLDER_SUCCESS: 'Folder was successfully renamed.',
     RENAME_FOLDER_ERROR:
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
+    FOLDER_NAME_TAKEN:
+      'That folder name is already in use. Please use another name.',
   },
 };
 
@@ -70,3 +79,4 @@ export const Breadcrumbs = {
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
+export const ALERT_TYPE_INFO = 'info';
