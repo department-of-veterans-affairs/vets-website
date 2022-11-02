@@ -6,10 +6,7 @@ describe('995 subtask', () => {
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
+      data: { features: [{ name: 'supplemental_claim', value: true }] },
     });
 
     resetStoredSubTask();
