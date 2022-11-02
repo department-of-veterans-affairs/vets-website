@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
   VaDate,
+  VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
@@ -28,6 +29,7 @@ const SearchMessagesForm = props => {
 
   const [fromDateError, setFromDateError] = useState('');
   const [toDateError, setToDateError] = useState('');
+  const [formError, setFormError] = useState('');
 
   useEffect(
     () => {
@@ -61,6 +63,15 @@ const SearchMessagesForm = props => {
         formInvalid = true;
         setToDateError('Please enter an end date');
       }
+    } else if (
+      dateRange === 'any' &&
+      !messageId &&
+      !senderName &&
+      !subject &&
+      !category
+    ) {
+      formInvalid = true;
+      setFormError(true);
     }
     return formInvalid;
   };
@@ -99,6 +110,26 @@ const SearchMessagesForm = props => {
 
   return (
     <form className="search-form" onSubmit={handleFormSubmit}>
+      {formError && (
+        <VaModal
+          modalTitle="Invalid search"
+          onPrimaryButtonClick={() => setFormError()}
+          primaryButtonText="Ok"
+          status="error"
+          visible
+        >
+          <p>
+            Please use at least one of the following search fields or choose a
+            date range other than 'any'.
+          </p>
+          <ul>
+            <li>Message ID</li>
+            <li>From</li>
+            <li>Subject</li>
+            <li>Category</li>
+          </ul>
+        </VaModal>
+      )}
       <VaSelect
         id="folder-dropdown"
         label="Folder"
@@ -188,7 +219,9 @@ const SearchMessagesForm = props => {
       )}
 
       <div className="advanced-search-actions">
-        <button type="submit">Advanced Search</button>
+        <button type="submit" data-testid="advanced-search-button">
+          Advanced Search
+        </button>
         <button type="button" className="reset">
           Reset Search
         </button>
