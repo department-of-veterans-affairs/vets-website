@@ -16,7 +16,7 @@ const Footer = ({ router, isPreCheckIn }) => {
     <footer>
       <h2
         data-testid="heading"
-        className="vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
+        className="vads-font-lg vads-padding-bottom-1 vads-border-bottom-3px vads-border-primary"
       >
         {t('need-help')}
       </h2>
