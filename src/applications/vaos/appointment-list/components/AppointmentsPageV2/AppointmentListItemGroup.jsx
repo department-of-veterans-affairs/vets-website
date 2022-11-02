@@ -159,12 +159,12 @@ export default function AppointmentListItemGroup({ data }) {
             <Label label="Canceled" />
             {index === 0 && (
               <>
-                <h4
-                  className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-size--h3"
+                <h3
+                  className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0"
                   style={{ width: '24px' }}
                 >
                   {appointmentDate.format('D')}
-                </h4>
+                </h3>
                 <span className="vads-u-margin-left--1">
                   {appointmentDate.format('ddd')}
                 </span>

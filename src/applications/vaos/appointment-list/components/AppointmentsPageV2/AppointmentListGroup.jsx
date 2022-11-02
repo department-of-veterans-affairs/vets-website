@@ -17,13 +17,13 @@ export default function AppointmentListGroup({ data }) {
 
         return (
           <React.Fragment key={monthIndex}>
-            <h3
+            <h2
               id={`appointment_list_${date.format('YYYY-MM')}`}
               data-cy="upcoming-appointment-list-header"
             >
               <span className="sr-only">Appointments in </span>
               {date.format('MMMM YYYY')}
-            </h3>
+            </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               aria-labelledby={`appointment_list_${date.format('YYYY-MM')}`}
