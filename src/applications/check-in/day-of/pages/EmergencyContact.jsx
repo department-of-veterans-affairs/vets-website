@@ -9,7 +9,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
@@ -21,6 +21,8 @@ const EmergencyContact = props => {
   const { emergencyContact } = demographics;
 
   const { goToNextPage, jumpToPage, goToPreviousPage } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',
   );
@@ -36,6 +38,7 @@ const EmergencyContact = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       goToNextPage();
     },
@@ -46,6 +49,7 @@ const EmergencyContact = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);

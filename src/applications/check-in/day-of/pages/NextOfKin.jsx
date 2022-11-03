@@ -9,6 +9,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
@@ -19,6 +20,7 @@ const NextOfKin = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
   const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
@@ -35,6 +37,7 @@ const NextOfKin = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       goToNextPage();
     },
@@ -45,6 +48,7 @@ const NextOfKin = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);

@@ -7,7 +7,7 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
@@ -18,6 +18,7 @@ const Demographics = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -30,6 +31,7 @@ const Demographics = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       goToNextPage();
     },
@@ -40,6 +42,7 @@ const Demographics = props => {
     () => {
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+        setShouldSendDemographicsFlags(window, true);
       }
       const seeStaffMessage = (
         <>
