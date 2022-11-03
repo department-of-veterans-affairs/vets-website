@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
-const SearchMessagesForm = props => {
+const BasicSearchForm = props => {
   const { folders, toggleAdvancedSearch, submitBasicSearch } = props;
 
   const [foldersList, setFoldersList] = useState([]);
@@ -67,7 +67,12 @@ const SearchMessagesForm = props => {
 
       <button type="submit" className="search-messages-button">
         <i className="fas fa-search" aria-hidden="true" />
-        <span className="search-messages-button-text">Search</span>
+        <span
+          className="search-messages-button-text"
+          data-testid="search-button-text"
+        >
+          Search
+        </span>
       </button>
 
       <button
@@ -81,10 +86,10 @@ const SearchMessagesForm = props => {
   );
 };
 
-SearchMessagesForm.propTypes = {
+BasicSearchForm.propTypes = {
   folders: PropTypes.any,
   submitBasicSearch: PropTypes.func,
   toggleAdvancedSearch: PropTypes.func,
 };
 
-export default SearchMessagesForm;
+export default BasicSearchForm;

@@ -2,6 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
 import migrations from '../migrations';
 
@@ -46,6 +47,9 @@ import {
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import { saveInProgress, savedFormMessages } from '../content/formMessages';
+
+import prefillTransformer from './prefill-transformer';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
@@ -62,39 +66,25 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0995,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VA Form 20-0995 (Supplemental Claim) application (20-0995) is in progress.',
-    //   expired: 'Your saved VA Form 20-0995 (Supplemental Claim) application (20-0995) has expired. If you want to apply for VA Form 20-0995 (Supplemental Claim), please start a new application.',
-    //   saved: 'Your VA Form 20-0995 (Supplemental Claim) application has been saved.',
-    // },
-  },
   version: migrations.length,
   migrations,
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-
-  savedFormMessages: {
-    notFound:
-      'Please start over to apply for VA Form 20-0995 (Supplemental Claim).',
-    noAuth:
-      'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.vaProfile],
   },
+  saveInProgress,
+  savedFormMessages,
   title: 'File a Supplemental Claim',
   subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   chapters: {
     infoPages: {
-      title: 'Veteran Details',
+      title: 'Veteran Information',
       pages: {
-        // benefitType: {
-        //   title: 'Benefit Type',
-        //   path: 'benefit-type',
-        //   uiSchema: benefitType.uiSchema,
-        //   schema: benefitType.schema,
-        // },
         veteranInfo: {
           title: 'Veteran Information',
           path: 'veteran-information',

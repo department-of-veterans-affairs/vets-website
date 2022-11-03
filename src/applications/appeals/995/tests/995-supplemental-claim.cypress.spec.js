@@ -47,6 +47,7 @@ const testConfig = createTestConfig(
       setStoredSubTask({ benefitType: 'compensation' });
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/maintenance_windows', []);
 
       cy.intercept(
         'GET',
@@ -62,7 +63,7 @@ const testConfig = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
         cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [] },
+          data: { features: [{ name: 'supplemental_claim', value: true }] },
         });
       });
 

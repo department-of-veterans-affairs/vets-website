@@ -30,19 +30,20 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
     payload => {
       batch(() => {
         const {
-          appointments: appts,
-          demographics: demo,
+          appointments,
+          demographics,
           patientDemographicsStatus,
         } = payload;
         dispatch(triggerRefresh(false));
-        dispatch(receivedMultipleAppointmentDetails(appts, token));
+        dispatch(receivedMultipleAppointmentDetails(appointments, token));
 
         if (!appointmentsOnly) {
-          dispatch(receivedDemographicsData(demo));
+          dispatch(receivedDemographicsData(demographics));
           dispatch(
             updateFormAction({
               patientDemographicsStatus,
               isTravelReimbursementEnabled,
+              appointments,
             }),
           );
         }

@@ -11,8 +11,8 @@ import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const content = {
-  groupLabel: 'For what type of claim are you requesting a Supplemental Claim?',
-  errorMessage: 'Please choose a benefit type',
+  groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
+  errorMessage: 'You must choose a claim type',
 };
 
 const options = [
@@ -22,7 +22,7 @@ const options = [
   },
   {
     value: pageNames.other,
-    label: 'Claim other than disability compensation',
+    label: 'Another type of claim (not a disability claim)',
   },
 ];
 
@@ -60,14 +60,12 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">
-        Is Supplemental Claim VA Form 20-0995 what I need?
-      </h1>
+      <h1 className="vads-u-margin-bottom--0">Is this the form I need?</h1>
       <p>
-        Use this form if you disagree with our decision on your claim and have
-        new and relevant evidence to submit.
+        Use this Supplemental Claim form if you disagree with our decision on
+        your claim and have new and relevant evidence to submit.
       </p>
-      <p>Answer a question to get started.</p>
+      <p>Answer this question to get started:</p>
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}

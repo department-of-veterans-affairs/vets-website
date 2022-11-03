@@ -29,7 +29,7 @@ const createNotificationSuccess = () => {
             description: null,
             communicationItems: [
               {
-                id: 1,
+                id: 1234,
                 name: 'To set the table',
                 communicationChannels: [
                   {
@@ -44,7 +44,7 @@ const createNotificationSuccess = () => {
                 ],
               },
               {
-                id: 2,
+                id: 12345,
                 name: 'To come eat',
                 communicationChannels: [
                   {
@@ -64,6 +64,17 @@ const createNotificationSuccess = () => {
               {
                 id: 1,
                 name: "Board of Veterans' Appeals hearing reminder",
+                communicationChannels: [
+                  {
+                    id: 1,
+                    name: 'Text',
+                    description: 'SMS Notification',
+                  },
+                ],
+              },
+              {
+                id: 6,
+                name: 'Appeal status updates',
                 communicationChannels: [
                   {
                     id: 1,

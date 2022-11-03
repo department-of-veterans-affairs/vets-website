@@ -37,7 +37,8 @@ export const Actions = {
     CLEAR_HISTORY: 'SM_MESSAGE_CLEAR_HISTORY',
   },
   Search: {
-    RUN: 'SM_SEARCH_RUN',
+    RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
+    RUN_ADVANCED: 'SM_SEARCH_RUN_ADVANCED',
     CLEAR: 'SM_SEARCH_CLEAR',
   },
   TriageTeam: {

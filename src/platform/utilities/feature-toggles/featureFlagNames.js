@@ -17,6 +17,7 @@ export default Object.freeze({
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
   checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
+  checkInExperienceTranslationDisclaimerTagalogEnabled: 'check_in_experience_translation_disclaimer_tagalog_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
@@ -89,6 +90,7 @@ export default Object.freeze({
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
+  profileShowAppealStatusNotificationSetting: 'profile_show_appeal_status_notification_setting',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
@@ -160,6 +162,7 @@ export default Object.freeze({
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
+  vaOnlineSchedulingStatusImprovementCanceled: 'va_online_scheduling_status_improvement_canceled',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
   vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
