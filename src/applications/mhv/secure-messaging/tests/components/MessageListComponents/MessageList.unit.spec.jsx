@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
-
+import { fireEvent } from '@testing-library/dom';
 import reducers from '../../../reducers';
-
 import inbox from '../../fixtures/folder-inbox-response.json';
 import MessageList from '../../../components/MessageList/MessageList';
 
@@ -72,17 +71,16 @@ const mockMessages = {
     },
   },
 };
-
-describe('FolderListView', () => {
+const initialState = {
+  sm: {
+    folders: { folder: inbox },
+    messages: [],
+  },
+};
+describe('Message List component', () => {
+  let screen;
   it('renders without errors', () => {
-    const initialState = {
-      sm: {
-        folders: { folder: inbox },
-        messages: [],
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
+    screen = renderWithStoreAndRouter(
       <MessageList messages={mockMessages} folder={inbox} />,
       {
         path: '/',
@@ -90,7 +88,70 @@ describe('FolderListView', () => {
         reducers,
       },
     );
-
     expect(screen);
+  });
+  it('sorting list is present', () => {
+    screen = renderWithStoreAndRouter(
+      <MessageList messages={mockMessages} folder={inbox} />,
+      {
+        path: '/',
+        initialState,
+        reducers,
+      },
+    );
+    const dropDownListItem = screen.getByText('Newest to oldest');
+    expect(dropDownListItem).to.exist;
+  });
+  it('sorting list doesnt display recepient sorting option when the url path is "/" only displays sender sorting options', () => {
+    screen = renderWithStoreAndRouter(
+      <MessageList messages={mockMessages} folder={inbox} />,
+      {
+        path: '/',
+        initialState,
+        reducers,
+      },
+    );
+    fireEvent.click(screen.getByText('Newest to oldest'));
+    expect(screen.queryByText('A to Z - Recepient’s name')).not.to.exist;
+    expect(screen.getByText('A to Z - Sender’s name')).to.exist;
+  });
+  it('sorting list doesnt display sender sorting option only recepient when the url path is "/drafts"', () => {
+    screen = renderWithStoreAndRouter(
+      <MessageList messages={mockMessages} folder={inbox} />,
+      {
+        path: '/drafts',
+        initialState,
+        reducers,
+      },
+    );
+    fireEvent.click(screen.getByText('Newest to oldest'));
+    expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
+    expect(screen.getByText('A to Z - Recepient’s name')).to.exist;
+  });
+  it('sorting list doesnt display sender sorting option only recepient when the url path is "/sent"', () => {
+    screen = renderWithStoreAndRouter(
+      <MessageList messages={mockMessages} folder={inbox} />,
+      {
+        path: '/sent',
+        initialState,
+        reducers,
+      },
+    );
+    fireEvent.click(screen.getByText('Newest to oldest'));
+    expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
+    expect(screen.getByText('A to Z - Recepient’s name')).to.exist;
+  });
+  it('sorting list displays all options on a custom folder', () => {
+    screen = renderWithStoreAndRouter(
+      <MessageList messages={mockMessages} folder={inbox} />,
+      {
+        path: '/folder/12345',
+        initialState,
+        reducers,
+      },
+    );
+    fireEvent.click(screen.getByText('Newest to oldest'));
+    expect(screen.queryByText('A to Z - Sender’s name')).to.exist;
+    expect(screen.getByText('A to Z - Recepient’s name')).to.exist;
   });
 });
