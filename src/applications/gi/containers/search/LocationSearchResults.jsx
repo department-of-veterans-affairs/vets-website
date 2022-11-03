@@ -619,7 +619,7 @@ function LocationSearchResults({
         tabIndex="0"
         role="navigation"
         className={containerClassNames}
-        aria-label="Find VA locations on an interactive map"
+        aria-label="Find VA locations on an interactive map. Tab again to interact with map"
       >
         <map
           id="mapbox-gl-container"
