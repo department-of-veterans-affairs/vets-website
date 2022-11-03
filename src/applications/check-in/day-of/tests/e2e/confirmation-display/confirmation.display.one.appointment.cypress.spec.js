@@ -9,11 +9,8 @@ import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
-  describe('Confirmation display -- ', () => {
-    const appointments = [
-      { startTime: '2021-08-19T03:00:00' },
-      { startTime: '2021-08-19T03:30:00' },
-    ];
+  describe('Confirmation display one appointment -- ', () => {
+    const appointments = [{ startTime: '2021-08-19T03:00:00' }];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -50,24 +47,8 @@ describe('Check In Experience -- ', () => {
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
-    it('confirm page has confirmation message alert', () => {
-      Confirmation.validateConfirmationAlert();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('confirm page has BTSSS link', () => {
-      Confirmation.validateBTSSSLink();
-      cy.injectAxeThenAxeCheck();
-    });
-    it('confirm back button', () => {
+    it("confirm back button isn't shown when there is only one appointment", () => {
       Confirmation.validateBackButton(appointments.length);
-      cy.injectAxeThenAxeCheck();
-    });
-    it('refreshes appointments when using the back to appointments link', () => {
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      Appointments.validateAppointmentLength(2);
-      // Validate that appointments are refreshed.
-      Appointments.validateAppointmentTime(2, '3:30 a.m.');
       cy.injectAxeThenAxeCheck();
     });
   });
