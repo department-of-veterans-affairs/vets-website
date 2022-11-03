@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Error from '../pages/Error';
+import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
   describe('reload pages', () => {
@@ -90,6 +91,28 @@ describe('Check In Experience', () => {
       );
       NextOfKin.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
+      cy.reload();
+      Error.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('confirmation page', () => {
+      cy.visitWithUUID();
+
+      ValidateVeteran.validatePage.dayOf();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Demographics.validatePageLoaded();
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePageLoaded(
+        'Is this your current next of kin information?',
+      );
+      NextOfKin.attemptToGoToNextPage();
+      Appointments.validatePageLoaded();
+      Appointments.attemptCheckIn();
+      Confirmation.validatePageLoaded();
       cy.reload();
       Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
