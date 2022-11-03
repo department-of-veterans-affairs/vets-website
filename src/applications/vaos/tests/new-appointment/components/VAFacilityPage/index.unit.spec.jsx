@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
@@ -1486,6 +1486,148 @@ describe('VAOS <VAFacilityPage>', () => {
       fireEvent.click(screen.getByText(/Continue/));
       expect(await screen.findByRole('alert')).to.contain.text(
         'Please provide a response',
+      );
+    });
+  });
+
+  describe('when using Drupal Source of Truth', () => {
+    beforeEach(() => mockFetch());
+
+    it('should display Cerner sites in the facility list ', async () => {
+      const initialState = {
+        drupalStaticData: {
+          vamcEhrData: {
+            loading: false,
+            data: {
+              ehrDataByVhaId: {
+                '442': {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                '552': {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              },
+              cernerFacilities: [
+                {
+                  vhaId: '442',
+                  vamcFacilityName: 'Cheyenne VA Medical Center',
+                  vamcSystemName: 'VA Cheyenne health care',
+                  ehr: 'cerner',
+                },
+                {
+                  vhaId: '552',
+                  vamcFacilityName: 'Dayton VA Medical Center',
+                  vamcSystemName: 'VA Dayton health care',
+                  ehr: 'cerner',
+                },
+              ],
+              vistaFacilities: [],
+            },
+          },
+        },
+        featureToggles: {
+          vaOnlineSchedulingDirect: true,
+          vaOnlineSchedulingUseDsot: true,
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+        },
+        user: {
+          profile: {
+            facilities: [
+              {
+                facilityId: '442', // Must use real facility id when using DSOT
+                isCerner: false, // Not used when using DSOT
+              },
+              { facilityId: '552', isCerner: false },
+            ],
+          },
+        },
+      };
+
+      mockFacilitiesFetchByVersion({
+        children: true,
+        facilities: [
+          createMockFacilityByVersion({
+            id: '983',
+            name: 'First cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+          createMockFacilityByVersion({
+            id: '984',
+            name: 'Second Cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+            version: 2,
+          }),
+        ],
+        version: 2,
+      });
+
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore({
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                latitude: 39.1362562,
+                longitude: -84.6804804,
+              },
+            },
+          },
+        },
+      });
+
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      // Make sure Cerner facilities show up
+      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
+      expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
+      screen.debug(null, 10000);
+
+      // Make sure Cerner link shows up
+      const cernerSiteLabel = document.querySelector(
+        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
+      );
+      expect(
+        within(cernerSiteLabel)
+          .getByRole('link', { name: /My VA Health/ })
+          .getAttribute('href'),
+      ).to.contain('pages%2Fscheduling%2Fupcoming');
+
+      // Make sure Cerner facilities show up only once
+      expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
+      userEvent.click(screen.getByLabelText(/First cerner facility/i));
+      userEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.firstCall.args[0]).to.equal(
+          '/new-appointment/how-to-schedule',
+        ),
       );
     });
   });

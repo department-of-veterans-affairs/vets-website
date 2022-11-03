@@ -4,7 +4,7 @@
  *
  */
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,

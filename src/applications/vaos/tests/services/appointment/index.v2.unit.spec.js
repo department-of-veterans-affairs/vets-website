@@ -6,7 +6,7 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   fetchBookedAppointment,

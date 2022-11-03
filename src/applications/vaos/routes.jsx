@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import asyncLoader from 'platform/utilities/ui/asyncLoader';
+import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
 import { connectDrupalSourceOfTruthCerner } from 'platform/utilities/cerner/dsot';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';

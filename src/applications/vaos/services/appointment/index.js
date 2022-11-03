@@ -4,7 +4,7 @@
  */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   getCancelReasons,

@@ -2,7 +2,7 @@
  * Functions related to patient specific information
  * @module services/Patient
  */
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   checkPastVisits,
   getLongTermAppointmentHistory,
