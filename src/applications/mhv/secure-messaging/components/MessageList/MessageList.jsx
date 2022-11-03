@@ -149,10 +149,10 @@ const MessageList = props => {
           {location.pathname !== '/' ? (
             <>
               <option value="recepient-alpha-asc">
-                A to Z - Recepient’s name
+                A to Z - Recipient’s name
               </option>
               <option value="recepient-alpha-desc">
-                Z to A - Recepient’s name
+                Z to A - Recipient’s name
               </option>
             </>
           ) : null}
