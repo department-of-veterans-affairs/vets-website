@@ -54,13 +54,19 @@ class Confirmation {
       .and('include.text', 'TRAVEL CLAIM ERROR PLACEHOLDER');
   };
 
-  // validateBackButton = () => {
-  //   cy.get('[data-testid=go-to-appointments-button]', {
-  //     timeout: Timeouts.slow,
-  //   })
-  //     .should('be.visible')
-  //     .and('include.text', 'Go to another appointment');
-  // };
+  validateBackButton = appointmentCount => {
+    if (appointmentCount > 1) {
+      cy.get('[data-testid=go-to-appointments-button]', {
+        timeout: Timeouts.slow,
+      })
+        .should('be.visible')
+        .and('include.text', "Back to today's appointments");
+    } else {
+      cy.get('[data-testid=go-to-appointments-button]', {
+        timeout: Timeouts.slow,
+      }).should('not.exist');
+    }
+  };
 
   validateConfirmationAlert = () => {
     cy.get('[data-testid="confirmation-alert"]')

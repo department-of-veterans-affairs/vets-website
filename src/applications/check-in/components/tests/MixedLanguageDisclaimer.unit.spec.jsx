@@ -26,6 +26,7 @@ describe('Mixed Language Disclaimer', () => {
     },
     featureToggles: {
       check_in_experience_translation_disclaimer_spanish_enabled: true,
+      check_in_experience_translation_disclaimer_tagalog_enabled: true,
     },
   };
   beforeEach(() => {
@@ -45,8 +46,19 @@ describe('Mixed Language Disclaimer', () => {
     );
     expect(screen.queryByTestId('mixed-language-disclaimer')).to.be.null;
   });
-  it('renders when the language is not set to english', () => {
+  it('renders when the language is set to spanish', () => {
     i18next.changeLanguage('es');
+    const screen = render(
+      <Provider store={store}>
+        <I18nextProvider i18n={i18n}>
+          <MixedLanguageDisclaimer />
+        </I18nextProvider>
+      </Provider>,
+    );
+    expect(screen.queryByTestId('mixed-language-disclaimer')).to.exist;
+  });
+  it('renders when the language is set to tagalog', () => {
+    i18next.changeLanguage('tl');
     const screen = render(
       <Provider store={store}>
         <I18nextProvider i18n={i18n}>

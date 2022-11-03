@@ -15,6 +15,14 @@
     @media (min-width: $medium-screen) {
       max-width: 351px;
     }
+    .fromToDatesContainer {
+      background-color: $color-primary-alt-darkest;
+      padding-left: 8px;
+      .fromToDates {
+        background-color: $color-white;
+        padding-left: 11px;
+      }
+    }
   }
 
   va-text-input.textField::part(input) {

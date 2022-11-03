@@ -20,7 +20,6 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
   dispatch({ type: Actions.Search.CLEAR });
   const folder = await getFolder(folderId);
   const folderContents = await getMessageListAll(folderId);
-
   const matches = findByKeyword(keyword, folderContents.data);
 
   if (folder.errors) {
@@ -35,24 +34,30 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
     });
   } else {
     dispatch({
-      type: Actions.Search.RUN,
+      type: Actions.Search.RUN_BASIC,
       response: { folder: folder.data.attributes, keyword, data: matches },
     });
   }
 };
 
-export const runAdvancedSearch = () => async dispatch => {
+export const runAdvancedSearch = (folder, query) => async dispatch => {
   dispatch({ type: Actions.Search.CLEAR });
-  const response = await searchFolderAdvanced();
-  if (response.errors) {
+  try {
+    const response = await searchFolderAdvanced(folder.id, query);
     dispatch({
-      type: Actions.Alert.ADD_ALERT,
-      payload: response.errors[0],
+      type: Actions.Search.RUN_ADVANCED,
+      response: { folder, query, data: response.data },
     });
-  } else {
+  } catch (error) {
+    const err = error.errors[0];
     dispatch({
-      type: Actions.Search.RUN,
-      response,
+      type: Actions.Alerts.ADD_ALERT,
+      payload: {
+        alertType: 'error',
+        header: err.title,
+        content: err.detail,
+        response: err,
+      },
     });
   }
 };

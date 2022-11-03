@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
-const SearchMessagesForm = props => {
+const BasicSearchForm = props => {
   const { folders, toggleAdvancedSearch, submitBasicSearch } = props;
 
   const [foldersList, setFoldersList] = useState([]);
@@ -91,10 +91,10 @@ const SearchMessagesForm = props => {
   );
 };
 
-SearchMessagesForm.propTypes = {
+BasicSearchForm.propTypes = {
   folders: PropTypes.any,
   submitBasicSearch: PropTypes.func,
   toggleAdvancedSearch: PropTypes.func,
 };
 
-export default SearchMessagesForm;
+export default BasicSearchForm;

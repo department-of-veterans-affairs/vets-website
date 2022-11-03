@@ -787,6 +787,7 @@ export function submitAppointmentOrRequest(history) {
         if (featureVAOSServiceVAAppointments) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
+            useAcheron: featureAcheronVAOSServiceRequests,
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
@@ -895,7 +896,10 @@ export function submitAppointmentOrRequest(history) {
             getState(),
             featureAcheronVAOSServiceRequests,
           );
-          requestData = await createAppointment({ appointment: requestBody });
+          requestData = await createAppointment({
+            appointment: requestBody,
+            useAcheron: featureAcheronVAOSServiceRequests,
+          });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
