@@ -72,6 +72,13 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    serviceInformation: fullSchema.properties.serviceInformation,
+    serviceInformation: {
+      type: 'object',
+      required: ['servicePeriods'],
+      properties: {
+        servicePeriods:
+          fullSchema.properties.serviceInformation.properties.servicePeriods,
+      },
+    },
   },
 };
