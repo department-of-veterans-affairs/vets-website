@@ -47,11 +47,9 @@ export default function createContactInformationPage(
         }),
         mobilePhone: {
           ...phoneUI('Mobile phone number'),
-          'ui:required': form => form.preferredContactMethod === 'mobile',
         },
         homePhone: {
           ...phoneUI('Home phone number'),
-          'ui:required': form => form.preferredContactMethod === 'phone',
         },
       },
     },
