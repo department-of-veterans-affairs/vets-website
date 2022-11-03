@@ -9,7 +9,7 @@ const useSendTravelPayClaim = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
-  const [travelPayClaimRequested, setTravelPayClaimRequested] = useState(false);
+  const [travelPayClaimRequested, setTravelPayClaimRequested] = useState();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
@@ -38,6 +38,7 @@ const useSendTravelPayClaim = () => {
       ) {
         return;
       }
+
       setIsLoading(true);
       api.v2
         .postDayOfTravelPayClaim(travelPayData)
@@ -69,6 +70,7 @@ const useSendTravelPayClaim = () => {
     isLoading,
     travelPayClaimData,
     travelPayClaimRequested,
+    travelPayClaimSent,
   };
 };
 
