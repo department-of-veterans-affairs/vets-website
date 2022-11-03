@@ -1,41 +1,27 @@
-import * as Sentry from '@sentry/browser';
-import recordEvent from '../../monitoring/record-event';
-import localStorage from '../../utilities/storage/localStorage';
-import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
+// import * as Sentry from '@sentry/browser';
+// import recordEvent from '../../monitoring/record-event';
+import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 
 export function removeFormApi(formId) {
-  const csrfTokenStored = localStorage.getItem('csrfToken');
   const apiUrl = inProgressApi(formId);
-  return fetch(apiUrl, {
+  return apiRequest(apiUrl, {
     method: 'DELETE',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-      'X-CSRF-Token': csrfTokenStored,
-    },
-  })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res);
-      }
-
-      return Promise.resolve();
-    })
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
-        Sentry.captureMessage('vets_sip_error_delete');
-        return Promise.resolve();
-      } else if (!res.ok) {
-        Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
-      }
-
-      return Promise.reject(res);
-    });
+  });
+  // .then(result => {
+  //   recordEvent({ event: `sip-form-delete-success` });
+  //   return result;
+  // })
+  // .catch(error => {
+  //   if (error instanceof Error) {
+  //     Sentry.captureException(error);
+  //     Sentry.captureMessage('vets_sip_error_delete');
+  //   } else if (!error.ok) {
+  //     Sentry.captureMessage(`vets_sip_error_delete: ${error.statusText}`);
+  //   }
+  //   return error;
+  // });
 }
 
 export function saveFormApi(
@@ -56,57 +42,39 @@ export function saveFormApi(
     },
     formData,
   });
-  const csrfTokenStored = localStorage.getItem('csrfToken');
   const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
-    'Content-Type': 'application/json',
     'X-Key-Inflection': 'camel',
-    'Source-App-Name': window.appName,
-    'X-CSRF-Token': csrfTokenStored,
   };
   if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return fetch(apiUrl, {
+  return apiRequest(apiUrl, {
     method: 'PUT',
-    credentials: 'include',
     headers: saveFormApiHeaders,
     body,
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject(res);
-    })
-    .then(result => {
-      recordEvent({
-        event: `${trackingPrefix}sip-form-saved`,
-      });
-
-      return Promise.resolve(result);
-    })
-    .catch(resOrError => {
-      if (resOrError.status === 401) {
-        recordEvent({
-          event: `${trackingPrefix}sip-form-save-signed-out`,
-        });
-      } else if (resOrError instanceof Response) {
-        recordEvent({
-          event: `${trackingPrefix}sip-form-save-failed`,
-        });
-      } else {
-        Sentry.captureException(resOrError);
-        Sentry.withScope(() => {
-          Sentry.captureMessage('vets_sip_error_save');
-        });
-        recordEvent({
-          event: `${trackingPrefix}sip-form-save-failed-client`,
-        });
-      }
-
-      return Promise.reject(resOrError);
-    });
+  });
+  // .then(result => {
+  //   recordEvent({ event: `${trackingPrefix}sip-form-saved` });
+  //   return result;
+  // })
+  // .catch(error => {
+  //   if (error.status === 401) {
+  //     recordEvent({
+  //       event: `${trackingPrefix}sip-form-save-signed-out`,
+  //     });
+  //   } else if (error instanceof Response) {
+  //     recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
+  //   } else {
+  //     Sentry.captureException(error);
+  //     Sentry.withScope(() => {
+  //       Sentry.captureMessage('vets_sip_error_save');
+  //     });
+  //     recordEvent({
+  //       event: `${trackingPrefix}sip-form-save-failed-client`,
+  //     });
+  //   }
+  //   return error;
+  // });
 }

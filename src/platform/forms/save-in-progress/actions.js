@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import { fetchAndUpdateSessionExpiration as fetch } from '../../utilities/api';
+import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
@@ -153,7 +153,7 @@ export function migrateFormData(savedData, migrations) {
     return savedData;
   }
 
-  let savedDataCopy = Object.assign({}, savedData);
+  let savedDataCopy = { ...savedData };
   let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
@@ -198,7 +198,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
@@ -212,6 +212,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
       submission,
     )
       .then(json => {
+        // console.log(json);
         dispatch(
           setSaveFormStatus(
             saveType,
@@ -225,12 +226,19 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
         return Promise.resolve(json);
       })
       .catch(resOrError => {
+        // console.log(resOrError);
         let errorStatus;
-        if (resOrError.status === 401) {
-          dispatch(logOut());
-          errorStatus = SAVE_STATUSES.noAuth;
+
+        if (resOrError instanceof TypeError) {
+          errorStatus = SAVE_STATUSES.clientFailure;
         } else if (resOrError instanceof Response) {
           errorStatus = SAVE_STATUSES.failure;
+        } else if (
+          resOrError?.errors.length > 0 &&
+          resOrError?.errors[0]?.status === 401
+        ) {
+          dispatch(logOut());
+          errorStatus = SAVE_STATUSES.noAuth;
         } else {
           errorStatus = SAVE_STATUSES.clientFailure;
         }
@@ -265,38 +273,14 @@ export function fetchInProgressForm(
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(apiUrl, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        // Make me a switch?
-        let status = LOAD_STATUSES.failure;
-        if (res.status === 401) {
-          dispatch(logOut());
-          status = LOAD_STATUSES.noAuth;
-        } else if (res.status === 403) {
-          status = LOAD_STATUSES.forbidden;
-        } else if (res.status === 404) {
-          status = LOAD_STATUSES.notFound;
-        }
-        return Promise.reject(status);
-      })
+    return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
         // Just in case something funny happens where the json returned isn’t an object as expected
         // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
@@ -323,7 +307,7 @@ export function fetchInProgressForm(
 
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-          let pages = getState().form.pages;
+          let { pages } = getState().form;
           if (metadata.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
@@ -399,22 +383,14 @@ export function fetchInProgressForm(
 
 export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());
 
     return removeFormApi(formId)
-      .catch(res => {
-        // If there’s some error when deleting, there’s not much we can
-        // do aside from not stop the user from continuing on
-        if (res instanceof Error || res.status !== 401) {
-          return Promise.resolve();
-        }
-
-        return Promise.reject(res);
-      })
       .then(() => {
+        // console.log(response);
         recordEvent({
           event: `${trackingPrefix}sip-form-start-over`,
         });
@@ -426,6 +402,7 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
         );
       })
       .catch(() => {
+        // console.log(error);
         dispatch(logOut());
         dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
       });

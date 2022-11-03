@@ -1,10 +1,10 @@
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
-import Timeouts from 'platform/testing/e2e/timeouts';
 
-describe('SIP Finish Later', () => {
+describe.skip('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
   it('Saves, Loads, and Fails appropriately in all cases', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
