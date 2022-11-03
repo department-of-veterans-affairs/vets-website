@@ -57,7 +57,7 @@ const useGetCheckInData = ({
         }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled],
+    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
   );
 
   useLayoutEffect(
@@ -78,7 +78,7 @@ const useGetCheckInData = ({
           });
       }
     },
-    [isStale, setSessionData, token],
+    [isStale, setSessionData, token, isLoading, reload],
   );
 
   return { checkInDataError, isLoading, refreshCheckInData };
