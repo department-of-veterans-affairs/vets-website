@@ -13,6 +13,7 @@ export default function DowntimeMessage({
   startTime,
   endTime,
   status,
+  description,
   children,
 }) {
   const dispatch = useDispatch();
@@ -27,6 +28,15 @@ export default function DowntimeMessage({
           headline="The VA appointments tool is down for maintenance"
           status="warning"
         >
+          !!description ? (
+          <p>
+            {description} We’re sorry it’s not working right now. If you need to
+            request or confirm an appointment during this time, please call your
+            local VA medical center. Use the{' '}
+            <a href="/find-locations">VA facility locator</a> to find contact
+            information for your medical center.
+          </p>
+          ) : (
           <p>
             We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
             between {startTime.format('LT')} and {endTime.format('LT')}. We’re
@@ -35,6 +45,7 @@ export default function DowntimeMessage({
             center. Use the <a href="/find-locations">VA facility locator</a> to
             find contact information for your medical center.
           </p>
+          )
         </InfoAlert>
       </FullWidthLayout>
     );
@@ -53,6 +64,15 @@ export default function DowntimeMessage({
           modalTitle="VA online scheduling will be down for maintenance"
           data-testid="downtime-approaching-modal"
         >
+          !!description ? (
+          <p>
+            {description} We’re sorry it’s not working right now. If you need to
+            request or confirm an appointment during this time, please call your
+            local VA medical center. Use the{' '}
+            <a href="/find-locations">VA facility locator</a> to find contact
+            information for your medical center.
+          </p>
+          ) : (
           <p>
             We’re doing work on the VA appointments tool on{' '}
             {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
@@ -61,6 +81,7 @@ export default function DowntimeMessage({
             center. Use the <a href="/find-locations">VA facility locator</a> to
             find contact information for your medical center.
           </p>
+          )
           <button
             type="button"
             className="usa-button-secondary"
@@ -76,6 +97,7 @@ export default function DowntimeMessage({
 }
 DowntimeMessage.propTypes = {
   children: PropTypes.string,
+  description: PropTypes.string,
   endTime: PropTypes.string,
   startTime: PropTypes.string,
   status: PropTypes.string,
