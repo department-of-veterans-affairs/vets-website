@@ -209,7 +209,7 @@ export const getMonthlyIncome = ({
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+    socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(

@@ -10,7 +10,7 @@ const initialState = {
 
 export const searchReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.Search.RUN:
+    case Actions.Search.RUN_BASIC:
       return {
         ...state,
         searchResults: action.response.data.map(message => {
@@ -19,6 +19,17 @@ export const searchReducer = (state = initialState, action) => {
         }),
         folder: action.response.folder,
         keyword: action.response.keyword,
+      };
+    case Actions.Search.RUN_ADVANCED:
+      return {
+        ...state,
+        searchResults: action.response.data.map(message => {
+          const msgAttr = message.attributes;
+          return { ...msgAttr };
+        }),
+        folder: action.response.folder,
+        keyword: '',
+        query: action.response.query,
       };
     case Actions.Search.CLEAR:
       return {

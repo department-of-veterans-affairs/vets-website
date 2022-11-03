@@ -1,5 +1,7 @@
+import set from 'platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { hasMilitaryRetiredPay } from '../validations';
+import { getBranches } from '../utils/serviceBranches';
 
 const {
   militaryRetiredPayBranch: militaryRetiredPayBranchSchema,
@@ -16,6 +18,13 @@ export const uiSchema = {
       'Please choose the branch of service that gave you military retired pay ',
     'ui:options': {
       expandUnder: 'view:hasMilitaryRetiredPay',
+      updateSchema: (_formData, schema) => {
+        if (!schema.enum?.length) {
+          const options = getBranches();
+          return set('enum', options, schema);
+        }
+        return schema;
+      },
     },
     'ui:required': hasMilitaryRetiredPay,
   },

@@ -20,7 +20,7 @@ const Search = () => {
     if (!searchResults) {
       return (
         <va-loading-indicator
-          message="Loading your secure message..."
+          message="Loading your secure messages..."
           setFocus
         />
       );
@@ -67,7 +67,9 @@ const Search = () => {
         )}
 
       {searchResults &&
-        searchResults.length > 0 && <MessageList messages={searchResults} />}
+        searchResults.length > 0 && (
+          <MessageList messages={searchResults} folder={folder} />
+        )}
     </div>
   );
 };
