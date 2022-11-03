@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
@@ -31,7 +31,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      await screen.getByText(Constants.Breadcrumbs.COMPOSE.label, {
+      await screen.findByText(Constants.Breadcrumbs.COMPOSE.label, {
         exact: true,
       }),
     );
