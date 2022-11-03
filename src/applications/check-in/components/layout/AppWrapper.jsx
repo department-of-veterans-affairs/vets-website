@@ -45,6 +45,16 @@ const AppWrapper = props => {
       <va-loading-indicator message={t('loading')} />
     </>
   );
+
+  useEffect(
+    () => {
+      if (checkInDataError) {
+        goToErrorPage('?error=reload-data-error');
+      }
+    },
+    [checkInDataError, goToErrorPage],
+  );
+
   useEffect(
     () => {
       if (!reduxToken && sessionToken?.token && validReloadPage) {
@@ -59,9 +69,12 @@ const AppWrapper = props => {
             }),
           );
           refreshCheckInData();
+        } else {
+          setRefreshData(false);
         }
+      } else {
+        setRefreshData(false);
       }
-      setRefreshData(false);
     },
     [
       reduxToken,
@@ -80,15 +93,6 @@ const AppWrapper = props => {
       setProgressState(window, currentForm);
     },
     [currentForm, setProgressState],
-  );
-
-  useEffect(
-    () => {
-      if (checkInDataError) {
-        goToErrorPage('?error=reload-data-error');
-      }
-    },
-    [checkInDataError, goToErrorPage],
   );
 
   return <>{refreshData || isLoading ? loadingMessage : children}</>;
