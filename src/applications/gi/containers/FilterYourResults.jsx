@@ -5,6 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -250,24 +251,72 @@ export function FilterYourResults({
   };
 
   const specialMissions = () => {
-    const options = [
-      {
-        optionValue: 'hbcu',
-        optionLabel: 'Historically Black college or university',
-      },
-      {
-        optionValue: 'menonly',
-        optionLabel: 'Men-only',
-      },
-      {
-        optionValue: 'womenonly',
-        optionLabel: 'Women-only',
-      },
-      {
-        optionValue: 'relaffil',
-        optionLabel: 'Religious affiliation',
-      },
-    ];
+    let options = [];
+    if (environment.isProduction()) {
+      options = [
+        {
+          optionValue: 'hbcu',
+          optionLabel: 'Historically Black college or university',
+        },
+        {
+          optionValue: 'menonly',
+          optionLabel: 'Men-only',
+        },
+        {
+          optionValue: 'womenonly',
+          optionLabel: 'Women-only',
+        },
+        {
+          optionValue: 'relaffil',
+          optionLabel: 'Religious affiliation',
+        },
+      ];
+    }
+    if (!environment.isProduction()) {
+      options = [
+        {
+          optionValue: 'hbcu',
+          optionLabel: 'Historically Black college or university',
+        },
+        {
+          optionValue: 'menonly',
+          optionLabel: 'Men-only',
+        },
+        {
+          optionValue: 'womenonly',
+          optionLabel: 'Women-only',
+        },
+        {
+          optionValue: 'relaffil',
+          optionLabel: 'Religious affiliation',
+        },
+        {
+          optionValue: 'HSI',
+          optionLabel: 'Hispanic-serving institutions',
+        },
+        {
+          optionValue: 'NANTI',
+          optionLabel: 'Native American-serving institutions',
+        },
+        {
+          optionValue: 'ANNHI',
+          optionLabel: 'Alaska Native-serving institutions',
+        },
+        {
+          optionValue: 'AANAPII',
+          optionLabel:
+            'Asian American Native American Pacific Islander-serving institutions',
+        },
+        {
+          optionValue: 'PBI',
+          optionLabel: 'Predominantly Black institutions',
+        },
+        {
+          optionValue: 'TRIBAL',
+          optionLabel: 'Tribal college and university',
+        },
+      ];
+    }
     return (
       <Dropdown
         onChange={onChange}
