@@ -15,7 +15,7 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE } from '../constants';
+import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE, BASE_URL } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -57,6 +57,27 @@ const testConfig = createTestConfig(
           .get('.schemaform-file-uploading')
           .should('not.exist');
         cy.get('select').select('Buddy/Lay Statement');
+      },
+      'contestable-issues': ({ afterHook }) => {
+        cy.fillPage();
+        afterHook(() => {
+          cy.get('.add-new-issue').click();
+          cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+          cy.injectAxeThenAxeCheck();
+
+          cy.get('@testData').then(testData => {
+            const { issue, decisionDate } = testData.additionalIssues?.[0];
+            if (issue) {
+              cy.get('#add-sc-issue')
+                .shadow()
+                .then(el => {
+                  cy.wrap(el.find('input')).type(issue);
+                });
+              cy.fillDate('decision-date', decisionDate);
+              cy.get('#add-issue').click();
+            }
+          });
+        });
       },
     },
 
