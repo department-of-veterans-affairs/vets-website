@@ -99,17 +99,17 @@ const mapStateToProps = state => {
   if (
     !!MEBClaimStatus?.claimStatus &&
     !['ERROR', 'SUBMITTED'].includes(MEBClaimStatus?.claimStatus) &&
-    (!!TOEClaimStatus?.claimStatus &&
-      !['ERROR', 'SUBMITTED'].includes(TOEClaimStatus?.claimStatus))
+    !!TOEClaimStatus?.claimStatus &&
+    !['ERROR', 'SUBMITTED'].includes(TOEClaimStatus?.claimStatus)
   ) {
     latestClaim =
       MEBClaimStatus?.receivedDate > TOEClaimStatus?.receivedDate
         ? { ...MEBClaimStatus }
         : { ...TOEClaimStatus };
-  } else {
-    latestClaim = MEBClaimStatus?.receivedDate
-      ? { ...MEBClaimStatus }
-      : { ...TOEClaimStatus };
+  } else if (['ELIGIBLE', 'DENIED'].includes(MEBClaimStatus?.claimStatus)) {
+    latestClaim = { ...MEBClaimStatus };
+  } else if (['ELIGIBLE', 'DENIED'].includes(TOEClaimStatus?.claimStatus)) {
+    latestClaim = { ...TOEClaimStatus };
   }
 
   return {

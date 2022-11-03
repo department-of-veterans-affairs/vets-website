@@ -6,7 +6,12 @@ import InboxPage from '../containers/InboxPage';
 
 describe('Render MEB or TOE claim status', () => {
   const initialState = {
-    claimStatus: [],
+    MEBClaimStatus: {
+      claimStatus: 'ELIGIBLE',
+    },
+    TOEClaimStatus: {
+      claimStatus: 'DENIAL',
+    },
   };
 
   it('renders the letter depending on claim status', () => {
