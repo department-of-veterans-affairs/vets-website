@@ -73,8 +73,8 @@ const useGetCheckInData = ({
             setCheckInDataError(true);
           })
           .finally(() => {
-            setIsLoading(false);
             setIsStale(false);
+            setIsLoading(false);
           });
       }
     },
