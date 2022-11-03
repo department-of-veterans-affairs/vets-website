@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { animateScroll as scroll } from 'react-scroll';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
@@ -10,7 +12,7 @@ import {
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { focusElement } from '~/platform/utilities/ui';
+
 import {
   hasVAPServiceConnectionError,
   // TODO: uncomment when email is a supported communication channel
@@ -19,6 +21,7 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 
+import { useQueryParams } from '../../hooks';
 import { LOADING_STATES } from '../../../common/constants';
 
 import APIErrorAlert from './APIErrorAlert';
@@ -42,7 +45,15 @@ const NotificationSettings = ({
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
+  const query = useQueryParams();
+
   React.useEffect(() => {
+    // issue: 48011
+    // used specfically for link from contact info page after updating mobile phone
+    if (query.get('scrollToTop')) {
+      scroll.scrollToTop({ duration: 0, smooth: false });
+    }
+
     focusElement('[data-focus-target]');
     document.title = `Notification Settings | Veterans Affairs`;
   }, []);
