@@ -68,6 +68,7 @@ describe('Check In Experience -- ', () => {
       Appointments.validateAppointmentLength(2);
       // Validate that appointments are refreshed.
       Appointments.validateAppointmentTime(2, '3:30 a.m.');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
