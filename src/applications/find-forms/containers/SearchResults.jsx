@@ -68,12 +68,6 @@ export const SearchResults = ({
     }
   });
 
-  useEffect(() => {
-    setModalState({
-      ...deriveDefaultModalState(),
-    });
-  }, []);
-
   const onPageSelect = p => {
     // Derive the new start index.
     let startIn = p * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;

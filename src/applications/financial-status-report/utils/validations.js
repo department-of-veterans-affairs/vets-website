@@ -141,9 +141,11 @@ export const validateAddlIncomeValues = (errors, addlIncome) => {
 };
 
 export const validateCurrencyArray = (errors, fieldData) => {
-  fieldData.map(income => {
-    return !isValidCurrency(income.amount)
-      ? errors.addError(income.name)
-      : null;
-  });
+  if (fieldData) {
+    fieldData.map(income => {
+      return !isValidCurrency(income.amount)
+        ? errors.addError(income.name)
+        : null;
+    });
+  }
 };

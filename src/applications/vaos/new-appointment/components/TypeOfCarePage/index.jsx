@@ -36,6 +36,7 @@ export default function TypeOfCarePage() {
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
     useV2,
+    useAcheron,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
@@ -116,7 +117,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              if (useV2) getLongTermAppointmentHistoryV2();
+              if (useV2) getLongTermAppointmentHistoryV2(useAcheron);
               else getLongTermAppointmentHistory();
             }
 

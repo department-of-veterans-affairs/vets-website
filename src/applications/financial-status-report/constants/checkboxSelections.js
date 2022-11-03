@@ -12,6 +12,17 @@ export const otherIncome = [
   'Other',
 ];
 
+export const monetaryAssets = [
+  'Cash',
+  'Checking accounts',
+  'Savings accounts',
+  'U.S. Savings Bonds',
+  'Retirement accounts (401k, IRAs, 403b, TSP)',
+  'Other stocks and bonds (not in your retirement accounts)',
+  'Pension',
+  'Cryptocurrency',
+];
+
 export const payrollDeductionOptions = [
   'State tax',
   'Federal tax',

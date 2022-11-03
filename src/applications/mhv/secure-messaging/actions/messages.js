@@ -4,6 +4,7 @@ import {
   getMessage,
   getMessageHistory,
   deleteMessage as deleteMessageCall,
+  moveMessage as moveMessageCall,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -20,6 +21,15 @@ export const getMessages = (folderId, update = false) => async dispatch => {
     dispatch({ type: Actions.Message.CLEAR_LIST });
   }
   const response = await getMessageList(folderId);
+  if (response?.data.length === 0) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        '',
+        Constants.Alerts.Message.NO_MESSAGES,
+      ),
+    );
+  }
   // TODO Add error handling
   dispatch({
     type: Actions.Message.GET_LIST,
@@ -27,7 +37,7 @@ export const getMessages = (folderId, update = false) => async dispatch => {
   });
 };
 
-const retrieveMessageHistory = (
+export const retrieveMessageHistory = (
   messageId,
   isDraft = false,
 ) => async dispatch => {
@@ -40,6 +50,10 @@ const retrieveMessageHistory = (
       response,
     });
   }
+};
+
+export const clearMessageHistory = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
 
 /**
@@ -62,6 +76,10 @@ export const retrieveMessage = (
       response,
     });
   }
+};
+
+export const clearMessage = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR });
 };
 
 /**
@@ -88,5 +106,31 @@ export const deleteMessage = messageId => async dispatch => {
       ),
     );
     throw e;
+  }
+};
+
+/**
+ * @param {Long} messageId
+ * @param {Long} folderId
+ * @returns
+ */
+export const moveMessage = (messageId, folderId) => async dispatch => {
+  try {
+    await moveMessageCall(messageId, folderId);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.MOVE_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
+      ),
+    );
   }
 };

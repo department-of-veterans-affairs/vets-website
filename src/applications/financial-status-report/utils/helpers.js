@@ -72,8 +72,8 @@ export const sumValues = (arr, key) => {
   );
 };
 
-export const filterDeductions = (deductions, filters) => {
-  if (!deductions.length) return 0;
+export const filterReduceByName = (deductions, filters) => {
+  if (!deductions?.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
     .reduce(
@@ -197,9 +197,9 @@ export const getMonthlyIncome = ({
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
   const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
-  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
-  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
+  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
+  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
   const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
   const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
   const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
@@ -222,9 +222,9 @@ export const getMonthlyIncome = ({
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterDeductions(spDeductions, taxFilters);
-  const spRetirement = filterDeductions(spDeductions, retirementFilters);
-  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spTaxes = filterReduceByName(spDeductions, taxFilters);
+  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
+  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
   const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
   const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;

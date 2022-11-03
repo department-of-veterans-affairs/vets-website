@@ -5,6 +5,7 @@ const messages = {
     dayOf: {
       en: 'Check in at VA',
       es: 'Regístrese en VA',
+      tl: 'Mag-check in sa VA',
     },
     preCheckIn: {
       en: 'Start pre-check-in',

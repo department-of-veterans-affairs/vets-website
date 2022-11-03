@@ -24,6 +24,8 @@ import * as spouseIncome from './income/spouse/currentIncome';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
+import * as monetaryChecklist from './assets/monetary/monetaryChecklist';
+import * as monetaryValues from './assets/monetary/monetaryValues';
 import * as realEstate from './assets/realEstate';
 import * as realEstateRecords from './assets/realEstate/records';
 import * as recreationalVehicles from './assets/recreationalVehicles';
@@ -78,6 +80,8 @@ export {
   dependents,
   dependentRecords,
   monetary,
+  monetaryChecklist,
+  monetaryValues,
   realEstate,
   realEstateRecords,
   recreationalVehicles,

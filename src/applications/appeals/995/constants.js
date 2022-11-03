@@ -36,9 +36,9 @@ export const SELECTED = 'view:selected';
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
 export const errorMessages = {
-  savedFormNotFound: 'Please start over to request a Supplemental Claim',
+  savedFormNotFound: 'Please start over to file a Supplemental Claim',
   savedFormNoAuth:
-    'Please sign in again to continue your request a Supplemental Claim',
+    'Please sign in again to continue your file a Supplemental Claim',
   invalidDate: 'Please choose a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
