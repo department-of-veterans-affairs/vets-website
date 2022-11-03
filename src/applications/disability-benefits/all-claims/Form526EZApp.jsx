@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -37,6 +38,11 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
+import {
+  getBranches,
+  fetchBranches,
+  clearBranches,
+} from './utils/serviceBranches';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -122,6 +128,20 @@ export const Form526Entry = ({
     [showSubforms, wizardStatus, inProgressFormId, profile, location],
   );
 
+  useEffect(
+    () => {
+      if (loggedIn && !getBranches().length) {
+        fetchBranches();
+      }
+    },
+    [loggedIn],
+  );
+
+  if (!loggedIn) {
+    // clear service branches if not logged in
+    clearBranches();
+  }
+
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
   if (!loggedIn && !isIntroPage(location)) {
@@ -196,6 +216,30 @@ export const Form526Entry = ({
       </RequiredLoginView>
     </article>,
   );
+};
+
+Form526Entry.propTypes = {
+  accountUuid: PropTypes.string,
+  children: PropTypes.any,
+  inProgressFormId: PropTypes.number,
+  isBDDForm: PropTypes.bool,
+  isStartingOver: PropTypes.bool,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  loggedIn: PropTypes.bool,
+  mvi: PropTypes.shape({
+    addPersonState: PropTypes.string,
+  }),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  savedForms: PropTypes.array,
+  showSubforms: PropTypes.bool,
+  showWizard: PropTypes.bool,
+  user: PropTypes.shape({
+    profile: PropTypes.shape({}),
+  }),
 };
 
 const mapStateToProps = state => ({

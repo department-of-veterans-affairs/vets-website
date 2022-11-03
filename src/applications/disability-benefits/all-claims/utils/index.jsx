@@ -29,6 +29,7 @@ import {
   FORM_STATUS_BDD,
   CHAR_LIMITS,
 } from '../constants';
+import { getBranches } from './serviceBranches';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -97,6 +98,7 @@ export const isValidServicePeriod = data => {
   const { serviceBranch, dateRange: { from = '', to = '' } = {} } = data || {};
   return (
     (!isUndefined(serviceBranch) &&
+      getBranches().includes(serviceBranch) &&
       !isUndefined(from) &&
       !isUndefined(to) &&
       isValidFullDate(from) &&
