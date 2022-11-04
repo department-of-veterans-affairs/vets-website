@@ -209,7 +209,7 @@ export const getMonthlyIncome = ({
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+    socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(
@@ -251,9 +251,15 @@ export const getMonthlyExpenses = ({
   return utilities + installments + otherExp + totalExp;
 };
 
-export const getTotalAssets = ({ assets, realEstateRecords }) => {
+export const getTotalAssets = ({
+  assets,
+  realEstateRecords,
+  'view:combinedFinancialStatusReport': combinedFSR,
+}) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
+  const totRecVehicles = !combinedFSR
+    ? sumValues(assets.recVehicles, 'recVehicleAmount')
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, ''));
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)

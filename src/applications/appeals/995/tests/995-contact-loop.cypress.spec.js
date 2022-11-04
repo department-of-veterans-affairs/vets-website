@@ -11,14 +11,11 @@ import { mockContestableIssues } from './995.cypress.helpers';
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
 import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
 
-describe('995 contact info loop', () => {
+describe.skip('995 contact info loop', () => {
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
+      data: { features: [{ name: 'supplemental_claim', value: true }] },
     });
 
     setStoredSubTask({ benefitType: 'compensation' });

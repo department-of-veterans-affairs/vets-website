@@ -41,6 +41,8 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
+          checkInExperienceTravelReimbursement: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
