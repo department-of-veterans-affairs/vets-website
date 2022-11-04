@@ -41,7 +41,12 @@ const NextOfKin = props => {
       }
       goToNextPage();
     },
-    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+    [
+      dispatch,
+      goToNextPage,
+      isDayOfDemographicsFlagsEnabled,
+      setShouldSendDemographicsFlags,
+    ],
   );
 
   const noClick = useCallback(
@@ -59,6 +64,7 @@ const NextOfKin = props => {
       updateSeeStaffMessage,
       jumpToPage,
       seeStaffMessage,
+      setShouldSendDemographicsFlags,
     ],
   );
 

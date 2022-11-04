@@ -42,7 +42,12 @@ const EmergencyContact = props => {
       }
       goToNextPage();
     },
-    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+    [
+      dispatch,
+      goToNextPage,
+      isDayOfDemographicsFlagsEnabled,
+      setShouldSendDemographicsFlags,
+    ],
   );
 
   const noClick = useCallback(
@@ -60,6 +65,7 @@ const EmergencyContact = props => {
       updateSeeStaffMessage,
       jumpToPage,
       seeStaffMessage,
+      setShouldSendDemographicsFlags,
     ],
   );
 

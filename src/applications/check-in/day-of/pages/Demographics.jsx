@@ -35,7 +35,12 @@ const Demographics = props => {
       }
       goToNextPage();
     },
-    [goToNextPage, isDayOfDemographicsFlagsEnabled, dispatch],
+    [
+      goToNextPage,
+      isDayOfDemographicsFlagsEnabled,
+      dispatch,
+      setShouldSendDemographicsFlags,
+    ],
   );
 
   const noClick = useCallback(
@@ -63,6 +68,7 @@ const Demographics = props => {
       isDayOfDemographicsFlagsEnabled,
       dispatch,
       t,
+      setShouldSendDemographicsFlags,
     ],
   );
 
