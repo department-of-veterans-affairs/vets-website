@@ -20,11 +20,12 @@ export default function DowntimeMessage({
   const isDowntimeWarningDismissed = useSelector(state =>
     state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
   );
-  const splitDescription = description.split('|');
-  const notificationTitle = splitDescription.length > 1 && splitDescription[0];
+  const splitDescription = description?.split('|');
+  const notificationTitle =
+    splitDescription?.length > 1 && splitDescription?.[0];
   const descriptionBody = notificationTitle
-    ? splitDescription[1]
-    : splitDescription[0];
+    ? splitDescription?.[1]
+    : splitDescription?.[0];
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
@@ -80,7 +81,6 @@ export default function DowntimeMessage({
           }
           data-testid="downtime-approaching-modal"
         >
-          {' '}
           {descriptionBody ? (
             <>
               <p>{descriptionBody}</p>
