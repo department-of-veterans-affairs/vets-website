@@ -62,48 +62,6 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
   });
-  it('should conditionally require phone number', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        formData={{}}
-        schema={schema}
-        data={{}}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-      />,
-    );
-
-    const formDOM = findDOMNode(form);
-
-    submitForm(form);
-
-    // jsdom has issues with colons in attributes
-    let errors = Array.from(
-      formDOM.querySelectorAll('.usa-input-error > label'),
-    );
-    let phoneError = errors.find(errorLabel =>
-      errorLabel.getAttribute('for').endsWith('homePhone'),
-    );
-    expect(phoneError).to.be.undefined;
-
-    const phoneMethod = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    ).find(
-      input => input.getAttribute('id') === 'root_preferredContactMethod_2',
-    );
-    ReactTestUtils.Simulate.change(phoneMethod, {
-      target: {
-        value: 'phone',
-      },
-    });
-
-    errors = Array.from(formDOM.querySelectorAll('.usa-input-error > label'));
-    phoneError = errors.find(errorLabel =>
-      errorLabel.getAttribute('for').endsWith('homePhone'),
-    );
-    expect(phoneError).not.to.be.undefined;
-  });
   it('should show error if emails do not match', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
