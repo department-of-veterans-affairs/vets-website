@@ -13,39 +13,52 @@ export default function DowntimeMessage({
   startTime,
   endTime,
   status,
-  description,
   children,
+  description,
 }) {
   const dispatch = useDispatch();
   const isDowntimeWarningDismissed = useSelector(state =>
     state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
   );
+  const splitDescription = description.split('|');
+  const notificationTitle = splitDescription.length > 1 && splitDescription[0];
+  const descriptionBody = notificationTitle
+    ? splitDescription[1]
+    : splitDescription[0];
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
         <InfoAlert
           className="vads-u-margin-bottom--4"
-          headline="The VA appointments tool is down for maintenance"
+          headline={
+            notificationTitle ||
+            'The VA appointments tool is down for maintenance'
+          }
           status="warning"
         >
-          !!description ? (
-          <p>
-            {description} We’re sorry it’s not working right now. If you need to
-            request or confirm an appointment during this time, please call your
-            local VA medical center. Use the{' '}
-            <a href="/find-locations">VA facility locator</a> to find contact
-            information for your medical center.
-          </p>
+          {descriptionBody ? (
+            <>
+              <p>{descriptionBody}</p>
+              <p>
+                {' '}
+                We’re sorry it’s not working right now. If you need to request
+                or confirm an appointment during this time, please call your
+                local VA medical center. Use the{' '}
+                <a href="/find-locations">VA facility locator</a> to find
+                contact information for your medical center.
+              </p>
+            </>
           ) : (
-          <p>
-            We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
-            between {startTime.format('LT')} and {endTime.format('LT')}. We’re
-            sorry it’s not working right now. If you need to request or confirm
-            an appointment during this time, please call your local VA medical
-            center. Use the <a href="/find-locations">VA facility locator</a> to
-            find contact information for your medical center.
-          </p>
-          )
+            <p>
+              We’re making updates to the tool on {startTime.format('MMMM Do')}{' '}
+              between {startTime.format('LT')} and {endTime.format('LT')}. We’re
+              sorry it’s not working right now. If you need to request or
+              confirm an appointment during this time, please call your local VA
+              medical center. Use the{' '}
+              <a href="/find-locations">VA facility locator</a> to find contact
+              information for your medical center.
+            </p>
+          )}
         </InfoAlert>
       </FullWidthLayout>
     );
@@ -61,27 +74,35 @@ export default function DowntimeMessage({
           visible={!isDowntimeWarningDismissed}
           status="warning"
           role="alertdialog"
-          modalTitle="VA online scheduling will be down for maintenance"
+          modalTitle={
+            notificationTitle ||
+            'VA online scheduling will be down for maintenance'
+          }
           data-testid="downtime-approaching-modal"
         >
-          !!description ? (
-          <p>
-            {description} We’re sorry it’s not working right now. If you need to
-            request or confirm an appointment during this time, please call your
-            local VA medical center. Use the{' '}
-            <a href="/find-locations">VA facility locator</a> to find contact
-            information for your medical center.
-          </p>
+          {' '}
+          {descriptionBody ? (
+            <>
+              <p>{descriptionBody}</p>
+              <p>
+                {' '}
+                We’re sorry it’s not working right now. If you need to request
+                or confirm an appointment during this time, please call your
+                local VA medical center. Use the{' '}
+                <a href="/find-locations">VA facility locator</a> to find
+                contact information for your medical center.
+              </p>
+            </>
           ) : (
-          <p>
-            We’re doing work on the VA appointments tool on{' '}
-            {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
-            {endTime.format('LT')}. If you need to request or confirm an
-            appointment during this time, please call your local VA medical
-            center. Use the <a href="/find-locations">VA facility locator</a> to
-            find contact information for your medical center.
-          </p>
-          )
+            <p>
+              We’re doing work on the VA appointments tool on{' '}
+              {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
+              {endTime.format('LT')}. If you need to request or confirm an
+              appointment during this time, please call your local VA medical
+              center. Use the <a href="/find-locations">VA facility locator</a>{' '}
+              to find contact information for your medical center.
+            </p>
+          )}
           <button
             type="button"
             className="usa-button-secondary"
@@ -96,9 +117,9 @@ export default function DowntimeMessage({
   );
 }
 DowntimeMessage.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   description: PropTypes.string,
-  endTime: PropTypes.string,
-  startTime: PropTypes.string,
+  endTime: PropTypes.object,
+  startTime: PropTypes.object,
   status: PropTypes.string,
 };
