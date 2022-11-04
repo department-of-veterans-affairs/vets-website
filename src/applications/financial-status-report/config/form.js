@@ -10,6 +10,7 @@ import * as pages from '../pages';
 import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
+import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -142,6 +143,7 @@ const formConfig = {
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+          CustomPage: EnhancedEmploymentRecord,
         },
         grossMonthlyIncome: {
           path: 'gross-monthly-income',
@@ -175,7 +177,6 @@ const formConfig = {
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
-          // appStateSelector: state => state.form?.data?.employmentHistory || [],
         },
         // loop ends with option to re enter here
         employmentHistorySummary: {

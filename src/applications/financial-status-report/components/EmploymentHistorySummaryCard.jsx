@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const EmploymentHistorySummaryCard = ({ job }) => {
   const employmentCardHeading = `${job.employerName}`;
@@ -15,24 +16,20 @@ const EmploymentHistorySummaryCard = ({ job }) => {
       <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
         {employmentCardSubheading}
       </p>
-
-      {/* <div className="vads-u-margin-right--5 vads-u-margin-top--2 vads-u-font-weight--bold">
-        <Link
-          data-testid="debt-details-button"
-          onClick={() => {
-            recordEvent({ event: 'cta-link-click-debt-summary-card' });
-            setActiveDebt(debt);
-          }}
-          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-          aria-label={`Check details and resolve this ${employmentCardHeading}`}
-        >
-          Check details and resolve this debt
-          <i
-            aria-hidden="true"
-            className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
-          />
-        </Link>
-      </div> */}
+      <Link
+        className="vads-u-font-size--sm vads-u-font-weight--bold"
+        to={{
+          pathname: '/enhanced-employment-records',
+          search: `?editIndex=0`,
+        }}
+        aria-label="Edit job entry"
+      >
+        Edit employment at {job.employerName}
+        <i
+          className="fa fa-chevron-right vads-u-margin-left--1"
+          aria-hidden="true"
+        />
+      </Link>
     </article>
   );
 };

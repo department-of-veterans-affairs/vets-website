@@ -22,15 +22,6 @@ const EmploymentHistoryWidget = () => {
         className="add-additional-job"
         to={{
           pathname: '/enhanced-employment-records',
-          search: `?index=0`,
-        }}
-      >
-        Add additional job
-      </Link>
-      <Link
-        className="add-additional-job"
-        to={{
-          pathname: '/enhanced-employment-records',
         }}
       >
         Add additional job
