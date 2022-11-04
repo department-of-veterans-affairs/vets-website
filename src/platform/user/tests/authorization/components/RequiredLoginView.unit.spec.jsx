@@ -6,7 +6,6 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { mount } from 'enzyme';
 import backendServices from '../../../profile/constants/backendServices';
 import localStorage from '../../../../utilities/storage/localStorage';
-// import { render } from '@testing-library/react';
 
 const anonymousUser = {
   login: { currentlyLoggedIn: false },
@@ -145,12 +144,9 @@ describe('<RequiredLoginView>', () => {
     );
 
     // Child components should not be passed an isDataAvailable prop
-    wrapper
-      // .props()
-      .children()
-      .forEach(child => {
-        expect(child.props().isDataAvailable).to.be.undefined;
-      });
+    wrapper.children().forEach(child => {
+      expect(child.props().isDataAvailable).to.be.undefined;
+    });
     wrapper.unmount();
   });
 
