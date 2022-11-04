@@ -2,7 +2,7 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 
 import { BASE_URL } from '../constants';
 
-describe('995 subtask', () => {
+describe.skip('995 subtask', () => {
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
