@@ -91,11 +91,17 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
-    suggestedActionLayout: 'flow',
-    suggestedActionBackground: '#0071BB',
+    suggestedActionLayout: 'stacked', // flow
+    suggestedActionsStackedHeight: 390,
+    // suggestedActionsFlowMaxHeight: 390,
+    suggestedActionActiveBackground: 'rgb(17,46,81)',
+    suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
+    suggestedActionBackgroundColor: 'rgb(0, 113, 187)',
     suggestedActionTextColor: 'white',
-    suggestedActionBorderRadius: '5px',
+    suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
+    paddingWide: 40,
+    paddingRegular: 5,
   };
 
   const handleTelemetry = event => {
