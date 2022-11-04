@@ -145,8 +145,7 @@ const MessageList = props => {
               <option value="alpha-asc">A to Z - Sender’s name</option>
               <option value="alpha-desc">Z to A - Sender’s name</option>
             </>
-          ) : null}
-          {location.pathname !== '/' ? (
+          ) : (
             <>
               <option value="recepient-alpha-asc">
                 A to Z - Recipient’s name
@@ -155,7 +154,7 @@ const MessageList = props => {
                 Z to A - Recipient’s name
               </option>
             </>
-          ) : null}
+          )}
         </VaSelect>
 
         <button type="button" onClick={handleMessageSort}>
@@ -176,6 +175,7 @@ const MessageList = props => {
           subject={message.subject}
           readReceipt={message.readReceipt}
           attachment={message.attachment}
+          recipientName={message.recipientName}
         />
       ))}
       {currentMessages && (

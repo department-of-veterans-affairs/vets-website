@@ -141,7 +141,7 @@ describe('Message List component', () => {
     expect(screen.queryByText('A to Z - Sender’s name')).not.to.exist;
     expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
   });
-  it('sorting list displays all options on a custom folder', () => {
+  it('sorting list doesnt display sender sorting option only recipient on a custom folder', () => {
     screen = renderWithStoreAndRouter(
       <MessageList messages={mockMessages} folder={inbox} />,
       {
@@ -152,6 +152,6 @@ describe('Message List component', () => {
     );
     fireEvent.click(screen.getByText('Newest to oldest'));
     expect(screen.queryByText('A to Z - Sender’s name')).to.exist;
-    expect(screen.getByText('A to Z - Recipient’s name')).to.exist;
+    expect(screen.queryByText('A to Z - Recipient’s name')).not.to.exist;
   });
 });
