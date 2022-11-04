@@ -83,17 +83,16 @@ const InboxPage = ({
 
 InboxPage.propTypes = {
   claimStatus: PropTypes.object,
+  getClaimStatus: PropTypes.func,
   MEBClaimStatusFetchInProgress: PropTypes.bool,
   MEBClaimStatusFetchComplete: PropTypes.bool,
   TOEClaimStatusFetchInProgress: PropTypes.bool,
   TOEClaimStatusFetchComplete: PropTypes.bool,
-  getClaimStatus: PropTypes.func,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => {
   const { MEBClaimStatus, TOEClaimStatus } = state?.data;
-
   let latestClaim;
 
   if (
