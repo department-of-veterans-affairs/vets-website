@@ -6,7 +6,7 @@ import {
   DefinitionTester,
   fillDate,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
@@ -83,7 +83,7 @@ describe('Federal orders info', () => {
         formData={{}}
         appStateData={{
           servicePeriods: [
-            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
           ],
         }}
         onSubmit={onSubmit}
@@ -124,7 +124,7 @@ describe('Federal orders info', () => {
         formData={{}}
         appStateData={{
           servicePeriods: [
-            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
           ],
         }}
         onSubmit={onSubmit}
@@ -167,7 +167,7 @@ describe('Federal orders info', () => {
         formData={{}}
         appStateData={{
           servicePeriods: [
-            { serviceBranch: 'Reserve', dateRange: { from: '2008-03-12' } },
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
           ],
         }}
         onSubmit={onSubmit}

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useTravelPayFlags = () => {
-  const [travelPayClaimSent, setTravelPayClaimSent] = useState(false);
+  const [travelPayClaimSent, setTravelPayClaimSent] = useState();
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { token } = context;
