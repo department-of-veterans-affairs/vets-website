@@ -255,8 +255,8 @@ export const transform = (formConfig, form) => {
       cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
       trailersBoatsCampers: combinedFSRActive
-        ? sumValues(assets.recVehicles, 'recVehicleAmount')
-        : assets.recVehicleAmount,
+        ? assets.recVehicleAmount
+        : sumValues(assets.recVehicles, 'recVehicleAmount'),
       usSavingsBonds: enhancedFSRActive
         ? calculatedUsSavingsBonds
         : assets.usSavingsBonds,
