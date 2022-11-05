@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 
@@ -19,7 +20,7 @@ const SmBreadcrumbs = () => {
     () => {
       const paths = [
         {
-          path: `/message/${messageDetails?.messageId}`,
+          path: `/message`,
           label: messageDetails?.subject,
         },
         { path: '/reply', label: messageDetails?.subject },
@@ -27,7 +28,10 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.DRAFT,
         Constants.Breadcrumbs.DRAFTS,
         {
-          path: `/folder/${activeFolder?.folderId}`,
+          path: `/folder/${
+            activeFolder?.folderId
+            // ${messageDetails?.messageId}
+          }`,
           label: activeFolder?.name,
         },
         Constants.Breadcrumbs.FOLDERS,
@@ -45,9 +49,12 @@ const SmBreadcrumbs = () => {
 
       function handleBreadCrumbs() {
         const arr = [];
-        arr.push({ path: 'https://www.va.gov', label: 'VA.gov home' });
         arr.push({
-          path: 'https://www.va.gov/health-care/',
+          path: replaceWithStagingDomain('https://www.va.gov'),
+          label: 'VA.gov home',
+        });
+        arr.push({
+          path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
           label: 'My Health',
         });
         arr.push({ path: '/', label: 'Messages' });
