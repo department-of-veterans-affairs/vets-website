@@ -95,8 +95,12 @@ const FolderListView = () => {
           Displaying 0 of 0 messages
         </div>
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
-          <va-alert background-only="true" status="info">
-            <p className="vads-u-margin--0">{Alerts.Message.NO_MESSAGES}</p>
+          <va-alert
+            background-only="true"
+            status="info"
+            className="vads-u-margin-bottom--1 va-alert"
+          >
+            <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
           </va-alert>
         </div>
       </>
