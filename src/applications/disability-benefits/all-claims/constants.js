@@ -34,6 +34,7 @@ export const itfStatuses = {
 
 export const RESERVE_GUARD_TYPES = {
   nationalGuard: 'National Guard',
+  // Not updating to "Reserves"; used in string matching comparisons
   reserve: 'Reserve',
 };
 
@@ -299,6 +300,8 @@ export const WIZARD_STATUS = 'wizardStatus526';
 export const FORM_STATUS_BDD = 'formStatusBdd';
 
 export const SHOW_8940_4192 = 'showSubforms';
+
+export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
 // sessionStorage key used for the user entered separation date in the wizard
 // used by the first page of the form to populate the form data
