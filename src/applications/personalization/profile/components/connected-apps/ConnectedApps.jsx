@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
@@ -147,9 +145,10 @@ export class ConnectedApps extends Component {
         )}
 
         {loading && (
-          <VaLoadingIndicator
+          <va-loading-indicator
             setFocus
             message="Loading your connected apps..."
+            data-testid="connected-apps-loading-indicator"
           />
         )}
         {!isEmpty(disconnectErrorApps) &&
