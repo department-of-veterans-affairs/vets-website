@@ -109,7 +109,7 @@ class SearchDropdownComponent extends React.Component {
      * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
      * */
     fullWidthSuggestions: PropTypes.bool,
-    updateSearchAppState: PropTypes.func,
+    onInputChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -134,7 +134,7 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
-    updateSearchAppState: undefined,
+    onInputChange: undefined,
   };
 
   constructor(props) {
@@ -211,7 +211,6 @@ class SearchDropdownComponent extends React.Component {
   };
 
   handleInputChange = event => {
-    this.props.updateSearchAppState(event);
     // update the input value to the new value
     const inputValue = event.target.value;
     this.setState({
@@ -230,6 +229,7 @@ class SearchDropdownComponent extends React.Component {
     this.fetchSuggestionsTimeout = setTimeout(() => {
       this.fetchSuggestions(inputValue);
     }, this.props.debounceRate);
+    this.props.onInputChange?.(event);
   };
 
   // call the fetchSuggestions prop and save the returned value into state
@@ -589,7 +589,7 @@ class SearchDropdownComponent extends React.Component {
       mobileResponsive,
     } = this.props;
 
-    let activeId = undefined;
+    let activeId;
     if (isOpen && activeIndex !== undefined) {
       activeId = `${id}-option-${activeIndex}`;
     }
@@ -639,12 +639,12 @@ class SearchDropdownComponent extends React.Component {
           </span>
           <input
             aria-activedescendant={activeId}
-            aria-autocomplete={'none'}
+            aria-autocomplete="none"
             aria-controls={`${id}-listbox`}
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
-            aria-label={'Search'}
+            aria-label="Search"
             autoComplete="off"
             className={`vads-u-width--full search-dropdown-input-field ${
               fullWidthSuggestions
@@ -668,7 +668,7 @@ class SearchDropdownComponent extends React.Component {
               <div
                 className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
                 role="listbox"
-                aria-label={'Search Suggestions'}
+                aria-label="Search Suggestions"
                 id={`${id}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {

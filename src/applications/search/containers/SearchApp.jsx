@@ -357,7 +357,7 @@ class SearchApp extends React.Component {
             fetchSuggestions={this.fetchSuggestions}
             onInputSubmit={this.onInputSubmit}
             onSuggestionSubmit={this.onSuggestionSubmit}
-            updateSearchAppState={this.handleInputChange}
+            onInputChange={this.handleInputChange}
           />
         </div>
       </div>
