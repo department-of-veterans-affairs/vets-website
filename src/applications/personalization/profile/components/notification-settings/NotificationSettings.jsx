@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
+import { useLocation } from 'react-router-dom';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -21,7 +22,6 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 
-import { useQueryParams } from '../../hooks';
 import { LOADING_STATES } from '../../../common/constants';
 
 import APIErrorAlert from './APIErrorAlert';
@@ -45,12 +45,12 @@ const NotificationSettings = ({
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
-  const query = useQueryParams();
+  const location = useLocation();
 
   React.useEffect(() => {
     // issue: 48011
-    // used specfically for link from contact info page after updating mobile phone
-    if (query.get('scrollToTop')) {
+    // used via passed state from contact info - mobile update alert link
+    if (location.state?.scrollToTop) {
       scroll.scrollToTop({ duration: 0, smooth: false });
     }
 
