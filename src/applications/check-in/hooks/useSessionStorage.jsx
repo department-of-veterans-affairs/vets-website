@@ -145,6 +145,34 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const setProgressState = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.PROGRESS_STATE, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getProgressState = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.PROGRESS_STATE);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const setPermissions = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.PERMISSIONS, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getPermissions = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.PERMISSIONS);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
     setCurrentToken,
@@ -158,6 +186,10 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
     resetAttempts,
+    setProgressState,
+    getProgressState,
+    setPermissions,
+    getPermissions,
   };
 };
 
