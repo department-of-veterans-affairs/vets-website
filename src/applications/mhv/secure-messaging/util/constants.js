@@ -24,8 +24,7 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
-    CANNOT_REPLY_BODY:
-      "Please select 'Compose' to create a new message and try again.",
+    CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
     CANNOT_REPLY_INFO_HEADER:
       'You cannot reply to a message that is older than 45 days.',
   },
