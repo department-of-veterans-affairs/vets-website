@@ -72,9 +72,10 @@ export const App = ({
   useEffect(
     () => {
       if (
-        !isLoggedIn ||
-        !featureTogglesLoaded ||
-        (showUnverifiedUserAlert && isLOA3 !== true)
+        showMebDgi40Features &&
+        (!isLoggedIn ||
+          !featureTogglesLoaded ||
+          (showUnverifiedUserAlert && isLOA3 !== true))
       ) {
         return;
       }
@@ -101,6 +102,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebDgi40Features,
       showUnverifiedUserAlert,
     ],
   );
@@ -119,15 +121,12 @@ export const App = ({
 
   useEffect(
     () => {
-      if (!isLoggedIn) {
-        return;
-      }
-      if (!fetchedDirectDeposit) {
+      if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
         setFetchedDirectDeposit(true);
         getDirectDeposit();
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn],
+    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
   );
 
   return (
