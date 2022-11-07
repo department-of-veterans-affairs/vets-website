@@ -78,14 +78,17 @@ const validateFetchInProgressFormsErrors = status => {
     }
   }
 
-  if (status instanceof Error) {
-    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
+  if ((!status.ok && !status?.errors?.length) || status instanceof Error) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_fetch');
     return LOAD_STATUSES.clientFailure;
   }
 
-  return LOAD_STATUSES.clientFailure;
+  if (status instanceof Response) {
+    return SAVE_STATUSES.failure;
+  }
+
+  return LOAD_STATUSES.failure;
 };
 
 const validateSaveInProgressErrors = status => {
@@ -97,9 +100,8 @@ const validateSaveInProgressErrors = status => {
   }
 
   if (status instanceof TypeError) {
-    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
     Sentry.captureException(status);
-    Sentry.captureMessage('vets_sip_error_fetch');
+    Sentry.captureMessage('vets_sip_error_save');
     return SAVE_STATUSES.clientFailure;
   }
 
@@ -264,7 +266,6 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
       submission,
     )
       .then(json => {
-        // console.log(json);
         dispatch(
           setSaveFormStatus(
             saveType,
@@ -340,7 +341,6 @@ export function fetchInProgressForm(
         }
 
         // If we’ve made it this far, we’ve got valid form
-
         let formData;
         let metadata;
         try {

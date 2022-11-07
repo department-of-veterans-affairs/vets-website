@@ -3,7 +3,7 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
-describe.skip('SIP Load Fail Test', () => {
+describe('SIP Load Fail Test', () => {
   it('Behaves accordingly when the load fails', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
@@ -53,7 +53,14 @@ describe.skip('SIP Load Fail Test', () => {
     cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
-      body: {},
+      body: {
+        errors: [
+          {
+            code: 404,
+            status: 404,
+          },
+        ],
+      },
       statusCode: 404,
     });
 
@@ -73,7 +80,14 @@ describe.skip('SIP Load Fail Test', () => {
     cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
-      body: {},
+      body: {
+        errors: [
+          {
+            code: 401,
+            status: 401,
+          },
+        ],
+      },
       statusCode: 401,
     });
 

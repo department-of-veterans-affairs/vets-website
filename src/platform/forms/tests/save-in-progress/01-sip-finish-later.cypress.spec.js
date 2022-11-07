@@ -4,7 +4,7 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
-describe.skip('SIP Finish Later', () => {
+describe('SIP Finish Later', () => {
   // Skipping test as it is disabled in nightwatch.  Final assertion error message does not show up on the front end.
   it('Saves, Loads, and Fails appropriately in all cases', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
@@ -107,7 +107,14 @@ describe.skip('SIP Finish Later', () => {
     cy.fill('input[name="root_veteranFullName_first"]', 'Micky');
     cy.fill('input[name="root_veteranFullName_last"]', 'Mouse');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {},
+      body: {
+        errors: [
+          {
+            code: 401,
+            status: 401,
+          },
+        ],
+      },
       statusCode: 401,
     }).as('401Form');
     cy.get('.schemaform-sip-save-link').click();
