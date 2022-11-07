@@ -28,7 +28,7 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (!debtNotifications || !debtNotifications.length || !notificationsError) {
+  if (!debtNotifications || !debtNotifications.length || notificationsError) {
     return null;
   }
 
