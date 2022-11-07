@@ -75,10 +75,10 @@ const FolderListView = () => {
   );
 
   useInterval(() => {
-    if (folder) {
-      dispatch(getMessages(folder.folderId, true));
+    if (folderId) {
+      dispatch(getMessages(folderId, true));
     }
-  }, 5000);
+  }, 60000);
 
   let content;
   if (messages === undefined) {
