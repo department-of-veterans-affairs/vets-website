@@ -28,7 +28,7 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (!debtNotifications || !debtNotifications.length) {
+  if (!debtNotifications || !debtNotifications.length || notificationsError) {
     return null;
   }
 
@@ -48,14 +48,13 @@ export const Notifications = ({
           </div>
         </DashboardWidgetWrapper>
       )}
-      {!notificationsError &&
-        debtNotifications.map((n, i) => (
-          <DebtNotification
-            key={i}
-            hasError={notificationsError}
-            notification={n}
-          />
-        ))}
+      {debtNotifications.map((n, i) => (
+        <DebtNotification
+          key={i}
+          hasError={notificationsError}
+          notification={n}
+        />
+      ))}
     </div>
   );
 };
