@@ -22,7 +22,7 @@ export const Actions = {
   },
   Folder: {
     GET: 'SM_FOLDER_GET',
-    CLEAR: 'SM_FODLER_CLEAR',
+    CLEAR: 'SM_FOLDER_CLEAR',
     GET_LIST: 'SM_FOLDER_GET_LIST',
     CREATE: 'SM_FOLDER_CREATE',
     DELETE: 'SM_FOLDER_DELETE',
@@ -30,12 +30,15 @@ export const Actions = {
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
+    CLEAR: 'SM_MESSAGE_CLEAR',
     GET_LIST: 'SM_MESSAGE_GET_LIST',
     CLEAR_LIST: 'SM_MESSAGE_CLEAR_LIST',
     GET_HISTORY: 'SM_MESSAGE_GET_HISTORY',
+    CLEAR_HISTORY: 'SM_MESSAGE_CLEAR_HISTORY',
   },
   Search: {
-    RUN: 'SM_SEARCH_RUN',
+    RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
+    RUN_ADVANCED: 'SM_SEARCH_RUN_ADVANCED',
     CLEAR: 'SM_SEARCH_CLEAR',
   },
   TriageTeam: {

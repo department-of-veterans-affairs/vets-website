@@ -15,9 +15,7 @@ describe('Check In Experience ', () => {
     } = ApiInitializer;
     initializeFeatureToggle.withLorotaSecurityUpdate();
     initializeSessionGet.withSuccessfulNewSession();
-    initializeCheckInDataGet.withSuccess({
-      numberOfCheckInAbledAppointments: 1,
-    });
+    initializeCheckInDataGet.withSuccess();
     initializeSessionPost.withSuccess();
 
     initializeCheckInDataPost.withSuccess();

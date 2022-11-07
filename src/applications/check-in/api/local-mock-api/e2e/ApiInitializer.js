@@ -41,6 +41,8 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
+          checkInExperienceTravelReimbursement: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -82,6 +84,7 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -299,7 +302,6 @@ class ApiInitializer {
       extraValidation = null,
       appointments = null,
       token = sharedData.get.defaultUUID,
-      numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
       nextOfKinNeedsUpdate = true,
@@ -309,9 +311,8 @@ class ApiInitializer {
       timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = sharedData.get.createMultipleAppointments(
+        const rv = sharedData.get.createAppointments(
           token,
-          numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
           demographicsConfirmedAt,
           nextOfKinNeedsUpdate,
@@ -347,7 +348,6 @@ class ApiInitializer {
     withBadData: ({
       extraValidation = null,
       token = sharedData.get.defaultUUID,
-      numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
       nextOfKinNeedsUpdate = true,
@@ -356,9 +356,8 @@ class ApiInitializer {
       emergencyContactConfirmedAt = null,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = sharedData.get.createMultipleAppointments(
+        const rv = sharedData.get.createAppointments(
           token,
-          numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
           demographicsConfirmedAt,
           nextOfKinNeedsUpdate,

@@ -10,6 +10,7 @@ const updateFormPages = (
   pages,
   URLS,
   isTravelReimbursementEnabled = false,
+  appointments = [],
 ) => {
   const skippedPages = [];
   const {
@@ -38,12 +39,6 @@ const updateFormPages = (
       needsUpdate: emergencyContactNeedsUpdate,
     },
   ];
-  const travelPayPages = [
-    URLS.TRAVEL_QUESTION,
-    URLS.TRAVEL_VEHICLE,
-    URLS.TRAVEL_ADDRESS,
-    URLS.TRAVEL_MILEAGE,
-  ];
   skippablePages.forEach(page => {
     const pageLastUpdated = page.confirmedAt
       ? new Date(page.confirmedAt)
@@ -56,8 +51,16 @@ const updateFormPages = (
       skippedPages.push(page.url);
     }
   });
-  // Skip travel pay if not enabled.
-  if (!isTravelReimbursementEnabled) {
+
+  const travelPayPages = [
+    URLS.TRAVEL_QUESTION,
+    URLS.TRAVEL_VEHICLE,
+    URLS.TRAVEL_ADDRESS,
+    URLS.TRAVEL_MILEAGE,
+  ];
+
+  // Skip travel pay if not enabled or if veteran has more than one appoinement for the day.
+  if (!isTravelReimbursementEnabled || appointments.length > 1) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));

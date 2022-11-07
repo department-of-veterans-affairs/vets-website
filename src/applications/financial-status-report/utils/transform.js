@@ -7,12 +7,12 @@ import {
   getMonthlyExpenses,
   getEmploymentHistory,
   getTotalAssets,
-  filterDeductions,
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
   getAmountCanBePaidTowardDebt,
   mergeAdditionalComments,
+  filterReduceByName,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -79,9 +79,9 @@ export const transform = (formConfig, form) => {
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
   const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterDeductions(vetDeductions, taxFilters);
-  const vetRetirement = filterDeductions(vetDeductions, retirementFilters);
-  const vetSocialSec = filterDeductions(vetDeductions, socialSecFilters);
+  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
+  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
+  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
   const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
   const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
   const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
@@ -101,9 +101,9 @@ export const transform = (formConfig, form) => {
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterDeductions(spDeductions, taxFilters);
-  const spRetirement = filterDeductions(spDeductions, retirementFilters);
-  const spSocialSec = filterDeductions(spDeductions, socialSecFilters);
+  const spTaxes = filterReduceByName(spDeductions, taxFilters);
+  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
+  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
   const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
   const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
   const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
@@ -120,6 +120,30 @@ export const transform = (formConfig, form) => {
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
 
+  // monetary asset filters
+  const cashFilters = ['Cash'];
+  const bankFilters = ['Checking accounts', 'Savings accounts'];
+  const usSavingsFilters = ['U.S. Savings Bonds'];
+  const otherStocksFilters = [
+    'Other stocks and bonds (not in your retirement accounts)',
+    'Retirement accounts (401k, IRAs, 403b, TSP)',
+    'Pension',
+    'Cryptocurrency',
+  ];
+
+  // monetary assets
+  const { monetaryAssets } = assets;
+  const calculatedCashOnHand = filterReduceByName(monetaryAssets, cashFilters);
+  const calculatedCashInBank = filterReduceByName(monetaryAssets, bankFilters);
+  const calculatedUsSavingsBonds = filterReduceByName(
+    monetaryAssets,
+    usSavingsFilters,
+  );
+  const calculatedStocksAndOther = filterReduceByName(
+    monetaryAssets,
+    otherStocksFilters,
+  );
+
   // combined fsr options
   const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
   const fsrReason = getFsrReason(
@@ -130,6 +154,9 @@ export const transform = (formConfig, form) => {
     combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
     combinedFSRActive,
   );
+
+  // enhanced fsr flag
+  const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
   const submissionObj = {
     personalIdentification: {
@@ -224,12 +251,18 @@ export const transform = (formConfig, form) => {
       amountCanBePaidTowardDebt,
     },
     assets: {
-      cashInBank: assets.cashInBank,
-      cashOnHand: assets.cashOnHand,
+      cashInBank: enhancedFSRActive ? calculatedCashInBank : assets.cashInBank,
+      cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: assets.recVehicleAmount,
-      usSavingsBonds: assets.usSavingsBonds,
-      stocksAndOtherBonds: assets.stocksAndOtherBonds,
+      trailersBoatsCampers: combinedFSRActive
+        ? assets.recVehicleAmount
+        : sumValues(assets.recVehicles, 'recVehicleAmount'),
+      usSavingsBonds: enhancedFSRActive
+        ? calculatedUsSavingsBonds
+        : assets.usSavingsBonds,
+      stocksAndOtherBonds: enhancedFSRActive
+        ? calculatedStocksAndOther
+        : assets.stocksAndOtherBonds,
       realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
       otherAssets: assets.otherAssets,
       totalAssets,

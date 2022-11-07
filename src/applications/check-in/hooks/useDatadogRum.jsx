@@ -19,13 +19,12 @@ const initializeDatadogRum = () => {
       service: 'patient-check-in',
       env: environment.vspEnvironment(),
       sampleRate: 100,
-      sessionReplaySampleRate: 20,
+      sessionReplaySampleRate: 0,
       trackInteractions: true,
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask',
     });
-    datadogRum.startSessionReplayRecording();
   }
 };
 
