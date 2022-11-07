@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+import { testBranches } from '../../utils/serviceBranches';
 
 describe('Retirement Pay', () => {
   const {
@@ -65,6 +66,8 @@ describe('Retirement Pay', () => {
   });
 
   it('should submit when all info provided', () => {
+    // Calling testBranches ensures that the branches dropdown is populated
+    testBranches();
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
