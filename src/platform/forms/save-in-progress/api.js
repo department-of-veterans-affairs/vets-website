@@ -49,26 +49,4 @@ export function saveFormApi(
     headers: saveFormApiHeaders,
     body,
   });
-  // .then(result => {
-  //   recordEvent({ event: `${trackingPrefix}sip-form-saved` });
-  //   return result;
-  // })
-  // .catch(error => {
-  //   if (error.status === 401) {
-  //     recordEvent({
-  //       event: `${trackingPrefix}sip-form-save-signed-out`,
-  //     });
-  //   } else if (error instanceof Response) {
-  //     recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
-  //   } else {
-  //     Sentry.captureException(error);
-  //     Sentry.withScope(() => {
-  //       Sentry.captureMessage('vets_sip_error_save');
-  //     });
-  //     recordEvent({
-  //       event: `${trackingPrefix}sip-form-save-failed-client`,
-  //     });
-  //   }
-  //   return error;
-  // });
 }

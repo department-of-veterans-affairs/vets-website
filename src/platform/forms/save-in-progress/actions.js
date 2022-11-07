@@ -91,12 +91,16 @@ const validateFetchInProgressFormsErrors = status => {
   return LOAD_STATUSES.failure;
 };
 
-const validateSaveInProgressErrors = status => {
+const validateSaveInProgressErrors = (status, trackingPrefix) => {
   // check if it is an array
   if (Array.isArray(status?.errors) && status?.errors.length > 0) {
-    return status.errors[0].status === 401
-      ? SAVE_STATUSES.noAuth
-      : SAVE_STATUSES.clientFailure;
+    if (status.errors[0].status === 401) {
+      recordEvent({
+        event: `${trackingPrefix}sip-form-save-signed-out`,
+      });
+      return SAVE_STATUSES.noAuth;
+    }
+    return SAVE_STATUSES.clientFailure;
   }
 
   if (status instanceof TypeError) {
@@ -106,9 +110,17 @@ const validateSaveInProgressErrors = status => {
   }
 
   if (status instanceof Response) {
+    recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
     return SAVE_STATUSES.failure;
   }
 
+  Sentry.captureException(status);
+  Sentry.withScope(() => {
+    Sentry.captureMessage('vets_sip_error_save');
+  });
+  recordEvent({
+    event: `${trackingPrefix}sip-form-save-failed-client`,
+  });
   return SAVE_STATUSES.failure;
 };
 
@@ -262,7 +274,6 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
       version,
       returnUrl,
       savedAt,
-      trackingPrefix,
       submission,
     )
       .then(json => {
@@ -279,7 +290,10 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
         return Promise.resolve(json);
       })
       .catch(resOrError => {
-        const errorStatus = validateSaveInProgressErrors(resOrError);
+        const errorStatus = validateSaveInProgressErrors(
+          resOrError,
+          trackingPrefix,
+        );
 
         if (errorStatus === SAVE_STATUSES.noAuth) {
           dispatch(logOut());
