@@ -11,6 +11,7 @@ import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
+import { sortRecipients } from '../../util/helpers';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -167,24 +168,30 @@ const ComposeForm = props => {
         </button>
       </div>
       <div className="compose-inputs-container">
-        <VaSelect
-          id="recipient-dropdown"
-          label="To"
-          name="to"
-          value={selectedRecipient}
-          onVaSelect={e => setSelectedRecipient(e.detail.value)}
-          class="composeSelect"
-          data-testid="compose-select"
-        >
-          {recipientsList.map(item => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </VaSelect>
-        <button type="button" className="link-button edit-input-button">
-          Edit List
-        </button>
+        {recipientsList && (
+          <>
+            <VaSelect
+              enable-analytics
+              id="recipient-dropdown"
+              label="To"
+              name="to"
+              value={selectedRecipient}
+              onVaSelect={e => setSelectedRecipient(e.detail.value)}
+              class="composeSelect"
+              data-testid="compose-select"
+            >
+              {sortRecipients(recipientsList)?.map(item => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </VaSelect>
+            <button type="button" className="link-button edit-input-button">
+              Edit List
+            </button>
+          </>
+        )}
+
         <CategoryInput
           category={category}
           categoryError={categoryError}
