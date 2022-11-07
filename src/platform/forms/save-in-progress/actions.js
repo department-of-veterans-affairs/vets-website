@@ -58,6 +58,36 @@ export const PREFILL_STATUSES = {
   unfilled: 'unfilled',
 };
 
+const validateStatusErrors = status => {
+  // check if typeof status is a string, return that string
+  if (typeof status === 'string') {
+    return status;
+  }
+
+  if (status instanceof Error) {
+    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
+    Sentry.captureException(status);
+    Sentry.captureMessage('vets_sip_error_fetch');
+    return LOAD_STATUSES.clientFailure;
+  }
+
+  // check if it is an array
+  if (Array.isArray(status?.errors) && status?.errors.length > 0) {
+    switch (status.errors[0].status) {
+      case 401 || '401':
+        return LOAD_STATUSES.noAuth;
+      case 403 || '403':
+        return LOAD_STATUSES.forbidden;
+      case 404 || '404':
+        return LOAD_STATUSES.notFound;
+      default:
+        return LOAD_STATUSES.failure;
+    }
+  }
+
+  return LOAD_STATUSES.clientFailure;
+};
+
 export function setSaveFormStatus(
   saveType,
   status,
@@ -282,16 +312,20 @@ export function fetchInProgressForm(
     // Query the api and return a promise (for navigation / error handling afterward)
     return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
-        // Just in case something funny happens where the json returned isn’t an object as expected
-        // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
-        if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
-          return Promise.reject(LOAD_STATUSES.invalidData);
-        }
-
-        // If an empty object is returned, throw a not-found
-        // TODO: When / if we return a 404 for applications that don’t exist, remove this
-        if (Object.keys(resBody).length === 0) {
+        // Return not-found if empty object
+        if (
+          typeof resBody === 'object' &&
+          Object.keys(resBody).length < 1 &&
+          !Array.isArray(resBody)
+        ) {
           return Promise.reject(LOAD_STATUSES.notFound);
+        }
+        // Return invalid-data if api doesn't return JSON
+        if (
+          (typeof resBody === 'object' && Array.isArray(resBody)) ||
+          !resBody
+        ) {
+          return Promise.reject(LOAD_STATUSES.invalidData);
         }
 
         // If we’ve made it this far, we’ve got valid form
@@ -336,20 +370,7 @@ export function fetchInProgressForm(
         }
       })
       .catch(status => {
-        let loadedStatus = status;
-        if (status instanceof SyntaxError) {
-          // if res.json() has a parsing error, it’ll reject with a SyntaxError
-          Sentry.captureException(
-            new Error(`vets_sip_error_server_json: ${status.message}`),
-          );
-          loadedStatus = LOAD_STATUSES.invalidData;
-        } else if (status instanceof Error) {
-          // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
-          Sentry.captureException(status);
-          Sentry.captureMessage('vets_sip_error_fetch');
-          loadedStatus = LOAD_STATUSES.clientFailure;
-        }
-
+        const loadedStatus = validateStatusErrors(status);
         // If prefilling went wrong for a non-auth reason, it probably means that
         // they didn’t have info to use and we can continue on as usual
         if (
@@ -369,6 +390,7 @@ export function fetchInProgressForm(
             recordEvent({
               event: `${trackingPrefix}sip-form-load-signed-out`,
             });
+            dispatch(logOut());
           } else {
             Sentry.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
             recordEvent({
@@ -390,7 +412,8 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
 
     return removeFormApi(formId)
       .then(() => {
-        // console.log(response);
+        recordEvent({ event: `sip-form-delete-success` });
+
         recordEvent({
           event: `${trackingPrefix}sip-form-start-over`,
         });
@@ -402,7 +425,6 @@ export function removeInProgressForm(formId, migrations, prefillTransformer) {
         );
       })
       .catch(() => {
-        // console.log(error);
         dispatch(logOut());
         dispatch(setFetchFormStatus(LOAD_STATUSES.noAuth));
       });

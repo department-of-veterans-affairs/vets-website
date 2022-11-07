@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import environment from 'platform/utilities/environment';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -24,11 +23,7 @@ import {
 
 import { logOut } from '../../../user/authentication/actions';
 import { inProgressApi } from '../../helpers';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from '../../../testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from '../../../testing/unit/helpers';
 
 const setup = () => {
   mockFetch();
@@ -424,9 +419,7 @@ describe('Schemaform save / load actions:', () => {
         });
     });
   });
-  describe.skip('fetchInProgressForm', () => {
-    // beforeEach(setup);
-
+  describe('fetchInProgressForm', () => {
     it('dispatches a pending', () => {
       setup();
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -448,13 +441,23 @@ describe('Schemaform save / load actions:', () => {
       });
     });
     it('dispatches a success if the form is loaded', () => {
-      setup();
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0), {
-        formData: { field: 'foo' },
-        metadata: {
-          version: 0,
+      mockedFetch({
+        response: {
+          ok: true,
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          formData: {
+            formData: { field: 'foo' },
+          },
+          metadata: {
+            version: 0,
+          },
         },
       });
 
@@ -481,16 +484,29 @@ describe('Schemaform save / load actions:', () => {
         );
       });
     });
-    it('dispatches a no-auth if the api returns a 401', () => {
+    it('dispatches: `no-auth` if the API returns a 401', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          url: environment.API_URL,
+      mockedFetch({
+        response: {
           ok: false,
           status: 401,
-        }),
-      );
+          statusText: 'Not Authorized',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          errors: [
+            {
+              title: 'Not authorized',
+              detail: 'Not authorized',
+              code: 401,
+              status: 401,
+            },
+          ],
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledThrice).to.be.true;
@@ -499,16 +515,29 @@ describe('Schemaform save / load actions:', () => {
           .be.true;
       });
     });
-    it('dispatches a not-found if the api returns a 404', () => {
+    it('dispatches: `not-found` if the API returns a 404', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          url: environment.API_URL,
+      mockedFetch({
+        response: {
           ok: false,
           status: 404,
-        }),
-      );
+          statusText: 'Not Found',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          errors: [
+            {
+              title: 'Not Found',
+              detail: 'Not Found',
+              code: 404,
+              status: 404,
+            },
+          ],
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -516,10 +545,19 @@ describe('Schemaform save / load actions:', () => {
           .to.be.true;
       });
     });
-    it('dispatches a not-found if the api returns an empty object', () => {
+    it('dispatches: `not-found` if the API returns an empty object', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0), {});
+      mockedFetch({
+        response: {
+          ok: true,
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {},
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -527,10 +565,19 @@ describe('Schemaform save / load actions:', () => {
           .to.be.true;
       });
     });
-    it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
+    it("dispatches: `invalid-data` if the API return value isn't an object", () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0), []); // return not an object
+      mockedFetch({
+        response: {
+          ok: true,
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: [],
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -539,25 +586,28 @@ describe('Schemaform save / load actions:', () => {
         ).to.be.true;
       });
     });
-    it("dispatches an invalid-data if the api doesn't return valid json", () => {
+    it('dispatches: `failure` if the API returns a response error', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        Promise.reject(new SyntaxError('Error parsing json')),
-      );
-
-      return thunk(dispatch, getState).then(() => {
-        expect(dispatch.calledTwice).to.be.true;
-        expect(
-          dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.invalidData)),
-        ).to.be.true;
+      mockedFetch({
+        response: {
+          ok: false,
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          errors: [
+            {
+              title: 'Error',
+              detail: 'Error',
+              code: 400,
+              status: 400,
+            },
+          ],
+        },
       });
-    });
-    it('dispatches a failure on api response error', () => {
-      const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
-      const dispatch = sinon.spy();
-      setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -565,12 +615,22 @@ describe('Schemaform save / load actions:', () => {
           .to.be.true;
       });
     });
-    it('dispatches a failure on network error', () => {
+    it('dispatches: `failure` if there is a NetworkError', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        Promise.reject(new Error('No network connection')),
+      mockedFetch(
+        {
+          response: {
+            ok: false,
+            status: 500,
+            statusText: 'Not Authorized',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          mockedData: new TypeError('Network connection not found'),
+        },
+        false,
       );
 
       return thunk(dispatch, getState).then(() => {
@@ -584,13 +644,26 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
-        global.fetch.returns(
-          Promise.resolve({
-            url: environment.API_URL,
+        mockedFetch({
+          response: {
             ok: false,
             status: 401,
-          }),
-        );
+            statusText: 'Not Authorized',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          mockedData: {
+            errors: [
+              {
+                title: 'Not authorized',
+                detail: 'Not authorized',
+                code: 401,
+                status: 401,
+              },
+            ],
+          },
+        });
 
         return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setFetchFormStatus(LOAD_STATUSES.noAuth)))
@@ -600,13 +673,26 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a success if the api returns a 404', () => {
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
-        global.fetch.returns(
-          Promise.resolve({
-            url: environment.API_URL,
+        mockedFetch({
+          response: {
             ok: false,
             status: 404,
-          }),
-        );
+            statusText: 'Not Found',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          mockedData: {
+            errors: [
+              {
+                title: 'Not Found',
+                detail: 'Not Found',
+                code: 404,
+                status: 404,
+              },
+            ],
+          },
+        });
 
         return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
@@ -615,7 +701,16 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a success if the api returns an empty object', () => {
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
-        setFetchJSONResponse(global.fetch.onCall(0), {});
+        mockedFetch({
+          response: {
+            ok: true,
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          mockedData: {},
+        });
 
         return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
@@ -630,10 +725,19 @@ describe('Schemaform save / load actions:', () => {
           prefillTransformer,
         );
         const dispatch = sinon.spy();
-        setFetchJSONResponse(global.fetch.onCall(0), {
-          formData: {},
-          metadata: {
-            prefill: true,
+        mockedFetch({
+          response: {
+            ok: true,
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+          mockedData: {
+            formData: {},
+            metadata: {
+              prefill: true,
+            },
           },
         });
 
@@ -645,13 +749,24 @@ describe('Schemaform save / load actions:', () => {
     });
   });
   describe('removeInProgressForm', () => {
-    beforeEach(setup);
     window.dataLayer = [];
 
     it('dispatches a start over action', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONFailure(global.fetch.onCall(0));
+      mockedFetch({
+        response: {
+          ok: true,
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          formData: {},
+          metadata: {},
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setStartOver())).to.be.true;
@@ -671,16 +786,6 @@ describe('Schemaform save / load actions:', () => {
     it('removes a form and fetches prefill data', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      setFetchJSONResponse(global.fetch.onCall(0));
-
-      return thunk(dispatch, getState).then(() => {
-        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        expect(dispatch.lastCall.args[0]).to.be.a('function');
-      });
-    });
-    it.skip('handles remove error and fetches prefill data', () => {
-      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
-      const dispatch = sinon.spy();
       mockedFetch({
         response: {
           ok: true,
@@ -689,26 +794,67 @@ describe('Schemaform save / load actions:', () => {
             'Content-Type': 'application/json',
           },
         },
-        // mockedData: new TypeError('No network connection'),
+        mockedData: {
+          data: {
+            id: '1',
+            type: '10-10EZ Save in Progress',
+            attributes: {
+              formId: VA_FORM_IDS.FORM_10_10EZ,
+              createdAt: 'today',
+              updatedAt: 'yesterday',
+              metadata: {},
+            },
+          },
+        },
       });
-      // setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
-        // console.log(dispatch.args);
+        expect(dispatch.lastCall.args[0]).to.be.a('function');
+      });
+    });
+    it('handles remove error and fetches prefill data', () => {
+      const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
+      const dispatch = sinon.spy();
+      mockedFetch({
+        response: {
+          ok: false,
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: new TypeError('Network connection not found'),
+      });
+
+      return thunk(dispatch, getState).then(() => {
+        expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
         expect(dispatch.lastCall.args[0]).to.be.a('function');
       });
     });
     it('sets no-auth status if session expires', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
+      mockedFetch({
+        response: {
           ok: false,
-          url: environment.API_URL,
           status: 401,
-        }),
-      );
+          statusText: 'Not Authorized',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        mockedData: {
+          errors: [
+            {
+              title: 'Not authorized',
+              detail: 'Not authorized',
+              code: 401,
+              status: 401,
+            },
+          ],
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');

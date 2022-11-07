@@ -1,5 +1,4 @@
-// import * as Sentry from '@sentry/browser';
-// import recordEvent from '../../monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 import { apiRequest } from '../../utilities/api';
 import { inProgressApi } from '../helpers';
 import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
@@ -8,20 +7,16 @@ export function removeFormApi(formId) {
   const apiUrl = inProgressApi(formId);
   return apiRequest(apiUrl, {
     method: 'DELETE',
+  }).catch(error => {
+    if (error instanceof Error) {
+      Sentry.captureException(error);
+      Sentry.captureMessage('vets_sip_error_delete');
+      return Promise.resolve();
+    }
+
+    Sentry.captureMessage(`vets_sip_error_delete: ${error.statusText}`);
+    return Promise.reject(error);
   });
-  // .then(result => {
-  //   recordEvent({ event: `sip-form-delete-success` });
-  //   return result;
-  // })
-  // .catch(error => {
-  //   if (error instanceof Error) {
-  //     Sentry.captureException(error);
-  //     Sentry.captureMessage('vets_sip_error_delete');
-  //   } else if (!error.ok) {
-  //     Sentry.captureMessage(`vets_sip_error_delete: ${error.statusText}`);
-  //   }
-  //   return error;
-  // });
 }
 
 export function saveFormApi(
@@ -30,7 +25,6 @@ export function saveFormApi(
   version,
   returnUrl,
   savedAt,
-  trackingPrefix,
   submission,
 ) {
   const body = JSON.stringify({
