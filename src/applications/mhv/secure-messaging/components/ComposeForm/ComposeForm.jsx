@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
@@ -246,14 +246,14 @@ const ComposeForm = props => {
         </section>
         <div className="compose-form-actions vads-u-display--flex">
           <button
-            type="button"
+            type="submit"
             className="vads-u-flex--1"
             data-testid="Send-Button"
           >
             Send
           </button>
           <button
-            type="button"
+            type="submit"
             className="usa-button-secondary vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
