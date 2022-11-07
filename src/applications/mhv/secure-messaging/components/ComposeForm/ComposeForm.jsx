@@ -244,23 +244,25 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <div className="compose-form-actions">
+        <div className="compose-form-actions vads-u-display--flex">
           <button
-            type="submit"
-            className="send-button-bottom"
+            type="button"
+            className="vads-u-flex--1"
             data-testid="Send-Button"
           >
             Send
           </button>
           <button
             type="button"
-            className="usa-button-secondary save-draft-button"
+            className="usa-button-secondary vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft
           </button>
-          {draft && <DiscardDraft draft={draft} />}
+          <div className="vads-u-flex--1 vads-u-display--flex">
+            {draft && <DiscardDraft draft={draft} />}
+          </div>
         </div>
       </div>
       <DraftSavedInfo />
