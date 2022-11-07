@@ -4,7 +4,7 @@ import mockUser from '../fixtures/mocks/mockUser';
 import mockXX123Get from '../fixtures/mocks/mockXX123Get';
 import mockXX123Put from '../fixtures/mocks/mockXX123Put';
 
-describe.skip('SIP Autosave Test', () => {
+describe('SIP Autosave Test', () => {
   it('fails and properly recovers', () => {
     cy.intercept('POST', '/v0/mock_sip_form', {
       formSubmissionId: '123fake-submission-id-567',
@@ -89,7 +89,14 @@ describe.skip('SIP Autosave Test', () => {
     cy.get('.main .usa-button-primary').click();
     cy.get('.schemaform-sip-save-link');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {},
+      body: {
+        errors: [
+          {
+            code: 401,
+            status: 401,
+          },
+        ],
+      },
       statusCode: 401,
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');

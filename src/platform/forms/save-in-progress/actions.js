@@ -58,17 +58,10 @@ export const PREFILL_STATUSES = {
   unfilled: 'unfilled',
 };
 
-const validateStatusErrors = status => {
+const validateFetchInProgressFormsErrors = status => {
   // check if typeof status is a string, return that string
   if (typeof status === 'string') {
     return status;
-  }
-
-  if (status instanceof Error) {
-    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
-    Sentry.captureException(status);
-    Sentry.captureMessage('vets_sip_error_fetch');
-    return LOAD_STATUSES.clientFailure;
   }
 
   // check if it is an array
@@ -85,7 +78,36 @@ const validateStatusErrors = status => {
     }
   }
 
+  if (status instanceof Error) {
+    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
+    Sentry.captureException(status);
+    Sentry.captureMessage('vets_sip_error_fetch');
+    return LOAD_STATUSES.clientFailure;
+  }
+
   return LOAD_STATUSES.clientFailure;
+};
+
+const validateSaveInProgressErrors = status => {
+  // check if it is an array
+  if (Array.isArray(status?.errors) && status?.errors.length > 0) {
+    return status.errors[0].status === 401
+      ? SAVE_STATUSES.noAuth
+      : SAVE_STATUSES.clientFailure;
+  }
+
+  if (status instanceof TypeError) {
+    // If we’ve got an error that isn’t a SyntaxError, it’s probably a network error
+    Sentry.captureException(status);
+    Sentry.captureMessage('vets_sip_error_fetch');
+    return SAVE_STATUSES.clientFailure;
+  }
+
+  if (status instanceof Response) {
+    return SAVE_STATUSES.failure;
+  }
+
+  return SAVE_STATUSES.failure;
 };
 
 export function setSaveFormStatus(
@@ -256,21 +278,10 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
         return Promise.resolve(json);
       })
       .catch(resOrError => {
-        // console.log(resOrError);
-        let errorStatus;
+        const errorStatus = validateSaveInProgressErrors(resOrError);
 
-        if (resOrError instanceof TypeError) {
-          errorStatus = SAVE_STATUSES.clientFailure;
-        } else if (resOrError instanceof Response) {
-          errorStatus = SAVE_STATUSES.failure;
-        } else if (
-          resOrError?.errors.length > 0 &&
-          resOrError?.errors[0]?.status === 401
-        ) {
+        if (errorStatus === SAVE_STATUSES.noAuth) {
           dispatch(logOut());
-          errorStatus = SAVE_STATUSES.noAuth;
-        } else {
-          errorStatus = SAVE_STATUSES.clientFailure;
         }
         dispatch(setSaveFormStatus(saveType, errorStatus));
       });
@@ -370,7 +381,7 @@ export function fetchInProgressForm(
         }
       })
       .catch(status => {
-        const loadedStatus = validateStatusErrors(status);
+        const loadedStatus = validateFetchInProgressFormsErrors(status);
         // If prefilling went wrong for a non-auth reason, it probably means that
         // they didn’t have info to use and we can continue on as usual
         if (
