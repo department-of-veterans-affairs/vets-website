@@ -84,10 +84,6 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
     let phoneError = errors.find(errorLabel =>
       errorLabel.getAttribute('for').endsWith('homePhone'),
     );
-    /* eslint-disable no-console */
-    console.log(`--------errors=${JSON.stringify(errors)}`);
-    console.log(`--------phoneError=${JSON.stringify(phoneError)}`);
-    /* eslint-enable no-console */
     expect(phoneError).to.be.undefined;
 
     const phoneMethod = ReactTestUtils.scryRenderedDOMComponentsWithTag(
@@ -106,10 +102,6 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
     phoneError = errors.find(errorLabel =>
       errorLabel.getAttribute('for').endsWith('homePhone'),
     );
-    /* eslint-disable no-console */
-    console.log(`+++--------errors=${JSON.stringify(errors)}`);
-    console.log(`+++--------phoneError=${JSON.stringify(phoneError)}`);
-    /* eslint-enable no-console */
     expect(phoneError).not.to.be.undefined;
   });
   it('should show error if emails do not match', () => {
