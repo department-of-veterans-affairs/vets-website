@@ -15,7 +15,7 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -38,6 +38,14 @@ const testConfig = createTestConfig(
           cy.findAllByText(/start your claim/i, { selector: 'a' })
             .first()
             .click();
+        });
+      },
+      'primary-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            cy.selectRadio('primary', testData[PRIMARY_PHONE] || 'home');
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
         });
       },
     },

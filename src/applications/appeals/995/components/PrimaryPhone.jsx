@@ -76,6 +76,7 @@ export const PrimaryPhone = ({
             id="home-phone"
             label="Home phone number"
             value="home"
+            name="primary"
             checked={primary === 'home'}
             data-number={getFormatedPhone(homePhone)}
           />
@@ -83,6 +84,7 @@ export const PrimaryPhone = ({
             id="mobile-phone"
             label="Mobile phone number"
             value="mobile"
+            name="primary"
             checked={primary === 'mobile'}
             data-number={getFormatedPhone(mobilePhone)}
           />
