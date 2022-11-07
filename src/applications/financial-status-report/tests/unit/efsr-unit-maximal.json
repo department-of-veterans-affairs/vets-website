@@ -27,10 +27,6 @@
     "assets": {
       "otherAssets": [
         {
-          "name": "Bitcoin",
-          "amount": "50000.57"
-        },
-        {
           "name": "Gambling earning",
           "amount": "16000.34"
         }

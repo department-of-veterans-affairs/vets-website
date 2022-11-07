@@ -278,11 +278,7 @@ describe('efsr-fsr transform helper functions', () => {
               amount: '10',
             },
           ],
-          recVehicles: [
-            {
-              recVehicleAmount: '100',
-            },
-          ],
+          recVehicleAmount: '100',
           automobiles: [
             {
               resaleValue: '100',
@@ -832,7 +828,7 @@ describe('efsr-fsr transform information', () => {
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
-      expect(submissionObj.assets.totalAssets).to.equal('1084005.55');
+      expect(submissionObj.assets.totalAssets).to.equal('1034004.98');
     });
     describe('efsr-automobiles', () => {
       it('has valid structure', () => {
@@ -862,8 +858,10 @@ describe('efsr-fsr transform information', () => {
       });
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.assets.otherAssets[0].name).to.equal('Bitcoin');
-        expect(submissionObj.assets.otherAssets[0].amount).to.equal('50000.57');
+        expect(submissionObj.assets.otherAssets[0].name).to.equal(
+          'Gambling earning',
+        );
+        expect(submissionObj.assets.otherAssets[0].amount).to.equal('16000.34');
       });
     });
   });
