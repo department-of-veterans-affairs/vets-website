@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { getFormatedPhone } from '../utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';
 import { checkValidations } from '../validations/issues';
-import { PRIMARY_PHONE } from '../constants';
+import { PRIMARY_PHONE, errorMessages } from '../constants';
 
 export const PrimaryPhone = ({
   data,
@@ -55,36 +54,10 @@ export const PrimaryPhone = ({
   ) : (
     <>
       {contentBeforeButtons}
-      {/* <FormNavButtons goBack={goBack} submitToContinue /> */}
-      <div className="row form-progress-buttons schemaform-buttons">
-        <div className="small-6 medium-5 columns">
-          {goBack && (
-            <ProgressButton
-              onButtonClick={goBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"
-              // This button is described by the current form's header ID
-              ariaDescribedBy="nav-form-header"
-            />
-          )}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            submitButton
-            buttonText="Continue"
-            buttonClass="usa-button-primary"
-            afterText="»"
-            // This button is described by the current form's header ID
-            ariaDescribedBy="nav-form-header"
-          />
-        </div>
-      </div>
+      <FormNavButtons goBack={goBack} submitToContinue />
       {contentAfterButtons}
     </>
   );
-
-  const errorMessage = 'Please select a primary phone number';
 
   // Using data-number + css to show option hint text, but only until the
   // va-radio-option gets hint text added
@@ -95,7 +68,7 @@ export const PrimaryPhone = ({
           class="vads-u-margin-y--2"
           label="What is your primary phone number?"
           hint="We may need to contact you to clarify issues related to your Supplemental Claim."
-          error={hasError && errorMessage}
+          error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
         >
