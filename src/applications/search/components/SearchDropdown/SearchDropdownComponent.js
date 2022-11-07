@@ -229,7 +229,6 @@ class SearchDropdownComponent extends React.Component {
     this.fetchSuggestionsTimeout = setTimeout(() => {
       this.fetchSuggestions(inputValue);
     }, this.props.debounceRate);
-    this.props.onInputChange?.(event);
   };
 
   // call the fetchSuggestions prop and save the returned value into state

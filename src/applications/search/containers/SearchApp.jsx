@@ -244,11 +244,9 @@ class SearchApp extends React.Component {
       page: 1,
       typeaheadUsed: true,
     });
-  };
 
-  handleInputChange = event => {
     this.setState({
-      userInput: event.target.value,
+      userInput: inputValue,
     });
   };
 
@@ -283,6 +281,10 @@ class SearchApp extends React.Component {
       query: suggestions[index],
       page: 1,
       typeaheadUsed: true,
+    });
+
+    this.setState({
+      userInput: inputValue,
     });
   };
 
@@ -357,7 +359,6 @@ class SearchApp extends React.Component {
             fetchSuggestions={this.fetchSuggestions}
             onInputSubmit={this.onInputSubmit}
             onSuggestionSubmit={this.onSuggestionSubmit}
-            onInputChange={this.handleInputChange}
           />
         </div>
       </div>
