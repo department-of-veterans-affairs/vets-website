@@ -90,7 +90,7 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
       form,
       'input',
     ).find(
-      input => input.getAttribute('id') === 'root_preferredContactMethod_2',
+      input => input.getAttribute('id') === 'root_preferredContactMethod_3',
     );
     ReactTestUtils.Simulate.change(phoneMethod, {
       target: {
