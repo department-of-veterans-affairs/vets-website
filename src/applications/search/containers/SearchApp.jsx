@@ -2,14 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-
 import { focusElement } from 'platform/utilities/ui';
-
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -687,9 +682,6 @@ class SearchApp extends React.Component {
 
 const mapStateToProps = state => ({
   search: state.search,
-  searchDropdownComponentEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
-  ],
 });
 
 const mapDispatchToProps = {
@@ -704,7 +696,3 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
-
-SearchAppContainer.defaultProps = {
-  searchDropdownComponentEnabled: false,
-};

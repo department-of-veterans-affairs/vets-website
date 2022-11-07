@@ -109,7 +109,6 @@ class SearchDropdownComponent extends React.Component {
      * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
      * */
     fullWidthSuggestions: PropTypes.bool,
-    onInputChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -134,7 +133,6 @@ class SearchDropdownComponent extends React.Component {
     inputClassName: '',
     suggestionsListClassName: '',
     suggestionClassName: '',
-    onInputChange: undefined,
   };
 
   constructor(props) {
