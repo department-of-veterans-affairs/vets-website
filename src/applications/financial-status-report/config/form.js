@@ -296,6 +296,23 @@ const formConfig = {
           title: 'Monetary assets',
           uiSchema: pages.monetary.uiSchema,
           schema: pages.monetary.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        monetaryChecklist: {
+          path: 'monetary-asset-checklist',
+          title: 'Monetary asset options',
+          uiSchema: pages.monetaryChecklist.uiSchema,
+          schema: pages.monetaryChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        monetaryValues: {
+          path: 'monetary-asset-values',
+          title: 'Monetary asset values',
+          uiSchema: pages.monetaryValues.uiSchema,
+          schema: pages.monetaryValues.schema,
+          depends: formData =>
+            formData['view:enhancedFinancialStatusReport'] &&
+            formData.assets?.monetaryAssets?.length > 0,
         },
         realEstate: {
           path: 'real-estate-assets',

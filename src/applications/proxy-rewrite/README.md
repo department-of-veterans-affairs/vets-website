@@ -1,4 +1,4 @@
-# Proxy Rewrite
+# Proxy Rewrite (AKA Injected header/footer support)
 This `proxy-rewrite` application is used to inject site-wide VA.gov components into webpages and domains outside of those in our domain or in our source code. The affected sites are generally referred to as "TeamSite", because TeamSite is the name of the CMS in use on those pages.
 
 ## How does the injected header get injected?
@@ -55,3 +55,11 @@ You can also use an application called Charles Proxy to map the `proxy-rewrite` 
 - **If failure is caused by an update**
   - Run `npm run test:vrt:baseline`
   - Check in new baseline images to `vets-website`
+
+
+# Gotchas
+1. **Whitelisting must consider root vs. path,** if a path within a domain is receiving injection, e.g. https://github.com/department-of-veterans-affairs/vets-website/commit/74e156a10b2d58c040981c99f454d2ccb5cdcb1d.  
+
+2. **Footer injection requires specific markup.** Injection was configured with the expectation that we are injecting into the standard TeamSite template. In TeamSites, the footer is preceded by 2 `div`s: `sub-footer` and `small-print`. If those divs are not present in the template, footer will not inject. 
+
+3. **Header may affect font size for the page** to 12px. Specifying font size via scaling may result in too large text loading, then abruptly adjusting to the correct size after the header completes injection.  Other teams have fixed this by resetting the default font size inside the first element which would appear under the header after injection via inline css. This seems to keep the app fonts consistent without the awkward large to small size change on page load.

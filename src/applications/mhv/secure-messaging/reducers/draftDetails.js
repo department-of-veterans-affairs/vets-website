@@ -26,6 +26,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.GET: {
       return {
         ...state,
+        lastSaveTime: null,
         draftMessage: {
           ...data.attributes,
           attachments: msgAttachments,
@@ -78,6 +79,10 @@ export const draftDetailsReducer = (state = initialState, action) => {
         isSaving: false,
         lastSaveTime: null,
         saveError: action.response,
+      };
+    case Actions.Draft.CLEAR_DRAFT:
+      return {
+        ...initialState,
       };
     default:
       return state;

@@ -54,12 +54,22 @@ const error = {
 const noServiceFound = {
   errors: [
     {
-      title: 'Internal server error',
-      detail: 'Internal server error',
+      title: 'No service found',
+      detail: 'No service found',
       code: '403',
       status: '403',
     },
   ],
+};
+
+const generateServiceHistoryError = (errorType = '500') => {
+  return {
+    data: {
+      attributes: {
+        error: errorType === '403' ? noServiceFound : error,
+      },
+    },
+  };
 };
 
 module.exports = {
@@ -68,4 +78,5 @@ module.exports = {
   error,
   airForce,
   spaceForce,
+  generateServiceHistoryError,
 };

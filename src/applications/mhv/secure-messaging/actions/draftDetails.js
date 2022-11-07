@@ -1,5 +1,8 @@
+import recordEvent from 'platform/monitoring/record-event';
 import { Actions } from '../util/actionTypes';
-import { createDraft, updateDraft } from '../api/SmApi';
+import { createDraft, deleteMessage, updateDraft } from '../api/SmApi';
+import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -18,6 +21,12 @@ const sendSaveDraft = async (messageData, id) => {
  * @returns
  */
 export const saveDraft = (messageData, type, id) => async dispatch => {
+  recordEvent({
+    // For Google Analytics
+    event: 'secure-messaging-save-draft-type',
+    'secure-messaging-save-draft': type,
+    'secure-messaging-save-draft-id': id,
+  });
   if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
   else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
@@ -38,5 +47,37 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.CREATE_SUCCEEDED,
       response,
     });
+  }
+};
+
+export const clearDraft = () => dispatch => {
+  dispatch({ type: Actions.Draft.CLEAR_DRAFT });
+};
+
+/**
+ * @param {Long} messageId
+ * @returns
+ */
+export const deleteDraft = messageId => async dispatch => {
+  try {
+    await deleteMessage(messageId);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
+      ),
+    );
+    dispatch(clearDraft());
+  } catch (e) {
+    // const error = e.errors[0].detail;
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.DELETE_DRAFT_ERROR,
+      ),
+    );
+    throw e;
   }
 };

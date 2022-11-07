@@ -47,7 +47,7 @@
   "for-questions-about-your-appointment-or-if-you-have-a-health-related-concern": "Para preguntas sobre su cita o si tiene alguna inquietud relacionada con la salud,",
   "for-telephone-appointments-your-provider-will-call-you-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience": "Para las citas telefónicas, su proveedor le llamará. Es posible que tenga que esperar unos 15 minutos por la llamada. Agradecemos su paciencia.",
   "get-tips-for-protecting-your-personal-health-information": "Obtenga consejos para proteger su información personal de salud",
-  "go-to-another-appointment": "Ir a otra cita",
+  "back-to-todays-appointments": "Ir a otra cita",
   "grandchild": "Nieto o nieta",
   "here-are-your-appointments-for-today": "Aquí están sus citas para el día de hoy: {{ date, long }}.",
   "home-address": "Dirección residencial",

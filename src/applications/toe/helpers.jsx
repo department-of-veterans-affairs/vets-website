@@ -24,10 +24,13 @@ export function titleCase(str) {
 }
 
 export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
   if (str.length <= numVisibleChars) {
     return str;
   }
-
   return (
     obfuscateChar.repeat(str.length - numVisibleChars) +
     str.substring(str.length - numVisibleChars, str.length)

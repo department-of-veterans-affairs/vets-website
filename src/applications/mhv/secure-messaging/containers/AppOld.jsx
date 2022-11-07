@@ -18,7 +18,7 @@ import RequiredLoginView from 'platform/user/authorization/components/RequiredLo
 
 import { getAllMessages } from '../actions';
 // import Header from '../components/Header';
-import InboxListView from '../components/MessageList/InboxListView';
+import MessageList from '../components/MessageList/MessageList';
 
 const App = props => {
   const {
@@ -52,7 +52,7 @@ const App = props => {
     content = (
       <>
         {/* <Header /> */}
-        <InboxListView messages={messages} />
+        <MessageList messages={messages} />
       </>
     );
   }

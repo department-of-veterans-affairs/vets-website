@@ -10,6 +10,7 @@ import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
+import DiscardDraft from '../Draft/DiscardDraft';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -42,8 +43,14 @@ const ComposeForm = props => {
         ),
         ...recipients,
       ]);
+      if (!draft) {
+        setSelectedRecipient('');
+        setSubject('');
+        setMessageBody('');
+        setCategory('');
+      }
     },
-    [recipients],
+    [recipients, draft],
   );
 
   const recipientExists = recipientId => {
@@ -152,7 +159,7 @@ const ComposeForm = props => {
 
   return (
     <form className="compose-form" onSubmit={sendMessageHandler}>
-      <div className="compose-form-header">
+      <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
         <button type="submit" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />
@@ -246,6 +253,7 @@ const ComposeForm = props => {
           >
             Save draft
           </button>
+          {draft && <DiscardDraft draft={draft} />}
         </div>
       </div>
       <DraftSavedInfo />

@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { DefaultFolders as Folders } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
+import ManageFolderButtons from '../ManageFolderButtons';
 
 const FolderHeader = props => {
   const { folder } = props;
@@ -62,11 +64,25 @@ const FolderHeader = props => {
             <Link
               className="vads-c-action-link--blue compose-message-link"
               to="/compose"
+              data-testid="compose-message-link"
             >
               Compose message
             </Link>
           </p>
         </>
+      )}
+      <ManageFolderButtons />
+      {folder.count > 0 && (
+        <div className="search-messages-input">
+          <label
+            className="vads-u-margin-top--2p5"
+            htmlFor="search-message-folder-input"
+          >
+            Search the {folder.folderId === -3 ? 'Trash' : folder.name} messages
+            folder
+          </label>
+          <VaSearchInput label="search-message-folder-input" />
+        </div>
       )}
     </>
   );

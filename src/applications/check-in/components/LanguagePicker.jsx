@@ -32,10 +32,10 @@ function LanguagePicker(props) {
           label: 'Español',
           lang: 'es',
         },
-        // {
-        //   label: 'Tagalog',
-        //   lang: 'tl',
-        // },
+        {
+          label: 'Tagalog',
+          lang: 'tl',
+        },
       ].map((link, i, links) => (
         <Fragment key={i}>
           {/* Using starts with to capture all of the sub-lang strings for each language */}

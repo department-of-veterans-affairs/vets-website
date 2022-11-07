@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import reducer from '../../../reducers';
 import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
 import { Alerts } from '../../../util/constants';

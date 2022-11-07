@@ -23,16 +23,20 @@ const DecisionReviewPage = () => {
   return (
     <div id={pageNames.other}>
       <h1 className="vads-u-margin-bottom--0">
-        Filing non-disability Supplemental Claims
+        Filing if your Supplemental Claim isn’t for a disability
       </h1>
       <p>
-        We don’t support claims other than disability online at this time.
-        You’ll need to fill out and submit VA Form 20-0995 by mail or in person.
+        We can accept online Supplemental Claims only for disability claims at
+        this time. For other types of claims, you’ll need to fill out and submit
+        VA Form 20-0995 by mail or in person.
+      </p>
+      <p>
+        Send the completed form to the benefit office that matches the benefit
+        type you select on the form.
       </p>
       <a href={BENEFIT_OFFICES_URL} onClick={handlers.officeLinkClick}>
-        Send the completed form to the benefit office
+        Find the address for mailing your form
       </a>{' '}
-      that matches the benefit type you select on the form.
       <p className="vads-u-margin-bottom--0">
         <DownloadLink content="Download VA Form 20-0995" />
       </p>

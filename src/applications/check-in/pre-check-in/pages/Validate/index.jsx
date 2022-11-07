@@ -137,7 +137,6 @@ const Index = ({ router }) => {
           setDob,
           dob,
         }}
-        dobError={dobError}
         setDobError={setDobError}
         isLoading={isLoading}
         validateHandler={validateHandler}

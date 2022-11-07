@@ -227,6 +227,7 @@
           "@department-of-veterans-affairs/platform-forms/constants": "./src/platform/forms/constants.js",
           "@department-of-veterans-affairs/platform-forms/fields": "./src/platform/forms/fields.js",
           "@department-of-veterans-affairs/platform-forms/helpers": "./src/platform/forms/helpers.js",
+          "@department-of-veterans-affairs/platform-forms/sub-task": "./src/platform/forms/sub-task/index.js",
 
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",

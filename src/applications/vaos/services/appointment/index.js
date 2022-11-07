@@ -2,7 +2,7 @@
  * Functions related to fetching Apppointment data and pulling information from that data
  * @module services/Appointment
  */
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -129,16 +129,17 @@ export async function fetchAppointments({
   endDate,
   useV2VA = false,
   useV2CC = false,
+  useAcheron = false,
 }) {
   try {
     const appointments = [];
     if (useV2VA || useV2CC) {
-      const allAppointments = await getAppointments(startDate, endDate, [
-        'booked',
-        'arrived',
-        'fulfilled',
-        'cancelled',
-      ]);
+      const allAppointments = await getAppointments(
+        startDate,
+        endDate,
+        ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        useAcheron,
+      );
 
       const filteredAppointments = allAppointments.filter(appt => {
         if (
@@ -237,13 +238,16 @@ export async function getAppointmentRequests({
   startDate,
   endDate,
   useV2 = false,
+  useAcheron = false,
 }) {
   try {
     if (useV2) {
-      const appointments = await getAppointments(startDate, endDate, [
-        'proposed',
-        'cancelled',
-      ]);
+      const appointments = await getAppointments(
+        startDate,
+        endDate,
+        ['proposed', 'cancelled'],
+        useAcheron,
+      );
 
       const requestsWithoutAppointments = appointments.filter(
         appt => !!appt.requestedPeriods,
@@ -274,10 +278,10 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useV2 }) {
+export async function fetchRequestById({ id, useV2, useAcheron }) {
   try {
     if (useV2) {
-      const appointment = await getAppointment(id);
+      const appointment = await getAppointment(id, useAcheron);
 
       return transformVAOSAppointment(appointment);
     }
@@ -303,12 +307,17 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, type, useV2 = false }) {
+export async function fetchBookedAppointment({
+  id,
+  type,
+  useV2 = false,
+  useAcheron = false,
+}) {
   try {
     let appointment;
 
     if (useV2) {
-      appointment = await getAppointment(id);
+      appointment = await getAppointment(id, useAcheron);
       return transformVAOSAppointment(appointment);
     }
 
@@ -729,8 +738,8 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment }) {
-  const result = await postAppointment(appointment);
+export async function createAppointment({ appointment, useAcheron = false }) {
+  const result = await postAppointment(appointment, useAcheron);
 
   return transformVAOSAppointment(result);
 }
@@ -774,7 +783,7 @@ async function cancelRequestedAppointment(request) {
   }
 }
 
-async function cancelV2Appointment(appointment) {
+async function cancelV2Appointment(appointment, useAcheron) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -789,9 +798,13 @@ async function cancelV2Appointment(appointment) {
   });
 
   try {
-    const updatedAppointment = await putAppointment(appointment.id, {
-      status: APPOINTMENT_STATUS.cancelled,
-    });
+    const updatedAppointment = await putAppointment(
+      appointment.id,
+      {
+        status: APPOINTMENT_STATUS.cancelled,
+      },
+      useAcheron,
+    );
 
     recordEvent({
       event: `${eventPrefix}-successful`,
@@ -899,12 +912,16 @@ async function cancelBookedAppointment(appointment) {
  * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment, useV2 = false }) {
+export async function cancelAppointment({
+  appointment,
+  useV2 = false,
+  useAcheron = false,
+}) {
   const isConfirmedAppointment =
     appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
 
   if (useV2) {
-    return cancelV2Appointment(appointment);
+    return cancelV2Appointment(appointment, useAcheron);
   }
   if (isConfirmedAppointment) {
     return cancelBookedAppointment(appointment);
@@ -938,6 +955,13 @@ export function getProviderName(appointment) {
   return null;
 }
 
+export function isInPersonVAAppointment(appointment) {
+  const { isCommunityCare, isVideo } = appointment?.vaos || {};
+  const isPhone = isVAPhoneAppointment(appointment);
+
+  return !isVideo && !isCommunityCare && !isPhone;
+}
+
 /**
  * Get scheduled appointment information needed for generating
  * an .ics file.
@@ -955,7 +979,7 @@ export function getCalendarData({ appointment, facility }) {
   const isVideo = appointment?.vaos.isVideo;
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
-  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+  // const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const signinText =
     'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
 
@@ -970,7 +994,7 @@ export function getCalendarData({ appointment, facility }) {
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
-  } else if (isInPersonVAAppointment) {
+  } else if (isInPersonVAAppointment(appointment)) {
     data = {
       summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),
@@ -1123,4 +1147,83 @@ export function getAppointmentTimezone(appointment) {
 export async function fetchPreferredProvider(providerNpi) {
   const prov = await getPreferredCCProvider(providerNpi);
   return transformPreferredProviderV2(prov);
+}
+
+/**
+ * Function to return appointment date. Date is return with conversion to locale
+ * timezone.
+ *
+ * @export
+ * @param {*} appointment
+ * @returns Appointment date
+ */
+export function getAppointmentDate(appointment) {
+  return moment.parseZone(appointment.start);
+}
+
+export function groupAppointmentByDay(appointments) {
+  if (appointments.length === 0) {
+    return [];
+  }
+
+  return appointments.map(group => {
+    return group.reduce((previous, current) => {
+      const key = moment(current.start).format('YYYY-MM-DD');
+      // eslint-disable-next-line no-param-reassign
+      previous[key] = previous[key] || [];
+      previous[key].push(current);
+      return previous;
+    }, {});
+  });
+}
+
+export function getLink({ featureStatusImprovement, appointment }) {
+  const { isCommunityCare, isPastAppointment } = appointment.vaos;
+  return isCommunityCare
+    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+        appointment.id
+      }`
+    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+        appointment.id
+      }`;
+}
+
+export function getPractitionerName(appointment) {
+  const { practitioners } = appointment;
+
+  if (!practitioners?.length) return null;
+
+  const practitioner = practitioners[0];
+  const { name } = practitioner;
+
+  return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
+}
+
+export function getVideoAppointmentLocationText(appointment) {
+  const { isAtlas } = appointment.videoData;
+  const videoKind = appointment.videoData.kind;
+  let desc = 'Video appointment at home';
+
+  if (isAtlas) {
+    desc = 'Video appointment at an ATLAS location';
+  } else if (isClinicVideoAppointment(appointment)) {
+    desc = 'Video appointment at a VA location';
+  } else if (videoKind === VIDEO_TYPES.gfe) {
+    desc = 'Video with VA device';
+  }
+
+  return desc;
+}
+
+// TODO: Verify if isCanceledConfirmed can be used
+export function isCanceled(appointment) {
+  return appointment.status === APPOINTMENT_STATUS.cancelled;
+}
+
+export function getLabelText(appointment) {
+  const appointmentDate = getAppointmentDate(appointment);
+
+  return `Details for ${
+    isCanceled(appointment) ? 'canceled ' : ''
+  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
 }

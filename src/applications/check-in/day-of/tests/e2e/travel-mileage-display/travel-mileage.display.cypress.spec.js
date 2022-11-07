@@ -9,6 +9,7 @@ import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
 describe('Check In Experience', () => {
   describe('travel mileage display', () => {
+    const appointments = [{ startTime: '2021-08-19T03:00:00' }];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -23,7 +24,7 @@ describe('Check In Experience', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();

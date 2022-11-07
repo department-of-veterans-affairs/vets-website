@@ -12,6 +12,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockUser from './fixtures/mocks/user.json';
+import mockServiceBranches from './fixtures/mocks/service-branches.json';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -181,6 +182,12 @@ const testConfig = createTestConfig(
         'GET',
         '/v0/disability_compensation_form/submission_status/*',
         '',
+      );
+
+      cy.intercept(
+        'GET',
+        '/v0/benefits_reference_data/service-branches',
+        mockServiceBranches,
       );
 
       // Pre-fill with the expected ratedDisabilities,
