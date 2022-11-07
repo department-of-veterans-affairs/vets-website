@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 
-import { updateFormPages } from './index';
+import { updateFormPages, isAnInternalPage } from './index';
 
 describe('Global check in', () => {
   describe('navigation utils', () => {
@@ -198,6 +198,32 @@ describe('Global check in', () => {
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
+      });
+    });
+    describe('isAnInternalPage', () => {
+      it('should return false if undefined', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/?id=someUUID',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return false if on verify', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/verify',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return false if on a page not defined in app', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/brian',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return true if on a valid page', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/contact-information',
+        );
+        expect(isValid).to.be.true;
       });
     });
   });
