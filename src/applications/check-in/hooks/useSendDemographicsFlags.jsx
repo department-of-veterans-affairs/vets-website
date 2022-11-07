@@ -9,7 +9,10 @@ const useSendDemographicsFlags = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isDayOfDemographicsFlagsEnabled } = featureToggles;
-  const { getShouldSendDemographicsFlags } = useSessionStorage(false);
+  const {
+    getShouldSendDemographicsFlags,
+    setShouldSendDemographicsFlags,
+  } = useSessionStorage(false);
   const {
     demographicsData,
     demographicsFlagsSent,
@@ -33,6 +36,7 @@ const useSendDemographicsFlags = () => {
             throw new Error();
           } else {
             setDemographicsFlagsSent(true);
+            setShouldSendDemographicsFlags(window, false);
           }
         })
         .catch(() => {});
