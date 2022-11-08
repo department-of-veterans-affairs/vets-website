@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { DefaultFolders } from '../../util/constants';
 
@@ -11,11 +11,13 @@ const attachmentClasses =
   'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
 const InboxListItem = props => {
+  const location = useLocation();
   const {
     senderName,
     sentDate,
     subject,
     readReceipt,
+    recipientName,
     attachment,
     messageId,
   } = props;
@@ -41,7 +43,14 @@ const InboxListItem = props => {
             className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
           />
         )}
-        {senderName}
+        {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+          <div>Sender: {senderName}</div>
+        ) : (
+          <>
+            <div>To: {recipientName}</div>
+            <div>From: {senderName}</div>
+          </>
+        )}
       </p>
       <Link
         className="vads-u-margin-left--3 vads-u-margin-y--0p5"
@@ -68,6 +77,7 @@ InboxListItem.propTypes = {
   attributes: PropTypes.object,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,
+  recipientName: PropTypes.string,
   senderName: PropTypes.string,
   sentDate: PropTypes.string,
   subject: PropTypes.string,

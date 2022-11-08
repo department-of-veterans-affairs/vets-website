@@ -31,6 +31,12 @@ export const ChatboxDisclaimer = () => {
           data-testid="btnAcceptDisclaimer"
           className="usa-button-primary"
           onClick={() => {
+            if (window.recordEvent) {
+              window.recordEvent({
+                action: 'click',
+                event: 'cta-button-click',
+              });
+            }
             clearBotSessionStorage(true);
             dispatch({ type: ACCEPTED });
           }}
