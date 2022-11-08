@@ -98,9 +98,10 @@ function checkAllPages(mobile = false) {
   );
   cy.title().should('eq', 'Connected Apps | Veterans Affairs');
   // wait for this section's loading spinner to disappear...
-  cy.findByRole('progressbar').should('not.exist');
+  cy.findByTestId('connected-apps-loading-indicator').should('not.exist');
   cy.axeCheck();
   // focus should be on the section's heading
+
   cy.focused().contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS);
 
   // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
