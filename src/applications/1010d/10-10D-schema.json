@@ -1,10 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "10-10d (10-10D)",
+  "title": "APPLICATION FOR BURIAL BENEFITS",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
-    "address": {
+    "applicantSchema": {
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "$ref": "#/definitions/fullName"
+        }
+      }
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/date"
+        },
+        "to": {
+          "$ref": "#/definitions/date"
+        }
+      }
+    },
+    "privacyAgreementAccepted": {
+      "type": "boolean",
+      "enum": [
+        true
+      ]
+    },
+    "centralMailAddress": {
       "type": "object",
       "oneOf": [
         {
@@ -167,7 +192,7 @@
             },
             "postalCode": {
               "type": "string",
-              "maxLength": 10
+              "pattern": "^(\\d{5})(?:[-](\\d{4}))?$"
             }
           }
         },
@@ -210,7 +235,99 @@
           "minLength": 1,
           "maxLength": 51
         }
+      },
+      "required": [
+        "postalCode"
+      ]
+    },
+    "usaPhone": {
+      "type": "string",
+      "pattern": "^\\d{10}$"
+    },
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": [
+            "Jr.",
+            "Sr.",
+            "II",
+            "III",
+            "IV"
+          ]
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "centralMailVaFile": {
+      "type": "string",
+      "pattern": "^\\d{8,9}$"
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "confirmationCode": {
+            "type": "string"
+          }
+        }
       }
     }
-  }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "vaFileNumber"
+      ]
+    },
+    {
+      "required": [
+        "veteranSocialSecurityNumber"
+      ]
+    }
+  ],
+  "properties": {
+    "sponsorFullName": {
+      "$ref": "#/definitions/fullName"
+    },
+    "applicantInformation": {
+      "$ref": "#/definitions/fullName"
+    }
+  },
+  "required": [
+    "privacyAgreementAccepted",
+    "sponsorFullName"
+  ]
 }

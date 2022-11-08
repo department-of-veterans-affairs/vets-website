@@ -8,8 +8,8 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
+// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+// import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from '../10-10D-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
@@ -19,9 +19,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
+const { sponsorFullName, applicantInformation } = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
+const { applicantSchema } = fullSchema.definitions;
 
 // pages
 import serviceHistory from '../pages/serviceHistory';
@@ -58,6 +58,7 @@ const formConfig = {
     date,
     dateRange,
     usaPhone,
+    applicantSchema,
   },
   chapters: {
     sponsorInformationChapter: {
@@ -67,14 +68,16 @@ const formConfig = {
           path: 'sponsor-information',
           title: 'Sponsor Information',
           uiSchema: {
-            fullName: fullNameUI,
+            sponsorFullName: {
+              ...fullNameUI,
+            },
             ssn: ssnUI,
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['sponsorFullName'],
             properties: {
-              fullName,
+              sponsorFullName,
               ssn,
             },
           },
@@ -88,14 +91,14 @@ const formConfig = {
           path: 'applicant-information',
           title: 'Applicant Information',
           uiSchema: {
-            fullName: fullNameUI,
+            applicantInformation: fullNameUI,
             ssn: ssnUI,
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['applicantInformation'],
             properties: {
-              fullName,
+              applicantInformation,
               ssn,
             },
           },
@@ -113,40 +116,40 @@ const formConfig = {
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-      },
-    },
+    // additionalInformationChapter: {
+    //   title: 'Additional Information',
+    //   pages: {
+    //     contactInformation: {
+    //       path: 'contact-information',
+    //       title: 'Contact Information',
+    //       uiSchema: {
+    //         address: address.uiSchema('Mailing address'),
+    //         email: {
+    //           'ui:title': 'Primary email',
+    //         },
+    //         altEmail: {
+    //           'ui:title': 'Secondary email',
+    //         },
+    //         phoneNumber: phoneUI('Daytime phone'),
+    //       },
+    //       schema: {
+    //         type: 'object',
+    //         properties: {
+    //           address: address.schema(fullSchema, true),
+    //           email: {
+    //             type: 'string',
+    //             format: 'email',
+    //           },
+    //           altEmail: {
+    //             type: 'string',
+    //             format: 'email',
+    //           },
+    //           phoneNumber: usaPhone,
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
   },
 };
 
