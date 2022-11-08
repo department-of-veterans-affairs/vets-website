@@ -231,6 +231,8 @@ const addressFormFields = Object.freeze({
     },
   ],
 });
+// Station numbers of stations where travel pay is enabled.
+const travelAllowList = ['0001'];
 
 export {
   APP_NAMES,
@@ -238,4 +240,5 @@ export {
   getLabelForEditField,
   addressFormFields,
   baseCities,
+  travelAllowList,
 };

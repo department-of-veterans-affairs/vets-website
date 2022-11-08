@@ -20,21 +20,21 @@ export const getMessages = (folderId, update = false) => async dispatch => {
   if (!update) {
     dispatch({ type: Actions.Message.CLEAR_LIST });
   }
-  const response = await getMessageList(folderId);
-  if (response?.data.length === 0) {
+  try {
+    const response = await getMessageList(folderId);
+    dispatch({
+      type: Actions.Message.GET_LIST,
+      response,
+    });
+  } catch (e) {
     dispatch(
       addAlert(
-        Constants.ALERT_TYPE_INFO,
+        Constants.ALERT_TYPE_ERROR,
         '',
-        Constants.Alerts.Message.NO_MESSAGES,
+        Constants.Alerts.Message.GET_MESSAGE_ERROR,
       ),
     );
   }
-  // TODO Add error handling
-  dispatch({
-    type: Actions.Message.GET_LIST,
-    response,
-  });
 };
 
 export const retrieveMessageHistory = (
