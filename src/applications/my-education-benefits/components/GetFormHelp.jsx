@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import environment from 'platform/utilities/environment';
+import { getAppData } from '../selectors/selectors';
 
 const createContactUsEnvironmentUrl = () =>
   environment.isLocalhost()
@@ -54,10 +53,6 @@ GetFormHelp.propTypes = {
   showMebDgi40Features: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  showMebDgi40Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi40Features
-  ],
-});
+const mapStateToProps = state => getAppData(state);
 
 export default connect(mapStateToProps)(GetFormHelp);
