@@ -60,7 +60,10 @@ export const PREFILL_STATUSES = {
 
 const validateFetchInProgressFormsErrors = status => {
   // check if typeof status is a string, return that string
-  if (typeof status === 'string') {
+  if (
+    typeof status === 'string' &&
+    Object.values(LOAD_STATUSES).includes(status)
+  ) {
     return status;
   }
 
@@ -78,21 +81,20 @@ const validateFetchInProgressFormsErrors = status => {
     }
   }
 
-  if ((!status.ok && !status?.errors?.length) || status instanceof Error) {
+  if (
+    (!status.ok && !status?.errors?.length) ||
+    status instanceof Error ||
+    status instanceof Response
+  ) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_fetch');
-    return LOAD_STATUSES.clientFailure;
-  }
-
-  if (status instanceof Response) {
-    return SAVE_STATUSES.failure;
+    return LOAD_STATUSES.failure;
   }
 
   return LOAD_STATUSES.failure;
 };
 
 const validateSaveInProgressErrors = (status, trackingPrefix) => {
-  // check if it is an array
   if (Array.isArray(status?.errors) && status?.errors.length > 0) {
     if (status.errors[0].status === 401) {
       recordEvent({
@@ -103,7 +105,7 @@ const validateSaveInProgressErrors = (status, trackingPrefix) => {
     return SAVE_STATUSES.clientFailure;
   }
 
-  if (status instanceof TypeError) {
+  if (status instanceof Error) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_save');
     return SAVE_STATUSES.clientFailure;
