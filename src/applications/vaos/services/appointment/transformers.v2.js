@@ -263,7 +263,7 @@ export function transformVAOSAppointment(appt) {
         )?.short
       : null;
     requestFields = {
-      requestedPeriod: reqPeriods,
+      requestedPeriods: reqPeriods,
       created,
       reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
