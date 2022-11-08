@@ -24,6 +24,7 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
+  selectFeatureAcheronService,
   selectFeatureAppointmentList,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
@@ -227,6 +228,7 @@ export function selectRequestedAppointmentDetails(state, id) {
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
     state,
   );
+  const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(state);
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.request,
@@ -238,6 +240,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,
+    useAcheron: featureAcheronVAOSServiceRequests,
   };
 }
 

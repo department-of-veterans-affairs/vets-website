@@ -54,10 +54,10 @@ export function getAppointmentInfoFromComments(comments, key) {
         data.push(transformedDate);
       } else {
         const transformedDate = {
-          start: `${moment(preferredDatePeriod[0]).format(
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
             'YYYY-MM-DD',
           )}T12:00:00Z`,
-          end: `${moment(preferredDatePeriod[0]).format(
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
             'YYYY-MM-DD',
           )}T23:59:00Z`,
         };
@@ -92,14 +92,11 @@ function getAppointmentType(appt) {
     appt.reasonCode?.text,
     'preferredDate',
   );
-  const reqPeriods =
-    commentsPreferredDate.length > 0
-      ? commentsPreferredDate
-      : appt.requestedPeriods;
+  const reqPeriods = commentsPreferredDate.length > 0 && commentsPreferredDate;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
-  if (appt.kind === 'cc' && reqPeriods?.length) {
+  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
   if (appt.kind !== 'cc' && reqPeriods?.length) {
@@ -263,7 +260,7 @@ export function transformVAOSAppointment(appt) {
         )?.short
       : null;
     requestFields = {
-      requestedPeriods: reqPeriods,
+      requestedPeriod: reqPeriods,
       created,
       reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
