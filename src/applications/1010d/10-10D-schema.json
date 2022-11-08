@@ -322,6 +322,21 @@
     "sponsorFullName": {
       "$ref": "#/definitions/fullName"
     },
+    "vaFileNumber": {
+      "type": "string"
+    },
+    "sponsorSsn": {
+      "$ref": "#/definitions/ssn"
+    },
+    "sponsorAddress": {
+      "$ref": "#/definitions/centralMailAddress"
+    },
+    "sponsorDob": {
+      "$ref": "#/definitions/date"
+    },
+    "sponsorMarriageDate": {
+      "$ref": "#/definitions/date"
+    },
     "applicantInformation": {
       "$ref": "#/definitions/fullName"
     }

@@ -9,7 +9,9 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import * as address from 'platform/forms-system/src/js/definitions/address';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { set } from 'date-fns';
 import fullSchema from '../10-10D-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/10-10D-schema.json';
@@ -19,7 +21,14 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-const { sponsorFullName, applicantInformation } = fullSchema.properties;
+const {
+  sponsorFullName,
+  vaFileNumber,
+  sponsorSsn,
+  sponsorDob,
+  sponsorMarriageDate,
+  applicantInformation,
+} = fullSchema.properties;
 
 const { applicantSchema } = fullSchema.definitions;
 
@@ -71,14 +80,28 @@ const formConfig = {
             sponsorFullName: {
               ...fullNameUI,
             },
-            ssn: ssnUI,
+            sponsorSsn: ssnUI,
+            sponsorAddress: set(
+              'ui:validations[1], validateCenteralMailPostalCode',
+              address.uiSchema('Address'),
+            ),
+            sponsorDob: currentOrPastDateUI('Date of Birth'),
+            sponsorMarriageDate: currentOrPastDateUI('Marriage Date'),
           },
           schema: {
             type: 'object',
             required: ['sponsorFullName'],
             properties: {
               sponsorFullName,
-              ssn,
+              vaFileNumber,
+              sponsorSsn,
+              sponsorAddress: address.schema(
+                fullSchema,
+                true,
+                'centralMailAddress',
+              ),
+              sponsorDob,
+              sponsorMarriageDate,
             },
           },
         },
