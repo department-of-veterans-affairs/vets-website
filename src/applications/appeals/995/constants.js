@@ -5,7 +5,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
 // Same as "rootUrl" in manifest.json
-export const BASE_URL = `${SC_INFO_URL}/request-supplemental-claim-form-20-0995`;
+export const BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
