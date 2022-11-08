@@ -194,7 +194,17 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapNotificationMethod({ notificationMethod }) {
+function mapNotificaitonMethodV1(notificationMethod) {
+  if (notificationMethod === 'mail') {
+    return 'Mail';
+  }
+  if (notificationMethod === 'email') {
+    return 'Email';
+  }
+  return notificationMethod;
+}
+
+function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
   }
@@ -226,7 +236,72 @@ export const formatHyphenlessDate = b => {
   return `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}`;
 };
 
-export function prefillTransformer(pages, formData, metadata, state) {
+function prefillTransformerV1(pages, formData, metadata, state) {
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const contactInfo = claimant?.contactInfo || {};
+
+  const newData = {
+    ...formData,
+    formId: state.data?.formData?.data?.id,
+    claimantId: claimant.claimantId,
+    'view:userFullName': {
+      userFullName: {
+        first: claimant.firstName || undefined,
+        middle: claimant.middleName || undefined,
+        last: claimant.lastName || undefined,
+      },
+    },
+    dateOfBirth: claimant.dateOfBirth,
+    email: {
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
+    },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
+      },
+    },
+    'view:contactMethod': {
+      contactMethod: mapNotificaitonMethodV1(claimant?.notificationMethod),
+    },
+    'view:mailingAddress': {
+      address: {
+        street: contactInfo?.addressLine1,
+        street2: contactInfo?.addressLine2 || undefined,
+        city: contactInfo?.city,
+        state: contactInfo?.stateCode,
+        postalCode: contactInfo?.zipcode,
+        country: getSchemaCountryCode(contactInfo?.countryCode),
+      },
+      livesOnMilitaryBase:
+        contactInfo?.countryCode !== 'US' &&
+        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+    },
+    toursOfDuty: serviceData.map(transformServiceHistory),
+  };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        'view:userFullName'
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+      ) || undefined;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}
+
+function prefillTransformerV2(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
@@ -320,7 +395,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
     },
     [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
+      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
@@ -357,6 +432,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
     pages,
     state,
   };
+}
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  if (formData?.showMebDgi40Features) {
+    return prefillTransformerV2(pages, formData, metadata, state);
+  }
+
+  return prefillTransformerV1(pages, formData, metadata, state);
 }
 
 export function customDirectDepositDescription() {
