@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
 
@@ -26,6 +28,11 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 // not shown are the `v0` prefix and `{benefit_type}` suffix
 export const CONTESTABLE_ISSUES_API =
   '/supplemental_claims/contestable_issues/';
+
+// Evidence upload API
+export const EVIDENCE_UPLOAD_API = `${
+  environment.API_URL
+}/v1/decision_review_evidence?sub_type=SC`;
 
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
