@@ -86,7 +86,9 @@ const MessageActionButtons = props => {
 
       {isDeleteVisible && deleteMessageModal()}
 
-      <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
+        <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+      )}
 
       <button
         type="button"

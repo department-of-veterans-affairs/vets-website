@@ -19,6 +19,12 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+    setPermissions,
+  } = useSessionStorage(false);
 
   const updateError = useCallback(
     error => {
@@ -30,8 +36,9 @@ const ValidateVeteran = props => {
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
+      setPermissions(window, permissions);
     },
-    [dispatch],
+    [dispatch, setPermissions],
   );
 
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -55,11 +62,6 @@ const ValidateVeteran = props => {
     isLorotaDeletionEnabled,
   } = useSelector(selectFeatureToggles);
 
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-  } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';

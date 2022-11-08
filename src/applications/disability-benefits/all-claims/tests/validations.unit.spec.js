@@ -2,6 +2,8 @@ import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
+import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+
 import {
   isValidYear,
   isWithinServicePeriod,
@@ -20,7 +22,6 @@ import {
 
 import disabilityLabels from '../content/disabilityLabels';
 import { capitalizeEachWord } from '../utils';
-import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
 const formatDate = date => format(date, 'yyyy-MM-dd');
 const daysFromToday = days => formatDate(add(new Date(), { days }));
@@ -118,7 +119,7 @@ describe('526 All Claims validations', () => {
             { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
             {
               dateRange: { from: '2000-01-14' },
-              serviceBranch: 'Army Reserve',
+              serviceBranch: 'Army Reserves',
             },
             { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
             // ignored
@@ -143,7 +144,7 @@ describe('526 All Claims validations', () => {
             { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
             {
               dateRange: { from: '2000-01-14' },
-              serviceBranch: 'Coast Guard Reserve',
+              serviceBranch: 'Coast Guard Reserves',
             },
             { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
             // ignored
@@ -490,7 +491,7 @@ describe('526 All Claims validations', () => {
         _,
         _,
         0,
-        data({ branch: 'Army Reserve' }),
+        data({ branch: 'Army Reserves' }),
       );
 
       expect(errors.addError.called).to.be.false;
@@ -522,7 +523,7 @@ describe('526 All Claims validations', () => {
         0,
         data({
           bdd: true,
-          branch: 'Army Reserve',
+          branch: 'Army Reserves',
         }),
       );
 
@@ -667,8 +668,8 @@ describe('526 All Claims validations', () => {
       const errors = { addError };
       const formData = {
         servicePeriods: [
-          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
-          { serviceBranch: 'Reserve', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
         ],
       };
       validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, formData);
@@ -679,9 +680,9 @@ describe('526 All Claims validations', () => {
       const errors = { addError };
       const data = {
         servicePeriods: [
-          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
-          { serviceBranch: 'Reserve', dateRange: { from: '2000-01-14' } },
-          { serviceBranch: 'Reserve', dateRange: { from: '2005-12-25' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2005-12-25' } },
         ],
       };
       validateTitle10StartDate(errors, '1999-12-31', _, _, _, _, data);
@@ -693,7 +694,7 @@ describe('526 All Claims validations', () => {
       const data = {
         servicePeriods: [
           { serviceBranch: 'Army', dateRange: { from: '2000-01-14' } },
-          { serviceBranch: 'Reserve', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
           { serviceBranch: 'Navy', dateRange: { from: '2005-12-25' } },
         ],
       };
