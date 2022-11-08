@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 describe('VAOS <ContactInfoPage>', () => {
@@ -175,5 +175,43 @@ describe('VAOS <ContactInfoPage>', () => {
 
     expect(screen.queryByText('What are the best times for us to call you?')).to
       .not.exist;
+  });
+
+  it('should show email exceeded max length when acheron service is on', async () => {
+    let store = createTestStore();
+
+    // Get default state.
+    let state = store.getState();
+    state = {
+      ...state,
+      newAppointment: {
+        ...state.newAppointment,
+        flowType: FLOW_TYPES.DIRECT,
+      },
+      featureToggles: {
+        vaOnlineSchedulingAcheronService: true,
+      },
+    };
+    store = createTestStore(state);
+
+    const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
+
+    let input = await screen.findByLabelText(/^Your phone number/);
+    fireEvent.change(input, { target: { value: '5555555555' } });
+
+    input = screen.getByLabelText(/^Your email address/);
+    userEvent.type(
+      input,
+      '12345678901234567890123456789012345678901234567890.blow@some.com',
+    );
+
+    userEvent.click(screen.getByText(/continue/i));
+    expect(screen.history.push.called).to.be.false;
+
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'We do not support email addresses that exceeds 50 characters',
+    );
   });
 });
