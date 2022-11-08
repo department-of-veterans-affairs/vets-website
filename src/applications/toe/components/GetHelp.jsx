@@ -9,9 +9,9 @@ export default function GetHelp() {
         <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
           {' '}
           Ask VA.
-        </a>{' '}
-        <br />
-        <br />
+        </a>
+      </p>
+      <p>
         If you have technical difficulties using this online application, call
         our MyVA411 main information line at{' '}
         <va-telephone contact="8006982411" /> (TTY:{' '}
