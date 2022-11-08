@@ -23,13 +23,25 @@ const defaultRecord = [
 const EmploymentRecord = props => {
   const { data, goToPath, goBack, onReviewPage, setFormData } = props;
   // console.log('data', data);
-  // console.log('goToPath', goToPath);
-  // console.log('goBack', goBack);
   // console.log('onReviewPage', onReviewPage);
   // console.log('setFormData', setFormData);
 
+  const editIndex = new URLSearchParams(window.location.search).get(
+    'editIndex',
+  );
+
+  const isEditing = !Number.isNaN(editIndex);
+
+  const index = isEditing ? editIndex : 0;
+
+  // if we have employment history and plan to edit, we need to get it from the employmentRecords
+  const specificRecord = data.personalData.employmentHistory.veteran
+    .employmentRecords
+    ? data.personalData.employmentHistory.veteran.employmentRecords[index]
+    : defaultRecord[0];
+
   const [employmentRecord, setEmploymentRecord] = useState({
-    ...defaultRecord[0],
+    ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
   const handleChange = (key, value) => {
@@ -43,14 +55,8 @@ const EmploymentRecord = props => {
   // const [fromDateError, setFromDateError] = useState();
   // const [toDateError, setToDateError] = useState();
 
-  // // let index = new URLSearchParams(window.location.search).get('index');
-
   const userType = 'veteran';
   const userArray = 'currEmployment';
-
-  const employment = defaultRecord;
-
-  const index = 0;
 
   const { from, to } = employmentRecord;
 
@@ -65,6 +71,14 @@ const EmploymentRecord = props => {
 
   const updateFormData = e => {
     e.preventDefault();
+    // console.log(data.personalData.employmentHistory.veteran.employmentRecords);
+    const records = [
+      employmentRecord,
+      ...(data.personalData.employmentHistory.veteran.employmentRecords
+        ? data.personalData.employmentHistory.veteran.employmentRecords
+        : []),
+    ];
+
     setFormData({
       ...data,
       [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
@@ -74,7 +88,7 @@ const EmploymentRecord = props => {
           ...data.personalData.employmentHistory,
           [`${userType}`]: {
             ...data.personalData.employmentHistory[`${userType}`],
-            employmentRecords: [employmentRecord],
+            employmentRecords: records,
           },
         },
       },
@@ -147,7 +161,7 @@ const EmploymentRecord = props => {
       </div>
       <div
         className={classNames('vads-u-margin-top--3', {
-          'field-disabled': employment[index].isCurrent,
+          'field-disabled': employmentRecord.isCurrent,
         })}
       >
         <VaDate

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const EmploymentHistorySummaryCard = ({ job }) => {
+const EmploymentHistorySummaryCard = ({ job, index }) => {
   const employmentCardHeading = `${job.employerName}`;
   const employmentCardSubheading = `From ${job.from} to ${
     job.isCurrent ? 'Now' : job.to
@@ -20,7 +20,7 @@ const EmploymentHistorySummaryCard = ({ job }) => {
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         to={{
           pathname: '/enhanced-employment-records',
-          search: `?editIndex=0`,
+          search: `?editIndex=${index}`,
         }}
         aria-label="Edit job entry"
       >

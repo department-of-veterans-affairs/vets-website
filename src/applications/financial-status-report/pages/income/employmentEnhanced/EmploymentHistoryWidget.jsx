@@ -15,6 +15,7 @@ const EmploymentHistoryWidget = () => {
           <EmploymentHistorySummaryCard
             key={`${index}-${job.employername}`}
             job={job}
+            index={index}
           />
         ))}
       </div>

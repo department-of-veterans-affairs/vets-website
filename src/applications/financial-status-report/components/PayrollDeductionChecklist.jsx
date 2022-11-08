@@ -9,7 +9,7 @@ const PayrollDeductionChecklist = () => {
 
   const { currEmployment = [] } = formData;
   const selectedEmployment = currEmployment[0];
-  const { deductions = [] } = selectedEmployment;
+  const { deductions = [] } = selectedEmployment ?? [];
 
   const onChange = ({ target }) => {
     const { value } = target;
