@@ -77,9 +77,8 @@ export function getAppointmentInfoFromComments(comments, key) {
     return data;
   }
   if (key === 'comments') {
-    const appointmentComments = appointmentInfo
-      ? appointmentInfo[4]?.split(':')[1]
-      : null;
+    const commentsInfo = comments?.split('|comments:');
+    const appointmentComments = commentsInfo ? commentsInfo[1] : null;
     const transformedComments = { text: appointmentComments };
     if (appointmentComments) {
       data.push(transformedComments);
