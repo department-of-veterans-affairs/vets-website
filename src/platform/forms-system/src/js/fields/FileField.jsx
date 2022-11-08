@@ -107,8 +107,8 @@ class FileField extends React.Component {
       if (currentFile.type === 'testing') {
         // Skip read file for Cypress testing
         checkResults = {
-          checkTypeAndExtensionMatches: () => true,
-          checkIsEncryptedPdf: () => false,
+          checkTypeAndExtensionMatches: true,
+          checkIsEncryptedPdf: false,
         };
       } else {
         // read file mock for unit testing
