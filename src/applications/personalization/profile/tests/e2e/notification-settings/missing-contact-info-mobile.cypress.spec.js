@@ -36,7 +36,11 @@ describe('Notification Settings For Mobile Phone', () => {
         user.data.attributes.vet360ContactInformation.mobilePhone = null;
         cy.login(user);
         cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-        cy.loadingIndicatorWorks();
+        cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+        cy.injectAxeThenAxeCheck();
+
+        // and then the loading indicator should be removed
+        cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
         cy.findByRole('heading', {
           name: 'Notification settings',
           level: 1,
