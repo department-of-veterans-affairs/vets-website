@@ -92,7 +92,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
     suggestedActionLayout: 'stacked', // flow
-    suggestedActionsStackedHeight: 390,
+    suggestedActionsStackedHeight: 195,
+    suggestedActionHeight: 43,
     // suggestedActionsFlowMaxHeight: 390,
     suggestedActionActiveBackground: 'rgb(17,46,81)',
     suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
