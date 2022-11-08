@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const optInDescription = (
-  <div>
+  <>
     <h3>Opt-in to the new decision review process</h3>
     <p>
       If you’re filing a Supplemental Claim for an issue in an initial claim
@@ -10,7 +10,7 @@ export const optInDescription = (
       old appeals process to the new decision review process. You’re likely to
       get a faster decision on your claim when you switch to the new process.
     </p>
-  </div>
+  </>
 );
 
 export const optInLabel = (
