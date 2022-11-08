@@ -117,9 +117,7 @@ const HealthCareContentV2 = ({
           show-icon
           data-testid="outstanding-debts-error-v2"
         >
-          <h2 slot="headline">
-            We can’t access your appointment information right now
-          </h2>
+          <h2 slot="headline">We can’t access your appointment information</h2>
           <div>
             We’re sorry. Something went wrong on our end and we can’t access
             your appointment information. Please try again later or go to the
