@@ -16,12 +16,28 @@ const Search = () => {
     dispatch(runBasicSearch(formData.folder, formData.keyword.toLowerCase()));
   };
 
+  const noResultsMessage = () => {
+    if (keyword) {
+      return (
+        <p>
+          We didn’t find any results for "<strong>{keyword}</strong>" in this
+          folder. Try using different words or checking the spelling of the
+          words you’re using, or try our advanced search.
+        </p>
+      );
+    }
+    return (
+      <p>We didn’t find any results based on the search criteria provided.</p>
+    );
+  };
+
   const content = () => {
     if (!searchResults) {
       return (
         <va-loading-indicator
           message="Loading your secure messages..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
@@ -41,14 +57,7 @@ const Search = () => {
     >
       <h1 className="page-title">Search results</h1>
 
-      {searchResults &&
-        searchResults.length === 0 && (
-          <p>
-            We didn’t find any results for "<strong>{keyword}</strong>" in this
-            folder. Try using different words or checking the spelling of the
-            words you’re using, or try our advanced search.
-          </p>
-        )}
+      {searchResults && searchResults.length === 0 && noResultsMessage()}
 
       {content()}
 
