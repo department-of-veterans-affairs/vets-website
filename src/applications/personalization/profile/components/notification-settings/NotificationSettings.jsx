@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { animateScroll as scroll } from 'react-scroll';
 import { useLocation } from 'react-router-dom';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
@@ -93,7 +93,10 @@ const NotificationSettings = ({
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
       {shouldShowLoadingIndicator ? (
-        <LoadingIndicator message="We’re loading your information." />
+        <VaLoadingIndicator
+          data-testid="loading-indicator"
+          message="We’re loading your information."
+        />
       ) : null}
       {shouldShowAPIError ? <APIErrorAlert /> : null}
       {showMissingContactInfoAlert ? (
