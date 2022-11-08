@@ -62,7 +62,6 @@ export default function RequestedAppointmentDetailsPage() {
     message,
     useV2,
     providerData,
-    useAcheron,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -142,9 +141,6 @@ export default function RequestedAppointmentDetailsPage() {
     ? providerData
     : appointment.preferredCommunityCareProviders?.[0];
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
-  const reqPeriods = useAcheron
-    ? appointment.requestedPeriod
-    : appointment.requestedPeriods;
 
   return (
     <PageLayout>
@@ -210,7 +206,7 @@ export default function RequestedAppointmentDetailsPage() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {reqPeriods.map((option, optionIndex) => (
+        {appointment.requestedPeriod.map((option, optionIndex) => (
           <li key={`${appointment.id}-option-${optionIndex}`}>
             {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
             {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}

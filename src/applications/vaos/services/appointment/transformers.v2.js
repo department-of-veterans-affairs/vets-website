@@ -92,7 +92,10 @@ function getAppointmentType(appt) {
     appt.reasonCode?.text,
     'preferredDate',
   );
-  const reqPeriods = commentsPreferredDate.length > 0 && commentsPreferredDate;
+  const reqPeriods =
+    commentsPreferredDate.length > 0
+      ? commentsPreferredDate
+      : appt.requestedPeriods;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
