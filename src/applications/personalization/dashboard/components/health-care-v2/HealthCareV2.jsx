@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { selectPatientFacilities as selectPatientFacilitiesDsot } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import HealthCareContent from './HealthCareContentV2';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
@@ -17,6 +20,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import {
   selectIsCernerPatient,
   selectAvailableServices,
+  selectPatientFacilities,
 } from '~/platform/user/selectors';
 
 const HealthCareV2 = ({
@@ -80,6 +84,23 @@ const HealthCareV2 = ({
   );
 };
 
+const fetchFacilities = async facilityIDs => {
+  // Show loading state.
+  this.setState({ fetching: true });
+
+  try {
+    // Fetch facilities and store them in state.
+    const response = await apiRequest(
+      `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+    );
+    this.setState({ facilities: response?.data, fetching: false });
+
+    // Log any API errors.
+  } catch (error) {
+    this.setState({ error: error.message, fetching: false });
+  }
+};
+
 const mapStateToProps = state => {
   const facilityLocations = [
     'VA Spokane health care',
@@ -88,6 +109,19 @@ const mapStateToProps = state => {
     'Roseburg (Oregon) VA health care',
     'White City health care',
   ];
+
+  const facilities = state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state);
+
+  const cernerFacilities = facilities?.filter(f => f.usesCernerMedicalRecords);
+
+  const facilityIDs = cernerFacilities.map(
+    facility => `vha_${facility.facilityId}`,
+  );
+
+  // Fetch cerner facilities.
+  fetchFacilities(facilityIDs);
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
