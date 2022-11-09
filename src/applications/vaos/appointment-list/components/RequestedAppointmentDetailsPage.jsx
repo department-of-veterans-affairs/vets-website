@@ -206,7 +206,7 @@ export default function RequestedAppointmentDetailsPage() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {appointment.requestedPeriod?.map((option, optionIndex) => (
+        {appointment.requestedPeriod.map((option, optionIndex) => (
           <li key={`${appointment.id}-option-${optionIndex}`}>
             {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
             {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}

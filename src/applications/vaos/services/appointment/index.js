@@ -40,6 +40,7 @@ import {
   transformVAOSAppointment,
   transformVAOSAppointments,
   transformPreferredProviderV2,
+  // getAppointmentInfoFromComments,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -148,6 +149,14 @@ export async function fetchAppointments({
         ) {
           return false;
         }
+        // const requestedPeriods = getAppointmentInfoFromComments(
+        //   appt.reasonCode?.text,
+        //   'preferredDate',
+        // );
+        // const reqPeriods =
+        //   requestedPeriods.length > 0
+        //     ? requestedPeriods
+        //     : appt.requestedPeriods;
         return !appt.requestedPeriods;
       });
       appointments.push(...transformVAOSAppointments(filteredAppointments));
@@ -249,9 +258,17 @@ export async function getAppointmentRequests({
         useAcheron,
       );
 
-      const requestsWithoutAppointments = appointments.filter(
-        appt => !!appt.requestedPeriods,
-      );
+      const requestsWithoutAppointments = appointments.filter(appt => {
+        // const requestedPeriods = getAppointmentInfoFromComments(
+        //   appt.reasonCode?.text,
+        //   'preferredDate',
+        // );
+        // const reqPeriods =
+        //   requestedPeriods.length > 0
+        //     ? requestedPeriods
+        //     : appt.requestedPeriods;
+        return !!appt.requestedPeriods;
+      });
 
       requestsWithoutAppointments.sort(apptRequestSort);
 
