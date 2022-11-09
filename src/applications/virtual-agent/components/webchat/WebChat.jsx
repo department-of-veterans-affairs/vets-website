@@ -75,6 +75,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createDirectLine],
   );
 
+  const BUTTONS = 58.8;
   const styleOptions = {
     hideUploadButton: true,
     botAvatarBackgroundColor: '#003e73', // color-primary-darker
@@ -92,7 +93,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
     suggestedActionLayout: 'stacked', // flow
-    suggestedActionsStackedHeight: 195,
+    suggestedActionsStackedHeight: BUTTONS * 5,
     suggestedActionHeight: 43,
     // suggestedActionsFlowMaxHeight: 390,
     suggestedActionActiveBackground: 'rgb(17,46,81)',
