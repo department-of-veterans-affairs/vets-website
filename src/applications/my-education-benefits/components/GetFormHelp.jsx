@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import environment from 'platform/utilities/environment';
-
-const createContactUsEnvironmentUrl = () =>
-  environment.isLocalhost()
-    ? `https://dev.va.gov/contact-us/`
-    : `${environment.API_URL}/contact-us`;
 
 function GetFormHelp({ showMebDgi40Features }) {
   return (
@@ -17,19 +11,17 @@ function GetFormHelp({ showMebDgi40Features }) {
         <>
           If you need help with your application or have questions about
           enrollment or eligibility, submit a request with{' '}
-          <a
-            target="_blank"
-            href={createContactUsEnvironmentUrl()}
-            rel="noreferrer"
-          >
+          <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
             {' '}
             Ask VA.{' '}
           </a>{' '}
-          If you have technical difficulties using this online application, call
-          our MyVA411 main information line at{' '}
-          <va-telephone contact="8006982411" /> (TTY:{' '}
-          <va-telephone contact="711" />
-          ). We're here 24/7.
+          <p>
+            If you have technical difficulties using this online application,
+            call our MyVA411 main information line at{' '}
+            <va-telephone contact="8006982411" /> (TTY:{' '}
+            <va-telephone contact="711" />
+            ). We're here 24/7.
+          </p>
         </>
       ) : (
         <>
