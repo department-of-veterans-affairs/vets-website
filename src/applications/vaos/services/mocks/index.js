@@ -239,7 +239,7 @@ const responses = {
 
           const date =
             status === 'proposed'
-              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              ? moment(appointment.attributes.requestedPeriods?.[0]?.start)
               : moment(appointment.attributes.start);
           if (
             date.isValid() &&

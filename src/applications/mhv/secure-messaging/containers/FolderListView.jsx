@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { clearMessage, getMessages } from '../actions/messages';
-import { DefaultFolders as Folders } from '../util/constants';
+import { DefaultFolders as Folders, Alerts } from '../util/constants';
 import useInterval from '../hooks/use-interval';
 import MessageList from '../components/MessageList/MessageList';
 import FolderHeader from '../components/MessageList/FolderHeader';
@@ -13,7 +13,6 @@ import { closeAlert } from '../actions/alerts';
 const FolderListView = () => {
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
-  const [hideOtherAlerts, setHideOtherAlerts] = useState(false);
   const error = null;
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
@@ -63,15 +62,6 @@ const FolderListView = () => {
     [folderId, dispatch],
   );
 
-  useEffect(
-    () => {
-      if (messages?.length === 0) {
-        setHideOtherAlerts(true);
-      }
-    },
-    [messages],
-  );
-
   // clear out alerts if user navigates away from this component
   useEffect(
     () => {
@@ -85,10 +75,10 @@ const FolderListView = () => {
   );
 
   useInterval(() => {
-    if (folder) {
-      dispatch(getMessages(folder.folderId, true));
+    if (folderId) {
+      dispatch(getMessages(folderId, true));
     }
-  }, 5000);
+  }, 60000);
 
   let content;
   if (messages === undefined) {
@@ -105,7 +95,13 @@ const FolderListView = () => {
           Displaying 0 of 0 messages
         </div>
         <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
-          <AlertBackgroundBox noIcon />
+          <va-alert
+            background-only="true"
+            status="info"
+            className="vads-u-margin-bottom--1 va-alert"
+          >
+            <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
+          </va-alert>
         </div>
       </>
     );
@@ -130,7 +126,7 @@ const FolderListView = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
-        {hideOtherAlerts ? null : <AlertBackgroundBox closeable />}
+        <AlertBackgroundBox closeable />
         {folder?.folderId === undefined && (
           <va-loading-indicator message="Loading your messages..." setFocus />
         )}
