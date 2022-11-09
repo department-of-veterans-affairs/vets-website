@@ -40,6 +40,7 @@ import {
   transformVAOSAppointment,
   transformVAOSAppointments,
   transformPreferredProviderV2,
+  getAppointmentInfoFromComments,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -148,7 +149,12 @@ export async function fetchAppointments({
         ) {
           return false;
         }
-        return !appt.requestedPeriods;
+        return (
+          !getAppointmentInfoFromComments(
+            appt.reasonCode?.text,
+            'preferredDate',
+          ) || !appt.requestedPeriods
+        );
       });
       appointments.push(...transformVAOSAppointments(filteredAppointments));
 
@@ -250,7 +256,11 @@ export async function getAppointmentRequests({
       );
 
       const requestsWithoutAppointments = appointments.filter(
-        appt => !!appt.requestedPeriods,
+        appt =>
+          !!getAppointmentInfoFromComments(
+            appt.reasonCode?.text,
+            'preferredDate',
+          ) || !!appt.requestedPeriods,
       );
 
       requestsWithoutAppointments.sort(apptRequestSort);
