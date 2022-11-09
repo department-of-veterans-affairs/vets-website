@@ -16,6 +16,7 @@ import {
   EditAddress,
 } from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import PrimaryPhone from '../components/PrimaryPhone';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';
@@ -23,6 +24,7 @@ import addIssue from '../pages/addIssue';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
+import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateChoice from '../pages/evidencePrivateChoice';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
@@ -44,6 +46,7 @@ import {
   hasOtherEvidence,
   hasPrivateEvidenceToUpload,
 } from '../utils/helpers';
+import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
@@ -145,6 +148,16 @@ const formConfig = {
           depends: () => false, // accessed from contact info page
           uiSchema: {},
           schema: { type: 'object', properties: {} },
+        },
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: formData => hasHomeAndMobilePhone(formData),
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhone,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
         },
       },
     },

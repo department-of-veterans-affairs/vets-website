@@ -4,8 +4,9 @@ import sinon from 'sinon';
 import {
   requireRatedDisability,
   contactInfoValidation,
+  missingPrimaryPhone,
 } from '../../validations';
-import { errorMessages, SELECTED } from '../../constants';
+import { errorMessages, SELECTED, PRIMARY_PHONE } from '../../constants';
 
 describe('requireRatedDisability', () => {
   it('should show an error if no disabilities are selected', () => {
@@ -84,5 +85,19 @@ describe('contactInfoValidation', () => {
       getData({ address: false, homeless: true }),
     );
     expect(addError.called).to.be.false;
+  });
+});
+
+describe('missingPrimaryPhone', () => {
+  it('should show an error if no primary phone selected', () => {
+    const errors = { addError: sinon.spy() };
+    missingPrimaryPhone(errors, {}, {});
+    expect(errors.addError.calledWith(errorMessages.missingPrimaryPhone)).to.be
+      .true;
+  });
+  it('should not show an error if a primary phone is selected', () => {
+    const errors = { addError: sinon.spy() };
+    missingPrimaryPhone(errors, {}, { [PRIMARY_PHONE]: 'home' });
+    expect(errors.addError.notCalled).to.be.true;
   });
 });
