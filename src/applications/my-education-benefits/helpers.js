@@ -437,7 +437,11 @@ function prefillTransformerV2(pages, formData, metadata, state) {
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
 
-  if (!featureTogglesLoaded || formData.showMebDgi40Features === undefined) {
+  if (
+    !featureTogglesLoaded ||
+    !formData ||
+    formData.showMebDgi40Features === undefined
+  ) {
     return {};
   }
 

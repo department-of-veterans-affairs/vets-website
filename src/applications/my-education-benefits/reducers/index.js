@@ -31,10 +31,10 @@ const handleDirectDepositApi = action => {
     };
   }
   return {
-    accountType: 'Checking',
-    accountNumber: '1234569891',
-    routingNumber: '031000503',
-    financialInstitutionName: 'Wells Fargo',
+    // accountType: 'Checking',
+    // accountNumber: '1234569891',
+    // routingNumber: '031000503',
+    // financialInstitutionName: 'Wells Fargo',
   };
 };
 
