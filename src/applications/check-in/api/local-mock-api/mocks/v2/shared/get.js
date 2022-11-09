@@ -109,7 +109,7 @@ const createAppointment = ({
   );
 
   // C.f. CHECKIN_MINUTES_BEFORE in {chip repo}/infra/template.yml
-  let checkInWindowStart = dateFns.subMinutes(new Date(startTime), 30);
+  let checkInWindowStart = dateFns.subMinutes(new Date(startTime), 45);
   let formattedCheckInWindowStart = format(
     checkInWindowStart,
     isoDateWithOffsetFormat,
@@ -124,7 +124,7 @@ const createAppointment = ({
   if (timezone !== 'browser') {
     checkInWindowStart = dateFns.subMinutes(
       utcToZonedTime(new Date(startTime), timezone),
-      30,
+      45,
     );
     formattedCheckInWindowStart = format(
       checkInWindowStart,
