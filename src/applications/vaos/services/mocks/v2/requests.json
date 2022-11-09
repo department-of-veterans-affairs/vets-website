@@ -168,12 +168,6 @@
             "text": "REGULAR"
           }
         ],
-        "requestedPeriods": [
-          {
-            "start": "2022-06-29T12:00:00Z",
-            "end": "2022-06-29T23:59:59.999Z"
-          }
-        ],
         "reasonCode": {
           "text": "phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:11/30/2022 AM,11/30/2022 PM,11/29/2022 AM|reason code:MEDICALISSUE|comments:test"
         },
