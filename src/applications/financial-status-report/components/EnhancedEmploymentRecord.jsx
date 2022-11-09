@@ -22,17 +22,14 @@ const defaultRecord = [
 
 const EmploymentRecord = props => {
   const { data, goToPath, goBack, onReviewPage, setFormData } = props;
-  // console.log('data', data);
-  // console.log('onReviewPage', onReviewPage);
-  // console.log('setFormData', setFormData);
 
   const editIndex = new URLSearchParams(window.location.search).get(
     'editIndex',
   );
 
-  const isEditing = !Number.isNaN(editIndex);
+  const isEditing = editIndex && !Number.isNaN(editIndex);
 
-  const index = isEditing ? editIndex : 0;
+  const index = isEditing ? Number(editIndex) : 0;
 
   // if we have employment history and plan to edit, we need to get it from the employmentRecords
   const specificRecord = data.personalData.employmentHistory.veteran
@@ -45,7 +42,6 @@ const EmploymentRecord = props => {
   });
 
   const handleChange = (key, value) => {
-    // console.log('handleChange', key, value);
     setEmploymentRecord({
       ...employmentRecord,
       [key]: value,
@@ -71,30 +67,55 @@ const EmploymentRecord = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    // console.log(data.personalData.employmentHistory.veteran.employmentRecords);
-    const records = [
-      employmentRecord,
-      ...(data.personalData.employmentHistory.veteran.employmentRecords
-        ? data.personalData.employmentHistory.veteran.employmentRecords
-        : []),
-    ];
-
-    setFormData({
-      ...data,
-      [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
-      personalData: {
-        ...data.personalData,
-        employmentHistory: {
-          ...data.personalData.employmentHistory,
-          [`${userType}`]: {
-            ...data.personalData.employmentHistory[`${userType}`],
-            employmentRecords: records,
+    if (isEditing) {
+      // find the one we are editing in the employeeRecords array
+      const updatedRecords = data.personalData.employmentHistory.veteran.employmentRecords.map(
+        (item, arrayIndex) => {
+          return arrayIndex === index ? employmentRecord : item;
+        },
+      );
+      // update form data
+      setFormData({
+        ...data,
+        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            [`${userType}`]: {
+              ...data.personalData.employmentHistory[`${userType}`],
+              employmentRecords: updatedRecords,
+            },
           },
         },
-      },
-    });
+      });
 
-    goToPath('/gross-monthly-income');
+      goToPath('/gross-monthly-income');
+    } else {
+      const records = [
+        employmentRecord,
+        ...(data.personalData.employmentHistory.veteran.employmentRecords
+          ? data.personalData.employmentHistory.veteran.employmentRecords
+          : []),
+      ];
+
+      setFormData({
+        ...data,
+        [`${userArray}`]: employmentRecord.isCurrent ? [employmentRecord] : [],
+        personalData: {
+          ...data.personalData,
+          employmentHistory: {
+            ...data.personalData.employmentHistory,
+            [`${userType}`]: {
+              ...data.personalData.employmentHistory[`${userType}`],
+              employmentRecords: records,
+            },
+          },
+        },
+      });
+
+      goToPath('/gross-monthly-income');
+    }
   };
 
   const handleCheckboxChange = (key, val) => {
@@ -202,7 +223,12 @@ const EmploymentRecord = props => {
   );
 };
 
-const mapStateToProps = () => {};
+const mapStateToProps = ({ form }) => {
+  return {
+    formData: form.data,
+    employmentHistory: form.data.personalData.employmentHistory,
+  };
+};
 
 const mapDispatchToProps = {
   setFormData: setData,
