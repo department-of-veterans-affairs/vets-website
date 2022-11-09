@@ -4,10 +4,15 @@ import {
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import AlertBackgroundBox from '../shared/AlertBackgroundBox';
+import { runBasicSearch } from '../../actions/search';
 
 const BasicSearchForm = props => {
-  const { folders, toggleAdvancedSearch, submitBasicSearch } = props;
+  const { folders, toggleAdvancedSearch, testingKeyword } = props;
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const [foldersList, setFoldersList] = useState([]);
 
@@ -27,12 +32,13 @@ const BasicSearchForm = props => {
     e.preventDefault();
     setKeywordError(null);
 
-    if (!keyword) {
+    if (!keyword && !testingKeyword) {
       setKeywordError('Please enter a keyword');
       return;
     }
 
-    submitBasicSearch({ folder, keyword });
+    dispatch(runBasicSearch(folder, keyword.toLowerCase()));
+    history.push('/search/results');
   };
 
   return (
@@ -44,8 +50,10 @@ const BasicSearchForm = props => {
         name="keyword"
         onKeyPress={e => e.charCode === 13 && handleFormSubmit(e)}
         onInput={e => setKeyword(e.target.value)}
+        value={keyword}
         class="textField"
         error={keywordError}
+        data-testid="keyword-text-input"
         required
       />
 
@@ -56,7 +64,7 @@ const BasicSearchForm = props => {
         class="selectField"
         value={folder}
         onVaSelect={e => setFolder(e.detail.value)}
-        data-testid="compose-select"
+        data-testid="folder-dropdown"
       >
         {foldersList.map(item => (
           <option key={item.id} value={item.id}>
@@ -67,12 +75,7 @@ const BasicSearchForm = props => {
 
       <button type="submit" className="search-messages-button">
         <i className="fas fa-search" aria-hidden="true" />
-        <span
-          className="search-messages-button-text"
-          data-testid="search-button-text"
-        >
-          Search
-        </span>
+        <span className="search-messages-button-text">Search</span>
       </button>
 
       <button
@@ -89,6 +92,7 @@ const BasicSearchForm = props => {
 BasicSearchForm.propTypes = {
   folders: PropTypes.any,
   submitBasicSearch: PropTypes.func,
+  testingKeyword: PropTypes.string,
   toggleAdvancedSearch: PropTypes.func,
 };
 
