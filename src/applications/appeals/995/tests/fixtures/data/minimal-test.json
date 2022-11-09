@@ -41,56 +41,17 @@
           "ratingDecisionReferenceId": null
         },
         "view:selected": true
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "Being green",
-          "description": "Chronic greenness",
-          "ratingIssuePercentNumber": "50",
-          "approxDecisionDate": "2021-06-01",
-          "decisionIssueId": 42,
-          "ratingIssueReferenceId": "52",
-          "ratingDecisionReferenceId": "999"
-        },
-        "view:selected": true
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "Monocular vision",
-          "ratingIssuePercentNumber": "5",
-          "approxDecisionDate": "2021-06-04",
-          "decisionIssueId": 1,
-          "ratingIssueReferenceId": "2",
-          "ratingDecisionReferenceId": ""
-        }
       }
     ],
     "legacyCount": 0,
-    "additionalIssues": [
-      {
-        "issue": "Test",
-        "decisionDate": "2022-01-01",
-        "view:selected": true
-      }
-    ],
+    "additionalIssues": [],
     "locations": [
       {
-        "locationAndName": "VAMC Location 1",
+        "locationAndName": "VAMC Location",
         "evidenceDates": [
           {
             "from": "2022-01-01",
             "to": "2022-01-02"
-          }
-        ]
-      },
-      {
-        "locationAndName": "VA facility",
-        "evidenceDates": [
-          {
-            "from": "2022-02-03",
-            "to": "2022-02-08"
           }
         ]
       }
@@ -121,41 +82,11 @@
     },
     "view:selectableEvidenceTypes": {
       "view:hasVaEvidence": true,
-      "view:hasPrivateEvidence": true,
-      "view:hasOtherEvidence": true
+      "view:hasPrivateEvidence": false,
+      "view:hasOtherEvidence": false
     },
-    "privateMedicalRecordAttachments": [
-      {
-        "name": "private-medical-records.pdf",
-        "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-        "attachmentId": "L049",
-        "size": 20000,
-        "isEncrypted": false
-      },
-      {
-        "name": "x-rays.pdf",
-        "confirmationCode": "ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj",
-        "attachmentId": "L023",
-        "size": 30000,
-        "isEncrypted": false
-      }
-    ],
-    "additionalDocuments": [
-      {
-        "name": "buddy-statement.pdf",
-        "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
-        "attachmentId": "L015",
-        "size": 40000,
-        "isEncrypted": false
-      },
-      {
-        "name": "photos.pdf",
-        "confirmationCode": "pppppppp-qqqql-rrrr-ssss-ttttttttttt",
-        "attachmentId": "L070",
-        "size": 40000,
-        "isEncrypted": false
-      }
-    ],
+    "privateMedicalRecordAttachments": [],
+    "additionalDocuments": [],
     "socOptIn": true,
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true
