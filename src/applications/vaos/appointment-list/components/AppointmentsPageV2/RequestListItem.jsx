@@ -33,7 +33,7 @@ export default function RequestListItem({ appointment, facility }) {
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
   const ccFacilityName = getPreferredCommunityCareProviderName(appointment);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const preferredDate = moment(appointment.requestedPeriod[0].start).format(
+  const preferredDate = moment(appointment.requestedPeriod?.[0].start).format(
     'MMMM D, YYYY',
   );
   const link = `requests/${appointment.id}`;
