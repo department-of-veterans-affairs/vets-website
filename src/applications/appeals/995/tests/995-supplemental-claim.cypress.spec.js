@@ -72,10 +72,6 @@ const testConfig = createTestConfig(
                   .shadow()
                   .find('input')
                   .type(issue);
-                // .then(el => {
-                //   console.log(el, el.find('input'));
-                //   cy.wrap(el.find('input')).type(issue);
-                // });
                 const date = decisionDate
                   .split('-')
                   .map(v => parseInt(v, 10))
