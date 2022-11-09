@@ -43,9 +43,9 @@ export const CopaysV2 = ({ copays }) => {
           className="vads-u-font-weight--bold"
           onClick={() =>
             recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-manage-va-copays',
+              event: 'dashboard-navigation',
+              'dashboard-action': 'view-link',
+              'dashboard-section': 'view-manage-va-bills',
             })
           }
           testId="manage-va-copays-link-v2"
