@@ -10,6 +10,9 @@ const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
 
+// Minutes before start time that the window for check-in starts.
+const checkInStartWindowMinutes = 45;
+
 const mockDemographics = {
   emergencyContact: {
     name: 'Star Garnet',
@@ -109,7 +112,10 @@ const createAppointment = ({
   );
 
   // C.f. CHECKIN_MINUTES_BEFORE in {chip repo}/infra/template.yml
-  let checkInWindowStart = dateFns.subMinutes(new Date(startTime), 45);
+  let checkInWindowStart = dateFns.subMinutes(
+    new Date(startTime),
+    checkInStartWindowMinutes,
+  );
   let formattedCheckInWindowStart = format(
     checkInWindowStart,
     isoDateWithOffsetFormat,
@@ -124,7 +130,7 @@ const createAppointment = ({
   if (timezone !== 'browser') {
     checkInWindowStart = dateFns.subMinutes(
       utcToZonedTime(new Date(startTime), timezone),
-      45,
+      checkInStartWindowMinutes,
     );
     formattedCheckInWindowStart = format(
       checkInWindowStart,
