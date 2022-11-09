@@ -19,7 +19,6 @@ import {
   isEmptyObject,
   processContestableIssues,
   readableList,
-  returnPhoneObject,
   checkContestableIssueError,
 } from '../../utils/helpers';
 
@@ -381,30 +380,6 @@ describe('readableList', () => {
     expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
       'v, w, x, y, and z',
     );
-  });
-});
-
-describe('returnPhoneObject', () => {
-  const emptyPhone = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  it('should return empty phone object', () => {
-    expect(returnPhoneObject()).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(undefined)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject(null)).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject([])).to.deep.equal(emptyPhone);
-    expect(returnPhoneObject('1234')).to.deep.equal(emptyPhone);
-  });
-  it('should return a phone object', () => {
-    expect(returnPhoneObject('8005551212')).to.deep.equal({
-      countryCode: '1',
-      areaCode: '800',
-      phoneNumber: '5551212',
-      phoneNumberExt: '',
-    });
   });
 });
 
