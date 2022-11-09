@@ -10,7 +10,7 @@ import {
 } from '../../util/contact-information/phoneUtils';
 
 import { renderWithProfileReducers as render } from '../unit-test-helpers';
-import useProfileTransaction from '../../hooks/useProfileTransaction';
+import { useProfileTransaction } from '../../hooks';
 
 const initialState = {
   vapService: {

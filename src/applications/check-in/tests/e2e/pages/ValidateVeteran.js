@@ -227,7 +227,7 @@ class ValidateVeteran {
 
   validateErrorAlert = (withLorotaSecurityUpdate = false) => {
     const messageText = withLorotaSecurityUpdate
-      ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
+      ? 'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.'
       : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')

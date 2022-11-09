@@ -95,11 +95,14 @@ export const getMessageCategoryList = () => {
  * @returns
  */
 export const getMessageList = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/messages`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**

@@ -7,6 +7,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import {
   DateRangeValues,
   DateRangeOptions,
@@ -16,7 +17,13 @@ import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
 const SearchMessagesForm = props => {
-  const { folders } = props;
+  const {
+    folders,
+    testingSubmit,
+    testingDateRange,
+    testingFromDate,
+    testingToDate,
+  } = props;
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -58,14 +65,23 @@ const SearchMessagesForm = props => {
 
   const checkFormValidity = () => {
     let formInvalid;
-    if (dateRange === 'custom') {
-      if (!fromDate) {
+    if (dateRange === 'custom' || testingDateRange) {
+      if (!fromDate && !testingFromDate) {
         formInvalid = true;
         setFromDateError('Please enter a start date');
       }
-      if (!toDate) {
+      if (!toDate && !testingToDate) {
         formInvalid = true;
         setToDateError('Please enter an end date');
+      }
+      if (
+        (fromDate || testingFromDate) &&
+        (toDate || testingToDate) &&
+        moment(toDate || testingToDate).isBefore(fromDate || testingFromDate)
+      ) {
+        formInvalid = true;
+        setFromDateError('Start date must be on or before end date');
+        setToDateError('End date must be on or after start date');
       }
     } else if (
       dateRange === 'any' &&
@@ -82,7 +98,7 @@ const SearchMessagesForm = props => {
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    const formInvalid = checkFormValidity();
+    const formInvalid = testingSubmit || checkFormValidity();
     if (formInvalid) return;
 
     let relativeToDate;
@@ -110,6 +126,21 @@ const SearchMessagesForm = props => {
       }),
     );
     history.push('/search/results');
+  };
+
+  const resetSearchForm = () => {
+    setFolder(0);
+    setMessageId('');
+    setSenderName('');
+    setSubject('');
+    setCategory('');
+    setDateRange('any');
+    setFromDate('');
+    setToDate('');
+
+    setFromDateError('');
+    setToDateError('');
+    setFormError('');
   };
 
   return (
@@ -141,7 +172,7 @@ const SearchMessagesForm = props => {
         class="selectField"
         value={folder}
         onVaSelect={e => setFolder(e.detail.value)}
-        data-testid="search-select"
+        data-testid="folder-dropdown"
       >
         {foldersList.map(item => (
           <option key={item.id} value={item.id}>
@@ -154,19 +185,25 @@ const SearchMessagesForm = props => {
         label="Message ID"
         name="messageId"
         onBlur={e => setMessageId(e.target.value)}
+        value={messageId}
         class="textField"
+        data-testid="message-id-text-input"
       />
       <va-text-input
         label="From"
         name="from"
         onBlur={e => setSenderName(e.target.value)}
+        value={senderName}
         class="textField"
+        data-testid="sender-text-input"
       />
       <va-text-input
         label="Subject"
         name="subject"
         onBlur={e => setSubject(e.target.value)}
+        value={subject}
         class="textField"
+        data-testid="subject-text-input"
       />
 
       <VaSelect
@@ -176,7 +213,7 @@ const SearchMessagesForm = props => {
         class="selectField"
         value={category}
         onVaSelect={e => setCategory(e.detail.value)}
-        data-testid="search-select"
+        data-testid="category-dropdown"
       >
         {SelectCategories.map(item => (
           <option key={item.value} value={item.value}>
@@ -192,7 +229,7 @@ const SearchMessagesForm = props => {
         class="selectField"
         value={dateRange}
         onVaSelect={e => setDateRange(e.detail.value)}
-        data-testid="search-select"
+        data-testid="date-range-dropdown"
       >
         {DateRangeOptions.map(item => (
           <option key={item.value} value={item.value}>
@@ -201,22 +238,26 @@ const SearchMessagesForm = props => {
         ))}
       </VaSelect>
 
-      {dateRange === 'custom' && (
+      {(dateRange === 'custom' || testingDateRange) && (
         <div className="fromToDatesContainer">
           <div className="fromToDates">
             <VaDate
               label="Start date"
               name="discharge-date"
               onDateChange={e => setFromDate(e.target.value)}
+              value={fromDate}
               required
               error={fromDateError}
+              data-testid="date-start"
             />
             <VaDate
               label="End date"
               name="discharge-date"
               onDateChange={e => setToDate(e.target.value)}
+              value={toDate}
               required
               error={toDateError}
+              data-testid="date-end"
             />
           </div>
         </div>
@@ -226,8 +267,8 @@ const SearchMessagesForm = props => {
         <button type="submit" data-testid="advanced-search-submit">
           Advanced Search
         </button>
-        <button type="button" className="reset">
-          Reset Search
+        <button type="button" className="reset" onClick={resetSearchForm}>
+          Reset search
         </button>
       </div>
     </form>
@@ -237,6 +278,10 @@ const SearchMessagesForm = props => {
 SearchMessagesForm.propTypes = {
   advancedSearchOpen: PropTypes.bool,
   folders: PropTypes.any,
+  testingDateRange: PropTypes.any,
+  testingFromDate: PropTypes.any,
+  testingSubmit: PropTypes.any,
+  testingToDate: PropTypes.any,
 };
 
 export default SearchMessagesForm;
