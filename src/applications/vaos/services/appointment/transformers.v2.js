@@ -88,13 +88,18 @@ export function getAppointmentInfoFromComments(comments, key) {
   return data;
 }
 function getAppointmentType(appt) {
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
+  const reqPeriods = commentsPreferredDate || appt.requestedPeriods;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
   if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  if (appt.kind !== 'cc' && reqPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 
