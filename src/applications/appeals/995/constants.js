@@ -30,6 +30,8 @@ export const CONTESTABLE_ISSUES_API =
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+export const PRIMARY_PHONE = 'view:primaryPhone';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
@@ -47,6 +49,11 @@ export const errorMessages = {
 
   evidenceTypeMissing: 'Please select at least one type of supporting evidence',
   locationAndNameMissing: 'Please add a treatment location',
+
+  missingEmail: 'Please add an email address to your profile',
+  missingPhone: 'Please add a home or mobile phone number to your profile',
+  missingAddress: 'Please add an address to your profile',
+  missingPrimaryPhone: 'You need to choose a primary phone number',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
