@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 import OtherVADebts from './OtherVADebts';
@@ -115,9 +114,9 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
           <va-telephone contact="8008270648" className="vads-u-margin-x--0p5" />{' '}
           (or{' '}
           <va-telephone
-            contact="16127136415"
-            pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
+            contact="6127136415"
+            international
           />{' '}
           from overseas).
         </p>
