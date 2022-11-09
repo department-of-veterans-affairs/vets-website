@@ -8,14 +8,14 @@ const TravelPayAlert = props => {
     travelPayEligible,
     travelPayClaimData,
     travelPayClaimError,
-    travelPayClaimErrorMsg,
+    travelPayClaimErrorCode,
   } = props;
 
   const { t } = useTranslation();
 
   let errorMsg = '';
   if (travelPayClaimError) {
-    switch (travelPayClaimErrorMsg.code) {
+    switch (travelPayClaimErrorCode) {
       case 'exists':
         errorMsg = t('travel-claim-submission-exists-error');
         break;
@@ -65,7 +65,7 @@ const TravelPayAlert = props => {
               ]}
             />
           </p>
-          {travelPayClaimErrorMsg}
+          {travelPayClaimErrorCode}
           <ExternalLink
             href="/health-care/get-reimbursed-for-travel-pay/"
             hrefLang="en"
@@ -104,7 +104,7 @@ TravelPayAlert.propTypes = {
   travelPayClaimError: PropTypes.bool.isRequired,
   travelPayEligible: PropTypes.bool.isRequired,
   travelPayClaimData: PropTypes.object,
-  travelPayClaimErrorMsg: PropTypes.string,
+  travelPayClaimErrorCode: PropTypes.string,
 };
 
 export default TravelPayAlert;

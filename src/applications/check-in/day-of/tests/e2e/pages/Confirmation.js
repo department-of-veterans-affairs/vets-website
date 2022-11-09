@@ -45,13 +45,31 @@ class Confirmation {
       );
   };
 
-  validatePageLoadedWithBtsssSubmissionFailure = () => {
+  validatePageLoadedWithBtsssGenericFailure = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('include.text', "couldn't file your travel claim");
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'TRAVEL CLAIM ERROR PLACEHOLDER');
+      .and('include.text', 'TRAVEL CLAIM GENERIC ERROR PLACEHOLDER');
+  };
+
+  validatePageLoadedWithBtsssMultipleAppointmentsFailure = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', "couldn't file your travel claim");
+    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', 'TRAVEL CLAIM MULTIPLE ERROR PLACEHOLDER');
+  };
+
+  validatePageLoadedWithBtsssTravelClaimExistsFailure = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', "couldn't file your travel claim");
+    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('include.text', 'TRAVEL CLAIM EXISTS ERROR PLACEHOLDER');
   };
 
   validateBackButton = appointmentCount => {

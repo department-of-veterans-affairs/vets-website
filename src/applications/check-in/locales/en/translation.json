@@ -204,7 +204,7 @@
   "reimbursement-claim-number": "Reimbursement claim number",
   "check-travel-claim-status": "You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.",
   "travel-claim-submission-exists-error": "TRAVEL CLAIM EXISTS ERROR PLACEHOLDER",
-  "travel-claim-submission-multiple-error-": "TRAVEL CLAIM MULTIPLE ERROR PLACEHOLDER",
+  "travel-claim-submission-multiple-error": "TRAVEL CLAIM MULTIPLE ERROR PLACEHOLDER",
   "travel-claim-submission-generic-error": "TRAVEL CLAIM GENERIC ERROR PLACEHOLDER",
   "travel-pay-cant-file-message": "We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
   "find-out-if-youre-eligible--link": "Find out if you’re eligible and how to file for travel reimbursement",

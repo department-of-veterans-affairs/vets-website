@@ -27,7 +27,7 @@ const CheckInConfirmation = props => {
     isLoading,
     travelPayEligible,
     travelPayClaimError,
-    travelPayClaimErrorMsg,
+    travelPayClaimErrorCode,
     travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
@@ -97,7 +97,7 @@ const CheckInConfirmation = props => {
             travelPayEligible={travelPayEligible}
             travelPayClaimData={travelPayClaimData}
             travelPayClaimError={travelPayClaimError}
-            trevelPayClaimErrorMsg={travelPayClaimErrorMsg}
+            travelPayClaimErrorCode={travelPayClaimErrorCode}
           />
         )}
 

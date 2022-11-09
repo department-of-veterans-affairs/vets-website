@@ -195,7 +195,7 @@ const v2 = {
   },
 
   postDayOfTravelPayClaim: async data => {
-    const url = '/check_in/v2/btsss/';
+    const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
     const body = JSON.stringify(data);
     const settings = {
