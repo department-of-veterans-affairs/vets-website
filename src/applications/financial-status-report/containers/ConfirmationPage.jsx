@@ -141,7 +141,7 @@ const ConfirmationPage = ({ form, download }) => {
       }
       scrollToTop();
     },
-    [response],
+    [response, data],
   );
 
   return (
