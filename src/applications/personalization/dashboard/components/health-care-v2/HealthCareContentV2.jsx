@@ -121,7 +121,7 @@ const HealthCareContentV2 = ({
           <div>
             We’re sorry. Something went wrong on our end and we can’t access
             your appointment information. Please try again later or go to the
-            appointments tool
+            appointments tool:
           </div>
           <CTALink
             text="Schedule and manage your appointments"

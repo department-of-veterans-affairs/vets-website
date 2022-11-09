@@ -15,7 +15,7 @@ import { selectEditedFormField } from '@@vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import useProfileTransaction from '../hooks/useProfileTransaction';
+import { useProfileTransaction } from '../hooks';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
