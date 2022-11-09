@@ -116,6 +116,7 @@ const formConfig = {
           uiSchema: {
             applicantInformation: {
               items: {
+                ...applicantInformation,
                 fullName: {
                   ...fullNameUI,
                 },
@@ -125,9 +126,10 @@ const formConfig = {
                 dob: {
                   ...currentOrPastDateUI('Date of Birth'),
                 },
-                address: {
-                  ...address.uiSchema('Address'),
-                },
+                address: set(
+                  'ui:validations[1], validateCenteralMailPostalCode',
+                  address.uiSchema('Address'),
+                ),
                 phont: {
                   ...usaPhone,
                 },
