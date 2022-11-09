@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+
 import { focusElement } from 'platform/utilities/ui';
+
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -335,26 +341,46 @@ class SearchApp extends React.Component {
       >
         <div>Enter a keyword</div>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-          <SearchDropdownComponent
-            buttonText="Search"
-            canSubmit
-            id="search-results-page-dropdown"
-            componentClassName=""
-            containerClassName=""
-            buttonClassName=""
-            inputClassName=""
-            suggestionsListClassName=""
-            suggestionClassName=""
-            formatSuggestions
-            fullWidthSuggestions={false}
-            mobileResponsive
-            startingValue={userInput}
-            submitOnClick
-            submitOnEnter
-            fetchSuggestions={this.fetchSuggestions}
-            onInputSubmit={this.onInputSubmit}
-            onSuggestionSubmit={this.onSuggestionSubmit}
-          />
+          {!this.props.searchDropdownComponentEnabled && (
+            <form
+              onSubmit={this.handleSearch}
+              className="va-flex vads-u-width--full"
+            >
+              <input
+                type="text"
+                name="query"
+                aria-label="Enter a keyword"
+                value={this.state.userInput}
+                onChange={this.handleInputChange}
+              />
+              <button type="submit">
+                <IconSearch color="#fff" />
+                <span className="button-text">Search</span>
+              </button>
+            </form>
+          )}
+          {this.props.searchDropdownComponentEnabled && (
+            <SearchDropdownComponent
+              buttonText="Search"
+              canSubmit
+              id="search-results-page-dropdown"
+              componentClassName=""
+              containerClassName=""
+              buttonClassName=""
+              inputClassName=""
+              suggestionsListClassName=""
+              suggestionClassName=""
+              formatSuggestions
+              fullWidthSuggestions={false}
+              mobileResponsive
+              startingValue={userInput}
+              submitOnClick
+              submitOnEnter
+              fetchSuggestions={this.fetchSuggestions}
+              onInputSubmit={this.onInputSubmit}
+              onSuggestionSubmit={this.onSuggestionSubmit}
+            />
+          )}
         </div>
       </div>
     );
@@ -682,6 +708,9 @@ class SearchApp extends React.Component {
 
 const mapStateToProps = state => ({
   search: state.search,
+  searchDropdownComponentEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
+  ],
 });
 
 const mapDispatchToProps = {
@@ -696,3 +725,7 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
+
+SearchAppContainer.defaultProps = {
+  searchDropdownComponentEnabled: false,
+};
