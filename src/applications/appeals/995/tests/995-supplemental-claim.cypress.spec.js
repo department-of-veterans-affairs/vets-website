@@ -24,7 +24,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['minimal-test'], // , 'maximal-test'],
+    dataSets: ['maximal-test'], // , 'minimal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -60,22 +60,31 @@ const testConfig = createTestConfig(
       },
       'contestable-issues': ({ afterHook }) => {
         cy.fillPage();
+        cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          cy.get('.add-new-issue').click();
-          cy.url().should('include', `${BASE_URL}/add-issue?index=`);
-          cy.injectAxeThenAxeCheck();
-
           cy.get('@testData').then(testData => {
-            const { issue, decisionDate } = testData.additionalIssues?.[0];
-            if (issue) {
-              cy.get('#add-sc-issue')
-                .shadow()
-                .then(el => {
-                  cy.wrap(el.find('input')).type(issue);
-                });
-              cy.fillDate('decision-date', decisionDate);
-              cy.get('#add-issue').click();
-            }
+            testData.additionalIssues.forEach(({ issue, decisionDate }) => {
+              if (issue) {
+                cy.get('.add-new-issue').click();
+                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
+                cy.axeCheck();
+                cy.get('#add-sc-issue')
+                  .shadow()
+                  .find('input')
+                  .type(issue);
+                // .then(el => {
+                //   console.log(el, el.find('input'));
+                //   cy.wrap(el.find('input')).type(issue);
+                // });
+                const date = decisionDate
+                  .split('-')
+                  .map(v => parseInt(v, 10))
+                  .join('-');
+                cy.fillDate('decision-date', date);
+                cy.get('#submit').click();
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },
