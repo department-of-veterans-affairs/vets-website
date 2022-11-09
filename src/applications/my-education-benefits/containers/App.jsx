@@ -49,7 +49,7 @@ export const App = ({
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
         getPersonalInfo();
-      } else if (!formData[formFields.claimantId] && claimantInfo.claimantId) {
+      } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,

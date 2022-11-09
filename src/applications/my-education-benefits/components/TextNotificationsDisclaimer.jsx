@@ -48,8 +48,6 @@ TextNotificationsDisclaimer.propTypes = {
   showMebDgi40Features: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-});
+const mapStateToProps = state => getAppData(state);
 
 export default connect(mapStateToProps)(TextNotificationsDisclaimer);
