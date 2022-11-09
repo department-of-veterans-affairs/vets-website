@@ -90,7 +90,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['sponsorFullName'],
+            required: ['sponsorFullName', 'sponsorSsn'],
             properties: {
               sponsorFullName,
               vaFileNumber,
@@ -114,15 +114,34 @@ const formConfig = {
           path: 'applicant-information',
           title: 'Applicant Information',
           uiSchema: {
-            applicantInformation: fullNameUI,
-            ssn: ssnUI,
+            applicantInformation: {
+              items: {
+                fullName: {
+                  ...fullNameUI,
+                },
+                ssn: {
+                  ...ssnUI,
+                },
+                dob: {
+                  ...currentOrPastDateUI('Date of Birth'),
+                },
+                address: {
+                  ...address.uiSchema('Address'),
+                },
+                phont: {
+                  ...usaPhone,
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
             required: ['applicantInformation'],
             properties: {
-              applicantInformation,
-              ssn,
+              applicantInformation: {
+                ...applicantInformation,
+                minItems: 1,
+              },
             },
           },
         },

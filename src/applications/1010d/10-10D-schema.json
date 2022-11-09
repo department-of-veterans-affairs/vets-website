@@ -4,14 +4,6 @@
   "type": "object",
   "additionalProperties": false,
   "definitions": {
-    "applicantSchema": {
-      "type": "object",
-      "properties": {
-        "fullName": {
-          "$ref": "#/definitions/fullName"
-        }
-      }
-    },
     "dateRange": {
       "type": "object",
       "properties": {
@@ -304,6 +296,26 @@
           }
         }
       }
+    },
+    "applicantSchema": {
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "$ref": "#/definitions/fullName"
+        },
+        "ssn": {
+          "$ref": "#/definitions/ssn"
+        },
+        "dob": {
+          "$ref": "#/definitions/date"
+        },
+        "address": {
+          "$ref": "#/definitions/centralMailAddress"
+        },
+        "phone": {
+          "$ref": "#/definitions/usaPhone"
+        }
+      }
     }
   },
   "anyOf": [
@@ -338,7 +350,10 @@
       "$ref": "#/definitions/date"
     },
     "applicantInformation": {
-      "$ref": "#/definitions/fullName"
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/applicantSchema"
+      }
     }
   },
   "required": [
