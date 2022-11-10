@@ -235,12 +235,29 @@ const responses = {
     const filteredAppointments = appointments.filter(appointment => {
       return req.query.statuses.some(status => {
         if (appointment.attributes.status === status) {
-          if (appointment.id.startsWith('mock')) return true;
+          // Automatically add appointments with these statuses to the collection
+          if (
+            appointment.id.startsWith('mock') ||
+            appointment.attributes.status === 'cancelled'
+          )
+            return true;
 
-          const date =
-            status === 'proposed'
-              ? moment(appointment.attributes.requestedPeriods?.[0]?.start)
-              : moment(appointment.attributes.start);
+          const { requestedPeriods } = appointment.attributes;
+          let date = moment.invalid();
+
+          if (status === 'proposed') {
+            // Must check for valid data since creating a moment object with invalid
+            // data defaults to creating a moment object using the current date.
+            if (
+              Array.isArray(requestedPeriods) &&
+              requestedPeriods.length > 0
+            ) {
+              date = moment(requestedPeriods[0].start);
+            }
+          } else if (status === 'booked') {
+            date = moment(appointment.attributes.start);
+          }
+
           if (
             date.isValid() &&
             date.isBetween(req.query.start, req.query.end, 'day', '(]')
