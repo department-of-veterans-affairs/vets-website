@@ -61,7 +61,7 @@ export const DebtsV2 = ({ debts }) => {
             recordEvent({
               event: 'dashboard-navigation',
               'dashboard-action': 'view-link',
-              'dashboard-section': 'view-manage-va-debt',
+              'dashboard-product': 'view-manage-va-debt',
             })
           }
           testId="manage-va-debt-link-v2"
