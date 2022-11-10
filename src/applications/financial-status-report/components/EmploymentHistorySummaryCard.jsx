@@ -1,11 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
+import { setJobIndex } from '../utils/session';
 
 const EmploymentHistorySummaryCard = ({ job, index }) => {
   const employmentCardHeading = `${job.employerName}`;
   const employmentCardSubheading = `From ${job.from} to ${
     job.isCurrent ? 'Now' : job.to
   }`;
+
+  const handleClick = () => {
+    setJobIndex(index);
+    browserHistory.push(`/enhanced-employment-records`);
+  };
 
   return (
     <article
@@ -16,7 +22,15 @@ const EmploymentHistorySummaryCard = ({ job, index }) => {
       <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
         {employmentCardSubheading}
       </p>
-      <Link
+      <button
+        onClick={() => {
+          handleClick();
+        }}
+        href="#"
+      >
+        Edit
+      </button>
+      {/* <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         to={{
           pathname: '/enhanced-employment-records',
@@ -29,7 +43,7 @@ const EmploymentHistorySummaryCard = ({ job, index }) => {
           className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
         />
-      </Link>
+      </Link> */}
     </article>
   );
 };

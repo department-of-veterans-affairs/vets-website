@@ -1,8 +1,6 @@
 import PayrollDeductionInputList from '../../../components/PayrollDeductionInputList';
-import { SelectedJobEmployerTitle } from '../../../components/SelectedJobEmployerTitle';
 
 export const uiSchema = {
-  'ui:title': SelectedJobEmployerTitle,
   currEmployment: {
     'ui:field': PayrollDeductionInputList,
   },
