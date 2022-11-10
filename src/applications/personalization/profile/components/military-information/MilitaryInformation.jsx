@@ -52,9 +52,10 @@ const NotInDEERSAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />. The DMDC
-            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET.
+            &nbsp;(
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            ). The DMDC Monday through Friday (except federal holidays), 8:00
+            a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -179,7 +180,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <Headline>Military information</Headline>
+      <Headline>Military Information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
