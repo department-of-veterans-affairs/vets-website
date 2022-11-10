@@ -326,10 +326,10 @@ export function createMilitaryClaimant(submissionForm) {
   return {
     claimantId: submissionForm[formFields.claimantId],
     firstName: userFullName?.first,
-    middleName: userFullName.middle,
+    middleName: userFullName?.middle,
     lastName: userFullName?.last,
     suffix: userFullName?.suffix,
-    dateOfBirth: submissionForm.dateOfBirth,
+    dateOfBirth: submissionForm[formFields.dateOfBirth],
     contactInfo: createContactInfo(submissionForm),
     notificationMethod: getNotificationMethod(
       submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,

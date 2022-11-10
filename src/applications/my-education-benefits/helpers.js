@@ -236,7 +236,7 @@ export const formatHyphenlessDate = b => {
   return `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}`;
 };
 
-function prefillTransformerV1(pages, formData, metadata, state) {
+export function prefillTransformerV1(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
@@ -301,7 +301,7 @@ function prefillTransformerV1(pages, formData, metadata, state) {
   };
 }
 
-function prefillTransformerV2(pages, formData, metadata, state) {
+export function prefillTransformerV2(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
@@ -436,16 +436,14 @@ function prefillTransformerV2(pages, formData, metadata, state) {
 
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
+  // eslint-disable-next-line camelcase
+  const showMebDgi40Features = state.featureToggles?.show_meb_dgi40_features;
 
-  if (
-    !featureTogglesLoaded ||
-    !formData ||
-    formData.showMebDgi40Features === undefined
-  ) {
+  if (!featureTogglesLoaded) {
     return {};
   }
 
-  if (formData.showMebDgi40Features) {
+  if (showMebDgi40Features) {
     return prefillTransformerV2(pages, formData, metadata, state);
   }
 
