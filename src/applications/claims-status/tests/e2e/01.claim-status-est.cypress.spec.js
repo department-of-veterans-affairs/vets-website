@@ -19,7 +19,7 @@ beforeEach(() => {
   });
 });
 
-describe('Claims status est current test', () => {
+describe('Claims status est current test - C30702', () => {
   it('Shows the correct status for the claim', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
