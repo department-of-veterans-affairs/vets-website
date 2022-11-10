@@ -6,7 +6,7 @@ const useTravelPayFlags = () => {
   const [travelPayClaimSent, setTravelPayClaimSent] = useState();
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
-  const { token } = context;
+  const { token, appointment } = context;
 
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
@@ -21,6 +21,7 @@ const useTravelPayFlags = () => {
 
   let travelPayData = {
     uuid: token,
+    appointmentDate: appointment.startTime.split('T')[0],
   };
 
   if (travelQuestion !== undefined) {

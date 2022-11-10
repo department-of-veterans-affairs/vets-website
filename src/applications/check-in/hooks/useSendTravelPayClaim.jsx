@@ -48,7 +48,7 @@ const useSendTravelPayClaim = () => {
         })
         .catch(e => {
           setTravelPayClaimError(true);
-          setTravelPayClaimErrorCode(e.data.errorCode);
+          setTravelPayClaimErrorCode(e.data.code);
         })
         .finally(() => {
           setTravelPayClaimSent(true);

@@ -48,7 +48,7 @@ describe('Check In Experience', () => {
       });
     });
     it('shows the correct error message for generic api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(500, 'generic');
+      ApiInitializer.initializeBtsssPost.withFailure(400, 'CLM_011_LOL_DUNNO');
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
@@ -72,7 +72,10 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('shows the correct error message for multiple appointments api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(500, 'multiple');
+      ApiInitializer.initializeBtsssPost.withFailure(
+        400,
+        'CLM_001_MULTIPLE_APPTS',
+      );
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
@@ -96,7 +99,10 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('shows the correct error message for travel claim exists api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(500, 'exists');
+      ApiInitializer.initializeBtsssPost.withFailure(
+        400,
+        'CLM_002_CLAIM_EXISTS',
+      );
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
