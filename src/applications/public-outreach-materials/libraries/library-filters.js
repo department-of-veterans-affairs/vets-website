@@ -111,7 +111,7 @@ export function libraryPagerGen() {
     // This is our active page / pager button.
     pagerHtml = `<a href="#${activePage}" aria-label="Page ${activePage}" aria-current="true" id="va-pagination-active-num" class="va-pagination-active a-page-numbers pager-focus-item">
     ${activePage}</a>`;
-    // If we have more than one page, add a button in front of active button.
+    // If we have more than one page, add a button in front of active button
     if (diff >= 1 && (numCards.first === undefined || numCards.last > 9)) {
       pagerHtml += `<a href="#${activePage + 1}" aria-label="Page ${activePage +
         1}" class="pager-numbers pager-focus-item" aria-label="Load page
