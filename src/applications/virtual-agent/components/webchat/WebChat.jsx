@@ -101,8 +101,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
-    paddingWide: 40,
-    paddingRegular: 5,
   };
 
   const handleTelemetry = event => {
