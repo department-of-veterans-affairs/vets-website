@@ -99,7 +99,7 @@ describe('the Supplemental Claims Sub-task', () => {
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
   });
-  it('should show an error when no selection is made', () => {
+  it.skip('should show an error when no selection is made', () => {
     const { container } = render(
       <Provider store={mockStore()}>
         <SubTaskContainer />

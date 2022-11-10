@@ -137,38 +137,6 @@ describe('check in', () => {
       );
     });
 
-    it('goes to the error page when the data is unavailable', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {
-            demographics: {},
-          },
-        },
-        ...scheduledDowntimeState,
-      };
-      render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      expect(push.calledOnce).to.be.true;
-    });
-
     it('has a clickable no button', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({
