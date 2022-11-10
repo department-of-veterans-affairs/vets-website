@@ -11,15 +11,14 @@ describe('995 subtask', () => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: { features: [{ name: 'supplemental_claim', value: true }] },
-    }).as('features');
+    });
 
     resetStoredSubTask();
     cy.visit(`${BASE_URL}/start`);
-    cy.wait('@features');
+    cy.location('pathname').should('eq', `${BASE_URL}/start`);
   });
 
   it('should show error when nothing selected - C30850', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
@@ -32,7 +31,6 @@ describe('995 subtask', () => {
   });
 
   it('should go to intro page when compensation is selected - C30851', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
     cy.injectAxeThenAxeCheck();
 
     cy.selectRadio('benefitType', 'compensation');
@@ -42,7 +40,6 @@ describe('995 subtask', () => {
   });
 
   it('should go to non-compensation type page when another type is selected - C30852', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
     cy.injectAxeThenAxeCheck();
 
     cy.selectRadio('benefitType', 'other');
