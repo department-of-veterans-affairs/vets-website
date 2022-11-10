@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useTravelPayFlags = () => {
@@ -19,9 +20,11 @@ const useTravelPayFlags = () => {
     'travel-vehicle': travelVehicle,
   } = data;
 
+  const startDate = format(new Date(appointment.startTime), 'yyyy-LL-dd');
+
   let travelPayData = {
     uuid: token,
-    appointmentDate: appointment.startTime.split('T')[0],
+    appointmentDate: startDate,
   };
 
   if (travelQuestion !== undefined) {
