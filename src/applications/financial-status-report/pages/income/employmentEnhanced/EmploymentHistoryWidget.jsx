@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { clearJobIndex } from '../../../utils/session';
 
 const EmploymentHistoryWidget = () => {
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
+
+  useEffect(() => {
+    clearJobIndex();
+  }, []);
 
   return (
     <>

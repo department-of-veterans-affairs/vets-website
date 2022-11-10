@@ -9,6 +9,7 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 // import URLSearchParams from 'url-search-params';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
   {
@@ -23,9 +24,7 @@ const defaultRecord = [
 const EmploymentRecord = props => {
   const { data, goToPath, goBack, onReviewPage, setFormData } = props;
 
-  const editIndex = new URLSearchParams(window.location.search).get(
-    'editIndex',
-  );
+  const editIndex = getJobIndex();
 
   const isEditing = editIndex && !Number.isNaN(editIndex);
 
@@ -89,8 +88,6 @@ const EmploymentRecord = props => {
           },
         },
       });
-
-      goToPath('/gross-monthly-income');
     } else {
       const records = [
         employmentRecord,
@@ -113,9 +110,8 @@ const EmploymentRecord = props => {
           },
         },
       });
-
-      goToPath('/gross-monthly-income');
     }
+    goToPath(`/gross-monthly-income`);
   };
 
   const handleCheckboxChange = (key, val) => {

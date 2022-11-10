@@ -1,9 +1,32 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { getJobIndex } from '../utils/session';
 
-const GrossMonthlyIncomeInput = () => {
+const GrossMonthlyIncomeInput = props => {
+  const { goToPath, goBack, onReviewPage, setFormData } = props;
+
+  const editIndex = getJobIndex();
+
+  const isEditing = editIndex && !Number.isNaN(editIndex);
+
+  const index = isEditing ? Number(editIndex) : 0;
+
+  const userType = 'veteran';
+
+  const formData = useSelector(state => state.form.data);
+  const employmentRecord =
+    formData.personalData.employmentHistory.veteran.employmentRecords[index];
+
+  const {
+    employerName = '',
+    grossMonthlyIncome: currentGrossMonthlyIncome = '',
+  } = employmentRecord;
+
   const [incomeError, setIncomeError] = useState(false);
   const [grossMonthlyIncome, setGrossMonthlyIncome] = useState({
-    value: '',
+    value: currentGrossMonthlyIncome,
     dirty: false,
   });
 
@@ -35,22 +58,107 @@ const GrossMonthlyIncomeInput = () => {
     [incomeError, grossMonthlyIncome, validateGrossMonthlyIncome],
   );
 
+  const updateFormData = e => {
+    e.preventDefault();
+    if (isEditing) {
+      // find the one we are editing in the employeeRecords array
+      const updatedRecords = formData.personalData.employmentHistory.veteran.employmentRecords.map(
+        (item, arrayIndex) => {
+          return arrayIndex === index
+            ? {
+                ...employmentRecord,
+                grossMonthlyIncome: grossMonthlyIncome.value,
+              }
+            : item;
+        },
+      );
+      // update form data
+      setFormData({
+        ...formData,
+        personalData: {
+          ...formData.personalData,
+          employmentHistory: {
+            ...formData.personalData.employmentHistory,
+            [`${userType}`]: {
+              ...formData.personalData.employmentHistory[`${userType}`],
+              employmentRecords: updatedRecords,
+            },
+          },
+        },
+      });
+    } else {
+      const records = [
+        { ...employmentRecord, grossMonthlyIncome: grossMonthlyIncome.value },
+      ];
+
+      setFormData({
+        ...formData,
+        personalData: {
+          ...formData.personalData,
+          employmentHistory: {
+            ...formData.personalData.employmentHistory,
+            [`${userType}`]: {
+              ...formData.personalData.employmentHistory[`${userType}`],
+              employmentRecords: records,
+            },
+          },
+        },
+      });
+    }
+    goToPath(`/deduction-checklist`);
+  };
+
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Review update button</button>;
+
   return (
-    <div className="input">
-      <va-text-input
-        id="gross-monthly-income"
-        name="gross-monthly-income"
-        onBlur={setNewGrossMonthlyIncome}
-        type="text"
-        required
-        error={
-          incomeError && grossMonthlyIncome.dirty
-            ? `Please enter a valid number.`
-            : ''
-        }
-      />
-    </div>
+    <form onSubmit={updateFormData}>
+      <div>
+        <h3 className="vads-u-margin-top--neg1p5">
+          Your job at {employerName}
+        </h3>{' '}
+      </div>
+      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
+        What’s your gross monthly income at this job?
+      </span>
+      <p className="formfield-subtitle">
+        You’ll find this in your paycheck. It’s the amount of your pay before
+        taxes and deductions.
+      </p>
+      <br />
+      <div className="input">
+        <va-text-input
+          id="gross-monthly-income"
+          name="gross-monthly-income"
+          onInput={setNewGrossMonthlyIncome}
+          type="text"
+          value={grossMonthlyIncome.value}
+          required
+          error={
+            incomeError && grossMonthlyIncome.dirty
+              ? `Please enter a valid number.`
+              : ''
+          }
+        />
+      </div>
+
+      {onReviewPage ? updateButton : navButtons}
+    </form>
   );
 };
 
-export default GrossMonthlyIncomeInput;
+const mapStateToProps = ({ form }) => {
+  return {
+    formData: form.data,
+    employmentHistory: form.data.personalData.employmentHistory,
+  };
+};
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GrossMonthlyIncomeInput);
