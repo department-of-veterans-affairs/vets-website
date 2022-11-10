@@ -46,12 +46,11 @@ describe('Check In Experience - Tagalog', () => {
   it('Validate Veteran page - tagalog', () => {
     // App is translated.
     ValidateVeteran.validatePage.dayOf('tl');
-    // NOTE: DS components don't seem to support tagalog..
     cy.get('[data-testid="last-name-input"]')
       .shadow()
       .find('label')
       .should('be.visible')
-      .and('have.text', 'Ang iyong apelyido (*Required)');
+      .and('have.text', 'Ang iyong apelyido (*Kailangan)');
     cy.injectAxe();
     cy.axeCheck();
   });

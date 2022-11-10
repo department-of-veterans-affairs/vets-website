@@ -14,11 +14,11 @@ describe(manifest.appName, () => {
       },
     };
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.visit(manifest.rootUrl);
+    cy.injectAxe();
   });
 
   it('is accessible', () => {
-    cy.visit(manifest.rootUrl);
-    cy.injectAxe();
     cy.axeCheck();
 
     cy.url().should(
@@ -35,7 +35,6 @@ describe(manifest.appName, () => {
     });
     // Tests that login modal appears after clicking
     cy.get('#signin-signup-modal').should('be.visible');
-    cy.injectAxe();
     cy.axeCheck();
 
     cy.get('.va-modal-close').click({

@@ -8,14 +8,14 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import {
   mockContestableIssues,
-  // getRandomDate,
-  // fixDecisionDates,
+  mockContestableIssuesWithLegacyAppeals,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
+import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE } from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -24,7 +24,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['minimal-test'], // , 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -40,6 +40,24 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'primary-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            cy.selectRadio('primary', testData[PRIMARY_PHONE] || 'home');
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/additional-evidence': () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'testing',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
+        cy.get('select').select('Buddy/Lay Statement');
+      },
     },
 
     setupPerTest: () => {
@@ -48,11 +66,16 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
+      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
 
+      // Include legacy appeals to mock data for maximal test
+      const dataSet = Cypress.currentTest.titlePath[1];
       cy.intercept(
         'GET',
         `/v1${CONTESTABLE_ISSUES_API}compensation`,
-        mockContestableIssues,
+        dataSet === 'maximal-test'
+          ? mockContestableIssuesWithLegacyAppeals
+          : mockContestableIssues,
       );
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
