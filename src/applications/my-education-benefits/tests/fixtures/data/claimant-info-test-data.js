@@ -27,7 +27,7 @@ export const claimantInfo = {
             dobChanged: false,
             firstAndLastNameChanged: false,
             contactInfoChanged: false,
-            notificationMethod: 'email',
+            notificationMethod: 'EMAIL',
             preferredContact: 'mail',
           },
           serviceData: [

@@ -72,10 +72,9 @@ export const App = ({
   useEffect(
     () => {
       if (
-        showMebDgi40Features &&
-        (!isLoggedIn ||
-          !featureTogglesLoaded ||
-          (showUnverifiedUserAlert && isLOA3 !== true))
+        !isLoggedIn ||
+        !featureTogglesLoaded ||
+        (showUnverifiedUserAlert && isLOA3 !== true)
       ) {
         return;
       }
