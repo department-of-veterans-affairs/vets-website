@@ -40,7 +40,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceTravelReimbursement: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
@@ -54,7 +53,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
         }),
       );
@@ -67,7 +65,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
           checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaDeletionEnabled: false,
