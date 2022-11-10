@@ -9,7 +9,7 @@ const renderLetters = letters =>
   ));
 
 const ClaimLetterList = ({ letters }) => (
-  <ol className="vads-u-margin--0 vads-u-padding--0">
+  <ol className="usa-unstyled-list vads-u-margin--0">
     {renderLetters(letters)}
   </ol>
 );

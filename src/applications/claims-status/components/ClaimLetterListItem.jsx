@@ -14,7 +14,10 @@ const ClaimLetterListItem = ({ letter }) => {
   const heading = `Letter dated ${formatDate(letter.receivedAt)}`;
 
   return (
-    <li className="vads-u-display--block vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
+    <li
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2"
+      role="list"
+    >
       <h2 className="vads-u-font-size--h4">{heading}</h2>
       <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
         {letter.typeDescription}
