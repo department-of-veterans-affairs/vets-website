@@ -119,39 +119,6 @@ describe('check in', () => {
       );
     });
 
-    it('goes to the error page when the demographics data is unavailable', () => {
-      const push = sinon.spy();
-
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {},
-        },
-        ...scheduledDowntimeState,
-      };
-
-      render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics
-              router={createMockRouter({
-                push,
-                params: {},
-              })}
-            />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      sinon.assert.calledOnce(push);
-    });
-
     it('has a clickable no button', () => {
       const push = sinon.spy();
       const mockRouter = createMockRouter({

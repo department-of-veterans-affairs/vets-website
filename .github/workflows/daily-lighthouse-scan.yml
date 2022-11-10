@@ -28,7 +28,7 @@ jobs:
           # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
           REGISTRY_ARRAY=$(jq '[.[]
                       | select((.rootUrl
-                                | IN("/health-care/health-questionnaires/questionnaires/answer-questions", "/health-care/health-questionnaires/questionnaires")
+                                | IN("")
                                 | not) and .template.vagovprod != false) 
                       | .rootUrl ]' ./content-build/src/applications/registry.json)
           echo ::set-output name=registries::$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort')

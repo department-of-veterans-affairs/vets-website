@@ -180,6 +180,7 @@ export const getMonthlyIncome = ({
   currEmployment,
   spCurrEmployment,
   income,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
@@ -190,9 +191,9 @@ export const getMonthlyIncome = ({
   // veteran
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const vetSocSecAmt = !enhancedFSRActive
+    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
+    : 0;
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
@@ -208,9 +209,11 @@ export const getMonthlyIncome = ({
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(
-    socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const spSocialSecAmt = !enhancedFSRActive
+    ? Number(
+        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+      )
+    : 0;
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(
       /[^0-9.-]/g,
@@ -251,17 +254,26 @@ export const getMonthlyExpenses = ({
   return utilities + installments + otherExp + totalExp;
 };
 
-export const getTotalAssets = ({ assets, realEstateRecords }) => {
+export const getTotalAssets = ({
+  assets,
+  realEstateRecords,
+  'view:combinedFinancialStatusReport': combinedFSRActive,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+}) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
+  const totRecVehicles = !combinedFSRActive
+    ? sumValues(assets.recVehicles, 'recVehicleAmount')
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, ''));
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
-  const totAssets = Object.values(assets)
-    .filter(item => item && !Array.isArray(item))
-    .reduce(
-      (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
-      0,
-    );
+  const totAssets = !enhancedFSRActive
+    ? Object.values(assets)
+        .filter(item => item && !Array.isArray(item))
+        .reduce(
+          (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
+          0,
+        )
+    : sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };

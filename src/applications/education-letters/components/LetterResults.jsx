@@ -1,10 +1,16 @@
 import React from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import environment from 'platform/utilities/environment';
+import { format } from 'date-fns';
 
 export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
-export const HasLetters = claimStatus => {
+export const HasLetters = ({ claimStatus }) => {
+  const receivedDate = format(
+    new Date(claimStatus.receivedDate),
+    'MMMM dd, yyyy',
+  );
+
   return (
     <>
       <FormTitle title="Your VA education letter" />
@@ -28,7 +34,7 @@ export const HasLetters = claimStatus => {
             />
             Download Post-9/11 GI Bill decision letter (PDF)
           </a>
-          <p>You applied for this on {claimStatus?.receivedDate}</p>
+          <p>You applied for this on {receivedDate}</p>
         </div>
       </div>
 

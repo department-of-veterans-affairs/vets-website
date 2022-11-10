@@ -8,10 +8,6 @@ import {
   WIZARD_STATUS,
 } from '../constants';
 
-// Date selects don't include leading zeros
-const mock120 = moment()
-  .add(120, 'days')
-  .format('YYYY-M-D');
 // Date saved to sessionStorage includes leading zeros
 const mockDate = moment()
   .add(120, 'days')
@@ -106,7 +102,7 @@ describe('526 wizard', () => {
     });
 
     cy.get('va-date').should('exist');
-    cy.fillDate('discharge-date', mock120);
+    cy.fillDate('discharge-date', mockDate);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
     cy.checkStorage(SAVED_SEPARATION_DATE, mockDate);
