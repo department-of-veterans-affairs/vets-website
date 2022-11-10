@@ -16,12 +16,12 @@ const TravelPayAlert = props => {
   let errorMsg = '';
   if (travelPayClaimError) {
     switch (travelPayClaimErrorCode) {
-      case 'exists':
-        errorMsg = t('travel-claim-submission-exists-error');
+      case 'CLM_001_MULTIPLE_APPTS':
+        errorMsg = t('travel-claim-submission-multiple-error');
         break;
 
-      case 'multiple':
-        errorMsg = t('travel-claim-submission-multiple-error');
+      case 'CLM_002_CLAIM_EXISTS':
+        errorMsg = t('travel-claim-submission-exists-error');
         break;
 
       default:
