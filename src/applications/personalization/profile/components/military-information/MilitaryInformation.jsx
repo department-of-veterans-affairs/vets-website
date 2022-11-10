@@ -180,7 +180,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <Headline>Military Information</Headline>
+      <Headline>Military information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
