@@ -1,25 +1,25 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-.webchat__suggested-actions__button-text {
-  padding: 20px;
-}
-
-.webchat__suggested-actions__button {
-  padding: 0px !important;
-  margin-left: 2.5px !important;
-  margin-right: 2.5px !important;
-  background: rgb(0, 113, 187) !important;
-}
-
-button.webchat__suggested-actions__button:hover {
-  background: rgb(0,62,115) !important;
-}
-
-button.webchat__suggested-actions__button:active {
-  background: rgb(17,46,81) !important;
-}
 
 #btnAcceptDisclaimer {
   @include media($medium-large-screen) {
     margin-left: 23px;
   }
+}
+
+.merger {
+  article {
+      &.webchat__basic-transcript__activity:last-of-type {
+        padding-bottom: 0;
+    }
+  }
+}
+
+.webchat__suggested-actions__button {
+  width: 83% !important;
+  margin: 0  0 0 2.9em !important;
+}
+
+.webchat__suggested-actions__stack {
+  margin-bottom: 1em !important;
+  overflow-y: hidden !important;
 }
