@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
+import { selectCernerFacilities } from '~/platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -18,6 +21,7 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import {
   selectIsCernerPatient,
   selectAvailableServices,
+  selectPatientFacilities,
 } from '~/platform/user/selectors';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -47,6 +51,8 @@ const HealthCareContentV2 = ({
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
+
+  connectDrupalSourceOfTruthCerner(useDispatch());
 
   useEffect(
     () => {
@@ -224,13 +230,19 @@ const HealthCareContentV2 = ({
 };
 
 const mapStateToProps = state => {
-  const facilityLocations = [
-    'VA Spokane health care',
-    'VA Walla Walla health care',
-    'VA Central Ohio health care',
-    'Roseburg (Oregon) VA health care',
-    'White City health care',
-  ];
+  const facilities = state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state);
+
+  const userFacilityIds = (facilities || []).map(f => f.facilityId);
+
+  const allCernerFacilities = selectCernerFacilities(state);
+
+  const userCernerFacilities = allCernerFacilities.filter(f =>
+    userFacilityIds.contains(f.vhaId),
+  );
+
+  const facilityLocations = userCernerFacilities.map(f => f.vamcSystemName);
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
