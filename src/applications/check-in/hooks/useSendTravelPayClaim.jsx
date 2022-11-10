@@ -9,7 +9,7 @@ const useSendTravelPayClaim = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
-  const [travelPayClaimErrorCode, setTravelPayClaimErrorCode] = useState();
+  const [travelPayClaimErrorCode, setTravelPayClaimErrorCode] = useState('');
   const [travelPayClaimRequested, setTravelPayClaimRequested] = useState();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
