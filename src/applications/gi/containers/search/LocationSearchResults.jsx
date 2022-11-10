@@ -617,7 +617,7 @@ function LocationSearchResults({
     return (
       <div
         tabIndex="0"
-        role="navigation"
+        role="region"
         className={containerClassNames}
         aria-label="Find VA locations on an interactive map. Tab again to interact with map"
       >
