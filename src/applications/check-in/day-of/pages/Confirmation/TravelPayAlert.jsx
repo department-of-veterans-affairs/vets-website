@@ -35,7 +35,10 @@ const TravelPayAlert = props => {
         travelPayClaimData && (
           <va-alert background-only show-icon data-testid="travel-pay-message">
             <div>
-              <p className="vads-u-margin-top--0">
+              <p
+                className="vads-u-margin-top--0"
+                data-testid="travel-pay-eligible-success-message"
+              >
                 {t('check-travel-claim-status')}
               </p>
               <ExternalLink
@@ -57,7 +60,10 @@ const TravelPayAlert = props => {
           data-testid="travel-pay-message"
           status="warning"
         >
-          <p className="vads-u-margin-top--0">
+          <p
+            className="vads-u-margin-top--0"
+            data-testid="travel-pay-not-eligible-message"
+          >
             <Trans
               i18nKey="travel-pay-cant-file-message"
               components={[
@@ -65,7 +71,6 @@ const TravelPayAlert = props => {
               ]}
             />
           </p>
-          {travelPayClaimErrorCode}
           <ExternalLink
             href="/health-care/get-reimbursed-for-travel-pay/"
             hrefLang="en"
@@ -85,7 +90,12 @@ const TravelPayAlert = props => {
             data-testid="travel-pay-message"
             status="error"
           >
-            <p className="vads-u-margin-top--0">{errorMsg}</p>
+            <p
+              className="vads-u-margin-top--0"
+              data-testid="travel-pay-claim-error-message"
+            >
+              {errorMsg}
+            </p>
             <ExternalLink
               href="/health-care/get-reimbursed-for-travel-pay/"
               hrefLang="en"
