@@ -9,9 +9,12 @@ const renderLetters = letters =>
   ));
 
 const ClaimLetterList = ({ letters }) => (
-  <ol className="usa-unstyled-list vads-u-margin--0">
-    {renderLetters(letters)}
-  </ol>
+  <>
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ol className="usa-unstyled-list vads-u-margin--0" role="list">
+      {renderLetters(letters)}
+    </ol>
+  </>
 );
 
 ClaimLetterList.propTypes = {
