@@ -41,6 +41,7 @@ const useSendDemographicsFlags = () => {
       demographicsFlagsSent,
       getShouldSendDemographicsFlags,
       setDemographicsFlagsSent,
+      setShouldSendDemographicsFlags,
     ],
   );
 };
