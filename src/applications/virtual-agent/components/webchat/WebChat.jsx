@@ -75,7 +75,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createDirectLine],
   );
 
-  const BUTTONS = 58.8;
+  const BUTTONS = 49.2;
   const styleOptions = {
     hideUploadButton: true,
     botAvatarBackgroundColor: '#003e73', // color-primary-darker
@@ -92,18 +92,15 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
-    suggestedActionLayout: 'stacked', // flow
+    suggestedActionLayout: 'stacked',
     suggestedActionsStackedHeight: BUTTONS * 5,
     suggestedActionHeight: 43,
-    // suggestedActionsFlowMaxHeight: 390,
     suggestedActionActiveBackground: 'rgb(17,46,81)',
     suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
     suggestedActionBackgroundColor: 'rgb(0, 113, 187)',
     suggestedActionTextColor: 'white',
     suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
-    paddingWide: 40,
-    paddingRegular: 5,
   };
 
   const handleTelemetry = event => {

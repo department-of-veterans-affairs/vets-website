@@ -13,10 +13,18 @@
     }
   }
 }
+.webchat__suggested-actions__item-box {
+  padding: 0 !important;
+  margin: 5px !important;
+}
 
 .webchat__suggested-actions__button {
   width: 83% !important;
-  margin: 0  0 0 2.9em !important;
+  margin: 0 0 0 2.9em !important;
+}
+
+.webchat__send-box-text-box {
+  margin: 0;
 }
 
 .webchat__suggested-actions__stack {
