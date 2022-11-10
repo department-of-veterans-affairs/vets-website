@@ -586,7 +586,7 @@ class SearchDropdownComponent extends React.Component {
       mobileResponsive,
     } = this.props;
 
-    let activeId = undefined;
+    let activeId;
     if (isOpen && activeIndex !== undefined) {
       activeId = `${id}-option-${activeIndex}`;
     }
@@ -636,12 +636,12 @@ class SearchDropdownComponent extends React.Component {
           </span>
           <input
             aria-activedescendant={activeId}
-            aria-autocomplete={'none'}
+            aria-autocomplete="none"
             aria-controls={`${id}-listbox`}
             {...ariaDescribedProp}
             aria-expanded={isOpen}
             aria-haspopup="listbox"
-            aria-label={'Search'}
+            aria-label="Search"
             autoComplete="off"
             className={`vads-u-width--full search-dropdown-input-field ${
               fullWidthSuggestions
@@ -665,7 +665,7 @@ class SearchDropdownComponent extends React.Component {
               <div
                 className={`search-dropdown-options vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
                 role="listbox"
-                aria-label={'Search Suggestions'}
+                aria-label="Search Suggestions"
                 id={`${id}-listbox`}
               >
                 {suggestions.map((suggestionString, i) => {

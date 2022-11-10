@@ -59,9 +59,9 @@ export const DebtsV2 = ({ debts }) => {
           className="vads-u-font-weight--bold"
           onClick={() =>
             recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': 'view-manage-va-debt',
+              event: 'dashboard-navigation',
+              'dashboard-action': 'view-link',
+              'dashboard-section': 'view-manage-va-debt',
             })
           }
           testId="manage-va-debt-link-v2"
