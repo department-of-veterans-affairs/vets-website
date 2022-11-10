@@ -117,8 +117,6 @@ RequestDetailsCard.propTypes = {
 
 const ConfirmationPage = ({ form, download }) => {
   const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
-  const successVBAResponse =
-    'Document has been successfully uploaded to filenet';
 
   const { response } = form.submission;
   const { data } = form;
@@ -126,16 +124,24 @@ const ConfirmationPage = ({ form, download }) => {
   useEffect(
     () => {
       focusElement('.schemaform-title > h1');
-      if (response.vbaStatus.status === successVBAResponse) {
-        recordEvent({ event: 'cfsr-5655-vba-submitted' });
-      }
+      if (response.content) {
+        const debtAdmins = {};
+        debtAdmins[DEBT_TYPES.DEBT] = 'vba';
+        debtAdmins[DEBT_TYPES.COPAY] = 'vha';
+        const debtTypes = [
+          ...new Set(
+            data.selectedDebtsAndCopays.map(
+              debtOrCopay => debtAdmins[debtOrCopay.debtType],
+            ),
+          ),
+        ];
 
-      if (response.vhaStatus.status.includes(200)) {
-        recordEvent({ event: 'cfsr-5655-vha-submitted' });
+        const prefix = debtTypes.length > 1 ? 'combined' : debtTypes[0];
+        recordEvent({ event: `cfsr-5655-${prefix}-submitted` });
       }
       scrollToTop();
     },
-    [response],
+    [response, data],
   );
 
   return (
