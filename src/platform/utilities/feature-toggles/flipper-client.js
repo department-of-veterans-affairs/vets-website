@@ -73,6 +73,10 @@ function FlipperClient({
       }
       */
     let data;
+    const queryParams = new URLSearchParams(window.location.search);
+    const isToggleCacheDisabled =
+      queryParams.get('disableFlipperCache') === 'true';
+
     const featureToggleSessionData =
       sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
       JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
@@ -81,7 +85,7 @@ function FlipperClient({
       featureToggleSessionData &&
       Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
 
-    if (isSessionDataValid) {
+    if (!isToggleCacheDisabled && isSessionDataValid) {
       data = featureToggleSessionData.data;
     } else {
       const response = await _fetchToggleValues();
