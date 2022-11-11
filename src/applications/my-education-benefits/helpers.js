@@ -51,8 +51,13 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     return '';
   }
 
-  if (str.length <= numVisibleChars) {
-    return str;
+  if (str.length <= 2 * numVisibleChars) {
+    const visibileChars = Math.floor(str.length / 3);
+
+    return (
+      obfuscateChar.repeat(str.length - visibileChars) +
+      str.substring(str.length - visibileChars, str.length)
+    );
   }
 
   return (
@@ -410,7 +415,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         address?.countryCode !== 'US' &&
         address?.addressType === 'MILITARY_OVERSEAS',
     },
-    'view:bankAccount': {
+    [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
     },

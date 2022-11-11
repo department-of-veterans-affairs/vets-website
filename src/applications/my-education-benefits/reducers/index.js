@@ -28,13 +28,18 @@ const handleDirectDepositApi = action => {
       ...action?.response?.data?.attributes,
       routingNumber:
         action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+      originalAccountNumber: action?.response?.data?.attributes?.accountNumber,
+      originalRoutingNumer:
+        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
     };
   }
   return {
-    // accountType: 'Checking',
-    // accountNumber: '1234569891',
-    // routingNumber: '031000503',
-    // financialInstitutionName: 'Wells Fargo',
+    accountType: 'Checking',
+    accountNumber: '******9891',
+    routingNumber: '*****0503',
+    originalAccountNumber: '******9891',
+    originalRoutingNumber: '*****0503',
+    financialInstitutionName: 'Wells Fargo',
   };
 };
 

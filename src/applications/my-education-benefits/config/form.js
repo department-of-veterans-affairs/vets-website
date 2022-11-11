@@ -8,7 +8,7 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
@@ -32,7 +32,7 @@ import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import DateReviewField from '../components/DateReviewField';
-// import DirectDepositViewField from '../components/DirectDepositViewField';
+import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import GetFormHelp from '../components/GetFormHelp';
@@ -60,6 +60,8 @@ import {
   validateEffectiveDate,
   validateMobilePhone,
   validateHomePhone,
+  validateRoutingNumber,
+  validateAccountNumber,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -326,25 +328,6 @@ const checkImageSrc = (() => {
 
   return `${bucket}/img/check-sample.png`;
 })();
-
-const isValidAccountNumber = accountNumber => {
-  if (/^[0-9]*$/.test(accountNumber)) {
-    return accountNumber;
-  }
-  return false;
-};
-
-const validateAccountNumber = (
-  errors,
-  accountNumber,
-  formData,
-  schema,
-  errorMessages,
-) => {
-  if (!isValidAccountNumber(accountNumber)) {
-    errors.addError(errorMessages.pattern);
-  }
-};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1429,101 +1412,9 @@ const formConfig = {
       title: 'Direct deposit',
       pages: {
         // IF NOT showMebDgi40Features
-        [formPages.directDeposit]: {
-          path: 'direct-deposit',
-          uiSchema: {
-            'ui:description': customDirectDepositDescription,
-            bankAccount: {
-              ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-              accountNumber: {
-                'ui:title': 'Bank account number',
-                'ui:validations': [validateAccountNumber],
-                'ui:errorMessages': {
-                  pattern: 'Please enter only numbers',
-                },
-              },
-            },
-            'view:learnMore': {
-              'ui:description': (
-                <>
-                  <img
-                    key="check-image-src"
-                    style={{ marginTop: '1rem' }}
-                    src={checkImageSrc}
-                    alt="Example of a check showing where the account and routing numbers are"
-                  />
-                  <p key="learn-more-title">Where can I find these numbers?</p>
-                  <p key="learn-more-description">
-                    The bank routing number is the first 9 digits on the bottom
-                    left corner of a printed check. Your account number is the
-                    second set of numbers on the bottom of a printed check, just
-                    to the right of the bank routing number.
-                  </p>
-                  <va-additional-info key="learn-more-btn" trigger="Learn More">
-                    <p key="btn-copy">
-                      If you don’t have a printed check, you can sign in to your
-                      online banking institution for this information
-                    </p>
-                  </va-additional-info>
-                </>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              bankAccount: {
-                type: 'object',
-                required: [
-                  formFields.accountType,
-                  formFields.accountNumber,
-                  formFields.routingNumber,
-                ],
-                properties: {
-                  accountType: {
-                    type: 'string',
-                    enum: ['checking', 'savings'],
-                  },
-                  routingNumber: {
-                    type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  accountNumber: {
-                    type: 'string',
-                    required: [],
-                  },
-                },
-              },
-              'view:learnMore': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-        // IF showMebDgi40Features
         // [formPages.directDeposit]: {
         //   path: 'direct-deposit',
-        //   title: 'Direct deposit',
         //   uiSchema: {
-        //     title: 'direct-deposit',
-        //     'ui:title': (
-        //       <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-        //         Direct deposit information
-        //       </h4>
-        //     ),
-        //     'ui:field': ReviewCardField,
-        //     'ui:options': {
-        //       editTitle: 'Direct deposit information',
-        //       hideLabelText: true,
-        //       itemName: 'account informaiton',
-        //       itemNameAction: 'Update',
-        //       reviewTitle: 'Direct deposit information',
-        //       showFieldLabel: false,
-        //       viewComponent: DirectDepositViewField,
-        //       volatileData: true,
-        //     },
         //     'ui:description': customDirectDepositDescription,
         //     bankAccount: {
         //       ...bankAccountUI,
@@ -1534,6 +1425,9 @@ const formConfig = {
         //         'ui:errorMessages': {
         //           pattern: 'Please enter only numbers',
         //         },
+        //       },
+        //       routingNumber: {
+        //         'ui:validations': [validateRoutingNumber],
         //       },
         //     },
         //     'view:learnMore': {
@@ -1579,7 +1473,7 @@ const formConfig = {
         //           },
         //           routingNumber: {
         //             type: 'string',
-        //             pattern: '^\\d{9}$',
+        //             pattern: '^[\\d*]{5}\\d{4}$',
         //           },
         //           accountNumber: {
         //             type: 'string',
@@ -1594,6 +1488,105 @@ const formConfig = {
         //     },
         //   },
         // },
+        // IF showMebDgi40Features
+        [formPages.directDeposit]: {
+          path: 'direct-deposit',
+          title: 'Direct deposit',
+          uiSchema: {
+            title: 'direct-deposit',
+            'ui:title': (
+              <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                Direct deposit information
+              </h4>
+            ),
+            'ui:field': ReviewCardField,
+            'ui:options': {
+              editTitle: 'Direct deposit information',
+              hideLabelText: true,
+              itemName: 'account informaiton',
+              itemNameAction: 'Update',
+              reviewTitle: 'Direct deposit information',
+              showFieldLabel: false,
+              viewComponent: DirectDepositViewField,
+              volatileData: true,
+            },
+            'ui:description': customDirectDepositDescription,
+            [formFields.bankAccount]: {
+              ...bankAccountUI,
+              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid account number',
+                },
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
+              },
+              routingNumber: {
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid routing number',
+                },
+                'ui:title': 'Routing number',
+                'ui:validations': [validateRoutingNumber],
+              },
+            },
+            'view:learnMore': {
+              'ui:description': (
+                <>
+                  <img
+                    key="check-image-src"
+                    style={{ marginTop: '1rem' }}
+                    src={checkImageSrc}
+                    alt="Example of a check showing where the account and routing numbers are"
+                  />
+                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <p key="learn-more-description">
+                    The bank routing number is the first 9 digits on the bottom
+                    left corner of a printed check. Your account number is the
+                    second set of numbers on the bottom of a printed check, just
+                    to the right of the bank routing number.
+                  </p>
+                  <va-additional-info key="learn-more-btn" trigger="Learn More">
+                    <p key="btn-copy">
+                      If you don’t have a printed check, you can sign in to your
+                      online banking institution for this information
+                    </p>
+                  </va-additional-info>
+                </>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              bankAccount: {
+                type: 'object',
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
+                properties: {
+                  accountNumber: {
+                    type: 'string',
+                    pattern: '^\\**[a-z0-9]+$',
+                  },
+                  accountType: {
+                    type: 'string',
+                    enum: ['checking', 'savings'],
+                  },
+                  routingNumber: {
+                    type: 'string',
+                    pattern: '^[\\d*]{5}\\d{4}$',
+                  },
+                },
+              },
+              'view:learnMore': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
   },

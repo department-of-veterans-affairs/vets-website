@@ -25,6 +25,8 @@ export const formFields = {
   livesOnMilitaryBase: 'livesOnMilitaryBase',
   loanPayment: 'loanPayment',
   mobilePhoneNumber: 'mobilePhoneNumber',
+  originalAccountNumber: 'originalAccountNumber',
+  originalRoutingNumber: 'originalRoutingNumber',
   phoneNumber: 'phoneNumber',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
