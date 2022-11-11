@@ -206,6 +206,15 @@ To run a specific contract test:
 BUILDTYPE=localhost yarn test:unit src/applications/my-app/tests/example.pact.spec.js
 ```
 
+## Changing Virtual Agent backend URL
+
+If not already create a `.env` file in the root of the project and add
+the following while updating the URL 
+```
+VIRTUAL_AGENT_BACKEND=https://some.url.com
+
+```
+
 ## Running a mock API for local development
 
 In separate terminal from your local dev server, run
