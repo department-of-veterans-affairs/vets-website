@@ -197,9 +197,16 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     template = {},
     widgetType,
     widgetTemplate,
+    defineWebComponentsLocally,
   }) =>
     new HtmlPlugin({
-      chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
+      chunks: [
+        'polyfills',
+        defineWebComponentsLocally ? null : 'web-components',
+        'vendor',
+        'style',
+        entryName,
+      ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
