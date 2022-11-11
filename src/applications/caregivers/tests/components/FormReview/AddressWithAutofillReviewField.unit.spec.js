@@ -26,37 +26,28 @@ describe('CG <AddressWithAutofillReviewField>', () => {
     );
 
     // street
-    expect(view.container.querySelectorAll('dt')[0]).to.contain.text(
-      "Primary Family Caregiver's current street address",
-    );
-    expect(view.container.querySelectorAll('dd')[0]).to.contain.text(
-      '1350 I St. NW',
-    );
+    expect(
+      view.container.querySelector('[data-testid="cg-address-street"]'),
+    ).to.contain.text('1350 I St. NW');
 
     // street2
-    expect(view.container.querySelectorAll('dt')[1]).to.contain.text(
-      'Street address line 2',
-    );
-    expect(view.container.querySelectorAll('dd')[1]).to.contain.text(
-      'Suite 550',
-    );
+    expect(
+      view.container.querySelector('[data-testid="cg-address-street2"]'),
+    ).to.contain.text('Suite 550');
 
     // city
-    expect(view.container.querySelectorAll('dt')[2]).to.contain.text('City');
-    expect(view.container.querySelectorAll('dd')[2]).to.contain.text(
-      'Washington',
-    );
+    expect(
+      view.container.querySelector('[data-testid="cg-address-city"]'),
+    ).to.contain.text('Washington');
 
     // state
-    expect(view.container.querySelectorAll('dt')[3]).to.contain.text('State');
-    expect(view.container.querySelectorAll('dd')[3]).to.contain.text(
-      'District Of Columbia',
-    );
+    expect(
+      view.container.querySelector('[data-testid="cg-address-state"]'),
+    ).to.contain.text('District Of Columbia');
 
     // zip
-    expect(view.container.querySelectorAll('dt')[4]).to.contain.text(
-      'Postal code',
-    );
-    expect(view.container.querySelectorAll('dd')[4]).to.contain.text('20005');
+    expect(
+      view.container.querySelector('[data-testid="cg-address-postalcode"]'),
+    ).to.contain.text('20005');
   });
 });
