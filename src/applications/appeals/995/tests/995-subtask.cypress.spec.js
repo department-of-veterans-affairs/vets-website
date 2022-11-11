@@ -3,10 +3,6 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 import { BASE_URL } from '../constants';
 
 describe('995 subtask', () => {
-  before(() => {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
