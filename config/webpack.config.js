@@ -197,12 +197,12 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     template = {},
     widgetType,
     widgetTemplate,
-    defineWebComponentsLocally,
+    useLocalStylesAndComponents,
   }) =>
     new HtmlPlugin({
       chunks: [
         'polyfills',
-        defineWebComponentsLocally ? null : 'web-components',
+        useLocalStylesAndComponents ? null : 'web-components',
         'vendor',
         'style',
         entryName,
