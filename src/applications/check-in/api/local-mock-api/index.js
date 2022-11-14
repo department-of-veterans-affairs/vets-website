@@ -91,9 +91,9 @@ const responses = {
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));
   },
-  'POST /check_in/v2/btsss/': (req, res) => {
-    const { uuid } = req.body || {};
-    if (!uuid) {
+  'POST /check_in/v0/travel_claims/': (req, res) => {
+    const { uuid, appointmentDate } = req.body?.travelClaims || {};
+    if (!uuid || !appointmentDate) {
       return res.status(500).json(btsss.post.createMockFailedResponse());
     }
     return res.json(btsss.post.createMockSuccessResponse({}));
