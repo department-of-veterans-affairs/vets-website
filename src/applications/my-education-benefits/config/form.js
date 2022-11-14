@@ -66,6 +66,7 @@ import {
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
+import ObfuscateReviewField from '../components/ObfuscateReviewField';
 
 const {
   fullName,
@@ -1518,6 +1519,7 @@ const formConfig = {
                 'ui:errorMessages': {
                   pattern: 'Please enter a valid account number',
                 },
+                'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
               },
@@ -1525,6 +1527,7 @@ const formConfig = {
                 'ui:errorMessages': {
                   pattern: 'Please enter a valid routing number',
                 },
+                'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Routing number',
                 'ui:validations': [validateRoutingNumber],
               },

@@ -52,7 +52,7 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
   }
 
   if (str.length <= 2 * numVisibleChars) {
-    const visibileChars = Math.floor(str.length / 3);
+    const visibileChars = Math.floor(str.length / 2);
 
     return (
       obfuscateChar.repeat(str.length - visibileChars) +
