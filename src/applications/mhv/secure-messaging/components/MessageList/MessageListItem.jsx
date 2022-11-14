@@ -35,7 +35,10 @@ const InboxListItem = props => {
   );
 
   return (
-    <div className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+    <div
+      className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      data-testid="message-list-item"
+    >
       <p className={getClassNames()}>
         {!!readReceipt === false && (
           <i

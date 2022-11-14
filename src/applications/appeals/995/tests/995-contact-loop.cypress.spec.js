@@ -4,19 +4,24 @@ import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import mockV2Data from './fixtures/data/test-data.json';
+import mockV2Data from './fixtures/data/maximal-test.json';
 import { mockContestableIssues } from './995.cypress.helpers';
 
 // Telephone specific responses
 import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
 import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
 
-describe.skip('995 contact info loop', () => {
+describe('995 contact info loop', () => {
+  Cypress.config({ requestTimeout: 10000 });
+  before(() => {
+    if (Cypress.env('CI')) this.skip();
+  });
+
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: { features: [{ name: 'supplemental_claim', value: true }] },
-    });
+    }).as('features');
 
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
@@ -36,6 +41,7 @@ describe.skip('995 contact info loop', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
+    cy.wait('@features');
     cy.injectAxe();
   });
 
@@ -52,7 +58,7 @@ describe.skip('995 contact info loop', () => {
       .click();
   };
 
-  it('should edit info on a new page & cancel returns to contact info page', () => {
+  it('should edit info on a new page & cancel returns to contact info page - C30848', () => {
     getToContactPage();
 
     // Contact info

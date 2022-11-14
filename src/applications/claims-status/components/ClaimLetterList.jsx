@@ -3,11 +3,19 @@ import PropTypes from 'prop-types';
 
 import ClaimLetterListItem from './ClaimLetterListItem';
 
-const ClaimLetterList = ({ letters }) => {
-  return letters.map(letter => (
+const renderLetters = letters =>
+  letters.map(letter => (
     <ClaimLetterListItem key={letter.documentId} letter={letter} />
   ));
-};
+
+const ClaimLetterList = ({ letters }) => (
+  <>
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+    <ol className="usa-unstyled-list vads-u-margin--0" role="list">
+      {renderLetters(letters)}
+    </ol>
+  </>
+);
 
 ClaimLetterList.propTypes = {
   letters: PropTypes.array,
