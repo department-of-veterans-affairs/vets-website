@@ -11,7 +11,7 @@ const formatDate = date => {
   return format(new Date(date), 'MMMM dd, yyyy');
 };
 
-const clickHandler = () => {
+const downloadHandler = () => {
   recordEvent({ event: 'claim-letters-download' });
 };
 
@@ -26,7 +26,7 @@ const ClaimLetterListItem = ({ letter }) => {
       </div>
       {/* Using the div element here to capture the click event and make a call to GA */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div onClick={clickHandler} onKeyPress={clickHandler}>
+      <div onClick={downloadHandler} onKeyPress={downloadHandler}>
         <va-link
           download
           filetype="PDF"
