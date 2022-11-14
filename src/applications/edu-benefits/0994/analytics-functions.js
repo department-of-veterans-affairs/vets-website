@@ -69,7 +69,7 @@ export default {
     }
   },
   contactInformation: formData => {
-    if (_.isEmpty(_.get(formData, 'view:phoneAndEmail.dayTimePhone', {}))) {
+    if (_.isEmpty(_.get(formData, 'view:phoneAndEmail.homePhone', {}))) {
       recordEvent({
         event: 'edu-0994--response-missing',
         'missing-field-question':
