@@ -15,7 +15,28 @@ export default {
       items: {
         fullName: fullNameUI,
         ssnOrTin: ssnUI,
-        phoneNumber: phoneUI(),
+        gender: {
+          'ui:title': 'Gender',
+        },
+        email: {
+          'ui:title': 'Email',
+        },
+        phoneNumber: {
+          ...phoneUI,
+          'ui:title': 'Phone number',
+        },
+        dateOfBirth: {
+          'ui:title': 'Date of birth',
+        },
+        isEnrolledInMedicare: {
+          'ui:title': 'Enrolled in Medicare?',
+        },
+        hasOtherHealthInsurance: {
+          'ui:title': 'Other health insurance?',
+        },
+        vetRelationship: {
+          'ui:title': 'Veteran relationship',
+        },
       },
     },
   },
