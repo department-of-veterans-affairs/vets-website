@@ -61,10 +61,15 @@ function ConfirmationPageV2({
               });
             }}
             text="Review your appointments"
+            data-testid="review-appointment-link"
           />
         </div>
         <div>
-          <va-link href="/new-appointment" text="Schedule a new appointment" />
+          <va-link
+            href="/new-appointment"
+            text="Schedule a new appointment"
+            data-testid="new-appointment-link"
+          />
         </div>
       </InfoAlert>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
