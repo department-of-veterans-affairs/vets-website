@@ -12,6 +12,7 @@ import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
+import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -179,6 +180,7 @@ const formConfig = {
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+          CustomPage: PayrollDeductionChecklist,
         },
         // MAKE THIS CONDITIONAL BASED ON CURRENT EMPLOYMENT ONLY
         payrollDeductionInputList: {
