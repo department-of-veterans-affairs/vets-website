@@ -344,19 +344,12 @@ const mapStateToProps = state => {
     showBenefitPaymentsAndDebt &&
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
 
-  const hasNotificationFeature = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showDashboardNotifications
-  ];
-
   const shouldShowV2Dashboard = toggleValues(state)[
     FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
 
   const showNotifications =
-    !!hasNotificationFeature &&
-    !showMPIConnectionError &&
-    !showNotInMPIError &&
-    isLOA3;
+    !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
   return {
     canAccessPaymentHistory,
