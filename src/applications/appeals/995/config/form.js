@@ -30,7 +30,8 @@ import evidencePrivateChoice from '../pages/evidencePrivateChoice';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidencePrivateUpload from '../pages/evidencePrivateUpload';
 import evidenceSummary from '../pages/evidenceSummary';
-import evidenceTypes from '../pages/evidenceTypes';
+// import evidenceTypes from '../pages/evidenceTypes';
+import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import issueSummary from '../pages/issueSummary';
@@ -212,11 +213,17 @@ const formConfig = {
           uiSchema: noticeOfAcknowledgement.uiSchema,
           schema: noticeOfAcknowledgement.schema,
         },
-        evidenceTypes: {
-          title: 'Supporting evidence types',
-          path: 'supporting-evidence/evidence-types',
-          uiSchema: evidenceTypes.uiSchema,
-          schema: evidenceTypes.schema,
+        // evidenceTypes: {
+        //   title: 'Supporting evidence types',
+        //   path: 'supporting-evidence/evidence-types',
+        //   uiSchema: evidenceTypes.uiSchema,
+        //   schema: evidenceTypes.schema,
+        // },
+        requestVaRecords: {
+          title: 'Request VA medical records',
+          path: 'supporting-evidence/request-va-medical-records',
+          uiSchema: evidenceVaRecordsRequest.uiSchema,
+          schema: evidenceVaRecordsRequest.schema,
         },
         evidenceVaRecords: {
           title: 'VA medical records',

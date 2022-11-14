@@ -272,12 +272,10 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
 
-export const hasVAEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasVaEvidence'];
+export const hasVAEvidence = formData => formData?.['view:hasVaEvidence'];
 export const hasPrivateEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasPrivateEvidence'];
-export const hasOtherEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasOtherEvidence'];
+  formData?.['view:hasPrivateEvidence'];
+export const hasOtherEvidence = formData => formData?.['view:hasOtherEvidence'];
 export const hasPrivateEvidenceToUpload = formData =>
   formData?.['view:uploadPrivateRecordsChoice']?.[
     'view:hasPrivateRecordsToUpload'
