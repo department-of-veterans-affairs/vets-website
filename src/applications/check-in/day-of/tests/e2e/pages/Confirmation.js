@@ -51,25 +51,22 @@ class Confirmation {
       .and('include.text', "couldn't file your travel claim");
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'TRAVEL CLAIM GENERIC ERROR PLACEHOLDER');
-  };
-
-  validatePageLoadedWithBtsssMultipleAppointmentsFailure = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
-    cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'TRAVEL CLAIM MULTIPLE ERROR PLACEHOLDER');
+      .and(
+        'include.text',
+        "We're sorry something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
+      );
   };
 
   validatePageLoadedWithBtsssTravelClaimExistsFailure = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', "couldn't file your travel claim");
+      .and('include.text', "You've created a travel claim already.");
     cy.get('[data-testid="travel-pay-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('include.text', 'TRAVEL CLAIM EXISTS ERROR PLACEHOLDER');
+      .and(
+        'include.text',
+        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
+      );
   };
 
   validateBackButton = appointmentCount => {

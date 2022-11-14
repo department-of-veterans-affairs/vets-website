@@ -71,33 +71,6 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoadedWithBtsssGenericFailure();
       cy.injectAxeThenAxeCheck();
     });
-    it('shows the correct error message for multiple appointments api error.', () => {
-      ApiInitializer.initializeBtsssPost.withFailure(
-        400,
-        'CLM_001_MULTIPLE_APPTS',
-      );
-      TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--vehicle-question');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--address-question');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
-      TravelPages.attemptToGoToNextPage();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      Appointments.attemptCheckIn(1);
-      Confirmation.validatePageLoadedWithBtsssMultipleAppointmentsFailure();
-      cy.injectAxeThenAxeCheck();
-    });
     it('shows the correct error message for travel claim exists api error.', () => {
       ApiInitializer.initializeBtsssPost.withFailure(
         400,

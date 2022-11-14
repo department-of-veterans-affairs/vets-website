@@ -51,8 +51,14 @@ const CheckInConfirmation = props => {
 
   if (doTravelPay && !isLoading) {
     pageTitle += ' ';
+
     if (travelPayClaimData && !travelPayClaimError && travelPayEligible) {
       pageTitle += t('received-reimbursement-claim');
+    } else if (
+      travelPayClaimError &&
+      travelPayClaimErrorCode === 'CLM_002_CLAIM_EXISTS'
+    ) {
+      pageTitle += t('you-created-a-travel-claim-already');
     } else {
       pageTitle += t('we-couldnt-file-reimbursement');
     }

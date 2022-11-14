@@ -52,22 +52,9 @@ describe('check in', () => {
       expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
       expect(
         component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text('TRAVEL CLAIM GENERIC ERROR PLACEHOLDER');
-    });
-    it('renders a multiple appointments api error message', () => {
-      const component = render(
-        <I18nextProvider i18n={i18n}>
-          <TravelPayAlert
-            travelPayEligible
-            travelPayClaimError
-            travelPayClaimErrorCode="CLM_001_MULTIPLE_APPTS"
-          />
-        </I18nextProvider>,
+      ).to.have.text(
+        "We're sorry something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
       );
-      expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
-      expect(
-        component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text('TRAVEL CLAIM MULTIPLE ERROR PLACEHOLDER');
     });
     it('renders a already exists api error message', () => {
       const component = render(
@@ -82,7 +69,9 @@ describe('check in', () => {
       expect(component.getByTestId('travel-pay-claim-error-message')).to.exist;
       expect(
         component.getByTestId('travel-pay-claim-error-message'),
-      ).to.have.text('TRAVEL CLAIM EXISTS ERROR PLACEHOLDER');
+      ).to.have.text(
+        'You can check the status of your travel reimbursement claim online 24/7 on the Beneficiary Travel Self Service System (BTSSS). You can access BTSSS through the AccessVA travel claim portal.',
+      );
     });
   });
 });

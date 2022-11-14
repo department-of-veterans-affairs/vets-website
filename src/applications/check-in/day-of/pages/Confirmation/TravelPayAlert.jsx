@@ -14,19 +14,21 @@ const TravelPayAlert = props => {
   const { t } = useTranslation();
 
   let errorMsg = '';
-  if (travelPayClaimError) {
-    switch (travelPayClaimErrorCode) {
-      case 'CLM_001_MULTIPLE_APPTS':
-        errorMsg = t('travel-claim-submission-multiple-error');
-        break;
-
-      case 'CLM_002_CLAIM_EXISTS':
-        errorMsg = t('travel-claim-submission-exists-error');
-        break;
-
-      default:
-        errorMsg = t('travel-claim-submission-generic-error');
-    }
+  let errorStatus = '';
+  if (
+    travelPayClaimError &&
+    travelPayClaimErrorCode === 'CLM_002_CLAIM_EXISTS'
+  ) {
+    errorMsg = t('check-travel-claim-status');
+    errorStatus = 'info';
+  } else {
+    errorMsg = (
+      <Trans
+        i18nKey="sorry-something-went-wrong-on-our-end-with-filing-your-travel-claim"
+        components={[<span key="bold" className="vads-u-font-weight--bold" />]}
+      />
+    );
+    errorStatus = 'warning';
   }
 
   return (
@@ -88,7 +90,7 @@ const TravelPayAlert = props => {
             background-only
             show-icon
             data-testid="travel-pay-message"
-            status="error"
+            status={errorStatus}
           >
             <p
               className="vads-u-margin-top--0"
