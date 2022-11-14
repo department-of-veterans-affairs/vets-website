@@ -67,53 +67,36 @@ const validateFetchInProgressFormsErrors = status => {
     return status;
   }
 
-  // check if it is an array
-  if (Array.isArray(status?.errors) && status?.errors.length > 0) {
-    switch (status.errors[0].status) {
-      case 401 || '401':
-        return LOAD_STATUSES.noAuth;
-      case 403 || '403':
-        return LOAD_STATUSES.forbidden;
-      case 404 || '404':
-        return LOAD_STATUSES.notFound;
-      default:
-        return LOAD_STATUSES.failure;
-    }
-  }
-
-  if (
-    (!status.ok && !status?.errors?.length) ||
-    status instanceof Error ||
-    status instanceof Response
-  ) {
+  // check errors
+  if (status instanceof Error) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_fetch');
     return LOAD_STATUSES.failure;
   }
 
-  return LOAD_STATUSES.failure;
+  // check the response
+  switch (status?.status) {
+    case 401:
+      return LOAD_STATUSES.noAuth;
+    case 403:
+      return LOAD_STATUSES.forbidden;
+    case 404:
+      return LOAD_STATUSES.notFound;
+    default:
+      return LOAD_STATUSES.failure;
+  }
 };
 
 const validateSaveInProgressErrors = (status, trackingPrefix) => {
-  if (Array.isArray(status?.errors) && status?.errors.length > 0) {
-    if (status.errors[0].status === 401) {
-      recordEvent({
-        event: `${trackingPrefix}sip-form-save-signed-out`,
-      });
-      return SAVE_STATUSES.noAuth;
-    }
-    return SAVE_STATUSES.clientFailure;
+  if ([401].includes(status?.status)) {
+    recordEvent({ event: `${trackingPrefix}sip-form-save-signed-out` });
+    return SAVE_STATUSES.noAuth;
   }
 
   if (status instanceof Error) {
     Sentry.captureException(status);
     Sentry.captureMessage('vets_sip_error_save');
     return SAVE_STATUSES.clientFailure;
-  }
-
-  if (status instanceof Response) {
-    recordEvent({ event: `${trackingPrefix}sip-form-save-failed` });
-    return SAVE_STATUSES.failure;
   }
 
   Sentry.captureException(status);
@@ -222,7 +205,7 @@ export function migrateFormData(savedData, migrations) {
   }
 
   let savedDataCopy = { ...savedData };
-  let savedVersion = savedData.metadata.version;
+  let savedVersion = savedData.metadata?.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
     savedVersion++;
@@ -369,7 +352,7 @@ export function fetchInProgressForm(
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
           let { pages } = getState().form;
-          if (metadata.prefill && prefillTransformer) {
+          if (metadata?.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
               formData,
@@ -383,6 +366,8 @@ export function fetchInProgressForm(
           recordEvent({
             event: `${trackingPrefix}sip-form-loaded`,
           });
+
+          dispatch(setFetchFormStatus(LOAD_STATUSES.success));
 
           return Promise.resolve();
         } catch (e) {

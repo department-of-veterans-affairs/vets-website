@@ -46,7 +46,6 @@ describe('SIP Autosave Test', () => {
     cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
-      body: {},
     });
 
     cy.fill('input[name="root_veteranFullName_first"]', 'Steve');
@@ -89,14 +88,6 @@ describe('SIP Autosave Test', () => {
     cy.get('.main .usa-button-primary').click();
     cy.get('.schemaform-sip-save-link');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
-      body: {
-        errors: [
-          {
-            code: 401,
-            status: 401,
-          },
-        ],
-      },
       statusCode: 401,
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');
