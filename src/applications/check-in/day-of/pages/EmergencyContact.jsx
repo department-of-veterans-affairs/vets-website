@@ -13,7 +13,6 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const EmergencyContact = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -36,31 +35,21 @@ const EmergencyContact = props => {
 
   const yesClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
-        setShouldSendDemographicsFlags(window, true);
-      }
+      dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [
-      dispatch,
-      goToNextPage,
-      isDayOfDemographicsFlagsEnabled,
-      setShouldSendDemographicsFlags,
-    ],
+    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
-        setShouldSendDemographicsFlags(window, true);
-      }
+      dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);
     },
     [
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       updateSeeStaffMessage,
       jumpToPage,
@@ -82,7 +71,6 @@ const EmergencyContact = props => {
 };
 
 EmergencyContact.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 
