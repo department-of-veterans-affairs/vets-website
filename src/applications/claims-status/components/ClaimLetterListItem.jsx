@@ -2,12 +2,17 @@ import React from 'react';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const formatDate = date => {
   return format(new Date(date), 'MMMM dd, yyyy');
+};
+
+const clickHandler = () => {
+  recordEvent({ event: 'claim-letters-download' });
 };
 
 const ClaimLetterListItem = ({ letter }) => {
@@ -19,12 +24,16 @@ const ClaimLetterListItem = ({ letter }) => {
       <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
         {letter.typeDescription}
       </div>
-      <va-link
-        download
-        filetype="PDF"
-        href={downloadUrl(letter.documentId)}
-        text="Download letter"
-      />
+      {/* Using the div element here to capture the click event and make a call to GA */}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <div onClick={clickHandler} onKeyPress={clickHandler}>
+        <va-link
+          download
+          filetype="PDF"
+          href={downloadUrl(letter.documentId)}
+          text="Download letter"
+        />
+      </div>
     </li>
   );
 };
