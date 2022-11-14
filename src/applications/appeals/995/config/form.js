@@ -181,6 +181,12 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
         },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+        },
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
@@ -191,18 +197,21 @@ const formConfig = {
             socOptIn: false,
           },
         },
-        issueSummary: {
-          title: 'Issue summary',
-          path: 'issue-summary',
-          uiSchema: issueSummary.uiSchema,
-          schema: issueSummary.schema,
-        },
       },
     },
 
     evidence: {
       title: 'Supporting Evidence',
       pages: {
+        notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
+          title: 'Notice of Acknowledgement',
+          path: 'notice-of-acknowledgement',
+          uiSchema: noticeOfAcknowledgement.uiSchema,
+          schema: noticeOfAcknowledgement.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -256,33 +265,6 @@ const formConfig = {
         },
       },
     },
-
-    acknowledgement: {
-      title: 'Notice of Acknowledgement',
-      pages: {
-        notice5103: {
-          initialData: {
-            form5103Acknowledged: false,
-          },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
-        },
-      },
-    },
-
-    // signature: {
-    //   title: 'Certification & Signature',
-    //   pages: {
-    //     sign: {
-    //       title: 'Certification & Signature',
-    //       path: 'certification-and-signature',
-    //       uiSchema: certifcationAndSignature.uiSchema,
-    //       schema: certifcationAndSignature.schema,
-    //     },
-    //   },
-    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
