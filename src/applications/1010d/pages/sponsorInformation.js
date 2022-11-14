@@ -9,8 +9,26 @@ export default {
   uiSchema: {
     veteran: {
       fullName: fullNameUI,
-      ssnOrTin: ssnUI,
+      ssnOrTin: {
+        ...ssnUI,
+        'ui:title': 'Social Security number or Taxpayer Identification Number',
+      },
+      vaClaimNumber: {
+        'ui:title': 'VA claim number',
+      },
       phoneNumber: phoneUI(),
+      dateOfBirth: {
+        'ui:title': 'Date of birth',
+      },
+      dateOfMarriage: {
+        'ui:title': 'Date of marriage',
+      },
+      dateOfDeath: {
+        'ui:title': 'Date of death',
+      },
+      isActiveServiceDeath: {
+        'ui:title': "Was the Veteran's death during active service?",
+      },
     },
   },
   schema: {

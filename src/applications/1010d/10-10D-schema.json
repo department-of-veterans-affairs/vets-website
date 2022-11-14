@@ -62,21 +62,25 @@
       ],
       "properties": {
         "street": {
+          "title": "Street Address 1",
           "type": "string",
           "minLength": 1,
           "maxLength": 50
         },
         "street2": {
+          "title": "Street Address 2",
           "type": "string",
           "minLength": 1,
           "maxLength": 50
         },
         "city": {
+          "title": "City",
           "type": "string",
           "minLength": 1,
           "maxLength": 51
         },
         "state": {
+          "title": "State",
           "type": "string",
           "enum": [
             "AL",
@@ -144,6 +148,7 @@
           ]
         },
         "postalCode": {
+          "title": "Zip Code",
           "type": "string",
           "pattern": "^(\\d{5})(?:[-](\\d{4}))?$"
         }
@@ -190,6 +195,7 @@
           "$ref": "#/definitions/ssn"
         },
         "vaClaimNumber": {
+          "title": "VA Claim Number",
           "$ref": "#/definitions/centralMailVaFile"
         },
         "address": {
@@ -205,6 +211,7 @@
           "$ref": "#/definitions/date"
         },
         "isDeceased": {
+          "title": "Is the Veteran deceased?",
           "type": "boolean"
         },
         "dateOfDeath": {
