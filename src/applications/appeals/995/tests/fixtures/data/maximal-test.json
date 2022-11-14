@@ -74,7 +74,7 @@
         "issue": "Test",
         "decisionDate": "2022-01-01",
         "view:selected": true
-      }, 
+      },
       {
         "issue": "Test 2",
         "decisionDate": "2022-06-28",
@@ -116,11 +116,9 @@
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
-    "view:selectableEvidenceTypes": {
-      "view:hasVaEvidence": true,
-      "view:hasPrivateEvidence": true,
-      "view:hasOtherEvidence": true
-    },
+    "view:hasVaEvidence": true,
+    "view:hasPrivateEvidence": true,
+    "view:hasOtherEvidence": true,
     "privateMedicalRecordAttachments": [
       {
         "name": "private-medical-records.pdf",

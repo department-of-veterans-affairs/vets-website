@@ -80,11 +80,9 @@
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
-    "view:selectableEvidenceTypes": {
-      "view:hasVaEvidence": true,
-      "view:hasPrivateEvidence": false,
-      "view:hasOtherEvidence": false
-    },
+    "view:hasVaEvidence": true,
+    "view:hasPrivateEvidence": false,
+    "view:hasOtherEvidence": false,
     "privateMedicalRecordAttachments": [],
     "additionalDocuments": [],
     "socOptIn": true,
