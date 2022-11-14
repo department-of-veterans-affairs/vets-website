@@ -319,12 +319,15 @@ export const getTriageTeamList = () => {
  * @returns
  */
 export const searchFolderAdvanced = (folderId = 0, query) => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/search?per_page=9999`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(query),
     },
-    body: JSON.stringify(query),
-  });
+  );
 };
