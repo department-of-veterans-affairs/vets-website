@@ -47,7 +47,7 @@ const InboxListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <div>Sender: {senderName}</div>
+          <>Sender: {senderName}</>
         ) : (
           <>
             <div>To: {recipientName}</div>
