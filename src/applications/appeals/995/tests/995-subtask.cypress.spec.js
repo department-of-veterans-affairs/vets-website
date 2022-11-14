@@ -3,7 +3,7 @@ import { resetStoredSubTask } from 'platform/forms/sub-task';
 import { BASE_URL } from '../constants';
 
 describe('995 subtask', () => {
-  before(function skipCI() {
+  before(function() {
     if (Cypress.env('CI')) this.skip();
   });
 

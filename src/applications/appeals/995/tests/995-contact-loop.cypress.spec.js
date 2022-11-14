@@ -13,7 +13,7 @@ import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-succes
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
-  before(function skipCI() {
+  before(function() {
     if (Cypress.env('CI')) this.skip();
   });
 
