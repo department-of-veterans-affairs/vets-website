@@ -7,14 +7,14 @@ import {
   DefinitionTester,
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../../0994/config/form.js';
+import formConfig from '../../config/form.js';
 
-import { ERR_MSG_CSS_CLASS } from '../../../0994/constants';
+import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 const initialData = {
   'view:phoneAndEmail': {
-    dayTimePhone: '1234567890',
-    nightTimePhone: '1234567890',
+    homePhone: '1234567890',
+    mobilePhone: '1234567890',
     emailAddress: 'test@test.com',
   },
   mailingAddress: {
@@ -49,7 +49,7 @@ describe('Contact Information', () => {
   });
 
   it('successfully submits ', () => {
-    const { dayTimePhone, nightTimePhone, emailAddress } = initialData[
+    const { homePhone, mobilePhone, emailAddress } = initialData[
       'view:phoneAndEmail'
     ];
     const {
@@ -73,13 +73,13 @@ describe('Contact Information', () => {
 
     fillData(
       form,
-      'input[name*="root_view:phoneAndEmail_dayTimePhone"]',
-      dayTimePhone,
+      'input[name*="root_view:phoneAndEmail_homePhone"]',
+      homePhone,
     );
     fillData(
       form,
-      'input[name*="root_view:phoneAndEmail_nightTimePhone"]',
-      nightTimePhone,
+      'input[name*="root_view:phoneAndEmail_mobilePhone"]',
+      mobilePhone,
     );
     fillData(
       form,
