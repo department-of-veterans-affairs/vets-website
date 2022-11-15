@@ -24,16 +24,13 @@ const ClaimLetterListItem = ({ letter }) => {
       <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
         {letter.typeDescription}
       </div>
-      {/* Using the div element here to capture the click event and make a call to GA */}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div onClick={downloadHandler} onKeyPress={downloadHandler}>
-        <va-link
-          download
-          filetype="PDF"
-          href={downloadUrl(letter.documentId)}
-          text="Download letter"
-        />
-      </div>
+      <va-link
+        download
+        filetype="PDF"
+        href={downloadUrl(letter.documentId)}
+        onClick={downloadHandler}
+        text="Download letter"
+      />
     </li>
   );
 };
