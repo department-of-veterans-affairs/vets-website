@@ -556,8 +556,17 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+
+    const viewAppointmentsLink = screen.queryByTestId('view-appointments-link');
+    const newAppointmentLink = screen.queryByTestId('new-appointment-link');
+
+    expect(viewAppointmentsLink).to.be.ok;
+    expect(newAppointmentLink).to.be.ok;
+
+    expect(viewAppointmentsLink.getAttribute('href')).to.contain('/');
+    expect(viewAppointmentsLink.getAttribute('text')).to.contain(
+      'View your appointments',
+    );
 
     // Verify CC pending appointment
     mockSingleRequestFetch({
@@ -579,8 +588,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+
+    expect(viewAppointmentsLink).to.be.ok;
+    expect(newAppointmentLink).to.be.ok;
+
+    expect(viewAppointmentsLink.getAttribute('href')).to.contain('/');
+    expect(viewAppointmentsLink.getAttribute('text')).to.contain(
+      'View your appointments',
+    );
   });
 
   it('should handle error when cancelling', async () => {
