@@ -6,8 +6,10 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 // Chapter pages
-import sponsorInformation from '../pages/sponsorInformation';
+import sponsorInformation from '../pages/sponsorInformation/sponsorInformation';
 import applicantInformation from '../pages/applicantInformation';
+import sponsorInformationAddress from '../pages/sponsorInformation/sponsorInformationAddress';
+import sponsorInformationDates from '../pages/sponsorInformation/sponsorInformationDates';
 
 const {
   fullName,
@@ -52,10 +54,22 @@ const formConfig = {
       title: 'Sponsor Information',
       pages: {
         sponsorInformation: {
-          path: 'sponsor-information',
+          path: 'sponsor-information/base-information',
           title: 'Sponsor Information',
           uiSchema: sponsorInformation.uiSchema,
           schema: sponsorInformation.schema,
+        },
+        sponsorInformationAddress: {
+          path: 'sponsor-information/address',
+          title: 'Sponsor Address',
+          uiSchema: sponsorInformationAddress.uiSchema,
+          schema: sponsorInformationAddress.schema,
+        },
+        sponsorInformationDates: {
+          path: 'sponsor-information/dates',
+          title: 'Sponsor Dates',
+          uiSchema: sponsorInformationDates.uiSchema,
+          schema: sponsorInformationDates.schema,
         },
       },
     },
