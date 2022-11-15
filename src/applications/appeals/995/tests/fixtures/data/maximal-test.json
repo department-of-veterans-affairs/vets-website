@@ -28,6 +28,7 @@
       "email": "user@example.com"
     },
     "benefitType": "compensation",
+    "view:primaryPhone": "home",
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -72,6 +73,11 @@
       {
         "issue": "Test",
         "decisionDate": "2022-01-01",
+        "view:selected": true
+      }, 
+      {
+        "issue": "Test 2",
+        "decisionDate": "2022-06-28",
         "view:selected": true
       }
     ],

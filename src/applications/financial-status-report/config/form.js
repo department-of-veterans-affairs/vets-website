@@ -151,19 +151,23 @@ const formConfig = {
           title: 'Social Security',
           uiSchema: pages.socialSecurity.uiSchema,
           schema: pages.socialSecurity.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         socialSecurityRecords: {
           path: 'social-security-records',
           title: 'Social Security',
           uiSchema: pages.socialSecurityRecords.uiSchema,
           schema: pages.socialSecurityRecords.schema,
-          depends: ({ questions }) => questions.hasSocialSecurity,
+          depends: formData =>
+            formData.questions.hasSocialSecurity &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         additionalIncome: {
           path: 'additional-income',
           title: 'Additional income',
           uiSchema: pages.additionalIncome.uiSchema,
           schema: pages.additionalIncome.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         additionalIncomeRecords: {
           path: 'additional-income-records',
@@ -180,9 +184,7 @@ const formConfig = {
           title: 'Additional income options',
           uiSchema: pages.additionalIncomeChecklist.uiSchema,
           schema: pages.additionalIncomeChecklist.schema,
-          depends: formData =>
-            formData.questions.hasAdditionalIncome &&
-            formData['view:enhancedFinancialStatusReport'],
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         additionalIncomeValues: {
           path: 'additional-income-values',
@@ -190,7 +192,7 @@ const formConfig = {
           uiSchema: pages.additionalIncomeValues.uiSchema,
           schema: pages.additionalIncomeValues.schema,
           depends: formData =>
-            formData.questions.hasAdditionalIncome &&
+            formData.additionalIncome?.addlIncRecords?.length &&
             formData['view:enhancedFinancialStatusReport'],
         },
         spouseInformation: {

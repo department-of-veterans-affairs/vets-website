@@ -95,10 +95,7 @@ export const AccountSecurityContent = ({
         />
       )}
       {showNotInMPIError && (
-        <NotInMPIError
-          level={2}
-          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
-        />
+        <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import _ from 'lodash';
 import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
@@ -10,12 +11,10 @@ import {
   schoolSize,
   upperCaseFirstLetterOnly,
 } from '../utils/helpers';
-import _ from 'lodash';
 import { MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   AccreditationModalContent,
   GiBillStudentsModalContent,
@@ -61,15 +60,15 @@ const CompareLayout = ({
           <RatingsStars rating={categoryRating.averageRating} /> {stars.display}
         </div>
       );
-    } else {
-      return 'N/A';
     }
+    return 'N/A';
   };
 
   const formatEstimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
-    } else if (qualifier === null) {
+    }
+    if (qualifier === null) {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
@@ -178,12 +177,12 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on comparison summary fields">
+      <va-additional-info trigger="Additional information on comparison summary fields">
         <AccreditationModalContent />
         <GiBillStudentsModalContent />
         <SizeOfInstitutionsModalContent />
         <SpecializedMissionModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
 
       <CompareGrid
         sectionLabel="Your estimated benefits"
@@ -218,9 +217,10 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on payments made to institution fields">
+
+      <va-additional-info trigger="Additional information on payments made to institution fields">
         <TuitionAndFeesModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
 
       <CompareGrid
         subSectionLabel="Payments made to you"
@@ -240,10 +240,10 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on payments made to you fields">
+      <va-additional-info trigger="Additional information on payments made to you fields">
         <HousingAllowanceSchoolModalContent />
         <BookStipendInfoModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
       {gibctSchoolRatings &&
         hasRatings && (
           <>
@@ -373,12 +373,9 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">
                   <div className="caution-flag-icon vads-u-flex--1">
                     {!hasFlags && (
-                      <i
-                        className={`fa fa-check`}
-                        style={{ display: 'none' }}
-                      />
+                      <i className="fa fa-check" style={{ display: 'none' }} />
                     )}
-                    {hasFlags && <i className={`fa fa-exclamation-triangle`} />}
+                    {hasFlags && <i className="fa fa-exclamation-triangle" />}
                   </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
@@ -427,10 +424,10 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on cautionary information fields">
+      <va-additional-info trigger="Additional information on cautionary information fields">
         <CautionFlagsModalContent />
         <StudentComplaintsModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
 
       <CompareGrid
         sectionLabel="Academics"
@@ -449,9 +446,9 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on academics fields">
+      <va-additional-info trigger="Additional information on academics fields">
         <MilitaryTrainingCreditModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
 
       <CompareGrid
         sectionLabel="Veteran programs"
@@ -485,14 +482,14 @@ const CompareLayout = ({
           },
         ]}
       />
-      <AdditionalInfo triggerText="Additional information on veteran programs fields">
+      <va-additional-info trigger="Additional information on veteran programs fields">
         <YellowRibbonModalContent />
         <StudentVeteranGroupModalContent />
         <PrinciplesOfExcellenceModalContent />
         <EightKeysModalContent />
         <MilitaryTuitionAssistanceModalContent />
         <PriorityEnrollmentModalContent />
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   );
 };

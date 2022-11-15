@@ -20,7 +20,7 @@ beforeEach(() => {
 });
 
 describe('Claims status est current test', () => {
-  it('Shows the correct status for the claim', () => {
+  it('Shows the correct status for the claim - C30816', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim();

@@ -1,38 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
-const NotInMPIError = ({ className, level }) => {
-  const content = (
-    <>
-      <p>
-        We’re sorry. We’re having trouble matching your information to our
-        records. So we can’t give you access to VA.gov tools right now. Please
-        contact the VA help desk at <Telephone contact={CONTACTS.VA_311} />{' '}
-        (TTY: <Telephone contact={CONTACTS['711']} />) to verify and update your
-        records.
-      </p>
-    </>
-  );
-
+const NotInMPIError = ({ className }) => {
   return (
     <div className={className}>
-      <AlertBox
-        headline="We’re having trouble verifying your identity"
-        content={content}
-        status="warning"
-        level={level}
-      />
+      <va-alert status="warning">
+        <h2 slot="headline">
+          We can’t match your information with our Veteran records
+        </h2>
+        <p>
+          You may not be able to use some tools and features right now. But
+          we’re working to connect with your records. Try again soon.
+        </p>
+      </va-alert>
     </div>
   );
 };
 
 NotInMPIError.propTypes = {
   className: PropTypes.string,
-  level: PropTypes.number.isRequired,
 };
 
 export default NotInMPIError;
