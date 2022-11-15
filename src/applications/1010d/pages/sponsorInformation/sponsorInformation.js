@@ -1,16 +1,11 @@
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { veteranFields } from '../../../caregivers/definitions/constants';
+
 import fullSchema from '../../10-10D-schema.json';
 
 const { veteran } = fullSchema.properties;
-
-const veteranFields = {
-  fullName: 'primaryFullName',
-  ssn: 'ssnOrTin',
-  primaryPhoneNumber: 'primaryPhoneNumber',
-  vaClaimNumber: 'primaryVaClaimNumber',
-};
 
 export default {
   uiSchema: {
