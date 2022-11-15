@@ -16,7 +16,7 @@
     "applicantGender": "M",
     "view:noProgramsYet": {},
     "view:phoneAndEmail": {
-      "dayTimePhone": "9898989898",
+      "homePhone": "9898989898",
       "emailAddress": "myemail81566668@unattended.com"
     },
     "mailingAddress": {
@@ -32,7 +32,7 @@
     },
     "view:bankInfoNote": {},
     "view:bankInfoHelpText": {},
-    "dayTimePhone": "9898989898",
+    "homePhone": "9898989898",
     "emailAddress": "myemail81566668@unattended.com"
   }
 }
