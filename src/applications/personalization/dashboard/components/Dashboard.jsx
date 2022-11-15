@@ -103,6 +103,7 @@ DashboardHeader.propTypes = {
 
 const Dashboard = ({
   canAccessPaymentHistory,
+  canAccessRatingInfo,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
@@ -152,10 +153,13 @@ const Dashboard = ({
       if (isLOA3) {
         fetchFullName();
         fetchMilitaryInformation();
-        fetchTotalDisabilityRating();
+        if (canAccessRatingInfo) {
+          fetchTotalDisabilityRating();
+        }
       }
     },
     [
+      canAccessRatingInfo,
       isLOA3,
       fetchFullName,
       fetchMilitaryInformation,
@@ -338,6 +342,7 @@ const mapStateToProps = state => {
     isLOA3 &&
     isVAPatient;
   const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
@@ -360,6 +365,7 @@ const mapStateToProps = state => {
 
   return {
     canAccessPaymentHistory,
+    canAccessRatingInfo,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
@@ -384,6 +390,7 @@ const mapStateToProps = state => {
 
 Dashboard.propTypes = {
   canAccessPaymentHistory: PropTypes.bool,
+  canAccessRatingInfo: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
