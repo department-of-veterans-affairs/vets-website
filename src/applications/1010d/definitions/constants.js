@@ -7,6 +7,6 @@ export const veteranFields = {
   dateOfBirth: 'dateOfBirth',
   dateOfMarriage: 'dateOfMarriage',
   dateOfDeath: 'dateOfDeath',
-  isDeceased: 'isDeceased',
+  isDeceased: 'view:isDeceased',
   isActiveServiceDeath: 'isActiveServiceDeath',
 };
