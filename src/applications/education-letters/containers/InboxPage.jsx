@@ -45,7 +45,7 @@ const InboxPage = ({
     }
 
     if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
-      if (['ELIGIBLE', 'DENIED'].includes(claimStatus.claimStatus)) {
+      if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
         return <HasLetters claimStatus={claimStatus} />;
       }
       return <NoLetters />;
