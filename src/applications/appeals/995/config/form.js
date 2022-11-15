@@ -16,6 +16,7 @@ import {
   EditAddress,
 } from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import PrimaryPhone from '../components/PrimaryPhone';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';
@@ -23,6 +24,7 @@ import addIssue from '../pages/addIssue';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
+import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateChoice from '../pages/evidencePrivateChoice';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
@@ -44,6 +46,7 @@ import {
   hasOtherEvidence,
   hasPrivateEvidenceToUpload,
 } from '../utils/helpers';
+import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
@@ -146,6 +149,16 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: formData => hasHomeAndMobilePhone(formData),
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhone,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+        },
       },
     },
 
@@ -168,6 +181,12 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
         },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+        },
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
@@ -178,18 +197,21 @@ const formConfig = {
             socOptIn: false,
           },
         },
-        issueSummary: {
-          title: 'Issue summary',
-          path: 'issue-summary',
-          uiSchema: issueSummary.uiSchema,
-          schema: issueSummary.schema,
-        },
       },
     },
 
     evidence: {
       title: 'Supporting Evidence',
       pages: {
+        notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
+          title: 'Notice of Acknowledgement',
+          path: 'notice-of-acknowledgement',
+          uiSchema: noticeOfAcknowledgement.uiSchema,
+          schema: noticeOfAcknowledgement.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -243,33 +265,6 @@ const formConfig = {
         },
       },
     },
-
-    acknowledgement: {
-      title: 'Notice of Acknowledgement',
-      pages: {
-        notice5103: {
-          initialData: {
-            form5103Acknowledged: false,
-          },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
-        },
-      },
-    },
-
-    // signature: {
-    //   title: 'Certification & Signature',
-    //   pages: {
-    //     sign: {
-    //       title: 'Certification & Signature',
-    //       path: 'certification-and-signature',
-    //       uiSchema: certifcationAndSignature.uiSchema,
-    //       schema: certifcationAndSignature.schema,
-    //     },
-    //   },
-    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,

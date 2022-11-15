@@ -4,7 +4,7 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 beforeEach(() => {});
 
 describe(manifest.appName, () => {
-  before(() => {
+  before(function() {
     if (Cypress.env('CI')) this.skip();
   });
 
