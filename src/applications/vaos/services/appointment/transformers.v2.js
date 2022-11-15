@@ -21,12 +21,23 @@ import { getTypeOfCareById } from '../../utils/appointment';
 export function getAppointmentInfoFromComments(comments, key) {
   const data = [];
   const appointmentInfo = comments?.split('|');
-  if (key === 'contact') {
-    const phone = appointmentInfo
+  if (key === 'modality') {
+    const preferredModality = appointmentInfo
       ? appointmentInfo[0]?.split(':')[1]?.trim()
       : null;
-    const email = appointmentInfo
+
+    if (appointmentInfo) {
+      data.push(preferredModality);
+    }
+    return data;
+  }
+
+  if (key === 'contact') {
+    const phone = appointmentInfo
       ? appointmentInfo[1]?.split(':')[1]?.trim()
+      : null;
+    const email = appointmentInfo
+      ? appointmentInfo[2]?.split(':')[1]?.trim()
       : null;
 
     const transformedPhone = { system: 'phone', value: phone };
@@ -38,7 +49,7 @@ export function getAppointmentInfoFromComments(comments, key) {
 
   if (key === 'preferredDate') {
     const preferredDates = appointmentInfo
-      ? appointmentInfo[2]?.split(':')[1]?.split(',')
+      ? appointmentInfo[3]?.split(':')[1]?.split(',')
       : null;
     preferredDates?.map(date => {
       const preferredDatePeriod = date?.split(' ');
@@ -68,7 +79,7 @@ export function getAppointmentInfoFromComments(comments, key) {
   }
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
-      ? appointmentInfo[3]?.split(':')[1]
+      ? appointmentInfo[4]?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };
     if (reasonCode) {
@@ -183,6 +194,18 @@ function getPatientContact(appt) {
   };
 }
 
+function getModality(appt) {
+  if (appt.kind) {
+    // for non acheron service
+    return getTypeOfVisit(appt.kind);
+  }
+  const visitType = getAppointmentInfoFromComments(
+    appt.reasonCode.text,
+    'modality',
+  );
+  return getTypeOfVisit(visitType[0]);
+}
+
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
@@ -267,7 +290,7 @@ export function transformVAOSAppointment(appt) {
       created,
       reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-      requestVisitType: getTypeOfVisit(appt.kind),
+      requestVisitType: getModality(appt),
       type: {
         coding: [
           {

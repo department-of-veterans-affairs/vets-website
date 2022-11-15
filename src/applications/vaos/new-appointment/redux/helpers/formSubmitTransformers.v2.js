@@ -35,15 +35,16 @@ function getReasonCode({ data, isCC, isAcheron }) {
           moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
-    // TODO: Replace hard coded values.
-    const { phoneNumber, email } = data;
+    const modality = `preferred modality: ${data.visitType}`;
+    const phone = `phone number: ${data.phoneNumber}`;
+    const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
-    // Add phone number, email, preferred Date, reason Code to
-    // appointmentInfo string in this order (phone number, email,
+    // Add preferred modality, phone number, email, preferred Date, reason Code to
+    // appointmentInfo string in this order (preferred modality, phone number, email,
     // preferred Date, reason Code)
-    appointmentInfo = `phone number: ${phoneNumber}|email: ${email}|${preferredDates}|${reasonCode}`;
+    appointmentInfo = `${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
   }
   const reasonCodeBody = {
     text:
@@ -159,7 +160,6 @@ export function transformFormToVAOSVARequest(
   const typeOfCare = getTypeOfCare(data);
 
   const postBody = {
-    kind: data.visitType,
     status: 'proposed',
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
@@ -170,7 +170,6 @@ export function transformFormToVAOSVARequest(
       isAcheron: featureAcheronVAOSServiceRequests,
     }),
     // comment: data.reasonAdditionalInfo,
-    // contact field removed for acheron service
     requestedPeriods: featureAcheronVAOSServiceRequests
       ? [
           {
@@ -198,9 +197,10 @@ export function transformFormToVAOSVARequest(
 
   if (featureAcheronVAOSServiceRequests) return postBody;
 
-  // add the contact field for non acheron service
+  // add contact field and modality (visitType) for non acheron service
   return {
     ...postBody,
+    kind: data.visitType,
     contact: {
       telecom: [
         {
