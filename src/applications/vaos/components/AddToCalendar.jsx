@@ -144,6 +144,7 @@ export default function AddToCalendar({
     return (
       <button
         onClick={onClick}
+        type="button"
         aria-label={`Add ${formattedDate} appointment to your calendar`}
         className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
       >
