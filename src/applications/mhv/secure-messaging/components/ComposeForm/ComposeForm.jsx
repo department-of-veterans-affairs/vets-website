@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
@@ -12,6 +12,7 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
 import { sortRecipients } from '../../util/helpers';
+import { sendMessage } from '../../actions/messages';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -29,6 +30,8 @@ const ComposeForm = props => {
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
+  const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -52,6 +55,42 @@ const ComposeForm = props => {
       }
     },
     [recipients, draft],
+  );
+
+  useEffect(
+    () => {
+      if (sendMessageFlag && isSaving !== true) {
+        if (!category) {
+          setCategoryError(true);
+          focusElement('.message-category');
+        } else {
+          const messageData = {
+            recipientId: selectedRecipient,
+            category,
+            body: messageBody,
+            subject,
+            draftId: draft.messageId,
+          };
+          if (attachments.length) {
+            const sendData = new FormData();
+            sendData.append(
+              'message',
+              new Blob([
+                JSON.stringify(messageData),
+                { type: 'application/JSON' },
+              ]),
+            );
+            attachments.map(upload =>
+              sendData.append('uploads[]', JSON.parse(JSON.stringify(upload))),
+            );
+            dispatch(sendMessage(sendData, true));
+          } else {
+            dispatch(sendMessage(JSON.stringify(messageData), false));
+          }
+        }
+      }
+    },
+    [sendMessageFlag, isSaving],
   );
 
   const recipientExists = recipientId => {
@@ -104,15 +143,6 @@ const ComposeForm = props => {
     return 'New message';
   };
 
-  const sendMessageHandler = event => {
-    event.preventDefault();
-
-    if (!category) {
-      setCategoryError(true);
-      focusElement('.message-category');
-    }
-  };
-
   const saveDraftHandler = type => {
     const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
@@ -138,13 +168,18 @@ const ComposeForm = props => {
     dispatch(saveDraft(formData, type, draftId));
   };
 
+  const sendMessageHandler = () => {
+    setSendMessageFlag(true);
+  };
+
   useEffect(
     () => {
       if (
         selectedRecipient &&
         category &&
         debouncedSubject &&
-        debouncedMessageBody
+        debouncedMessageBody &&
+        !sendMessageFlag
       ) {
         saveDraftHandler('auto');
       }
@@ -159,10 +194,14 @@ const ComposeForm = props => {
   );
 
   return (
-    <form className="compose-form" onSubmit={sendMessageHandler}>
+    <form className="compose-form">
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
-        <button type="submit" className="send-button-top">
+        <button
+          type="button"
+          className="send-button-top"
+          onClick={sendMessageHandler}
+        >
           <i className="fas fa-paper-plane" aria-hidden="true" />
           <span className="send-button-top-text">Send</span>
         </button>
@@ -246,14 +285,15 @@ const ComposeForm = props => {
         </section>
         <div className="compose-form-actions vads-u-display--flex">
           <button
-            type="submit"
+            type="button"
             className="vads-u-flex--1"
             data-testid="Send-Button"
+            onClick={sendMessageHandler}
           >
             Send
           </button>
           <button
-            type="submit"
+            type="button"
             className="usa-button-secondary vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
