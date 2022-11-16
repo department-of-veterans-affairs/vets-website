@@ -2,7 +2,7 @@ import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
-} from '../content/evidencePrivateChoice';
+} from '../content/evidencePrivateRecordsRequest';
 
 export default {
   uiSchema: {

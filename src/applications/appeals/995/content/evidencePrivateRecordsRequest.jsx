@@ -2,6 +2,24 @@ import React from 'react';
 import { SUPPORTED_UPLOAD_TYPES } from '../constants';
 import { readableList } from '../utils/helpers';
 
+export const privateRecordsRequestTitle =
+  'Would you like us to request your private medical records?';
+
+export const privateRecordsRequestInfo = (
+  <va-additional-info
+    trigger="How do I know if I have private medical records"
+    class="vads-u-margin-top--4"
+  >
+    <p>
+      You have private medical records if you were treated by a private doctor,
+      including a Veteran’s Choice doctor, you’ll have private medical records.
+      We’ll need to see those records to make a decision on your claim. A
+      Disability Benefits Questionnaire is an example of a private medical
+      record.
+    </p>
+  </va-additional-info>
+);
+
 export const privateRecordsChoiceHelp = (
   <div className="private-records-choice-help">
     <va-additional-info trigger="Which should I choose?">

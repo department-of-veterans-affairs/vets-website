@@ -214,7 +214,7 @@ const formConfig = {
           uiSchema: noticeOfAcknowledgement.uiSchema,
           schema: noticeOfAcknowledgement.schema,
         },
-        requestVaRecords: {
+        evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
           path: 'supporting-evidence/request-va-medical-records',
           uiSchema: evidenceVaRecordsRequest.uiSchema,
