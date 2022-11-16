@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
@@ -22,48 +22,24 @@ const PayrollDeductionChecklist = props => {
 
   const { employerName } = employmentRecord;
 
-  const dispatch = useDispatch();
+  const { deductions = [] } = employmentRecord ?? {};
 
-  const { currEmployment = [] } = formData;
-  const selectedEmployment = currEmployment[0];
-  const { deductions = [] } = selectedEmployment ?? [];
+  const [selectedDeductions, setSelectedDeductions] = useState(deductions);
 
   const isBoxChecked = option => {
-    return deductions.some(incomeValue => incomeValue.name === option);
+    return selectedDeductions.some(incomeValue => incomeValue.name === option);
   };
 
   const onChange = ({ target }) => {
-    const { value } = target;
+    const { name, checked } = target;
 
-    return deductions.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            currEmployment: [
-              {
-                ...selectedEmployment,
-                deductions: deductions.filter(source => source.name !== value),
-              },
-              ...currEmployment.filter(
-                job => job.employerName !== selectedEmployment.employerName,
-              ),
-            ],
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            currEmployment: [
-              {
-                ...selectedEmployment,
-                deductions: [...deductions, { name: value, amount: '' }],
-              },
-              ...currEmployment.filter(
-                job => job.employerName !== selectedEmployment.employerName,
-              ),
-            ],
-          }),
-        );
+    if (checked) {
+      setSelectedDeductions([...selectedDeductions, { name }]);
+    } else {
+      setSelectedDeductions(
+        selectedDeductions.filter(incomeValue => incomeValue.name !== name),
+      );
+    }
   };
 
   const updateFormData = e => {
@@ -75,11 +51,12 @@ const PayrollDeductionChecklist = props => {
           return arrayIndex === index
             ? {
                 ...employmentRecord,
-                grossMonthlyIncome: deductions,
+                deductions: selectedDeductions,
               }
             : item;
         },
       );
+      // deductions: deductions.filter(source => source.name !== value)
       // update form data
       setFormData({
         ...formData,
@@ -95,7 +72,12 @@ const PayrollDeductionChecklist = props => {
         },
       });
     } else {
-      const records = [{ ...employmentRecord, deductions }];
+      const records = [
+        { ...employmentRecord, deductions: selectedDeductions },
+        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
+          1,
+        ),
+      ];
 
       setFormData({
         ...formData,
@@ -121,6 +103,9 @@ const PayrollDeductionChecklist = props => {
     <form onSubmit={updateFormData}>
       <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
       <br />
+      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
+        Which of these payroll deductions do you pay for?
+      </span>
       <div className="checkbox-list">
         {payrollDeductionOptions?.map((option, key) => (
           <div key={option + key} className="checkbox-list-item">

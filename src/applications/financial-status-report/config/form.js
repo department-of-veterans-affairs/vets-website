@@ -13,6 +13,7 @@ import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
+import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -158,7 +159,6 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: GrossMonthlyIncomeInput,
         },
-        // MAKE THIS CONDITIONAL BASED ON CURRENT EMPLOYMENT ONLY
         payrollDeductionChecklist: {
           path: 'deduction-checklist',
           title: 'Payroll deductions',
@@ -170,7 +170,6 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: PayrollDeductionChecklist,
         },
-        // MAKE THIS CONDITIONAL BASED ON CURRENT EMPLOYMENT ONLY
         payrollDeductionInputList: {
           title: 'Deduction amounts',
           path: 'deduction-values',
@@ -181,6 +180,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
+          CustomPage: PayrollDeductionInputList,
         },
         // loop ends with option to re enter here
         employmentHistorySummary: {

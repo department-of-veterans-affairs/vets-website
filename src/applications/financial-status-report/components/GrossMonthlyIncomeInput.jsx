@@ -88,7 +88,13 @@ const GrossMonthlyIncomeInput = props => {
       });
     } else {
       const records = [
-        { ...employmentRecord, grossMonthlyIncome: grossMonthlyIncome.value },
+        {
+          ...employmentRecord,
+          grossMonthlyIncome: grossMonthlyIncome.value,
+        },
+        ...formData.personalData.employmentHistory.veteran.employmentRecords.slice(
+          1,
+        ),
       ];
 
       setFormData({
@@ -105,7 +111,12 @@ const GrossMonthlyIncomeInput = props => {
         },
       });
     }
-    goToPath(`/deduction-checklist`);
+
+    if (employmentRecord.isCurrent) {
+      goToPath(`/deduction-checklist`);
+    } else {
+      goToPath(`/employment-history`);
+    }
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;

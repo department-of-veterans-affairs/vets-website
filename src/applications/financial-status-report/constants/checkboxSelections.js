@@ -30,7 +30,7 @@ export const payrollDeductionOptions = [
   'Garnishment',
   'Health insurance',
   'Life insurance',
-  'Retirement accounts (401k, IRAs, 403b)',
+  'Retirement accounts (401k, IRAs, 403b, TSP)',
   'FICA (Social Security and Medicare)',
   'Allotment',
   'Other',
