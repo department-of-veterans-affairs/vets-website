@@ -190,7 +190,9 @@ describe('hca <VaMedicalCenter>', () => {
         </Provider>,
       );
 
-      expect(view.getByText('Canandaigua VA Medical Center')).to.exist;
+      expect(
+        view.container.querySelector('[data-testid="ez-facility-reviewmode"]'),
+      ).to.contain.text('Canandaigua VA Medical Center');
     });
   });
 
