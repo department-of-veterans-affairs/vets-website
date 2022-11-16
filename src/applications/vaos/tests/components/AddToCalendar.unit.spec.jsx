@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import moment from '../../lib/moment-tz.js';
 import MockDate from 'mockdate';
-
-import AddToCalendar from '../../components/AddToCalendar';
 import userEvent from '@testing-library/user-event';
-import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar.js';
-import { getTimezoneTestDate } from '../mocks/setup.js';
+import moment from '../../lib/moment-tz';
+import AddToCalendar from '../../components/AddToCalendar';
+
+import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar';
+import { getTimezoneTestDate } from '../mocks/setup';
 
 describe('VAOS <AddToCalendar>', () => {
   it('should render link with calendar info', () => {
