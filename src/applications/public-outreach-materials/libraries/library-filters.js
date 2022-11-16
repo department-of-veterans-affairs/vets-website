@@ -198,7 +198,7 @@ export function libraryFilters(el) {
     [].map.call(
       document.querySelectorAll(
         `[data-${selectSwitch}]:not([data-${selectSwitch}
-          =${el.srcElement.value}])`,
+          *=${el.srcElement.value}])`,
       ),
       element => {
         element.classList.add(`hide-${selectSwitch}`);
@@ -206,7 +206,7 @@ export function libraryFilters(el) {
     );
     [].map.call(
       document.querySelectorAll(
-        `[data-${selectSwitch}=${el.srcElement.value}]`,
+        `[data-${selectSwitch}*=${el.srcElement.value}]`,
       ),
       element => {
         element.classList.remove(`hide-${selectSwitch}`);
