@@ -78,8 +78,8 @@ export const schema = {
       type: 'object',
       required: ['mobilePhone', 'emailAddress'],
       properties: {
-        homePhone,
         mobilePhone,
+        homePhone,
         emailAddress,
       },
     },
