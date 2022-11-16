@@ -154,14 +154,16 @@ export default function AddToCalendar({
   }
 
   return (
-    <a
+    <va-link
+      download
       href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
-      download={filename}
-      aria-label={`Add ${formattedDate} appointment to your calendar`}
+      filename={filename}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
-    >
-      Add to calendar
-    </a>
+      aria-label={`Add ${formattedDate} appointment to your calendar`}
+      filetype="ICS"
+      text="Add to calendar"
+      data-testid="add-to-calendar-link"
+    />
   );
 }
 
