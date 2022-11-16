@@ -271,22 +271,6 @@ export function FilterYourResults({
     ];
     const newFilters = [
       {
-        optionValue: 'hbcu',
-        optionLabel: 'Historically Black college or university',
-      },
-      {
-        optionValue: 'menonly',
-        optionLabel: 'Men-only',
-      },
-      {
-        optionValue: 'womenonly',
-        optionLabel: 'Women-only',
-      },
-      {
-        optionValue: 'relaffil',
-        optionLabel: 'Religious affiliation',
-      },
-      {
         optionValue: 'HSI',
         optionLabel: 'Hispanic-serving institutions',
       },
