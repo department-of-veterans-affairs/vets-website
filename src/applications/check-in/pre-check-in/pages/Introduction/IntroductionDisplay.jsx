@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import VaModal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
@@ -59,16 +59,7 @@ const IntroductionDisplay = props => {
       ),
     },
   ];
-  const privacyStatement = (
-    <div>
-      <h3>{t('privacy-act-statement')}</h3>
-      <p>
-        {t(
-          'we-ask-you-to-provide-the-information-in-this-questionnaire-to-help-with-your-medical-care-under-law-38-u-s-c-chapter-17-its-your-choice-if-you-want-to-provide-this-information-if-you-choose-not-to-provide-this-information-it-may-make-it-harder-for-us-to-prepare-for-your-visit-but-it-wont-have-any-effect-on-your-eligibility-for-any-va-benefits-or-services-we-may-use-and-share-the-information-you-provide-in-this-questionnaire-in-the-ways-were-allowed-to-by-law-we-may-make-a-routine-use-disclosure-of-the-information-as-outlined-in-the-privacy-act-system-of-records-notice-in-24va10a7-patient-medical-record-va-and-following-the-veterans-health-administration-vha-notice-of-privacy-practices',
-        )}
-      </p>
-    </div>
-  );
+
   const StartButton = () => (
     <div
       className="vads-u-margin-bottom--4 vads-u-display--block"
@@ -143,14 +134,19 @@ const IntroductionDisplay = props => {
         </a>
       </div>
       <VaModal
-        onClose={useCallback(() => setPrivacyActModalOpen(false), [
+        modalTitle={t('privacy-act-statement')}
+        onCloseEvent={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,
         ])}
         visible={privacyActModalOpen}
-        focusSelector="button"
-        cssClass=""
-        contents={privacyStatement}
-      />
+        initialFocusSelector="button"
+      >
+        <p>
+          {t(
+            'we-ask-you-to-provide-the-information-in-this-questionnaire-to-help-with-your-medical-care-under-law-38-u-s-c-chapter-17-its-your-choice-if-you-want-to-provide-this-information-if-you-choose-not-to-provide-this-information-it-may-make-it-harder-for-us-to-prepare-for-your-visit-but-it-wont-have-any-effect-on-your-eligibility-for-any-va-benefits-or-services-we-may-use-and-share-the-information-you-provide-in-this-questionnaire-in-the-ways-were-allowed-to-by-law-we-may-make-a-routine-use-disclosure-of-the-information-as-outlined-in-the-privacy-act-system-of-records-notice-in-24va10a7-patient-medical-record-va-and-following-the-veterans-health-administration-vha-notice-of-privacy-practices',
+          )}
+        </p>
+      </VaModal>
     </Wrapper>
   );
 };

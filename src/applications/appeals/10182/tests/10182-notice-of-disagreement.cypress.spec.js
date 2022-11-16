@@ -48,7 +48,7 @@ const testConfig = createTestConfig(
         cy.get('input[type="file"]')
           .upload(
             path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'application/pdf',
+            'testing',
           )
           .get('.schemaform-file-uploading')
           .should('not.exist');
