@@ -13,7 +13,7 @@ import { MAX_LENGTH } from '../constants';
  * @param {*} fullData - full and appStateData passed to validation function
  * @returns {String[]} - error messages
  */
-export const checkValidations = (validations, data, fullData) => {
+export const checkValidations = (validations, data = {}, fullData = {}) => {
   const errors = { errorMessages: [] };
   errors.addError = message => errors.errorMessages.push(message);
   validations.map(validation =>

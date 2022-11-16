@@ -32,6 +32,10 @@ export const SELECTED = 'view:selected';
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
 
+export const EVIDENCE_VA = 'view:hasVaEvidence';
+export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
+export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
@@ -47,8 +51,10 @@ export const errorMessages = {
   endDateBeforeStart: 'End date must be after start date',
   contestedIssue: 'Please select an eligible issue',
 
-  evidenceTypeMissing: 'Please select at least one type of supporting evidence',
-  locationAndNameMissing: 'Please add a treatment location',
+  evidenceMissing: 'Please include at least one type of supporting evidence',
+  evidenceLocationMissing: 'Please add a treatment location',
+  evidenceLocationMaxLength: 'Please enter a maximum of 255 characters',
+  evidenceIssuesMissing: 'Please select one or more associated issues',
 
   missingEmail: 'Please add an email address to your profile',
   missingPhone: 'Please add a home or mobile phone number to your profile',
@@ -161,3 +167,4 @@ export const MAX_LENGTH = {
 };
 
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';

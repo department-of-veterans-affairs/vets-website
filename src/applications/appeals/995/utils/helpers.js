@@ -1,6 +1,12 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE } from '../constants';
+import {
+  SELECTED,
+  LEGACY_TYPE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 /**
  * @typedef ContestableIssues
@@ -272,12 +278,10 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
 
-export const hasVAEvidence = formData => formData?.['view:hasVaEvidence'];
-export const hasPrivateEvidence = formData =>
-  formData?.['view:hasPrivateEvidence'];
-export const hasOtherEvidence = formData => formData?.['view:hasOtherEvidence'];
+export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
+export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 export const hasPrivateEvidenceToUpload = formData =>
   formData?.['view:uploadPrivateRecordsChoice']?.[
     'view:hasPrivateRecordsToUpload'
   ];
-// export const hasPrivateEvidenceUploads = formData =>

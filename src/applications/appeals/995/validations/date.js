@@ -8,7 +8,7 @@ import { FORMAT_YMD } from '../constants';
 import { issueErrorMessages } from '../content/addIssue';
 
 export const minDate = moment()
-  .subtract(1, 'year')
+  .subtract(100, 'year')
   .startOf('day');
 
 const maxDate = moment().startOf('day');

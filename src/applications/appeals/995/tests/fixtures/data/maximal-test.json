@@ -84,12 +84,20 @@
     "locations": [
       {
         "locationAndName": "VAMC Location 1",
-        "evidenceDates": [
-          {
-            "from": "2022-01-01",
-            "to": "2022-01-02"
-          }
-        ]
+        "issues": [
+          "Headaches"
+        ],
+        "evidenceDates": {
+          "from": "2001-01-01",
+          "to": "2011-01-01"
+        }
+      },
+      {
+        "locationAndName": "VAMC Location 2",
+        "evidenceDates": {
+          "from": "2002-02-02",
+          "to": "2012-02-02"
+        }
       }
     ],
     "providerFacility": [
@@ -98,6 +106,9 @@
           "from": "2022-01-01",
           "to": "2022-02-01"
         },
+        "issues": [
+          "Headaches"
+        ],
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 main",

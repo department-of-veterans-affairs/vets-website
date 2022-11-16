@@ -1,35 +1,42 @@
-import { errorMessages } from '../constants';
+import {
+  errorMessages,
+  MAX_LENGTH,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+} from '../constants';
 import { validateDate } from './date';
 
-export const validateEvidenceType = (errors, formData) => {
+export const validateEvidence = (errors, formData) => {
   if (
-    !formData?.['view:hasVaEvidence'] &&
-    !formData?.['view:hasPrivateEvidence'] &&
-    !formData?.['view:hasOtherEvidence']
+    !formData?.[EVIDENCE_VA] &&
+    !formData?.[EVIDENCE_PRIVATE] &&
+    !formData?.[EVIDENCE_OTHER]
   ) {
-    errors.addError(errorMessages.evidenceTypeMissing);
+    errors.addError(errorMessages.evidenceMissing);
   }
 };
 
-const validateDateRange = (errors, evidenceDates) => {
-  (evidenceDates || [{}]).forEach((date, dateIndex) => {
-    const dateError =
-      errors.evidenceDates?.[dateIndex] || errors.evidenceDates || errors;
-    validateDate(dateError.from || dateError, date.from);
-    validateDate(dateError.to || dateError, date.to, date.from);
-  });
-};
-
-export function validateVALocation(errors, formData) {
-  formData.forEach(({ locationAndName, evidenceDates }, index) => {
-    if (!locationAndName) {
-      errors[index].locationAndName.addError(
-        errorMessages.locationAndNameMissing,
-      );
-    }
-    validateDateRange(errors[index] || errors, evidenceDates);
-  });
+export function validateVaLocation(errors, data) {
+  const { locationAndName } = data || {};
+  if (!locationAndName) {
+    errors.addError(errorMessages.evidenceLocationMissing);
+  } else if (locationAndName.length > MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME) {
+    errors.addError(errorMessages.evidenceLocationMaxLength);
+  }
 }
+
+export function validateVaIssues(errors, data) {
+  if (!data.issues?.length) {
+    errors.addError(errorMessages.evidenceIssuesMissing);
+  }
+}
+
+export const validateVaFromDate = (errors, data) =>
+  validateDate(errors, data.evidenceDates?.from);
+
+export const validateVaToDate = (errors, data) =>
+  validateDate(errors, data.evidenceDates?.to);
 
 export function isValidZIP(value) {
   if (value !== null) {

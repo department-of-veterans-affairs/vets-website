@@ -3,13 +3,15 @@ import {
   requestVaRecordsInfo,
 } from '../content/evidenceVaRecordsRequest';
 
+import { EVIDENCE_VA } from '../constants';
+
 export default {
   uiSchema: {
     'ui:title': ' ',
     'ui:options': {
       forceDivWrapper: true,
     },
-    'view:hasVaEvidence': {
+    [EVIDENCE_VA]: {
       'ui:title': requestVaRecordsTitle,
       'ui:widget': 'yesNo',
     },
@@ -20,7 +22,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:hasVaEvidence': {
+      [EVIDENCE_VA]: {
         type: 'boolean',
       },
       'view:vaEvidenceInfo': {
