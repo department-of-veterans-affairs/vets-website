@@ -145,14 +145,13 @@ export default function Card({
           )}
         </div>
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
-          <Link
+          <va-link
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
-            to={link}
+            href={link}
             onClick={e => e.preventDefault()}
-          >
-            Details
-          </Link>
+            text="Details"
+          />
           <i
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
