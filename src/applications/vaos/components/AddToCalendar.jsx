@@ -3,6 +3,7 @@
  * @module components
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import guid from 'simple-guid';
 import { ICS_LINE_LIMIT } from '../utils/calendar';
@@ -162,3 +163,11 @@ export default function AddToCalendar({
     </a>
   );
 }
+
+AddToCalendar.propTypes = {
+  description: PropTypes.string,
+  duration: PropTypes.string,
+  location: PropTypes.string,
+  startDateTime: PropTypes.string,
+  summary: PropTypes.string,
+};
