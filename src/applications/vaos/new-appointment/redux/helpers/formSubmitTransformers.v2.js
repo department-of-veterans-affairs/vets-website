@@ -160,6 +160,7 @@ export function transformFormToVAOSVARequest(
   const typeOfCare = getTypeOfCare(data);
 
   const postBody = {
+    kind: data.visitType,
     status: 'proposed',
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
@@ -200,7 +201,6 @@ export function transformFormToVAOSVARequest(
   // add contact field and modality (visitType) for non acheron service
   return {
     ...postBody,
-    kind: data.visitType,
     contact: {
       telecom: [
         {

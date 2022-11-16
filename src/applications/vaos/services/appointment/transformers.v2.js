@@ -194,18 +194,6 @@ function getPatientContact(appt) {
   };
 }
 
-function getModality(appt) {
-  if (appt.kind) {
-    // for non acheron service
-    return getTypeOfVisit(appt.kind);
-  }
-  const visitType = getAppointmentInfoFromComments(
-    appt.reasonCode.text,
-    'modality',
-  );
-  return getTypeOfVisit(visitType[0]);
-}
-
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
@@ -290,7 +278,7 @@ export function transformVAOSAppointment(appt) {
       created,
       reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-      requestVisitType: getModality(appt),
+      requestVisitType: getTypeOfVisit(appt.kind),
       type: {
         coding: [
           {
