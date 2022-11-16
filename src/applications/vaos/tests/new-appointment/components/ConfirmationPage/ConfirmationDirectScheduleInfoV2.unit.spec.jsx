@@ -108,7 +108,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     expect(screen.getByText(/CHY PC CASSIDY/i)).to.be.ok;
 
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: start.format('[Add] MMMM D, YYYY [appointment to your calendar]'),
       }),
     ).to.be.ok;
@@ -142,7 +142,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${start.format(
             'MMMM D, YYYY',
           )} appointment to your calendar`,
