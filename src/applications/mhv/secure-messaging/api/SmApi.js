@@ -53,15 +53,13 @@ export const createFolder = folderName => {
  * @returns
  */
 export const updateFolderName = (folderId, folderName) => {
-  return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/rename/${folderName}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({ name: folderName }),
+  });
 };
 
 /**
@@ -97,11 +95,14 @@ export const getMessageCategoryList = () => {
  * @returns
  */
 export const getMessageList = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/messages`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
 };
 
 /**
@@ -289,7 +290,7 @@ export const getMessageHistory = messageId => {
  */
 export const moveMessage = (messageId, toFolderId) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move/${toFolderId}`,
+    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
     {
       method: 'PATCH',
       headers: {

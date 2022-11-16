@@ -21,13 +21,21 @@ import {
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation } from 'react-router-dom';
 import InboxListItem from './MessageListItem';
 
+const DESCENDING = 'desc';
+const ASCENDING = 'asc';
+const SENDER_ALPHA_ASCENDING = 'sender-alpha-asc';
+const SENDER_ALPHA_DESCENDING = 'sender-alpha-desc';
+const RECEPIENT_ALPHA_ASCENDING = 'recepient-alpha-asc';
+const RECEPIENT_ALPHA_DESCENDING = 'recepient-alpha-desc';
 // Arbitrarily set because the VaPagination component has a required prop for this.
 // This value dictates how many pages are displayed in a pagination component
 const MAX_PAGE_LIST_LENGTH = 5;
-
+let sortOrderSelection;
 const MessageList = props => {
+  const location = useLocation();
   const { messages, folder } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
@@ -59,21 +67,29 @@ const MessageList = props => {
   const sortMessages = useCallback(
     data => {
       let sorted;
-      if (sortOrder === 'desc') {
+      if (sortOrder === DESCENDING) {
         sorted = data.sort((a, b) => {
           return b.sentDate > a.sentDate ? 1 : -1;
         });
-      } else if (sortOrder === 'asc') {
+      } else if (sortOrder === ASCENDING) {
         sorted = data.sort((a, b) => {
           return a.sentDate > b.sentDate ? 1 : -1;
         });
-      } else if (sortOrder === 'alpha-asc') {
+      } else if (sortOrder === SENDER_ALPHA_ASCENDING) {
         sorted = data.sort((a, b) => {
           return a.senderName > b.senderName ? 1 : -1;
         });
-      } else if (sortOrder === 'alpha-desc') {
+      } else if (sortOrder === SENDER_ALPHA_DESCENDING) {
         sorted = data.sort((a, b) => {
           return a.senderName < b.senderName ? 1 : -1;
+        });
+      } else if (sortOrder === RECEPIENT_ALPHA_ASCENDING) {
+        sorted = data.sort((a, b) => {
+          return a.recipientName > b.recipientName ? 1 : -1;
+        });
+      } else if (sortOrder === RECEPIENT_ALPHA_DESCENDING) {
+        sorted = data.sort((a, b) => {
+          return a.recipientName < b.recipientName ? 1 : -1;
         });
       }
       return sorted;
@@ -104,6 +120,11 @@ const MessageList = props => {
     paginatedMessages.current = paginateData(sortMessages(messages));
     setCurrentMessages(paginatedMessages.current[0]);
     setCurrentPage(1);
+    setSortOrder(sortOrderSelection);
+  };
+
+  const handleOnSelect = e => {
+    sortOrderSelection = e.detail.value;
   };
 
   const displayNums = fromToNums(currentPage, messages?.length);
@@ -113,17 +134,36 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${(folder && folder.name) || ''} messages by`}
+          label={`Sort ${
+            folder.folderId === -3 ? 'Trash' : folder.name
+          } messages by`}
           name="sort-order"
-          value={sortOrder}
+          value={sortOrderSelection}
           onVaSelect={e => {
-            setSortOrder(e.detail.value);
+            handleOnSelect(e);
           }}
         >
-          <option value="desc">Newest to oldest</option>
-          <option value="asc">Oldest to newest</option>
-          <option value="alpha-asc">A to Z - Sender’s name</option>
-          <option value="alpha-desc">Z to A - Sender’s name</option>
+          <option value={DESCENDING}>Newest to oldest</option>
+          <option value={ASCENDING}>Oldest to newest</option>
+          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+            <>
+              <option value={SENDER_ALPHA_ASCENDING}>
+                A to Z - Sender’s name
+              </option>
+              <option value={SENDER_ALPHA_DESCENDING}>
+                Z to A - Sender’s name
+              </option>
+            </>
+          ) : (
+            <>
+              <option value={RECEPIENT_ALPHA_ASCENDING}>
+                A to Z - Recipient’s name
+              </option>
+              <option value={RECEPIENT_ALPHA_DESCENDING}>
+                Z to A - Recipient’s name
+              </option>
+            </>
+          )}
         </VaSelect>
 
         <button type="button" onClick={handleMessageSort}>
@@ -144,6 +184,7 @@ const MessageList = props => {
           subject={message.subject}
           readReceipt={message.readReceipt}
           attachment={message.attachment}
+          recipientName={message.recipientName}
         />
       ))}
       {currentMessages && (

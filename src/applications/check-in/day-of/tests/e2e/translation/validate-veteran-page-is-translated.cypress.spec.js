@@ -29,3 +29,29 @@ describe('Check In Experience -- ', () => {
     cy.axeCheck();
   });
 });
+
+describe('Check In Experience - Tagalog', () => {
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeSessionGet.withSuccessfulNewSession();
+    // Verifies that browser language detection is working.
+    cy.visitWithUUID(null, 'tl');
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('Validate Veteran page - tagalog', () => {
+    // App is translated.
+    ValidateVeteran.validatePage.dayOf('tl');
+    cy.get('[data-testid="last-name-input"]')
+      .shadow()
+      .find('label')
+      .should('be.visible')
+      .and('have.text', 'Ang iyong apelyido (*Kailangan)');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+});

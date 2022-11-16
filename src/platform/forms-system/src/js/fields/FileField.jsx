@@ -107,14 +107,15 @@ class FileField extends React.Component {
       if (currentFile.type === 'testing') {
         // Skip read file for Cypress testing
         checkResults = {
-          checkTypeAndExtensionMatches: () => true,
-          checkIsEncryptedPdf: () => false,
+          checkTypeAndExtensionMatches: true,
+          checkIsEncryptedPdf: false,
         };
       } else {
         // read file mock for unit testing
-        checkResults = uiOptions.mockReadAndCheckFile
-          ? mockReadAndCheckFile()
-          : await readAndCheckFile(currentFile, checks);
+        checkResults =
+          typeof mockReadAndCheckFile === 'function'
+            ? mockReadAndCheckFile()
+            : await readAndCheckFile(currentFile, checks);
       }
 
       if (!checkResults.checkTypeAndExtensionMatches) {
@@ -537,15 +538,28 @@ class FileField extends React.Component {
 
 FileField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  requiredSchema: PropTypes.object,
-  idSchema: PropTypes.object,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
-  formData: PropTypes.array,
   disabled: PropTypes.bool,
+  enableShortWorkflow: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
+    trackingPrefix: PropTypes.string,
+    uploadFile: PropTypes.func,
+  }),
+  formData: PropTypes.array,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
+  registry: PropTypes.shape({
+    fields: PropTypes.shape({
+      SchemaField: PropTypes.func,
+    }),
+    formContext: PropTypes.shape({}),
+  }),
+  requiredSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

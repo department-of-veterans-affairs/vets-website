@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 
-import { updateFormPages } from './index';
+import { updateFormPages, isAnInternalPage } from './index';
 
 describe('Global check in', () => {
   describe('navigation utils', () => {
@@ -16,11 +16,19 @@ describe('Global check in', () => {
         'contact-information',
         'next-of-kin',
         'emergency-contact',
+        'travel-pay',
+        'travel-vehicle',
+        'travel-address',
+        'travel-mileage',
       ];
       const URLS = {
         DEMOGRAPHICS: 'contact-information',
         EMERGENCY_CONTACT: 'emergency-contact',
         NEXT_OF_KIN: 'next-of-kin',
+        TRAVEL_QUESTION: 'travel-pay',
+        TRAVEL_VEHICLE: 'travel-vehicle',
+        TRAVEL_ADDRESS: 'travel-address',
+        TRAVEL_MILEAGE: 'travel-mileage',
       };
       it('should return all pages with emergency contact page', () => {
         const patientDemographicsStatus = {
@@ -31,10 +39,14 @@ describe('Global check in', () => {
           emergencyContactNeedsUpdate: true,
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
+        const isTravelReimbursementEnabled = true;
+        const appointments = [{ stationNo: '0001' }];
         const form = updateFormPages(
           patientDemographicsStatus,
           testPages,
           URLS,
+          isTravelReimbursementEnabled,
+          appointments,
         );
         expect(form.length).to.equal(testPages.length);
       });
@@ -138,6 +150,109 @@ describe('Global check in', () => {
         );
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
           .undefined;
+      });
+      it('should skip travel pages if appointments are greater than 1', () => {
+        MockDate.set('2022-01-08T06:00:00.000-05:00');
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: false,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: false,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: '2022-01-01T08:00:00.000-05:00',
+        };
+        const isTravelReimbursementEnabled = true;
+        const appointments = [
+          { stationNo: '0001' },
+          { stationNo: '0001' },
+          { stationNo: '0001' },
+          { stationNo: '0001' },
+        ];
+        const form = updateFormPages(
+          patientDemographicsStatus,
+          testPages,
+          URLS,
+          isTravelReimbursementEnabled,
+          appointments,
+        );
+        expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.be.undefined;
+      });
+      it('should show travel pages if there is only one appointment', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: true,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const isTravelReimbursementEnabled = true;
+        const appointments = [{ stationNo: '0001' }];
+        expect(appointments).to.have.lengthOf(1);
+        const form = updateFormPages(
+          patientDemographicsStatus,
+          testPages,
+          URLS,
+          isTravelReimbursementEnabled,
+          appointments,
+        );
+        expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
+        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
+        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
+        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
+      });
+      it('should skip travel pages if not in allow list', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: true,
+          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          emergencyContactNeedsUpdate: true,
+          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
+        };
+        const isTravelReimbursementEnabled = true;
+        const appointments = [{ stationNo: '0002' }];
+        expect(appointments).to.have.lengthOf(1);
+        const form = updateFormPages(
+          patientDemographicsStatus,
+          testPages,
+          URLS,
+          isTravelReimbursementEnabled,
+          appointments,
+        );
+        expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.be.undefined;
+        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.be.undefined;
+      });
+    });
+    describe('isAnInternalPage', () => {
+      it('should return false if undefined', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/?id=someUUID',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return false if on verify', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/verify',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return false if on a page not defined in app', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/brian',
+        );
+        expect(isValid).to.be.false;
+      });
+      it('should return true if on a valid page', () => {
+        const isValid = isAnInternalPage(
+          '/health-care/appointment-check-in/contact-information',
+        );
+        expect(isValid).to.be.true;
       });
     });
   });

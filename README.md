@@ -12,7 +12,8 @@
 - [Running tests](#running-tests)	
   - [Unit tests](#unit-tests)	
   - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)	
-  - [Contract tests](#contract-tests)	
+  - [Contract tests](#contract-tests)
+- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)	
 - [Running a mock API for local development](#running-a-mock-api-for-local-development)	
 - [More commands](#more-commands)	
 - [Supported Browsers](#supported-browsers)
@@ -204,6 +205,15 @@ To run a specific contract test:
 
 ```sh
 BUILDTYPE=localhost yarn test:unit src/applications/my-app/tests/example.pact.spec.js
+```
+
+## Changing Virtual Agent backend URL
+
+If not already create a `.env` file in the root of the project and add
+the following while updating the URL 
+```
+VIRTUAL_AGENT_BACKEND_URL=https://some.url.com
+
 ```
 
 ## Running a mock API for local development

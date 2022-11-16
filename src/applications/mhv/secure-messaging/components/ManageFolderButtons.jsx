@@ -6,7 +6,12 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { navigateToFoldersPage } from '../util/helpers';
-import { delFolder, getFolders, renameFolder } from '../actions/folders';
+import {
+  delFolder,
+  getFolders,
+  renameFolder,
+  retrieveFolder,
+} from '../actions/folders';
 
 const ManageFolderButtons = () => {
   const dispatch = useDispatch();
@@ -14,6 +19,7 @@ const ManageFolderButtons = () => {
   const params = useParams();
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
+  const folders = useSelector(state => state.sm.folders.folderList);
   const messages = useSelector(state => state.sm.messages?.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
@@ -21,6 +27,7 @@ const ManageFolderButtons = () => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [renameModal, setRenameModal] = useState(false);
   const [folderName, setFolderName] = useState('');
+  let folderMatch = null;
 
   useEffect(
     () => {
@@ -62,11 +69,20 @@ const ManageFolderButtons = () => {
   };
 
   const confirmRenameFolder = () => {
+    folderMatch = null;
+    folderMatch = folders.filter(testFolder => testFolder.name === folderName);
     if (folderName === '' || folderName.match(/^[\s]+$/)) {
       setNameWarning('Folder name cannot be blank');
+    } else if (folderMatch.length > 0) {
+      setNameWarning('Folder name already in use. Please use another name.');
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeRenameModal();
-      dispatch(renameFolder(folderId, folderName));
+      dispatch(renameFolder(folderId, folderName)).then(() => {
+        // Refresh the folder name in the "My folders" page--otherwise the old name flashes on-screen for a second.
+        dispatch(getFolders());
+        // Refresh the folder name on the folder detail page.
+        dispatch(retrieveFolder(folderId));
+      });
     } else {
       setNameWarning(
         'Folder name can only contain letters, numbers, and spaces.',

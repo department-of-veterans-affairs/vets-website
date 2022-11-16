@@ -58,9 +58,9 @@ const responses = {
     const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(sharedData.get.createMultipleAppointments(uuid, 3));
+      return res.json(sharedData.get.createAppointments(uuid));
     }
-    return res.json(sharedData.get.createMultipleAppointments(uuid));
+    return res.json(sharedData.get.createAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
     const { uuid, appointmentIen, facilityId } =
@@ -91,9 +91,9 @@ const responses = {
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));
   },
-  'POST /check_in/v2/btsss/': (req, res) => {
-    const { uuid } = req.body || {};
-    if (!uuid) {
+  'POST /check_in/v0/travel_claims/': (req, res) => {
+    const { uuid, appointmentDate } = req.body?.travelClaims || {};
+    if (!uuid || !appointmentDate) {
       return res.status(500).json(btsss.post.createMockFailedResponse());
     }
     return res.json(btsss.post.createMockSuccessResponse({}));

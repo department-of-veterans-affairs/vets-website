@@ -35,7 +35,7 @@ const BackToAppointments = ({ router }) => {
           href="#appointments"
           data-testid="go-to-appointments-button"
         >
-          {t('go-to-another-appointment')}
+          {t('back-to-todays-appointments')}
         </a>
       </nav>
     </>

@@ -4,7 +4,7 @@ import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import mockV2Data from './fixtures/data/test-data.json';
+import mockV2Data from './fixtures/data/maximal-test.json';
 import { mockContestableIssues } from './995.cypress.helpers';
 
 // Telephone specific responses
@@ -12,14 +12,16 @@ import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
 import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
 
 describe('995 contact info loop', () => {
+  Cypress.config({ requestTimeout: 10000 });
+  before(function() {
+    if (Cypress.env('CI')) this.skip();
+  });
+
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
-      },
-    });
+      data: { features: [{ name: 'supplemental_claim', value: true }] },
+    }).as('features');
 
     setStoredSubTask({ benefitType: 'compensation' });
     cy.intercept(
@@ -36,14 +38,16 @@ describe('995 contact info loop', () => {
 
     cy.login(mockUser);
     cy.intercept('GET', '/v0/profile/status', mockStatus);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
 
     cy.visit(BASE_URL);
+    cy.wait('@features');
     cy.injectAxe();
   });
 
   const getToContactPage = () => {
     // start form
-    cy.findAllByText(/start the request/i, { selector: 'a' })
+    cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
 
@@ -54,7 +58,7 @@ describe('995 contact info loop', () => {
       .click();
   };
 
-  it('should edit info on a new page & cancel returns to contact info page - C12883', () => {
+  it('should edit info on a new page & cancel returns to contact info page - C30848', () => {
     getToContactPage();
 
     // Contact info
@@ -62,7 +66,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Mobile phone
+    // Home phone
     cy.get('a[href$="home-phone"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/edit-home-phone`);
     cy.injectAxe();

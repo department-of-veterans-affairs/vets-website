@@ -32,6 +32,7 @@ const CategoryInput = props => {
       {categories?.length > 0 && (
         <VaRadio
           required
+          enable-analytics
           data-testid="compose-message-categories"
           label="Category"
           className=" fieldset-input message-category"

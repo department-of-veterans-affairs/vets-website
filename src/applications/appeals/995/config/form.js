@@ -2,6 +2,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
 
 import migrations from '../migrations';
 
@@ -15,6 +16,7 @@ import {
   EditAddress,
 } from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import PrimaryPhone from '../components/PrimaryPhone';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';
@@ -22,6 +24,7 @@ import addIssue from '../pages/addIssue';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
+import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateChoice from '../pages/evidencePrivateChoice';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
@@ -43,9 +46,13 @@ import {
   hasOtherEvidence,
   hasPrivateEvidenceToUpload,
 } from '../utils/helpers';
+import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import { saveInProgress, savedFormMessages } from '../content/formMessages';
+
+import prefillTransformer from './prefill-transformer';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
@@ -62,39 +69,25 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_20_0995,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VA Form 20-0995 (Supplemental Claim) application (20-0995) is in progress.',
-    //   expired: 'Your saved VA Form 20-0995 (Supplemental Claim) application (20-0995) has expired. If you want to apply for VA Form 20-0995 (Supplemental Claim), please start a new application.',
-    //   saved: 'Your VA Form 20-0995 (Supplemental Claim) application has been saved.',
-    // },
-  },
   version: migrations.length,
   migrations,
-  // prefillTransformer,
+  prefillTransformer,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,
-
-  savedFormMessages: {
-    notFound:
-      'Please start over to apply for VA Form 20-0995 (Supplemental Claim).',
-    noAuth:
-      'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [services.vaProfile],
   },
-  title: 'Request a Supplemental Claim',
-  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
+  saveInProgress,
+  savedFormMessages,
+  title: 'File a Supplemental Claim',
+  subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   chapters: {
     infoPages: {
-      title: 'Veteran Details',
+      title: 'Veteran Information',
       pages: {
-        // benefitType: {
-        //   title: 'Benefit Type',
-        //   path: 'benefit-type',
-        //   uiSchema: benefitType.uiSchema,
-        //   schema: benefitType.schema,
-        // },
         veteranInfo: {
           title: 'Veteran Information',
           path: 'veteran-information',
@@ -156,6 +149,16 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: formData => hasHomeAndMobilePhone(formData),
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhone,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+        },
       },
     },
 
@@ -178,6 +181,12 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
         },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+        },
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
@@ -188,18 +197,21 @@ const formConfig = {
             socOptIn: false,
           },
         },
-        issueSummary: {
-          title: 'Issue summary',
-          path: 'issue-summary',
-          uiSchema: issueSummary.uiSchema,
-          schema: issueSummary.schema,
-        },
       },
     },
 
     evidence: {
       title: 'Supporting Evidence',
       pages: {
+        notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
+          title: 'Notice of Acknowledgement',
+          path: 'notice-of-acknowledgement',
+          uiSchema: noticeOfAcknowledgement.uiSchema,
+          schema: noticeOfAcknowledgement.schema,
+        },
         evidenceTypes: {
           title: 'Supporting evidence types',
           path: 'supporting-evidence/evidence-types',
@@ -253,33 +265,6 @@ const formConfig = {
         },
       },
     },
-
-    acknowledgement: {
-      title: 'Notice of Acknowledgement',
-      pages: {
-        notice5103: {
-          initialData: {
-            form5103Acknowledged: false,
-          },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
-        },
-      },
-    },
-
-    // signature: {
-    //   title: 'Certification & Signature',
-    //   pages: {
-    //     sign: {
-    //       title: 'Certification & Signature',
-    //       path: 'certification-and-signature',
-    //       uiSchema: certifcationAndSignature.uiSchema,
-    //       schema: certifcationAndSignature.schema,
-    //     },
-    //   },
-    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
