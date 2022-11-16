@@ -91,7 +91,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
     expect(screen.getByTestId('facility-telephone')).to.exist;
-    expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
+    expect(screen.getByTestId('add-to-calendar-link')).to.exist;
   });
 
   it('should display links to view appointments and restart appointment flow', async () => {
@@ -127,7 +127,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${start.format(
             'MMMM D, YYYY',
           )} appointment to your calendar`,
