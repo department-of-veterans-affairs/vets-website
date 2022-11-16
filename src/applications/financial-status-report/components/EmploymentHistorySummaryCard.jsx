@@ -22,28 +22,14 @@ const EmploymentHistorySummaryCard = ({ job, index }) => {
       <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
         {employmentCardSubheading}
       </p>
-      <button
+      <a
         onClick={() => {
           handleClick();
         }}
-        href="#"
+        href="#/edit"
       >
         Edit
-      </button>
-      {/* <Link
-        className="vads-u-font-size--sm vads-u-font-weight--bold"
-        to={{
-          pathname: '/enhanced-employment-records',
-          search: `?editIndex=${index}`,
-        }}
-        aria-label="Edit job entry"
-      >
-        Edit employment at {job.employerName}
-        <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
-      </Link> */}
+      </a>
     </article>
   );
 };
