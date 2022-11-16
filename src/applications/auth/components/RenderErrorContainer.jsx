@@ -271,9 +271,9 @@ export default function RenderErrorContainer({
     case AUTH_ERRORS.MHV_VERIFICATION_ERROR.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
-          We’re having trouble signing you in to VA.gov right now because the
-          services you requested requires a Premium{' '}
-          <strong>My HealtheVet</strong> account.
+          We’re having trouble signing you in with your My Healthevet account
+          right now because the services you are requesting require you to have
+          a Premium <strong>My Healthevet</strong> account.
         </p>
       );
       troubleshootingContent = (
@@ -290,56 +290,53 @@ export default function RenderErrorContainer({
               Follow these 2 steps to get a Premium{' '}
               <strong>My HealtheVet</strong> account online.
             </p>
-            <p>
-              <ol
-                className="vads-u-padding--0 vads-u-margin--0"
-                style={{ listStylePosition: 'inside' }}
-              >
-                <li>
-                  <strong>
-                    Sign up for an account on the My HealtheVet website.
-                  </strong>{' '}
-                  You'll need to have your Social Security number on hand. Be
-                  sure to choose <strong>VA Patient</strong> on the registration
-                  form.
-                  <br />
-                  <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
-                    Sign up for a My HealtheVet account
+            <ol
+              className="vads-u-padding--0 vads-u-margin--0"
+              style={{ listStylePosition: 'inside' }}
+            >
+              <li>
+                <strong>
+                  Sign up for an account on the My HealtheVet website.
+                </strong>{' '}
+                You'll need to have your Social Security number on hand. Be sure
+                to choose <strong>VA Patient</strong> on the registration form.
+                <br />
+                <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
+                  Sign up for a My HealtheVet account
+                </a>
+                <br />
+                <p>
+                  <strong>Note:</strong> If you have a{' '}
+                  <strong>Login.gov</strong>, <strong>ID.me</strong>, or Premium{' '}
+                  <strong>DS Logon</strong> account, you can skip step 1 above
+                  and go right to step 2 to sign in to{' '}
+                  <strong>My HealtheVet</strong> with either of these accounts.
+                </p>
+              </li>
+              <li>
+                <strong>Upgrade to a Premium account.</strong> To do this, sign
+                in to <strong>My HealtheVet</strong> using your{' '}
+                <strong>Login.gov</strong>, <strong>ID.me</strong>, or Premium{' '}
+                <strong>DS Logon</strong> account credentials.
+                <br />
+                <p>
+                  Once signed in, select the <strong>Upgrade Now</strong> button
+                  at the top left side of the screen. Then, on the account
+                  upgrade page, check the box certifying that you're the owner
+                  of the account and approve the request, and click{' '}
+                  <strong>Continue</strong>
+                </p>
+                <p>
+                  The system will upgrade you to a Premium account.
+                  <a
+                    className="vads-u-display--inline-block"
+                    href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login"
+                  >
+                    Sign in to My HealtheVet
                   </a>
-                  <br />
-                  <p>
-                    <strong>Note:</strong> If you have a Premium{' '}
-                    <strong>DS Logon</strong> or <strong>ID.me</strong> account,
-                    you can skip step 1 above and go right to step 2 to sign in
-                    to <strong>My HealtheVet</strong> with either of these
-                    accounts.
-                  </p>
-                </li>
-                <li>
-                  <strong>Upgrade to a Premium account.</strong> To do this,
-                  sign in to <strong>My HealtheVet</strong> using your Premium{' '}
-                  <strong>DS Logon</strong> or <strong>ID.me</strong> user ID
-                  and password.
-                  <br />
-                  <p>
-                    Once signed in, select the <strong>Upgrade Now</strong>{' '}
-                    button at the top left side of the screen. Then, on the
-                    account upgrade page, check the box certifying that you're
-                    the owner of the account and approve the request, and click{' '}
-                    <strong>Continue</strong>
-                  </p>
-                  <p>
-                    The system will upgrade you to a Premium account.
-                    <a
-                      className="vads-u-display--inline-block"
-                      href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login"
-                    >
-                      Sign in to My HealtheVet
-                    </a>
-                  </p>
-                </li>
-              </ol>
-            </p>
+                </p>
+              </li>
+            </ol>
           </div>
           <div>
             <h3>Sign up for a Premium account in person</h3>
@@ -348,39 +345,36 @@ export default function RenderErrorContainer({
               person at a VA health facility if you’re a VA patient. You’ll need
               to bring this form and ID with you:
             </p>
-            <p>
-              <ul>
-                <li>
-                  <strong>
-                    A completed and signed Individuals’ Request for a Copy of
-                    Their Own Health Information (VA Form 10-5345a).
-                  </strong>{' '}
-                  This “VA release of information” form gives us permission to
-                  share an electronic copy of your health record with your
-                  online account. You can download a PDF copy of the form now,
-                  call ahead to ask the staff to mail you a form, or ask for a
-                  form when you get there.
-                  <a
-                    className="vads-u-display--inline-block"
-                    href="/find-forms/about-form-10-5345a"
-                  >
-                    Get VA Form 10-5345a to download
-                  </a>
-                  <a
-                    className="vads-u-display--inline-block"
-                    href="/find-locations/"
-                  >
-                    Find the phone number for your nearest VA health care
-                    facility
-                  </a>
-                </li>
-                <li>
-                  <strong>A government-issued photo ID.</strong> This can be
-                  either your Veteran Health Identification Card or a valid
-                  driver’s license.
-                </li>
-              </ul>
-            </p>
+            <ul>
+              <li>
+                <strong>
+                  A completed and signed Individuals’ Request for a Copy of
+                  Their Own Health Information (VA Form 10-5345a).
+                </strong>{' '}
+                This “VA release of information” form gives us permission to
+                share an electronic copy of your health record with your online
+                account. You can download a PDF copy of the form now, call ahead
+                to ask the staff to mail you a form, or ask for a form when you
+                get there.
+                <a
+                  className="vads-u-display--inline-block"
+                  href="/find-forms/about-form-10-5345a"
+                >
+                  Get VA Form 10-5345a to download
+                </a>
+                <a
+                  className="vads-u-display--inline-block"
+                  href="/find-locations/"
+                >
+                  Find the phone number for your nearest VA health care facility
+                </a>
+              </li>
+              <li>
+                <strong>A government-issued photo ID.</strong> This can be
+                either your Veteran Health Identification Card or a valid
+                driver’s license.
+              </li>
+            </ul>
             <p>
               A VA staff member will verify your identity. Then they’ll record
               your information in the <strong>My HealtheVet</strong> system and
