@@ -160,7 +160,6 @@ export default function AddToCalendar({
       filename={filename}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
       aria-label={`Add ${formattedDate} appointment to your calendar`}
-      filetype="ICS"
       text="Add to calendar"
       data-testid="add-to-calendar-link"
     />
