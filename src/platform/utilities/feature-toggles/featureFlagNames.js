@@ -70,7 +70,6 @@ export default Object.freeze({
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaMedicareClaimNumberEnabled: 'hca_medicare_claim_number_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   loopPages: 'loop_pages',
