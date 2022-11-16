@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fullSchema from '../10-10D-schema.json';
 
 import manifest from '../manifest.json';
@@ -5,11 +6,12 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// Chapter pages
-import sponsorInformation from '../pages/sponsorInformation/sponsorInformation';
+// Pages
+import sponsorInformation from '../pages/sponsor/sponsorInformation';
+import sponsorAddress from '../pages/sponsor/sponsorAddress';
+import sponsorDates from '../pages/sponsor/sponsorDates';
+
 import applicantInformation from '../pages/applicantInformation';
-import sponsorInformationAddress from '../pages/sponsorInformation/sponsorInformationAddress';
-import sponsorInformationDates from '../pages/sponsorInformation/sponsorInformationDates';
 
 const {
   fullName,
@@ -27,8 +29,10 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: (form, formData) => {
+    console.log(form);
+    console.log(formData);
+  },
   trackingPrefix: '1010d-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -50,26 +54,26 @@ const formConfig = {
     centralMailVaFile,
   },
   chapters: {
-    sponsorInformationChapter: {
+    sponsorChapter: {
       title: 'Sponsor Information',
       pages: {
         sponsorInformation: {
-          path: 'sponsor-information/base-information',
+          path: 'sponsor/information',
           title: 'Sponsor Information',
           uiSchema: sponsorInformation.uiSchema,
           schema: sponsorInformation.schema,
         },
-        sponsorInformationAddress: {
-          path: 'sponsor-information/address',
+        sponsorAddress: {
+          path: 'sponsor/address',
           title: 'Sponsor Address',
-          uiSchema: sponsorInformationAddress.uiSchema,
-          schema: sponsorInformationAddress.schema,
+          uiSchema: sponsorAddress.uiSchema,
+          schema: sponsorAddress.schema,
         },
-        sponsorInformationDates: {
-          path: 'sponsor-information/dates',
+        sponsorDates: {
+          path: 'sponsor/dates',
           title: 'Sponsor Dates',
-          uiSchema: sponsorInformationDates.uiSchema,
-          schema: sponsorInformationDates.schema,
+          uiSchema: sponsorDates.uiSchema,
+          schema: sponsorDates.schema,
         },
       },
     },

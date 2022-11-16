@@ -1,12 +1,13 @@
-export const veteranFields = {
-  fullName: 'primaryFullName',
+export const sponsorFields = {
+  parentObject: 'veteran',
+  fullName: 'fullName',
   ssn: 'ssnOrTin',
-  primaryPhoneNumber: 'primaryPhoneNumber',
-  vaClaimNumber: 'primaryVaClaimNumber',
-  address: 'primaryAddress',
-  dateOfBirth: 'dateOfBirth',
-  dateOfMarriage: 'dateOfMarriage',
-  dateOfDeath: 'dateOfDeath',
-  isDeceased: 'view:isDeceased',
+  claim: 'vaClaimNumber',
+  address: 'address',
+  phone: 'phoneNumber',
+  dob: 'dateOfBirth',
+  dom: 'dateOfMarriage',
+  isDeceased: 'isDeceased',
+  dod: 'dateOfDeath',
   isActiveServiceDeath: 'isActiveServiceDeath',
 };
