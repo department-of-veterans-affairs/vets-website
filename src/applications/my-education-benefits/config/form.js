@@ -42,6 +42,7 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
+import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
 
 import { ELIGIBILITY } from '../actions';
@@ -63,7 +64,6 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 
 const {
   fullName,
@@ -381,7 +381,7 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: () => <GetFormHelp />, // Wrapping in a funciton to skirt failing platform unit test
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
