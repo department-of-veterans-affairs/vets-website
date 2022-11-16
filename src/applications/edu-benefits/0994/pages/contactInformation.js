@@ -47,8 +47,8 @@ export const uiSchema = {
       viewComponent: PhoneEmailViewField,
     },
     saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
-    homePhone: phoneUI('Home phone number'),
     mobilePhone: phoneUI('Mobile phone number'),
+    homePhone: phoneUI('Home phone number'),
     emailAddress: emailUI(),
   },
   mailingAddress: {
@@ -76,7 +76,7 @@ export const schema = {
   properties: {
     'view:phoneAndEmail': {
       type: 'object',
-      required: ['homePhone', 'emailAddress'],
+      required: ['mobilePhone', 'emailAddress'],
       properties: {
         homePhone,
         mobilePhone,
