@@ -14,6 +14,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileUseVAFSC = false,
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
+    profileShowAppealStatusNotificationSetting = true,
   } = toggles;
 
   return {
@@ -63,6 +64,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_payments_notification_setting',
           value: profileShowPaymentsNotificationSetting,
+        },
+        {
+          name: 'profile_show_appeal_status_notification_setting',
+          value: profileShowAppealStatusNotificationSetting,
         },
       ],
     },

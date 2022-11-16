@@ -7,6 +7,8 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
     VALIDATE_ATTEMPTS: `${namespace}.validate.attempts`,
     COMPLETE: `${namespace}.complete`,
     SHOULD_SEND_DEMOGRAPHICS_FLAGS: `${namespace}.should.send.demographics.flags`,
+    PROGRESS_STATE: `${namespace}.progress`,
+    PERMISSIONS: `${namespace}.permissions`,
   };
   if (!isPreCheckIn) {
     sessionStorageKeys.SHOULD_SEND_TRAVEL_PAY_CLAIM = `${namespace}.should.send.travel.pay.claim`;

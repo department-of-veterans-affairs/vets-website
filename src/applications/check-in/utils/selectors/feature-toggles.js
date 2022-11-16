@@ -15,8 +15,8 @@ const selectFeatureToggles = createSelector(
     isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
     ],
-    isDayOfDemographicsFlagsEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
+    isTranslationDisclaimerTagalogEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerTagalogEnabled
     ],
     isLorotaSecurityUpdatesEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled

@@ -56,6 +56,16 @@ const initialSchema = {
   },
 };
 
+function validateLength(errors, email) {
+  const MAX_LENGTH = 50;
+
+  if (email && email?.length > MAX_LENGTH) {
+    errors.addError(
+      `We do not support email addresses that exceeds ${MAX_LENGTH} characters`,
+    );
+  }
+}
+
 function recordPopulatedEvents(email, phone) {
   recordEvent({
     event: `${GA_PREFIX}-contact-info-email-${
@@ -140,7 +150,9 @@ export default function ContactInfoPage() {
     bestTimeToCall: {
       'ui:title': 'What are the best times for us to call you?',
       'ui:validations':
-        !featureAcheronService && flowType === FLOW_TYPES.REQUEST
+        (!featureAcheronService && flowType === FLOW_TYPES.REQUEST) ||
+        (featureAcheronService &&
+          userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
           ? [validateBooleanGroup]
           : [],
       'ui:options': {
@@ -165,7 +177,13 @@ export default function ContactInfoPage() {
         'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
     },
-    email: { 'ui:title': 'Your email address' },
+    email: {
+      'ui:title': 'Your email address',
+      'ui:errorMessages': {
+        required: 'Please enter an email address',
+      },
+      'ui:validations': featureAcheronService ? [validateLength] : [],
+    },
   };
 
   const { data, schema, setData } = useFormState({

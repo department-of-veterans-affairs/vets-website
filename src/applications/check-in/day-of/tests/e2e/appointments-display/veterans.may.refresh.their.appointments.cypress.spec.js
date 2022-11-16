@@ -12,7 +12,7 @@ import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
 describe('Check In Experience -- ', () => {
   describe('Appointment display -- ', () => {
     beforeEach(() => {
-      const rv1 = sharedData.get.createMultipleAppointments();
+      const rv1 = sharedData.get.createAppointments();
       const earliest = sharedData.get.createAppointment();
       earliest.startTime = '2021-08-19T03:00:00';
       const midday = sharedData.get.createAppointment();
@@ -21,7 +21,7 @@ describe('Check In Experience -- ', () => {
       latest.startTime = '2027-08-19T18:00:00';
       rv1.payload.appointments = [latest, earliest, midday];
 
-      const rv2 = sharedData.get.createMultipleAppointments();
+      const rv2 = sharedData.get.createAppointments();
       const newLatest = sharedData.get.createAppointment();
       newLatest.startTime = '2027-08-19T17:00:00';
       rv2.payload.appointments = [newLatest, earliest, midday];

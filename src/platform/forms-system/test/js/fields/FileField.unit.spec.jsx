@@ -603,6 +603,41 @@ describe('Schemaform <FileField>', () => {
       done();
     });
   });
+
+  it('should upload test file using "testing" file type to bypass checks', () => {
+    const uiSchema = fileUploadUI('Files');
+    const schema = {
+      type: 'object',
+      properties: {
+        fileField: fileSchema,
+      },
+    };
+    const mockFile = {
+      name: 'test.pdf',
+      type: 'testing',
+    };
+    const uploadFile = sinon.spy();
+    const form = render(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          schema={schema}
+          data={{ fileField: [] }}
+          uploadFile={uploadFile}
+          uiSchema={{ fileField: uiSchema }}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.files('input[type=file]', [mockFile]);
+
+    expect(uploadFile.firstCall.args[0]).to.eql(mockFile);
+    expect(uploadFile.firstCall.args[1]).to.eql(uiSchema['ui:options']);
+    expect(uploadFile.firstCall.args[2]).to.be.a('function');
+    expect(uploadFile.firstCall.args[3]).to.be.a('function');
+    expect(uploadFile.firstCall.args[4]).to.be.a('function');
+  });
+
   it('should not call uploadFile when initially adding an encrypted PDF', done => {
     const uiSchema = fileUploadUI('Files');
     const schema = {

@@ -30,7 +30,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
-          environment.API_URL,
+          process.env.VIRTUAL_AGENT_BACKEND_URL || environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
@@ -75,6 +75,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createDirectLine],
   );
 
+  const BUTTONS = 49.2;
   const styleOptions = {
     hideUploadButton: true,
     botAvatarBackgroundColor: '#003e73', // color-primary-darker
@@ -91,10 +92,14 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
     timestampColor: '#000000',
-    suggestedActionLayout: 'flow',
-    suggestedActionBackground: '#0071BB',
+    suggestedActionLayout: 'stacked',
+    suggestedActionsStackedHeight: BUTTONS * 5,
+    suggestedActionHeight: 43,
+    suggestedActionActiveBackground: 'rgb(17,46,81)',
+    suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
+    suggestedActionBackgroundColor: 'rgb(0, 113, 187)',
     suggestedActionTextColor: 'white',
-    suggestedActionBorderRadius: '5px',
+    suggestedActionBorderRadius: 5,
     suggestedActionBorderWidth: 0,
   };
 

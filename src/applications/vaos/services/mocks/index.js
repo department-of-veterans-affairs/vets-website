@@ -239,7 +239,7 @@ const responses = {
 
           const date =
             status === 'proposed'
-              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              ? moment(appointment.attributes.requestedPeriods?.[0]?.start)
               : moment(appointment.attributes.start);
           if (
             date.isValid() &&
@@ -574,6 +574,7 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
+        { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
         { name: 'vaOnlineFilter36Vats', value: true },
         { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
         { name: 'vaOnlineSchedulingAppointmentList', value: true },

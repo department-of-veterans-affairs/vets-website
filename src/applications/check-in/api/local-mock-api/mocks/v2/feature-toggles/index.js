@@ -3,7 +3,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
-    checkInExperienceDayOfDemographicsFlagsEnabled = true,
+    checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
@@ -28,8 +28,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperienceTranslationDisclaimerSpanishEnabled,
         },
         {
-          name: 'check_in_experience_day_of_demographics_flags_enabled',
-          value: checkInExperienceDayOfDemographicsFlagsEnabled,
+          name: 'check_in_experience_translation_disclaimer_tagalog_enabled',
+          value: checkInExperienceTranslationDislaimerTagalogEnabled,
         },
         {
           name: 'check_in_experience_lorota_security_updates_enabled',
