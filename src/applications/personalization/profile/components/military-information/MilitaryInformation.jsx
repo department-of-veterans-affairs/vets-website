@@ -88,7 +88,9 @@ const RequestMilServiceRecordsAlert = () => {
         visible="true"
       >
         <p className="vads-u-margin-y--0">
-          <h3 slot="headline">Request your military records (DD214)</h3>
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
           <a href="https://www.va.gov/records/get-military-service-records">
             Learn how to request your DD214 and other military records
           </a>
