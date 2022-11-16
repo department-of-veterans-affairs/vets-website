@@ -50,8 +50,11 @@ const HealthCareContentV2 = ({
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
+  const dispatch = useDispatch();
 
-  connectDrupalSourceOfTruthCerner(useDispatch());
+  useEffect(() => {
+    connectDrupalSourceOfTruthCerner(dispatch);
+  }, []);
 
   useEffect(
     () => {
