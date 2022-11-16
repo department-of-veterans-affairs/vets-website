@@ -199,11 +199,12 @@
 }
 
 /* space between checkboxes on VAMC surveys */
-.checkbox .clip-check .check-primary {
+.neb-content .checkbox {
   margin-bottom: 10px
 }
 
 /*  next button on VAMC muli-page surveys in-line style override*/
 .form-next-btn[style] {
   background-color: $color-blue !important;
+  margin-right: 10px !important
 }
