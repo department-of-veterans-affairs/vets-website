@@ -14,6 +14,7 @@ import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
+import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -192,6 +193,7 @@ const formConfig = {
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+          CustomPage: EmploymentHistoryWidget,
         },
         income: {
           title: 'Income',
@@ -201,7 +203,9 @@ const formConfig = {
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
           editModeOnReviewPage: true,
-          depends: ({ questions }) => questions.vetIsEmployed,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         benefits: {
           path: 'benefits',

@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
-const EmploymentHistoryWidget = () => {
+const EmploymentHistoryWidget = props => {
+  const { goToPath, goBack, onReviewPage } = props;
+  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState('false');
+
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.veteran.employmentRecords || [];
@@ -13,8 +17,28 @@ const EmploymentHistoryWidget = () => {
     clearJobIndex();
   }, []);
 
+  const handlers = {
+    onSubmit: event => {
+      event.preventDefault();
+      if (hasAdditionalJobToAdd === 'true') {
+        goToPath(`/enhanced-employment-records`);
+      } else {
+        goToPath(`/benefits`);
+      }
+    },
+    onSelection: event => {
+      const { value } = event?.detail || {};
+      if (value) {
+        setHasAdditionalJobToAdd(value);
+      }
+    },
+  };
+
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Review update button</button>;
+
   return (
-    <>
+    <form onSubmit={handlers.onSubmit}>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
         {employmentHistory.map((job, index) => (
           <EmploymentHistorySummaryCard
@@ -24,16 +48,36 @@ const EmploymentHistoryWidget = () => {
           />
         ))}
       </div>
-      <Link
-        className="add-additional-job"
-        to={{
-          pathname: '/enhanced-employment-records',
-        }}
+      <VaRadio
+        class="vads-u-margin-y--2"
+        label="Do you have an additional job to add?"
+        onVaValueChange={handlers.onSelection}
+        required
       >
-        Add additional job
-      </Link>
-    </>
+        <va-radio-option
+          id="home-phone"
+          label="Yes"
+          value="true"
+          checked={hasAdditionalJobToAdd === 'true'}
+        />
+        <va-radio-option
+          id="mobile-phone"
+          label="No"
+          value="false"
+          name="primary"
+          checked={hasAdditionalJobToAdd === 'false'}
+        />
+      </VaRadio>
+      {onReviewPage ? updateButton : navButtons}
+    </form>
   );
 };
 
-export default EmploymentHistoryWidget;
+const mapStateToProps = ({ form }) => {
+  return {
+    formData: form.data,
+    employmentHistory: form.data.personalData.employmentHistory,
+  };
+};
+
+export default connect(mapStateToProps)(EmploymentHistoryWidget);
