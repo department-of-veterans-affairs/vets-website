@@ -9,7 +9,7 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
 
-const ComposeForm = props => {
+const ReplyForm = props => {
   const { draft, replyMessage } = props;
   const dispatch = useDispatch();
 
@@ -220,9 +220,9 @@ const ComposeForm = props => {
   return null;
 };
 
-ComposeForm.propTypes = {
+ReplyForm.propTypes = {
   draft: PropTypes.object,
   recipients: PropTypes.array,
 };
 
-export default ComposeForm;
+export default ReplyForm;
