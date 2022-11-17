@@ -4,6 +4,8 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
@@ -13,16 +15,43 @@ import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+} from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureAppointmentList } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
 import AppointmentGridLayout from './AppointmentsPageV2/AppointmentGridLayout';
+import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export default function CanceledAppointmentsList({ hasTypeChanged }) {
+  const history = useHistory();
   const {
     appointmentsByMonth,
     facilityData,
@@ -31,6 +60,9 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
   } = useSelector(state => getCanceledAppointmentListInfo(state), shallowEqual);
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -112,6 +144,11 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
               {!featureAppointmentList &&
                 monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
+                  const link = getLink({
+                    featureStatusImprovement,
+                    appointment: appt,
+                  });
+                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
 
                   if (
                     appt.vaos.appointmentType ===
@@ -124,7 +161,21 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
-                      />
+                      >
+                        {() => (
+                          <AppointmentCard
+                            appointment={appt}
+                            facility={facilityData[facilityId]}
+                            link={link}
+                            handleClick={() =>
+                              handleClick({ history, link, idClickable })
+                            }
+                            handleKeyDown={() =>
+                              handleKeyDown({ history, link, idClickable })
+                            }
+                          />
+                        )}
+                      </AppointmentListItem>
                     );
                   }
                   return null;

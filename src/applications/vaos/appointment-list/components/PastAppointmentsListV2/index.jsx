@@ -291,17 +291,19 @@ export default function PastAppointmentsListNew() {
                         appointment={appt}
                         facility={facilityData[facilityId]}
                       >
-                        <AppointmentCard
-                          appointment={appt}
-                          facility={facilityData[facilityId]}
-                          link={link}
-                          handleClick={() =>
-                            handleClick({ history, link, idClickable })
-                          }
-                          handleKeyDown={() =>
-                            handleKeyDown({ history, link, idClickable })
-                          }
-                        />
+                        {() => (
+                          <AppointmentCard
+                            appointment={appt}
+                            facility={facilityData[facilityId]}
+                            link={link}
+                            handleClick={() =>
+                              handleClick({ history, link, idClickable })
+                            }
+                            handleKeyDown={() =>
+                              handleKeyDown({ history, link, idClickable })
+                            }
+                          />
+                        )}
                       </AppointmentListItem>
                     );
                   }
