@@ -9,7 +9,6 @@ import ERROR_500 from '@@profile/tests/fixtures/500.json';
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import vamcErc from '../fixtures/vamc-ehr';
 import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_VA_APPOINTMENTS_EMPTY from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS_EMPTY';
 import MOCK_VA_APPOINTMENTS_OVER_30_DAYS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS_OVER_30_DAYS';
@@ -85,7 +84,6 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
       disabilityRating,
     );
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
   });
   describe('when the feature is hidden', () => {
     beforeEach(() => {
