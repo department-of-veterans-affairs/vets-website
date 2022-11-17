@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllMessages } from '../actions';
+import { useSelector } from 'react-redux';
 
 const NavigationLinks = props => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const messages = useSelector(state => state.sm.messages?.messageList);
   const currentMessage = useSelector(state => state.sm.messageDetails.message);
   const [nextMessageId, setNextMessageId] = useState(undefined);
@@ -14,7 +12,6 @@ const NavigationLinks = props => {
   const messagesIdArr = useRef({});
   const index = useRef();
 
-  useEffect(() => dispatch(getAllMessages()), [dispatch]);
   useEffect(
     () => {
       if (messages?.length > 0 && currentMessage) {
