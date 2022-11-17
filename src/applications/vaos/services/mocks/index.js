@@ -597,6 +597,7 @@ const responses = {
         { name: 'vaOnlineSchedulingAppointmentList', value: true },
         { name: 'vaOnlineSchedulingClinicFilter', value: true },
         { name: 'vaOnlineSchedulingAcheronService', value: true },
+        { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

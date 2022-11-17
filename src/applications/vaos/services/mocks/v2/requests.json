@@ -240,7 +240,7 @@
           }
         ],
         "reasonCode": {
-          "text": "phone number: 8015551234|email: Apoldass@va.gov|preferred dates:11/29/2022 AM,11/29/2022 PM|reason code:QUESTIONMEDS|comments:test"
+          "text": "preferred modality: telehealth|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:11/30/2022 AM,11/30/2022 PM,11/29/2022 AM|reason code:MEDICALISSUE|comments:test"
         },
         "patientIcn": "1013120830V747912",
         "locationId": "983",
