@@ -409,6 +409,9 @@ module.exports = async (env = {}) => {
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
+        'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
+          process.env.VIRTUAL_AGENT_BACKEND_URL || '',
+        ),
       }),
 
       new webpack.SourceMapDevToolPlugin({

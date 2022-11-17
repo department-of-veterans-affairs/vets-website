@@ -11,7 +11,11 @@ import {
   updateFormAction,
 } from '../actions/day-of';
 
-const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
+const useGetCheckInData = ({
+  refreshNeeded,
+  appointmentsOnly = false,
+  reload = false,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [checkInDataError, setCheckInDataError] = useState(false);
@@ -47,18 +51,21 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
             }),
           );
         }
+
+        if (reload) {
+          dispatch(receivedDemographicsData(demographics));
+        }
       });
     },
-    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled],
+    [appointmentsOnly, dispatch, token, isTravelReimbursementEnabled, reload],
   );
 
   useLayoutEffect(
     () => {
-      if (isStale) {
+      if (isStale && token && !isLoading) {
         setIsLoading(true);
-
         api.v2
-          .getCheckInData(token)
+          .getCheckInData(token, reload)
           .then(json => {
             setSessionData(json.payload);
           })
@@ -66,12 +73,12 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
             setCheckInDataError(true);
           })
           .finally(() => {
-            setIsLoading(false);
             setIsStale(false);
+            setIsLoading(false);
           });
       }
     },
-    [isStale, setSessionData, token],
+    [isStale, setSessionData, token, isLoading, reload],
   );
 
   return { checkInDataError, isLoading, refreshCheckInData };

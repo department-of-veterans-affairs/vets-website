@@ -14,14 +14,109 @@ import {
   getTypeOfCareById,
 } from '../../utils/appointment';
 
+/**
+ * Gets appointment info from comments field for Va appointment Requests.
+ *
+ * @param {String} comments VA appointment comments value
+ * @param {String} key key of appointment info you want returned
+ * @returns {Array} returns formatted data
+ */
+export function getAppointmentInfoFromComments(comments, key) {
+  const data = [];
+  const appointmentInfo = comments?.split('|');
+  if (key === 'modality') {
+    const preferredModality = appointmentInfo
+      ? appointmentInfo[0]?.split(':')[1]?.trim()
+      : null;
+
+    if (appointmentInfo) {
+      data.push(preferredModality);
+    }
+    return data;
+  }
+
+  if (key === 'contact') {
+    const phone = appointmentInfo
+      ? appointmentInfo[1]?.split(':')[1]?.trim()
+      : null;
+    const email = appointmentInfo
+      ? appointmentInfo[2]?.split(':')[1]?.trim()
+      : null;
+
+    const transformedPhone = { system: 'phone', value: phone };
+    const transformedEmail = { system: 'email', value: email };
+
+    data.push(transformedPhone, transformedEmail);
+    return data;
+  }
+
+  if (key === 'preferredDate') {
+    const preferredDates = appointmentInfo
+      ? appointmentInfo[3]?.split(':')[1]?.split(',')
+      : null;
+    preferredDates?.map(date => {
+      const preferredDatePeriod = date?.split(' ');
+      if (preferredDatePeriod[1] === 'AM') {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T00:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T11:59:00Z"`,
+        };
+        data.push(transformedDate);
+      } else {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T12:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T23:59:00Z`,
+        };
+        data.push(transformedDate);
+      }
+      return data;
+    });
+  }
+  if (key === 'reasonCode') {
+    const reasonCode = appointmentInfo
+      ? appointmentInfo[4]?.split(':')[1]
+      : null;
+    const transformedReasonCode = { code: reasonCode };
+    if (reasonCode) {
+      data.push(transformedReasonCode);
+    }
+    return data;
+  }
+  if (key === 'comments') {
+    const commentsInfo = comments?.split('|comments:');
+    const appointmentComments = commentsInfo ? commentsInfo[1] : null;
+    const transformedComments = { text: appointmentComments };
+    if (appointmentComments) {
+      data.push(transformedComments);
+    }
+    return data;
+  }
+  return data;
+}
 function getAppointmentType(appt) {
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
+  const reqPeriods =
+    commentsPreferredDate.length > 0
+      ? commentsPreferredDate
+      : appt.requestedPeriods;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
   if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+  if (appt.kind !== 'cc' && reqPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 
@@ -86,83 +181,6 @@ function getAtlasLocation(appt) {
     },
   };
 }
-/**
- * Gets appointment info from comments field for Va appointment Requests.
- *
- * @param {String} comments VA appointment comments value
- * @param {String} key key of appointment info you want returned
- * @returns {Array} returns formatted data
- */
-function getAppointmentInfoFromComments(comments, key) {
-  const data = [];
-  const appointmentInfo = comments?.split('|');
-  if (key === 'contact') {
-    const phone = appointmentInfo
-      ? appointmentInfo[0]?.split(':')[1].trim()
-      : null;
-    const email = appointmentInfo
-      ? appointmentInfo[1]?.split(':')[1].trim()
-      : null;
-
-    const transformedPhone = { system: 'phone', value: phone };
-    const transformedEmail = { system: 'email', value: email };
-
-    data.push(transformedPhone, transformedEmail);
-    return data;
-  }
-
-  if (key === 'preferredDate') {
-    const preferredDates = appointmentInfo
-      ? appointmentInfo[2]?.split(':')[1]?.split(',')
-      : null;
-    preferredDates?.map(date => {
-      const preferredDatePeriod = date?.split(' ');
-      if (preferredDatePeriod[1] === 'AM') {
-        const transformedDate = {
-          start: `${moment(preferredDatePeriod[0]).format(
-            'YYYY-MM-DD',
-          )}T00:00:00Z`,
-          end: `${moment(preferredDatePeriod[0]).format(
-            'YYYY-MM-DD',
-          )}T11:59:00Z"`,
-        };
-        data.push(transformedDate);
-      } else {
-        const transformedDate = {
-          start: `${moment(preferredDatePeriod[0]).format(
-            'YYYY-MM-DD',
-          )}T12:00:00Z`,
-          end: `${moment(preferredDatePeriod[0]).format(
-            'YYYY-MM-DD',
-          )}T23:59:00Z`,
-        };
-        data.push(transformedDate);
-      }
-      return data;
-    });
-  }
-  if (key === 'reasonCode') {
-    const reasonCode = appointmentInfo
-      ? appointmentInfo[3]?.split(':')[1]
-      : null;
-    const transformedReasonCode = { code: reasonCode };
-    if (reasonCode) {
-      data.push(transformedReasonCode);
-    }
-    return data;
-  }
-  if (key === 'comments') {
-    const appointmentComments = appointmentInfo
-      ? appointmentInfo[4]?.split(':')[1]
-      : null;
-    const transformedComments = { text: appointmentComments };
-    if (appointmentComments) {
-      data.push(transformedComments);
-    }
-    return data;
-  }
-  return data;
-}
 
 function getPatientContact(appt) {
   if (appt.contact?.telecom?.length > 0) {
@@ -219,13 +237,13 @@ export function transformVAOSAppointment(appt) {
     appt.reasonCode?.text,
     'reasonCode',
   );
-  const commentsPreferredDate = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'preferredDate',
-  );
   const appointmentComments = getAppointmentInfoFromComments(
     appt.reasonCode?.text,
     'comments',
+  );
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
   );
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');

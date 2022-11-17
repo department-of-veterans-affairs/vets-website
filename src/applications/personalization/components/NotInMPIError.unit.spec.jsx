@@ -1,26 +1,26 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 
 import NotInMPI from './NotInMPIError';
 
 describe('NotInMPI', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<NotInMPI />);
+    wrapper = render(<NotInMPI />);
   });
 
   it('should render the correct text', () => {
     expect(
-      wrapper.text().includes('We’re having trouble verifying your identity'),
-    ).to.be.true;
+      wrapper.findByText(
+        'We can’t match your information with our Veteran records',
+      ),
+    ).to.exist;
     expect(
-      wrapper
-        .text()
-        .includes(
-          'We’re sorry. We’re having trouble matching your information to our records. So we can’t give you access to VA.gov tools right now. Please contact the VA help desk',
-        ),
-    ).to.be.true;
+      wrapper.findByText(
+        'You may not be able to use some tools and features right now. But we’re working to connect with your records. Try again soon.',
+      ),
+    ).to.exist;
     wrapper.unmount();
   });
 });

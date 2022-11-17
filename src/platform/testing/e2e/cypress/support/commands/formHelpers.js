@@ -38,7 +38,10 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
   }
 });
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {
-  const date = dateString.split('-');
+  // Split the date & remove leading zeros
+  const date = dateString
+    .split('-')
+    .map(number => parseInt(number, 10).toString());
   cy.document().then(doc => {
     const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
     const monthYearOnly = doc.querySelector(
@@ -66,12 +69,9 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
             .type(date[0]);
         });
     } else {
-      cy.get(`#${fieldName}Month`).select(parseInt(date[1], 10).toString());
-      cy.get(`#${fieldName}Day`).select(parseInt(date[2], 10).toString());
-      cy.fill(
-        `input[name="${fieldName}Year"]`,
-        parseInt(date[0], 10).toString(),
-      );
+      cy.get(`#${fieldName}Month`).select(date[1]);
+      cy.get(`#${fieldName}Day`).select(date[2]);
+      cy.fill(`input[name="${fieldName}Year"]`, date[0]);
     }
   });
 });
