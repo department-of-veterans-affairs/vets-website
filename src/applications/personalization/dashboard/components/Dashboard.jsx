@@ -314,13 +314,22 @@ const mapStateToProps = state => {
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
-  const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
   );
   const hasLoadedFullName = !!hero;
 
-  const hasLoadedDisabilityRating = state.totalRating?.loading === false;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
+  const canAccessMilitaryHistory = canAccess(state)[API_NAMES.MILITARY_HISTORY];
+
+  const hasLoadedDisabilityRating = canAccessRatingInfo
+    ? state.totalRating?.loading === false
+    : true;
+  const hasLoadedMilitaryInformation = canAccessMilitaryHistory
+    ? state.vaProfile?.militaryInformation
+    : true;
 
   const hasLoadedAllData =
     // we do not need to fetch additional data if they are only LOA1
@@ -345,9 +354,6 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
-  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
-  const canAccessMilitaryHistory = canAccess(state)[API_NAMES.MILITARY_HISTORY];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
