@@ -22,7 +22,7 @@ class PatientMessagesLandingPage {
     );
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/folders/*/messages',
+      '/my_health/v1/messaging/folders/*/messages*',
       mockMessages,
     ).as('inboxMessages');
     cy.intercept(
