@@ -50,7 +50,7 @@ const EmploymentHistoryWidget = props => {
       </div>
       <VaRadio
         class="vads-u-margin-y--2"
-        label="Do you have an additional job to add?"
+        label="Have you had another job in the last 2 years?"
         onVaValueChange={handlers.onSelection}
         required
       >
