@@ -41,7 +41,7 @@ const unsetUserPersonalInfo = {
     type: 'mvi_models_mvi_profiles',
     attributes: {
       gender: 'M',
-      birthDate: '1986-05-06',
+      birthDate: '',
       preferredName: null,
       pronouns: null,
       pronounsNotListedText: null,

@@ -5,6 +5,7 @@ import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPersonalInformationEnhanced from '@@profile/tests/fixtures/personal-information-success-enhanced.json';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
+import { checkForLegacyLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 
 export const setup = (options = { personalInfo: null, isEnhanced: false }) => {
   cy.login(mockUser);
@@ -23,10 +24,5 @@ export const setup = (options = { personalInfo: null, isEnhanced: false }) => {
   cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
 
   // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
+  checkForLegacyLoadingIndicator();
 };
