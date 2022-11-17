@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
@@ -6,6 +6,8 @@ import { retrieveMessage } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
+import ReplyForm from '../components/ComposeForm/ReplyForm';
+import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { DefaultFolders } from '../util/constants';
@@ -16,6 +18,10 @@ const Compose = () => {
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
   const activeFolder = useSelector(state => state.sm.folders.folder);
+  const messageHistory = useSelector(
+    state => state.sm.draftDetails.draftMessageHistory,
+  );
+  const [replyMessage, setReplyMessage] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -36,6 +42,16 @@ const Compose = () => {
       }
     },
     [isDraftPage, draftId, activeFolder, dispatch, history],
+  );
+
+  useEffect(
+    () => {
+      if (messageHistory && messageHistory.length > 0) {
+        // TODO filter history to grab only received messages.
+        setReplyMessage(messageHistory[0]);
+      }
+    },
+    [messageHistory],
   );
 
   let pageTitle;
@@ -64,6 +80,14 @@ const Compose = () => {
             our end. Please check back soon.
           </p>
         </va-alert>
+      );
+    }
+    if (messageHistory && messageHistory.length > 0) {
+      return (
+        <>
+          <ReplyForm draft={draftMessage} replyMessage={replyMessage} />
+          <MessageThread messageHistory={messageHistory} />
+        </>
       );
     }
     return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
