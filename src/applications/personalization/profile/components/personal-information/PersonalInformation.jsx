@@ -8,6 +8,7 @@ import {
   showBadAddressIndicator,
   hasBadAddress,
   forceBadAddressIndicator,
+  personalInformationLoadError,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -38,6 +39,10 @@ const PersonalInformation = () => {
     state => state.vapService.hasUnsavedEdits,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
+
+  const hasPersonalInformationServiceError = !!useSelector(
+    personalInformationLoadError,
+  );
 
   const userHasBadAddress = useSelector(hasBadAddress);
 
@@ -147,7 +152,12 @@ const PersonalInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        <PersonalInformationContent hasVAPServiceError={hasVAPServiceError} />
+        <PersonalInformationContent
+          hasVAPServiceError={hasVAPServiceError}
+          hasPersonalInformationServiceError={
+            hasPersonalInformationServiceError
+          }
+        />
       </DowntimeNotification>
     </>
   );

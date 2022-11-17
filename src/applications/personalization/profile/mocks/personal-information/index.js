@@ -137,6 +137,13 @@ const handleGetPersonalInformationRoute = (req, res) => {
       ),
     );
   }
+  // if the error query is added we want to test that the UI handles the error state
+  if (req?.query?.error) {
+    return res.json(
+      set(basicUserPersonalInfo, 'data.attributes', userPersonalInfoFailure),
+    );
+  }
+  // return res.json(userPersonalInfoFailure);
   return res.json(basicUserPersonalInfo);
 };
 

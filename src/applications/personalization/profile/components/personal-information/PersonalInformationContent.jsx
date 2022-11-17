@@ -5,12 +5,15 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 
 import PersonalInformationSection from './PersonalInformationSection';
 
-const PersonalInformationContent = ({ hasVAPServiceError }) => (
+const PersonalInformationContent = ({
+  hasVAPServiceError,
+  hasPersonalInformationServiceError,
+}) => (
   <>
-    {hasVAPServiceError ? (
+    {hasVAPServiceError || hasPersonalInformationServiceError ? (
       <div data-testid="vap-service-not-available-error">
         <va-alert status="warning" className="vads-u-margin-bottom--4">
-          <h2 slot="headline">We can’t load your contact information</h2>
+          <h2 slot="headline">We can’t load your personal information</h2>
           <p>
             We’re sorry. Something went wrong on our end. We can’t display your
             personal information. Please refresh the page or try again later.
@@ -27,6 +30,7 @@ const PersonalInformationContent = ({ hasVAPServiceError }) => (
 
 PersonalInformationContent.propTypes = {
   hasVAPServiceError: PropTypes.bool,
+  hasPersonalInformationServiceError: PropTypes.bool,
 };
 
 export default memo(PersonalInformationContent);
