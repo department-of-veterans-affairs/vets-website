@@ -24,7 +24,7 @@ const InboxListItem = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const getClassNames = () => {
-    return !!readReceipt === false
+    return readReceipt === false
       ? unreadMessageClassList
       : readMessageClassList;
   };
@@ -40,7 +40,7 @@ const InboxListItem = props => {
       data-testid="message-list-item"
     >
       <p className={getClassNames()}>
-        {!!readReceipt === false && (
+        {readReceipt === false && (
           <i
             aria-hidden="true"
             className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
