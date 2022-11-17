@@ -246,11 +246,14 @@ const mapStateToProps = state => {
 
     const allCernerFacilities = selectCernerFacilities(state);
 
-    const userCernerFacilities = allCernerFacilities.filter(f =>
+    const userCernerFacilities = allCernerFacilities?.filter(f =>
       userFacilityIds.contains(f.vhaId),
     );
 
-    facilityLocations = userCernerFacilities.map(f => f.vamcSystemName);
+    facilityLocations =
+      allCernerFacilities && userCernerFacilities
+        ? userCernerFacilities.map(f => f.vamcSystemName)
+        : facilities;
   }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
