@@ -1211,7 +1211,7 @@ const formConfig = {
             'ui:options': {
               editTitle: 'Direct deposit information',
               hideLabelText: true,
-              itemName: 'account informaiton',
+              itemName: 'account information',
               itemNameAction: 'Update',
               reviewTitle: 'Direct deposit information',
               showFieldLabel: false,
