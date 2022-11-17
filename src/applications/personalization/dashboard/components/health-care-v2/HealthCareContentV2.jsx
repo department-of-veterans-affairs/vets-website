@@ -247,7 +247,7 @@ const mapStateToProps = state => {
     const allCernerFacilities = selectCernerFacilities(state);
 
     const userCernerFacilities = allCernerFacilities?.filter(f =>
-      userFacilityIds.contains(f.vhaId),
+      userFacilityIds.includes(f.vhaId),
     );
 
     facilityLocations =
