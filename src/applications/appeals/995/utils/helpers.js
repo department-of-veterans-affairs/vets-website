@@ -262,35 +262,6 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
 /**
- * @typedef phoneObject
- * @type {Object}
- * @property {String} countryCode - country code (1 digit, usually)
- * @property {String} areaCode - area code (3 digits)
- * @property {String} phoneNumber - phone number (7 digits)
- * @property {String} phoneNumberExt - extension
- * @returns
- */
-/**
- * Return a phone number object
- * @param {String} phone - phone number string to convert to an object
- * @return {phoneObject}
- */
-export const returnPhoneObject = phone => {
-  const result = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  if (typeof phone === 'string' && phone?.length === 10) {
-    result.countryCode = '1';
-    result.areaCode = phone.slice(0, 3);
-    result.phoneNumber = phone.slice(-7);
-  }
-  return result;
-};
-
-/**
  * Contestable issues loading error check
  * If there's an error, show an alert warning, but if the backend returns a 404
  * error (no issues found), we need to allow the Veteran to start the form
@@ -312,6 +283,3 @@ export const hasPrivateEvidenceToUpload = formData =>
     'view:hasPrivateRecordsToUpload'
   ];
 // export const hasPrivateEvidenceUploads = formData =>
-
-export const getPhoneString = phone =>
-  `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;

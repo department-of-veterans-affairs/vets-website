@@ -9,11 +9,11 @@ import { FIELD_NAMES } from '@@vap-svc/constants';
 const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         We’ll use the contact information from your profile to send you the
         notifications you choose:
       </p>
-      <ul>
+      <ul className="vads-u-margin-y--3">
         {emailAddress ? (
           <li className="vads-u-margin-y--0p5">
             {emailAddress}{' '}

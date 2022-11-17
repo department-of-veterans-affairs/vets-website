@@ -20,7 +20,6 @@ describe('Check In Experience', () => {
         initializeCheckInDataGet,
         initializeCheckInDataPost,
         initializeDemographicsPatch,
-        initializeBtsssPost,
       } = ApiInitializer;
       initializeFeatureToggle.withTravelPay();
       initializeSessionGet.withSuccessfulNewSession();
@@ -30,7 +29,6 @@ describe('Check In Experience', () => {
         appointments,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeBtsssPost.withFailure();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
@@ -49,7 +47,8 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('shows the correct error message for an api error.', () => {
+    it('shows the correct error message for generic api error.', () => {
+      ApiInitializer.initializeBtsssPost.withFailure(400, 'CLM_011_LOL_DUNNO');
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
@@ -69,7 +68,34 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Confirmation.validatePageLoadedWithBtsssSubmissionFailure();
+      Confirmation.validatePageLoadedWithBtsssGenericFailure();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('shows the correct error message for travel claim exists api error.', () => {
+      ApiInitializer.initializeBtsssPost.withFailure(
+        400,
+        'CLM_002_CLAIM_EXISTS',
+      );
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--vehicle-question');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--address-question');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
+      TravelPages.attemptToGoToNextPage();
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Confirmation.validatePageLoadedWithBtsssTravelClaimExistsFailure();
       cy.injectAxeThenAxeCheck();
     });
   });

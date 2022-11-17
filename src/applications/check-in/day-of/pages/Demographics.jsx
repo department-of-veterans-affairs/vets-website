@@ -11,7 +11,6 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const dispatch = useDispatch();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { t } = useTranslation();
@@ -29,26 +28,17 @@ const Demographics = props => {
 
   const yesClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-        setShouldSendDemographicsFlags(window, true);
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [
-      goToNextPage,
-      isDayOfDemographicsFlagsEnabled,
-      dispatch,
-      setShouldSendDemographicsFlags,
-    ],
+    [goToNextPage, dispatch, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-        setShouldSendDemographicsFlags(window, true);
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       const seeStaffMessage = (
         <>
           <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
@@ -65,7 +55,6 @@ const Demographics = props => {
     [
       updateSeeStaffMessage,
       jumpToPage,
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       t,
       setShouldSendDemographicsFlags,
@@ -87,7 +76,6 @@ const Demographics = props => {
 };
 
 Demographics.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 
