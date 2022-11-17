@@ -1230,6 +1230,7 @@ const formConfig = {
               accountNumber: {
                 'ui:errorMessages': {
                   pattern: 'Please enter a valid account number',
+                  required: 'Please enter a valid account number',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
@@ -1238,6 +1239,7 @@ const formConfig = {
               routingNumber: {
                 'ui:errorMessages': {
                   pattern: 'Please enter a valid routing number',
+                  required: 'Please enter a valid routing number',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Routing number',
