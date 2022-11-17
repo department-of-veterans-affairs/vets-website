@@ -394,6 +394,7 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
+  canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
   canAccessRatingInfo: PropTypes.bool,
   fetchFullName: PropTypes.func,
