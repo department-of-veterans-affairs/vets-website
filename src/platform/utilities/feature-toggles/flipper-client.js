@@ -5,8 +5,6 @@ import { getFlipperId } from './helpers';
 const FLIPPER_ID = getFlipperId();
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
-const TOGGLE_STORAGE_KEY = 'featureToggles';
-const TOGGLE_STORAGE_EXPIRATION_MINUTES = 15;
 
 let flipperClientInstance;
 
@@ -71,33 +69,9 @@ function FlipperClient({
             }
           ]
       }
-      */
-    let data;
-    const featureToggleSessionData =
-      sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
-      JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
-
-    const isSessionDataValid =
-      featureToggleSessionData &&
-      Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
-
-    if (isSessionDataValid) {
-      data = featureToggleSessionData.data;
-    } else {
-      const response = await _fetchToggleValues();
-      data = response.data;
-
-      const now = new Date();
-      const expiresAt = new Date(
-        now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
-      );
-
-      sessionStorage.setItem(
-        TOGGLE_STORAGE_KEY,
-        JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
-      );
     }
-
+    */
+    const { data } = await _fetchToggleValues();
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;

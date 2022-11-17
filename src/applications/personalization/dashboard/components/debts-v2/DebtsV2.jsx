@@ -10,6 +10,8 @@ import {
 } from '~/applications/personalization/dashboard/actions/debts';
 import DebtsCardV2 from './DebtsCardV2';
 import CopaysCardV2 from './CopaysCardV2';
+import { canAccess } from '../../selectors';
+import API_NAMES from '../../utils/apiNames';
 
 const NoOutstandingDebtsText = () => {
   return (
@@ -60,6 +62,7 @@ const PopularActionsForDebts = () => {
 };
 
 const BenefitPaymentsAndDebtV2 = ({
+  canAccessCopays,
   debts,
   copays,
   hasDebtError,
@@ -71,9 +74,11 @@ const BenefitPaymentsAndDebtV2 = ({
   useEffect(
     () => {
       getDebts();
-      getCopays();
+      if (canAccessCopays) {
+        getCopays();
+      }
     },
-    [getDebts, getCopays],
+    [canAccessCopays, getDebts, getCopays],
   );
 
   const debtsCount = debts?.length || 0;
@@ -133,6 +138,7 @@ const BenefitPaymentsAndDebtV2 = ({
 };
 
 BenefitPaymentsAndDebtV2.propTypes = {
+  canAccessCopays: PropTypes.bool,
   copays: PropTypes.array,
   copaysError: PropTypes.bool,
   debts: PropTypes.arrayOf(
@@ -165,10 +171,12 @@ BenefitPaymentsAndDebtV2.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const canAccessCopays = canAccess(state)[API_NAMES.MEDICAL_COPAYS];
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
   const copays = state.allDebts.copays || [];
   return {
+    canAccessCopays,
     debts,
     copays,
     hasDebtError: state.allDebts.debtsErrors.length > 0,
