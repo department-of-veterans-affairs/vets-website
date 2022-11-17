@@ -169,7 +169,7 @@
           }
         ],
         "reasonCode": {
-          "text": "phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:11/30/2022 AM,11/30/2022 PM,11/29/2022 AM|reason code:MEDICALISSUE|comments:test"
+          "text": "preferred modality: telehealth|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:11/30/2022 AM,11/30/2022 PM,11/29/2022 AM|reason code:MEDICALISSUE|comments:test"
         },
         "patientIcn": "1013124304V115761",
         "locationId": "983",
