@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { rest } from 'msw';
-import { server } from '../../save-in-progress/mock-sip-handlers';
+import { server } from '../mock-sip-handlers';
 
 import {
   SET_SAVE_FORM_STATUS,
