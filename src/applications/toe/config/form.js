@@ -1269,15 +1269,16 @@ const formConfig = {
                   formFields.routingNumber,
                 ],
                 properties: {
-                  [formFields.accountType]: {
+                  [formFields.accountNumber]: {
+                    pattern: '^\\**[a-z0-9]+$',
                     type: 'string',
+                  },
+                  [formFields.accountType]: {
                     enum: ['checking', 'savings'],
+                    type: 'string',
                   },
                   [formFields.routingNumber]: {
-                    type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  [formFields.accountNumber]: {
+                    pattern: '^[\\d*]{5}\\d{4}$',
                     type: 'string',
                   },
                 },
