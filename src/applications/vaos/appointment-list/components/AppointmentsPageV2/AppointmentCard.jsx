@@ -88,7 +88,7 @@ function getLabelText(appointment) {
   }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
 }
 
-export default function Card({
+export default function AppointmentCard({
   appointment,
   facility,
   handleClick,
@@ -163,7 +163,7 @@ export default function Card({
   );
 }
 
-Card.propTypes = {
+AppointmentCard.propTypes = {
   appointment: PropTypes.object,
   facility: PropTypes.object,
   handleClick: PropTypes.func,

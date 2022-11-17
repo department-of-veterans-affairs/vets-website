@@ -19,7 +19,8 @@ import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { selectFeatureAppointmentList } from '../../redux/selectors';
-import RequestListItemGroup from './AppointmentsPageV2/RequestListItemGroup';
+import { PendingAppointmentLayout } from './AppointmentsPageV2/PendingAppointmentLayout';
+import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -139,13 +140,23 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 className="vads-u-padding-left--0"
                 data-cy="requested-appointment-list"
               >
-                {featureAppointmentList && (
-                  <RequestListItemGroup
-                    key={1}
-                    data={statusBucket[1]}
-                    facilityData={facilityData}
-                  />
-                )}
+                {featureAppointmentList &&
+                  statusBucket[1].map(appointment => {
+                    return (
+                      <AppointmentListItem
+                        key={appointment.id}
+                        appointment={appointment}
+                        borderBottom
+                      >
+                        {facility => (
+                          <PendingAppointmentLayout
+                            appointment={appointment}
+                            facility={facility}
+                          />
+                        )}
+                      </AppointmentListItem>
+                    );
+                  })}
 
                 {!featureAppointmentList &&
                   statusBucket[1].map((appt, index) => {

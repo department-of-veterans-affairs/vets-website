@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
@@ -16,8 +18,9 @@ import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
-import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureAppointmentList } from '../../redux/selectors';
+import AppointmentGridLayout from './AppointmentsPageV2/AppointmentGridLayout';
 
 export default function CanceledAppointmentsList({ hasTypeChanged }) {
   const {
@@ -26,6 +29,9 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     futureStatus,
     showScheduleButton,
   } = useSelector(state => getCanceledAppointmentListInfo(state), shallowEqual);
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
 
   const dispatch = useDispatch();
   useEffect(
@@ -73,7 +79,15 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
         {hasTypeChanged && 'Showing canceled appointments and requests'}
       </div>
       {appointmentsByMonth?.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
+        let monthDate;
+
+        if (featureAppointmentList) {
+          const key = Object.keys(monthBucket);
+          monthDate = moment(key, 'YYYY-MM-DD');
+        } else {
+          monthDate = moment(monthBucket[0].start);
+        }
+
         return (
           <React.Fragment key={monthIndex}>
             <h3
@@ -92,24 +106,29 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
               data-cy="canceled-appointment-list"
               role="list"
             >
-              {monthBucket.map((appt, index) => {
-                const facilityId = getVAAppointmentLocationId(appt);
+              {featureAppointmentList && (
+                <AppointmentGridLayout monthBucket={monthBucket} />
+              )}
+              {!featureAppointmentList &&
+                monthBucket.map((appt, index) => {
+                  const facilityId = getVAAppointmentLocationId(appt);
 
-                if (
-                  appt.vaos.appointmentType ===
-                    APPOINTMENT_TYPES.vaAppointment ||
-                  appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
-                ) {
-                  return (
-                    <AppointmentListItem
-                      key={index}
-                      appointment={appt}
-                      facility={facilityData[facilityId]}
-                    />
-                  );
-                }
-                return null;
-              })}
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                      />
+                    );
+                  }
+                  return null;
+                })}
             </ul>
           </React.Fragment>
         );
@@ -131,3 +150,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     </>
   );
 }
+CanceledAppointmentsList.propTypes = {
+  hasTypeChanged: PropTypes.bool,
+};

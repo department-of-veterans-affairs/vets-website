@@ -1,54 +1,45 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { focusElement } from 'platform/utilities/ui';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { SPACE_BAR } from '../../../utils/constants';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-import Card from './Card';
-import { getLink } from '../../../services/appointment';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'recompose';
+import { selectFeatureAppointmentList } from '../../../redux/selectors';
+import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
+import { getVAAppointmentLocationId } from '../../../services/appointment';
 
-function handleClick({ history, link, idClickable }) {
-  return () => {
-    if (!window.getSelection().toString()) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-function handleKeyDown({ history, link, idClickable }) {
-  return event => {
-    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-export default function AppointmentListItem({ appointment, facility }) {
-  const history = useHistory();
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
+export default function AppointmentListItem({
+  appointment,
+  borderBottom,
+  borderTop,
+  children,
+}) {
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
   );
-  const link = getLink({ featureStatusImprovement, appointment });
+
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const { facilityData } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
+  const facility = facilityData[getVAAppointmentLocationId(appointment)];
 
   return (
     <>
       <li
         id={idClickable}
         data-request-id={appointment.id}
-        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
         data-cy="appointment-list-item"
+        className={classNames({
+          'vaos-appts__card--clickable': !featureAppointmentList,
+          'vads-u-margin-bottom--3': !featureAppointmentList,
+          'vaos-appts__listItem--clickable': featureAppointmentList,
+          'vads-u-margin--0': featureAppointmentList,
+          'vads-u-border-top--1px': featureAppointmentList && borderTop,
+          'vads-u-border-bottom--1px': featureAppointmentList && borderBottom,
+        })}
       >
-        <Card
-          appointment={appointment}
-          facility={facility}
-          link={link}
-          handleClick={() => handleClick({ history, link, idClickable })}
-          handleKeyDown={() => handleKeyDown({ history, link, idClickable })}
-        />
+        {children(appointment, facility)}
       </li>
     </>
   );
@@ -56,5 +47,7 @@ export default function AppointmentListItem({ appointment, facility }) {
 
 AppointmentListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object,
+  borderBottom: PropTypes.bool,
+  borderTop: PropTypes.bool,
+  children: PropTypes.func,
 };

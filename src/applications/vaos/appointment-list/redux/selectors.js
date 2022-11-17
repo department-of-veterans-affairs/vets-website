@@ -17,6 +17,7 @@ import {
   isUpcomingAppointment,
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
+  groupAppointmentByDay,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -105,7 +106,8 @@ export const selectFutureAppointments = createSelector(
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,
-  confirmed => {
+  selectFeatureAppointmentList,
+  (confirmed, featureAppointmentList) => {
     if (!confirmed) {
       return null;
     }
@@ -113,6 +115,12 @@ export const selectUpcomingAppointments = createSelector(
     const sortedAppointments = confirmed
       .filter(isUpcomingAppointment)
       .sort(sortByDateAscending);
+
+    if (featureAppointmentList) {
+      return groupAppointmentByDay(
+        groupAppointmentsByMonth(sortedAppointments),
+      );
+    }
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
@@ -137,7 +145,8 @@ export const selectCanceledAppointments = createSelector(
   // Selecting pending here to pull in EC requests
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
+  selectFeatureAppointmentList,
+  (pending, confirmed, featureAppointmentList) => {
     if (!confirmed || !pending) {
       return null;
     }
@@ -146,6 +155,12 @@ export const selectCanceledAppointments = createSelector(
       .concat(pending)
       .filter(isCanceledConfirmed)
       .sort(sortByDateDescending);
+
+    if (featureAppointmentList) {
+      return groupAppointmentByDay(
+        groupAppointmentsByMonth(sortedAppointments),
+      );
+    }
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
@@ -161,30 +176,27 @@ export function selectFirstRequestMessage(state, id) {
  * V2 Past appointments state selectors
  */
 
-export const selectPastAppointmentsV2 = (state, featureAppointmentList) => {
-  const selector = createSelector(
-    () => state.appointments.past,
-    past => {
-      if (!past) {
-        return null;
-      }
+export const selectPastAppointmentsByMonth = createSelector(
+  state => state.appointments.past,
+  selectFeatureAppointmentList,
+  (appointments, featureAppointmentList) => {
+    if (!appointments) {
+      return null;
+    }
 
-      let sortedAppointments;
-      if (featureAppointmentList) {
-        sortedAppointments = past
-          .filter(isValidPastAppointment)
-          .sort(sortByDateDescending);
-      } else {
-        sortedAppointments = past
-          .filter(isValidPastAppointment)
-          .sort(sortByDateAscending);
-      }
+    const sortedAppointments = appointments
+      .filter(isValidPastAppointment)
+      .sort(sortByDateAscending);
 
-      return groupAppointmentsByMonth(sortedAppointments);
-    },
-  );
-  return selector(state);
-};
+    if (featureAppointmentList) {
+      return groupAppointmentByDay(
+        groupAppointmentsByMonth(sortedAppointments),
+      );
+    }
+
+    return groupAppointmentsByMonth(sortedAppointments);
+  },
+);
 
 export function selectAppointmentById(state, id, types = null) {
   const { appointmentDetails, past, confirmed, pending } = state.appointments;
@@ -287,13 +299,9 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 
 export function getPastAppointmentListInfo(state) {
-  const featureAppointmentList = selectFeatureAppointmentList(state);
   return {
     showScheduleButton: selectFeatureRequests(state),
-    pastAppointmentsByMonth: selectPastAppointmentsV2(
-      state,
-      featureAppointmentList,
-    ),
+    pastAppointmentsByMonth: selectPastAppointmentsByMonth(state),
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,

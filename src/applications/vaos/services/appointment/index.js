@@ -1144,6 +1144,20 @@ export function getAppointmentDate(appointment) {
   return moment.parseZone(appointment.start);
 }
 
+/**
+ * Function to group an appointment collection by day. The result will be an
+ * array of objects where the key/value pair is:
+ *
+ * key = date string
+ * value = Array of appointments on the same day
+ *
+ * NOTE: The incoming appointment colection is assumed to tbe already grouped by
+ * month and in the form of an array or arrays.
+ *
+ * @export
+ * @param {*} appointments
+ * @returns Collection of appointments grouped by day
+ */
 export function groupAppointmentByDay(appointments) {
   if (appointments.length === 0) {
     return [];

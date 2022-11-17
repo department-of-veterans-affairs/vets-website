@@ -118,9 +118,17 @@
     background-clip: content-box;
   }
 }
-
+.vaos-appts__text--truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .vaos-appts__focus--hide-outline:focus {
   outline: none;
+}
+.vaos-appts__flex--basis {
+  flex-basis: "min-content" !important;
+  min-width: 108px
 }
 
 .vaos-appts__breadcrumb {

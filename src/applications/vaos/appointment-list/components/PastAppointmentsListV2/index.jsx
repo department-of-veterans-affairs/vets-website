@@ -3,13 +3,19 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
+import { focusElement } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../../utils/constants';
-import { getVAAppointmentLocationId } from '../../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+} from '../../../services/appointment';
 import AppointmentListItem from '../AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from '../NoAppointments';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
@@ -19,8 +25,30 @@ import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
-import { selectFeatureAppointmentList } from '../../../redux/selectors';
-import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../../redux/selectors';
+import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
+import AppointmentGridLayout from '../AppointmentsPageV2/AppointmentGridLayout';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -91,6 +119,7 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 }
 
 export default function PastAppointmentsListNew() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
   const dateRangeOptions = getPastAppointmentDateRangeOptions();
@@ -104,6 +133,9 @@ export default function PastAppointmentsListNew() {
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
   );
 
   useEffect(() => {
@@ -208,33 +240,44 @@ export default function PastAppointmentsListNew() {
             dateRangeOptions[pastSelectedIndex]?.label
           }`}
       </div>
-      {featureAppointmentList && (
-        <AppointmentListGroup data={pastAppointmentsByMonth} />
-      )}
+      {pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
+        let monthDate;
+        if (featureAppointmentList) {
+          const key = Object.keys(monthBucket);
+          monthDate = moment(key, 'YYYY-MM-DD');
+        } else {
+          monthDate = moment(monthBucket[0].start);
+        }
 
-      {!featureAppointmentList &&
-        pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
-          return (
-            <React.Fragment key={monthIndex}>
-              <h3
-                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-                data-cy="past-appointment-list-header"
-              >
-                <span className="sr-only">Appointments in </span>
-                {monthDate.format('MMMM YYYY')}
-              </h3>
-              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-              <ul
-                aria-labelledby={`appointment_list_${monthDate.format(
-                  'YYYY-MM',
-                )}`}
-                className="vads-u-padding-left--0"
-                data-cy="past-appointment-list"
-                role="list"
-              >
-                {monthBucket.map((appt, index) => {
+        return (
+          <React.Fragment key={monthIndex}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="past-appointment-list-header"
+            >
+              <span className="sr-only">Appointments in </span>
+              {monthDate.format('MMMM YYYY')}
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              aria-labelledby={`appointment_list_${monthDate.format(
+                'YYYY-MM',
+              )}`}
+              className="vads-u-padding-left--0"
+              data-cy="past-appointment-list"
+              role="list"
+            >
+              {featureAppointmentList && (
+                <AppointmentGridLayout monthBucket={monthBucket} />
+              )}
+              {!featureAppointmentList &&
+                monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
+                  const link = getLink({
+                    featureStatusImprovement,
+                    appointment: appt,
+                  });
+                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
 
                   if (
                     appt.vaos.appointmentType ===
@@ -247,15 +290,27 @@ export default function PastAppointmentsListNew() {
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
-                      />
+                      >
+                        <AppointmentCard
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                          link={link}
+                          handleClick={() =>
+                            handleClick({ history, link, idClickable })
+                          }
+                          handleKeyDown={() =>
+                            handleKeyDown({ history, link, idClickable })
+                          }
+                        />
+                      </AppointmentListItem>
                     );
                   }
                   return null;
                 })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
       {!pastAppointmentsByMonth?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
