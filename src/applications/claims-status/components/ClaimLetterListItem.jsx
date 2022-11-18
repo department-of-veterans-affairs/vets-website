@@ -12,7 +12,10 @@ const formatDate = date => {
 };
 
 const downloadHandler = () => {
-  recordEvent({ event: 'claim-letters-download' });
+  recordEvent({
+    event: 'claim-letters-download',
+    'click-text': 'Download letter (PDF)',
+  });
 };
 
 const ClaimLetterListItem = ({ letter }) => {
