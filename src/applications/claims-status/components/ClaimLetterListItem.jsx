@@ -8,7 +8,11 @@ import environment from 'platform/utilities/environment';
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const formatDate = date => {
-  return format(new Date(date), 'MMMM dd, yyyy');
+  const withoutOffset = new Date(date);
+  const toAdd = withoutOffset.getTimezoneOffset() * 60000;
+  const withOffset = new Date(withoutOffset.getTime() + toAdd);
+
+  return format(withOffset, 'MMMM dd, yyyy');
 };
 
 const downloadHandler = () => {
