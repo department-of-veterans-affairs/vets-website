@@ -28,7 +28,7 @@ const batch = tests
   .join(',');
 
 let status = null;
-const runTestsInLoopUpTo = isStressTest ? 25 : 1;
+const runTestsInLoopUpTo = isStressTest ? 20 : 1;
 
 for (let i = 0; i < runTestsInLoopUpTo; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
