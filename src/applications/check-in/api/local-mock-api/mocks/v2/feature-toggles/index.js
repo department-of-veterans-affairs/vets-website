@@ -5,7 +5,6 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
-    checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
     checkInExperienceTravelReimbursement = false,
     checkInExperienceBrowserMonitoring = false,
@@ -34,10 +33,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_lorota_security_updates_enabled',
           value: checkInExperienceLorotaSecurityUpdatesEnabled,
-        },
-        {
-          name: 'check_in_experience_phone_appointments_enabled',
-          value: checkInExperiencePhoneAppointmentsEnabled,
         },
         {
           name: 'check_in_experience_lorota_deletion_enabled',

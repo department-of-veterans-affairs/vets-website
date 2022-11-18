@@ -63,10 +63,6 @@ const initState = {
       pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
     },
   },
-  featureToggles: {
-    // eslint-disable-next-line camelcase
-    check_in_experience_phone_appointments_enabled: false,
-  },
 };
 
 describe('pre-check-in', () => {
@@ -104,8 +100,6 @@ describe('pre-check-in', () => {
     it('does not render the sub-message for a phone appointment appointment', () => {
       const phoneInitState = JSON.parse(JSON.stringify(initState));
       phoneInitState.checkInData.appointments[0].kind = 'phone';
-      // eslint-disable-next-line camelcase
-      phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
       const phoneSubStore = mockStore({
         ...phoneInitState,
         ...scheduledDowntimeState,

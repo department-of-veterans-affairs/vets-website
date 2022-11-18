@@ -1,11 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
-
-import AppointmentBlock from './AppointmentBlock';
 import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
@@ -19,8 +15,6 @@ const PreCheckinConfirmation = props => {
     emergencyContactUpToDate,
     nextOfKinUpToDate,
   } = formData;
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
 
   if (appointments.length === 0) {
@@ -44,14 +38,10 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        {isPhoneAppointmentsEnabled ? (
-          <AppointmentBlockWithIcons
-            appointments={appointments}
-            page="confirmation"
-          />
-        ) : (
-          <AppointmentBlock appointments={appointments} />
-        )}
+        <AppointmentBlockWithIcons
+          appointments={appointments}
+          page="confirmation"
+        />
         <HowToLink apptType={apptType} />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
@@ -61,21 +51,6 @@ const PreCheckinConfirmation = props => {
             {t('sign-in-to-manage')}
           </ExternalLink>
         </p>
-        {!isPhoneAppointmentsEnabled && (
-          <va-alert
-            background-only
-            status="info"
-            show-icon
-            data-testid="confirmation-update-alert"
-            class="vads-u-margin-bottom--3"
-          >
-            <div>
-              {t(
-                'please-bring-your-insurance-cards-with-you-to-your-appointment',
-              )}
-            </div>
-          </va-alert>
-        )}
 
         <PreCheckInAccordionBlock
           demographicsUpToDate={demographicsUpToDate}

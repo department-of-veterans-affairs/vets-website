@@ -28,10 +28,6 @@ describe('pre-check-in', () => {
           pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        check_in_experience_phone_appointments_enabled: false,
-      },
       ...scheduledDowntimeState,
     };
     store = mockStore(initState);
@@ -92,9 +88,11 @@ describe('pre-check-in', () => {
           </Provider>,
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
-        expect(screen.getByTestId('confirmation-update-alert')).to.have.text(
-          'Please bring your insurance cards with you to your appointment.',
-        );
+        screen.getAllByTestId('appointment-message').forEach(message => {
+          expect(message).to.have.text(
+            'Please bring your insurance cards with you to your appointment.',
+          );
+        });
       });
       it('renders page with clinic friendly name', () => {
         const screen = render(

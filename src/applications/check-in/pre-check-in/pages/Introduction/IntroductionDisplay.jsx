@@ -5,13 +5,11 @@ import { useTranslation } from 'react-i18next';
 
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-import AppointmentBlock from '../../../components/AppointmentBlock';
 import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
@@ -21,8 +19,6 @@ const IntroductionDisplay = props => {
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { appointments } = useSelector(selectVeteranData);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
@@ -91,11 +87,8 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      {isPhoneAppointmentsEnabled ? (
-        <AppointmentBlockWithIcons appointments={appointments} page="intro" />
-      ) : (
-        <AppointmentBlock appointments={appointments} />
-      )}
+      <AppointmentBlockWithIcons appointments={appointments} page="intro" />
+
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />
       {accordionContent && accordionContent.length ? (

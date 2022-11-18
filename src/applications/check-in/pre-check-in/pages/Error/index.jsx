@@ -8,7 +8,6 @@ import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlo
 import HowToLink from '../../../components/HowToLink';
 
 import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import {
   preCheckinExpired,
@@ -31,9 +30,6 @@ const appointmentAccordion = appointments => {
 };
 
 const Error = () => {
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
-
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const selectError = useMemo(makeSelectError, []);
@@ -92,17 +88,13 @@ const Error = () => {
     showHowToLink = false;
   }
   if (validationError) {
-    messageText = isPhoneAppointmentsEnabled ? (
+    messageText = (
       <>
         <div className="vads-u-margin-bottom--2">
           {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
         </div>
         {mixedPhoneAndInPersonMessage}
       </>
-    ) : (
-      t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
-      )
     );
   }
   const UUIDErrors = ['session-error', 'bad-token', 'no-token'];
@@ -127,8 +119,7 @@ const Error = () => {
           <p className="vads-u-margin-top--2">
             {t('if-you-have-questions-please-call-us-were-here-24-7')}
           </p>
-          {isPhoneAppointmentsEnabled &&
-          canceledAppointment?.kind === 'phone' ? (
+          {canceledAppointment?.kind === 'phone' ? (
             ''
           ) : (
             <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
@@ -175,9 +166,7 @@ const Error = () => {
   } else if (UUIDErrors.indexOf(error) > -1) {
     messages = [
       {
-        text: isPhoneAppointmentsEnabled
-          ? mixedPhoneAndInPersonMessage
-          : t('were-sorry-something-went-wrong-on-our-end-please-try-again'),
+        text: mixedPhoneAndInPersonMessage,
       },
     ];
   } else {
