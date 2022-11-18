@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ const NoDebts = () => (
   </div>
 );
 
-const AvailableDebts = () => {
+const AvailableDebts = ({ formContext }) => {
   const { debts, statements, pending, isError, pendingCopays } = useSelector(
     state => state.fsr,
   );
@@ -35,6 +35,16 @@ const AvailableDebts = () => {
   // copays
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
+
+  const [selectionError, setSelectionError] = useState(false);
+  useEffect(
+    () => {
+      setSelectionError(
+        formContext.submitted && !data.selectedDebtsAndCopays?.length,
+      );
+    },
+    [formContext.submitted, data.selectedDebtsAndCopays?.length],
+  );
 
   const dispatch = useDispatch();
   useEffect(
@@ -68,14 +78,32 @@ const AvailableDebts = () => {
   return isCFSRActive ? (
     <>
       <p className="vads-u-margin-bottom--3">
-        Select one or more debts you want to request relief for
+        Select one or more debts you want to request relief for{' '}
+        <span className="required-text">(*Required)</span>
       </p>
-      {debts.map((debt, index) => (
-        <DebtCheckBox debt={debt} key={`${index}-${debt.currentAr}`} />
-      ))}
-      {statementsByUniqueFacility.map(copay => (
-        <CopayCheckBox copay={copay} key={copay.id} />
-      ))}
+      <div
+        className={
+          selectionError
+            ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
+            : 'vads-u-margin-y--3'
+        }
+      >
+        {selectionError && (
+          <span
+            className="vads-u-font-weight--bold vads-u-color--secondary-dark"
+            role="alert"
+          >
+            <span className="sr-only">Error</span>
+            <p>Select at least one debt you want to request relief for</p>
+          </span>
+        )}
+        {debts.map((debt, index) => (
+          <DebtCheckBox debt={debt} key={`${index}-${debt.currentAr}`} />
+        ))}
+        {statementsByUniqueFacility.map(copay => (
+          <CopayCheckBox copay={copay} key={copay.id} />
+        ))}
+      </div>
       <va-additional-info trigger="What if my debt isn’t listed here?">
         If you received a letter about a VA benefit debt that isn’t listed here,
         call us at <va-telephone contact="8008270648" /> (or{' '}
