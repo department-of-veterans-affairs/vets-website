@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import PreSubmitInfo from '../../../components/PreSubmitInfo';
 
 describe('CG <PreSubmitCheckboxGroup>', () => {
-  const getData = ({ signAsRepresentativeYesNo = false } = {}) => ({
+  const getData = ({ signAsRepresentativeYesNo } = {}) => ({
     props: {
       onSectionComplete: () => {},
       formData: {
