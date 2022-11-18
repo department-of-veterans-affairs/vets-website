@@ -7,7 +7,7 @@ import {
 import { MAX_LENGTH } from '../constants';
 
 /**
- *
+ * Check validations for Custom pages
  * @param {Function[]} validations - array of validation functions
  * @param {*} data - field data passed to the validation function
  * @param {*} fullData - full and appStateData passed to validation function

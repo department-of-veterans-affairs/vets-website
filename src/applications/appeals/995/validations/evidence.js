@@ -1,3 +1,6 @@
+import { convertToDateField } from 'platform/forms-system/src/js/validation';
+import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
+
 import {
   errorMessages,
   MAX_LENGTH,
@@ -8,35 +11,48 @@ import {
 import { validateDate } from './date';
 
 export const validateEvidence = (errors, formData) => {
+  const va = formData?.[EVIDENCE_VA];
+  const priv8 = formData?.[EVIDENCE_PRIVATE];
+  const other = formData?.[EVIDENCE_OTHER];
   if (
-    !formData?.[EVIDENCE_VA] &&
-    !formData?.[EVIDENCE_PRIVATE] &&
-    !formData?.[EVIDENCE_OTHER]
+    (!va || (va && !formData.locations?.length)) &&
+    (!priv8 || (priv8 && !formData.providerFacility?.length)) &&
+    (!other || (other && !formData.additionalDocuments?.length))
   ) {
-    errors.addError(errorMessages.evidenceMissing);
+    errors.addError(errorMessages.evidence.missing);
   }
 };
 
 export function validateVaLocation(errors, data) {
   const { locationAndName } = data || {};
   if (!locationAndName) {
-    errors.addError(errorMessages.evidenceLocationMissing);
+    errors.addError(errorMessages.evidence.locationMissing);
   } else if (locationAndName.length > MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME) {
-    errors.addError(errorMessages.evidenceLocationMaxLength);
+    errors.addError(errorMessages.evidence.locationMaxLength);
   }
 }
 
 export function validateVaIssues(errors, data) {
   if (!data.issues?.length) {
-    errors.addError(errorMessages.evidenceIssuesMissing);
+    errors.addError(errorMessages.evidence.issuesMissing);
   }
 }
 
 export const validateVaFromDate = (errors, data) =>
-  validateDate(errors, data.evidenceDates?.from);
+  validateDate(errors, data.evidenceDates?.from, 'evidence');
 
-export const validateVaToDate = (errors, data) =>
-  validateDate(errors, data.evidenceDates?.to);
+export const validateVaToDate = (errors, data) => {
+  const dates = data.evidenceDates || {};
+  validateDate(errors, dates?.to, 'evidence');
+
+  // modified from validateDateRange
+  const fromDate = convertToDateField(dates?.from);
+  const toDate = convertToDateField(dates?.to);
+
+  if (!isValidDateRange(fromDate, toDate, true)) {
+    errors.addError(errorMessages.endDateBeforeStart);
+  }
+};
 
 export function isValidZIP(value) {
   if (value !== null) {
