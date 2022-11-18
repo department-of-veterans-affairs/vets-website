@@ -102,7 +102,6 @@ const useGetCheckInData = ({
             .getPreCheckInData(token)
             .then(json => {
               if (json.error) {
-                // setCheckInDataError(true);
                 goToErrorPage('?error=error-getting-pre-check-in-data');
                 return; // prevent a react no-op on an unmounted component
               }
@@ -114,10 +113,12 @@ const useGetCheckInData = ({
                 preCheckinExpired(payload.appointments)
               ) {
                 goToErrorPage('?error=pre-check-in-expired');
+                return;
               }
 
               if (appointmentWasCanceled(payload.appointments)) {
                 goToErrorPage('?error=appointment-canceled');
+                return;
               }
 
               if (preCheckinAlreadyCompleted(payload.appointments)) {
@@ -127,7 +128,6 @@ const useGetCheckInData = ({
             })
             .catch(() => {
               setCheckInDataError(true);
-              // goToErrorPage('?error=error-fromlocation-precheckin-introduction');
             })
             .finally(() => {
               setIsStale(false);

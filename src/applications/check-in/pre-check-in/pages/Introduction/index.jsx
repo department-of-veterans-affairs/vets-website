@@ -5,16 +5,19 @@ import { useTranslation } from 'react-i18next';
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 
 const Introduction = props => {
   const { router } = props;
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const { goToErrorPage } = useFormRouting();
 
   const {
     isComplete,
     isLoading: isDataLoading,
     refreshCheckInData,
+    checkInDataError,
   } = useGetCheckInData({
     refreshNeeded: false,
     reload: false,
@@ -29,6 +32,15 @@ const Introduction = props => {
       }
     },
     [isComplete, isDataLoading],
+  );
+
+  useEffect(
+    () => {
+      if (checkInDataError) {
+        goToErrorPage();
+      }
+    },
+    [checkInDataError],
   );
 
   if (isLoading) {
