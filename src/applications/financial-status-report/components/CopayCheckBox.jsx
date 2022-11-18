@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { getMedicalCenterNameByID } from '@department-of-veterans-affairs/platform-utilities/medical-centers';
 import { currency, endDate } from '../utils/helpers';
 
 const CopayCheckBox = ({ copay }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { format, isValid } from 'date-fns';
 import { head } from 'lodash';
 import { deductionCodes } from '../constants/deduction-codes';
