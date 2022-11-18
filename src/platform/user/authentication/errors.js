@@ -55,6 +55,10 @@ export const AUTH_ERRORS = {
     errorCode: '106',
     message: `Multiple Corp IDs`,
   },
+  MHV_VERIFICATION_ERROR: {
+    errorCode: '108',
+    message: `MHV Verification Error`,
+  },
   OAUTH_DEFAULT_ERROR: {
     errorCode: '201',
     message: `Unknown OAuth Error`,
