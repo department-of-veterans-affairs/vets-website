@@ -16,6 +16,8 @@ import {
   appealsAvailability,
   claimsAvailability,
 } from '../../utils/appeals-v2-helpers';
+import { canAccess } from '../../selectors';
+import API_NAMES from '../../utils/apiNames';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppealV2 from './hooks/useHighlightedClaimOrAppealV2';
@@ -131,10 +133,6 @@ const ClaimsAndAppealsV2 = ({
     claimsData,
   );
 
-  if (!shouldLoadAppeals && !shouldLoadClaims) {
-    return null;
-  }
-
   if (shouldShowLoadingIndicator) {
     return (
       <div
@@ -218,12 +216,13 @@ const mapStateToProps = state => {
   const hasClaimsError =
     claimsState.claimsAvailability === claimsAvailability.UNAVAILABLE;
   const hasAPIError = !!hasAppealsError || !!hasClaimsError;
+  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS];
 
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     hasAPIError,
-    shouldLoadAppeals: isAppealsAvailableSelector(state),
+    shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     // as soon as we realize there is an error getting either claims or appeals
     // data, stop showing a loading spinner

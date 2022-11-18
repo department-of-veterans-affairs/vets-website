@@ -6,16 +6,16 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import {
   fetchBookedAppointment,
   getAppointmentRequests,
+  getLongTermAppointmentHistoryV2,
 } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
-import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
 import {
   getDateRanges,
   mockVAOSAppointmentsFetch,

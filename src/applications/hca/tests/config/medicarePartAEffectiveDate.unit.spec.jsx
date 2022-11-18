@@ -16,9 +16,8 @@ describe('Hca medicare', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
-  const formData = {
-    'view:hcaMedicareClaimNumberEnabled': true,
-  };
+  const formData = {};
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

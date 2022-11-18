@@ -6,8 +6,6 @@
  * @testrailinfo runName MyVA-BenefitPmts-v2
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-import { mockUser as mockUserWithoutClaims } from '@@profile/tests/fixtures/users/user-without-claims';
-import { mockUser as mockUserWithFalseClaims } from '@@profile/tests/fixtures/users/user-with-false-claims';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
@@ -22,7 +20,10 @@ import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
 import appointmentsEmpty from '../fixtures/appointments-empty';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
+import {
+  mockLocalStorage,
+  makeUserObject,
+} from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Benefit Payments', () => {
   Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 20000 });
@@ -186,7 +187,25 @@ describe('The My VA Dashboard - Benefit Payments', () => {
 describe('when the payment history claims does not exist', () => {
   beforeEach(() => {
     mockLocalStorage();
-    cy.login(mockUserWithoutClaims);
+    const mockUser1 = makeUserObject({
+      isCerner: false,
+      messaging: false,
+      rx: false,
+      facilities: [],
+      isPatient: false,
+      claims: {
+        ch33BankAccounts: true,
+        communicationPreferences: true,
+        connectedApps: true,
+        militaryHistory: true,
+        paymentHistory: false,
+        personalInformation: true,
+        ratingInfo: true,
+        appeals: true,
+        medicalCopays: true,
+      },
+    });
+    cy.login(mockUser1);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
@@ -235,7 +254,25 @@ describe('when the payment history claims does not exist', () => {
 describe('when the payment history claims is false', () => {
   beforeEach(() => {
     mockLocalStorage();
-    cy.login(mockUserWithFalseClaims);
+    const mockUser2 = makeUserObject({
+      isCerner: false,
+      messaging: false,
+      rx: false,
+      facilities: [],
+      isPatient: false,
+      claims: {
+        ch33BankAccounts: true,
+        communicationPreferences: true,
+        connectedApps: true,
+        militaryHistory: true,
+        paymentHistory: false,
+        personalInformation: true,
+        ratingInfo: true,
+        appeals: true,
+        medicalCopays: true,
+      },
+    });
+    cy.login(mockUser2);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
