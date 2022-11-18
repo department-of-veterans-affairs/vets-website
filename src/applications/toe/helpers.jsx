@@ -134,8 +134,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
-
+  const vapContactInfo = stateUser?.profile?.vapContactInfo;
   const profile = stateUser?.profile;
   const vet360ContactInfo = stateUser.vet360ContactInformation;
 
@@ -145,6 +144,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   const emailAddress =
     profile?.email ||
+    vapContactInfo.email ||
     vet360ContactInfo?.email?.emailAddress ||
     contactInfo.emailAddress ||
     undefined;
@@ -152,7 +152,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const v360mp = vet360ContactInfo?.mobilePhone;
-  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+  // VA Profile Mobile Phone
+  const vapmp = vapContactInfo?.mobilePhone;
+  if (vapmp?.areaCode && vapmp?.phoneNumber) {
+    mobilePhoneNumber = [vapmp.areaCode, vapmp.phoneNumber].join();
+    mobilePhoneIsInternational = vapmp.isInternational;
+  } else if (v360mp?.areaCode && v360mp?.phoneNumber) {
     mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
     mobilePhoneIsInternational = v360mp.isInternational;
   } else {
@@ -162,7 +167,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let homePhoneNumber;
   let homePhoneIsInternational;
   const v360hp = vet360ContactInfo?.homePhone;
-  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+  // VA Profile Home Phone
+  const vaphp = vapContactInfo?.homePhone;
+  if (vaphp?.areaCode && vaphp?.phoneNumber) {
+    homePhoneNumber = [vaphp.areaCode, vaphp.phoneNumber].join();
+    homePhoneIsInternational = vaphp.isInternational;
+  } else if (v360hp?.areaCode && v360hp?.phoneNumber) {
     homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
     homePhoneIsInternational = v360hp.isInternational;
   } else {
