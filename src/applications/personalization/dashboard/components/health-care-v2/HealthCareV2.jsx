@@ -81,14 +81,6 @@ const HealthCareV2 = ({
 };
 
 const mapStateToProps = state => {
-  const facilityLocations = [
-    'VA Spokane health care',
-    'VA Walla Walla health care',
-    'VA Central Ohio health care',
-    'Roseburg (Oregon) VA health care',
-    'White City health care',
-  ];
-
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
@@ -108,7 +100,6 @@ const mapStateToProps = state => {
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    facilityLocations,
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),

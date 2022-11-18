@@ -13,9 +13,13 @@ export const getAppData = state => ({
   isEligibilityCallComplete: state.data?.eligibilityFetchComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
   showUnverifiedUserAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebUnverifiedUserAlert
+  ],
+  showMebDgi40Features: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebDgi40Features
   ],
   user: state.user || {},
 });

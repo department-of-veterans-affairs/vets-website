@@ -28,9 +28,15 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     return '';
   }
 
-  if (str.length <= numVisibleChars) {
-    return str;
+  if (str.length <= 2 * numVisibleChars) {
+    const visibileChars = Math.floor(str.length / 2);
+
+    return (
+      obfuscateChar.repeat(str.length - visibileChars) +
+      str.substring(str.length - visibileChars, str.length)
+    );
   }
+
   return (
     obfuscateChar.repeat(str.length - numVisibleChars) +
     str.substring(str.length - numVisibleChars, str.length)

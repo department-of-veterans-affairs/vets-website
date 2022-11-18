@@ -28,7 +28,7 @@ const NotAVeteranAlert = () => {
           If you think this is an error, call us at{' '}
           <va-telephone contact={CONTACTS.HELP_DESK} /> (
           <va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-alert>
     </>
@@ -52,9 +52,10 @@ const NotInDEERSAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />. The DMDC
-            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            8:00 p.m. ET.
+            &nbsp;(
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            ). The DMDC Monday through Friday (except federal holidays), 8:00
+            a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>

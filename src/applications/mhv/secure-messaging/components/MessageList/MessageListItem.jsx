@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { DefaultFolders } from '../../util/constants';
+import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
@@ -29,10 +29,7 @@ const InboxListItem = props => {
       : readMessageClassList;
   };
 
-  const formattedDate = format(
-    new Date(sentDate),
-    "MMMM d, yyyy 'at' h:mm aaaa",
-  );
+  const formattedDate = dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z');
 
   return (
     <div
