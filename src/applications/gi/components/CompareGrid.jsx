@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
@@ -61,6 +62,7 @@ export function CompareGrid({
         })}
       >
         <div
+          tabIndex="0"
           className={classNames('label-cell', {
             first: index === 0,
             'has-diff': displayDiff,
@@ -92,6 +94,7 @@ export function CompareGrid({
     return (
       <div
         key={institution.facilityCode}
+        tabIndex="0"
         role="cell"
         className={classNames(
           'field-value',
@@ -122,6 +125,7 @@ export function CompareGrid({
           <div
             className="non-scroll-label"
             id={environment.isProduction() ? sectionLabelIdOld : sectionLabelId}
+            tabIndex="0"
           >
             <h2>{sectionLabel}</h2>
           </div>{' '}
@@ -133,7 +137,7 @@ export function CompareGrid({
             'vads-u-margin-top--4': !sectionLabel,
           })}
         >
-          <div className="non-scroll-label">
+          <div tabIndex="0" className="non-scroll-label">
             <h3>{subSectionLabel}</h3>
           </div>
         </div>

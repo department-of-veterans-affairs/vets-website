@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
@@ -44,8 +45,15 @@ export const makeMockUser = () => {
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
           claims: {
-            // eslint-disable-next-line camelcase
+            ch33_bank_accounts: true,
+            communication_preferences: true,
+            connected_apps: true,
+            military_history: true,
             payment_history: true,
+            personal_information: true,
+            rating_info: true,
+            appeals: true,
+            medical_copays: true,
           },
         },
         vaProfile: {

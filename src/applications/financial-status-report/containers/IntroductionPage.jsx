@@ -20,7 +20,7 @@ const IntroductionPage = ({ route, formId }) => {
   return (
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
-        title="Request help with VA debt (VA Form 5655)"
+        title="Request help with VA debt for overpayments and copay bills"
         subTitle="Equal to VA Form 5655 (Financial Status Report)"
       />
       <SaveInProgressIntro
