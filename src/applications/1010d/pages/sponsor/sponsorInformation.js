@@ -22,6 +22,12 @@ export default {
     properties: {
       [sponsorFields.parentObject]: {
         type: 'object',
+        required: [
+          sponsorFields.fullName,
+          sponsorFields.ssn,
+          sponsorFields.claim,
+          sponsorFields.phone,
+        ],
         properties: {
           [sponsorFields.fullName]: properties[sponsorFields.fullName],
           [sponsorFields.ssn]: properties[sponsorFields.ssn],

@@ -18,6 +18,8 @@ export default {
           hideIf: formData =>
             !formData[sponsorFields.parentObject][sponsorFields.isDeceased],
         },
+        'ui:required': formData =>
+          formData[sponsorFields.parentObject][sponsorFields.isDeceased],
       },
       [sponsorFields.isActiveServiceDeath]: {
         'ui:title': "Was the Veteran's death during active service?",
@@ -25,6 +27,8 @@ export default {
           hideIf: formData =>
             !formData[sponsorFields.parentObject][sponsorFields.isDeceased],
         },
+        'ui:required': formData =>
+          formData[sponsorFields.parentObject][sponsorFields.isDeceased],
       },
     },
   },
@@ -33,6 +37,7 @@ export default {
     properties: {
       [sponsorFields.parentObject]: {
         type: 'object',
+        required: [sponsorFields.dob],
         properties: {
           [sponsorFields.dob]: properties[sponsorFields.dob],
           [sponsorFields.dom]: properties[sponsorFields.dom],

@@ -65,7 +65,8 @@
           "type": "string",
           "enum": [
             "USA"
-          ]
+          ],
+          "default": "USA"
         },
         "street": {
           "type": "string",
@@ -211,7 +212,8 @@
           "$ref": "#/definitions/date"
         },
         "isDeceased": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "dateOfDeath": {
           "$ref": "#/definitions/date"

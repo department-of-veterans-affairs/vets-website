@@ -15,6 +15,7 @@ export default {
     properties: {
       [sponsorFields.parentObject]: {
         type: 'object',
+        required: [sponsorFields.address],
         properties: {
           [sponsorFields.address]: properties[sponsorFields.address],
         },
