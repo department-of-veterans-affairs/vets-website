@@ -160,7 +160,7 @@ const createRoutesWithStore = () => {
 
         const WrappedComponent = props => (
           /* eslint-disable react/jsx-props-no-spreading */
-          <AppWrapper {...props}>
+          <AppWrapper isPreCheckIn={false} {...props}>
             <Component {...props} />
           </AppWrapper>
           /* eslint-disable react/jsx-props-no-spreading */

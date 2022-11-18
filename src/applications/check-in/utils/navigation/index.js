@@ -94,12 +94,13 @@ const URLS = Object.freeze({
 
 const isAnInternalPage = location => {
   let valid = false;
+  const invalidPages = ['verify', 'introduction'];
   const url = location.split('/');
   // Analyze the part of the URL where internal pages are.
   const pageFromUrl = url[3];
   if (pageFromUrl && Object.values(URLS).includes(pageFromUrl)) {
     // Any page except verify is valid.
-    valid = pageFromUrl !== 'verify';
+    valid = !invalidPages.includes(pageFromUrl);
   }
 
   return valid;

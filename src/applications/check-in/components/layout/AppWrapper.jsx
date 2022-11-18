@@ -12,7 +12,7 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 import { isAnInternalPage } from '../../utils/navigation';
 
 const AppWrapper = props => {
-  const { children, router } = props;
+  const { children, router, isPreCheckIn } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const AppWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useSessionStorage(false);
+  } = useSessionStorage(isPreCheckIn);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
@@ -31,6 +31,7 @@ const AppWrapper = props => {
       refreshNeeded: false,
       appointmentsOnly: true,
       reload: true,
+      router,
     },
   );
   const [refreshData, setRefreshData] = useState(true);
@@ -100,6 +101,7 @@ const AppWrapper = props => {
 
 AppWrapper.propTypes = {
   children: PropTypes.node,
+  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 
