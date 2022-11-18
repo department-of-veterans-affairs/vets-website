@@ -145,6 +145,9 @@ const AvailableDebts = ({ formContext }) => {
 
 AvailableDebts.propTypes = {
   debts: PropTypes.array,
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
   getDebts: PropTypes.func,
   isError: PropTypes.bool,
   pendingDebts: PropTypes.bool,
