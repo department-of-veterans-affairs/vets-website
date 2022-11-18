@@ -12,25 +12,51 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [
-          { "identifier": [{ "value": "1801312053" }] }
+          {
+            "identifier": [
+              {
+                "value": "1801312053"
+              }
+            ]
+          }
         ],
-        "reasonCode": {"coding": [{"code":"Routine Follow-up"}]},
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "Routine Follow-up"
+            }
+          ]
+        },
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2022-07-16T01:30:00Z" },
-          { "start": "2022-07-17T04:00:00Z" },
-          { "start": "2022-08-17T07:00:00Z" }
+          {
+            "start": "2022-07-16T01:30:00Z"
+          },
+          {
+            "start": "2022-07-17T04:00:00Z"
+          },
+          {
+            "start": "2022-08-17T07:00:00Z"
+          }
         ],
         "contact": {
           "telecom": [
-            { "type": "phone", "value": "2125551212" },
-            { "type": "email", "value": "veteranemailtest@va.gov" }
+            {
+              "type": "phone",
+              "value": "2125551212"
+            },
+            {
+              "type": "email",
+              "value": "veteranemailtest@va.gov"
+            }
           ]
         },
-        "preferredTimesForPhoneCall": ["Morning"],
+        "preferredTimesForPhoneCall": [
+          "Morning"
+        ],
         "priority": null,
         "cancelationReason": null,
         "description": null,
@@ -50,22 +76,37 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reasonCode": {"text": "Routine Follow-up: I have a headache"},
+        "reasonCode": {
+          "text": "Routine Follow-up: I have a headache"
+        },
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2022-06-16T01:30:00Z" },
-          { "start": "2022-06-17T04:00:00Z" }
+          {
+            "start": "2022-06-16T01:30:00Z"
+          },
+          {
+            "start": "2022-06-17T04:00:00Z"
+          }
         ],
         "contact": {
           "telecom": [
-            { "type": "phone", "value": "2125551212" },
-            { "type": "email", "value": "veteranemailtest@va.gov" }
+            {
+              "type": "phone",
+              "value": "2125551212"
+            },
+            {
+              "type": "email",
+              "value": "veteranemailtest@va.gov"
+            }
           ]
         },
-        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "preferredTimesForPhoneCall": [
+          "Afternoon",
+          "Evening"
+        ],
         "priority": null,
         "cancelationReason": null,
         "description": null,
@@ -85,22 +126,37 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reasonCode": {"text": "Need telephone consult for pink eye"},
+        "reasonCode": {
+          "text": "Need telephone consult for pink eye"
+        },
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2022-07-05T01:30:00Z" },
-          { "start": "2022-07-05T04:00:00Z" }
+          {
+            "start": "2022-07-05T01:30:00Z"
+          },
+          {
+            "start": "2022-07-05T04:00:00Z"
+          }
         ],
         "contact": {
           "telecom": [
-            { "type": "phone", "value": "2125551212" },
-            { "type": "email", "value": "veteranemailtest@va.gov" }
+            {
+              "type": "phone",
+              "value": "2125551212"
+            },
+            {
+              "type": "email",
+              "value": "veteranemailtest@va.gov"
+            }
           ]
         },
-        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "preferredTimesForPhoneCall": [
+          "Afternoon",
+          "Evening"
+        ],
         "priority": null,
         "cancelationReason": null,
         "description": null,
@@ -120,22 +176,37 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": [],
-        "reasonCode": { "text": "telehealth consult" },
+        "reasonCode": {
+          "text": "telehealth consult"
+        },
         "start": null,
         "end": null,
         "minutesDuration": null,
         "slot": null,
         "requestedPeriods": [
-          { "start": "2022-06-16T01:30:00Z" },
-          { "start": "2022-06-17T04:00:00Z" }
+          {
+            "start": "2022-06-16T01:30:00Z"
+          },
+          {
+            "start": "2022-06-17T04:00:00Z"
+          }
         ],
         "contact": {
           "telecom": [
-            { "type": "phone", "value": "2125551212" },
-            { "type": "email", "value": "veteranemailtest@va.gov" }
+            {
+              "type": "phone",
+              "value": "2125551212"
+            },
+            {
+              "type": "email",
+              "value": "veteranemailtest@va.gov"
+            }
           ]
         },
-        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "preferredTimesForPhoneCall": [
+          "Afternoon",
+          "Evening"
+        ],
         "priority": null,
         "cancelationReason": null,
         "description": null,
@@ -144,17 +215,17 @@
       }
     },
     {
-      "id": "141182",
+      "id": "142277",
       "type": "appointments",
       "attributes": {
-        "id": "141182",
+        "id": "142277",
         "identifier": [
           {
             "system": "http://vista-scheduling-provider-v0.sqa:8080/vistasp/v0/Appointment/",
-            "value": "5239383339393230"
+            "value": "5239383339393436"
           }
         ],
-        "kind": "telehealth",
+        "kind": "clinic",
         "status": "proposed",
         "serviceCategory": [
           {
@@ -171,9 +242,15 @@
         "reasonCode": {
           "text": "preferred modality: telehealth|phone number: 7036753607|email: marcy.nadedau@va.gov|preferred dates:11/30/2022 AM,11/30/2022 PM,11/29/2022 AM|reason code:MEDICALISSUE|comments:test"
         },
-        "patientIcn": "1013124304V115761",
+        "patientIcn": "1013120830V747912",
         "locationId": "983",
-        "start": "2022-11-30T00:00:00Z",
+        "start": "2022-11-10T00:00:00Z",
+        "requestedPeriods": [
+          {
+            "start": "2022-11-10T00:00:00Z",
+            "end": "2022-11-10T00:00:00Z"
+          }
+        ],
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -253,7 +330,9 @@
         "clinic": null,
         "telehealth": null,
         "practitioners": null,
-        "reasonCode": {"text": "cancel this appointment"},
+        "reasonCode": {
+          "text": "cancel this appointment"
+        },
         "end": null,
         "minutesDuration": null,
         "slot": null,
@@ -265,13 +344,25 @@
         ],
         "contact": {
           "telecom": [
-            { "type": "email", "value": "jeremy.chapman@ironbow.com" },
-            { "type": "phone", "value": "5592256100" }
+            {
+              "type": "email",
+              "value": "jeremy.chapman@ironbow.com"
+            },
+            {
+              "type": "phone",
+              "value": "5592256100"
+            }
           ]
         },
         "preferredTimesForPhoneCall": null,
         "priority": null,
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "description": null,
         "comment": null,
         "created": "2022-06-29T12:00:00Z"

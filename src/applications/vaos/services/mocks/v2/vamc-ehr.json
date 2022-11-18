@@ -1,2015 +1,1677 @@
 {
-  "vamcEhrData": {
-    "loading": false,
-    "data": {
-      "ehrDataByVhaId": {
-        "402": {
-          "vhaId": "402",
-          "vamcFacilityName": "Togus VA Medical Center",
-          "vamcSystemName": "VA Maine health care",
-          "ehr": "vista"
-        },
-        "405": {
-          "vhaId": "405",
-          "vamcFacilityName": "White River Junction VA Medical Center",
-          "vamcSystemName": "VA White River Junction health care",
-          "ehr": "vista"
-        },
-        "436": {
-          "vhaId": "436",
-          "vamcFacilityName": "Fort Harrison VA Medical Center",
-          "vamcSystemName": "VA Montana health care",
-          "ehr": "vista"
-        },
-        "437": {
-          "vhaId": "437",
-          "vamcFacilityName": "Fargo VA Medical Center",
-          "vamcSystemName": "VA Fargo health care",
-          "ehr": "vista"
-        },
-        "438": {
-          "vhaId": "438",
-          "vamcFacilityName": "Royal C. Johnson Veterans\\' Memorial Hospital",
-          "vamcSystemName": "VA Sioux Falls health care",
-          "ehr": "vista"
-        },
-        "442": {
-          "vhaId": "442",
-          "vamcFacilityName": "Cheyenne VA Medical Center",
-          "vamcSystemName": "VA Cheyenne health care",
-          "ehr": "cerner"
-        },
-        "459": {
-          "vhaId": "459",
-          "vamcFacilityName": "Spark M. Matsunaga Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Pacific Islands health care",
-          "ehr": "vista"
-        },
-        "460": {
-          "vhaId": "460",
-          "vamcFacilityName": "Wilmington VA Medical Center",
-          "vamcSystemName": "VA Wilmington health care",
-          "ehr": "vista"
-        },
-        "463": {
-          "vhaId": "463",
-          "vamcFacilityName": "Anchorage VA Medical Center",
-          "vamcSystemName": "VA Alaska health care",
-          "ehr": "vista"
-        },
-        "501": {
-          "vhaId": "501",
-          "vamcFacilityName": "Raymond G. Murphy Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA New Mexico health care",
-          "ehr": "vista"
-        },
-        "502": {
-          "vhaId": "502",
-          "vamcFacilityName": "Alexandria VA Medical Center",
-          "vamcSystemName": "VA Alexandria health care",
-          "ehr": "vista"
-        },
-        "503": {
-          "vhaId": "503",
-          "vamcFacilityName": "James E. Van Zandt Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Altoona health care",
-          "ehr": "vista"
-        },
-        "504": {
-          "vhaId": "504",
-          "vamcFacilityName": "Thomas E. Creek Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Amarillo health care",
-          "ehr": "vista"
-        },
-        "506": {
-          "vhaId": "506",
-          "vamcFacilityName": "Lieutenant Colonel Charles S. Kettles VA Medical Center",
-          "vamcSystemName": "VA Ann Arbor health care",
-          "ehr": "vista"
-        },
-        "508": {
-          "vhaId": "508",
-          "vamcFacilityName": "Atlanta VA Medical Center",
-          "vamcSystemName": "VA Atlanta health care",
-          "ehr": "vista"
-        },
-        "509": {
-          "vhaId": "509",
-          "vamcFacilityName": "Charlie Norwood Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Augusta health care",
-          "ehr": "vista"
-        },
-        "512": {
-          "vhaId": "512",
-          "vamcFacilityName": "Baltimore VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        "515": {
-          "vhaId": "515",
-          "vamcFacilityName": "Battle Creek VA Medical Center",
-          "vamcSystemName": "VA Battle Creek health care",
-          "ehr": "vista"
-        },
-        "516": {
-          "vhaId": "516",
-          "vamcFacilityName": "C.W. Bill Young Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Bay Pines health care",
-          "ehr": "vista"
-        },
-        "517": {
-          "vhaId": "517",
-          "vamcFacilityName": "Beckley VA Medical Center",
-          "vamcSystemName": "VA Beckley health care",
-          "ehr": "vista"
-        },
-        "518": {
-          "vhaId": "518",
-          "vamcFacilityName": "Edith Nourse Rogers Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Bedford health care",
-          "ehr": "vista"
-        },
-        "519": {
-          "vhaId": "519",
-          "vamcFacilityName": "George H. O\\'Brien, Jr., Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA West Texas health care",
-          "ehr": "vista"
-        },
-        "520": {
-          "vhaId": "520",
-          "vamcFacilityName": "Biloxi VA Medical Center",
-          "vamcSystemName": "VA Gulf Coast health care",
-          "ehr": "vista"
-        },
-        "521": {
-          "vhaId": "521",
-          "vamcFacilityName": "Birmingham VA Medical Center",
-          "vamcSystemName": "VA Birmingham health care",
-          "ehr": "vista"
-        },
-        "523": {
-          "vhaId": "523",
-          "vamcFacilityName": "Jamaica Plain VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        "526": {
-          "vhaId": "526",
-          "vamcFacilityName": "James J. Peters Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Bronx health care",
-          "ehr": "vista"
-        },
-        "528": {
-          "vhaId": "528",
-          "vamcFacilityName": "Buffalo VA Medical Center",
-          "vamcSystemName": "VA Western New York health care",
-          "ehr": "vista"
-        },
-        "529": {
-          "vhaId": "529",
-          "vamcFacilityName": "Abie Abraham VA Clinic",
-          "vamcSystemName": "VA Butler health care",
-          "ehr": "vista"
-        },
-        "531": {
-          "vhaId": "531",
-          "vamcFacilityName": "Boise VA Medical Center",
-          "vamcSystemName": "VA Boise health care",
-          "ehr": "vista"
-        },
-        "534": {
-          "vhaId": "534",
-          "vamcFacilityName": "Ralph H. Johnson Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Charleston health care",
-          "ehr": "vista"
-        },
-        "537": {
-          "vhaId": "537",
-          "vamcFacilityName": "Jesse Brown Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Chicago health care",
-          "ehr": "vista"
-        },
-        "538": {
-          "vhaId": "538",
-          "vamcFacilityName": "Chillicothe VA Medical Center",
-          "vamcSystemName": "VA Chillicothe health care",
-          "ehr": "vista"
-        },
-        "539": {
-          "vhaId": "539",
-          "vamcFacilityName": "Cincinnati VA Medical Center",
-          "vamcSystemName": "VA Cincinnati health care",
-          "ehr": "vista"
-        },
-        "540": {
-          "vhaId": "540",
-          "vamcFacilityName": "Louis A. Johnson Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Clarksburg health care",
-          "ehr": "vista"
-        },
-        "541": {
-          "vhaId": "541",
-          "vamcFacilityName": "Louis Stokes Cleveland Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Northeast Ohio health care",
-          "ehr": "vista"
-        },
-        "542": {
-          "vhaId": "542",
-          "vamcFacilityName": "Coatesville VA Medical Center",
-          "vamcSystemName": "VA Coatesville health care",
-          "ehr": "vista"
-        },
-        "544": {
-          "vhaId": "544",
-          "vamcFacilityName": "Wm. Jennings Bryan Dorn Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Columbia South Carolina health care",
-          "ehr": "vista"
-        },
-        "546": {
-          "vhaId": "546",
-          "vamcFacilityName": "Bruce W. Carter Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Miami health care",
-          "ehr": "vista"
-        },
-        "548": {
-          "vhaId": "548",
-          "vamcFacilityName": "West Palm Beach VA Medical Center",
-          "vamcSystemName": "VA West Palm Beach health care",
-          "ehr": "vista"
-        },
-        "549": {
-          "vhaId": "549",
-          "vamcFacilityName": "Dallas VA Medical Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        "550": {
-          "vhaId": "550",
-          "vamcFacilityName": "Danville VA Medical Center",
-          "vamcSystemName": "VA Illiana health care",
-          "ehr": "vista"
-        },
-        "552": {
-          "vhaId": "552",
-          "vamcFacilityName": "Dayton VA Medical Center",
-          "vamcSystemName": "VA Dayton health care",
-          "ehr": "cerner"
-        },
-        "553": {
-          "vhaId": "553",
-          "vamcFacilityName": "John D. Dingell Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Detroit health care",
-          "ehr": "vista"
-        },
-        "554": {
-          "vhaId": "554",
-          "vamcFacilityName": "Rocky Mountain Regional VA Medical Center",
-          "vamcSystemName": "VA Eastern Colorado health care",
-          "ehr": "vista"
-        },
-        "557": {
-          "vhaId": "557",
-          "vamcFacilityName": "Carl Vinson Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Dublin health care",
-          "ehr": "vista"
-        },
-        "558": {
-          "vhaId": "558",
-          "vamcFacilityName": "Durham VA Medical Center",
-          "vamcSystemName": "VA Durham health care",
-          "ehr": "vista"
-        },
-        "561": {
-          "vhaId": "561",
-          "vamcFacilityName": "East Orange VA Medical Center",
-          "vamcSystemName": "VA New Jersey health care",
-          "ehr": "vista"
-        },
-        "562": {
-          "vhaId": "562",
-          "vamcFacilityName": "Erie VA Medical Center",
-          "vamcSystemName": "VA Erie health care",
-          "ehr": "vista"
-        },
-        "564": {
-          "vhaId": "564",
-          "vamcFacilityName": "Fayetteville VA Medical Center",
-          "vamcSystemName": "VA Fayetteville Arkansas health care",
-          "ehr": "vista"
-        },
-        "565": {
-          "vhaId": "565",
-          "vamcFacilityName": "Fayetteville VA Medical Center",
-          "vamcSystemName": "VA Fayetteville Coastal health care",
-          "ehr": "vista"
-        },
-        "568": {
-          "vhaId": "568",
-          "vamcFacilityName": "Fort Meade VA Medical Center",
-          "vamcSystemName": "VA Black Hills health care",
-          "ehr": "vista"
-        },
-        "570": {
-          "vhaId": "570",
-          "vamcFacilityName": "Fresno VA Medical Center",
-          "vamcSystemName": "VA Central California health care",
-          "ehr": "vista"
-        },
-        "573": {
-          "vhaId": "573",
-          "vamcFacilityName": "Malcom Randall Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA North Florida/South Georgia health care",
-          "ehr": "vista"
-        },
-        "575": {
-          "vhaId": "575",
-          "vamcFacilityName": "Grand Junction VA Medical Center",
-          "vamcSystemName": "VA Western Colorado health care",
-          "ehr": "vista"
-        },
-        "578": {
-          "vhaId": "578",
-          "vamcFacilityName": "Edward Hines Junior Hospital",
-          "vamcSystemName": "VA Hines health care",
-          "ehr": "vista"
-        },
-        "580": {
-          "vhaId": "580",
-          "vamcFacilityName": "Michael E. DeBakey Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Houston health care",
-          "ehr": "vista"
-        },
-        "581": {
-          "vhaId": "581",
-          "vamcFacilityName": "Hershel \"Woody\" Williams VA Medical Center",
-          "vamcSystemName": "VA Huntington health care",
-          "ehr": "vista"
-        },
-        "583": {
-          "vhaId": "583",
-          "vamcFacilityName": "Richard L. Roudebush Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Indiana health care",
-          "ehr": "vista"
-        },
-        "585": {
-          "vhaId": "585",
-          "vamcFacilityName": "Oscar G. Johnson Department of Veterans Affairs Medical Facility",
-          "vamcSystemName": "VA Iron Mountain health care",
-          "ehr": "vista"
-        },
-        "586": {
-          "vhaId": "586",
-          "vamcFacilityName": "G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Jackson health care",
-          "ehr": "vista"
-        },
-        "589": {
-          "vhaId": "589",
-          "vamcFacilityName": "Kansas City VA Medical Center",
-          "vamcSystemName": "VA Kansas City health care",
-          "ehr": "vista"
-        },
-        "590": {
-          "vhaId": "590",
-          "vamcFacilityName": "Hampton VA Medical Center",
-          "vamcSystemName": "VA Hampton health care",
-          "ehr": "vista"
-        },
-        "593": {
-          "vhaId": "593",
-          "vamcFacilityName": "North Las Vegas VA Medical Center",
-          "vamcSystemName": "VA Southern Nevada health care",
-          "ehr": "vista"
-        },
-        "595": {
-          "vhaId": "595",
-          "vamcFacilityName": "Lebanon VA Medical Center",
-          "vamcSystemName": "VA Lebanon health care",
-          "ehr": "vista"
-        },
-        "596": {
-          "vhaId": "596",
-          "vamcFacilityName": "Franklin R. Sousley Campus",
-          "vamcSystemName": "VA Lexington health care",
-          "ehr": "vista"
-        },
-        "598": {
-          "vhaId": "598",
-          "vamcFacilityName": "John L. McClellan Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Central Arkansas health care",
-          "ehr": "vista"
-        },
-        "600": {
-          "vhaId": "600",
-          "vamcFacilityName": "Tibor Rubin VA Medical Center",
-          "vamcSystemName": "VA Long Beach health care",
-          "ehr": "vista"
-        },
-        "603": {
-          "vhaId": "603",
-          "vamcFacilityName": "Robley Rex Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Louisville health care",
-          "ehr": "vista"
-        },
-        "605": {
-          "vhaId": "605",
-          "vamcFacilityName": "Jerry L. Pettis Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Loma Linda health care",
-          "ehr": "vista"
-        },
-        "607": {
-          "vhaId": "607",
-          "vamcFacilityName": "William S. Middleton Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Madison health care",
-          "ehr": "vista"
-        },
-        "608": {
-          "vhaId": "608",
-          "vamcFacilityName": "Manchester VA Medical Center",
-          "vamcSystemName": "VA Manchester health care",
-          "ehr": "vista"
-        },
-        "610": {
-          "vhaId": "610",
-          "vamcFacilityName": "Marion VA Medical Center",
-          "vamcSystemName": "VA Northern Indiana health care",
-          "ehr": "vista"
-        },
-        "613": {
-          "vhaId": "613",
-          "vamcFacilityName": "Martinsburg VA Medical Center",
-          "vamcSystemName": "VA Martinsburg health care",
-          "ehr": "vista"
-        },
-        "614": {
-          "vhaId": "614",
-          "vamcFacilityName": "Memphis VA Medical Center",
-          "vamcSystemName": "VA Memphis health care",
-          "ehr": "vista"
-        },
-        "618": {
-          "vhaId": "618",
-          "vamcFacilityName": "Minneapolis VA Medical Center",
-          "vamcSystemName": "VA Minneapolis health care",
-          "ehr": "vista"
-        },
-        "619": {
-          "vhaId": "619",
-          "vamcFacilityName": "Central Alabama VA Medical Center-Montgomery",
-          "vamcSystemName": "VA Central Alabama health care",
-          "ehr": "vista"
-        },
-        "620": {
-          "vhaId": "620",
-          "vamcFacilityName": "Franklin Delano Roosevelt Hospital",
-          "vamcSystemName": "VA Hudson Valley health care",
-          "ehr": "vista"
-        },
-        "621": {
-          "vhaId": "621",
-          "vamcFacilityName": "James H. Quillen Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Mountain Home health care",
-          "ehr": "vista"
-        },
-        "623": {
-          "vhaId": "623",
-          "vamcFacilityName": "Jack C. Montgomery Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Eastern Oklahoma health care",
-          "ehr": "vista"
-        },
-        "626": {
-          "vhaId": "626",
-          "vamcFacilityName": "Nashville VA Medical Center",
-          "vamcSystemName": "VA Tennessee Valley health care",
-          "ehr": "vista"
-        },
-        "629": {
-          "vhaId": "629",
-          "vamcFacilityName": "New Orleans VA Medical Center",
-          "vamcSystemName": "VA Southeast Louisiana health care",
-          "ehr": "vista"
-        },
-        "630": {
-          "vhaId": "630",
-          "vamcFacilityName": "Margaret Cochran Corbin VA Campus",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        "631": {
-          "vhaId": "631",
-          "vamcFacilityName": "Edward P. Boland Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Central Western Massachusetts health care",
-          "ehr": "vista"
-        },
-        "632": {
-          "vhaId": "632",
-          "vamcFacilityName": "Northport VA Medical Center",
-          "vamcSystemName": "VA Northport health care",
-          "ehr": "vista"
-        },
-        "635": {
-          "vhaId": "635",
-          "vamcFacilityName": "Oklahoma City VA Medical Center",
-          "vamcSystemName": "VA Oklahoma City health care",
-          "ehr": "vista"
-        },
-        "636": {
-          "vhaId": "636",
-          "vamcFacilityName": "Omaha VA Medical Center",
-          "vamcSystemName": "VA Nebraska-Western Iowa health care",
-          "ehr": "vista"
-        },
-        "637": {
-          "vhaId": "637",
-          "vamcFacilityName": "Charles George Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Asheville health care",
-          "ehr": "vista"
-        },
-        "640": {
-          "vhaId": "640",
-          "vamcFacilityName": "Palo Alto VA Medical Center",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        "642": {
-          "vhaId": "642",
-          "vamcFacilityName": "Corporal Michael J. Crescenz Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Philadelphia health care",
-          "ehr": "vista"
-        },
-        "644": {
-          "vhaId": "644",
-          "vamcFacilityName": "Carl T. Hayden Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Phoenix health care",
-          "ehr": "vista"
-        },
-        "646": {
-          "vhaId": "646",
-          "vamcFacilityName": "Pittsburgh VA Medical Center-University Drive",
-          "vamcSystemName": "VA Pittsburgh health care",
-          "ehr": "vista"
-        },
-        "648": {
-          "vhaId": "648",
-          "vamcFacilityName": "Portland VA Medical Center",
-          "vamcSystemName": "VA Portland health care",
-          "ehr": "vista"
-        },
-        "649": {
-          "vhaId": "649",
-          "vamcFacilityName": "Bob Stump Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Northern Arizona health care",
-          "ehr": "vista"
-        },
-        "650": {
-          "vhaId": "650",
-          "vamcFacilityName": "Providence VA Medical Center",
-          "vamcSystemName": "VA Providence health care",
-          "ehr": "vista"
-        },
-        "652": {
-          "vhaId": "652",
-          "vamcFacilityName": "Hunter Holmes McGuire Hospital",
-          "vamcSystemName": "VA Richmond health care",
-          "ehr": "vista"
-        },
-        "653": {
-          "vhaId": "653",
-          "vamcFacilityName": "Roseburg VA Medical Center",
-          "vamcSystemName": "VA Roseburg health care",
-          "ehr": "cerner"
-        },
-        "654": {
-          "vhaId": "654",
-          "vamcFacilityName": "Ioannis A. Lougaris Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Sierra Nevada health care",
-          "ehr": "vista"
-        },
-        "655": {
-          "vhaId": "655",
-          "vamcFacilityName": "Aleda E. Lutz Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Saginaw health care",
-          "ehr": "vista"
-        },
-        "656": {
-          "vhaId": "656",
-          "vamcFacilityName": "St. Cloud VA Medical Center",
-          "vamcSystemName": "VA St Cloud health care",
-          "ehr": "vista"
-        },
-        "657": {
-          "vhaId": "657",
-          "vamcFacilityName": "John J. Cochran Veterans Hospital",
-          "vamcSystemName": "VA St Louis health care",
-          "ehr": "vista"
-        },
-        "658": {
-          "vhaId": "658",
-          "vamcFacilityName": "Salem VA Medical Center",
-          "vamcSystemName": "VA Salem health care",
-          "ehr": "vista"
-        },
-        "659": {
-          "vhaId": "659",
-          "vamcFacilityName": "W.G. (Bill) Hefner Salisbury Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Salisbury health care",
-          "ehr": "vista"
-        },
-        "660": {
-          "vhaId": "660",
-          "vamcFacilityName": "George E. Wahlen Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Salt Lake City health care",
-          "ehr": "vista"
-        },
-        "662": {
-          "vhaId": "662",
-          "vamcFacilityName": "San Francisco VA Medical Center",
-          "vamcSystemName": "VA San Francisco health care",
-          "ehr": "vista"
-        },
-        "663": {
-          "vhaId": "663",
-          "vamcFacilityName": "Seattle VA Medical Center",
-          "vamcSystemName": "VA Puget Sound health care",
-          "ehr": "vista"
-        },
-        "664": {
-          "vhaId": "664",
-          "vamcFacilityName": "Jennifer Moreno Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA San Diego health care",
-          "ehr": "vista"
-        },
-        "666": {
-          "vhaId": "666",
-          "vamcFacilityName": "Sheridan VA Medical Center",
-          "vamcSystemName": "VA Sheridan health care",
-          "ehr": "vista"
-        },
-        "667": {
-          "vhaId": "667",
-          "vamcFacilityName": "Overton Brooks Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Shreveport health care",
-          "ehr": "vista"
-        },
-        "668": {
-          "vhaId": "668",
-          "vamcFacilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Spokane health care",
-          "ehr": "cerner"
-        },
-        "671": {
-          "vhaId": "671",
-          "vamcFacilityName": "Audie L. Murphy Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA South Texas health care",
-          "ehr": "vista"
-        },
-        "672": {
-          "vhaId": "672",
-          "vamcFacilityName": "San Juan VA Medical Center",
-          "vamcSystemName": "VA Caribbean health care",
-          "ehr": "vista"
-        },
-        "673": {
-          "vhaId": "673",
-          "vamcFacilityName": "James A. Haley Veterans\\' Hospital",
-          "vamcSystemName": "VA Tampa health care",
-          "ehr": "vista"
-        },
-        "674": {
-          "vhaId": "674",
-          "vamcFacilityName": "Olin E. Teague Veterans\\' Center",
-          "vamcSystemName": "VA Central Texas health care",
-          "ehr": "vista"
-        },
-        "675": {
-          "vhaId": "675",
-          "vamcFacilityName": "Orlando VA Medical Center",
-          "vamcSystemName": "VA Orlando health care",
-          "ehr": "vista"
-        },
-        "676": {
-          "vhaId": "676",
-          "vamcFacilityName": "Tomah VA Medical Center",
-          "vamcSystemName": "VA Tomah health care",
-          "ehr": "vista"
-        },
-        "678": {
-          "vhaId": "678",
-          "vamcFacilityName": "Tucson VA Medical Center",
-          "vamcSystemName": "VA Southern Arizona health care",
-          "ehr": "vista"
-        },
-        "679": {
-          "vhaId": "679",
-          "vamcFacilityName": "Tuscaloosa VA Medical Center",
-          "vamcSystemName": "VA Tuscaloosa health care",
-          "ehr": "vista"
-        },
-        "687": {
-          "vhaId": "687",
-          "vamcFacilityName": "Jonathan M. Wainwright Memorial VA Medical Center",
-          "vamcSystemName": "VA Walla Walla health care",
-          "ehr": "cerner"
-        },
-        "688": {
-          "vhaId": "688",
-          "vamcFacilityName": "Washington VA Medical Center",
-          "vamcSystemName": "VA Washington DC health care",
-          "ehr": "vista"
-        },
-        "689": {
-          "vhaId": "689",
-          "vamcFacilityName": "West Haven VA Medical Center",
-          "vamcSystemName": "VA Connecticut health care",
-          "ehr": "vista"
-        },
-        "691": {
-          "vhaId": "691",
-          "vamcFacilityName": "West Los Angeles VA Medical Center",
-          "vamcSystemName": "VA Greater Los Angeles health care",
-          "ehr": "vista"
-        },
-        "692": {
-          "vhaId": "692",
-          "vamcFacilityName": "White City VA Medical Center",
-          "vamcSystemName": "VA Southern Oregon health care",
-          "ehr": "cerner"
-        },
-        "693": {
-          "vhaId": "693",
-          "vamcFacilityName": "Wilkes-Barre VA Medical Center",
-          "vamcSystemName": "VA Wilkes-Barre health care",
-          "ehr": "vista"
-        },
-        "695": {
-          "vhaId": "695",
-          "vamcFacilityName": "Clement J. Zablocki Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Milwaukee health care",
-          "ehr": "vista"
-        },
-        "740": {
-          "vhaId": "740",
-          "vamcFacilityName": "Harlingen VA Clinic",
-          "vamcSystemName": "VA Texas Valley health care",
-          "ehr": "vista"
-        },
-        "756": {
-          "vhaId": "756",
-          "vamcFacilityName": "El Paso VA Clinic",
-          "vamcSystemName": "VA El Paso health care",
-          "ehr": "vista"
-        },
-        "757": {
-          "vhaId": "757",
-          "vamcFacilityName": "Chalmers P. Wylie Veterans Outpatient Clinic",
-          "vamcSystemName": "VA Central Ohio health care",
-          "ehr": "cerner"
-        },
-        "646A4": {
-          "vhaId": "646A4",
-          "vamcFacilityName": "H. John Heinz III Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Pittsburgh health care",
-          "ehr": "vista"
-        },
-        "405HA": {
-          "vhaId": "405HA",
-          "vamcFacilityName": "Burlington Lakeside VA Clinic",
-          "vamcSystemName": "VA White River Junction health care",
-          "ehr": "vista"
-        },
-        "523A4": {
-          "vhaId": "523A4",
-          "vamcFacilityName": "West Roxbury VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        "523A5": {
-          "vhaId": "523A5",
-          "vamcFacilityName": "Brockton VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        "528A5": {
-          "vhaId": "528A5",
-          "vamcFacilityName": "Canandaigua VA Medical Center",
-          "vamcSystemName": "VA Finger Lakes health care",
-          "ehr": "vista"
-        },
-        "528A6": {
-          "vhaId": "528A6",
-          "vamcFacilityName": "Bath VA Medical Center",
-          "vamcSystemName": "VA Finger Lakes health care",
-          "ehr": "vista"
-        },
-        "528A7": {
-          "vhaId": "528A7",
-          "vamcFacilityName": "Syracuse VA Medical Center",
-          "vamcSystemName": "VA Syracuse health care",
-          "ehr": "vista"
-        },
-        "528A8": {
-          "vhaId": "528A8",
-          "vamcFacilityName": "Samuel S. Stratton Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Albany health care",
-          "ehr": "vista"
-        },
-        "549A4": {
-          "vhaId": "549A4",
-          "vamcFacilityName": "Sam Rayburn Memorial Veterans Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        "561A4": {
-          "vhaId": "561A4",
-          "vamcFacilityName": "Lyons VA Medical Center",
-          "vamcSystemName": "VA New Jersey health care",
-          "ehr": "vista"
-        },
-        "568A4": {
-          "vhaId": "568A4",
-          "vamcFacilityName": "Hot Springs VA Medical Center",
-          "vamcSystemName": "VA Black Hills health care",
-          "ehr": "vista"
-        },
-        "573A4": {
-          "vhaId": "573A4",
-          "vamcFacilityName": "Lake City VA Medical Center",
-          "vamcSystemName": "VA North Florida/South Georgia health care",
-          "ehr": "vista"
-        },
-        "581QB": {
-          "vhaId": "581QB",
-          "vamcFacilityName": "Huntington VA Mobile Clinic",
-          "vamcSystemName": "VA Huntington health care",
-          "ehr": "vista"
-        },
-        "589A4": {
-          "vhaId": "589A4",
-          "vamcFacilityName": "Harry S. Truman Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Columbia Missouri health care",
-          "ehr": "vista"
-        },
-        "589A7": {
-          "vhaId": "589A7",
-          "vamcFacilityName": "Robert J. Dole Department of Veterans Affairs Medical and Regional Office Center",
-          "vamcSystemName": "VA Wichita health care",
-          "ehr": "vista"
-        },
-        "596A4": {
-          "vhaId": "596A4",
-          "vamcFacilityName": "Troy Bowling Campus",
-          "vamcSystemName": "VA Lexington health care",
-          "ehr": "vista"
-        },
-        "610A4": {
-          "vhaId": "610A4",
-          "vamcFacilityName": "Fort Wayne VA Medical Center",
-          "vamcSystemName": "VA Northern Indiana health care",
-          "ehr": "vista"
-        },
-        "612A4": {
-          "vhaId": "612A4",
-          "vamcFacilityName": "Sacramento VA Medical Center",
-          "vamcSystemName": "VA Northern California health care",
-          "ehr": "vista"
-        },
-        "612GF": {
-          "vhaId": "612GF",
-          "vamcFacilityName": "Martinez VA Medical Center",
-          "vamcSystemName": "VA Northern California health care",
-          "ehr": "vista"
-        },
-        "620A4": {
-          "vhaId": "620A4",
-          "vamcFacilityName": "Castle Point VA Medical Center",
-          "vamcSystemName": "VA Hudson Valley health care",
-          "ehr": "vista"
-        },
-        "626A4": {
-          "vhaId": "626A4",
-          "vamcFacilityName": "Alvin C. York Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Tennessee Valley health care",
-          "ehr": "vista"
-        },
-        "630A4": {
-          "vhaId": "630A4",
-          "vamcFacilityName": "Brooklyn VA Medical Center",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        "630A5": {
-          "vhaId": "630A5",
-          "vamcFacilityName": "St. Albans VA Medical Center",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        "636A6": {
-          "vhaId": "636A6",
-          "vamcFacilityName": "Des Moines VA Medical Center",
-          "vamcSystemName": "VA Central Iowa health care",
-          "ehr": "vista"
-        },
-        "636A8": {
-          "vhaId": "636A8",
-          "vamcFacilityName": "Iowa City VA Medical Center",
-          "vamcSystemName": "VA Iowa City health care",
-          "ehr": "vista"
-        },
-        "640A0": {
-          "vhaId": "640A0",
-          "vamcFacilityName": "Palo Alto VA Medical Center-Menlo Park",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        "640A4": {
-          "vhaId": "640A4",
-          "vamcFacilityName": "Palo Alto VA Medical Center-Livermore",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        "648A4": {
-          "vhaId": "648A4",
-          "vamcFacilityName": "Portland VA Medical Center-Vancouver",
-          "vamcSystemName": "VA Portland health care",
-          "ehr": "vista"
-        },
-        "657A0": {
-          "vhaId": "657A0",
-          "vamcFacilityName": "St. Louis VA Medical Center-Jefferson Barracks",
-          "vamcSystemName": "VA St Louis health care",
-          "ehr": "vista"
-        },
-        "657A4": {
-          "vhaId": "657A4",
-          "vamcFacilityName": "John J. Pershing Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Poplar Bluff health care",
-          "ehr": "vista"
-        },
-        "657A5": {
-          "vhaId": "657A5",
-          "vamcFacilityName": "Marion VA Medical Center",
-          "vamcSystemName": "VA Marion health care",
-          "ehr": "vista"
-        },
-        "663A4": {
-          "vhaId": "663A4",
-          "vamcFacilityName": "American Lake VA Medical Center",
-          "vamcSystemName": "VA Puget Sound health care",
-          "ehr": "vista"
-        },
-        "756QB": {
-          "vhaId": "756QB",
-          "vamcFacilityName": "El Paso Central VA Clinic",
-          "vamcSystemName": "VA El Paso health care",
-          "ehr": "vista"
-        },
-        "549A5": {
-          "vhaId": "549A5",
-          "vamcFacilityName": "Garland VA Medical Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        "674A4": {
-          "vhaId": "674A4",
-          "vamcFacilityName": "Doris Miller Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Central Texas health care",
-          "ehr": "vista"
-        },
-        "589A5": {
-          "vhaId": "589A5",
-          "vamcFacilityName": "Colmery-O\\'Neil Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Eastern Kansas health care",
-          "ehr": "vista"
-        },
-        "589A6": {
-          "vhaId": "589A6",
-          "vamcFacilityName": "Dwight D. Eisenhower Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Eastern Kansas health care",
-          "ehr": "vista"
-        },
-        "512GD": {
-          "vhaId": "512GD",
-          "vamcFacilityName": "Loch Raven VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        "512A5": {
-          "vhaId": "512A5",
-          "vamcFacilityName": "Perry Point VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        "619A4": {
-          "vhaId": "619A4",
-          "vamcFacilityName": "Central Alabama VA Medical Center-Tuskegee",
-          "vamcSystemName": "VA Central Alabama health care",
-          "ehr": "vista"
-        }
-      },
-      "cernerFacilities": [
-        {
-          "vhaId": "442",
-          "vamcFacilityName": "Cheyenne VA Medical Center",
-          "vamcSystemName": "VA Cheyenne health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "552",
-          "vamcFacilityName": "Dayton VA Medical Center",
-          "vamcSystemName": "VA Dayton health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "653",
-          "vamcFacilityName": "Roseburg VA Medical Center",
-          "vamcSystemName": "VA Roseburg health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "687",
-          "vamcFacilityName": "Jonathan M. Wainwright Memorial VA Medical Center",
-          "vamcSystemName": "VA Walla Walla health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "692",
-          "vamcFacilityName": "White City VA Medical Center",
-          "vamcSystemName": "VA Southern Oregon health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "757",
-          "vamcFacilityName": "Chalmers P. Wylie Veterans Outpatient Clinic",
-          "vamcSystemName": "VA Central Ohio health care",
-          "ehr": "cerner"
-        },
-        {
-          "vhaId": "668",
-          "vamcFacilityName": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Spokane health care",
-          "ehr": "cerner"
-        }
-      ],
-      "vistaFacilities": [
-        {
-          "vhaId": "646",
-          "vamcFacilityName": "Pittsburgh VA Medical Center-University Drive",
-          "vamcSystemName": "VA Pittsburgh health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "646A4",
-          "vamcFacilityName": "H. John Heinz III Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Pittsburgh health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "405",
-          "vamcFacilityName": "White River Junction VA Medical Center",
-          "vamcSystemName": "VA White River Junction health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "405HA",
-          "vamcFacilityName": "Burlington Lakeside VA Clinic",
-          "vamcSystemName": "VA White River Junction health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "436",
-          "vamcFacilityName": "Fort Harrison VA Medical Center",
-          "vamcSystemName": "VA Montana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "437",
-          "vamcFacilityName": "Fargo VA Medical Center",
-          "vamcSystemName": "VA Fargo health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "438",
-          "vamcFacilityName": "Royal C. Johnson Veterans\\' Memorial Hospital",
-          "vamcSystemName": "VA Sioux Falls health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "459",
-          "vamcFacilityName": "Spark M. Matsunaga Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Pacific Islands health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "460",
-          "vamcFacilityName": "Wilmington VA Medical Center",
-          "vamcSystemName": "VA Wilmington health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "463",
-          "vamcFacilityName": "Anchorage VA Medical Center",
-          "vamcSystemName": "VA Alaska health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "501",
-          "vamcFacilityName": "Raymond G. Murphy Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA New Mexico health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "502",
-          "vamcFacilityName": "Alexandria VA Medical Center",
-          "vamcSystemName": "VA Alexandria health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "503",
-          "vamcFacilityName": "James E. Van Zandt Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Altoona health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "504",
-          "vamcFacilityName": "Thomas E. Creek Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Amarillo health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "508",
-          "vamcFacilityName": "Atlanta VA Medical Center",
-          "vamcSystemName": "VA Atlanta health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "509",
-          "vamcFacilityName": "Charlie Norwood Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Augusta health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "515",
-          "vamcFacilityName": "Battle Creek VA Medical Center",
-          "vamcSystemName": "VA Battle Creek health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "517",
-          "vamcFacilityName": "Beckley VA Medical Center",
-          "vamcSystemName": "VA Beckley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "518",
-          "vamcFacilityName": "Edith Nourse Rogers Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Bedford health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "519",
-          "vamcFacilityName": "George H. O\\'Brien, Jr., Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA West Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "520",
-          "vamcFacilityName": "Biloxi VA Medical Center",
-          "vamcSystemName": "VA Gulf Coast health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "521",
-          "vamcFacilityName": "Birmingham VA Medical Center",
-          "vamcSystemName": "VA Birmingham health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "523",
-          "vamcFacilityName": "Jamaica Plain VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "523A4",
-          "vamcFacilityName": "West Roxbury VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "523A5",
-          "vamcFacilityName": "Brockton VA Medical Center",
-          "vamcSystemName": "VA Boston health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "526",
-          "vamcFacilityName": "James J. Peters Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Bronx health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "528",
-          "vamcFacilityName": "Buffalo VA Medical Center",
-          "vamcSystemName": "VA Western New York health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "528A5",
-          "vamcFacilityName": "Canandaigua VA Medical Center",
-          "vamcSystemName": "VA Finger Lakes health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "528A6",
-          "vamcFacilityName": "Bath VA Medical Center",
-          "vamcSystemName": "VA Finger Lakes health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "528A7",
-          "vamcFacilityName": "Syracuse VA Medical Center",
-          "vamcSystemName": "VA Syracuse health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "528A8",
-          "vamcFacilityName": "Samuel S. Stratton Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Albany health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "529",
-          "vamcFacilityName": "Abie Abraham VA Clinic",
-          "vamcSystemName": "VA Butler health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "531",
-          "vamcFacilityName": "Boise VA Medical Center",
-          "vamcSystemName": "VA Boise health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "534",
-          "vamcFacilityName": "Ralph H. Johnson Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Charleston health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "537",
-          "vamcFacilityName": "Jesse Brown Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Chicago health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "538",
-          "vamcFacilityName": "Chillicothe VA Medical Center",
-          "vamcSystemName": "VA Chillicothe health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "539",
-          "vamcFacilityName": "Cincinnati VA Medical Center",
-          "vamcSystemName": "VA Cincinnati health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "540",
-          "vamcFacilityName": "Louis A. Johnson Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Clarksburg health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "541",
-          "vamcFacilityName": "Louis Stokes Cleveland Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Northeast Ohio health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "542",
-          "vamcFacilityName": "Coatesville VA Medical Center",
-          "vamcSystemName": "VA Coatesville health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "544",
-          "vamcFacilityName": "Wm. Jennings Bryan Dorn Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Columbia South Carolina health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "546",
-          "vamcFacilityName": "Bruce W. Carter Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Miami health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "548",
-          "vamcFacilityName": "West Palm Beach VA Medical Center",
-          "vamcSystemName": "VA West Palm Beach health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "549",
-          "vamcFacilityName": "Dallas VA Medical Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "549A4",
-          "vamcFacilityName": "Sam Rayburn Memorial Veterans Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "550",
-          "vamcFacilityName": "Danville VA Medical Center",
-          "vamcSystemName": "VA Illiana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "553",
-          "vamcFacilityName": "John D. Dingell Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Detroit health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "554",
-          "vamcFacilityName": "Rocky Mountain Regional VA Medical Center",
-          "vamcSystemName": "VA Eastern Colorado health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "558",
-          "vamcFacilityName": "Durham VA Medical Center",
-          "vamcSystemName": "VA Durham health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "561",
-          "vamcFacilityName": "East Orange VA Medical Center",
-          "vamcSystemName": "VA New Jersey health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "561A4",
-          "vamcFacilityName": "Lyons VA Medical Center",
-          "vamcSystemName": "VA New Jersey health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "562",
-          "vamcFacilityName": "Erie VA Medical Center",
-          "vamcSystemName": "VA Erie health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "564",
-          "vamcFacilityName": "Fayetteville VA Medical Center",
-          "vamcSystemName": "VA Fayetteville Arkansas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "565",
-          "vamcFacilityName": "Fayetteville VA Medical Center",
-          "vamcSystemName": "VA Fayetteville Coastal health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "568",
-          "vamcFacilityName": "Fort Meade VA Medical Center",
-          "vamcSystemName": "VA Black Hills health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "568A4",
-          "vamcFacilityName": "Hot Springs VA Medical Center",
-          "vamcSystemName": "VA Black Hills health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "570",
-          "vamcFacilityName": "Fresno VA Medical Center",
-          "vamcSystemName": "VA Central California health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "573",
-          "vamcFacilityName": "Malcom Randall Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA North Florida/South Georgia health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "573A4",
-          "vamcFacilityName": "Lake City VA Medical Center",
-          "vamcSystemName": "VA North Florida/South Georgia health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "575",
-          "vamcFacilityName": "Grand Junction VA Medical Center",
-          "vamcSystemName": "VA Western Colorado health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "578",
-          "vamcFacilityName": "Edward Hines Junior Hospital",
-          "vamcSystemName": "VA Hines health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "580",
-          "vamcFacilityName": "Michael E. DeBakey Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Houston health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "581",
-          "vamcFacilityName": "Hershel \"Woody\" Williams VA Medical Center",
-          "vamcSystemName": "VA Huntington health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "581QB",
-          "vamcFacilityName": "Huntington VA Mobile Clinic",
-          "vamcSystemName": "VA Huntington health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "583",
-          "vamcFacilityName": "Richard L. Roudebush Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Indiana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "585",
-          "vamcFacilityName": "Oscar G. Johnson Department of Veterans Affairs Medical Facility",
-          "vamcSystemName": "VA Iron Mountain health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "586",
-          "vamcFacilityName": "G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Jackson health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "589",
-          "vamcFacilityName": "Kansas City VA Medical Center",
-          "vamcSystemName": "VA Kansas City health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "589A4",
-          "vamcFacilityName": "Harry S. Truman Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Columbia Missouri health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "589A7",
-          "vamcFacilityName": "Robert J. Dole Department of Veterans Affairs Medical and Regional Office Center",
-          "vamcSystemName": "VA Wichita health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "590",
-          "vamcFacilityName": "Hampton VA Medical Center",
-          "vamcSystemName": "VA Hampton health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "593",
-          "vamcFacilityName": "North Las Vegas VA Medical Center",
-          "vamcSystemName": "VA Southern Nevada health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "595",
-          "vamcFacilityName": "Lebanon VA Medical Center",
-          "vamcSystemName": "VA Lebanon health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "596",
-          "vamcFacilityName": "Franklin R. Sousley Campus",
-          "vamcSystemName": "VA Lexington health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "596A4",
-          "vamcFacilityName": "Troy Bowling Campus",
-          "vamcSystemName": "VA Lexington health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "598",
-          "vamcFacilityName": "John L. McClellan Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Central Arkansas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "600",
-          "vamcFacilityName": "Tibor Rubin VA Medical Center",
-          "vamcSystemName": "VA Long Beach health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "603",
-          "vamcFacilityName": "Robley Rex Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Louisville health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "605",
-          "vamcFacilityName": "Jerry L. Pettis Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Loma Linda health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "607",
-          "vamcFacilityName": "William S. Middleton Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA Madison health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "608",
-          "vamcFacilityName": "Manchester VA Medical Center",
-          "vamcSystemName": "VA Manchester health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "610",
-          "vamcFacilityName": "Marion VA Medical Center",
-          "vamcSystemName": "VA Northern Indiana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "610A4",
-          "vamcFacilityName": "Fort Wayne VA Medical Center",
-          "vamcSystemName": "VA Northern Indiana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "612A4",
-          "vamcFacilityName": "Sacramento VA Medical Center",
-          "vamcSystemName": "VA Northern California health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "612GF",
-          "vamcFacilityName": "Martinez VA Medical Center",
-          "vamcSystemName": "VA Northern California health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "613",
-          "vamcFacilityName": "Martinsburg VA Medical Center",
-          "vamcSystemName": "VA Martinsburg health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "614",
-          "vamcFacilityName": "Memphis VA Medical Center",
-          "vamcSystemName": "VA Memphis health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "618",
-          "vamcFacilityName": "Minneapolis VA Medical Center",
-          "vamcSystemName": "VA Minneapolis health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "620",
-          "vamcFacilityName": "Franklin Delano Roosevelt Hospital",
-          "vamcSystemName": "VA Hudson Valley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "620A4",
-          "vamcFacilityName": "Castle Point VA Medical Center",
-          "vamcSystemName": "VA Hudson Valley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "621",
-          "vamcFacilityName": "James H. Quillen Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Mountain Home health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "623",
-          "vamcFacilityName": "Jack C. Montgomery Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Eastern Oklahoma health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "626",
-          "vamcFacilityName": "Nashville VA Medical Center",
-          "vamcSystemName": "VA Tennessee Valley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "626A4",
-          "vamcFacilityName": "Alvin C. York Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Tennessee Valley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "629",
-          "vamcFacilityName": "New Orleans VA Medical Center",
-          "vamcSystemName": "VA Southeast Louisiana health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "630",
-          "vamcFacilityName": "Margaret Cochran Corbin VA Campus",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "630A4",
-          "vamcFacilityName": "Brooklyn VA Medical Center",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "630A5",
-          "vamcFacilityName": "St. Albans VA Medical Center",
-          "vamcSystemName": "VA New York Harbor health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "631",
-          "vamcFacilityName": "Edward P. Boland Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Central Western Massachusetts health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "632",
-          "vamcFacilityName": "Northport VA Medical Center",
-          "vamcSystemName": "VA Northport health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "635",
-          "vamcFacilityName": "Oklahoma City VA Medical Center",
-          "vamcSystemName": "VA Oklahoma City health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "636",
-          "vamcFacilityName": "Omaha VA Medical Center",
-          "vamcSystemName": "VA Nebraska-Western Iowa health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "636A6",
-          "vamcFacilityName": "Des Moines VA Medical Center",
-          "vamcSystemName": "VA Central Iowa health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "636A8",
-          "vamcFacilityName": "Iowa City VA Medical Center",
-          "vamcSystemName": "VA Iowa City health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "637",
-          "vamcFacilityName": "Charles George Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Asheville health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "640",
-          "vamcFacilityName": "Palo Alto VA Medical Center",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "640A0",
-          "vamcFacilityName": "Palo Alto VA Medical Center-Menlo Park",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "640A4",
-          "vamcFacilityName": "Palo Alto VA Medical Center-Livermore",
-          "vamcSystemName": "VA Palo Alto health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "642",
-          "vamcFacilityName": "Corporal Michael J. Crescenz Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Philadelphia health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "644",
-          "vamcFacilityName": "Carl T. Hayden Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Phoenix health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "648",
-          "vamcFacilityName": "Portland VA Medical Center",
-          "vamcSystemName": "VA Portland health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "648A4",
-          "vamcFacilityName": "Portland VA Medical Center-Vancouver",
-          "vamcSystemName": "VA Portland health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "649",
-          "vamcFacilityName": "Bob Stump Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Northern Arizona health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "650",
-          "vamcFacilityName": "Providence VA Medical Center",
-          "vamcSystemName": "VA Providence health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "652",
-          "vamcFacilityName": "Hunter Holmes McGuire Hospital",
-          "vamcSystemName": "VA Richmond health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "654",
-          "vamcFacilityName": "Ioannis A. Lougaris Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Sierra Nevada health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "655",
-          "vamcFacilityName": "Aleda E. Lutz Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Saginaw health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "656",
-          "vamcFacilityName": "St. Cloud VA Medical Center",
-          "vamcSystemName": "VA St Cloud health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "657",
-          "vamcFacilityName": "John J. Cochran Veterans Hospital",
-          "vamcSystemName": "VA St Louis health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "657A0",
-          "vamcFacilityName": "St. Louis VA Medical Center-Jefferson Barracks",
-          "vamcSystemName": "VA St Louis health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "657A4",
-          "vamcFacilityName": "John J. Pershing Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Poplar Bluff health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "657A5",
-          "vamcFacilityName": "Marion VA Medical Center",
-          "vamcSystemName": "VA Marion health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "658",
-          "vamcFacilityName": "Salem VA Medical Center",
-          "vamcSystemName": "VA Salem health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "659",
-          "vamcFacilityName": "W.G. (Bill) Hefner Salisbury Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Salisbury health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "660",
-          "vamcFacilityName": "George E. Wahlen Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Salt Lake City health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "662",
-          "vamcFacilityName": "San Francisco VA Medical Center",
-          "vamcSystemName": "VA San Francisco health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "663A4",
-          "vamcFacilityName": "American Lake VA Medical Center",
-          "vamcSystemName": "VA Puget Sound health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "664",
-          "vamcFacilityName": "Jennifer Moreno Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA San Diego health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "666",
-          "vamcFacilityName": "Sheridan VA Medical Center",
-          "vamcSystemName": "VA Sheridan health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "667",
-          "vamcFacilityName": "Overton Brooks Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Shreveport health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "671",
-          "vamcFacilityName": "Audie L. Murphy Memorial Veterans\\' Hospital",
-          "vamcSystemName": "VA South Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "672",
-          "vamcFacilityName": "San Juan VA Medical Center",
-          "vamcSystemName": "VA Caribbean health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "673",
-          "vamcFacilityName": "James A. Haley Veterans\\' Hospital",
-          "vamcSystemName": "VA Tampa health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "674",
-          "vamcFacilityName": "Olin E. Teague Veterans\\' Center",
-          "vamcSystemName": "VA Central Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "675",
-          "vamcFacilityName": "Orlando VA Medical Center",
-          "vamcSystemName": "VA Orlando health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "676",
-          "vamcFacilityName": "Tomah VA Medical Center",
-          "vamcSystemName": "VA Tomah health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "678",
-          "vamcFacilityName": "Tucson VA Medical Center",
-          "vamcSystemName": "VA Southern Arizona health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "679",
-          "vamcFacilityName": "Tuscaloosa VA Medical Center",
-          "vamcSystemName": "VA Tuscaloosa health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "688",
-          "vamcFacilityName": "Washington VA Medical Center",
-          "vamcSystemName": "VA Washington DC health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "689",
-          "vamcFacilityName": "West Haven VA Medical Center",
-          "vamcSystemName": "VA Connecticut health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "691",
-          "vamcFacilityName": "West Los Angeles VA Medical Center",
-          "vamcSystemName": "VA Greater Los Angeles health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "693",
-          "vamcFacilityName": "Wilkes-Barre VA Medical Center",
-          "vamcSystemName": "VA Wilkes-Barre health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "695",
-          "vamcFacilityName": "Clement J. Zablocki Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Milwaukee health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "740",
-          "vamcFacilityName": "Harlingen VA Clinic",
-          "vamcSystemName": "VA Texas Valley health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "756",
-          "vamcFacilityName": "El Paso VA Clinic",
-          "vamcSystemName": "VA El Paso health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "756QB",
-          "vamcFacilityName": "El Paso Central VA Clinic",
-          "vamcSystemName": "VA El Paso health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "549A5",
-          "vamcFacilityName": "Garland VA Medical Center",
-          "vamcSystemName": "VA North Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "402",
-          "vamcFacilityName": "Togus VA Medical Center",
-          "vamcSystemName": "VA Maine health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "516",
-          "vamcFacilityName": "C.W. Bill Young Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Bay Pines health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "674A4",
-          "vamcFacilityName": "Doris Miller Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Central Texas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "663",
-          "vamcFacilityName": "Seattle VA Medical Center",
-          "vamcSystemName": "VA Puget Sound health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "589A5",
-          "vamcFacilityName": "Colmery-O\\'Neil Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Eastern Kansas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "589A6",
-          "vamcFacilityName": "Dwight D. Eisenhower Department of Veterans Affairs Medical Center",
-          "vamcSystemName": "VA Eastern Kansas health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "557",
-          "vamcFacilityName": "Carl Vinson Veterans\\' Administration Medical Center",
-          "vamcSystemName": "VA Dublin health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "512",
-          "vamcFacilityName": "Baltimore VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "512GD",
-          "vamcFacilityName": "Loch Raven VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "512A5",
-          "vamcFacilityName": "Perry Point VA Medical Center",
-          "vamcSystemName": "VA Maryland health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "506",
-          "vamcFacilityName": "Lieutenant Colonel Charles S. Kettles VA Medical Center",
-          "vamcSystemName": "VA Ann Arbor health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "619",
-          "vamcFacilityName": "Central Alabama VA Medical Center-Montgomery",
-          "vamcSystemName": "VA Central Alabama health care",
-          "ehr": "vista"
-        },
-        {
-          "vhaId": "619A4",
-          "vamcFacilityName": "Central Alabama VA Medical Center-Tuskegee",
-          "vamcSystemName": "VA Central Alabama health care",
-          "ehr": "vista"
+  "data": {
+    "nodeQuery": {
+      "count": 167,
+      "entities": [
+        {
+          "title": "Pittsburgh VA Medical Center-University Drive",
+          "fieldFacilityLocatorApiId": "vha_646",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Pittsburgh health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "H. John Heinz III Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_646A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Pittsburgh health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "White River Junction VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_405",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA White River Junction health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Burlington Lakeside VA Clinic",
+          "fieldFacilityLocatorApiId": "vha_405HA",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA White River Junction health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fort Harrison VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_436",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Montana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fargo VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_437",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Fargo health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Royal C. Johnson Veterans' Memorial Hospital",
+          "fieldFacilityLocatorApiId": "vha_438",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Sioux Falls health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Cheyenne VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_442",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Cheyenne health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Spark M. Matsunaga Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_459",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Pacific Islands health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Wilmington VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_460",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Wilmington health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Anchorage VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_463",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Alaska health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Raymond G. Murphy Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_501",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New Mexico health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Alexandria VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_502",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Alexandria health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "James E. Van Zandt Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_503",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Altoona health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Thomas E. Creek Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_504",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Amarillo health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Atlanta VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_508",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Atlanta health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Charlie Norwood Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_509",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Augusta health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Battle Creek VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_515",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Battle Creek health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Beckley VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_517",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Beckley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Edith Nourse Rogers Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_518",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Bedford health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "George H. O'Brien, Jr., Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_519",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA West Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Biloxi VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_520",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Gulf Coast health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Birmingham VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_521",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Birmingham health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jamaica Plain VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_523",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Boston health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "West Roxbury VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_523A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Boston health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Brockton VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_523A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Boston health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "James J. Peters Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_526",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Bronx health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Buffalo VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_528",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Western New York health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Canandaigua VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_528A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Finger Lakes health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Bath VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_528A6",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Finger Lakes health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Syracuse VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_528A7",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Syracuse health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Samuel S. Stratton Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_528A8",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Albany health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Abie Abraham VA Clinic",
+          "fieldFacilityLocatorApiId": "vha_529",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Butler health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Boise VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_531",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Boise health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Ralph H. Johnson Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_534",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Charleston health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jesse Brown Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_537",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Chicago health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Chillicothe VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_538",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Chillicothe health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Cincinnati VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_539",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Cincinnati health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Louis A. Johnson Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_540",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Clarksburg health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Louis Stokes Cleveland Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_541",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northeast Ohio health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Coatesville VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_542",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Coatesville health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Wm. Jennings Bryan Dorn Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_544",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Columbia South Carolina health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Bruce W. Carter Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_546",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Miami health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "West Palm Beach VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_548",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA West Palm Beach health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Dallas VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_549",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA North Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Sam Rayburn Memorial Veterans Center",
+          "fieldFacilityLocatorApiId": "vha_549A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA North Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Danville VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_550",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Illiana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Dayton VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_552",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Dayton health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "John D. Dingell Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_553",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Detroit health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Rocky Mountain Regional VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_554",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Eastern Colorado health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Durham VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_558",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Durham health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "East Orange VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_561",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New Jersey health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Lyons VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_561A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New Jersey health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Erie VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_562",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Erie health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fayetteville VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_564",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Fayetteville Arkansas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fayetteville VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_565",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Fayetteville Coastal health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fort Meade VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_568",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Black Hills health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Hot Springs VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_568A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Black Hills health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fresno VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_570",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central California health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Malcom Randall Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_573",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA North Florida/South Georgia health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Lake City VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_573A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA North Florida/South Georgia health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Grand Junction VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_575",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Western Colorado health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Edward Hines Junior Hospital",
+          "fieldFacilityLocatorApiId": "vha_578",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Hines health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Michael E. DeBakey Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_580",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Houston health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Hershel \"Woody\" Williams VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_581",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Huntington health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Huntington VA Mobile Clinic",
+          "fieldFacilityLocatorApiId": "vha_581QB",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Huntington health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Richard L. Roudebush Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_583",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Indiana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Oscar G. Johnson Department of Veterans Affairs Medical Facility",
+          "fieldFacilityLocatorApiId": "vha_585",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Iron Mountain health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "G.V. (Sonny) Montgomery Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_586",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Jackson health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Kansas City VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_589",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Kansas City health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Harry S. Truman Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_589A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Columbia Missouri health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Robert J. Dole Department of Veterans Affairs Medical and Regional Office Center",
+          "fieldFacilityLocatorApiId": "vha_589A7",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Wichita health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Hampton VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_590",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Hampton health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "North Las Vegas VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_593",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Southern Nevada health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Lebanon VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_595",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Lebanon health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Franklin R. Sousley Campus",
+          "fieldFacilityLocatorApiId": "vha_596",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Lexington health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Troy Bowling Campus",
+          "fieldFacilityLocatorApiId": "vha_596A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Lexington health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "John L. McClellan Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_598",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Arkansas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Tibor Rubin VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_600",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Long Beach health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Robley Rex Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_603",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Louisville health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jerry L. Pettis Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_605",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Loma Linda health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "William S. Middleton Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_607",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Madison health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Manchester VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_608",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Manchester health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Marion VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_610",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northern Indiana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Fort Wayne VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_610A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northern Indiana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Sacramento VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_612A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northern California health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Martinez VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_612GF",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northern California health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Martinsburg VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_613",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Martinsburg health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Memphis VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_614",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Memphis health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Minneapolis VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_618",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Minneapolis health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Franklin Delano Roosevelt Hospital",
+          "fieldFacilityLocatorApiId": "vha_620",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Hudson Valley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Castle Point VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_620A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Hudson Valley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "James H. Quillen Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_621",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Mountain Home health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jack C. Montgomery Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_623",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Eastern Oklahoma health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Nashville VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_626",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Tennessee Valley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Alvin C. York Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_626A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Tennessee Valley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "New Orleans VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_629",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Southeast Louisiana health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Margaret Cochran Corbin VA Campus",
+          "fieldFacilityLocatorApiId": "vha_630",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New York Harbor health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Brooklyn VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_630A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New York Harbor health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "St. Albans VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_630A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA New York Harbor health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Edward P. Boland Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_631",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Western Massachusetts health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Northport VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_632",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northport health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Oklahoma City VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_635",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Oklahoma City health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Omaha VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_636",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Nebraska-Western Iowa health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Des Moines VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_636A6",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Iowa health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Iowa City VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_636A8",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Iowa City health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Charles George Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_637",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Asheville health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Palo Alto VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_640",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Palo Alto health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Palo Alto VA Medical Center-Menlo Park",
+          "fieldFacilityLocatorApiId": "vha_640A0",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Palo Alto health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Palo Alto VA Medical Center-Livermore",
+          "fieldFacilityLocatorApiId": "vha_640A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Palo Alto health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Corporal Michael J. Crescenz Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_642",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Philadelphia health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Carl T. Hayden Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_644",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Phoenix health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Portland VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_648",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Portland health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Portland VA Medical Center-Vancouver",
+          "fieldFacilityLocatorApiId": "vha_648A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Portland health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Bob Stump Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_649",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Northern Arizona health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Providence VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_650",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Providence health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Hunter Holmes McGuire Hospital",
+          "fieldFacilityLocatorApiId": "vha_652",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Richmond health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Roseburg VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_653",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Roseburg health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Ioannis A. Lougaris Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_654",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Sierra Nevada health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Aleda E. Lutz Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_655",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Saginaw health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "St. Cloud VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_656",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA St Cloud health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "John J. Cochran Veterans Hospital",
+          "fieldFacilityLocatorApiId": "vha_657",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA St Louis health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "St. Louis VA Medical Center-Jefferson Barracks",
+          "fieldFacilityLocatorApiId": "vha_657A0",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA St Louis health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "John J. Pershing Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_657A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Poplar Bluff health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Marion VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_657A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Marion health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Salem VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_658",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Salem health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "W.G. (Bill) Hefner Salisbury Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_659",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Salisbury health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "George E. Wahlen Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_660",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Salt Lake City health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "San Francisco VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_662",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA San Francisco health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "American Lake VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_663A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Puget Sound health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jennifer Moreno Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_664",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA San Diego health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Sheridan VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_666",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Sheridan health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Overton Brooks Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_667",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Shreveport health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Audie L. Murphy Memorial Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_671",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA South Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "San Juan VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_672",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Caribbean health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "James A. Haley Veterans' Hospital",
+          "fieldFacilityLocatorApiId": "vha_673",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Tampa health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Olin E. Teague Veterans' Center",
+          "fieldFacilityLocatorApiId": "vha_674",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Orlando VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_675",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Orlando health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Tomah VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_676",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Tomah health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Tucson VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_678",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Southern Arizona health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Tuscaloosa VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_679",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Tuscaloosa health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Jonathan M. Wainwright Memorial VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_687",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Walla Walla health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Washington VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_688",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Washington DC health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "West Haven VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_689",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Connecticut health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "West Los Angeles VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_691",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Greater Los Angeles health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "White City VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_692",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Southern Oregon health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Wilkes-Barre VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_693",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Wilkes-Barre health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Clement J. Zablocki Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_695",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Milwaukee health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Harlingen VA Clinic",
+          "fieldFacilityLocatorApiId": "vha_740",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Texas Valley health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "El Paso VA Clinic",
+          "fieldFacilityLocatorApiId": "vha_756",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA El Paso health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "El Paso Central VA Clinic",
+          "fieldFacilityLocatorApiId": "vha_756QB",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA El Paso health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Chalmers P. Wylie Veterans Outpatient Clinic",
+          "fieldFacilityLocatorApiId": "vha_757",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Ohio health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Garland VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_549A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA North Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Togus VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_402",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Maine health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "C.W. Bill Young Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_516",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Bay Pines health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Doris Miller Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_674A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Texas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Seattle VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_663",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Puget Sound health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Colmery-O'Neil Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_589A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Eastern Kansas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Dwight D. Eisenhower Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_589A6",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Eastern Kansas health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Carl Vinson Veterans' Administration Medical Center",
+          "fieldFacilityLocatorApiId": "vha_557",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Dublin health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Baltimore VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_512",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Maryland health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Loch Raven VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_512GD",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Maryland health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Perry Point VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_512A5",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Maryland health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Lieutenant Colonel Charles S. Kettles VA Medical Center",
+          "fieldFacilityLocatorApiId": "vha_506",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Ann Arbor health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+          "fieldFacilityLocatorApiId": "vha_668",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Spokane health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        },
+        {
+          "title": "Central Alabama VA Medical Center-Montgomery",
+          "fieldFacilityLocatorApiId": "vha_619",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Alabama health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
+        },
+        {
+          "title": "Central Alabama VA Medical Center-Tuskegee",
+          "fieldFacilityLocatorApiId": "vha_619A4",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Alabama health care",
+              "fieldVamcEhrSystem": "vista"
+            }
+          }
         }
       ]
     }
