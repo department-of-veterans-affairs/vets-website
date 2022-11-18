@@ -311,7 +311,8 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 
   const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  const vet360ContactInfo = stateUser.vet360ContactInformation || {};
 
   let firstName;
   let middleName;
@@ -343,27 +344,49 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
-  const v360mp = vet360ContactInfo?.mobilePhone;
-  if (v360mp?.areaCode && v360mp?.phoneNumber) {
-    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
-    mobilePhoneIsInternational = v360mp.isInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  const v360MobilePhone = vet360ContactInfo?.mobilePhone;
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+  } else if (v360MobilePhone?.areaCode && v360MobilePhone?.phoneNumber) {
+    mobilePhoneNumber = [
+      v360MobilePhone.areaCode,
+      v360MobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = v360MobilePhone.isInternational;
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
 
   let homePhoneNumber;
   let homePhoneIsInternational;
-  const v360hp = vet360ContactInfo?.homePhone;
-  if (v360hp?.areaCode && v360hp?.phoneNumber) {
-    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
-    homePhoneIsInternational = v360hp.isInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  const v360HomePhone = vet360ContactInfo?.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
+  } else if (v360HomePhone.areaCode && v360HomePhone.phoneNumber) {
+    homePhoneNumber = [
+      v360HomePhone.areaCode,
+      v360HomePhone.phoneNumber,
+    ].join();
+    homePhoneIsInternational = v360HomePhone.isInternational;
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
-  const address = vet360ContactInfo?.mailingAddress?.addressLine1
-    ? vet360ContactInfo?.mailingAddress
-    : contactInfo;
+  let address;
+  if (vapContactInfo.mailingAddress?.addressLine1) {
+    address = vapContactInfo.mailingAddress;
+  } else if (vet360ContactInfo.mailingAddress?.addressLine1) {
+    address = vet360ContactInfo.mailingAddress;
+  } else {
+    address = contactInfo;
+  }
 
   const newData = {
     ...formData,
