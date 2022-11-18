@@ -35,7 +35,7 @@ const MessageThreadMeta = props => {
             role="img"
           />
         )}
-        {dateFormat(message.sentDate, 'MMM d, YYYY [at] h:mm a z')}
+        {dateFormat(message.sentDate, 'MMM D, YYYY [at] h:mm a z')}
       </p>
     </div>
   );
