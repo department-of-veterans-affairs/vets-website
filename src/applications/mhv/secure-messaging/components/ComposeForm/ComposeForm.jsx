@@ -69,17 +69,11 @@ const ComposeForm = props => {
             category,
             body: messageBody,
             subject,
-            draftId: draft.messageId,
+            draftId: draft?.messageId,
           };
           if (attachments.length) {
             const sendData = new FormData();
-            sendData.append(
-              'message',
-              new Blob([
-                JSON.stringify(messageData),
-                { type: 'application/JSON' },
-              ]),
-            );
+            sendData.append('message', JSON.stringify(messageData));
             attachments.map(upload =>
               sendData.append('uploads[]', JSON.parse(JSON.stringify(upload))),
             );

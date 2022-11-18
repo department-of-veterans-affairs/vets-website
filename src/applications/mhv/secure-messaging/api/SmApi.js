@@ -232,13 +232,17 @@ export const updateReplyDraft = (replyToId, draftMessageId, message) => {
  * @returns
  */
 export const createMessage = (sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
   return apiRequest(`${apiBasePath}/messaging/messages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': attachmentFlag
-        ? 'multipart/form-data'
-        : 'application/json',
-    },
     body: sendData,
   });
 };
@@ -248,13 +252,19 @@ export const createMessage = (sendData, attachmentFlag) => {
  * @param {*} message
  * @returns
  */
-export const createReplyToMessage = (replyToId, message, attachments) => {
+export const createReplyToMessage = (replyToId, sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
   return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
     method: 'POST',
-    headers: {
-      'Content-Type': attachments ? 'multipart/' : 'application/json',
-    },
-    body: JSON.stringify(message),
+    body: sendData,
   });
 };
 
