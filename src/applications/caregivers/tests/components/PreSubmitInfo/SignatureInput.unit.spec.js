@@ -88,6 +88,10 @@ describe('CG <SignatureInput>', () => {
       'Mary Jane',
     );
 
+    // Note: when testing, the literal string seems to put an extra space for no middleName,
+    // hence John  Smith in the test and not John Smith.
+    // When running the application it shows with only one space.
+
     expect(view.container.querySelector('va-text-input')).to.have.attribute(
       'error',
       'Your signature must match previously entered name: John  Smith',
