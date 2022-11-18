@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import VaMedicalCenter from '../../components/FormFields/VaMedicalCenter';
+import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
 
 const apiRequestWithUrl = `${environment.API_URL}/v1/facilities/va`;
 
