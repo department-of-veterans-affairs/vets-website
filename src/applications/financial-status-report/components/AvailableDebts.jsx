@@ -94,7 +94,7 @@ const AvailableDebts = ({ formContext }) => {
             role="alert"
           >
             <span className="sr-only">Error</span>
-            <p>Select at least one debt you want to request relief for</p>
+            <p>Choose at least one debt</p>
           </span>
         )}
         {debts.map((debt, index) => (
