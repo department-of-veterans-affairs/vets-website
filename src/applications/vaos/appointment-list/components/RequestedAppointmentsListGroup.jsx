@@ -142,18 +142,19 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               >
                 {featureAppointmentList &&
                   statusBucket[1].map(appointment => {
+                    const facilityId = getVAAppointmentLocationId(appointment);
+                    const facility = facilityData[facilityId];
+
                     return (
                       <AppointmentListItem
                         key={appointment.id}
                         appointment={appointment}
                         borderBottom
                       >
-                        {facility => (
-                          <PendingAppointmentLayout
-                            appointment={appointment}
-                            facility={facility}
-                          />
-                        )}
+                        <PendingAppointmentLayout
+                          appointment={appointment}
+                          facility={facility}
+                        />
                       </AppointmentListItem>
                     );
                   })}

@@ -98,6 +98,9 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
             data-cy="requested-appointment-list"
           >
             {pendingAppointments.map((appt, index) => {
+              const facilityId = getVAAppointmentLocationId(appt);
+              const facility = facilityData[facilityId];
+
               if (featureAppointmentList) {
                 return (
                   <AppointmentListItem
@@ -105,12 +108,10 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
                     appointment={appt}
                     borderBottom
                   >
-                    {facility => (
-                      <PendingAppointmentLayout
-                        appointment={appt}
-                        facility={facility}
-                      />
-                    )}
+                    <PendingAppointmentLayout
+                      appointment={appt}
+                      facility={facility}
+                    />
                   </AppointmentListItem>
                 );
               }

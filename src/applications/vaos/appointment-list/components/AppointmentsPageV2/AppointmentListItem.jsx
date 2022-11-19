@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { shallowEqual } from 'recompose';
 import { selectFeatureAppointmentList } from '../../../redux/selectors';
-import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
-import { getVAAppointmentLocationId } from '../../../services/appointment';
 
 export default function AppointmentListItem({
   appointment,
@@ -18,11 +15,6 @@ export default function AppointmentListItem({
   );
 
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-  const { facilityData } = useSelector(
-    state => getUpcomingAppointmentListInfo(state),
-    shallowEqual,
-  );
-  const facility = facilityData[getVAAppointmentLocationId(appointment)];
 
   return (
     <>
@@ -39,7 +31,7 @@ export default function AppointmentListItem({
           'vads-u-border-bottom--1px': featureAppointmentList && borderBottom,
         })}
       >
-        {children(appointment, facility)}
+        {children}
       </li>
     </>
   );
@@ -49,5 +41,5 @@ AppointmentListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
   borderBottom: PropTypes.bool,
   borderTop: PropTypes.bool,
-  children: PropTypes.func,
+  children: PropTypes.object,
 };

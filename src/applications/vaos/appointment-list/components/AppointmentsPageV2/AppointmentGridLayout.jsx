@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { shallowEqual, useSelector } from 'react-redux';
 import AppointmentListItem from './AppointmentListItem';
 import AppointmentRow from './AppointmentRow';
 import { AppointmentColumnLayout } from './AppointmentColumnLayout';
+import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
+import { getVAAppointmentLocationId } from '../../../services/appointment';
 
 /**
  * Function to render appointment data in a table/grid layout.
@@ -11,33 +14,35 @@ import { AppointmentColumnLayout } from './AppointmentColumnLayout';
  * @returns
  */
 export default function AppointmentGridLayout({ monthBucket }) {
+  const { facilityData } = useSelector(
+    state => getUpcomingAppointmentListInfo(state),
+    shallowEqual,
+  );
+
   return Object.values(monthBucket).map(collection => {
     if (collection.length > 1) {
       return (
         <li style={{ listStyle: 'none', marginBottom: 0 }}>
           <ul className="vads-u-margin--0 vads-u-padding-left--0">
             {collection.map((appointment, i) => {
+              const facility =
+                facilityData[getVAAppointmentLocationId(appointment)];
               return (
                 <AppointmentListItem
                   key={appointment.id}
                   appointment={appointment}
                   borderBottom={i === collection.length - 1}
                 >
-                  {facility => (
-                    <AppointmentRow
-                      appointment={appointment}
-                      facility={facility}
-                    >
-                      {data => (
-                        <AppointmentColumnLayout
-                          data={data}
-                          first={i === 0}
-                          grouped
-                          last={i === collection.length - 1}
-                        />
-                      )}
-                    </AppointmentRow>
-                  )}
+                  <AppointmentRow appointment={appointment} facility={facility}>
+                    {data => (
+                      <AppointmentColumnLayout
+                        data={data}
+                        first={i === 0}
+                        grouped
+                        last={i === collection.length - 1}
+                      />
+                    )}
+                  </AppointmentRow>
                 </AppointmentListItem>
               );
             })}
@@ -47,18 +52,18 @@ export default function AppointmentGridLayout({ monthBucket }) {
     }
 
     return collection.map(appointment => {
+      const facility = facilityData[getVAAppointmentLocationId(appointment)];
+
       return (
         <AppointmentListItem
-          id="not grouped"
           key={appointment.id}
+          id="not grouped"
           appointment={appointment}
           borderBottom
         >
-          {facility => (
-            <AppointmentRow appointment={appointment} facility={facility}>
-              {data => <AppointmentColumnLayout data={data} first />}
-            </AppointmentRow>
-          )}
+          <AppointmentRow appointment={appointment} facility={facility}>
+            {data => <AppointmentColumnLayout data={data} first />}
+          </AppointmentRow>
         </AppointmentListItem>
       );
     });
