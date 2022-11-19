@@ -83,6 +83,7 @@ export function AppointmentColumnLayout({ data, first, grouped, last }) {
           <AppointmentColumn
             className={classNames(
               'vads-u-font-weight--bold',
+              'vads-u-padding-right--0p5',
               'vaos-appts__text--truncate',
               {
                 'vads-l-col--4': !isMobile,
