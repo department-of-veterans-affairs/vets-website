@@ -8,11 +8,21 @@ import environment from 'platform/utilities/environment';
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const formatDate = date => {
-  return format(new Date(date), 'MMMM dd, yyyy');
+  // JavaScript dates have a funky behavior where passing in a string
+  // like this: '2022-11-18' will convert the string to a date in GMT
+  // and convert it to the users timezone. Passing in a string like
+  // this: '2022/11/18' however will be treated as midnight on 11/18/2022
+  // in the users timezone
+  const formattedDate = date.replace(/-/g, '/');
+
+  return format(new Date(formattedDate), 'MMMM dd, yyyy');
 };
 
 const downloadHandler = () => {
-  recordEvent({ event: 'claim-letters-download' });
+  recordEvent({
+    event: 'claim-letters-download',
+    'click-text': 'Download letter (PDF)',
+  });
 };
 
 const ClaimLetterListItem = ({ letter }) => {
