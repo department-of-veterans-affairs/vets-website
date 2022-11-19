@@ -116,10 +116,15 @@ const v2 = {
       ...json,
     };
   },
-  getPreCheckInData: async token => {
+  getPreCheckInData: async (token, reload = false) => {
     const url = '/check_in/v2/pre_check_ins/';
+    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
+      checkInType: 'preCheckIn',
+      reload,
+    });
+
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );

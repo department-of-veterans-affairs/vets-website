@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
-import { makeSelectCurrentContext, makeSelectApp } from '../selectors';
+import { makeSelectCurrentContext } from '../selectors';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import {
   setVeteranData,
@@ -22,7 +22,6 @@ import {
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
 import { useSessionStorage } from './useSessionStorage';
-import { APP_NAMES } from '../utils/appConstants';
 import { URLS } from '../utils/navigation';
 
 const useGetCheckInData = ({
@@ -30,14 +29,12 @@ const useGetCheckInData = ({
   appointmentsOnly = false,
   reload = false,
   router,
+  isPreCheckIn = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [isComplete, setIsComplete] = useState(false);
   const [checkInDataError, setCheckInDataError] = useState(false);
-
-  const selectApp = useMemo(makeSelectApp, []);
-  const { app } = useSelector(selectApp);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
@@ -97,9 +94,9 @@ const useGetCheckInData = ({
     () => {
       if (isStale && token && !isLoading) {
         setIsLoading(true);
-        if (app === APP_NAMES.PRE_CHECK_IN) {
+        if (isPreCheckIn) {
           api.v2
-            .getPreCheckInData(token)
+            .getPreCheckInData(token, reload)
             .then(json => {
               if (json.error) {
                 goToErrorPage('?error=error-getting-pre-check-in-data');
@@ -157,7 +154,7 @@ const useGetCheckInData = ({
       token,
       isLoading,
       reload,
-      app,
+      isPreCheckIn,
       goToErrorPage,
       jumpToPage,
       setPreCheckInData,

@@ -31,6 +31,7 @@ const DisplayMultipleAppointments = props => {
     {
       refreshNeeded: shouldRefresh,
       appointmentsOnly: true,
+      isPreCheckIn: false,
     },
   );
 

@@ -22,6 +22,7 @@ const Introduction = props => {
     refreshNeeded: false,
     reload: false,
     router,
+    isPreCheckIn: true,
   });
 
   useEffect(
@@ -31,7 +32,7 @@ const Introduction = props => {
         refreshCheckInData();
       }
     },
-    [isComplete, isDataLoading],
+    [isComplete, isDataLoading, refreshCheckInData],
   );
 
   useEffect(
@@ -40,7 +41,7 @@ const Introduction = props => {
         goToErrorPage();
       }
     },
-    [checkInDataError],
+    [checkInDataError, goToErrorPage],
   );
 
   if (isLoading) {

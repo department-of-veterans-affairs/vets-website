@@ -32,6 +32,7 @@ const AppWrapper = props => {
       appointmentsOnly: true,
       reload: true,
       router,
+      isPreCheckIn,
     },
   );
   const [refreshData, setRefreshData] = useState(true);

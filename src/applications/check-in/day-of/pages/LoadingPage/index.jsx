@@ -16,7 +16,10 @@ const LoadingPage = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
 
-  const { checkInDataError } = useGetCheckInData({ refreshNeeded: true });
+  const { checkInDataError } = useGetCheckInData({
+    refreshNeeded: true,
+    isPreCheckIn: false,
+  });
 
   useEffect(
     () => {
