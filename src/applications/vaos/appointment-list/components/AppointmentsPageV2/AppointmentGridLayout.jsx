@@ -19,27 +19,28 @@ export default function AppointmentGridLayout({ monthBucket }) {
     shallowEqual,
   );
 
-  return Object.values(monthBucket).map(collection => {
+  return Object.values(monthBucket).map((collection, i) => {
     if (collection.length > 1) {
       return (
-        <li style={{ listStyle: 'none', marginBottom: 0 }}>
+        <li key={i} style={{ listStyle: 'none', marginBottom: 0 }}>
           <ul className="vads-u-margin--0 vads-u-padding-left--0">
-            {collection.map((appointment, i) => {
+            {collection.map((appointment, j) => {
               const facility =
                 facilityData[getVAAppointmentLocationId(appointment)];
+
               return (
                 <AppointmentListItem
                   key={appointment.id}
                   appointment={appointment}
-                  borderBottom={i === collection.length - 1}
+                  borderBottom={j === collection.length - 1}
                 >
                   <AppointmentRow appointment={appointment} facility={facility}>
                     {data => (
                       <AppointmentColumnLayout
                         data={data}
-                        first={i === 0}
+                        first={j === 0}
                         grouped
-                        last={i === collection.length - 1}
+                        last={j === collection.length - 1}
                       />
                     )}
                   </AppointmentRow>
