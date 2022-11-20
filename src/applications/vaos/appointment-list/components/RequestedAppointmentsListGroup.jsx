@@ -141,7 +141,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 data-cy="requested-appointment-list"
               >
                 {featureAppointmentList &&
-                  statusBucket[1].map(appointment => {
+                  statusBucket[1].map((appointment, index) => {
                     const facilityId = getVAAppointmentLocationId(appointment);
                     const facility = facilityData[facilityId];
 
@@ -149,7 +149,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                       <AppointmentListItem
                         key={appointment.id}
                         appointment={appointment}
-                        borderBottom
+                        borderBottom={index === statusBucket[1].length - 1}
+                        borderTop
                       >
                         <PendingAppointmentLayout
                           appointment={appointment}

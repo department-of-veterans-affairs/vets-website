@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 import { selectFeatureAppointmentList } from '../../../redux/selectors';
 
 export default function AppointmentListItem({
@@ -10,6 +11,7 @@ export default function AppointmentListItem({
   borderTop,
   children,
 }) {
+  const isMobile = useMediaQuery({ query: '(max-width: 360px)' });
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
   );
@@ -27,7 +29,9 @@ export default function AppointmentListItem({
           'vads-u-margin-bottom--3': !featureAppointmentList,
           'vaos-appts__listItem--clickable': featureAppointmentList,
           'vads-u-margin--0': featureAppointmentList,
-          'vads-u-border-top--1px': featureAppointmentList && borderTop,
+          'vads-u-border-top--1px':
+            (featureAppointmentList && isMobile) ||
+            (featureAppointmentList && borderTop),
           'vads-u-border-bottom--1px': featureAppointmentList && borderBottom,
         })}
       >

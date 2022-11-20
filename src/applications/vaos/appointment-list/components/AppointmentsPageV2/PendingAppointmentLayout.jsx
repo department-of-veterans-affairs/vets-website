@@ -15,7 +15,6 @@ export function PendingAppointmentLayout({ appointment, facility }) {
       id="column 1"
       classNameOverride={classNames('vads-l-col', 'vads-u-padding-y--2', {
         'vads-u-padding-right--1': !isMobile,
-        'vads-u-border-bottom--1px': isMobile,
       })}
       style={{ minWidth: 60 }}
     >

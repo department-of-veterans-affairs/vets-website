@@ -106,7 +106,8 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
                   <AppointmentListItem
                     key={appt.id}
                     appointment={appt}
-                    borderBottom
+                    borderBottom={index === pendingAppointments.length - 1}
+                    borderTop
                   >
                     <PendingAppointmentLayout
                       appointment={appt}
