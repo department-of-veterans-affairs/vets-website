@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { runBasicSearch } from '../../actions/search';
 
 const CondensedSearchForm = props => {
-  const { folder, keyword, submitBasicSearch } = props;
+  const { folder, keyword, resultsView } = props;
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(
@@ -14,12 +18,26 @@ const CondensedSearchForm = props => {
   );
 
   const handleSearch = e => {
-    submitBasicSearch({ folder: folder.folderId, keyword: e.target.value });
+    dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
+    if (!resultsView) {
+      history.push('/search/results');
+    }
+  };
+
+  const label = () => {
+    if (resultsView) {
+      return <div className="search-in-description">{folder.name}</div>;
+    }
+    return (
+      <div className="search-in-description">
+        Search the {folder.name} messages folder
+      </div>
+    );
   };
 
   return (
     <div className="condensed-search-form">
-      <div className="search-in-description">{folder.name}</div>
+      {label()}
 
       <va-search-input
         onInput={e => setSearchTerm(e.target.value)}
@@ -27,9 +45,11 @@ const CondensedSearchForm = props => {
         value={searchTerm}
       />
 
-      <div className="condensed-advanced-search-button">
-        <Link to="/search/advanced">Advanced search</Link>
-      </div>
+      {resultsView && (
+        <div className="condensed-advanced-search-button">
+          <Link to="/search/advanced">Advanced search</Link>
+        </div>
+      )}
     </div>
   );
 };
@@ -37,7 +57,7 @@ const CondensedSearchForm = props => {
 CondensedSearchForm.propTypes = {
   folder: PropTypes.object,
   keyword: PropTypes.string,
-  submitBasicSearch: PropTypes.func,
+  resultsView: PropTypes.bool,
 };
 
 export default CondensedSearchForm;
