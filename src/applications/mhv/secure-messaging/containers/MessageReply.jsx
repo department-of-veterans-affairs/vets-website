@@ -58,6 +58,15 @@ const MessageReply = () => {
     return <ReplyForm draft={null} replyMessage={replyMessage} />;
   };
 
+  const thread = () => {
+    if (messageHistory?.length > 0) {
+      return (
+        <MessageThread messageHistory={[replyMessage, ...messageHistory]} />
+      );
+    }
+    return <MessageThread messageHistory={[replyMessage]} />;
+  };
+
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
@@ -69,10 +78,7 @@ const MessageReply = () => {
 
       {content()}
 
-      {messageHistory?.length > 0 &&
-        replyMessage && (
-          <MessageThread messageHistory={[replyMessage, ...messageHistory]} />
-        )}
+      {replyMessage && thread()}
     </div>
   );
 };
