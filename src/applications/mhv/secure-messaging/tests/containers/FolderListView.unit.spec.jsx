@@ -20,7 +20,7 @@ describe('FolderListView', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<FolderListView />, {
+    return renderWithStoreAndRouter(<FolderListView testing />, {
       initialState: state,
       reducers: reducer,
       path: `/`,

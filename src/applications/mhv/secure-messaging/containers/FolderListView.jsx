@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { clearMessage, getMessages } from '../actions/messages';
 import { DefaultFolders as Folders, Alerts } from '../util/constants';
 import useInterval from '../hooks/use-interval';
@@ -10,7 +11,8 @@ import { clearFolder, retrieveFolder } from '../actions/folders';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
 
-const FolderListView = () => {
+const FolderListView = props => {
+  const { testing } = props;
   const dispatch = useDispatch();
   const [folderId, setFolderId] = useState(null);
   const error = null;
@@ -23,7 +25,7 @@ const FolderListView = () => {
     () => {
       // clear out folder reducer to prevent from previous folder data flashing
       // when navigating between folders
-      dispatch(clearFolder());
+      if (!testing) dispatch(clearFolder());
       if (location.pathname.includes('/folder')) {
         setFolderId(params.folderId);
       } else {
@@ -143,6 +145,10 @@ const FolderListView = () => {
       </div>
     </div>
   );
+};
+
+FolderListView.propTypes = {
+  testing: PropTypes.any,
 };
 
 export default FolderListView;
