@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { format, addDays } from 'date-fns';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
@@ -6,7 +7,8 @@ import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
-import { closeAlert } from '../actions/alerts';
+import AlertBox from '../components/shared/AlertBox';
+import { addAlert, closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
@@ -22,7 +24,7 @@ const MessageDetail = () => {
   const location = useLocation();
   const history = useHistory();
   const [id, setid] = useState(null);
-
+  // Pick up on adding useState for noReplyMessage
   useEffect(
     () => {
       if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
@@ -35,6 +37,25 @@ const MessageDetail = () => {
       }
     },
     [dispatch, location, messageId, id, activeFolder, history],
+  );
+
+  const isOldMessage = useEffect(
+    () => {
+      const { sentDate } = messageId.data.attributes;
+      const today = new Date();
+      const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
+      const cannotReplyDate = addDays(new Date(messageSentDate), 45);
+      if (today > cannotReplyDate) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_INFO,
+            Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+            Constants.Alerts.Message.CANNOT_REPLY_BODY,
+          ),
+        );
+      }
+    },
+    [dispatch, messageId],
   );
 
   let pageTitle;
@@ -77,6 +98,8 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+      {isOldMessage && <AlertBox />}
+
       <AlertBackgroundBox closeable />
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
