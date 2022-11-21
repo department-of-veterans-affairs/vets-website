@@ -6,14 +6,15 @@ const CannotEditModal = props => {
   const { activeSection, isVisible, onHide } = props;
   return (
     <Modal
-      title={`You’re currently editing your ${activeSection}`}
+      title={`Save or cancel your edits to your ${activeSection}`}
       status="warning"
       visible={isVisible}
       onClose={onHide}
     >
       <p>
-        Please go back and save or cancel your work before editing a new section
-        of your profile. If you cancel, your in-progress work won’t be saved.
+        Before you can edit a new section of your profile, you need to save or
+        cancel your edits to your {activeSection}. If you cancel, we won’t save
+        your in-progress edits.
       </p>
       <button onClick={onHide}>OK</button>
     </Modal>
