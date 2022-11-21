@@ -3,7 +3,7 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 beforeEach(() => {});
 
-describe(manifest.appName, function() {
+describe(manifest.appName, () => {
   before(function() {
     if (Cypress.env('CI')) this.skip();
   });
@@ -11,7 +11,8 @@ describe(manifest.appName, function() {
   it('is test fine accessible', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
-    landingPage.loadMessageDetails('Test Inquiry');
+    cy.get('[data-testid="my-folders-sidebar"]').click();
+    cy.contains('TEST2').click();
     cy.injectAxe();
     cy.axeCheck();
   });

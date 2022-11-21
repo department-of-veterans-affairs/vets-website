@@ -3,6 +3,8 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockMessage from '../fixtures/message-response.json';
+import mockThread from '../fixtures/thread-response.json';
 
 class PatientMessagesLandingPage {
   loadPage = (doAxeCheck = false) => {
@@ -48,6 +50,20 @@ class PatientMessagesLandingPage {
     if (doAxeCheck) {
       cy.axeCheck();
     }
+  };
+
+  loadMessageDetails = messageTitle => {
+    cy.intercept('GET', '/my_health/v1/messaging/messages/*', mockMessage).as(
+      'message',
+    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/*/thread',
+      mockThread,
+    ).as('full-thread');
+    cy.contains(messageTitle).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
   };
 }
 
