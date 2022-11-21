@@ -3,12 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function getClasses({ classNameOverride, className, first, last }) {
-  // TODO: Check type == String
-  if (classNameOverride) {
-    return `vads-u-padding-top--0p25 ${classNameOverride}`;
-  }
-
+function getClasses({ className, first, last }) {
   // Append class names
   if (className) {
     const names = classNames('vads-l-col', 'vads-u-padding-top--0p25', {
@@ -35,10 +30,10 @@ export default function AppointmentColumn({
   canceled,
   className,
   classNameOverride,
-  id,
   last,
   icon,
   style,
+  ...rest
 }) {
   const defaultStyles = {
     canceled: {
@@ -49,7 +44,7 @@ export default function AppointmentColumn({
   if (classNameOverride) {
     return (
       <div
-        id={id}
+        id={rest.id}
         className={classNameOverride}
         style={{ ...defaultStyles.canceled, ...style }}
       >
@@ -58,10 +53,9 @@ export default function AppointmentColumn({
     );
   }
 
-  // return render({ appointmentType, isMobile });
   return (
     <div
-      className={getClasses({ classNameOverride, className, first, last })}
+      className={getClasses({ className, first, last })}
       style={defaultStyles.canceled}
     >
       {icon && (
@@ -89,7 +83,6 @@ AppointmentColumn.propTypes = {
   data: PropTypes.string,
   first: PropTypes.bool,
   icon: PropTypes.string,
-  id: PropTypes.string,
   isMobile: PropTypes.bool,
   last: PropTypes.bool,
   render: PropTypes.func,
