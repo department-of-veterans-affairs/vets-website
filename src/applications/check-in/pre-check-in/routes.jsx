@@ -17,7 +17,7 @@ import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 import { withAppSet } from '../containers/withAppSet';
 
-import AppWrapper from '../components/layout/AppWrapper';
+import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 const routes = [
@@ -39,6 +39,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.NEXT_OF_KIN,
@@ -47,6 +48,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.EMERGENCY_CONTACT,
@@ -55,6 +57,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.INTRODUCTION,
@@ -71,6 +74,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.ERROR,
@@ -104,13 +108,18 @@ const createRoutesWithStore = () => {
         // Add app name
         Component = withAppSet(Component, options);
 
-        const WrappedComponent = props => (
+        const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */
-          <AppWrapper isPreCheckIn {...props}>
-            <Component {...props} />
-          </AppWrapper>
+          if (route.reloadable) {
+            return (
+              <ReloadWrapper isPreCheckIn {...props}>
+                <Component {...props} />
+              </ReloadWrapper>
+            );
+          }
+          return <Component {...props} />;
           /* eslint-disable react/jsx-props-no-spreading */
-        );
+        };
 
         return (
           <Route path={`/${route.path}`} component={WrappedComponent} key={i} />

@@ -22,7 +22,7 @@ import withAuthorization from '../containers/withAuthorization';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
-import AppWrapper from '../components/layout/AppWrapper';
+import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
 const routes = [
@@ -44,6 +44,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.NEXT_OF_KIN,
@@ -52,6 +53,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.EMERGENCY_CONTACT,
@@ -60,6 +62,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.DETAILS,
@@ -68,6 +71,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.COMPLETE,
@@ -76,6 +80,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.SEE_STAFF,
@@ -85,6 +90,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.LOADING,
@@ -101,6 +107,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_VEHICLE,
@@ -109,6 +116,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_ADDRESS,
@@ -117,6 +125,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.TRAVEL_MILEAGE,
@@ -125,6 +134,7 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
   },
   {
     path: URLS.ERROR,
@@ -158,13 +168,19 @@ const createRoutesWithStore = () => {
         // Add app name
         Component = withAppSet(Component, options);
 
-        const WrappedComponent = props => (
+        const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */
-          <AppWrapper isPreCheckIn={false} {...props}>
-            <Component {...props} />
-          </AppWrapper>
+          if (route.reloadable) {
+            // If the page is able to restore state on reload add the wrapper.
+            return (
+              <ReloadWrapper isPreCheckIn {...props}>
+                <Component {...props} />
+              </ReloadWrapper>
+            );
+          }
+          return <Component {...props} />;
           /* eslint-disable react/jsx-props-no-spreading */
-        );
+        };
         return (
           <Route path={`/${route.path}`} key={i} component={WrappedComponent} />
         );
