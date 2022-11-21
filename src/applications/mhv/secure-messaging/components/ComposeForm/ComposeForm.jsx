@@ -65,18 +65,16 @@ const ComposeForm = props => {
           focusElement('.message-category');
         } else {
           const messageData = {
-            recipientId: selectedRecipient,
             category,
             body: messageBody,
             subject,
             draftId: draft?.messageId,
           };
+          messageData[`${'recipient_id'}`] = selectedRecipient;
           if (attachments.length) {
             const sendData = new FormData();
             sendData.append('message', JSON.stringify(messageData));
-            attachments.map(upload =>
-              sendData.append('uploads[]', JSON.parse(JSON.stringify(upload))),
-            );
+            attachments.map(upload => sendData.append('uploads[]', upload));
             dispatch(sendMessage(sendData, true));
           } else {
             dispatch(sendMessage(JSON.stringify(messageData), false));
