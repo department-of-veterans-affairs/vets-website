@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import useInterval from '../hooks/use-interval';
+import {
+  logOut,
+  updateLoggedInStatus,
+} from '@department-of-veterans-affairs/platform-user/authentication/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import LandingPageUnauth from './LandingPageUnauth';
 import MessageFAQs from './MessageFAQs';
@@ -9,15 +12,13 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    useSelector(state => state?.user.login.currentlyLoggedIn),
-  );
-  useInterval(() => {
-    setIsLoggedIn(!isLoggedIn);
-  }, 9000);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
 
   const handleClick = () => {
-    setIsLoggedIn(!isLoggedIn);
+    if (isLoggedIn) {
+      dispatch(logOut());
+    } else dispatch(updateLoggedInStatus(!isLoggedIn));
   };
 
   return (
@@ -31,7 +32,17 @@ const App = () => {
         </div>
 
         <div className="vads-u-flex--fill">
-          <button type="button" onClick={handleClick}>
+          {/* toggle log in and out state without using va.gov sign in */}
+          <button
+            style={{
+              'z-index': '2',
+              position: 'absolute',
+              top: '0',
+              left: '0',
+            }}
+            type="button"
+            onClick={handleClick}
+          >
             {isLoggedIn ? <>log out</> : <>log in</>}
           </button>
           <Switch>
