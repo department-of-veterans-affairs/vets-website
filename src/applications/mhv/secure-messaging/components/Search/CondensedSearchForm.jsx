@@ -25,22 +25,15 @@ const CondensedSearchForm = props => {
   };
 
   const label = () => {
-    if (resultsView) {
-      return (
-        <label
-          htmlFor="search-message-folder-input"
-          className="search-in-description"
-        >
-          {folder.name}
-        </label>
-      );
-    }
+    const labelString = resultsView
+      ? folder.name
+      : `Search the ${folder.name} messages folder`;
     return (
       <label
         htmlFor="search-message-folder-input"
         className="search-in-description"
       >
-        {`Search the ${folder.name} messages folder`}
+        {labelString}
       </label>
     );
   };
