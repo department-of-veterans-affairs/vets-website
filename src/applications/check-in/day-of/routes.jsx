@@ -173,7 +173,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper isPreCheckIn {...props}>
+              <ReloadWrapper isPreCheckIn={false} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );
