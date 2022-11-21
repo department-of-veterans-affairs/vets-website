@@ -1,4 +1,4 @@
-import { setStoredSubTask } from 'platform/forms/sub-task';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
 
@@ -100,31 +100,28 @@ describe('995 contact info loop', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
   });
 
-  /*
-   * Skipping for now because clicking "update" should return to the contact
-   * info page, but this isn't working... I think I'm missing an intermediate
-   * step here?
-
-  it.skip('should edit info on a new page, update & return to contact info page - C12884', () => {
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('should edit info on a new page, update & return to contact info page - C31614', () => {
     getToContactPage();
 
+    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
+
     // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Mobile phone
-    cy.get('a[href$="phone"]').click();
+    cy.get('a[href$="mobile-phone"]').click();
+    cy.contains('Edit phone number').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
     cy.findByLabelText(/mobile phone/i)
       .clear()
       .type('8885551212');
-    cy.findByLabelText(/extension/i)
-      .clear()
-      .type('12345');
     cy.findAllByText(/update/i, { selector: 'button' })
       .first()
       .click();
-    // Not returning to the contact info page :(
+
+    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+
+    // Skipping AXE-check; already done in previous test.
   });
-  */
 });
