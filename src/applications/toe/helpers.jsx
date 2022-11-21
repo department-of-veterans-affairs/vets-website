@@ -134,13 +134,18 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  const vapContactInfo = stateUser?.profile?.vapContactInfo;
+  const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation;
+  const vet360ContactInfo = stateUser.vet360ContactInformation || {};
 
-  const address = vet360ContactInfo?.mailingAddress?.addressLine1
-    ? vet360ContactInfo?.mailingAddress
-    : contactInfo;
+  let address;
+  if (vapContactInfo.mailingAddress?.addressLine1) {
+    address = vapContactInfo.mailingAddress;
+  } else if (vet360ContactInfo.mailingAddress?.addressLine1) {
+    address = vet360ContactInfo.mailingAddress;
+  } else {
+    address = contactInfo;
+  }
 
   const emailAddress =
     profile?.email ||

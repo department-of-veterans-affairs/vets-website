@@ -83,7 +83,7 @@ export const HasLetters = ({ claimStatus }) => {
       <h2 id="letter-isnt-listed">What if I my letter isn’t listed here?</h2>
       <p>
         At this time, we only have letters available here that you received a
-        decision on after Month Day, Year. To request a copy of an older letter,
+        decision on after August 20, 2022. To request a copy of an older letter,
         you can contact us through Ask VA.{' '}
         <a href="https://ask.va.gov/">
           Request your VA education letter through Ask VA.
@@ -108,7 +108,7 @@ export const NoLetters = () => {
         <div>
           <p>
             At this time, we only have letters available here that you received
-            a decision on after Month Day, Year. To request a copy of an older
+            a decision on after August 20, 2022. To request a copy of an older
             letter, you can contact us through Ask VA.
           </p>
           <a href="https://ask.va.gov/">
