@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
+import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
@@ -38,10 +38,7 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        <AppointmentBlockWithIcons
-          appointments={appointments}
-          page="confirmation"
-        />
+        <AppointmentBlock appointments={appointments} page="confirmation" />
         <HowToLink apptType={apptType} />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink

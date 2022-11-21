@@ -5,7 +5,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../utils/i18n/i18n';
-import AppointmentBlockWithIcons from '../AppointmentBlockWithIcons';
+import AppointmentBlock from '../AppointmentBlock';
 
 const appointments = [
   {
@@ -35,10 +35,7 @@ describe('pre-check-in', () => {
       it('Renders appointment type label', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="confirmation"
-            />
+            <AppointmentBlock appointments={appointments} page="confirmation" />
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-type-label')[0]).to.have.text(
@@ -48,10 +45,7 @@ describe('pre-check-in', () => {
       it('Renders insurance message with appointment on confirmation page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="confirmation"
-            />
+            <AppointmentBlock appointments={appointments} page="confirmation" />
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
@@ -61,10 +55,7 @@ describe('pre-check-in', () => {
       it('Does not render insurance message with appointment on intro page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={appointments} page="intro" />
           </I18nextProvider>,
         );
         expect(screen.queryByTestId('appointment-message')).to.not.exist;
@@ -72,10 +63,7 @@ describe('pre-check-in', () => {
       it('Renders appointment day for multiple appointments', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={appointments} page="intro" />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
@@ -89,7 +77,7 @@ describe('pre-check-in', () => {
         const updateAppointments = [...appointments];
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
+            <AppointmentBlock
               appointments={[updateAppointments.shift()]}
               page="intro"
             />
@@ -106,10 +94,7 @@ describe('pre-check-in', () => {
       it('Renders appointment facility, time, and clinic', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={appointments} page="intro" />
           </I18nextProvider>,
         );
         expect(
@@ -131,10 +116,7 @@ describe('pre-check-in', () => {
       it('Renders clinicName if no clinicFriendlyName', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={appointments} page="intro" />
           </I18nextProvider>,
         );
         expect(
@@ -146,10 +128,7 @@ describe('pre-check-in', () => {
       it('passes axeCheck', () => {
         axeCheck(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={appointments} page="intro" />
           </I18nextProvider>,
         );
       });
@@ -161,7 +140,7 @@ describe('pre-check-in', () => {
       it('Renders appointment type label', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
+            <AppointmentBlock
               appointments={phoneAppointments}
               page="confirmation"
             />
@@ -174,7 +153,7 @@ describe('pre-check-in', () => {
       it('Renders appointment time with no clinic for phone appointments', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
+            <AppointmentBlock
               appointments={phoneAppointments}
               page="confirmation"
             />
@@ -187,7 +166,7 @@ describe('pre-check-in', () => {
       it('Renders phone message with appointment on confirmation page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
+            <AppointmentBlock
               appointments={phoneAppointments}
               page="confirmation"
             />
@@ -200,10 +179,7 @@ describe('pre-check-in', () => {
       it('Renders phone message with appointment on intro page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={phoneAppointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={phoneAppointments} page="intro" />
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
@@ -213,10 +189,7 @@ describe('pre-check-in', () => {
       it('Does not render facility name', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={phoneAppointments}
-              page="intro"
-            />
+            <AppointmentBlock appointments={phoneAppointments} page="intro" />
           </I18nextProvider>,
         );
         expect(screen.queryByTestId('facility-name')).to.not.exist;
@@ -226,7 +199,7 @@ describe('pre-check-in', () => {
         locationAppointments[0].clinicLocation = 'Test location';
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons appointments={locationAppointments} />
+            <AppointmentBlock appointments={locationAppointments} />
           </I18nextProvider>,
         );
         expect(
@@ -243,7 +216,7 @@ describe('pre-check-in', () => {
       it('should render the type of care when available or default', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons appointments={appointments} />
+            <AppointmentBlock appointments={appointments} />
           </I18nextProvider>,
         );
         expect(
@@ -264,9 +237,7 @@ describe('pre-check-in', () => {
         phoneLocationAppointments[1].kind = 'phone';
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={phoneLocationAppointments}
-            />
+            <AppointmentBlock appointments={phoneLocationAppointments} />
           </I18nextProvider>,
         );
         expect(
@@ -283,7 +254,7 @@ describe('pre-check-in', () => {
       it('passes axeCheck', () => {
         axeCheck(
           <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
+            <AppointmentBlock
               appointments={phoneAppointments}
               page="confirmation"
             />

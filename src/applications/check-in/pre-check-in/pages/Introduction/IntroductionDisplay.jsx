@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
+import AppointmentBlock from '../../../components/AppointmentBlock';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -87,7 +87,7 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      <AppointmentBlockWithIcons appointments={appointments} page="intro" />
+      <AppointmentBlock appointments={appointments} page="intro" />
 
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />
