@@ -1175,14 +1175,35 @@ export function groupAppointmentByDay(appointments) {
 }
 
 export function getLink({ featureStatusImprovement, appointment }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
-        appointment.id
-      }`;
+  const {
+    isCommunityCare,
+    isPastAppointment,
+    appointmentType,
+  } = appointment.vaos;
+  let link;
+
+  if (isCommunityCare) {
+    if (appointmentType === APPOINTMENT_TYPES.ccAppointment) {
+      link = `${
+        featureStatusImprovement && isPastAppointment ? '/past/' : ''
+      }cc/${appointment.id}`;
+    }
+
+    if (appointmentType === APPOINTMENT_TYPES.ccRequest) {
+      link = `requests/${appointment.id}`;
+    }
+  }
+
+  if (appointmentType === APPOINTMENT_TYPES.vaAppointment) {
+    link = `${
+      featureStatusImprovement && isPastAppointment ? '/past/' : ''
+    }va/${appointment.id}`;
+  }
+
+  if (appointmentType === APPOINTMENT_TYPES.request)
+    link = `requests/${appointment.id}`;
+
+  return link;
 }
 
 export function getPractitionerName(appointment) {
