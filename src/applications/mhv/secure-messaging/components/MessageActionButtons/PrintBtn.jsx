@@ -6,11 +6,13 @@ import { useSelector } from 'react-redux';
 const PrintBtn = props => {
   const [printOption, setPrintOption] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const messageThread = useSelector(state => state.message.messages);
+  const messageThread = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const messageThreadCount = useRef(1);
   useEffect(
     () => {
-      if (messageThread) {
+      if (messageThread?.length > 0) {
         messageThread.forEach(() => {
           messageThreadCount.current += 1;
         });

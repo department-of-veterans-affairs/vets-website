@@ -42,7 +42,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Request help with VA debt (VA Form 5655)',
+  title: 'Request help with VA debt for overpayments and copay bills',
   subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,

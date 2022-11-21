@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import SignatureCheckbox from '../../components/PreSubmitInfo/SignatureCheckbox';
+import SignatureCheckbox from '../../../components/PreSubmitInfo/SignatureCheckbox';
 
 const getData = ({ isRepresentative = false, label } = {}) => ({
   mockProps: {

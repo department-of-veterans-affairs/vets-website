@@ -83,9 +83,9 @@ export const HasLetters = ({ claimStatus }) => {
       <h2 id="letter-isnt-listed">What if I my letter isn’t listed here?</h2>
       <p>
         At this time, we only have letters available here that you received a
-        decision on after Month Day, Year. To request a copy of an older letter,
+        decision on after August 20, 2022. To request a copy of an older letter,
         you can contact us through Ask VA.{' '}
-        <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+        <a href="https://ask.va.gov/">
           Request your VA education letter through Ask VA.
         </a>
       </p>
@@ -108,10 +108,10 @@ export const NoLetters = () => {
         <div>
           <p>
             At this time, we only have letters available here that you received
-            a decision on after Month Day, Year. To request a copy of an older
+            a decision on after August 20, 2022. To request a copy of an older
             letter, you can contact us through Ask VA.
           </p>
-          <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+          <a href="https://ask.va.gov/">
             Request your VA education letter through Ask VA.
           </a>
         </div>

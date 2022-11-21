@@ -5,6 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -268,6 +269,38 @@ export function FilterYourResults({
         optionLabel: 'Religious affiliation',
       },
     ];
+    const newFilters = [
+      {
+        optionValue: 'HSI',
+        optionLabel: 'Hispanic-serving institutions',
+      },
+      {
+        optionValue: 'NANTI',
+        optionLabel: 'Native American-serving institutions',
+      },
+      {
+        optionValue: 'ANNHI',
+        optionLabel: 'Alaska Native-serving institutions',
+      },
+      {
+        optionValue: 'AANAPII',
+        optionLabel:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        optionValue: 'PBI',
+        optionLabel: 'Predominantly Black institutions',
+      },
+      {
+        optionValue: 'TRIBAL',
+        optionLabel: 'Tribal college and university',
+      },
+    ];
+
+    if (!environment.isProduction()) {
+      newFilters.forEach(filter => options.push(filter));
+    }
+
     return (
       <Dropdown
         onChange={onChange}
