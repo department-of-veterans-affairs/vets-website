@@ -14,10 +14,7 @@ const mouseClick = new MouseEvent('click', {
 });
 
 describe('Supplemental Claims notice-of-acknowledgement page', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.acknowledgement.pages.notice5103;
+  const { schema, uiSchema } = formConfig.chapters.evidence.pages.notice5103;
 
   it('should render', () => {
     const { container } = render(

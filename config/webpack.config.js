@@ -197,9 +197,16 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
     template = {},
     widgetType,
     widgetTemplate,
+    useLocalStylesAndComponents,
   }) =>
     new HtmlPlugin({
-      chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
+      chunks: [
+        'polyfills',
+        useLocalStylesAndComponents ? null : 'web-components',
+        'vendor',
+        useLocalStylesAndComponents ? null : 'style',
+        entryName,
+      ],
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
@@ -408,6 +415,9 @@ module.exports = async (env = {}) => {
         __REGISTRY__: JSON.stringify(appRegistry),
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
+        ),
+        'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
+          process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
       }),
 

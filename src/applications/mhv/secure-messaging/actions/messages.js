@@ -56,6 +56,10 @@ export const clearMessageHistory = () => async dispatch => {
   dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
 
+export const clearMessage = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR });
+};
+
 /**
  * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
@@ -65,6 +69,7 @@ export const retrieveMessage = (
   messageId,
   isDraft = false,
 ) => async dispatch => {
+  dispatch(clearMessage());
   const response = await getMessage(messageId);
   dispatch(retrieveMessageHistory(messageId, isDraft));
   if (response.errors) {
@@ -76,10 +81,6 @@ export const retrieveMessage = (
       response,
     });
   }
-};
-
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
 };
 
 /**
