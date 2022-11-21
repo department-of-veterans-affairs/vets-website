@@ -39,7 +39,7 @@ const InboxListItem = props => {
       className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
-      <p className={getClassNames()}>
+      <div className={getClassNames()}>
         {readReceipt === false && (
           <i
             aria-hidden="true"
@@ -54,7 +54,7 @@ const InboxListItem = props => {
             <div>From: {senderName}</div>
           </>
         )}
-      </p>
+      </div>
       <Link
         className="vads-u-margin-left--3 vads-u-margin-y--0p5"
         to={`/${
