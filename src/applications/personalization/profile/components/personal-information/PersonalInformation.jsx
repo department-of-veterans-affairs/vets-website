@@ -14,7 +14,6 @@ import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -38,7 +37,6 @@ const PersonalInformation = () => {
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
-  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
 
   const hasPersonalInformationServiceError = !!useSelector(
     personalInformationLoadError,
@@ -153,7 +151,6 @@ const PersonalInformation = () => {
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         <PersonalInformationContent
-          hasVAPServiceError={hasVAPServiceError}
           hasPersonalInformationServiceError={
             hasPersonalInformationServiceError
           }

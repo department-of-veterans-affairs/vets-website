@@ -5,12 +5,9 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 
 import PersonalInformationSection from './PersonalInformationSection';
 
-const PersonalInformationContent = ({
-  hasVAPServiceError,
-  hasPersonalInformationServiceError,
-}) => (
+const PersonalInformationContent = ({ hasPersonalInformationServiceError }) => (
   <>
-    {hasVAPServiceError || hasPersonalInformationServiceError ? (
+    {hasPersonalInformationServiceError ? (
       <div data-testid="vap-service-not-available-error">
         <va-alert status="warning" className="vads-u-margin-bottom--4">
           <h2 slot="headline">We can’t load your personal information</h2>
