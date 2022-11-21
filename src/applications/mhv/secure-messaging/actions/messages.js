@@ -6,6 +6,7 @@ import {
   deleteMessage as deleteMessageCall,
   moveMessage as moveMessageCall,
   createMessage,
+  createReplyToMessage,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -139,6 +140,31 @@ export const moveMessage = (messageId, folderId) => async dispatch => {
 export const sendMessage = (message, attachments) => async dispatch => {
   try {
     await createMessage(message, attachments);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+      ),
+    );
+  }
+};
+
+export const sendReply = (
+  replyToId,
+  message,
+  attachments,
+) => async dispatch => {
+  try {
+    await createReplyToMessage(replyToId, message, attachments);
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
