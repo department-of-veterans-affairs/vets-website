@@ -84,7 +84,11 @@ const DisplayMultipleAppointments = props => {
   if (isLoading) window.scrollTo(0, 0);
 
   return isLoading ? (
-    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+    <div>
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
+    </div>
   ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />

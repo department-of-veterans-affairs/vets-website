@@ -37,12 +37,12 @@ export default function NextOfKinDisplay({
   const loadingMessage = useCallback(
     () => {
       return (
-        <>
+        <div>
           <va-loading-indicator
             data-testid="loading-message"
             message={t('saving-your-responses')}
           />
-        </>
+        </div>
       );
     },
     [t],

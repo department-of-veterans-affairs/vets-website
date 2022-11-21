@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
 import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
@@ -91,7 +90,11 @@ const ReloadWrapper = props => {
 
   if (refreshData || isLoading) {
     window.scrollTo(0, 0);
-    return <VaLoadingIndicator message={t('loading')} />;
+    return (
+      <div>
+        <va-loading-indicator message={t('loading')} />
+      </div>
+    );
   }
   return <>{children}</>;
 };
