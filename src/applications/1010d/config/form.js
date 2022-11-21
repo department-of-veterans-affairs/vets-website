@@ -11,7 +11,7 @@ import sponsorInformation from '../pages/sponsor/sponsorInformation';
 import sponsorAddress from '../pages/sponsor/sponsorAddress';
 import sponsorDates from '../pages/sponsor/sponsorDates';
 
-import applicantInformation from '../pages/applicantInformation';
+import applicantInformation from '../pages/applicants/applicantInformation';
 
 const {
   fullName,
@@ -77,7 +77,7 @@ const formConfig = {
         },
       },
     },
-    applicantInformationChapter: {
+    applicantChapter: {
       title: 'Applicant Information',
       pages: {
         applicantInformation: {

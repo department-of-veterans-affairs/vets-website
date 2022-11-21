@@ -4,34 +4,35 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ApplicantField from '../components/ApplicantField';
-import fullSchema from '../10-10D-schema.json';
+import { applicantFields } from '../../definitions/constants';
+import ApplicantField from '../../components/ApplicantField';
+import fullSchema from '../../10-10D-schema.json';
 
 const { applicants } = fullSchema.properties;
 
 export default {
   uiSchema: {
-    applicants: {
+    [applicantFields.parentObject]: {
       'ui:options': {
         viewField: ApplicantField,
       },
       items: {
-        address: address.uiSchema(),
-        fullName: fullNameUI,
-        ssnOrTin: ssnUI,
-        gender: {
+        [applicantFields.address]: address.uiSchema(),
+        [applicantFields.fullName]: fullNameUI,
+        [applicantFields.ssn]: ssnUI,
+        [applicantFields.gender]: {
           'ui:title': 'Gender',
         },
-        email: emailUI(),
-        phoneNumber: phoneUI('Phone number'),
-        dateOfBirth: currentOrPastDateUI('Date of birth'),
-        isEnrolledInMedicare: {
+        [applicantFields.email]: emailUI(),
+        [applicantFields.phone]: phoneUI('Phone number'),
+        [applicantFields.dob]: currentOrPastDateUI('Date of birth'),
+        [applicantFields.isEnrolledInMedicare]: {
           'ui:title': 'Enrolled in Medicare?',
         },
-        hasOtherHealthInsurance: {
+        [applicantFields.hasOtherHealthInsurance]: {
           'ui:title': 'Other health insurance?',
         },
-        vetRelationship: {
+        [applicantFields.vetRelationship]: {
           'ui:title': 'Veteran relationship',
         },
       },
