@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function VideoLink({ appointment }) {
-  const url = appointment.videoData.url;
+  const { url } = appointment.videoData;
   const diff = moment().diff(moment(appointment.start), 'minutes');
 
   // Button is enabled 30 minutes prior to start time, until 4 hours after start time
@@ -47,3 +48,6 @@ export default function VideoLink({ appointment }) {
     </div>
   );
 }
+VideoLink.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};

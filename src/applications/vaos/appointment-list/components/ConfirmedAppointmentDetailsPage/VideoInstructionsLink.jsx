@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VideoVisitInstructions } from './VideoVisitInstructions';
 
 import { isVideoHome } from '../../../services/appointment';
@@ -22,3 +23,7 @@ export default function VideoInstructionsLink({ appointment }) {
     </div>
   );
 }
+
+VideoInstructionsLink.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
