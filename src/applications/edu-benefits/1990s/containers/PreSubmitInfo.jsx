@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+// import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 function PreSubmitNotice({
@@ -12,34 +13,63 @@ function PreSubmitNotice({
   onSectionComplete,
   setPreSubmit,
 }) {
-  const vrrapConfirmation = formData.vrrapConfirmation;
+  const { vrrapConfirmation } = formData;
+
+  const handlers = {
+    onSelection: event => {
+      setPreSubmit('vrrapConfirmation', event.detail.value === 'true');
+    },
+  };
 
   const confirmEligibilityNote = (
     <div>
       <div>
-        <h4 id="confirmEligibility_title">Confirm you're eligible for VRRAP</h4>
+        <h4 id="confirmEligibility_title">Confirm you’re eligible for VRRAP</h4>
         <div>
           <p>
             To be eligible for VRRAP, the 3 following statements must be true:
           </p>
           <ul>
             <li>
-              As of the date of this application, you're currently unemployed
+              As of the date of this application, you’re currently unemployed
               due to the COVID-19 pandemic.
             </li>
             <li>
-              You're not currently enrolled in a federal or state jobs program,
-              and you don't expect to be enrolled in one while using VRRAP.
+              You’re not currently enrolled in a federal or state jobs program,
+              and you don’t expect to be enrolled in one while using VRRAP.
             </li>
             <li>
-              You won't receive unemployment compensation, including any cash
+              You won’t receive unemployment compensation, including any cash
               benefit received under the CARES Act, while training using VRRAP.
             </li>
           </ul>
         </div>
       </div>
       <div>
-        <RadioButtons
+        <fieldset>
+          <VaRadio
+            name="confirmEligibility_options"
+            error={null}
+            hint=""
+            label="The statements above are true and accurate to the best of my knowledge and belief."
+            onVaValueChange={handlers.onSelection}
+            required
+          >
+            <va-radio-option
+              id="yes-value"
+              label="Yes"
+              value="true"
+              checked={vrrapConfirmation === 'true'}
+            />
+            <va-radio-option
+              id="no-value"
+              label="No"
+              value="false"
+              checked={vrrapConfirmation === 'false'}
+            />
+          </VaRadio>
+        </fieldset>
+        {/* <RadioButtons
           name={'confirmEligibility_options'}
           label={
             'The statements above are true and accurate to the best of my knowledge and belief.'
@@ -53,7 +83,7 @@ function PreSubmitNotice({
             setPreSubmit('vrrapConfirmation', value === 'true')
           }
           value={{ value: vrrapConfirmation }}
-        />
+        /> */}
       </div>
     </div>
   );
