@@ -26,12 +26,22 @@ const CondensedSearchForm = props => {
 
   const label = () => {
     if (resultsView) {
-      return <div className="search-in-description">{folder.name}</div>;
+      return (
+        <label
+          htmlFor="search-message-folder-input"
+          className="search-in-description"
+        >
+          {folder.name}
+        </label>
+      );
     }
     return (
-      <div className="search-in-description">
-        Search the {folder.name} messages folder
-      </div>
+      <label
+        htmlFor="search-message-folder-input"
+        className="search-in-description"
+      >
+        {`Search the ${folder.name} messages folder`}
+      </label>
     );
   };
 
@@ -43,6 +53,7 @@ const CondensedSearchForm = props => {
         onInput={e => setSearchTerm(e.target.value)}
         onSubmit={handleSearch}
         value={searchTerm}
+        label="search-message-folder-input"
       />
 
       {resultsView && (

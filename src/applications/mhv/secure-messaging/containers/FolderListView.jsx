@@ -80,60 +80,64 @@ const FolderListView = () => {
     }
   }, 60000);
 
-  let content;
-  if (messages === undefined) {
-    content = (
+  const loadingIndicator = () => {
+    return (
       <va-loading-indicator
         message="Loading your secure messages..."
         setFocus
+        data-testid="loading-indicator"
       />
     );
-  } else if (messages.length === 0) {
-    content = (
-      <>
-        <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-          Displaying 0 of 0 messages
-        </div>
-        <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
-          <va-alert
-            background-only="true"
-            status="info"
-            className="vads-u-margin-bottom--1 va-alert"
-          >
-            <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
-          </va-alert>
-        </div>
-      </>
-    );
-  } else if (error) {
-    content = (
-      <va-alert status="error" visible>
-        <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-        <p>
-          You can’t view your secure messages because something went wrong on
-          our end. Please check back soon.
-        </p>
-      </va-alert>
-    );
-  } else if (messages.length > 0) {
-    content = (
-      <>
-        <MessageList messages={messages} folder={folder} />
-      </>
-    );
-  }
+  };
+
+  const content = () => {
+    if (messages === undefined) {
+      return loadingIndicator();
+    }
+    if (messages.length === 0) {
+      return (
+        <>
+          <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+            Displaying 0 of 0 messages
+          </div>
+          <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
+            <va-alert
+              background-only="true"
+              status="info"
+              className="vads-u-margin-bottom--1 va-alert"
+            >
+              <p className="vads-u-margin-y--0">{Alerts.Message.NO_MESSAGES}</p>
+            </va-alert>
+          </div>
+        </>
+      );
+    }
+    if (error) {
+      return (
+        <va-alert status="error" visible>
+          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
+          <p>
+            You can’t view your secure messages because something went wrong on
+            our end. Please check back soon.
+          </p>
+        </va-alert>
+      );
+    }
+    if (messages.length > 0) {
+      return <MessageList messages={messages} folder={folder} />;
+    }
+    return '';
+  };
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="main-content">
         <AlertBackgroundBox closeable />
-        {folder?.folderId === undefined && (
-          <va-loading-indicator message="Loading your messages..." setFocus />
-        )}
+        {folder?.folderId === undefined && loadingIndicator()}
         {folder?.folderId !== undefined && (
           <>
             <FolderHeader folder={folder} />
-            <div>{content}</div>
+            {content()}
           </>
         )}
       </div>
