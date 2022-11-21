@@ -10,7 +10,6 @@ export default function NextOfKinDisplay({
   nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
-  isLoading = false,
 }) {
   const { t } = useTranslation();
   const nextOfKinFields = [
@@ -57,7 +56,6 @@ export default function NextOfKinDisplay({
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
-        isLoading={isLoading}
         loadingMessageOverride={loadingMessage}
         withBackButton
         pageType="next-of-kin"
@@ -68,7 +66,6 @@ export default function NextOfKinDisplay({
 
 NextOfKinDisplay.propTypes = {
   header: propTypes.string,
-  isLoading: propTypes.bool,
   nextOfKin: propTypes.object,
   noAction: propTypes.func,
   subtitle: propTypes.string,
