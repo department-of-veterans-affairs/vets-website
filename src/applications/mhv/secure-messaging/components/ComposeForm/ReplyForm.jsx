@@ -26,6 +26,7 @@ const ReplyForm = props => {
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
+  const [bodyError, setBodyError] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
@@ -128,7 +129,11 @@ const ReplyForm = props => {
   };
 
   const sendMessageHandler = () => {
-    setSendMessageFlag(true);
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError('Message body cannot be blank.');
+    } else {
+      setSendMessageFlag(true);
+    }
   };
 
   const saveDraftHandler = type => {
@@ -207,13 +212,14 @@ const ReplyForm = props => {
               Message
               <span className="required"> (*Required)</span>
             </label>
-            <textarea
+            <va-textarea
               id="message-body"
               name="message-body"
               className="message-body"
               data-testid="message-body-field"
               onChange={e => setMessageBody(e.target.value)}
               value={messageBody}
+              error={bodyError}
             />
           </div>
           <section className="attachments-section">

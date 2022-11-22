@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -25,7 +24,10 @@ const ComposeForm = props => {
     defaultRecipientsList[0].id,
   );
   const [category, setCategory] = useState(null);
-  const [categoryError, setCategoryError] = useState(null);
+  const [categoryError, setCategoryError] = useState('');
+  const [bodyError, setBodyError] = useState('');
+  const [recipientError, setRecipientError] = useState('');
+  const [subjectError, setSubjectError] = useState('');
   const [subject, setSubject] = useState('');
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
@@ -62,27 +64,22 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
-        if (!category) {
-          setCategoryError(true);
-          focusElement('.message-category');
+        const messageData = {
+          category,
+          body: messageBody,
+          subject,
+          draftId: draft?.messageId,
+        };
+        messageData[`${'recipient_id'}`] = selectedRecipient;
+        if (attachments.length) {
+          const sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+          dispatch(sendMessage(sendData, true));
         } else {
-          const messageData = {
-            category,
-            body: messageBody,
-            subject,
-            draftId: draft?.messageId,
-          };
-          messageData[`${'recipient_id'}`] = selectedRecipient;
-          if (attachments.length) {
-            const sendData = new FormData();
-            sendData.append('message', JSON.stringify(messageData));
-            attachments.map(upload => sendData.append('uploads[]', upload));
-            dispatch(sendMessage(sendData, true));
-          } else {
-            dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-              history.push('/'),
-            );
-          }
+          dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+            history.push('/'),
+          );
         }
       }
     },
@@ -165,7 +162,28 @@ const ComposeForm = props => {
   };
 
   const sendMessageHandler = () => {
-    setSendMessageFlag(true);
+    let errorCounter = 0;
+    if (!selectedRecipient || selectedRecipient === '') {
+      setRecipientError('Please select a recipient.');
+      errorCounter += 1;
+    }
+    if (!subject || subject === '') {
+      setSubjectError('Subject cannot be blank.');
+      errorCounter += 1;
+    }
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError('Message Body cannot be blank.');
+      errorCounter += 1;
+    }
+    if (!category || category === '') {
+      setCategoryError('Please select a category.');
+      errorCounter += 1;
+    }
+    // eslint-disable-next-line no-console
+    console.log(errorCounter);
+    if (errorCounter === 0) {
+      setSendMessageFlag(true);
+    }
   };
 
   useEffect(
@@ -214,6 +232,7 @@ const ComposeForm = props => {
               onVaSelect={e => setSelectedRecipient(e.detail.value)}
               class="composeSelect"
               data-testid="compose-select"
+              error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
                 <option key={item.id} value={item.id}>
@@ -239,7 +258,7 @@ const ComposeForm = props => {
             <span className="required"> (*Required)</span>
           </label>
 
-          <input
+          <va-text-input
             type="text"
             id="message-subject"
             name="message-subject"
@@ -249,6 +268,7 @@ const ComposeForm = props => {
               setSubject(e.target.value);
             }}
             value={subject}
+            error={subjectError}
           />
         </div>
         <div className="message-body-field">
@@ -256,13 +276,14 @@ const ComposeForm = props => {
             Message
             <span className="required"> (*Required)</span>
           </label>
-          <textarea
+          <va-textarea
             id="message-body"
             name="message-body"
             className="message-body"
             data-testid="message-body-field"
             onChange={e => setMessageBody(e.target.value)}
             value={messageBody}
+            error={bodyError}
           />
         </div>
         <section className="attachments-section">
