@@ -13,7 +13,7 @@ import {
   CANCELLED_APPOINTMENT_SET,
   PAST_APPOINTMENTS_HIDE_STATUS_SET,
   FUTURE_APPOINTMENTS_HIDE_STATUS_SET,
-} from '../../../services/appointment';
+} from '../../../utils/appointment';
 import { transformATLASLocation } from '../../../services/location/transformers';
 
 const now = moment();

@@ -23,7 +23,6 @@ const MessageDetail = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
-  const [id, setid] = useState(null);
   const [CannotReplyAlert, setCannotReplyAlert] = useState(true);
 
   useEffect(
@@ -31,13 +30,13 @@ const MessageDetail = () => {
       if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
         history.push(`/draft/${messageId}`);
       }
-      setid(messageId);
-      if (id) {
+
+      if (messageId) {
         dispatch(closeAlert()); // to clear out any past alerts before landing this page
-        dispatch(retrieveMessage(id));
+        dispatch(retrieveMessage(messageId));
       }
     },
-    [dispatch, location, messageId, id, activeFolder, history],
+    [dispatch, location, messageId, activeFolder, history],
   );
 
   useEffect(
@@ -60,43 +59,40 @@ const MessageDetail = () => {
     pageTitle = 'Message';
   }
 
-  const content = () => {
-    if (message === undefined) {
-      return (
-        <va-loading-indicator
-          message="Loading your secure message..."
-          setFocus
-        />
-      );
-    }
-    if (message === null || message === false) {
-      return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure message because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
-      );
-    }
-    return (
-      <>
-        <MessageDetailBlock message={message} />
-        <MessageThread messageHistory={messageHistory} />
-      </>
-    );
-  };
-
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       {/* Only display this type of alert when it contains a header */}
       {CannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
-      <NavigationLinks messageId={id} />
+      {message === undefined && (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+        />
+      )}
 
-      {content()}
+      {message === null ||
+        (message === false && (
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        ))}
+
+      {message &&
+        messageId && (
+          <>
+            <NavigationLinks messageId={messageId} />
+            <MessageDetailBlock message={message} />
+            <MessageThread messageHistory={messageHistory} />
+          </>
+        )}
     </div>
   );
 };
