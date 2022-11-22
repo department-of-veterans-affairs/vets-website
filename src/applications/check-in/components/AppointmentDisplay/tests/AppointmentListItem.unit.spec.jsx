@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
 
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
-
 import AppointmentListItem from '../AppointmentListItem';
 import i18n from '../../../utils/i18n/i18n';
 
@@ -177,20 +175,6 @@ describe('check-in', () => {
       );
 
       expect(listItem.queryByTestId('provider')).to.not.exist;
-    });
-
-    it('passes axeCheck', () => {
-      axeCheck(
-        <Provider store={store}>
-          <AppointmentListItem
-            appointment={{
-              startTime: '2021-07-19T13:56:31',
-              clinicFriendlyName: 'Green Team Clinic1',
-              facility: 'Green Team facility',
-            }}
-          />
-        </Provider>,
-      );
     });
   });
 });

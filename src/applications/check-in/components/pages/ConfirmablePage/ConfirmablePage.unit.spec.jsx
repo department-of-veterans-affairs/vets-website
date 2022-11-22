@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ConfirmablePage from './index';
 import i18n from '../../../utils/i18n/i18n';
@@ -31,15 +30,6 @@ describe('pre-check-in experience', () => {
       store = mockStore(initState);
     });
     describe('ConfirmablePage', () => {
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage />
-            </I18nextProvider>
-          </Provider>,
-        );
-      });
       it('renders custom header', () => {
         const { getByText } = render(
           <Provider store={store}>

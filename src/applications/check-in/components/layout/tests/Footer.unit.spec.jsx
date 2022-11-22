@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { I18nextProvider } from 'react-i18next';
@@ -29,15 +28,6 @@ describe('check-in', () => {
         pathname: '/third-page',
       },
     };
-    it('passes axeCheck for day of', () => {
-      axeCheck(
-        <Provider store={mockStore(initState)}>
-          <I18nextProvider i18n={i18n}>
-            <Footer router={mockRouter} isPreCheckIn={false} />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
     it('Renders day-of check-in footer', () => {
       const component = render(
         <Provider store={mockStore(initState)}>
@@ -73,15 +63,6 @@ describe('check-in', () => {
         </Provider>,
       );
       expect(component.getByTestId('day-of-travel-extra-message')).to.exist;
-    });
-    it('passes axeCheck for pre-check-in', () => {
-      axeCheck(
-        <Provider store={mockStore(initState)}>
-          <I18nextProvider i18n={i18n}>
-            <Footer router={mockRouter} isPreCheckIn />
-          </I18nextProvider>
-        </Provider>,
-      );
     });
     it('Renders default pre-check-in footer', () => {
       const component = render(

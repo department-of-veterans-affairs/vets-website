@@ -5,7 +5,6 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { I18nextProvider } from 'react-i18next';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 
 import i18n from '../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
@@ -120,21 +119,6 @@ describe('check in', () => {
       expect(component.queryByText('555-333-4444')).to.be.null;
       expect(component.queryByText('Aunt')).to.be.null;
       expect(component.getAllByText('Not available').length).to.equal(2);
-    });
-
-    it('passes axeCheck', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
     });
 
     it('has a clickable no button', () => {

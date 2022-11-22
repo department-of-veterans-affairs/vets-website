@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 
 import AppointmentLocation from '../AppointmentLocation';
 
@@ -51,10 +50,6 @@ describe('check-in', () => {
       expect(display.getByText('should be this')).to.exist;
     });
 
-    it('passes axeCheck', () => {
-      const appointment = { clinicFriendlyName: 'foo' };
-      axeCheck(<AppointmentLocation appointment={appointment} />);
-    });
     it('Renders name boldly', () => {
       const appointment = { clinicFriendlyName: 'foo' };
       const display = render(

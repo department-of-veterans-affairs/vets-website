@@ -2,8 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
-import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import AppointmentBlock from '../AppointmentBlock';
 import i18n from '../../utils/i18n/i18n';
 
@@ -85,7 +83,7 @@ describe('pre-check-in', () => {
     });
 
     it('should render the appointment location for in person appointments when available', () => {
-      const locationAppointments = cloneDeep(appointments);
+      const locationAppointments = JSON.parse(JSON.stringify(appointments));
       locationAppointments[0].clinicLocation = 'Test location';
       const screen = render(
         <I18nextProvider i18n={i18n}>
@@ -123,7 +121,9 @@ describe('pre-check-in', () => {
     });
 
     it('should not render the appointment location for phone appointments even if available', () => {
-      const phoneLocationAppointments = cloneDeep(appointments);
+      const phoneLocationAppointments = JSON.parse(
+        JSON.stringify(appointments),
+      );
       phoneLocationAppointments[0].clinicLocation = 'Test location';
       phoneLocationAppointments[0].kind = 'phone';
       phoneLocationAppointments[1].kind = 'phone';
@@ -142,10 +142,6 @@ describe('pre-check-in', () => {
           .getAllByTestId('appointment-list-item')[1]
           .querySelector('[data-testid="clinic-location"]'),
       ).to.not.exist;
-    });
-
-    it('check in button passes axeCheck', () => {
-      axeCheck(<AppointmentBlock appointments={appointments} />);
     });
   });
 });

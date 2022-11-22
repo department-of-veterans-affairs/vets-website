@@ -1,8 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
-import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../utils/i18n/i18n';
 import AppointmentBlockWithIcons from '../AppointmentBlockWithIcons';
@@ -143,16 +141,6 @@ describe('pre-check-in', () => {
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('LOM ACC CLINIC TEST');
       });
-      it('passes axeCheck', () => {
-        axeCheck(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
-          </I18nextProvider>,
-        );
-      });
     });
     describe('Phone appointment context', () => {
       const phoneAppointments = JSON.parse(JSON.stringify(appointments));
@@ -222,7 +210,7 @@ describe('pre-check-in', () => {
         expect(screen.queryByTestId('facility-name')).to.not.exist;
       });
       it('should render the appointment location for in person appointments when available', () => {
-        const locationAppointments = cloneDeep(appointments);
+        const locationAppointments = JSON.parse(JSON.stringify(appointments));
         locationAppointments[0].clinicLocation = 'Test location';
         const screen = render(
           <I18nextProvider i18n={i18n}>
@@ -258,7 +246,9 @@ describe('pre-check-in', () => {
         ).to.have.text('VA Appointment');
       });
       it('should not render the appointment location for phone appointments even when available', () => {
-        const phoneLocationAppointments = cloneDeep(appointments);
+        const phoneLocationAppointments = JSON.parse(
+          JSON.stringify(appointments),
+        );
         phoneLocationAppointments[0].clinicLocation = 'Test location';
         phoneLocationAppointments[0].kind = 'phone';
         phoneLocationAppointments[1].kind = 'phone';
@@ -279,16 +269,6 @@ describe('pre-check-in', () => {
             .getAllByTestId('appointment-list-item')[1]
             .querySelector('[data-testid="clinic-location"]'),
         ).to.not.exist;
-      });
-      it('passes axeCheck', () => {
-        axeCheck(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={phoneAppointments}
-              page="confirmation"
-            />
-          </I18nextProvider>,
-        );
       });
     });
   });

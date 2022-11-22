@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 
 import {
   makeSelectCurrentContext,
@@ -116,7 +115,7 @@ describe('check-in', () => {
         });
       });
       it('returns empty when appointment data is not available', () => {
-        const partialState = cloneDeep(state);
+        const partialState = JSON.parse(JSON.stringify(state));
         delete partialState.checkInData.appointments;
         delete partialState.checkInData.context.appointment;
         const selectConfirmationData = makeSelectConfirmationData();

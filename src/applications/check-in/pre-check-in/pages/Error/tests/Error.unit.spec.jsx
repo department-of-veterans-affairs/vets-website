@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
-import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';
@@ -309,15 +308,6 @@ describe('check-in', () => {
         expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         expect(component.getByTestId('error-message')).to.exist;
-      });
-      it('Passes AxeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
-        );
       });
     });
   });
