@@ -7,7 +7,9 @@ import MessageThreadItem from './MessageThread/MessageThreadItem';
 const PrintMessageThread = props => {
   const { messageId } = props;
   const dispatch = useDispatch();
-  const messageThread = useSelector(state => state.message.messages);
+  const messageThread = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const printView = true;
   useEffect(
     () => {
@@ -20,15 +22,19 @@ const PrintMessageThread = props => {
 
   const messageThreadList = () => {
     return (
-      <div className="message-thread-list">
-        {messageThread.map((m, i) => {
-          return (
-            <div key={i}>
-              <MessageThreadItem message={m} printView={printView} />
-            </div>
-          );
-        })}
-      </div>
+      <>
+        {messageThread?.length > 0 && (
+          <div className="message-thread-list">
+            {messageThread.map((m, i) => {
+              return (
+                <div key={i}>
+                  <MessageThreadItem message={m} printView={printView} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </>
     );
   };
   return <div>{messageThread ? messageThreadList() : null}</div>;
