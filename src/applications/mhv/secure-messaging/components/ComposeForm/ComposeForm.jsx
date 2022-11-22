@@ -162,7 +162,7 @@ const ComposeForm = props => {
     <form className="compose-form" onSubmit={sendMessageHandler}>
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
-        <button type="submit" className="send-button-top">
+        <button type="button" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />
           <span className="send-button-top-text">Send</span>
         </button>
@@ -246,14 +246,14 @@ const ComposeForm = props => {
         </section>
         <div className="compose-form-actions vads-u-display--flex">
           <button
-            type="submit"
+            type="button"
             className="vads-u-flex--1"
             data-testid="Send-Button"
           >
             Send
           </button>
           <button
-            type="submit"
+            type="button"
             className="usa-button-secondary vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}

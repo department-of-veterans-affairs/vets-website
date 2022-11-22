@@ -113,7 +113,7 @@ const SearchMessagesForm = props => {
       relativeFromDate = getRelativeDate(dateRange);
     }
 
-    const folderData = folders.find(item => item.id === folder);
+    const folderData = folders.find(item => +item.id === +folder);
 
     dispatch(
       runAdvancedSearch(folderData, {

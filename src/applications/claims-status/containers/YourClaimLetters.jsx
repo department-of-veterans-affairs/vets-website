@@ -13,7 +13,7 @@ import { ITEMS_PER_PAGE } from '../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
 
 const paginateItems = items => {
-  return chunk(items, ITEMS_PER_PAGE);
+  return items.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
 };
 
 // const getFromToNums = (page, total) => {
@@ -22,6 +22,16 @@ const paginateItems = items => {
 
 //   return [from, to];
 // };
+
+const NoLettersContent = () => (
+  <>
+    <h2 className="vads-u-font-size--h3">No letters to show</h2>
+    <div className="vads-u-font-size--lg">
+      It looks like you don’t have any letters from the VA at the moment. Check
+      back when you’re notified about letters.
+    </div>
+  </>
+);
 
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
@@ -42,6 +52,8 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
       setCurrentItems(paginatedItems.current[currentPage - 1]);
       setLettersLoading(false);
     });
+
+    document.title = 'Your VA Claim Letters | Veterans Affairs';
   }, []);
 
   const onPageChange = page => {
@@ -74,9 +86,11 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
               Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
               claim letters
             </p> */}
-            {currentItems.length ? (
+            {currentItems?.length ? (
               <ClaimLetterList letters={currentItems} />
-            ) : null}
+            ) : (
+              <NoLettersContent />
+            )}
             {totalPages.current > 1 && (
               <VaPagination
                 onPageSelect={e => onPageChange(e.detail.page)}

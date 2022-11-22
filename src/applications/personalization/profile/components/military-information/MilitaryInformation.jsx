@@ -28,7 +28,7 @@ const NotAVeteranAlert = () => {
           If you think this is an error, call us at{' '}
           <va-telephone contact={CONTACTS.HELP_DESK} /> (
           <va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-alert>
     </>
@@ -52,9 +52,10 @@ const NotInDEERSAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />. The DMDC
-            Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            8:00 p.m. ET.
+            &nbsp;(
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            ). The DMDC Monday through Friday (except federal holidays), 8:00
+            a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -69,6 +70,32 @@ const NotInDEERSAlert = () => {
           </a>
           .
         </div>
+      </va-alert>
+    </>
+  );
+};
+
+// Request DD214
+const RequestMilServiceRecordsAlert = () => {
+  return (
+    <>
+      <va-alert
+        background-only
+        class="vads-u-margin-y--0"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        status="info"
+        full-width="false"
+        visible="true"
+      >
+        <p className="vads-u-margin-y--0">
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
+          <a href="/records/get-military-service-records">
+            Learn how to request your DD214 and other military records
+          </a>
+        </p>
       </va-alert>
     </>
   );
@@ -190,6 +217,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+      <br />
+      <RequestMilServiceRecordsAlert />
     </>
   );
 };

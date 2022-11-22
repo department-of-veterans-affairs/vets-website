@@ -40,7 +40,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceTravelReimbursement: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
@@ -54,7 +53,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
         }),
       );
@@ -67,7 +65,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
           checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaDeletionEnabled: false,
@@ -488,13 +485,13 @@ class ApiInitializer {
 
   initializeBtsssPost = {
     withSuccess: () => {
-      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
+      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
         req.reply(btsss.post.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 500) => {
-      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
-        req.reply(errorCode, btsss.post.createMockFailedResponse({}));
+    withFailure: (errorCode = 400, errorType) => {
+      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
+        req.reply(errorCode, btsss.post.createMockFailedResponse(errorType));
       });
     },
   };
