@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 import { uniqBy } from 'lodash';
+import Scroll from 'react-scroll';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
 import { getStatements } from '../actions/copays';
 import DebtCheckBox from './DebtCheckBox';
 import CopayCheckBox from './CopayCheckBox';
 import { sortStatementsByDate } from '../utils/helpers';
+import { setFocus } from '../utils/fileValidation';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -22,6 +24,15 @@ const NoDebts = () => (
     </p>
   </div>
 );
+
+const { scroller } = Scroll;
+const scrollToTop = () => {
+  scroller.scrollTo('error-message-content', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 const AvailableDebtsAndCopays = ({ formContext }) => {
   const { debts, statements, pending, isError, pendingCopays } = useSelector(
@@ -41,6 +52,16 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       );
     },
     [formContext.submitted, data.selectedDebtsAndCopays?.length],
+  );
+
+  useEffect(
+    () => {
+      if (selectionError) {
+        scrollToTop();
+        setFocus('[name="error-message-content"]');
+      }
+    },
+    [selectionError],
   );
 
   const dispatch = useDispatch();
@@ -85,6 +106,7 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
       >
         {selectionError && (
           <span
+            name="error-message-content"
             className="vads-u-font-weight--bold vads-u-color--secondary-dark"
             role="alert"
           >
