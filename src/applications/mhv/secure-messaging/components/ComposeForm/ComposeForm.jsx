@@ -179,8 +179,6 @@ const ComposeForm = props => {
       setCategoryError('Please select a category.');
       errorCounter += 1;
     }
-    // eslint-disable-next-line no-console
-    console.log(errorCounter);
     if (errorCounter === 0) {
       setSendMessageFlag(true);
     }
