@@ -402,7 +402,8 @@ const EvidenceVaRecords = ({
         </VaCheckboxGroup>
 
         <VaDate
-          name="location-date"
+          id="location-from-date"
+          name="location-from-date"
           label={content.dateStart}
           required
           onDateChange={handlers.onDateStartChange}
@@ -415,7 +416,8 @@ const EvidenceVaRecords = ({
           }
         />
         <VaDate
-          name="location-date"
+          id="location-to-date"
+          name="location-to-date"
           label={content.dateEnd}
           required
           onDateChange={handlers.onDateEndChange}

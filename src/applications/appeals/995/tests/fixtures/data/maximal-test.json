@@ -85,7 +85,8 @@
       {
         "locationAndName": "VAMC Location 1",
         "issues": [
-          "Headaches"
+          "PTSD",
+          "Test"
         ],
         "evidenceDates": {
           "from": "2001-01-01",
@@ -94,6 +95,9 @@
       },
       {
         "locationAndName": "VAMC Location 2",
+        "issues": [
+          "Test 2"
+        ],
         "evidenceDates": {
           "from": "2002-02-02",
           "to": "2012-02-02"
