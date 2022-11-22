@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
-      'available-debts': ({ afterHook }) => {
+      'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="request-help-with-debt"]`)
             .first()
