@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { submissionForm } from './fixtures/data/form-submission-test-data';
+import { submissionForm } from '../fixtures/data/form-submission-test-data';
 import {
   createDirectDeposit,
   createAdditionalConsiderations,
@@ -12,7 +12,7 @@ import {
   getLTSCountryCode,
   getSchemaCountryCode,
   getNotificationMethod,
-} from '../utils/form-submit-transform';
+} from '../../utils/form-submit-transform';
 
 let mockSubmissionForm = {};
 describe('form submit transform', () => {
