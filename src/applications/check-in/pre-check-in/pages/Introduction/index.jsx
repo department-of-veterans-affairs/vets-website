@@ -38,7 +38,7 @@ const Introduction = props => {
   useEffect(
     () => {
       if (checkInDataError) {
-        goToErrorPage();
+        goToErrorPage('?error=error-fromlocation-precheckin-introduction');
       }
     },
     [checkInDataError, goToErrorPage],

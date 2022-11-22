@@ -39,13 +39,6 @@ describe('Pre-Check In Experience', () => {
       });
     });
 
-    it.skip('Introduction page', () => {
-      // Reloading this page doesn't work locally due to it being the initial load point. It does reload in dev/prod environments already.
-      // Introduction.validatePageLoaded();
-      // cy.reload();
-      // Introduction.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
-    });
     it('Demographics page', () => {
       Introduction.validatePageLoaded();
       Introduction.attemptToGoToNextPage();
