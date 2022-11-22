@@ -1,4 +1,5 @@
 /* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
+// added until testing of new radio buttons can be tested
 
 import React from 'react';
 import { connect } from 'react-redux';
