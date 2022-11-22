@@ -68,7 +68,7 @@ export const Breadcrumbs = {
   },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'Folders' },
+  FOLDERS: { path: '/folders', label: 'My folders' },
   SENT: { path: '/sent', label: 'Sent messages' },
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },
