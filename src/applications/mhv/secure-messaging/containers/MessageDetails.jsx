@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
@@ -21,6 +22,7 @@ const MessageDetail = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
+  const header = useRef();
 
   useEffect(
     () => {
@@ -36,6 +38,13 @@ const MessageDetail = () => {
     [dispatch, location, messageId, activeFolder, history],
   );
 
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
+  );
+
   let pageTitle;
 
   if (isSent) {
@@ -49,7 +58,9 @@ const MessageDetail = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       <AlertBackgroundBox closeable />
-      <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
+      <h1 className="vads-u-margin-top--2" ref={header}>
+        {pageTitle}
+      </h1>
 
       {message === undefined && (
         <va-loading-indicator

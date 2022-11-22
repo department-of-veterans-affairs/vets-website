@@ -10,7 +10,7 @@ const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
 const attachmentClasses =
   'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
-const InboxListItem = props => {
+const MessageListItem = props => {
   const location = useLocation();
   const {
     senderName,
@@ -36,7 +36,7 @@ const InboxListItem = props => {
       className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
-      <p className={getClassNames()}>
+      <div className={`message-list-item-line-1 ${getClassNames()}`}>
         {!!readReceipt === false && (
           <i
             aria-hidden="true"
@@ -51,7 +51,7 @@ const InboxListItem = props => {
             <div>From: {senderName}</div>
           </>
         )}
-      </p>
+      </div>
       <Link
         className="vads-u-margin-left--3 vads-u-margin-y--0p5"
         to={`/${
@@ -70,9 +70,9 @@ const InboxListItem = props => {
   );
 };
 
-export default InboxListItem;
+export default MessageListItem;
 
-InboxListItem.propTypes = {
+MessageListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
   messageId: PropTypes.number,
