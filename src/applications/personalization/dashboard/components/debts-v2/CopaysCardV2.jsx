@@ -45,7 +45,7 @@ export const CopaysV2 = ({ copays }) => {
             recordEvent({
               event: 'dashboard-navigation',
               'dashboard-action': 'view-link',
-              'dashboard-section': 'view-manage-va-bills',
+              'dashboard-product': 'view-manage-va-bills',
             })
           }
           testId="manage-va-copays-link-v2"

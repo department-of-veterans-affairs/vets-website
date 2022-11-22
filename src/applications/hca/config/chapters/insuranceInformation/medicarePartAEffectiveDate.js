@@ -24,12 +24,9 @@ export default {
       'ui:title': 'What is your Medicare claim number?',
       'ui:description': MedicareClaimNumberDescription,
       'ui:reviewField': CustomReviewField,
-      'ui:required': formData => formData['view:hcaMedicareClaimNumberEnabled'],
+      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter a valid 11-character Medicare claim number',
-      },
-      'ui:options': {
-        hideIf: formData => !formData['view:hcaMedicareClaimNumberEnabled'],
       },
     },
   },

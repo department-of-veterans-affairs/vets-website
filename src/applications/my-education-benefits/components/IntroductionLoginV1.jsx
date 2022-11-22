@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import { fetchUser } from '../selectors/userDispatch';
 import LoadingIndicator from './LoadingIndicator';
 
 function IntroductionLoginV1({ firstName, eligibility, route, user }) {
@@ -52,7 +51,7 @@ IntroductionLoginV1.propTypes = {
 const mapStateToProps = state => ({
   firstName: state.data?.formData?.data?.attributes?.claimant?.firstName,
   eligibility: state.data?.eligibility,
-  user: fetchUser(state),
+  user: state.user || {},
 });
 
 export default connect(mapStateToProps)(IntroductionLoginV1);
