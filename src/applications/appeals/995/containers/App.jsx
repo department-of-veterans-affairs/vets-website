@@ -16,7 +16,13 @@ import {
 } from '../actions';
 
 import formConfig from '../config/form';
-import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
+import {
+  issuesNeedUpdating,
+  processContestableIssues,
+  hasVAEvidence,
+  cleanupLocations,
+  evidenceNeedsUpdating,
+} from '../utils/helpers';
 
 import { WIP } from '../components/WIP';
 
@@ -86,6 +92,15 @@ export const App = ({
                 contestableIssues?.issues,
               ),
               legacyCount: contestableIssues?.legacyCount,
+            });
+          } else if (
+            hasVAEvidence(formData) &&
+            evidenceNeedsUpdating(formData)
+          ) {
+            // update VA evidence location issues
+            setFormData({
+              ...formData,
+              locations: cleanupLocations(formData),
             });
           }
         }

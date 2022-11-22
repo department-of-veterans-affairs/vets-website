@@ -287,3 +287,22 @@ export const hasPrivateEvidenceToUpload = formData =>
   formData?.['view:uploadPrivateRecordsChoice']?.[
     'view:hasPrivateRecordsToUpload'
   ];
+
+// Update evidence issues if they change
+export const evidenceNeedsUpdating = formData => {
+  if (hasVAEvidence(formData)) {
+    const validIssues = getSelected(formData).map(getIssueName);
+    return !formData.locations.every(location =>
+      location.issues.every(issue => validIssues.includes(issue)),
+    );
+  }
+  return false;
+};
+
+export const cleanupLocations = formData => {
+  const validIssues = getSelected(formData).map(getIssueName);
+  return formData.locations.map(location => ({
+    ...location,
+    issues: location.issues.filter(issue => validIssues.includes(issue)),
+  }));
+};

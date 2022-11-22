@@ -41,6 +41,10 @@ export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
+// Supplemental Claim allows for past decision dates, but we should limit them.
+// Picking 100 years until told otherwise
+export const MAX_YEARS_PAST = 100;
+
 // Values from Lighthouse maintained schema
 // see ./config/form-0995-schema.json
 export const MAX_LENGTH = {
@@ -88,12 +92,15 @@ export const errorMessages = {
     locationMissing: 'You must add a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
     issuesMissing: 'You must select one or more conditions (double-check)',
+    unique: 'You must add a unique location entry',
   },
 
   missingEmail: 'You must provide an email address',
   missingPhone: 'You must provide a home or mobile phone number',
   missingAddress: 'You must provide an address',
   missingPrimaryPhone: 'You must choose a primary phone number',
+  invalidZip:
+    'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

@@ -1,6 +1,6 @@
-import React from 'react';
+// import React from 'react';
 
-import { formatDateRange } from '../utils/dates';
+// import { formatDateRange } from '../utils/dates';
 
 export const content = {
   title: 'Which VA facility treated you?',
@@ -18,6 +18,7 @@ export const content = {
   modalNo: 'No, remove this location',
 };
 
+/*
 export const locationView = props => {
   const { formData } = props;
   const { locationAndName, evidenceDates } = formData;
@@ -37,3 +38,4 @@ export const locationView = props => {
 };
 
 export const datesView = ({ formData }) => formatDateRange(formData);
+*/

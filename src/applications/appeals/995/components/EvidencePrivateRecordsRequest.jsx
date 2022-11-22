@@ -16,7 +16,7 @@ import {
  * This page is needed to make the back button on this page to to the last
  */
 const EvidencePrivateRequest = ({
-  data,
+  data = {},
   onReviewPage,
   goBack,
   goForward,
@@ -51,8 +51,18 @@ const EvidencePrivateRequest = ({
         label={privateRecordsRequestTitle}
         onVaValueChange={handlers.onSelected}
       >
-        <va-radio-option label="Yes" name="private" value="y" />
-        <va-radio-option label="No" name="private" value="n" />
+        <va-radio-option
+          label="Yes"
+          name="private"
+          value="y"
+          checked={data[EVIDENCE_PRIVATE]}
+        />
+        <va-radio-option
+          label="No"
+          name="private"
+          value="n"
+          checked={!data[EVIDENCE_PRIVATE]}
+        />
       </VaRadio>
       {privateRecordsRequestInfo}
       <div className="vads-u-margin-top--4">

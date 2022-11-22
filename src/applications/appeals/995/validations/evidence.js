@@ -38,12 +38,14 @@ export function validateVaIssues(errors, data) {
   }
 }
 
+// Overloading fullDate parameter with evidence date type to control error
+// messaging
 export const validateVaFromDate = (errors, data) =>
-  validateDate(errors, data.evidenceDates?.from, 'evidence');
+  validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
 export const validateVaToDate = (errors, data) => {
   const dates = data.evidenceDates || {};
-  validateDate(errors, dates?.to, 'evidence');
+  validateDate(errors, dates?.to, { dateType: 'evidence' });
 
   // modified from validateDateRange
   const fromDate = convertToDateField(dates?.from);
@@ -54,17 +56,30 @@ export const validateVaToDate = (errors, data) => {
   }
 };
 
-export function isValidZIP(value) {
-  if (value !== null) {
-    return /^\d{5}(?:(?:[-\s])?\d{4})?$/.test(value);
-  }
-  return true;
-}
+const REGEX_ZIP = /^\d{5}(([-\s])\d{4})?$/;
+export const isValidZip = (value = null) =>
+  value !== null ? REGEX_ZIP.test(value) : false;
 
-export function validateZIP(errors, zip) {
-  if (zip && !isValidZIP(zip)) {
-    errors.addError(
-      'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
-    );
+export const validateZip = (errors, zip) => {
+  if (zip && !isValidZip(zip)) {
+    errors.addError(errorMessages.invalidZip);
   }
-}
+};
+
+export const validateVaUnique = (errors, _data, fullData) => {
+  const locations = (fullData?.locations || []).map(
+    ({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
+      [
+        locationAndName || '',
+        ...issues,
+        evidenceDates?.from || '',
+        evidenceDates?.to || '',
+      ]
+        .join(',')
+        .toLowerCase(),
+  );
+  const uniqueLocations = new Set(locations);
+  if (locations.length !== uniqueLocations.size) {
+    errors.addError(errorMessages.evidence.unique);
+  }
+};

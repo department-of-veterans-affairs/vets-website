@@ -18,7 +18,7 @@ import {
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
-import EvidencePrivateRequest from '../components/EvidencePrivateRequest';
+import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';

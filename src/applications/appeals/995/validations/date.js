@@ -3,17 +3,18 @@ import moment from 'moment';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
-import { errorMessages, FORMAT_YMD } from '../constants';
+import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
 
 export const minDate = moment()
-  .subtract(100, 'year')
+  .subtract(MAX_YEARS_PAST, 'year')
   .startOf('day');
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, dateString, dateType = 'decisions') => {
+export const validateDate = (errors, dateString, fullData) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString, FORMAT_YMD);
+  const dateType = fullData?.dateType || 'decisions';
 
   if (
     dateString === 'XXXX-XX-XX' ||
