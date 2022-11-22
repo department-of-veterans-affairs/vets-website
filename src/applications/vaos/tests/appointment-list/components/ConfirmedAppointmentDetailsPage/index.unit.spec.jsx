@@ -1542,8 +1542,16 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text(
       'We’ve scheduled and confirmed your appointment.',
     );
-    expect(screen.baseElement).to.contain.text('Review your appointments');
-    expect(screen.baseElement).to.contain.text('Schedule a new appointment');
+
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    expect(
+      screen.queryByTestId('review-appointments-link').getAttribute('text'),
+    ).to.equal('Review your appointments');
+    expect(
+      screen.queryByTestId('schedule-appointment-link').getAttribute('text'),
+    ).to.equal('Schedule a new appointment');
   });
 
   it('should allow for cancellation', async () => {
