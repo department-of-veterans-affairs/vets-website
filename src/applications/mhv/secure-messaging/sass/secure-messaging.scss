@@ -191,10 +191,6 @@ va-alert button {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.search-messages-input {
-  max-width: 480px;
-}
-
 @media (max-width: $small-screen) {
   .secure-messaging-container {
     flex-direction: column;
