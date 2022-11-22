@@ -292,17 +292,19 @@ export const hasPrivateEvidenceToUpload = formData =>
 export const evidenceNeedsUpdating = formData => {
   if (hasVAEvidence(formData)) {
     const validIssues = getSelected(formData).map(getIssueName);
-    return !formData.locations.every(location =>
-      location.issues.every(issue => validIssues.includes(issue)),
+    return !formData.locations?.every(({ issues }) =>
+      (issues || []).every(issue => validIssues.includes(issue)),
     );
   }
   return false;
 };
 
-export const cleanupLocations = formData => {
+export const cleanupLocationIssues = formData => {
   const validIssues = getSelected(formData).map(getIssueName);
-  return formData.locations.map(location => ({
+  return (formData.locations || []).map(location => ({
     ...location,
-    issues: location.issues.filter(issue => validIssues.includes(issue)),
+    issues: (location.issues || []).filter(issue =>
+      validIssues.includes(issue),
+    ),
   }));
 };

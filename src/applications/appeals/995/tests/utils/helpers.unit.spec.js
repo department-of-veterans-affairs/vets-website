@@ -35,7 +35,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
   evidenceNeedsUpdating,
-  cleanupLocations,
+  cleanupLocationIssues,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -534,6 +534,10 @@ describe('evidenceNeedsUpdating', () => {
     const evidence = getEvidence({ hasVa: false });
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
   });
+  it('should return false VA evidence undefined', () => {
+    const evidence = getEvidence({ hasVa: false });
+    expect(evidenceNeedsUpdating({ ...evidence, locations: null })).to.be.false;
+  });
   it('should return false if no updates needed', () => {
     const evidence = getEvidence();
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
@@ -548,7 +552,7 @@ describe('evidenceNeedsUpdating', () => {
   });
 });
 
-describe('cleanupLocations', () => {
+describe('cleanupLocationIssues', () => {
   const getEvidence = ({
     addIssue = 'abc',
     locationIssues = ['abc', 'def'],
@@ -567,18 +571,26 @@ describe('cleanupLocations', () => {
 
   it('should return same location issues', () => {
     const evidence = getEvidence();
-    expect(cleanupLocations(evidence)).to.deep.equal([
+    expect(cleanupLocationIssues(evidence)).to.deep.equal([
       { issues: ['abc', 'def'] },
     ]);
+    expect(
+      cleanupLocationIssues({ ...evidence, locations: null }),
+    ).to.deep.equal([]);
+    expect(
+      cleanupLocationIssues({ ...evidence, locations: [{ issues: null }] }),
+    ).to.deep.equal([{ issues: [] }]);
   });
   it('should remove missing additional issue', () => {
     const evidence = getEvidence({ addIssue: '' });
-    expect(cleanupLocations(evidence)).to.deep.equal([{ issues: ['def'] }]);
+    expect(cleanupLocationIssues(evidence)).to.deep.equal([
+      { issues: ['def'] },
+    ]);
   });
   it('should remove missing contested issue', () => {
     const evidence = getEvidence();
     expect(
-      cleanupLocations({ ...evidence, contestedIssues: [] }),
+      cleanupLocationIssues({ ...evidence, contestedIssues: [] }),
     ).to.deep.equal([{ issues: ['abc'] }]);
   });
 });

@@ -20,7 +20,7 @@ import {
   issuesNeedUpdating,
   processContestableIssues,
   hasVAEvidence,
-  cleanupLocations,
+  cleanupLocationIssues,
   evidenceNeedsUpdating,
 } from '../utils/helpers';
 
@@ -100,7 +100,7 @@ export const App = ({
             // update VA evidence location issues
             setFormData({
               ...formData,
-              locations: cleanupLocations(formData),
+              locations: cleanupLocationIssues(formData),
             });
           }
         }
