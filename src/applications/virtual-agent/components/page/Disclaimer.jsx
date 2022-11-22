@@ -1,5 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
-/* eslint-disable @department-of-veterans-affairs/telephone-contact-3-or-10-digits */
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
 import React from 'react';
 
 export default function Disclaimer() {
