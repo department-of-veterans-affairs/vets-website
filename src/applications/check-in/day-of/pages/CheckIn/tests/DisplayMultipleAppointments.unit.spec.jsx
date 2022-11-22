@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 import { render } from '@testing-library/react';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';

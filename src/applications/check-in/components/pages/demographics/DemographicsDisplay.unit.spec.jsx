@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';

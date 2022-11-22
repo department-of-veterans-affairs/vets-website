@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';

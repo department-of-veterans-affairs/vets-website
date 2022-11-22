@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 
 import sinon from 'sinon';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
 
 import { CheckInButton } from '../CheckInButton';
 import i18n from '../../../utils/i18n/i18n';

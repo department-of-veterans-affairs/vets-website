@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { axeCheck } from '@department-of-veterans-affairs/platform-forms-systems/test/config/helpers';
+import cloneDeep from '@department-of-veterans-affairs/platform-utilities/data/cloneDeep';
 import AppointmentBlock from '../AppointmentBlock';
 import i18n from '../../utils/i18n/i18n';
 
