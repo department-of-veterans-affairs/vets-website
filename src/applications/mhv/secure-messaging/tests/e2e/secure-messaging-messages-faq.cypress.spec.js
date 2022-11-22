@@ -8,7 +8,7 @@ describe(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('is test fine accessible', () => {
+  it('Axe Check Messages FAQ', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
     cy.get('[data-testid="messages-faq-sidebar"]').click();

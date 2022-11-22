@@ -9,7 +9,7 @@ describe(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('is test fine accessible', () => {
+  it('Basic Search Axe Check', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
     cy.get('[data-testid="search-messages-sidebar"]').click();

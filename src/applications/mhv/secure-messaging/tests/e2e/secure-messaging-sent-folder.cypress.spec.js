@@ -9,7 +9,7 @@ describe(manifest.appName, () => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('is test fine accessible', () => {
+  it('Axe Check Sent Folder', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-1', mockMessages).as(

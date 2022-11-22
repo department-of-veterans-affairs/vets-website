@@ -9,11 +9,11 @@ beforeEach(() => {
 });
 
 describe(manifest.appName, () => {
-  before(function() {
+  before(() => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('can send message', () => {
+  it('Axe Check Save Draft', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();
     landingPage.loadPage(false);

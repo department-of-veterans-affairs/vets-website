@@ -7,7 +7,7 @@ beforeEach(() => {
 });
 
 describe(manifest.appName, () => {
-  before(function() {
+  before(() => {
     if (Cypress.env('CI')) this.skip();
   });
 

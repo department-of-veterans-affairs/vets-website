@@ -3,12 +3,12 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 beforeEach(() => {});
 
-describe(manifest.appName, function() {
-  before(function() {
+describe(manifest.appName, () => {
+  before(() => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('is test fine accessible', () => {
+  it('Axe Check Message Details Page', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.loadPage();
     landingPage.loadMessageDetails('Test Inquiry');
