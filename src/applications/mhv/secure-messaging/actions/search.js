@@ -17,7 +17,7 @@ const findByKeyword = (keyword, messages) => {
 };
 
 export const runBasicSearch = (folderId, keyword) => async dispatch => {
-  dispatch({ type: Actions.Search.CLEAR });
+  dispatch({ type: Actions.Search.START });
   const folder = await getFolder(folderId);
   const folderContents = await getMessageListAll(folderId);
   const matches = findByKeyword(keyword, folderContents.data);
@@ -41,7 +41,7 @@ export const runBasicSearch = (folderId, keyword) => async dispatch => {
 };
 
 export const runAdvancedSearch = (folder, query) => async dispatch => {
-  dispatch({ type: Actions.Search.CLEAR });
+  dispatch({ type: Actions.Search.START });
   try {
     const response = await searchFolderAdvanced(folder.id, query);
     dispatch({
@@ -60,8 +60,4 @@ export const runAdvancedSearch = (folder, query) => async dispatch => {
       },
     });
   }
-};
-
-export const clearSearch = () => async dispatch => {
-  dispatch({ type: Actions.Search.CLEAR });
 };
