@@ -54,8 +54,8 @@ const Compose = () => {
       }
     },
     [messageHistory],
-   );
-    
+  );
+
   useEffect(
     () => {
       focusElement(header.current);
