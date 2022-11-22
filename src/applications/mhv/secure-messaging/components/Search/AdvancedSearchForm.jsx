@@ -265,7 +265,7 @@ const SearchMessagesForm = props => {
 
       <div className="advanced-search-actions">
         <button type="submit" data-testid="advanced-search-submit">
-          Advanced Search
+          Advanced search
         </button>
         <button type="button" className="reset" onClick={resetSearchForm}>
           Reset search
