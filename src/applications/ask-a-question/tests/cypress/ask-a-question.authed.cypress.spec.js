@@ -2,12 +2,17 @@ import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
+// import hacker from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
+import hacker from '@department-of-veterans-affairs/component-library/OMBInfo';
+import { Page } from '@department-of-veterans-affairs/va-forms-system-core';
 import formConfig from '../../form/form';
 import manifest from '../../manifest.json';
 
 import mockUser from './fixtures/mocks/mockUser.json';
 import inProgressForms from './fixtures/mocks/in-progress-forms.json';
+
+// eslint-disable-next-line no-console
+console.log(hacker, Page);
 
 // `appName`, `arrayPages`, and `rootUrl` don't need to be explicitly defined.
 const testConfig = createTestConfig(
