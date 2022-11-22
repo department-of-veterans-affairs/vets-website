@@ -101,7 +101,7 @@ describe('<EducationWizard>', () => {
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-0', 'yes');
+    answerQuestion(tree, '#sponsorTransferredBenefits-0', 'yes');
     expect(
       tree
         .find('#apply-now-link')
@@ -115,8 +115,8 @@ describe('<EducationWizard>', () => {
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
-    answerQuestion(tree, '#sponsorTransferredBenefits-0', 'yes');
+    answerQuestion(tree, '#sponsorTransferredBenefits-1', 'no');
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-0', 'yes');
     expect(
       tree
         .find('#apply-now-link')
@@ -130,14 +130,8 @@ describe('<EducationWizard>', () => {
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
     answerQuestion(tree, '#sponsorTransferredBenefits-1', 'no');
-    expect(
-      tree
-        .find('#apply-now-link')
-        .prop('href')
-        .endsWith('1990E'),
-    ).to.be.true;
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
     expect(tree.find('.usa-alert-warning')).not.be.be.false;
     tree.unmount();
   });

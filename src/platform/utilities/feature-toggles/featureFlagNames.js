@@ -116,7 +116,6 @@ export default Object.freeze({
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
-  showMebMockEndpoints: 'show_meb_mock_endpoints',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
