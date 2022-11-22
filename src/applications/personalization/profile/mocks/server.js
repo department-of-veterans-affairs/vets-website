@@ -46,7 +46,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // payments.paymentHistory.simplePaymentHistory
 
-    return res.status(200).json(payments.paymentHistory.isDeceased);
+    return res.status(200).json(payments.paymentHistory.isNotCompetent);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     return res

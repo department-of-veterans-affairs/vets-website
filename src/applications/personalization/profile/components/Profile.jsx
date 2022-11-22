@@ -260,7 +260,6 @@ Profile.propTypes = {
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
-  shouldShowDirectDeposit: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };

@@ -22,6 +22,7 @@ import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
 import { selectIsBlocked } from '../../selectors';
+import { AccountBlocked } from '../alerts/AccountBlocked';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -85,7 +86,7 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {isBlocked ? <p>Blocked</p> : null}
+      {isBlocked ? <AccountBlocked /> : null}
       {!isIdentityVerified && (
         <IdentityNotVerified
           additionalInfoClickHandler={handlers.learnMoreIdentity}
