@@ -42,11 +42,10 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import preSubmitInfo from '../components/preSubmitInfo';
 
 import {
-  isOnlyWhitespace,
-  hideUnder18Field,
   addWhitespaceOnlyError,
-  isAlphaNumeric,
   applicantIsChildOfSponsor,
+  hideUnder18Field,
+  isOnlyWhitespace,
   prefillTransformer,
 } from '../helpers';
 
@@ -58,13 +57,16 @@ import {
   isValidLastName,
   isValidPhoneField,
   nameErrorMessage,
+  validateAccountNumber,
   validateEmail,
+  validateRoutingNumber,
 } from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1216,52 +1218,64 @@ const formConfig = {
               viewComponent: DirectDepositViewField,
               volatileData: true,
             },
+            'ui:description': (
+              <p>
+                VA makes payments through only direct deposit, also called
+                electronic funds transfer (EFT).
+              </p>
+            ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              [formFields.accountType]: {
-                ...bankAccountUI.accountType,
+              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
                 'ui:errorMessages': {
-                  required: 'Please select an account type',
+                  pattern: 'Please enter a valid account number',
+                  required: 'Please enter a valid account number',
                 },
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
               },
-              [formFields.accountNumber]: {
-                ...bankAccountUI.accountNumber,
-                'ui:validations': [
-                  (errors, field) => {
-                    if (!isAlphaNumeric(field)) {
-                      errors.addError('Please enter a valid account number');
-                    }
-                  },
-                ],
+              routingNumber: {
+                'ui:errorMessages': {
+                  pattern: 'Please enter a valid routing number',
+                  required: 'Please enter a valid routing number',
+                },
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:title': 'Routing number',
+                'ui:validations': [validateRoutingNumber],
               },
             },
-            'view:directDepositLearnMore': {
+            'view:learnMore': {
               'ui:description': (
-                <va-additional-info trigger="Where can I find these numbers?">
+                <>
                   <img
                     key="check-image-src"
+                    style={{ marginTop: '1rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
-                  <p>
+                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <p key="learn-more-description">
                     The bank routing number is the first 9 digits on the bottom
                     left corner of a printed check. Your account number is the
                     second set of numbers on the bottom of a printed check, just
                     to the right of the bank routing number.
                   </p>
-                </va-additional-info>
+                  <va-additional-info key="learn-more-btn" trigger="Learn More">
+                    <p key="btn-copy">
+                      If you don’t have a printed check, you can sign in to your
+                      online banking institution for this information
+                    </p>
+                  </va-additional-info>
+                </>
               ),
             },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.bankAccount]: {
+              bankAccount: {
                 type: 'object',
                 required: [
                   formFields.accountType,
@@ -1269,20 +1283,21 @@ const formConfig = {
                   formFields.routingNumber,
                 ],
                 properties: {
-                  [formFields.accountType]: {
+                  accountNumber: {
+                    type: 'string',
+                    pattern: '^\\**[a-z0-9]+$',
+                  },
+                  accountType: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
-                  [formFields.routingNumber]: {
+                  routingNumber: {
                     type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  [formFields.accountNumber]: {
-                    type: 'string',
+                    pattern: '^[\\d*]{5}\\d{4}$',
                   },
                 },
               },
-              'view:directDepositLearnMore': {
+              'view:learnMore': {
                 type: 'object',
                 properties: {},
               },

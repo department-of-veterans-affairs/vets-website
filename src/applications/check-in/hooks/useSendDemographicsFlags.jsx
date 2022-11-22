@@ -1,14 +1,9 @@
-import { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { api } from '../api';
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useSessionStorage } from './useSessionStorage';
 import { useDemographicsFlags } from './useDemographicsFlags';
 
 const useSendDemographicsFlags = () => {
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const featureToggles = useSelector(selectFeatureToggles);
-  const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
@@ -23,7 +18,6 @@ const useSendDemographicsFlags = () => {
   useEffect(
     () => {
       if (
-        !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
         demographicsFlagsEmpty ||
         !getShouldSendDemographicsFlags(window)
@@ -46,8 +40,8 @@ const useSendDemographicsFlags = () => {
       demographicsFlagsEmpty,
       demographicsFlagsSent,
       getShouldSendDemographicsFlags,
-      isDayOfDemographicsFlagsEnabled,
       setDemographicsFlagsSent,
+      setShouldSendDemographicsFlags,
     ],
   );
 };

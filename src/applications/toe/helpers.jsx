@@ -28,9 +28,15 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     return '';
   }
 
-  if (str.length <= numVisibleChars) {
-    return str;
+  if (str.length <= 2 * numVisibleChars) {
+    const visibileChars = Math.floor(str.length / 2);
+
+    return (
+      obfuscateChar.repeat(str.length - visibileChars) +
+      str.substring(str.length - visibileChars, str.length)
+    );
   }
+
   return (
     obfuscateChar.repeat(str.length - numVisibleChars) +
     str.substring(str.length - numVisibleChars, str.length)
@@ -128,17 +134,22 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
-
+  const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation;
+  const vet360ContactInfo = stateUser.vet360ContactInformation || {};
 
-  const address = vet360ContactInfo?.mailingAddress?.addressLine1
-    ? vet360ContactInfo?.mailingAddress
-    : contactInfo;
+  let address;
+  if (vapContactInfo.mailingAddress?.addressLine1) {
+    address = vapContactInfo.mailingAddress;
+  } else if (vet360ContactInfo.mailingAddress?.addressLine1) {
+    address = vet360ContactInfo.mailingAddress;
+  } else {
+    address = contactInfo;
+  }
 
   const emailAddress =
     profile?.email ||
+    vapContactInfo.email ||
     vet360ContactInfo?.email?.emailAddress ||
     contactInfo.emailAddress ||
     undefined;
@@ -146,7 +157,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const v360mp = vet360ContactInfo?.mobilePhone;
-  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+  // VA Profile Mobile Phone
+  const vapmp = vapContactInfo?.mobilePhone;
+  if (vapmp?.areaCode && vapmp?.phoneNumber) {
+    mobilePhoneNumber = [vapmp.areaCode, vapmp.phoneNumber].join();
+    mobilePhoneIsInternational = vapmp.isInternational;
+  } else if (v360mp?.areaCode && v360mp?.phoneNumber) {
     mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
     mobilePhoneIsInternational = v360mp.isInternational;
   } else {
@@ -156,7 +172,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let homePhoneNumber;
   let homePhoneIsInternational;
   const v360hp = vet360ContactInfo?.homePhone;
-  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+  // VA Profile Home Phone
+  const vaphp = vapContactInfo?.homePhone;
+  if (vaphp?.areaCode && vaphp?.phoneNumber) {
+    homePhoneNumber = [vaphp.areaCode, vaphp.phoneNumber].join();
+    homePhoneIsInternational = vaphp.isInternational;
+  } else if (v360hp?.areaCode && v360hp?.phoneNumber) {
     homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
     homePhoneIsInternational = v360hp.isInternational;
   } else {

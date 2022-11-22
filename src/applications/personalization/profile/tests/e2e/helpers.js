@@ -111,10 +111,12 @@ export function registerCypressHelpers() {
   // The main loading indicator is shown and is then removed
   Cypress.Commands.add('loadingIndicatorWorks', () => {
     // should show a loading indicator
-    cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+    cy.findByTestId('loading-indicator', { name: /loading/i }).should('exist');
     cy.injectAxeThenAxeCheck();
 
     // and then the loading indicator should be removed
-    cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
+    cy.findByRole('loading-indicator', { name: /loading/i }).should(
+      'not.exist',
+    );
   });
 }

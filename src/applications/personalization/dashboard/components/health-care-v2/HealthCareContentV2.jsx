@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
+import { selectCernerFacilities } from '~/platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -47,6 +50,11 @@ const HealthCareContentV2 = ({
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    connectDrupalSourceOfTruthCerner(dispatch);
+  }, []);
 
   useEffect(
     () => {
@@ -117,13 +125,11 @@ const HealthCareContentV2 = ({
           show-icon
           data-testid="outstanding-debts-error-v2"
         >
-          <h2 slot="headline">
-            We can’t access your appointment information right now
-          </h2>
+          <h2 slot="headline">We can’t access your appointment information</h2>
           <div>
             We’re sorry. Something went wrong on our end and we can’t access
             your appointment information. Please try again later or go to the
-            appointments tool
+            appointments tool:
           </div>
           <CTALink
             text="Schedule and manage your appointments"
@@ -226,13 +232,27 @@ const HealthCareContentV2 = ({
 };
 
 const mapStateToProps = state => {
-  const facilityLocations = [
+  let facilityLocations = [
     'VA Spokane health care',
     'VA Walla Walla health care',
     'VA Central Ohio health care',
     'Roseburg (Oregon) VA health care',
     'White City health care',
   ];
+  const facilities = selectPatientFacilitiesDsot(state);
+
+  const userFacilityIds = (facilities || []).map(f => f.facilityId);
+
+  const allCernerFacilities = selectCernerFacilities(state);
+
+  const userCernerFacilities = allCernerFacilities?.filter(f =>
+    userFacilityIds.includes(f.vhaId),
+  );
+
+  facilityLocations =
+    allCernerFacilities && userCernerFacilities
+      ? userCernerFacilities.map(f => f.vamcSystemName)
+      : facilities;
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
