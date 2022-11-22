@@ -1,4 +1,4 @@
-import { resetStoredSubTask } from 'platform/forms/sub-task';
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { BASE_URL } from '../constants';
 
