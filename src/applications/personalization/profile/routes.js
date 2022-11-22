@@ -50,6 +50,7 @@ const getRoutes = () => {
       path: PROFILE_PATHS.ACCOUNT_SECURITY,
       requiresLOA3: false,
       requiresMVI: false,
+      requiresUserGuard: false,
     },
     {
       component: ConnectedApplications,

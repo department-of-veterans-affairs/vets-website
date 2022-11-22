@@ -21,6 +21,7 @@ import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
+import { selectIsBlocked } from '../../selectors';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -31,6 +32,7 @@ export const AccountSecurityContent = ({
   showMPIConnectionError,
   showNotInMPIError,
   signInServiceName,
+  isBlocked,
 }) => {
   const handlers = {
     learnMoreIdentity: () => {
@@ -83,6 +85,7 @@ export const AccountSecurityContent = ({
 
   return (
     <>
+      {isBlocked ? <p>Blocked</p> : null}
       {!isIdentityVerified && (
         <IdentityNotVerified
           additionalInfoClickHandler={handlers.learnMoreIdentity}
@@ -143,14 +146,15 @@ export const AccountSecurityContent = ({
 };
 
 AccountSecurityContent.propTypes = {
+  isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
-  isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
+  isInMPI: PropTypes.bool,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
     accountState: PropTypes.string,
@@ -172,6 +176,7 @@ export const mapStateToProps = state => {
   const showNotInMPIError =
     isIdentityVerified && !hasMPIConnectionError && !isInMPI;
   const showWeHaveVerifiedYourID = isInMPI && isIdentityVerified;
+  const isBlocked = selectIsBlocked(state);
 
   return {
     isIdentityVerified,
@@ -182,6 +187,7 @@ export const mapStateToProps = state => {
     showNotInMPIError,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
+    isBlocked,
   };
 };
 
