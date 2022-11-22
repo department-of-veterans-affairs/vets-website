@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { saveReplyDraft } from '../../actions/draftDetails';
@@ -27,6 +28,7 @@ const ReplyForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const history = useHistory();
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -68,7 +70,7 @@ const ReplyForm = props => {
               JSON.stringify(messageData),
               false,
             ),
-          );
+          ).then(() => history.push(`/message/${replyMessage.messageId}`));
         }
       }
     },
@@ -162,7 +164,7 @@ const ReplyForm = props => {
         debouncedSubject &&
         debouncedMessageBody
       ) {
-        /* saveDraftHandler('auto'); */
+        saveDraftHandler('auto');
       }
     },
     [

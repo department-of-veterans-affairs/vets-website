@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
@@ -32,6 +33,7 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const history = useHistory();
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -77,7 +79,9 @@ const ComposeForm = props => {
             attachments.map(upload => sendData.append('uploads[]', upload));
             dispatch(sendMessage(sendData, true));
           } else {
-            dispatch(sendMessage(JSON.stringify(messageData), false));
+            dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
+              history.push('/'),
+            );
           }
         }
       }
