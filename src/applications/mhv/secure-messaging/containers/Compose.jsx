@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearDraft } from '../actions/draftDetails';
 import { retrieveMessage } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
@@ -19,6 +20,7 @@ const Compose = () => {
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
+  const header = useRef();
 
   useEffect(
     () => {
@@ -36,6 +38,13 @@ const Compose = () => {
       }
     },
     [isDraftPage, draftId, activeFolder, dispatch, history],
+  );
+
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
   );
 
   let pageTitle;
@@ -72,7 +81,9 @@ const Compose = () => {
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      <h1 className="page-title">{pageTitle}</h1>
+      <h1 className="page-title" ref={header}>
+        {pageTitle}
+      </h1>
       <EmergencyNote />
       <div>
         <BeforeMessageAddlInfo />
