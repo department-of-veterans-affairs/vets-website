@@ -26,6 +26,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.GET: {
       return {
         ...state,
+        lastSaveTime: null,
         draftMessage: {
           ...data.attributes,
           attachments: msgAttachments,
@@ -36,10 +37,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         draftMessageHistory: action.response.data.map(message => {
-          const msgAttr = message.attributes.attributes;
-          return {
-            ...msgAttr,
-          };
+          return message.attributes;
         }),
       };
     }
@@ -78,6 +76,10 @@ export const draftDetailsReducer = (state = initialState, action) => {
         isSaving: false,
         lastSaveTime: null,
         saveError: action.response,
+      };
+    case Actions.Draft.CLEAR_DRAFT:
+      return {
+        ...initialState,
       };
     default:
       return state;

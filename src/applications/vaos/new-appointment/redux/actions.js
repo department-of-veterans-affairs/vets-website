@@ -15,6 +15,7 @@ import {
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
+  selectFeatureAcheronService,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -522,6 +523,7 @@ export function openReasonForAppointment(
   uiSchema,
   schema,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -529,6 +531,7 @@ export function openReasonForAppointment(
     uiSchema,
     schema,
     useV2,
+    useAcheron,
   };
 }
 
@@ -537,6 +540,7 @@ export function updateReasonForAppointmentData(
   uiSchema,
   data,
   useV2 = false,
+  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
@@ -544,6 +548,7 @@ export function updateReasonForAppointmentData(
     uiSchema,
     data,
     useV2,
+    useAcheron,
   };
 }
 
@@ -753,6 +758,9 @@ export function submitAppointmentOrRequest(history) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      state,
+    );
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -779,6 +787,7 @@ export function submitAppointmentOrRequest(history) {
         if (featureVAOSServiceVAAppointments) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
+            useAcheron: featureAcheronVAOSServiceRequests,
           });
         } else {
           const appointmentBody = transformFormToAppointment(getState());
@@ -883,8 +892,14 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (featureVAOSServiceRequests) {
-          requestBody = transformFormToVAOSVARequest(getState());
-          requestData = await createAppointment({ appointment: requestBody });
+          requestBody = transformFormToVAOSVARequest(
+            getState(),
+            featureAcheronVAOSServiceRequests,
+          );
+          requestData = await createAppointment({
+            appointment: requestBody,
+            useAcheron: featureAcheronVAOSServiceRequests,
+          });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);

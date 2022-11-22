@@ -19,9 +19,7 @@ describe('Check In Experience -- ', () => {
         expect(req.body.session.lastName).to.equal('Smith');
         expect(req.body.session.last4).to.equal('4837');
       });
-      initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 1,
-      });
+      initializeCheckInDataGet.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
     });

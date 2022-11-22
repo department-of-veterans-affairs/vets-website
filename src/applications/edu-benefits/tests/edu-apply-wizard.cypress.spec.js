@@ -16,29 +16,29 @@ describe('Education Application Wizard', () => {
     // Create a new application
     cy.get('input[id="newBenefit-0"]')
       .click()
-      .get('label[for="serviceBenefitBasedOn-0"]')
+      .get('label[for="serviceBenefitBasedOn-1"]')
       .should('be.visible');
 
     // Select veteran
-    cy.get('input[id="serviceBenefitBasedOn-0"]')
-      .click()
-      .get('label[for="nationalCallToService-0"]')
-      .should('be.visible');
+    // cy.get('input[id="serviceBenefitBasedOn-0"]')
+    //   .click()
+    //   .get('label[for="nationalCallToService-0"]')
+    //   .should('be.visible');
 
     // Select national call to service
-    cy.get('#nationalCallToService-0')
-      .click()
-      .get('#apply-now-link')
-      .should('be.visible');
+    // cy.get('#nationalCallToService-0')
+    //   .click()
+    //   .get('#apply-now-link')
+    //   .should('be.visible');
 
-    cy.get('#apply-now-link')
-      .should('have.attr', 'href')
-      .and(
-        'contain',
-        '/education/apply-for-education-benefits/application/1990N',
-      );
+    // cy.get('#apply-now-link')
+    //   .should('have.attr', 'href')
+    //   .and(
+    //     'contain',
+    //     '/education/apply-for-education-benefits/application/1990N',
+    //   );
 
-    cy.get('main .usa-alert-warning').should('be.visible');
+    // cy.get('main .usa-alert-warning').should('be.visible');
 
     // Select non-veteran
     cy.get('#serviceBenefitBasedOn-1').click();
@@ -47,12 +47,12 @@ describe('Education Application Wizard', () => {
 
     cy.get('main .usa-alert-warning').should('not.exist');
 
-    cy.get('label[for="sponsorDeceasedDisabledMIA-0"]').should('be.visible');
+    cy.get('label[for="sponsorTransferredBenefits-0"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
 
     // Select dependent
-    cy.get('#sponsorDeceasedDisabledMIA-0')
+    cy.get('#sponsorTransferredBenefits-0')
       .click()
       .get('#apply-now-link')
       .should('be.visible');
@@ -65,16 +65,16 @@ describe('Education Application Wizard', () => {
       );
 
     // Select non-dependant
-    cy.get('#sponsorDeceasedDisabledMIA-1').click();
+    cy.get('#sponsorTransferredBenefits-1').click();
     cy.get('#apply-now-link').should('not.exist');
 
-    cy.get('#sponsorDeceasedDisabledMIA-1')
-      .get('label[for="sponsorTransferredBenefits-0"]')
+    cy.get('#sponsorTransferredBenefits-1')
+      .get('label[for="sponsorDeceasedDisabledMIA-0"]')
       .should('be.visible');
     cy.axeCheck();
 
     // Select transfer
-    cy.get('#sponsorTransferredBenefits-0')
+    cy.get('#sponsorDeceasedDisabledMIA-0')
       .click()
       .get('#apply-now-link')
       .should('be.visible');
@@ -85,24 +85,19 @@ describe('Education Application Wizard', () => {
         'contain',
         '/education/apply-for-education-benefits/application/1990E',
       );
+
     // Select non-transfer
-    cy.get('#sponsorTransferredBenefits-1')
-      .click()
-      .get('#apply-now-link')
-      .should('be.visible');
+    cy.get('#sponsorDeceasedDisabledMIA-1').click();
+    cy.get('main .usa-alert-warning').should('be.visible');
 
-    cy.get('#apply-now-link')
-      .should('have.attr', 'href')
-      .and(
-        'contain',
-        '/education/apply-for-education-benefits/application/1990E',
-      );
     // Update an existing application
     cy.get('#newBenefit-1')
       .click()
       .get('label[for="transferredEduBenefits-0"]')
       .should('be.visible');
+
     cy.get('#apply-now-link').should('not.exist');
+
     // Select dependent
     cy.get('#transferredEduBenefits-2')
       .click()

@@ -43,6 +43,7 @@ import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import ClaimsAndAppealsV2 from './claims-and-appeals-v2/ClaimsAndAppealsV2';
 import HealthCare from './health-care/HealthCare';
+import HealthCareV2 from './health-care-v2/HealthCareV2';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
@@ -101,7 +102,9 @@ DashboardHeader.propTypes = {
 };
 
 const Dashboard = ({
+  canAccessMilitaryHistory,
   canAccessPaymentHistory,
+  canAccessRatingInfo,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
@@ -117,6 +120,7 @@ const Dashboard = ({
   showBenefitPaymentsAndDebt,
   showBenefitPaymentsAndDebtV2,
   showNotifications,
+  isVAPatient,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -149,11 +153,17 @@ const Dashboard = ({
     () => {
       if (isLOA3) {
         fetchFullName();
-        fetchMilitaryInformation();
-        fetchTotalDisabilityRating();
+        if (canAccessMilitaryHistory) {
+          fetchMilitaryInformation();
+        }
+        if (canAccessRatingInfo) {
+          fetchTotalDisabilityRating();
+        }
       }
     },
     [
+      canAccessMilitaryHistory,
+      canAccessRatingInfo,
       isLOA3,
       fetchFullName,
       fetchMilitaryInformation,
@@ -255,7 +265,12 @@ const Dashboard = ({
                 </DowntimeNotification>
               ) : null}
 
-              {props.showHealthCare ? <HealthCare /> : null}
+              {props.showHealthCare && !shouldShowV2Dashboard ? (
+                <HealthCare />
+              ) : null}
+              {shouldShowV2Dashboard ? (
+                <HealthCareV2 isVAPatient={isVAPatient} />
+              ) : null}
 
               {canAccessPaymentHistory &&
               showBenefitPaymentsAndDebt &&
@@ -299,13 +314,22 @@ const mapStateToProps = state => {
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
-  const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
   );
   const hasLoadedFullName = !!hero;
 
-  const hasLoadedDisabilityRating = state.totalRating?.loading === false;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
+  const canAccessMilitaryHistory = canAccess(state)[API_NAMES.MILITARY_HISTORY];
+
+  const hasLoadedDisabilityRating = canAccessRatingInfo
+    ? state.totalRating?.loading === false
+    : true;
+  const hasLoadedMilitaryInformation = canAccessMilitaryHistory
+    ? state.vaProfile?.militaryInformation
+    : true;
 
   const hasLoadedAllData =
     // we do not need to fetch additional data if they are only LOA1
@@ -330,34 +354,29 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
     showBenefitPaymentsAndDebt &&
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection];
 
-  const hasNotificationFeature = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showDashboardNotifications
-  ];
-
   const shouldShowV2Dashboard = toggleValues(state)[
     FEATURE_FLAG_NAMES.showMyVADashboardV2
   ];
 
   const showNotifications =
-    !!hasNotificationFeature &&
-    !showMPIConnectionError &&
-    !showNotInMPIError &&
-    isLOA3;
+    !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
   return {
+    canAccessMilitaryHistory,
     canAccessPaymentHistory,
+    canAccessRatingInfo,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
     showHealthCare,
+    isVAPatient,
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
@@ -375,12 +394,15 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
+  canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
+  canAccessRatingInfo: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
   getPayments: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isVAPatient: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,

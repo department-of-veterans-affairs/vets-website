@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { DefaultFolders as Folders } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
+import ManageFolderButtons from '../ManageFolderButtons';
+import CondensedSearchForm from '../Search/CondensedSearchForm';
 
 const FolderHeader = props => {
   const { folder } = props;
@@ -58,16 +60,19 @@ const FolderHeader = props => {
       {folder.folderId === Folders.INBOX.id && (
         <>
           <EmergencyNote />
-          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--2p5">
             <Link
               className="vads-c-action-link--blue compose-message-link"
               to="/compose"
+              data-testid="compose-message-link"
             >
               Compose message
             </Link>
           </p>
         </>
       )}
+      <ManageFolderButtons />
+      {folder.count > 0 && <CondensedSearchForm folder={folder} keyword="" />}
     </>
   );
 };

@@ -1,69 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import SearchForm from '../components/SearchForm';
-import SearchResults from '../components/SearchResults';
-import CondensedSearchForm from '../components/CondensedSearchForm';
+import { useSelector } from 'react-redux';
+import BasicSearchForm from '../components/Search/BasicSearchForm';
+import AdvancedSearchForm from '../components/Search/AdvancedSearchForm';
 
 const Search = () => {
-  const searchParams = {};
   const history = useHistory();
   const location = useLocation();
 
-  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
-  const searchRequested = !!Object.keys(searchParams).length;
+  const folders = useSelector(state => state.sm.folders.folderList);
 
-  const toggleAdvancedSearchHandler = () => {
-    history.push('/search?advanced=true');
-    setAdvancedSearchOpen(true);
-  };
+  const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
+
+  const { pathname } = location;
 
   useEffect(
     () => {
-      if (location.search === '?advanced=true') {
+      if (pathname === '/search/advanced') {
         setAdvancedSearchOpen(true);
       } else {
         setAdvancedSearchOpen(false);
       }
     },
-    [location.search],
+    [pathname],
   );
 
+  const toggleAdvancedSearchHandler = () => {
+    history.push('/search/advanced');
+  };
+
   let pageTitle;
-  let altAdvancedSearchToggle;
-  if (!searchRequested && advancedSearchOpen) {
+  if (advancedSearchOpen) {
     pageTitle = 'Advanced search';
-  } else if (!searchRequested && !advancedSearchOpen) {
+  } else {
     pageTitle = 'Search messages';
-    altAdvancedSearchToggle = (
-      <button
-        type="button"
-        className="link-button advanced-search-toggle"
-        onClick={toggleAdvancedSearchHandler}
-      >
-        Or try the advanced search.
-      </button>
+  }
+
+  const content = () => {
+    if (!folders) {
+      return (
+        <va-loading-indicator
+          message="Loading your secure messages..."
+          setFocus
+        />
+      );
+    }
+    if (advancedSearchOpen) return <AdvancedSearchForm folders={folders} />;
+    return (
+      <BasicSearchForm
+        folders={folders}
+        toggleAdvancedSearch={toggleAdvancedSearchHandler}
+      />
     );
-  } else if (searchRequested) pageTitle = 'Search results';
+  };
 
   return (
-    <div
-      className="vads-l-grid-container search-messages"
-      data-testid="search-messages"
-    >
+    <div className="vads-l-grid-container search-messages">
       <h1 className="page-title">{pageTitle}</h1>
 
-      {searchRequested ? (
-        <CondensedSearchForm query={searchParams} />
-      ) : (
-        <SearchForm
-          advancedSearchOpen={advancedSearchOpen}
-          keyword={searchParams.keyword}
-        />
-      )}
-
-      {altAdvancedSearchToggle}
-
-      {searchRequested && <SearchResults />}
+      {content()}
     </div>
   );
 };

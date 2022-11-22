@@ -5,7 +5,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
 // Same as "rootUrl" in manifest.json
-export const BASE_URL = `${SC_INFO_URL}/request-supplemental-claim-form-20-0995`;
+export const BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
@@ -30,15 +30,17 @@ export const CONTESTABLE_ISSUES_API =
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+export const PRIMARY_PHONE = 'view:primaryPhone';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
 export const errorMessages = {
-  savedFormNotFound: 'Please start over to request a Supplemental Claim',
+  savedFormNotFound: 'Please start over to file a Supplemental Claim',
   savedFormNoAuth:
-    'Please sign in again to continue your request a Supplemental Claim',
+    'Please sign in again to continue your file a Supplemental Claim',
   invalidDate: 'Please choose a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
@@ -47,6 +49,11 @@ export const errorMessages = {
 
   evidenceTypeMissing: 'Please select at least one type of supporting evidence',
   locationAndNameMissing: 'Please add a treatment location',
+
+  missingEmail: 'Please add an email address to your profile',
+  missingPhone: 'Please add a home or mobile phone number to your profile',
+  missingAddress: 'Please add an address to your profile',
+  missingPrimaryPhone: 'You need to choose a primary phone number',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';

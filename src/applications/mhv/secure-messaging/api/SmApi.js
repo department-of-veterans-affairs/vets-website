@@ -47,6 +47,22 @@ export const createFolder = folderName => {
 };
 
 /**
+ * Update a folder's name.
+ * @param {Long} folderId
+ * @param {String} folderName
+ * @returns
+ */
+export const updateFolderName = (folderId, folderName) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: folderName }),
+  });
+};
+
+/**
  * Delete a folder.
  * @param {Long} folderId
  * @returns
@@ -79,11 +95,30 @@ export const getMessageCategoryList = () => {
  * @returns
  */
 export const getMessageList = folderId => {
-  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/messages`, {
-    headers: {
-      'Content-Type': 'application/json',
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?useCache=false`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
-  });
+  );
+};
+
+/**
+ * Get the list of messages in the specified folder.
+ * @param {Long} folderId
+ * @returns
+ */
+export const getMessageListAll = folderId => {
+  return apiRequest(
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=9999`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
 };
 
 /**
@@ -255,7 +290,7 @@ export const getMessageHistory = messageId => {
  */
 export const moveMessage = (messageId, toFolderId) => {
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${messageId}/move/${toFolderId}`,
+    `${apiBasePath}/messaging/messages/${messageId}/move?folder_id=${toFolderId}`,
     {
       method: 'PATCH',
       headers: {
@@ -274,5 +309,22 @@ export const getTriageTeamList = () => {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+};
+
+/**
+ * Search a folder for messages based on criteria
+ * @param {Int} folderId
+ * @param {Object} query
+ * @returns
+ */
+export const searchFolderAdvanced = (folderId = 0, query) => {
+  return apiRequest(`${apiBasePath}/messaging/folders/${folderId}/search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(query),
   });
 };

@@ -1,91 +1,86 @@
-/*
-The main application container. Responsibilities:
-- Gating the application behind a login prompt (<RequiredLoginView />)
-- Rendering various application states based on api call status
-
-Assumptions that may need to be addressed:
-- Assumes the only service required is MHV_AC
-- Currently doesn't include a DowntimeNotification, but may want to given its external dependencies.
-- Assumes the api call invoked by props.getAllMessages returns ALL messages. If pagination is handled by the server,
-then additional functionality will need to be added to account for this.
-*/
-
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-// import backendServices from 'platform/user/profile/constants/backendServices';
-// import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-
-import { getAllMessages } from '../actions';
-import ReplyHeader from '../components/ReplyHeader';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { retrieveMessage, retrieveMessageHistory } from '../actions/messages';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
-import ReplyBox from '../components/ReplyBox';
-// import NavigationLinks from '../components/NavigationLinks';
+import EmergencyNote from '../components/EmergencyNote';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 
-const MessageReply = props => {
-  const {
-    allMessages: { isLoading, error },
-  } = props;
+const MessageReply = () => {
+  const dispatch = useDispatch();
+  const { replyId } = useParams();
+  const { error } = useSelector(state => state.sm.draftDetails);
+  const location = useLocation();
+  const isDraftPage = location.pathname.includes('/draft');
+  const replyMessage = useSelector(state => state.sm.messageDetails.message);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
 
-  // fire api call to retreive messages
-  useEffect(() => {
-    props.getAllMessages();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(retrieveMessage(replyId, false));
+      dispatch(retrieveMessageHistory(replyId));
+    },
+    [isDraftPage, replyId, dispatch],
+  );
 
-  let content;
-  if (isLoading) {
-    content = (
-      <va-loading-indicator
-        message="Loading your secure messages..."
-        setFocus
-      />
-    );
-  } else if (error) {
-    content = (
-      <va-alert status="error" visible>
-        <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-        <p>
-          You can’t view your secure messages because something went wrong on
-          our end. Please check back soon.
-        </p>
-      </va-alert>
-    );
+  let pageTitle;
+
+  if (isDraftPage) {
+    pageTitle = 'Edit draft';
   } else {
-    content = (
-      <>
-        <ReplyHeader />
-        <BeforeMessageAddlInfo />
-        {/* <NavigationLinks /> */}
-        <ReplyBox />
-        <MessageThread />
-      </>
-    );
+    pageTitle = 'Compose a reply';
   }
 
+  const content = () => {
+    if (replyMessage === null) {
+      return (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+        />
+      );
+    }
+    if (error) {
+      return (
+        <va-alert status="error" visible class="vads-u-margin-y--9">
+          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
+          <p>
+            You can’t view your secure message because something went wrong on
+            our end. Please check back soon.
+          </p>
+        </va-alert>
+      );
+    }
+    return <ReplyForm draft={null} replyMessage={replyMessage} />;
+  };
+
+  const thread = () => {
+    if (messageHistory?.length > 0) {
+      return (
+        <MessageThread messageHistory={[replyMessage, ...messageHistory]} />
+      );
+    }
+    return <MessageThread messageHistory={[replyMessage]} />;
+  };
+
   return (
-    <div className="vads-l-grid-container">
-      <div>{content}</div>
+    <div className="vads-l-grid-container compose-container">
+      <AlertBackgroundBox closeable />
+      <h1 className="page-title">{pageTitle}</h1>
+      <EmergencyNote />
+      <div>
+        <BeforeMessageAddlInfo />
+      </div>
+
+      {content()}
+
+      {replyMessage && thread()}
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-  allMessages: state.allMessages,
-});
-
-const mapDispatchToProps = {
-  getAllMessages,
-};
-
-MessageReply.propTypes = {
-  allMessages: PropTypes.object,
-  getAllMessages: PropTypes.func,
-  user: PropTypes.object,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MessageReply);
+export default MessageReply;

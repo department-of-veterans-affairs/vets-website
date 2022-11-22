@@ -47,6 +47,8 @@
       }
       h3 {
         margin: 0;
+        width: 80%;
+        overflow-wrap: break-word;
       }
     }
     .send-button-top {
@@ -71,15 +73,6 @@
       @media (min-width: $medium-screen) {
         padding: 0 36px 36px;
       }
-      .message-category {
-        label {
-          margin: 0 0 6px 0;
-          line-height: 1.5;
-          @media (min-width: $medium-screen) {
-            margin: 0 0 13.9px 0;
-          }
-        }
-      }
       .message-subject {
         max-width: 100%;
         width: 100%;
@@ -94,10 +87,6 @@
         margin: 0.4rem 0px;
         resize: none;
       }
-      .radio-button > label {
-        margin-left: 2.85rem;
-        text-indent: -2.85rem;
-      }
 
       .attachments-section {
         .compose-attachments-heading {
@@ -108,8 +97,7 @@
       .compose-form-actions {
         display: flex;
         flex-direction: column;
-        .send-button-bottom,
-        .save-draft-button {
+        .send-button-bottom {
           height: 36px;
           margin: 0;
         }

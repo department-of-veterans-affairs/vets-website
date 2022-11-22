@@ -180,6 +180,9 @@ class FormPage extends React.Component {
             goBack={this.goBack}
             goForward={this.onSubmit}
             goToPath={this.goToPath}
+            setFormData={this.props.setData}
+            contentBeforeButtons={contentBeforeButtons}
+            contentAfterButtons={contentAfterButtons}
           />
         </div>
       );
@@ -230,12 +233,30 @@ const mapDispatchToProps = {
 
 FormPage.propTypes = {
   form: PropTypes.object.isRequired,
+  appStateData: PropTypes.shape({}),
+  blockScrollOnMount: PropTypes.bool,
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+  }),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  params: PropTypes.shape({
+    index: PropTypes.number, // for testing only?
+  }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
+      arrayPath: PropTypes.string,
+      CustomPage: PropTypes.element,
+      onContinue: PropTypes.func,
+      pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
+      showPagePerItem: PropTypes.bool,
+      title: PropTypes.string,
       uiSchema: PropTypes.object.isRequired,
-      onContinue: PropTypes.func,
       updateFormData: PropTypes.func,
     }),
     pageList: PropTypes.arrayOf(
@@ -244,9 +265,11 @@ FormPage.propTypes = {
       }),
     ),
   }),
-  contentBeforeButtons: PropTypes.element,
-  contentAfterButtons: PropTypes.element,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setData: PropTypes.func,
+  uploadFile: PropTypes.func,
 };
 
 export default withRouter(

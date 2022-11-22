@@ -15,6 +15,14 @@
     @media (min-width: $medium-screen) {
       max-width: 351px;
     }
+    .fromToDatesContainer {
+      background-color: $color-primary-alt-darkest;
+      padding-left: 8px;
+      .fromToDates {
+        background-color: $color-white;
+        padding-left: 11px;
+      }
+    }
   }
 
   va-text-input.textField::part(input) {
@@ -64,28 +72,6 @@
     }
   }
 
-  .condensed-search-form {
-    .search-in-description {
-      margin-bottom: 6px;
-      @media (min-width: $medium-screen) {
-        margin-bottom: 11px;
-      }
-    }
-    va-search-input {
-      @media (min-width: $medium-screen) {
-        max-width: 90%;
-      }
-    }
-    .condensed-advanced-search-button {
-      padding: 0;
-      margin: 5px 0 0;
-      width: fit-content;
-      @media (min-width: $medium-screen) {
-        margin: 13px 0 0;
-      }
-    }
-  }
-
   .search-results {
     .search-results-sort {
       display: flex;
@@ -132,6 +118,28 @@
     }
     .search-results-contents {
       flex-grow: 1;
+    }
+  }
+}
+
+.condensed-search-form {
+  .search-in-description {
+    margin-bottom: 6px;
+    @media (min-width: $medium-screen) {
+      margin-bottom: 11px;
+    }
+  }
+  va-search-input {
+    @media (min-width: $medium-screen) {
+      max-width: 90%;
+    }
+  }
+  .condensed-advanced-search-button {
+    padding: 0;
+    margin: 5px 0 0;
+    width: fit-content;
+    @media (min-width: $medium-screen) {
+      margin: 13px 0 0;
     }
   }
 }

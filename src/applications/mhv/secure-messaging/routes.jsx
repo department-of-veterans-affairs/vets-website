@@ -7,6 +7,7 @@ import Compose from './containers/Compose';
 import MessageDetails from './containers/MessageDetails';
 import MessageReply from './containers/MessageReply';
 import SearchMessages from './containers/SearchMessages';
+import SearchResults from './containers/SearchResults';
 import Folders from './containers/Folders';
 import FolderListView from './containers/FolderListView';
 import MessageFAQs from './containers/MessageFAQs';
@@ -38,11 +39,17 @@ const routes = (
           <Route exact path="/message/:messageId" key="MessageDetails">
             <MessageDetails />
           </Route>
-          <Route exact path="/reply" key="MessageReply">
+          <Route path="/reply/:replyId" key="MessageReply">
             <MessageReply />
           </Route>
           <Route exact path="/search" key="SearchMessages">
             <SearchMessages />
+          </Route>
+          <Route exact path="/search/advanced" key="AdvancedSearch">
+            <SearchMessages />
+          </Route>
+          <Route exact path="/search/results" key="SearchResults">
+            <SearchResults />
           </Route>
           <Route path="/draft/:draftId" key="Compose">
             <Compose />

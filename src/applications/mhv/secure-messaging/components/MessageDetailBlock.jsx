@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
+import { dateFormat } from '../util/helpers';
 
 const MessageDetailBlock = props => {
   const {
@@ -24,7 +25,7 @@ const MessageDetailBlock = props => {
 
   const handleReplyButton = useCallback(
     () => {
-      history.push('/reply');
+      history.push(`/reply/${messageId}`);
     },
     [history],
   );
@@ -69,7 +70,7 @@ const MessageDetailBlock = props => {
           </p>
           <p>
             <strong>Date: </strong>
-            {sentDate}
+            {dateFormat(sentDate)}
           </p>
           <p>
             <strong>Message ID: </strong>

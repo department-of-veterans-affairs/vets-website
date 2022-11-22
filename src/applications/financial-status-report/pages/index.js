@@ -1,6 +1,7 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
+import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
@@ -24,6 +25,8 @@ import * as spouseIncome from './income/spouse/currentIncome';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
+import * as monetaryChecklist from './assets/monetary/monetaryChecklist';
+import * as monetaryValues from './assets/monetary/monetaryValues';
 import * as realEstate from './assets/realEstate';
 import * as realEstateRecords from './assets/realEstate/records';
 import * as recreationalVehicles from './assets/recreationalVehicles';
@@ -49,6 +52,7 @@ import * as bankruptcyHistoryRecords from './bankruptcy/records';
 export {
   veteranInfo,
   availableDebts,
+  combinedDebts,
   employment,
   employmentRecords,
   income,
@@ -72,6 +76,8 @@ export {
   dependents,
   dependentRecords,
   monetary,
+  monetaryChecklist,
+  monetaryValues,
   realEstate,
   realEstateRecords,
   recreationalVehicles,

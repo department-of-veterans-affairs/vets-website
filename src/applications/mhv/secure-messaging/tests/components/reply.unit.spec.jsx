@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import React from 'react';
 import messageResponse from '../fixtures/message-response.json';
 import reducers from '~/applications/mhv/secure-messaging/reducers';

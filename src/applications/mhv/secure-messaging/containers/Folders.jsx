@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { getFolders, newFolder } from '../actions/folders';
+import { closeAlert } from '../actions/alerts';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
@@ -13,8 +14,22 @@ const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const folders = useSelector(state => state.sm.folders.folderList);
+  const [nameWarning, setNameWarning] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [folderName, setFolderName] = useState('');
+  let folderMatch = null;
+
+  // clear out alerts if user navigates away from this component
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
   useEffect(
     () => {
@@ -28,13 +43,26 @@ const Folders = () => {
   };
 
   const closeNewModal = () => {
+    setFolderName('');
+    setNameWarning('');
     setIsModalVisible(false);
   };
 
   const confirmNewFolder = () => {
-    dispatch(newFolder(folderName));
-    dispatch(getFolders());
-    closeNewModal();
+    folderMatch = null;
+    folderMatch = folders.filter(folder => folder.name === folderName);
+    if (folderName === '' || folderName.match(/^[\s]+$/)) {
+      setNameWarning('Folder name cannot be blank');
+    } else if (folderMatch.length > 0) {
+      setNameWarning('Folder name alreeady in use. Please use another name.');
+    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      closeNewModal();
+      dispatch(newFolder(folderName)).then(dispatch(getFolders));
+    } else {
+      setNameWarning(
+        'Folder name can only contain letters, numbers, and spaces.',
+      );
+    }
   };
 
   const content = () => {
@@ -73,7 +101,11 @@ const Folders = () => {
           onCloseEvent={closeNewModal}
         >
           <VaTextInput
+            className="input"
+            value={folderName}
             onInput={e => setFolderName(e.target.value)}
+            maxlength="50"
+            error={nameWarning}
             name="folder-name"
             label="Please enter your folder name"
           />

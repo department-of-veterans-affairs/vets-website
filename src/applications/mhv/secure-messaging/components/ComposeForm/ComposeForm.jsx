@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
@@ -10,6 +10,8 @@ import AttachmentsList from '../AttachmentsList';
 import { saveDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
+import DiscardDraft from '../Draft/DiscardDraft';
+import { sortRecipients } from '../../util/helpers';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -42,8 +44,14 @@ const ComposeForm = props => {
         ),
         ...recipients,
       ]);
+      if (!draft) {
+        setSelectedRecipient('');
+        setSubject('');
+        setMessageBody('');
+        setCategory('');
+      }
     },
-    [recipients],
+    [recipients, draft],
   );
 
   const recipientExists = recipientId => {
@@ -152,32 +160,38 @@ const ComposeForm = props => {
 
   return (
     <form className="compose-form" onSubmit={sendMessageHandler}>
-      <div className="compose-form-header">
+      <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
-        <button type="submit" className="send-button-top">
+        <button type="button" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />
           <span className="send-button-top-text">Send</span>
         </button>
       </div>
       <div className="compose-inputs-container">
-        <VaSelect
-          id="recipient-dropdown"
-          label="To"
-          name="to"
-          value={selectedRecipient}
-          onVaSelect={e => setSelectedRecipient(e.detail.value)}
-          class="composeSelect"
-          data-testid="compose-select"
-        >
-          {recipientsList.map(item => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </VaSelect>
-        <button type="button" className="link-button edit-input-button">
-          Edit List
-        </button>
+        {recipientsList && (
+          <>
+            <VaSelect
+              enable-analytics
+              id="recipient-dropdown"
+              label="To"
+              name="to"
+              value={selectedRecipient}
+              onVaSelect={e => setSelectedRecipient(e.detail.value)}
+              class="composeSelect"
+              data-testid="compose-select"
+            >
+              {sortRecipients(recipientsList)?.map(item => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </VaSelect>
+            <button type="button" className="link-button edit-input-button">
+              Edit List
+            </button>
+          </>
+        )}
+
         <CategoryInput
           category={category}
           categoryError={categoryError}
@@ -230,22 +244,25 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
-        <div className="compose-form-actions">
+        <div className="compose-form-actions vads-u-display--flex">
           <button
-            type="submit"
-            className="send-button-bottom"
+            type="button"
+            className="vads-u-flex--1"
             data-testid="Send-Button"
           >
             Send
           </button>
           <button
             type="button"
-            className="usa-button-secondary save-draft-button"
+            className="usa-button-secondary vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
           >
             Save draft
           </button>
+          <div className="vads-u-flex--1 vads-u-display--flex">
+            {draft && <DiscardDraft draft={draft} />}
+          </div>
         </div>
       </div>
       <DraftSavedInfo />

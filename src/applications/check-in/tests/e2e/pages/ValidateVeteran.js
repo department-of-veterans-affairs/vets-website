@@ -5,6 +5,7 @@ const messages = {
     dayOf: {
       en: 'Check in at VA',
       es: 'Regístrese en VA',
+      tl: 'Mag-check in sa VA',
     },
     preCheckIn: {
       en: 'Start pre-check-in',
@@ -226,7 +227,7 @@ class ValidateVeteran {
 
   validateErrorAlert = (withLorotaSecurityUpdate = true) => {
     const messageText = withLorotaSecurityUpdate
-      ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
+      ? 'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.'
       : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')

@@ -1,31 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { closeAlert } from '../actions/alerts';
+import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
   const dispatch = useDispatch();
   const message = useSelector(state => state.sm.messageDetails.message);
+  const messageHistory = useSelector(
+    state => state.sm.messageDetails.messageHistory,
+  );
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
+  const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
-  const [id, setid] = useState(null);
+  const history = useHistory();
+  const header = useRef();
 
   useEffect(
     () => {
-      setid(messageId);
-      if (id) {
+      if (activeFolder?.folderId === Constants.DefaultFolders.DRAFTS.id) {
+        history.push(`/draft/${messageId}`);
+      }
+
+      if (messageId) {
         dispatch(closeAlert()); // to clear out any past alerts before landing this page
-        dispatch(retrieveMessage(id));
+        dispatch(retrieveMessage(messageId));
       }
     },
-    [dispatch, location, messageId, id],
+    [dispatch, location, messageId, activeFolder, history],
+  );
+
+  useEffect(
+    () => {
+      focusElement(header.current);
+    },
+    [header],
   );
 
   let pageTitle;
@@ -38,42 +55,41 @@ const MessageDetail = () => {
     pageTitle = 'Message';
   }
 
-  const content = () => {
-    if (message === undefined) {
-      return (
+  return (
+    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+      <AlertBackgroundBox closeable />
+      <h1 className="vads-u-margin-top--2" ref={header}>
+        {pageTitle}
+      </h1>
+
+      {message === undefined && (
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
         />
-      );
-    }
-    if (message === null || message === false) {
-      return (
-        <va-alert status="error" visible class="vads-u-margin-y--9">
-          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
-          <p>
-            You can’t view your secure message because something went wrong on
-            our end. Please check back soon.
-          </p>
-        </va-alert>
-      );
-    }
-    return (
-      <>
-        <MessageDetailBlock message={message} />
-        <MessageThread />
-      </>
-    );
-  };
+      )}
 
-  return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <AlertBackgroundBox closeable />
-      <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
+      {message === null ||
+        (message === false && (
+          <va-alert status="error" visible class="vads-u-margin-y--9">
+            <h2 slot="headline">
+              We’re sorry. Something went wrong on our end
+            </h2>
+            <p>
+              You can’t view your secure message because something went wrong on
+              our end. Please check back soon.
+            </p>
+          </va-alert>
+        ))}
 
-      <NavigationLinks messageId={id} />
-
-      {content()}
+      {message &&
+        messageId && (
+          <>
+            <NavigationLinks messageId={messageId} />
+            <MessageDetailBlock message={message} />
+            <MessageThread messageHistory={messageHistory} />
+          </>
+        )}
     </div>
   );
 };

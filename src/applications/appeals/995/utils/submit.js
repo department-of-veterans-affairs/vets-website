@@ -1,4 +1,5 @@
-import { SELECTED, MAX_LENGTH } from '../constants';
+import { SELECTED, MAX_LENGTH, PRIMARY_PHONE } from '../constants';
+import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
 import { replaceSubmittedData } from './replace';
 
 /**
@@ -198,10 +199,19 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) => {
+export const getPhone = formData => {
+  const { veteran } = formData || {};
+  // we shouldn't ever get to this point without a home or mobile phone
+  let phone = 'homePhone';
+  if (hasHomeAndMobilePhone(formData)) {
+    phone = `${formData[PRIMARY_PHONE]}Phone`;
+  } else if (hasMobilePhone(formData)) {
+    phone = 'mobilePhone';
+  }
+
   // use homePhone, for now, until we add primary phone page
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.homePhone?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
   return removeEmptyEntries({
     countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),

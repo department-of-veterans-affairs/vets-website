@@ -10,6 +10,11 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience', () => {
   describe('check-in with demographics confirmation', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -23,7 +28,7 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
@@ -50,7 +55,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -67,7 +72,7 @@ describe('Check In Experience', () => {
 
       Appointments.validatePageLoaded();
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
@@ -95,13 +100,13 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 200);
 
-      // Confirmation.attemptGoBackToAppointments();
-      // Appointments.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
 
-      // Appointments.attemptCheckIn(3);
-      // Confirmation.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(3);
+      Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
 
       // call should not occur a second time if first call was successful
       cy.get('@demographicsPatchSpy').then(spy => {
@@ -110,6 +115,11 @@ describe('Check In Experience', () => {
     });
   });
   describe('check-in demographics confirmation - With API error', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -123,7 +133,7 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
+        appointments,
       });
       initializeCheckInDataPost.withSuccess();
       // Response delayed by 5 seconds.
@@ -139,7 +149,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -156,7 +166,7 @@ describe('Check In Experience', () => {
 
       Appointments.validatePageLoaded();
 
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
 
@@ -165,21 +175,26 @@ describe('Check In Experience', () => {
         .its('response.statusCode')
         .should('equal', 400);
 
-      // Confirmation.attemptGoBackToAppointments();
-      // Appointments.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
 
-      // Appointments.attemptCheckIn(3);
-      // Confirmation.validatePageLoaded();
-      // cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(3);
+      Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
 
-      // cy.wait('@demographicsPatchFailureAlias');
-      // cy.get('@demographicsPatchFailureAlias')
-      //   .its('response.statusCode')
-      //   .should('equal', 400);
+      cy.wait('@demographicsPatchFailureAlias');
+      cy.get('@demographicsPatchFailureAlias')
+        .its('response.statusCode')
+        .should('equal', 400);
     });
   });
   describe('All confirmation pages skipped', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+      { startTime: '2021-08-19T04:30:00' },
+    ];
     beforeEach(() => {
       const now = Date.now();
       const today = new Date(now);
@@ -195,7 +210,7 @@ describe('Check In Experience', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess({
-        numberOfCheckInAbledAppointments: 2,
+        appointments,
         demographicsNeedsUpdate: false,
         demographicsConfirmedAt: today.toISOString(),
         nextOfKinNeedsUpdate: false,
@@ -220,7 +235,7 @@ describe('Check In Experience', () => {
 
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
     });
     afterEach(() => {
@@ -230,7 +245,7 @@ describe('Check In Experience', () => {
     });
     it('Do not send demographics confirmations if all confirm pages skipped', () => {
       Appointments.validatePageLoaded();
-      Appointments.attemptCheckIn(2);
+      Appointments.attemptCheckIn(1);
 
       cy.injectAxeThenAxeCheck();
       Confirmation.validatePageLoaded();

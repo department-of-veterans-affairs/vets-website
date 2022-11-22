@@ -24,8 +24,17 @@ export function titleCase(str) {
 }
 
 export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
-  if (str.length <= numVisibleChars) {
-    return str;
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= 2 * numVisibleChars) {
+    const visibileChars = Math.floor(str.length / 2);
+
+    return (
+      obfuscateChar.repeat(str.length - visibileChars) +
+      str.substring(str.length - visibileChars, str.length)
+    );
   }
 
   return (
@@ -125,43 +134,22 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  // const vaProfile = stateUser?.vaProfile;
-
+  const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation;
+  const vet360ContactInfo = stateUser.vet360ContactInformation || {};
 
-  let userAddressLine1;
-  let userAddressLine2;
-  let userCity;
-  let userState;
-  let userPostalCode;
-  let userCountryCode;
-
-  if (profile?.addressLine1) {
-    userAddressLine1 = profile?.addressLine1;
-    userAddressLine2 = profile?.addressLine2;
-    userCity = profile?.city;
-    userState = profile?.stateCode;
-    userPostalCode = profile?.zipCode;
-    userCountryCode = profile?.countryCode;
-  } else if (vet360ContactInfo?.addressLine1) {
-    userAddressLine1 = vet360ContactInfo?.addressLine1;
-    userAddressLine2 = vet360ContactInfo?.addressLine2;
-    userCity = vet360ContactInfo?.city;
-    userState = vet360ContactInfo?.stateCode;
-    userPostalCode = vet360ContactInfo?.zipCode;
-    userCountryCode = vet360ContactInfo?.countryCode;
+  let address;
+  if (vapContactInfo.mailingAddress?.addressLine1) {
+    address = vapContactInfo.mailingAddress;
+  } else if (vet360ContactInfo.mailingAddress?.addressLine1) {
+    address = vet360ContactInfo.mailingAddress;
   } else {
-    userAddressLine1 = contactInfo?.addressLine1;
-    userAddressLine2 = contactInfo?.addressLine2;
-    userCity = contactInfo?.city;
-    userState = contactInfo?.stateCode;
-    userPostalCode = contactInfo?.zipCode;
-    userCountryCode = contactInfo?.countryCode;
+    address = contactInfo;
   }
 
   const emailAddress =
     profile?.email ||
+    vapContactInfo.email ||
     vet360ContactInfo?.email?.emailAddress ||
     contactInfo.emailAddress ||
     undefined;
@@ -169,7 +157,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
   const v360mp = vet360ContactInfo?.mobilePhone;
-  if (v360mp?.areaCode && v360mp?.phoneNumber) {
+  // VA Profile Mobile Phone
+  const vapmp = vapContactInfo?.mobilePhone;
+  if (vapmp?.areaCode && vapmp?.phoneNumber) {
+    mobilePhoneNumber = [vapmp.areaCode, vapmp.phoneNumber].join();
+    mobilePhoneIsInternational = vapmp.isInternational;
+  } else if (v360mp?.areaCode && v360mp?.phoneNumber) {
     mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
     mobilePhoneIsInternational = v360mp.isInternational;
   } else {
@@ -179,7 +172,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   let homePhoneNumber;
   let homePhoneIsInternational;
   const v360hp = vet360ContactInfo?.homePhone;
-  if (v360hp?.areaCode && v360hp?.phoneNumber) {
+  // VA Profile Home Phone
+  const vaphp = vapContactInfo?.homePhone;
+  if (vaphp?.areaCode && vaphp?.phoneNumber) {
+    homePhoneNumber = [vaphp.areaCode, vaphp.phoneNumber].join();
+    homePhoneIsInternational = vaphp.isInternational;
+  } else if (v360hp?.areaCode && v360hp?.phoneNumber) {
     homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
     homePhoneIsInternational = v360hp.isInternational;
   } else {
@@ -243,12 +241,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {
-        street: userAddressLine1,
-        street2: userAddressLine2 || undefined,
-        city: userCity,
-        state: userState,
-        postalCode: userPostalCode,
-        country: getSchemaCountryCode(userCountryCode),
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
       },
       livesOnMilitaryBase:
         contactInfo?.countryCode !== 'US' &&

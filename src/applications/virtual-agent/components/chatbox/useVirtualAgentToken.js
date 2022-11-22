@@ -37,9 +37,6 @@ export default function useVirtualAgentToken(props) {
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
-  const requireAuth = useSelector(
-    state => state.featureToggles.virtualAgentAuth,
-  );
 
   useEffect(
     () => {
@@ -54,9 +51,7 @@ export default function useVirtualAgentToken(props) {
         });
       }
 
-      if (requireAuth) {
-        clearBotSessionStorage();
-      }
+      clearBotSessionStorage();
 
       async function getToken() {
         try {

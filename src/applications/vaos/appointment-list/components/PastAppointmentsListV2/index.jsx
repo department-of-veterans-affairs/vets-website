@@ -19,6 +19,8 @@ import {
   fetchPastAppointments,
   startNewAppointmentFlow,
 } from '../../redux/actions';
+import { selectFeatureAppointmentList } from '../../../redux/selectors';
+import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -100,6 +102,9 @@ export default function PastAppointmentsListNew() {
     pastSelectedIndex,
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
+  );
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
@@ -203,48 +208,54 @@ export default function PastAppointmentsListNew() {
             dateRangeOptions[pastSelectedIndex]?.label
           }`}
       </div>
-      {pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
-        return (
-          <React.Fragment key={monthIndex}>
-            <h3
-              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-              data-cy="past-appointment-list-header"
-            >
-              <span className="sr-only">Appointments in </span>
-              {monthDate.format('MMMM YYYY')}
-            </h3>
-            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-            <ul
-              aria-labelledby={`appointment_list_${monthDate.format(
-                'YYYY-MM',
-              )}`}
-              className="vads-u-padding-left--0"
-              data-cy="past-appointment-list"
-              role="list"
-            >
-              {monthBucket.map((appt, index) => {
-                const facilityId = getVAAppointmentLocationId(appt);
+      {featureAppointmentList && (
+        <AppointmentListGroup data={pastAppointmentsByMonth} />
+      )}
 
-                if (
-                  appt.vaos.appointmentType ===
-                    APPOINTMENT_TYPES.vaAppointment ||
-                  appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
-                ) {
-                  return (
-                    <AppointmentListItem
-                      key={index}
-                      appointment={appt}
-                      facility={facilityData[facilityId]}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </ul>
-          </React.Fragment>
-        );
-      })}
+      {!featureAppointmentList &&
+        pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
+          const monthDate = moment(monthBucket[0].start);
+          return (
+            <React.Fragment key={monthIndex}>
+              <h3
+                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+                data-cy="past-appointment-list-header"
+              >
+                <span className="sr-only">Appointments in </span>
+                {monthDate.format('MMMM YYYY')}
+              </h3>
+              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+              <ul
+                aria-labelledby={`appointment_list_${monthDate.format(
+                  'YYYY-MM',
+                )}`}
+                className="vads-u-padding-left--0"
+                data-cy="past-appointment-list"
+                role="list"
+              >
+                {monthBucket.map((appt, index) => {
+                  const facilityId = getVAAppointmentLocationId(appt);
+
+                  if (
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.vaAppointment ||
+                    appt.vaos.appointmentType ===
+                      APPOINTMENT_TYPES.ccAppointment
+                  ) {
+                    return (
+                      <AppointmentListItem
+                        key={index}
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </ul>
+            </React.Fragment>
+          );
+        })}
       {!pastAppointmentsByMonth?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments

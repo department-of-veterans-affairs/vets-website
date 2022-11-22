@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
@@ -79,6 +80,15 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
+  const handleOnClick = path => {
+    recordEvent({
+      // For Google Analytics
+      event: 'secure-messaging-navigation-clicked',
+      'secure-messaging-navigation-option': path.label,
+      'secure-messaging-navigation-path': path.path,
+    });
+  };
+
   return (
     <div className="secure-messaging-navigation">
       {openNavigationBurgerButton()}
@@ -123,7 +133,14 @@ const Navigation = () => {
                         }
                         data-testid={path.datatestid}
                       >
-                        <Link to={path.path}>{path.label}</Link>
+                        <Link
+                          to={path.path}
+                          onClick={() => {
+                            handleOnClick(path);
+                          }}
+                        >
+                          {path.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
