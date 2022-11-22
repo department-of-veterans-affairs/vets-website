@@ -2,7 +2,9 @@ import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import mockMessages from '../fixtures/messages-response.json';
 
-beforeEach(() => {});
+beforeEach(() => {
+  window.dataLayer = [];
+});
 
 describe(manifest.appName, () => {
   before(() => {

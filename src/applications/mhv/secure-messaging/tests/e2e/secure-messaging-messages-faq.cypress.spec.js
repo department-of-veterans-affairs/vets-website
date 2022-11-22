@@ -1,7 +1,9 @@
 import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
-beforeEach(() => {});
+beforeEach(() => {
+  window.dataLayer = [];
+});
 
 describe(manifest.appName, () => {
   before(() => {
