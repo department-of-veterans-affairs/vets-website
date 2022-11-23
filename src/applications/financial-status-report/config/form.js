@@ -91,6 +91,18 @@ const formConfig = {
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
           schema: pages.availableDebts.schema,
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
+        },
+        combinedAvailableDebts: {
+          initialData: {
+            selectedDebts: [],
+            selectedDebtsAndCopays: [],
+          },
+          path: 'all-available-debts',
+          title: 'Available Debts',
+          uiSchema: pages.combinedDebts.uiSchema,
+          schema: pages.combinedDebts.schema,
+          depends: formData => formData['view:combinedFinancialStatusReport'],
         },
         contactInfo: {
           initialData: {

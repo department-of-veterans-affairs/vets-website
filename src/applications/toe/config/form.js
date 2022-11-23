@@ -17,8 +17,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import constants from 'vets-json-schema/dist/constants.json';
-
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import * as BUCKETS from 'site/constants/buckets';
+import * as ENVIRONMENTS from 'site/constants/environments';
 
 import manifest from '../manifest.json';
 
@@ -70,9 +70,13 @@ import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+const checkImageSrc = (() => {
+  const bucket = environment.isProduction()
+    ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
+    : BUCKETS[ENVIRONMENTS.VAGOVSTAGING];
+
+  return `${bucket}/img/check-sample.png`;
+})();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
