@@ -46,12 +46,14 @@ const checkModals = options => {
   });
 
   // Modal appears
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You’re currently editing your ${sectionName}`).should('exist');
-    cy.findByRole('button', { name: /OK/i }).click({
-      force: true,
-    });
-  });
+  cy.findByTestId('cannot-edit-modal')
+    .findByText(`Save or cancel your edits to your ${otherSectionName}`)
+    .should('exist');
+
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByRole('button', { name: /OK/i })
+    .click();
 
   // Click on cancel in the current section
   cy.findByRole('button', { name: /Cancel/i }).click({
@@ -61,9 +63,7 @@ const checkModals = options => {
   // Confirmation modal appears, confirm cancel
 
   cy.findByTestId('confirm-cancel-modal')
-    .findByText(
-      `You haven't finished editing and saving the changes to your ${sectionName}. If you cancel now, we won't save your changes.`,
-    )
+    .findByText(`Save or cancel your edits to your ${sectionName}`)
     .should('exist');
 
   cy.findByTestId('confirm-cancel-modal')
@@ -90,18 +90,23 @@ const checkRemovalWhileEditingModal = options => {
   });
 
   // Modal appears
-  cy.get('.va-modal').within(() => {
-    cy.contains(`You’re currently editing your ${editSectionName}`).should(
-      'exist',
-    );
-    cy.findByRole('button', { name: /OK/i }).click({
-      force: true,
-    });
-  });
+  // cy.get('.va-modal').within(() => {
+  //   cy.contains(`You’re currently editing your ${editSectionName}`).should(
+  //     'exist',
+  //   );
+  //   cy.findByRole('button', { name: /OK/i }).click({
+  //     force: true,
+  //   });
+  // });
 
-  cy.findByTestId('cancel-edit-button').click({
-    force: true,
-  });
+  cy.findByTestId('cannot-edit-modal')
+    .findByText(`Save or cancel your edits to your ${removalSectionName}`)
+    .should('exist');
+
+  cy.findByTestId('cannot-edit-modal')
+    .shadow()
+    .findByRole('button', { name: /OK/i })
+    .click();
 };
 
 describe('Modals for removal of field', () => {

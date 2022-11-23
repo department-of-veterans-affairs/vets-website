@@ -4,7 +4,8 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 
 const CannotEditModal = props => {
   const { activeSection, isVisible, onHide } = props;
-  return (
+  // prevent web component from multiple renderings durring E2E tests
+  return isVisible ? (
     <VaModal
       modalTitle={`Save or cancel your edits to your ${activeSection}`}
       status="warning"
@@ -12,6 +13,7 @@ const CannotEditModal = props => {
       onCloseEvent={onHide}
       primaryButtonText="OK"
       onPrimaryButtonClick={onHide}
+      data-testid="cannot-edit-modal"
     >
       <p>
         Before you can edit a new section of your profile, you need to save or
@@ -19,7 +21,7 @@ const CannotEditModal = props => {
         your in-progress edits.
       </p>
     </VaModal>
-  );
+  ) : null;
 };
 
 CannotEditModal.propTypes = {
