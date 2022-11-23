@@ -1,6 +1,6 @@
 import React from 'react';
-// import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { expect } from 'chai';
+import { mount } from 'enzyme';
 
 import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
@@ -15,7 +15,7 @@ const fakeStore = createStore(
 
 describe('<PreSubmitInfo>', () => {
   it('should render', () => {
-    const tree = shallow(
+    const tree = mount(
       <Provider store={fakeStore}>
         <PreSubmitInfo
           formData={{}}
@@ -25,7 +25,7 @@ describe('<PreSubmitInfo>', () => {
         />
       </Provider>,
     );
-    // expect(tree).to.not.be.undefined;
+    expect(tree).to.not.be.undefined;
     // expect(tree.text()).to.contain('privacy policy');
 
     tree.unmount();
