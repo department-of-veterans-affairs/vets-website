@@ -148,7 +148,7 @@ export default function AppointmentRow({
 
 AppointmentRow.propTypes = {
   appointment: PropTypes.object,
-  children: PropTypes.func,
+  children: PropTypes.object,
   facility: PropTypes.object,
   isMobile: PropTypes.bool,
 };

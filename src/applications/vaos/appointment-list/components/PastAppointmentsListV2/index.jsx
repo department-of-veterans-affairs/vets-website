@@ -268,7 +268,9 @@ export default function PastAppointmentsListNew() {
               role="list"
             >
               {featureAppointmentList && (
-                <AppointmentGridLayout monthBucket={monthBucket} />
+                <AppointmentGridLayout
+                  monthBucket={Object.values(monthBucket)}
+                />
               )}
               {!featureAppointmentList &&
                 monthBucket.map((appt, index) => {

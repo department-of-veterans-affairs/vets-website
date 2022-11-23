@@ -139,7 +139,9 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
               role="list"
             >
               {featureAppointmentList && (
-                <AppointmentGridLayout monthBucket={monthBucket} />
+                <AppointmentGridLayout
+                  monthBucket={Object.values(monthBucket)}
+                />
               )}
               {!featureAppointmentList &&
                 monthBucket.map((appt, index) => {
