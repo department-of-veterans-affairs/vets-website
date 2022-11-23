@@ -149,18 +149,6 @@ describe('pre-check-in experience', () => {
         fireEvent.click(screen.getByTestId('no-button'));
         expect(noClick.calledOnce).to.be.true;
       });
-      it('renders the loading message', () => {
-        const screen = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <NextOfKinDisplay isLoading />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(screen.queryByTestId('no-button')).to.not.exist;
-        expect(screen.queryByTestId('yes-button')).to.not.exist;
-        expect(screen.getByTestId('loading-message')).to.exist;
-      });
       it('renders the buttons', () => {
         const screen = render(
           <Provider store={store}>

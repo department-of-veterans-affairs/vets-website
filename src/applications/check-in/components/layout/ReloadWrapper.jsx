@@ -9,10 +9,9 @@ import { createSetSession } from '../../actions/authentication';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { isAnInternalPage } from '../../utils/navigation';
 
-const AppWrapper = props => {
-  const { children, router } = props;
+const ReloadWrapper = props => {
+  const { children, router, isPreCheckIn } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ const AppWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
-  } = useSessionStorage(false);
+  } = useSessionStorage(isPreCheckIn);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
@@ -31,6 +30,8 @@ const AppWrapper = props => {
       refreshNeeded: false,
       appointmentsOnly: true,
       reload: true,
+      router,
+      isPreCheckIn,
     },
   );
   const [refreshData, setRefreshData] = useState(true);
@@ -38,13 +39,6 @@ const AppWrapper = props => {
   const { goToErrorPage } = useFormRouting(router);
   const sessionToken = getCurrentToken(window);
   const { token: reduxToken } = useSelector(selectCurrentContext);
-  const validReloadPage = isAnInternalPage(location);
-
-  const loadingMessage = (
-    <>
-      <va-loading-indicator message={t('loading')} />
-    </>
-  );
 
   useEffect(
     () => {
@@ -57,7 +51,7 @@ const AppWrapper = props => {
 
   useEffect(
     () => {
-      if (!reduxToken && sessionToken?.token && validReloadPage) {
+      if (!reduxToken && sessionToken?.token) {
         const savedPermissions = getPermissions(window);
         const savedToken = sessionToken.token;
         if (savedPermissions && savedToken) {
@@ -83,7 +77,6 @@ const AppWrapper = props => {
       refreshCheckInData,
       dispatch,
       getPermissions,
-      validReloadPage,
       progressState,
     ],
   );
@@ -95,12 +88,21 @@ const AppWrapper = props => {
     [currentForm, setProgressState],
   );
 
-  return <>{refreshData || isLoading ? loadingMessage : children}</>;
+  if (refreshData || isLoading) {
+    window.scrollTo(0, 0);
+    return (
+      <div>
+        <va-loading-indicator message={t('loading')} />
+      </div>
+    );
+  }
+  return <>{children}</>;
 };
 
-AppWrapper.propTypes = {
+ReloadWrapper.propTypes = {
   children: PropTypes.node,
+  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 
-export default AppWrapper;
+export default ReloadWrapper;
