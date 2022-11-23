@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-
-import { apiRequest } from 'platform/utilities/api';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 /**
  * Homepage redesign
@@ -72,6 +72,23 @@ const HomepageSearch = () => {
     const searchUrl = `https://www.va.gov/search/?query=${encodeURIComponent(
       e.target.value,
     )}&t=${false}`;
+
+    // Record the analytic event.
+    recordEvent({
+      event: 'view_search_results',
+      'search-page-path': searchUrl,
+      'search-query': e.target.value,
+      'search-results-total-count': null,
+      'search-results-total-pages': null,
+      'search-selection': 'All VA.gov',
+      'search-typeahead-enabled': false,
+      'search-location': 'Homepage Search',
+      'sitewide-search-app-used': false,
+      'type-ahead-option-keyword-selected': null,
+      'type-ahead-option-position': null,
+      'type-ahead-options-list': null,
+      'type-ahead-options-count': null,
+    });
 
     // relocate to search results, preserving history
     window.location.assign(searchUrl);
