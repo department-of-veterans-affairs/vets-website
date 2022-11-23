@@ -50,31 +50,7 @@ describe('pre-check-in experience', () => {
         );
         expect(getByText('foo')).to.exist;
       });
-      it('renders custom loading message when loading', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                isLoading
-                loadingMessageOverride={() => <div>foo</div>}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
-      it('renders buttons when loading is false', () => {
-        const { getByTestId } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage isLoading={false} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByTestId('yes-button')).to.exist;
-        expect(getByTestId('no-button')).to.exist;
-      });
+
       it('renders the data passed in, with label and data', () => {
         const dataFields = [{ key: 'foo', title: 'foo-title' }];
         const data = { foo: 'bar' };

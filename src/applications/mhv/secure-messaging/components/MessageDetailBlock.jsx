@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useHistory } from 'react-router-dom';
+import { format, addDays } from 'date-fns';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
@@ -20,14 +21,26 @@ const MessageDetailBlock = props => {
   } = props.message;
 
   const history = useHistory();
+  const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
+  const CannotReplyDate = addDays(new Date(sentReplyDate), 45);
   const casedCategory = capitalize(category);
   const [printThread, setPrintThread] = useState('dont-print-thread');
+  const [hideReplyButton, setReplyButton] = useState(false);
 
   const handleReplyButton = useCallback(
     () => {
       history.push(`/reply/${messageId}`);
     },
     [history],
+  );
+
+  useEffect(
+    () => {
+      if (new Date() > CannotReplyDate) {
+        setReplyButton(true);
+      }
+    },
+    [CannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
   );
 
   const handlePrintThreadStyleClass = option => {
@@ -48,15 +61,16 @@ const MessageDetailBlock = props => {
         >
           {casedCategory}: {subject}
         </h2>
-        <button
-          type="button"
-          onClick={handleReplyButton}
-          className="send-button-top medium-screen:vads-u-padding-right--2"
-          data-testid="reply-button-top"
-        >
-          <i className="fas fa-reply" aria-hidden="true" />
-          <span className="reply-button-top-text">Reply</span>
-        </button>
+        {!hideReplyButton && (
+          <button
+            type="button"
+            onClick={handleReplyButton}
+            className="send-button-top medium-screen:vads-u-padding-right--2"
+          >
+            <i className="fas fa-reply" aria-hidden="true" />
+            <span className="reply-button-top-text">Reply</span>
+          </button>
+        )}
       </header>
 
       <main className="message-detail-content">

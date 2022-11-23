@@ -111,9 +111,9 @@ const Landing = props => {
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 
