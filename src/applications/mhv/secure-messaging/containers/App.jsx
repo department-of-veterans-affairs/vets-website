@@ -32,9 +32,10 @@ const App = () => {
         </div>
 
         <div className="vads-u-flex--fill">
-          {/* toggle log in and out state without using va.gov sign in */}
+          {/* toggle log in and out state without using va.gov sign in, to show the toggle button, comment out ht evisibility:hidden style */}
           <button
             style={{
+              visibility: 'hidden',
               'z-index': '2',
               position: 'absolute',
               top: '0',
