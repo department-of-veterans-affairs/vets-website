@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
@@ -7,12 +7,14 @@ import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import AlertBox from '../components/shared/AlertBox';
 import { closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
   const { messageId } = useParams();
   const dispatch = useDispatch();
+  const alert = useSelector(state => state.sm.alerts.alert);
   const message = useSelector(state => state.sm.messageDetails.message);
   const messageHistory = useSelector(
     state => state.sm.messageDetails.messageHistory,
@@ -22,6 +24,7 @@ const MessageDetail = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
+  const [CannotReplyAlert, setCannotReplyAlert] = useState(true);
   const header = useRef();
 
   useEffect(
@@ -36,6 +39,16 @@ const MessageDetail = () => {
       }
     },
     [dispatch, location, messageId, activeFolder, history],
+  );
+
+  useEffect(
+    () => {
+      if (alert?.header !== null) {
+        setCannotReplyAlert(CannotReplyAlert);
+      }
+      dispatch(closeAlert());
+    },
+    [CannotReplyAlert, alert?.header, dispatch],
   );
 
   useEffect(
@@ -57,7 +70,8 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <AlertBackgroundBox closeable />
+      {/* Only display this type of alert when it contains a header */}
+      {CannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
       <h1 className="vads-u-margin-top--2" ref={header}>
         {pageTitle}
       </h1>
