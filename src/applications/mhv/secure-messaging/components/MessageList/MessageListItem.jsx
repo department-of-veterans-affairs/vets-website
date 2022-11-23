@@ -24,7 +24,7 @@ const MessageListItem = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const getClassNames = () => {
-    return !!readReceipt === false
+    return readReceipt === false
       ? unreadMessageClassList
       : readMessageClassList;
   };
@@ -36,20 +36,20 @@ const MessageListItem = props => {
       className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
-      <div className={`message-list-item-line-1 ${getClassNames()}`}>
-        {!!readReceipt === false && (
+      <div className={getClassNames()}>
+        {readReceipt === false && (
           <i
             aria-hidden="true"
             className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <div>Sender: {senderName}</div>
+          <span>Sender: {senderName}</span>
         ) : (
-          <>
+          <div>
             <div>To: {recipientName}</div>
             <div>From: {senderName}</div>
-          </>
+          </div>
         )}
       </div>
       <Link
