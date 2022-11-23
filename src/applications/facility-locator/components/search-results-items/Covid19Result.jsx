@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import recordEvent from 'platform/monitoring/record-event';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
@@ -21,15 +20,12 @@ const Covid19Result = ({
     website,
     operatingStatus,
     detailedServices,
-    tmpCovidOnlineScheduling,
     phone,
   } = location.attributes;
   const appointmentPhone = detailedServices
     ? detailedServices[0]?.appointmentPhones[0]
     : null;
   const infoURL = detailedServices ? detailedServices[0]?.path : null;
-  const covidSchedulingAvailable =
-    tmpCovidOnlineScheduling || detailedServices?.onlineSchedulingAvailable;
 
   return (
     <div className="facility-result" id={location.id} key={location.id}>
@@ -64,19 +60,6 @@ const Covid19Result = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {covidSchedulingAvailable && (
-          <a
-            className="vads-c-action-link--blue vads-u-margin-bottom--1 vads-u-display--inline-block vads-u-margin-top--0"
-            href="/health-care/schedule-view-va-appointments/appointments/"
-            onClick={() =>
-              recordEvent({
-                'cta-action-link-click': 'fl-schedule-covid-vaccine',
-              })
-            }
-          >
-            Schedule an appointment online
-          </a>
-        )}
         {showCovidVaccineWalkInAvailabilityText && (
           <strong className="vads-u-margin-bottom--2 vads-u-display--block">
             Walk-ins accepted
@@ -85,7 +68,6 @@ const Covid19Result = ({
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
-            showCovidVaccineSchedulingLink={covidSchedulingAvailable}
             showCovidVaccineWalkInAvailabilityText={
               showCovidVaccineWalkInAvailabilityText
             }
