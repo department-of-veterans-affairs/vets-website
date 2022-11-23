@@ -64,7 +64,8 @@ const checkModals = options => {
   // Confirmation modal appears, confirm cancel
 
   cy.findByTestId('confirm-cancel-modal')
-    .findByText(`Save or cancel your edits to your ${sectionName}`)
+    .shadow()
+    .findByText('Are you sure?')
     .should('exist');
 
   cy.findByTestId('confirm-cancel-modal')
@@ -101,13 +102,16 @@ const checkRemovalWhileEditingModal = options => {
   // });
 
   cy.findByTestId('cannot-edit-modal')
-    .findByText(`Save or cancel your edits to your ${removalSectionName}`)
+    .shadow()
+    .findByText(`Save or cancel your edits to your ${editSectionName}`)
     .should('exist');
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
     .findByRole('button', { name: /OK/i })
     .click();
+
+  cy.findByTestId('cancel-edit-button').click();
 };
 
 describe('Modals for removal of field', () => {
