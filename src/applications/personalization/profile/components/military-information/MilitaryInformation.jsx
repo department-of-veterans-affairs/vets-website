@@ -75,6 +75,32 @@ const NotInDEERSAlert = () => {
   );
 };
 
+// Request DD214
+const RequestMilServiceRecordsAlert = () => {
+  return (
+    <>
+      <va-alert
+        background-only
+        class="vads-u-margin-y--0"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        status="info"
+        full-width="false"
+        visible="true"
+      >
+        <p className="vads-u-margin-y--0">
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
+          <a href="/records/get-military-service-records">
+            Learn how to request your DD214 and other military records
+          </a>
+        </p>
+      </va-alert>
+    </>
+  );
+};
+
 // Alert to show if `GET service_history` returned an empty service history array
 const NoServiceHistoryAlert = () => {
   return (
@@ -191,6 +217,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+      <br />
+      <RequestMilServiceRecordsAlert />
     </>
   );
 };

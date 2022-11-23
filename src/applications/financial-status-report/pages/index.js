@@ -1,6 +1,7 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
+import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
@@ -57,6 +58,7 @@ import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhanced
 export {
   veteranInfo,
   availableDebts,
+  combinedDebts,
   employment,
   employmentRecords,
   income,

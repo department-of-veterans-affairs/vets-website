@@ -1,3 +1,4 @@
+import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   getMessageList,
@@ -56,6 +57,10 @@ export const clearMessageHistory = () => async dispatch => {
   dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
 
+export const clearMessage = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR });
+};
+
 /**
  * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
@@ -65,6 +70,7 @@ export const retrieveMessage = (
   messageId,
   isDraft = false,
 ) => async dispatch => {
+  dispatch(clearMessage());
   const response = await getMessage(messageId);
   dispatch(retrieveMessageHistory(messageId, isDraft));
   if (response.errors) {
@@ -76,10 +82,21 @@ export const retrieveMessage = (
       response,
     });
   }
-};
 
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
+  // Error handling for old messages
+  const { sentDate } = response.data.attributes;
+  const today = new Date();
+  const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
+  const cannotReplyDate = addDays(new Date(messageSentDate), 45);
+  if (today > cannotReplyDate) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+      ),
+    );
+  }
 };
 
 /**
