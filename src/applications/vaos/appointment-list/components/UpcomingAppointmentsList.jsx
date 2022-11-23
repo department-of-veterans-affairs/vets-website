@@ -147,7 +147,7 @@ export default function UpcomingAppointmentsList() {
               {featureAppointmentList && (
                 <AppointmentGridLayout
                   key={monthDate.format('YYYY-MM')}
-                  monthBucket={monthBucket}
+                  monthBucket={Object.values(monthBucket)}
                 />
               )}
 

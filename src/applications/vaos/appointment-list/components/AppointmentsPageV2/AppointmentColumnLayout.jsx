@@ -5,15 +5,15 @@ import classNames from 'classnames';
 import { useMediaQuery } from 'react-responsive';
 import AppointmentColumn from './AppointmentColum';
 
-export function AppointmentColumnLayout({ data, first, grouped, last }) {
+export function AppointmentColumnLayout({ data, first, grouped }) {
   const isMobile = useMediaQuery({ query: '(max-width: 360px)' });
 
   return (
     <>
       <AppointmentColumn
         id="column 1"
-        classNameOverride="vads-u-flex--auto vads-u-margin-left--1p5 vads-u-margin-right--5 vads-u-padding-y--2"
-        style={{ minWidth: 60 }}
+        classNameOverride="vads-u-flex--auto vaos-appts__flex--basis vads-u-margin-left--1p5 vads-u-margin-right--5 vads-u-padding-y--2"
+        style={{ minWidth: isMobile ? 26 : 60 }}
       >
         {first && (
           <div
@@ -53,9 +53,9 @@ export function AppointmentColumnLayout({ data, first, grouped, last }) {
           'vads-l-col',
           'vads-u-padding-y--2',
           'vads-u-padding-right--1',
+          'vads-u-border-color--gray-lighter',
           {
-            'vads-u-border-bottom--1px': grouped && !last,
-            'vads-u-border-color--gray-lighter': grouped && !last,
+            'vads-u-border-top--1px': grouped && !first,
           },
         )}
         style={{ minWidth: 60 }}

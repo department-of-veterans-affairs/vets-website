@@ -10,6 +10,9 @@ export default function AppointmentListItem({
   borderBottom,
   borderTop,
   children,
+  first,
+  grouped,
+  last,
 }) {
   const isMobile = useMediaQuery({ query: '(max-width: 360px)' });
   const featureAppointmentList = useSelector(state =>
@@ -30,9 +33,14 @@ export default function AppointmentListItem({
           'vaos-appts__listItem--clickable': featureAppointmentList,
           'vads-u-margin--0': featureAppointmentList,
           'vads-u-border-top--1px':
-            (featureAppointmentList && isMobile) ||
-            (featureAppointmentList && borderTop),
-          'vads-u-border-bottom--1px': featureAppointmentList && borderBottom,
+            (featureAppointmentList && borderTop) ||
+            (featureAppointmentList && !isMobile && first) ||
+            (featureAppointmentList && isMobile && first) ||
+            (featureAppointmentList && isMobile && !grouped),
+          'vads-u-border-bottom--1px':
+            (featureAppointmentList && borderBottom) ||
+            (featureAppointmentList && !isMobile && last) ||
+            (featureAppointmentList && isMobile && last),
         })}
       >
         {children}
@@ -46,4 +54,7 @@ AppointmentListItem.propTypes = {
   borderBottom: PropTypes.bool,
   borderTop: PropTypes.bool,
   children: PropTypes.object,
+  first: PropTypes.bool,
+  grouped: PropTypes.bool,
+  last: PropTypes.bool,
 };
