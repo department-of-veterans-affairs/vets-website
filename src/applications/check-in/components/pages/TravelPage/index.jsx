@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';

@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../tests/unit/utils/initState';
@@ -109,19 +108,6 @@ describe('pre-check-in', () => {
           </Provider>,
         );
         expect(screen.getAllByText('TEST CLINIC')).to.have.lengthOf(3);
-      });
-      it('page passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <PreCheckinConfirmation
-                appointments={appointments}
-                formData={formData}
-                isLoading={false}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
       });
     });
   });
