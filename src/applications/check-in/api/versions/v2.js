@@ -1,6 +1,7 @@
 import appendQuery from 'append-query';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+// eslint-disable-next-line import/no-unresolved
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {

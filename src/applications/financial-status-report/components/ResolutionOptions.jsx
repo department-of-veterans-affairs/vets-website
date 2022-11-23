@@ -121,7 +121,7 @@ const ResolutionOptions = ({ formContext }) => {
     <div
       className={
         resolutionError
-          ? 'error-line'
+          ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
           : 'vads-u-margin-left--2 vads-u-margin-top--4'
       }
     >
@@ -185,7 +185,13 @@ const ResolutionOptions = ({ formContext }) => {
             />
             <label htmlFor="radio-compromise">{renderCompromiseText}</label>
           </div>
-          <div className={checkboxError ? 'error-line' : 'vads-u-margin-y--3'}>
+          <div
+            className={
+              checkboxError
+                ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
+                : 'vads-u-margin-y--3'
+            }
+          >
             {checkboxError && (
               <span
                 className="vads-u-font-weight--bold vads-u-color--secondary-dark"

@@ -26,7 +26,7 @@ describe('Financial Status Report (Wizard)', () => {
   });
 
   it('should navigate the wizard and start the form', () => {
-    const title = 'Request help with VA debt (VA Form 5655)';
+    const title = 'Request help with VA debt for overpayments and copay bills';
     const heading = 'Is this the form I need?';
     cy.url().should('include', manifest.rootUrl);
     cy.get('h1').should('have.text', title);
