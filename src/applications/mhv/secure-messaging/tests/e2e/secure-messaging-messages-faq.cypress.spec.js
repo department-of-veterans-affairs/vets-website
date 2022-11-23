@@ -1,5 +1,5 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+// import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
   before(() => {
@@ -7,8 +7,10 @@ describe(manifest.appName, () => {
   });
 
   it('Axe Check Messages FAQ', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    landingPage.loadPage();
+    // const landingPage = new PatientMessagesLandingPage();
+    // landingPage.loadPage();
+    // /my-health/secure-messages/faq
+    cy.visit('/my-health/secure-messages/faq');
     cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
