@@ -2,7 +2,6 @@
 // To be addressed in a later ticket, after audit https://github.com/department-of-veterans-affairs/va.gov-cms/issues/11358
 /* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
 
-
 import React from 'react';
 import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
