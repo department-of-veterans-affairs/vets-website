@@ -318,9 +318,9 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   let suffix;
 
   if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile?.first;
-    middleName = profile?.middle;
-    lastName = profile?.last;
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
     // suffix = ???
   } else {
     firstName = claimant.firstName;
@@ -358,12 +358,9 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
-  let address;
-  if (vapContactInfo.mailingAddress?.addressLine1) {
-    address = vapContactInfo.mailingAddress;
-  } else {
-    address = contactInfo;
-  }
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
 
   const newData = {
     ...formData,
