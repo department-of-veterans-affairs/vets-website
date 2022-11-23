@@ -224,31 +224,29 @@
         ]
       },
       "veteran": {
-        "employmentRecords": [
-          {
-            "type": "Full time",
-            "from": "2017-1-XX",
-            "to": "",
-            "isCurrent": true,
-            "employerName": "Veteran Current One",
-            "grossMonthlyIncome": "5000.45"
-          },
-          {
-            "type": "Part time",
-            "from": "2019-7-XX",
-            "to": "",
-            "isCurrent": true,
-            "employerName": "Veteran Current Two"
-          },
-          {
-            "type": "Full time",
-            "from": "2016-3-XX",
-            "to": "2017-3-XX",
-            "employerName": "Veteran Previous",
-            "isCurrent": false
-          }
-        ]
-      }
+      "employmentRecords": [
+        {
+          "type": "Full time",
+          "from": "2021-01-XX",
+          "to": "",
+          "isCurrent": true,
+          "employerName": "Test",
+          "grossMonthlyIncome": "123",
+          "deductions": [
+            {
+              "name": "State tax",
+              "amount": "1"
+            }
+          ]
+        },
+        {
+          "type": "Full time",
+          "from": "2021-01-XX",
+          "to": "2021-12-XX",
+          "isCurrent": false,
+          "employerName": "I quit"
+        }
+      ]}
     },
     "spouseFullName": {
       "first": "Angela",
@@ -1258,56 +1256,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "currEmployment": [
-    {
-      "veteranGrossSalary": "5000.54",
-      "deductions": [
-        {
-          "name": "Federal tax",
-          "amount": "350.56"
-        },
-        {
-          "name": "State tax",
-          "amount": "230.45"
-        },
-        {
-          "name": "Pension",
-          "amount": "100"
-        },
-        {
-          "name": "Health insurance",
-          "amount": "254.45"
-        }
-      ],
-      "type": "Full time",
-      "from": "2017-1-XX",
-      "to": "",
-      "isCurrent": true,
-      "employerName": "Veteran Current One"
-    },
-    {
-      "veteranGrossSalary": "2000.56",
-      "deductions": [
-        {
-          "name": "Federal tax",
-          "amount": "200.02"
-        },
-        {
-          "name": "Allotment",
-          "amount": "134.56"
-        },
-        {
-          "name": "FICA (Social Security and Medicare)",
-          "amount": "122.4"
-        }
-      ],
-      "type": "Part time",
-      "from": "2019-7-XX",
-      "to": "",
-      "isCurrent": true,
-      "employerName": "Veteran Current Two"
-    }
-  ],
   "spCurrEmployment": [
     {
       "spouseGrossSalary": "4000.45",

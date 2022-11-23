@@ -7,7 +7,6 @@ import { VaDate } from '@department-of-veterans-affairs/component-library/dist/r
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-// import URLSearchParams from 'url-search-params';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
@@ -111,7 +110,11 @@ const EmploymentRecord = props => {
         },
       });
     }
-    goToPath(`/gross-monthly-income`);
+    if (employmentRecord.isCurrent) {
+      goToPath(`/gross-monthly-income`);
+    } else {
+      goToPath(`/employment-history`);
+    }
   };
 
   const handleCheckboxChange = (key, val) => {
