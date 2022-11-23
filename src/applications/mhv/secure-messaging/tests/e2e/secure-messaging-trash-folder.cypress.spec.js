@@ -2,10 +2,6 @@ import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import mockMessages from '../fixtures/messages-response.json';
 
-beforeEach(() => {
-  window.dataLayer = [];
-});
-
 describe(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();

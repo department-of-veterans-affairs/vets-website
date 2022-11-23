@@ -6,7 +6,7 @@ beforeEach(() => {
   window.dataLayer = [];
 });
 
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();
   });

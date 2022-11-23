@@ -2,10 +2,6 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
-beforeEach(() => {
-  window.dataLayer = [];
-});
-
 describe(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();

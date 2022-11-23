@@ -5,11 +5,7 @@ import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json'
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 
-beforeEach(() => {
-  window.dataLayer = [];
-});
-
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();
   });
