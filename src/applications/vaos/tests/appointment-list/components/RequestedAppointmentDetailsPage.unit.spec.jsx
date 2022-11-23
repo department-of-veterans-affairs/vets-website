@@ -514,7 +514,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
   });
 
-  it('should display new appointment confirmation alert', async () => {
+  it('should display new appointment confirmation alert for VA request', async () => {
     const appointment = getVARequestMock();
 
     appointment.id = '1234';
@@ -525,15 +525,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         .add(3, 'days')
         .format('MM/DD/YYYY'),
       optionTime1: 'AM',
-    };
-
-    const ccAppointmentRequest = getCCRequestMock();
-
-    ccAppointmentRequest.id = '1234';
-    ccAppointmentRequest.attributes = {
-      ...ccAppointmentRequest.attributes,
-      appointmentType: 'Audiology (hearing aid support)',
-      typeOfCareId: 'CCAUDHEAR',
     };
 
     // Verify VA pending
@@ -556,16 +547,31 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+
+    expect(screen.queryByTestId('view-appointments-link')).to.exist;
+    expect(screen.queryByTestId('new-appointment-link')).to.exist;
+  });
+
+  it('should display new appointment confirmation alert for CC request', async () => {
+    const appointment = getCCRequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      typeOfCareId: 'CCAUDHEAR',
+      appointmentType: 'Audiology (hearing aid support)',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
 
     // Verify CC pending appointment
     mockSingleRequestFetch({
-      request: ccAppointmentRequest,
+      request: appointment,
       type: 'cc',
     });
 
-    renderWithStoreAndRouter(<AppointmentList />, {
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/requests/${appointment.id}?confirmMsg=true`,
     });
@@ -579,8 +585,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+    expect(screen.queryByTestId('view-appointments-link')).to.exist;
+    expect(screen.queryByTestId('new-appointment-link')).to.exist;
   });
 
   it('should handle error when cancelling', async () => {
