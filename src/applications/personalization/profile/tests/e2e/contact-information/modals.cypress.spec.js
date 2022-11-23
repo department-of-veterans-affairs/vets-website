@@ -47,7 +47,8 @@ const checkModals = options => {
 
   // Modal appears
   cy.findByTestId('cannot-edit-modal')
-    .findByText(`Save or cancel your edits to your ${otherSectionName}`)
+    .shadow()
+    .findByText(`Save or cancel your edits to your ${sectionName}`)
     .should('exist');
 
   cy.findByTestId('cannot-edit-modal')
