@@ -1,7 +1,7 @@
-import manifest from '../../manifest.json';
+// import manifest from '../../manifest.json';
 // import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
-describe(manifest.appName, () => {
+describe('FAQ test', () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();
   });
