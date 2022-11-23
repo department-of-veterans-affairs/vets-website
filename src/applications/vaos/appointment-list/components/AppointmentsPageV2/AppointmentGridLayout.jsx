@@ -49,17 +49,14 @@ export default function AppointmentGridLayout({ monthBucket }) {
                   }
                 >
                   <AppointmentRow appointment={appointment} facility={facility}>
-                    {data => (
-                      <AppointmentColumnLayout
-                        data={data}
-                        first={dayIndex === 0}
-                        grouped
-                        last={
-                          dayIndex === collection.length - 1 &&
-                          monthBucket.length === monthIndex + 1
-                        }
-                      />
-                    )}
+                    <AppointmentColumnLayout
+                      first={dayIndex === 0}
+                      grouped
+                      last={
+                        dayIndex === collection.length - 1 &&
+                        monthBucket.length === monthIndex + 1
+                      }
+                    />
                   </AppointmentRow>
                 </AppointmentListItem>
               );
@@ -86,7 +83,7 @@ export default function AppointmentGridLayout({ monthBucket }) {
           }
         >
           <AppointmentRow appointment={appointment} facility={facility}>
-            {data => <AppointmentColumnLayout data={data} first />}
+            <AppointmentColumnLayout first />
           </AppointmentRow>
         </AppointmentListItem>
       );

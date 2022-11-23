@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useMediaQuery } from 'react-responsive';
 import AppointmentColumn from './AppointmentColum';
+import { DataContext } from './AppointmentRow';
 
-export function AppointmentColumnLayout({ data, first, grouped }) {
+export function AppointmentColumnLayout({ first, grouped }) {
+  const { data } = useContext(DataContext);
   const isMobile = useMediaQuery({ query: '(max-width: 360px)' });
 
   return (

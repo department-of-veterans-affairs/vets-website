@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
@@ -94,6 +94,8 @@ function getGridData(appointment) {
   };
 }
 
+export const DataContext = createContext({});
+
 export default function AppointmentRow({
   appointment,
   children,
@@ -126,7 +128,7 @@ export default function AppointmentRow({
   data.isBorderBottom = false;
 
   return (
-    <>
+    <DataContext.Provider value={{ data }}>
       {/* Disabling for now since add role=button and tab=0 fails another accessiblity check: */}
       {/* Nested interactive controls are not announced by screen readers */}
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
@@ -138,9 +140,9 @@ export default function AppointmentRow({
         onClick={handleClick({ history, link: data.link, idClickable })}
         onKeyDown={handleKeyDown({ history, link: data.link, idClickable })}
       >
-        {children(data)}
+        {children}
       </div>
-    </>
+    </DataContext.Provider>
   );
 }
 
