@@ -1,6 +1,26 @@
 {
   "data": [
     {
+      "id": "7208913",
+      "type": "messages",
+      "attributes": {
+        "messageId": 7208913,
+        "category": "APPOINTMENTS",
+        "subject": "test",
+        "body": null,
+        "attachment": false,
+        "sentDate": "2022-11-22T00:29:17.000Z",
+        "senderId": 6820911,
+        "senderName": "ECSTEN, THOMAS ",
+        "recipientId": 6978854,
+        "recipientName": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
+        "readReceipt": null
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7208913"
+      }
+    },
+    {
       "id": "7227073",
       "type": "messages",
       "attributes": {
@@ -101,26 +121,6 @@
       }
     },
     {
-      "id": "7208913",
-      "type": "messages",
-      "attributes": {
-        "messageId": 7208913,
-        "category": "OTHER",
-        "subject": "test",
-        "body": null,
-        "attachment": false,
-        "sentDate": "2022-11-01T20:38:46.000Z",
-        "senderId": 6820911,
-        "senderName": "ECSTEN, THOMAS ",
-        "recipientId": 6978854,
-        "recipientName": "***Mohammad_Fort Belovoir TG 200_APPT_SLC4%",
-        "readReceipt": null
-      },
-      "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7208913"
-      }
-    },
-    {
       "id": "7195370",
       "type": "messages",
       "attributes": {
@@ -216,7 +216,7 @@
       "currentPage": 1,
       "perPage": 10,
       "totalPages": 4,
-      "totalEntries": 34
+      "totalEntries": 31
     }
   }
 }

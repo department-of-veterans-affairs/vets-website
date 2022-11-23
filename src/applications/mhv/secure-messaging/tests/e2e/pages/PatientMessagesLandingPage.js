@@ -19,9 +19,11 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/messages/categories',
       mockCategories,
     ).as('categories');
-    cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
-      'folders',
-    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page*',
+      mockFolders,
+    ).as('folders');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
