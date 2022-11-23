@@ -1,4 +1,8 @@
-/* eslint @department-of-veterans-affairs/migrate-radio-buttons: "off"  */
+// Temporarily disablying migrate-radio-button rule
+// To be addressed in a later ticket, after audit https://github.com/department-of-veterans-affairs/va.gov-cms/issues/11358
+/* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
+
+
 import React from 'react';
 import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
@@ -14,9 +18,9 @@ import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 const levels = [
   ['newBenefit'],
   ['serviceBenefitBasedOn', 'transferredEduBenefits'],
+  ['sponsorTransferredBenefits'],
   ['sponsorDeceasedDisabledMIA'],
   ['vetTecBenefit'],
-  ['sponsorTransferredBenefits'],
   ['applyForScholarship'],
 ];
 
@@ -63,7 +67,6 @@ class EducationWizard extends React.Component {
 
   answerQuestion = (field, answer) => {
     const newState = { [field]: answer };
-
     if (field === 'newBenefit') {
       recordEvent({
         event: 'edu-howToApply-formChange',
@@ -265,6 +268,21 @@ class EducationWizard extends React.Component {
             )}
             {serviceBenefitBasedOn === 'other' && (
               <RadioButtons
+                name="sponsorTransferredBenefits"
+                id="sponsorTransferredBenefits"
+                options={[
+                  { label: 'Yes', value: 'yes' },
+                  { label: 'No', value: 'no' },
+                ]}
+                onValueChange={({ value }) =>
+                  this.answerQuestion('sponsorTransferredBenefits', value)
+                }
+                value={{ value: sponsorTransferredBenefits }}
+                label="Has your sponsor transferred their benefits to you?"
+              />
+            )}
+            {sponsorTransferredBenefits === 'no' && (
+              <RadioButtons
                 additionalFieldsetClass="wizard-fieldset"
                 name="sponsorDeceasedDisabledMIA"
                 id="sponsorDeceasedDisabledMIA"
@@ -277,21 +295,6 @@ class EducationWizard extends React.Component {
                 }
                 value={{ value: sponsorDeceasedDisabledMIA }}
                 label="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
-              />
-            )}
-            {sponsorDeceasedDisabledMIA === 'no' && (
-              <RadioButtons
-                name="sponsorTransferredBenefits"
-                id="sponsorTransferredBenefits"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('sponsorTransferredBenefits', value)
-                }
-                value={{ value: sponsorTransferredBenefits }}
-                label="Has your sponsor transferred their benefits to you?"
               />
             )}
             {newBenefit === 'yes' &&
@@ -468,12 +471,12 @@ class EducationWizard extends React.Component {
               this.getButton('5495')}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
-              sponsorDeceasedDisabledMIA === 'yes' &&
+              sponsorTransferredBenefits === 'yes' &&
               this.getButton('5490')}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
-              sponsorDeceasedDisabledMIA === 'no' &&
-              sponsorTransferredBenefits !== null &&
+              sponsorTransferredBenefits === 'no' &&
+              sponsorDeceasedDisabledMIA === 'yes' &&
               this.getButton('1990E')}
           </div>
         </div>
