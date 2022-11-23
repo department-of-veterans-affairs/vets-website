@@ -44,12 +44,12 @@ const MessageListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <>Sender: {senderName}</>
+          <span>Sender: {senderName}</span>
         ) : (
-          <>
+          <div>
             <div>To: {recipientName}</div>
             <div>From: {senderName}</div>
-          </>
+          </div>
         )}
       </div>
       <Link
