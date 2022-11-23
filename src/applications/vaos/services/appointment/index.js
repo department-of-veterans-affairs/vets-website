@@ -4,7 +4,7 @@
  */
 import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   getCancelReasons,
@@ -40,7 +40,6 @@ import {
   transformVAOSAppointment,
   transformVAOSAppointments,
   transformPreferredProviderV2,
-  getAppointmentInfoFromComments,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -52,33 +51,7 @@ import {
   getUserTimezoneAbbr,
   stripDST,
 } from '../../utils/timezone';
-
-export const CANCELLED_APPOINTMENT_SET = new Set([
-  'CANCELLED BY CLINIC & AUTO RE-BOOK',
-  'CANCELLED BY CLINIC',
-  'CANCELLED BY PATIENT & AUTO-REBOOK',
-  'CANCELLED BY PATIENT',
-]);
-
-// Appointments in these "HIDE_STATUS_SET"s should show in list, but their status should be hidden
-export const FUTURE_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACT REQ/CHECKED IN',
-  'ACT REQ/CHECKED OUT',
-]);
-
-export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
-  'ACTION REQUIRED',
-  'INPATIENT APPOINTMENT',
-  'INPATIENT/ACT REQ',
-  'INPATIENT/CHECKED IN',
-  'INPATIENT/CHECKED OUT',
-  'INPATIENT/FUTURE',
-  'INPATIENT/NO ACT TAKN',
-  'NO ACTION TAKEN',
-  'NO-SHOW & AUTO RE-BOOK',
-  'NO-SHOW',
-  'NON-COUNT',
-]);
+import { getProviderName } from '../../utils/appointment';
 
 const CONFIRMED_APPOINTMENT_TYPES = new Set([
   APPOINTMENT_TYPES.ccAppointment,
@@ -149,12 +122,7 @@ export async function fetchAppointments({
         ) {
           return false;
         }
-        return (
-          !getAppointmentInfoFromComments(
-            appt.reasonCode?.text,
-            'preferredDate',
-          ) || !appt.requestedPeriods
-        );
+        return !appt.requestedPeriods;
       });
       appointments.push(...transformVAOSAppointments(filteredAppointments));
 
@@ -256,11 +224,7 @@ export async function getAppointmentRequests({
       );
 
       const requestsWithoutAppointments = appointments.filter(
-        appt =>
-          !!getAppointmentInfoFromComments(
-            appt.reasonCode?.text,
-            'preferredDate',
-          ) || !!appt.requestedPeriods,
+        appt => !!appt.requestedPeriods,
       );
 
       requestsWithoutAppointments.sort(apptRequestSort);
@@ -677,22 +641,6 @@ export function isVideoHome(appointment) {
 }
 
 /**
- * Method to get patient video instruction
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {string} Returns patient video instruction title and exclude remaining data
- */
-
-export function getPatientInstruction(appointment) {
-  if (appointment?.patientInstruction.includes('Medication Review')) {
-    return 'Medication Review';
-  }
-  if (appointment?.patientInstruction.includes('Video Visit Preparation')) {
-    return 'Video Visit Preparation';
-  }
-  return null;
-}
-
-/**
  * Get the name of the first preferred community care provider, or generic text
  *
  * @param {Appointment} appointment An appointment object
@@ -732,6 +680,7 @@ export function groupAppointmentsByMonth(appointments) {
       appointmentsByMonth[currentIndex].push(appt);
     } else {
       appointmentsByMonth.push([appt]);
+      // eslint-disable-next-line no-plusplus
       currentIndex++;
     }
   });
@@ -939,32 +888,6 @@ export async function cancelAppointment({
   return cancelRequestedAppointment(appointment);
 }
 
-/**
- * Get the provider name based on api version
- *
- *
- * @export
- * @param {Object} appointment an appointment object
- * @returns {String} Returns the provider first and last name
- */
-export function getProviderName(appointment) {
-  if (appointment.version === 1) {
-    const { providerName } = appointment.communityCareProvider;
-    return providerName;
-  }
-
-  if (appointment.practitioners !== undefined) {
-    const providers = appointment.practitioners
-      .filter(person => !!person.name)
-      .map(person => `${person.name.given.join(' ')} ${person.name.family} `);
-    if (providers.length > 0) {
-      return providers;
-    }
-    return null;
-  }
-  return null;
-}
-
 export function isInPersonVAAppointment(appointment) {
   const { isCommunityCare, isVideo } = appointment?.vaos || {};
   const isPhone = isVAPhoneAppointment(appointment);
@@ -1158,6 +1081,56 @@ export async function fetchPreferredProvider(providerNpi) {
   const prov = await getPreferredCCProvider(providerNpi);
   return transformPreferredProviderV2(prov);
 }
+
+export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
+  const batch = [];
+  let promise = null;
+
+  return () => {
+    if (!promise || navigator.userAgent === 'node.js') {
+      // Creating an array of start and end dates for each chunk
+      const ranges = Array.from(Array(chunks).keys()).map(i => {
+        return {
+          start: moment()
+            .startOf('day')
+            .subtract(i + 1, 'year')
+            .utc()
+            .format(),
+
+          end: moment()
+            .startOf('day')
+            .subtract(i, 'year')
+            .utc()
+            .format(),
+        };
+      });
+
+      // There are three chunks with date ranges from the array created above.
+      // We're trying to run them serially, because we want to be careful about
+      // overloading the upstream service, so Promise.all doesn't fit here.
+      promise = ranges.reduce(async (prev, curr) => {
+        // NOTE: This is the secret sauce to run the fetch requests sequentially.
+        // Doing an 'await' on a non promise wraps it into a promise that is then awaited.
+        // In this case, the initial value of previous is set to an empty array.
+        //
+        // NOTE: fetchAppointments will run concurrently without this await 1st!
+        await prev;
+
+        // Next, fetch the appointments which will be chained which the previous await
+        const p1 = await fetchAppointments({
+          startDate: curr.start,
+          endDate: curr.end,
+          useV2VA: true,
+          useV2CC: true,
+        });
+        batch.push(p1);
+        return Promise.resolve([...batch].flat());
+      }, []);
+    }
+
+    return promise;
+  };
+})(3);
 
 /**
  * Function to return appointment date. Date is return with conversion to locale

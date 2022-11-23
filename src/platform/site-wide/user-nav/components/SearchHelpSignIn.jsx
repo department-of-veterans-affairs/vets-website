@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/click-events-have-key-events:  1 */
+/* eslint jsx-a11y/no-static-element-interactions:  1 */
 // Node modules.
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -107,7 +109,17 @@ class SearchHelpSignIn extends Component {
         )}
 
         {/* Sign in | First name (if logged in) */}
-        <div className="sign-in-nav">{this.renderSignInContent()}</div>
+        <div
+          className="sign-in-nav"
+          onClick={() =>
+            recordEvent({
+              event: 'nav-header-sign-in',
+              'header-sign-in-action': 'Header - Sign in',
+            })
+          }
+        >
+          {this.renderSignInContent()}
+        </div>
       </div>
     );
   }

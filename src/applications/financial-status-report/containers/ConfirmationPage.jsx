@@ -5,9 +5,6 @@ import { useSelector, connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import recordEvent from '~/platform/monitoring/record-event';
 import GetFormHelp from '../components/GetFormHelp';
@@ -182,8 +179,8 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your existing <ServiceProvidersText />
-              account. <ServiceProvidersTextCreateAcct />
+              You can sign in with your Login.gov, ID.me, DS Logon, or My
+              HealtheVet
             </p>
           </li>
           <li className="process-step list-two">
@@ -200,7 +197,7 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-three">
             <h4>Go to your debt management portal</h4>
             <p>
-              Once you’re signed in, you can go to
+              After you sign in, you can go to
               <a href="/manage-va-debt" className="vads-u-margin--0p5">
                 Manage my VA debt
               </a>
