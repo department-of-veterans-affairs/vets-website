@@ -208,9 +208,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
+    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
 
     fireEvent.click(detailLinks[0]);
 
@@ -260,9 +258,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
+    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
 
     fireEvent.click(detailLinks[0]);
 
@@ -349,9 +345,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
+    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
 
     fireEvent.click(detailLinks[0]);
 
@@ -609,9 +603,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
+    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
 
     fireEvent.click(detailLinks[0]);
 
