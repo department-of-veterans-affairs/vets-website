@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 
 export default function FormLayout({ children }) {
@@ -36,3 +37,8 @@ export default function FormLayout({ children }) {
     </div>
   );
 }
+
+FormLayout.propTypes = {
+  children: PropTypes.array,
+  isReviewPage: PropTypes.bool,
+};
