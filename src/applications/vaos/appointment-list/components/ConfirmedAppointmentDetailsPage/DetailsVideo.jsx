@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
@@ -19,13 +20,14 @@ import VideoLocation from './VideoLocation';
 function formatHeader(appointment) {
   if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (isClinicVideoAppointment(appointment)) {
-    return 'VA Video Connect at VA location';
-  } else if (appointment.videoData.isAtlas) {
-    return 'VA Video Connect at an ATLAS location';
-  } else {
-    return 'VA Video Connect at home';
   }
+  if (isClinicVideoAppointment(appointment)) {
+    return 'VA Video Connect at VA location';
+  }
+  if (appointment.videoData.isAtlas) {
+    return 'VA Video Connect at an ATLAS location';
+  }
+  return 'VA Video Connect at home';
 }
 
 export default function DetailsVideo({ appointment, facilityData }) {
@@ -60,3 +62,8 @@ export default function DetailsVideo({ appointment, facilityData }) {
     </>
   );
 }
+
+DetailsVideo.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facilityData: PropTypes.object,
+};
