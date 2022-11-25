@@ -10,8 +10,13 @@ describe(manifest.appName, () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientMessagesLandingPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
+    landingPage.login();
     landingPage.loadPage();
-    landingPage.loadMessageDetails('Test Inquiry');
+    landingPage.loadMessageDetails(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
+    );
     messageDetailsPage.loadReplyPage();
     cy.injectAxe();
     cy.axeCheck();

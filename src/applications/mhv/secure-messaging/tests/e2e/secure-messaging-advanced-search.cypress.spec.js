@@ -6,13 +6,14 @@ beforeEach(() => {
   window.dataLayer = [];
 });
 
-describe.skip(manifest.appName, () => {
+describe(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();
   });
 
   it('Advanced Search Axe Check', () => {
     const landingPage = new PatientMessagesLandingPage();
+    landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="search-messages-sidebar"]').click();
     cy.intercept(

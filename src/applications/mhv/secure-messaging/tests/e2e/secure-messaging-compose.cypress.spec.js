@@ -10,6 +10,7 @@ describe(manifest.appName, () => {
   it('can send message', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();
+    landingPage.login();
     landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();

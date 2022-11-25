@@ -9,6 +9,7 @@ describe(manifest.appName, () => {
 
   it('Basic Search Axe Check', () => {
     const landingPage = new PatientMessagesLandingPage();
+    landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="search-messages-sidebar"]').click();
     cy.injectAxe();

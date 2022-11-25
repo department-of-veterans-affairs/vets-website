@@ -9,6 +9,7 @@ describe(manifest.appName, () => {
 
   it('Axe Check Trash Folder', () => {
     const landingPage = new PatientMessagesLandingPage();
+    landingPage.login();
     landingPage.loadPage();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
       'trashFolder',

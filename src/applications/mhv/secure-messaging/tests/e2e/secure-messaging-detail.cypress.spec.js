@@ -8,8 +8,13 @@ describe(manifest.appName, () => {
 
   it('Axe Check Message Details Page', () => {
     const landingPage = new PatientMessagesLandingPage();
+    landingPage.login();
     landingPage.loadPage();
-    landingPage.loadMessageDetails('Test Inquiry');
+    landingPage.loadMessageDetails(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
+    );
     cy.injectAxe();
     cy.axeCheck();
   });
