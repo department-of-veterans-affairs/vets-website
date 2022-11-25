@@ -66,6 +66,7 @@ const MessageDetailBlock = props => {
             type="button"
             onClick={handleReplyButton}
             className="send-button-top medium-screen:vads-u-padding-right--2"
+            data-testid="reply-button-top"
           >
             <i className="fas fa-reply" aria-hidden="true" />
             <span className="reply-button-top-text">Reply</span>
