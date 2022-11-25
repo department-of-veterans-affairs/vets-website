@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
 import { getContactInfoDeepLinkURL } from '@@profile/helpers';
 import { FIELD_NAMES } from '@@vap-svc/constants';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
   return (
@@ -24,7 +23,8 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
         ) : null}
         {mobilePhoneNumber ? (
           <li className="vads-u-margin-y--0p5">
-            <Telephone
+            <strong>Mobile number: </strong>
+            <VaTelephone
               contact={`${mobilePhoneNumber.areaCode}${
                 mobilePhoneNumber.phoneNumber
               }`}
@@ -32,8 +32,10 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
             />{' '}
             <Link
               to={getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true)}
+              className="small-screen:vads-u-display--inline vads-u-display--block"
             >
-              Update mobile phone
+              Update
+              <span className="sr-only"> mobile phone number</span>
             </Link>
           </li>
         ) : null}
