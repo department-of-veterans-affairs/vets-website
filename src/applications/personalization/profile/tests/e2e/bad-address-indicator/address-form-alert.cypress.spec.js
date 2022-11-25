@@ -11,11 +11,7 @@ import BadAddressFeature from './BadAddressFeature';
 
 describe('Bad Address Alert -- Contact Page -- Form alert', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ profileShowBadAddressIndicator: true }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
 
     cy.intercept('GET', '/v0/user', req => {
       req.reply(200, badAddress);
