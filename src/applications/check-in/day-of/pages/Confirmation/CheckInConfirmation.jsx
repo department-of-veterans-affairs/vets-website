@@ -66,10 +66,12 @@ const CheckInConfirmation = props => {
 
   const renderLoadingMessage = () => {
     return (
-      <va-loading-indicator
-        data-testid="loading-indicator"
-        message={t('loading')}
-      />
+      <div>
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={t('loading')}
+        />
+      </div>
     );
   };
 

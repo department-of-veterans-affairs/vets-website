@@ -29,7 +29,7 @@ const MessageDetailBlock = props => {
 
   const handleReplyButton = useCallback(
     () => {
-      history.push('/reply');
+      history.push(`/reply/${messageId}`);
     },
     [history],
   );
