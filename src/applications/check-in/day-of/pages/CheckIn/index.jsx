@@ -26,9 +26,11 @@ const CheckIn = props => {
   if (!appointment) {
     window.scrollTo(0, 0);
     return (
-      <va-loading-indicator
-        message={t('loading-your-appointments-for-today')}
-      />
+      <div>
+        <va-loading-indicator
+          message={t('loading-your-appointments-for-today')}
+        />
+      </div>
     );
   }
 
