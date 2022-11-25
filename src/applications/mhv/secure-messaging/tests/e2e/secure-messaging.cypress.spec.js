@@ -1,15 +1,13 @@
 import manifest from '../../manifest.json';
 
-describe.skip(manifest.appName, () => {
+describe(manifest.appName, () => {
   // Skip tests in CI until the app is released.
   // Remove this block when the app has a content page in production.
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
-
-  it.skip('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+  it('is accessible', () => {
+    cy.visit(manifest.rootUrl);
+    cy.injectAxe().axeCheck();
   });
 });

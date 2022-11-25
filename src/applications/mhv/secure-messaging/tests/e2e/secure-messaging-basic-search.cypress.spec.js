@@ -4,7 +4,7 @@ import mockMessages from '../fixtures/messages-response.json';
 
 describe(manifest.appName, () => {
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
 
   it('Basic Search Axe Check', () => {

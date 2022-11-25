@@ -7,7 +7,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe(manifest.appName, () => {
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
 
   it('Axe Check Save Draft', () => {

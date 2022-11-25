@@ -8,7 +8,7 @@ beforeEach(() => {
 
 describe(manifest.appName, () => {
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
 
   it('Advanced Search Axe Check', () => {

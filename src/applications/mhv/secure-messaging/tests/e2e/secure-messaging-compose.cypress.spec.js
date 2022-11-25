@@ -4,7 +4,7 @@ import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
 
   it('can send message', () => {

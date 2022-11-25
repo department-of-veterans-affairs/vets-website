@@ -3,7 +3,7 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
   before(() => {
-    if (Cypress.env('CI')) this.skip();
+    if (cy.env('CI')) this.skip();
   });
 
   it('Axe Check Messages FAQ', () => {
