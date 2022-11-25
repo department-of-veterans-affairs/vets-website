@@ -3,10 +3,6 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientMessagesLandingPage();
     const messageDetailsPage = new PatientMessageDetailsPage();

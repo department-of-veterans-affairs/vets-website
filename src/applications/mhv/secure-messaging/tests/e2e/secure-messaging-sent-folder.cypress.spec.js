@@ -3,10 +3,6 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import mockMessages from '../fixtures/messages-response.json';
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('Axe Check Sent Folder', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();

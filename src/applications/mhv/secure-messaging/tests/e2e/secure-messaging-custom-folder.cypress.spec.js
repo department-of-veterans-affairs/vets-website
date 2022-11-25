@@ -2,10 +2,6 @@ import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('Axe Check Custom Folder List', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();

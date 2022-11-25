@@ -6,10 +6,6 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('Axe Check Save Draft', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();

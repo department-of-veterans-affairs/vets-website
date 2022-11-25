@@ -3,10 +3,6 @@ import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('can send message', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();

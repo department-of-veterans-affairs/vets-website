@@ -7,10 +7,6 @@ beforeEach(() => {
 });
 
 describe(manifest.appName, () => {
-  before(() => {
-    if (cy.env('CI')) this.skip();
-  });
-
   it('Advanced Search Axe Check', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
