@@ -25,9 +25,9 @@ describe('<PreSubmitInfo>', () => {
         />
       </Provider>,
     );
-    expect(tree).to.not.be.undefined;
-    // expect(tree.text()).to.contain('privacy policy');
 
+    expect(tree).to.not.be.undefined;
+    expect(tree.text()).to.include('privacy policy');
     tree.unmount();
   });
 });
