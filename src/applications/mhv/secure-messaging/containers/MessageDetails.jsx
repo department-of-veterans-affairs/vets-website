@@ -24,7 +24,7 @@ const MessageDetail = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
-  const [CannotReplyAlert, setCannotReplyAlert] = useState(true);
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
   const header = useRef();
 
   useEffect(
@@ -44,11 +44,21 @@ const MessageDetail = () => {
   useEffect(
     () => {
       if (alert?.header !== null) {
-        setCannotReplyAlert(CannotReplyAlert);
+        setcannotReplyAlert(cannotReplyAlert);
       }
-      dispatch(closeAlert());
     },
-    [CannotReplyAlert, alert?.header, dispatch],
+    [cannotReplyAlert, alert?.header],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useEffect(
@@ -71,7 +81,7 @@ const MessageDetail = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       {/* Only display this type of alert when it contains a header */}
-      {CannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
       <h1 className="vads-u-margin-top--2" ref={header}>
         {pageTitle}
       </h1>
