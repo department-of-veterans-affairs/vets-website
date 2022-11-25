@@ -46,9 +46,19 @@ const MessageDetail = () => {
       if (alert?.header !== null) {
         setCannotReplyAlert(CannotReplyAlert);
       }
-      dispatch(closeAlert());
     },
-    [CannotReplyAlert, alert?.header, dispatch],
+    [CannotReplyAlert, alert?.header],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useEffect(
