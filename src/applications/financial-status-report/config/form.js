@@ -42,7 +42,7 @@ const formConfig = {
         'Your application for financial hardship assistance has been saved.',
     },
   },
-  title: 'Request help with VA debt (VA Form 5655)',
+  title: 'Request help with VA debt for overpayments and copay bills',
   subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -91,6 +91,18 @@ const formConfig = {
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
           schema: pages.availableDebts.schema,
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
+        },
+        combinedAvailableDebts: {
+          initialData: {
+            selectedDebts: [],
+            selectedDebtsAndCopays: [],
+          },
+          path: 'all-available-debts',
+          title: 'Available Debts',
+          uiSchema: pages.combinedDebts.uiSchema,
+          schema: pages.combinedDebts.schema,
+          depends: formData => formData['view:combinedFinancialStatusReport'],
         },
         contactInfo: {
           initialData: {

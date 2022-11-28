@@ -4,11 +4,7 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
-
 import MockDate from 'mockdate';
-
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-
 import AppointmentAction from '../AppointmentAction';
 import i18n from '../../../utils/i18n/i18n';
 
@@ -294,18 +290,6 @@ describe('check-in', () => {
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
       ).to.have.text('You are already checked in.');
-    });
-
-    it('check in button passes axeCheck', () => {
-      axeCheck(
-        <Provider store={store}>
-          <AppointmentAction
-            appointment={{
-              eligibility: ELIGIBILITY.ELIGIBLE,
-            }}
-          />
-        </Provider>,
-      );
     });
   });
 });

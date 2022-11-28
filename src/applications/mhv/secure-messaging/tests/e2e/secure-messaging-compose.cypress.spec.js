@@ -2,18 +2,11 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
-beforeEach(() => {
-  window.dataLayer = [];
-});
-
 describe(manifest.appName, () => {
-  before(() => {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   it('can send message', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();
+    landingPage.login();
     landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();

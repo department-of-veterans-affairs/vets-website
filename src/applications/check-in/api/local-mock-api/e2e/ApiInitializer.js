@@ -40,7 +40,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceTravelReimbursement: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
@@ -54,7 +53,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
         }),
       );
@@ -67,7 +65,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
-          checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
           checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaDeletionEnabled: false,
@@ -279,6 +276,45 @@ class ApiInitializer {
         req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
       });
     },
+    withBadReload: ({
+      extraValidation = null,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      uuid = sharedData.get.defaultUUID,
+    } = {}) => {
+      cy.intercept('GET', `/check_in/v2/pre_check_ins/*&reload=true`, req => {
+        req.reply(400, preCheckInData.get.createMockFailedResponse());
+      });
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*&reload=false', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(
+          preCheckInData.get.createMockSuccessResponse(
+            uuid,
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+          ),
+        );
+      });
+      return preCheckInData.get.createMockSuccessResponse(
+        uuid,
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      );
+    },
   };
 
   initializePreCheckInDataPost = {
@@ -488,13 +524,13 @@ class ApiInitializer {
 
   initializeBtsssPost = {
     withSuccess: () => {
-      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
+      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
         req.reply(btsss.post.createMockSuccessResponse());
       });
     },
-    withFailure: (errorCode = 500) => {
-      cy.intercept('POST', `/check_in/v2/btsss/`, req => {
-        req.reply(errorCode, btsss.post.createMockFailedResponse({}));
+    withFailure: (errorCode = 400, errorType) => {
+      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
+        req.reply(errorCode, btsss.post.createMockFailedResponse(errorType));
       });
     },
   };

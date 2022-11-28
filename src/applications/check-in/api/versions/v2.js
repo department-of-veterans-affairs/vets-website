@@ -1,6 +1,7 @@
 import appendQuery from 'append-query';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+// eslint-disable-next-line import/no-unresolved
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
@@ -116,10 +117,15 @@ const v2 = {
       ...json,
     };
   },
-  getPreCheckInData: async token => {
+  getPreCheckInData: async (token, reload = false) => {
     const url = '/check_in/v2/pre_check_ins/';
+    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
+      checkInType: 'preCheckIn',
+      reload,
+    });
+
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );
@@ -199,9 +205,18 @@ const v2 = {
   },
 
   postDayOfTravelPayClaim: async data => {
-    const url = '/check_in/v2/btsss/';
+    const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
-    const body = JSON.stringify(data);
+
+    const travelClaimData = {
+      travelClaims: {
+        uuid: data.uuid,
+        appointmentDate: data.appointmentDate,
+      },
+    };
+
+    const body = JSON.stringify(travelClaimData);
+
     const settings = {
       headers,
       body,

@@ -9,7 +9,7 @@ beforeEach(() => {
 });
 
 describe('Appeals page test', () => {
-  it('should show issue not found', () => {
+  it('should show issue not found - C30837', () => {
     cy.visit('/track-claims/appeals/10/status');
 
     cy.title().should('eq', 'Track Claims | Veterans Affairs');
@@ -18,7 +18,7 @@ describe('Appeals page test', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show appropriate status information', () => {
+  it('should show appropriate status information - C30838', () => {
     cy.visit('/track-claims/appeals/12/status');
 
     cy.get('h1').should('contain', 'Appeal received August 2017');
@@ -36,7 +36,7 @@ describe('Appeals page test', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show issue statuses', () => {
+  it('should show issue statuses - C30839', () => {
     cy.visit('/track-claims/appeals/12/detail');
 
     cy.get('h1').should('contain', 'Appeal received August 2017');

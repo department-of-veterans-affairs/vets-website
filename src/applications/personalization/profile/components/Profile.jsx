@@ -9,7 +9,10 @@ import {
   fetchHero as fetchHeroAction,
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
-import { cnpDirectDepositInformation } from '@@profile/selectors';
+import {
+  cnpDirectDepositInformation,
+  selectIsBlocked,
+} from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
@@ -157,13 +160,15 @@ class Profile extends Component {
             routes={routes}
             isInMVI={this.props.isInMVI}
             isLOA3={this.props.isLOA3}
+            isBlocked={this.props.isBlocked}
           >
             <Switch>
               {/* Redirect users to Account Security to upgrade their account if they need to */}
               {routes.map(route => {
                 if (
                   (route.requiresLOA3 && !this.props.isLOA3) ||
-                  (route.requiresMVI && !this.props.isInMVI)
+                  (route.requiresMVI && !this.props.isInMVI) ||
+                  (route.requiresLOA3 && this.props.isBlocked)
                 ) {
                   return (
                     <Redirect
@@ -249,13 +254,13 @@ Profile.propTypes = {
   fetchPersonalInformation: PropTypes.func.isRequired,
   fetchTotalDisabilityRating: PropTypes.func.isRequired,
   initializeDowntimeWarnings: PropTypes.func.isRequired,
+  isBlocked: PropTypes.bool.isRequired,
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
-  shouldShowDirectDeposit: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
@@ -280,6 +285,9 @@ const mapStateToProps = state => {
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+
+  // 47841 block profile access for deceased, fiduciary flagged, and incompetent veterans
+  const isBlocked = selectIsBlocked(state);
 
   const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
 
@@ -339,6 +347,7 @@ const mapStateToProps = state => {
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
+    isBlocked,
   };
 };
 

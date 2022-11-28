@@ -14,57 +14,53 @@ import ClaimEstimationPage from './containers/ClaimEstimationPage';
 import AppealsV2StatusPage from './containers/AppealsV2StatusPage';
 import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
 import AppealInfo from './containers/AppealInfo';
+import ClaimsStatusApp from './containers/ClaimsStatusApp';
 
-const routes = [
-  <Redirect
-    key="/track-claims/your-claims"
-    from="/disability-benefits/track-claims*"
-    to="/your-claims"
-  />,
-  <Route component={YourClaimsPageV2} key="/your-claims" path="/your-claims" />,
-  <Route
-    component={YourClaimLetters}
-    key="/your-claim-letters"
-    path="/your-claim-letters"
-  />,
-  /*
-  <Route
-    component={AppealLayout}
-    key="/appeals"
-    path="/appeals">
-    <Route
-      component={AppealStatusPage}
-      key=":id/status"
-      path=":id/status"/>,
-  </Route>,
-  */
-  <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
-    <IndexRedirect to="status" />
-    <Route component={AppealsV2StatusPage} key="status" path="status" />
-    <Route component={AppealsV2DetailPage} key="detail" path="detail" />
-  </Route>,
-  <Route component={ClaimPage} key="/your-claims/:id" path="/your-claims/:id">
-    <IndexRedirect to="status" />
-    <Route component={ClaimStatusPage} path="status" />,
-    <Route component={FilesPage} path="files" />,
-    <Route component={DetailsPage} path="details" />,
-    <Route component={AskVAPage} path="ask-va-to-decide" />,
-    <Route
-      component={DocumentRequestPage}
-      path="document-request/:trackedItemId"
+const routes = (
+  <Route path="/" component={ClaimsStatusApp}>
+    <IndexRedirect to="/your-claims" />
+    <Redirect
+      key="/track-claims/your-claims"
+      from="/disability-benefits/track-claims*"
+      to="/your-claims"
     />
     <Route
-      component={ClaimEstimationPage}
-      key="claim-estimate"
-      path="claim-estimate"
+      component={YourClaimsPageV2}
+      key="/your-claims"
+      path="/your-claims"
     />
-    ,
-  </Route>,
-  <Route
-    component={StemClaimStatusPage}
-    key="/your-stem-claims/:id/status"
-    path="/your-stem-claims/:id/status"
-  />,
-];
+    <Route
+      component={YourClaimLetters}
+      key="/your-claim-letters"
+      path="/your-claim-letters"
+    />
+    <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
+      <IndexRedirect to="status" />
+      <Route component={AppealsV2StatusPage} key="status" path="status" />
+      <Route component={AppealsV2DetailPage} key="detail" path="detail" />
+    </Route>
+    <Route component={ClaimPage} key="/your-claims/:id" path="/your-claims/:id">
+      <IndexRedirect to="status" />
+      <Route component={ClaimStatusPage} path="status" />,
+      <Route component={FilesPage} path="files" />,
+      <Route component={DetailsPage} path="details" />,
+      <Route component={AskVAPage} path="ask-va-to-decide" />,
+      <Route
+        component={DocumentRequestPage}
+        path="document-request/:trackedItemId"
+      />
+      <Route
+        component={ClaimEstimationPage}
+        key="claim-estimate"
+        path="claim-estimate"
+      />
+    </Route>
+    <Route
+      component={StemClaimStatusPage}
+      key="/your-stem-claims/:id/status"
+      path="/your-stem-claims/:id/status"
+    />
+  </Route>
+);
 
 export default routes;
