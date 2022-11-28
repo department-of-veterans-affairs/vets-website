@@ -29,7 +29,7 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml
         env:
-          GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
+          GITHUB_TOKEN: ${{env.VA_VSP_BOT_GITHUB_TOKEN}}
 
 # Get current deployment information
 
