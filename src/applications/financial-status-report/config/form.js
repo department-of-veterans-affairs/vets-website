@@ -16,6 +16,11 @@ import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/EditContactInfo';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -111,24 +116,59 @@ const formConfig = {
           schema: pages.combinedDebts.schema,
           depends: formData => formData['view:combinedFinancialStatusReport'],
         },
-        contactInfo: {
-          initialData: {
-            personalData: {
-              address: {
-                street: '',
-                city: '',
-                state: '',
-                country: '',
-                postalCode: '',
-              },
-              telephoneNumber: '',
-              emailAddress: '',
-            },
-          },
+        // contactInfo: {
+        //   initialData: {
+        //     personalData: {
+        //       address: {
+        //         street: '',
+        //         city: '',
+        //         state: '',
+        //         country: '',
+        //         postalCode: '',
+        //       },
+        //       telephoneNumber: '',
+        //       emailAddress: '',
+        //     },
+        //   },
+        //   path: 'contact-information',
+        //   title: 'Contact Information',
+        //   uiSchema: pages.contactInfo.uiSchema,
+        //   schema: pages.contactInfo.schema,
+        //   depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        // },
+        confirmContactInformation: {
+          title: 'Contact information',
           path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: pages.contactInfo.uiSchema,
-          schema: pages.contactInfo.schema,
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformation.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editPhone: {
+          title: 'Edit number',
+          path: 'edit-phone-number',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
