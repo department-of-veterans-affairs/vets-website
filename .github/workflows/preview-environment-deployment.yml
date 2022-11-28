@@ -1,0 +1,23 @@
+name: Preview Environment Deployment
+
+on: push
+
+jobs:
+  deploy-preview-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Preview Environment Config file
+        run: |
+          gh api \
+          -H "Accept: application/vnd.github+json" \
+          /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml
+
+# Fetch file
+
+# Get current deployment information
+
+# Read set values
+
+# Update file
+
+# Update deployment status? (might be done by remote)
