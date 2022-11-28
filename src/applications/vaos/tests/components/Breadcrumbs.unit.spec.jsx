@@ -14,16 +14,9 @@ describe('VAOS <Breadcrumbs>', () => {
       { initialState },
     );
 
-    expect(screen.queryByTestId('vaos-healthcare-link')).to.exist;
-    expect(screen.queryByTestId('vaos-home-link')).to.exist;
-
-    expect(
-      screen.queryByTestId('vaos-healthcare-link').getAttribute('text'),
-    ).to.equal('Health care');
-    expect(
-      screen.queryByTestId('vaos-home-link').getAttribute('text'),
-    ).to.equal('Schedule and manage health appointments');
-
+    expect(screen.getByText(/Health care/i)).to.be.ok;
+    expect(screen.getByText(/Schedule and manage health appointments/i)).to.be
+      .ok;
     expect(screen.getByText(/VA online scheduling/i)).to.be.ok;
     expect(screen.getByText(/test/i)).to.be.ok;
   });
