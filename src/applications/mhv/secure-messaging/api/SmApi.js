@@ -112,7 +112,7 @@ export const getMessageList = folderId => {
  */
 export const getMessageListAll = folderId => {
   return apiRequest(
-    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=9999`,
+    `${apiBasePath}/messaging/folders/${folderId}/messages?per_page=-1`,
     {
       headers: {
         'Content-Type': 'application/json',
