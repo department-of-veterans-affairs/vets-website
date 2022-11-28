@@ -25,7 +25,7 @@ jobs:
       # Fetch file
       - name: Fetch Preview Environment Config file
         run: |
-          echo "PE_CONFIG=$(echo $(gh api -H "Accept: application/vnd.github+json" \ /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml))"
+          echo "PE_CONFIG=$(echo $(gh api -H "Accept: application/vnd.github+json" /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml))"
         env:
           GITHUB_TOKEN: ${{env.VA_VSP_BOT_GITHUB_TOKEN}}
 
