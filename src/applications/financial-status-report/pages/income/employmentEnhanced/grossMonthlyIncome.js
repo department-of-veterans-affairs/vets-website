@@ -2,7 +2,7 @@ import React from 'react';
 import GrossMonthlyIncomeInput from '../../../components/GrossMonthlyIncomeInput';
 
 export const uiSchema = {
-  grossMonthlyIncomeInput: {
+  grossMonthlyIncome: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         What’s your gross monthly income at this job?
@@ -24,8 +24,8 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    grossMonthlyIncomeInput: {
-      type: 'boolean',
+    grossMonthlyIncome: {
+      type: 'number',
     },
   },
 };

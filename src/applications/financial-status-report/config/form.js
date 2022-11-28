@@ -164,8 +164,8 @@ const formConfig = {
         grossMonthlyIncome: {
           path: 'gross-monthly-income',
           title: 'Gross monthly income',
-          uiSchema: pages.grossMonthlyIncomeInput.uiSchema,
-          schema: pages.grossMonthlyIncomeInput.schema,
+          uiSchema: pages.grossMonthlyIncome.uiSchema,
+          schema: pages.grossMonthlyIncome.schema,
           depends: formData =>
             formData.questions.vetIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
