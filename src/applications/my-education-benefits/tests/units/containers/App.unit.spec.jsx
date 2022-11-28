@@ -8,15 +8,6 @@
 // import { setStoredSubTask } from 'platform/forms/sub-task';
 // import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-// import App from '../../../containers/App';
-// import responses from '../../../testing/responses';
-
-// const profile = {
-//   vapContactInfo: {
-//     ...responses['GET /meb_api/v0/claimant_info']?.data?.attributes?.claimant,
-//   },
-// };
-
 describe('App', () => {
   // const middleware = [thunk];
   // const mockStore = configureStore(middleware);
