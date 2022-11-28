@@ -16,6 +16,10 @@ class EnhancedVeteranEmploymentHistory {
     EnhancedEmploymentRecords.employerFill(this.employers[0]);
   };
 
+  fillFailEmployerInfo = () => {
+    EnhancedEmploymentRecords.failValidationEmployerFill(this.employers[0]);
+  };
+
   attemptNextPage = () => {
     cy.get('.usa-button-primary').click();
   };

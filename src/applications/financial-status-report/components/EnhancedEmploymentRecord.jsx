@@ -39,6 +39,9 @@ const EmploymentRecord = props => {
     ...(isEditing ? specificRecord : defaultRecord[0]),
   });
 
+  const [employmentRecordIsDirty, setEmploymentRecordIsDirty] = useState(false);
+  const [employerNameIsDirty, setEmployerNameIsDirty] = useState(false);
+
   const handleChange = (key, value) => {
     setEmploymentRecord({
       ...employmentRecord,
@@ -46,7 +49,17 @@ const EmploymentRecord = props => {
     });
   };
 
-  // const [fromDateError, setFromDateError] = useState();
+  const handleEmploymentRecordChange = value => {
+    handleChange('type', value);
+    setEmploymentRecordIsDirty(true);
+  };
+
+  const handleEmployerNameChange = value => {
+    handleChange('employerName', value);
+    setEmployerNameIsDirty(true);
+  };
+
+  const [fromDateError, setFromDateError] = useState();
   // const [toDateError, setToDateError] = useState();
 
   const userType = 'veteran';
@@ -56,12 +69,11 @@ const EmploymentRecord = props => {
 
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
-  // const { submitted } = formContext;
 
-  // const typeError = 'Please enter the type of work.';
-  // const startError = 'Please enter your employment start date.';
+  const typeError = 'Please enter the type of work.';
+  const startError = 'Please enter your employment start date.';
   // const endError = 'Please enter your employment end date.';
-  // const employerError = 'Please enter your employer name.';
+  const employerError = 'Please enter your employer name.';
 
   const updateFormData = e => {
     e.preventDefault();
@@ -125,22 +137,22 @@ const EmploymentRecord = props => {
     });
   };
 
-  // const validateYear = (monthYear, errorSetter, requiredMessage) => {
-  //   // const [year] = monthYear.split('-');
-  //   // const todayYear = new Date().getFullYear();
-  //   // const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
-  //   // if (!isComplete) {
-  //   //   // This allows a custom required error message to be used
-  //   //   errorSetter(requiredMessage);
-  //   // } else if (
-  //   //   !!year &&
-  //   //   (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
-  //   // ) {
-  //   //   errorSetter(`Please enter a year between 1900 and ${todayYear}`);
-  //   // } else {
-  //   //   errorSetter(null);
-  //   // }
-  // };
+  const validateYear = (monthYear, errorSetter, requiredMessage) => {
+    const [year] = monthYear.split('-');
+    const todayYear = new Date().getFullYear();
+    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
+    if (!isComplete) {
+      // This allows a custom required error message to be used
+      errorSetter(requiredMessage);
+    } else if (
+      !!year &&
+      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
+    ) {
+      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
+    } else {
+      errorSetter(null);
+    }
+  };
 
   const handleDateChange = (key, monthYear) => {
     const dateString = `${monthYear}-XX`;
@@ -156,13 +168,15 @@ const EmploymentRecord = props => {
         <Select
           label="Type of work"
           name="type"
-          onValueChange={({ value }) => handleChange('type', value)}
+          onValueChange={({ value }) => handleEmploymentRecordChange(value)}
           options={['Full time', 'Part time', 'Seasonal', 'Temporary']}
           value={{
             value: employmentRecord.type || '',
           }}
           required
-          // errorMessage={submitted && !employment[index].type && typeError}
+          errorMessage={
+            employmentRecordIsDirty && !employmentRecord.type && typeError
+          }
         />
       </div>
       <div className="vads-u-margin-top--3">
@@ -172,11 +186,11 @@ const EmploymentRecord = props => {
           label="Date you started work at this job?"
           name="from"
           onDateChange={e => handleDateChange('from', e.target.value)}
-          // onDateBlur={e =>
-          //   validateYear(e.target.value || '', setFromDateError, startError)
-          // }
+          onDateBlur={e =>
+            validateYear(e.target.value || '', setFromDateError, startError)
+          }
           required
-          // error={fromDateError}
+          error={fromDateError}
         />
       </div>
       <div
@@ -210,11 +224,13 @@ const EmploymentRecord = props => {
           }}
           label="Employer name"
           name="employerName"
-          onValueChange={({ value }) => handleChange('employerName', value)}
+          onValueChange={({ value }) => handleEmployerNameChange(value)}
           required
-          // errorMessage={
-          //   submitted && !employment[index].employerName && employerError
-          // }
+          errorMessage={
+            employerNameIsDirty &&
+            !employmentRecord.employerName &&
+            employerError
+          }
         />
       </div>
       {onReviewPage ? updateButton : navButtons}
