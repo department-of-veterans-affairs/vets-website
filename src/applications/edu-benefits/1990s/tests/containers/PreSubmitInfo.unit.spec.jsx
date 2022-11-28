@@ -26,10 +26,7 @@ describe('<PreSubmitInfo>', () => {
       </Provider>,
     );
     expect(tree).to.not.be.undefined;
-    // removed test while envirnoment variable is in code base for PreSubmitInfo.jsx. This causes issue where test can not read text as expected.
-    // tested with environment statement removed, all test passed as they should. Environment statement is only there to keep new radiobuttons
-    // in staging until testing is completed.
-    // expect(tree.text()).to.include('Confirm you’re eligible for VRRAP');
+    expect(tree.text()).to.include('Confirm you’re eligible for VRRAP');
     expect(tree.text()).to.contain('privacy policy');
     tree.unmount();
   });

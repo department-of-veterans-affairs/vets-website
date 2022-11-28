@@ -10,8 +10,6 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 function PreSubmitNotice({
@@ -21,6 +19,17 @@ function PreSubmitNotice({
   setPreSubmit,
 }) {
   const { vrrapConfirmation } = formData;
+
+  const options = [
+    { label: 'Yes', value: true },
+    { label: 'No', value: false },
+  ];
+
+  const handlers = {
+    onSelection: event => {
+      setPreSubmit('vrrapConfirmation', event.detail.value === 'true');
+    },
+  };
 
   const confirmEligibilityNote = (
     <div>
@@ -46,68 +55,33 @@ function PreSubmitNotice({
           </ul>
         </div>
       </div>
-    </div>
-  );
-
-  const options = [
-    { label: 'Yes', value: true },
-    { label: 'No', value: false },
-  ];
-
-  const handlers = {
-    onSelection: event => {
-      setPreSubmit('vrrapConfirmation', event.detail.value === 'true');
-    },
-  };
-
-  const radioOptions = (
-    <div>
-      {environment.isProduction() && (
-        <RadioButtons
-          name="confirmEligibility_options"
-          label="The statements above are true and accurate to the best of my knowledge and belief."
-          id="confirmEligibility_options"
-          options={[
-            { label: 'Yes', value: true },
-            { label: 'No', value: false },
-          ]}
-          onValueChange={({ value }) =>
-            setPreSubmit('vrrapConfirmation', value === 'true')
-          }
-          value={{ value: vrrapConfirmation }}
-        />
-      )}
-
-      {!environment.isProduction() && (
-        <VaRadio
-          class="vads-u-margin-y--4"
-          name="confirmEligibility"
-          error={null}
-          label="The statements above are true and accurate to the best of my knowledge and belief."
-          onVaValueChange={handlers.onSelection}
-          ariaDescribedby="confirmEligibility"
-        >
-          {options.map(({ value, label }) => (
-            <VaRadioOption
-              key={value}
-              class="vads-u-margin-y--3"
-              name="confirmEligibility_options"
-              label={label}
-              id={`confirmEligibility_options ${value}`}
-              value={value}
-              checked={vrrapConfirmation === value}
-              ariaDescribedby="confirmEligibility_options"
-            />
-          ))}
-        </VaRadio>
-      )}
+      <VaRadio
+        class="vads-u-margin-y--4"
+        name="confirmEligibility"
+        error={null}
+        label="The statements above are true and accurate to the best of my knowledge and belief."
+        onVaValueChange={handlers.onSelection}
+        ariaDescribedby="confirmEligibility"
+      >
+        {options.map(({ value, label }) => (
+          <VaRadioOption
+            key={value}
+            class="vads-u-margin-y--3"
+            name="confirmEligibility_options"
+            label={label}
+            id={`confirmEligibility_options ${value}`}
+            value={value}
+            checked={vrrapConfirmation === value}
+            ariaDescribedby="confirmEligibility_options"
+          />
+        ))}
+      </VaRadio>
     </div>
   );
 
   return (
     <>
       {confirmEligibilityNote}
-      {radioOptions}
       <PreSubmitInfo
         formData={formData}
         showError={showError}
