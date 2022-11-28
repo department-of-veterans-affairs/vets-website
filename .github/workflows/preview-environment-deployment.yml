@@ -6,13 +6,30 @@ jobs:
   deploy-preview-environment:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      # Fetch file
       - name: Fetch Preview Environment Config file
         run: |
           gh api \
           -H "Accept: application/vnd.github+json" \
           /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml
-
-# Fetch file
+        env:
+          GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
 
 # Get current deployment information
 
