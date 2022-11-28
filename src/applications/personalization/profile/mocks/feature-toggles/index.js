@@ -15,6 +15,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
     profileShowAppealStatusNotificationSetting = true,
+    profileBlockForFiduciaryDeceasedOrIncompetent = false,
   } = toggles;
 
   return {
@@ -68,6 +69,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_appeal_status_notification_setting',
           value: profileShowAppealStatusNotificationSetting,
+        },
+        {
+          name: 'profile_block_for_fiduciary_deceased_or_incompetent',
+          value: profileBlockForFiduciaryDeceasedOrIncompetent,
         },
       ],
     },
