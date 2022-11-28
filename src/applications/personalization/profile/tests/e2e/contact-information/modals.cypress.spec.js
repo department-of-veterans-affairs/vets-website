@@ -91,16 +91,6 @@ const checkRemovalWhileEditingModal = options => {
     force: true,
   });
 
-  // Modal appears
-  // cy.get('.va-modal').within(() => {
-  //   cy.contains(`You’re currently editing your ${editSectionName}`).should(
-  //     'exist',
-  //   );
-  //   cy.findByRole('button', { name: /OK/i }).click({
-  //     force: true,
-  //   });
-  // });
-
   cy.findByTestId('cannot-edit-modal')
     .shadow()
     .findByText(`Save or cancel your edits to your ${editSectionName}`)
