@@ -25,6 +25,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
           <li className="vads-u-margin-y--0p5">
             <strong>Mobile number: </strong>
             <VaTelephone
+              data-testid="mobile-phone-number-on-file"
               contact={`${mobilePhoneNumber.areaCode}${
                 mobilePhoneNumber.phoneNumber
               }`}
