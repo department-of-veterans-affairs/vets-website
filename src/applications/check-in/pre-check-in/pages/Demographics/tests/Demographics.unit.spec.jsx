@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { I18nextProvider } from 'react-i18next';
@@ -70,20 +69,6 @@ const initState = {
 };
 
 describe('pre-check-in', () => {
-  describe('Demographics page - current demographics', () => {
-    const axeStore = mockStore({ ...initState, ...scheduledDowntimeState });
-
-    it('page passes axeCheck', () => {
-      axeCheck(
-        <Provider store={axeStore}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={createMockRouter()} />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
-  });
-
   describe('Demographics sub message', () => {
     const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
 
