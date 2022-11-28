@@ -8,7 +8,6 @@ export default function DemographicsDisplay({
   header = '',
   subtitle = '',
   demographics = {},
-  isLoading = false,
   yesAction = () => {},
   noAction = () => {},
 }) {
@@ -47,7 +46,6 @@ export default function DemographicsDisplay({
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
-        isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
         pageType="demographic-information"
@@ -59,7 +57,6 @@ export default function DemographicsDisplay({
 DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
   header: PropTypes.string,
-  isLoading: PropTypes.bool,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,

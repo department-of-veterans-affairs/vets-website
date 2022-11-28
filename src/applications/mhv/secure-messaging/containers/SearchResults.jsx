@@ -1,20 +1,24 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
 import CondensedSearchForm from '../components/Search/CondensedSearchForm';
-import { runBasicSearch } from '../actions/search';
 
 const Search = () => {
-  const dispatch = useDispatch();
-
-  const { searchResults, folder, keyword } = useSelector(
+  const { awaitingResults, searchResults, folder, keyword } = useSelector(
     state => state.sm.search,
   );
+  const history = useHistory();
 
-  const submitBasicSearch = formData => {
-    dispatch(runBasicSearch(formData.folder, formData.keyword.toLowerCase()));
-  };
+  useEffect(
+    () => {
+      if (!awaitingResults && !searchResults) {
+        history.goBack();
+      }
+    },
+    [awaitingResults, searchResults],
+  );
 
   const noResultsMessage = () => {
     if (keyword) {
@@ -42,11 +46,7 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm
-        folder={folder}
-        keyword={keyword}
-        submitBasicSearch={submitBasicSearch}
-      />
+      <CondensedSearchForm folder={folder} keyword={keyword} resultsView />
     );
   };
 
