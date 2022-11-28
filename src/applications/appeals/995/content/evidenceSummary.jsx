@@ -42,7 +42,7 @@ export const evidenceSummaryDescription = ({ formData }) => {
   let layContent = null;
   let privateEvidenceContent = null;
 
-  if (vaEvidence.length) {
+  if (vaEvidence?.length) {
     const facilitiesList = vaEvidence.map(({ locationAndName }) => (
       <li key={locationAndName}>{locationAndName}</li>
     ));
@@ -54,7 +54,7 @@ export const evidenceSummaryDescription = ({ formData }) => {
     );
   }
 
-  if (privateEvidenceUploads.length) {
+  if (privateEvidenceUploads?.length) {
     const privateEvidenceUploadsList = privateEvidenceUploads.map(upload => (
       <li key={upload.name}>{upload.name}</li>
     ));
@@ -66,7 +66,7 @@ export const evidenceSummaryDescription = ({ formData }) => {
     );
   }
 
-  if (privateEvidence.length) {
+  if (privateEvidence?.length) {
     const privateEvidenceList = privateEvidence.map(facility => (
       <li key={facility.providerFacilityName}>
         {facility.providerFacilityName}
