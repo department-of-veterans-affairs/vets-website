@@ -2,11 +2,12 @@ import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
-  it('Axe Check Manage Folders', () => {
+  it('Axe Check Custom Folder List', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="my-folders-sidebar"]').click();
+    cy.contains('TEST2').click();
     cy.injectAxe();
     cy.axeCheck();
   });

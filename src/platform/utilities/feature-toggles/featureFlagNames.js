@@ -80,6 +80,7 @@ export default Object.freeze({
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
+  profileBlockForFiduciaryDeceasedOrIncompetent: 'profile_block_for_fiduciary_deceased_or_incompetent',
   profileNotificationSettings: 'profile_notification_settings',
   profileHideDirectDepositCompAndPen: 'profile_hide_direct_deposit_comp_and_pen',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
