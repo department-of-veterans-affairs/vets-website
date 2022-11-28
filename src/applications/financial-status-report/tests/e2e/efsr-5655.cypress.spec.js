@@ -56,7 +56,7 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
-      'available-debts': ({ afterHook }) => {
+      'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="request-help-with-debt"]`)
             .first()
@@ -70,17 +70,14 @@ const testConfig = createTestConfig(
       'enhanced-employment-records': ({ afterHook }) => {
         afterHook(() => {
           EnhancedVeteranEmploymentHistory.fillEmployerInfo();
-          EnhancedVeteranEmploymentHistory.attemptNextPage();
         });
       },
       'gross-monthly-income': ({ afterHook }) => {
         afterHook(() => {
-          // cy.get('#gross-monthly-income').type('1000');
-          // cy.get('.usa-button-primary').click();
           cy.get('#gross-monthly-income')
+            .first()
             .shadow()
             .find('input')
-            .first()
             .type('1000');
           cy.get('.usa-button-primary').click();
         });
@@ -90,6 +87,16 @@ const testConfig = createTestConfig(
           cy.get(`input[name="State tax"]`)
             .first()
             .check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'deduction-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#State\\ tax0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('123');
           cy.get('.usa-button-primary').click();
         });
       },

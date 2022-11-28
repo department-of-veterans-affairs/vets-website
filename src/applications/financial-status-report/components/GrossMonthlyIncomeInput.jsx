@@ -136,9 +136,9 @@ const GrossMonthlyIncomeInput = props => {
         You’ll find this in your paycheck. It’s the amount of your pay before
         taxes and deductions.
       </p>
-      <br />
       <div className="input">
-        <va-text-input
+        <va-number-input
+          inputmode="numeric"
           id="gross-monthly-income"
           name="gross-monthly-income"
           onInput={setNewGrossMonthlyIncome}
