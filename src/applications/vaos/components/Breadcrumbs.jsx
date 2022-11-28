@@ -41,18 +41,19 @@ export default function VAOSBreadcrumbs({ children }) {
       ref={breadcrumbsRef}
       className="vaos-hide-for-print"
     >
-      <a href="/" key="home">
-        Home
-      </a>
-      <a href="/health-care" key="health-care">
-        Health care
-      </a>
-      <a
+      <va-link href="/" key="home" text="Home" />
+      <va-link
+        href="/health-care"
+        key="health-care"
+        text="Health care"
+        data-testid="vaos-healthcare-link"
+      />
+      <va-link
         href="/health-care/schedule-view-va-appointments"
         key="schedule-view-va-appointments"
-      >
-        Schedule and manage health appointments
-      </a>
+        text="Schedule and manage health appointments"
+        data-testid="vaos-home-link"
+      />
       {!featureStatusImprovement && (
         <Link to="/" key="vaos-home">
           VA online scheduling
