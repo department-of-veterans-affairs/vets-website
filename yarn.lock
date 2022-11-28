@@ -2537,17 +2537,17 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.0.tgz#9a34ae8ab8d0e65e2cdabf9e446176c25dc1b9b9"
-  integrity sha512-Gpjotl1Wh6pBZIAtOY2s80meXSvawCOpfaIaBHYkbAxngOmDLYNDFFLMwbV+jtR+5teAIbUPJvLaPoaoWy4ZWw==
+"@department-of-veterans-affairs/eslint-plugin@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.1.tgz#fc3b9b481ad2b18f4bc034b55ac62dd8915ec64c"
+  integrity sha512-B2YRGjdjdw7xZ99/zs03GaLBk7ae+5dl59YXcjydKlMBpPtucecM9ZJVFI5JCGpjF57vTjBXYhv80EujOvwOow==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.2.tgz#fa828af9c456c69d86cb9a9f7f216a1b9ba3c2d4"
-  integrity sha512-OfLkYXM3v8OVgtyh07xjTnhw0sVMH6ma5tghCxdbxCcRdcja+lYGrQr0WXhWIqPWP0s7aD783fVvF/pT9xfk0g==
+"@department-of-veterans-affairs/formation@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.3.tgz#452206ad64000179cba8eb9f7dd7e852eb1ae7b3"
+  integrity sha512-VDS/PQLSwh2pe4zD9idlx5vg/xwEr8+5jlY4Xm9SMPMk9zcS2BXRSZBVq4aDP0CEWat3qpoiOBZWgAy+OeLJDQ==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -19629,9 +19629,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#bdff5dfaa09db409d311029990912ebcae01c6c8":
-  version "20.24.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bdff5dfaa09db409d311029990912ebcae01c6c8"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf":
+  version "20.24.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf"
 
 vfile-message@^2.0.0:
   version "2.0.4"

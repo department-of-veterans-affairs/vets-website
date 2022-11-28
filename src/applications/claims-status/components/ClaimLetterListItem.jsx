@@ -8,11 +8,24 @@ import environment from 'platform/utilities/environment';
 const downloadUrl = id => `${environment.API_URL}/v0/claim_letters/${id}`;
 
 const formatDate = date => {
-  return format(new Date(date), 'MMMM dd, yyyy');
+  // Dates in the format YYYY-MM-DD use a simplified ISO-8601
+  // format and are assumed to be in the UTC time zone. When given
+  // a time in this format, the browser will offset the time to
+  // match the users time zone. This can result in a time that is
+  // off by a day. We need to calculate the offset and add it to
+  // the Date object to ensure we get the expected date
+  const withoutOffset = new Date(date);
+  const offset = withoutOffset.getTimezoneOffset() * 60000;
+  const withOffset = new Date(withoutOffset.getTime() + offset);
+
+  return format(withOffset, 'MMMM dd, yyyy');
 };
 
 const downloadHandler = () => {
-  recordEvent({ event: 'claim-letters-download' });
+  recordEvent({
+    event: 'claim-letters-download',
+    'click-text': 'Download letter (PDF)',
+  });
 };
 
 const ClaimLetterListItem = ({ letter }) => {

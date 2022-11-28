@@ -38,7 +38,12 @@ const ReplyBox = () => (
           Message{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
         </p>
-        <textarea className="message-input" id="Message" name="message" />
+        <textarea
+          className="message-input"
+          id="Message"
+          name="message"
+          data-testid="reply-message-body-field"
+        />
       </div>
 
       <div className="message-body">
