@@ -79,6 +79,7 @@ export default Object.freeze({
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   omniChannelLink: 'omni_channel_link',
+  pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileBlockForFiduciaryDeceasedOrIncompetent: 'profile_block_for_fiduciary_deceased_or_incompetent',
   profileNotificationSettings: 'profile_notification_settings',
