@@ -1,15 +1,15 @@
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import {
-  MDOT_API_ERROR,
-  MDOT_RESET_ERRORS,
-  MDOT_API_CALL_INITIATED,
-} from '../constants';
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
 import head from 'lodash/head';
 import get from 'lodash/get';
 import localStorage from 'platform/utilities/storage/localStorage';
+import {
+  MDOT_API_ERROR,
+  MDOT_RESET_ERRORS,
+  MDOT_API_CALL_INITIATED,
+} from '../constants';
 
 const handleError = (error, nextAvailabilityDate = '') => ({
   type: MDOT_API_ERROR,
@@ -36,44 +36,35 @@ export const fetchFormStatus = () => async dispatch => {
     // always result in that error so we can go ahead and return
     return dispatch(resetError());
   }
-  fetch(`${environment.API_URL}/v0/in_progress_forms/mdot`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-    },
-  })
-    .then(res => res.json())
-    .then(body => {
-      if (body.errors) {
-        // In the event there are multiple errors - but I don't think that is possible
-        const firstError = head(body.errors);
-        if (firstError.code === '500') {
-          return dispatch(handleError('MDOT_SERVER_ERROR'));
-        }
-        return dispatch(handleError(firstError.code.toUpperCase()));
+  apiRequest(`${environment.API_URL}/v0/in_progress_forms/mdot`).then(body => {
+    if (body.errors) {
+      // In the event there are multiple errors - but I don't think that is possible
+      const firstError = head(body.errors);
+      if (firstError.code === '500') {
+        return dispatch(handleError('MDOT_SERVER_ERROR'));
       }
-      const eligibility = body.formData.eligibility;
+      return dispatch(handleError(firstError.code.toUpperCase()));
+    }
+    const { eligibility } = body.formData;
 
-      if (
-        !eligibility ||
-        (eligibility && !eligibility.accessories && !eligibility.batteries)
-      ) {
-        const sortedSuppliesByAvailability = sortBy(
-          body.formData.supplies,
-          'nextAvailabilityDate',
-        );
-        const firstSupplyInSupplies = head(sortedSuppliesByAvailability);
-        const nextAvailabilityDate = get(
-          firstSupplyInSupplies,
-          'nextAvailabilityDate',
-        );
-        return dispatch(
-          handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
-        );
-      }
-      return dispatch(resetError());
-    });
+    if (
+      !eligibility ||
+      (eligibility && !eligibility.accessories && !eligibility.batteries)
+    ) {
+      const sortedSuppliesByAvailability = sortBy(
+        body.formData.supplies,
+        'nextAvailabilityDate',
+      );
+      const firstSupplyInSupplies = head(sortedSuppliesByAvailability);
+      const nextAvailabilityDate = get(
+        firstSupplyInSupplies,
+        'nextAvailabilityDate',
+      );
+      return dispatch(
+        handleError('MDOT_SUPPLIES_INELIGIBLE', nextAvailabilityDate),
+      );
+    }
+    return dispatch(resetError());
+  });
   return null;
 };
