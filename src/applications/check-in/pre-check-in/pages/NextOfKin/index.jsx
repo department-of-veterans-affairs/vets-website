@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -16,8 +16,6 @@ const NextOfKin = props => {
   const { router } = props;
   const { t } = useTranslation();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
@@ -28,7 +26,6 @@ const NextOfKin = props => {
 
   const buttonClick = useCallback(
     async answer => {
-      setIsLoading(true);
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();
     },
@@ -61,7 +58,6 @@ const NextOfKin = props => {
         nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
-        isLoading={isLoading}
         jumpToPage={jumpToPage}
       />
     </>

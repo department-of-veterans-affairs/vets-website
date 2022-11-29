@@ -1,6 +1,7 @@
 import * as veteranInfo from './veteran/veteranInfo';
 import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
+import * as combinedDebts from './veteran/combinedDebts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
 import * as additionalIncomeRecords from './income/additionalIncome/records';
@@ -47,10 +48,17 @@ import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
+import * as addIssue from './income/employmentEnhanced/addIssue';
+import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
+import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollDeductionChecklist';
+import * as payrollDeductionInputList from './income/employmentEnhanced/payrollDeductionInputList';
+import * as grossMonthlyIncome from './income/employmentEnhanced/grossMonthlyIncome';
+import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhancedRecords';
 
 export {
   veteranInfo,
   availableDebts,
+  combinedDebts,
   employment,
   employmentRecords,
   income,
@@ -98,4 +106,10 @@ export {
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
+  addIssue,
+  employmentHistory,
+  payrollDeductionChecklist,
+  payrollDeductionInputList,
+  grossMonthlyIncome,
+  enhancedEmploymentRecords,
 };

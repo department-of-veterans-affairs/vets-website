@@ -39,7 +39,7 @@ export const Actions = {
   Search: {
     RUN_BASIC: 'SM_SEARCH_RUN_BASIC',
     RUN_ADVANCED: 'SM_SEARCH_RUN_ADVANCED',
-    CLEAR: 'SM_SEARCH_CLEAR',
+    START: 'SM_SEARCH_START',
   },
   TriageTeam: {
     GET_LIST: 'SM_TRIAGE_TEAM_GET_LIST',

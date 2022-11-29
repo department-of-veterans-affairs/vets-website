@@ -45,7 +45,13 @@ describe('Notification Settings', () => {
 
         cy.loadingIndicatorWorks();
 
-        cy.findByText('503-555-1234').should('exist');
+        cy.findByTestId('mobile-phone-number-on-file').should('exist');
+
+        cy.findByTestId('mobile-phone-number-on-file')
+          .shadow()
+          .findByText(/503-555-1234/i)
+          .should('exist');
+
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
@@ -86,7 +92,10 @@ describe('Notification Settings', () => {
 
         cy.loadingIndicatorWorks();
 
-        cy.findByText('503-555-1234').should('exist');
+        cy.findByTestId('mobile-phone-number-on-file')
+          .shadow()
+          .findByText(/503-555-1234/i)
+          .should('exist');
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
@@ -125,7 +134,10 @@ describe('Notification Settings', () => {
 
         cy.loadingIndicatorWorks();
 
-        cy.findByText('503-555-1234').should('exist');
+        cy.findByTestId('mobile-phone-number-on-file')
+          .shadow()
+          .findByText(/503-555-1234/i)
+          .should('exist');
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
@@ -157,7 +169,10 @@ describe('Notification Settings', () => {
 
       cy.loadingIndicatorWorks();
 
-      cy.findByText('503-555-1234').should('exist');
+      cy.findByTestId('mobile-phone-number-on-file')
+        .shadow()
+        .findByText(/503-555-1234/i)
+        .should('exist');
       // uncomment when email is a supported communication channel
       // cy.findByText('veteran@gmail.com').should('exist');
       cy.findAllByTestId('notification-group')
