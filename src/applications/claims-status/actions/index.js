@@ -586,7 +586,9 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) return getStemClaimsMock(dispatch);
+    if (USE_MOCKS) {
+      return getStemClaimsMock(dispatch);
+    }
 
     return makeAuthRequest(
       '/v0/education_benefits_claims/stem_claim_status',
@@ -594,7 +596,6 @@ export function getStemClaims() {
       dispatch,
       res => {
         const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
-
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,
           stemClaims,

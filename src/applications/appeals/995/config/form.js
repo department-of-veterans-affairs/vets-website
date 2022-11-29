@@ -17,6 +17,8 @@ import {
 } from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
+import EvidenceVaRecords from '../components/EvidenceVaRecords';
+import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';
@@ -26,11 +28,11 @@ import addIssue from '../pages/addIssue';
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
-import evidencePrivateChoice from '../pages/evidencePrivateChoice';
+import evidencePrivateRecordsRequest from '../pages/evidencePrivateRecordsRequest';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidencePrivateUpload from '../pages/evidencePrivateUpload';
 import evidenceSummary from '../pages/evidenceSummary';
-import evidenceTypes from '../pages/evidenceTypes';
+import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import issueSummary from '../pages/issueSummary';
@@ -212,25 +214,26 @@ const formConfig = {
           uiSchema: noticeOfAcknowledgement.uiSchema,
           schema: noticeOfAcknowledgement.schema,
         },
-        evidenceTypes: {
-          title: 'Supporting evidence types',
-          path: 'supporting-evidence/evidence-types',
-          uiSchema: evidenceTypes.uiSchema,
-          schema: evidenceTypes.schema,
+        evidenceVaRecordsRequest: {
+          title: 'Request VA medical records',
+          path: 'supporting-evidence/request-va-medical-records',
+          uiSchema: evidenceVaRecordsRequest.uiSchema,
+          schema: evidenceVaRecordsRequest.schema,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
           depends: formData => hasVAEvidence(formData),
+          CustomPage: EvidenceVaRecords,
           uiSchema: evidenceVaRecords.uiSchema,
           schema: evidenceVaRecords.schema,
         },
-        evidencePrivateChoice: {
+        evidencePrivateRecordsRequest: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-choice',
-          depends: hasPrivateEvidence,
-          uiSchema: evidencePrivateChoice.uiSchema,
-          schema: evidencePrivateChoice.schema,
+          path: 'supporting-evidence/request-private-medical-records',
+          CustomPage: EvidencePrivateRequest,
+          uiSchema: evidencePrivateRecordsRequest.uiSchema,
+          schema: evidencePrivateRecordsRequest.schema,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',

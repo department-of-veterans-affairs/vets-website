@@ -6,6 +6,8 @@ const initialState = {
    * @type {array}
    */
   searchResults: undefined,
+  awaitingResults: false,
+  keyword: '',
 };
 
 export const searchReducer = (state = initialState, action) => {
@@ -19,6 +21,7 @@ export const searchReducer = (state = initialState, action) => {
         }),
         folder: action.response.folder,
         keyword: action.response.keyword,
+        awaitingResults: false,
       };
     case Actions.Search.RUN_ADVANCED:
       return {
@@ -30,11 +33,13 @@ export const searchReducer = (state = initialState, action) => {
         folder: action.response.folder,
         keyword: '',
         query: action.response.query,
+        awaitingResults: false,
       };
-    case Actions.Search.CLEAR:
+    case Actions.Search.START:
       return {
         ...state,
         searchResults: initialState.searchResults,
+        awaitingResults: true,
       };
     default:
       return state;

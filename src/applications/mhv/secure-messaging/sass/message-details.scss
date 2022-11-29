@@ -33,6 +33,11 @@
       h3 {
         margin: none;
       }
+      h2 {
+        margin: 0;
+        width: 80%;
+        overflow-wrap: break-word;
+      }
     }
     .message-body {
       margin: 30px 0;
@@ -104,11 +109,10 @@
   display: none;
 }
 
-
 @media print {
   body {
     .secure-messaging-navigation {
-    display: none;
+      display: none;
     }
     .breadcrumbs {
       display: none;
@@ -136,8 +140,6 @@
     top: 0;
     .message-action-buttons {
       display: none;
-
     }
   }
-
 }
