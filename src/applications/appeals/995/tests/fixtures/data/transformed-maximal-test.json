@@ -1,0 +1,144 @@
+{
+  "data": {
+    "type": "supplementalClaim",
+    "attributes": {
+      "benefitType": "compensation",
+      "claimantType": "veteran",
+      "veteran": {
+        "address": {
+          "addressLine1": "123 Main St",
+          "addressLine2": "Suite #1200",
+          "addressLine3": "Box 45678901234",
+          "city": "New York",
+          "countryCodeIso2": "US",
+          "stateCode": "NY",
+          "zipCode5": "30012"
+        },
+        "phone": {
+          "countryCode": "6",
+          "areaCode": "555",
+          "phoneNumber": "8001111",
+          "phoneNumberExt": "2"
+        },
+        "email": "user@example.com",
+        "timezone": "America/Chicago"
+      },
+      "socOptIn": true,
+      "form5103Acknowledged": true,
+      "evidenceSubmission": {
+        "evidenceType": [
+          "upload",
+          "retrieval"
+        ],
+        "retrieveFrom": [
+          {
+            "type": "retrievalEvidence",
+            "attributes": {
+              "locationAndName": "VAMC Location 1",
+              "evidenceDates": [
+                {
+                  "from": "2001-01-01",
+                  "to": "2011-01-01"
+                }
+              ]
+            }
+          },
+          {
+            "type": "retrievalEvidence",
+            "attributes": {
+              "locationAndName": "VAMC Location 2",
+              "evidenceDates": [
+                {
+                  "from": "2002-02-02",
+                  "to": "2012-02-02"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "included": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "issue": "Headaches",
+          "decisionDate": "2021-06-10"
+        }
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "issue": "Being green",
+          "decisionDate": "2021-06-01"
+        }
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "issue": "Test",
+          "decisionDate": "2022-01-01"
+        }
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "issue": "Test 2",
+          "decisionDate": "2022-06-28"
+        }
+      }
+    ]
+  },
+  "4142": {
+    "providerFacility": [
+      {
+        "treatmentDateRange": {
+          "from": "2022-01-01",
+          "to": "2022-02-01"
+        },
+        "issues": [
+          "Headaches"
+        ],
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "123 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90210"
+        },
+        "providerFacilityName": "Private Hospital"
+      }
+    ],
+    "limitedConsent": "Pizza addiction"
+  },
+  "additionalDocuments": [
+    {
+      "name": "private-medical-records.pdf",
+      "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "attachmentId": "L049",
+      "size": 20000,
+      "isEncrypted": false
+    },
+    {
+      "name": "x-rays.pdf",
+      "confirmationCode": "ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj",
+      "attachmentId": "L023",
+      "size": 30000,
+      "isEncrypted": false
+    },
+    {
+      "name": "buddy-statement.pdf",
+      "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
+      "attachmentId": "L015",
+      "size": 40000,
+      "isEncrypted": false
+    },
+    {
+      "name": "photos.pdf",
+      "confirmationCode": "pppppppp-qqqql-rrrr-ssss-ttttttttttt",
+      "attachmentId": "L070",
+      "size": 40000,
+      "isEncrypted": false
+    }
+  ]
+}

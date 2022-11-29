@@ -2,15 +2,27 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { getDate } from '../../utils/dates';
-import { SELECTED, MAX_LENGTH } from '../../constants';
+import { errorMessages, SELECTED, MAX_LENGTH } from '../../constants';
 
 import {
+  checkValidations,
   uniqueIssue,
   maxIssues,
   selectionRequired,
   missingIssueName,
   maxNameLength,
 } from '../../validations/issues';
+
+describe('checkValidations', () => {
+  it('should return error messages', () => {
+    expect(checkValidations([missingIssueName], '')).to.deep.equal([
+      errorMessages.missingIssue, // simple validation function
+    ]);
+    expect(
+      checkValidations([missingIssueName, missingIssueName], ''),
+    ).to.deep.equal([errorMessages.missingIssue, errorMessages.missingIssue]);
+  });
+});
 
 describe('uniqueIssue', () => {
   const _ = null;
