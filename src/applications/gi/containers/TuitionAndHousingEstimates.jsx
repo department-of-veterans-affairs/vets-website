@@ -95,7 +95,7 @@ export function TuitionAndHousingEstimates({
         radioLabel=""
         initialValue="no"
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        onRadioOptionSelected={target => {
+        onVaValueChange={target => {
           const { value } = target;
           recordEvent({
             event: 'gibct-form-change',
