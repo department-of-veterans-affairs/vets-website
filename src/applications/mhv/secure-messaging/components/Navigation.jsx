@@ -97,16 +97,16 @@ const Navigation = () => {
           <div className="sidebar-navigation-header">
             <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
             <h4>My Health</h4>
-            <button
-              className={
-                isMobile === true ? 'va-btn-close-icon' : 'no-close-btn'
-              }
-              aria-label="Close-this-menu"
-              aria-expanded="true"
-              aria-controls="a1"
-              onClick={closeNavigation}
-              type="button"
-            />
+            {isMobile ? (
+              <button
+                className="va-btn-close-icon"
+                aria-label="Close-this-menu"
+                aria-expanded="true"
+                aria-controls="a1"
+                onClick={closeNavigation}
+                type="button"
+              />
+            ) : null}
           </div>
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
