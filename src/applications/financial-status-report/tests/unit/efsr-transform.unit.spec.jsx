@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import moment from 'moment';
 import { transform } from '../../utils/transform';
-import inputObject from './unit-maximal.json';
-// import inputObject from './efsr-unit-maximal.json';
+// import inputObject from './unit-maximal.json';
+import inputObject from './efsr-unit-maximal.json';
 import {
   sumValues,
   dateFormatter,
@@ -726,7 +726,7 @@ describe('efsr-fsr transform information', () => {
         it('has valid data', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(submissionObj.income[0].otherIncome.name).to.equal(
-            'Social Security, Disability Compensation, Education, Bonus payment, Freelance service',
+            'Disability Compensation, Education, Social Security, Employment bonus, Alimony',
           );
           expect(submissionObj.income[0].otherIncome.amount).to.equal(
             '7012.85',
@@ -800,7 +800,7 @@ describe('efsr-fsr transform information', () => {
       ).to.equal('12394.41');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
-      ).to.equal('800.97');
+      ).to.equal('61.02');
     });
   });
   describe('efsr-assets', () => {
@@ -828,7 +828,7 @@ describe('efsr-fsr transform information', () => {
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
-      expect(submissionObj.assets.totalAssets).to.equal('1099005.78');
+      expect(submissionObj.assets.totalAssets).to.equal('1034004.98');
     });
     describe('efsr-automobiles', () => {
       it('has valid structure', () => {
@@ -858,8 +858,10 @@ describe('efsr-fsr transform information', () => {
       });
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
-        expect(submissionObj.assets.otherAssets[0].name).to.equal('Bitcoin');
-        expect(submissionObj.assets.otherAssets[0].amount).to.equal('50000.57');
+        expect(submissionObj.assets.otherAssets[0].name).to.equal(
+          'Gambling earning',
+        );
+        expect(submissionObj.assets.otherAssets[0].amount).to.equal('16000.34');
       });
     });
   });
