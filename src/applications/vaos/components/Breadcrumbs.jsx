@@ -14,12 +14,25 @@ export default function VAOSBreadcrumbs({ children }) {
   const isPending = location.pathname.includes('/pending');
   const breadcrumbsRef = useRef(null);
 
+  // add function given a node to remove the attribute
+  // add function given a node to add an attribute
+
   useEffect(
     () => {
       const updateBreadcrumbs = () => {
         const anchorNodes = Array.from(
           breadcrumbsRef.current.querySelectorAll('a'),
         );
+
+        const nodes = anchorNodes.concat(
+          Array.from(breadcrumbsRef.current.querySelectorAll('va-link')),
+        );
+
+        console.log(nodes);
+
+        nodes.forEach(node => {
+          console.log(node.nodeName);
+        });
 
         anchorNodes.forEach((crumb, index) => {
           crumb.removeAttribute('aria-current');
@@ -60,29 +73,21 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
-          VA online scheduling
-        </Link>
+        <va-link to="/" key="vaos-home" text="VA online scheduling" />
       )}
       {featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
-          Your appointments
-        </Link>
+        <va-link to="/" key="vaos-home" text="Your appointments" />
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <Link to="/past" key="past">
-            Past
-          </Link>
+          <va-link to="/past" key="past" text="Past" />
         </li>
       )}
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <Link to="/pending" key="pending">
-            Pending
-          </Link>
+          <va-link to="/pending" key="pending" text="Pending" />
         </li>
       )}
 
