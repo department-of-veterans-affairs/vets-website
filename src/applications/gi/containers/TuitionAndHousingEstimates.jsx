@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';
-import RadioButtons from '../components/RadioButtons';
+import VARadioButton from '../components/VARadioButton';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import { showModal, eligibilityChange } from '../actions';
-import { connect } from 'react-redux';
 import { createId } from '../utils/helpers';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function TuitionAndHousingEstimates({
   eligibility,
@@ -83,27 +83,26 @@ export function TuitionAndHousingEstimates({
         setMilitaryStatus={setMilitaryStatus}
         setSpouseActiveDuty={setSpouseActiveDuty}
       />
-      <RadioButtons
-        label={
-          <LearnMoreLabel
-            text="Will you be taking any classes in person?"
-            onClick={() => {
-              dispatchShowModal('onlineOnlyDistanceLearning');
-            }}
-            ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
-            butttonId="classes-in-person-learn-more"
-          />
-        }
-        name="inPersonClasses"
+      <LearnMoreLabel
+        text="Will you be taking any classes in person?"
+        onClick={() => {
+          dispatchShowModal('onlineOnlyDistanceLearning');
+        }}
+        ariaLabel="Learn more about how we calculate your housing allowance based on where you take classes"
+        butttonId="classes-in-person-learn-more"
+      />
+      <VARadioButton
+        radioLabel=""
+        initialValue="no"
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        value={onlineClasses}
-        onChange={e => {
+        onRadioOptionSelected={target => {
+          const { value } = target;
           recordEvent({
             event: 'gibct-form-change',
             'gibct-form-field': 'Will you be taking any classes in person ?',
-            'gibct-form-value': e.target.value,
+            'gibct-form-value': value,
           });
-          setOnlineClasses(e.target.value);
+          setOnlineClasses(value);
         }}
       />
       <div id="note" className="vads-u-padding-top--2">
