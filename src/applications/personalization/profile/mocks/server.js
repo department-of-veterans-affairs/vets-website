@@ -34,9 +34,19 @@ const responses = {
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': generateFeatureToggles(),
+  'GET /v0/feature_toggles': generateFeatureToggles({
+    profileBlockForFiduciaryDeceasedOrIncompetent: true,
+  }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+    // 47841 - Below are the three cases where all of Profile should be gated off
+    // payments.paymentHistory.isFiduciary
+    // payments.paymentHistory.isDeceased
+    // payments.paymentHistory.isNotCompetent
+
+    // This is a 'normal' payment history / control case data
+    // payments.paymentHistory.simplePaymentHistory
+
+    return res.status(200).json(payments.paymentHistory.isNotCompetent);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     return res
