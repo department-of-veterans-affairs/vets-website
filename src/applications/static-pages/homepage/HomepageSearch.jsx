@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
 
 /**
  * Homepage redesign
