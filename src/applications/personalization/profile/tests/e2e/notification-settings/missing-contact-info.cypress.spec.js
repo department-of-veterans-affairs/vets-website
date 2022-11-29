@@ -194,7 +194,10 @@ describe('Notification Settings', () => {
 
           cy.loadingIndicatorWorks();
 
-          cy.findByText('503-555-1234').should('exist');
+          cy.findByTestId('mobile-phone-number-on-file')
+            .shadow()
+            .findByText(/503-555-1234/i)
+            .should('exist');
           cy.findByTestId('missing-contact-info-alert').should('not.exist');
           cy.findAllByTestId('notification-group').should('exist');
           cy.findByRole('link', { name: /add your mobile/i }).should(
