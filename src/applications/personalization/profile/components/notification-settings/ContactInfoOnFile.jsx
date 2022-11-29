@@ -23,7 +23,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
         ) : null}
         {mobilePhoneNumber ? (
           <li className="vads-u-margin-y--0p5">
-            <strong>Mobile number: </strong>
+            <strong>Mobile phone: </strong>
             <VaTelephone
               data-testid="mobile-phone-number-on-file"
               contact={`${mobilePhoneNumber.areaCode}${
@@ -34,9 +34,9 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
             <Link
               to={getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true)}
               className="small-screen:vads-u-display--block medium-screen:vads-u-display--inline"
+              aria-label="mobile number"
             >
               Update
-              <span className="sr-only"> mobile number</span>
             </Link>
           </li>
         ) : null}
