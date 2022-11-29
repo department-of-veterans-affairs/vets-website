@@ -33,10 +33,10 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
             />{' '}
             <Link
               to={getContactInfoDeepLinkURL(FIELD_NAMES.MOBILE_PHONE, true)}
-              className="small-screen:vads-u-display--inline vads-u-display--block"
+              className="small-screen:vads-u-display--block medium-screen:vads-u-display--inline"
             >
               Update
-              <span className="sr-only"> mobile phone number</span>
+              <span className="sr-only"> mobile number</span>
             </Link>
           </li>
         ) : null}
