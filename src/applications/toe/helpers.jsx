@@ -128,85 +128,72 @@ function mapNotificationMethod({ notificationMethod }) {
   return notificationMethod;
 }
 
+export const transformAlphaOnlyLowercase = str =>
+  str.toLowerCase().replace(/[^a-z]/g, '');
+
+export const equalsAlphaOnlyIgnoreCase = (a, b) => {
+  return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
   const stateUser = state.user;
-  const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation || {};
 
-  let address;
-  if (vapContactInfo.mailingAddress?.addressLine1) {
-    address = vapContactInfo.mailingAddress;
-  } else if (vet360ContactInfo.mailingAddress?.addressLine1) {
-    address = vet360ContactInfo.mailingAddress;
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
+    // suffix = ???
   } else {
-    address = contactInfo;
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
   }
 
   const emailAddress =
     profile?.email ||
-    vapContactInfo.email ||
-    vet360ContactInfo?.email?.emailAddress ||
+    vapContactInfo.email?.emailAddress ||
     contactInfo.emailAddress ||
     undefined;
 
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
-  const v360mp = vet360ContactInfo?.mobilePhone;
-  // VA Profile Mobile Phone
-  const vapmp = vapContactInfo?.mobilePhone;
-  if (vapmp?.areaCode && vapmp?.phoneNumber) {
-    mobilePhoneNumber = [vapmp.areaCode, vapmp.phoneNumber].join();
-    mobilePhoneIsInternational = vapmp.isInternational;
-  } else if (v360mp?.areaCode && v360mp?.phoneNumber) {
-    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
-    mobilePhoneIsInternational = v360mp.isInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
 
   let homePhoneNumber;
   let homePhoneIsInternational;
-  const v360hp = vet360ContactInfo?.homePhone;
-  // VA Profile Home Phone
-  const vaphp = vapContactInfo?.homePhone;
-  if (vaphp?.areaCode && vaphp?.phoneNumber) {
-    homePhoneNumber = [vaphp.areaCode, vaphp.phoneNumber].join();
-    homePhoneIsInternational = vaphp.isInternational;
-  } else if (v360hp?.areaCode && v360hp?.phoneNumber) {
-    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
-    homePhoneIsInternational = v360hp.isInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
-  // let firstName;
-  // let middleName;
-  // let lastName;
-  // let suffix;
-  //
-  // if (vaProfile?.familyName) {
-  //   firstName = vaProfile?.givenNames[0];
-  //   middleName = vaProfile?.givenNames[1];
-  //   lastName = vaProfile?.familyName;
-  //   // suffix = ???
-  // } else if (profile?.lastName) {
-  //   firstName = profile?.firstName;
-  //   middleName = profile?.middleName;
-  //   lastName = profile?.lastName;
-  //   // suffix = ???
-  // } else {
-  //   firstName = claimant.firstName;
-  //   middleName = claimant.middleName;
-  //   lastName = claimant?.lastName;
-  //   suffix = claimant.suffix;
-  // }
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
 
-  // profile?.userFullName?.first || claimant?.firstName || undefined,
   const newData = {
     ...formData,
     sponsors,
@@ -214,10 +201,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
     claimantId: claimant.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
-        first: profile?.userFullName?.first || claimant?.firstName || undefined,
-        middle:
-          profile?.userFullName?.middle || claimant?.middleName || undefined,
-        last: profile?.userFullName?.last || claimant?.lastName || undefined,
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
       },
     },
     dateOfBirth: profile?.dob || claimant?.dateOfBirth,
@@ -257,8 +243,13 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
   };
 
-  if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  if (suffix) {
+    newData[formFields.viewUserFullName].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        formFields.viewUserFullName
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, suffix),
+      ) || undefined;
   }
 
   return {
