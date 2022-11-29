@@ -87,7 +87,10 @@ export const transform = (formConfig, form) => {
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
   const vetDeductions = enhancedFSRActive
-    ? employmentRecords?.map(emp => emp.deductions).flat() ?? 0
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
     : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
