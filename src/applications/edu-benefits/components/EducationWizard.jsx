@@ -471,12 +471,12 @@ class EducationWizard extends React.Component {
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'yes' &&
-              this.getButton('5490')}
+              this.getButton('1990E')}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'no' &&
               sponsorDeceasedDisabledMIA === 'yes' &&
-              this.getButton('1990E')}
+              this.getButton('5490')}
           </div>
         </div>
       </div>

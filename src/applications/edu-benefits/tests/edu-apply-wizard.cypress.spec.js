@@ -61,7 +61,7 @@ describe('Education Application Wizard', () => {
       .should('have.attr', 'href')
       .and(
         'contain',
-        '/education/apply-for-education-benefits/application/5490',
+        '/education/apply-for-education-benefits/application/1990E',
       );
 
     // Select non-dependant
@@ -83,7 +83,7 @@ describe('Education Application Wizard', () => {
       .should('have.attr', 'href')
       .and(
         'contain',
-        '/education/apply-for-education-benefits/application/1990E',
+        '/education/apply-for-education-benefits/application/5490',
       );
 
     // Select non-transfer
