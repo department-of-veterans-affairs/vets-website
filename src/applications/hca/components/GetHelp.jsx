@@ -15,9 +15,11 @@ const GetHelp = () => (
         If you need help to gather your information or fill out your
         application/form,{' '}
       </strong>
-      <a href="https://va.gov/vso/">
-        contact a local Veterans Service Organization (VSO).
-      </a>
+      <va-link
+        href="/vso/"
+        text="contact a local Veterans Service Organization (VSO)"
+      />
+      .
     </p>
     <p className="help-talk">
       <strong>If you have questions about VA health care,</strong> call our
@@ -25,7 +27,10 @@ const GetHelp = () => (
       <va-telephone contact={CONTACTS['222_VETS']} /> (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
-      <abbr title="eastern time">ET</abbr>.
+      <dfn>
+        <abbr title="Eastern Time">ET</abbr>
+      </dfn>
+      .
     </p>
   </>
 );
