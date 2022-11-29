@@ -169,8 +169,8 @@ class EducationWizard extends React.Component {
       {
         label: (
           <span className="radioText">
-            Applying to extend my Post-9/11 or Fry Scholarship benefits using
-            the Edith Nourse Rogers STEM Scholarship
+            Applying for the Edith Nourse Rogers STEM Scholarship after using
+            Post-9/11 GI Bill or Fry Scholarship benefits
           </span>
         ),
         value: 'extend',
