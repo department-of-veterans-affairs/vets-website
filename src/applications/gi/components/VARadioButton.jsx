@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
- * Benefit type page
+ * VA Radio button with VA Radio Option component.
  *
  * @param {String} radioLabel - Text Displayed at the top of the radio buttons.
  * @param {String} initialValue - initial value of the radio button
