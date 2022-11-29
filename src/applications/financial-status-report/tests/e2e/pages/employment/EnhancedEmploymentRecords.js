@@ -26,7 +26,11 @@ class EnhancedEmploymentRecords {
     cy.findByLabelText(/Type of work/).select(employer.type);
     cy.get('#errorable-select-1-error-message').should('not.exist');
 
-    cy.fillDate('from', `2300-1`);
+    cy.fillDate(
+      'from',
+      `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
+    );
+
     cy.get(':nth-child(2) > .hydrated')
       .shadow()
       .find('#error-message')
@@ -39,14 +43,7 @@ class EnhancedEmploymentRecords {
       cy.get(':nth-child(2) > .hydrated')
         .shadow()
         .find('#error-message')
-        .should('exist')
-        .should('contain', '1900');
-
-      // Not overwriting values?
-      cy.fillDate(
-        'from',
-        `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
-      );
+        .should('not.exist');
     } else {
       cy.fillDate(
         'to',
