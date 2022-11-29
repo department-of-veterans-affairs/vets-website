@@ -63,7 +63,9 @@ const ReplyForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendReply(replyMessage.messageId, sendData, true));
+          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
+            history.push(`/message/${replyMessage.messageId}`),
+          );
         } else {
           dispatch(
             sendReply(
@@ -71,7 +73,11 @@ const ReplyForm = props => {
               JSON.stringify(messageData),
               false,
             ),
-          ).then(() => history.push(`/message/${replyMessage.messageId}`));
+          ).then(() => {
+            // eslint-disable-next-line no-console
+            console.log('here');
+            history.push(`/message/${replyMessage.messageId}`);
+          });
         }
       }
     },
@@ -207,21 +213,17 @@ const ReplyForm = props => {
             <strong>Subject: </strong>
             {subject}
           </p>
-          <div className="message-body-field">
-            <label htmlFor="message-body">
-              Message
-              <span className="required"> (*Required)</span>
-            </label>
-            <va-textarea
-              id="message-body"
-              name="message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onChange={e => setMessageBody(e.target.value)}
-              value={messageBody}
-              error={bodyError}
-            />
-          </div>
+          <va-textarea
+            label="Message"
+            required
+            id="message-body"
+            name="message-body"
+            className="message-body"
+            data-testid="message-body-field"
+            onInput={e => setMessageBody(e.target.value)}
+            value={messageBody}
+            error={bodyError}
+          />
           <section className="attachments-section">
             <div className="compose-attachments-heading">Attachments</div>
 

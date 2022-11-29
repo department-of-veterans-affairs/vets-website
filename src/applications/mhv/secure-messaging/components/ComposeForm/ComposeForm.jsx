@@ -25,7 +25,7 @@ const ComposeForm = props => {
   );
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
-  const [bodyError, setBodyError] = useState('');
+  const [bodyError, setBodyError] = useState(null);
   const [recipientError, setRecipientError] = useState('');
   const [subjectError, setSubjectError] = useState('');
   const [subject, setSubject] = useState('');
@@ -75,7 +75,7 @@ const ComposeForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true));
+          dispatch(sendMessage(sendData, true)).then(() => history.push('/'));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
             history.push('/'),
@@ -262,28 +262,22 @@ const ComposeForm = props => {
             name="message-subject"
             className="message-subject"
             data-testid="message-subject-field"
-            onChange={e => {
-              setSubject(e.target.value);
-            }}
+            onInput={e => setSubject(e.target.value)}
             value={subject}
             error={subjectError}
           />
         </div>
-        <div className="message-body-field">
-          <label htmlFor="message-body">
-            Message
-            <span className="required"> (*Required)</span>
-          </label>
-          <va-textarea
-            id="message-body"
-            name="message-body"
-            className="message-body"
-            data-testid="message-body-field"
-            onChange={e => setMessageBody(e.target.value)}
-            value={messageBody}
-            error={bodyError}
-          />
-        </div>
+        <va-textarea
+          label="Message"
+          required
+          id="message-body"
+          name="message-body"
+          className="message-body"
+          data-testid="message-body-field"
+          onInput={e => setMessageBody(e.target.value)}
+          value={messageBody}
+          error={bodyError}
+        />
         <section className="attachments-section">
           <div className="compose-attachments-heading">Attachments</div>
 

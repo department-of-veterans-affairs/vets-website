@@ -151,6 +151,7 @@ export const moveMessage = (messageId, folderId) => async dispatch => {
         Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
       ),
     );
+    throw e;
   }
 };
 
@@ -172,6 +173,7 @@ export const sendMessage = (message, attachments) => async dispatch => {
         Constants.Alerts.Message.SEND_MESSAGE_ERROR,
       ),
     );
+    throw e;
   }
 };
 
@@ -197,5 +199,6 @@ export const sendReply = (
         Constants.Alerts.Message.SEND_MESSAGE_ERROR,
       ),
     );
+    throw e;
   }
 };
