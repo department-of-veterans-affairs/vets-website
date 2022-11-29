@@ -215,7 +215,6 @@ export const BankInfo = ({
             'profile-section': `${type.toLowerCase()}-direct-deposit-information`,
           });
           toggleEditState();
-          focusOnMainHeading(sectionTitleId);
         }}
       >
         Edit
