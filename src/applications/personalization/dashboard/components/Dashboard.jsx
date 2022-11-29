@@ -289,8 +289,7 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-
-              <ApplyForBenefits />
+              {!isLOA3 && <ApplyForBenefits />}
             </div>
           </div>
         )}
