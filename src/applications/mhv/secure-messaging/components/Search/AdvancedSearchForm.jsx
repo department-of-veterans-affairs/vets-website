@@ -115,8 +115,8 @@ const SearchMessagesForm = props => {
     ) {
       relativeToDate = moment(new Date());
       relativeFromDate = getRelativeDate(dateRange);
-    } else if (dateRange === DateRangeValues.CUSTOM && fromDate === toDate) {
-      fromDateTime = `${toDate}T00:00:00${offset}`;
+    } else if (dateRange === DateRangeValues.CUSTOM) {
+      fromDateTime = `${fromDate}T00:00:00${offset}`;
       toDateTime = `${toDate}T23:59:59${offset}`;
     }
 
@@ -128,8 +128,8 @@ const SearchMessagesForm = props => {
         sender: senderName,
         subject,
         category,
-        fromDate: relativeFromDate || fromDateTime || fromDate,
-        toDate: relativeToDate || toDateTime || toDate,
+        fromDate: relativeFromDate || fromDateTime,
+        toDate: relativeToDate || toDateTime,
       }),
     );
     history.push('/search/results');
