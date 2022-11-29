@@ -96,7 +96,7 @@ describe('<EducationWizard>', () => {
     ).to.be.true;
     tree.unmount();
   });
-  it('should show 5490 button', () => {
+  it('should show 1990E button', () => {
     const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
@@ -106,11 +106,11 @@ describe('<EducationWizard>', () => {
       tree
         .find('#apply-now-link')
         .prop('href')
-        .endsWith('5490'),
+        .endsWith('1990E'),
     ).to.be.true;
     tree.unmount();
   });
-  it('should show 1990E button', () => {
+  it('should show 5490 button', () => {
     const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
@@ -121,7 +121,7 @@ describe('<EducationWizard>', () => {
       tree
         .find('#apply-now-link')
         .prop('href')
-        .endsWith('1990E'),
+        .endsWith('5490'),
     ).to.be.true;
     tree.unmount();
   });
