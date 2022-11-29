@@ -50,6 +50,17 @@ const SmBreadcrumbs = () => {
         ];
       }
 
+      if (messageDetails?.messageId) {
+        paths = [
+          ...paths,
+          {
+            path: `/message/${messageDetails.messageId}`,
+            label: messageDetails.subject,
+          },
+        ];
+      }
+      // console.log('***', paths);
+
       function handleBreadCrumbs() {
         const arr = [];
         arr.push({
@@ -70,6 +81,7 @@ const SmBreadcrumbs = () => {
           ] = location.pathname.split('/');
           if (path.path.substring(1) === locationBasePath) {
             arr.push(path);
+            // if match path contains child object, then add children to breadcrumbs array
             if (locationChildPath && path.children) {
               const child = path.children.find(
                 item => item.path.substring(1) === locationChildPath,
