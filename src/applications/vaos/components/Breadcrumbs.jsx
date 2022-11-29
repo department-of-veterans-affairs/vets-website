@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 
@@ -11,35 +12,33 @@ export default function VAOSBreadcrumbs({ children }) {
   const location = useLocation();
   const isPast = location.pathname.includes('/past');
   const isPending = location.pathname.includes('/pending');
-  // const breadcrumbsRef = useRef(null);
+  const breadcrumbsRef = useRef(null);
 
-  //   useEffect(
-  //     () => {
-  //       const updateBreadcrumbs = () => {
-  //         const anchorNodes = Array.from(
-  //           breadcrumbsRef.current.querySelectorAll('va-link'),
-  //         );
-  //
-  //         anchorNodes.forEach((node, index) => {
-  //           const crumb = node.shadowRoot.querySelector('a');
-  //
-  //           crumb.removeAttribute('aria-current');
-  //
-  //           if (index === anchorNodes.length - 1) {
-  //             crumb.setAttribute('aria-current', 'page');
-  //           }
-  //         });
-  //       };
-  //       updateBreadcrumbs();
-  //     },
-  //     [location, breadcrumbsRef],
-  //   );
+  useEffect(
+    () => {
+      const updateBreadcrumbs = () => {
+        const anchorNodes = Array.from(
+          breadcrumbsRef.current.querySelectorAll('a'),
+        );
+
+        anchorNodes.forEach((crumb, index) => {
+          crumb.removeAttribute('aria-current');
+
+          if (index === anchorNodes.length - 1) {
+            crumb.setAttribute('aria-current', 'page');
+          }
+        });
+      };
+      updateBreadcrumbs();
+    },
+    [location, breadcrumbsRef],
+  );
 
   return (
-    <va-breadcrumbs
+    <VaBreadcrumbs
       role="navigation"
       aria-label="Breadcrumbs"
-      // ref={breadcrumbsRef}
+      ref={breadcrumbsRef}
       className="vaos-hide-for-print"
     >
       <a href="/" key="home">
@@ -61,46 +60,34 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <li className="va-breadcrumbs-li">
-          <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/"
-            key="vaos-home"
-            text="VA online scheduling"
-          />
-        </li>
+        <Link to="/" key="vaos-home">
+          VA online scheduling
+        </Link>
       )}
       {featureStatusImprovement && (
-        <li className="va-breadcrumbs-li">
-          <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/"
-            key="vaos-home"
-            text="Your appointments"
-          />
-        </li>
+        <Link to="/" key="vaos-home">
+          Your appointments
+        </Link>
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/past"
-            key="past"
-            text="Past"
-          />
+          <Link to="/past" key="past">
+            Past
+          </Link>
         </li>
       )}
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <va-link
-            href="/health-care/schedule-view-va-appointments/appointments/pending"
-            key="pending"
-            text="Pending"
-          />
+          <Link to="/pending" key="pending">
+            Pending
+          </Link>
         </li>
       )}
 
       {children}
-    </va-breadcrumbs>
+    </VaBreadcrumbs>
   );
 }
 
