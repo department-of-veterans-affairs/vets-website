@@ -74,8 +74,6 @@ const ReplyForm = props => {
               false,
             ),
           ).then(() => {
-            // eslint-disable-next-line no-console
-            console.log('here');
             history.push(`/message/${replyMessage.messageId}`);
           });
         }
