@@ -5,27 +5,30 @@ import configureStore from 'redux-mock-store';
 import React from 'react';
 import thunk from 'redux-thunk';
 import { IntroductionPage } from '../../../containers/IntroductionPage';
-import responses from '../../../testing/responses';
 
-const profile = {
-  vapContactInfo: {
-    ...responses['GET /meb_api/v0/claimant_info']?.data?.attributes?.claimant,
-  },
+const defaultProps = {
+  featureTogglesLoaded: true,
+  route: '/education/apply-for-benefits-form-22-1990/introduction',
+  showMebDgi40Features: true,
+  showUnverifiedUserAlert: true,
 };
 
 describe('Introduction Page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
+  const store = mockStore(defaultProps);
+
   it('should render visitor state', () => {
-    const store = mockStore(profile);
-    const view = render(
+    const tree = render(
       <Provider store={store}>
         <IntroductionPage />
       </Provider>,
     );
 
-    expect(view.container.querySelector('.js-test-location')).to.exist;
-
-    return true;
+    expect(tree.container.querySelector('.schemaform-intro p')).text(
+      'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
+    );
+    // expect(tree.container.querySelector('.schemaform-intro p')).to.exist;
+    tree.unmount();
   });
 });
