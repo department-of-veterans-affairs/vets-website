@@ -17,7 +17,7 @@ import { EVIDENCE_VA_PATH } from '../constants';
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
 
-import { checkValidations } from '../validations/issues';
+import { checkValidations } from '../validations';
 import {
   validateVaLocation,
   validateVaIssues,
