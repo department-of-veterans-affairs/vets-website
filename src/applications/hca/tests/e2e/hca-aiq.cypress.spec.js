@@ -71,7 +71,9 @@ describe('HCA-AIQ', () => {
     cy.findByText(/veteran information/i, { selector: 'button' }).click({
       waitForAnimations: true,
     });
-    cy.findByText(/american indian/i, { selector: 'dt' })
+    cy.findByText(/are any of these descriptions true for you/i, {
+      selector: 'dt',
+    })
       .next('dd')
       .find('span:first-child')
       .should('have.text', 'Yes');
@@ -107,7 +109,9 @@ describe('HCA-AIQ', () => {
     cy.findByText(/veteran information/i, { selector: 'button' }).click({
       waitForAnimations: true,
     });
-    cy.findByText(/american indian/i, { selector: 'dt' })
+    cy.findByText(/are any of these descriptions true for you/i, {
+      selector: 'dt',
+    })
       .next('dd')
       .find('span:first-child')
       .should('have.text', 'No');
@@ -140,39 +144,4 @@ describe('HCA-AIQ', () => {
     cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
   });
   /* eslint-enable @department-of-veterans-affairs/axe-check-required */
-
-  it('expands/collapses toggle-section - C13161', () => {
-    cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-    // cy.findByTestId('form-title').contains(/apply.+health care/i);
-    cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
-      .first()
-      .should('exist');
-
-    // Advance to AIQ page
-    aiqHelpers.advanceToAiqPage();
-    cy.injectAxeThenAxeCheck();
-
-    // Check more-info toggle
-    // expand
-    cy.get('[data-testid="aiq-addl-info"]')
-      .shadow()
-      .find('[aria-controls=info][aria-expanded=false]')
-      .click({ waitForAnimations: true });
-    cy.get('va-additional-info')
-      .shadow()
-      .find('#info')
-      .should('be.visible');
-    cy.injectAxeThenAxeCheck('va-additional-info');
-    // collapse
-    cy.get('[data-testid="aiq-addl-info"]')
-      .shadow()
-      .find('[aria-controls=info][aria-expanded=true]')
-      .scrollIntoView()
-      .click({ waitForAnimations: true });
-    cy.get('va-additional-info')
-      .shadow()
-      .find('#info')
-      .should('not.be.visible');
-  });
 });
