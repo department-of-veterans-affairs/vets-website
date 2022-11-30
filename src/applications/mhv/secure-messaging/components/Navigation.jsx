@@ -89,6 +89,23 @@ const Navigation = () => {
     });
   };
 
+  const handleActiveLinksStyle = path => {
+    const basePath = location.pathname.split('/');
+    if (location.pathname === path.path) {
+      return 'vads-u-font-weight--bold';
+    }
+    if (path.label === 'My folders') {
+      if (basePath[1] === 'message') {
+        return 'vads-u-font-weight--bold';
+      }
+      if (basePath[1] === 'folder') {
+        return 'vads-u-font-weight--bold';
+      }
+    }
+
+    return undefined;
+  };
+
   return (
     <div className="secure-messaging-navigation vads-u-padding-bottom--7">
       {openNavigationBurgerButton()}
@@ -126,11 +143,7 @@ const Navigation = () => {
                     {paths().map((path, i) => (
                       <li
                         key={i}
-                        className={
-                          location.pathname === path.path
-                            ? 'vads-u-font-weight--bold'
-                            : undefined
-                        }
+                        className={handleActiveLinksStyle(path)}
                         data-testid={path.datatestid}
                       >
                         <Link
