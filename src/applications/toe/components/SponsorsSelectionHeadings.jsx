@@ -13,7 +13,7 @@ export default function SponsorsSelectionHeadings() {
         <strong>Note:</strong> If your sponsor’s information is incorrect or
         missing, please tell your sponsor. Your sponsor can{' '}
         <a
-          href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1"
+          href="https://myaccess.dmdc.osd.mil/identitymanagement/app/login"
           rel="noopener noreferrer"
           target="_blank"
         >
