@@ -1,6 +1,12 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE } from '../constants';
+import {
+  SELECTED,
+  LEGACY_TYPE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 /**
  * @typedef ContestableIssues
@@ -272,14 +278,33 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
 
-export const hasVAEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasVaEvidence'];
-export const hasPrivateEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasPrivateEvidence'];
-export const hasOtherEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasOtherEvidence'];
+export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
+export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+
+// TO DO: remove
 export const hasPrivateEvidenceToUpload = formData =>
   formData?.['view:uploadPrivateRecordsChoice']?.[
     'view:hasPrivateRecordsToUpload'
   ];
-// export const hasPrivateEvidenceUploads = formData =>
+
+// Update evidence issues if they change
+export const evidenceNeedsUpdating = formData => {
+  if (hasVAEvidence(formData)) {
+    const validIssues = getSelected(formData).map(getIssueName);
+    return !formData.locations?.every(({ issues }) =>
+      (issues || []).every(issue => validIssues.includes(issue)),
+    );
+  }
+  return false;
+};
+
+export const cleanupLocationIssues = formData => {
+  const validIssues = getSelected(formData).map(getIssueName);
+  return (formData.locations || []).map(location => ({
+    ...location,
+    issues: (location.issues || []).filter(issue =>
+      validIssues.includes(issue),
+    ),
+  }));
+};
