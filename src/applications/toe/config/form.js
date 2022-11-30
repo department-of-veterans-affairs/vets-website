@@ -385,7 +385,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/app/login">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -412,7 +412,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/app/login">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
