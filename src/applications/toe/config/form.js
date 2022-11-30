@@ -1224,7 +1224,7 @@ const formConfig = {
             },
             'ui:description': (
               <p>
-                VA makes payments through only direct deposit, also called
+                We make payments only through direct deposit, also called
                 electronic funds transfer (EFT).
               </p>
             ),
