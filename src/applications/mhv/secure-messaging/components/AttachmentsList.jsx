@@ -48,7 +48,7 @@ const AttachmentsList = props => {
                       environment.API_URL
                     }/my_health/v1/messaging/messages/${
                       file.messageId
-                    }/attachments/${file.attachmentId}`}
+                    }/attachments/${file.id}`}
                     target="_blank"
                     rel="noreferrer"
                   >
