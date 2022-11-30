@@ -1224,8 +1224,8 @@ const formConfig = {
             },
             'ui:description': (
               <p>
-                Your bank account information is what we currently have on file
-                for you. Please ensure it is correct.
+                We make payments only through direct deposit, also called
+                electronic funds transfer (EFT).
               </p>
             ),
             [formFields.bankAccount]: {
