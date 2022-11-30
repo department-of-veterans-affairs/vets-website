@@ -16,6 +16,10 @@ describe(manifest.appName, () => {
       .find('[id="select"]')
       .select('BLUE ANCILLARY_TEAM');
     cy.get('[name="COVID"]').click();
+    cy.get('[data-testid="attach-file-input"]').selectFile(
+      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
+      { force: true },
+    );
     cy.get('[data-testid="message-subject-field"]').type('Test Subject');
     cy.get('[data-testid="message-body-field"]').type('message Test');
     composePage.sendMessage();

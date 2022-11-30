@@ -7,14 +7,15 @@ class PatientComposePage {
       '/my_health/v1/messaging/message_drafts',
       mockDraftMessage,
     ).as('draft_message');
-    cy.wait('@draft_message');
-    // .should(({ request, response }) => {
-    //  const testRequest=request;
-    //  const testResponse=response;
-    // });
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
       .click();
+    cy.wait('@draft_message');
+    cy.intercept(
+      'PUT',
+      '/my_health/v1/messaging/message_drafts/*',
+      mockDraftMessage,
+    ).as('draft_message_put');
   };
 
   saveDraft = () => {
