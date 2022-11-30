@@ -76,6 +76,7 @@ const HomepageSearch = () => {
     // Record the analytic event.
     recordEvent({
       event: 'view_search_results',
+      action: 'Homepage - Search',
       'search-page-path': searchUrl,
       'search-query': e.target.value,
       'search-results-total-count': null,
