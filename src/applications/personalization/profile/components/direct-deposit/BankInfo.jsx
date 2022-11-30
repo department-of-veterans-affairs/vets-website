@@ -26,6 +26,7 @@ import {
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
 } from '@@profile/selectors';
 import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import { kebabCase } from 'lodash';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -74,6 +75,19 @@ export const BankInfo = ({
     formPrefix,
   );
 
+  const sectionTitle = typeIsCNP
+    ? 'Disability compensation and pension benefits'
+    : 'Education benefits';
+
+  const sectionTitleId = kebabCase(sectionTitle);
+
+  const focusOnMainHeading = headingId => {
+    const mainHeading = document.querySelector(`#${headingId}`);
+    if (mainHeading) {
+      mainHeading.setAttribute('tabindex', '-1');
+      mainHeading.focus();
+    }
+  };
   // Using computed properties that I got from the `makeFormProperties` call to
   // destructure the form data object. I learned that this was even possible
   // here: https://stackoverflow.com/a/37040344/585275
@@ -107,12 +121,7 @@ export const BankInfo = ({
   useEffect(
     () => {
       if (isEditingBankInfo && !wasEditingBankInfo) {
-        const focusableElement = editBankInfoForm.current?.querySelector(
-          'button, input, select, a, textarea',
-        );
-        if (focusableElement) {
-          focusableElement.focus();
-        }
+        focusOnMainHeading(sectionTitleId);
       }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
@@ -122,7 +131,7 @@ export const BankInfo = ({
         editBankInfoButton.current.focus();
       }
     },
-    [isEditingBankInfo, wasEditingBankInfo],
+    [isEditingBankInfo, wasEditingBankInfo, sectionTitleId],
   );
 
   const saveBankInfo = () => {
@@ -163,9 +172,6 @@ export const BankInfo = ({
     ? 'disability compensation and pension'
     : 'education';
 
-  const sectionTitle = typeIsCNP
-    ? 'Disability compensation and pension benefits'
-    : 'Education benefits';
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -397,6 +403,7 @@ export const BankInfo = ({
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
         data={directDepositData()}
+        namedAnchor={sectionTitleId}
         level={2}
       />
     </>
