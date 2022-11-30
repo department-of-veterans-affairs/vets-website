@@ -243,20 +243,18 @@ const ComposeForm = props => {
             </button>
           </>
         )}
-
-        <CategoryInput
-          category={category}
-          categoryError={categoryError}
-          setCategory={setCategory}
-          setCategoryError={setCategoryError}
-        />
-        <div className="message-subject-field">
-          <label htmlFor="message-subject">
-            Subject
-            <span className="required"> (*Required)</span>
-          </label>
-
+        <div className="compose-form-div">
+          <CategoryInput
+            category={category}
+            categoryError={categoryError}
+            setCategory={setCategory}
+            setCategoryError={setCategoryError}
+          />
+        </div>
+        <div className="compose-form-div">
           <va-text-input
+            label="Subject"
+            required
             type="text"
             id="message-subject"
             name="message-subject"
@@ -267,17 +265,19 @@ const ComposeForm = props => {
             error={subjectError}
           />
         </div>
-        <va-textarea
-          label="Message"
-          required
-          id="message-body"
-          name="message-body"
-          className="message-body"
-          data-testid="message-body-field"
-          onInput={e => setMessageBody(e.target.value)}
-          value={messageBody}
-          error={bodyError}
-        />
+        <div className="compose-form-div">
+          <va-textarea
+            label="Message"
+            required
+            id="message-body"
+            name="message-body"
+            className="message-body"
+            data-testid="message-body-field"
+            onInput={e => setMessageBody(e.target.value)}
+            value={messageBody}
+            error={bodyError}
+          />
+        </div>
         <section className="attachments-section">
           <div className="compose-attachments-heading">Attachments</div>
 
