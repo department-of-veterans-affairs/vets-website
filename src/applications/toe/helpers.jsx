@@ -162,8 +162,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   const emailAddress =
-    profile?.email ||
     vapContactInfo.email?.emailAddress ||
+    profile?.email ||
     contactInfo.emailAddress ||
     undefined;
 
