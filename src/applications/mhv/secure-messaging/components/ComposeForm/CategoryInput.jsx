@@ -36,7 +36,7 @@ const CategoryInput = props => {
           data-testid="compose-message-categories"
           label="Category"
           className=" fieldset-input message-category"
-          error={categoryError && 'Please select a category'}
+          error={categoryError}
           onRadioOptionSelected={categoryChangeHandler}
         >
           {categories?.map((item, i) => (
@@ -63,7 +63,7 @@ const CategoryInput = props => {
 
 CategoryInput.propTypes = {
   category: PropTypes.string,
-  categoryError: PropTypes.bool,
+  categoryError: PropTypes.string,
   setCategory: PropTypes.func,
   setCategoryError: PropTypes.func,
 };

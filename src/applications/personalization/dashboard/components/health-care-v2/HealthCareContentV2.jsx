@@ -239,19 +239,20 @@ const mapStateToProps = state => {
     'Roseburg (Oregon) VA health care',
     'White City health care',
   ];
-  if (state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth) {
-    const facilities = selectPatientFacilitiesDsot(state);
+  const facilities = selectPatientFacilitiesDsot(state);
 
-    const userFacilityIds = (facilities || []).map(f => f.facilityId);
+  const userFacilityIds = (facilities || []).map(f => f.facilityId);
 
-    const allCernerFacilities = selectCernerFacilities(state);
+  const allCernerFacilities = selectCernerFacilities(state);
 
-    const userCernerFacilities = allCernerFacilities.filter(f =>
-      userFacilityIds.contains(f.vhaId),
-    );
+  const userCernerFacilities = allCernerFacilities?.filter(f =>
+    userFacilityIds.includes(f.vhaId),
+  );
 
-    facilityLocations = userCernerFacilities.map(f => f.vamcSystemName);
-  }
+  facilityLocations =
+    allCernerFacilities && userCernerFacilities
+      ? userCernerFacilities.map(f => f.vamcSystemName)
+      : facilities;
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,

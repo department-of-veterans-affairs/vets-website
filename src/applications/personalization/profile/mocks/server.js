@@ -35,9 +35,17 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles({
-    profileHideDirectDepositCompAndPen: true,
+    profileBlockForFiduciaryDeceasedOrIncompetent: true,
   }),
   'GET /v0/ppiu/payment_information': (_req, res) => {
+    // 47841 - Below are the three cases where all of Profile should be gated off
+    // payments.paymentHistory.isFiduciary
+    // payments.paymentHistory.isDeceased
+    // payments.paymentHistory.isNotCompetent
+
+    // This is a 'normal' payment history / control case data
+    // payments.paymentHistory.simplePaymentHistory
+
     return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
@@ -64,10 +72,10 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // return res.status(200).json(serviceHistory.airForce);
-    return res
-      .status(200)
-      .json(serviceHistory.generateServiceHistoryError('403'));
+    return res.status(200).json(serviceHistory.airForce);
+    // return res
+    //   .status(200)
+    //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

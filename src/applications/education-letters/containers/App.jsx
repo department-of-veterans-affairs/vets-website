@@ -34,11 +34,19 @@ const App = ({ toggleLoginModal, user }) => {
         visible
       >
         <h3 slot="headline">
-          Please sign in to check your VA education letter
+          Please sign in to check your VA education letter.
         </h3>
         <div>
-          Sign in with your existing <b>ID.me</b> account. If you don’t have an
-          account, you can create a free <b>ID.me</b> account now.
+          Sign in with your existing ID.me or Login.gov account. If you don’t
+          have an account, you can create a free{' '}
+          <a href="https://www.id.me/" target="_blank" rel="noreferrer">
+            ID.me account
+          </a>{' '}
+          or{' '}
+          <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
+            Login.gov account
+          </a>{' '}
+          now.
         </div>
         <button className="va-button" type="button" onClick={toggleLogin}>
           Sign in or create an account

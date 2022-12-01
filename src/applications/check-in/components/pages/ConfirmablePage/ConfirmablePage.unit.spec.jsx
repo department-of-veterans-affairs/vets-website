@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ConfirmablePage from './index';
 import i18n from '../../../utils/i18n/i18n';
@@ -31,15 +30,6 @@ describe('pre-check-in experience', () => {
       store = mockStore(initState);
     });
     describe('ConfirmablePage', () => {
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage />
-            </I18nextProvider>
-          </Provider>,
-        );
-      });
       it('renders custom header', () => {
         const { getByText } = render(
           <Provider store={store}>
@@ -60,31 +50,7 @@ describe('pre-check-in experience', () => {
         );
         expect(getByText('foo')).to.exist;
       });
-      it('renders custom loading message when loading', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage
-                isLoading
-                loadingMessageOverride={() => <div>foo</div>}
-              />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
-      });
-      it('renders buttons when loading is false', () => {
-        const { getByTestId } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage isLoading={false} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByTestId('yes-button')).to.exist;
-        expect(getByTestId('no-button')).to.exist;
-      });
+
       it('renders the data passed in, with label and data', () => {
         const dataFields = [{ key: 'foo', title: 'foo-title' }];
         const data = { foo: 'bar' };

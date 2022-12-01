@@ -127,6 +127,7 @@ const IDPage = props => {
             type="button"
             className="va-button-link"
             onClick={showSignInModal}
+            data-testid="idform-login-button"
           >
             Sign in to start your application.
           </button>
@@ -152,7 +153,7 @@ const IDPage = props => {
               ) : (
                 <LoadingButton
                   // override the `width: 100%` given to SchemaForm submit buttons
-                  className="vads-u-width--auto"
+                  className="vads-u-width--auto idform-submit-button"
                   isLoading={isSubmittingIDForm}
                   disabled={false}
                   type="submit"

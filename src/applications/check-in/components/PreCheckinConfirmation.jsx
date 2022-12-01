@@ -23,10 +23,12 @@ const PreCheckinConfirmation = props => {
   const apptType = appointments[0]?.kind ?? 'clinic';
   const renderLoadingMessage = () => {
     return (
-      <va-loading-indicator
-        data-testid="loading-indicator"
-        message={t('completing-pre-check-in')}
-      />
+      <div>
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={t('completing-pre-check-in')}
+        />
+      </div>
     );
   };
   const renderConfirmationMessage = () => {

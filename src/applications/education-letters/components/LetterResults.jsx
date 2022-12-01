@@ -6,10 +6,10 @@ import { format } from 'date-fns';
 export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
 export const HasLetters = ({ claimStatus }) => {
-  const receivedDate = format(
-    new Date(claimStatus.receivedDate),
-    'MMMM dd, yyyy',
-  );
+  const receivedDate = () => {
+    const [year, month, day] = claimStatus?.receivedDate.split('-');
+    return format(new Date(`${month}-${day}-${year}`), 'MMMM dd, yyyy');
+  };
 
   return (
     <>
@@ -34,7 +34,7 @@ export const HasLetters = ({ claimStatus }) => {
             />
             Download Post-9/11 GI Bill decision letter (PDF)
           </a>
-          <p>You applied for this on {receivedDate}</p>
+          <p>You applied for this on {receivedDate()}</p>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export const HasLetters = ({ claimStatus }) => {
       <h2 id="letter-isnt-listed">What if I my letter isn’t listed here?</h2>
       <p>
         At this time, we only have letters available here that you received a
-        decision on after Month Day, Year. To request a copy of an older letter,
+        decision on after August 20, 2022. To request a copy of an older letter,
         you can contact us through Ask VA.{' '}
         <a href="https://ask.va.gov/">
           Request your VA education letter through Ask VA.
@@ -108,7 +108,7 @@ export const NoLetters = () => {
         <div>
           <p>
             At this time, we only have letters available here that you received
-            a decision on after Month Day, Year. To request a copy of an older
+            a decision on after August 20, 2022. To request a copy of an older
             letter, you can contact us through Ask VA.
           </p>
           <a href="https://ask.va.gov/">

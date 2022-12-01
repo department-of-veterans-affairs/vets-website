@@ -75,6 +75,32 @@ const NotInDEERSAlert = () => {
   );
 };
 
+// Request DD214
+const RequestMilServiceRecordsAlert = () => {
+  return (
+    <>
+      <va-alert
+        background-only
+        class="vads-u-margin-y--0"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        status="info"
+        full-width="false"
+        visible="true"
+      >
+        <p className="vads-u-margin-y--0">
+          <h3 className="vads-u-margin-top--0" slot="headline">
+            Request your military records (DD214)
+          </h3>
+          <a href="/records/get-military-service-records">
+            Learn how to request your DD214 and other military records
+          </a>
+        </p>
+      </va-alert>
+    </>
+  );
+};
+
 // Alert to show if `GET service_history` returned an empty service history array
 const NoServiceHistoryAlert = () => {
   return (
@@ -135,7 +161,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
       <div className="vads-u-margin-top--4">
         <va-additional-info
-          trigger="What if my military service information doesn’t look right?"
+          trigger="What if I don't think my military service information is correct?"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -152,15 +178,16 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             (DEERS).
           </p>
           <p>
-            If the military service information in your profile doesn’t look
-            right, please call the Defense Manpower Data Center (DMDC). They’ll
-            work with you to update your information in DEERS.
+            If you don’t think your military service information is correct
+            here, call the Defense Manpower Data Center (DMDC). They’ll work
+            with you to update your information in DEERS.
           </p>
           <p>
-            To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />.
+            You can call the DMDC at{' '}
+            <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
+            <va-telephone contact={CONTACTS['711']} />
+            ), Monday through Friday (except federal holidays), 8:00 a.m. to
+            8:00 p.m. ET. If you have hearing loss, call.
           </p>
         </va-additional-info>
       </div>
@@ -191,6 +218,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
+      <br />
+      <RequestMilServiceRecordsAlert />
     </>
   );
 };

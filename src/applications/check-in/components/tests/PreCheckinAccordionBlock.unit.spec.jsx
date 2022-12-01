@@ -2,7 +2,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import i18n from '../../utils/i18n/i18n';
@@ -33,18 +32,6 @@ describe('check-in', () => {
         </I18nextProvider>,
       );
       expect(screen.getByTestId('pre-check-in-accordions')).to.exist;
-    });
-    it('passes axeCheck', () => {
-      axeCheck(
-        <I18nextProvider i18n={i18n}>
-          <PreCheckInAccordionBlock
-            demographicsUpToDate="no"
-            emergencyContactUpToDate="no"
-            nextOfKinUpToDate="no"
-            appointments={appointments}
-          />
-        </I18nextProvider>,
-      );
     });
     it('All messages render', () => {
       const screen = render(

@@ -25,9 +25,9 @@ const DiscardDraft = props => {
   return (
     <>
       <button
-        type="submit"
+        type="button"
         data-testid="discard-draft-button"
-        className="usa-button-secondary discard-draft-button vads-u-flex--fill vads-u-margin-right--0"
+        className="usa-button-secondary discard-draft-button vads-u-flex--fill vads-u-margin-right--0 vads-u-margin-y--1"
         onClick={() => {
           setIsModalVisible(true);
         }}

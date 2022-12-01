@@ -1,3 +1,5 @@
+/* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
+
 import React from 'react';
 import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';

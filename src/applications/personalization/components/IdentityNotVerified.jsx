@@ -18,8 +18,8 @@ const IdentityNotVerified = ({
 
         <div className="vads-u-margin-bottom--1">
           <p>
-            We need to make sure you’re you - and not someone pretending to be
-            you - before we can give you access to your personal and
+            We need to make sure you’re you&#8212;and not someone pretending to
+            be you&#8212;before we can give you access to your personal and
             health-related information. This helps to keep your information
             safe, and to prevent fraud and identity theft.
           </p>

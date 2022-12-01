@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -9,7 +8,11 @@ import {
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers.v2';
-import { getTypeOfCareById } from '../../utils/appointment';
+import {
+  getPatientInstruction,
+  getProviderName,
+  getTypeOfCareById,
+} from '../../utils/appointment';
 
 /**
  * Gets appointment info from comments field for Va appointment Requests.
@@ -99,21 +102,13 @@ export function getAppointmentInfoFromComments(comments, key) {
   return data;
 }
 function getAppointmentType(appt) {
-  const commentsPreferredDate = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'preferredDate',
-  );
-  const reqPeriods =
-    commentsPreferredDate.length > 0
-      ? commentsPreferredDate
-      : appt.requestedPeriods;
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
   if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.ccRequest;
   }
-  if (appt.kind !== 'cc' && reqPeriods?.length) {
+  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
     return APPOINTMENT_TYPES.request;
   }
 

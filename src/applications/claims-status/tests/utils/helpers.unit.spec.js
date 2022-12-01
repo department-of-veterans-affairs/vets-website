@@ -1,12 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
-
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
 import {
   groupTimelineActivity,
@@ -404,41 +400,78 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('makeAuthRequest', () => {
-    beforeEach(() => {
-      mockFetch();
+    let expectedUrl;
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+      server.events.on('request:start', req => {
+        expectedUrl = req.url.href;
+      });
     });
 
-    it('should make a fetch request', done => {
-      setFetchJSONResponse(global.fetch.onCall(0), 'test');
+    afterEach(() => {
+      server.resetHandlers();
+      expectedUrl = undefined;
+    });
+
+    after(() => server.close());
+
+    it('should make an apiRequest request', done => {
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json({}));
+          },
+        ),
+      );
 
       const onSuccess = () => done();
-      makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        sinon.spy(),
+        onSuccess,
+      );
 
-      expect(global.fetch.called).to.be.true;
-      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+      expect(expectedUrl).to.contain(
+        '/v0/education_benefits_claims/stem_claim_status',
+      );
     });
+
     it('should reject promise when there is an error', done => {
-      setFetchJSONFailure(global.fetch.onCall(0));
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res) => res.networkError('Claims Status Failed'),
+        ),
+      );
 
       const onError = resp => {
-        expect(resp.ok).to.be.false;
+        expect(resp instanceof Error).to.be.true;
         done();
       };
-      makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
+      const dispatch = sinon.spy();
+      const onSuccess = sinon.spy();
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        dispatch,
+        onSuccess,
+        onError,
+      );
 
-      expect(global.fetch.called).to.be.true;
-      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+      expect(onSuccess.called).to.be.false;
+      expect(dispatch.called).to.be.false;
     });
     it('should dispatch auth error', done => {
-      global.fetch.returns({
-        catch: () => ({
-          then: fn =>
-            fn({ ok: false, status: 401, json: () => Promise.resolve() }),
-        }),
-      });
-
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
+          (req, res, ctx) => res(ctx.status(401)),
+        ),
+      );
       const onError = sinon.spy();
       const onSuccess = sinon.spy();
       const dispatch = action => {
@@ -448,7 +481,13 @@ describe('Disability benefits helpers: ', () => {
         done();
       };
 
-      makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
+      makeAuthRequest(
+        '/v0/education_benefits_claims/stem_claim_status',
+        null,
+        dispatch,
+        onSuccess,
+        onError,
+      );
     });
   });
 
