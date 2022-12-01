@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
+import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
-
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/utils/actions';
@@ -53,7 +53,7 @@ const AllBenefits = () => (
   </div>
 );
 
-const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
+const SavedApplications = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
   useEffect(
     () => {
       if (shouldGetESRStatus) {
@@ -87,6 +87,11 @@ const mapStateToProps = state => {
   };
 };
 
+SavedApplications.propTypes = {
+  getESREnrollmentStatus: PropTypes.func,
+  shouldGetESRStatus: PropTypes.bool,
+};
+
 const mapDispatchToProps = {
   getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
@@ -95,4 +100,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ApplyForBenefits);
+)(SavedApplications);

@@ -290,8 +290,7 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-              {!isLOA3 && <ApplyForBenefits />}
-              {isLOA3 && <SavedApplications />}
+              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
             </div>
           </div>
         )}
