@@ -105,7 +105,7 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(value);
         }}
       />
-      }
+
       <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
