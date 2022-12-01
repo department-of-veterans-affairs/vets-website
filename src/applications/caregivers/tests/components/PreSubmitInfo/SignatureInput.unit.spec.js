@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
@@ -48,7 +48,7 @@ describe('CG <SignatureInput>', () => {
     );
   });
 
-  it.skip('should show error without a matching representative signature', () => {
+  it('should show error without a matching representative signature - OLD', () => {
     const view = render(
       <SignatureInput
         fullName={fullName}
@@ -71,7 +71,32 @@ describe('CG <SignatureInput>', () => {
     );
   });
 
-  it.skip('should show error without a matching veteran signature', () => {
+  it('should show error without a matching representative signature - NEW', async () => {
+    const view = render(
+      <SignatureInput
+        fullName={fullName}
+        label="Veteran’s"
+        showError
+        isRepresentative
+        setSignatures={() => {}}
+        isChecked={false}
+      />,
+    );
+
+    userEvent.type(
+      view.container.querySelector('va-text-imput.signature-input'),
+      'Mary Jane',
+    );
+
+    await waitFor(() => {
+      expect(view.container.querySelector('va-text-input')).to.have.attribute(
+        'error',
+        'You must sign as representative.',
+      );
+    });
+  });
+
+  it('should show error without a matching veteran signature - OLD', () => {
     const view = render(
       <SignatureInput
         fullName={fullName}
@@ -96,5 +121,34 @@ describe('CG <SignatureInput>', () => {
       'error',
       'Your signature must match previously entered name: John  Smith',
     );
+  });
+
+  it('should show error without a matching veteran signature - NEW', async () => {
+    const view = render(
+      <SignatureInput
+        fullName={fullName}
+        label="Veteran’s"
+        showError
+        isRepresentative={false}
+        setSignatures={() => {}}
+        isChecked={false}
+      />,
+    );
+
+    userEvent.type(
+      view.container.querySelector('va-text-imput.signature-input'),
+      'Mary Jane',
+    );
+
+    // Note: when testing, the literal string seems to put an extra space for no middleName,
+    // hence John  Smith in the test and not John Smith.
+    // When running the application it shows with only one space.
+
+    await waitFor(() => {
+      expect(view.container.querySelector('va-text-input')).to.have.attribute(
+        'error',
+        'Your signature must match previously entered name: John  Smith',
+      );
+    });
   });
 });
