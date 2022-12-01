@@ -212,7 +212,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
             <va-telephone contact={CONTACTS['711']} />
             ), Monday through Friday (except federal holidays), 8:00 a.m. to
-            8:00 p.m. ET. If you have hearing loss, call.
+            8:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>
