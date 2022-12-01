@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -11,7 +10,7 @@ const IdentityNotVerified = ({
 }) => {
   return (
     <>
-      <VaAlert status="continue">
+      <va-alert status="continue" class="vads-u-margin-top--3">
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
         </h2>
@@ -36,7 +35,7 @@ const IdentityNotVerified = ({
             Verify your identity
           </a>
         </div>
-      </VaAlert>
+      </va-alert>
 
       <p className="vads-u-margin-y--4">
         <a
