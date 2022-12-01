@@ -22,7 +22,7 @@ const MessageDetailBlock = props => {
 
   const history = useHistory();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const CannotReplyDate = addDays(new Date(sentReplyDate), 45);
+  const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
   const casedCategory = capitalize(category);
   const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
@@ -31,16 +31,16 @@ const MessageDetailBlock = props => {
     () => {
       history.push(`/reply/${messageId}`);
     },
-    [history],
+    [history, messageId],
   );
 
   useEffect(
     () => {
-      if (new Date() > CannotReplyDate) {
+      if (new Date() > cannotReplyDate) {
         setReplyButton(true);
       }
     },
-    [CannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
+    [cannotReplyDate, hideReplyButton, sentReplyDate, sentDate],
   );
 
   const handlePrintThreadStyleClass = option => {
@@ -122,6 +122,7 @@ const MessageDetailBlock = props => {
           id={messageId}
           handlePrintThreadStyleClass={handlePrintThreadStyleClass}
           onReply={handleReplyButton}
+          hideReplyButton={hideReplyButton}
         />
       </main>
       <div className={printThread}>
@@ -130,7 +131,6 @@ const MessageDetailBlock = props => {
     </section>
   );
 };
-
 MessageDetailBlock.propTypes = {
   message: PropTypes.object,
 };
