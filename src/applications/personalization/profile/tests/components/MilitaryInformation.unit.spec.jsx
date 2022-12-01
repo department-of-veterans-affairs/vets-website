@@ -229,13 +229,12 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We can’t access your military information/i)).to
-        .exist;
       expect(
         view.getByText(
-          /We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records./i,
+          /We can’t match your information to any military service records/i,
         ),
       ).to.exist;
+      expect(view.getByText(/We’re sorry for this issue./i)).to.exist;
     });
   });
   describe('when a 403 error occurs', () => {
