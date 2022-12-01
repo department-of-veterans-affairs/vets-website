@@ -52,8 +52,7 @@ const NotInDEERSAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            &nbsp;(
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            &nbsp;(TTY: <va-telephone contact={CONTACTS['711']} />
             ). The DMDC Monday through Friday (except federal holidays), 8:00
             a.m. to 8:00 p.m. ET.
           </p>
@@ -118,8 +117,7 @@ const NoServiceHistoryAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            &nbsp;(
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            &nbsp;(TTY: <va-telephone contact={CONTACTS['711']} />
             ). The DMDC Monday through Friday (except federal holidays), 8:00
             a.m. to 8:00 p.m. ET.
           </p>
