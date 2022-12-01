@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
@@ -93,10 +93,10 @@ export function TuitionAndHousingEstimates({
       />
       <VARadioButton
         radioLabel=""
-        initialValue="no"
+        initialValue={onlineClasses}
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
         onVaValueChange={target => {
-          const { value } = target;
+          const { value } = target.detail;
           recordEvent({
             event: 'gibct-form-change',
             'gibct-form-field': 'Will you be taking any classes in person ?',
@@ -105,6 +105,7 @@ export function TuitionAndHousingEstimates({
           setOnlineClasses(value);
         }}
       />
+      }
       <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
@@ -112,6 +113,13 @@ export function TuitionAndHousingEstimates({
     </div>
   );
   const title = 'Update tuition and housing estimates';
+
+  useEffect(
+    () => {
+      updateStore();
+    },
+    [onlineClasses],
+  );
 
   return (
     <div className="vads-u-margin-bottom--2">
