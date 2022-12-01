@@ -10,6 +10,11 @@ import * as pages from '../pages';
 import { transform } from '../utils/transform';
 import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
+import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
+import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
+import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
+import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
+import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -91,6 +96,18 @@ const formConfig = {
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
           schema: pages.availableDebts.schema,
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
+        },
+        combinedAvailableDebts: {
+          initialData: {
+            selectedDebts: [],
+            selectedDebtsAndCopays: [],
+          },
+          path: 'all-available-debts',
+          title: 'Available Debts',
+          uiSchema: pages.combinedDebts.uiSchema,
+          schema: pages.combinedDebts.schema,
+          depends: formData => formData['view:combinedFinancialStatusReport'],
         },
         contactInfo: {
           initialData: {
@@ -122,13 +139,73 @@ const formConfig = {
           uiSchema: pages.employment.uiSchema,
           schema: pages.employment.schema,
         },
+        // loop begins
         employmentRecords: {
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
-          depends: ({ questions }) => questions.vetIsEmployed,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedEmploymentRecords: {
+          path: 'enhanced-employment-records',
+          title: 'Employment',
+          uiSchema: pages.enhancedEmploymentRecords.uiSchema,
+          schema: pages.enhancedEmploymentRecords.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedEmploymentRecord,
+        },
+        grossMonthlyIncome: {
+          path: 'gross-monthly-income',
+          title: 'Gross monthly income',
+          uiSchema: pages.grossMonthlyIncome.uiSchema,
+          schema: pages.grossMonthlyIncome.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: GrossMonthlyIncomeInput,
+        },
+        payrollDeductionChecklist: {
+          path: 'deduction-checklist',
+          title: 'Payroll deductions',
+          uiSchema: pages.payrollDeductionChecklist.uiSchema,
+          schema: pages.payrollDeductionChecklist.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: PayrollDeductionChecklist,
+        },
+        payrollDeductionInputList: {
+          title: 'Deduction amounts',
+          path: 'deduction-values',
+          // listOfIssues defined in next section
+          uiSchema: pages.payrollDeductionInputList.uiSchema,
+          schema: pages.payrollDeductionInputList.schema,
+          // needed to bypass bug on review & submit page
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          CustomPage: PayrollDeductionInputList,
+        },
+        // loop ends with option to re enter here
+        employmentHistorySummary: {
+          path: 'employment-history',
+          title: 'Employment',
+          uiSchema: pages.employmentHistory.uiSchema,
+          schema: pages.employmentHistory.schema,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EmploymentHistoryWidget,
         },
         income: {
           title: 'Income',
@@ -138,7 +215,9 @@ const formConfig = {
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
           editModeOnReviewPage: true,
-          depends: ({ questions }) => questions.vetIsEmployed,
+          depends: formData =>
+            formData.questions.vetIsEmployed &&
+            !formData['view:enhancedFinancialStatusReport'],
         },
         benefits: {
           path: 'benefits',

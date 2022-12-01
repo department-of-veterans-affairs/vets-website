@@ -3,7 +3,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
@@ -67,14 +66,5 @@ describe('Mixed Language Disclaimer', () => {
       </Provider>,
     );
     expect(screen.queryByTestId('mixed-language-disclaimer')).to.exist;
-  });
-  it('passes axeCheck', () => {
-    axeCheck(
-      <Provider store={store}>
-        <I18nextProvider i18n={i18n}>
-          <MixedLanguageDisclaimer />
-        </I18nextProvider>
-      </Provider>,
-    );
   });
 });

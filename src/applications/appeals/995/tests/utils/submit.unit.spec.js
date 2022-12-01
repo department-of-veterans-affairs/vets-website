@@ -1,14 +1,16 @@
 import { expect } from 'chai';
-import { PRIMARY_PHONE, SELECTED } from '../../constants';
+import { PRIMARY_PHONE, SELECTED, EVIDENCE_VA } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
+  removeEmptyEntries,
+  getTimeZone,
   createIssueName,
   getContestedIssues,
-  removeEmptyEntries,
+  // addIncludedIssues,
   getAddress,
   getPhone,
-  getTimeZone,
+  getEvidence,
 } from '../../utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
@@ -224,5 +226,53 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getEvidence', () => {
+  const getData = ({ hasVa = true } = {}) => ({
+    data: {
+      [EVIDENCE_VA]: hasVa,
+      locations: [
+        {
+          locationAndName: 'test 1',
+          issues: ['1', '2'],
+          evidenceDates: { from: '2022-01-01', to: '2022-02-02' },
+        },
+        {
+          locationAndName: 'test 2',
+          issues: ['1', '2'],
+          evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
+        },
+      ],
+    },
+    result: {
+      evidenceType: ['retrieval'],
+      retrieveFrom: [
+        {
+          type: 'retrievalEvidence',
+          attributes: {
+            locationAndName: 'test 1',
+            evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+          },
+        },
+        {
+          type: 'retrievalEvidence',
+          attributes: {
+            locationAndName: 'test 2',
+            evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+          },
+        },
+      ],
+    },
+  });
+
+  it('should skip adding evidence when not selected', () => {
+    const evidence = getData({ hasVa: false });
+    expect(getEvidence(evidence.data)).to.deep.equal({ evidenceType: [] });
+  });
+  it('should process evidence when available', () => {
+    const evidence = getData();
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
   });
 });

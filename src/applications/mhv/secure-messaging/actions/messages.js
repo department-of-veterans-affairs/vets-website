@@ -1,3 +1,4 @@
+import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   getMessageList,
@@ -5,6 +6,8 @@ import {
   getMessageHistory,
   deleteMessage as deleteMessageCall,
   moveMessage as moveMessageCall,
+  createMessage,
+  createReplyToMessage,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -56,6 +59,10 @@ export const clearMessageHistory = () => async dispatch => {
   dispatch({ type: Actions.Message.CLEAR_HISTORY });
 };
 
+export const clearMessage = () => async dispatch => {
+  dispatch({ type: Actions.Message.CLEAR });
+};
+
 /**
  * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
@@ -65,6 +72,7 @@ export const retrieveMessage = (
   messageId,
   isDraft = false,
 ) => async dispatch => {
+  dispatch(clearMessage());
   const response = await getMessage(messageId);
   dispatch(retrieveMessageHistory(messageId, isDraft));
   if (response.errors) {
@@ -76,10 +84,21 @@ export const retrieveMessage = (
       response,
     });
   }
-};
 
-export const clearMessage = () => async dispatch => {
-  dispatch({ type: Actions.Message.CLEAR });
+  // Error handling for old messages
+  const { sentDate } = response.data.attributes;
+  const today = new Date();
+  const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
+  const cannotReplyDate = addDays(new Date(messageSentDate), 45);
+  if (!isDraft && today > cannotReplyDate) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+      ),
+    );
+  }
 };
 
 /**
@@ -132,5 +151,54 @@ export const moveMessage = (messageId, folderId) => async dispatch => {
         Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
       ),
     );
+    throw e;
+  }
+};
+
+export const sendMessage = (message, attachments) => async dispatch => {
+  try {
+    await createMessage(message, attachments);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+      ),
+    );
+    throw e;
+  }
+};
+
+export const sendReply = (
+  replyToId,
+  message,
+  attachments,
+) => async dispatch => {
+  try {
+    await createReplyToMessage(replyToId, message, attachments);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+      ),
+    );
+    throw e;
   }
 };

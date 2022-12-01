@@ -78,6 +78,8 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         requestStatus.current = error.status;
         setLettersLoading(false);
       });
+
+    document.title = 'Your VA Claim Letters | Veterans Affairs';
   }, []);
 
   const onPageChange = page => {

@@ -121,9 +121,9 @@ const Index = props => {
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 

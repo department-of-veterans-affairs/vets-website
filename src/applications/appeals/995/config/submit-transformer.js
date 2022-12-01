@@ -25,7 +25,6 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        // homeless: formData.homeless,
         phone: getPhone(formData),
         email: veteran?.email || '',
       },
