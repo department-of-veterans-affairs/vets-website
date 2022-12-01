@@ -148,7 +148,7 @@ export const uiSchema = {
         'ui:options': {
           hideEmptyValueInReview: true,
           hideIf: formData =>
-            ['ONETIMERESTORATION', 'REFI'].includes(formData.intent),
+            ['ONETIMERESTORATION', 'REFI', 'IRRRL'].includes(formData.intent),
         },
       },
     },
