@@ -94,7 +94,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     timestampColor: '#000000',
     suggestedActionLayout: 'stacked',
     suggestedActionsStackedHeight: BUTTONS * 5,
-    suggestedActionHeight: 43,
     suggestedActionActiveBackground: 'rgb(17,46,81)',
     suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
     suggestedActionBackgroundColor: 'rgb(0, 113, 187)',

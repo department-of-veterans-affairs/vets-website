@@ -6,11 +6,11 @@ import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils';
+
 import formConfig from '../../config/form';
 import {
   idFormSchema as schema,
@@ -46,22 +46,24 @@ describe('Hca IDPage', () => {
   });
 
   it('should render', () => {
-    expect(view.container.textContent).to.contain(
+    expect(
+      view.container.querySelector('[data-testid="form-title"]'),
+    ).to.contain.text(
       'We need some information before you can start your application',
     );
-    expect($('form', view.container)).to.exist;
+    expect(view.container.querySelector('form')).to.exist;
   });
 
   it('should show button to Sign in to start your application', () => {
-    expect($$('button', view.container)[0].textContent).to.contain(
-      'Sign in to start your application.',
-    );
+    expect(
+      view.container.querySelector('[data-testid="idform-login-button"]'),
+    ).to.contain.text('Sign in to start your application.');
   });
 
   it('should show button to Continue to the application', () => {
-    expect($$('button', view.container)[1].textContent).to.contain(
-      'Continue to the application',
-    );
+    expect(
+      view.container.querySelector('.idform-submit-button'),
+    ).to.contain.text('Continue to the application');
   });
 });
 

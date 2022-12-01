@@ -106,13 +106,36 @@ const NoServiceHistoryAlert = () => {
   return (
     <>
       <va-alert status="warning">
-        <h2 slot="headline">We can’t access your military information</h2>
-        <p>
-          We’re sorry. We can’t access your military service records. If you
-          think you should be able to view your service information here, please
-          file a request to change or correct your DD214 or other military
-          records.
-        </p>
+        <h2 slot="headline">
+          We can’t match your information to any military service records
+        </h2>
+        <div>
+          <p>We’re sorry for this issue.</p>
+          <p>
+            <b>
+              If you want to learn what military service records may be on file
+              for you
+            </b>
+            , call the Defense Manpower Data Center (DMDC) at{' '}
+            <va-telephone contact={CONTACTS.DS_LOGON} />
+            &nbsp;(
+            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
+            ). The DMDC Monday through Friday (except federal holidays), 8:00
+            a.m. to 8:00 p.m. ET.
+          </p>
+          <p>
+            <b>
+              If you think there might be a problem with your military service
+              records
+            </b>
+            , you can apply for a correction.
+          </p>
+          <a href="https://www.archives.gov/veterans/military-service-records/correct-service-records.html">
+            Learn how to correct your military service records on the National
+            Archives website
+          </a>
+          .
+        </div>
       </va-alert>
     </>
   );
@@ -161,7 +184,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
       />
       <div className="vads-u-margin-top--4">
         <va-additional-info
-          trigger="What if my military service information doesn’t look right?"
+          trigger="What if I don't think my military service information is correct?"
           onClick={() => {
             recordEvent({
               event: 'profile-navigation',
@@ -177,16 +200,19 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
+          <br />
           <p>
-            If the military service information in your profile doesn’t look
-            right, please call the Defense Manpower Data Center (DMDC). They’ll
-            work with you to update your information in DEERS.
+            If you don’t think your military service information is correct
+            here, call the Defense Manpower Data Center (DMDC). They’ll work
+            with you to update your information in DEERS.
           </p>
+          <br />
           <p>
-            To reach the DMDC, call <va-telephone contact={CONTACTS.DS_LOGON} />
-            , Monday through Friday (except federal holidays), 8:00 a.m. to 8:00
-            p.m. ET. If you have hearing loss, call
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />.
+            You can call the DMDC at{' '}
+            <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
+            <va-telephone contact={CONTACTS['711']} />
+            ), Monday through Friday (except federal holidays), 8:00 a.m. to
+            8:00 p.m. ET. If you have hearing loss, call.
           </p>
         </va-additional-info>
       </div>

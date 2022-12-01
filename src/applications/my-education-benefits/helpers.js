@@ -309,24 +309,18 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
 
   const stateUser = state.user || {};
 
-  const vaProfile = stateUser?.vaProfile;
   const profile = stateUser?.profile;
-  const vet360ContactInfo = stateUser.vet360ContactInformation;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
   let firstName;
   let middleName;
   let lastName;
   let suffix;
 
-  if (vaProfile?.familyName) {
-    firstName = vaProfile?.givenNames[0];
-    middleName = vaProfile?.givenNames[1];
-    lastName = vaProfile?.familyName;
-    // suffix = ???
-  } else if (profile?.lastName) {
-    firstName = profile?.firstName;
-    middleName = profile?.middleName;
-    lastName = profile?.lastName;
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
     // suffix = ???
   } else {
     firstName = claimant.firstName;
@@ -336,33 +330,36 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   }
 
   const emailAddress =
+    vapContactInfo.email?.emailAddress ||
     profile?.email ||
-    vet360ContactInfo?.email?.emailAddress ||
     contactInfo.emailAddress ||
     undefined;
 
   let mobilePhoneNumber;
   let mobilePhoneIsInternational;
-  const v360mp = vet360ContactInfo?.mobilePhone;
-  if (v360mp?.areaCode && v360mp?.phoneNumber) {
-    mobilePhoneNumber = [v360mp.areaCode, v360mp.phoneNumber].join();
-    mobilePhoneIsInternational = v360mp.isInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
 
   let homePhoneNumber;
   let homePhoneIsInternational;
-  const v360hp = vet360ContactInfo?.homePhone;
-  if (v360hp?.areaCode && v360hp?.phoneNumber) {
-    homePhoneNumber = [v360hp.areaCode, v360hp.phoneNumber].join();
-    homePhoneIsInternational = v360hp.isInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
 
-  const address = vet360ContactInfo?.mailingAddress?.addressLine1
-    ? vet360ContactInfo?.mailingAddress
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
     : contactInfo;
 
   const newData = {
@@ -376,10 +373,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         last: lastName || undefined,
       },
     },
-    [formFields.dateOfBirth]:
-      formatHyphenlessDate(vaProfile?.birthDate) ||
-      profile?.birthDate ||
-      claimant?.dateOfBirth,
+    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
@@ -410,7 +404,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         address?.countryCode !== 'US' &&
         address?.addressType === 'MILITARY_OVERSEAS',
     },
-    'view:bankAccount': {
+    [formFields.bankAccount]: {
       ...bankInformation,
       accountType: bankInformation?.accountType?.toLowerCase(),
     },
