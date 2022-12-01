@@ -23,9 +23,12 @@
 - *Describe the tests completed and the results*
 
 ## Screenshots
+_Note: This field is mandatory for component work and UI changes (non-component work should NOT have screenshots)._
 
-- [ ] *Add screenshot of current state prior to change*
-- [ ] *Add screenshot showing successful change and what should be expected of those verifying your changes work as intended*
+| | Before | After |
+| --- | --- | --- |
+| Mobile | | |
+| Desktop | | |
 
 ## What areas of the site does it impact?
 *(Describe what parts of the site are impacted and*if*code touched other areas)*
@@ -42,4 +45,5 @@
 - [ ]  I added a screenshot of the developed feature
 
 ## Requested Feedback
-_What should the reviewers know in addition to the above. Is there anything specific you wish the reviewer to assist with. Do you have any concerns with this PR, why?_
+
+(OPTIONAL)_What should the reviewers know in addition to the above. Is there anything specific you wish the reviewer to assist with. Do you have any concerns with this PR, why?_
