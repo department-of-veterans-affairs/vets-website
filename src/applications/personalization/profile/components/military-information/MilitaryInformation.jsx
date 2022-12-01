@@ -26,8 +26,8 @@ const NotAVeteranAlert = () => {
 
         <p>
           If you think this is an error, call us at{' '}
-          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-          <va-telephone contact={CONTACTS['711']} />
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-alert>
@@ -52,7 +52,8 @@ const NotInDEERSAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            &nbsp;(TTY: <va-telephone contact={CONTACTS['711']} />
+            &nbsp;(
+            <va-telephone contact={CONTACTS['711']} tty />
             ). The DMDC Monday through Friday (except federal holidays), 8:00
             a.m. to 8:00 p.m. ET.
           </p>
@@ -117,7 +118,8 @@ const NoServiceHistoryAlert = () => {
             </b>
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
-            &nbsp;(TTY: <va-telephone contact={CONTACTS['711']} />
+            &nbsp;(
+            <va-telephone contact={CONTACTS['711']} tty />
             ). The DMDC Monday through Friday (except federal holidays), 8:00
             a.m. to 8:00 p.m. ET.
           </p>
@@ -192,9 +194,9 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           }}
         >
           <p>
-            Some Veterans have reported seeing military service information in
-            their VA.gov profiles that doesn’t seem right. When this happens,
-            it’s because there’s an error in the information we’re pulling into
+            Some Veterans have reported that their military service information
+            in their VA.gov profiles doesn’t seem right. When this happens, it’s
+            because there’s an error in the information we’re pulling into
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
@@ -207,8 +209,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           <br />
           <p>
             You can call the DMDC at{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
-            <va-telephone contact={CONTACTS['711']} />
+            <va-telephone contact={CONTACTS.DS_LOGON} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ), Monday through Friday (except federal holidays), 8:00 a.m. to
             8:00 p.m. ET. If you have hearing loss, call.
           </p>

@@ -106,8 +106,8 @@ const PersonalInformationSection = ({
             <span className="vads-u-font-weight--bold vads-u-display--block">
               If you receive VA benefits, but aren’t enrolled in VA health care
             </span>
-            Call us at <va-telephone contact="8008271000" /> ( TTY:{' '}
-            <va-telephone contact={CONTACTS['711']} />
+            Call us at <va-telephone contact="8008271000" /> (
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </va-additional-info>
