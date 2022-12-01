@@ -88,7 +88,7 @@ const MoveMessageToFolderBtn = props => {
                       name="defaultName-0-label"
                       htmlFor={`radiobutton-${folder.name}`}
                     >
-                      {folder.name}
+                      {folder.name === 'Deleted' ? 'Trash' : folder.name}
                     </label>
                   </div>
                 ))}
