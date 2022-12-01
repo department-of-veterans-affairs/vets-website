@@ -72,12 +72,41 @@ const testConfig = createTestConfig(
                   .shadow()
                   .find('input')
                   .type(issue);
-                const date = decisionDate
-                  .split('-')
-                  .map(v => parseInt(v, 10))
-                  .join('-');
-                cy.fillDate('decision-date', date);
+                cy.fillDate('decision-date', decisionDate);
                 cy.get('#submit').click();
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/va-medical-records': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(({ locations = [] }) => {
+            locations.forEach((location, index) => {
+              if (location) {
+                if (index > 0) {
+                  cy.url().should('include', `index=${index}`);
+                }
+                cy.get('#add-sc-issue')
+                  .shadow()
+                  .find('input')
+                  .type(location.locationAndName);
+                location?.issues.forEach(issue => {
+                  cy.get(`va-checkbox[value="${issue}"]`)
+                    .shadow()
+                    .find('input')
+                    .check();
+                });
+                cy.fillDate('location-from-date', location.evidenceDates?.from);
+                cy.fillDate('location-to-date', location.evidenceDates?.to);
+                cy.axeCheck();
+
+                // Add another
+                if (index + 1 < locations.length) {
+                  cy.get('.vads-c-action-link--green').click();
+                }
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();

@@ -13,7 +13,7 @@ import {
 
 import PrivateProviderTreatmentView from '../components/PrivateProviderTreatmentView';
 
-import { validateZIP } from '../validations/evidence';
+import { validateZip } from '../validations/evidence';
 
 const { form4142 } = fullSchema.properties;
 
@@ -88,7 +88,7 @@ export default {
           postalCode: {
             'ui:title': 'Postal code',
             'ui:autocomplete': 'off',
-            'ui:validations': [validateZIP],
+            'ui:validations': [validateZip],
             'ui:errorMessages': {
               pattern:
                 'Please enter a valid 5- or 9-digit Postal code (dashes allowed)',

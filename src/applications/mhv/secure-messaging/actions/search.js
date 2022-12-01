@@ -50,14 +50,21 @@ export const runAdvancedSearch = (folder, query) => async dispatch => {
     });
   } catch (error) {
     const err = error.errors[0];
-    dispatch({
-      type: Actions.Alerts.ADD_ALERT,
-      payload: {
-        alertType: 'error',
-        header: err.title,
-        content: err.detail,
-        response: err,
-      },
-    });
+    if (err.code === 'SM99' && err.status === '502') {
+      dispatch({
+        type: Actions.Search.RUN_ADVANCED,
+        response: { folder, query, data: [] },
+      });
+    } else {
+      dispatch({
+        type: Actions.Alerts.ADD_ALERT,
+        payload: {
+          alertType: 'error',
+          header: err.title,
+          content: err.detail,
+          response: err,
+        },
+      });
+    }
   }
 };
