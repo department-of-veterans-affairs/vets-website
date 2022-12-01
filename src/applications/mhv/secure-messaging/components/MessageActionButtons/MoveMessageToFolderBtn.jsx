@@ -7,6 +7,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
+import * as Constants from '../../util/constants';
 
 const MoveMessageToFolderBtn = props => {
   const { messageId, allFolders } = props;
@@ -73,25 +74,31 @@ const MoveMessageToFolderBtn = props => {
             </p>
             <div className="form-radio-buttons">
               {allFolders &&
-                allFolders.map(folder => (
-                  <div className="radio-button" key={folder.name}>
-                    <input
-                      data-testid="folder-list-radio-button"
-                      type="radio"
-                      autoComplete="false"
-                      id={`radiobutton-${folder.name}`}
-                      name="defaultName"
-                      value={folder.id}
-                      onChange={handleOnChangeFolder}
-                    />
-                    <label
-                      name="defaultName-0-label"
-                      htmlFor={`radiobutton-${folder.name}`}
-                    >
-                      {folder.name}
-                    </label>
-                  </div>
-                ))}
+                allFolders
+                  .filter(
+                    folder =>
+                      folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+                      folder.id !== Constants.DefaultFolders.SENT.id,
+                  )
+                  .map(folder => (
+                    <div className="radio-button" key={folder.name}>
+                      <input
+                        data-testid="folder-list-radio-button"
+                        type="radio"
+                        autoComplete="false"
+                        id={`radiobutton-${folder.name}`}
+                        name="defaultName"
+                        value={folder.id}
+                        onChange={handleOnChangeFolder}
+                      />
+                      <label
+                        name="defaultName-0-label"
+                        htmlFor={`radiobutton-${folder.name}`}
+                      >
+                        {folder.name}
+                      </label>
+                    </div>
+                  ))}
               <div className="radio-button">
                 <input
                   data-testid="folder-list-radio-button"
