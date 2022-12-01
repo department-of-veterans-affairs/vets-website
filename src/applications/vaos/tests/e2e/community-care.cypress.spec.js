@@ -474,8 +474,8 @@ describe('VAOS community care flow', () => {
     cy.axeCheckBestPractice();
   });
 });
-// skipped due to failures around accurate test naming convention
-describe.skip('VAOS community care flow using VAOS service', () => {
+
+describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
 
