@@ -1,4 +1,4 @@
-**Note**: Delete the description statements, complete each step. **None are optional**, but can be justified as to why they cannot be compeleted as written. Provide known gaps to testing that may raise the risk of merging to production.
+**Note**: Delete the description statements, complete each step. **None are optional**, but can be justified as to why they cannot be completed as written. Provide known gaps to testing that may raise the risk of merging to production.
 
 
 ## Summary
