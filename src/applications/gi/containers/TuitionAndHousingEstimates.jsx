@@ -134,14 +134,12 @@ export function TuitionAndHousingEstimates({
             {controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <va-button
               id={`update-${createId(title)}-button`}
               className="update-results-button"
+              text="Update estimates"
               onClick={closeAndUpdate}
-            >
-              Update estimates
-            </button>
+            />
           </div>
         </div>
       )}
