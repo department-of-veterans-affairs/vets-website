@@ -1,4 +1,10 @@
-import { SELECTED, MAX_LENGTH, PRIMARY_PHONE, EVIDENCE_VA } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  PRIMARY_PHONE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+} from '../constants';
 import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
 import { replaceSubmittedData } from './replace';
 
@@ -284,4 +290,24 @@ export const getEvidence = formData => {
     }));
   }
   return evidenceSubmission;
+};
+
+/**
+ * The backend is filling out form 4142/4142a (March 2021) which doesn't include
+ * the conditions (issues) that were treated. These are asked for in the newer
+ * 4142/4142a (July 2021)
+ */
+export const getForm4142 = formData => {
+  const {
+    privacyAgreementAccepted = true,
+    limitedConsent = '',
+    providerFacility = [],
+  } = formData;
+  return formData[EVIDENCE_PRIVATE]
+    ? {
+        privacyAgreementAccepted,
+        limitedConsent,
+        providerFacility,
+      }
+    : {};
 };

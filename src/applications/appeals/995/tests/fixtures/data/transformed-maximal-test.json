@@ -90,6 +90,8 @@
     ]
   },
   "4142": {
+    "privacyAgreementAccepted": true,
+    "limitedConsent": "Pizza addiction",
     "providerFacility": [
       {
         "treatmentDateRange": {
@@ -108,8 +110,7 @@
         },
         "providerFacilityName": "Private Hospital"
       }
-    ],
-    "limitedConsent": "Pizza addiction"
+    ]
   },
   "additionalDocuments": [
     {
