@@ -11,6 +11,8 @@ const formatDate = date => {
   return format(new Date(date), 'MMMM dd, yyyy');
 };
 
+const filename = 'ClaimLetter.pdf';
+
 const downloadHandler = () => {
   recordEvent({
     event: 'claim-letters-download',
@@ -29,6 +31,7 @@ const ClaimLetterListItem = ({ letter }) => {
       </div>
       <va-link
         download
+        filename={filename}
         filetype="PDF"
         href={downloadUrl(letter.documentId)}
         onClick={downloadHandler}

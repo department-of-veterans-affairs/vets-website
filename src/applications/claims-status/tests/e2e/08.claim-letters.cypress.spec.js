@@ -1,4 +1,3 @@
-// import { cy } from 'date-fns/locale';
 import claimLetters from './fixtures/mocks/claim-letters.json';
 
 describe('Claim Letters Page', () => {
@@ -128,5 +127,33 @@ describe('Claim Letters Page', () => {
     cy.axeCheck();
   });
 
-  // it('Download links work properly')
+  it('Downloads a file successfully when link is clicked', () => {
+    // Normally it would make sense to simulate downloading a PDF,
+    // but Cypress doesn't handle PDF files very well. When I attempted
+    // to use a PDF file as the fixture, the resulting file's contents
+    // would always end up corrupted, so using a TXT file instead
+    cy.intercept('GET', '/v0/claim_letters/**', {
+      statusCode: 200,
+      headers: {
+        'Content-disposition': 'attachment; filename=ClaimLetter.txt',
+      },
+      fixture:
+        'applications/claims-status/tests/e2e/fixtures/mocks/ClaimLetter.txt',
+    }).as('downloadFile');
+
+    cy.get('va-link')
+      .first()
+      .click();
+
+    cy.wait('@downloadFile')
+      .its('response.statusCode')
+      .should('eq', 200);
+
+    cy.readFile(`${Cypress.config('downloadsFolder')}/ClaimLetter.txt`).should(
+      'contain',
+      'Test claim letter',
+    );
+
+    cy.axeCheck();
+  });
 });
