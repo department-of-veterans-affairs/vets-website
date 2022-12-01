@@ -62,7 +62,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const totalItems = useRef(0);
   const totalPages = useRef(0);
   const paginatedItems = useRef([]);
-  const requestStatus = useRef(403);
+  const requestStatus = useRef(200);
 
   useEffect(() => {
     getClaimLetters()
