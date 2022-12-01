@@ -77,6 +77,8 @@ const Introduction = props => {
             }
 
             if (appointmentWasCanceled(payload.appointments)) {
+              // @TODO set error type here instead
+              // We already know what caused the error so it will be easy to come up with a message in the Error component
               goToErrorPage('?error=appointment-canceled');
             }
 

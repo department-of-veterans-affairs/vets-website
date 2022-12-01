@@ -16,6 +16,7 @@ import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 import { withAppSet } from '../containers/withAppSet';
+import { withError } from '../containers/withError';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
@@ -102,6 +103,9 @@ const createRoutesWithStore = () => {
         component = withFeatureFlip(component, options);
         // Add app name
         component = withAppSet(component, options);
+
+        // Catch Errors
+        component = withError(component);
 
         return <Route path={`/${route.path}`} component={component} key={i} />;
       })}
