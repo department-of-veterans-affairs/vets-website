@@ -44,21 +44,16 @@ const pausedAlert = (
 const pausedScoAlert = (
   <va-alert status="error" visible>
     <h3 slot="headline">
-      We’ve paused your monthly education payments until you update your
-      enrollment information
+      We’ve paused your monthly education payments until your enrollment
+      information is updated
     </h3>
     <p>
-      You’ve verified that your monthly enrollment has changed or isn’t correct,
-      but you haven’t updated it yet.
+      We did this because you verified your monthly enrollment has changed or
+      isn’t correct.
     </p>
     <p>
-      To continue getting your monthly education payments, you’ll need to work
-      with your School Certifying Official (SCO) to update your information on
-      file.
-    </p>
-    <p>
-      We encourage you to reach out to your SCO as soon as you can to avoid an
-      overpayment. If we overpay you, you may have a debt to pay back.
+      Work with your School Certifying Official to have your enrollment
+      information updated.
     </p>
   </va-alert>
 );
