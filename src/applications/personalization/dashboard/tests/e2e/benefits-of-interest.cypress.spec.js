@@ -8,7 +8,7 @@
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 import notInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json';
-
+import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
 import {
@@ -25,14 +25,11 @@ function sectionHeadingsExist() {
 }
 
 describe('The My VA Dashboard', () => {
-  describe('Should always show benefits of interest', () => {
+  describe('Should show benefits of interest to Loa1 User', () => {
     beforeEach(() => {
-      const user = makeMockUser();
-      user.data.attributes.vaProfile.vaPatient = false;
-      user.data.attributes.vaProfile.facilities = [];
+      cy.login(loa1User);
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-      cy.login(user);
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits, health care, and education benefits - C15782', () => {
@@ -43,6 +40,22 @@ describe('The My VA Dashboard', () => {
       healthCareInfoExists(true);
       disabilityCompensationExists(true);
       educationBenefitExists(true);
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+  describe('Should show saved applications to Loa3 User', () => {
+    beforeEach(() => {
+      const user = makeMockUser();
+      cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
+      cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
+      cy.login(user);
+      cy.visit(manifest.rootUrl);
+    });
+    it('should show info about saved applications', () => {
+      cy.findAllByTestId('dashboard-section-saved-applications').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
