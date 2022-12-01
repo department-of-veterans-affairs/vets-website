@@ -230,7 +230,8 @@
             "from": "2017-1-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Veteran Current One"
+            "employerName": "Veteran Current One",
+            "grossMonthlyIncome": "5000.45"
           },
           {
             "type": "Part time",
