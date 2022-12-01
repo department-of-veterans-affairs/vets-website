@@ -26,8 +26,8 @@ const NotAVeteranAlert = () => {
 
         <p>
           If you think this is an error, call us at{' '}
-          <va-telephone contact={CONTACTS.HELP_DESK} /> (
-          <va-telephone contact={CONTACTS['711']} tty />
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['711']} />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-alert>
