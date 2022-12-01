@@ -147,7 +147,8 @@ export const uiSchema = {
         'ui:widget': 'yesNo',
         'ui:options': {
           hideEmptyValueInReview: true,
-          hideIf: formData => formData.intent === 'ONETIMERESTORATION',
+          hideIf: formData =>
+            ['ONETIMERESTORATION', 'REFI'].includes(formData.intent),
         },
       },
     },
