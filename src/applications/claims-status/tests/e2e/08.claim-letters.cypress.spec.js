@@ -6,9 +6,6 @@ describe('Claim Letters Page', () => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 
-    // TODO: intercept user data calls
-    // Check features
-
     cy.login();
     cy.visit('track-claims/your-claim-letters');
     cy.injectAxe();
