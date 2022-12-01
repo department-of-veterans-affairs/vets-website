@@ -30,7 +30,6 @@ export const App = ({
   location,
   setFormData,
   showMebDgi40Features,
-  showUnverifiedUserAlert,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -38,11 +37,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (
-        !isLoggedIn ||
-        !featureTogglesLoaded ||
-        (showUnverifiedUserAlert && isLOA3 !== true)
-      ) {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
 
@@ -65,17 +60,12 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showUnverifiedUserAlert,
     ],
   );
 
   useEffect(
     () => {
-      if (
-        !isLoggedIn ||
-        !featureTogglesLoaded ||
-        (showUnverifiedUserAlert && isLOA3 !== true)
-      ) {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
       }
 
@@ -102,7 +92,6 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMebDgi40Features,
-      showUnverifiedUserAlert,
     ],
   );
 
@@ -159,7 +148,6 @@ App.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebDgi40Features: PropTypes.bool,
-  showUnverifiedUserAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
