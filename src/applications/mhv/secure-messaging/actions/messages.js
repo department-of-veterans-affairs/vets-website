@@ -90,7 +90,7 @@ export const retrieveMessage = (
   const today = new Date();
   const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(messageSentDate), 45);
-  if (today > cannotReplyDate) {
+  if (!isDraft && today > cannotReplyDate) {
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_INFO,
