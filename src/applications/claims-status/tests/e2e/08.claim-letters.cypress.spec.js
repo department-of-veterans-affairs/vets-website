@@ -1,8 +1,10 @@
 import claimLetters from './fixtures/mocks/claim-letters.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 
 describe('Claim Letters Page', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
+    cy.intercept('GET', '/v0/feature_toggles', featureToggles.data);
 
     // TODO: intercept user data calls
     // Check features
