@@ -22,11 +22,6 @@ import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest'
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 
-import addIssue from '../pages/addIssue';
-// import benefitType from '../pages/benefitType';
-// import certifcationAndSignature from '../pages/certifcationAndSignature';
-// import claimantName from '../pages/claimantName';
-// import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
@@ -95,19 +90,6 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        // claimantType: {
-        //   title: 'Claimant Type',
-        //   path: 'claimant-type',
-        //   uiSchema: claimantType.uiSchema,
-        //   schema: claimantType.schema,
-        // },
-        // claimantName: {
-        //   title: 'Claimant Name',
-        //   path: 'claimant-name',
-        //   uiSchema: claimantName.uiSchema,
-        //   schema: claimantName.schema,
-        //   depends: formData => formData.claimantType !== 'veteran',
-        // },
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
@@ -176,11 +158,11 @@ const formConfig = {
         addIssue: {
           title: 'Add issues for review',
           path: 'add-issue',
-          depends: () => false,
+          depends: () => false, // accessed from contestable issues
           CustomPage: AddIssue,
           CustomPageReview: null,
-          uiSchema: addIssue.uiSchema,
-          schema: addIssue.schema,
+          uiSchema: {},
+          schema: blankSchema,
         },
         issueSummary: {
           title: 'Issue summary',
