@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
+import { sendReply } from '../../actions/messages';
 
 const ReplyForm = props => {
   const { draft, replyMessage } = props;
@@ -24,6 +26,10 @@ const ReplyForm = props => {
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
+  const [bodyError, setBodyError] = useState('');
+  const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const history = useHistory();
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -41,6 +47,39 @@ const ReplyForm = props => {
       }
     },
     [replyMessage, draft],
+  );
+
+  useEffect(
+    () => {
+      if (sendMessageFlag && isSaving !== true) {
+        const messageData = {
+          category,
+          body: messageBody,
+          subject,
+          draftId: draft?.messageId,
+        };
+        messageData[`${'recipient_id'}`] = selectedRecipient;
+        if (attachments.length) {
+          const sendData = new FormData();
+          sendData.append('message', JSON.stringify(messageData));
+          attachments.map(upload => sendData.append('uploads[]', upload));
+          dispatch(sendReply(replyMessage.messageId, sendData, true)).then(() =>
+            history.push(`/message/${replyMessage.messageId}`),
+          );
+        } else {
+          dispatch(
+            sendReply(
+              replyMessage.messageId,
+              JSON.stringify(messageData),
+              false,
+            ),
+          ).then(() => {
+            history.push(`/message/${replyMessage.messageId}`);
+          });
+        }
+      }
+    },
+    [sendMessageFlag, isSaving],
   );
 
   const recipientExists = recipientId => {
@@ -93,8 +132,12 @@ const ReplyForm = props => {
     return 'New message';
   };
 
-  const sendMessageHandler = event => {
-    event.preventDefault();
+  const sendMessageHandler = () => {
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError('Message body cannot be blank.');
+    } else {
+      setSendMessageFlag(true);
+    }
   };
 
   const saveDraftHandler = type => {
@@ -130,7 +173,7 @@ const ReplyForm = props => {
         debouncedSubject &&
         debouncedMessageBody
       ) {
-        /* saveDraftHandler('auto'); */
+        saveDraftHandler('auto');
       }
     },
     [
@@ -146,7 +189,11 @@ const ReplyForm = props => {
       <form className="compose-form" onSubmit={sendMessageHandler}>
         <div className="compose-form-header" data-testid="compose-form-header">
           <h3>{setMessageTitle()}</h3>
-          <button type="button" className="send-button-top">
+          <button
+            type="button"
+            className="send-button-top"
+            onClick={sendMessageHandler}
+          >
             <i className="fas fa-paper-plane" aria-hidden="true" />
             <span className="send-button-top-text">Send</span>
           </button>
@@ -164,20 +211,17 @@ const ReplyForm = props => {
             <strong>Subject: </strong>
             {subject}
           </p>
-          <div className="message-body-field">
-            <label htmlFor="message-body">
-              Message
-              <span className="required"> (*Required)</span>
-            </label>
-            <textarea
-              id="message-body"
-              name="message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onChange={e => setMessageBody(e.target.value)}
-              value={messageBody}
-            />
-          </div>
+          <va-textarea
+            label="Message"
+            required
+            id="message-body"
+            name="message-body"
+            className="message-body"
+            data-testid="message-body-field"
+            onInput={e => setMessageBody(e.target.value)}
+            value={messageBody}
+            error={bodyError}
+          />
           <section className="attachments-section">
             <div className="compose-attachments-heading">Attachments</div>
 
@@ -197,6 +241,7 @@ const ReplyForm = props => {
               type="button"
               className="vads-u-flex--1"
               data-testid="Send-Button"
+              onClick={sendMessageHandler}
             >
               Send
             </button>

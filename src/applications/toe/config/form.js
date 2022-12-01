@@ -385,7 +385,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -412,7 +412,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -1224,8 +1224,8 @@ const formConfig = {
             },
             'ui:description': (
               <p>
-                Your bank account information is what we currently have on file
-                for you. Please ensure it is correct.
+                We make payments only through direct deposit, also called
+                electronic funds transfer (EFT).
               </p>
             ),
             [formFields.bankAccount]: {

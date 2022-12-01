@@ -227,16 +227,23 @@ export const updateReplyDraft = (replyToId, draftMessageId, message) => {
 
 /**
  * Create a new message.
- * @param {*} message
+ * @param {*} sendData
+ * @param {Boolean} attachmentFlag
  * @returns
  */
-export const createMessage = message => {
+export const createMessage = (sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
   return apiRequest(`${apiBasePath}/messaging/messages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
+    body: sendData,
   });
 };
 
@@ -245,13 +252,19 @@ export const createMessage = message => {
  * @param {*} message
  * @returns
  */
-export const createReplyToMessage = (replyToId, message) => {
+export const createReplyToMessage = (replyToId, sendData, attachmentFlag) => {
+  if (attachmentFlag === false) {
+    return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: sendData,
+    });
+  }
   return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(message),
+    body: sendData,
   });
 };
 
