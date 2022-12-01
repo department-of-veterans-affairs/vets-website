@@ -46,35 +46,30 @@ const IntroductionPage = props => {
         appTitle="Application for VA health care"
         dependencies={[externalServices.es]}
       >
-        {showLoader ? (
+        {!showLOA3Content && (
+          <p>
+            VA health care covers care for your physical and mental health. This
+            includes a range of services from checkups to surgeries to home
+            health care. It also includes prescriptions and medical equipment.
+            Apply online now.
+          </p>
+        )}
+
+        {showLoader && (
           <va-loading-indicator
             label="Loading"
             message="Loading your application..."
           />
-        ) : (
-          <>
-            {!showLOA3Content && (
-              <p className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-line-height--3 vads-u-margin-bottom--5">
-                VA health care covers care for your physical and mental health.
-                This includes a range of services from checkups to surgeries to
-                home health care. It also includes prescriptions and medical
-                equipment. Apply online now.
-              </p>
-            )}
-
-            {showIdentityAlert && <IdentityVerificationAlert />}
-
-            {(showGetStartedContent || enrollmentOverrideEnabled) && (
-              <GetStartedContent
-                route={route}
-                showLoginAlert={showLoginAlert}
-              />
-            )}
-
-            {showLOA3Content &&
-              !enrollmentOverrideEnabled && <EnrollmentStatus route={route} />}
-          </>
         )}
+
+        {showIdentityAlert && <IdentityVerificationAlert />}
+
+        {(showGetStartedContent || enrollmentOverrideEnabled) && (
+          <GetStartedContent route={route} showLoginAlert={showLoginAlert} />
+        )}
+
+        {showLOA3Content &&
+          !enrollmentOverrideEnabled && <EnrollmentStatus route={route} />}
       </DowntimeNotification>
     </div>
   );
