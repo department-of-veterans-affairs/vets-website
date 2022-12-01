@@ -200,11 +200,13 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
+          <br />
           <p>
             If you don’t think your military service information is correct
             here, call the Defense Manpower Data Center (DMDC). They’ll work
             with you to update your information in DEERS.
           </p>
+          <br />
           <p>
             You can call the DMDC at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
