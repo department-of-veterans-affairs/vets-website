@@ -95,8 +95,6 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
   - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
-- `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
-  - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_lorota_deletion_enabled`: Enables tracking validation attempts on the server side. When toggle is on, the backend will count the attempts, then delete the entry in LoRota when it reaches the max amount of attempts, and send the frontend a status 410. When it is off, attempts are tracked in local storage.
 - `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
 

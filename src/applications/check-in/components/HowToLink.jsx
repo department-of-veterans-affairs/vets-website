@@ -1,19 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import ExternalLink from './ExternalLink';
 
 const HowToLink = props => {
   const { apptType } = props;
   const { t } = useTranslation();
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
 
-  if (isPhoneAppointmentsEnabled && apptType !== 'clinic') {
+  if (apptType !== 'clinic') {
     return <></>;
   }
 
