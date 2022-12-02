@@ -36,6 +36,7 @@ import FeaturesWarning from '../components/FeaturesWarning';
 import MobileAppMessage from '../components/MobileAppMessage';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
+import { cstUseLighthouse } from '../selectors';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -299,10 +300,6 @@ function mapStateToProps(state) {
     FEATURE_FLAG_NAMES.stemAutomatedDecision
   ];
 
-  const useLighthouse = toggleValues(state)[
-    FEATURE_FLAG_NAMES.cstUseLighthouse
-  ];
-
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
   // TO-DO: Implement with reselect to save cycles
@@ -319,7 +316,7 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
-    useLighthouse,
+    useLighthouse: cstUseLighthouse(state),
     fullName: state.user.profile.userFullName,
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
