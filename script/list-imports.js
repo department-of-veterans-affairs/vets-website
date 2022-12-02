@@ -49,14 +49,14 @@ fs.readJSON('package.json', (err, data) => {
     relativeImports: false,
     packageImports: true,
     flatten: true,
-  });
+  }).sort();
 
   const results = {
     dependencies: {},
     devDependencies: {},
     notInstalled: {},
   };
-
+  console.log(theImports);
   theImports.forEach(importPath => {
     const packageName = getPackageName(importPath);
 
