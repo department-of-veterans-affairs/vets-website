@@ -55,7 +55,7 @@ const Landing = props => {
     () => {
       const token = getTokenFromLocation(location);
       if (!token) {
-        goToErrorPage('?error=no=token');
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {

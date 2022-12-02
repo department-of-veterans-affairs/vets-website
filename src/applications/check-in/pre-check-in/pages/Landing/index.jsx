@@ -59,14 +59,12 @@ const Index = props => {
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        dispatch(setError('no-token'));
-        goToErrorPage('?error=no-token');
+        dispatch(setError('no-token')); // TODO: add component ex: setError('no-token', 'Landing')
+        // goToErrorPage('?error=no-token');
+      } else if (!isUUID(token)) {
+        dispatch(setError('bad-token'));
       }
 
-      if (!isUUID(token)) {
-        dispatch(setError('bad-token'));
-        goToErrorPage('?error=bad-token');
-      }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
