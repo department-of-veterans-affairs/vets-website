@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
-import DefaultFolders from '../../util/constants';
+import * as Constants from '../../util/constants';
 
 const MoveMessageToFolderBtn = props => {
   const { messageId, allFolders } = props;
@@ -77,8 +77,8 @@ const MoveMessageToFolderBtn = props => {
                 allFolders
                   .filter(
                     folder =>
-                      folder.id !== DefaultFolders.DRAFTS.id &&
-                      folder.id !== DefaultFolders.SENT.id,
+                      folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+                      folder.id !== Constants.DefaultFolders.SENT.id,
                   )
                   .map(folder => (
                     <div className="radio-button" key={folder.name}>
