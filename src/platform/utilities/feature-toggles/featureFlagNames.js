@@ -38,6 +38,7 @@ export default Object.freeze({
   covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
+  cstUseLighthouse: 'cst_use_lighthouse',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',

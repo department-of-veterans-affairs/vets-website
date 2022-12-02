@@ -61,6 +61,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       canAccessAppeals,
       canAccessClaims,
+      // useLighthouse,
       getAppealsV2,
       getClaimsV2,
       getStemClaims,
@@ -68,6 +69,7 @@ class YourClaimsPageV2 extends React.Component {
       appealsLoading,
       stemClaimsLoading,
     } = this.props;
+
     if (canAccessClaims) {
       getClaimsV2();
     }
@@ -280,6 +282,7 @@ YourClaimsPageV2.propTypes = {
     }),
   ),
   stemClaimsLoading: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -294,6 +297,10 @@ function mapStateToProps(state) {
   );
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+
+  const useLighthouse = toggleValues(state)[
+    FEATURE_FLAG_NAMES.cstUseLighthouse
   ];
 
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
@@ -312,6 +319,7 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
+    useLighthouse,
     fullName: state.user.profile.userFullName,
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
