@@ -16,7 +16,7 @@ export const ChatboxDisclaimer = () => {
           <li>
             Our chatbot can’t help you if you’re experiencing a personal,
             medical, or mental health emergency. Go to the nearest emergency
-            room, dial{' '}
+            room, dial
             <Telephone contact="18002738255" vanity="1-800-273-8255" /> and
             press 1 for mental health support, or call 911 to get medical care
             right away.
