@@ -5,6 +5,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
+import * as Constants from '../../util/constants';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 
@@ -88,7 +89,10 @@ const MoveMessageToFolderBtn = props => {
                       name="defaultName-0-label"
                       htmlFor={`radiobutton-${folder.name}`}
                     >
-                      {folder.name}
+                      {/* checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'. */}
+                      {folder.id === Constants.DefaultFolders.DELETED.id
+                        ? 'Trash'
+                        : folder.name}
                     </label>
                   </div>
                 ))}
