@@ -29,10 +29,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: (form, formData) => {
-    console.log(form);
-    console.log(formData);
-  },
+  submit: () => Promise.resolve({}),
   trackingPrefix: '1010d-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
