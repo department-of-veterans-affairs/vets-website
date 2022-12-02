@@ -6,7 +6,10 @@ const commandLineArgs = require('command-line-args');
 const getPackageName = importPath => {
   const parts = importPath.split('/');
 
-  // Scoped NPM package
+  // Scoped NPM packages use the form:
+  // @org/packageName (ex. @sentry/browser)
+  // so we can take the first 2 segements (@org, packageName)
+  // and join them
   if (importPath[0] === '@') {
     return parts.slice(0, 2).join('/');
   }
@@ -51,7 +54,7 @@ fs.readJSON('package.json', (err, data) => {
   const results = {
     dependencies: {},
     devDependencies: {},
-    uninstalled: {},
+    notInstalled: {},
   };
 
   theImports.forEach(importPath => {
@@ -67,7 +70,7 @@ fs.readJSON('package.json', (err, data) => {
       results.devDependencies[packageName] = devDeps[packageName];
     }
     if (!devDeps[packageName] && !deps[packageName]) {
-      results.uninstalled[packageName] = 'uninstalled';
+      results.notInstalled[packageName] = 'Not Installed';
     }
   });
 
