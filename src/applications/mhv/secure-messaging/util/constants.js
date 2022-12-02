@@ -35,6 +35,8 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
     DELETE_DRAFT_ERROR:
       'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+    SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
+    SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Folder: {
     CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
