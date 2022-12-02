@@ -75,6 +75,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     method: 'GET',
     credentials: 'include',
     headers: {
+      'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
       'X-CSRF-Token': csrfTokenStored,
