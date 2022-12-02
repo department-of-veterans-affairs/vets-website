@@ -6,9 +6,6 @@ import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 export function removeFormApi(formId) {
   const apiUrl = inProgressApi(formId);
   return apiRequest(apiUrl, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
     method: 'DELETE',
   }).catch(error => {
     if (error instanceof Error) {
@@ -42,7 +39,6 @@ export function saveFormApi(
   const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
     'X-Key-Inflection': 'camel',
-    'Content-Type': 'application/json',
   };
   if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
     delete saveFormApiHeaders['X-Key-Inflection'];
