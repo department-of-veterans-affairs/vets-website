@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { ACCEPTED } from '../../actions';
 import { clearBotSessionStorage } from './utils';
 
@@ -15,8 +16,10 @@ export const ChatboxDisclaimer = () => {
           <li>
             Our chatbot can’t help you if you’re experiencing a personal,
             medical, or mental health emergency. Go to the nearest emergency
-            room, dial 988 and press 1 for mental health support, or call 911 to
-            get medical care right away.
+            room, dial{' '}
+            <Telephone contact="18002738255" vanity="1-800-273-8255" /> and
+            press 1 for mental health support, or call 911 to get medical care
+            right away.
             <br />
             <a href="/health-care/health-needs-conditions/mental-health/">
               Learn more about VA mental health services
