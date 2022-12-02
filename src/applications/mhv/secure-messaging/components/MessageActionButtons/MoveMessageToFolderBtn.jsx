@@ -5,7 +5,6 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Constants from '../../util/constants';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import DefaultFolders from '../../util/constants';
