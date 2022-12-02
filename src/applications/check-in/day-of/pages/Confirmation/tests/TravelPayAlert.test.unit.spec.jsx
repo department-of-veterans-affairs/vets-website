@@ -53,7 +53,7 @@ describe('check in', () => {
       expect(
         component.getByTestId('travel-pay-claim-error-message'),
       ).to.have.text(
-        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment. Find out how to file for travel reimbursement.",
+        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
       );
     });
     it('renders a already exists api error message', () => {
