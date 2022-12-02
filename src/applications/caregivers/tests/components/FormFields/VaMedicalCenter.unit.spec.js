@@ -1,6 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitForElementToBeRemoved } from '@testing-library/react';
+import {
+  render,
+  waitForElementToBeRemoved,
+  waitFor,
+} from '@testing-library/react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -47,7 +51,7 @@ describe('CG <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
-    it.skip('should render VaMedicalCenter component as an empty select element', () => {
+    it('should render VaMedicalCenter component as an empty select element', () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -80,35 +84,35 @@ describe('CG <VaMedicalCenter>', () => {
       expect(view.container.querySelector('option[value=""]')).to.exist;
     });
 
-    it.skip('should render a loading indacator', () => {
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {
-              veteranPreferredFacility: { veteranFacilityState: 'NY' },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-      const props = {
-        formContext: { reviewMode: false, submitted: undefined },
-        id: 'preferredFacility_vaMedicalFacility',
-        onChange: () => {},
-        required: true,
-        value: undefined,
-      };
+    // it.skip('should render a loading indacator', () => {
+    //   const mockStore = {
+    //     getState: () => ({
+    //       form: {
+    //         data: {
+    //           veteranPreferredFacility: { veteranFacilityState: 'NY' },
+    //         },
+    //       },
+    //     }),
+    //     subscribe: () => {},
+    //     dispatch: () => {},
+    //   };
+    //   const props = {
+    //     formContext: { reviewMode: false, submitted: undefined },
+    //     id: 'preferredFacility_vaMedicalFacility',
+    //     onChange: () => {},
+    //     required: true,
+    //     value: undefined,
+    //   };
 
-      const view = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      expect(view.container.querySelector('va-loading-indicator')).to.exist;
-    });
+    //   const view = render(
+    //     <Provider store={mockStore}>
+    //       <VaMedicalCenter {...props} />
+    //     </Provider>,
+    //   );
+    //   expect(view.container.querySelector('va-loading-indicator')).to.exist;
+    // });
 
-    it.skip('should render a select element with options to select', async () => {
+    it('should render a select element with options to select - OLD', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -148,7 +152,46 @@ describe('CG <VaMedicalCenter>', () => {
       );
     });
 
-    it.skip('should render a facility name in review mode', async () => {
+    it('should render a select element with options to select - NEW', async () => {
+      const mockStore = {
+        getState: () => ({
+          form: {
+            data: {
+              veteranPreferredFacility: { veteranFacilityState: 'NY' },
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
+      };
+      const props = {
+        formContext: { reviewMode: false, submitted: undefined },
+        id: 'preferredFacility_vaMedicalFacility',
+        onChange: () => {},
+        required: true,
+        value: undefined,
+      };
+
+      const view = render(
+        <Provider store={mockStore}>
+          <VaMedicalCenter {...props} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(view.container.querySelectorAll('option')[0]).to.contain.text(
+          '',
+        );
+        expect(view.container.querySelectorAll('option')[1]).to.contain.text(
+          'Batavia VA Medical Center',
+        );
+        expect(view.container.querySelectorAll('option')[2]).to.contain.text(
+          'Canandaigua VA Medical Center',
+        );
+      });
+    });
+
+    it('should render a facility name in review mode - OLD', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -195,6 +238,53 @@ describe('CG <VaMedicalCenter>', () => {
         view.container.querySelector('[data-testid="cg-facility-reviewmode"]'),
       ).to.contain.text('Canandaigua VA Medical Center');
     });
+
+    it('should render a facility name in review mode - NEW', async () => {
+      const mockStore = {
+        getState: () => ({
+          form: {
+            data: {
+              veteranPreferredFacility: { veteranFacilityState: 'NY' },
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
+      };
+      let props = {
+        formContext: { reviewMode: false, submitted: undefined },
+        id: 'preferredFacility_vaMedicalFacility',
+        onChange: () => {},
+        required: true,
+        value: '',
+      };
+
+      const view = render(
+        <Provider store={mockStore}>
+          <VaMedicalCenter {...props} />
+        </Provider>,
+      );
+
+      props = {
+        ...props,
+        formContext: { reviewMode: true, submitted: undefined },
+        value: '528A5',
+      };
+
+      view.rerender(
+        <Provider store={mockStore}>
+          <VaMedicalCenter {...props} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(
+          view.container.querySelector(
+            '[data-testid="cg-facility-reviewmode"]',
+          ),
+        ).to.contain.text('Canandaigua VA Medical Center');
+      });
+    });
   });
 
   describe('api server error', () => {
@@ -218,7 +308,7 @@ describe('CG <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
-    it.skip('should render a server error alert', async () => {
+    it('should render a server error alert - OLD', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -252,6 +342,39 @@ describe('CG <VaMedicalCenter>', () => {
       expect(view.container.querySelector('va-alert')).to.contain.text(
         'Something went wrong on our end',
       );
+    });
+
+    it('should render a server error alert - NEW', async () => {
+      const mockStore = {
+        getState: () => ({
+          form: {
+            data: {
+              veteranPreferredFacility: { veteranFacilityState: 'NY' },
+            },
+          },
+        }),
+        subscribe: () => {},
+        dispatch: () => {},
+      };
+      const props = {
+        formContext: { reviewMode: false, submitted: undefined },
+        id: 'preferredFacility_vaMedicalFacility',
+        onChange: () => {},
+        required: true,
+        value: undefined,
+      };
+
+      const view = render(
+        <Provider store={mockStore}>
+          <VaMedicalCenter {...props} />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(view.container.querySelector('va-alert')).to.contain.text(
+          'Something went wrong on our end',
+        );
+      });
     });
   });
 });
