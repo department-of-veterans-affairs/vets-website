@@ -4,7 +4,7 @@ export const content = {
   title: 'Do you want to limit the information we can request?',
 
   textAreaLabel:
-    'Describe the limitation (for example, you want to release only treatment dates or a type of disability.) 400 characters max',
+    'Describe the limitation (for example, you want to release only treatment dates or a type of disability.)',
 
   info: (
     <va-additional-info trigger="What does &quot;limit my consent&quot; mean?">
