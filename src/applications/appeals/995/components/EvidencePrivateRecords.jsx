@@ -107,10 +107,8 @@ const EvidencePrivateRecords = ({
     () => {
       setCurrentData(providerFacility?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      // if (forceReload) {
       focusElement('#add-facility-name');
       scrollTo('topPageElement');
-      // }
       setForceReload(false);
     },
     // don't include providerFacility or we clear state & move focus every time
@@ -329,14 +327,17 @@ const EvidencePrivateRecords = ({
     null;
 
   // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing
+  // so this adds a clickable button for testing, adding a color + attr name
+  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
+  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
   const testMethodButton =
     testingMethod && !environment.isProduction() ? (
       <button
         id="test-method"
         className="sr-only"
         type="button"
-        onClick={handlers[testingMethod]}
+        name={testName}
+        onClick={handlers[testMethod]}
       >
         test
       </button>
@@ -356,15 +357,15 @@ const EvidencePrivateRecords = ({
     </>
   );
 
-  const hasStates = states[currentData.providerFacilityAddress.country] || [];
+  const hasStates =
+    states[(currentData.providerFacilityAddress?.country)] || [];
 
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
         <legend
-          id="decision-date-description"
+          id="private-evidence-title"
           className="vads-u-font-family--serif"
-          name="addIssue"
         >
           <h3 name="topPageElement" className="vads-u-margin--0">
             {content.title}
@@ -402,7 +403,7 @@ const EvidencePrivateRecords = ({
           name="country"
           label={content.addressLabels.country}
           required
-          value={currentData.providerFacilityAddress.country}
+          value={currentData.providerFacilityAddress?.country}
           onVaSelect={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('country')}
@@ -420,7 +421,7 @@ const EvidencePrivateRecords = ({
           type="text"
           label={content.addressLabels.street}
           required
-          value={currentData.providerFacilityAddress.street}
+          value={currentData.providerFacilityAddress?.street}
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('street')}
@@ -430,7 +431,7 @@ const EvidencePrivateRecords = ({
           name="street2"
           type="text"
           label={content.addressLabels.street2}
-          value={currentData.providerFacilityAddress.street2}
+          value={currentData.providerFacilityAddress?.street2}
           onInput={handlers.onChange}
         />
         <VaTextInput
@@ -439,7 +440,7 @@ const EvidencePrivateRecords = ({
           type="text"
           label={content.addressLabels.city}
           required
-          value={currentData.providerFacilityAddress.city}
+          value={currentData.providerFacilityAddress?.city}
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('city')}
@@ -450,7 +451,7 @@ const EvidencePrivateRecords = ({
             name="state"
             label={content.addressLabels.state}
             required
-            value={currentData.providerFacilityAddress.state}
+            value={currentData.providerFacilityAddress?.state}
             onVaSelect={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
@@ -469,7 +470,7 @@ const EvidencePrivateRecords = ({
             type="text"
             label={content.addressLabels.state}
             required
-            value={currentData.providerFacilityAddress.state}
+            value={currentData.providerFacilityAddress?.state}
             onInput={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
@@ -482,7 +483,7 @@ const EvidencePrivateRecords = ({
           type="text"
           label={content.addressLabels.postal}
           required
-          value={currentData.providerFacilityAddress.postalCode}
+          value={currentData.providerFacilityAddress?.postalCode}
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('postal')}

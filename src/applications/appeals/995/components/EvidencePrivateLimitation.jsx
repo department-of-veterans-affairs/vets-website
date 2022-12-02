@@ -10,7 +10,7 @@ import { content } from '../content/evidencePrivateLimitation';
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const EvidencePrivateLimitation = ({
-  data,
+  data = {},
   onReviewPage,
   goBack,
   goForward,
@@ -55,6 +55,7 @@ const EvidencePrivateLimitation = ({
           </h3>
         </legend>
         <va-textarea
+          class="resize-y"
           label={content.textAreaLabel}
           name="limitation"
           onInput={handlers.onInput}

@@ -8,7 +8,7 @@ import { errorMessages, SELECTED, PRIMARY_PHONE } from '../constants';
  * @returns {String[]} - error messages
  */
 export const checkValidations = (
-  validations,
+  validations = [],
   data = {},
   fullData = {},
   index,

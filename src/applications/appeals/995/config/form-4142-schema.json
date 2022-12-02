@@ -58,19 +58,14 @@
                 ],
                 "properties": {
                   "street": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 20
+                    "type": "string"
                   },
                   "street2": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 20
+                    "type": "string"
                   },
                   "city": {
                     "type": "string",
-                    "minLength": 1,
-                    "maxLength": 30
+                    "minLength": 1
                   },
                   "postalCode": {
                     "type": "string",
