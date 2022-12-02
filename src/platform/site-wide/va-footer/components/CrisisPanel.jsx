@@ -37,12 +37,9 @@ export default function CrisisPanel() {
                 className="fa fa-phone va-crisis-panel-icon"
                 aria-hidden="true"
               />
-              {
-                // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
-                <a href="tel:8772676030">
-                  Call <strong>877-267-6030</strong>
-                </a>
-              }
+              <a href="tel:988">
+                Call <strong>988 and select 1</strong>
+              </a>
             </li>
             <li>
               <i
