@@ -5,8 +5,12 @@ import localStorage from '../storage/localStorage';
 import {
   infoTokenExists,
   checkOrSetSessionExpiration,
+  refresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
+
+const originalFetch = window.fetch;
+const fetch = require('fetch-retry')(originalFetch);
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
@@ -51,7 +55,7 @@ function isJson(response) {
  * the initial fetch request.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function apiRequest(resource, optionalSettings, success, error) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
@@ -79,6 +83,24 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
       'X-CSRF-Token': csrfTokenStored,
+    },
+    // eslint-disable-next-line consistent-return
+    async retryOn(attempt, errorRetry, response) {
+      const atError = await response.clone().json();
+
+      if (
+        atError.errors === 'Access token has expired' &&
+        infoTokenExists() &&
+        attempt < 1
+      ) {
+        // console.log(response);
+        await refresh({
+          type: sessionStorage.getItem('serviceName'),
+        });
+
+        return true;
+      }
+      return false;
     },
   };
 
@@ -112,12 +134,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (
-        response.ok ||
-        response.status === 304 ||
-        ((response.status === 403 || response.status === 401) &&
-          infoTokenExists())
-      ) {
+      if (response.ok || response.status === 304) {
         return data;
       }
 

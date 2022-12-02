@@ -1,5 +1,6 @@
 /* This file is must run in both NodeJS and browser environments */
 
+import { apiRequest } from 'platform/utilities/api';
 import { getFlipperId } from './helpers';
 
 const FLIPPER_ID = getFlipperId();
@@ -18,27 +19,20 @@ function FlipperClient({
   const csrfTokenStored = localStorage.getItem('csrfToken');
 
   const _fetchToggleValues = async () => {
-    const response = await fetch(`${host}${toggleValuesPath}`, {
-      credentials: 'include',
+    const response = await apiRequest(`${host}${toggleValuesPath}`, {
       headers: {
         'X-CSRF-Token': csrfTokenStored,
       },
     });
-    if (!response.ok) {
+
+    if (!response.data) {
       const errorMessage = `Failed to fetch toggle values with status ${
         response.status
       } ${response.statusText}`;
       throw new Error(errorMessage);
     }
 
-    // Get CSRF Token from API header
-    const csrfToken = response.headers.get('X-CSRF-Token');
-
-    if (csrfToken && csrfToken !== csrfTokenStored) {
-      localStorage.setItem('csrfToken', csrfToken);
-    }
-
-    return response.json();
+    return response;
   };
 
   const addSubscriberCallback = subscriberCallback =>
