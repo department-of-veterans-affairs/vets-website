@@ -7,6 +7,9 @@ export function removeFormApi(formId) {
   const apiUrl = inProgressApi(formId);
   return apiRequest(apiUrl, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }).catch(error => {
     if (error instanceof Error) {
       Sentry.captureException(error);
@@ -39,6 +42,7 @@ export function saveFormApi(
   const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
     'X-Key-Inflection': 'camel',
+    'Content-Type': 'application/json',
   };
   if (VA_FORM_IDS_SKIP_INFLECTION.includes(formId)) {
     delete saveFormApiHeaders['X-Key-Inflection'];
