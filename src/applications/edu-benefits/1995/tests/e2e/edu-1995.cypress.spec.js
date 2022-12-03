@@ -28,13 +28,7 @@ const form = createTestConfig(
         },
       });
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/22-1995', req => {
-          req.reply({
-            formData: testData,
-            metadata: { returnUrl: '/applicant/information' },
-          });
-        });
-        cy.intercept('PUT', '/v0/in_progress_forms/22-1995', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/22-1995', testData);
       });
     },
     pageHooks: {
