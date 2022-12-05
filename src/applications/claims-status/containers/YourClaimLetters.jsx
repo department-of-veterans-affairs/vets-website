@@ -72,10 +72,12 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         totalPages.current = paginatedItems.current.length;
 
         setCurrentItems(paginatedItems.current[currentPage - 1]);
-        setLettersLoading(false);
+        requestStatus.current = 200;
       })
       .catch(error => {
-        requestStatus.current = error.status;
+        requestStatus.current = Number(error.errors[0].code);
+      })
+      .then(() => {
         setLettersLoading(false);
       });
 

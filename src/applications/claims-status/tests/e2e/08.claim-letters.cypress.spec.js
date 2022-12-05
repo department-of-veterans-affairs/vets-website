@@ -1,6 +1,12 @@
 import claimLetters from './fixtures/mocks/claim-letters.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 
+const generateErrorContent = (title, code) => {
+  return {
+    errors: [{ title, detail: title, code, status: code }],
+  };
+};
+
 describe('Claim Letters Page', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
@@ -12,7 +18,6 @@ describe('Claim Letters Page', () => {
   });
 
   it('Displays a list of letters', () => {
-    // cy.intercept('GET', '/v0/claim_letters', claimLetters.data.slice(0, 8));
     cy.get('h1').should('have.text', 'Your VA claim letters');
     cy.get('ol').should.exist;
     cy.get('ol > li').should('have.length', 10);
@@ -77,9 +82,7 @@ describe('Claim Letters Page', () => {
   it('Displays a "No letters to show" message if there are no letters', () => {
     cy.intercept('GET', '/v0/claim_letters', []);
 
-    cy.get('h2.vads-u-font-size--h3')
-      .first()
-      .should('have.text', 'No letters to show');
+    cy.findByText(/No letters to show/i);
 
     // List shouldn't show
     cy.get('ol').should('not.exist');
@@ -88,40 +91,37 @@ describe('Claim Letters Page', () => {
   });
 
   it('Displays a server error message when status code is 500', () => {
-    cy.intercept('GET', '/v0/claim_letters', { statusCode: 500 });
+    cy.intercept('GET', '/v0/claim_letters', {
+      statusCode: 500,
+      body: generateErrorContent('Internal server error', '500'),
+    });
 
-    cy.get('h2.vads-u-font-size--h3')
-      .first()
-      .should('have.text', 'We can’t load this page');
-    cy.get('h2.vads-u-font-size--h3 + div').contains(
-      'Please refresh this page or try again later',
-    );
+    cy.findByText(/We can’t load this page/i);
+    cy.findByText(/Please refresh this page or try again later/i);
 
     cy.axeCheck();
   });
 
-  it('Displays an unauthenticated error message when status code is 403', () => {
-    cy.intercept('GET', '/v0/claim_letters', { statusCode: 403 });
+  it('Displays a forbidden error message when status code is 403', () => {
+    cy.intercept('GET', '/v0/claim_letters', {
+      statusCode: 403,
+      body: generateErrorContent('Forbidden', '403'),
+    });
 
-    cy.get('h2.vads-u-font-size--h3')
-      .first()
-      .should('have.text', 'We can’t load this page');
-    cy.get('h2.vads-u-font-size--h3 + div').contains(
-      'Please double check the URL',
-    );
+    cy.findByText(/We can’t load this page/i);
+    cy.findByText(/Please double check the URL/i);
 
     cy.axeCheck();
   });
 
   it('Displays an unauthenticated error message when status code is 401', () => {
-    cy.intercept('GET', '/v0/claim_letters', { statusCode: 401 });
+    cy.intercept('GET', '/v0/claim_letters', {
+      statusCode: 401,
+      body: generateErrorContent('Not authorized', '401'),
+    });
 
-    cy.get('h2.vads-u-font-size--h3')
-      .first()
-      .should('have.text', 'We can’t load this page');
-    cy.get('h2.vads-u-font-size--h3 + div').contains(
-      'Please double check the URL',
-    );
+    cy.findByText(/We can’t load this page/i);
+    cy.findByText(/Please double check the URL/i);
 
     cy.axeCheck();
   });
