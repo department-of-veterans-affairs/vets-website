@@ -72,7 +72,7 @@ export function refreshProfile(
     // errors from main response body, or from meta object (aka external service errors)
     const hasError = dataPayload => {
       return (
-        dataPayload?.errors?.length > 0 || dataPayload?.meta.errors?.length > 0
+        dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0
       );
     };
 
