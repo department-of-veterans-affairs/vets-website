@@ -75,6 +75,8 @@ class PatientMessagesLandingPage {
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
     mockMessage.data.attributes.sentDate = messageDate;
+    mockMessage.data.attributes.messageId = messageId;
+    mockMessage.data.attributes.messageTitle = messageTitle;
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${messageId}`,
