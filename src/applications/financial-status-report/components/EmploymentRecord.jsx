@@ -64,6 +64,7 @@ const EmploymentRecord = ({
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: val } : item;
     });
+
     updateFormData(updated);
   };
 
@@ -71,6 +72,7 @@ const EmploymentRecord = ({
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: val, to: '' } : item;
     });
+
     updateFormData(updated);
   };
 

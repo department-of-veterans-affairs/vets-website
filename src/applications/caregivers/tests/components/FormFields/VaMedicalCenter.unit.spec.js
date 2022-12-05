@@ -47,7 +47,7 @@ describe('CG <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
-    it('should render VaMedicalCenter component as an empty select element', () => {
+    it.skip('should render VaMedicalCenter component as an empty select element', () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -80,7 +80,7 @@ describe('CG <VaMedicalCenter>', () => {
       expect(view.container.querySelector('option[value=""]')).to.exist;
     });
 
-    it('should render a loading indacator', () => {
+    it.skip('should render a loading indacator', () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -108,7 +108,7 @@ describe('CG <VaMedicalCenter>', () => {
       expect(view.container.querySelector('va-loading-indicator')).to.exist;
     });
 
-    it('should render a select element with options to select', async () => {
+    it.skip('should render a select element with options to select', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -148,7 +148,7 @@ describe('CG <VaMedicalCenter>', () => {
       );
     });
 
-    it('should render a facility name in review mode', async () => {
+    it.skip('should render a facility name in review mode', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -218,7 +218,7 @@ describe('CG <VaMedicalCenter>', () => {
     after(() => {
       server.close();
     });
-    it('should render a server error alert', async () => {
+    it.skip('should render a server error alert', async () => {
       const mockStore = {
         getState: () => ({
           form: {

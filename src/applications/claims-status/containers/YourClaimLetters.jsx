@@ -12,17 +12,6 @@ import WIP from '../components/WIP';
 import { ITEMS_PER_PAGE } from '../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
 
-const paginateItems = items => {
-  return items.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
-};
-
-// const getFromToNums = (page, total) => {
-//   const from = (page - 1) * ITEMS_PER_PAGE + 1;
-//   const to = Math.min(page * ITEMS_PER_PAGE, total);
-
-//   return [from, to];
-// };
-
 const NoLettersContent = () => (
   <>
     <h2 className="vads-u-font-size--h3">No letters to show</h2>
@@ -33,6 +22,37 @@ const NoLettersContent = () => (
   </>
 );
 
+const UnauthenticatedContent = () => (
+  <div className="vads-u-text-align--center">
+    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
+    <div className="vads-u-font-size--lg">
+      Something went wrong on our end. Please double check the URL and make sure
+      you are signed in.
+    </div>
+  </div>
+);
+
+const ServerErrorContent = () => (
+  <div className="vads-u-text-align--center">
+    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
+    <div className="vads-u-font-size--lg">
+      We’re sorry. Something went wrong on our end. Please refresh this page or
+      try again later.
+    </div>
+  </div>
+);
+
+const paginateItems = items => {
+  return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
+};
+
+// const getFromToNums = (page, total) => {
+//   const from = (page - 1) * ITEMS_PER_PAGE + 1;
+//   const to = Math.min(page * ITEMS_PER_PAGE, total);
+
+//   return [from, to];
+// };
+
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,16 +62,28 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const totalItems = useRef(0);
   const totalPages = useRef(0);
   const paginatedItems = useRef([]);
+  const requestStatus = useRef(200);
 
   useEffect(() => {
-    getClaimLetters().then(data => {
-      paginatedItems.current = paginateItems(data);
-      totalItems.current = data.length;
-      totalPages.current = paginatedItems.current.length;
+    getClaimLetters()
+      .then(data => {
+        paginatedItems.current = paginateItems(data);
+        totalItems.current = data?.length || 0;
+        totalPages.current = paginatedItems.current.length;
 
-      setCurrentItems(paginatedItems.current[currentPage - 1]);
-      setLettersLoading(false);
-    });
+        setCurrentItems(paginatedItems.current[currentPage - 1]);
+        requestStatus.current = 200;
+      })
+      .catch(error => {
+        if (error.errors) {
+          requestStatus.current = Number(error?.errors[0].code);
+        } else {
+          requestStatus.current = error.status;
+        }
+      })
+      .then(() => {
+        setLettersLoading(false);
+      });
 
     document.title = 'Your VA Claim Letters | Veterans Affairs';
   }, []);
@@ -59,6 +91,38 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const onPageChange = page => {
     setCurrentItems(paginatedItems.current[page - 1]);
     setCurrentPage(page);
+  };
+
+  const getSectionBodyContent = statusCode => {
+    if (statusCode === 500) {
+      return <ServerErrorContent />;
+    }
+
+    if (statusCode === 401 || statusCode === 403) {
+      return <UnauthenticatedContent />;
+    }
+
+    return (
+      <>
+        {/* <p className="vads-u-font-size--lg vads-u-font-family--serif">
+        Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
+        claim letters
+      </p> */}
+        {currentItems?.length ? (
+          <ClaimLetterList letters={currentItems} />
+        ) : (
+          <NoLettersContent />
+        )}
+        {totalPages.current > 1 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={totalPages.current}
+            maxPageListLength={ITEMS_PER_PAGE}
+          />
+        )}
+      </>
+    );
   };
 
   if (isLoading) {
@@ -81,25 +145,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         {lettersLoading ? (
           <va-loading-indicator message="Loading your claim letters..." />
         ) : (
-          <>
-            {/* <p className="vads-u-font-size--lg vads-u-font-family--serif">
-              Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
-              claim letters
-            </p> */}
-            {currentItems?.length ? (
-              <ClaimLetterList letters={currentItems} />
-            ) : (
-              <NoLettersContent />
-            )}
-            {totalPages.current > 1 && (
-              <VaPagination
-                onPageSelect={e => onPageChange(e.detail.page)}
-                page={currentPage}
-                pages={totalPages.current}
-                maxPageListLength={ITEMS_PER_PAGE}
-              />
-            )}
-          </>
+          getSectionBodyContent(requestStatus.current)
         )}
       </>
     );

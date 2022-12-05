@@ -55,13 +55,16 @@ const PersonalAuthenticatedInformation = ({
               <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
               <va-telephone contact={CONTACTS[711]} tty />
               ), Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
-              <abbr title="eastern time">ET</abbr>.
+              <dfn>
+                <abbr title="Eastern Time">ET</abbr>
+              </dfn>
+              .
             </p>
             <p>
               You can also call your VA medical center (
-              <a href="/find-locations">find a VA location tool</a>) to get help
-              changing your name on file with VA. Ask for the eligibility
-              department.
+              <va-link href="/find-locations/" text="find a VA location tool" />
+              ) to get help changing your name on file with VA. Ask for the
+              eligibility department.
             </p>
           </div>
           <FormNavButtons goBack={goBack} goForward={goForward} />
