@@ -96,26 +96,11 @@ describe('<EducationWizard>', () => {
     ).to.be.true;
     tree.unmount();
   });
-  it('should show 5490 button', () => {
-    const tree = mount(<EducationWizard store={store} />);
-
-    answerQuestion(tree, '#newBenefit-0', 'yes');
-    answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-0', 'yes');
-    expect(
-      tree
-        .find('#apply-now-link')
-        .prop('href')
-        .endsWith('5490'),
-    ).to.be.true;
-    tree.unmount();
-  });
   it('should show 1990E button', () => {
     const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
     answerQuestion(tree, '#sponsorTransferredBenefits-0', 'yes');
     expect(
       tree
@@ -125,19 +110,28 @@ describe('<EducationWizard>', () => {
     ).to.be.true;
     tree.unmount();
   });
+  it('should show 5490 button', () => {
+    const tree = mount(<EducationWizard store={store} />);
+
+    answerQuestion(tree, '#newBenefit-0', 'yes');
+    answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
+    answerQuestion(tree, '#sponsorTransferredBenefits-1', 'no');
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-0', 'yes');
+    expect(
+      tree
+        .find('#apply-now-link')
+        .prop('href')
+        .endsWith('5490'),
+    ).to.be.true;
+    tree.unmount();
+  });
   it('should show transfer warning', () => {
     const tree = mount(<EducationWizard store={store} />);
 
     answerQuestion(tree, '#newBenefit-0', 'yes');
     answerQuestion(tree, '#serviceBenefitBasedOn-1', 'other');
-    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
     answerQuestion(tree, '#sponsorTransferredBenefits-1', 'no');
-    expect(
-      tree
-        .find('#apply-now-link')
-        .prop('href')
-        .endsWith('1990E'),
-    ).to.be.true;
+    answerQuestion(tree, '#sponsorDeceasedDisabledMIA-1', 'no');
     expect(tree.find('.usa-alert-warning')).not.be.be.false;
     tree.unmount();
   });

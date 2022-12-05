@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
 
 import {
@@ -15,7 +15,7 @@ import {
 
 import ApplicationInProgress from './ApplicationInProgress';
 
-const ApplicationsInProgress = ({ savedForms }) => {
+const ApplicationsInProgress = ({ savedForms, hideH3 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
@@ -28,9 +28,11 @@ const ApplicationsInProgress = ({ savedForms }) => {
 
   return (
     <>
-      <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Applications in progress
-      </h3>
+      {!hideH3 && (
+        <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
+          Applications in progress
+        </h3>
+      )}
 
       {verifiedSavedForms.length > 0 ? (
         <div className="vads-l-row">
@@ -64,6 +66,11 @@ const ApplicationsInProgress = ({ savedForms }) => {
       )}
     </>
   );
+};
+
+ApplicationsInProgress.propTypes = {
+  hideH3: PropTypes.bool,
+  savedForms: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

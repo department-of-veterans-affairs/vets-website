@@ -103,12 +103,7 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show benefit applications that were saved in progress and have not expired', () => {
-      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
-        'exist',
-      );
-      cy.findByRole('heading', { name: /applications in progress/i }).should(
-        'exist',
-      );
+      cy.findByRole('heading', { name: /saved applications/i }).should('exist');
       cy.findAllByTestId('application-in-progress').should('have.length', 2);
       cy.findByText(/you have no applications in/i).should('not.exist');
       // make the a11y check
@@ -148,12 +143,7 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show fallback content when there are no benefit applications saved in progress', () => {
-      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
-        'exist',
-      );
-      cy.findByRole('heading', { name: /applications in progress/i }).should(
-        'exist',
-      );
+      cy.findByRole('heading', { name: /saved applications/i }).should('exist');
       cy.findAllByTestId('application-in-progress').should('have.length', 0);
       cy.findByText(/you have no applications in/i).should('exist');
       cy.injectAxe();
