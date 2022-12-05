@@ -11,7 +11,7 @@ import {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
-import VARadioButton from '../../gi/components/VARadioButton';
+import VARadioButton from '../utils/VaRadioButton';
 import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 
 const levels = [
