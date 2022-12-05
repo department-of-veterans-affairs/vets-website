@@ -12,10 +12,13 @@ import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
   REVIEW_ENROLLMENTS_URL,
 } from '../constants';
+import { getEVData } from '../selectors';
 
 export function EnrollmentVerificationIntroPage({
-  loggedIn,
+  isLoggedIn,
   enrollmentVerification,
+  enrollmentVerificationFetchComplete,
+  enrollmentVerificationFetchFailure,
   hasCheckedKeepAlive,
   getPost911GiBillEligibility,
   post911GiBillEligibility,
@@ -48,6 +51,9 @@ export function EnrollmentVerificationIntroPage({
     [history],
   );
 
+  const enrollmentsLoadedOrFetchFailed =
+    enrollmentVerification || enrollmentVerificationFetchFailure;
+
   const verifyEnrollmentsButton = (
     <a
       type="button"
@@ -72,7 +78,7 @@ export function EnrollmentVerificationIntroPage({
     </va-alert>
   );
 
-  if (!loggedIn && !hasCheckedKeepAlive) {
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
 
@@ -84,9 +90,19 @@ export function EnrollmentVerificationIntroPage({
         continue getting paid.
       </p>
 
-      {!loggedIn ? <EnrollmentVerificationLogin /> : <></>}
-      {loggedIn && enrollmentVerification ? verifyEnrollmentsButton : <></>}
-      {loggedIn && !enrollmentVerification ? noPost911GiBillAlert : <></>}
+      {!isLoggedIn && <EnrollmentVerificationLogin />}
+      {isLoggedIn &&
+        !enrollmentVerificationFetchComplete && (
+          <EnrollmentVerificationLoadingIndicator message="Loading..." />
+        )}
+      {isLoggedIn &&
+        enrollmentVerificationFetchComplete &&
+        enrollmentsLoadedOrFetchFailed &&
+        verifyEnrollmentsButton}
+      {isLoggedIn &&
+        enrollmentVerificationFetchComplete &&
+        !enrollmentsLoadedOrFetchFailed &&
+        noPost911GiBillAlert}
 
       <h2>Who will need to verify their enrollment?</h2>
       <p>
@@ -185,11 +201,7 @@ export function EnrollmentVerificationIntroPage({
   );
 }
 
-const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
