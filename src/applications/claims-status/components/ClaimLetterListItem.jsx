@@ -26,7 +26,9 @@ const docTypeToDescription = {
 };
 
 const getDescription = docType => {
-  return docTypeToDescription[docType];
+  const defaultDescription = 'Notification Letter';
+
+  return docTypeToDescription[docType] || defaultDescription;
 };
 
 const filename = 'ClaimLetter.pdf';
