@@ -19,8 +19,8 @@ class PatientComposePage {
 
   saveDraft = () => {
     cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/message_drafts',
+      'PUT',
+      '/my_health/v1/messaging/message_drafts/*',
       mockDraftMessage,
     ).as('draft_message');
     cy.wait('@draft_message').then(xhr => {

@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
@@ -31,6 +32,7 @@ const DisplayMultipleAppointments = props => {
     {
       refreshNeeded: shouldRefresh,
       appointmentsOnly: true,
+      isPreCheckIn: false,
     },
   );
 
@@ -83,7 +85,11 @@ const DisplayMultipleAppointments = props => {
   if (isLoading) window.scrollTo(0, 0);
 
   return isLoading ? (
-    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+    <div>
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
+    </div>
   ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />

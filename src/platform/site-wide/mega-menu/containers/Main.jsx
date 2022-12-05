@@ -94,16 +94,18 @@ export class Main extends Component {
 
   linkClicked = link => {
     const linkName = link.text || link.title;
+    const { currentSection } = this.props;
     recordEvent({
       event: 'nav-header-link',
-      'nav-header-action': `Navigation - Header - Open Link - ${linkName}`,
+      'nav-header-action': `Header - ${currentSection} - ${linkName}`,
     });
   };
 
   columnThreeLinkClicked = link => {
+    const { currentSection } = this.props;
     recordEvent({
       event: 'nav-hub-containers',
-      'nav-hub-action': link.text,
+      'nav-hub-action': `Header - ${currentSection} - ${link.text}`,
     });
   };
 

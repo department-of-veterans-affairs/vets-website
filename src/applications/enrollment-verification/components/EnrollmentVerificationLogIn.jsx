@@ -10,13 +10,19 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
   ]);
   return (
     <va-alert status="continue" visible>
-      <h3 slot="headline">
-        Please sign in to verify your school enrollments for Post-9/11 GI Bill
-      </h3>
+      <h3 slot="headline">Please sign in to verify your enrollment</h3>
       <p>
-        Sign in with your existing <strong>ID.me</strong> account. If you don’t
-        have an account, you can create a free <strong>ID.me</strong> account
-        now.
+        Sign in with your existing <strong>ID.me</strong> or{' '}
+        <strong>Login.gov</strong> account. If you don’t have an account, you
+        can create a free{' '}
+        <a href="https://api.id.me/" target="_blank" rel="noreferrer">
+          ID.me
+        </a>{' '}
+        account or{' '}
+        <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
+          Login.gov
+        </a>{' '}
+        account now.
       </p>
       <button
         type="button"

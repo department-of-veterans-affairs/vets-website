@@ -62,8 +62,10 @@ const CopayCheckBox = ({ copay }) => {
         onChange={() => onChange(copay)}
       />
       <label className="vads-u-margin--0" htmlFor={copay.id}>
-        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
-          <p className="vads-u-margin--0">{checkboxMainText}</p>
+        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3 vads-u-padding-top--0p25">
+          <p className="vads-u-margin--0 vads-u-font-weight--bold">
+            {checkboxMainText}
+          </p>
           <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-color--gray">
             {checkboxSubText}
           </p>

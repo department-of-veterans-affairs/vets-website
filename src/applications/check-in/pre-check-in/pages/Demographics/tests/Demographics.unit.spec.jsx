@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { I18nextProvider } from 'react-i18next';
@@ -63,27 +62,9 @@ const initState = {
       pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
     },
   },
-  featureToggles: {
-    // eslint-disable-next-line camelcase
-    check_in_experience_phone_appointments_enabled: false,
-  },
 };
 
 describe('pre-check-in', () => {
-  describe('Demographics page - current demographics', () => {
-    const axeStore = mockStore({ ...initState, ...scheduledDowntimeState });
-
-    it('page passes axeCheck', () => {
-      axeCheck(
-        <Provider store={axeStore}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={createMockRouter()} />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
-  });
-
   describe('Demographics sub message', () => {
     const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
 
@@ -104,8 +85,6 @@ describe('pre-check-in', () => {
     it('does not render the sub-message for a phone appointment appointment', () => {
       const phoneInitState = JSON.parse(JSON.stringify(initState));
       phoneInitState.checkInData.appointments[0].kind = 'phone';
-      // eslint-disable-next-line camelcase
-      phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
       const phoneSubStore = mockStore({
         ...phoneInitState,
         ...scheduledDowntimeState,

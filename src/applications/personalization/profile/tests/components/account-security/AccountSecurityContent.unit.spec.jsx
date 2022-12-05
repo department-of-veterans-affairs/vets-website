@@ -9,11 +9,11 @@ import {
   mapStateToProps,
 } from '@@profile/components/account-security/AccountSecurityContent';
 import ProfileInfoTable from '@@profile/components/ProfileInfoTable';
-import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import TwoFactorAuthorizationStatus from '@@profile/components/account-security/TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from '@@profile/components/account-security/MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '@@profile/components/contact-information/email-addresses/EmailAddressNotification';
 import Verified from '@@profile/components/account-security/Verified';
+import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 
 describe('AccountSecurityContent', () => {
   let wrapper;
@@ -24,6 +24,7 @@ describe('AccountSecurityContent', () => {
     showMHVTermsAndConditions: true,
     useSSOe: true,
     showWeHaveVerifiedYourID: true,
+    isBlocked: false,
   });
 
   it('should render a ProfileInfoTable as its first child', () => {

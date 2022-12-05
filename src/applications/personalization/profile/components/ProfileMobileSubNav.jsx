@@ -116,8 +116,14 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
 };
 
 ProfileMobileSubNav.propTypes = {
-  isLOA3: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
+  isLOA3: PropTypes.bool.isRequired,
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default ProfileMobileSubNav;

@@ -1,24 +1,24 @@
-import React from 'react';
+// import React from 'react';
 
-import { formatDateRange } from '../utils/dates';
+// import { formatDateRange } from '../utils/dates';
 
 export const content = {
-  page:
-    'First we’ll ask you about your VA medical records for your claimed disability.',
-  intro: (
-    <>
-      <h3>VA medical records</h3>
-      <p>Please tell us which VA treated you for your disability.</p>
-    </>
-  ),
-  locations: 'Locations',
+  title: 'Which VA facility treated you?',
+  description: 'We’ll request your VA medical records from this facility',
   locationAndName:
     'Name of VA medical center, VA treatment facility, or Federal department or agency',
-  dates: 'Date(s) of record',
-  dateStart: 'Start date',
-  dateEnd: 'End date',
+  conditions:
+    'Choose the conditions you received treatment for at this facility',
+  dateStart: 'First treatment date (you can estimate)',
+  dateEnd: 'Last treatment date (you can estimate)',
+  addAnother: 'Add another location',
+  modalTitle: 'Do you want to keep this location?',
+  modalDescription: ' Your current information has been auto-saved.',
+  modalYes: 'Yes',
+  modalNo: 'No, remove this location',
 };
 
+/*
 export const locationView = props => {
   const { formData } = props;
   const { locationAndName, evidenceDates } = formData;
@@ -38,3 +38,4 @@ export const locationView = props => {
 };
 
 export const datesView = ({ formData }) => formatDateRange(formData);
+*/
