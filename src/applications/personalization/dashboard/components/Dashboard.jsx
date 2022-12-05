@@ -54,6 +54,7 @@ import Notifications from './notifications/Notifications';
 import { canAccess } from '../selectors';
 import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
 import SavedApplications from './apply-for-benefits/SavedApplications';
+import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications, paymentsError }) => {
   return (
@@ -290,6 +291,7 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
+              <EducationAndTraining />
               {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
             </div>
           </div>
