@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
+export * from './analytics';
+
 // possible values for the `key` property on error messages we get from the server
 const ACCOUNT_FLAGGED_FOR_FRAUD_KEY = 'cnp.payment.flashes.on.record.message';
 const GENERIC_ERROR_KEY = 'cnp.payment.generic.error.message';

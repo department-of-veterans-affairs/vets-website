@@ -1,6 +1,8 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { recordCustomProfileEvent } from '@@profile/util';
 
 // this is used when the user is logged in, but they are flagged in one of three ways:
 
@@ -10,6 +12,12 @@ import React from 'react';
 // 3. they have a !notDeceasedIndicator
 
 export const AccountBlocked = () => {
+  useEffect(() => {
+    recordCustomProfileEvent({
+      status: 'Fiduciary Flag Views',
+      title: `We can't show your information`,
+    });
+  }, []);
   return (
     <div className="vads-u-margin-bottom--4">
       <va-alert data-testid="account-blocked-alert" status="warning">
