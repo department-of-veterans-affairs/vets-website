@@ -4,18 +4,13 @@ class PatientComposePage {
   sendMessage = () => {
     cy.intercept(
       'POST',
-      '/my_health/v1/messaging/message_drafts',
+      '/my_health/v1/messaging/messages',
       mockDraftMessage,
-    ).as('draft_message');
+    ).as('message');
     cy.get('[data-testid="Send-Button"]')
       .contains('Send')
       .click();
-    cy.wait('@draft_message');
-    cy.intercept(
-      'PUT',
-      '/my_health/v1/messaging/message_drafts/*',
-      mockDraftMessage,
-    ).as('draft_message_put');
+    cy.wait('@message');
   };
 
   saveDraft = () => {

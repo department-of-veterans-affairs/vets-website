@@ -2,7 +2,7 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
-describe.skip(manifest.appName, () => {
+describe(manifest.appName, () => {
   it('can send message', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();
@@ -20,8 +20,14 @@ describe.skip(manifest.appName, () => {
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },
     );
-    cy.get('[data-testid="message-subject-field"]').type('Test Subject');
-    cy.get('[data-testid="message-body-field"]').type('message Test');
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type('Test Subject');
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
     composePage.sendMessage();
   });
 });
