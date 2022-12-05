@@ -40,7 +40,7 @@
     "lint:sass": "stylelint src/**/*.scss --fix",
     "lint:sass:changed": "LIST=`git diff-index --diff-filter=d --name-only HEAD -- \"*.scss\"`; if [ \"$LIST\" ]; then stylelint $LIST; fi",
     "list-imports:apps": "node script/list-imports.js --app-dir applications",
-    "list-imports:plat": "node script/list-imports.js --app-dir platform",
+    "list-imports:plat": "node script/list-imports.js",
     "migrate-component": "node script/component-migration/index.js",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "modules-folder:del": "./script/delete-modules-folder.sh",
