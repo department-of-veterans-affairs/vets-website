@@ -1,7 +1,7 @@
 import React from 'react';
 import { formIdSuffixes } from 'applications/static-pages/wizard/';
 import { pageNames } from './pageList';
-import VARadioButton from '../../../gi/components/VARadioButton';
+import VARadioButton from '../../utils/VaRadioButton';
 
 const claimingBenefitOwnServiceOptions = [
   { label: 'Yes', value: 'yes' },
