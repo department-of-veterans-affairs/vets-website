@@ -1105,6 +1105,35 @@ const formConfig = {
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
+              'ui:options': {
+                hideIf: formData => formData?.showMebDgi40Features,
+              },
+            },
+            'view:newSubHeading': {
+              'ui:description': (
+                <>
+                  <p>
+                    The displayed service history is reported to VA by DOD and
+                    may include service which is not creditable for the
+                    Post-9/11 GI Bill.
+                  </p>
+                  <p>
+                    VA will only consider active duty service (
+                    <a
+                      target="_blank"
+                      href="https://uscode.house.gov/view.xhtml?req=(title:38%20section:3301%20edition:prelim)%20OR%20(granuleid:USC-prelim-title38-section3301)&f=treesort&edition=prelim&num=0&jumpTo=true"
+                      rel="noreferrer"
+                    >
+                      Authority 38 U.S.C. 3301(1)
+                    </a>
+                    ) when determining your eligibility. Please review your
+                    service history and indicate if anything is incorrect.
+                  </p>
+                </>
+              ),
+              'ui:options': {
+                hideIf: formData => !formData?.showMebDgi40Features,
+              },
             },
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
@@ -1158,6 +1187,10 @@ const formConfig = {
             type: 'object',
             properties: {
               'view:subHeading': {
+                type: 'object',
+                properties: {},
+              },
+              'view:newSubHeading': {
                 type: 'object',
                 properties: {},
               },
