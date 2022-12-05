@@ -43,7 +43,7 @@ const ServerErrorContent = () => (
 );
 
 const paginateItems = items => {
-  return items.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
+  return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
 };
 
 // const getFromToNums = (page, total) => {
@@ -68,14 +68,18 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     getClaimLetters()
       .then(data => {
         paginatedItems.current = paginateItems(data);
-        totalItems.current = data.length;
+        totalItems.current = data?.length || 0;
         totalPages.current = paginatedItems.current.length;
 
         setCurrentItems(paginatedItems.current[currentPage - 1]);
         requestStatus.current = 200;
       })
       .catch(error => {
-        requestStatus.current = Number(error.errors[0].code);
+        if (error.errors) {
+          requestStatus.current = Number(error?.errors[0].code);
+        } else {
+          requestStatus.current = error.status;
+        }
       })
       .then(() => {
         setLettersLoading(false);
