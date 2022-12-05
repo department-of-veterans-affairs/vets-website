@@ -18,9 +18,12 @@ const successAlert = submissionResult => (
 );
 const warningAlert = (
   <va-alert status="warning" visible>
-    <h3 slot="headline">
+    <p
+      className="vads-u-font-size--h3 vads-u-font-weight--bold"
+      slot="headline"
+    >
       We’re missing one or more of your enrollment verifications
-    </h3>
+    </p>
     <p>
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
