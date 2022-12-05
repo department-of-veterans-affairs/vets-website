@@ -31,7 +31,6 @@ describe('SIP Load Fail Test', () => {
 
     // fail to load an in progress form
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 500,
     });
     cy.get('.main .usa-button-primary')
@@ -53,7 +52,6 @@ describe('SIP Load Fail Test', () => {
     cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 404,
     });
 
@@ -73,7 +71,6 @@ describe('SIP Load Fail Test', () => {
     cy.get('body');
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
-      body: {},
       statusCode: 401,
     });
 

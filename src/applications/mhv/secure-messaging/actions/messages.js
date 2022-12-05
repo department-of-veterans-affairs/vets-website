@@ -6,6 +6,8 @@ import {
   getMessageHistory,
   deleteMessage as deleteMessageCall,
   moveMessage as moveMessageCall,
+  createMessage,
+  createReplyToMessage,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
@@ -88,7 +90,7 @@ export const retrieveMessage = (
   const today = new Date();
   const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(messageSentDate), 45);
-  if (today > cannotReplyDate) {
+  if (!isDraft && today > cannotReplyDate) {
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_INFO,
@@ -149,5 +151,54 @@ export const moveMessage = (messageId, folderId) => async dispatch => {
         Constants.Alerts.Message.MOVE_MESSAGE_ERROR,
       ),
     );
+    throw e;
+  }
+};
+
+export const sendMessage = (message, attachments) => async dispatch => {
+  try {
+    await createMessage(message, attachments);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+      ),
+    );
+    throw e;
+  }
+};
+
+export const sendReply = (
+  replyToId,
+  message,
+  attachments,
+) => async dispatch => {
+  try {
+    await createReplyToMessage(replyToId, message, attachments);
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_SUCCESS,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
+      ),
+    );
+  } catch (e) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_ERROR,
+        '',
+        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+      ),
+    );
+    throw e;
   }
 };
