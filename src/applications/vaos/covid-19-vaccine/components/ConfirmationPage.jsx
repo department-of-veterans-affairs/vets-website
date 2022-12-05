@@ -103,6 +103,7 @@ export default function ConfirmationPage() {
             });
           }}
           text="Review your appointments"
+          data-testid="review-your-appointments-link"
         />
       </div>
     </div>
