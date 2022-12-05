@@ -19,10 +19,10 @@ describe('Claim Letters Page', () => {
 
   it('Displays a list of letters', () => {
     cy.get('h1').should('have.text', 'Your VA claim letters');
-    cy.get('ol').should.exist;
+    cy.get('ol').should('exist');
     cy.get('ol > li').should('have.length', 10);
 
-    cy.get('va-pagination').should.exist;
+    cy.get('va-pagination').should('exist');
 
     cy.axeCheck();
   });
@@ -32,7 +32,7 @@ describe('Claim Letters Page', () => {
 
     // TODO: Check the number of pages in the va-pagination component
     // We should know ahead of time how many pages should appear
-    cy.get('va-pagination').should.exist;
+    cy.get('va-pagination').should('exist');
 
     cy.axeCheck();
   });
@@ -82,7 +82,7 @@ describe('Claim Letters Page', () => {
   it('Displays a "No letters to show" message if there are no letters', () => {
     cy.intercept('GET', '/v0/claim_letters', []);
 
-    cy.findByText(/No letters to show/i);
+    cy.findByText(/No letters to show/i).should('exist');
 
     // List shouldn't show
     cy.get('ol').should('not.exist');
@@ -96,8 +96,10 @@ describe('Claim Letters Page', () => {
       body: generateErrorContent('Internal server error', '500'),
     });
 
-    cy.findByText(/We can’t load this page/i);
-    cy.findByText(/Please refresh this page or try again later/i);
+    cy.findByText(/We can’t load this page/i).should('exist');
+    cy.findByText(/Please refresh this page or try again later/i).should(
+      'exist',
+    );
 
     cy.axeCheck();
   });
@@ -108,8 +110,8 @@ describe('Claim Letters Page', () => {
       body: generateErrorContent('Forbidden', '403'),
     });
 
-    cy.findByText(/We can’t load this page/i);
-    cy.findByText(/Please double check the URL/i);
+    cy.findByText(/We can’t load this page/i).should('exist');
+    cy.findByText(/Please double check the URL/i).should('exist');
 
     cy.axeCheck();
   });
@@ -120,8 +122,8 @@ describe('Claim Letters Page', () => {
       body: generateErrorContent('Not authorized', '401'),
     });
 
-    cy.findByText(/We can’t load this page/i);
-    cy.findByText(/Please double check the URL/i);
+    cy.findByText(/We can’t load this page/i).should('exist');
+    cy.findByText(/Please double check the URL/i).should('exist');
 
     cy.axeCheck();
   });
