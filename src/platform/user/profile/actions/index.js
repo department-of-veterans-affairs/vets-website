@@ -66,13 +66,25 @@ export function refreshProfile(
         payload.data.attributes.profile?.signIn?.serviceName,
       );
     }
+
     const saved = await saveAndRefresh(payload);
 
-    recordEvent({
+    // errors from main response body, or from meta object (aka external service errors)
+    const hasError = dataPayload => {
+      return (
+        dataPayload?.errors?.length > 0 || dataPayload?.meta.errors?.length > 0
+      );
+    };
+
+    const eventApiStatus = hasError(saved.payload) ? 'failure' : 'success';
+
+    const eventData = {
       event: 'api_call',
       'api-name': 'GET /v0/user',
-      'api-status': 'successful',
-    });
+      'api-status': eventApiStatus,
+    };
+
+    recordEvent(eventData);
 
     dispatch(updateProfileFields(saved.payload));
     return saved.payload;
