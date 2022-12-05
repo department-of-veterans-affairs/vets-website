@@ -106,6 +106,7 @@ export default function ReviewPage() {
             href={flow.contactInfo.url}
             aria-label="Edit contact information"
             text="Edit"
+            data-testid="edit-contact-information-link"
           />
         </div>
       </div>
