@@ -104,7 +104,7 @@ const TravelPayAlert = props => {
               eventId="request-travel-pay-reimbursement-from-travel-error--link-clicked"
               eventPrefix="nav"
             >
-              {t('go-to-the-accessva-travel-claim-portal-now')}
+              {t('find-out-how-to-file--link')}
             </ExternalLink>
           </va-alert>
         )}

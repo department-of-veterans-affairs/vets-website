@@ -33,9 +33,12 @@ const App = ({ toggleLoginModal, user }) => {
         status="continue"
         visible
       >
-        <h3 slot="headline">
+        <p
+          className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+          slot="headline"
+        >
           Please sign in to check your VA education letter.
-        </h3>
+        </p>
         <div>
           Sign in with your existing ID.me or Login.gov account. If you don’t
           have an account, you can create a free{' '}

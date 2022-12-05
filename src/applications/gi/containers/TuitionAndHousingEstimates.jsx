@@ -64,6 +64,18 @@ export function TuitionAndHousingEstimates({
     modalClose();
   };
 
+  const handlers = {
+    onSelection: target => {
+      const { value } = target.detail;
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'Will you be taking any classes in person ?',
+        'gibct-form-value': value,
+      });
+      setOnlineClasses(value);
+    },
+  };
+
   const controls = (
     <div>
       <SearchBenefits
@@ -93,18 +105,12 @@ export function TuitionAndHousingEstimates({
       />
       <VARadioButton
         radioLabel=""
-        initialValue="no"
+        name="inPersonClasses"
+        initialValue={onlineClasses}
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        onVaValueChange={target => {
-          const { value } = target;
-          recordEvent({
-            event: 'gibct-form-change',
-            'gibct-form-field': 'Will you be taking any classes in person ?',
-            'gibct-form-value': value,
-          });
-          setOnlineClasses(value);
-        }}
+        onVaValueChange={handlers.onSelection}
       />
+
       <div id="note" className="vads-u-padding-top--2">
         <b>Note:</b> Changing these settings modifies the tuition and housing
         benefits shown on the search cards.
