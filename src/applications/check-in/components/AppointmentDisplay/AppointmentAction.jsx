@@ -11,6 +11,7 @@ import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 import { appointmentWasCheckedInto } from '../../actions/day-of';
 
 import { CheckInButton } from './CheckInButton';
+import { useUpdateError } from '../../hooks/useUpdateError';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
@@ -23,11 +24,12 @@ const AppointmentAction = props => {
     },
     [dispatch],
   );
+  const { updateError } = useUpdateError();
 
   const defaultMessage = t(
     'online-check-in-isnt-available-for-this-appointment-check-in-with-a-staff-member',
   );
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
       try {
@@ -41,13 +43,13 @@ const AppointmentAction = props => {
           setSelectedAppointment(appointment);
           goToNextPage();
         } else {
-          goToErrorPage('?error=check-in-post-error');
+          updateError('check-in-post-error');
         }
       } catch (error) {
-        goToErrorPage('?error=error-completing-check-in');
+        updateError('error-completing-check-in');
       }
     },
-    [appointment, goToErrorPage, goToNextPage, setSelectedAppointment, token],
+    [appointment, updateError, goToNextPage, setSelectedAppointment, token],
   );
 
   if (appointment.eligibility) {

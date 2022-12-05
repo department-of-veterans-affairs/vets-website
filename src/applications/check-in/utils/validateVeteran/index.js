@@ -12,7 +12,6 @@ import { api } from '../../api';
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
  * @param {boolean} [isLorotaSecurityUpdatesEnabled]
- * @param {function} [goToErrorPage]
  * @param {function} [goToNextPage]
  * @param {function} [incrementValidateAttempts]
  * @param {boolean} [isMaxValidateAttempts]
@@ -34,7 +33,6 @@ const validateLogin = async (
   setIsLoading,
   setShowValidateError,
   isLorotaSecurityUpdatesEnabled,
-  goToErrorPage,
   goToNextPage,
   incrementValidateAttempts,
   isMaxValidateAttempts,
@@ -96,7 +94,7 @@ const validateLogin = async (
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
-      goToErrorPage('?error=session-error');
+      updateError('session-error');
     } else {
       setSession(token, resp.permissions);
       if (!isLorotaDeletionEnabled) {
@@ -109,10 +107,10 @@ const validateLogin = async (
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
       let params = '';
       if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
-        params = '?error=validation';
+        params = 'validation';
         updateError('max-validation');
       }
-      goToErrorPage(params);
+      updateError(params);
     } else {
       setShowValidateError(true);
       if (!isLorotaDeletionEnabled) {

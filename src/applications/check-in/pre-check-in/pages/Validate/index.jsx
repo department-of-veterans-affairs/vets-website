@@ -5,7 +5,6 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../../actions/authentication';
-import { setError } from '../../../actions/universal';
 
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
@@ -14,6 +13,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { validateLogin } from '../../../utils/validateVeteran';
 
@@ -24,16 +24,10 @@ const Index = ({ router }) => {
     resetAttempts,
     setPermissions,
   } = useSessionStorage(true);
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const updateError = useCallback(
-    error => {
-      dispatch(setError(error));
-    },
-    [dispatch],
-  );
+  const { updateError } = useUpdateError();
 
   const setSession = useCallback(
     (token, permissions) => {
@@ -79,7 +73,6 @@ const Index = ({ router }) => {
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
-        goToErrorPage,
         goToNextPage,
         incrementValidateAttempts,
         isMaxValidateAttempts,
@@ -93,7 +86,6 @@ const Index = ({ router }) => {
     },
     [
       app,
-      goToErrorPage,
       goToNextPage,
       incrementValidateAttempts,
       isMaxValidateAttempts,
