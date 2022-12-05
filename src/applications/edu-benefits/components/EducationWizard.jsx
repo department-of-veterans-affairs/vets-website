@@ -326,7 +326,7 @@ class EducationWizard extends React.Component {
                   }
                 />
               )}
-            )}
+            
             {newBenefit === 'extend' && (
               <div className="wizard-edith-nourse-content">
                 <br />
