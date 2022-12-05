@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
@@ -14,7 +14,9 @@ export default function FormLayout({ children, isReviewPage }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
       <Breadcrumbs>
-        <Link to="new-appointment">New appointment</Link>
+        <a href="/health-care/schedule-view-va-appointments/appointments/new-appointment">
+          New appointment
+        </a>
       </Breadcrumbs>
       {location.pathname.endsWith('new-appointment') && (
         <DowntimeNotification

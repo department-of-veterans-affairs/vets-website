@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
@@ -34,8 +33,10 @@ export default function VAOSBreadcrumbs({ children }) {
     [location, breadcrumbsRef],
   );
 
+  // The va-breadcrumbs component only allows for either Link components or anchor links,
+  // it will not work with the va-link component currently
   return (
-    <VaBreadcrumbs
+    <va-breadcrumbs
       role="navigation"
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
@@ -54,7 +55,10 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <a href="/health-care/schedule-view-va-appointments" key="vaos-home">
+        <a
+          href="/health-care/schedule-view-va-appointments/appointments"
+          key="vaos-home"
+        >
           VA online scheduling
         </a>
       )}
@@ -90,7 +94,7 @@ export default function VAOSBreadcrumbs({ children }) {
       )}
 
       {children}
-    </VaBreadcrumbs>
+    </va-breadcrumbs>
   );
 }
 
