@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event.js';
-import moment from '../../lib/moment-tz.js';
+import recordEvent from 'platform/monitoring/record-event';
+import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
-} from '../../utils/timezone.js';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
+} from '../../utils/timezone';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
-import { selectConfirmationPage } from '../redux/selectors.js';
+import { selectConfirmationPage } from '../redux/selectors';
 import AddToCalendar from '../../components/AddToCalendar';
 import InfoAlert from '../../components/InfoAlert';
 import {
@@ -53,19 +53,18 @@ function ConfirmationPageV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link
-            to="/"
+          <va-link
+            href="/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
               });
             }}
-          >
-            Review your appointments
-          </Link>
+            text="Review your appointments"
+          />
         </div>
         <div>
-          <Link to="/new-appointment">Schedule a new appointment</Link>
+          <va-link href="/new-appointment" text="Schedule a new appointment" />
         </div>
       </InfoAlert>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
