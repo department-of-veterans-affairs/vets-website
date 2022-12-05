@@ -54,8 +54,8 @@ const NotInDEERSAlert = () => {
             <va-telephone contact={CONTACTS.DS_LOGON} />
             &nbsp;(
             <va-telephone contact={CONTACTS['711']} tty />
-            ). The DMDC Monday through Friday (except federal holidays), 8:00
-            a.m. to 8:00 p.m. ET.
+            ). The DMDC office is open Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -120,8 +120,8 @@ const NoServiceHistoryAlert = () => {
             <va-telephone contact={CONTACTS.DS_LOGON} />
             &nbsp;(
             <va-telephone contact={CONTACTS['711']} tty />
-            ). The DMDC Monday through Friday (except federal holidays), 8:00
-            a.m. to 8:00 p.m. ET.
+            ). The DMDC office is open Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -211,8 +211,8 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
             You can call the DMDC at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} /> (
             <va-telephone contact={CONTACTS['711']} tty />
-            ), Monday through Friday (except federal holidays), 8:00 a.m. to
-            8:00 p.m. ET.
+            ). They’re available Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>
