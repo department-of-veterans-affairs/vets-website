@@ -22,7 +22,8 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
