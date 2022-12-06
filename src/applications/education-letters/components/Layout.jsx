@@ -15,7 +15,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
         <a href="/education/">Eduction and training</a>
         {renderBreadCrumbs()}
       </va-breadcrumbs>
-      <main id={`education-letters-${clsName}`} className={clsName}>
+      <section id={`education-letters-${clsName}`} className={clsName}>
         <div className="usa-grid usa-grid-full">
           <div className="usa-width-three-fourths">
             <article className="usa-content vads-u-padding-bottom--0">
@@ -23,7 +23,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
             </article>
           </div>
         </div>
-      </main>
+      </section>
     </>
   );
 };
