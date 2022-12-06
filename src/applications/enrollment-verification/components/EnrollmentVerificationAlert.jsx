@@ -18,9 +18,12 @@ const successAlert = submissionResult => (
 );
 const warningAlert = (
   <va-alert status="warning" visible>
-    <h3 slot="headline">
+    <h1
+      className="vads-u-font-size--h3 vads-u-font-weight--bold"
+      slot="headline"
+    >
       We’re missing one or more of your enrollment verifications
-    </h3>
+    </h1>
     <p>
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
@@ -31,12 +34,12 @@ const warningAlert = (
 
 const pausedAlert = (
   <va-alert status="error" visible>
-    <p
+    <h1
       className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
       slot="headline"
     >
       We’ve paused your monthly education payments
-    </p>
+    </h1>
     <p>
       We had to pause your payments because you haven’t verified your
       enrollment(s) for <strong>two months in a row</strong>. Please review and
@@ -48,13 +51,13 @@ const pausedAlert = (
 
 const pausedScoAlert = (
   <va-alert status="error" visible>
-    <p
+    <h1
       className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
       slot="headline"
     >
       We’ve paused your monthly education payments until your enrollment
       information is updated
-    </p>
+    </h1>
     <p>
       We did this because you verified your monthly enrollment has changed or
       isn’t correct.
