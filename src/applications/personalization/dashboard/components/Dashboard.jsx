@@ -22,7 +22,8 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -53,6 +54,8 @@ import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../selectors';
 import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import SavedApplications from './apply-for-benefits/SavedApplications';
+import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications, paymentsError }) => {
   return (
@@ -289,8 +292,8 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-
-              <ApplyForBenefits />
+              <EducationAndTraining />
+              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
             </div>
           </div>
         )}

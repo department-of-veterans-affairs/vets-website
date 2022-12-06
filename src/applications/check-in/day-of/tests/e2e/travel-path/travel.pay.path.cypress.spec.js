@@ -68,6 +68,7 @@ describe('Check In Experience', () => {
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--appointments');
       Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();

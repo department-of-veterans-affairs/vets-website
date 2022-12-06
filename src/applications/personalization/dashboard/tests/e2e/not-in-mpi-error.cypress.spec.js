@@ -3,12 +3,6 @@ import { mockLocalStorage } from './dashboard-e2e-helpers';
 import mockNotInMPIUser from '~/applications/personalization/profile/tests/fixtures/users/user-not-in-mpi.json';
 import { mockGETEndpoints } from '~/applications/personalization/profile/tests/e2e/helpers';
 
-import {
-  disabilityCompensationExists,
-  educationBenefitExists,
-  healthCareInfoExists,
-} from './helpers';
-
 describe('MyVA Dashboard', () => {
   describe('when the user does not exist in MPI', () => {
     beforeEach(() => {
@@ -38,10 +32,6 @@ describe('MyVA Dashboard', () => {
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',
       );
-
-      healthCareInfoExists(true);
-      disabilityCompensationExists(true);
-      educationBenefitExists(true);
 
       cy.injectAxe();
       cy.axeCheck();

@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import i18n from '../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ValidateDisplay from './ValidateDisplay';
@@ -33,15 +32,6 @@ describe('check-in experience', () => {
       };
       beforeEach(() => {
         store = mockStore(initState);
-      });
-      it('passes axeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ValidateDisplay />
-            </I18nextProvider>
-          </Provider>,
-        );
       });
       it('renders with default values', () => {
         const { getByText } = render(

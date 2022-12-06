@@ -226,7 +226,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .subtract(120, 'days')
               .format('YYYY-MM-DD'),
             endDate: moment()
-              .add(featureVAOSServiceRequests ? 121 : 0, 'days')
+              .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
             useAcheron: featureAcheronVAOSServiceRequests,
@@ -358,7 +358,7 @@ export function fetchPendingAppointments() {
           .subtract(120, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment()
-          .add(featureVAOSServiceRequests ? 121 : 0, 'days')
+          .add(featureVAOSServiceRequests ? 1 : 0, 'days')
           .format('YYYY-MM-DD'),
         useV2: featureVAOSServiceRequests,
         useAcheron: featureAcheronVAOSServiceRequests,

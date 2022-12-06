@@ -3,17 +3,15 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 describe('HCA IntroductionPage', () => {
   const getData = ({
-    showMainLoader,
+    showLoader,
     loaState,
     showLoginAlert,
-    hcaEnrollmentStatusOverrideEnabled,
+    enrollmentOverrideEnabled,
     applicationDate = '',
     enrollmentDate = '',
     enrollmentStatus = '',
@@ -28,11 +26,10 @@ describe('HCA IntroductionPage', () => {
     mockStore: {
       getState: () => ({
         featureToggles: {
-          // eslint-disable-next-line camelcase
-          hca_enrollment_status_override_enabled: hcaEnrollmentStatusOverrideEnabled,
+          hcaEnrollmentStatusOverrideEnabled: enrollmentOverrideEnabled,
         },
         hcaEnrollmentStatus: {
-          isLoadingApplicationStatus: showMainLoader,
+          isLoadingApplicationStatus: showLoader,
           applicationDate,
           enrollmentDate,
           enrollmentStatus,
@@ -53,7 +50,7 @@ describe('HCA IntroductionPage', () => {
             currentlyLoggedIn: !showLoginAlert,
           },
           profile: {
-            loading: showMainLoader,
+            loading: showLoader,
             loa: { current: loaState },
             savedForms: [],
             prefillsAvailable: [],
@@ -76,45 +73,48 @@ describe('HCA IntroductionPage', () => {
 
   it('should render and show loading message', () => {
     const { mockStore, props } = getData({
-      showMainLoader: true,
+      showLoader: true,
       loaState: 1,
       showLoginAlert: true,
-      hcaEnrollmentStatusOverrideEnabled: false,
+      enrollmentOverrideEnabled: false,
     });
     const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('va-loading-indicator', view.container)).to.exist;
+    expect(view.container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should show verification required alert for Loa1 logged in user', () => {
     const { mockStore, props } = getData({
-      showMainLoader: false,
+      showLoader: false,
       loaState: 1,
       showLoginAlert: false,
-      hcaEnrollmentStatusOverrideEnabled: false,
+      enrollmentOverrideEnabled: false,
     });
     const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(view.container.textContent).to.contain(
+
+    expect(view.container).to.contain.text(
       'VA health care covers care for your physical and mental health.',
     );
-    expect($('h4', view.container).textContent).to.contain(
+    expect(
+      view.container.querySelector('[data-testid="identity-alert-heading"]'),
+    ).to.contain.text(
       'Please verify your identity before applying for VA health care',
     );
   });
 
   it('should show enrollment status for Loa3 user that is already enrolled and feature toggle to override enrollment status is disabled', () => {
     const { mockStore, props } = getData({
-      showMainLoader: false,
+      showLoader: false,
       loaState: 3,
       showLoginAlert: false,
-      hcaEnrollmentStatusOverrideEnabled: false,
+      enrollmentOverrideEnabled: false,
       applicationDate: '2018-07-17T10:32:52.000-05:00',
       enrollmentDate: '2018-07-17T10:32:53.000-05:00',
       enrollmentStatus: 'enrolled',
@@ -126,17 +126,17 @@ describe('HCA IntroductionPage', () => {
       </Provider>,
     );
 
-    expect($('h2', view.container).textContent).to.contain(
-      'You’re already enrolled in VA health care',
-    );
+    expect(
+      view.container.querySelector('[data-testid="enrollment-alert-heading"]'),
+    ).to.contain.text('You’re already enrolled in VA health care');
   });
 
   it('should show sign in to start your application for Loa3 user that is not logged in and not already enrolled', () => {
     const { mockStore, props } = getData({
-      showMainLoader: false,
+      showLoader: false,
       loaState: 3,
       showLoginAlert: true,
-      hcaEnrollmentStatusOverrideEnabled: true,
+      enrollmentOverrideEnabled: true,
     });
     const view = render(
       <Provider store={mockStore}>
@@ -144,18 +144,17 @@ describe('HCA IntroductionPage', () => {
       </Provider>,
     );
 
-    expect($('va-button', view.container)).to.have.attribute(
-      'text',
-      'Sign in to check your application status',
-    );
+    expect(
+      view.container.querySelector('[data-testid="login-alert-button"]'),
+    ).to.have.attribute('text', 'Sign in to check your application status');
   });
 
   it('should show start your application for Loa3 user that is logged in and not already enrolled', () => {
     const { mockStore, props } = getData({
-      showMainLoader: false,
+      showLoader: false,
       loaState: 3,
       showLoginAlert: false,
-      hcaEnrollmentStatusOverrideEnabled: true,
+      enrollmentOverrideEnabled: true,
     });
     const view = render(
       <Provider store={mockStore}>
@@ -163,7 +162,7 @@ describe('HCA IntroductionPage', () => {
       </Provider>,
     );
 
-    expect($('button', view.container).textContent).to.contain(
+    expect(view.container.querySelector('.usa-button-primary')).to.contain.text(
       'Start the health care application',
     );
   });

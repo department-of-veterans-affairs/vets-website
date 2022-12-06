@@ -73,14 +73,24 @@ const BasicSearchForm = props => {
         ))}
       </VaSelect>
 
-      <button type="submit" className="search-messages-button">
+      <button
+        type="submit"
+        className="search-messages-button"
+        data-testid="search-messages-button"
+      >
         <i className="fas fa-search" aria-hidden="true" />
-        <span className="search-messages-button-text">Search</span>
+        <span
+          className="search-messages-button-text"
+          data-testid="basic-search-submit"
+        >
+          Search
+        </span>
       </button>
 
       <button
         type="button"
         className="link-button advanced-search-toggle"
+        data-testid="advanced-search-link"
         onClick={toggleAdvancedSearch}
       >
         Or try the advanced search.

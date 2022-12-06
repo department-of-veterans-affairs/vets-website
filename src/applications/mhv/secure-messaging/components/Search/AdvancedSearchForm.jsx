@@ -101,19 +101,26 @@ const SearchMessagesForm = props => {
     const formInvalid = testingSubmit || checkFormValidity();
     if (formInvalid) return;
 
+    const todayDateTime = moment(new Date()).format();
+    const offset = todayDateTime.substring(todayDateTime.length - 6);
     let relativeToDate;
     let relativeFromDate;
+    let fromDateTime;
+    let toDateTime;
 
     if (
       dateRange === DateRangeValues.LAST3 ||
       dateRange === DateRangeValues.LAST6 ||
       dateRange === DateRangeValues.LAST12
     ) {
-      relativeToDate = dateFormat(new Date(), 'yyyy-MM-DD');
+      relativeToDate = moment(new Date());
       relativeFromDate = getRelativeDate(dateRange);
+    } else if (dateRange === DateRangeValues.CUSTOM) {
+      fromDateTime = `${fromDate}T00:00:00${offset}`;
+      toDateTime = `${toDate}T23:59:59${offset}`;
     }
 
-    const folderData = folders.find(item => item.id === folder);
+    const folderData = folders.find(item => +item.id === +folder);
 
     dispatch(
       runAdvancedSearch(folderData, {
@@ -121,8 +128,8 @@ const SearchMessagesForm = props => {
         sender: senderName,
         subject,
         category,
-        fromDate: relativeFromDate || fromDate,
-        toDate: relativeToDate || toDate,
+        fromDate: relativeFromDate || fromDateTime,
+        toDate: relativeToDate || toDateTime,
       }),
     );
     history.push('/search/results');
@@ -264,7 +271,7 @@ const SearchMessagesForm = props => {
       )}
 
       <div className="advanced-search-actions">
-        <button type="submit" data-testid="advanced-search-button">
+        <button type="submit" data-testid="advanced-search-submit">
           Advanced search
         </button>
         <button type="button" className="reset" onClick={resetSearchForm}>

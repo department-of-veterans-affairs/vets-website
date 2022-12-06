@@ -6,7 +6,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { I18nextProvider } from 'react-i18next';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import i18n from '../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import Demographics from '../Demographics';
@@ -107,16 +106,6 @@ describe('check in', () => {
       expect(component.queryByText('123 Turtle Trail')).to.be.null;
       expect(component.queryByText('5553334444')).to.be.null;
       expect(component.getAllByText('Not available')).to.exist;
-    });
-
-    it('passes axeCheck', () => {
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics />
-          </I18nextProvider>
-        </Provider>,
-      );
     });
 
     it('has a clickable no button', () => {
