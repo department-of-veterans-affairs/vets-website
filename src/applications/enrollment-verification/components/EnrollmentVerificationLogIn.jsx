@@ -10,12 +10,12 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
   ]);
   return (
     <va-alert status="continue" visible>
-      <p
+      <h1
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
       >
         Please sign in to verify your enrollment
-      </p>
+      </h1>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
         <strong>Login.gov</strong> account. If you don’t have an account, you
