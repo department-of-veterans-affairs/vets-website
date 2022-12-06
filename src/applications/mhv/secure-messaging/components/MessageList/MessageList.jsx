@@ -22,7 +22,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
-import InboxListItem from './MessageListItem';
+import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
 const ASCENDING = 'asc';
@@ -176,7 +176,7 @@ const MessageList = props => {
         {displayNums[1]} of {totalEntries} messages
       </div>
       {currentMessages.map((message, idx) => (
-        <InboxListItem
+        <MessageListItem
           key={`${message.messageId}+${idx}`}
           messageId={message.messageId}
           senderName={message.senderName}

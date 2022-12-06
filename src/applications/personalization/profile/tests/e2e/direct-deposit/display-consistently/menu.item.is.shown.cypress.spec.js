@@ -25,7 +25,7 @@ describe('Direct Deposit Consistently', () => {
     cy.login(loa1User);
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
-    DirectDeposit.confirmDirectDepositIsNotAvailable();
+    DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
   });
   it('should show the menu for deceased veteran', () => {
     cy.login(user72Success);
