@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
+import debounce from '../../utilities/data/debounce';
+
 import SaveStatus from './SaveStatus';
 import { autoSaveForm } from './actions';
 import { getFormContext } from './selectors';
@@ -33,7 +33,7 @@ class RoutedSavableReviewPage extends React.Component {
   autoSave = () => {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
-      const data = form.data;
+      const { data } = form;
       const { formId, version, submission } = form;
       const returnUrl = this.props.location.pathname;
 
@@ -77,8 +77,6 @@ class RoutedSavableReviewPage extends React.Component {
         </DowntimeNotification>
         <SaveStatus
           isLoggedIn={user.login.currentlyLoggedIn}
-          showLoginModal={this.props.showLoginModal}
-          toggleLoginModal={this.props.toggleLoginModal}
           form={form}
           formConfig={formConfig}
         />
@@ -88,7 +86,7 @@ class RoutedSavableReviewPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const route = ownProps.route;
+  const { route } = ownProps;
   const { formConfig, pageList, path } = route;
 
   const { form, user } = state;
@@ -114,7 +112,6 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   autoSaveForm,
-  toggleLoginModal,
 };
 
 RoutedSavableReviewPage.propTypes = {

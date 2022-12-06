@@ -20,7 +20,6 @@ import {
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
@@ -39,7 +38,6 @@ export function PreSubmitSection(props) {
     location,
     showLoginModal,
     saveAndRedirectToReturnUrl,
-    toggleLoginModal,
   } = props;
 
   const { CustomComponent } = preSubmit;
@@ -87,7 +85,6 @@ export function PreSubmitSection(props) {
         locationPathname={location?.pathname}
         showLoginModal={showLoginModal}
         saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-        toggleLoginModal={toggleLoginModal}
       >
         {finishAppLaterMessage}
       </SaveFormLink>
@@ -113,7 +110,6 @@ PreSubmitSection.propTypes = {
   }),
   showLoginModal: PropTypes.bool,
   saveAndRedirectToReturnUrl: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
   // added by withRouter
   location: PropTypes.shape({
     pathname: PropTypes.string,
@@ -123,7 +119,6 @@ PreSubmitSection.propTypes = {
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
   saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
-  toggleLoginModal: toggleLoginModalAction,
 };
 
 export default withRouter(

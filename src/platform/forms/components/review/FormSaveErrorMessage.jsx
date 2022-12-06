@@ -8,7 +8,6 @@ import {
   saveErrors,
   saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction,
 } from 'platform/forms/save-in-progress/actions';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
 import { APP_TYPE_DEFAULT } from 'platform/forms-system/src/js/constants';
 
@@ -22,15 +21,11 @@ import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
 import CallHRC from 'platform/static-data/CallHRC';
 
 // platform - forms - selectors
-import {
-  formSelector,
-  showLoginModalSelector,
-  userSelector,
-} from 'platform/forms/selectors/review';
+import { formSelector, userSelector } from 'platform/forms/selectors/review';
 import { isReactComponent } from 'platform/utilities/ui';
 
 function FormSaveErrorMessage(props) {
-  const { route, formConfig, user, form, location, showLoginModal } = props;
+  const { route, formConfig, user, form, location } = props;
 
   const savedStatus = form?.savedStatus;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
@@ -43,9 +38,7 @@ function FormSaveErrorMessage(props) {
       form={form}
       formConfig={route?.formConfig}
       user={user}
-      showLoginModal={showLoginModal}
       saveAndRedirectToReturnUrl={props.saveAndRedirectToReturnUrl}
-      toggleLoginModal={props.toggleLoginModal}
     >
       Save your {appType}
     </SaveFormLink>
@@ -99,19 +92,16 @@ function FormSaveErrorMessage(props) {
 
 const mapDispatchToProps = {
   saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
-  toggleLoginModal: toggleLoginModalAction,
 };
 
 export default withRouter(
   connect(
     state => {
       const form = formSelector(state);
-      const showLoginModal = showLoginModalSelector(state);
       const user = userSelector(state);
 
       return {
         form,
-        showLoginModal,
         user,
       };
     },

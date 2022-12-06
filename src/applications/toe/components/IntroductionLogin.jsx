@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
 import { START_APPLICATION_TEXT } from '../constants';
@@ -18,16 +18,11 @@ function IntroductionLogin({
   isPersonalInfoFetchComplete,
   isSponsorsFetchComplete,
   route,
-  showHideLoginModal,
   user,
 }) {
   const apiCallsComplete =
     isLOA3 === false ||
     (isPersonalInfoFetchComplete && isSponsorsFetchComplete);
-
-  const openLoginModal = () => {
-    showHideLoginModal(true, 'cta-form');
-  };
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
@@ -79,13 +74,11 @@ function IntroductionLogin({
                   you’ve already filled in.
                 </p>
 
-                <button
+                <LoginModalButton
+                  message={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
                   className="usa-button-primary"
-                  onClick={openLoginModal}
-                  type="button"
-                >
-                  {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </button>
+                  context="cta-form"
+                />
               </div>
             </va-alert>
 
@@ -167,11 +160,4 @@ const mapStateToProps = state => ({
   ...getAppData(state),
 });
 
-const mapDispatchToProps = {
-  showHideLoginModal: toggleLoginModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionLogin);
+export default connect(mapStateToProps)(IntroductionLogin);

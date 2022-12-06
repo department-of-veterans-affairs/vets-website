@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
-const LoginRequiredAlert = ({ handleLogin }) => (
+const LoginRequiredAlert = () => (
   <va-alert status="error">
     <h2 slot="headline">Please sign in to review your information</h2>
     <p>
@@ -10,12 +10,8 @@ const LoginRequiredAlert = ({ handleLogin }) => (
       sign in to VA.gov to review. If you don’t have an account, you can create
       one now.
     </p>
-    <va-button onClick={handleLogin} text="Sign in to VA.gov" />
+    <LoginModalButton message="Sign in to VA.gov" />
   </va-alert>
 );
-
-LoginRequiredAlert.propTypes = {
-  handleLogin: PropTypes.func,
-};
 
 export default LoginRequiredAlert;

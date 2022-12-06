@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { format } from 'date-fns-tz';
-import SignInLink from '../components/SignInLink';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import {
   APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE,
@@ -17,8 +17,6 @@ function SaveStatus({
   },
   formConfig,
   isLoggedIn,
-  showLoginModal,
-  toggleLoginModal,
 }) {
   let savedAtMessage;
   if (lastSavedDate) {
@@ -78,14 +76,10 @@ function SaveStatus({
             autoSavedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re no longer signed in.{' '}
-                <SignInLink
+                <LoginModalButton
                   className="va-button-link"
-                  isLoggedIn={isLoggedIn}
-                  showLoginModal={showLoginModal}
-                  toggleLoginModal={toggleLoginModal}
-                >
-                  Sign in to save your {appType} in progress
-                </SignInLink>
+                  message={`Sign in to save your ${appType} in progress`}
+                />
                 .
               </span>
             )}

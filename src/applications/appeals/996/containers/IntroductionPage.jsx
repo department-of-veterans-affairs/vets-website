@@ -9,7 +9,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import { FIELD_NAMES } from '@@vap-svc/constants';
@@ -257,11 +256,4 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPage);

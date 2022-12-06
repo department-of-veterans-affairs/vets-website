@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import HCAPrivacyActStatement from '../HCAPrivacyActStatement';
 import HCASubwayMap from '../HCASubwayMap';
 
-const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
+const LoggedOutContent = ({ route, showLoginAlert }) => {
   const { formConfig, pageList } = route;
   return (
     <>
@@ -17,9 +15,9 @@ const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           <h2 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2">
             Have you applied for VA health care before?
           </h2>
-          <va-button
-            text="Sign in to check your application status"
-            onClick={() => toggleLoginModal(true, 'hcainfo')}
+          <LoginModalButton
+            context="hcainfo"
+            message="Sign in to check your application status"
           />
         </va-alert>
       ) : (
@@ -85,14 +83,6 @@ const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
 LoggedOutContent.propTypes = {
   route: PropTypes.object,
   showLoginAlert: PropTypes.bool,
-  toggleLoginModal: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  toggleLoginModal: toggleLoginModalAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(LoggedOutContent);
+export default LoggedOutContent;

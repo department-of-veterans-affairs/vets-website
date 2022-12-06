@@ -12,7 +12,6 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -27,6 +26,7 @@ import {
   shouldShowLoggedOutContent,
 } from '../selectors';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
 const VerificationRequiredAlert = () => (
   <va-alert isVisible status="continue">
@@ -83,23 +83,18 @@ const VerificationRequiredAlert = () => (
   </va-alert>
 );
 
-const LoggedOutContent = connect(
-  null,
-  { toggleLoginModal },
-)(({ route, showLoginAlert, toggleLoginModal: showLoginModal }) => (
+const LoggedOutContent = ({ route, showLoginAlert }) => (
   <>
     {showLoginAlert ? (
       <va-alert background-only status="info">
         <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
           Have you applied for VA health care before?
         </h2>
-        <button
-          type="button"
+        <LoginModalButton
           className="usa-button vads-u-margin-top--2"
-          onClick={() => showLoginModal(true, 'hcainfo')}
-        >
-          Sign in to check your application status
-        </button>
+          context="hcainfo"
+          message="Sign in to check your application status"
+        />
       </va-alert>
     ) : (
       <SaveInProgressIntro
@@ -163,7 +158,7 @@ const LoggedOutContent = connect(
       <HcaOMBInfo />
     </div>
   </>
-));
+);
 
 class IntroductionPage extends React.Component {
   componentDidMount() {

@@ -3,13 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
-export const App = ({ loggedIn, show, toggleLoginModal }) => {
+export const App = ({ loggedIn, show }) => {
   if (!show) {
     return null;
   }
@@ -47,21 +46,13 @@ export const App = ({ loggedIn, show, toggleLoginModal }) => {
           Review your current copay balances
         </a>
       ) : (
-        <button
-          className="va-button-primary"
-          onClick={() => toggleLoginModal(true)}
-          type="button"
-        >
-          Sign in or create an account
-        </button>
+        <LoginModalButton className="va-button-primary" />
       )}
     </va-alert>
   );
 };
 
 App.propTypes = {
-  // From mapDispatchToProps.
-  toggleLoginModal: PropTypes.func.isRequired,
   // From mapStateToProps.
   loggedIn: PropTypes.bool,
   show: PropTypes.bool,
@@ -72,11 +63,4 @@ const mapStateToProps = state => ({
   show: state?.featureToggles?.showMedicalCopays,
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

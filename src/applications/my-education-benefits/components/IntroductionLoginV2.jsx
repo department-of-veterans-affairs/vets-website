@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
 
@@ -17,15 +17,10 @@ function IntroductionLoginV2({
   isLoggedIn,
   isLOA3,
   route,
-  showHideLoginModal,
   user,
 }) {
   const apiCallsComplete =
     isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
-
-  const openLoginModal = () => {
-    showHideLoginModal(true, 'cta-form');
-  };
 
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
@@ -76,16 +71,13 @@ function IntroductionLoginV2({
                   your application, you won’t be able to save the information
                   you’ve already filled in.
                 </p>
-
-                <button
+                <LoginModalButton
+                  message={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
                   className="usa-button-primary"
-                  onClick={openLoginModal}
-                  // aria-label={ariaLabel}
-                  // aria-describedby={ariaDescribedby}
-                  type="button"
-                >
-                  {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </button>
+                  context="cta-form"
+                  // aria-describedby= {ariaDescribedby}
+                  // aria-label= {ariaLabel}
+                />
               </div>
             </va-alert>
 
@@ -167,11 +159,4 @@ const mapStateToProps = state => ({
   ...getAppData(state),
 });
 
-const mapDispatchToProps = {
-  showHideLoginModal: toggleLoginModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionLoginV2);
+export default connect(mapStateToProps)(IntroductionLoginV2);

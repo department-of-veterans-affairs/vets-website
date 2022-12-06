@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -229,7 +227,6 @@ export class AuthApp extends React.Component {
       auth: this.state.auth,
       requestId: this.state.requestId,
       recordEvent,
-      openLoginModal: this.props.openLoginModal,
     };
 
     const view = this.state.hasError ? (
@@ -241,11 +238,4 @@ export class AuthApp extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  openLoginModal: () => dispatch(toggleLoginModal(true)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AuthApp);
+export default AuthApp;

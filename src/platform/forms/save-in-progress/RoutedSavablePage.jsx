@@ -16,7 +16,6 @@ import {
   saveAndRedirectToReturnUrl,
 } from './actions';
 import { getFormContext } from './selectors';
-import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../forms-system/src/js/constants';
 
 class RoutedSavablePage extends React.Component {
@@ -33,7 +32,7 @@ class RoutedSavablePage extends React.Component {
   autoSave() {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
-      const data = form.data;
+      const { data } = form;
       const { formId, version, submission } = form;
       const returnUrl = this.props.location.pathname;
       this.props.autoSaveForm(formId, data, version, returnUrl, submission);
@@ -53,9 +52,7 @@ class RoutedSavablePage extends React.Component {
         route={route}
         pageList={route.pageList}
         user={user}
-        showLoginModal={this.props.showLoginModal}
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
       >
         {finishAppLaterMessage}
       </SaveFormLink>
@@ -63,8 +60,6 @@ class RoutedSavablePage extends React.Component {
     const contentAfterButtons = (
       <SaveStatus
         isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={this.props.showLoginModal}
-        toggleLoginModal={this.props.toggleLoginModal}
         form={form}
         formConfig={formConfig}
       />
@@ -98,7 +93,6 @@ const mapDispatchToProps = {
   setData,
   saveAndRedirectToReturnUrl,
   autoSaveForm,
-  toggleLoginModal,
   uploadFile,
 };
 

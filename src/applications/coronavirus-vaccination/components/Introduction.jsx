@@ -15,8 +15,9 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import * as userNavActions from 'platform/site-wide/user-nav/actions';
 import * as userSelectors from 'platform/user/selectors';
+import FormFooter from 'platform/forms/components/FormFooter';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import {
   ContactRules,
   ProvideSSNAndDOB,
@@ -24,14 +25,12 @@ import {
   WhyContact,
 } from './VerbiageHelper';
 
-import FormFooter from 'platform/forms/components/FormFooter';
 import GetHelp from './GetHelp';
 
 function Introduction({
   authButtonDisabled = false,
   enhancedEligibilityEnabled,
   isLoggedIn,
-  toggleLoginModal,
 }) {
   return (
     <>
@@ -83,21 +82,18 @@ function Introduction({
                   your information for you.
                 </p>
                 <p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      toggleLoginModal(true, 'coronavirus-vaccination');
-                      recordEvent({
-                        event: 'cta-button-click',
-                        'button-type': 'default',
-                        'button-click-label': 'Sign in',
-                        'button-background-color': '#0071bb',
-                      });
-                    }}
+                  <LoginModalButton
+                    context="coronavirus-vaccination"
+                    message="Sign in"
                     className="usa-button"
-                  >
-                    Sign in
-                  </button>
+                    analyticsEvent={{
+                      event: 'cta-button-click',
+                      'button-type': 'default',
+                      'button-click-label': 'Sign in',
+                      'button-background-color': '#0071bb',
+                    }}
+                  />
+
                   <Link
                     className="usa-button usa-button-secondary"
                     to="/form"
@@ -223,12 +219,5 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  toggleLoginModal: userNavActions.toggleLoginModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Introduction);
+export default connect(mapStateToProps)(Introduction);
 export { Introduction };

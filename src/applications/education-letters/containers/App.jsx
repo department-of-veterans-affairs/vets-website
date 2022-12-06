@@ -1,16 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import Layout from '../components/Layout';
 
-const App = ({ toggleLoginModal, user }) => {
-  function toggleLogin(e) {
-    e.preventDefault();
-    toggleLoginModal(true, 'cta-form');
-  }
-
+const App = ({ user }) => {
   function renderUI() {
     if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
       return (
@@ -40,9 +35,7 @@ const App = ({ toggleLoginModal, user }) => {
           Sign in with your existing <b>ID.me</b> account. If you don’t have an
           account, you can create a free <b>ID.me</b> account now.
         </div>
-        <button className="va-button" type="button" onClick={toggleLogin}>
-          Sign in or create an account
-        </button>
+        <LoginModalButton className="va-button" />
       </va-alert>
     );
   }
@@ -113,7 +106,6 @@ const App = ({ toggleLoginModal, user }) => {
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func,
   user: PropTypes.object,
 };
 
@@ -121,11 +113,4 @@ const mapStateToProps = state => ({
   user: state.user || {},
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

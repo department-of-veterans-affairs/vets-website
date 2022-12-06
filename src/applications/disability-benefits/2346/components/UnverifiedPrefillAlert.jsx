@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
-const UnverifiedPrefillAlert = props => (
+const UnverifiedPrefillAlert = () => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
@@ -27,23 +26,14 @@ const UnverifiedPrefillAlert = props => (
           application, you won’t be able to save the information you’ve already
           filled in.
         </p>
-        <button
+        <LoginModalButton
           className="usa-button-primary"
-          type="button"
-          onClick={() => props.toggleLoginModal(true, 'cta-form')}
-        >
-          Sign in to start your order
-        </button>
+          message="Sign in to start your order"
+          context="cta-form"
+        />
       </div>
     </div>
   </div>
 );
 
-const mapDispatchToProps = {
-  toggleLoginModal,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(UnverifiedPrefillAlert);
+export default UnverifiedPrefillAlert;

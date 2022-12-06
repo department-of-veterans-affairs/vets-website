@@ -1,9 +1,7 @@
 import React from 'react';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
-export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
+export const UnauthenticatedPageContent = () => {
   return (
     <>
       <h2>Connected devices</h2>
@@ -19,23 +17,13 @@ export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
           account now.
         </div>
         <p />
-        <button type="button" className="usa-button" onClick={toggleLoginModal}>
-          Sign in or create an account
-        </button>
+        <LoginModalButton
+          className="usa-button"
+          message="Sign in or create an account"
+        />
       </va-alert>
     </>
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(UnauthenticatedPageContent);
-
-UnauthenticatedPageContent.propTypes = {
-  toggleLoginModal: PropTypes.func,
-};
+export default UnauthenticatedPageContent;

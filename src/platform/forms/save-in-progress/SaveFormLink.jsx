@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { SAVE_STATUSES, saveErrors } from './actions';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 import SipsDevModal from './SaveInProgressDevModal';
@@ -32,10 +33,6 @@ class SaveFormLink extends React.Component {
     );
   };
 
-  openLoginModal = () => {
-    this.props.toggleLoginModal(true);
-  };
-
   render() {
     if (!this.props.user.login.currentlyLoggedIn) return null;
     const { savedStatus } = this.props.form;
@@ -57,13 +54,10 @@ class SaveFormLink extends React.Component {
             {savedStatus === SAVE_STATUSES.noAuth && (
               <span>
                 Sorry, you’re signed out. Please{' '}
-                <button
-                  type="button"
+                <LoginModalButton
+                  message="sign in"
                   className="va-button-link"
-                  onClick={this.openLoginModal}
-                >
-                  sign in
-                </button>{' '}
+                />
                 again to save your {appType}.
               </span>
             )}
@@ -98,7 +92,6 @@ SaveFormLink.propTypes = {
   }).isRequired,
   locationPathname: PropTypes.string.isRequired,
   saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   children: PropTypes.any,
   formConfig: PropTypes.shape({

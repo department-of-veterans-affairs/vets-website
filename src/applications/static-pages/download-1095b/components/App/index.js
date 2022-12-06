@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
@@ -27,7 +27,7 @@ import {
   formatTimeString,
 } from './utils';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+export const App = ({ loggedIn, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -220,13 +220,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
         <ServiceProvidersTextCreateAcct />
       </div>
-      <button
-        type="button"
-        onClick={() => toggleLoginModal(true)}
-        className="usa-button-primary va-button-primary vads-u-margin-top--2"
-      >
-        Sign in or create an account
-      </button>
+      <LoginModalButton className="usa-button-primary va-button-primary vads-u-margin-top--2" />
     </va-alert>
   );
 
@@ -247,7 +241,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
 App.propTypes = {
   loggedIn: PropTypes.bool,
-  toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
 };
 
@@ -256,11 +249,4 @@ const mapStateToProps = state => ({
   displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

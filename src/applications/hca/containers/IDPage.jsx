@@ -10,9 +10,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { ServerErrorAlert } from '../components/FormAlerts';
 import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
 
@@ -35,7 +35,6 @@ const IDPage = props => {
     showLoadingIndicator,
     showServerError,
     submitIDForm,
-    toggleLoginModal,
   } = props;
 
   const [idFormData, setIdFormData] = useState({});
@@ -74,10 +73,6 @@ const IDPage = props => {
       veteranSocialSecurityNumber: idFormData.ssn,
       'view:isUserInMvi': isUserInMVI,
     });
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true);
   };
 
   useEffect(() => {
@@ -123,13 +118,10 @@ const IDPage = props => {
           <p>
             <strong>Want to skip this step?</strong>
           </p>
-          <button
-            type="button"
+          <LoginModalButton
             className="va-button-link"
-            onClick={showSignInModal}
-          >
-            Sign in to start your application.
-          </button>
+            message=" Sign in to start your application."
+          />
           <div className="vads-u-margin-top--2p5">
             <SchemaForm
               // `name` and `title` are required by SchemaForm, but are only used
@@ -148,7 +140,7 @@ const IDPage = props => {
               }
               {showServerError && <ServerErrorAlert />}
               {loginRequired ? (
-                <LoginRequiredAlert handleLogin={showSignInModal} />
+                <LoginRequiredAlert />
               ) : (
                 <LoadingButton
                   // override the `width: 100%` given to SchemaForm submit buttons
@@ -186,13 +178,11 @@ IDPage.propTypes = {
   showLoadingIndicator: PropTypes.bool,
   showServerError: PropTypes.bool,
   submitIDForm: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
   submitIDForm: getEnrollmentStatus,
-  toggleLoginModal: toggleLoginModalAction,
 };
 
 const mapStateToProps = state => {

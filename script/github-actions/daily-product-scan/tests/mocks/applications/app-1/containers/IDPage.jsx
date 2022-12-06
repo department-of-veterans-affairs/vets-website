@@ -17,7 +17,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
 import { getEnrollmentStatus } from '../actions';
@@ -27,6 +26,7 @@ import {
   idFormUiSchema as uiSchema,
 } from '../helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
+import LoginModalButton from '../../../../../../../../src/platform/user/authentication/components/LoginModalButton';
 
 function ContinueButton({ isLoading }) {
   return (
@@ -43,7 +43,7 @@ function ContinueButton({ isLoading }) {
   );
 }
 
-function LoginRequiredAlert({ handleLogin }) {
+function LoginRequiredAlert() {
   return (
     <>
       <AlertBox
@@ -58,9 +58,10 @@ function LoginRequiredAlert({ handleLogin }) {
               health care. Please sign in to VA.gov to review. If you don’t have
               an account, you can create one now.
             </p>
-            <button className="usa-button-primary" onClick={handleLogin}>
-              Sign in to VA.gov
-            </button>
+            <LoginModalButton
+              className="usa-button-primary"
+              message="Sign In to VA.gov"
+            />
           </>
         }
       />
@@ -153,10 +154,6 @@ class IDPage extends React.Component {
     this.props.router.push(nextPagePath);
   };
 
-  showSignInModal = () => {
-    this.props.toggleLoginModal(true);
-  };
-
   render() {
     const {
       isSubmittingIDForm,
@@ -179,16 +176,18 @@ class IDPage extends React.Component {
             <p>
               <strong>Want to skip this step?</strong>
             </p>
-            <button className="va-button-link" onClick={this.showSignInModal}>
-              Sign in to start your application.
-            </button>
+            <LoginModalButton
+              className="va-button-link"
+              message="Sign in to start your application."
+            />
+
             <div className="hca-id-form-wrapper">
               <SchemaForm
-                // `name` and `title` are required by SchemaForm, but are only used
-                // internally in the component
                 name="ID Form"
                 title="ID Form"
-                schema={schema}
+                schema={
+                  schema // internally in the component // `name` and `title` are required by SchemaForm, but are only used
+                }
                 uiSchema={uiSchema}
                 onSubmit={this.formSubmit}
                 onChange={this.formChange}
@@ -197,9 +196,7 @@ class IDPage extends React.Component {
                 {/* The only reason these components are nested in the
                 SchemaForm is to prevent the SchemaForm component from rendering
                 its default SUBMIT button */}
-                {loginRequired && (
-                  <LoginRequiredAlert handleLogin={this.showSignInModal} />
-                )}
+                {loginRequired && <LoginRequiredAlert />}
                 {showServerError && <ServerError />}
                 {showContinueButton && (
                   <ContinueButton isLoading={isSubmittingIDForm} />
@@ -225,13 +222,11 @@ IDPage.propTypes = {
   showLoadingIndicator: PropTypes.bool.isRequired,
   showServerError: PropTypes.bool.isRequired,
   submitIDForm: PropTypes.func.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
   submitIDForm: getEnrollmentStatus,
-  toggleLoginModal,
 };
 
 const mapStateToProps = state => {

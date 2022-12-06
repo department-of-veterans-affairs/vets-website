@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import debounce from 'platform/utilities/data/debounce';
 
-import { FormPage } from './FormPage';
 import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
 import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
@@ -15,7 +14,7 @@ import {
   saveAndRedirectToReturnUrl,
 } from 'platform/forms/save-in-progress/actions';
 import { getFormContext } from 'platform/forms/save-in-progress/selectors';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { FormPage } from './FormPage';
 
 class RoutedSavableFormPage extends React.Component {
   constructor(props) {
@@ -31,7 +30,7 @@ class RoutedSavableFormPage extends React.Component {
   autoSave() {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
-      const data = form.data;
+      const { data } = form;
       const { formId, version } = form;
       const returnUrl = this.props.location.pathname;
 
@@ -46,18 +45,11 @@ class RoutedSavableFormPage extends React.Component {
         locationPathname={this.props.location.pathname}
         form={form}
         user={user}
-        showLoginModal={this.props.showLoginModal}
         saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
       />
     );
     const contentAfterButtons = (
-      <SaveStatus
-        isLoggedIn={user.login.currentlyLoggedIn}
-        showLoginModal={this.props.showLoginModal}
-        toggleLoginModal={this.props.toggleLoginModal}
-        form={form}
-      />
+      <SaveStatus isLoggedIn={user.login.currentlyLoggedIn} form={form} />
     );
 
     return (
@@ -85,7 +77,7 @@ const mapDispatchToProps = {
   setData,
   saveAndRedirectToReturnUrl,
   autoSaveForm,
-  toggleLoginModal,
+
   uploadFile,
 };
 

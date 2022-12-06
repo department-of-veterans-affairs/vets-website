@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 
-const UnverifiedPrefillAlert = ({ toggle }) => (
+const UnverifiedPrefillAlert = () => (
   <div className="usa-alert usa-alert-info schemaform-sip-alert">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">Please sign in to submit a request</h3>
@@ -28,28 +26,11 @@ const UnverifiedPrefillAlert = ({ toggle }) => (
           </li>
         </ul>
         <p>
-          <button
-            className="usa-button-primary"
-            type="button"
-            onClick={() => toggle(true, 'cta-form')}
-          >
-            Sign in or create an account
-          </button>
+          <LoginModalButton context="cta-form" />
         </p>
       </div>
     </div>
   </div>
 );
 
-UnverifiedPrefillAlert.propTypes = {
-  toggle: PropTypes.func,
-};
-
-const mapDispatchToProps = {
-  toggle: toggleLoginModal,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(UnverifiedPrefillAlert);
+export default UnverifiedPrefillAlert;

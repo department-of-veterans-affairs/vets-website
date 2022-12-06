@@ -11,10 +11,10 @@ import {
 } from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
+import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -192,16 +192,20 @@ class SaveInProgressIntro extends React.Component {
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
-      const unauthStartButton = (
-        <button
+      const unauthStartButton = unauthStartText ? (
+        <LoginModalButton
           className="usa-button-primary"
-          onClick={this.openLoginModal}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedby}
-          type="button"
-        >
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </button>
+          message={unauthStartText}
+        />
+      ) : (
+        <LoginModalButton
+          className="usa-button-primary"
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedby}
+          message={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        />
       );
       alert = buttonOnly ? (
         <>
@@ -275,15 +279,12 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              <button
+              <LoginModalButton
                 className="va-button-link"
-                onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
-                type="button"
-              >
-                Sign in to your account.
-              </button>
+                message="Sign in to your account."
+              />
             </div>
           </div>
           <br />
@@ -303,10 +304,6 @@ class SaveInProgressIntro extends React.Component {
 
   handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
-  };
-
-  openLoginModal = () => {
-    this.props.toggleLoginModal(true, 'cta-form');
   };
 
   renderDowntime = (downtime, children) => {
@@ -393,7 +390,6 @@ SaveInProgressIntro.propTypes = {
   formId: PropTypes.string.isRequired,
   pageList: PropTypes.array.isRequired,
   removeInProgressForm: PropTypes.func.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
   ariaDescribedby: PropTypes.string,
@@ -453,7 +449,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   fetchInProgressForm,
   removeInProgressForm,
-  toggleLoginModal,
 };
 
 export default connect(
