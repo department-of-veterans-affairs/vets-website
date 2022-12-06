@@ -217,9 +217,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
     fireEvent.click(screen.getByText('VA online scheduling'));
-    // expect(screen.history.push.lastCall.args[0]).to.equal(
-    //   '/health-care/schedule-view-va-appointments',
-    // );
+    expect(screen.history.push.lastCall.args[0]).to.equal(
+      '/health-care/schedule-view-va-appointments',
+    );
   });
 
   it('should render CC request details', async () => {
