@@ -80,24 +80,50 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
+  const handleOnClick = path => {
+    recordEvent({
+      // For Google Analytics
+      event: 'secure-messaging-navigation-clicked',
+      'secure-messaging-navigation-option': path.label,
+      'secure-messaging-navigation-path': path.path,
+    });
+  };
+
+  const handleActiveLinksStyle = path => {
+    const basePath = location.pathname.split('/');
+    if (location.pathname === path.path) {
+      return 'vads-u-font-weight--bold';
+    }
+    if (path.label === 'My folders') {
+      if (basePath[1] === 'message') {
+        return 'vads-u-font-weight--bold';
+      }
+      if (basePath[1] === 'folder') {
+        return 'vads-u-font-weight--bold';
+      }
+    }
+
+    return undefined;
+  };
+
   return (
-    <div className="secure-messaging-navigation">
+    <div className="secure-messaging-navigation vads-u-padding-bottom--7">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
           <div className="sidebar-navigation-header">
             <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
             <h4>My Health</h4>
-            <button
-              className={
-                isMobile === true ? 'va-btn-close-icon' : 'no-close-btn'
-              }
-              aria-label="Close-this-menu"
-              aria-expanded="true"
-              aria-controls="a1"
-              onClick={closeNavigation}
-              type="button"
-            />
+            {isMobile ? (
+              <button
+                className="va-btn-close-icon"
+                aria-label="Close-this-menu"
+                aria-expanded="true"
+                aria-controls="a1"
+                onClick={closeNavigation}
+                type="button"
+              />
+            ) : null}
           </div>
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
@@ -117,21 +143,13 @@ const Navigation = () => {
                     {paths().map((path, i) => (
                       <li
                         key={i}
-                        className={
-                          location.pathname === path.path
-                            ? 'vads-u-font-weight--bold'
-                            : undefined
-                        }
+                        className={handleActiveLinksStyle(path)}
                         data-testid={path.datatestid}
                       >
                         <Link
                           to={path.path}
                           onClick={() => {
-                            recordEvent({
-                              // For Google Analytics
-                              event: 'secure-messaging-navigation-clicked',
-                              label: path.path,
-                            });
+                            handleOnClick(path);
                           }}
                         >
                           {path.label}

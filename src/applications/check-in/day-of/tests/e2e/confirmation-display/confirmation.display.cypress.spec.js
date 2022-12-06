@@ -10,6 +10,10 @@ import Confirmation from '../pages/Confirmation';
 
 describe('Check In Experience -- ', () => {
   describe('Confirmation display -- ', () => {
+    const appointments = [
+      { startTime: '2021-08-19T03:00:00' },
+      { startTime: '2021-08-19T03:30:00' },
+    ];
     beforeEach(() => {
       const {
         initializeFeatureToggle,
@@ -22,7 +26,9 @@ describe('Check In Experience -- ', () => {
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
-      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        appointments,
+      });
       initializeCheckInDataPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       cy.visitWithUUID();
@@ -52,20 +58,16 @@ describe('Check In Experience -- ', () => {
       Confirmation.validateBTSSSLink();
       cy.injectAxeThenAxeCheck();
     });
-    // it('confirm back button', () => {
-    //   Confirmation.validateBackButton();
-    //   cy.injectAxeThenAxeCheck();
-    // });
-    it('refreshes appointment data when pressing the browser back button', () => {
-      Confirmation.validatePageLoaded();
-      cy.intercept(
-        '/check_in/v2/patient_check_ins/*',
-        cy.spy().as('apptRefresh'),
-      );
-      cy.go('back');
-      cy.get('@apptRefresh')
-        .its('callCount')
-        .should('equal', 1);
+    it('confirm back button', () => {
+      Confirmation.validateBackButton(appointments.length);
+      cy.injectAxeThenAxeCheck();
+    });
+    it('refreshes appointments when using the back to appointments link', () => {
+      Confirmation.attemptGoBackToAppointments();
+      Appointments.validatePageLoaded();
+      Appointments.validateAppointmentLength(2);
+      // Validate that appointments are refreshed.
+      Appointments.validateAppointmentTime(2, '3:30 a.m.');
       cy.injectAxeThenAxeCheck();
     });
   });

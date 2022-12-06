@@ -85,13 +85,17 @@ export default function SupportingDocumentsDescription(props) {
             Make sure you write your name and confirmation number on every page.
           </li>
           <li>
-            <p>Mail or fax them to:</p>
+            <p>Submit application and Support Documentation to the VA by:</p>
+            <p>Mail:</p>
             <div className="mail-fax-address">
-              <div>National Cemetery Scheduling Office</div>
-              <div>PO Box 510543</div>
-              <div>St. Louis, MO 63151</div>
+              <div>NCA Intake Center</div>
+              <div>P.O. Box 5237</div>
+              <div>Janesville, WI 53547</div>
             </div>
-            <p>Fax (toll-free): 855-840-8299</p>
+            <p>
+              Fax: the National Cemetery Scheduling Office at{' '}
+              <va-telephone contact="8558408299" not-clickable />
+            </p>
           </li>
         </ol>
       </va-additional-info>

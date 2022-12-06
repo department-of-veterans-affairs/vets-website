@@ -18,6 +18,8 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureAppointmentList } from '../../redux/selectors';
+import RequestListItemGroup from './AppointmentsPageV2/RequestListItemGroup';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -28,6 +30,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   } = useSelector(
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
+  );
+  const featureAppointmentList = useSelector(state =>
+    selectFeatureAppointmentList(state),
   );
 
   const dispatch = useDispatch();
@@ -134,13 +139,26 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 className="vads-u-padding-left--0"
                 data-cy="requested-appointment-list"
               >
-                {statusBucket[1].map((appt, index) => (
-                  <RequestListItem
-                    key={index}
-                    appointment={appt}
-                    facility={facilityData[getVAAppointmentLocationId(appt)]}
+                {featureAppointmentList && (
+                  <RequestListItemGroup
+                    key={1}
+                    data={statusBucket[1]}
+                    facilityData={facilityData}
                   />
-                ))}
+                )}
+
+                {!featureAppointmentList &&
+                  statusBucket[1].map((appt, index) => {
+                    return (
+                      <RequestListItem
+                        key={index}
+                        appointment={appt}
+                        facility={
+                          facilityData[getVAAppointmentLocationId(appt)]
+                        }
+                      />
+                    );
+                  })}
               </ul>
             </div>
           );

@@ -1,6 +1,12 @@
 import moment from 'moment';
 
-import { SELECTED, LEGACY_TYPE } from '../constants';
+import {
+  SELECTED,
+  LEGACY_TYPE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 /**
  * @typedef ContestableIssues
@@ -262,35 +268,6 @@ export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
 
 /**
- * @typedef phoneObject
- * @type {Object}
- * @property {String} countryCode - country code (1 digit, usually)
- * @property {String} areaCode - area code (3 digits)
- * @property {String} phoneNumber - phone number (7 digits)
- * @property {String} phoneNumberExt - extension
- * @returns
- */
-/**
- * Return a phone number object
- * @param {String} phone - phone number string to convert to an object
- * @return {phoneObject}
- */
-export const returnPhoneObject = phone => {
-  const result = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  if (typeof phone === 'string' && phone?.length === 10) {
-    result.countryCode = '1';
-    result.areaCode = phone.slice(0, 3);
-    result.phoneNumber = phone.slice(-7);
-  }
-  return result;
-};
-
-/**
  * Contestable issues loading error check
  * If there's an error, show an alert warning, but if the backend returns a 404
  * error (no issues found), we need to allow the Veteran to start the form
@@ -301,17 +278,33 @@ export const returnPhoneObject = phone => {
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
 
-export const hasVAEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasVaEvidence'];
-export const hasPrivateEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasPrivateEvidence'];
-export const hasOtherEvidence = formData =>
-  formData?.['view:selectableEvidenceTypes']?.['view:hasOtherEvidence'];
+export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
+export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+
+// TO DO: remove
 export const hasPrivateEvidenceToUpload = formData =>
   formData?.['view:uploadPrivateRecordsChoice']?.[
     'view:hasPrivateRecordsToUpload'
   ];
-// export const hasPrivateEvidenceUploads = formData =>
 
-export const getPhoneString = phone =>
-  `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
+// Update evidence issues if they change
+export const evidenceNeedsUpdating = formData => {
+  if (hasVAEvidence(formData)) {
+    const validIssues = getSelected(formData).map(getIssueName);
+    return !formData.locations?.every(({ issues }) =>
+      (issues || []).every(issue => validIssues.includes(issue)),
+    );
+  }
+  return false;
+};
+
+export const cleanupLocationIssues = formData => {
+  const validIssues = getSelected(formData).map(getIssueName);
+  return (formData.locations || []).map(location => ({
+    ...location,
+    issues: (location.issues || []).filter(issue =>
+      validIssues.includes(issue),
+    ),
+  }));
+};

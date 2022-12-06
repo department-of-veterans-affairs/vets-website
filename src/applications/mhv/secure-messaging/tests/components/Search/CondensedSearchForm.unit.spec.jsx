@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { searchResults } from '../../fixtures/search-response.json';
 import { folder } from '../../fixtures/folder-inbox-metadata.json';

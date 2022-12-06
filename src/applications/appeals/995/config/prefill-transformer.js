@@ -1,12 +1,8 @@
-/* Copied from 0996 (HLR) - vets-api/config/form_profile_mappings/20-0996.yml
-nonPrefill:
-  veteranSsnLastFour:
-  veteranVaFileNumberLastFour:
-*/
+/* See vets-api/config/form_profile_mappings/20-0995.yml */
 
 export default function prefillTransformer(pages, formData, metadata) {
   const { veteranSsnLastFour = '', veteranVaFileNumberLastFour = '' } =
-    formData?.nonPrefill || {};
+    formData || {};
 
   return {
     pages,

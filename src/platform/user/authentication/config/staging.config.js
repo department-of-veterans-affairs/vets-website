@@ -75,7 +75,7 @@ export default {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
-    OAuthEnabled: true,
+    OAuthEnabled: false,
     requiresVerification: true,
     oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],

@@ -7,12 +7,8 @@ import configureStore from 'redux-mock-store';
 
 import sinon from 'sinon';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-
 import { CheckInButton } from '../CheckInButton';
 import i18n from '../../../utils/i18n/i18n';
-
-import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
 
 describe('check-in', () => {
   let mockRouter;
@@ -43,19 +39,6 @@ describe('check-in', () => {
   });
 
   describe('CheckInButton', () => {
-    it('should pass an axe check', () => {
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <CheckInButton
-              appointment={{
-                eligibility: ELIGIBILITY.ELIGIBLE,
-              }}
-            />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
     it('should render with the check in text', () => {
       const { getByText } = render(
         <Provider store={store}>

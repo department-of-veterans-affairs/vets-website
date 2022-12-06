@@ -75,7 +75,7 @@ export const sumValues = (arr, key) => {
 export const filterReduceByName = (deductions, filters) => {
   if (!deductions?.length) return 0;
   return deductions
-    .filter(({ name }) => filters.includes(name))
+    .filter(({ name = '' }) => filters.includes(name))
     .reduce(
       (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
       0,
@@ -85,7 +85,7 @@ export const filterReduceByName = (deductions, filters) => {
 export const otherDeductionsName = (deductions, filters) => {
   if (!deductions.length) return '';
   return deductions
-    .filter(({ name }) => !filters.includes(name))
+    .filter(({ name = '' }) => !filters.includes(name))
     .map(({ name }) => name)
     .join(', ');
 };
@@ -93,7 +93,7 @@ export const otherDeductionsName = (deductions, filters) => {
 export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => name && !filters.includes(name))
+    .filter(({ name = '' }) => name && !filters.includes(name))
     .reduce(
       (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
       0,
@@ -175,11 +175,17 @@ export const getMonthlyIncome = ({
     addlIncRecords,
     spouse: { spAddlIncome },
   },
+  personalData: {
+    employmentHistory: {
+      veteran: { employmentRecords = [] },
+    },
+  },
   socialSecurity,
   benefits,
   currEmployment,
   spCurrEmployment,
   income,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
@@ -188,15 +194,22 @@ export const getMonthlyIncome = ({
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const vetSocSecAmt = !enhancedFSRActive
+    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
+    : 0;
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
   const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
@@ -208,9 +221,11 @@ export const getMonthlyIncome = ({
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const spSocialSecAmt = !enhancedFSRActive
+    ? Number(
+        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+      )
+    : 0;
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(
       /[^0-9.-]/g,
@@ -251,17 +266,26 @@ export const getMonthlyExpenses = ({
   return utilities + installments + otherExp + totalExp;
 };
 
-export const getTotalAssets = ({ assets, realEstateRecords }) => {
+export const getTotalAssets = ({
+  assets,
+  realEstateRecords,
+  'view:combinedFinancialStatusReport': combinedFSRActive,
+  'view:enhancedFinancialStatusReport': enhancedFSRActive,
+}) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = sumValues(assets.recVehicles, 'recVehicleAmount');
+  const totRecVehicles = !combinedFSRActive
+    ? sumValues(assets.recVehicles, 'recVehicleAmount')
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, ''));
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
-  const totAssets = Object.values(assets)
-    .filter(item => item && !Array.isArray(item))
-    .reduce(
-      (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
-      0,
-    );
+  const totAssets = !enhancedFSRActive
+    ? Object.values(assets)
+        .filter(item => item && !Array.isArray(item))
+        .reduce(
+          (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
+          0,
+        )
+    : sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
@@ -340,4 +364,8 @@ export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
+};
+
+export const getCurrentEmploymentHistoryObject = () => {
+  return null;
 };

@@ -129,7 +129,7 @@ describe('Profile "Not all data available" error', () => {
   });
   it('should not be shown if we can get data from all required endpoints', async () => {
     const initialState = createBasicInitialState();
-    const view = render(<Profile isLOA3 isInMVI />, {
+    const view = render(<Profile isLOA3 isInMVI isBlocked={false} />, {
       initialState,
     });
     const spinner = view.queryByRole('progressbar');

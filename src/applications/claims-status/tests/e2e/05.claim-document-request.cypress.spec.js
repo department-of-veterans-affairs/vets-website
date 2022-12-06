@@ -10,7 +10,7 @@ beforeEach(() => {
 });
 
 describe('Claim Additional Evidence Test', () => {
-  it('Submits documents', () => {
+  it('Submits documents - C30831', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim(false);

@@ -110,6 +110,7 @@ class DowntimeNotification extends React.Component {
           status: this.props.status,
           startTime: this.props.startTime,
           endTime: this.props.endTime,
+          description: this.props.description,
         },
         children,
       );

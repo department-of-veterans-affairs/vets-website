@@ -7,7 +7,8 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import { selectProfile } from 'platform/user/selectors';
 
-import { readableList, getPhoneString } from '../utils/helpers';
+import { readableList } from '../utils/helpers';
+import { getPhoneString } from '../utils/contactInfo';
 
 export const ContactInfoDescription = ({ formContext, profile }) => {
   const [hadError, setHadError] = useState(false);

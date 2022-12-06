@@ -6,39 +6,37 @@ import { expect } from 'chai';
 import FormFooter from '../../components/FormFooter';
 import formConfig from '../../config/form';
 
-describe('10-10EZ', () => {
-  describe('Form Footer', () => {
-    it('should render help information on Form Footer', () => {
-      const mockStore = {
-        getState: () => ({
-          hcaEnrollmentStatus: {
-            isLoadingApplicationStatus: false,
-            showHCAReapplyContent: false,
+describe('hca <FormFooter>', () => {
+  it('should render help information on Form Footer', () => {
+    const mockStore = {
+      getState: () => ({
+        hcaEnrollmentStatus: {
+          isLoadingApplicationStatus: false,
+          showReapplyContent: false,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: false,
           },
-          user: {
-            login: {
-              currentlyLoggedIn: false,
-            },
-            profile: {
-              loading: false,
-              loa: { current: 0 },
-            },
+          profile: {
+            loading: false,
+            loa: { current: 0 },
           },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
+        },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
 
-      const view = render(
-        <Provider store={mockStore}>
-          <FormFooter
-            formConfig={formConfig}
-            currentLocation={{ pathname: '/introduction' }}
-          />
-        </Provider>,
-      );
+    const view = render(
+      <Provider store={mockStore}>
+        <FormFooter
+          formConfig={formConfig}
+          currentLocation={{ pathname: '/introduction' }}
+        />
+      </Provider>,
+    );
 
-      expect(view.container.textContent).to.contain('Need help?');
-    });
+    expect(view.container).to.contain.text('Need help?');
   });
 });

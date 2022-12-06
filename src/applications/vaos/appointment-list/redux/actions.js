@@ -14,6 +14,7 @@ import {
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureAcheronService,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
@@ -181,6 +182,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      getState(),
+    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
@@ -211,6 +215,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             .format('YYYY-MM-DD'),
           useV2VA: featureVAOSServiceVAAppointments,
           useV2CC: featureVAOSServiceCCAppointments,
+          useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
 
@@ -224,6 +229,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
+            useAcheron: featureAcheronVAOSServiceRequests,
           })
             .then(requests => {
               dispatch({
@@ -343,6 +349,9 @@ export function fetchPendingAppointments() {
       const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         state,
       );
+      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+        state,
+      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
@@ -352,6 +361,7 @@ export function fetchPendingAppointments() {
           .add(featureVAOSServiceRequests ? 1 : 0, 'days')
           .format('YYYY-MM-DD'),
         useV2: featureVAOSServiceRequests,
+        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       dispatch({
@@ -407,6 +417,9 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      getState(),
+    );
 
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
@@ -424,6 +437,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
           endDate,
           useV2VA: featureVAOSServiceVAAppointments,
           useV2CC: featureVAOSServiceCCAppointments,
+          useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
 
@@ -486,6 +500,9 @@ export function fetchRequestDetails(id) {
       const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         state,
       );
+      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+        state,
+      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -503,6 +520,7 @@ export function fetchRequestDetails(id) {
         request = await fetchRequestById({
           id,
           useV2: featureVAOSServiceRequests,
+          useAcheron: featureAcheronVAOSServiceRequests,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -555,6 +573,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
         state,
       );
+      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+        state,
+      );
       const useV2 =
         type === 'cc'
           ? featureVAOSServiceCCAppointments
@@ -577,6 +598,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useV2,
+          useAcheron: featureAcheronVAOSServiceRequests,
         });
       }
 
@@ -647,6 +669,9 @@ export function confirmCancelAppointment() {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
+    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
+      getState(),
+    );
 
     try {
       dispatch({
@@ -660,6 +685,7 @@ export function confirmCancelAppointment() {
             appointment.status === APPOINTMENT_STATUS.proposed) ||
           (featureVAOSServiceVAAppointments &&
             appointment.status !== APPOINTMENT_STATUS.proposed),
+        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       dispatch({

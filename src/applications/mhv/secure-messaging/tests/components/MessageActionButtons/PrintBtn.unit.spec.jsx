@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import PrintBtn from '../../../components/MessageActionButtons/PrintBtn';
 import messageResponse from '../../fixtures/message-response.json';
 import reducers from '~/applications/mhv/secure-messaging/reducers';

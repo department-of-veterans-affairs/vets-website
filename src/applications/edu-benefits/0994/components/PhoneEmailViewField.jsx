@@ -15,11 +15,11 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
 };
 
 export const PhoneEmailViewField = ({ formData }) => {
-  const { dayTimePhone, nightTimePhone, emailAddress } = formData;
+  const { homePhone, mobilePhone, emailAddress } = formData;
   return (
     <div>
-      <PhoneViewField formData={dayTimePhone} name="Home phone number" />
-      <PhoneViewField formData={nightTimePhone} name="Mobile phone number" />
+      <PhoneViewField formData={homePhone} name="Home phone number" />
+      <PhoneViewField formData={mobilePhone} name="Mobile phone number" />
       <p>
         <strong>Email address</strong>: {emailAddress || ''}
       </p>

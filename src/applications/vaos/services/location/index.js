@@ -1,8 +1,6 @@
 /**
  * @module services/Location
  */
-import environment from 'platform/utilities/environment';
-
 /*
  * Functions in here should map a var-resources API request to a similar response from
  * a FHIR resource request
@@ -43,6 +41,7 @@ import {
   transformSettingsV2,
   transformFacilityV2,
 } from './transformers.v2';
+import { getRealFacilityId } from '../../utils/appointment';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -265,22 +264,6 @@ export function getSiteIdFromFacilityId(id) {
 }
 
 /**
- * Converts back from a real facility id to our test facility ids
- * in lower environments
- *
- * @export
- * @param {string} facilityId - facility id to convert
- * @returns {string} A facility id with either 442 or 552 replaced with 983 or 984
- */
-export function getTestFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
-}
-
-/**
  * Returns formatted address from facility details object
  *
  * @param {Location} facility A location, or object with an Address field
@@ -462,7 +445,11 @@ export async function fetchCommunityCareSupportedSites({
  * @returns {Boolean} Returns true if locationId starts with any of the Cerner site ids
  */
 export function isCernerLocation(locationId, cernerSiteIds = []) {
-  return cernerSiteIds.some(cernerId => locationId?.startsWith(cernerId));
+  return cernerSiteIds.some(cernerId => {
+    return getRealFacilityId(locationId)?.startsWith(
+      getRealFacilityId(cernerId),
+    );
+  });
 }
 
 /**

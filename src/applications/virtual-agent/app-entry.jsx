@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/virtual-agent.scss';
+import '@department-of-veterans-affairs/virtual-agent/sass/virtual-agent';
 
 import startApp from 'platform/startup';
 

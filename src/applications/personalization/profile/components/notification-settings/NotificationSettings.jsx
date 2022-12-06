@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { animateScroll as scroll } from 'react-scroll';
+import { useLocation } from 'react-router-dom';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import {
@@ -10,7 +13,7 @@ import {
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { focusElement } from '~/platform/utilities/ui';
+
 import {
   hasVAPServiceConnectionError,
   // TODO: uncomment when email is a supported communication channel
@@ -42,7 +45,15 @@ const NotificationSettings = ({
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
+  const location = useLocation();
+
   React.useEffect(() => {
+    // issue: 48011
+    // used via passed state from contact info - mobile update alert link
+    if (location.state?.scrollToTop) {
+      scroll.scrollToTop({ duration: 0, smooth: false });
+    }
+
     focusElement('[data-focus-target]');
     document.title = `Notification Settings | Veterans Affairs`;
   }, []);
@@ -82,7 +93,10 @@ const NotificationSettings = ({
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
       {shouldShowLoadingIndicator ? (
-        <LoadingIndicator message="We’re loading your information." />
+        <VaLoadingIndicator
+          data-testid="loading-indicator"
+          message="We’re loading your information."
+        />
       ) : null}
       {shouldShowAPIError ? <APIErrorAlert /> : null}
       {showMissingContactInfoAlert ? (

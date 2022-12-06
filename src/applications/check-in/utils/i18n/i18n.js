@@ -5,6 +5,7 @@ import { format as formatDate, isDate } from 'date-fns';
 import { enUS as en, es } from 'date-fns/locale';
 import enTranslation from '../../locales/en/translation.json';
 import esTranslation from '../../locales/es/translation.json';
+import tlTranslation from '../../locales/tl/translation.json';
 
 /**
  * Helper function to set language on main element for DS component detection.
@@ -66,6 +67,7 @@ i18n
     resources: {
       en: { translation: enTranslation },
       es: { translation: esTranslation },
+      tl: { translation: tlTranslation },
     },
   });
 

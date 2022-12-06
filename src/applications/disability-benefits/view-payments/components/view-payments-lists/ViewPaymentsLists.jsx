@@ -137,10 +137,10 @@ class ViewPaymentsLists extends Component {
             {paymentsReceivedTable}
             <p>
               <strong>Note:</strong> Some payment details might not be available
-              online. For example, direct-deposit payments less than $1 or check
-              payments less than $5, won’t show in your online payment history.
-              Gross (before deductions) payments and changes will show only for
-              recurring and irregular compensation payments.
+              online. For example, direct-deposit payments of less than $1 or
+              check payments of less than $5, won’t show in your online payment
+              history. Gross (before deductions) payments and changes will show
+              only for recurring and irregular compensation payments.
             </p>
             <p>
               If you have questions about payments made by VA, please call the

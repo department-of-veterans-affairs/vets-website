@@ -2,7 +2,7 @@ import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/claims-list.json';
 
 describe('Claims List Test', () => {
-  it('Tests consolidated claim functionality', () => {
+  it('Tests consolidated claim functionality - C30698', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList);
     cy.expandAccordions();

@@ -30,8 +30,4 @@ export const defaultWebOAuthOptions = {
   acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };
 
-export const OAuthEnabledApplications = [
-  undefined /* default */,
-  'vamobile',
-  'vaoccmobile',
-];
+export const OAuthEnabledApplications = [undefined /* default */, 'vamobile'];

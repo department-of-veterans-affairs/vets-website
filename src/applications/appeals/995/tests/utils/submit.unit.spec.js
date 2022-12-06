@@ -1,14 +1,16 @@
 import { expect } from 'chai';
-import { SELECTED } from '../../constants';
+import { PRIMARY_PHONE, SELECTED, EVIDENCE_VA } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
+  removeEmptyEntries,
+  getTimeZone,
   createIssueName,
   getContestedIssues,
-  removeEmptyEntries,
+  // addIncludedIssues,
   getAddress,
   getPhone,
-  getTimeZone,
+  getEvidence,
 } from '../../utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
@@ -165,7 +167,19 @@ describe('getAddress', () => {
 });
 
 describe('getPhone', () => {
-  it('should return a cleaned up phone object', () => {
+  const phone1 = {
+    countryCode: '1',
+    areaCode: '222',
+    phoneNumber: '1234567',
+    phoneNumberExt: '0000',
+  };
+  const phone2 = {
+    countryCode: '1',
+    areaCode: '333',
+    phoneNumber: '3456789',
+    phoneNumberExt: '0001',
+  };
+  it('should return a cleaned up phone object from the default home phone', () => {
     const wrap = obj => ({ veteran: { homePhone: obj } });
     expect(getPhone()).to.deep.equal({});
     expect(getPhone(wrap({}))).to.deep.equal({});
@@ -176,19 +190,35 @@ describe('getPhone', () => {
     expect(
       getPhone(
         wrap({
-          countryCode: '1',
-          areaCode: '222',
-          phoneNumber: '1234567',
-          phoneNumberExt: '0000',
+          ...phone1,
           extra: 'will not be included',
         }),
       ),
-    ).to.deep.equal({
-      countryCode: '1',
-      areaCode: '222',
-      phoneNumber: '1234567',
-      phoneNumberExt: '0000',
+    ).to.deep.equal(phone1);
+  });
+  it('should ignore selected primary phone when only home is available', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: phone1, mobilePhone: {} },
     });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone1);
+  });
+  it('should ignore selected primary phone when only mobile is available', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: {}, mobilePhone: phone2 },
+    });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone2);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
+  });
+  it('should return selected primary phone', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: phone1, mobilePhone: phone2 },
+    });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
   });
 });
 
@@ -196,5 +226,53 @@ describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
     expect(getTimeZone().length).to.be.greaterThan(1);
+  });
+});
+
+describe('getEvidence', () => {
+  const getData = ({ hasVa = true } = {}) => ({
+    data: {
+      [EVIDENCE_VA]: hasVa,
+      locations: [
+        {
+          locationAndName: 'test 1',
+          issues: ['1', '2'],
+          evidenceDates: { from: '2022-01-01', to: '2022-02-02' },
+        },
+        {
+          locationAndName: 'test 2',
+          issues: ['1', '2'],
+          evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
+        },
+      ],
+    },
+    result: {
+      evidenceType: ['retrieval'],
+      retrieveFrom: [
+        {
+          type: 'retrievalEvidence',
+          attributes: {
+            locationAndName: 'test 1',
+            evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+          },
+        },
+        {
+          type: 'retrievalEvidence',
+          attributes: {
+            locationAndName: 'test 2',
+            evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+          },
+        },
+      ],
+    },
+  });
+
+  it('should skip adding evidence when not selected', () => {
+    const evidence = getData({ hasVa: false });
+    expect(getEvidence(evidence.data)).to.deep.equal({ evidenceType: [] });
+  });
+  it('should process evidence when available', () => {
+    const evidence = getData();
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
   });
 });

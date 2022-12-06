@@ -1,28 +1,45 @@
 import {
-  FETCH_CLAIM_STATUS,
-  FETCH_CLAIM_STATUS_FAILED,
-  FETCH_CLAIM_STATUS_SUCCESS,
+  MEB_FETCH_CLAIM_STATUS,
+  MEB_FETCH_CLAIM_STATUS_FAILED,
+  MEB_FETCH_CLAIM_STATUS_SUCCESS,
+  TOE_FETCH_CLAIM_STATUS,
+  TOE_FETCH_CLAIM_STATUS_FAILED,
+  TOE_FETCH_CLAIM_STATUS_SUCCESS,
 } from '../actions';
-// import formConfig from "../../toe/config/form";
 
 const initialState = {};
 
 export default {
   data: (state = initialState, action) => {
     switch (action.type) {
-      case FETCH_CLAIM_STATUS:
+      case MEB_FETCH_CLAIM_STATUS:
         return {
           ...state,
-          claimStatusFetchInProgress: true,
+          MEBClaimStatusFetchInProgress: true,
         };
-      case FETCH_CLAIM_STATUS_SUCCESS:
-      case FETCH_CLAIM_STATUS_FAILED:
+      case MEB_FETCH_CLAIM_STATUS_SUCCESS:
+      case MEB_FETCH_CLAIM_STATUS_FAILED:
         return {
           ...state,
-          claimStatusFetchComplete: true,
-          claimStatusFetchInProgress: false,
-          claimStatus: {
-            ...action.response?.data?.attributes,
+          MEBClaimStatusFetchComplete: true,
+          MEBClaimStatusFetchInProgress: false,
+          MEBClaimStatus: {
+            ...action?.response?.data?.attributes,
+          },
+        };
+      case TOE_FETCH_CLAIM_STATUS:
+        return {
+          ...state,
+          TOEClaimStatusFetchInProgress: true,
+        };
+      case TOE_FETCH_CLAIM_STATUS_SUCCESS:
+      case TOE_FETCH_CLAIM_STATUS_FAILED:
+        return {
+          ...state,
+          TOEClaimStatusFetchComplete: true,
+          TOEClaimStatusFetchInProgress: false,
+          TOEClaimStatus: {
+            ...action?.response?.data?.attributes,
           },
         };
       default:

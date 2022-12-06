@@ -29,5 +29,16 @@ describe('check-in', () => {
       expect(link.getAttribute('href')).to.equal('/');
       expect(link.getAttribute('hrefLang')).to.equal('es');
     });
+    it('renders link component - tl', () => {
+      const screen = render(
+        <ExternalLink hrefLang="tl" href="/">
+          LinkText
+        </ExternalLink>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.textContent).to.equal('LinkText (in-tl)');
+      expect(link.getAttribute('href')).to.equal('/');
+      expect(link.getAttribute('hrefLang')).to.equal('tl');
+    });
   });
 });

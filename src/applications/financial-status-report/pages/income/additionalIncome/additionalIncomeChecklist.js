@@ -10,16 +10,6 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': AdditionalIncomeCheckList,
-    'ui:required': formData => {
-      const {
-        additionalIncome: { addlIncRecords = [] },
-      } = formData;
-
-      return !addlIncRecords.length;
-    },
-    'ui:errorMessages': {
-      required: 'Please select at least one additional income.',
-    },
     'ui:options': {
       hideOnReview: true,
     },

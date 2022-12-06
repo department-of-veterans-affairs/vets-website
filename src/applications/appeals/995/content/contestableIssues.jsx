@@ -30,14 +30,14 @@ export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
   return (
     <>
       <div className="vads-u-margin-bottom--2">
-        These issues are in your VA record. If an issue is missing from this
-        list, you can add it.
+        These are the issues we have on file for you. If an issue is missing
+        from the list, you can add it here.
       </div>
       <legend
         name="eligibleScrollElement"
-        className="vads-u-font-weight--normal vads-u-font-size--base"
+        className="vads-u-font-weight--bold vads-u-font-size--base"
       >
-        Select the issue(s) you’d like us to review:
+        Select the issues you’d like us to review
       </legend>
     </>
   );
@@ -105,3 +105,11 @@ export const NoneSelectedAlert = ({ count }) => {
 NoneSelectedAlert.propTypes = {
   count: PropTypes.number,
 };
+
+export const ContestableIssuesAdditionalInfo = (
+  <va-additional-info trigger="Why aren’t all my issues listed here">
+    If you don’t see your issue or decision listed here, it may not be in our
+    system yet. This can happen if it’s a more recent claim decision. We may
+    still be processing it.
+  </va-additional-info>
+);

@@ -4,11 +4,8 @@ import prefillTransformer from '../../config/prefill-transformer';
 // This is the nesting of the prefill data; transformation flattens it
 const buildData = ({ ssnLastFour = '', vaFileLastFour = '' }) => ({
   prefill: {
-    data: {},
-    nonPrefill: {
-      veteranSsnLastFour: ssnLastFour,
-      veteranVaFileNumberLastFour: vaFileLastFour,
-    },
+    veteranSsnLastFour: ssnLastFour,
+    veteranVaFileNumberLastFour: vaFileLastFour,
   },
   result: {
     veteran: {
@@ -24,7 +21,6 @@ describe('SC prefill transformer', () => {
     formData: {
       testData: 'This is not getting transformed',
       data: {},
-      nonPrefill: {},
     },
     pages: { testPage: 'Page 1' },
   };
@@ -41,17 +37,18 @@ describe('SC prefill transformer', () => {
     });
   });
 
-  describe('prefill veteran information', () => {
-    it('should transform contact info when present', () => {
-      const { pages, metadata } = noTransformData;
-      const data = buildData({
-        ssnLastFour: '9876',
-        vaFileLastFour: '7654',
-      });
-      const transformedData = prefillTransformer(pages, data.prefill, metadata)
-        .formData;
+  it('should transform ssn & vafn when present', () => {
+    const { pages, metadata } = noTransformData;
+    const data = buildData({
+      ssnLastFour: '9876',
+      vaFileLastFour: '7654',
+    });
+    const transformedData = prefillTransformer(pages, data.prefill, metadata);
 
-      expect(transformedData).to.deep.equal(data.result);
+    expect(transformedData).to.deep.equal({
+      pages,
+      formData: data.result,
+      metadata,
     });
   });
 });

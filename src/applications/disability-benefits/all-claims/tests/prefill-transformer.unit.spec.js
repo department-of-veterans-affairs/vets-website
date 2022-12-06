@@ -4,10 +4,7 @@ import prefillTransformer, {
   addNoneDisabilityActionType,
 } from '../prefill-transformer';
 
-import {
-  SERVICE_CONNECTION_TYPES,
-  disabilityActionTypes,
-} from 'applications/disability-benefits/all-claims/constants';
+import { SERVICE_CONNECTION_TYPES, disabilityActionTypes } from '../constants';
 
 describe('526v2 prefill transformer', () => {
   const noTransformData = {
@@ -258,6 +255,37 @@ describe('526v2 prefill transformer', () => {
       expect(transformedData).to.deep.equal({
         'view:claimType': noTransformData.formData['view:claimType'],
         serviceInformation: { servicePeriods },
+      });
+    });
+
+    it('should transform service branch names to BRD names', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = (branch = 'Army Reserve') => ({
+        servicePeriods: [
+          {
+            serviceBranch: branch,
+            dateRange: { from: '2010-01-01', to: '2015-10-10' },
+          },
+        ],
+        reservesNationalGuardService: {
+          obligationTermOfServiceDateRange: {
+            from: '2016-01-01',
+            to: '2018-01-01',
+          },
+        },
+      });
+
+      const transformedData = prefillTransformer(pages, formData(), metadata)
+        .formData;
+      const { reservesNationalGuardService, servicePeriods } = formData(
+        'Army Reserves',
+      );
+      expect(transformedData).to.deep.equal({
+        'view:claimType': noTransformData.formData['view:claimType'],
+        serviceInformation: {
+          servicePeriods,
+          reservesNationalGuardService,
+        },
       });
     });
   });

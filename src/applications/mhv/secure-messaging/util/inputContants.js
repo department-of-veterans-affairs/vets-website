@@ -1,9 +1,17 @@
-export const DateRanges = [
-  { value: 'any', label: 'Any' },
-  { value: '3', label: 'Last 3 months' },
-  { value: '6', label: 'Last 6 months' },
-  { value: '12', label: 'Last 12 months' },
-  { value: 'custom', label: 'Custom date range' },
+export const DateRangeValues = {
+  ANY: 'any',
+  LAST3: 'last3',
+  LAST6: 'last6',
+  LAST12: 'last12',
+  CUSTOM: 'custom',
+};
+
+export const DateRangeOptions = [
+  { value: DateRangeValues.ANY, label: 'Any' },
+  { value: DateRangeValues.LAST3, label: 'Last 3 months' },
+  { value: DateRangeValues.LAST6, label: 'Last 6 months' },
+  { value: DateRangeValues.LAST12, label: 'Last 12 months' },
+  { value: DateRangeValues.CUSTOM, label: 'Custom date range' },
 ];
 
 export const SelectCategories = [
@@ -12,27 +20,27 @@ export const SelectCategories = [
     label: ' ',
   },
   {
-    value: 'OTHER',
+    value: 'other',
     label: 'General',
   },
   {
-    value: 'COVID',
+    value: 'covid',
     label: 'COVID',
   },
   {
-    value: 'APPOINTMENTS',
+    value: 'appointment',
     label: 'Appointment',
   },
   {
-    value: 'MEDICATIONS',
+    value: 'medication',
     label: 'Medication',
   },
   {
-    value: 'TEST_RESULTS',
+    value: 'test',
     label: 'Test',
   },
   {
-    value: 'EDUCATION',
+    value: 'education',
     label: 'Education',
   },
 ];

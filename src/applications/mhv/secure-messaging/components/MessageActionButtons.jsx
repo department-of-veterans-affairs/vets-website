@@ -11,7 +11,7 @@ import DeleteMessageModal from './Modals/DeleteMessageModal';
 import * as Constants from '../util/constants';
 
 const MessageActionButtons = props => {
-  const { id } = props;
+  const { id, hideReplyButton } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -86,22 +86,27 @@ const MessageActionButtons = props => {
 
       {isDeleteVisible && deleteMessageModal()}
 
-      <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
+        <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+      )}
 
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={props.onReply}
-      >
-        <i className="fas fa-reply" aria-hidden="true" />
-        <span className="message-action-button-text">Reply</span>
-      </button>
+      {!hideReplyButton && (
+        <button
+          type="button"
+          className="message-action-button"
+          onClick={props.onReply}
+        >
+          <i className="fas fa-reply" aria-hidden="true" />
+          <span className="message-action-button-text">Reply</span>
+        </button>
+      )}
     </div>
   );
 };
 
 MessageActionButtons.propTypes = {
   handlePrintThreadStyleClass: PropTypes.func,
+  hideReplyButton: PropTypes.func,
   id: PropTypes.number,
   onReply: PropTypes.func,
 };

@@ -11,16 +11,18 @@ import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
+import { clearJobIndex } from '../utils/session';
 
 const IntroductionPage = ({ route, formId }) => {
   useEffect(() => {
     focusElement('h1');
+    clearJobIndex();
   }, []);
 
   return (
     <div className="fsr-introduction schemaform-intro">
       <FormTitle
-        title="Request help with VA debt (VA Form 5655)"
+        title="Request help with VA debt for overpayments and copay bills"
         subTitle="Equal to VA Form 5655 (Financial Status Report)"
       />
       <SaveInProgressIntro

@@ -267,7 +267,33 @@ export function FilterYourResults({
         optionValue: 'relaffil',
         optionLabel: 'Religious affiliation',
       },
+      {
+        optionValue: 'HSI',
+        optionLabel: 'Hispanic-serving institutions',
+      },
+      {
+        optionValue: 'NANTI',
+        optionLabel: 'Native American-serving institutions',
+      },
+      {
+        optionValue: 'ANNHI',
+        optionLabel: 'Alaska Native-serving institutions',
+      },
+      {
+        optionValue: 'AANAPII',
+        optionLabel:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        optionValue: 'PBI',
+        optionLabel: 'Predominantly Black institutions',
+      },
+      {
+        optionValue: 'TRIBAL',
+        optionLabel: 'Tribal college and university',
+      },
     ];
+
     return (
       <Dropdown
         onChange={onChange}

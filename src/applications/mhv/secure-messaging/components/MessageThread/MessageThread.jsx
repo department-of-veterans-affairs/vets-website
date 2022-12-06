@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropType from 'prop-types';
-import { getThread } from '../../actions';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
 import { clearMessageHistory } from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const message = useSelector(state => state.message.message);
+  const message = useSelector(state => state.sm.messageDetails.message);
   const { messageHistory } = props;
   const [viewCount, setViewCount] = useState(5);
 
   useEffect(
     () => {
-      if (message) {
-        dispatch(getThread(message.id));
-      }
       return () => {
         dispatch(clearMessageHistory());
       };

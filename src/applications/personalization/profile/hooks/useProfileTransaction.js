@@ -21,7 +21,7 @@ import {
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { getProfileInfoFieldAttributes } from '../util/getProfileInfoFieldAttributes';
 
-const useProfileTransaction = fieldName => {
+export const useProfileTransaction = fieldName => {
   const dispatch = useDispatch();
   const [transactionInterval, setTransactionInterval] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -149,5 +149,3 @@ const useProfileTransaction = fieldName => {
     startTransaction,
   };
 };
-
-export default useProfileTransaction;

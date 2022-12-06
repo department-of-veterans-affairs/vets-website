@@ -13,7 +13,6 @@ const HealthCareEntry = ({
   children,
   caregiverSigiEnabled = false,
   hcaAmericanIndianEnabled = false,
-  hcaMedicareClaimNumberEnabled = false,
   hcaShortFormEnabled = false,
   hcaUseFacilitiesApi = false,
   setFormData,
@@ -41,7 +40,6 @@ const HealthCareEntry = ({
         'view:isLoggedIn': isLoggedIn,
         'view:totalDisabilityRating': totalDisabilityRating || 0,
         'view:caregiverSIGIEnabled': caregiverSigiEnabled,
-        'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
         'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
         'view:useFacilitiesAPI': hcaUseFacilitiesApi,
       };
@@ -72,7 +70,6 @@ const HealthCareEntry = ({
     [
       caregiverSigiEnabled,
       hcaAmericanIndianEnabled,
-      hcaMedicareClaimNumberEnabled,
       hcaShortFormEnabled,
       hcaUseFacilitiesApi,
       formData.veteranFullName,
@@ -100,7 +97,6 @@ HealthCareEntry.propTypes = {
   getTotalDisabilityRating: PropTypes.func,
   hasSavedForm: PropTypes.bool,
   hcaAmericanIndianEnabled: PropTypes.bool,
-  hcaMedicareClaimNumberEnabled: PropTypes.bool,
   hcaShortFormEnabled: PropTypes.bool,
   hcaUseFacilitiesApi: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
@@ -114,8 +110,6 @@ const mapStateToProps = state => ({
   formData: state.form.data,
   caregiverSigiEnabled: state.featureToggles.caregiverSigiEnabled,
   hcaAmericanIndianEnabled: state.featureToggles.hcaAmericanIndianEnabled,
-  hcaMedicareClaimNumberEnabled:
-    state.featureToggles.hcaMedicareClaimNumberEnabled,
   hcaShortFormEnabled: state.featureToggles.hcaShortFormEnabled,
   hcaUseFacilitiesApi: state.featureToggles.hcaUseFacilitiesApi,
   hasSavedForm: state?.user?.profile?.savedForms.some(

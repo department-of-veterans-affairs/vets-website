@@ -1,6 +1,9 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 
-import { ContestableIssuesTitle } from '../content/contestableIssues';
+import {
+  ContestableIssuesTitle,
+  ContestableIssuesAdditionalInfo,
+} from '../content/contestableIssues';
 
 import { selectionRequired, maxIssues } from '../validations/issues';
 import { SELECTED } from '../constants';
@@ -23,6 +26,9 @@ const contestableIssues = {
       },
       'ui:validations': [selectionRequired, maxIssues],
     },
+    'view:issueNotListed': {
+      'ui:description': ContestableIssuesAdditionalInfo,
+    },
   },
 
   schema: {
@@ -35,6 +41,10 @@ const contestableIssues = {
           properties: {},
           [SELECTED]: 'boolean',
         },
+      },
+      'view:issueNotListed': {
+        type: 'object',
+        properties: {},
       },
     },
   },

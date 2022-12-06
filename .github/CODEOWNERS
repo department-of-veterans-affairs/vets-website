@@ -1,13 +1,21 @@
 # These owners will be the default owners for everything in
-# the repo. Unless a later match takes precedence,
-#  @department-of-veterans-affairs/platform-release-tools will be requested for
-# review when someone opens a pull request.
+
+# the repo. Unless a later match takes precedence
+
+# @department-of-veterans-affairs/platform-release-tools will be requested for
+
+# review when someone opens a pull request
+
 #
-# Review the CODEOWNERS guide before editing:
-# https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/codeowners.md
+
+# Review the CODEOWNERS guide before editing
+
+# <https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/codeowners.md>
 
 # VSP
-*       @department-of-veterans-affairs/platform-release-tools
+
+* @department-of-veterans-affairs/platform-release-tools
+
 src/applications/_mock-form @department-of-veterans-affairs/platform-design-system-fe
 src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-system-fe
 src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe
@@ -15,6 +23,7 @@ src/platform/forms-system @department-of-veterans-affairs/platform-design-system
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
+
 src/applications/auth @department-of-veterans-affairs/vsp-identity
 src/applications/login @department-of-veterans-affairs/vsp-identity
 src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/vsp-identity
@@ -24,6 +33,7 @@ src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
 src/platform/site-wide/user-nav/components/SearchHelpSignIn.jsx @department-of-veterans-affairs/vsp-identity
 
 # VSP QA Standards
+
 src/platform/testing/contract/ @department-of-veterans-affairs/qa-standards
 src/platform/testing/e2e/ @department-of-veterans-affairs/qa-standards
 config/cypress.config.js @department-of-veterans-affairs/qa-standards
@@ -33,10 +43,12 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-sta
 # VSA ----
 
 # Authenticated Experience
+
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend
 
 # Claims & appeals (Benefits Team 1)
+
 src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
@@ -47,6 +59,7 @@ src/applications/lgy @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # VSA Debt
+
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend
@@ -55,6 +68,7 @@ src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-fronten
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend
 
 # Public Websites
+
 src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
 src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
 src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
@@ -65,36 +79,41 @@ src/applications/search @department-of-veterans-affairs/vsa-public-websites-fron
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 
 # Facility Locator and VAMC pages
+
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
+
 src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Health Care Application
+
 src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Healthcare Experience
-src/applications/health-care-questionnaire @department-of-veterans-affairs/patient-check-in
+
 src/applications/check-in @department-of-veterans-affairs/patient-check-in
 
 # /--- VSA
 
 # GOVCIO Team
+
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers
 
-
 # CTO Health Products
+
 src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination-expansion @department-of-veterans-affairs/va-cto-health-products
 
 # My Education Benefits Team
+
 src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
 src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
@@ -102,9 +121,11 @@ src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
 src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 # My HealtheVet Secure Messaging
+
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
 
 # Other
+
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
 src/applications/virtual-agent @department-of-veterans-affairs/orchid

@@ -12,6 +12,8 @@ describe('check in', () => {
           COMPLETE: 'health.care.pre.check.in.complete',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.pre.check.in.should.send.demographics.flags',
+          PERMISSIONS: 'health.care.pre.check.in.permissions',
+          PROGRESS_STATE: 'health.care.pre.check.in.progress',
         });
       });
       it('creates objects with the check-in names', () => {
@@ -24,6 +26,8 @@ describe('check in', () => {
             'health.care.check-in.should.send.demographics.flags',
           SHOULD_SEND_TRAVEL_PAY_CLAIM:
             'health.care.check-in.should.send.travel.pay.claim',
+          PERMISSIONS: 'health.care.check-in.permissions',
+          PROGRESS_STATE: 'health.care.check-in.progress',
         });
       });
     });

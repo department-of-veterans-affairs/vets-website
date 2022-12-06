@@ -33,12 +33,23 @@ const App = ({ toggleLoginModal, user }) => {
         status="continue"
         visible
       >
-        <h3 slot="headline">
-          Please sign in to check your VA education letter
-        </h3>
+        <p
+          className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+          slot="headline"
+        >
+          Please sign in to check your VA education letter.
+        </p>
         <div>
-          Sign in with your existing <b>ID.me</b> account. If you don’t have an
-          account, you can create a free <b>ID.me</b> account now.
+          Sign in with your existing ID.me or Login.gov account. If you don’t
+          have an account, you can create a free{' '}
+          <a href="https://www.id.me/" target="_blank" rel="noreferrer">
+            ID.me account
+          </a>{' '}
+          or{' '}
+          <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
+            Login.gov account
+          </a>{' '}
+          now.
         </div>
         <button className="va-button" type="button" onClick={toggleLogin}>
           Sign in or create an account
@@ -88,7 +99,7 @@ const App = ({ toggleLoginModal, user }) => {
             <b>Note:</b> If you have an older decision letter—or you’re a family
             member or dependent—you can contact us through Ask VA to request a
             copy of your letter.{' '}
-            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+            <a href="https://ask.va.gov/">
               Request your VA education letter through Ask VA.
             </a>
           </p>

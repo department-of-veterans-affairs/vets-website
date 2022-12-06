@@ -50,7 +50,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it.skip('everything Happy path', () => {
+    it('everything Happy path', () => {
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
@@ -94,12 +94,16 @@ describe('Check In Experience', () => {
       Confirmation.validatePageLoadedWithBtsssSubmission();
       cy.injectAxeThenAxeCheck();
 
-      // Confirmation.attemptGoBackToAppointments();
-      // Appointments.validatePageLoaded();
-      // Appointments.validateAppointmentLength(3);
-      // // Validate that appointments are refreshed.
-      // Appointments.validateAppointmentTime(3, '5:00 p.m.');
-      // cy.injectAxeThenAxeCheck();
+      Confirmation.validatePageLoaded();
+      cy.intercept(
+        '/check_in/v2/patient_check_ins/*',
+        cy.spy().as('apptRefresh'),
+      );
+      cy.go('back');
+      cy.get('@apptRefresh')
+        .its('callCount')
+        .should('equal', 1);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

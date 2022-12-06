@@ -1,9 +1,11 @@
+import set from 'platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { isValidYear } from '../validations';
 import {
   separationPayDetailsDescription,
   hasSeparationPayTitle,
 } from '../content/separationTrainingPay';
+import { getBranches } from '../utils/serviceBranches';
 
 const {
   separationPayDate: separationPayDateSchema,
@@ -38,6 +40,15 @@ export const uiSchema = {
     separationPayBranch: {
       'ui:title':
         'Please choose the branch of service that gave you separation or severance pay',
+      'ui:options': {
+        updateSchema: (_formData, schema) => {
+          if (!schema.enum?.length) {
+            const options = getBranches();
+            return set('enum', options, schema);
+          }
+          return schema;
+        },
+      },
     },
   },
 };

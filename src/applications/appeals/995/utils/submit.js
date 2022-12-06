@@ -1,4 +1,5 @@
-import { SELECTED, MAX_LENGTH } from '../constants';
+import { SELECTED, MAX_LENGTH, PRIMARY_PHONE, EVIDENCE_VA } from '../constants';
+import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
 import { replaceSubmittedData } from './replace';
 
 /**
@@ -11,16 +12,6 @@ export const removeEmptyEntries = object =>
   Object.fromEntries(
     Object.entries(object).filter(([_, value]) => value !== ''),
   );
-
-// We require the user to input a 10-digit number; assuming we get a 3-digit
-// area code + 7 digit number. We're not yet supporting international numbers
-export const getPhoneNumber = (phone = '') => ({
-  countryCode: '1',
-  areaCode: phone.substring(0, 3),
-  phoneNumber: phone.substring(3),
-  // Empty string/null are not permitted values
-  // phoneNumberExt: '',
-});
 
 export const getTimeZone = () =>
   // supports IE11
@@ -138,7 +129,6 @@ export const addIncludedIssues = formData => {
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
  * @property {String} emailAddressText
- * @property {Boolean} homeless
  */
 /**
  * Address~submittableV2
@@ -198,10 +188,19 @@ export const getAddress = formData => {
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) => {
+export const getPhone = formData => {
+  const { veteran } = formData || {};
+  // we shouldn't ever get to this point without a home or mobile phone
+  let phone = 'homePhone';
+  if (hasHomeAndMobilePhone(formData)) {
+    phone = `${formData[PRIMARY_PHONE]}Phone`;
+  } else if (hasMobilePhone(formData)) {
+    phone = 'mobilePhone';
+  }
+
   // use homePhone, for now, until we add primary phone page
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.homePhone?.[value] || '').substring(0, max);
+    replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
   return removeEmptyEntries({
     countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
     areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
@@ -265,7 +264,24 @@ export const getPhone = ({ veteran = {} } = {}) => {
  * Get evidence
  * @param {Object} formData - full form data
  */
-export const getEvidence = (/* formData */) => {
-  // do something here to extract the evidence data
-  return {};
+export const getEvidence = formData => {
+  const evidenceSubmission = {
+    evidenceType: [],
+  };
+  // Add VA evidence data
+  if (formData[EVIDENCE_VA] && formData.locations.length) {
+    evidenceSubmission.evidenceType.push('retrieval');
+    evidenceSubmission.retrieveFrom = formData.locations.map(location => ({
+      type: 'retrievalEvidence',
+      attributes: {
+        // we're not including the issues here - it's only in the form to make
+        // the UX consistent with the private records location pages
+        locationAndName: location.locationAndName,
+        // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+        // providing one
+        evidenceDates: [location.evidenceDates],
+      },
+    }));
+  }
+  return evidenceSubmission;
 };

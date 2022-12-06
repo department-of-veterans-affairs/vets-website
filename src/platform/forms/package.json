@@ -42,7 +42,8 @@
     "./selectors": "./save-in-progress/selectors.js",
     "./constants": "./constants.js",
     "./fields": "./fields.js",
-    "./helpers": "./helpers.js"
+    "./helpers": "./helpers.js",
+    "./sub-task": "./sub-task/index.js"
   },
   "license": "MIT",
   "private": true,

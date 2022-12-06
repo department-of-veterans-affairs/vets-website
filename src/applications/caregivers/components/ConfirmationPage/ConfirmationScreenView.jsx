@@ -35,7 +35,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
-            <dd>
+            <dd data-testid="cg-veteranfullname">
               {name.first} {name.middle} {name.last} {name.suffix}
             </dd>
           </div>
@@ -44,7 +44,9 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
               </dt>
-              <dd>{moment(timestamp).format('MMM D, YYYY')}</dd>
+              <dd data-testid="cg-timestamp">
+                {moment(timestamp).format('MMM D, YYYY')}
+              </dd>
             </div>
           )}
           <div>

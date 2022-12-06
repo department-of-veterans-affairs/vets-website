@@ -21,6 +21,9 @@ describe('check-in', () => {
         checkInData: {
           context: {
             token: 'some-token',
+            appointment: {
+              startTime: '2022-08-12T15:15:00',
+            },
           },
           form: {
             data: {

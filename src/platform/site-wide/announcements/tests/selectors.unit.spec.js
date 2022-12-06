@@ -52,13 +52,13 @@ describe('selectAnnouncement', () => {
         {
           name: 'dummy8',
           paths: /^(\/unique-route-2\/)$/,
-          startsAt: '2022-11-11',
+          startsAt: '2052-11-11',
         },
         {
           name: 'dummy9',
           paths: /^(\/unique-route-3\/)$/,
           startsAt: '2019-11-11',
-          expiresAt: '2022-11-11',
+          expiresAt: '2052-11-11',
         },
       ],
     };

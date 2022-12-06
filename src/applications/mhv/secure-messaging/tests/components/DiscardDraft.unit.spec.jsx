@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
 import { beforeEach } from 'mocha';

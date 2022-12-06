@@ -44,5 +44,18 @@ export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
-    .format(format || 'MMMM d, YYYY, h:mm a z');
+    .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+export const sortRecipients = recipientsList => {
+  const isAlphabetical = str => /^\w/.test(str);
+  let list = [];
+  if (recipientsList.length > 0) {
+    list = recipientsList.sort(
+      (a, b) =>
+        isAlphabetical(a.name) - isAlphabetical(b.name) ||
+        a.name.localeCompare(b.name),
+    );
+  }
+  return list;
 };

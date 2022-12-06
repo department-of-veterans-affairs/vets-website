@@ -1,36 +1,56 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
 import CondensedSearchForm from '../components/Search/CondensedSearchForm';
-import { runBasicSearch } from '../actions/search';
 
 const Search = () => {
-  const dispatch = useDispatch();
-
-  const { searchResults, folder, keyword } = useSelector(
+  const { awaitingResults, searchResults, folder, keyword } = useSelector(
     state => state.sm.search,
   );
+  const history = useHistory();
 
-  const submitBasicSearch = formData => {
-    dispatch(runBasicSearch(formData.folder, formData.keyword.toLowerCase()));
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
+
+  useEffect(
+    () => {
+      if (!awaitingResults && !searchResults) {
+        history.goBack();
+      }
+    },
+    [awaitingResults, searchResults],
+  );
+
+  const noResultsMessage = () => {
+    if (keyword) {
+      return (
+        <p>
+          We didn’t find any results for "<strong>{keyword}</strong>" in this
+          folder. Try using different words or checking the spelling of the
+          words you’re using, or try our advanced search.
+        </p>
+      );
+    }
+    return (
+      <p>We didn’t find any results based on the search criteria provided.</p>
+    );
   };
 
   const content = () => {
     if (!searchResults) {
       return (
         <va-loading-indicator
-          message="Loading your secure message..."
+          message="Loading your secure messages..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
     return (
-      <CondensedSearchForm
-        folder={folder}
-        keyword={keyword}
-        submitBasicSearch={submitBasicSearch}
-      />
+      <CondensedSearchForm folder={folder} keyword={keyword} resultsView />
     );
   };
 
@@ -41,14 +61,7 @@ const Search = () => {
     >
       <h1 className="page-title">Search results</h1>
 
-      {searchResults &&
-        searchResults.length === 0 && (
-          <p>
-            We didn’t find any results for "<strong>{keyword}</strong>" in this
-            folder. Try using different words or checking the spelling of the
-            words you’re using, or try our advanced search.
-          </p>
-        )}
+      {searchResults && searchResults.length === 0 && noResultsMessage()}
 
       {content()}
 
@@ -67,7 +80,9 @@ const Search = () => {
         )}
 
       {searchResults &&
-        searchResults.length > 0 && <MessageList messages={searchResults} />}
+        searchResults.length > 0 && (
+          <MessageList messages={searchResults} folder={folder} />
+        )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { resetStoredSubTask } from 'platform/forms/sub-task';
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import { BASE_URL } from '../constants';
 
@@ -6,18 +6,15 @@ describe('995 subtask', () => {
   beforeEach(() => {
     window.dataLayer = [];
     cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
+      data: { features: [{ name: 'supplemental_claim', value: true }] },
     });
 
     resetStoredSubTask();
     cy.visit(`${BASE_URL}/start`);
+    cy.location('pathname').should('eq', `${BASE_URL}/start`);
   });
 
-  it('should show error when nothing selected', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
+  it('should show error when nothing selected - C30850', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
@@ -29,8 +26,7 @@ describe('995 subtask', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
   });
 
-  it('should go to intro page when compensation is selected', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
+  it('should go to intro page when compensation is selected - C30851', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.selectRadio('benefitType', 'compensation');
@@ -39,8 +35,7 @@ describe('995 subtask', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
   });
 
-  it('should go to non-compensation type page when another type is selected', () => {
-    cy.location('pathname').should('eq', `${BASE_URL}/start`);
+  it('should go to non-compensation type page when another type is selected - C30852', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.selectRadio('benefitType', 'other');

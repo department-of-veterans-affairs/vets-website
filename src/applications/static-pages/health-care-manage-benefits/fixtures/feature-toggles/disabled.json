@@ -147,10 +147,6 @@
         "value": false
       },
       {
-        "name": "show_healthcare_experience_questionnaire",
-        "value": false
-      },
-      {
         "name": "show_new_get_medical_records_page",
         "value": false
       },

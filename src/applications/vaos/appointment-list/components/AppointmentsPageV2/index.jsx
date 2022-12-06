@@ -4,6 +4,7 @@ import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import PropTypes from 'prop-types';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -82,9 +83,11 @@ function handleDropdownChange(history, setHasTypeChanged) {
 
 function renderWarningNotification() {
   return (props, childContent) => {
-    const { status } = props;
+    const { status, description } = props;
     return (
-      <WarningNotification status={status}>{childContent}</WarningNotification>
+      <WarningNotification description={description} status={status}>
+        {childContent}
+      </WarningNotification>
     );
   };
 }
@@ -217,3 +220,8 @@ export default function AppointmentsPageV2() {
     </PageLayout>
   );
 }
+
+renderWarningNotification.propTypes = {
+  description: PropTypes.string,
+  status: PropTypes.string,
+};

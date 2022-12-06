@@ -5,7 +5,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
 // Same as "rootUrl" in manifest.json
-export const BASE_URL = `${SC_INFO_URL}/request-supplemental-claim-form-20-0995`;
+export const BASE_URL = `${SC_INFO_URL}/file-supplemental-claim-form-20-0995`;
 
 export const FORM_URL = 'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
@@ -30,23 +30,77 @@ export const CONTESTABLE_ISSUES_API =
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+export const PRIMARY_PHONE = 'view:primaryPhone';
+
+export const EVIDENCE_VA = 'view:hasVaEvidence';
+export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
+export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
-export const errorMessages = {
-  savedFormNotFound: 'Please start over to file a Supplemental Claim',
-  savedFormNoAuth:
-    'Please sign in again to continue your file a Supplemental Claim',
-  invalidDate: 'Please choose a date',
-  startDateInPast: 'Start date must be in the future',
-  endDateInPast: 'End date must be in the future',
-  endDateBeforeStart: 'End date must be after start date',
-  contestedIssue: 'Please select an eligible issue',
+// Supplemental Claim allows for past decision dates, but we should limit them.
+// Picking 100 years until told otherwise
+export const MAX_YEARS_PAST = 100;
 
-  evidenceTypeMissing: 'Please select at least one type of supporting evidence',
-  locationAndNameMissing: 'Please add a treatment location',
+// Values from Lighthouse maintained schema
+// see ./config/form-0995-schema.json
+export const MAX_LENGTH = {
+  SELECTIONS: 100, // submitted issues
+  EVIDENCE_DATES: 4, // items
+  ISSUE_NAME: 140,
+  EMAIL: 255,
+  COUNTRY_CODE: 3,
+  AREA_CODE: 4,
+  PHONE_NUMBER: 14,
+  PHONE_NUMBER_EXT: 10,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
+  COUNTRY: 2,
+  ZIP_CODE5: 5,
+  POSTAL_CODE: 16,
+  CLAIMANT_OTHER: 25,
+  EVIDENCE_LOCATION_AND_NAME: 255,
+};
+
+export const errorMessages = {
+  contestedIssue: 'You must select an eligible issue',
+  missingIssue: 'You must add the name of an issue',
+  uniqueIssue: 'You must enter a unique condition name',
+  maxLength: `You must enter less than ${
+    MAX_LENGTH.ISSUE_NAME
+  } characters for this issue name`,
+
+  invalidDate: 'You must provide a date',
+  startDateInPast: 'The start date must be in the future',
+  endDateInPast: 'The end date must be in the future',
+  endDateBeforeStart: 'The end date must be after the start date',
+  invalidDateRange: (min, max) =>
+    `You must enter a year between ${min} and ${max}`,
+  decisions: {
+    pastDate: 'You must add a past decision date',
+    newerDate: 'You must add a more recent decision date',
+  },
+  evidence: {
+    pastDate: 'You must add a past location date',
+    newerDate: 'You must add a more recent location date',
+    missing: 'You must include at least one type of supporting evidence',
+    locationMissing: 'You must add a treatment location',
+    locationMaxLength: 'You can enter a maximum of 255 characters',
+    issuesMissing: 'You must select one or more conditions (double-check)',
+    unique: 'You must add a unique location entry',
+  },
+
+  missingEmail: 'You must provide an email address',
+  missingPhone: 'You must provide a home or mobile phone number',
+  missingAddress: 'You must provide an address',
+  missingPrimaryPhone: 'You must choose a primary phone number',
+  invalidZip:
+    'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -131,26 +185,5 @@ export const ATTACHMENTS_OTHER = {
     'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
 };
 
-// Values from Lighthouse maintained schema
-// see ./config/form-0995-schema.json
-export const MAX_LENGTH = {
-  SELECTIONS: 100, // submitted issues
-  EVIDENCE_DATES: 4, // items
-  ISSUE_NAME: 140,
-  EMAIL: 255,
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
-  PHONE_NUMBER: 14,
-  PHONE_NUMBER_EXT: 10,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
-  COUNTRY: 2,
-  ZIP_CODE5: 5,
-  POSTAL_CODE: 16,
-  CLAIMANT_OTHER: 25,
-  EVIDENCE_LOCATION_AND_NAME: 255,
-};
-
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';

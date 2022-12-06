@@ -16,6 +16,9 @@ import {
   EditAddress,
 } from '../components/EditContactInfo';
 import AddIssue from '../components/AddIssue';
+import PrimaryPhone from '../components/PrimaryPhone';
+import EvidenceVaRecords from '../components/EvidenceVaRecords';
+import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 
 import addIssue from '../pages/addIssue';
 // import benefitType from '../pages/benefitType';
@@ -23,12 +26,13 @@ import addIssue from '../pages/addIssue';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
+import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
-import evidencePrivateChoice from '../pages/evidencePrivateChoice';
+import evidencePrivateRecordsRequest from '../pages/evidencePrivateRecordsRequest';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidencePrivateUpload from '../pages/evidencePrivateUpload';
 import evidenceSummary from '../pages/evidenceSummary';
-import evidenceTypes from '../pages/evidenceTypes';
+import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import issueSummary from '../pages/issueSummary';
@@ -44,6 +48,7 @@ import {
   hasOtherEvidence,
   hasPrivateEvidenceToUpload,
 } from '../utils/helpers';
+import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
@@ -146,6 +151,16 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: formData => hasHomeAndMobilePhone(formData),
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhone,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+        },
       },
     },
 
@@ -168,6 +183,12 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
         },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+        },
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
@@ -178,37 +199,41 @@ const formConfig = {
             socOptIn: false,
           },
         },
-        issueSummary: {
-          title: 'Issue summary',
-          path: 'issue-summary',
-          uiSchema: issueSummary.uiSchema,
-          schema: issueSummary.schema,
-        },
       },
     },
 
     evidence: {
       title: 'Supporting Evidence',
       pages: {
-        evidenceTypes: {
-          title: 'Supporting evidence types',
-          path: 'supporting-evidence/evidence-types',
-          uiSchema: evidenceTypes.uiSchema,
-          schema: evidenceTypes.schema,
+        notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
+          title: 'Notice of Acknowledgement',
+          path: 'notice-of-acknowledgement',
+          uiSchema: noticeOfAcknowledgement.uiSchema,
+          schema: noticeOfAcknowledgement.schema,
+        },
+        evidenceVaRecordsRequest: {
+          title: 'Request VA medical records',
+          path: 'supporting-evidence/request-va-medical-records',
+          uiSchema: evidenceVaRecordsRequest.uiSchema,
+          schema: evidenceVaRecordsRequest.schema,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
           depends: formData => hasVAEvidence(formData),
+          CustomPage: EvidenceVaRecords,
           uiSchema: evidenceVaRecords.uiSchema,
           schema: evidenceVaRecords.schema,
         },
-        evidencePrivateChoice: {
+        evidencePrivateRecordsRequest: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-choice',
-          depends: hasPrivateEvidence,
-          uiSchema: evidencePrivateChoice.uiSchema,
-          schema: evidencePrivateChoice.schema,
+          path: 'supporting-evidence/request-private-medical-records',
+          CustomPage: EvidencePrivateRequest,
+          uiSchema: evidencePrivateRecordsRequest.uiSchema,
+          schema: evidencePrivateRecordsRequest.schema,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
@@ -243,33 +268,6 @@ const formConfig = {
         },
       },
     },
-
-    acknowledgement: {
-      title: 'Notice of Acknowledgement',
-      pages: {
-        notice5103: {
-          initialData: {
-            form5103Acknowledged: false,
-          },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
-        },
-      },
-    },
-
-    // signature: {
-    //   title: 'Certification & Signature',
-    //   pages: {
-    //     sign: {
-    //       title: 'Certification & Signature',
-    //       path: 'certification-and-signature',
-    //       uiSchema: certifcationAndSignature.uiSchema,
-    //       schema: certifcationAndSignature.schema,
-    //     },
-    //   },
-    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,

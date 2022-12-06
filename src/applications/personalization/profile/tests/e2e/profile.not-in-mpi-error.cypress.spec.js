@@ -1,3 +1,4 @@
+import { checkForLegacyLoadingIndicator } from 'applications/personalization/common/e2eHelpers';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
@@ -18,13 +19,7 @@ function test(mobile = false) {
     cy.viewport('iphone-4');
   }
 
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByRole('progressbar').should('not.exist');
-  cy.findByText(/loading your information/i).should('not.exist');
+  checkForLegacyLoadingIndicator('loading your information');
 
   // should redirect to profile/account-security on load
   cy.url().should(
@@ -33,13 +28,13 @@ function test(mobile = false) {
   );
 
   // Should show a "not in MPI" error
-  cy.findByText(/We’re having trouble verifying your identity/i)
+  cy.findByText(/We can’t match your information with our Veteran records/i)
     .should('exist')
-    .closest('.usa-alert-warning')
+    .closest('va-alert')
     .should('exist');
-  cy.findByText(/we can’t give you access to VA.gov tools/i)
+  cy.findByText(/Try again soon/i)
     .should('exist')
-    .closest('.usa-alert-warning')
+    .closest('va-alert')
     .should('exist');
 
   subNavOnlyContainsAccountSecurity(mobile);

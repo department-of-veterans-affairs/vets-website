@@ -6,8 +6,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { I18nextProvider } from 'react-i18next';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import i18n from '../../../utils/i18n/i18n';
 import NextOfKin from '../NextOfKin';
@@ -125,53 +123,6 @@ describe('check in', () => {
       expect(component.queryByText('Kin, Next')).to.be.null;
       expect(component.queryByText('5554445555')).to.be.null;
       expect(component.getAllByText('Not available')).to.exist;
-    });
-
-    it('passes axeCheck', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <NextOfKin router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-    });
-
-    it('goes to the error page when the next of kin data is unavailable', () => {
-      const updatedStore = {
-        checkInData: {
-          context: {
-            token: '',
-          },
-          form: {
-            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
-            currentPage: 'first-page',
-          },
-          veteranData: {
-            demographics: {},
-          },
-        },
-        ...scheduledDowntimeState,
-      };
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
-      render(
-        <Provider store={mockStore(updatedStore)}>
-          <I18nextProvider i18n={i18n}>
-            <NextOfKin router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-
-      sinon.assert.calledOnce(push);
     });
 
     it('has a clickable no button', () => {

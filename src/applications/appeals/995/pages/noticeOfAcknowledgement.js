@@ -1,35 +1,21 @@
-import React from 'react';
+import {
+  acknowledge5103Description,
+  acknowledge5103Label,
+  acknowledge5103Error,
+} from '../content/noticeOfAcknowledgement';
 
 export default {
   uiSchema: {
-    'ui:description': (
-      <div>
-        <p>
-          The 5103 Notice regarding new & relevant evidence must be acknowledged
-          when the issue(s) being contested is a Disability Compensation issue.
-        </p>
-        <p>
-          The notice can be found{' '}
-          <a
-            href="http://www.va.gov/disability/how-to-file-claim/evidence-needed"
-            rel="noreferrer"
-            target="_blank"
-          >
-            here
-          </a>
-          .
-        </p>
-      </div>
-    ),
+    'ui:description': acknowledge5103Description,
     'ui:options': {
       forceDivWrapper: true,
     },
     form5103Acknowledged: {
       'ui:widget': 'checkbox',
-      'ui:title': <strong>Yes, I acknowledge</strong>,
+      'ui:title': acknowledge5103Label,
       'ui:required': () => true,
       'ui:errorMessages': {
-        enum: 'Please acknowledge',
+        enum: acknowledge5103Error,
       },
       'ui:options': {
         forceDivWrapper: true,
@@ -43,9 +29,6 @@ export default {
       form5103Acknowledged: {
         type: 'boolean',
         enum: [true],
-        enumNames: Object.values({
-          true: 'Yes, I acknowledge',
-        }),
       },
     },
   },

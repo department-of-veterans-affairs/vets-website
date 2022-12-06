@@ -9,21 +9,17 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
-  const {
-    jumpToPage,
-    goToNextPage,
-    goToPreviousPage,
-    goToErrorPage,
-  } = useFormRouting(router);
+  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
@@ -38,35 +34,29 @@ const NextOfKin = props => {
 
   const yesClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
-      }
+      dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
-      }
+      dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       updateSeeStaffMessage(seeStaffMessage);
       jumpToPage(URLS.SEE_STAFF);
     },
     [
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       updateSeeStaffMessage,
       jumpToPage,
       seeStaffMessage,
+      setShouldSendDemographicsFlags,
     ],
   );
 
-  if (!nextOfKin) {
-    goToErrorPage('?error=no-next-of-kin');
-    return <></>;
-  }
   return (
     <>
       <BackButton router={router} action={goToPreviousPage} />
@@ -80,7 +70,6 @@ const NextOfKin = props => {
 };
 
 NextOfKin.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

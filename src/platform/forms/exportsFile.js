@@ -2,11 +2,12 @@ import dataImports from './address/data/index';
 
 const { states, militaryStates, militaryCities } = dataImports;
 import {
-  branchCodeLabels,
+  militaryBranches,
   countryValues,
   countryLabels,
   states as statesLabels,
 } from './address/data/labels';
+
 import {
   ADDRESS_TYPES,
   isEmptyAddress,
@@ -123,11 +124,23 @@ import {
   getCurrentPageName,
 } from './helpers';
 
+import Subtask, {
+  SUBTASK_SESSION_STORAGE,
+  getStoredSubTask,
+  setStoredSubTask,
+  resetStoredSubTask,
+} from './sub-task';
+
 export default {
+  Subtask,
+  SUBTASK_SESSION_STORAGE,
+  getStoredSubTask,
+  setStoredSubTask,
+  resetStoredSubTask,
   states,
   militaryStates,
   militaryCities,
-  branchCodeLabels,
+  militaryBranches,
   countryValues,
   countryLabels,
   statesLabels,

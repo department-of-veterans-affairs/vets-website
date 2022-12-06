@@ -31,14 +31,14 @@ export function transform(formConfig, form) {
   const addPhoneAndEmail = formData => {
     if (form.data['view:phoneAndEmail']) {
       const clonedData = _.cloneDeep(formData);
-      const { dayTimePhone, nightTimePhone, emailAddress } = form.data[
+      const { homePhone, mobilePhone, emailAddress } = form.data[
         'view:phoneAndEmail'
       ];
 
       return {
         ...clonedData,
-        dayTimePhone,
-        nightTimePhone,
+        homePhone,
+        mobilePhone,
         emailAddress,
       };
     }
@@ -71,7 +71,7 @@ export function transform(formConfig, form) {
     if (formData.vetTecPrograms) {
       const clonedData = _.cloneDeep(formData);
       const vetTecPrograms = clonedData.vetTecPrograms.map(program => {
-        let location = undefined;
+        let location;
 
         if (program.locationCity && program.locationState) {
           location = {

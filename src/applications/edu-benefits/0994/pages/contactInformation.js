@@ -4,6 +4,10 @@ import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardF
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
+import {
+  uiSchema as addressUISchema,
+  schema as addressSchema,
+} from 'platform/forms/definitions/address';
 import { PhoneEmailViewField } from '../components/PhoneEmailViewField';
 
 import {
@@ -11,12 +15,7 @@ import {
   contactInfoDescription,
 } from '../content/contactInformation';
 
-import {
-  uiSchema as addressUISchema,
-  schema as addressSchema,
-} from 'platform/forms/definitions/address';
-
-const { emailAddress, dayTimePhone, nightTimePhone } = fullSchema.properties;
+const { emailAddress, homePhone, mobilePhone } = fullSchema.properties;
 
 const mailingAddressStartInEdit = formData => {
   if (formData) {
@@ -48,8 +47,8 @@ export const uiSchema = {
       viewComponent: PhoneEmailViewField,
     },
     saveClickTrackEvent: { event: 'edu-0994-personal-information-saved' },
-    dayTimePhone: phoneUI('Home phone number'),
-    nightTimePhone: phoneUI('Mobile phone number'),
+    mobilePhone: phoneUI('Mobile phone number'),
+    homePhone: phoneUI('Home phone number'),
     emailAddress: emailUI(),
   },
   mailingAddress: {
@@ -77,10 +76,10 @@ export const schema = {
   properties: {
     'view:phoneAndEmail': {
       type: 'object',
-      required: ['dayTimePhone', 'emailAddress'],
+      required: ['mobilePhone', 'emailAddress'],
       properties: {
-        dayTimePhone,
-        nightTimePhone,
+        mobilePhone,
+        homePhone,
         emailAddress,
       },
     },

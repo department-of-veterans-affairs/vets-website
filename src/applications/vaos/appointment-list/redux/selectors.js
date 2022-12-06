@@ -24,6 +24,7 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
+  selectFeatureAppointmentList,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
@@ -160,20 +161,30 @@ export function selectFirstRequestMessage(state, id) {
  * V2 Past appointments state selectors
  */
 
-export const selectPastAppointmentsV2 = createSelector(
-  state => state.appointments.past,
-  past => {
-    if (!past) {
-      return null;
-    }
+export const selectPastAppointmentsV2 = (state, featureAppointmentList) => {
+  const selector = createSelector(
+    () => state.appointments.past,
+    past => {
+      if (!past) {
+        return null;
+      }
 
-    const sortedAppointments = past
-      .filter(isValidPastAppointment)
-      .sort(sortByDateAscending);
+      let sortedAppointments;
+      if (featureAppointmentList) {
+        sortedAppointments = past
+          .filter(isValidPastAppointment)
+          .sort(sortByDateDescending);
+      } else {
+        sortedAppointments = past
+          .filter(isValidPastAppointment)
+          .sort(sortByDateAscending);
+      }
 
-    return groupAppointmentsByMonth(sortedAppointments);
-  },
-);
+      return groupAppointmentsByMonth(sortedAppointments);
+    },
+  );
+  return selector(state);
+};
 
 export function selectAppointmentById(state, id, types = null) {
   const { appointmentDetails, past, confirmed, pending } = state.appointments;
@@ -276,9 +287,13 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 }
 
 export function getPastAppointmentListInfo(state) {
+  const featureAppointmentList = selectFeatureAppointmentList(state);
   return {
     showScheduleButton: selectFeatureRequests(state),
-    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
+    pastAppointmentsByMonth: selectPastAppointmentsV2(
+      state,
+      featureAppointmentList,
+    ),
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,

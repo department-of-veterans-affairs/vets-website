@@ -122,7 +122,7 @@ describe('fsr transform helper functions', () => {
   // Depends on sumValues, filterReduceByName, otherDeductionsAmt
   describe('getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
-      expect(getMonthlyIncome(inputObject.data)).to.equal(20398.05);
+      expect(getMonthlyIncome(inputObject.data)).to.equal(20597.85);
     });
   });
 
@@ -800,7 +800,7 @@ describe('fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('12194.61');
+      ).to.equal('12394.41');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('800.97');
@@ -831,7 +831,7 @@ describe('fsr transform information', () => {
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
-      expect(submissionObj.assets.totalAssets).to.equal('1084005.55');
+      expect(submissionObj.assets.totalAssets).to.equal('1099005.78');
     });
     describe('automobiles', () => {
       it('has valid structure', () => {
@@ -1099,6 +1099,67 @@ describe('fsr transform information', () => {
       expect(submissionObj.applicantCertifications.veteranDateSigned).to.equal(
         moment().format('MM/DD/YYYY'),
       );
+    });
+  });
+  describe('combined FSR', () => {
+    const cfsrInputObject = {
+      data: { ...inputObject.data, 'view:combinedFinancialStatusReport': true },
+    };
+    describe('cFSR - discretionaryIncome', () => {
+      it('has valid structure', () => {
+        const submissionObj = JSON.parse(transform(null, cfsrInputObject));
+        expect(submissionObj).haveOwnProperty('discretionaryIncome');
+        expect(submissionObj.discretionaryIncome).to.be.an('object');
+        expect(submissionObj.discretionaryIncome).haveOwnProperty(
+          'netMonthlyIncomeLessExpenses',
+        );
+        expect(submissionObj.discretionaryIncome).haveOwnProperty(
+          'amountCanBePaidTowardDebt',
+        );
+      });
+      it('has valid data', () => {
+        const submissionObj = JSON.parse(transform(null, cfsrInputObject));
+        expect(
+          submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
+        ).to.equal('12394.41');
+        expect(
+          submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
+        ).to.equal('61.02');
+      });
+    });
+    describe('cFSR - getTotalAssets helper', () => {
+      it('should return total value of assets', () => {
+        const totalAssets = {
+          assets: {
+            otherAssets: [
+              {
+                amount: '10',
+              },
+              {
+                amount: '10',
+              },
+            ],
+            recVehicleAmount: '100',
+            automobiles: [
+              {
+                resaleValue: '100',
+              },
+              {
+                resaleValue: '100',
+              },
+            ],
+          },
+          realEstateRecords: [
+            {
+              realEstateAmount: '1000',
+            },
+            {
+              realEstateAmount: '1000',
+            },
+          ],
+        };
+        expect(getTotalAssets(totalAssets)).to.equal(2320);
+      });
     });
   });
 });

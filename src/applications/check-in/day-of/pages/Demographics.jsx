@@ -7,17 +7,17 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { URLS } from '../../utils/navigation';
 
 const Demographics = props => {
-  const { isDayOfDemographicsFlagsEnabled } = props;
   const dispatch = useDispatch();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { t } = useTranslation();
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
-  const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage, jumpToPage } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -28,19 +28,17 @@ const Demographics = props => {
 
   const yesClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+      setShouldSendDemographicsFlags(window, true);
       goToNextPage();
     },
-    [goToNextPage, isDayOfDemographicsFlagsEnabled, dispatch],
+    [goToNextPage, dispatch, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
     () => {
-      if (isDayOfDemographicsFlagsEnabled) {
-        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+      setShouldSendDemographicsFlags(window, true);
       const seeStaffMessage = (
         <>
           <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
@@ -57,16 +55,12 @@ const Demographics = props => {
     [
       updateSeeStaffMessage,
       jumpToPage,
-      isDayOfDemographicsFlagsEnabled,
       dispatch,
       t,
+      setShouldSendDemographicsFlags,
     ],
   );
 
-  if (!demographics) {
-    goToErrorPage('?error=no-demographics');
-    return <></>;
-  }
   return (
     <>
       <DemographicsDisplay
@@ -82,7 +76,6 @@ const Demographics = props => {
 };
 
 Demographics.propTypes = {
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

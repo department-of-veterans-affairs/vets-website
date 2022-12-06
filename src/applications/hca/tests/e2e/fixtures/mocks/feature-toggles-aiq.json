@@ -11,10 +11,6 @@
         "value": true
       },
       {
-        "name": "hcaMedicareClaimNumberEnabled",
-        "value": true
-      },
-      {
         "name": "hcaShortFormEnabled",
         "value": true
       },

@@ -10,7 +10,7 @@ beforeEach(() => {
 });
 
 describe('Claim Files Test', () => {
-  it('Gets files properly', () => {
+  it('Gets files properly - C30822', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails);
     trackClaimsPage.verifyInProgressClaim(false);

@@ -9,19 +9,22 @@ const InboxPage = ({
   claimStatus,
   getClaimStatus,
   user,
-  claimStatusFetchComplete,
-  claimStatusFetchInProgress,
+  MEBClaimStatusFetchInProgress,
+  MEBClaimStatusFetchComplete,
+  TOEClaimStatusFetchInProgress,
+  TOEClaimStatusFetchComplete,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
 
   useEffect(
     () => {
-      // if (!user?.login?.currentlyLoggedIn) {
-      //   return
-      // }
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
 
       if (!fetchedClaimStatus) {
-        getClaimStatus();
+        getClaimStatus('MEB');
+        getClaimStatus('TOE');
         setFetchedClaimStatus(true);
       }
     },
@@ -29,7 +32,7 @@ const InboxPage = ({
   );
 
   const renderInbox = () => {
-    if (claimStatusFetchInProgress) {
+    if (MEBClaimStatusFetchInProgress || TOEClaimStatusFetchInProgress) {
       return (
         <div className="vads-u-margin-y--5">
           <va-loading-indicator
@@ -41,14 +44,18 @@ const InboxPage = ({
       );
     }
 
-    if (claimStatusFetchComplete) {
-      if (['ELIGIBLE', 'DENIED'].includes(claimStatus.claimStatus)) {
+    if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
+      if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
         return <HasLetters claimStatus={claimStatus} />;
       }
       return <NoLetters />;
     }
 
-    if (claimStatus) {
+    if (
+      MEBClaimStatusFetchComplete &&
+      TOEClaimStatusFetchComplete &&
+      !claimStatus?.claimStatus
+    ) {
       return (
         <va-banner
           headline="There was an error in accessing your decision letters. We’re sorry we couldn’t display your letters.  Please try again later."
@@ -76,18 +83,43 @@ const InboxPage = ({
 
 InboxPage.propTypes = {
   claimStatus: PropTypes.object,
-  claimStatusFetchComplete: PropTypes.bool,
-  claimStatusFetchInProgress: PropTypes.bool,
   getClaimStatus: PropTypes.func,
+  MEBClaimStatusFetchInProgress: PropTypes.bool,
+  MEBClaimStatusFetchComplete: PropTypes.bool,
+  TOEClaimStatusFetchInProgress: PropTypes.bool,
+  TOEClaimStatusFetchComplete: PropTypes.bool,
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  claimStatus: state?.data?.claimStatus,
-  claimStatusFetchInProgress: state?.data?.claimStatusFetchInProgress,
-  claimStatusFetchComplete: state?.data?.claimStatusFetchComplete,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  const { MEBClaimStatus, TOEClaimStatus } = state?.data;
+  let latestClaim;
+
+  if (
+    !!MEBClaimStatus?.claimStatus &&
+    !['ERROR', 'SUBMITTED'].includes(MEBClaimStatus?.claimStatus) &&
+    !!TOEClaimStatus?.claimStatus &&
+    !['ERROR', 'SUBMITTED'].includes(TOEClaimStatus?.claimStatus)
+  ) {
+    latestClaim =
+      MEBClaimStatus?.receivedDate > TOEClaimStatus?.receivedDate
+        ? { ...MEBClaimStatus }
+        : { ...TOEClaimStatus };
+  } else if (['ELIGIBLE', 'DENIED'].includes(MEBClaimStatus?.claimStatus)) {
+    latestClaim = { ...MEBClaimStatus };
+  } else if (['ELIGIBLE', 'DENIED'].includes(TOEClaimStatus?.claimStatus)) {
+    latestClaim = { ...TOEClaimStatus };
+  }
+
+  return {
+    claimStatus: latestClaim,
+    MEBClaimStatusFetchInProgress: state?.data?.MEBClaimStatusFetchInProgress,
+    MEBClaimStatusFetchComplete: state?.data?.MEBClaimStatusFetchComplete,
+    TOEClaimStatusFetchInProgress: state?.data?.TOEClaimStatusFetchInProgress,
+    TOEClaimStatusFetchComplete: state?.data?.TOEClaimStatusFetchComplete,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,

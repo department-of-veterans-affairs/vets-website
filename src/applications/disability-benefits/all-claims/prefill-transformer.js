@@ -5,6 +5,7 @@ import {
   MILITARY_CITIES,
 } from './constants';
 import { viewifyFields } from './utils';
+import { migrateBranches } from './utils/serviceBranches';
 
 // ****************************************
 // This entire file _may_ be obsolete once form 526EZ v1 is no longer supported
@@ -99,8 +100,8 @@ export default function prefillTransformer(pages, formData, metadata) {
         newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
       }
     }
-
-    return newData;
+    // backend is prefilling with older branch names
+    return migrateBranches(newData);
   };
 
   const prefillBankInformation = data => {

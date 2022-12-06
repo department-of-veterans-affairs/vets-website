@@ -42,6 +42,9 @@ export const transform = (formConfig, form) => {
       telephoneNumber,
       dateOfBirth,
       dependents,
+      employmentHistory: {
+        veteran: { employmentRecords = [] },
+      },
     },
     expenses,
     otherExpenses,
@@ -63,6 +66,9 @@ export const transform = (formConfig, form) => {
     benefits,
   } = form.data;
 
+  // enhanced fsr flag
+  const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
+
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
   const retirementFilters = ['401K', 'IRA', 'Pension'];
@@ -70,15 +76,22 @@ export const transform = (formConfig, form) => {
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const vetSocSecAmt = !enhancedFSRActive
+    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
+    : 0;
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
   const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
@@ -90,9 +103,11 @@ export const transform = (formConfig, form) => {
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(
-    socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+  const spSocialSecAmt = !enhancedFSRActive
+    ? Number(
+        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+      )
+    : 0;
   const spComp = Number(
     benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
   );
@@ -154,9 +169,6 @@ export const transform = (formConfig, form) => {
     combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
     combinedFSRActive,
   );
-
-  // enhanced fsr flag
-  const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
   const submissionObj = {
     personalIdentification: {
@@ -254,7 +266,9 @@ export const transform = (formConfig, form) => {
       cashInBank: enhancedFSRActive ? calculatedCashInBank : assets.cashInBank,
       cashOnHand: enhancedFSRActive ? calculatedCashOnHand : assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: assets.recVehicleAmount,
+      trailersBoatsCampers: combinedFSRActive
+        ? assets.recVehicleAmount
+        : sumValues(assets.recVehicles, 'recVehicleAmount'),
       usSavingsBonds: enhancedFSRActive
         ? calculatedUsSavingsBonds
         : assets.usSavingsBonds,

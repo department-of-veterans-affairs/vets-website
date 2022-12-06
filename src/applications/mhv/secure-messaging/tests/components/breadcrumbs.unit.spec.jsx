@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
@@ -15,91 +15,95 @@ describe('Breadcrumbs', () => {
     },
   };
 
-  it('on Message Details renders without errors', () => {
+  it('on Message Details renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: `/message/${messageResponse.messageId}`,
     });
-    expect(screen.findByText(messageResponse.subject, { exact: true }));
+    expect(await screen.findByText(messageResponse.subject, { exact: true }));
   });
 
-  it('on Compose renders without errors', () => {
+  it('on Compose renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.COMPOSE.label, { exact: true }),
+      await screen.findByText(Constants.Breadcrumbs.COMPOSE.label, {
+        exact: true,
+      }),
     );
   });
 
-  it('on Drafts Folder renders without errors', () => {
+  it('on Drafts Folder renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.DRAFTS.path,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.DRAFTS.label, {
+      await screen.findByText(Constants.Breadcrumbs.DRAFTS.label, {
         exact: true,
       }),
     );
   });
 
-  it('on Sent Folder renders without errors', () => {
+  it('on Sent Folder renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.SENT.path,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.SENT.label, {
+      await screen.findByText(Constants.Breadcrumbs.SENT.label, {
         exact: true,
       }),
     );
   });
 
-  it('on Trash Folder renders without errors', () => {
+  it('on Trash Folder renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.TRASH.path,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.TRASH.label, {
+      await screen.findByText(Constants.Breadcrumbs.TRASH.label, {
         exact: true,
       }),
     );
   });
 
-  it('on Search Folder renders without errors', () => {
+  it('on Search Folder renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: Constants.Breadcrumbs.SEARCH.path,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
+      await screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
         exact: true,
       }),
     );
   });
 
-  it('on Advanced Search Folder renders without errors', () => {
+  it('on Advanced Search Folder renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: Constants.Breadcrumbs.SEARCH_ADVANCED.path,
+      path: `${Constants.Breadcrumbs.SEARCH.path}${
+        Constants.Breadcrumbs.SEARCH_ADVANCED.path
+      }`,
     });
     expect(
-      screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
+      await screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
         exact: true,
       }),
     );
     expect(
-      screen.findByText(Constants.Breadcrumbs.SEARCH_ADVANCED.label, {
+      await screen.findByText(Constants.Breadcrumbs.SEARCH_ADVANCED.label, {
         exact: true,
       }),
     );

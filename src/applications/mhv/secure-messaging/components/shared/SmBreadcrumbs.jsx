@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 
@@ -17,19 +18,12 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
-      const paths = [
-        {
-          path: `/message/${messageDetails?.messageId}`,
-          label: messageDetails?.subject,
-        },
+      let paths = [
+        { path: `/message`, label: messageDetails?.subject },
         { path: '/reply', label: messageDetails?.subject },
         Constants.Breadcrumbs.COMPOSE,
         Constants.Breadcrumbs.DRAFT,
         Constants.Breadcrumbs.DRAFTS,
-        {
-          path: `/folder/${activeFolder?.folderId}`,
-          label: activeFolder?.name,
-        },
         Constants.Breadcrumbs.FOLDERS,
         Constants.Breadcrumbs.SENT,
         Constants.Breadcrumbs.TRASH,
@@ -43,11 +37,27 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.FAQ,
       ];
 
+      if (activeFolder?.folderId) {
+        paths = [
+          ...paths,
+          {
+            path: `/folder`,
+            label: 'My folders',
+            children: [
+              { path: `/${activeFolder?.folderId}`, label: activeFolder?.name },
+            ],
+          },
+        ];
+      }
+
       function handleBreadCrumbs() {
         const arr = [];
-        arr.push({ path: 'https://www.va.gov', label: 'VA.gov home' });
         arr.push({
-          path: 'https://www.va.gov/health-care/',
+          path: replaceWithStagingDomain('https://www.va.gov'),
+          label: 'VA.gov home',
+        });
+        arr.push({
+          path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
           label: 'My Health',
         });
         arr.push({ path: '/', label: 'Messages' });
@@ -64,7 +74,9 @@ const SmBreadcrumbs = () => {
               const child = path.children.find(
                 item => item.path.substring(1) === locationChildPath,
               );
-              arr.push(child);
+              if (child) {
+                arr.push(child);
+              }
             }
           }
         });

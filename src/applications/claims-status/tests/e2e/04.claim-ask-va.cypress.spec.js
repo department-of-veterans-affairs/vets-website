@@ -10,7 +10,7 @@ beforeEach(() => {
 });
 
 describe('Ask VA Claim Test', () => {
-  it('Submits the form', () => {
+  it('Submits the form - C30827', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, mockDetails, true);
     trackClaimsPage.verifyInProgressClaim(false);
