@@ -262,7 +262,7 @@ const analyticsEvents = {
       action: 'close',
       event: 'int-promo-banner-close',
       prefix: 'promo-banner',
-    }
+    },
   ],
   'va-radio': [
     {
