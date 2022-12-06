@@ -143,9 +143,9 @@ const formConfig = {
           schema: pages.contactInformation.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
-        editPhone: {
-          title: 'Edit number',
-          path: 'edit-phone-number',
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
           CustomPage: EditPhone,
           CustomPageReview: EditPhone,
           depends: () => false, // accessed from contact info page
