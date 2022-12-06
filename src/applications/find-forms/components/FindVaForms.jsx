@@ -20,7 +20,7 @@ const onFeaturedContentClick = header => () => {
   });
 };
 
-export const FindVaForms = ({ showPdfWarningBanner }) => {
+export const FindVaForms = ({ showPdfWarningBanner = false }) => {
   return (
     <>
       {showPdfWarningBanner && <PdfAlert />}
@@ -142,7 +142,7 @@ FindVaForms.propTypes = {
 
 const mapStateToProps = state => ({
   showPdfWarningBanner: toggleValues(state)[
-    FEATURE_FLAG_NAMES.pdfWarningBanner || false
+    FEATURE_FLAG_NAMES.pdfWarningBanner
   ],
 });
 
