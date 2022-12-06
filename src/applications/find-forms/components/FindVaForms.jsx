@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 // Node modules.
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Relative imports.
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
+import PdfAlert from './PdfAlert';
 
 const onFeaturedContentClick = header => () => {
   recordEvent({
@@ -20,26 +21,9 @@ const onFeaturedContentClick = header => () => {
 };
 
 export const FindVaForms = ({ showPdfWarningBanner }) => {
-  useEffect(
-    () => {
-      if (showPdfWarningBanner) {
-        const PDFAlertContent = `<va-alert>
-        <h2 slot="headline" className="vads-u-font-size--h3">
-          We’re updating our forms
-        </h2>
-        <p>After January 7, 2023, you won't be able to use VA forms that have a “last updated” date before March 2022. If you downloaded any of these older VA forms, you may need to download new copies in January.</p>
-        </va-alert>`;
-
-        document
-          .getElementsByClassName('va-introtext')[0]
-          .insertAdjacentHTML('beforebegin', `${PDFAlertContent}`);
-      }
-    },
-    [showPdfWarningBanner],
-  );
-
   return (
     <>
+      {showPdfWarningBanner && <PdfAlert />}
       <SearchForm />
       <SearchResults />
       <h2>Frequently used VA forms</h2>
