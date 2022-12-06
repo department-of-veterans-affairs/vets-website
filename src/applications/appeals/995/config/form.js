@@ -33,6 +33,7 @@ import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidencePrivateUpload from '../pages/evidencePrivateUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidenceUploadOther from '../pages/evidenceUploadOther';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import issueSummary from '../pages/issueSummary';
@@ -252,6 +253,12 @@ const formConfig = {
             hasPrivateEvidenceToUpload(formData),
           uiSchema: evidencePrivateUpload.uiSchema,
           schema: evidencePrivateUpload.schema,
+        },
+        evidenceUploadOther: {
+          title: 'Supporting (lay) statements or other evidence',
+          path: 'supporting-evidence/upload-other-evidence',
+          uiSchema: evidenceUploadOther.uiSchema,
+          schema: evidenceUploadOther.schema,
         },
         evidenceUpload: {
           title: 'Lay statements and other evidence',
