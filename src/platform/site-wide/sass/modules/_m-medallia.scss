@@ -208,3 +208,12 @@
   background-color: $color-blue !important;
   margin-right: 10px !important
 }
+
+/* attempt to override inline z-index on intercept invite modal */
+#kampyleInviteContainer[style] {
+  z-index: 100 !important;
+}
+
+#kampyleInviteModal[style] {
+  z-index: 100 !important;
+}
