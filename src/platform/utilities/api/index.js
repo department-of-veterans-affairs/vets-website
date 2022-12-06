@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import merge from 'lodash/merge';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -79,13 +80,11 @@ export function apiRequest(resource, optionalSettings, success, error) {
     method: 'GET',
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
       'X-CSRF-Token': csrfTokenStored,
     },
-    // eslint-disable-next-line consistent-return
-    async retryOn(attempt, errorRetry, response) {
+    async retryOn(attempt, _, response) {
       const atError = await response.clone().json();
 
       if (
@@ -93,7 +92,6 @@ export function apiRequest(resource, optionalSettings, success, error) {
         infoTokenExists() &&
         attempt < 1
       ) {
-        // console.log(response);
         await refresh({
           type: sessionStorage.getItem('serviceName'),
         });
@@ -103,14 +101,7 @@ export function apiRequest(resource, optionalSettings, success, error) {
       return false;
     },
   };
-
-  const newHeaders = {
-    ...defaultSettings.headers,
-    ...(optionalSettings ? optionalSettings.headers : undefined),
-  };
-
-  const settings = { ...defaultSettings, ...optionalSettings };
-  settings.headers = newHeaders;
+  const settings = merge(defaultSettings, optionalSettings);
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
