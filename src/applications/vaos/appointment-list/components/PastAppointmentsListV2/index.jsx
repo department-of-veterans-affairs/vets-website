@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
   FETCH_STATUS,
@@ -292,20 +293,22 @@ export default function PastAppointmentsListNew() {
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
-                      >
-                        {() => (
-                          <AppointmentCard
-                            appointment={appt}
-                            facility={facilityData[facilityId]}
-                            link={link}
-                            handleClick={() =>
-                              handleClick({ history, link, idClickable })
-                            }
-                            handleKeyDown={() =>
-                              handleKeyDown({ history, link, idClickable })
-                            }
-                          />
+                        className={classNames(
+                          'vaos-appts__card--clickable',
+                          'vads-u-margin-bottom--3',
                         )}
+                      >
+                        <AppointmentCard
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                          link={link}
+                          handleClick={() =>
+                            handleClick({ history, link, idClickable })
+                          }
+                          handleKeyDown={() =>
+                            handleKeyDown({ history, link, idClickable })
+                          }
+                        />
                       </AppointmentListItem>
                     );
                   }

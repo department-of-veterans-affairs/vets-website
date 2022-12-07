@@ -6,6 +6,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
@@ -164,6 +165,10 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
+                        className={classNames(
+                          'vaos-appts__card--clickable',
+                          'vads-u-margin-bottom--3',
+                        )}
                       >
                         <AppointmentCard
                           appointment={appt}
