@@ -1,13 +1,18 @@
-import { optInDescription, optInLabel, reviewField } from '../content/optIn';
+import {
+  privateRecordsRequestTitle,
+  privateRecordsRequestInfo,
+  reviewField,
+} from '../content/evidencePrivateRecordsRequest';
+import { EVIDENCE_PRIVATE } from '../constants';
 
 export default {
   uiSchema: {
-    'ui:description': optInDescription,
+    'ui:description': privateRecordsRequestInfo,
     'ui:options': {
       forceDivWrapper: true,
     },
-    socOptIn: {
-      'ui:title': optInLabel,
+    [EVIDENCE_PRIVATE]: {
+      'ui:title': privateRecordsRequestTitle,
       'ui:options': {
         forceDivWrapper: true,
         keepInPageOnReview: false,
@@ -18,7 +23,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      socOptIn: {
+      [EVIDENCE_PRIVATE]: {
         type: 'boolean',
       },
     },

@@ -29,6 +29,7 @@ import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
 import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
@@ -50,6 +51,7 @@ import {
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
+  // EVIDENCE_OTHER_PATH,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
@@ -216,14 +218,15 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          hideHeaderRow: true,
         },
         evidencePrivateRecordsRequest: {
           title: 'Request private medical records',
           path: 'supporting-evidence/request-private-medical-records',
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
-          uiSchema: {},
-          schema: blankUiSchema,
+          uiSchema: evidencePrivateRequest.uiSchema,
+          schema: evidencePrivateRequest.schema,
         },
         evidencePrivateRecordsAuthorization: {
           title: 'Private medical record authorization',
