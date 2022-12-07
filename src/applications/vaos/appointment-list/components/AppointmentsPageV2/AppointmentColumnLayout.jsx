@@ -135,7 +135,7 @@ AppointmentColumnLayout.propTypes = {
   /** Layout data */
   data: PropTypes.object,
 
-  /** Is this the 1st column/ */
+  /** Is this the 1st column? */
   first: PropTypes.bool,
 
   /** Is this row of data part of a group? Ex. Multiply appointments on the same day. */
