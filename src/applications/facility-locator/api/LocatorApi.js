@@ -1,5 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
 import { getAPI, resolveParamsWithUrl } from '../config';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 class LocatorApi {
   /**
@@ -40,24 +41,15 @@ class LocatorApi {
 
     const api = getAPI();
     const startTime = new Date().getTime();
-    return new Promise((resolve, reject) => {
-      fetch(`${url}?${params}`, api.settings)
-        .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
-          return response.json();
-        })
-        .then(res => {
-          const endTime = new Date().getTime();
-          const resultTime = endTime - startTime;
-          res.meta = {
-            ...res.meta,
-            resultTime,
-          };
-          return res;
-        })
-        .then(data => resolve(data), error => reject(error));
+    return apiRequest(`${url}?${params}`, { ...api.settings }).then(res => {
+      const endTime = new Date().getTime();
+      const resultTime = endTime - startTime;
+      return {
+        ...res,
+        meta: {
+          resultTime,
+        },
+      };
     });
   }
 
@@ -70,11 +62,7 @@ class LocatorApi {
     const api = getAPI();
     const url = `${api.url}/${id}`;
 
-    return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
-        .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
-    });
+    return apiRequest(url, { ...api.settings });
   }
 
   /**
@@ -86,11 +74,7 @@ class LocatorApi {
     const api = getAPI();
     const url = `${api.baseUrl}/ccp/${id}`;
 
-    return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
-        .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
-    });
+    return apiRequest(url, { ...api.settings });
   }
 
   /**
@@ -99,14 +83,10 @@ class LocatorApi {
   static getProviderSpecialties() {
     const api = getAPI();
     const url = `${api.baseUrl}/ccp/specialties`;
-    return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
-        .then(res => res.json())
-        .then(
-          data => resolve(data.data.map(specialty => specialty.attributes)),
-          error => reject(error),
-        );
-    });
+
+    return apiRequest(url, { ...api.settings }).then(data =>
+      data.data.map(speciality => speciality.attributes),
+    );
   }
 }
 
