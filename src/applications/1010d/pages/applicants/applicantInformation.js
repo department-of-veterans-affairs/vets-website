@@ -12,9 +12,15 @@ const { applicants } = fullSchema.properties;
 
 export default {
   uiSchema: {
+    'view:newService': {
+      'ui:title':
+        'Do you have any new periods of service to record since you last applied for education benefits?',
+      'ui:widget': 'yesNo',
+    },
     [applicantFields.parentObject]: {
       'ui:options': {
         viewField: ApplicantField,
+        expandUnder: 'view:newService',
       },
       items: {
         [applicantFields.address]: address.uiSchema(),
@@ -41,6 +47,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:newService': {
+        type: 'boolean',
+      },
       applicants,
     },
   },
