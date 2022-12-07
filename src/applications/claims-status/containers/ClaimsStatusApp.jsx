@@ -4,8 +4,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 

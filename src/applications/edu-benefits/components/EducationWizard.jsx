@@ -1,17 +1,17 @@
-// Temporarily disablying migrate-radio-button rule
-// To be addressed in a later ticket, after audit https://github.com/department-of-veterans-affairs/va.gov-cms/issues/11358
-/* eslint @department-of-veterans-affairs/migrate-radio-buttons: 0 */
+// disabled for unit testing to work
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 
 import React from 'react';
 import dropWhile from 'lodash/dropWhile';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
+import VARadioButton from '../utils/VaRadioButton';
 import { showEduBenefits1990EZWizard } from '../selectors/educationWizard';
 
 const levels = [
@@ -27,12 +27,25 @@ class EducationWizard extends React.Component {
   constructor(props) {
     super(props);
 
-    // flattens all the fields in levels into object keys
-    this.state = []
-      .concat(...levels)
-      .reduce((state, field) => Object.assign(state, { [field]: null }), {
-        open: false,
-      });
+    // props passed for unit testing
+    const { test, testLevels } = this.props;
+    if (test) {
+      let mockSate = {};
+      for (const key in testLevels) {
+        mockSate = { ...mockSate, [key]: testLevels[key] };
+      }
+      this.state = mockSate;
+    }
+    if (!test) {
+      // flattens all the fields in levels into object keys
+      this.state =
+        this.props.levels ||
+        []
+          .concat(...levels)
+          .reduce((state, field) => Object.assign(state, { [field]: null }), {
+            open: false,
+          });
+    }
   }
 
   getButton(form) {
@@ -157,30 +170,53 @@ class EducationWizard extends React.Component {
         'wizard-content-closed': !this.state.open,
       },
     );
+
     const newBenefitOptions = [
       { label: 'Applying for a new benefit', value: 'yes' },
       {
-        label: (
-          <span className="radioText">
-            Updating my program of study or place of training
-          </span>
-        ),
+        label: 'Updating my program of study or place of training',
         value: 'no',
       },
       {
-        label: (
-          <span className="radioText">
-            Applying to extend my Post-9/11 or Fry Scholarship benefits using
-            the Edith Nourse Rogers STEM Scholarship
-          </span>
-        ),
+        label: `Applying to extend my Post-9/11 or Fry Scholarship benefits using
+            the Edith Nourse Rogers STEM Scholarship`,
         value: 'extend',
       },
     ];
 
+    const serviceBenefitBasedOnOptions = [
+      { label: 'Yes', value: 'own' },
+      { label: 'No', value: 'other' },
+    ];
+
+    const transferredEduBenefitsOptions = [
+      { label: 'No, I’m using my own benefit.', value: 'own' },
+      {
+        label: 'Yes, I’m using a transferred benefit.',
+        value: 'transferred',
+      },
+      {
+        label: 'No, I’m using the Fry Scholarship or DEA (Chapter 35)',
+        value: 'fry',
+      },
+    ];
+
+    const sharedOptions = [
+      { label: 'Yes', value: 'yes' },
+      { label: 'No', value: 'no' },
+    ];
+
+    const handlers = {
+      onSelection: (event, onChangeLabel) => {
+        const { value } = event.detail;
+        this.answerQuestion(onChangeLabel, value);
+      },
+    };
+
     return (
       <div className="wizard-container">
         <button
+          id="findFormButton"
           aria-expanded={this.state.open ? 'true' : 'false'}
           aria-controls="wizardOptions"
           className={buttonClasses}
@@ -190,110 +226,69 @@ class EducationWizard extends React.Component {
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">
-            <RadioButtons
-              additionalFieldsetClass="wizard-fieldset"
+            <VARadioButton
+              radioLabel="Are you applying for a benefit or updating your program or place of training?"
               name="newBenefit"
-              id="newBenefit"
+              initialValue={newBenefit}
               options={newBenefitOptions}
-              onValueChange={({ value }) =>
-                this.answerQuestion('newBenefit', value)
+              onVaValueChange={event =>
+                handlers.onSelection(event, 'newBenefit')
               }
-              value={{ value: newBenefit }}
-              label="Are you applying for a benefit or updating your program or place of training?"
             />
             {newBenefit === 'yes' && (
-              <RadioButtons
-                additionalFieldsetClass="wizard-fieldset"
+              <VARadioButton
+                radioLabel="Are you a Veteran or service member claiming a benefit based on your own service?"
                 name="serviceBenefitBasedOn"
-                id="serviceBenefitBasedOn"
-                options={[
-                  { label: 'Yes', value: 'own' },
-                  { label: 'No', value: 'other' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('serviceBenefitBasedOn', value)
+                initialValue={serviceBenefitBasedOn}
+                options={serviceBenefitBasedOnOptions}
+                onVaValueChange={event =>
+                  handlers.onSelection(event, 'serviceBenefitBasedOn')
                 }
-                value={{ value: serviceBenefitBasedOn }}
-                label="Are you a Veteran or service member claiming a benefit based on your own service?"
               />
             )}
             {newBenefit === 'no' && (
-              <RadioButtons
-                additionalFieldsetClass="wizard-fieldset"
+              <VARadioButton
+                radioLabel="Are you receiving education benefits transferred to you by a sponsor Veteran?"
                 name="transferredEduBenefits"
-                id="transferredEduBenefits"
-                options={[
-                  { label: 'No, I’m using my own benefit.', value: 'own' },
-                  {
-                    label: 'Yes, I’m using a transferred benefit.',
-                    value: 'transferred',
-                  },
-                  {
-                    label: (
-                      <span className="radioText">
-                        No, I’m using the Fry Scholarship or DEA (Chapter 35)
-                      </span>
-                    ),
-                    value: 'fry',
-                  },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('transferredEduBenefits', value)
+                initialValue={transferredEduBenefits}
+                options={transferredEduBenefitsOptions}
+                onVaValueChange={event =>
+                  handlers.onSelection(event, 'transferredEduBenefits')
                 }
-                value={{ value: transferredEduBenefits }}
-                label="Are you receiving education benefits transferred to you by a sponsor Veteran?"
               />
             )}
             {serviceBenefitBasedOn === 'own' && (
-              <RadioButtons
-                additionalFieldsetClass="wizard-fieldset"
+              <VARadioButton
+                radioLabel={`Are you applying for Veteran Employment Through Technology
+                Education Courses (VET TEC)?`}
                 name="vetTecBenefit"
-                id="vetTecBenefit"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('vetTecBenefit', value)
-                }
-                value={{ value: vetTecBenefit }}
-                label={
-                  <span>
-                    Are you applying for Veteran Employment Through Technology
-                    Education Courses (VET TEC)?
-                  </span>
+                initialValue={vetTecBenefit}
+                options={sharedOptions}
+                onVaValueChange={event =>
+                  handlers.onSelection(event, 'vetTecBenefit')
                 }
               />
             )}
             {serviceBenefitBasedOn === 'other' && (
-              <RadioButtons
+              <VARadioButton
+                radioLabel="Has your sponsor transferred their benefits to you?"
                 name="sponsorTransferredBenefits"
-                id="sponsorTransferredBenefits"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('sponsorTransferredBenefits', value)
+                initialValue={sponsorTransferredBenefits}
+                options={sharedOptions}
+                onVaValueChange={event =>
+                  handlers.onSelection(event, 'sponsorTransferredBenefits')
                 }
-                value={{ value: sponsorTransferredBenefits }}
-                label="Has your sponsor transferred their benefits to you?"
               />
             )}
             {sponsorTransferredBenefits === 'no' && (
-              <RadioButtons
-                additionalFieldsetClass="wizard-fieldset"
+              <VARadioButton
+                radioLabel="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
                 name="sponsorDeceasedDisabledMIA"
-                id="sponsorDeceasedDisabledMIA"
-                options={[
-                  { label: 'Yes', value: 'yes' },
-                  { label: 'No', value: 'no' },
-                ]}
-                onValueChange={({ value }) =>
-                  this.answerQuestion('sponsorDeceasedDisabledMIA', value)
+                initialValue={sponsorDeceasedDisabledMIA}
+                options={sharedOptions}
+                onVaValueChange={event =>
+                  handlers.onSelection(event, 'sponsorDeceasedDisabledMIA')
                 }
-                value={{ value: sponsorDeceasedDisabledMIA }}
-                label="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
               />
             )}
             {newBenefit === 'yes' &&
@@ -321,19 +316,14 @@ class EducationWizard extends React.Component {
               newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'own' &&
               vetTecBenefit === 'no' && (
-                <RadioButtons
-                  additionalFieldsetClass="wizard-fieldset"
+                <VARadioButton
+                  radioLabel="Are you applying for the Post-9/11 GI Bill?"
                   name="post911GIBill"
-                  id="post911GIBill"
-                  options={[
-                    { label: 'Yes', value: 'yes' },
-                    { label: 'No', value: 'no' },
-                  ]}
-                  onValueChange={({ value }) =>
-                    this.answerQuestion('post911GIBill', value)
+                  initialValue={post911GIBill}
+                  options={sharedOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'post911GIBill')
                   }
-                  value={{ value: post911GIBill }}
-                  label="Are you applying for the Post-9/11 GI Bill?"
                 />
               )}
             {newBenefit === 'extend' && (
@@ -417,20 +407,16 @@ class EducationWizard extends React.Component {
                   </ul>
                 </div>
 
-                <RadioButtons
-                  additionalFieldsetClass="wizard-fieldset"
+                <VARadioButton
+                  radioLabel="Based on the eligibility requirements above, do you want to apply for this scholarship?"
                   name="applyForScholarship"
-                  id="applyForScholarship"
-                  options={[
-                    { label: 'Yes', value: 'yes' },
-                    { label: 'No', value: 'no' },
-                  ]}
-                  onValueChange={({ value }) =>
-                    this.answerQuestion('applyForScholarship', value)
+                  initialValue={applyForScholarship}
+                  options={sharedOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'applyForScholarship')
                   }
-                  value={{ value: applyForScholarship }}
-                  label="Based on the eligibility requirements above, do you want to apply for this scholarship?"
                 />
+
                 <div className="vads-u-padding-top--2">
                   {(applyForScholarship === 'yes' && this.getButton('10203')) ||
                     (applyForScholarship === 'no' && (

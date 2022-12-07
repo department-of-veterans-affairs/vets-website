@@ -65,7 +65,7 @@ const SavedApplications = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
 
   return (
     <div data-testid="dashboard-section-saved-applications">
-      <h2>Saved Applications</h2>
+      <h2>Saved applications</h2>
       <AllBenefits />
       <ApplicationsInProgress hideH3 />
     </div>

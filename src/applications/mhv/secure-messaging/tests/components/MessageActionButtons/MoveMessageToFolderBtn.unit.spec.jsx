@@ -42,7 +42,8 @@ describe('Move button', () => {
     ).to.exist;
     expect(screen.getByTestId('move-to-modal')).to.exist;
     const listOfFolders = screen.queryAllByTestId('folder-list-radio-button');
-    expect(listOfFolders.length).to.equal(7);
+    // Tests for 5 folders (inbox, trash, 2 custom folders, and the new folder option)
+    expect(listOfFolders.length).to.equal(5);
   });
   // This test uses a button that is hidden. The reason for this is because I am not able to access the shadow dom to select the cancel button on the web component to test the closing modal functionality.
   // This may be a test case that will have to be taken care of using cypress instead, will revisit issue.

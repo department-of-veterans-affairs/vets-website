@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectCernerFacilities } from '~/platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -239,20 +241,22 @@ const mapStateToProps = state => {
     'Roseburg (Oregon) VA health care',
     'White City health care',
   ];
-  const facilities = selectPatientFacilitiesDsot(state);
+  if (toggleValues(state)[FEATURE_FLAG_NAMES.myvaCernerFromDrupal]) {
+    const facilities = selectPatientFacilitiesDsot(state);
 
-  const userFacilityIds = (facilities || []).map(f => f.facilityId);
+    const userFacilityIds = (facilities || []).map(f => f.facilityId);
 
-  const allCernerFacilities = selectCernerFacilities(state);
+    const allCernerFacilities = selectCernerFacilities(state);
 
-  const userCernerFacilities = allCernerFacilities?.filter(f =>
-    userFacilityIds.includes(f.vhaId),
-  );
+    const userCernerFacilities = allCernerFacilities?.filter(f =>
+      userFacilityIds.includes(f.vhaId),
+    );
 
-  facilityLocations =
-    allCernerFacilities && userCernerFacilities
-      ? userCernerFacilities.map(f => f.vamcSystemName)
-      : facilities;
+    facilityLocations =
+      allCernerFacilities && userCernerFacilities
+        ? userCernerFacilities.map(f => f.vamcSystemName)
+        : facilities;
+  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
