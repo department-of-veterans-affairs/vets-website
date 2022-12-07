@@ -2,10 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { getEVData } from '../selectors';
 import { STATUS } from '../constants';
 import { STATUS_PROP_TYPE } from '../helpers';
 import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
+
+const fetchFailureAlert = (
+  <va-alert status="error" visible>
+    <h3 slot="headline">
+      There was an error retrieving your enrollment verifications
+    </h3>
+    <p>Please try again later.</p>
+  </va-alert>
+);
 
 const successAlert = submissionResult => (
   <va-alert status="success" visible>
@@ -69,7 +79,15 @@ const pausedScoAlert = (
   </va-alert>
 );
 
-const EnrollmentVerificationAlert = ({ status, submissionResult }) => {
+const EnrollmentVerificationAlert = ({
+  enrollmentVerificationFetchFailure,
+  status,
+  submissionResult,
+}) => {
+  if (enrollmentVerificationFetchFailure) {
+    return fetchFailureAlert;
+  }
+
   switch (status) {
     case STATUS.ALL_VERIFIED:
       return successAlert(submissionResult);
@@ -86,11 +104,10 @@ const EnrollmentVerificationAlert = ({ status, submissionResult }) => {
 
 EnrollmentVerificationAlert.propTypes = {
   status: STATUS_PROP_TYPE.isRequired,
+  enrollmentVerificationFetchFailure: PropTypes.bool,
   submissionResult: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  submissionResult: state?.data?.enrollmentVerificationSubmissionResult,
-});
+const mapStateToProps = state => getEVData(state);
 
 export default connect(mapStateToProps)(EnrollmentVerificationAlert);
