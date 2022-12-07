@@ -1,20 +1,21 @@
 import React from 'react';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import PropTypes from 'prop-types';
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import get from 'platform/utilities/data/get';
+import omit from 'platform/utilities/data/omit';
+import environment from 'platform/utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+
 import fullNameUI from 'platform/forms/definitions/fullName';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import {
   stringifyFormReplacer,
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
-import environment from 'platform/utilities/environment';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
@@ -460,20 +461,7 @@ export const militaryNameUI = {
 };
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-    },
-  })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(res);
-      }
-
-      return res.json();
-    })
+  return apiRequest(`${environment.API_URL}/v0/preneeds/cemeteries`)
     .then(res =>
       res.data.map(item => ({
         label: item.attributes.name,

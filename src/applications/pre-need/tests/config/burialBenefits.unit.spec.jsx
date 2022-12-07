@@ -9,27 +9,8 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import { mockFetch } from 'platform/testing/unit/helpers';
-
-const response = {
-  data: [
-    {
-      id: 915,
-      type: 'preneeds_cemeteries',
-      attributes: {
-        // eslint-disable-next-line camelcase
-        cemetery_id: '915',
-        name: 'ABRAHAM LINCOLN NATIONAL CEMETERY',
-        // eslint-disable-next-line camelcase
-        cemetery_type: 'N',
-        num: '915',
-      },
-    },
-  ],
-};
 
 describe('Pre-need burial benefits', () => {
-  beforeEach(() => mockFetch(response));
   const {
     schema,
     uiSchema,

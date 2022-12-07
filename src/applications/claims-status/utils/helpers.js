@@ -1,10 +1,7 @@
 import merge from 'lodash/merge';
-// import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
-// import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from 'platform/utilities/api';
-// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
