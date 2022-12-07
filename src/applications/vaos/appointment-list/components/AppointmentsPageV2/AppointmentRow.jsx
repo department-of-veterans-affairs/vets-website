@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { focusElement } from 'platform/utilities/ui';
+// import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -16,26 +16,9 @@ import {
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import { getTypeOfCareById } from '../../../utils/appointment';
-import { SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-
-function handleClick({ history, link, idClickable }) {
-  return () => {
-    if (!window.getSelection().toString()) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
-
-function handleKeyDown({ history, link, idClickable }) {
-  return event => {
-    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
-      focusElement(`#${idClickable}`);
-      history.push(link);
-    }
-  };
-}
+import useHandleClick from '../../redux/useAppointmentHandler';
+import useHandleKeyDown from '../../redux/useHandleKeyDown';
 
 function getGridData(appointment) {
   const { isCommunityCare, isVideo } = appointment?.vaos || {};
@@ -126,6 +109,14 @@ export default function AppointmentRow({
   data.description = description;
   data.facility = facility;
   data.isBorderBottom = false;
+  const handleClick = useHandleClick({
+    link: data.link,
+    idClickable,
+  });
+  const handleKeyDown = useHandleKeyDown({
+    link: data.link,
+    idClickable,
+  });
 
   return (
     <DataContext.Provider value={{ data }}>
