@@ -2,17 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
+import classNames from 'classnames';
 import AppointmentListItem from './AppointmentListItem';
 import AppointmentRow from './AppointmentRow';
 import { AppointmentColumnLayout } from './AppointmentColumnLayout';
 import { getUpcomingAppointmentListInfo } from '../../redux/selectors';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 
-function getTotalAppointmentsForMonth(monthBucket) {
-  return monthBucket.reduce((accum, value) => {
-    return value.length + accum;
-  }, 0);
+function AppointmentListGroup({ children }) {
+  return (
+    <li className="vads-u-margin-bottom--0">
+      <ul className="usa-unstyled-list vads-u-margin--0 vads-u-padding-left--0">
+        {children}
+      </ul>
+    </li>
+  );
 }
+AppointmentListGroup.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+};
 
 /**
  * Function to render appointment data in a table/grid layout.
@@ -26,61 +34,73 @@ export default function AppointmentGridLayout({ monthBucket }) {
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
-  const totalAppointmentsForMonth = getTotalAppointmentsForMonth(monthBucket);
+  const totalForMonth = monthBucket.length - 1;
 
-  return monthBucket.map((collection, monthIndex) => {
-    if (collection.length > 1) {
+  let key = 0;
+
+  return monthBucket.map((appointmentsForMonth, monthIndex) => {
+    const isFirstInMonth = monthIndex === 0;
+    const isLastInMonth = monthIndex === totalForMonth;
+
+    if (appointmentsForMonth.length > 1) {
+      key += 1;
+
+      // Group appointments in nested list when there a are multiple groups of
+      // appointments.
       return (
-        <li key={monthIndex} style={{ listStyle: 'none', marginBottom: 0 }}>
-          <ul className="vads-u-margin--0 vads-u-padding-left--0">
-            {collection.map((appointment, dayIndex) => {
-              const facility =
-                facilityData[getVAAppointmentLocationId(appointment)];
+        <AppointmentListGroup key={key}>
+          {appointmentsForMonth.map((appointment, appointmentIndex) => {
+            const facility =
+              facilityData[getVAAppointmentLocationId(appointment)];
+            const isFirst = appointmentIndex === 0;
+            const isLast = appointmentIndex === appointmentsForMonth.length - 1;
 
-              return (
-                <AppointmentListItem
-                  key={appointment.id}
-                  appointment={appointment}
-                  grouped
-                  first={dayIndex === 0}
-                  last={
-                    dayIndex === collection.length - 1 &&
-                    monthBucket.length === monthIndex + 1
-                  }
-                >
-                  <AppointmentRow appointment={appointment} facility={facility}>
-                    <AppointmentColumnLayout
-                      first={dayIndex === 0}
-                      grouped
-                      last={
-                        dayIndex === collection.length - 1 &&
-                        monthBucket.length === monthIndex + 1
-                      }
-                    />
-                  </AppointmentRow>
-                </AppointmentListItem>
-              );
-            })}
-          </ul>
-        </li>
+            return (
+              <AppointmentListItem
+                key={appointment.id}
+                appointment={appointment}
+                className={classNames(
+                  'vaos-appts__listItem--clickable',
+                  'vads-u-margin--0',
+                  {
+                    'vads-u-border-top--1px':
+                      isMobile && isFirst && isFirstInMonth,
+                    'vads-u-border-bottom--1px': isLast,
+                  },
+                )}
+              >
+                <AppointmentRow appointment={appointment} facility={facility}>
+                  <AppointmentColumnLayout
+                    first={isFirst}
+                    grouped
+                    last={isLast && isLastInMonth}
+                  />
+                </AppointmentRow>
+              </AppointmentListItem>
+            );
+          })}
+        </AppointmentListGroup>
       );
     }
 
-    return collection.map(appointment => {
+    return appointmentsForMonth.map((appointment, appointmentIndex) => {
       const facility = facilityData[getVAAppointmentLocationId(appointment)];
+      const isFirst = appointmentIndex === 0;
+      const isLast = appointmentIndex === appointmentsForMonth.length - 1;
 
       return (
         <AppointmentListItem
           key={appointment.id}
-          id="not grouped"
+          id={appointment.id}
           appointment={appointment}
-          last={
-            (!isMobile &&
-              monthIndex + 1 < monthBucket.length &&
-              monthBucket[monthIndex].length === 1 &&
-              monthBucket[monthIndex + 1].length === 1) ||
-            monthIndex === totalAppointmentsForMonth - 1
-          }
+          className={classNames(
+            'vaos-appts__listItem--clickable',
+            'vads-u-margin--0',
+            {
+              'vads-u-border-top--1px': isMobile && isFirst && isFirstInMonth,
+              'vads-u-border-bottom--1px': isLast,
+            },
+          )}
         >
           <AppointmentRow appointment={appointment} facility={facility}>
             <AppointmentColumnLayout first />
@@ -92,5 +112,5 @@ export default function AppointmentGridLayout({ monthBucket }) {
 }
 
 AppointmentGridLayout.propTypes = {
-  monthBucket: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  monthBucket: PropTypes.array,
 };

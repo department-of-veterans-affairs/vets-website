@@ -140,7 +140,7 @@ export default function UpcomingAppointmentsList() {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className={classNames('vads-u-padding-left--0')}
+              className={classNames('usa-unstyled-list vads-u-padding-left--0')}
               data-cy="upcoming-appointment-list"
               role="list"
             >
@@ -171,6 +171,7 @@ export default function UpcomingAppointmentsList() {
                         key={index}
                         appointment={appt}
                         facility={facilityData[facilityId]}
+                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                       >
                         <AppointmentCard
                           appointment={appt}

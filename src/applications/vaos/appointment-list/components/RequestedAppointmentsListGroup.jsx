@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
+import classNames from 'classnames';
 import {
   fetchPendingAppointments,
   startNewAppointmentFlow,
@@ -144,13 +145,20 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                   statusBucket[1].map((appointment, index) => {
                     const facilityId = getVAAppointmentLocationId(appointment);
                     const facility = facilityData[facilityId];
+                    const isFirst = index === 0;
 
                     return (
                       <AppointmentListItem
                         key={appointment.id}
                         appointment={appointment}
-                        borderBottom={index === statusBucket[1].length - 1}
-                        borderTop
+                        className={classNames(
+                          'vaos-appts__listItem--clickable',
+                          'vads-u-margin--0',
+                          {
+                            'vads-u-border-top--1px': isFirst,
+                            'vads-u-border-bottom--1px': true,
+                          },
+                        )}
                       >
                         <PendingAppointmentLayout
                           appointment={appointment}
