@@ -48,7 +48,7 @@ const ApplicationInProgress = ({
             <div className="vads-u-display--flex">
               <i
                 aria-hidden="true"
-                className={`fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5`}
+                className="fas fa-fw fa-exclamation-circle vads-u-margin-right--1 vads-u-margin-top--0p5"
               />
               <span className="sr-only">Alert: </span>
               <div>
@@ -64,6 +64,7 @@ const ApplicationInProgress = ({
             text="Continue your application"
             href={continueUrl}
             onClick={recordDashboardClick(formId, 'continue-button')}
+            showArrow
           />
         </div>
       </div>

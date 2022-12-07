@@ -13,7 +13,6 @@ describe('Military Information - Profile page', () => {
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        profileShowBadAddressIndicator: true,
         profileAlwaysShowDirectDepositDisplay: true,
       }),
     );
@@ -58,7 +57,6 @@ describe('Military Information - NonVeteran', () => {
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        profileShowBadAddressIndicator: true,
         profileAlwaysShowDirectDepositDisplay: true,
       }),
     );
@@ -93,7 +91,6 @@ describe('Military Information - NotInDeers', () => {
       'GET',
       '/v0/feature_toggles*',
       generateFeatureToggles({
-        profileShowBadAddressIndicator: true,
         profileAlwaysShowDirectDepositDisplay: true,
       }),
     );

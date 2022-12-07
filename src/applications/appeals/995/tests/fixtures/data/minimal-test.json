@@ -48,12 +48,13 @@
     "locations": [
       {
         "locationAndName": "VAMC Location",
-        "evidenceDates": [
-          {
-            "from": "2022-01-01",
-            "to": "2022-01-02"
-          }
-        ]
+        "issues": [
+          "Headaches"
+        ],
+        "evidenceDates": {
+          "from": "2022-01-01",
+          "to": "2022-01-02"
+        }
       }
     ],
     "providerFacility": [
@@ -80,11 +81,9 @@
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
-    "view:selectableEvidenceTypes": {
-      "view:hasVaEvidence": true,
-      "view:hasPrivateEvidence": false,
-      "view:hasOtherEvidence": false
-    },
+    "view:hasVaEvidence": true,
+    "view:hasPrivateEvidence": false,
+    "view:hasOtherEvidence": false,
     "privateMedicalRecordAttachments": [],
     "additionalDocuments": [],
     "socOptIn": true,

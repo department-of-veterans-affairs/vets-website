@@ -18,6 +18,12 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+    setPermissions,
+  } = useSessionStorage(true);
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -32,8 +38,9 @@ const Index = ({ router }) => {
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
+      setPermissions(window, permissions);
     },
-    [dispatch],
+    [dispatch, setPermissions],
   );
 
   const selectContext = useMemo(makeSelectCurrentContext, []);
@@ -57,11 +64,6 @@ const Index = ({ router }) => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-  } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 

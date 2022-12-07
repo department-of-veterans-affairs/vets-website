@@ -4,35 +4,32 @@ import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import HCAEnrollmentStatus from './HCAEnrollmentStatus';
-import LoggedOutContent from '../components/IntroductionPage/LoggedOutContent';
-import { VerificationRequiredAlert } from '../components/FormAlerts';
+import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
+import GetStartedContent from '../components/IntroductionPage/GetStarted';
+import { IdentityVerificationAlert } from '../components/FormAlerts';
 
 import {
   isLoading,
   isLoggedOut,
   isUserLOA1,
   isUserLOA3,
-  shouldShowLoggedOutContent,
+  shouldShowGetStartedContent,
 } from '../utils/selectors';
 
 const IntroductionPage = props => {
+  const { route, displayConditions, enrollmentOverrideEnabled } = props;
   const {
-    route,
-    showLOA3Content,
-    showLoggedOutContent,
+    showLoader,
     showLoginAlert,
-    showMainLoader,
-    showVerificationRequiredAlert,
-    hcaEnrollmentStatusOverrideEnabled,
-  } = props;
+    showIdentityAlert,
+    showLOA3Content,
+    showGetStartedContent,
+  } = displayConditions;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -40,60 +37,60 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
+      <FormTitle title="Apply for VA health care" />
+      <p className="vads-u-margin-top--neg2">
+        Enrollment Application for Health Benefits (VA Form 10-10EZ)
+      </p>
+
       <DowntimeNotification
         appTitle="Application for VA health care"
         dependencies={[externalServices.es]}
       >
-        <FormTitle title="Apply for VA health care" />
-        <p className="vads-u-margin-top--neg2">
-          Enrollment Application for Health Benefits (VA Form 10-10EZ)
-        </p>
         {!showLOA3Content && (
-          <p className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-line-height--3 vads-u-margin-bottom--5">
+          <p>
             VA health care covers care for your physical and mental health. This
             includes a range of services from checkups to surgeries to home
             health care. It also includes prescriptions and medical equipment.
             Apply online now.
           </p>
         )}
-        {showMainLoader && (
+
+        {showLoader && (
           <va-loading-indicator
             label="Loading"
             message="Loading your application..."
           />
         )}
-        {showVerificationRequiredAlert && <VerificationRequiredAlert />}
-        {(showLoggedOutContent || hcaEnrollmentStatusOverrideEnabled) && (
-          <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
+
+        {showIdentityAlert && <IdentityVerificationAlert />}
+
+        {(showGetStartedContent || enrollmentOverrideEnabled) && (
+          <GetStartedContent route={route} showLoginAlert={showLoginAlert} />
         )}
+
         {showLOA3Content &&
-          !hcaEnrollmentStatusOverrideEnabled && (
-            <HCAEnrollmentStatus route={route} />
-          )}
+          !enrollmentOverrideEnabled && <EnrollmentStatus route={route} />}
       </DowntimeNotification>
     </div>
   );
 };
 
 IntroductionPage.propTypes = {
-  hcaEnrollmentStatusOverrideEnabled: PropTypes.bool,
+  displayConditions: PropTypes.object,
+  enrollmentOverrideEnabled: PropTypes.bool,
   route: PropTypes.object,
-  showLOA3Content: PropTypes.bool,
-  showLoggedOutContent: PropTypes.bool,
-  showLoginAlert: PropTypes.bool,
-  showMainLoader: PropTypes.bool,
-  showVerificationRequiredAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  showMainLoader: isLoading(state),
-  showLOA3Content: isUserLOA3(state),
-  showLoggedOutContent: shouldShowLoggedOutContent(state),
-  showLoginAlert: isLoggedOut(state),
-  showVerificationRequiredAlert: isUserLOA1(state),
-  hcaEnrollmentStatusOverrideEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled
-  ],
+  displayConditions: {
+    showLoader: isLoading(state),
+    showLOA3Content: isUserLOA3(state),
+    showGetStartedContent: shouldShowGetStartedContent(state),
+    showLoginAlert: isLoggedOut(state),
+    showIdentityAlert: isUserLOA1(state),
+  },
+  enrollmentOverrideEnabled:
+    state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
 });
 
 export { IntroductionPage };

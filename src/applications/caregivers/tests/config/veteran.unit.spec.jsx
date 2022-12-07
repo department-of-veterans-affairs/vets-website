@@ -6,11 +6,12 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('CG veteranInformation', () => {
@@ -61,6 +62,33 @@ describe('CG veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('should render veteran information page and submit successfully', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranChapter.pages.veteranInfoOne;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          veteranFullName: {
+            first: 'John',
+            last: 'Smith',
+          },
+          veteranSsnOrTin: '111223333',
+          veteranDateOfBirth: '1990-09-16',
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
   it('should render veteran contact page', () => {
     const onSubmit = sinon.spy();
     const {
@@ -90,9 +118,9 @@ describe('CG veteranInformation', () => {
       formDOM.querySelector('#root_veteranAddress_street2').maxLength,
     ).to.equal(50);
     expect(formDOM.querySelector('#root_veteranAddress_city')).not.to.be.null;
-    // expect(
-    //   formDOM.querySelector('#root_veteranAddress_city').maxLength,
-    // ).to.equal(40);
+    expect(
+      formDOM.querySelector('#root_veteranAddress_city').maxLength,
+    ).to.equal(40);
     expect(formDOM.querySelector('#root_veteranAddress_state')).not.to.be.null;
 
     expect(formDOM.querySelector('#root_veteranAddress_postalCode')).not.to.be
@@ -104,12 +132,40 @@ describe('CG veteranInformation', () => {
       .be.null;
 
     expect(formDOM.querySelector('#root_veteranEmail')).not.to.be.null;
-    // expect(formDOM.querySelector('#root_veteranEmail').maxLength).to.equal(256);
+    expect(formDOM.querySelector('#root_veteranEmail').maxLength).to.equal(80);
 
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render veteran contact page and submit successfully', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranChapter.pages.veteranInfoTwo;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          veteranAddress: {
+            street: '23 high street',
+            city: 'pennington',
+            state: 'NV',
+            postalCode: '08534',
+          },
+          veteranPrimaryPhoneNumber: '5555555555',
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should render veteran medical center JSON page', () => {
@@ -152,6 +208,32 @@ describe('CG veteranInformation', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render veteran medical center JSON page and submit successfully', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranChapter.pages.veteranInfoThreeJSON;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          veteranLastTreatmentFacility: {},
+          veteranPreferredFacility: {
+            veteranFacilityState: 'IL',
+            plannedClinic: '550',
+          },
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should render veteran medical center API page', () => {
@@ -198,7 +280,6 @@ describe('CG veteranInformation', () => {
     );
 
     // va medical center
-    // Zip code
     const vaCenterElement = view.container.querySelector(
       '#root_veteranPreferredFacility_plannedClinic',
       view.container,
@@ -206,5 +287,43 @@ describe('CG veteranInformation', () => {
     expect(vaCenterElement.error).to.contain('Please provide a response');
 
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render veteran medical center API page and submit successfully', () => {
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const veteran = {
+      form: {
+        data: {
+          veteranPreferredFacility: { veteranFacilityState: '' },
+        },
+      },
+    };
+    const store = mockStore(veteran);
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.veteranChapter.pages.veteranInfoThreeLighthouse;
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          data={{
+            veteranLastTreatmentFacility: {},
+            veteranPreferredFacility: {
+              veteranFacilityState: 'IL',
+              plannedClinic: '550',
+            },
+          }}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 });

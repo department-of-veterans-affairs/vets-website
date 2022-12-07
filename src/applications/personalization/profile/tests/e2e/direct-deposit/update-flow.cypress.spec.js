@@ -82,7 +82,9 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_CNPRoutingNumber').should('be.focused');
+      cy.get('#disability-compensation-and-pension-benefits').should(
+        'be.focused',
+      );
       fillInBankInfoForm('CNP');
       exitBankInfoForm('CNP');
       dismissUnsavedChangesModal();
@@ -128,7 +130,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_EDURoutingNumber').should('be.focused');
+      cy.get('#education-benefits').should('be.focused');
       fillInBankInfoForm('EDU');
       exitBankInfoForm('EDU');
       dismissUnsavedChangesModal();
