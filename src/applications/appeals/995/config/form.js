@@ -21,12 +21,13 @@ import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
+import EvidenceSummary from '../components/EvidenceSummary';
+import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
-import evidenceSummary from '../pages/evidenceSummary';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
@@ -44,7 +45,12 @@ import {
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import {
+  CONTESTABLE_ISSUES_PATH,
+  EVIDENCE_VA_REQUEST,
+  EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_PATH,
+} from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
 import prefillTransformer from './prefill-transformer';
@@ -53,6 +59,7 @@ import prefillTransformer from './prefill-transformer';
 import fullSchema from './form-0995-schema.json';
 
 // const { } = fullSchema.properties;
+const blankUiSchema = { 'ui:options': { hideOnReview: true } };
 const blankSchema = { type: 'object', properties: {} };
 
 const formConfig = {
@@ -197,29 +204,29 @@ const formConfig = {
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
-          path: 'supporting-evidence/request-va-medical-records',
+          path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
-          path: 'supporting-evidence/va-medical-records',
+          path: EVIDENCE_VA_PATH,
           depends: hasVAEvidence,
           CustomPage: EvidenceVaRecords,
-          CustomPageReview: EvidenceVaRecords,
-          uiSchema: {},
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
           schema: blankSchema,
         },
         evidencePrivateRecordsRequest: {
-          title: 'Private medical records',
+          title: 'Request private medical records',
           path: 'supporting-evidence/request-private-medical-records',
           CustomPage: EvidencePrivateRequest,
-          CustomPageReview: EvidencePrivateRequest,
+          CustomPageReview: null,
           uiSchema: {},
-          schema: blankSchema,
+          schema: blankUiSchema,
         },
         evidencePrivateRecordsAuthorization: {
-          title: 'Private medical records',
+          title: 'Private medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
@@ -227,11 +234,11 @@ const formConfig = {
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records',
+          path: EVIDENCE_PRIVATE_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
-          CustomPageReview: EvidencePrivateRecords,
-          uiSchema: {},
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
           schema: blankSchema,
         },
         evidencePrivateLimitation: {
@@ -239,8 +246,8 @@ const formConfig = {
           path: 'supporting-evidence/request-record-limitations',
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,
-          CustomPageReview: EvidencePrivateLimitation,
-          uiSchema: {},
+          CustomPageReview: null,
+          uiSchema: blankUiSchema,
           schema: blankSchema,
         },
         evidenceUpload: {
@@ -253,8 +260,10 @@ const formConfig = {
         evidenceSummary: {
           title: 'Summary of evidence',
           path: 'supporting-evidence/summary',
-          uiSchema: evidenceSummary.uiSchema,
-          schema: evidenceSummary.schema,
+          CustomPage: EvidenceSummary,
+          CustomPageReview: EvidenceSummaryReview,
+          uiSchema: {},
+          schema: blankSchema,
         },
       },
     },

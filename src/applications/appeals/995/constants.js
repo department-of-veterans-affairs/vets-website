@@ -124,6 +124,7 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
+export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 
@@ -196,6 +197,10 @@ export const ATTACHMENTS_OTHER = {
 };
 
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const EVIDENCE_VA_REQUEST =
+  'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
+// TODO: Update this path
+export const EVIDENCE_OTHER_PATH = 'supporting-evidence/additional-evidence';
