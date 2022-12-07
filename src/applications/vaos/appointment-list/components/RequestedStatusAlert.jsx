@@ -23,6 +23,7 @@ function handleNewApptClick(dispatch) {
     recordEvent({
       event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
     });
+    console.log('I called the new appointment link!');
     dispatch(startNewAppointmentFlow());
   };
 }
@@ -60,7 +61,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             <br />
             <div className=" vads-u-margin-top--1">
               <va-link
-                href="/"
+                href="/health-care/schedule-view-va-appointments/appointments/"
                 onClick={handleViewClick}
                 text="View your appointments"
                 data-testid="view-appointments-link"
@@ -68,7 +69,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             </div>
             <div className=" vads-u-margin-top--1">
               <va-link
-                href="/new-appointment"
+                href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
                 onClick={handleNewApptClick(dispatch)}
                 text="New appointment"
                 data-testid="new-appointment-link"
