@@ -228,6 +228,7 @@ const v2 = {
       apiRequest(`${environment.API_URL}${url}`, settings),
       'submit-travel-pay-claim',
       data.uuid,
+      true,
     );
     return {
       ...json,

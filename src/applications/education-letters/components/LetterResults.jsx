@@ -38,7 +38,7 @@ export const HasLetters = ({ claimStatus }) => {
         </div>
       </div>
 
-      <h2 id="letter-isnt-listed">How do I download and open a letter?</h2>
+      <h2>How do I download and open a letter?</h2>
       <p>
         First, you’ll need to make sure you have the latest version of Adobe
         Acrobat Reader installed on your computer.{' '}

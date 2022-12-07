@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
 

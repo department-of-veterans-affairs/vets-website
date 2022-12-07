@@ -526,6 +526,12 @@ const formConfig = {
     resolutionOptionsChapter: {
       title: 'Repayment or relief options',
       pages: {
+        optionExplainer: {
+          path: 'option-explainer',
+          title: 'Resolution Option Explainer',
+          uiSchema: pages.resolutionExplainer.uiSchema,
+          schema: pages.resolutionExplainer.schema,
+        },
         resolutionOptions: {
           path: 'resolution-options',
           title: 'Resolution options',
