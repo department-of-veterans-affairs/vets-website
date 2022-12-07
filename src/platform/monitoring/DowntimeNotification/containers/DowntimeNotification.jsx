@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -67,18 +66,14 @@ class DowntimeNotification extends React.Component {
     const endTime = formatDowntime(this.props.globalDowntime.endTIme);
 
     return (
-      <AlertBox
-        className="vads-u-margin-bottom--4"
-        headline={`This ${appType} is down for maintenance`}
-        isVisible
-        status="warning"
-      >
+      <va-alert class="vads-u-margin-bottom--4" visible status="warning">
+        <h3 slot="headline">This {{ appType }} is down for maintenance</h3>
         <p>
           We’re making some updates to this {appType}. We’re sorry it’s not
           working right now and we hope to be finished by {endTime}. Please
           check back soon.
         </p>
-      </AlertBox>
+      </va-alert>
     );
   };
 
