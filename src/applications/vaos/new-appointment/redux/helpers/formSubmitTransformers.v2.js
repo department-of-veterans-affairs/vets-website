@@ -35,16 +35,17 @@ function getReasonCode({ data, isCC, isAcheron }) {
           moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
+    const facility = `station id: ${data.vaFacility}`;
     const modality = `preferred modality: ${data.visitType}`;
     const phone = `phone number: ${data.phoneNumber}`;
     const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
-    // Add preferred modality, phone number, email, preferred Date, reason Code to
-    // appointmentInfo string in this order (preferred modality, phone number, email,
-    // preferred Date, reason Code)
-    appointmentInfo = `${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
+    // Add station id, preferred modality, phone number, email, preferred Date, reason Code to
+    // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
+    // [3]email, [4]preferred Date, [5]reason Code
+    appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
   }
   const reasonCodeBody = {
     text:
