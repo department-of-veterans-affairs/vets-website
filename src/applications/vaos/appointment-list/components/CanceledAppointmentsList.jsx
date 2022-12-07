@@ -134,12 +134,13 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="vads-u-padding-left--0"
+              className="usa-unstyled-list vads-u-padding-left--0"
               data-cy="canceled-appointment-list"
               role="list"
             >
               {featureAppointmentList && (
                 <AppointmentGridLayout
+                  key={monthDate.format('YYYY-MM')}
                   monthBucket={Object.values(monthBucket)}
                 />
               )}
