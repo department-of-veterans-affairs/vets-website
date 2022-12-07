@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formatDowntime } from 'platform/utilities/date';
 
@@ -89,7 +87,7 @@ class DowntimeNotification extends React.Component {
     if (!this.props.isReady) {
       return (
         this.props.loadingIndicator || (
-          <LoadingIndicator
+          <va-loading-indicator
             message={`Checking the ${this.props.appTitle} status...`}
           />
         )
