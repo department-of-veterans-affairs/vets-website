@@ -1,6 +1,7 @@
 import {
-  evidenceUploadOtherTitle,
+  evidenceUploadOtherHeader,
   evidenceUploadOtherInfo,
+  reviewField,
 } from '../content/evidenceUploadOther';
 
 import { EVIDENCE_OTHER } from '../constants';
@@ -12,8 +13,9 @@ export default {
       forceDivWrapper: true,
     },
     [EVIDENCE_OTHER]: {
-      'ui:title': evidenceUploadOtherTitle,
+      'ui:title': evidenceUploadOtherHeader,
       'ui:widget': 'yesNo',
+      'ui:reviewField': reviewField,
     },
     'view:otherEvidenceInfo': {
       'ui:description': evidenceUploadOtherInfo,
