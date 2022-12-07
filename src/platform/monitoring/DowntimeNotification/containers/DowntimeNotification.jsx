@@ -67,7 +67,7 @@ class DowntimeNotification extends React.Component {
 
     return (
       <va-alert class="vads-u-margin-bottom--4" visible status="warning">
-        <h3 slot="headline">This {{ appType }} is down for maintenance</h3>
+        <h3 slot="headline">This {appType} is down for maintenance</h3>
         <p>
           We’re making some updates to this {appType}. We’re sorry it’s not
           working right now and we hope to be finished by {endTime}. Please
