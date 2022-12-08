@@ -79,6 +79,7 @@ function FlipperClient({
     const isToggleCacheDisabled =
       queryParams.get('disableFlipperCache') === 'true';
     const isPostLogin = queryParams.get('postLogin') === 'true';
+    const signOutFlag = sessionStorage.getItem('signOut') === 'true';
 
     const featureToggleSessionData =
       sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
@@ -88,7 +89,18 @@ function FlipperClient({
       featureToggleSessionData &&
       Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
 
-    if (!isToggleCacheDisabled && isSessionDataValid && !isPostLogin) {
+    if (signOutFlag) {
+      setTimeout(() => {
+        sessionStorage.removeItem('signOut');
+      }, 10 * 1000);
+    }
+
+    if (
+      !isToggleCacheDisabled &&
+      isSessionDataValid &&
+      !isPostLogin &&
+      !signOutFlag
+    ) {
       data = featureToggleSessionData.data;
     } else {
       const response = await _fetchToggleValues();
