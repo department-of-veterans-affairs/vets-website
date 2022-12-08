@@ -16,7 +16,6 @@ import {
   getFirstCanceledAppointment,
 } from '../../../utils/appointment';
 
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import Wrapper from '../../../components/layout/Wrapper';
 
 const appointmentAccordion = appointments => {
@@ -30,13 +29,11 @@ const appointmentAccordion = appointments => {
 };
 
 const Error = () => {
-  const { getValidateAttempts } = useSessionStorage(true);
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
 
   let apptType = 'clinic';
-  const validationError = isMaxValidateAttempts || error === 'max-validation';
+  const validationError = error === 'max-validation';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
