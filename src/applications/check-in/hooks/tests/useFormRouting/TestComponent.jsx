@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
 import { useFormRouting } from '../../useFormRouting';
-import { useUpdateError } from '../../useUpdateError';
 
 export default function TestComponent({ router }) {
   const {
@@ -10,16 +9,16 @@ export default function TestComponent({ router }) {
     goToPreviousPage,
     goToNextPage,
     jumpToPage,
+    goToErrorPage,
     pages,
   } = useFormRouting(router);
 
-  const { updateError } = useUpdateError();
   const currentPage = getCurrentPageFromRouter();
   const previousPage = getPreviousPageFromRouter();
 
   const errorTest = () => {
     // strip out button click event stuff from being sent as a param to the function
-    updateError('test-error');
+    goToErrorPage('test-error');
   };
 
   return (
