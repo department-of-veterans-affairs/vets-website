@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
       case '1990E':
-        if (this?.props['showMEBFlag']) {
+        if (this?.props['showMebDgi40Feature']) {
           url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
           break;
         }
@@ -165,7 +165,6 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
-
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
     });
@@ -434,17 +433,14 @@ class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {post911GIBill === 'yes' &&
-              newBenefit === 'yes' &&
+            {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'own' &&
               vetTecBenefit === 'no' &&
+              post911GIBill === 'yes' &&
               this.getButton('22-1990')}
-            {post911GIBill === 'no' &&
-              newBenefit === 'yes' &&
-              vetTecBenefit === 'no' &&
-              this.getButton('1990')}
             {newBenefit === 'yes' &&
               vetTecBenefit === 'no' &&
+              post911GIBill === 'no' &&
               this.getButton('1990')}
             {newBenefit === 'yes' &&
               vetTecBenefit === 'yes' &&
@@ -473,7 +469,7 @@ class EducationWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  showMEBFlag: showMebDgi40Feature(state),
+  showMebDgi40Feature: showMebDgi40Feature(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);
