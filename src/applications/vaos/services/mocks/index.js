@@ -198,7 +198,7 @@ const responses = {
         start: req.body.slot ? req.body.slot.start : null,
       },
     };
-    currentMockId++;
+    currentMockId += 1;
     mockAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
