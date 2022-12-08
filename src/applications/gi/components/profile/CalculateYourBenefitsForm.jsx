@@ -5,12 +5,9 @@ import classNames from 'classnames';
 
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import {
-  getScrollOptions,
-  focusElement,
-} from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/ui/scrollTo';
+import recordEvent from 'platform/monitoring/record-event';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import {
