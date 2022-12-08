@@ -34,9 +34,11 @@ const EvidenceSummary = ({
   updatePage,
 }) => {
   // when on review & submit page, we're in edit mode
+  const { limitedConsent = '' } = data;
   const vaEvidence = hasVAEvidence(data) ? data.locations : [];
   const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
   const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
+  const testing = contentBeforeButtons === 'testing';
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -53,6 +55,9 @@ const EvidenceSummary = ({
       const index = parseInt(target.dataset.index, 10);
       privateEvidence.splice(index, 1);
       setFormData({ ...data, providerFacility: privateEvidence });
+    },
+    removePrivateLimitation: () => {
+      setFormData({ ...data, limitedConsent: '' });
     },
     removeUpload: event => {
       const { target } = event;
@@ -84,12 +89,19 @@ const EvidenceSummary = ({
     <div className={onReviewPage ? 'form-review-panel-page' : ''}>
       <div name="evidenceSummaryScrollElement" />
       {evidenceLength === 0 ? content.missingEvidence : null}
-      {vaEvidence?.length ? buildVaContent({ vaEvidence, handlers }) : null}
+      {vaEvidence?.length
+        ? buildVaContent({ vaEvidence, handlers, testing })
+        : null}
       {privateEvidence?.length
-        ? buildPrivateContent({ privateEvidence, handlers })
+        ? buildPrivateContent({
+            privateEvidence,
+            limitedConsent,
+            handlers,
+            testing,
+          })
         : null}
       {otherEvidence?.length
-        ? buildUploadContent({ otherEvidence, handlers })
+        ? buildUploadContent({ otherEvidence, handlers, testing })
         : null}
 
       {content.addMoreLink}
@@ -120,6 +132,7 @@ EvidenceSummary.propTypes = {
   data: PropTypes.shape({
     locations: PropTypes.array,
     providerFacility: PropTypes.array,
+    limitedConsent: PropTypes.string,
     additionalDocuments: PropTypes.array,
   }),
   goBack: PropTypes.func,

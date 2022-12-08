@@ -16,6 +16,7 @@ import {
 } from '../utils/evidence';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
+  const { limitedConsent = '' } = data;
   // on review & submit in review mode (not editing)
   const vaEvidence = hasVAEvidence(data) ? data.locations : [];
   const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
@@ -44,7 +45,11 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         ? buildVaContent({ vaEvidence, reviewMode: true })
         : null}
       {privateEvidence?.length
-        ? buildPrivateContent({ privateEvidence, reviewMode: true })
+        ? buildPrivateContent({
+            privateEvidence,
+            limitedConsent,
+            reviewMode: true,
+          })
         : null}
       {otherEvidence?.length
         ? buildUploadContent({ otherEvidence, reviewMode: true })
@@ -57,6 +62,7 @@ EvidenceSummaryReview.propTypes = {
   data: PropTypes.shape({
     locations: PropTypes.array,
     providerFacility: PropTypes.array,
+    limitedConsent: PropTypes.string,
     additionalDocuments: PropTypes.array,
   }),
   editPage: PropTypes.func,
