@@ -97,6 +97,7 @@ const Index = props => {
               }
             })
             .catch(() => {
+              // @TODO move clear current session to hook or HOC
               clearCurrentSession(window);
               updateError('session-error');
             });
