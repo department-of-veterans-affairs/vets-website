@@ -12,10 +12,7 @@ import {
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import VARadioButton from '../utils/VaRadioButton';
-import {
-  showEduBenefits1990EZWizard,
-  showMebDgi40Feature,
-} from '../selectors/educationWizard';
+import { showMebDgi40Feature } from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -51,7 +48,7 @@ class EducationWizard extends React.Component {
     }
   }
 
-  getButton(form, featureFlag = false) {
+  getButton(form) {
     let url = '';
     switch (form) {
       case '0994':
@@ -63,8 +60,12 @@ class EducationWizard extends React.Component {
       case '22-1990':
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
-      case '1990E' && featureFlag:
-        url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
+      case '1990E':
+        if (this?.props['showMEBFlag']) {
+          url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
+          break;
+        }
+        url = `/education/apply-for-education-benefits/application/${form}`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
@@ -164,7 +165,6 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
-    const { showWizard, showMEBFlag } = this.props;
 
     const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
       'va-button-primary': !this.state.open,
@@ -318,8 +318,7 @@ class EducationWizard extends React.Component {
                   </div>
                 </div>
               )}
-            {showWizard &&
-              newBenefit === 'yes' &&
+            {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'own' &&
               vetTecBenefit === 'no' && (
                 <VARadioButton
@@ -435,19 +434,16 @@ class EducationWizard extends React.Component {
                 </div>
               </div>
             )}
-            {showWizard &&
-              (post911GIBill === 'yes' &&
-                newBenefit === 'yes' &&
-                serviceBenefitBasedOn === 'own' &&
-                vetTecBenefit === 'no' &&
-                this.getButton('22-1990'))}
-            {showWizard &&
-              (post911GIBill === 'no' &&
-                newBenefit === 'yes' &&
-                vetTecBenefit === 'no' &&
-                this.getButton('1990'))}
-            {!showWizard &&
+            {post911GIBill === 'yes' &&
               newBenefit === 'yes' &&
+              serviceBenefitBasedOn === 'own' &&
+              vetTecBenefit === 'no' &&
+              this.getButton('22-1990')}
+            {post911GIBill === 'no' &&
+              newBenefit === 'yes' &&
+              vetTecBenefit === 'no' &&
+              this.getButton('1990')}
+            {newBenefit === 'yes' &&
               vetTecBenefit === 'no' &&
               this.getButton('1990')}
             {newBenefit === 'yes' &&
@@ -463,7 +459,7 @@ class EducationWizard extends React.Component {
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'yes' &&
-              this.getButton('1990E', showMEBFlag)}
+              this.getButton('1990E')}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'no' &&
@@ -477,7 +473,6 @@ class EducationWizard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  showWizard: showEduBenefits1990EZWizard(state),
   showMEBFlag: showMebDgi40Feature(state),
 });
 
