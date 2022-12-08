@@ -4,6 +4,10 @@ import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
+import sharedData from '../../../../api/local-mock-api/mocks/v2/shared';
+
+const checkInUUID = sharedData.get.defaultUUID;
+
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
     const {
@@ -17,7 +21,7 @@ describe('Check In Experience -- ', () => {
     initializeSessionPost.withSuccess();
     initializeCheckInDataGet.withSuccess();
     // Verifies that browser language detection is working.
-    cy.visitWithUUID(null, 'es');
+    cy.visitWithUUID(checkInUUID, 'es');
   });
   afterEach(() => {
     cy.window().then(window => {
