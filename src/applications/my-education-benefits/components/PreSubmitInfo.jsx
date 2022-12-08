@@ -40,7 +40,7 @@ const CustomPreSubmitInfo = ({
     setPreSubmit('privacyAgreementAccepted', privacyAgreement);
   };
 
-  return !showMebDgi40Features ? (
+  return showMebDgi40Features ? (
     <div className="vads-u-margin-bottom--1p5">
       <strong>Note:</strong> According to federal law, there are criminal
       penalties, including a fine and/or imprisonment for up to 5 years, for
