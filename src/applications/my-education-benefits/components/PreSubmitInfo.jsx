@@ -12,27 +12,32 @@ const CustomPreSubmitInfo = ({
   setPreSubmit,
 }) => {
   const [privacyAgreement, setPrivacyAgreement] = useState(
-    formData.privacyAgreementAccepted || true,
+    formData.privacyAgreementAccepted || false,
   );
 
-  const [count, setCount] = useState(privacyAgreement ? 1 : 0);
+  const [count, setCount] = useState(0);
 
   const triggerError = () => {
-    // console.log('privacyAgreement: ' + privacyAgreement);
-    // console.log('count: ' + count);
-
     // No checkbox error message during component init, count = 0
-    // and shows error depending on checked box
-    if (!privacyAgreement && count > 0) {
+    // and shows error depending on checked box is UNCHECKED
+    if (privacyAgreement === false && count > 0) {
       return 'You must accept the privacy policy before continuing';
     }
 
     // Show error is a user clicks on submit with missing fields and unchecked boxed.
-    if (showError && !privacyAgreement) {
+    if (showError && privacyAgreement === false) {
       return 'You must accept the privacy policy before continuing';
     }
 
     return undefined;
+  };
+
+  const handleChange = event => {
+    event.preventDefault();
+    const isChecked = event?.target?.checked;
+    setCount(count + 1);
+    if (isChecked !== undefined) setPrivacyAgreement(!privacyAgreement);
+    setPreSubmit('privacyAgreementAccepted', privacyAgreement);
   };
 
   return !showMebDgi40Features ? (
@@ -63,19 +68,15 @@ const CustomPreSubmitInfo = ({
         error={triggerError()}
         label="I have read and accept the privacy policy"
         checked={privacyAgreement}
-        onVaChange={value => setPreSubmit('privacyAgreementAccepted', value)}
-        onClick={ev => {
-          setCount(count + 1);
-          // console.log(ev?.target?.checked);
-          if (ev?.target?.checked !== undefined)
-            setPrivacyAgreement(!ev?.target?.checked);
-        }}
+        onClick={event => handleChange(event)}
       />
     </>
   );
 };
 
 CustomPreSubmitInfo.propTypes = {
+  formData: PropTypes.object.isRequired,
+  showError: PropTypes.bool.isRequired,
   showMebDgi40Features: PropTypes.bool,
 };
 
