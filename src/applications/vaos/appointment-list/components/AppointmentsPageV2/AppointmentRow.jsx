@@ -17,7 +17,7 @@ import {
 } from '../../../services/appointment';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-import useHandleClick from '../../redux/useAppointmentHandler';
+import useHandleClick from '../../redux/useHandleClick';
 import useHandleKeyDown from '../../redux/useHandleKeyDown';
 
 function getGridData(appointment) {
