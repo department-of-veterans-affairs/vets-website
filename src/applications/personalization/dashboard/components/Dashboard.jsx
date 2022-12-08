@@ -292,8 +292,12 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-              <EducationAndTraining />
-              {isLOA3 ? <SavedApplications /> : <ApplyForBenefits />}
+              {shouldShowV2Dashboard ? <EducationAndTraining /> : null}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <SavedApplications />
+              ) : (
+                <ApplyForBenefits />
+              )}
             </div>
           </div>
         )}
