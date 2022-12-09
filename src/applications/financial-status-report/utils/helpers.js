@@ -75,7 +75,7 @@ export const sumValues = (arr, key) => {
 export const filterReduceByName = (deductions, filters) => {
   if (!deductions?.length) return 0;
   return deductions
-    .filter(({ name }) => filters.includes(name))
+    .filter(({ name = '' }) => filters.includes(name))
     .reduce(
       (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
       0,
@@ -85,7 +85,7 @@ export const filterReduceByName = (deductions, filters) => {
 export const otherDeductionsName = (deductions, filters) => {
   if (!deductions.length) return '';
   return deductions
-    .filter(({ name }) => !filters.includes(name))
+    .filter(({ name = '' }) => !filters.includes(name))
     .map(({ name }) => name)
     .join(', ');
 };
@@ -93,7 +93,7 @@ export const otherDeductionsName = (deductions, filters) => {
 export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => name && !filters.includes(name))
+    .filter(({ name = '' }) => name && !filters.includes(name))
     .reduce(
       (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
       0,
@@ -175,6 +175,11 @@ export const getMonthlyIncome = ({
     addlIncRecords,
     spouse: { spAddlIncome },
   },
+  personalData: {
+    employmentHistory: {
+      veteran: { employmentRecords = [] },
+    },
+  },
   socialSecurity,
   benefits,
   currEmployment,
@@ -189,7 +194,9 @@ export const getMonthlyIncome = ({
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = !enhancedFSRActive
     ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
@@ -197,7 +204,12 @@ export const getMonthlyIncome = ({
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
   const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
@@ -352,4 +364,8 @@ export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
+};
+
+export const getCurrentEmploymentHistoryObject = () => {
+  return null;
 };

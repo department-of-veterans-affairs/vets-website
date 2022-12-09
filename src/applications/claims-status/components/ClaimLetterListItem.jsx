@@ -21,6 +21,18 @@ const formatDate = date => {
   return format(withOffset, 'MMMM dd, yyyy');
 };
 
+const docTypeToDescription = {
+  184: 'Notification Letter',
+};
+
+const getDescription = docType => {
+  const defaultDescription = 'Notification Letter';
+
+  return docTypeToDescription[docType] || defaultDescription;
+};
+
+const filename = 'ClaimLetter.pdf';
+
 const downloadHandler = () => {
   recordEvent({
     event: 'claim-letters-download',
@@ -29,20 +41,22 @@ const downloadHandler = () => {
 };
 
 const ClaimLetterListItem = ({ letter }) => {
-  const heading = `Letter dated ${formatDate(letter.receivedAt)}`;
+  const formattedDate = formatDate(letter.receivedAt);
+  const heading = `Letter dated ${formattedDate}`;
 
   return (
     <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
       <h2 className="vads-u-font-size--h4">{heading}</h2>
       <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
-        {letter.typeDescription}
+        {getDescription(letter.docType)}
       </div>
       <va-link
         download
+        filename={filename}
         filetype="PDF"
         href={downloadUrl(letter.documentId)}
         onClick={downloadHandler}
-        text="Download letter"
+        text={`Download ${formattedDate} letter`}
       />
     </li>
   );

@@ -334,3 +334,18 @@ export function NotHighDisability(formData) {
     formValue(formData, IS_GTE_HIGH_DISABILITY)
   );
 }
+
+/**
+ * Helper that maps an array to an object literal to allow for
+ * multiple keys to have the same value
+ * @param {Array} arrayToMap - an array of arrays that defines the keys/values to map
+ * @returns {Object} - an object literal
+ */
+export function createLiteralMap(arrayToMap) {
+  return arrayToMap.reduce((obj, [value, keys]) => {
+    for (const key of keys) {
+      Object.defineProperty(obj, key, { value });
+    }
+    return obj;
+  }, {});
+}

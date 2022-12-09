@@ -6,10 +6,10 @@ import { format } from 'date-fns';
 export const LETTER_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_letter`;
 
 export const HasLetters = ({ claimStatus }) => {
-  const receivedDate = format(
-    new Date(claimStatus.receivedDate),
-    'MMMM dd, yyyy',
-  );
+  const receivedDate = () => {
+    const [year, month, day] = claimStatus?.receivedDate.split('-');
+    return format(new Date(`${month}-${day}-${year}`), 'MMMM dd, yyyy');
+  };
 
   return (
     <>
@@ -34,11 +34,11 @@ export const HasLetters = ({ claimStatus }) => {
             />
             Download Post-9/11 GI Bill decision letter (PDF)
           </a>
-          <p>You applied for this on {receivedDate}</p>
+          <p>You applied for this on {receivedDate()}</p>
         </div>
       </div>
 
-      <h2 id="letter-isnt-listed">How do I download and open a letter?</h2>
+      <h2>How do I download and open a letter?</h2>
       <p>
         First, you’ll need to make sure you have the latest version of Adobe
         Acrobat Reader installed on your computer.{' '}

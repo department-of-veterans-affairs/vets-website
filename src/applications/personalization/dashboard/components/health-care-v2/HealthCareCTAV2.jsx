@@ -17,10 +17,10 @@ const HealthCareCTAV2 = ({
       <h3 className="sr-only">Popular actions for Health Care</h3>
       {!isVAPatient && (
         <IconCTALink
-          text="Learn how to apply for VA health care"
+          text="Apply for VA health care"
           icon="file-medical"
           newTab
-          href="/health-care/apply/application"
+          href="/apply/application/introduction"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({

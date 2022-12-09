@@ -46,7 +46,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // payments.paymentHistory.simplePaymentHistory
 
-    return res.status(200).json(payments.paymentHistory.isNotCompetent);
+    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     return res
@@ -72,10 +72,10 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // return res.status(200).json(serviceHistory.airForce);
-    return res
-      .status(200)
-      .json(serviceHistory.generateServiceHistoryError('403'));
+    return res.status(200).json(serviceHistory.airForce);
+    // return res
+    //   .status(200)
+    //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

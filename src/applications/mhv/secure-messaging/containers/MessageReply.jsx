@@ -77,7 +77,6 @@ const MessageReply = () => {
       </div>
 
       {content()}
-
       {replyMessage && thread()}
     </div>
   );

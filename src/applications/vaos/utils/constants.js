@@ -331,16 +331,19 @@ export const TYPE_OF_VISIT = [
     id: 'clinic',
     name: 'Office visit',
     serviceName: 'Office Visit',
+    vsGUI: 'FACE TO FACE',
   },
   {
     id: 'phone',
     name: 'Phone call',
     serviceName: 'Phone Call',
+    vsGUI: 'TELEPHONE',
   },
   {
     id: 'telehealth',
     name: 'Telehealth (through VA Video Connect)',
     serviceName: 'Video Conference',
+    vsGUI: 'VIDEO',
   },
 ];
 

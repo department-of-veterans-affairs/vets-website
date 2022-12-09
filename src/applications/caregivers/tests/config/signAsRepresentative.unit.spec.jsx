@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('CG Sign As Representative', () => {

@@ -4,11 +4,7 @@ import { useLastLocation } from 'react-router-last-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import {
-  showBadAddressIndicator,
-  hasBadAddress,
-  forceBadAddressIndicator,
-} from '@@profile/selectors';
+import { hasBadAddress } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
@@ -38,19 +34,13 @@ const ContactInformation = () => {
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
   );
-  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
   const userHasBadAddress = useSelector(hasBadAddress);
-
-  const shouldForceBadAddressIndicator = useSelector(
-    state =>
-      forceBadAddressIndicator(state) &&
-      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
-  );
 
   const addressValidationModalIsShowing = useSelector(
     state => state?.vapService?.modal === 'addressValidation',
   );
+
   const addressSavedDidError = useSelector(
     state => state.vapService.addressValidation.addressValidationError,
   );
@@ -132,8 +122,7 @@ const ContactInformation = () => {
   );
 
   const showFormBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator) &&
+    userHasBadAddress &&
     !addressSavedDidError &&
     !addressValidationModalIsShowing;
 

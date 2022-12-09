@@ -10,16 +10,11 @@ import { recordAnswer } from '../../../actions/universal';
 
 import { makeSelectVeteranData } from '../../../selectors';
 
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
   const { goToNextPage, goToPreviousPage } = useFormRouting(router);
   const { t } = useTranslation();
-
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics, appointments } = useSelector(selectVeteranData);
@@ -41,8 +36,9 @@ const Demographics = props => {
   // check if appointment is in-person or phone
   const apptType =
     appointments && appointments.length ? appointments[0]?.kind : null;
+
   const subtitle =
-    isPhoneAppointmentsEnabled && apptType === 'phone'
+    apptType === 'phone'
       ? ''
       : t(
           'if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in',

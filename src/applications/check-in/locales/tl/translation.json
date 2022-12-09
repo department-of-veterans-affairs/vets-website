@@ -235,7 +235,7 @@
   "yes": "Oo",
   "you-are-already-checked-in": "Naka-check in ka na.",
   "you-can-also-file-a-claim-online--help-text": "Maaari ka ring mag-file ng claim online 24/7 sa pamamagitan ng Beneficiary Travel Self Service System (BTSSS). O, maaari mong gamitin ang VA Form 10-3542 para magsumite ng claim sa pamamagitan ng sulat, fax, email, o sa personal. Siguraduhing mag-file ng iyong claim sa oras. Kailangan mong mag-file sa loob ng <0>30 araw</0> ng appointment.",
-  "you-can-also-sign-in-to-your-va-account-to-review-your-information": "Maaari ka ring mag-sign in sa iyong VA account upang suriin and iyong impormasyon.",
+  "you-can-also-sign-in-to-your-va-account-to-review-your-information": "Maaari ka ring <0>{{link}}</0> sa iyong VA account upang suriin and iyong impormasyon.",
   "you-can-check-in-starting-at-this-time": "Maaari kang mag-check in simula sa oras na ito: {{date, time}}",
   "you-can-pre-check-in-online-before-midnight-of-the-day-of-your-appointment": "Maaari kang mag-pre-check-in online bago maghatinggabi sa araw ng iyong appointment.",
   "you-can-pre-check-in-online-until-date": "Maaari kang mag-pre-check in online hanggang sa {{date, mdY}}.",
