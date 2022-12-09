@@ -34,8 +34,9 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Define Branch Name
-        uses: nelonoel/branch-name@v1
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
@@ -43,4 +44,4 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: review_instance_run
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "vets-website", "source_branch": "$(echo ${BRANCH_NAME})" }'
+          client-payload: '{"source_repo": "vets-website", "source_branch": "${{ steps.branch-name.outputs.current_branch }}" }'
