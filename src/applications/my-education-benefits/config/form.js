@@ -1470,9 +1470,10 @@ const formConfig = {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
-                'ui:title': 'Bank account number',
+                ...bankAccountUI.accountNumber,
                 'ui:validations': [validateAccountNumber],
                 'ui:errorMessages': {
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
                   pattern: 'Please enter only numbers',
                 },
               },
