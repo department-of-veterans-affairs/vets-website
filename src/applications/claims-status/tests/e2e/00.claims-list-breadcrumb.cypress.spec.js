@@ -8,6 +8,6 @@ describe('Breadcrumb Test', () => {
     trackClaimsPage.checkBreadcrumbs();
     trackClaimsPage.checkBreadcrumbsMobile();
     cy.expandAccordions();
-    cy.axeCheck('.va-nav-breadcrumbs');
+    cy.axeCheck('va-nav-breadcrumbs');
   });
 });
