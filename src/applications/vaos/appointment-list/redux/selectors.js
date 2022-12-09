@@ -62,27 +62,6 @@ export function getCancelInfo(state) {
   };
 }
 
-export const selectVistaFailureStatus = createSelector(state => {
-  console.log(state);
-  // const allAppointments = [];
-
-  //   if (state.appointments.pending) {
-  //     allAppointments.push(state.appointments.pending);
-  //   }
-  //
-  //   if (state.appointments.confirmed) {
-  //     allAppointments.push(state.appointments.confirmed);
-  //   }
-  //
-  //   if (state.appointments.past) {
-  //     allAppointments.push(state.appointments.past);
-  //   }
-  //
-  //   allAppointments.find(appointment => {
-  //     return appointment.vaos.hasVistaFailure;
-  //   });
-});
-
 export function selectFutureStatus(state) {
   const { pendingStatus, confirmedStatus } = state.appointments;
   if (
@@ -333,5 +312,12 @@ export function selectCommunityCareDetailsInfo(state, id) {
     appointmentDetailsStatus,
     facilityData,
     useV2: featureVAOSServiceCCAppointments,
+  };
+}
+export function selectBackendServiceFailuresInfo(state) {
+  const { backendServiceFailures } = state.appointments;
+  return {
+    futureStatus: selectFutureStatus(state),
+    backendServiceFailures,
   };
 }

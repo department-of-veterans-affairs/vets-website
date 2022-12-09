@@ -57,6 +57,7 @@ const initialState = {
   systemClinicToFacilityMap: {},
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
+  backendServiceFailures: null,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -74,6 +75,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmed: action.data,
         confirmedStatus: FETCH_STATUS.succeeded,
+        backendServiceFailures: action.backendServiceFailures,
       };
     }
     case FETCH_FUTURE_APPOINTMENTS_FAILED:
@@ -92,6 +94,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         pending: action.data,
         pendingStatus: FETCH_STATUS.succeeded,
+        backendServiceFailures: action.backendServiceFailures,
       };
     }
     case FETCH_PENDING_APPOINTMENTS_FAILED:
@@ -130,6 +133,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         past,
         pastStatus: FETCH_STATUS.succeeded,
+        FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
       };
     }
     case FETCH_PAST_APPOINTMENTS_FAILED:

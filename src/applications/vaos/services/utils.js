@@ -83,9 +83,12 @@ export function parseApiList(resp) {
  */
 export function parseApiListWithErrors(resp) {
   return {
-    data: resp.data.map(item => ({ ...item.attributes, id: item.id })),
+    data: resp.data.map(item => ({
+      ...item.attributes,
+      id: item.id,
+    })),
     errors: resp.meta?.errors,
-    failures: resp.meta?.failures,
+    backendSystemFailures: resp.meta?.failures,
   };
 }
 

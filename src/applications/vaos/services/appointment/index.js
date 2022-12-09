@@ -82,6 +82,9 @@ function hasPartialResults(response) {
   );
 }
 
+function hasBackendSystemFailure(response) {
+  return response.backendSystemFailures?.length > 0;
+}
 // Sort the requested appointments, latest appointments appear at the top of the list.
 function apptRequestSort(a, b) {
   return new Date(b.created).getTime() - new Date(a.created).getTime();
@@ -115,10 +118,9 @@ export async function fetchAppointments({
         useAcheron,
       );
 
-      const hasVistaFailure = !!allAppointments.failures.find(failure => {
-        return failure.system === 'VSP' && failure.code === 10000;
-      });
-
+      // const hasVistaFailure = !!allAppointments.failures.find(failure => {
+      //   return failure.system === 'VSP' && failure.code === 10000;
+      // });
       const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
@@ -129,9 +131,12 @@ export async function fetchAppointments({
         return !appt.requestedPeriods;
       });
 
-      appointments.push(
-        ...transformVAOSAppointments(filteredAppointments, hasVistaFailure),
-      );
+      appointments.push(...transformVAOSAppointments(filteredAppointments));
+      if (hasBackendSystemFailure(allAppointments)) {
+        appointments.push(...transformVAOSAppointments(filteredAppointments), {
+          meta: allAppointments.backendSystemFailures,
+        });
+      }
 
       if (useV2VA && useV2CC) {
         return appointments;
@@ -230,9 +235,9 @@ export async function getAppointmentRequests({
         useAcheron,
       );
 
-      const hasVistaFailure = !!appointments.failures.find(failure => {
-        return failure.system === 'VSP' && failure.code === 10000;
-      });
+      // const hasVistaFailure = !!appointments.failures.find(failure => {
+      //   return failure.system === 'VSP' && failure.code === 10000;
+      // });
 
       const requestsWithoutAppointments = appointments.data.filter(
         appt => !!appt.requestedPeriods,
@@ -240,10 +245,7 @@ export async function getAppointmentRequests({
 
       requestsWithoutAppointments.sort(apptRequestSort);
 
-      return transformVAOSAppointments(
-        requestsWithoutAppointments,
-        hasVistaFailure,
-      );
+      return transformVAOSAppointments(requestsWithoutAppointments);
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);

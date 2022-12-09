@@ -218,7 +218,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
-
       if (includeRequests) {
         promises.push(
           getAppointmentRequests({
@@ -255,52 +254,53 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             }),
         );
       }
-      const data = await Promise.all(promises);
+      const getData = await Promise.all(promises);
+      const data = getData[0]?.filter(appt => !appt.meta);
+      const backendSystemFailures = getData[0]?.filter(appt => appt.meta);
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
       });
-      recordItemsRetrieved('upcoming', data[0]?.length);
+      recordItemsRetrieved('upcoming', data?.length);
       recordItemsRetrieved(
         'video_home',
-        data[0]?.filter(appt => isVideoHome(appt)).length,
+        data?.filter(appt => isVideoHome(appt)).length,
       );
 
       recordItemsRetrieved(
         'video_atlas',
-        data[0]?.filter(appt => appt.videoData.isAtlas).length,
+        data?.filter(appt => appt.videoData.isAtlas).length,
       );
 
       recordItemsRetrieved(
         'video_va_facility',
-        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
-          .length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic).length,
       );
 
       recordItemsRetrieved(
         'video_gfe',
-        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
         'video_store_forward',
-        data[0]?.filter(
-          appt => appt.videoData.kind === VIDEO_TYPES.storeForward,
-        ).length,
+        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.storeForward)
+          .length,
       );
 
       dispatch({
         type: FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-        data: data[0],
+        data,
+        backendServiceFailures: backendSystemFailures[0],
       });
 
       try {
         let facilityData;
         if (featureVAOSServiceVAAppointments) {
-          facilityData = getAdditionalFacilityInfoV2(data[0]);
+          facilityData = getAdditionalFacilityInfoV2(data);
         } else {
           facilityData = await getAdditionalFacilityInfo(
-            [].concat(...data),
+            [].concat(...getData),
             featureFacilitiesServiceV2,
           );
         }
@@ -316,7 +316,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       }
 
       if (
-        data[0]
+        data
           ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
           .some(appt => !appt.location?.stationId)
       ) {
