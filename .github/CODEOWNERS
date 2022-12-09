@@ -2,7 +2,7 @@
 
 # the repo. Unless a later match takes precedence
 
-# @department-of-veterans-affairs/platform-release-tools will be requested for
+# @department-of-veterans-affairs/va-platform-cop-frontend will be requested for
 
 # review when someone opens a pull request
 
@@ -14,7 +14,7 @@
 
 # VSP
 
-* @department-of-veterans-affairs/platform-release-tools
+* @department-of-veterans-affairs/va-platform-cop-frontend
 
 src/applications/_mock-form @department-of-veterans-affairs/platform-design-system-fe
 src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-system-fe
@@ -69,9 +69,9 @@ src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-f
 
 # Public Websites
 
-src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
-src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
-src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
+src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
