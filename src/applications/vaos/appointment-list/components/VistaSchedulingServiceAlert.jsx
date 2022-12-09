@@ -2,11 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
 import { selectFeatureVaosV2Next } from '../../redux/selectors';
+// import { selectVistaFailureStatus } from '../redux/selectors';
 
 export default function VistaSchedulingServiceAlert() {
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
   );
+  // const hasVistaFailure = useSelector(state => selectVistaFailureStatus(state));
+
   if (featureVaosV2Next) {
     return (
       <>

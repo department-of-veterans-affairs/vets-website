@@ -115,6 +115,10 @@ export async function fetchAppointments({
         useAcheron,
       );
 
+      const hasVistaFailure = !!allAppointments.failures.find(failure => {
+        return failure.system === 'VSP' && failure.code === 10000;
+      });
+
       const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
@@ -125,7 +129,9 @@ export async function fetchAppointments({
         return !appt.requestedPeriods;
       });
 
-      appointments.push(...transformVAOSAppointments(filteredAppointments));
+      appointments.push(
+        ...transformVAOSAppointments(filteredAppointments, hasVistaFailure),
+      );
 
       if (useV2VA && useV2CC) {
         return appointments;
@@ -224,13 +230,20 @@ export async function getAppointmentRequests({
         useAcheron,
       );
 
+      const hasVistaFailure = !!appointments.failures.find(failure => {
+        return failure.system === 'VSP' && failure.code === 10000;
+      });
+
       const requestsWithoutAppointments = appointments.data.filter(
         appt => !!appt.requestedPeriods,
       );
 
       requestsWithoutAppointments.sort(apptRequestSort);
 
-      return transformVAOSAppointments(requestsWithoutAppointments);
+      return transformVAOSAppointments(
+        requestsWithoutAppointments,
+        hasVistaFailure,
+      );
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);

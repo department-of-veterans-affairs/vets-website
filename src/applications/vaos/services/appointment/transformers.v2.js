@@ -189,7 +189,7 @@ function getPatientContact(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+export function transformVAOSAppointment(appt, hasVistaFailure) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth';
@@ -368,13 +368,14 @@ export function transformVAOSAppointment(appt) {
       apiData: appt,
       timeZone: null,
       facilityData,
+      hasVistaFailure,
     },
     version: 2,
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, hasVistaFailure) {
+  return appts.map(appt => transformVAOSAppointment(appt, hasVistaFailure));
 }
 
 /**
