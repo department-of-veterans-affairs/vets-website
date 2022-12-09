@@ -115,7 +115,7 @@ export async function fetchAppointments({
         useAcheron,
       );
 
-      const filteredAppointments = allAppointments.filter(appt => {
+      const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
           (!useV2CC && appt.kind === 'cc')
@@ -124,6 +124,7 @@ export async function fetchAppointments({
         }
         return !appt.requestedPeriods;
       });
+
       appointments.push(...transformVAOSAppointments(filteredAppointments));
 
       if (useV2VA && useV2CC) {
@@ -223,7 +224,7 @@ export async function getAppointmentRequests({
         useAcheron,
       );
 
-      const requestsWithoutAppointments = appointments.filter(
+      const requestsWithoutAppointments = appointments.data.filter(
         appt => !!appt.requestedPeriods,
       );
 

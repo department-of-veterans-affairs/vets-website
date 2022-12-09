@@ -85,6 +85,7 @@ export function parseApiListWithErrors(resp) {
   return {
     data: resp.data.map(item => ({ ...item.attributes, id: item.id })),
     errors: resp.meta?.errors,
+    failures: resp.meta?.failures,
   };
 }
 
