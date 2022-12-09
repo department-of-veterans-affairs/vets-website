@@ -4,6 +4,7 @@ import { setError } from '../actions/universal';
 
 const useUpdateError = () => {
   const dispatch = useDispatch();
+  // @TODO add unit tests once this does something more
   const updateError = useCallback(
     error => {
       dispatch(setError(error));
