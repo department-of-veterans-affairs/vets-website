@@ -79,7 +79,7 @@ export function parseApiList(resp) {
  * @export
  * @param {Object} resp Response object with a data array property
  * @returns {Object} An object with a data array of the attributes object of each item in data,
- *    combined with the id and an errors array of the errors returned
+ *    combined with the id, an errors array of the errors and an array of failures is returned.
  */
 export function parseApiListWithErrors(resp) {
   return {
