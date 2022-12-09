@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { content } from '../content/evidenceSummary';
-import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { readableList } from './helpers';
-import { getDate } from './dates';
+import { content } from './evidenceSummary';
+import { content as limitContent } from './evidencePrivateLimitation';
+import { readableList } from '../utils/helpers';
+import { getDate } from '../utils/dates';
 
 import {
   FORMAT_COMPACT,
@@ -33,7 +33,8 @@ const formatDateRange = ({ from, to }) => {
  * @param {Object[]} vaEvidence - VA evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Object} handlers - Event callback functions for links & buttons
- * @param {Boolean} testing - testing Links using data-attr
+ * @param {Boolean} testing - testing Links using data-attr; Links don't render
+ *  an href when not wrapped in a Router
  * @returns {JSX}
  */
 export const buildVaContent = ({
@@ -54,7 +55,7 @@ export const buildVaContent = ({
           <li key={locationAndName + index} className={listClassNames}>
             {!reviewMode && (
               <Link
-                className="float-right"
+                className="float-right edit-item"
                 to={path}
                 aria-label={`${content.edit} ${locationAndName}`}
                 data-link={testing ? path : null}
@@ -69,7 +70,7 @@ export const buildVaContent = ({
               <va-button
                 data-index={index}
                 onClick={handlers.removeVaLocation}
-                class="vads-u-display--block"
+                class="vads-u-display--block remove-item"
                 label={`${content.remove} ${locationAndName}`}
                 text={content.remove}
                 secondary
@@ -87,7 +88,8 @@ export const buildVaContent = ({
  * @param {Object[]} privateEvidence - Private medical evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Object} handlers - Event callback functions for links & buttons
- * @param {Boolean} testing - testing Links using data-attr
+ * @param {Boolean} testing - testing Links using data-attr; Links don't render
+ *  an href when not wrapped in a Router
  * @returns {JSX}
  */
 export const buildPrivateContent = ({
@@ -110,7 +112,7 @@ export const buildPrivateContent = ({
           <li key={providerFacilityName + index} className={listClassNames}>
             {!reviewMode && (
               <Link
-                className="float-right"
+                className="float-right edit-item"
                 to={path}
                 aria-label={`${content.edit} ${providerFacilityName}`}
                 data-link={testing ? path : null}
@@ -125,7 +127,7 @@ export const buildPrivateContent = ({
               <va-button
                 data-index={index}
                 onClick={handlers.removePrivateFacility}
-                class="vads-u-display--block"
+                class="vads-u-display--block remove-item"
                 label={`${content.remove} ${providerFacilityName}`}
                 text={content.remove}
                 secondary
@@ -137,7 +139,7 @@ export const buildPrivateContent = ({
       <li className={listClassNames}>
         {!reviewMode && (
           <Link
-            className="float-right"
+            className="float-right edit-item"
             to={`/${EVIDENCE_LIMITATION_PATH}`}
             aria-label={`${content.edit} ${limitContent.name} `}
             data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
@@ -152,7 +154,7 @@ export const buildPrivateContent = ({
         {!reviewMode && limitedConsent.length ? (
           <va-button
             onClick={handlers.removePrivateLimitation}
-            class="vads-u-display--block"
+            class="vads-u-display--block remove-item"
             label={`${content.remove} ${limitContent.name}`}
             text={content.remove}
             secondary
@@ -168,7 +170,8 @@ export const buildPrivateContent = ({
  * @param {Object[]} otherEvidence - Uploaded evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Object} handlers - Event callback functions for links & buttons
- * @param {Boolean} testing - testing Links using data-attr
+ * @param {Boolean} testing - testing Links using data-attr; Links don't render
+ *  an href when not wrapped in a Router
  * @returns {JSX}
  */
 export const buildUploadContent = ({
@@ -187,7 +190,7 @@ export const buildUploadContent = ({
         <li key={upload.name} className={listClassNames}>
           {!reviewMode && (
             <Link
-              className="float-right"
+              className="float-right edit-item"
               to={`/${EVIDENCE_OTHER_PATH}`}
               aria-label={`${content.edit} ${upload.name}`}
               data-link={testing ? EVIDENCE_OTHER_PATH : null}
@@ -201,7 +204,7 @@ export const buildUploadContent = ({
             <va-button
               data-index={index}
               onClick={handlers.removeUpload}
-              class="vads-u-display--block"
+              class="vads-u-display--block remove-item"
               label={`${content.remove} ${upload.name}`}
               text={content.remove}
               secondary

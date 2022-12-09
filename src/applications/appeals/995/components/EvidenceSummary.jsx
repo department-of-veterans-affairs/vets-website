@@ -20,7 +20,7 @@ import {
   buildVaContent,
   buildPrivateContent,
   buildUploadContent,
-} from '../utils/evidence';
+} from '../content/evidenceSummaryLists';
 
 const EvidenceSummary = ({
   data,
