@@ -39,3 +39,4 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: review_instance_run
           repository: department-of-veterans-affairs/devops
+          client_payload: '{"source_repo": "vets-website", "source_branch": ${{ github.ref }} }'
