@@ -248,7 +248,6 @@ export function getCanceledAppointmentListInfo(state) {
     futureStatus: selectFutureStatus(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
-    vistaSchedulingServiceAvailable: false,
   };
 }
 
@@ -259,7 +258,6 @@ export function getRequestedAppointmentListInfo(state) {
     pendingAppointments: selectPendingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
-    vistaSchedulingServiceAvailable: false,
   };
 }
 
@@ -270,7 +268,6 @@ export function getUpcomingAppointmentListInfo(state) {
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
-    vistaSchedulingServiceAvailable: false,
   };
 }
 
