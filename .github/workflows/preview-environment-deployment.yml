@@ -1,0 +1,35 @@
+name: Preview Environment Deployment
+
+on: push
+
+jobs:
+  deploy-preview-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Start Deployment Process
+        run: |
+          curl -v -H 'Authorization: token ${env.VA_VSP_BOT_GITHUB_TOKEN}' \
+          -H 'Accept: application/vnd.github.ant-man-preview+json'" \
+          --data '{"event_type": "review_instance_run", "client_payload": {
+            "source_repo": "vets-website",
+            "source_ref": pe-deploy-workflow
+          }}' \
+          https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
+        env:
+          GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
