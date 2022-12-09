@@ -10,9 +10,7 @@ import HowToLink from '../../../components/HowToLink';
 import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 
 import {
-  preCheckinExpired,
   appointmentStartTimePast15,
-  appointmentWasCanceled,
   getFirstCanceledAppointment,
 } from '../../../utils/appointment';
 
@@ -33,7 +31,6 @@ const Error = () => {
   const { error } = useSelector(selectError);
 
   let apptType = 'clinic';
-  const validationError = error === 'max-validation';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
@@ -84,7 +81,7 @@ const Error = () => {
   if (dontShowLinkErrors.indexOf(error) > -1) {
     showHowToLink = false;
   }
-  if (validationError) {
+  if (error === 'max-validation') {
     messageText = (
       <>
         <div className="vads-u-margin-bottom--2">
@@ -94,14 +91,17 @@ const Error = () => {
       </>
     );
   }
+
   const UUIDErrors = ['session-error', 'bad-token', 'no-token'];
+  const isUUIDError = () => UUIDErrors.indexOf(error) > -1;
+
   messages.push({ text: messageText });
   if (appointments && appointments.length > 0) {
     apptType = appointments[0]?.kind ?? 'clinic';
     if (apptType !== 'clinic') {
       showHowToLink = false;
     }
-    if (appointmentWasCanceled(appointments)) {
+    if (error === 'appointment-canceled') {
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
       const appointmentDateTime = new Date(canceledAppointment.startTime);
@@ -136,7 +136,7 @@ const Error = () => {
       messages = [];
       accordion = appointmentAccordion(appointments);
       showHowToLink = false;
-    } else if (preCheckinExpired(appointments)) {
+    } else if (error === 'pre-check-in-expired') {
       header = t('sorry-pre-check-in-is-no-longer-available');
 
       messages =
@@ -160,7 +160,7 @@ const Error = () => {
         testId: 'date-message',
       });
     }
-  } else if (UUIDErrors.indexOf(error) > -1) {
+  } else if (isUUIDError) {
     messages = [
       {
         text: mixedPhoneAndInPersonMessage,
@@ -189,7 +189,7 @@ const Error = () => {
         <va-alert
           background-only
           show-icon
-          status={validationError ? 'error' : 'info'}
+          status={error === 'max-validation' ? 'error' : 'info'}
           data-testid="error-message"
         >
           <div>{errorText}</div>
