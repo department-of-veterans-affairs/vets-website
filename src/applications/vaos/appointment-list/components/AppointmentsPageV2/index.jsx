@@ -5,7 +5,10 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
+import {
+  selectFeatureStatusImprovement,
+  selectFeatureVaosV2Next,
+} from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -97,6 +100,9 @@ export default function AppointmentsPageV2() {
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
+  );
+  const featureVaosV2Next = useSelector(state =>
+    selectFeatureVaosV2Next(state),
   );
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
