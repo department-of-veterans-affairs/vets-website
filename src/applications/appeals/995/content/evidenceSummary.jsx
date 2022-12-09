@@ -3,27 +3,23 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
-  hasPrivateEvidenceToUpload,
+  // hasPrivateEvidenceToUpload,
 } from '../utils/helpers';
 
 export const evidenceSummaryDescription = ({ formData }) => {
-  const hasPrivateUpload = hasPrivateEvidenceToUpload(formData);
+  // const hasPrivateUpload = hasPrivateEvidenceToUpload(formData);
   const vaEvidence = hasVAEvidence(formData) ? formData.locations : [];
-  const privateEvidence =
-    hasPrivateEvidence(formData) && !hasPrivateUpload
-      ? formData.providerFacility
-      : [];
-  const privateEvidenceUploads =
-    hasPrivateEvidence(formData) && hasPrivateUpload
-      ? formData.privateMedicalRecordAttachments
-      : [];
+  const privateEvidence = hasPrivateEvidence(formData) // && !hasPrivateUpload
+    ? formData.providerFacility
+    : [];
+
   const layEvidenceUploads = hasOtherEvidence(formData)
     ? formData.additionalDocuments
     : [];
 
   const evidenceLength = !!vaEvidence.concat(
     privateEvidence,
-    privateEvidenceUploads,
+    // privateEvidenceUploads,
     layEvidenceUploads,
   ).length;
 
@@ -38,7 +34,6 @@ export const evidenceSummaryDescription = ({ formData }) => {
   }
 
   let vaContent = null;
-  let privateContent = null;
   let layContent = null;
   let privateEvidenceContent = null;
 
@@ -50,18 +45,6 @@ export const evidenceSummaryDescription = ({ formData }) => {
       <div>
         <p>We’ll get your VA medical records from:</p>
         <ul>{facilitiesList}</ul>
-      </div>
-    );
-  }
-
-  if (privateEvidenceUploads?.length) {
-    const privateEvidenceUploadsList = privateEvidenceUploads.map(upload => (
-      <li key={upload.name}>{upload.name}</li>
-    ));
-    privateContent = (
-      <div>
-        <p>We’ll submit the below private medical records you uploaded:</p>
-        <ul>{privateEvidenceUploadsList}</ul>
       </div>
     );
   }
@@ -95,7 +78,6 @@ export const evidenceSummaryDescription = ({ formData }) => {
   return (
     <div>
       {vaContent}
-      {privateContent}
       {privateEvidenceContent}
       {layContent}
     </div>
