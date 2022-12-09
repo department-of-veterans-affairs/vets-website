@@ -22,14 +22,20 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Start Deployment Process
-        run: |
-          curl -v -H 'Authorization: token ${env.VA_VSP_BOT_GITHUB_TOKEN}' \
-          -H 'Accept: application/vnd.github.ant-man-preview+json' \
-          --data '{"event_type": "review_instance_run", "client_payload": {
-            "source_repo": "vets-website",
-            "source_ref": "pe-deploy-workflow"
-          }}' \
-          https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
-        env:
-          GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
+      # - name: Start Deployment Process
+      #   run: |
+      #     curl -v -H 'Authorization: token ${env.VA_VSP_BOT_GITHUB_TOKEN}' \
+      #     -H 'Accept: application/vnd.github.ant-man-preview+json' \
+      #     --data '{"event_type": "review_instance_run", "client_payload": {
+      #       "source_repo": "vets-website",
+      #       "source_ref": "pe-deploy-workflow"
+      #     }}' \
+      #     https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
+      #   env:
+      #     GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          event-type: review_instance_run
+          repository: department-of-veterans-affairs/devops
