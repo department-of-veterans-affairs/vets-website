@@ -14,6 +14,7 @@ import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
+import InfoAlert from '../../../components/InfoAlert';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
@@ -190,6 +191,26 @@ export default function AppointmentsPageV2() {
       />
       <ScheduleNewAppointment />
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
+
+      {featureVaosV2Next && (
+        <>
+          <InfoAlert
+            className="vads-u-margin-bottom--4"
+            status="warning"
+            level="3"
+            headline="We can't display in-person VA appointments"
+          >
+            <p>
+              We're working to resolve this issue. To manage those appointments,
+              contact the facility where they are scheduled
+            </p>
+            <p>
+              <a href="/find-locations">Facility locator</a>
+            </p>
+          </InfoAlert>
+        </>
+      )}
+
       {!featureStatusImprovement && (
         <>
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
