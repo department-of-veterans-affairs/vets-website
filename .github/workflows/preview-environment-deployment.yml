@@ -33,10 +33,14 @@ jobs:
       #     https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
       #   env:
       #     GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Define Branch Name
+        uses: nelonoel/branch-name@v1
+
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: review_instance_run
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "vets-website", "source_branch": "${{ github.ref }}" }'
+          client-payload: '{"source_repo": "vets-website", "source_branch": "$(echo ${BRANCH_NAME})" }'
