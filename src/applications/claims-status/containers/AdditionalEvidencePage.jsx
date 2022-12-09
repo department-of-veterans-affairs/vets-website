@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import Scroll from 'react-scroll';
 
 import { getScrollOptions } from 'platform/utilities/ui';
@@ -71,11 +71,12 @@ class AdditionalEvidencePage extends React.Component {
 
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+    this.props.history.push(`your-claims/${this.props.claim.id}/files`);
   }
 
   render() {
-    const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
+    const { match } = this.props;
+    const filesPath = `/your-claims/${match.params.id}/additional-evidence`;
     let content;
 
     if (this.props.loading) {
@@ -168,14 +169,15 @@ AdditionalEvidencePage.propTypes = {
   clearAdditionalEvidenceNotification: PropTypes.func,
   files: PropTypes.array,
   getClaimDetail: PropTypes.func,
+  history: PropTypes.object,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  match: PropTypes.object,
   message: PropTypes.object,
   params: PropTypes.object,
   progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   updateField: PropTypes.func,

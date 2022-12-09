@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { submitRequest, getClaimDetail } from '../actions';
@@ -24,7 +24,7 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      props.getClaimDetail(this.props.params.id);
+      props.getClaimDetail(this.props.match.params.id);
       this.goToStatusPage();
     }
   }
@@ -34,11 +34,13 @@ class AskVAPage extends React.Component {
   }
 
   goToStatusPage() {
-    this.props.router.push(`your-claims/${this.props.params.id}`);
+    const { history, match } = this.props;
+
+    history.push(`/your-claims/${match.params.id}`);
   }
 
   render() {
-    const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const { decisionRequestError, loadingDecisionRequest, match } = this.props;
     const submitDisabled =
       !this.state.submittedDocs ||
       loadingDecisionRequest ||
@@ -56,10 +58,8 @@ class AskVAPage extends React.Component {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={`your-claims/${this.props.params.id}`}>
-                Status details
-              </Link>
-              <Link to={`your-claims/${this.props.params.id}/ask-va-to-decide`}>
+              <Link to={`/your-claims/${match.params.id}`}>Status details</Link>
+              <Link to={`/your-claims/${match.params.id}/ask-va-to-decide`}>
                 Ask for your claim decision
               </Link>
             </ClaimsBreadcrumbs>
@@ -101,7 +101,7 @@ class AskVAPage extends React.Component {
                     ? 'usa-button-primary usa-button-disabled'
                     : 'usa-button-primary'
                 }
-                onClick={() => this.props.submitRequest(this.props.params.id)}
+                onClick={() => this.props.submitRequest(match.params.id)}
               >
                 {buttonMsg}
               </button>
@@ -139,18 +139,18 @@ const mapDispatchToProps = {
   getClaimDetail,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(AskVAPage),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AskVAPage);
 
 AskVAPage.propTypes = {
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
   getClaimDetail: PropTypes.func,
+  history: PropTypes.object,
   loadingDecisionRequest: PropTypes.bool,
+  match: PropTypes.object,
   params: PropTypes.object,
   router: PropTypes.object,
   submitRequest: PropTypes.func,

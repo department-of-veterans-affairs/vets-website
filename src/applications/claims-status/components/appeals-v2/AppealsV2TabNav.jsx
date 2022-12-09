@@ -17,7 +17,7 @@ const AppealsV2TabNav = ({ appealId }) => (
         shortcut={1}
         className="appeals-tabs-item"
         id="v2status"
-        tabpath={`appeals/${appealId}/status`}
+        tabpath={`/appeals/${appealId}/status`}
         title="Status"
         location={location}
       />
@@ -25,7 +25,7 @@ const AppealsV2TabNav = ({ appealId }) => (
         shortcut={2}
         className="appeals-tabs-item"
         id="v2detail"
-        tabpath={`appeals/${appealId}/detail`}
+        tabpath={`/appeals/${appealId}/detail`}
         title="Issues"
         location={location}
       />

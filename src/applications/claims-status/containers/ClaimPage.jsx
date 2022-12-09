@@ -1,30 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import { getClaimDetail } from '../actions';
+import { getClaimDetail as getClaimDetailAction } from '../actions';
 
-class ClaimPage extends React.Component {
-  componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id, this.props.router);
-  }
+const ClaimPage = ({ children, getClaimDetail }) => {
+  const params = useParams();
 
-  render() {
-    return this.props.children;
-  }
-}
+  useEffect(() => {
+    getClaimDetail(params.id);
+  }, []);
 
-function mapStateToProps() {
-  return {};
-}
-
-const mapDispatchToProps = {
-  getClaimDetail,
+  return <>{children}</>;
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ClaimPage),
-);
+ClaimPage.propTypes = {
+  children: PropTypes.array,
+  getClaimDetail: PropTypes.func,
+  match: PropTypes.object,
+};
+
+const mapDispatchToProps = {
+  getClaimDetail: getClaimDetailAction,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ClaimPage);

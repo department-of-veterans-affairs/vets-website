@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
+
 import recordEvent from 'platform/monitoring/record-event';
 
 export default function StemClaimListItem({ claim }) {
@@ -50,7 +51,7 @@ export default function StemClaimListItem({ claim }) {
       <Link
         aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="vads-c-action-link--blue"
-        to={`your-stem-claims/${claim.id}/status`}
+        to={`/your-stem-claims/${claim.id}/status`}
         onClick={handlers.openClaimClick}
       >
         View details

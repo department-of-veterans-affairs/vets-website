@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setUpPage } from '../utils/page';
+import { Link } from 'react-router-dom';
 
-import { Link } from 'react-router';
+import { getStemClaims } from '../actions';
 import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
-import { getStemClaims } from '../actions';
+import { setUpPage } from '../utils/page';
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -22,7 +22,7 @@ class StemClaimStatusPage extends React.Component {
 
   render() {
     const { claim, loading } = this.props;
-    const claimsPath = `your-stem-claims/${this.props.params.id}`;
+    const claimsPath = `/your-stem-claims/${this.props.match.params.id}`;
     let content;
     if (loading) {
       content = (

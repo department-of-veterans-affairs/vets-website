@@ -1,7 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
-import { withRouter, Link } from 'react-router';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -49,7 +49,9 @@ class DocumentRequestPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
-      this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
+      this.props.history.replace(
+        `/your-claims/${this.props.match.params.id}/status`,
+      );
     }
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -74,12 +76,12 @@ class DocumentRequestPage extends React.Component {
 
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+    this.props.history.push(`your-claims/${this.props.claim.id}/files`);
   }
 
   render() {
     let content;
-    const filesPath = `your-claims/${this.props.params.id}/files`;
+    const filesPath = `/your-claims/${this.props.match.params.id}/files`;
     const { trackedItem } = this.props;
 
     if (this.props.loading) {
@@ -144,7 +146,7 @@ class DocumentRequestPage extends React.Component {
       <span>Document request</span>
     ) : (
       <Link
-        to={`your-claims/${this.props.params.id}/document-request/${
+        to={`/your-claims/${this.props.match.params.id}/document-request/${
           trackedItem.id
         }`}
       >
@@ -184,7 +186,8 @@ function mapStateToProps(state, ownProps) {
   if (claimsState.claimDetail.detail) {
     trackedItem = claimsState.claimDetail.detail.attributes.eventsTimeline.filter(
       event =>
-        event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10),
+        event.trackedItemId ===
+        parseInt(ownProps.match.params.trackedItemId, 10),
     )[0];
   }
   return {

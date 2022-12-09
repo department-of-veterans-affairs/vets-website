@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import DueDate from './DueDate';
 import { truncateDescription, stripHtml } from '../utils/helpers';
@@ -36,7 +36,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`/your-claims/${id}/document-request/${item.trackedItemId}`}
               >
                 View Details
               </Link>
@@ -64,7 +64,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`/your-claims/${id}/document-request/${item.trackedItemId}`}
               >
                 View Details
               </Link>

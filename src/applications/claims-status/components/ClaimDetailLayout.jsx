@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import TabNav from './TabNav';
 import ClaimSyncWarning from './ClaimSyncWarning';
@@ -24,7 +24,7 @@ export default function ClaimDetailLayout(props) {
     id,
   } = props;
   const tabs = ['Status', 'Files', 'Details'];
-  const claimsPath = `your-claims/${id}`;
+  const claimsPath = `/your-claims/${id}`;
 
   let bodyContent;
   let headingContent;
@@ -67,7 +67,7 @@ export default function ClaimDetailLayout(props) {
           claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
             <span>
               <br />
-              <Link to={`your-claims/${claim.id}/details`}>
+              <Link to={`/your-claims/${claim.id}/details`}>
                 See all your claimed contentions
               </Link>
               .

@@ -109,7 +109,7 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
+        id={this.props.match.params.id}
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}
@@ -144,8 +144,8 @@ ClaimStatusPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
+  match: PropTypes.object,
   message: PropTypes.string,
-  params: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
   synced: PropTypes.bool,
 };

@@ -53,7 +53,7 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, match, message, synced } = this.props;
 
     let content = null;
     if (!loading && claim) {
@@ -88,7 +88,7 @@ class FilesPage extends React.Component {
               optionalFiles={optionalFiles}
             />
           )}
-          {showDecision && <AskVAToDecide id={this.props.params.id} />}
+          {showDecision && <AskVAToDecide id={match.params.id} />}
           <div className="submitted-files-list">
             <h2 className="claim-file-border">Documents filed</h2>
             {documentsTurnedIn.length === 0 ? (

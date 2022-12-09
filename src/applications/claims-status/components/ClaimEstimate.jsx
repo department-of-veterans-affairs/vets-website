@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default function ClaimEstimate({
   maxDate,
@@ -64,7 +64,7 @@ export default function ClaimEstimate({
       <span>
         <Link
           className="claim-estimate-link"
-          to={`your-claims/${id}/claim-estimate`}
+          to={`/your-claims/${id}/claim-estimate`}
         >
           Learn about this estimate
         </Link>

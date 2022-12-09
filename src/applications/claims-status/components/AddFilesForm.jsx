@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Scroll from 'react-scroll';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import {
@@ -311,7 +311,7 @@ class AddFilesForm extends React.Component {
           >
             Submit Files for Review
           </button>
-          <Link to={this.props.backUrl} className="claims-files-cancel">
+          <Link to={`/${this.props.backUrl}`} className="claims-files-cancel">
             Cancel
           </Link>
         </div>

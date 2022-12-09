@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -110,7 +110,7 @@ export class AppealInfo extends React.Component {
 
   render() {
     const {
-      params,
+      match,
       appeal,
       fullName,
       appealsLoading,
@@ -119,6 +119,8 @@ export class AppealInfo extends React.Component {
     } = this.props;
     let appealContent;
     let claimHeading;
+
+    const { params } = match;
 
     // Availability is determined by whether or not the API returned an appeals array
     // for this user. However, it doesn't speak to whether the appeal that's been
@@ -163,7 +165,7 @@ export class AppealInfo extends React.Component {
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
-                <Link to={`appeals/${params.id}`} key="claims-appeal">
+                <Link to={`/appeals/${params.id}`} key="claims-appeal">
                   Status details
                 </Link>
               </ClaimsBreadcrumbs>
@@ -203,7 +205,9 @@ AppealInfo.propTypes = {
   appealsLoading: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   getAppealsV2: PropTypes.func.isRequired,
-  params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  }).isRequired,
   appeal: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -223,7 +227,7 @@ function mapStateToProps(state, ownProps) {
     v2Availability: appealsAvailability,
   } = state.disability.status.claimsV2;
   return {
-    appeal: isolateAppeal(state, ownProps.params.id),
+    appeal: isolateAppeal(state, ownProps.match.params.id),
     appealsLoading,
     appealsAvailability,
     fullName: state.user.profile.userFullName,
@@ -232,7 +236,9 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppealInfo);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppealInfo),
+);

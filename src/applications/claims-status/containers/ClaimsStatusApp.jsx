@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -21,9 +21,11 @@ function AppContent({ children, isDataAvailable }) {
   );
 }
 
-function ClaimsStatusApp({ children, dispatchSetLastPage, router, user }) {
+function ClaimsStatusApp({ children, dispatchSetLastPage, user }) {
+  const history = useHistory();
+
   useEffect(() => {
-    router.listen(location => {
+    history.listen(location => {
       dispatchSetLastPage(location.pathname);
     });
   }, []);
@@ -60,6 +62,6 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(ClaimsStatusApp));
+)(ClaimsStatusApp);
 
 export { ClaimsStatusApp, AppContent };

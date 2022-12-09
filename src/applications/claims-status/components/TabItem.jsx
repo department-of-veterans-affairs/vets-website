@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexLink, withRouter } from 'react-router';
+import { NavLink, withRouter } from 'react-router-dom';
 
 class TabItem extends React.Component {
   componentDidMount() {
@@ -15,7 +15,7 @@ class TabItem extends React.Component {
 
   tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + this.props.shortcut) {
-      this.props.router.push(this.props.tabpath);
+      this.props.history.push(this.props.tabpath);
     }
   };
 
@@ -24,7 +24,7 @@ class TabItem extends React.Component {
     const activeTab = this.trimCurrentUrl();
     return (
       <li className={className} role="presentation">
-        <IndexLink
+        <NavLink
           id={`tab${id || title}`}
           aria-controls={
             activeTab === tabpath ? `tabPanel${id || title}` : null
@@ -36,7 +36,7 @@ class TabItem extends React.Component {
           to={tabpath}
         >
           {title}
-        </IndexLink>
+        </NavLink>
       </li>
     );
   }

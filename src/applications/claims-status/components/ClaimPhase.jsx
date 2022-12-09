@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
+
 import { getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
@@ -41,7 +42,7 @@ export default class ClaimPhase extends React.Component {
 
   getEventDescription(event) {
     const { id, phase } = this.props;
-    const filesPath = `your-claims/${id}/document-request/${
+    const filesPath = `/your-claims/${id}/document-request/${
       event.trackedItemId
     }`;
     const file = event.filename || event.fileType || '';

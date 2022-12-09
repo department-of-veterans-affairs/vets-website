@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import AskVAQuestions from '../components/AskVAQuestions';
+import { Link } from 'react-router-dom';
+
 import CallVBACenter from 'platform/static-data/CallVBACenter';
+
+import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
 
@@ -11,16 +13,19 @@ class ClaimEstimationPage extends React.Component {
     document.title = 'How We Come Up with Your Estimated Decision Date';
     setUpPage();
   }
+
   render() {
+    const { params } = this.props.match;
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={`your-claims/${this.props.params.id}/status`}>
+              <Link to={`/your-claims/${params.id}/status`}>
                 Status details
               </Link>
-              <Link to={`your-claims/${this.props.params.id}/claim-estimate`}>
+              <Link to={`/your-claims/${params.id}/claim-estimate`}>
                 Estimated decision date
               </Link>
             </ClaimsBreadcrumbs>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
@@ -90,8 +90,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
             <Link
               to={
                 appealTypes.includes(claim.type)
-                  ? `appeals/${claim.id}/status`
-                  : `your-claims/${claim.id}/status`
+                  ? `/appeals/${claim.id}/status`
+                  : `/your-claims/${claim.id}/status`
               }
               onClick={() => {
                 recordEvent({ event: 'claims-closed-alert-clicked' });
