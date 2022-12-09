@@ -8,7 +8,8 @@ export const Appointments = ({ appointments, hasError }) => {
   const nextAppointment = appointments?.[0];
   const start = moment.parseZone(nextAppointment?.startsAt);
   let locationName;
-  const timeZone = getAppointmentTimezone(nextAppointment);
+  const timeZone =
+    nextAppointment?.timeZone ?? getAppointmentTimezone(nextAppointment);
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
