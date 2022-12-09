@@ -6,39 +6,59 @@ import {
   VaDate,
   VaModal,
   VaTextInput,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import environment from 'platform/utilities/environment';
-import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { countries, states } from 'platform/forms/address';
 
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_PRIVATE_PATH } from '../constants';
 
-import { content } from '../content/evidenceVaRecords';
+import { content } from '../content/evidencePrivateRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
 
 import { checkValidations } from '../validations';
 import {
-  validateVaLocation,
-  validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
-  validateVaUnique,
+  validatePrivateName,
+  validateCountry,
+  validateStreet,
+  validateCity,
+  validateState,
+  validatePostal,
+  validatePrivateIssues,
+  validatePrivateFromDate,
+  validatePrivateToDate,
+  validatePrivateUnique,
 } from '../validations/evidence';
 
-const VA_PATH = `/${EVIDENCE_VA_PATH}`;
+const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
 // Directions to go after modal shows
 const NAV_PATHS = { add: 'add', back: 'back', forward: 'forward' };
 const defaultData = {
-  locationAndName: '',
+  providerFacilityName: '',
   issues: [],
-  evidenceDates: { from: '', to: '' },
+  providerFacilityAddress: {
+    country: 'USA',
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    postalCode: '',
+  },
+  treatmentDateRange: { from: '', to: '' },
 };
 const defaultState = {
   dirty: {
     name: false,
+    country: false,
+    street: false,
+    city: false,
+    state: false,
+    postal: false,
     issues: false,
     from: false,
     to: false,
@@ -50,7 +70,7 @@ const defaultState = {
   submitted: false,
 };
 
-const EvidenceVaRecords = ({
+const EvidencePrivateRecords = ({
   data,
   onReviewPage,
   goBack,
@@ -62,13 +82,13 @@ const EvidenceVaRecords = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const { providerFacility = [] } = data || {};
   const getIndex = () => {
     // get index from url '/va-medical-records?index={index}' or testingIndex
     const searchIndex = new URLSearchParams(window.location.search);
     let index = parseInt(searchIndex.get('index') || testingIndex || '0', 10);
-    if (Number.isNaN(index) || index > locations.length) {
-      index = locations.length;
+    if (Number.isNaN(index) || index > providerFacility.length) {
+      index = providerFacility.length;
     }
     return index;
   };
@@ -76,7 +96,7 @@ const EvidenceVaRecords = ({
   // *** state ***
   const [currentIndex, setCurrentIndex] = useState(getIndex());
   const [currentData, setCurrentData] = useState(
-    locations?.[currentIndex] || defaultData,
+    providerFacility?.[currentIndex] || defaultData,
   );
   // force a useEffect call when currentIndex doesn't change
   const [forceReload, setForceReload] = useState(false);
@@ -85,13 +105,13 @@ const EvidenceVaRecords = ({
 
   useEffect(
     () => {
-      setCurrentData(locations?.[currentIndex] || defaultData);
+      setCurrentData(providerFacility?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement('va-text-input');
+      focusElement('#add-facility-name');
       scrollTo('topPageElement');
       setForceReload(false);
     },
-    // don't include locations or we clear state & move focus every time
+    // don't include providerFacility or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentIndex, forceReload],
   );
@@ -101,44 +121,63 @@ const EvidenceVaRecords = ({
   // *** validations ***
   const errors = {
     unique: checkValidations(
-      [validateVaUnique],
+      [validatePrivateUnique],
       currentData,
       data,
       currentIndex,
     )[0],
-    name: checkValidations([validateVaLocation], currentData, data)[0],
-    issues: checkValidations([validateVaIssues], currentData)[0],
-    from: checkValidations([validateVaFromDate], currentData)[0],
-    to: checkValidations([validateVaToDate], currentData)[0],
+    name: checkValidations([validatePrivateName], currentData, data)[0],
+    country: checkValidations([validateCountry], currentData)[0],
+    street: checkValidations([validateStreet], currentData)[0],
+    city: checkValidations([validateCity], currentData)[0],
+    state: checkValidations([validateState], currentData)[0],
+    postal: checkValidations([validatePostal], currentData)[0],
+    issues: checkValidations([validatePrivateIssues], currentData)[0],
+    from: checkValidations([validatePrivateFromDate], currentData)[0],
+    to: checkValidations([validatePrivateToDate], currentData)[0],
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
-  const updateCurrentLocation = ({
-    name = currentData.locationAndName,
+  const updateCurrentFacility = ({
+    name = currentData.providerFacilityName,
+    country = currentData.providerFacilityAddress?.country,
+    street = currentData.providerFacilityAddress?.street,
+    street2 = currentData.providerFacilityAddress?.street2,
+    city = currentData.providerFacilityAddress?.city,
+    state = currentData.providerFacilityAddress?.state,
+    postal = currentData.providerFacilityAddress?.postalCode,
     issues = currentData.issues,
-    from = currentData.evidenceDates?.from,
-    to = currentData.evidenceDates?.to,
+    from = currentData.treatmentDateRange?.from,
+    to = currentData.treatmentDateRange?.to,
     remove = false,
   } = {}) => {
     const newData = {
-      locationAndName: name,
+      providerFacilityName: name,
+      providerFacilityAddress: {
+        country,
+        street,
+        street2,
+        city,
+        state,
+        postalCode: postal,
+      },
       issues,
-      evidenceDates: {
+      treatmentDateRange: {
         from,
         to,
       },
     };
 
-    const newLocations = [...locations];
+    const newProviderFacility = [...providerFacility];
     if (remove) {
-      newLocations.splice(currentIndex, 1);
+      newProviderFacility.splice(currentIndex, 1);
     } else {
-      newLocations[currentIndex] = newData;
+      newProviderFacility[currentIndex] = newData;
     }
     setCurrentData(newData);
-    setFormData({ ...data, locations: newLocations });
-    return newLocations;
+    setFormData({ ...data, providerFacility: newProviderFacility });
+    return newProviderFacility;
   };
 
   const updateState = ({
@@ -152,7 +191,7 @@ const EvidenceVaRecords = ({
   const goToPageIndex = index => {
     setCurrentIndex(index);
     setForceReload(true);
-    goToPath(`${VA_PATH}?index=${index}`);
+    goToPath(`${PRIVATE_PATH}?index=${index}`);
   };
 
   const handlers = {
@@ -165,7 +204,7 @@ const EvidenceVaRecords = ({
       const fieldName = target.name;
       // detail.value from va-select & target.value from va-text-input
       const value = event.detail?.value || target.value;
-      updateCurrentLocation({ [fieldName]: value });
+      updateCurrentFacility({ [fieldName]: value });
     },
 
     onIssueChange: event => {
@@ -184,7 +223,7 @@ const EvidenceVaRecords = ({
       } else {
         newIssues.delete(target.label);
       }
-      updateCurrentLocation({ issues: [...newIssues] });
+      updateCurrentFacility({ issues: [...newIssues] });
     },
 
     onAddAnother: event => {
@@ -195,8 +234,9 @@ const EvidenceVaRecords = ({
         return;
       }
       // clear state and start over for new entry
-      goToPageIndex(locations.length); // add to end
+      goToPageIndex(providerFacility.length); // add to end
     },
+
     onGoForward: event => {
       event.preventDefault();
       if (hasErrors()) {
@@ -205,7 +245,7 @@ const EvidenceVaRecords = ({
         return;
       }
       const nextIndex = currentIndex + 1;
-      if (currentIndex < locations.length - 1) {
+      if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
       } else {
         // passing data is needed, including nextIndex for unit testing
@@ -233,7 +273,7 @@ const EvidenceVaRecords = ({
       updateState({ submitted: true, modal: { show: false, direction: '' } });
     },
     onModalYes: () => {
-      // Yes, keep location; do nothing for forward & add
+      // Yes, keep providerFacility; do nothing for forward & add
       const { direction } = currentState.modal;
       updateState({ submitted: true, modal: { show: false, direction: '' } });
       if (direction === NAV_PATHS.back) {
@@ -250,9 +290,10 @@ const EvidenceVaRecords = ({
       // No, clear current data and navigate
       const { direction } = currentState.modal;
       setCurrentData(defaultData);
-      // Using returned locations value to block going forward if the locations
-      // array has a zero length - the `locations` value is not updated in time
-      const updatedLocations = updateCurrentLocation({ remove: true });
+      // Using returned providerFacility value to block going forward if the
+      // providerFacilities array has a zero length - the `providerFacility`
+      // value is not updated in time
+      const updatedFacility = updateCurrentFacility({ remove: true });
       updateState({ submitted: true, modal: { show: false, direction: '' } });
       if (direction === NAV_PATHS.back) {
         const prevIndex = currentIndex - 1;
@@ -263,8 +304,8 @@ const EvidenceVaRecords = ({
           goBack(prevIndex);
         }
       } else if (direction === NAV_PATHS.forward) {
-        if (updatedLocations.length > 0) {
-          if (currentIndex < updatedLocations.length) {
+        if (updatedFacility.length > 0) {
+          if (currentIndex < updatedFacility.length) {
             goToPageIndex(currentIndex);
           } else {
             setForceReload(true);
@@ -308,38 +349,24 @@ const EvidenceVaRecords = ({
     <>
       {contentBeforeButtons}
       {testMethodButton}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          {goBack && (
-            <ProgressButton
-              onButtonClick={handlers.onGoBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"
-              // This button is described by the current form's header ID
-              ariaDescribedBy="nav-form-header"
-            />
-          )}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            onButtonClick={handlers.onGoForward}
-            buttonText="Continue"
-            buttonClass="usa-button-primary"
-            afterText="»"
-            // This button is described by the current form's header ID
-            ariaDescribedBy="nav-form-header"
-          />
-        </div>
-      </div>
+      <FormNavButtons
+        goBack={handlers.onGoBack}
+        goForward={handlers.onGoForward}
+      />
       {contentAfterButtons}
     </>
   );
 
+  const hasStates =
+    states[(currentData.providerFacilityAddress?.country)] || [];
+
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <legend id="va-evidence-title" className="vads-u-font-family--serif">
+        <legend
+          id="private-evidence-title"
+          className="vads-u-font-family--serif"
+        >
           <h3 name="topPageElement" className="vads-u-margin--0">
             {content.title}
           </h3>
@@ -348,77 +375,167 @@ const EvidenceVaRecords = ({
         <VaModal
           clickToClose
           status="info"
-          modalTitle={content.modalTitle}
-          primaryButtonText={content.modalYes}
-          secondaryButtonText={content.modalNo}
+          modalTitle={content.modal.title}
+          primaryButtonText={content.modal.yes}
+          secondaryButtonText={content.modal.no}
           onCloseEvent={handlers.onModalYes}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.modal.show}
         >
-          <p>{content.modalDescription}</p>
+          <p>{content.modal.description}</p>
         </VaModal>
         <VaTextInput
-          id="add-location-name"
+          id="add-facility-name"
           name="name"
           type="text"
-          label={content.locationAndName}
+          label={content.nameLabel}
           required
-          value={currentData.locationAndName}
+          value={currentData.providerFacilityName}
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
         />
+
+        <VaSelect
+          id="country"
+          name="country"
+          label={content.addressLabels.country}
+          required
+          value={currentData.providerFacilityAddress?.country}
+          onVaSelect={handlers.onChange}
+          onBlur={handlers.onBlur}
+          error={showError('country')}
+        >
+          <option value=""> </option>
+          {countries.map(country => (
+            <option key={country.value} value={country.value}>
+              {country.label}
+            </option>
+          ))}
+        </VaSelect>
+        <VaTextInput
+          id="street"
+          name="street"
+          type="text"
+          label={content.addressLabels.street}
+          required
+          value={currentData.providerFacilityAddress?.street}
+          onInput={handlers.onChange}
+          onBlur={handlers.onBlur}
+          error={showError('street')}
+        />
+        <VaTextInput
+          id="street2"
+          name="street2"
+          type="text"
+          label={content.addressLabels.street2}
+          value={currentData.providerFacilityAddress?.street2}
+          onInput={handlers.onChange}
+        />
+        <VaTextInput
+          id="city"
+          name="city"
+          type="text"
+          label={content.addressLabels.city}
+          required
+          value={currentData.providerFacilityAddress?.city}
+          onInput={handlers.onChange}
+          onBlur={handlers.onBlur}
+          error={showError('city')}
+        />
+        {hasStates.length ? (
+          <VaSelect
+            id="state"
+            name="state"
+            label={content.addressLabels.state}
+            required
+            value={currentData.providerFacilityAddress?.state}
+            onVaSelect={handlers.onChange}
+            onBlur={handlers.onBlur}
+            error={showError('state')}
+          >
+            <option value=""> </option>
+            {hasStates.map(state => (
+              <option key={state.value} value={state.value}>
+                {state.label}
+              </option>
+            ))}
+          </VaSelect>
+        ) : (
+          <VaTextInput
+            id="state"
+            name="state"
+            type="text"
+            label={content.addressLabels.state}
+            required
+            value={currentData.providerFacilityAddress?.state}
+            onInput={handlers.onChange}
+            onBlur={handlers.onBlur}
+            error={showError('state')}
+          />
+        )}
+
+        <VaTextInput
+          id="postal"
+          name="postal"
+          type="text"
+          label={content.addressLabels.postal}
+          required
+          value={currentData.providerFacilityAddress?.postalCode}
+          onInput={handlers.onChange}
+          onBlur={handlers.onBlur}
+          error={showError('postal')}
+        />
+
         <br />
         <VaCheckboxGroup
-          label={content.conditions}
+          label={content.issuesLabel}
           name="issues"
           onVaChange={handlers.onIssueChange}
           onBlur={handlers.onBlur}
           error={showError('issues')}
           required
         >
-          {availableIssues.map((issue, index) => {
-            return (
-              <va-checkbox
-                key={index}
-                name="issues"
-                label={issue}
-                value={issue}
-                checked={(currentData?.issues || []).includes(issue)}
-              />
-            );
-          })}
+          {availableIssues.map(issue => (
+            <va-checkbox
+              key={issue}
+              name="issues"
+              label={issue}
+              value={issue}
+              checked={(currentData?.issues || []).includes(issue)}
+            />
+          ))}
         </VaCheckboxGroup>
 
         <VaDate
-          id="location-from-date"
+          id="facility-from-date"
           name="from"
-          label={content.dateStart}
+          label={content.fromLabel}
           required
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
-          value={currentData.evidenceDates?.from}
+          value={currentData.treatmentDateRange?.from}
           error={showError('from')}
         />
         <VaDate
-          id="location-to-date"
+          id="facility-to-date"
           name="to"
-          label={content.dateEnd}
+          label={content.toLabel}
+          required
           onDateChange={handlers.onChange}
           onDateBlur={handlers.onBlur}
-          value={currentData.evidenceDates?.to}
+          value={currentData.treatmentDateRange?.to}
           error={showError('to')}
-          required
         />
         <div className="vads-u-margin-top--2">
           <Link
-            to={`${VA_PATH}?index=${currentIndex + 1}`}
+            to={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
             onClick={handlers.onAddAnother}
             className="vads-c-action-link--green"
           >
-            Add another location
+            {content.addAnotherLink}
           </Link>
         </div>
 
@@ -428,10 +545,29 @@ const EvidenceVaRecords = ({
   );
 };
 
-EvidenceVaRecords.propTypes = {
+EvidencePrivateRecords.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({}),
+  data: PropTypes.shape({
+    providerFacility: PropTypes.arrayOf(
+      PropTypes.shape({
+        providerFacilityName: PropTypes.string,
+        providerFacilityAddress: PropTypes.shape({
+          country: PropTypes.string,
+          street: PropTypes.string,
+          street2: PropTypes.string,
+          city: PropTypes.string,
+          state: PropTypes.string,
+          postalCode: PropTypes.string,
+        }),
+        issues: PropTypes.arrayOf(PropTypes.string),
+        treatmentDateRange: PropTypes.shape({
+          from: PropTypes.string,
+          to: PropTypes.string,
+        }),
+      }),
+    ),
+  }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
@@ -441,4 +577,4 @@ EvidenceVaRecords.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default EvidenceVaRecords;
+export default EvidencePrivateRecords;

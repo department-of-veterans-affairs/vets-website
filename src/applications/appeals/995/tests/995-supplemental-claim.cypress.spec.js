@@ -15,7 +15,12 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE, BASE_URL } from '../constants';
+import {
+  CONTESTABLE_ISSUES_API,
+  PRIMARY_PHONE,
+  BASE_URL,
+  EVIDENCE_PRIVATE,
+} from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -89,7 +94,7 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
-                cy.get('#add-sc-issue')
+                cy.get('#add-location-name')
                   .shadow()
                   .find('input')
                   .type(location.locationAndName);
@@ -99,8 +104,8 @@ const testConfig = createTestConfig(
                     .find('input')
                     .check();
                 });
-                cy.fillDate('location-from-date', location.evidenceDates?.from);
-                cy.fillDate('location-to-date', location.evidenceDates?.to);
+                cy.fillDate('from', location.evidenceDates?.from);
+                cy.fillDate('to', location.evidenceDates?.to);
                 cy.axeCheck();
 
                 // Add another
@@ -109,6 +114,102 @@ const testConfig = createTestConfig(
                 }
               }
             });
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/request-private-medical-records': ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const hasPrivate = data[EVIDENCE_PRIVATE];
+            cy.get(
+              `va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`,
+            ).click();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/private-medical-records': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(({ providerFacility = [] }) => {
+            providerFacility.forEach((facility, index) => {
+              if (facility) {
+                if (index > 0) {
+                  cy.url().should('include', `index=${index}`);
+                }
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityName);
+
+                cy.get('#country')
+                  .shadow()
+                  .find('select')
+                  .select(facility.providerFacilityAddress.country);
+                cy.get('#street')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.street);
+                if (facility.street2) {
+                  cy.get('#street2')
+                    .shadow()
+                    .find('input')
+                    .type(facility.providerFacilityAddress.street2);
+                }
+                cy.get('#city')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.city);
+                if (facility.providerFacilityAddress.country === 'USA') {
+                  cy.get('#state')
+                    .shadow()
+                    .find('select')
+                    .select(facility.providerFacilityAddress.state);
+                } else {
+                  cy.get('#state')
+                    .shadow()
+                    .find('input')
+                    .type(facility.providerFacilityAddress.state);
+                }
+                cy.get('#postal')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.postalCode);
+
+                facility?.issues.forEach(issue => {
+                  cy.get(`va-checkbox[value="${issue}"]`)
+                    .shadow()
+                    .find('input')
+                    .check();
+                });
+                cy.fillDate('from', facility.treatmentDateRange?.from);
+                cy.fillDate('to', facility.treatmentDateRange?.to);
+                cy.axeCheck();
+
+                // Add another
+                if (index + 1 < providerFacility.length) {
+                  cy.get('.vads-c-action-link--green').click();
+                }
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/request-record-limitations': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.injectAxeThenAxeCheck();
+            if (data.limitedConsent) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(data.limitedConsent);
+            }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
