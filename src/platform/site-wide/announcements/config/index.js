@@ -1,3 +1,4 @@
+// Relative imports.
 import HomepageRedesignModal from '../components/HomepageRedesignModal';
 
 const config = {
