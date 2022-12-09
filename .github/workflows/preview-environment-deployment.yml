@@ -25,10 +25,10 @@ jobs:
       - name: Start Deployment Process
         run: |
           curl -v -H 'Authorization: token ${env.VA_VSP_BOT_GITHUB_TOKEN}' \
-          -H 'Accept: application/vnd.github.ant-man-preview+json'" \
+          -H 'Accept: application/vnd.github.ant-man-preview+json' \
           --data '{"event_type": "review_instance_run", "client_payload": {
             "source_repo": "vets-website",
-            "source_ref": pe-deploy-workflow
+            "source_ref": "pe-deploy-workflow"
           }}' \
           https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
         env:
