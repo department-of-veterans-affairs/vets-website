@@ -133,7 +133,6 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         past,
         pastStatus: FETCH_STATUS.succeeded,
-        FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
       };
     }
     case FETCH_PAST_APPOINTMENTS_FAILED:
