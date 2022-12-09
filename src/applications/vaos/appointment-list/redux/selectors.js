@@ -268,6 +268,7 @@ export function getUpcomingAppointmentListInfo(state) {
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
+    vistaSchedulingServiceAvailable: true,
   };
 }
 
