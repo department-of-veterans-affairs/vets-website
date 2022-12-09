@@ -22,20 +22,11 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # Fetch file
-      - name: Fetch Preview Environment Config file
+      - name: Start Deployment Process
         run: |
-          echo "PE_CONFIG=$(echo $(gh api -H "Accept: application/vnd.github+json" /repos/department-of-veterans-affairs/vsp-infra-application-manifests/contents/apps/preview-environment/dev/values.yaml))" >> $GITHUB_ENV
+          curl -v -H 'Authorization: token ${env.VA_VSP_BOT_GITHUB_TOKEN}' \
+          -H 'Accept: application/vnd.github.ant-man-preview+json'" \
+          --data '${params}' \
+          https://api.github.com/repos/department-of-veterans-affairs/${source_repo}/dispatches
         env:
-          GITHUB_TOKEN: ${{env.VA_VSP_BOT_GITHUB_TOKEN}}
-
-      - name: Check env variable
-        run: echo ${{env.PE_CONFIG}}
-
-# Get current deployment information
-
-# Read set values
-
-# Update file
-
-# Update deployment status? (might be done by remote)
+          GITHUB_TOKEN: VA_VSP_BOT_GITHUB_TOKEN
