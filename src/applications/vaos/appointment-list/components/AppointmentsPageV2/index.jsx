@@ -5,18 +5,15 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureVaosV2Next,
-} from '../../../redux/selectors';
+import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
 import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
-import InfoAlert from '../../../components/InfoAlert';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
+import VistaSchedulingServiceAlert from '../VistaSchedulingServiceAlert';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
@@ -102,9 +99,7 @@ export default function AppointmentsPageV2() {
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
+
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
@@ -191,26 +186,7 @@ export default function AppointmentsPageV2() {
       />
       <ScheduleNewAppointment />
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
-
-      {featureVaosV2Next && (
-        <>
-          <InfoAlert
-            className="vads-u-margin-bottom--4"
-            status="warning"
-            level="3"
-            headline="We can't display in-person VA appointments"
-          >
-            <p>
-              We're working to resolve this issue. To manage those appointments,
-              contact the facility where they are scheduled
-            </p>
-            <p>
-              <a href="/find-locations">Facility locator</a>
-            </p>
-          </InfoAlert>
-        </>
-      )}
-
+      <VistaSchedulingServiceAlert />
       {!featureStatusImprovement && (
         <>
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
