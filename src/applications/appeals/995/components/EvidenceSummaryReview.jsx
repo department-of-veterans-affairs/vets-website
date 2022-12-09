@@ -29,7 +29,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
     <div className="form-review-panel-page">
       <div name="evidenceSummaryScrollElement" />
       <va-button
-        class="float-right"
+        class="float-right edit-page"
         secondary
         onClick={editPage}
         aria-label="Update evidence page"
