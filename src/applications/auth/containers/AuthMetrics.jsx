@@ -34,6 +34,7 @@ export default class AuthMetrics {
         recordEvent({ event: `register-success-${this.serviceName}` });
         break;
       case POLICY_TYPES.CUSTOM: /* type=custom is used for SSOe auto login */
+      case POLICY_TYPES.MHV_VERIFIED: /* type=mhv_verified */
       case CSP_IDS.MHV:
       case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
