@@ -34,7 +34,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
     [setCurrentPage],
   );
 
-  const lowerDisplayedRange = MONTHS_PER_PAGE * (currentPage - 1) + 1;
+  const lowerDisplayedRange = months?.length
+    ? MONTHS_PER_PAGE * (currentPage - 1) + 1
+    : 0;
   const upperDisplayedRange = Math.min(
     currentPage * MONTHS_PER_PAGE,
     months?.length,
