@@ -1,4 +1,5 @@
 import timezones from './timezones.json';
+import vaosTimeZones from './vaos-timezones.json';
 import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 
 export const stripDST = abbr => {
@@ -39,11 +40,11 @@ export function getTimezoneByFacilityId(id) {
     return null;
   }
 
-  if (timezones[id]) {
-    return timezones[id];
+  if (vaosTimeZones[id]) {
+    return vaosTimeZones[id];
   }
 
-  return timezones[id.substr(0, 3)];
+  return vaosTimeZones[id.substr(0, 3)];
 }
 
 export function getTimezoneAbbrByFacilityId(id) {
