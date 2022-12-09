@@ -161,6 +161,26 @@ article[data-location="edit-home-phone"] va-text-input[name="extension"] {
   display: none;
 }
 
+article[data-location$="request-va-medical-records"],
+article[data-location$="request-private-medical-records"] {
+  legend,
+  va-radio::part(legend) {
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+    line-height: 1.3;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+}
+
+article[data-location="supporting-evidence/private-medical-records"] {
+  /* Add margin for error messages, otherwise the label + error + input take up
+   * the same space
+   */
+  va-text-input[error] {
+    margin-top: 2.5rem;
+  }
+}
+
 article[data-location$="va-medical-records"] {
   /* editing location card */
   label#root_locations_0_locationAndName-label,
@@ -188,5 +208,13 @@ article[data-location="primary-phone-number"] {
     margin-left: 5rem;
     font-weight: 400;
     content: attr(data-number);
+  }
+}
+
+article[data-location$="private-medical-records-authorization"] {
+  /* hide duplicate single checkbox label; !important needed to override
+     _inputs.scss using !important */
+  label#root_privacyAgreementAccepted-label {
+    display: none !important;
   }
 }

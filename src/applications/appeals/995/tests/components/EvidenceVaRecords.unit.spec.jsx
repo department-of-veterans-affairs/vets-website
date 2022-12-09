@@ -71,6 +71,7 @@ describe('<EvidenceVaRecords>', () => {
       />
     </div>
   );
+
   const testAndCloseModal = container => {
     // modal visible
     expect($('va-modal', container).getAttribute('visible')).to.eq('true');
@@ -142,7 +143,7 @@ describe('<EvidenceVaRecords>', () => {
   it('should not navigate, but will show errors when choosing "Yes" after continuing', () => {
     const goSpy = sinon.spy();
     const index = 1;
-    const data = { ...mockData, locations: [{}, {}, {}] };
+    const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
     const page = setup({
       index,
       method: 'onModalYes',
@@ -185,7 +186,7 @@ describe('<EvidenceVaRecords>', () => {
 
   it('should navigate forward to VA private request page when choosing "No" after continuing', () => {
     const goSpy = sinon.spy();
-    const data = { ...mockData, locations: [{}, {}] };
+    const data = { ...mockData, locations: [mockLocation, mockLocation2] };
     const page = setup({
       index: 2,
       method: 'onModalNo',
@@ -230,7 +231,7 @@ describe('<EvidenceVaRecords>', () => {
   it('should navigate back to previous index page, after choosing "Yes" in modal', () => {
     const goSpy = sinon.spy();
     const index = 1;
-    const data = { ...mockData, locations: [{}, {}, {}] };
+    const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
     const page = setup({
       index,
       method: 'onModalYes',
@@ -251,7 +252,7 @@ describe('<EvidenceVaRecords>', () => {
   it('should navigate back to VA record request page, after choosing "Yes" in modal', () => {
     const goSpy = sinon.spy();
     const index = 0;
-    const data = { ...mockData, locations: [{}, {}, {}] };
+    const data = { ...mockData, locations: [{}, mockLocation] };
     const page = setup({
       index,
       method: 'onModalYes',
@@ -274,7 +275,7 @@ describe('<EvidenceVaRecords>', () => {
       index,
       method: 'onModalNo',
       goToPath: goSpy,
-      data: { ...mockData, locations: [{}, {}] },
+      data: { ...mockData, locations: [mockLocation, mockLocation2] },
     });
     const { container } = render(page);
 
@@ -294,7 +295,7 @@ describe('<EvidenceVaRecords>', () => {
       index,
       method: 'onModalNo',
       goBack: goSpy,
-      data: { ...mockData, locations: [{}, {}] },
+      data: { ...mockData, locations: [{}, mockLocation] },
     });
     const { container } = render(page);
 
@@ -328,7 +329,7 @@ describe('<EvidenceVaRecords>', () => {
 
   it('should navigate from zero index to last entry + 1 when adding another with valid data', () => {
     const goSpy = sinon.spy();
-    const locations = [mockLocation, {}, {}];
+    const locations = [mockLocation, mockLocation2, {}];
     const data = { ...mockData, locations };
     const index = 0;
     const page = setup({
@@ -353,7 +354,7 @@ describe('<EvidenceVaRecords>', () => {
       index,
       method: 'onModalNo',
       goToPath: goSpy,
-      data: { ...mockData, locations: [{}, {}] },
+      data: { ...mockData, locations: [mockLocation, {}] },
     });
     const { container } = render(page);
     fireEvent.click($('.vads-c-action-link--green', container));
@@ -369,7 +370,7 @@ describe('<EvidenceVaRecords>', () => {
       index,
       method: 'onModalYes',
       goToPath: goSpy,
-      data: { ...mockData, locations: [{}, {}] },
+      data: { ...mockData, locations: [mockLocation, {}] },
     });
     const { container } = render(page);
 
@@ -423,7 +424,7 @@ describe('<EvidenceVaRecords>', () => {
       ...mockData,
       locations: [{ evidenceDates: { from } }],
     };
-    const page = setup({ index: 0, data, method: 'onDateStartBlur' });
+    const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
     const dateFrom = $('va-date', container);
@@ -440,7 +441,7 @@ describe('<EvidenceVaRecords>', () => {
       ...mockData,
       locations: [{ evidenceDates: { to } }],
     };
-    const page = setup({ index: 0, data, method: 'onDateEndBlur' });
+    const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
     const dateTo = $$('va-date', container)[1];
@@ -457,7 +458,7 @@ describe('<EvidenceVaRecords>', () => {
       ...mockData,
       locations: [{ evidenceDates: { from } }],
     };
-    const page = setup({ index: 0, data, method: 'onDateStartBlur' });
+    const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
     const dateFrom = $('va-date', container);
@@ -474,7 +475,7 @@ describe('<EvidenceVaRecords>', () => {
       ...mockData,
       locations: [{ evidenceDates: { to } }],
     };
-    const page = setup({ index: 0, data, method: 'onDateEndBlur' });
+    const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
     const dateTo = $$('va-date', container)[1];
@@ -492,7 +493,7 @@ describe('<EvidenceVaRecords>', () => {
       ...mockData,
       locations: [{ evidenceDates: { from, to } }],
     };
-    const page = setup({ index: 0, data, method: 'onDateEndBlur' });
+    const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
     const dateTo = $$('va-date', container)[1];
