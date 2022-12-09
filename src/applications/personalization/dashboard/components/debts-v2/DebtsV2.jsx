@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -61,6 +63,41 @@ const PopularActionsForDebts = () => {
   );
 };
 
+const SingleColumnInfo = ({
+  hasDebtError,
+  hasCopayError,
+  copaysCount,
+  debtsCount,
+}) => {
+  return (
+    <>
+      {(hasDebtError || hasCopayError) && (
+        <>
+          <OutstandingDebtsError />
+          {((hasDebtError && copaysCount < 1) ||
+            (hasCopayError && debtsCount < 1)) && <PopularActionsForDebts />}
+        </>
+      )}
+      {!hasDebtError &&
+        !hasCopayError &&
+        debtsCount < 1 &&
+        copaysCount < 1 && (
+          <>
+            <NoOutstandingDebtsText />
+            <PopularActionsForDebts />
+          </>
+        )}
+    </>
+  );
+};
+
+SingleColumnInfo.propTypes = {
+  copaysCount: PropTypes.number,
+  debtsCount: PropTypes.number,
+  hasCopayError: PropTypes.bool,
+  hasDebtError: PropTypes.bool,
+};
+
 const BenefitPaymentsAndDebtV2 = ({
   canAccessCopays,
   debts,
@@ -70,6 +107,7 @@ const BenefitPaymentsAndDebtV2 = ({
   getDebts,
   getCopays,
   shouldShowLoadingIndicator,
+  shouldShowV2Dashboard,
 }) => {
   useEffect(
     () => {
@@ -96,43 +134,49 @@ const BenefitPaymentsAndDebtV2 = ({
 
   return (
     <div
-      className="health-care-wrapper vads-u-margin-y--6"
+      className="health-care-wrapper vads-u-margin-top--6 vads-u-margin-bottom-3"
       data-testid="dashboard-section-debts-v2"
     >
       <h2>Outstanding debts</h2>
-      <div className="vads-l-row">
+      {shouldShowV2Dashboard && (
+        <>
+          <SingleColumnInfo
+            debtsCount={debtsCount}
+            copaysCount={copaysCount}
+            hasCopayError={hasCopayError}
+            hasDebtError={hasDebtError}
+          />
+          <div className="vads-l-row">
+            <DashboardWidgetWrapper>
+              {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
+            </DashboardWidgetWrapper>
+            <DashboardWidgetWrapper>
+              <CopaysCardV2 copays={copays} />
+            </DashboardWidgetWrapper>
+          </div>
+        </>
+      )}
+      {!shouldShowV2Dashboard && (
         <DashboardWidgetWrapper>
-          {(hasDebtError || hasCopayError) && (
-            <>
-              <OutstandingDebtsError />
-              {((hasDebtError && copaysCount < 1) ||
-                (hasCopayError && debtsCount < 1)) && (
-                <PopularActionsForDebts />
-              )}
-            </>
-          )}
-          {!hasDebtError &&
-            !hasCopayError &&
-            debtsCount < 1 &&
-            copaysCount < 1 && (
-              <>
-                <NoOutstandingDebtsText />
-                <PopularActionsForDebts />
-              </>
-            )}
+          <SingleColumnInfo
+            debtsCount={debtsCount}
+            copaysCount={copaysCount}
+            hasCopayError={hasCopayError}
+            hasDebtError={hasDebtError}
+          />
           {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
           {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
         </DashboardWidgetWrapper>
-        {((hasDebtError && !hasCopayError && copaysCount > 0) ||
-          (!hasDebtError &&
-            !hasCopayError &&
-            debtsCount < 1 &&
-            copaysCount > 0)) && (
-          <DashboardWidgetWrapper>
-            <PopularActionsForDebts />
-          </DashboardWidgetWrapper>
-        )}
-      </div>
+      )}
+      {((hasDebtError && !hasCopayError && copaysCount > 0) ||
+        (!hasDebtError &&
+          !hasCopayError &&
+          debtsCount < 1 &&
+          copaysCount > 0)) && (
+        <DashboardWidgetWrapper>
+          <PopularActionsForDebts />
+        </DashboardWidgetWrapper>
+      )}
     </div>
   );
 };
@@ -168,6 +212,7 @@ BenefitPaymentsAndDebtV2.propTypes = {
   hasCopayError: PropTypes.bool,
   hasDebtError: PropTypes.bool,
   shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowV2Dashboard: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -175,6 +220,9 @@ const mapStateToProps = state => {
   const debtsIsLoading = state.allDebts.isLoading;
   const debts = state.allDebts.debts || [];
   const copays = state.allDebts.copays || [];
+  const shouldShowV2Dashboard = toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMyVADashboardV2
+  ];
   return {
     canAccessCopays,
     debts,
@@ -182,6 +230,7 @@ const mapStateToProps = state => {
     hasDebtError: state.allDebts.debtsErrors.length > 0,
     hasCopayError: state.allDebts.copaysErrors.length > 0,
     shouldShowLoadingIndicator: debtsIsLoading,
+    shouldShowV2Dashboard,
   };
 };
 

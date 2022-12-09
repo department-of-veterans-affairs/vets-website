@@ -73,7 +73,6 @@
         "providerFacilityName": "Private Hospital"
       }
     ],
-    "view:limitedConsent": true,
     "limitedConsent": "Pizza addiction",
     "view:uploadPrivateRecordsChoice": {
       "view:hasPrivateRecordsToUpload": false

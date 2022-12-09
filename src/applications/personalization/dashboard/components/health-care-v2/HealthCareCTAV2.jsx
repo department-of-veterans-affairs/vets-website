@@ -20,7 +20,7 @@ const HealthCareCTAV2 = ({
           text="Apply for VA health care"
           icon="file-medical"
           newTab
-          href="/apply/application/introduction"
+          href="/health-care/apply/application/introduction"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({
