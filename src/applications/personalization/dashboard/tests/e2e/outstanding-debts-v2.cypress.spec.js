@@ -166,32 +166,32 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
         });
       });
 
-      describe('and no copays', () => {
-        it('shows debt card and no copays - C20882', () => {
-          cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as(
-            'emptyCopays1',
-          );
-          cy.visit('my-va/');
-          cy.wait([
-            '@featuresB',
-            '@noPaymentsB',
-            '@recentDebts1',
-            '@emptyCopays1',
-          ]);
-          cy.findByTestId('dashboard-section-debts-v2').should('exist');
+      // describe('and no copays', () => {
+      //   it('shows debt card and no copays - C20882', () => {
+      //     cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as(
+      //       'emptyCopays1',
+      //     );
+      //     cy.visit('my-va/');
+      //     cy.wait([
+      //       '@featuresB',
+      //       '@noPaymentsB',
+      //       '@recentDebts1',
+      //       '@emptyCopays1',
+      //     ]);
+      //     cy.findByTestId('dashboard-section-debts-v2').should('exist');
 
-          cy.findByTestId('copay-card-v2').should('not.exist');
-          cy.findByTestId('debt-card-v2').should('exist');
-          cy.findByTestId('copay-due-header-v2').should('not.exist');
-          cy.findByTestId('debt-total-header-v2').should('exist');
-          cy.findByTestId('learn-va-debt-link-v2').should('not.exist');
+      //     cy.findByTestId('copay-card-v2').should('not.exist');
+      //     cy.findByTestId('debt-card-v2').should('exist');
+      //     cy.findByTestId('copay-due-header-v2').should('not.exist');
+      //     cy.findByTestId('debt-total-header-v2').should('exist');
+      //     cy.findByTestId('learn-va-debt-link-v2').should('not.exist');
 
-          // make the a11y check
-          cy.injectAxeThenAxeCheck(
-            '[data-testid="dashboard-section-debts-v2"]',
-          );
-        });
-      });
+      //     // make the a11y check
+      //     cy.injectAxeThenAxeCheck(
+      //       '[data-testid="dashboard-section-debts-v2"]',
+      //     );
+      //   });
+      // });
     });
   });
 });
