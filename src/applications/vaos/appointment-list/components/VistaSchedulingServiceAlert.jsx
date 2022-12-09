@@ -27,4 +27,5 @@ export default function VistaSchedulingServiceAlert() {
       </>
     );
   }
+  return null;
 }
