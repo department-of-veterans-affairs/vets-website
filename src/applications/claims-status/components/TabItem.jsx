@@ -4,9 +4,11 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom-v5-compat';
 // Grab the current URL, trim the leading '/', and return activeTabPath
 const trimCurrentUrl = location => location.pathname.slice(1);
 
-export const TabItem = ({ className, id, shortcut, tabpath, title }) => {
+export default function TabItem({ className, id, shortcut, tabpath, title }) {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const activeTab = trimCurrentUrl(location);
 
   const tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + shortcut) {
@@ -22,7 +24,6 @@ export const TabItem = ({ className, id, shortcut, tabpath, title }) => {
     };
   });
 
-  const activeTab = trimCurrentUrl(location);
   return (
     <li className={className} role="presentation">
       <NavLink
@@ -38,6 +39,4 @@ export const TabItem = ({ className, id, shortcut, tabpath, title }) => {
       </NavLink>
     </li>
   );
-};
-
-export default TabItem;
+}
