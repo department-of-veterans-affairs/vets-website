@@ -44,10 +44,10 @@ const routes = (
         <Route path="status" element={<ClaimStatusPage />} />
       </Route>
       <Route path="your-claim-letters" element={<YourClaimLetters />} />
-      <Route
-        path="your-stem-claims/:id/status"
-        element={<StemClaimStatusPage />}
-      />
+      <Route path="your-stem-claims/:id">
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="status" element={<StemClaimStatusPage />} />
+      </Route>
     </Route>
   </Routes>
 );

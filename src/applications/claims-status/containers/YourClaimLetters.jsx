@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -157,9 +157,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     <article id="claim-letters" className="row vads-u-margin-bottom--5">
       <div className="usa-width-two-thirds medium-8 columns">
         <ClaimsBreadcrumbs>
-          <Link to="your-claim-letters" key="your-claim-letters">
-            Your VA claim letters
-          </Link>
+          <Link to="../your-claim-letters">Your VA claim letters</Link>
         </ClaimsBreadcrumbs>
         {content}
       </div>

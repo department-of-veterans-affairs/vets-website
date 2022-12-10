@@ -1,13 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
-export default function ClaimEstimate({
-  maxDate,
-  id,
-  showCovidMessage = true,
-}) {
+export default function ClaimEstimate({ maxDate, showCovidMessage = true }) {
   // Hide until estimates are accurate
   if (showCovidMessage) {
     return (
@@ -62,10 +58,7 @@ export default function ClaimEstimate({
       )}
       <br />
       <span>
-        <Link
-          className="claim-estimate-link"
-          to={`your-claims/${id}/claim-estimate`}
-        >
+        <Link className="claim-estimate-link" to="../claim-estimate">
           Learn about this estimate
         </Link>
         .
@@ -75,7 +68,6 @@ export default function ClaimEstimate({
 }
 
 ClaimEstimate.propTypes = {
-  id: PropTypes.string.isRequired,
   maxDate: PropTypes.string.isRequired,
   showCovidMessage: PropTypes.bool,
 };

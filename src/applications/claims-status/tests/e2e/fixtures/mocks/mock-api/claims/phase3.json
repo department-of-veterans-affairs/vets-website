@@ -10,7 +10,7 @@
       "phaseChangeDate": "2021-01-22",
       "open": true,
       "waiverSubmitted": false,
-      "documentsNeeded": false,
+      "documentsNeeded": true,
       "developmentLetterSent": false,
       "decisionLetterSent": false,
       "phase": 3,

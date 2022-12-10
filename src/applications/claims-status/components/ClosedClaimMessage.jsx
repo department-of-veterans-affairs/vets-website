@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 import { orderBy } from 'lodash';
-import recordEvent from 'platform/monitoring/record-event';
-import { appealTypes } from '../utils/appeals-v2-helpers';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
 export default function ClosedClaimMessage({ claims, onClose }) {
@@ -77,6 +78,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         className="va-alert-close notification-close"
         onClick={onClose}
         aria-label="Close notification"
+        type="button"
       >
         <i
           className="fas fa-times-circle va-alert-close-icon"

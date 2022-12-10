@@ -81,9 +81,7 @@ class ClaimStatusPage extends React.Component {
 
       content = (
         <div>
-          {showDocsNeeded ? (
-            <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-          ) : null}
+          {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
           {attributes.decisionLetterSent && !attributes.open ? (
             <ClaimsDecision
               completedDate={getCompletedDate(claim)}

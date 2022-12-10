@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setUpPage } from '../utils/page';
+import { Link } from 'react-router-dom-v5-compat';
 
-import { Link } from 'react-router';
-import StemAskVAQuestions from '../components/StemAskVAQuestions';
+import { getStemClaims } from '../actions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import StemAskVAQuestions from '../components/StemAskVAQuestions';
 import StemDeniedDetails from '../components/StemDeniedDetails';
-import { getStemClaims } from '../actions';
+import { setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
 
 class StemClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -22,7 +23,6 @@ class StemClaimStatusPage extends React.Component {
 
   render() {
     const { claim, loading } = this.props;
-    const claimsPath = `your-stem-claims/${this.props.params.id}`;
     let content;
     if (loading) {
       content = (
@@ -56,7 +56,7 @@ class StemClaimStatusPage extends React.Component {
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
               <ClaimsBreadcrumbs>
-                <Link to={claimsPath}>
+                <Link to="../status">
                   Your Rogers STEM Scholarship application status details
                 </Link>
               </ClaimsBreadcrumbs>
@@ -91,9 +91,11 @@ const mapDispatchToProps = {
   getStemClaims,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StemClaimStatusPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(StemClaimStatusPage),
+);
 
 export { StemClaimStatusPage };
