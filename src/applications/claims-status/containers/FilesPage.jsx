@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom-v5-compat';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
@@ -9,33 +8,18 @@ import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import RequestedFilesInfo from '../components/RequestedFilesInfo';
 
-import { clearNotification as clearNotificationAction } from '../actions';
+import { clearNotification } from '../actions';
 import { getClaimType } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
-const setTitle = (claim, loading) => {
-  document.title = loading
-    ? 'Files - Your claim'
-    : `Files - Your ${getClaimType(claim)} claim`;
-};
-
-const FilesPage = ({
-  claim,
-  clearNotification,
-  lastPage,
-  loading,
-  message,
-  synced,
-}) => {
-  const params = useParams();
-  useEffect(() => {
-    setTitle();
-
-    if (!isTab(lastPage)) {
-      if (!loading) {
+class FilesPage extends React.Component {
+  componentDidMount() {
+    this.setTitle();
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
         setUpPage();
       } else {
         scrollToTop();
@@ -43,88 +27,103 @@ const FilesPage = ({
     } else {
       setFocus('.va-tab-trigger--current');
     }
-
-    return () => clearNotification();
-  }, []);
-
-  useEffect(
-    () => {
-      if (!loading && !isTab(lastPage)) {
-        setUpPage(false);
-        setTitle();
-      }
-    },
-    [lastPage, loading],
-  );
-
-  let content = null;
-  if (!loading && claim) {
-    const showDecision =
-      claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
-      !claim.attributes.waiverSubmitted;
-    const trackedItems = claim.attributes.eventsTimeline.filter(event =>
-      event.type.endsWith('_list'),
-    );
-    const filesNeeded = trackedItems.filter(
-      event =>
-        event.status === NEED_ITEMS_STATUS &&
-        event.type === 'still_need_from_you_list',
-    );
-    const optionalFiles = trackedItems.filter(
-      event =>
-        event.status === NEED_ITEMS_STATUS &&
-        event.type === 'still_need_from_others_list',
-    );
-    const documentsTurnedIn = trackedItems.filter(
-      event =>
-        event.status !== NEED_ITEMS_STATUS ||
-        !event.type.startsWith('still_need_from'),
-    );
-
-    content = (
-      <div>
-        {claim.attributes.open && (
-          <RequestedFilesInfo
-            id={claim.id}
-            filesNeeded={filesNeeded}
-            optionalFiles={optionalFiles}
-          />
-        )}
-        {showDecision && <AskVAToDecide id={params.id} />}
-        <div className="submitted-files-list">
-          <h2 className="claim-file-border">Documents filed</h2>
-          {documentsTurnedIn.length === 0 ? (
-            <div>
-              <p>You haven’t turned in any documents to VA.</p>
-            </div>
-          ) : null}
-
-          {documentsTurnedIn.map(
-            (item, itemIndex) =>
-              item.trackedItemId ? (
-                <SubmittedTrackedItem item={item} key={itemIndex} />
-              ) : (
-                <AdditionalEvidenceItem item={item} key={itemIndex} />
-              ),
-          )}
-        </div>
-      </div>
-    );
   }
 
-  return (
-    <ClaimDetailLayout
-      claim={claim}
-      loading={loading}
-      clearNotification={clearNotification}
-      currentTab="Files"
-      message={message}
-      synced={synced}
-    >
-      {content}
-    </ClaimDetailLayout>
-  );
-};
+  componentDidUpdate(prevProps) {
+    if (
+      !this.props.loading &&
+      prevProps.loading &&
+      !isTab(this.props.lastPage)
+    ) {
+      setUpPage(false);
+    }
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
+
+  setTitle() {
+    document.title = this.props.loading
+      ? 'Files - Your claim'
+      : `Files - Your ${getClaimType(this.props.claim)} claim`;
+  }
+
+  render() {
+    const { claim, loading, message, synced } = this.props;
+
+    let content = null;
+    if (!loading && claim) {
+      const showDecision =
+        claim.attributes.phase === FIRST_GATHERING_EVIDENCE_PHASE &&
+        !claim.attributes.waiverSubmitted;
+      const trackedItems = claim.attributes.eventsTimeline.filter(event =>
+        event.type.endsWith('_list'),
+      );
+      const filesNeeded = trackedItems.filter(
+        event =>
+          event.status === NEED_ITEMS_STATUS &&
+          event.type === 'still_need_from_you_list',
+      );
+      const optionalFiles = trackedItems.filter(
+        event =>
+          event.status === NEED_ITEMS_STATUS &&
+          event.type === 'still_need_from_others_list',
+      );
+      const documentsTurnedIn = trackedItems.filter(
+        event =>
+          event.status !== NEED_ITEMS_STATUS ||
+          !event.type.startsWith('still_need_from'),
+      );
+
+      content = (
+        <div>
+          {claim.attributes.open && (
+            <RequestedFilesInfo
+              id={claim.id}
+              filesNeeded={filesNeeded}
+              optionalFiles={optionalFiles}
+            />
+          )}
+          {showDecision && <AskVAToDecide />}
+          <div className="submitted-files-list">
+            <h2 className="claim-file-border">Documents filed</h2>
+            {documentsTurnedIn.length === 0 ? (
+              <div>
+                <p>You haven’t turned in any documents to VA.</p>
+              </div>
+            ) : null}
+
+            {documentsTurnedIn.map(
+              (item, itemIndex) =>
+                item.trackedItemId ? (
+                  <SubmittedTrackedItem item={item} key={itemIndex} />
+                ) : (
+                  <AdditionalEvidenceItem item={item} key={itemIndex} />
+                ),
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+        claim={claim}
+        loading={loading}
+        clearNotification={this.props.clearNotification}
+        currentTab="Files"
+        message={message}
+        synced={synced}
+      >
+        {content}
+      </ClaimDetailLayout>
+    );
+  }
+}
 
 function mapStateToProps(state) {
   const claimsState = state.disability.status;
@@ -138,7 +137,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  clearNotification: clearNotificationAction,
+  clearNotification,
 };
 
 export default connect(
