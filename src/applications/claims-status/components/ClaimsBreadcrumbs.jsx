@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 class ClaimsBreadcrumbs extends React.Component {
@@ -8,7 +8,7 @@ class ClaimsBreadcrumbs extends React.Component {
       <a href="/" key="home">
         Home
       </a>,
-      <Link to="your-claims" key="claims-home">
+      <Link to="/your-claims" key="claims-home">
         Check your claims and appeals
       </Link>,
     ];

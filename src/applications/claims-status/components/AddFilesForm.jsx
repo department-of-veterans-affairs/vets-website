@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Scroll from 'react-scroll';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import {

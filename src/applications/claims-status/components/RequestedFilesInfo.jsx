@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import DueDate from './DueDate';
 import { truncateDescription, stripHtml } from '../utils/helpers';
 
 import AdditionalEvidencePage from '../containers/AdditionalEvidencePage';
 
-export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
+export default function RequestedFilesInfo({ filesNeeded, optionalFiles }) {
   return (
     <div className="claims-requested-files-container">
       <div className="file-request-list">
@@ -36,7 +36,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`../document-request/${item.trackedItemId}`}
               >
                 View Details
               </Link>
@@ -64,7 +64,7 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
                 aria-label={`View Details for ${item.displayName}`}
                 title={`View Details for ${item.displayName}`}
                 className="usa-button usa-button-secondary view-details-button"
-                to={`your-claims/${id}/document-request/${item.trackedItemId}`}
+                to={`../document-request/${item.trackedItemId}`}
               >
                 View Details
               </Link>
@@ -85,6 +85,5 @@ export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
 
 RequestedFilesInfo.propTypes = {
   filesNeeded: PropTypes.array.isRequired,
-  id: PropTypes.string.isRequired,
   optionalFiles: PropTypes.array.isRequired,
 };

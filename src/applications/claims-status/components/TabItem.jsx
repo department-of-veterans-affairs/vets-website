@@ -1,47 +1,43 @@
-import React from 'react';
-import { IndexLink, withRouter } from 'react-router';
+import React, { useEffect } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
-class TabItem extends React.Component {
-  componentDidMount() {
-    document.addEventListener('keydown', this.tabShortcut);
-  }
+// Grab the current URL, trim the leading '/', and return activeTabPath
+const trimCurrentUrl = location => location.pathname.slice(1);
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.tabShortcut);
-  }
+export const TabItem = ({ className, id, shortcut, tabpath, title }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // Grab the current URL, trim the leading '/', and return activeTabPath
-  trimCurrentUrl = () => this.props.location.pathname.slice(1);
-
-  tabShortcut = evt => {
-    if (evt.altKey && evt.which === 48 + this.props.shortcut) {
-      this.props.router.push(this.props.tabpath);
+  const tabShortcut = evt => {
+    if (evt.altKey && evt.which === 48 + shortcut) {
+      navigate(tabpath);
     }
   };
 
-  render() {
-    const { className, id, tabpath, title } = this.props;
-    const activeTab = this.trimCurrentUrl();
-    return (
-      <li className={className} role="presentation">
-        <IndexLink
-          id={`tab${id || title}`}
-          aria-controls={
-            activeTab === tabpath ? `tabPanel${id || title}` : null
-          }
-          aria-selected={activeTab === tabpath}
-          role="tab"
-          className="va-tab-trigger"
-          activeClassName="va-tab-trigger--current"
-          to={tabpath}
-        >
-          {title}
-        </IndexLink>
-      </li>
-    );
-  }
-}
+  useEffect(() => {
+    document.addEventListener('keydown', tabShortcut);
 
-export default withRouter(TabItem);
+    return () => {
+      document.removeEventListener('keydown', tabShortcut);
+    };
+  });
 
-export { TabItem };
+  const activeTab = trimCurrentUrl(location);
+  return (
+    <li className={className} role="presentation">
+      <NavLink
+        id={`tab${id || title}`}
+        aria-controls={activeTab === tabpath ? `tabPanel${id || title}` : null}
+        aria-selected={activeTab === tabpath}
+        role="tab"
+        className="va-tab-trigger"
+        activeClassName="va-tab-trigger--current"
+        to={tabpath}
+      >
+        {title}
+      </NavLink>
+    </li>
+  );
+};
+
+export default TabItem;

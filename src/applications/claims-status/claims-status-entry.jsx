@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import './sass/claims-status.scss';
 

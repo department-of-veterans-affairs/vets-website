@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
@@ -10,20 +11,21 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
+export function AppContent({ isDataAvailable }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
   return (
     <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable />}
-      {canUseApp && <>{children}</>}
+      {canUseApp && <Outlet />}
     </div>
   );
 }
 
-function ClaimsStatusApp({ children, dispatchSetLastPage, router, user }) {
+export function ClaimsStatusApp({ dispatchSetLastPage, user }) {
+  const history = useHistory();
   useEffect(() => {
-    router.listen(location => {
+    history.listen(location => {
       dispatchSetLastPage(location.pathname);
     });
   }, []);
@@ -37,7 +39,7 @@ function ClaimsStatusApp({ children, dispatchSetLastPage, router, user }) {
       ]}
       user={user}
     >
-      <AppContent>{children}</AppContent>
+      <AppContent />
     </RequiredLoginView>
   );
 }
@@ -60,6 +62,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(ClaimsStatusApp));
-
-export { ClaimsStatusApp, AppContent };
+)(ClaimsStatusApp);

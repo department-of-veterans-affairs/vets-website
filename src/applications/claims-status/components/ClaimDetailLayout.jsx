@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import TabNav from './TabNav';
 import ClaimSyncWarning from './ClaimSyncWarning';
@@ -21,10 +21,8 @@ export default function ClaimDetailLayout(props) {
     clearNotification,
     currentTab,
     synced,
-    id,
   } = props;
   const tabs = ['Status', 'Files', 'Details'];
-  const claimsPath = `your-claims/${id}`;
 
   let bodyContent;
   let headingContent;
@@ -67,10 +65,7 @@ export default function ClaimDetailLayout(props) {
           claim.attributes.contentionList.length > MAX_CONTENTIONS ? (
             <span>
               <br />
-              <Link to={`your-claims/${claim.id}/details`}>
-                See all your claimed contentions
-              </Link>
-              .
+              <Link to="../details">See all your claimed contentions</Link>.
             </span>
           ) : null}
         </div>
@@ -79,7 +74,7 @@ export default function ClaimDetailLayout(props) {
 
     bodyContent = (
       <div className="claim-container">
-        <TabNav id={props.claim.id} />
+        <TabNav />
         {tabs.map(tab => (
           <div
             key={tab}
@@ -116,7 +111,7 @@ export default function ClaimDetailLayout(props) {
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
             <ClaimsBreadcrumbs>
-              <Link to={claimsPath}>Status details</Link>
+              <Link to="../status">Status details</Link>
             </ClaimsBreadcrumbs>
           </div>
         </div>
@@ -145,7 +140,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
   synced: PropTypes.bool,

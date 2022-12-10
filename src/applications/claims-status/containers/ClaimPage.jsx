@@ -1,30 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Outlet, useParams } from 'react-router-dom-v5-compat';
 
-import { getClaimDetail } from '../actions';
+import { getClaimDetail as getClaimDetailAction } from '../actions';
 
-class ClaimPage extends React.Component {
-  componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id, this.props.router);
-  }
+const ClaimPage = ({ getClaimDetail }) => {
+  const params = useParams();
 
-  render() {
-    return this.props.children;
-  }
-}
+  useEffect(() => {
+    getClaimDetail(params.id);
+  });
 
-function mapStateToProps() {
-  return {};
-}
-
-const mapDispatchToProps = {
-  getClaimDetail,
+  return <Outlet />;
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(ClaimPage),
-);
+const mapDispatchToProps = {
+  getClaimDetail: getClaimDetailAction,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ClaimPage);

@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import {
   getPhaseDescription,
@@ -67,7 +67,7 @@ export default function ClaimsListItem({ claim }) {
       <Link
         aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="vads-c-action-link--blue"
-        to={`your-claims/${claim.id}/status`}
+        to={`${claim.id}/status`}
       >
         View details
       </Link>

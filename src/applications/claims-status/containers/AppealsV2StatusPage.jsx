@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOutletContext } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,7 +21,8 @@ import Docket from '../components/appeals-v2/Docket';
 /**
  * AppealsV2StatusPage is in charge of the layout of the status page
  */
-const AppealsV2StatusPage = ({ appeal, fullName }) => {
+const AppealsV2StatusPage = () => {
+  const [appeal, fullName] = useOutletContext();
   const {
     events,
     alerts,

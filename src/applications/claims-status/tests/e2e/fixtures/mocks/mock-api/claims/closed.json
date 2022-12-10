@@ -19,7 +19,7 @@
       "requestedDecision": false,
       "claimType": "Dependency",
       "updatedAt": "2022-06-08T19:01:57.543Z",
-      "contentionList": [],
+      "contentionList": ["tinnitus", "sleep apnea", "hear condition (New)", "back condition (New)"],
       "vaRepresentative": "AMERICAN LEGION",
       "eventsTimeline": [
         {

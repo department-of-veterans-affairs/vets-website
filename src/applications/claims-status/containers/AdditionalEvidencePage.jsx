@@ -75,7 +75,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
+    const filesPath = '../files';
     let content;
 
     if (this.props.loading) {
@@ -106,7 +106,7 @@ class AdditionalEvidencePage extends React.Component {
             progress={this.props.progress}
             uploading={this.props.uploading}
             files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
+            backUrl={`/${this.props.lastPage}` || filesPath}
             onSubmit={() =>
               this.props.submitFiles(
                 this.props.claim.id,

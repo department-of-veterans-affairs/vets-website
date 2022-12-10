@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -114,7 +114,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       {!external && (
         <Link
           className="vads-c-action-link--blue"
-          to={`appeals/${appeal.id}/status`}
+          to={`/appeals/${appeal.id}/status`}
         >
           View details
         </Link>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRedirect, Redirect } from 'react-router';
+import { Route, Navigate, Routes } from 'react-router-dom-v5-compat';
 
 import YourClaimsPageV2 from './containers/YourClaimsPageV2';
 import YourClaimLetters from './containers/YourClaimLetters';
@@ -17,50 +17,39 @@ import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 
 const routes = (
-  <Route path="/" component={ClaimsStatusApp}>
-    <IndexRedirect to="/your-claims" />
-    <Redirect
-      key="/track-claims/your-claims"
-      from="/disability-benefits/track-claims*"
-      to="/your-claims"
-    />
-    <Route
-      component={YourClaimsPageV2}
-      key="/your-claims"
-      path="/your-claims"
-    />
-    <Route
-      component={YourClaimLetters}
-      key="/your-claim-letters"
-      path="/your-claim-letters"
-    />
-    <Route component={AppealInfo} key="/appeals/:id" path="/appeals/:id">
-      <IndexRedirect to="status" />
-      <Route component={AppealsV2StatusPage} key="status" path="status" />
-      <Route component={AppealsV2DetailPage} key="detail" path="detail" />
-    </Route>
-    <Route component={ClaimPage} key="/your-claims/:id" path="/your-claims/:id">
-      <IndexRedirect to="status" />
-      <Route component={ClaimStatusPage} path="status" />,
-      <Route component={FilesPage} path="files" />,
-      <Route component={DetailsPage} path="details" />,
-      <Route component={AskVAPage} path="ask-va-to-decide" />,
+  <Routes>
+    <Route path="/" element={<ClaimsStatusApp />}>
+      <Route index element={<Navigate to="your-claims" replace />} />
+      {/* <Redirect
+          key="/track-claims/your-claims"
+          from="/disability-benefits/track-claims*"
+          to="/your-claims"
+        /> */}
+      <Route path="appeals/:id" element={<AppealInfo />}>
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="detail" element={<AppealsV2DetailPage />} />
+        <Route path="status" element={<AppealsV2StatusPage />} />
+      </Route>
+      <Route path="your-claims" element={<YourClaimsPageV2 />} />
+      <Route path="your-claims/:id" element={<ClaimPage />}>
+        <Route index element={<Navigate to="status" replace />} />
+        <Route path="ask-va-to-decide" element={<AskVAPage />} />
+        <Route
+          path="document-request/:trackedItemId"
+          element={<DocumentRequestPage />}
+        />
+        <Route path="claim-estimate" element={<ClaimEstimationPage />} />
+        <Route path="details" element={<DetailsPage />} />
+        <Route path="files" element={<FilesPage />} />
+        <Route path="status" element={<ClaimStatusPage />} />
+      </Route>
+      <Route path="your-claim-letters" element={<YourClaimLetters />} />
       <Route
-        component={DocumentRequestPage}
-        path="document-request/:trackedItemId"
-      />
-      <Route
-        component={ClaimEstimationPage}
-        key="claim-estimate"
-        path="claim-estimate"
+        path="your-stem-claims/:id/status"
+        element={<StemClaimStatusPage />}
       />
     </Route>
-    <Route
-      component={StemClaimStatusPage}
-      key="/your-stem-claims/:id/status"
-      path="/your-stem-claims/:id/status"
-    />
-  </Route>
+  </Routes>
 );
 
 export default routes;
