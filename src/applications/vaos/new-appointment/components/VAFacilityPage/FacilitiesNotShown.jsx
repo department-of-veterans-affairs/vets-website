@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '~/platform/forms-system/src/js/components/ExpandingGroup';
@@ -133,3 +134,9 @@ export default function FacilitiesNotShown({
     </div>
   );
 }
+FacilitiesNotShown.propTypes = {
+  cernerSiteIds: PropTypes.object,
+  facilities: PropTypes.object,
+  sortMethod: PropTypes.string,
+  typeOfCareId: PropTypes.string,
+};
