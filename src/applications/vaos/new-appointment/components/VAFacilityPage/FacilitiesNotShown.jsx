@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
+import ExpandingGroup from '~/platform/forms-system/src/js/components/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
@@ -105,6 +105,7 @@ export default function FacilitiesNotShown({
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
                   }
+                  level={3}
                 />
               </li>
             ))}
