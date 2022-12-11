@@ -19,7 +19,7 @@ export default function AppealsV2TabNav() {
         shortcut={2}
         className="appeals-tabs-item"
         id="v2detail"
-        tabpath="detail"
+        tabpath="./detail"
         title="Issues"
       />
     </ul>

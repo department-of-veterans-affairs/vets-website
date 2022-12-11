@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import {
+  useLocation,
+  useNavigate,
+  useResolvedPath,
+} from 'react-router-dom-v5-compat';
 
-// Grab the current URL, trim the leading '/', and return activeTabPath
-const trimCurrentUrl = location => location.pathname.slice(1);
+import NavLink from '../utils/NavLink';
 
 export default function TabItem({ className, id, shortcut, tabpath, title }) {
-  const location = useLocation();
+  const { pathname: locationPathname } = useLocation();
   const navigate = useNavigate();
-
-  const activeTab = trimCurrentUrl(location);
+  const { pathname: toPathname } = useResolvedPath(tabpath);
 
   const tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + shortcut) {
@@ -24,12 +26,14 @@ export default function TabItem({ className, id, shortcut, tabpath, title }) {
     };
   });
 
+  const isActive = locationPathname === toPathname;
+
   return (
     <li className={className} role="presentation">
       <NavLink
         id={`tab${id || title}`}
-        aria-controls={activeTab === tabpath ? `tabPanel${id || title}` : null}
-        aria-selected={activeTab === tabpath}
+        aria-controls={isActive ? `tabPanel${id || title}` : null}
+        aria-selected={isActive}
         role="tab"
         className="va-tab-trigger"
         activeClassName="va-tab-trigger--current"
