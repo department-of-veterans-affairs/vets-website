@@ -30,5 +30,5 @@ export default function FacilityPhone({ contact, className, level }) {
 FacilityPhone.propTypes = {
   className: PropTypes.string,
   contact: PropTypes.string,
-  level: PropTypes.number,
+  level: PropTypes.number.isRequired,
 };
