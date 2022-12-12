@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
-import FacilityPhone from '../../../components/FacilityPhone';
+// import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+// import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
-import State from '../../../components/State';
-import NewTabAnchor from '../../../components/NewTabAnchor';
+// import State from '../../../components/State';
+// import NewTabAnchor from '../../../components/NewTabAnchor';
 import { isTypeOfCareSupported } from '../../../services/location';
 
 const UNSUPPORTED_FACILITY_RANGE = 100;
@@ -45,13 +45,13 @@ export default function FacilitiesNotShown({
     return null;
   }
 
-  const buttonClass = classNames(
+  /* const buttonClass = classNames(
     'additional-info-button',
     'va-button-link',
     'vads-u-display--block',
   );
 
-  const iconClass = classNames({
+   const iconClass = classNames({
     fas: true,
     'fa-angle-down': true,
     open: isOpen,
@@ -70,11 +70,11 @@ export default function FacilitiesNotShown({
         <i className={iconClass} />
       </span>
     </button>
-  );
+  ); */
 
   return (
     <div className="vads-u-margin-bottom--7">
-      <ExpandingGroup
+      {/* <ExpandingGroup
         open={isOpen}
         expandedContentId="facilities-not-shown-content"
       >
@@ -82,9 +82,8 @@ export default function FacilitiesNotShown({
         <div className="additional-info-content">
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
-          </p>
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul
+          </p> 
+      <ul
             aria-labelledby="vaos-unsupported-label"
             className="usa-unstyled-list"
             role="list"
@@ -130,13 +129,13 @@ export default function FacilitiesNotShown({
             .
           </p>
         </div>
-      </ExpandingGroup>
+      </ExpandingGroup> */}
     </div>
   );
 }
 FacilitiesNotShown.propTypes = {
-  cernerSiteIds: PropTypes.object,
-  facilities: PropTypes.object,
+  cernerSiteIds: PropTypes.array,
+  facilities: PropTypes.array,
   sortMethod: PropTypes.string,
   typeOfCareId: PropTypes.string,
 };
