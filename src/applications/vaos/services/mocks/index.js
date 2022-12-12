@@ -191,11 +191,12 @@ const responses = {
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
+    const slot = appointmentSlotsV2.data.find(s => s.id === req.body.slot.id);
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
-        start: req.body.slot ? req.body.slot.start : null,
+        start: req.body.slott ? slot.attributes.start : 'invalid date',
       },
     };
     currentMockId++;
