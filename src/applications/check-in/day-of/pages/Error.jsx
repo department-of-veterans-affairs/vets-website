@@ -16,7 +16,7 @@ const Error = () => {
   const validationError = isMaxValidateAttempts || error === 'max-validation';
 
   const maxValidateMessage = t(
-    'were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help',
+    'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
   );
   const message = validationError
     ? maxValidateMessage

@@ -25,7 +25,7 @@ const AppointmentAction = props => {
   );
 
   const defaultMessage = t(
-    'online-check-in-isnt-available-for-this-appointment-check-in-with-a-staff-member',
+    'online-check-in-isnt-available-check-in-with-a-staff-member',
   );
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = useCallback(
@@ -62,9 +62,7 @@ const AppointmentAction = props => {
     ) {
       return (
         <p data-testid="too-late-message">
-          {t(
-            'your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help',
-          )}
+          {t('your-appointment-started-more-than-15-minutes-ago-ask-for-help')}
         </p>
       );
     }
@@ -98,9 +96,7 @@ const AppointmentAction = props => {
       }
       return (
         <p data-testid="no-time-too-early-reason-message">
-          {t(
-            'this-appointment-isnt-eligible-for-online-check-in-check-in-with-a-staff-member',
-          )}
+          {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
         </p>
       );
     }
