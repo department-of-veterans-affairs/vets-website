@@ -98,7 +98,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     });
   });
 
-  describe('when vaOnlineSchedulingVAOSV2Next flag is of', () => {
+  describe('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
     it('should not display VistaSchedulingServiceAlert if there is an error returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
