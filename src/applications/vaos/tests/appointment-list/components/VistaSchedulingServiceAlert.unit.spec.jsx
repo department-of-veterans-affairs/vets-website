@@ -2,264 +2,273 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { mockFetch } from 'platform/testing/unit/helpers';
-import reducers from '../../../redux/reducer';
+import { waitFor, within } from '@testing-library/dom';
+import environment from 'platform/utilities/environment';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 import {
-  getTimezoneTestDate,
+  createTestStore,
   renderWithStoreAndRouter,
+  getTimezoneTestDate,
 } from '../../mocks/setup';
-import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../mocks/v2';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
+import AppointmentsPageV2 from '../../../appointment-list/components/AppointmentsPageV2';
+import {
+  mockAppointmentInfo,
+  mockPastAppointmentInfo,
+} from '../../mocks/helpers';
+import { getVARequestMock } from '../../mocks/v0';
+import { createMockAppointmentByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    vaOnlineSchedulingRequests: true,
+    vaOnlineSchedulingPast: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
   },
 };
 
-describe('VAOS <VistaSchedulingServiceAlert>', () => {
+describe('VAOS <AppointmentsPageV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockAppointmentInfo({});
   });
   afterEach(() => {
     MockDate.reset();
   });
 
-  it('should not display when vaOnlineSchedulingVAOSV2Next is false and error is present', async () => {
-    return true;
+  const userState = {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+    },
+  };
+
+  describe('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+        vaOnlineSchedulingStatusImprovement: true,
+        vaOnlineSchedulingVAOSV2Next: true,
+      },
+      user: userState,
+    };
+
+    it('should display the VistA Scheduling Service Alert if a failure is present', async () => {
+      // Given the veteran lands on the VAOS homepage
+      mockPastAppointmentInfo({});
+
+      // When the page displays
+      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+        initialState: defaultState,
+      });
+
+      // Then it should display the upcoming appointments
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: 'Your appointments',
+        }),
+      );
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Your appointments | VA online scheduling | Veterans Affairs`,
+        );
+      });
+
+      // and breadcrumbs should be updated
+      const navigation = screen.getByRole('navigation', {
+        name: 'Breadcrumbs',
+      });
+      expect(navigation).to.be.ok;
+      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
+        .exist;
+      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
+        .exist;
+
+      // and scheduling button should be displayed
+      expect(
+        screen.getByRole('button', { name: 'Start scheduling an appointment' }),
+      ).to.be.ok;
+
+      // and appointment list navigation should be displayed
+      expect(
+        screen.getByRole('navigation', { name: 'Appointment list navigation' }),
+      ).to.be.ok;
+      expect(screen.getByRole('button', { name: /Pending \(\d\)/ })).to.be.ok;
+      expect(screen.getByRole('button', { name: 'Past' })).to.be.ok;
+
+      // and status dropdown should not be displayed
+      // expect(screen.queryByLabelText('Show by status')).not.to.exists;
+
+      expect(screen.queryByText("We can't display in-person VA appointments"))
+        .to.exist;
+      screen.debug();
+    });
+
+    //     it('should not display the Vista Scheduling Service Alert if there is no failure present', async () => {
+    //       // Given the veteran lands on the VAOS homepage
+    //       mockPastAppointmentInfo({});
+    //
+    //       // When the page displays
+    //       const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    //         initialState: defaultState,
+    //       });
+    //
+    //       // Then it should display the upcoming appointments
+    //       expect(
+    //         await screen.findByRole('heading', {
+    //           level: 1,
+    //           name: 'Your appointments',
+    //         }),
+    //       );
+    //       await waitFor(() => {
+    //         expect(global.document.title).to.equal(
+    //           `Your appointments | VA online scheduling | Veterans Affairs`,
+    //         );
+    //       });
+    //
+    //       // and breadcrumbs should be updated
+    //       const navigation = screen.getByRole('navigation', {
+    //         name: 'Breadcrumbs',
+    //       });
+    //       expect(navigation).to.be.ok;
+    //       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
+    //         .exist;
+    //       expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
+    //         .exist;
+    //
+    //       // and scheduling button should be displayed
+    //       expect(
+    //         screen.getByRole('button', { name: 'Start scheduling an appointment' }),
+    //       ).to.be.ok;
+    //
+    //       // and appointment list navigation should be displayed
+    //       expect(
+    //         screen.getByRole('navigation', { name: 'Appointment list navigation' }),
+    //       ).to.be.ok;
+    //       expect(screen.getByRole('button', { name: /Pending \(\d\)/ })).to.be.ok;
+    //       expect(screen.getByRole('button', { name: 'Past' })).to.be.ok;
+    //
+    //       // and status dropdown should not be displayed
+    //       expect(screen.queryByLabelText('Show by status')).not.to.exists;
+    //       // screen.debug();
+    //     });
   });
 
-  it('should display when vaOnlineSchedulingVAOSV2Next is true and error is present', async () => {
-    return true;
-  });
+  describe('when vaOnlineSchedulingVAOSV2Next flag is off', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingCommunityCare: false,
+        vaOnlineSchedulingStatusImprovement: true,
+        vaOnlineSchedulingVAOSV2Next: false,
+      },
+      user: userState,
+    };
 
-  it('should not display when vaOnlineSchedulingVAOSV2Next is true and error is not present', async () => {
-    return true;
-  });
+    it('should not display the VistA Scheduling Service Alert if a failure is present', async () => {
+      // Given the veteran lands on the VAOS homepage
+      mockPastAppointmentInfo({});
 
-  //   it('should show VA appointment text', async () => {
-  //     const myInitialState = {
-  //       ...initialState,
-  //       featureToggles: {
-  //         ...initialState.featureToggles,
-  //         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-  //         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-  //         vaOnlineSchedulingStatusImprovement: false,
-  //       },
-  //     };
-  //     const now = moment();
-  //     const start = moment(now).subtract(30, 'days');
-  //     const end = moment(now).add(395, 'days');
-  //     const appointment = getVAOSAppointmentMock();
-  //     appointment.id = '123';
-  //     appointment.attributes = {
-  //       ...appointment.attributes,
-  //       kind: 'clinic',
-  //       status: 'booked',
-  //       locationId: '983',
-  //       location: {
-  //         id: '983',
-  //         type: 'appointments',
-  //         attributes: {
-  //           id: '983',
-  //           vistaSite: '983',
-  //           name: 'Cheyenne VA Medical Center',
-  //           lat: 39.744507,
-  //           long: -104.830956,
-  //           phone: { main: '307-778-7550' },
-  //           physicalAddress: {
-  //             line: ['2360 East Pershing Boulevard'],
-  //             city: 'Cheyenne',
-  //             state: 'WY',
-  //             postalCode: '82001-5356',
-  //           },
-  //         },
-  //       },
-  //       start: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       end: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //     };
-  //
-  //     mockVAOSAppointmentsFetch({
-  //       start: start.format('YYYY-MM-DD'),
-  //       end: end.format('YYYY-MM-DD'),
-  //       requests: [appointment],
-  //       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-  //     });
-  //
-  //     mockFacilitiesFetchByVersion({ version: 0 });
-  //     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-  //       initialState: myInitialState,
-  //       reducers,
-  //     });
-  //
-  //     await screen.findByText(
-  //       new RegExp(now.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-  //     );
-  //     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-  //   });
-  //
-  //   it('should show CC appointment text', async () => {
-  //     const myInitialState = {
-  //       ...initialState,
-  //       featureToggles: {
-  //         ...initialState.featureToggles,
-  //         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-  //         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-  //         vaOnlineSchedulingStatusImprovement: false,
-  //       },
-  //     };
-  //     const now = moment();
-  //     const start = moment(now).subtract(30, 'days');
-  //     const end = moment(now).add(395, 'days');
-  //     const appointment = getVAOSAppointmentMock();
-  //     appointment.id = '123';
-  //     appointment.attributes = {
-  //       ...appointment.attributes,
-  //       kind: 'cc',
-  //       status: 'booked',
-  //       start: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       end: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //     };
-  //
-  //     mockVAOSAppointmentsFetch({
-  //       start: start.format('YYYY-MM-DD'),
-  //       end: end.format('YYYY-MM-DD'),
-  //       requests: [appointment],
-  //       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-  //     });
-  //
-  //     mockFacilitiesFetchByVersion({ version: 0 });
-  //     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-  //       initialState: myInitialState,
-  //       reducers,
-  //     });
-  //
-  //     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-  //     expect(screen.baseElement).to.contain.text('Community care');
-  //   });
-  //
-  //   it('should show at home video appointment text', async () => {
-  //     const myInitialState = {
-  //       ...initialState,
-  //       featureToggles: {
-  //         ...initialState.featureToggles,
-  //         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-  //         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-  //         vaOnlineSchedulingStatusImprovement: false,
-  //       },
-  //     };
-  //     const now = moment();
-  //     const start = moment(now).subtract(30, 'days');
-  //     const end = moment(now).add(395, 'days');
-  //     const appointment = getVAOSAppointmentMock();
-  //     appointment.id = '123';
-  //     appointment.attributes = {
-  //       ...appointment.attributes,
-  //       kind: 'telehealth',
-  //       status: 'booked',
-  //       start: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       end: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //     };
-  //
-  //     mockVAOSAppointmentsFetch({
-  //       start: start.format('YYYY-MM-DD'),
-  //       end: end.format('YYYY-MM-DD'),
-  //       requests: [appointment],
-  //       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-  //     });
-  //
-  //     mockFacilitiesFetchByVersion({ version: 0 });
-  //     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-  //       initialState: myInitialState,
-  //       reducers,
-  //     });
-  //
-  //     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-  //     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
-  //   });
-  //
-  //   it('should show Phone appointment text', async () => {
-  //     const myInitialState = {
-  //       ...initialState,
-  //       featureToggles: {
-  //         ...initialState.featureToggles,
-  //         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-  //         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-  //         vaOnlineSchedulingStatusImprovement: false,
-  //       },
-  //     };
-  //     const now = moment();
-  //     const start = moment(now).subtract(30, 'days');
-  //     const end = moment(now).add(395, 'days');
-  //     const appointment = getVAOSAppointmentMock();
-  //     appointment.id = '123';
-  //     appointment.attributes = {
-  //       ...appointment.attributes,
-  //       kind: 'phone',
-  //       status: 'booked',
-  //       start: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       end: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //     };
-  //
-  //     mockVAOSAppointmentsFetch({
-  //       start: start.format('YYYY-MM-DD'),
-  //       end: end.format('YYYY-MM-DD'),
-  //       requests: [appointment],
-  //       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-  //     });
-  //
-  //     mockFacilitiesFetchByVersion({ version: 0 });
-  //     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-  //       initialState: myInitialState,
-  //       reducers,
-  //     });
-  //
-  //     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-  //     expect(screen.baseElement).to.contain.text('Phone call');
-  //   });
-  //
-  //   it('should show cancelled appointment text', async () => {
-  //     const myInitialState = {
-  //       ...initialState,
-  //       featureToggles: {
-  //         ...initialState.featureToggles,
-  //         vaOnlineSchedulingVAOSServiceVAAppointments: true,
-  //         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-  //         vaOnlineSchedulingStatusImprovement: false,
-  //       },
-  //     };
-  //     const now = moment();
-  //     const start = moment(now).subtract(30, 'days');
-  //     const end = moment(now).add(395, 'days');
-  //     const appointment = getVAOSAppointmentMock();
-  //     appointment.id = '123';
-  //     appointment.attributes = {
-  //       ...appointment.attributes,
-  //       kind: 'cc',
-  //       status: 'cancelled',
-  //       start: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       end: now.format('YYYY-MM-DDTHH:mm:ss'),
-  //       name: { firstName: 'Jane', lastName: 'Doctor' },
-  //     };
-  //
-  //     mockVAOSAppointmentsFetch({
-  //       start: start.format('YYYY-MM-DD'),
-  //       end: end.format('YYYY-MM-DD'),
-  //       requests: [appointment],
-  //       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-  //     });
-  //
-  //     mockFacilitiesFetchByVersion({ version: 0 });
-  //     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
-  //       initialState: myInitialState,
-  //       reducers,
-  //     });
-  //
-  //     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-  //     expect(screen.baseElement).to.contain.text('Canceled');
-  //     expect(screen.baseElement).to.contain.text('Community care');
-  //   });
+      // When the page displays
+      const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+        initialState: defaultState,
+      });
+
+      // Then it should display the upcoming appointments
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: 'Your appointments',
+        }),
+      );
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Your appointments | VA online scheduling | Veterans Affairs`,
+        );
+      });
+
+      // and breadcrumbs should be updated
+      const navigation = screen.getByRole('navigation', {
+        name: 'Breadcrumbs',
+      });
+      expect(navigation).to.be.ok;
+      expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
+        .exist;
+      expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
+        .exist;
+
+      // and scheduling button should be displayed
+      expect(
+        screen.getByRole('button', { name: 'Start scheduling an appointment' }),
+      ).to.be.ok;
+
+      // and appointment list navigation should be displayed
+      expect(
+        screen.getByRole('navigation', { name: 'Appointment list navigation' }),
+      ).to.be.ok;
+      expect(screen.getByRole('button', { name: /Pending \(\d\)/ })).to.be.ok;
+      expect(screen.getByRole('button', { name: 'Past' })).to.be.ok;
+
+      // and status dropdown should not be displayed
+      // expect(screen.queryByLabelText('Show by status')).not.to.exists;
+
+      expect(screen.queryByText("We can't display in-person VA appointments"))
+        .not.to.exist;
+    });
+
+    //     it('should not display the Vista Scheduling Service Alert if there is no failure present', async () => {
+    //       // Given the veteran lands on the VAOS homepage
+    //       mockPastAppointmentInfo({});
+    //
+    //       // When the page displays
+    //       const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+    //         initialState: defaultState,
+    //       });
+    //
+    //       // Then it should display the upcoming appointments
+    //       expect(
+    //         await screen.findByRole('heading', {
+    //           level: 1,
+    //           name: 'Your appointments',
+    //         }),
+    //       );
+    //       await waitFor(() => {
+    //         expect(global.document.title).to.equal(
+    //           `Your appointments | VA online scheduling | Veterans Affairs`,
+    //         );
+    //       });
+    //
+    //       // and breadcrumbs should be updated
+    //       const navigation = screen.getByRole('navigation', {
+    //         name: 'Breadcrumbs',
+    //       });
+    //       expect(navigation).to.be.ok;
+    //       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
+    //         .exist;
+    //       expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
+    //         .exist;
+    //
+    //       // and scheduling button should be displayed
+    //       expect(
+    //         screen.getByRole('button', { name: 'Start scheduling an appointment' }),
+    //       ).to.be.ok;
+    //
+    //       // and appointment list navigation should be displayed
+    //       expect(
+    //         screen.getByRole('navigation', { name: 'Appointment list navigation' }),
+    //       ).to.be.ok;
+    //       expect(screen.getByRole('button', { name: /Pending \(\d\)/ })).to.be.ok;
+    //       expect(screen.getByRole('button', { name: 'Past' })).to.be.ok;
+    //
+    //       // and status dropdown should not be displayed
+    //       expect(screen.queryByLabelText('Show by status')).not.to.exists;
+    //       // screen.debug();
+    //     });
+  });
 });
