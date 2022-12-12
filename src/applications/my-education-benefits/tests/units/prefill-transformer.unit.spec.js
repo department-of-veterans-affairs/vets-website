@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { prefillTransformerV1, prefillTransformerV2 } from '../helpers';
-import { claimantInfo } from './fixtures/data/claimant-info-test-data';
+import { prefillTransformerV1, prefillTransformerV2 } from '../../helpers';
+import { claimantInfo } from '../fixtures/data/claimant-info-test-data';
 
 let mockClaimantInfo;
 
