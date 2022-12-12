@@ -38,7 +38,7 @@ jobs:
             node_modules
 
       - name: Get Source Repo and Source Ref
-        run: node src/script/pe-deploy-source.js
+        run: node src/script/github-actions/pe-deploy-source.js
         env:
           SOURCE_EVENT: ${{ github.event_name }}
 
