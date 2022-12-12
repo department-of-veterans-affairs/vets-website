@@ -100,6 +100,21 @@ class PatientMessagesLandingPage {
     ).attributes.sentDate = date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
   };
+
+  sortOldestToNewest = () => {
+    cy.get('select')
+      .eq(4)
+      .select('Oldest to newest');
+  };
+
+  getExpiredMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 45);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
 }
 
 export default PatientMessagesLandingPage;
