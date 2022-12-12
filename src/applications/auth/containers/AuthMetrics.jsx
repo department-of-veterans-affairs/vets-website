@@ -2,13 +2,16 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { CSP_IDS, POLICY_TYPES } from 'platform/user/authentication/constants';
+import { SENTRY_TAGS } from 'platform/user/authentication/errors';
 import { hasSession } from 'platform/user/profile/utilities';
 import get from 'platform/utilities/data/get';
 
 export default class AuthMetrics {
-  constructor(type, payload) {
+  constructor(type, payload, requestId, errorCode) {
     this.type = type;
     this.payload = payload;
+    this.requestId = requestId;
+    this.errorCode = errorCode;
     this.userProfile = get('data.attributes.profile', payload, {});
     this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
@@ -45,7 +48,9 @@ export default class AuthMetrics {
       default:
         recordEvent({ event: `login-or-register-success-${this.serviceName}` });
         Sentry.withScope(scope => {
-          scope.setExtra('type', this.type || 'N/A');
+          scope.setExtra(SENTRY_TAGS.REQUEST_ID, this.requestId);
+          scope.setExtra(SENTRY_TAGS.ERROR_CODE, this.errorCode);
+          scope.setExtra(SENTRY_TAGS.LOGIN_TYPE, this.type || 'N/A');
           Sentry.captureMessage('Unrecognized auth event type');
         });
     }
