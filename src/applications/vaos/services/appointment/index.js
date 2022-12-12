@@ -118,9 +118,6 @@ export async function fetchAppointments({
         useAcheron,
       );
 
-      // const hasVistaFailure = !!allAppointments.failures.find(failure => {
-      //   return failure.system === 'VSP' && failure.code === 10000;
-      // });
       const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
@@ -234,10 +231,6 @@ export async function getAppointmentRequests({
         ['proposed', 'cancelled'],
         useAcheron,
       );
-
-      // const hasVistaFailure = !!appointments.failures.find(failure => {
-      //   return failure.system === 'VSP' && failure.code === 10000;
-      // });
 
       const requestsWithoutAppointments = appointments.data.filter(
         appt => !!appt.requestedPeriods,
