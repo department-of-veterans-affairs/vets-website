@@ -28,6 +28,7 @@ import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceSummary from '../pages/evidenceSummary';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidenceUploadOther from '../pages/evidenceUploadOther';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
 import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
@@ -242,6 +243,12 @@ const formConfig = {
           CustomPageReview: EvidencePrivateLimitation,
           uiSchema: {},
           schema: blankSchema,
+        },
+        evidenceUploadOther: {
+          title: 'Supporting (lay) statements or other evidence',
+          path: 'supporting-evidence/upload-other-evidence',
+          uiSchema: evidenceUploadOther.uiSchema,
+          schema: evidenceUploadOther.schema,
         },
         evidenceUpload: {
           title: 'Lay statements and other evidence',
