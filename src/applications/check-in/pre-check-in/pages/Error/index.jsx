@@ -160,7 +160,7 @@ const Error = () => {
         testId: 'date-message',
       });
     }
-  } else if (isUUIDError) {
+  } else if (isUUIDError()) {
     messages = [
       {
         text: mixedPhoneAndInPersonMessage,
