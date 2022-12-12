@@ -73,6 +73,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
       data.text.includes('To get started') &&
       sessionStorage.getItem(IN_AUTH_EXP) === 'true';
 
+    const shouldEcho = data.text.toLowerCase().includes('echo');
+
     if (botWantsToSignInUser) {
       stopTrackingUtterances();
 
@@ -92,6 +94,14 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
         // Reset utterance array
         setSessionStorageAsString(RECENT_UTTERANCES, []);
       }
+    } else if (shouldEcho) {
+      const createSendMessageActivity = newUtterance => {
+        return {
+          type: 'WEB_CHAT/SEND_MESSAGE',
+          payload: { type: 'message', text: newUtterance },
+        };
+      };
+      dispatch(createSendMessageActivity(data.text.replace('echo ', '')));
     }
   }
   if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
