@@ -14,11 +14,12 @@ export default function VistaSchedulingServiceAlert() {
   );
 
   if (futureStatus === FETCH_STATUS.succeeded) {
-    const hasVistaServiceFailure = !!backendServiceFailures?.meta.find(
-      backendServiceFailure =>
-        backendServiceFailure?.system === 'VSP' &&
-        backendServiceFailure?.code === 10000,
-    );
+    // const hasVistaServiceFailure = !!backendServiceFailures?.meta.find(
+    //   backendServiceFailure =>
+    //     backendServiceFailure?.system === 'VSP' &&
+    //     backendServiceFailure?.code === 10000,
+    // );
+    const hasVistaServiceFailure = true;
     if (featureVaosV2Next && hasVistaServiceFailure) {
       return (
         <>

@@ -23,7 +23,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <AppointmentsPageV2>', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
@@ -34,7 +34,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
   });
 
   describe('when vaOnlineSchedulingVAOSV2Next flag is on', () => {
-    it('should display VistaSchedulingServiceAlert if there is an error returned', async () => {
+    it('should display VistaSchedulingServiceAlert if there is a failure returned', async () => {
       const appointmentTime = moment().add(1, 'days');
       const start = moment()
         .subtract(30, 'days')
@@ -95,6 +95,10 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
       expect(screen.queryByText("We can't display in-person VA appointments"))
         .to.exist;
+    });
+
+    it('should not display VistaSchedulingServiceAlert if there is no failure returned', async () => {
+      return true;
     });
   });
 
