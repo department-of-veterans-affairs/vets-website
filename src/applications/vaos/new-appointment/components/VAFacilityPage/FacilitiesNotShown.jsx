@@ -135,8 +135,8 @@ export default function FacilitiesNotShown({
   );
 }
 FacilitiesNotShown.propTypes = {
-  cernerSiteIds: PropTypes.object,
-  facilities: PropTypes.object,
+  cernerSiteIds: PropTypes.array,
+  facilities: PropTypes.array,
   sortMethod: PropTypes.string,
   typeOfCareId: PropTypes.string,
 };
