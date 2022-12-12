@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
@@ -105,6 +106,7 @@ export default function FacilitiesNotShown({
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
                   }
+                  level={3}
                 />
               </li>
             ))}
@@ -132,3 +134,9 @@ export default function FacilitiesNotShown({
     </div>
   );
 }
+FacilitiesNotShown.propTypes = {
+  cernerSiteIds: PropTypes.object,
+  facilities: PropTypes.object,
+  sortMethod: PropTypes.string,
+  typeOfCareId: PropTypes.string,
+};
