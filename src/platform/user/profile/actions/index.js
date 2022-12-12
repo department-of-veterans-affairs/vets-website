@@ -31,6 +31,11 @@ export function profileLoadingFinished() {
   };
 }
 
+// check for errors from main response body, or from meta object (aka external service errors)
+const hasError = dataPayload =>
+  dataPayload?.errors?.length > 0 ||
+  dataPayload?.data?.meta?.errors?.length > 0;
+
 async function saveAndRefresh(payload) {
   const newPayloadObject = { payload };
   if (payload.errors === 'Access token has expired' && infoTokenExists()) {
@@ -66,13 +71,18 @@ export function refreshProfile(
         payload.data.attributes.profile?.signIn?.serviceName,
       );
     }
+
     const saved = await saveAndRefresh(payload);
 
-    recordEvent({
+    const eventApiStatus = hasError(saved.payload) ? 'failure' : 'success';
+
+    const eventData = {
       event: 'api_call',
       'api-name': 'GET /v0/user',
-      'api-status': 'successful',
-    });
+      'api-status': eventApiStatus,
+    };
+
+    recordEvent(eventData);
 
     dispatch(updateProfileFields(saved.payload));
     return saved.payload;

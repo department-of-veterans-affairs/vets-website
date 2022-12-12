@@ -65,6 +65,10 @@ export const MAX_LENGTH = {
   POSTAL_CODE: 16,
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
+
+  // from ./config/form-4142-schema.json
+  EVIDENCE_FACILITY_MAX: 100,
+  EVIDENCE_FACILITY_NAME: 100,
 };
 
 export const errorMessages = {
@@ -86,6 +90,7 @@ export const errorMessages = {
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
+    // VA evidence
     pastDate: 'You must add a past location date',
     newerDate: 'You must add a more recent location date',
     missing: 'You must include at least one type of supporting evidence',
@@ -93,6 +98,17 @@ export const errorMessages = {
     locationMaxLength: 'You can enter a maximum of 255 characters',
     issuesMissing: 'You must select one or more conditions (double-check)',
     unique: 'You must add a unique location entry',
+
+    // private evidence
+    facilityMissing: 'You must add a provider or facility name',
+    authorizationRequiredError:
+      'You need to acknowledge this release of information',
+    country: 'You must choose a country',
+    street: 'You must enter a street address',
+    city: 'You must enter a city name',
+    state: 'You must choose a state',
+    postal: 'You must enter a postal code',
+    overMaxLength: max => `You can enter a maximum of ${max} characters`,
   },
 
   missingEmail: 'You must provide an email address',
@@ -146,12 +162,6 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const ATTACHMENTS_PRIVATE = {
-  L049: 'Medical Treatment Record - Non-Government Facility',
-  L107: 'VA 21-4142 Authorization for Release of Information',
-  L023: 'Other',
-};
-
 export const ATTACHMENTS_OTHER = {
   L015: 'Buddy/Lay Statement',
   L018: 'Civilian Police Reports',
@@ -187,3 +197,5 @@ export const ATTACHMENTS_OTHER = {
 
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_PRIVATE_PATH =
+  'supporting-evidence/private-medical-records';

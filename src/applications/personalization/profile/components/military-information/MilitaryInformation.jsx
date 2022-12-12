@@ -53,9 +53,9 @@ const NotInDEERSAlert = () => {
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
             &nbsp;(
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
-            ). The DMDC Monday through Friday (except federal holidays), 8:00
-            a.m. to 8:00 p.m. ET.
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). The DMDC office is open Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -119,9 +119,9 @@ const NoServiceHistoryAlert = () => {
             , call the Defense Manpower Data Center (DMDC) at{' '}
             <va-telephone contact={CONTACTS.DS_LOGON} />
             &nbsp;(
-            <va-telephone contact={CONTACTS.DS_LOGON_TTY} tty />
-            ). The DMDC Monday through Friday (except federal holidays), 8:00
-            a.m. to 8:00 p.m. ET.
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). The DMDC office is open Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
           <p>
             <b>
@@ -194,9 +194,9 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           }}
         >
           <p>
-            Some Veterans have reported seeing military service information in
-            their VA.gov profiles that doesn’t seem right. When this happens,
-            it’s because there’s an error in the information we’re pulling into
+            Some Veterans have reported that their military service information
+            in their VA.gov profiles doesn’t seem right. When this happens, it’s
+            because there’s an error in the information we’re pulling into
             VA.gov from the Defense Enrollment Eligibility Reporting System
             (DEERS).
           </p>
@@ -209,10 +209,10 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
           <br />
           <p>
             You can call the DMDC at{' '}
-            <va-telephone contact={CONTACTS.DS_LOGON} /> (TTY:{' '}
-            <va-telephone contact={CONTACTS['711']} />
-            ), Monday through Friday (except federal holidays), 8:00 a.m. to
-            8:00 p.m. ET.
+            <va-telephone contact={CONTACTS.DS_LOGON} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). They’re available Monday through Friday (except federal
+            holidays), 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>

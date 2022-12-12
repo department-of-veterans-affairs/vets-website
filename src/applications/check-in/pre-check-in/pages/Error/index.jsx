@@ -63,9 +63,7 @@ const Error = () => {
         </span>
       </div>
       <div className="vads-u-margin-top--2">
-        {t(
-          'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
-        )}
+        {t('your-provider-will-call-you-at-your-appointment-time')}
       </div>
     </div>
   );
@@ -146,9 +144,7 @@ const Error = () => {
         apptType === 'phone'
           ? [
               {
-                text: t(
-                  'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
-                ),
+                text: t('your-provider-will-call-you-at-your-appointment-time'),
               },
             ]
           : [{ text: t('you-can-still-check-in-once-you-arrive') }];

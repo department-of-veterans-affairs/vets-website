@@ -15,12 +15,14 @@ const TravelPayAlert = props => {
 
   let errorMsg = '';
   let errorStatus = '';
+  let errorLinkEventId = 'clicked-how-to-file-link-from-api-error';
   if (
     travelPayClaimError &&
     travelPayClaimErrorCode === 'CLM_002_CLAIM_EXISTS'
   ) {
     errorMsg = t('check-travel-claim-status');
     errorStatus = 'info';
+    errorLinkEventId = 'clicked-how-to-file-link-from-claim-exists-error';
   } else {
     errorMsg = (
       <Trans
@@ -46,7 +48,7 @@ const TravelPayAlert = props => {
               <ExternalLink
                 href="/health-care/get-reimbursed-for-travel-pay/"
                 hrefLang="en"
-                eventId="request-travel-pay-reimbursement-from-travel-success--link-clicked"
+                eventId="clicked-go-to-accessva-from-success"
                 eventPrefix="nav"
               >
                 {t('go-to-the-accessva-travel-claim-portal-now')}
@@ -76,7 +78,7 @@ const TravelPayAlert = props => {
           <ExternalLink
             href="/health-care/get-reimbursed-for-travel-pay/"
             hrefLang="en"
-            eventId="request-travel-pay-reimbursement-from-travel-ineligible--link-clicked"
+            eventId="clicked-how-to-file-link-from-ineligible"
             eventPrefix="nav"
           >
             {t('find-out-how-to-file--link')}
@@ -101,7 +103,7 @@ const TravelPayAlert = props => {
             <ExternalLink
               href="/health-care/get-reimbursed-for-travel-pay/"
               hrefLang="en"
-              eventId="request-travel-pay-reimbursement-from-travel-error--link-clicked"
+              eventId={errorLinkEventId}
               eventPrefix="nav"
             >
               {t('find-out-how-to-file--link')}

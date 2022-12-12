@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchAccordion from '../components/SearchAccordion';
@@ -64,6 +64,18 @@ export function TuitionAndHousingEstimates({
     modalClose();
   };
 
+  const handlers = {
+    onSelection: target => {
+      const { value } = target.detail;
+      recordEvent({
+        event: 'gibct-form-change',
+        'gibct-form-field': 'Will you be taking any classes in person ?',
+        'gibct-form-value': value,
+      });
+      setOnlineClasses(value);
+    },
+  };
+
   const controls = (
     <div>
       <SearchBenefits
@@ -93,17 +105,10 @@ export function TuitionAndHousingEstimates({
       />
       <VARadioButton
         radioLabel=""
+        name="inPersonClasses"
         initialValue={onlineClasses}
         options={[{ value: 'no', label: 'Yes' }, { value: 'yes', label: 'No' }]}
-        onVaValueChange={target => {
-          const { value } = target.detail;
-          recordEvent({
-            event: 'gibct-form-change',
-            'gibct-form-field': 'Will you be taking any classes in person ?',
-            'gibct-form-value': value,
-          });
-          setOnlineClasses(value);
-        }}
+        onVaValueChange={handlers.onSelection}
       />
 
       <div id="note" className="vads-u-padding-top--2">
@@ -113,13 +118,6 @@ export function TuitionAndHousingEstimates({
     </div>
   );
   const title = 'Update tuition and housing estimates';
-
-  useEffect(
-    () => {
-      updateStore();
-    },
-    [onlineClasses],
-  );
 
   return (
     <div className="vads-u-margin-bottom--2">
@@ -142,14 +140,12 @@ export function TuitionAndHousingEstimates({
             {controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <va-button
               id={`update-${createId(title)}-button`}
               className="update-results-button"
+              text="Update estimates"
               onClick={closeAndUpdate}
-            >
-              Update estimates
-            </button>
+            />
           </div>
         </div>
       )}

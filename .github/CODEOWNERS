@@ -51,9 +51,9 @@ src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-
 
 src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
-src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/pre-need @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
+src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/pre-need @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/vre @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
