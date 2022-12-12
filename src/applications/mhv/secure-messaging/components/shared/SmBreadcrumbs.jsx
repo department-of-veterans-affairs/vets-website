@@ -19,7 +19,16 @@ const SmBreadcrumbs = () => {
   useEffect(
     () => {
       let paths = [
-        { path: `/message`, label: messageDetails?.subject },
+        {
+          path: `/message`,
+          label: activeFolder?.name,
+          children: [
+            {
+              path: `/message/${messageDetails?.messageId}`,
+              label: messageDetails?.subject,
+            },
+          ],
+        },
         { path: '/reply', label: messageDetails?.subject },
         Constants.Breadcrumbs.COMPOSE,
         Constants.Breadcrumbs.DRAFT,
@@ -48,19 +57,21 @@ const SmBreadcrumbs = () => {
             ],
           },
         ];
-      }
 
-      if (messageDetails?.messageId) {
-        paths = [
-          ...paths,
-          {
-            path: `/message/${messageDetails.messageId}`,
-            label: messageDetails.subject,
-          },
-        ];
+        if (messageDetails?.messageId) {
+          paths = [
+            ...paths,
+            {
+              path: `/${activeFolder?.folderId}`,
+              label: activeFolder?.name,
+            },
+            {
+              path: `/message/${messageDetails.messageId}`,
+              label: messageDetails.subject,
+            },
+          ];
+        }
       }
-      // console.log('***', paths);
-
       function handleBreadCrumbs() {
         const arr = [];
         arr.push({
@@ -79,13 +90,18 @@ const SmBreadcrumbs = () => {
             locationBasePath,
             locationChildPath,
           ] = location.pathname.split('/');
+
+          // console.log('path: ', path);
           if (path.path.substring(1) === locationBasePath) {
             arr.push(path);
             // if match path contains child object, then add children to breadcrumbs array
             if (locationChildPath && path.children) {
-              const child = path.children.find(
-                item => item.path.substring(1) === locationChildPath,
-              );
+              const child = path.children.find(item => {
+                if (locationBasePath === 'search') {
+                  return item.path.substring(1) === locationChildPath;
+                }
+                return item.path.substring(9) === locationChildPath;
+              });
               if (child) {
                 arr.push(child);
               }
