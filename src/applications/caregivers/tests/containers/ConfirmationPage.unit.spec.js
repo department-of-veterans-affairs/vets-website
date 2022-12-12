@@ -39,8 +39,6 @@ describe('hca <ConfirmationPage>', () => {
       </Provider>,
     );
 
-    view.debug();
-
     expect(
       view.container.querySelector('[data-testid="cg-veteranfullname"]'),
     ).to.contain.text('John Marjorie Smith Sr.');
