@@ -30,6 +30,7 @@ import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidenceUploadOther from '../pages/evidenceUploadOther';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
 import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
@@ -252,6 +253,12 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+        },
+        evidenceUploadOther: {
+          title: 'Supporting (lay) statements or other evidence',
+          path: 'supporting-evidence/upload-other-evidence',
+          uiSchema: evidenceUploadOther.uiSchema,
+          schema: evidenceUploadOther.schema,
         },
         evidenceUpload: {
           title: 'Lay statements and other evidence',
