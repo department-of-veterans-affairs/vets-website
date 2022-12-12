@@ -103,14 +103,13 @@ const validateLogin = async (
       goToNextPage();
     }
   } catch (e) {
-    // @TODO simplify this logic
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+      let errorType = 'validation';
       if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
-        updateError('max-validation');
-      } else {
-        updateError('validation');
+        errorType = 'max-validation';
       }
+      updateError(errorType);
     } else {
       setShowValidateError(true);
       if (!isLorotaDeletionEnabled) {
