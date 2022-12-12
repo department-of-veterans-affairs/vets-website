@@ -82,9 +82,8 @@ export default function FacilitiesNotShown({
         <div className="additional-info-content">
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
-          </p> */}
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-      {/* <ul
+          </p> 
+      <ul
             aria-labelledby="vaos-unsupported-label"
             className="usa-unstyled-list"
             role="list"
