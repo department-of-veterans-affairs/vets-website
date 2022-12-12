@@ -90,17 +90,15 @@ const SmBreadcrumbs = () => {
             locationBasePath,
             locationChildPath,
           ] = location.pathname.split('/');
-
-          // console.log('path: ', path);
           if (path.path.substring(1) === locationBasePath) {
             arr.push(path);
             // if match path contains child object, then add children to breadcrumbs array
             if (locationChildPath && path.children) {
               const child = path.children.find(item => {
-                if (locationBasePath === 'search') {
-                  return item.path.substring(1) === locationChildPath;
-                }
-                return item.path.substring(9) === locationChildPath;
+                return (
+                  item.path.substring(locationBasePath.length + 2) ===
+                  locationChildPath
+                );
               });
               if (child) {
                 arr.push(child);
