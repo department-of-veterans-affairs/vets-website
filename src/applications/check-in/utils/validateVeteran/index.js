@@ -105,7 +105,7 @@ const validateLogin = async (
   } catch (e) {
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      let errorType = 'validation';
+      let errorType = 'lorota-fail';
       if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
         errorType = 'max-validation';
       }
