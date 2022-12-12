@@ -13,7 +13,7 @@ const defaultProps = {
   showUnverifiedUserAlert: true,
 };
 
-describe('Introduction Page', () => {
+describe.skip('Introduction Page', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
   const store = mockStore(defaultProps);
