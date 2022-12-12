@@ -9,6 +9,3 @@ if (sourceEvent === 'push') {
 } else {
   core.exportVariable('SOURCE_REPO', 'content-build');
 }
-
-console.log(process.env.SOURCE_EVENT);
-console.log(process.env.SOURCE_REF);
