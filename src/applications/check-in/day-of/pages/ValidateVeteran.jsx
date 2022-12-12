@@ -110,9 +110,7 @@ const ValidateVeteran = props => {
   );
 
   const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t(
-        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
-      )
+    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
     : t(
         'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
       );
