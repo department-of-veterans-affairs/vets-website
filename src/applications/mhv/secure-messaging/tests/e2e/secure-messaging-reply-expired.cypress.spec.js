@@ -1,24 +1,20 @@
+import { cy } from 'date-fns/locale';
 import manifest from '../../manifest.json';
-import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-import PatientReplyPage from './pages/PatientReplyPage';
 
 describe(manifest.appName, () => {
   it('Axe Check Message Reply', () => {
     const landingPage = new PatientMessagesLandingPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const replyPage = new PatientReplyPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('select')
-      .eq(4)
+    cy.get('va-select#sort-order-dropdown')
+      .shadow()
+      .find('[id="select"]')
+      .select('Oldest to newest');
+    cy.get('button[type=button]')
+      .contains('Sort')
       .click();
-    // cy.get('select')
-    // .eq(4)
-    // .select('Oldest to newest');
-
-    // landingPage.sortOldestToNewest();
-
+    cy.contains('Appointment Inquiry').click();
     cy.get('div#react-root h2[slot=headline]').should(
       'have.text',
       'You cannot reply to a message that is older than 45 days.',
@@ -27,7 +23,6 @@ describe(manifest.appName, () => {
       'have.text',
       "Please select 'Compose' to create a new message.",
     );
-
     cy.injectAxe();
     cy.axeCheck();
   });
