@@ -77,6 +77,7 @@ const Compose = () => {
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
