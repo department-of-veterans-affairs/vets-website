@@ -8,7 +8,7 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 const initializeRealUserMonitoring = () => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
   if (
-    environment.BASE_URL.includes('localhost') &&
+    !environment.BASE_URL.includes('localhost') &&
     !window.DD_RUM?.getInitConfiguration()
   ) {
     datadogRum.init({
