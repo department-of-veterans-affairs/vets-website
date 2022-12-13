@@ -92,7 +92,7 @@ export function mockVAOSAppointmentsFetch({
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 
-  const meta = backendServiceFailures ? metaWithoutFailures : metaWithFailures;
+  const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });

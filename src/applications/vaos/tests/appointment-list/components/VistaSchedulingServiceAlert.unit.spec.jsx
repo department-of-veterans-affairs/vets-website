@@ -76,6 +76,7 @@ describe('VAOS <AppointmentsPage>', () => {
         end,
         requests: [appointment],
         statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        backendServiceFailures: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -92,7 +93,7 @@ describe('VAOS <AppointmentsPage>', () => {
           `Your appointments | VA online scheduling | Veterans Affairs`,
         );
       });
-
+      screen.debug();
       expect(screen.queryByText("We can't display in-person VA appointments"))
         .to.exist;
     });
@@ -139,7 +140,6 @@ describe('VAOS <AppointmentsPage>', () => {
         end,
         requests: [appointment],
         statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-        backendServiceFailures: true,
       });
 
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
