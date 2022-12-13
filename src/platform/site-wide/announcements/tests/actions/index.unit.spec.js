@@ -5,73 +5,61 @@ import sessionStorage from '../../../../utilities/storage/sessionStorage';
 import { AnnouncementBehavior } from '../../constants';
 import * as announcementActions from '../../actions';
 
-describe('initDismissedAnnouncements', () => {
-  beforeEach(() => {
+describe('previouslyDismissedAnnouncements interface', () => {
+  afterEach(() => {
     localStorage.removeItem(announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE);
     sessionStorage.removeItem(
       announcementActions.ANNOUNCEMENTS_SESSION_STORAGE,
     );
   });
 
-  it('returns an empty array from localStorage & sessionStorage', () => {
-    const result = announcementActions.initDismissedAnnouncements();
-    expect(result).to.be.deep.equal({
-      type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
-      dismissedAnnouncements: [],
-    });
+  it('should return an announcement name from localStorage when saved with SHOW_ONCE', () => {
+    announcementActions.previouslyDismissedAnnouncements.save(
+      'dummyA',
+      AnnouncementBehavior.SHOW_ONCE,
+    );
+    let stored = localStorage.getItem(
+      announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE,
+    );
+    try {
+      stored = JSON.parse(stored);
+    } catch (err) {
+      // Fail silently
+    }
+    expect(stored).to.contain('dummyA');
   });
 
-  it('returns previously-dismissed announcements during startup', () => {
+  it('should return an announcement name from localStorage when saved with SHOW_ONCE_PER_SESSION', () => {
+    announcementActions.previouslyDismissedAnnouncements.save(
+      'dummyB',
+      AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
+    );
+    let stored = sessionStorage.getItem(
+      announcementActions.ANNOUNCEMENTS_SESSION_STORAGE,
+    );
+    try {
+      stored = JSON.parse(stored);
+    } catch (err) {
+      // Fail silently
+    }
+    expect(stored).to.contain('dummyB');
+  });
+
+  it('should return an announcement name when initialized from localStorage', () => {
     localStorage.setItem(
       announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE,
-      JSON.stringify(['dummy1']),
+      JSON.stringify(['dummyC']),
     );
+    const dismissedAnnouncements = announcementActions.previouslyDismissedAnnouncements.initializeFromLocalStorage();
+    expect(dismissedAnnouncements).length.to.be(1);
+  });
 
+  it('should return an announcement name when initialized from sessionStorage', () => {
     sessionStorage.setItem(
       announcementActions.ANNOUNCEMENTS_SESSION_STORAGE,
-      JSON.stringify(['dummy2']),
+      JSON.stringify(['dummyD']),
     );
-    const result = announcementActions.initDismissedAnnouncements();
-
-    expect(result).to.be.deep.equal({
-      type: announcementActions.INIT_DISMISSED_ANNOUNCEMENTS,
-      dismissedAnnouncements: ['dummy1', 'dummy2'],
-    });
-  });
-});
-
-describe('previouslyDismissedAnnouncements', () => {
-  describe('getAll', () => {
-    it('should initially return an empty array', () => {
-      const dismissedAnnouncements = announcementActions.previouslyDismissedAnnouncements.getAll();
-      expect(dismissedAnnouncements).length.to.be(0);
-    });
-  });
-
-  describe('initializeFromLocalStorage', () => {
-    beforeEach(() => {
-      localStorage.removeItem(announcementActions.ANNOUNCEMENTS_LOCAL_STORAGE);
-      sessionStorage.removeItem(
-        announcementActions.ANNOUNCEMENTS_SESSION_STORAGE,
-      );
-    });
-
-    it('should return an announcement name from localStorage when saved with SHOW_ONCE', () => {
-      announcementActions.previouslyDismissedAnnouncements.save(
-        'dummy1',
-        AnnouncementBehavior.SHOW_ONCE,
-      );
-      const dismissedAnnouncements = announcementActions.previouslyDismissedAnnouncements.initializeFromLocalStorage();
-      expect(dismissedAnnouncements).length.to.be(1);
-    });
-
-    it('should return an announcement name from sessionStorage when saved with SHOW_ONCE_PER_SESSION', () => {
-      announcementActions.previouslyDismissedAnnouncements.save(
-        'dummy2',
-        AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
-      );
-      const dismissedAnnouncements = announcementActions.previouslyDismissedAnnouncements.initializeFromSessionStorage();
-      expect(dismissedAnnouncements).length.to.be(1);
-    });
+    const dismissedAnnouncements = announcementActions.previouslyDismissedAnnouncements.initializeFromSessionStorage();
+    expect(dismissedAnnouncements).length.to.be(1);
   });
 });

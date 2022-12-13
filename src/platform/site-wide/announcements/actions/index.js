@@ -8,72 +8,64 @@ export const DISMISS_ANNOUNCEMENT = 'DISMISS_ANNOUNCEMENT';
 export const ANNOUNCEMENTS_LOCAL_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 export const ANNOUNCEMENTS_SESSION_STORAGE = 'DISMISSED_ANNOUNCEMENTS';
 
-export const previouslyDismissedAnnouncements = (() => {
-  let dismissedOnce = [];
-  let dismissedPerSession = [];
+let dismissedOnce = [];
+let dismissedPerSession = [];
 
-  return {
-    initializeFromLocalStorage() {
-      const fromLocalStorage = localStorage.getItem(
-        ANNOUNCEMENTS_LOCAL_STORAGE,
-      );
-      if (fromLocalStorage) {
-        try {
-          dismissedOnce = JSON.parse(fromLocalStorage);
-        } catch (err) {
-          // Value will default to an empty array
-        }
+export const previouslyDismissedAnnouncements = {
+  initializeFromLocalStorage() {
+    const fromLocalStorage = localStorage.getItem(ANNOUNCEMENTS_LOCAL_STORAGE);
+    if (fromLocalStorage) {
+      try {
+        dismissedOnce = JSON.parse(fromLocalStorage);
+      } catch (err) {
+        // Value will default to an empty array
       }
-      return dismissedOnce;
-    },
+    }
+    return dismissedOnce;
+  },
 
-    initializeFromSessionStorage() {
-      const fromSessionStorage = sessionStorage.getItem(
-        ANNOUNCEMENTS_SESSION_STORAGE,
-      );
-      if (fromSessionStorage) {
-        try {
-          dismissedPerSession = JSON.parse(fromSessionStorage);
-        } catch (err) {
-          // Value will default to an empty array
-        }
+  initializeFromSessionStorage() {
+    const fromSessionStorage = sessionStorage.getItem(
+      ANNOUNCEMENTS_SESSION_STORAGE,
+    );
+    if (fromSessionStorage) {
+      try {
+        dismissedPerSession = JSON.parse(fromSessionStorage);
+      } catch (err) {
+        // Value will default to an empty array
       }
-      return dismissedPerSession;
-    },
+    }
+    return dismissedPerSession;
+  },
 
-    getAll() {
-      return [...dismissedOnce, ...dismissedPerSession];
-    },
-
-    save(dismissedAnnouncementName, show) {
-      switch (show) {
-        case AnnouncementBehavior.SHOW_ONCE:
-          dismissedOnce.push(dismissedAnnouncementName);
-          localStorage.setItem(
-            ANNOUNCEMENTS_LOCAL_STORAGE,
-            JSON.stringify(dismissedOnce),
-          );
-          break;
-        case AnnouncementBehavior.SHOW_ONCE_PER_SESSION:
-          dismissedPerSession.push(dismissedAnnouncementName);
-          sessionStorage.setItem(
-            ANNOUNCEMENTS_SESSION_STORAGE,
-            JSON.stringify(dismissedPerSession),
-          );
-          break;
-        default:
-          break;
-      }
-    },
-  };
-})();
+  save(dismissedAnnouncementName, show) {
+    switch (show) {
+      case AnnouncementBehavior.SHOW_ONCE:
+        dismissedOnce.push(dismissedAnnouncementName);
+        localStorage.setItem(
+          ANNOUNCEMENTS_LOCAL_STORAGE,
+          JSON.stringify(dismissedOnce),
+        );
+        break;
+      case AnnouncementBehavior.SHOW_ONCE_PER_SESSION:
+        dismissedPerSession.push(dismissedAnnouncementName);
+        sessionStorage.setItem(
+          ANNOUNCEMENTS_SESSION_STORAGE,
+          JSON.stringify(dismissedPerSession),
+        );
+        break;
+      default:
+        break;
+    }
+  },
+};
 
 export function initDismissedAnnouncements() {
-  previouslyDismissedAnnouncements.initializeFromLocalStorage();
-  previouslyDismissedAnnouncements.initializeFromSessionStorage();
+  const localStored = previouslyDismissedAnnouncements.initializeFromLocalStorage();
+  const sessionStored = previouslyDismissedAnnouncements.initializeFromSessionStorage();
   return {
     type: INIT_DISMISSED_ANNOUNCEMENTS,
-    dismissedAnnouncements: previouslyDismissedAnnouncements.getAll(),
+    dismissedAnnouncements: [...localStored, ...sessionStored],
   };
 }
 
