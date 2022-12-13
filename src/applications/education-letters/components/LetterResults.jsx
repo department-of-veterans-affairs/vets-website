@@ -39,28 +39,10 @@ export const HasLetters = ({ claimStatus }) => {
         </div>
       </div>
 
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="warning"
-        visible
-      >
-        <div>
-          <p className="vads-u-margin-y--0">
-            The letter displayed here may not be the most recent decision letter
-            issued. If your claim requires further clarification, a follow-up
-            decision letter will be sent to you by mail. If you have additional
-            questions, you can contact us through{' '}
-            <a href="https://ask.va.gov/"> Ask VA.</a>
-          </p>
-        </div>
-      </va-alert>
-      <br />
-      <va-alert
-        background-only
-        close-btn-aria-label="Close notification"
-        status="warning"
-        visible
-      >
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
+        <h2 id="track-your-status-on-mobile" slot="headline">
+          COE Decision Letter Update
+        </h2>
         <div>
           <p className="vads-u-margin-y--0">
             The letter displayed here may not be the most recent decision letter
