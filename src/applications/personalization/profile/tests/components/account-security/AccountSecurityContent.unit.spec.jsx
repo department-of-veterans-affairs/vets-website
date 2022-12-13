@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import {
   AccountSecurityContent,
   mapStateToProps,
@@ -110,30 +108,6 @@ describe('AccountSecurityContent', () => {
         wrapper.unmount();
       });
     });
-  });
-
-  it('should render a properly configured AlertBox as its second child', () => {
-    wrapper = shallow(<AccountSecurityContent {...makeDefaultProps()} />);
-    const alertBox = wrapper.childAt(1);
-    const alertBoxText = alertBox.find('p');
-    const firstAlertBoxLink = alertBox.find('a').first();
-    const secondAlertBoxLink = alertBox.find('a').at(1);
-    const thirdAlertBoxLink = alertBox.find('a').at(2);
-    const alertBoxSubtitle = alertBox.find('h3');
-    expect(alertBox.type()).to.equal(AlertBox);
-    expect(alertBox.prop('status')).to.equal('info');
-    expect(alertBox.prop('headline')).to.equal(
-      'Have questions about signing in to VA.gov?',
-    );
-    expect(alertBox.prop('backgroundOnly')).to.be.true;
-    expect(alertBoxText.text()).to.contain('Get answers');
-    expect(alertBoxSubtitle.text()).to.equal('Go to FAQs about these topics:');
-    expect(firstAlertBoxLink.text()).to.equal('Signing in to VA.gov');
-    expect(secondAlertBoxLink.text()).to.equal(
-      'Verifying your identity on VA.gov',
-    );
-    expect(thirdAlertBoxLink.text()).to.equal('Privacy and security on VA.gov');
-    wrapper.unmount();
   });
 });
 

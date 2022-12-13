@@ -57,14 +57,7 @@ const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
-  try {
-    return await apiRequest('/claim_letters');
-    // return new Promise(res => {
-    //   setTimeout(() => res(letters), 500);
-    // });
-  } catch (err) {
-    throw new Error('error.unknown');
-  }
+  return apiRequest('/claim_letters');
 };
 
 export function setNotification(message) {

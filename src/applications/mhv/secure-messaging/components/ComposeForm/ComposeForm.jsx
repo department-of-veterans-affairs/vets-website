@@ -174,7 +174,7 @@ const ComposeForm = props => {
       errorCounter += 1;
     }
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message Body cannot be blank.');
+      setBodyError('Message body cannot be blank.');
       errorCounter += 1;
     }
     if (!category || category === '') {
@@ -246,7 +246,7 @@ const ComposeForm = props => {
               value={selectedRecipient}
               onVaSelect={e => setSelectedRecipient(e.detail.value)}
               class="composeSelect"
-              data-testid="compose-select"
+              data-testid="compose-recipient-select"
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
