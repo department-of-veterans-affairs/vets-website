@@ -184,19 +184,6 @@ const ComposeForm = props => {
     if (errorCounter === 0) {
       setSendMessageFlag(true);
     }
-    if (
-      selectedRecipient.includes(
-        'b' ||
-          'TRIAGE_TEAM' ||
-          '###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###',
-      )
-    ) {
-      setRecipientError(
-        'You are blocked from sending messages to this recipient.',
-      );
-      errorCounter += 1;
-    }
-    return '';
   };
 
   useEffect(
