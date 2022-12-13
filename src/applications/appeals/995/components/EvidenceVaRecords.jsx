@@ -83,19 +83,6 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  useEffect(
-    () => {
-      setCurrentData(locations?.[currentIndex] || defaultData);
-      setCurrentState(defaultState);
-      focusElement('va-text-input');
-      scrollTo('topPageElement');
-      setForceReload(false);
-    },
-    // don't include locations or we clear state & move focus every time
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentIndex, forceReload],
-  );
-
   const availableIssues = getSelected(data).map(getIssueName);
 
   // *** validations ***
@@ -113,6 +100,24 @@ const EvidenceVaRecords = ({
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
+  const focusErrors = () => {
+    if (hasErrors()) {
+      focusElement('[error]');
+    }
+  };
+
+  useEffect(
+    () => {
+      setCurrentData(locations?.[currentIndex] || defaultData);
+      setCurrentState(defaultState);
+      focusElement(hasErrors() ? '[error]' : 'va-text-input');
+      scrollTo('topPageElement');
+      setForceReload(false);
+    },
+    // don't include locations or we clear state & move focus every time
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentIndex, forceReload],
+  );
 
   const updateCurrentLocation = ({
     name = currentData.locationAndName,
@@ -189,9 +194,12 @@ const EvidenceVaRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      updateState({ submitted: true });
       if (hasErrors()) {
-        updateState({ modal: { show: true, direction: NAV_PATHS.add } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
+        });
+        focusElement('[error]');
         return;
       }
       // clear state and start over for new entry
@@ -200,10 +208,14 @@ const EvidenceVaRecords = ({
     onGoForward: event => {
       event.preventDefault();
       if (hasErrors()) {
-        // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.forward } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
+        });
+        focusElement('[error]');
         return;
       }
+      updateState({ submitted: true });
       const nextIndex = currentIndex + 1;
       if (currentIndex < locations.length - 1) {
         goToPageIndex(nextIndex);
@@ -213,9 +225,11 @@ const EvidenceVaRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors()) {
-        // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.back } });
+      if (hasErrors() && currentIndex !== 0) {
+        updateState({
+          submitted: true,
+          modal: { show: true, direction: NAV_PATHS.back },
+        });
         return;
       }
       const prevIndex = currentIndex - 1;
@@ -231,6 +245,7 @@ const EvidenceVaRecords = ({
       // For unit testing only
       event.stopPropagation();
       updateState({ submitted: true, modal: { show: false, direction: '' } });
+      focusErrors();
     },
     onModalYes: () => {
       // Yes, keep location; do nothing for forward & add
@@ -245,6 +260,7 @@ const EvidenceVaRecords = ({
           goToPageIndex(prevIndex);
         }
       }
+      focusErrors();
     },
     onModalNo: () => {
       // No, clear current data and navigate
@@ -351,7 +367,7 @@ const EvidenceVaRecords = ({
           modalTitle={content.modalTitle}
           primaryButtonText={content.modalYes}
           secondaryButtonText={content.modalNo}
-          onCloseEvent={handlers.onModalYes}
+          onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.modal.show}
