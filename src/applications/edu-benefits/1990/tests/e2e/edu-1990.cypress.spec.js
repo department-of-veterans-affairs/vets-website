@@ -31,29 +31,29 @@ const form = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/1990', testData);
       });
     },
-    // pageHooks: {
-    //   introduction: ({ afterHook }) => {
-    //     cy.findByText(/Find the right application form/i, {
-    //       selector: 'button',
-    //     })
-    //       .first()
-    //       .click();
-    //     cy.get('#NewBenefit-0').check();
-    //     cy.get('#ClaimingBenefitOwnService-0').check();
-    //     cy.get('#NationalCallToService-1').click();
-    //     cy.get('#VetTec-1').click();
-    //     cy.get('#apply-now-link').click();
+    pageHooks: {
+      introduction: ({ afterHook }) => {
+        cy.findByText(/Find the right application form/i, {
+          selector: 'button',
+        })
+          .first()
+          .click();
+        cy.get('#NewBenefit-0').check();
+        cy.get('#ClaimingBenefitOwnService-0').check();
+        cy.get('#NationalCallToService-1').click();
+        cy.get('#VetTec-1').click();
+        cy.get('#apply-now-link').click();
 
-    //     afterHook(() => {
-    //       cy.findAllByText(/Start the education application/i, {
-    //         selector: 'button',
-    //       })
-    //         .first()
-    //         .click();
-    //     });
-    //   },
-    // },
-    skip: false,
+        afterHook(() => {
+          cy.findAllByText(/Start the education application/i, {
+            selector: 'button',
+          })
+            .first()
+            .click();
+        });
+      },
+    },
+    skip: true, // skip allowed while removing the secondary wizard. will turn to false after secondary wizard has been removed
   },
   manifest,
   formConfig,

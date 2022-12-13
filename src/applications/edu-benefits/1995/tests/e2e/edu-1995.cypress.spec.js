@@ -37,26 +37,26 @@ const form = createTestConfig(
         cy.intercept('PUT', '/v0/in_progress_forms/22-1995', testData);
       });
     },
-    // pageHooks: {
-    //   introduction: ({ afterHook }) => {
-    //     cy.findByText(/Find the right application form/i, {
-    //       selector: 'button',
-    //     })
-    //       .first()
-    //       .click();
-    //     cy.get('#NewBenefit-1').check();
-    //     cy.get('#TransferredBenefits-1').check();
-    //     cy.get('#apply-now-link').click();
-    //     afterHook(() => {
-    //       cy.findAllByText(/Start the education application/i, {
-    //         selector: 'button',
-    //       })
-    //         .first()
-    //         .click();
-    //     });
-    //   },
-    // },
-    skip: false,
+    pageHooks: {
+      introduction: ({ afterHook }) => {
+        cy.findByText(/Find the right application form/i, {
+          selector: 'button',
+        })
+          .first()
+          .click();
+        cy.get('#NewBenefit-1').check();
+        cy.get('#TransferredBenefits-1').check();
+        cy.get('#apply-now-link').click();
+        afterHook(() => {
+          cy.findAllByText(/Start the education application/i, {
+            selector: 'button',
+          })
+            .first()
+            .click();
+        });
+      },
+    },
+    skip: true, // skip allowed while removing the secondary wizard. will turn to false after secondary wizard has been removed
   },
   manifest,
   formConfig,
