@@ -6,6 +6,16 @@ on:
   push:
     branches:
       - '**'
+  # workflow_dispatch: # will remove this when finalized - leaving for testing purposes for now
+  #   inputs:
+  #     sourceRepo:
+  #       description: 'repo triggering deployment'
+  #       required: false
+  #       default: 'content-build'
+  #     sourceRef:
+  #       description: 'repo triggering deployment'
+  #       required: false
+  #       default: 'pe-deploy-cb'
 
 jobs:
   deploy-preview-environment:
@@ -37,11 +47,13 @@ jobs:
             .cache/yarn
             node_modules
 
-      # - name: Get Source Repo and Source Ref
-      #   run: node ./script/github-actions/pe-deploy-source.js
-      #   env:
-      #     SOURCE_EVENT: ${{ github.event.repository.name }}
-      #     SOURCE_REF: ${{ github.ref_name }}
+      - name: Get Source Repo and Source Ref
+        run: node ./script/github-actions/pe-deploy-source.js
+        env:
+          SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
+          SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
+          WORKFLOW_BRANCH: ${{ github.ref_name }}
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
@@ -49,4 +61,4 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: review_instance_run
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "${{ github.event.repository.name }}", "source_ref": "${{ github.ref_name }}" }'
+          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}" }'
