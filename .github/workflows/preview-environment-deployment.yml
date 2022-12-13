@@ -1,0 +1,52 @@
+name: Preview Environment Deployment
+
+on:
+  repository_dispatch:
+    types: [deploy_review_instance]
+  push:
+    branches:
+      - '**'
+
+jobs:
+  deploy-preview-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get Source Repo and Source Ref
+        run: node ./script/github-actions/pe-deploy-source.js
+        env:
+          SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_REF: ${{ github.ref_name }}
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          event-type: review_instance_run
+          repository: department-of-veterans-affairs/devops
+          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ github.ref_name }}" }'
