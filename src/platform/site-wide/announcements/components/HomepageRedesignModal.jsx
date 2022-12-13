@@ -3,10 +3,16 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import PropTypes from 'prop-types';
 
-export default class HomepagRedesignModal extends React.Component {
+export class HomepagRedesignModal extends React.Component {
   static isEnabled() {
     // insert feature flag stuff here
+    const { vaHomePreviewModal } = this.props;
+    return vaHomePreviewModal;
   }
 
   render() {
@@ -34,10 +40,21 @@ export default class HomepagRedesignModal extends React.Component {
         <VaButton
           text="Not today, go to the current homepage"
           onClick={dismiss}
+          className="vads-u-margin-top--2"
         />
       </VaModal>
     );
   }
 }
 
-HomepagRedesignModal.propTypes = {};
+HomepagRedesignModal.propTypes = {
+  vaHomePreviewModal: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  vaHomePreviewModal: toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaHomePreviewModal
+  ],
+});
+
+export default connect(mapStateToProps)(HomepagRedesignModal);

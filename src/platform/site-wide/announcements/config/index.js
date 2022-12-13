@@ -5,9 +5,9 @@ const config = {
     {
       name: 'new-homepage',
       // All pages.
-      paths: /(.)/,
+      paths: /^\/$/,
       component: HomepagRedesignModal,
-      disabled: false,
+      disabled: HomepagRedesignModal.isEnabled(),
       showEverytime: true,
     },
   ],
