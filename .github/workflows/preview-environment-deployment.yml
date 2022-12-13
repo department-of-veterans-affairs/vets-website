@@ -47,11 +47,11 @@ jobs:
             .cache/yarn
             node_modules
 
-      # - name: Get Source Repo and Source Ref
-      #   run: node ./script/github-actions/pe-deploy-source.js
-      #   env:
-      #     SOURCE_EVENT: ${{ github.event.repository.name }}
-      #     SOURCE_REF: ${{ github.ref_name }}
+      - name: Get Source Repo and Source Ref
+        run: node ./script/github-actions/pe-deploy-source.js
+        env:
+          SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_REF: ${{ github.ref_name }}
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
