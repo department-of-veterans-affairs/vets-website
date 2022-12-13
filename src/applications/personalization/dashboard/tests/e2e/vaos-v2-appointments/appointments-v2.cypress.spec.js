@@ -37,7 +37,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
           .toISOString(),
       );
       expect(req.query._include).to.include('facilities');
-      expect(req.query.statuses).to.include('booked');
+      expect(req.query['statuses[]']).to.include('booked');
       const rv = v2.createAppointmentSuccess();
       req.reply(rv);
     });
