@@ -118,7 +118,7 @@ export async function fetchAppointments({
         useAcheron,
       );
 
-      const filteredAppointments = allAppointments.filter(appt => {
+      const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
           (!useV2CC && appt.kind === 'cc')
