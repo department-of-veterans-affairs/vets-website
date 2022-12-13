@@ -6,6 +6,16 @@ on:
   push:
     branches:
       - '**'
+  workflow_dispatch:
+    inputs:
+      sourceRepo:
+        description: 'repo triggering deployment'
+        required: false
+        default: 'content-build'
+      sourceRef:
+        description: 'repo triggering deployment'
+        required: false
+        default: 'pe-deploy-cb'
 
 jobs:
   deploy-preview-environment:
