@@ -5,7 +5,10 @@ const sourceEvent = process.env.SOURCE_EVENT;
 /* eslint-disable no-console */
 
 console.log(sourceEvent);
-if (sourceEvent === 'repository_dispatch' || 'workflow_dispatch') {
+if (
+  sourceEvent === 'repository_dispatch' ||
+  sourceEvent === 'workflow_dispatch'
+) {
   console.log('content');
   core.exportVariable('SOURCE_REPO', 'content-build');
 } else {
