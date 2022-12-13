@@ -78,6 +78,7 @@ export const errorMessages = {
   maxLength: `You must enter less than ${
     MAX_LENGTH.ISSUE_NAME
   } characters for this issue name`,
+  requiredYesNo: 'You must answer yes or no',
 
   invalidDate: 'You must provide a date',
   startDateInPast: 'The start date must be in the future',
@@ -196,7 +197,9 @@ export const ATTACHMENTS_OTHER = {
     'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
 };
 
+export const CONTACT_INFO_PATH = 'contact-information';
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const ADD_ISSUE_PATH = 'add-issue';
 export const EVIDENCE_VA_REQUEST =
   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
