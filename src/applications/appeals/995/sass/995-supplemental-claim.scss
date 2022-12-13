@@ -121,6 +121,7 @@ dl.review {
   .checkbox-hidden {
     dt.widget-checkbox-wrap {
       width: 0;
+      min-width: auto;
     }
 
     .widget-title {
@@ -142,6 +143,12 @@ dl.review {
 
 .review-row > dd {
   word-break: break-word;
+}
+
+ul.evidence-summary,
+.usa-accordion-bordered ul li ul.evidence-summary {
+  list-style: none;
+  padding: 0;
 }
 
 /* add/update & cancel buttons on edit contact info page */

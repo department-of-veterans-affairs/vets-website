@@ -2,6 +2,7 @@ import {
   acknowledge5103Description,
   acknowledge5103Label,
   acknowledge5103Error,
+  reviewField,
 } from '../content/noticeOfAcknowledgement';
 
 export default {
@@ -19,8 +20,8 @@ export default {
       },
       'ui:options': {
         forceDivWrapper: true,
-        keepInPageOnReview: false,
       },
+      'ui:reviewField': reviewField,
     },
   },
   schema: {
