@@ -8,10 +8,10 @@ import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
-import { setError } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
@@ -30,7 +30,7 @@ const Index = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const {
     clearCurrentSession,
     setPreCheckinComplete,
@@ -55,18 +55,17 @@ const Index = props => {
     [dispatch],
   );
 
+  const { updateError } = useUpdateError();
+
   useEffect(
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        dispatch(setError('no-token'));
-        goToErrorPage('?error=no-token');
+        updateError('no-token');
+      } else if (!isUUID(token)) {
+        updateError('bad-token');
       }
 
-      if (!isUUID(token)) {
-        dispatch(setError('bad-token'));
-        goToErrorPage('?error=bad-token');
-      }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
@@ -80,8 +79,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                dispatch(setError('session-error'));
-                goToErrorPage('?error=session-error');
+                updateError('session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);
@@ -99,9 +97,9 @@ const Index = props => {
               }
             })
             .catch(() => {
+              // @TODO move clear current session to hook or HOC
               clearCurrentSession(window);
-              dispatch(setError('session-error'));
-              goToErrorPage('?error=session-error');
+              updateError('session-error');
             });
         }
       }
@@ -109,7 +107,6 @@ const Index = props => {
     [
       clearCurrentSession,
       dispatch,
-      goToErrorPage,
       initForm,
       isLorotaSecurityUpdatesEnabled,
       jumpToPage,
@@ -118,6 +115,7 @@ const Index = props => {
       setCurrentToken,
       setPreCheckinComplete,
       setSession,
+      updateError,
     ],
   );
   return (
