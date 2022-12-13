@@ -31,27 +31,27 @@ const form = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/5490', testData);
       });
     },
-    pageHooks: {
-      introduction: ({ afterHook }) => {
-        cy.findByText(/Find the right application form/i, {
-          selector: 'button',
-        })
-          .first()
-          .click({ force: true });
-        cy.get('#NewBenefit-0').check();
-        cy.get('#ClaimingBenefitOwnService-1').check();
-        cy.get('#SponsorDeceased-0').click({ force: true });
-        cy.get('#apply-now-link').click({ force: true });
+    // pageHooks: {
+    //   introduction: ({ afterHook }) => {
+    //     cy.findByText(/Find the right application form/i, {
+    //       selector: 'button',
+    //     })
+    //       .first()
+    //       .click({ force: true });
+    //     cy.get('#NewBenefit-0').check();
+    //     cy.get('#ClaimingBenefitOwnService-1').check();
+    //     cy.get('#SponsorDeceased-0').click({ force: true });
+    //     cy.get('#apply-now-link').click({ force: true });
 
-        afterHook(() => {
-          cy.findAllByText(/Start the education application/i, {
-            selector: 'button',
-          })
-            .first()
-            .click({ force: true });
-        });
-      },
-    },
+    //     afterHook(() => {
+    //       cy.findAllByText(/Start the education application/i, {
+    //         selector: 'button',
+    //       })
+    //         .first()
+    //         .click({ force: true });
+    //     });
+    //   },
+    // },
     skip: false,
   },
   manifest,
