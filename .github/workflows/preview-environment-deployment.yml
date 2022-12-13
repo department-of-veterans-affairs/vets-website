@@ -51,6 +51,8 @@ jobs:
         run: node ./script/github-actions/pe-deploy-source.js
         env:
           SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_REF: ${{ github.event.client_payload.source_ref }}
+          WORKFLOW_BRANCH: ${{ github.ref_name }}
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
@@ -58,4 +60,4 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: review_instance_run
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ github.ref_name }}" }'
+          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}" }'
