@@ -26,7 +26,7 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      props.getClaimDetail(this.props.params.id);
+      props.getClaimDetail(this.props.params.id, this.props.navigate);
       this.goToStatusPage();
     }
   }

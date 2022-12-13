@@ -70,8 +70,8 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaimDetail(this.props.claim.id);
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+    this.props.getClaimDetail(this.props.claim.id, this.props.navigate);
+    this.props.navigate('../files');
   }
 
   render() {
@@ -171,11 +171,11 @@ AdditionalEvidencePage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
+  navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   updateField: PropTypes.func,

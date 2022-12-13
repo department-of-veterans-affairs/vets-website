@@ -74,7 +74,7 @@ class DocumentRequestPage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaimDetail(this.props.claim.id);
+    this.props.getClaimDetail(this.props.claim.id, this.props.navigate);
     this.props.navigate(`../files`);
   }
 

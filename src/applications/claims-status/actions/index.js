@@ -255,7 +255,7 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export function getClaimDetail(id, router, poll = pollRequest) {
+export function getClaimDetail(id, navigate, poll = pollRequest) {
   return dispatch => {
     dispatch({
       type: GET_CLAIM_DETAIL,
@@ -273,11 +273,11 @@ export function getClaimDetail(id, router, poll = pollRequest) {
 
     return poll({
       onError: response => {
-        if (response.status !== 404 || !router) {
+        if (response.status !== 404 || !navigate) {
           return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         }
 
-        return router.replace('your-claims');
+        return navigate('/your-claims', { replace: true });
       },
       onSuccess: response =>
         dispatch({
