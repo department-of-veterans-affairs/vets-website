@@ -4,7 +4,7 @@ import {
   reviewField,
 } from '../content/evidenceUploadOther';
 
-import { EVIDENCE_OTHER } from '../constants';
+import { EVIDENCE_OTHER, errorMessages } from '../constants';
 
 export default {
   uiSchema: {
@@ -15,6 +15,9 @@ export default {
     [EVIDENCE_OTHER]: {
       'ui:title': evidenceUploadOtherHeader,
       'ui:widget': 'yesNo',
+      'ui:errorMessages': {
+        required: errorMessages.requiredYesNo,
+      },
       'ui:reviewField': reviewField,
     },
     'view:otherEvidenceInfo': {
@@ -23,6 +26,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: [EVIDENCE_OTHER],
     properties: {
       [EVIDENCE_OTHER]: {
         type: 'boolean',
