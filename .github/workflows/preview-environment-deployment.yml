@@ -40,7 +40,7 @@ jobs:
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js
         env:
-          SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_EVENT: ${{ github.event }}
           SOURCE_REF: ${{ github.ref_name }}
 
       - name: Repository Dispatch
