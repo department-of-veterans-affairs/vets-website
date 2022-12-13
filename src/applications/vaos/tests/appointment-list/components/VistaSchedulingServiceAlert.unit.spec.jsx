@@ -15,8 +15,7 @@ import { createMockAppointmentByVersion } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
-    // vaOnlineSchedulingStatusImprovement: true,
-    // vaOnlineSchedulingVAOSServiceVAAppointments: true,
+    vaOnlineSchedulingStatusImprovement: true,
     vaOnlineSchedulingVAOSServiceCCAppointments: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
