@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CTALink from '../CTALink';
+import { getAppointmentTimezone } from '../../utils/timezone';
 
 export const AppointmentsCard = ({ appointments }) => {
   const nextAppointment = appointments?.[0];
   const start = moment.parseZone(nextAppointment?.startsAt);
   let locationName;
+
+  const timeZone =
+    nextAppointment?.timeZone ?? getAppointmentTimezone(nextAppointment);
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -31,7 +35,7 @@ export const AppointmentsCard = ({ appointments }) => {
           {start.format('dddd, MMMM Do, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${start.format('h:mm a')} ${nextAppointment?.timeZone}`}
+          {`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
@@ -56,6 +60,7 @@ AppointmentsCard.propTypes = {
       startsAt: PropTypes.string.isRequired,
       timeZone: PropTypes.string,
       type: PropTypes.string.isRequired,
+      location: PropTypes.object,
     }),
   ),
   hasError: PropTypes.bool,
