@@ -46,6 +46,7 @@ const Search = () => {
         <va-loading-indicator
           message="Loading your secure messages..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
