@@ -93,8 +93,11 @@ describe('VAOS <AppointmentsPage>', () => {
           `Your appointments | VA online scheduling | Veterans Affairs`,
         );
       });
-      expect(screen.queryByText("We can't display in-person VA appointments"))
-        .to.exist;
+
+      await waitFor(() => {
+        expect(screen.queryByText("We can't display in-person VA appointments"))
+          .to.exist;
+      });
     });
 
     it('should not display VistaSchedulingServiceAlert if there is no failure returned', async () => {
