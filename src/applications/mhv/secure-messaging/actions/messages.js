@@ -166,6 +166,15 @@ export const sendMessage = (message, attachments) => async dispatch => {
       ),
     );
   } catch (e) {
+    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+        ),
+      );
+    }
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
@@ -192,6 +201,15 @@ export const sendReply = (
       ),
     );
   } catch (e) {
+    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+        ),
+      );
+    }
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_ERROR,
