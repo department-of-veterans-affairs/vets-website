@@ -93,7 +93,6 @@ describe('VAOS <AppointmentsPage>', () => {
           `Your appointments | VA online scheduling | Veterans Affairs`,
         );
       });
-      screen.debug();
       expect(screen.queryByText("We can't display in-person VA appointments"))
         .to.exist;
     });
