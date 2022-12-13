@@ -251,7 +251,7 @@ const Dashboard = ({
               {props.showHealthCare && !shouldShowV2Dashboard ? (
                 <HealthCare />
               ) : null}
-              {shouldShowV2Dashboard ? (
+              {isLOA3 && shouldShowV2Dashboard ? (
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
@@ -272,7 +272,9 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-              {shouldShowV2Dashboard ? <EducationAndTraining /> : null}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <EducationAndTraining />
+              ) : null}
               {isLOA3 && shouldShowV2Dashboard ? (
                 <SavedApplications />
               ) : (
