@@ -3,8 +3,8 @@ import {
   isLOA3,
   isLoggedIn,
   isProfileLoading,
-} from 'platform/user/selectors';
-import { HCA_ENROLLMENT_STATUSES } from './constants';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import { HCA_ENROLLMENT_STATUSES } from '../constants';
 
 const nonActiveInESRStatuses = new Set([
   null,
