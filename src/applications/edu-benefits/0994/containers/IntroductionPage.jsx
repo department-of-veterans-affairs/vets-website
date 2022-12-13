@@ -8,9 +8,7 @@ import { connect } from 'react-redux';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-  // WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-// import WizardContainer from '../../wizard/containers/WizardContainer';
 import { showEduBenefits0994Wizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
@@ -28,9 +26,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    // const { status } = this.state;
     const { showWizard } = this.props;
-    // const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
 
@@ -49,9 +45,6 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-0994 Application for Veteran Employment Through
           Technology Education Courses (VET TEC).
         </p>
-        {/* {show ? (
-          <WizardContainer setWizardStatus={this.setWizardStatus} />
-        ) : ( */}
         <div className="subway-map">
           <CallToActionWidget appId="vet-tec">
             <SaveInProgressIntro
@@ -184,7 +177,6 @@ export class IntroductionPage extends React.Component {
             {ombInfo}
           </div>
         </div>
-        {/* )} */}
       </div>
     );
   }

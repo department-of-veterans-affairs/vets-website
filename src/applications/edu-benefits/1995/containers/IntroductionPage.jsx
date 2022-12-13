@@ -3,13 +3,11 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-// import WizardContainer from 'applications/edu-benefits/wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
 import { showEduBenefits1995Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-  // WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
@@ -38,9 +36,7 @@ export class IntroductionPage extends React.Component {
   );
 
   render() {
-    // const { status } = this.state;
     const { showWizard } = this.props;
-    // const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
 
@@ -55,9 +51,6 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-1995 (Request for Change of Program or Place of
           Training).
         </p>
-        {/* {show ? (
-          <WizardContainer setWizardStatus={this.setWizardStatus} />
-        ) : ( */}
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
           <h4>Follow the steps below to apply for education benefits.</h4>
@@ -166,7 +159,6 @@ export class IntroductionPage extends React.Component {
             <OMBInfo resBurden={20} ombNumber="2900-0074" expDate="8/31/2024" />
           </div>
         </div>
-        {/* )} */}
       </div>
     );
   }

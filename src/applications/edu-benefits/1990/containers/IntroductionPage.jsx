@@ -3,13 +3,11 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-// import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
 import { showEduBenefits1990Wizard } from 'applications/edu-benefits/selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-  // WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
 export class IntroductionPage extends React.Component {
@@ -27,19 +25,13 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    // const { status } = this.state;
     const { showWizard } = this.props;
-    // const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for VA Education Benefits" />
         <p>Equal to VA Form 22-1990 (Application for VA Education Benefits).</p>
-
-        {/* {show ? (
-          <WizardContainer setWizardStatus={this.setWizardStatus} />
-        ) : ( */}
         <div className="subway-map">
           <SaveInProgressIntro
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -143,7 +135,6 @@ export class IntroductionPage extends React.Component {
             />
           </div>
         </div>
-        {/* )} */}
       </div>
     );
   }

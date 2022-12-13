@@ -7,9 +7,7 @@ import { connect } from 'react-redux';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
-  // WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-// import WizardContainer from '../../wizard/containers/WizardContainer';
 import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
@@ -27,9 +25,7 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    // const { status } = this.state;
     const { showWizard } = this.props;
-    // const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
     return (
@@ -39,9 +35,6 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-1990E (Application for Family Member to Use
           Transferred Benefits).
         </p>
-        {/* {show ? (
-          <WizardContainer setWizardStatus={this.setWizardStatus} />
-        ) : ( */}
         <div className="subway-map">
           <SaveInProgressIntro
             prefillEnabled={this.props.route.formConfig.prefillEnabled}
@@ -145,7 +138,6 @@ export class IntroductionPage extends React.Component {
             />
           </div>
         </div>
-        {/* )} */}
       </div>
     );
   }
