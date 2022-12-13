@@ -86,3 +86,10 @@ export const authorizationInfo = (
     </p>
   </>
 );
+
+export const reviewField = () => (
+  <div className="review-row">
+    <dt>{authorizationLabel}</dt>
+    <dd>Yes, I acknowledge</dd>
+  </div>
+);

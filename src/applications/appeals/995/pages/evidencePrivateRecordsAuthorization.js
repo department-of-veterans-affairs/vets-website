@@ -1,6 +1,7 @@
 import {
   authorizationLabel,
   authorizationInfo,
+  reviewField,
 } from '../content/evidencePrivateRecordsAuthorization';
 
 import { errorMessages } from '../constants';
@@ -21,6 +22,7 @@ export default {
         forceDivWrapper: true,
         showFieldLabel: false,
       },
+      'ui:reviewField': reviewField,
       'ui:errorMessages': {
         required: errorMessages.evidence.authorizationRequiredError,
       },
