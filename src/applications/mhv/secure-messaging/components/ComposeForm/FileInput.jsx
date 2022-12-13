@@ -97,6 +97,7 @@ const FileInput = ({ attachments, setAttachments }) => {
           primaryButtonText="Continue editing"
           status="warning"
           visible
+          data-testid="attach-file-error-modal"
         >
           <p>{error.message}</p>
         </VaModal>
