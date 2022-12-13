@@ -51,7 +51,7 @@ export const Appointments = ({ appointments, hasError }) => {
           {start.format('dddd, MMMM Do, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${start.format('h:mm a')} ${timeZone}`}
+          {`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
