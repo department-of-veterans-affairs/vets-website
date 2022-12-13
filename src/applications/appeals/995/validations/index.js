@@ -31,16 +31,16 @@ export const requireRatedDisability = (err, fieldData) => {
 };
 
 /* Contact info */
-export const contactInfoValidation = (errors, _fieldData, formData) => {
+export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
   const { veteran = {} } = formData;
   if (!veteran.email) {
-    errors.addError(errorMessages.missingEmail);
+    errors.addError?.(errorMessages.missingEmail);
   }
   if (!(veteran.homePhone?.phoneNumber || veteran.mobilePhone?.phoneNumber)) {
-    errors.addError(errorMessages.missingPhone);
+    errors.addError?.(errorMessages.missingPhone);
   }
   if (!veteran.address?.addressLine1) {
-    errors.addError(errorMessages.missingAddress);
+    errors.addError?.(errorMessages.missingAddress);
   }
 };
 

@@ -13,10 +13,24 @@ export const optInDescription = (
   </>
 );
 
-export const optInLabel = (
-  <strong>
+const label = (
+  <>
     I understand that I'm opting in to the new decision review process. This
     means any isues I want reviewed from the old appeals process will move into
     the new decision review process.
-  </strong>
+  </>
 );
+
+export const optInLabel = <strong>{label}</strong>;
+
+export const reviewField = ({ children }) => {
+  const result = children.props.formData
+    ? 'Yes, I choose to opt in to the new process'
+    : 'No, I want to stay in the old review process';
+  return (
+    <div className="review-row">
+      <dt>{label}</dt>
+      <dd>{result}</dd>
+    </div>
+  );
+};
