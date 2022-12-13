@@ -1,8 +1,8 @@
-import { SummaryTitle } from '../content/issueSummary';
+import IssueSumary from '../content/IssueSummary';
 
 export default {
   uiSchema: {
-    'ui:title': SummaryTitle,
+    'ui:title': IssueSumary,
     'ui:options': {
       forceDivWrapper: true,
     },
