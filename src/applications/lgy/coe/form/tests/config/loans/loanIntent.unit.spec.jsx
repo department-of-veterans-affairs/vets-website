@@ -29,7 +29,7 @@ describe('COE applicant loan intent', () => {
       </Provider>,
     );
 
-    expect($$('input', container).length).to.equal(4);
+    expect($$('input', container).length).to.equal(5);
   });
 
   it('Should submit', () => {
