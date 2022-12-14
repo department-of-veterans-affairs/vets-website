@@ -7,7 +7,7 @@ const config = {
       // All pages.
       paths: /^\/$/,
       component: HomepagRedesignModal,
-      disabled: HomepagRedesignModal.isEnabled(),
+      disabled: false,
       showEverytime: true,
     },
   ],
