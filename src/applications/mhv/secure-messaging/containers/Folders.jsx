@@ -87,7 +87,7 @@ const Folders = () => {
     }
     return (
       <>
-        <h1>My folders</h1>
+        <h1 className="vads-u-margin-bottom--2">My folders</h1>
         <AlertBackgroundBox closeable />
         <button type="button" className="modal-button" onClick={openNewModal}>
           Create new folder

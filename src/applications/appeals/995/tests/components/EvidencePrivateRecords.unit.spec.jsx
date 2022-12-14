@@ -132,13 +132,29 @@ describe('<EvidencePrivateRecords>', () => {
     expect($('.vads-c-action-link--green', container)).to.exist;
   });
 
+  // *** CLOSE MODAL ***
   it('should show error messages after closing modal after submitting empty page', () => {
-    const { container } = render(setup({ method: 'onModalClose' }));
+    const goSpy = sinon.spy();
+    const index = 1;
+    const data = {
+      ...mockData,
+      providerFacility: [mockFacility, {}, mockFacility2],
+    };
+    const page = setup({
+      index,
+      method: 'onModalClose',
+      goForward: goSpy,
+      goToPath: goSpy,
+      data,
+    });
+    const { container } = render(page);
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
     testAndCloseModal(container);
-    getAndTestAllErrors(container, { ignoreCountry: true });
+
+    expect(goSpy.called).to.be.false;
+    getAndTestAllErrors(container);
   });
 
   // *** FORWARD ***
@@ -159,11 +175,30 @@ describe('<EvidencePrivateRecords>', () => {
 
   it('should show modal when submitting an empty page', () => {
     const goSpy = sinon.spy();
-    const { container } = render(setup({ goForward: goSpy }));
+    const data = { ...mockData, providerFacility: [mockFacility, {}] };
+    const page = setup({
+      index: 1,
+      goForward: goSpy,
+      data,
+    });
+    const { container } = render(page);
     fireEvent.submit($('form', container));
 
     expect($('va-modal', container).getAttribute('visible')).to.eq('true');
     expect(goSpy.called).to.be.false;
+  });
+
+  it('should not show modal (reveal errors) when going forward on an empty page on first entry only', () => {
+    const goSpy = sinon.spy();
+    const index = 0;
+    const page = setup({ index, goForward: goSpy });
+    const { container } = render(page);
+
+    // back
+    fireEvent.click($('.usa-button-primary', container), mouseClick);
+
+    expect(goSpy.called).to.be.false;
+    getAndTestAllErrors(container, { ignoreCountry: true });
   });
 
   it('should not navigate, but will show errors when choosing "Yes" after continuing', () => {
@@ -254,13 +289,17 @@ describe('<EvidencePrivateRecords>', () => {
     expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
-  it('should show modal when going back on an empty page', () => {
+  it('should not show modal when going back on an empty page on first entry only', () => {
     const goSpy = sinon.spy();
-    const { container } = render(setup({ goBack: goSpy }));
+    const index = 0;
+    const page = setup({ index, goBack: goSpy, goToPath: goSpy });
+    const { container } = render(page);
+
+    // back
     fireEvent.click($('.usa-button-secondary', container));
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('true');
-    expect(goSpy.called).to.be.false;
+    expect(goSpy.called).to.be.true;
+    expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
   it('should navigate back to previous index page, after choosing "Yes" in modal', () => {
@@ -287,33 +326,14 @@ describe('<EvidencePrivateRecords>', () => {
       .be.true;
   });
 
-  it('should navigate back to private record request page, after choosing "Yes" in modal', () => {
-    const goSpy = sinon.spy();
-    const index = 0;
-    const data = { ...mockData, providerFacility: [{}, mockFacility] };
-    const page = setup({
-      index,
-      method: 'onModalYes',
-      goBack: goSpy,
-      data,
-    });
-    const { container } = render(page);
-
-    // continue
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
-
-    expect(goSpy.calledWith(index - 1)).to.be.true;
-  });
-
   it('should navigate back one index when choosing "No" after continuing', () => {
     const goSpy = sinon.spy();
-    const index = 2;
+    const index = 1;
     const page = setup({
       index,
       method: 'onModalNo',
       goToPath: goSpy,
-      data: { ...mockData, providerFacility: [mockFacility, mockFacility2] },
+      data: { ...mockData, providerFacility: [mockFacility, {}] },
     });
     const { container } = render(page);
 
@@ -324,25 +344,6 @@ describe('<EvidencePrivateRecords>', () => {
     expect(goSpy.called).to.be.true;
     expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index - 1}`)).to
       .be.true;
-  });
-
-  it('should navigate back to request private records request page when choosing "No" after continuing', () => {
-    const goSpy = sinon.spy();
-    const index = 0;
-    const page = setup({
-      index,
-      method: 'onModalNo',
-      goBack: goSpy,
-      data: { ...mockData, providerFacility: [{}, mockFacility] },
-    });
-    const { container } = render(page);
-
-    // back
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
-
-    expect(goSpy.called).to.be.true;
-    expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
   // *** ADD ANOTHER ***
@@ -547,5 +548,4 @@ describe('<EvidencePrivateRecords>', () => {
 
     expect(input.error).to.contain(errorMessages.evidence.unique);
   });
-  /**/
 });

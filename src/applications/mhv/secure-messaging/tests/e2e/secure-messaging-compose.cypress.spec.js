@@ -11,7 +11,7 @@ describe(manifest.appName, () => {
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-select"]')
+    cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
       .select('BLUE ANCILLARY_TEAM');

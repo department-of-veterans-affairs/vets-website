@@ -17,7 +17,7 @@ export const ancillaryFormUploadUi = content => {
       focusElement(lastSelect[0]);
     }
   };
-  const addAnotherLabel = 'Add another document';
+  const addAnotherLabel = 'Upload another document';
 
   return fileUploadUI(content.label, {
     itemDescription: content.description,
@@ -57,6 +57,7 @@ export const ancillaryFormUploadUi = content => {
         },
       },
     }),
+    hideOnReview: true,
     attachmentName: false,
   });
 };

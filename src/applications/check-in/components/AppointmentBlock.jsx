@@ -12,9 +12,7 @@ const AppointmentBlock = props => {
   const infoBlockMessage = appointment => {
     if (appointment?.kind === 'phone') {
       if (page === 'confirmation') {
-        return t(
-          'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
-        );
+        return t('your-provider-will-call-you-at-your-appointment-time');
       }
       return t('your-provider-will-call-you');
     }

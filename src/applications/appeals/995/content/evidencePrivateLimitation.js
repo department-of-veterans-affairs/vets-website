@@ -16,4 +16,11 @@ export const content = {
       </p>
     </va-additional-info>
   ),
+
+  name: 'limitations',
+
+  review: {
+    y: 'Yes, I want to limit the information',
+    n: 'No, I don’t want to limit the information',
+  },
 };
