@@ -12,6 +12,6 @@ if (
   core.exportVariable('SOURCE_REPO', sourceRepo);
   core.exportVariable('SOURCE_REF', sourceRef);
 } else {
-  core.exportVariable('SOURCE_REPO', 'vets-website');
+  core.exportVariable('SOURCE_REPO', 'vets-api');
   core.exportVariable('SOURCE_REF', workflowRef);
 }
