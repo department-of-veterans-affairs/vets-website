@@ -36,6 +36,7 @@ import FeaturesWarning from '../components/FeaturesWarning';
 import MobileAppMessage from '../components/MobileAppMessage';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
+import { cstUseLighthouse } from '../selectors';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
@@ -61,6 +62,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       canAccessAppeals,
       canAccessClaims,
+      // useLighthouse,
       getAppealsV2,
       getClaimsV2,
       getStemClaims,
@@ -68,6 +70,7 @@ class YourClaimsPageV2 extends React.Component {
       appealsLoading,
       stemClaimsLoading,
     } = this.props;
+
     if (canAccessClaims) {
       getClaimsV2();
     }
@@ -280,6 +283,7 @@ YourClaimsPageV2.propTypes = {
     }),
   ),
   stemClaimsLoading: PropTypes.bool,
+  useLighthouse: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -312,6 +316,7 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
+    useLighthouse: cstUseLighthouse(state),
     fullName: state.user.profile.userFullName,
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,

@@ -18,22 +18,12 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
-      const paths = [
-        {
-          path: `/message`,
-          label: messageDetails?.subject,
-        },
+      let paths = [
+        { path: `/message`, label: messageDetails?.subject },
         { path: '/reply', label: messageDetails?.subject },
         Constants.Breadcrumbs.COMPOSE,
         Constants.Breadcrumbs.DRAFT,
         Constants.Breadcrumbs.DRAFTS,
-        {
-          path: `/folder/${
-            activeFolder?.folderId
-            // ${messageDetails?.messageId}
-          }`,
-          label: activeFolder?.name,
-        },
         Constants.Breadcrumbs.FOLDERS,
         Constants.Breadcrumbs.SENT,
         Constants.Breadcrumbs.TRASH,
@@ -46,6 +36,19 @@ const SmBreadcrumbs = () => {
         },
         Constants.Breadcrumbs.FAQ,
       ];
+
+      if (activeFolder?.folderId) {
+        paths = [
+          ...paths,
+          {
+            path: `/folder`,
+            label: 'My folders',
+            children: [
+              { path: `/${activeFolder?.folderId}`, label: activeFolder?.name },
+            ],
+          },
+        ];
+      }
 
       function handleBreadCrumbs() {
         const arr = [];
@@ -71,7 +74,9 @@ const SmBreadcrumbs = () => {
               const child = path.children.find(
                 item => item.path.substring(1) === locationChildPath,
               );
-              arr.push(child);
+              if (child) {
+                arr.push(child);
+              }
             }
           }
         });

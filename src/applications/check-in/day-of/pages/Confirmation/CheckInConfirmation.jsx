@@ -66,10 +66,12 @@ const CheckInConfirmation = props => {
 
   const renderLoadingMessage = () => {
     return (
-      <va-loading-indicator
-        data-testid="loading-indicator"
-        message={t('loading')}
-      />
+      <div>
+        <va-loading-indicator
+          data-testid="loading-indicator"
+          message={t('loading')}
+        />
+      </div>
     );
   };
 
@@ -91,9 +93,7 @@ const CheckInConfirmation = props => {
           class="vads-u-margin-bottom--2"
         >
           <div>
-            {t(
-              'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
-            )}
+            {t('well-get-you-from-waiting-room-when-time-for-your-appointment')}
             {t('if-you-wait-more-than')}
           </div>
         </va-alert>

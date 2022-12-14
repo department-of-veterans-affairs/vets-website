@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 import {
   removeNonNumberCharacters,
   formatDollarAmount,
@@ -9,8 +10,7 @@ import {
 } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
-import RadioButtons from '../RadioButtons';
-import { focusElement } from 'platform/utilities/ui';
+import VARadioButton from '../VARadioButton';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
@@ -53,8 +53,10 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     }
   };
 
-  recordInputChange = event => {
-    const { name: field, value } = event.target;
+  recordInputChange = (event, target, name) => {
+    const { value } = event ? event.target : target.detail;
+    const field = event ? event.target.name : name;
+
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': field,
@@ -62,8 +64,8 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     });
   };
 
-  handleApprovedProgramsChange = event => {
-    const vetTecProgramName = event.target.value;
+  handleApprovedProgramsChange = (event, target) => {
+    const vetTecProgramName = event ? event.target.value : target.detail.value;
     const program = this.getProgramByName(vetTecProgramName);
 
     this.setState({
@@ -172,15 +174,15 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
       label: program.description,
     }));
     return options.length <= 5 ? (
-      <RadioButtons
-        label="Choose the training program you'd like to attend"
+      <VARadioButton
+        radioLabel="Choose the training program you'd like to attend"
         name="approvedPrograms"
+        initialValue={this.state.programName}
         options={options}
-        value={this.state.programName}
-        onChange={e => {
+        onVaValueChange={(target, name) => {
           this.setState({ inputUpdated: true });
-          this.handleApprovedProgramsChange(e);
-          this.recordInputChange(e);
+          this.handleApprovedProgramsChange(null, target);
+          this.recordInputChange(null, target, name);
         }}
       />
     ) : (

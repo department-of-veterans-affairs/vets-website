@@ -1,22 +1,42 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import {
   selectPatientFacilities,
   selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import {
+  selectPatientFacilities as selectPatientFacilitiesDsot,
+  selectIsCernerOnlyPatient as selectIsCernerOnlyPatientDsot,
+  selectIsCernerPatient as selectIsCernerPatientDsot,
+} from 'platform/user/cerner-dsot/selectors';
+
+export const selectFeatureUseDSOT = state =>
+  toggleValues(state).vaOnlineSchedulingUseDsot;
 
 export const selectIsCernerOnlyPatient = state =>
-  !!selectPatientFacilities(state)?.every(
-    f => f.isCerner && f.usesCernerAppointments,
-  );
+  selectFeatureUseDSOT(state)
+    ? selectIsCernerOnlyPatientDsot(state)
+    : !!selectPatientFacilities(state)?.every(
+        f => f.isCerner && f.usesCernerAppointments,
+      );
 
 export const selectIsCernerPatient = state =>
-  selectPatientFacilities(state)?.some(
-    f => f.isCerner && f.usesCernerAppointments,
+  selectFeatureUseDSOT(state)
+    ? selectIsCernerPatientDsot(state)
+    : selectPatientFacilities(state)?.some(
+        f => f.isCerner && f.usesCernerAppointments,
+      );
+
+export const selectRegisteredCernerFacilityIds = state => {
+  const data = selectFeatureUseDSOT(state)
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state);
+
+  return (
+    data
+      ?.filter(f => f.isCerner && f.usesCernerAppointments)
+      .map(f => f.facilityId) || []
   );
-export const selectRegisteredCernerFacilityIds = state =>
-  selectPatientFacilities(state)
-    ?.filter(f => f.isCerner && f.usesCernerAppointments)
-    .map(f => f.facilityId) || [];
+};
 
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');

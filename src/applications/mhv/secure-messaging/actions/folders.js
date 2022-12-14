@@ -52,7 +52,12 @@ export const clearFolder = () => async dispatch => {
 
 export const newFolder = folderName => async dispatch => {
   try {
-    await createFolder(folderName);
+    const response = await createFolder(folderName);
+
+    dispatch({
+      type: Actions.Folder.CREATE,
+      response,
+    });
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -60,6 +65,7 @@ export const newFolder = folderName => async dispatch => {
         Constants.Alerts.Folder.CREATE_FOLDER_SUCCESS,
       ),
     );
+    return response.data.attributes;
   } catch (e) {
     if (e.errors && e.errors.length > 0 && e.errors[0].code === 'SM126') {
       dispatch(
@@ -78,6 +84,7 @@ export const newFolder = folderName => async dispatch => {
         ),
       );
     }
+    throw e;
   }
 };
 

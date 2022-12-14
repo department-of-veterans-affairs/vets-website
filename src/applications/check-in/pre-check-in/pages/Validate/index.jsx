@@ -5,7 +5,6 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../../actions/authentication';
-import { setError } from '../../../actions/universal';
 
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
@@ -14,26 +13,28 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+    setPermissions,
+  } = useSessionStorage(true);
+  const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const updateError = useCallback(
-    error => {
-      dispatch(setError(error));
-    },
-    [dispatch],
-  );
+  const { updateError } = useUpdateError();
 
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
+      setPermissions(window, permissions);
     },
-    [dispatch],
+    [dispatch, setPermissions],
   );
 
   const selectContext = useMemo(makeSelectCurrentContext, []);
@@ -57,11 +58,6 @@ const Index = ({ router }) => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-  } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
@@ -77,7 +73,6 @@ const Index = ({ router }) => {
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
-        goToErrorPage,
         goToNextPage,
         incrementValidateAttempts,
         isMaxValidateAttempts,
@@ -91,7 +86,6 @@ const Index = ({ router }) => {
     },
     [
       app,
-      goToErrorPage,
       goToNextPage,
       incrementValidateAttempts,
       isMaxValidateAttempts,
@@ -109,9 +103,7 @@ const Index = ({ router }) => {
   );
 
   const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t(
-        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
-      )
+    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
     : t(
         'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
       );

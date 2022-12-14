@@ -1,9 +1,10 @@
 import merge from 'lodash/merge';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 
 import environment from 'platform/utilities/environment';
-import localStorage from 'platform/utilities/storage/localStorage';
-import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+// import localStorage from 'platform/utilities/storage/localStorage';
+import { apiRequest } from 'platform/utilities/api';
+// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import { SET_UNAUTHORIZED } from '../actions/types';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
@@ -258,42 +259,18 @@ export function makeAuthRequest(
   onSuccess,
   onError,
 ) {
-  const csrfTokenStored = localStorage.getItem('csrfToken');
   const options = merge(
     {},
     {
       method: 'GET',
       credentials: 'include',
       mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': csrfTokenStored,
-      },
       responseType: 'json',
     },
     userOptions,
   );
 
-  fetch(`${environment.API_URL}${url}`, options)
-    .catch(err => {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', err);
-        Sentry.captureMessage(`vets_client_error: ${err.message}`);
-      });
-
-      return Promise.reject(err);
-    })
-    .then(resp => {
-      if (resp.ok) {
-        if (options.responseType) {
-          return resp[options.responseType]();
-        }
-        return Promise.resolve();
-      }
-
-      return Promise.reject(resp);
-    })
+  apiRequest(`${environment.API_URL}${url}`, options)
     .then(onSuccess)
     .catch(resp => {
       if (resp.status === 401) {

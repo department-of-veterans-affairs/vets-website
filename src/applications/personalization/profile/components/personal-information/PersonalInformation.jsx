@@ -5,11 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
 import {
-  showBadAddressIndicator,
   hasBadAddress,
-  forceBadAddressIndicator,
   personalInformationLoadError,
 } from '@@profile/selectors';
+
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
@@ -43,14 +42,6 @@ const PersonalInformation = () => {
   );
 
   const userHasBadAddress = useSelector(hasBadAddress);
-
-  const shouldForceBadAddressIndicator = useSelector(
-    state =>
-      forceBadAddressIndicator(state) &&
-      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
-  );
-
-  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
@@ -128,17 +119,13 @@ const PersonalInformation = () => {
     [openEditModal],
   );
 
-  const showHeroBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator);
-
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      {showHeroBadAddressAlert && (
+      {userHasBadAddress && (
         <>
           <BadAddressAlert />
         </>

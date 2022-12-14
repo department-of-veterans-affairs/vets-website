@@ -487,8 +487,7 @@ export const submissionForm = {
                         key: null,
                         ref: null,
                         props: {
-                          href:
-                            'https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1',
+                          href: 'https://milconnect.dmdc.osd.mil/milconnect/',
                           children:
                             'update this information on the DoD milConnect website',
                         },
@@ -554,8 +553,7 @@ export const submissionForm = {
                         key: null,
                         ref: null,
                         props: {
-                          href:
-                            'https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1',
+                          href: 'https://milconnect.dmdc.osd.mil/milconnect/',
                           children:
                             'update this information on the DoD milConnect website',
                         },

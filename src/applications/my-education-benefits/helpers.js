@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { DATE_TIMESTAMP } from './constants';
+import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export const directDepositWarning = (
@@ -43,6 +43,23 @@ export const post911GiBillNote = (
   </div>
 );
 
+export function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
+  if (!str) {
+    return '';
+  }
+
+  if (str.length <= numVisibleChars) {
+    return str;
+  }
+
+  return (
+    obfuscateChar.repeat(str.length - numVisibleChars) +
+    str.substring(str.length - numVisibleChars, str.length)
+  );
+}
 /**
  * Converts a number to a string, preserving a minimum number of integer
  * digits.
@@ -177,13 +194,24 @@ function transformServiceHistory(serviceHistory) {
   };
 }
 
-function mapNotificaitonMethod(notificationMethod) {
+function mapNotificaitonMethodV1(notificationMethod) {
   if (notificationMethod === 'mail') {
     return 'Mail';
   }
   if (notificationMethod === 'email') {
     return 'Email';
   }
+  return notificationMethod;
+}
+
+function mapNotificationMethodV2({ notificationMethod }) {
+  if (notificationMethod === 'EMAIL') {
+    return 'No, just send me email notifications';
+  }
+  if (notificationMethod === 'TEXT') {
+    return 'Yes, send me text message notifications';
+  }
+
   return notificationMethod;
 }
 
@@ -194,7 +222,21 @@ export const equalsAlphaOnlyIgnoreCase = (a, b) => {
   return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
 };
 
-export function prefillTransformer(pages, formData, metadata, state) {
+/**
+ * Transforms a date in the format YYYYMMDD (e.g. '17760704')
+ * to YYYY-MM-DD (e.g. '1776-07-04').
+ * @param {string} b Date without a string.
+ * @returns Date formatted with hyphens.
+ */
+export const formatHyphenlessDate = b => {
+  if (!b || b.length < 8) {
+    return undefined;
+  }
+
+  return `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}`;
+};
+
+export function prefillTransformerV1(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
@@ -224,7 +266,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       },
     },
     'view:contactMethod': {
-      contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
+      contactMethod: mapNotificaitonMethodV1(claimant?.notificationMethod),
     },
     'view:mailingAddress': {
       address: {
@@ -257,6 +299,149 @@ export function prefillTransformer(pages, formData, metadata, state) {
     pages,
     state,
   };
+}
+
+export function prefillTransformerV2(pages, formData, metadata, state) {
+  const bankInformation = state.data?.bankInformation || {};
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const contactInfo = claimant?.contactInfo || {};
+
+  const stateUser = state.user || {};
+
+  const profile = stateUser?.profile;
+  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+
+  let firstName;
+  let middleName;
+  let lastName;
+  let suffix;
+
+  if (profile?.userFullName?.first && profile?.userFullName?.last) {
+    firstName = profile.userFullName.first;
+    middleName = profile.userFullName.middle;
+    lastName = profile.userFullName.last;
+    // suffix = ???
+  } else {
+    firstName = claimant.firstName;
+    middleName = claimant.middleName;
+    lastName = claimant?.lastName;
+    suffix = claimant.suffix;
+  }
+
+  const emailAddress =
+    vapContactInfo.email?.emailAddress ||
+    profile?.email ||
+    contactInfo.emailAddress ||
+    undefined;
+
+  let mobilePhoneNumber;
+  let mobilePhoneIsInternational;
+  const vapMobilePhone = vapContactInfo.mobilePhone || {};
+  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
+    mobilePhoneNumber = [
+      vapMobilePhone.areaCode,
+      vapMobilePhone.phoneNumber,
+    ].join();
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+  } else {
+    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+  }
+
+  let homePhoneNumber;
+  let homePhoneIsInternational;
+  const vapHomePhone = vapContactInfo.homePhone || {};
+  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
+    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
+    homePhoneIsInternational = vapHomePhone.isInternational;
+  } else {
+    homePhoneNumber = contactInfo?.homePhoneNumber;
+  }
+
+  const address = vapContactInfo.mailingAddress?.addressLine1
+    ? vapContactInfo.mailingAddress
+    : contactInfo;
+
+  const newData = {
+    ...formData,
+    [formFields.formId]: state.data?.formData?.data?.id,
+    [formFields.claimantId]: claimant?.claimantId,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
+        first: firstName || undefined,
+        middle: middleName || undefined,
+        last: lastName || undefined,
+      },
+    },
+    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+    [formFields.email]: {
+      email: emailAddress,
+      confirmEmail: emailAddress,
+    },
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
+        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: mobilePhoneIsInternational,
+      },
+      [formFields.phoneNumber]: {
+        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
+        isInternational: homePhoneIsInternational,
+      },
+    },
+    [formFields.viewReceiveTextMessages]: {
+      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
+    },
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode,
+        postalCode: address?.zipCode || address?.zipcode,
+        country: getSchemaCountryCode(address?.countryCode),
+      },
+      [formFields.livesOnMilitaryBase]:
+        address?.countryCode !== 'US' &&
+        address?.addressType === 'MILITARY_OVERSEAS',
+    },
+    [formFields.bankAccount]: {
+      ...bankInformation,
+      accountType: bankInformation?.accountType?.toLowerCase(),
+    },
+    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
+  };
+
+  if (suffix) {
+    newData[formFields.viewUserFullName].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        formFields.viewUserFullName
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, suffix),
+      ) || undefined;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const featureTogglesLoaded = state.featureToggles?.loading === false;
+  // eslint-disable-next-line camelcase
+  const showMebDgi40Features = state.featureToggles?.show_meb_dgi40_features;
+
+  if (!featureTogglesLoaded) {
+    return {};
+  }
+
+  if (showMebDgi40Features) {
+    return prefillTransformerV2(pages, formData, metadata, state);
+  }
+
+  return prefillTransformerV1(pages, formData, metadata, state);
 }
 
 export function customDirectDepositDescription() {

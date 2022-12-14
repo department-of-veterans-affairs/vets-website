@@ -57,7 +57,7 @@ const Folders = () => {
       setNameWarning('Folder name alreeady in use. Please use another name.');
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
       closeNewModal();
-      dispatch(newFolder(folderName));
+      dispatch(newFolder(folderName)).then(dispatch(getFolders));
     } else {
       setNameWarning(
         'Folder name can only contain letters, numbers, and spaces.',
@@ -87,7 +87,7 @@ const Folders = () => {
     }
     return (
       <>
-        <h1>My folders</h1>
+        <h1 className="vads-u-margin-bottom--2">My folders</h1>
         <AlertBackgroundBox closeable />
         <button type="button" className="modal-button" onClick={openNewModal}>
           Create new folder

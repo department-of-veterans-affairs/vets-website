@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -26,12 +27,9 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
       </p>
       {showClaimLettersLink && (
         <p>
-          <a
-            className="vads-c-action-link--blue"
-            href="/track-claims/your-claim-letters"
-          >
+          <Link className="vads-c-action-link--blue" to="your-claim-letters">
             Get your claim letters
-          </a>
+          </Link>
         </p>
       )}
     </va-alert>
