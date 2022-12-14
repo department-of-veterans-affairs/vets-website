@@ -92,8 +92,8 @@ describe('<EvidenceVaRecords>', () => {
     const errorEls = getErrorElements(container);
     expect(errorEls[0].error).to.eq(errors.locationMissing);
     expect(errorEls[1].error).to.eq(errors.issuesMissing);
-    expect(errorEls[2].error).to.eq(errorMessages.invalidDate);
-    expect(errorEls[3].error).to.eq(errorMessages.invalidDate);
+    expect(errorEls[2].error).to.eq(errorMessages.evidence.missingDate);
+    expect(errorEls[3].error).to.eq(errorMessages.evidence.missingDate);
   };
 
   it('should render', () => {

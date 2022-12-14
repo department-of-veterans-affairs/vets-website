@@ -45,7 +45,7 @@ describe('Supplemental Claims evidence upload request page', () => {
     expect($('.usa-input-error', container).textContent).to.contain(
       errorMessages.requiredYesNo,
     );
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should allow submit with one radio selected', () => {
