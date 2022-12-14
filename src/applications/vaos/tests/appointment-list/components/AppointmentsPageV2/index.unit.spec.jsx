@@ -45,8 +45,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       facilities: [{ facilityId: '983', isCerner: false }],
     },
   };
-  // Temporarily skipping for troubleshooting
-  it.skip('should navigate to list URLs on dropdown change', async () => {
+  it('should navigate to list URLs on dropdown change', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -80,7 +79,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Requested | Your appointments | Veterans Affairs`,
+        `Requested | VA online scheduling | Veterans Affairs`,
       );
     });
 
@@ -193,8 +192,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     );
   });
 
-  // temporarily skipping this to troubleshoot
-  describe.skip('when appointment status improvement flag is on', () => {
+  describe('when appointment status improvement flag is on', () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
