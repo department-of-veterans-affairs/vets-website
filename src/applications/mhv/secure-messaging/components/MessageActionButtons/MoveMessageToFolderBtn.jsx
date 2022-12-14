@@ -175,16 +175,19 @@ const MoveMessageToFolderBtn = props => {
           modalTitle="Create new folder"
           onCloseEvent={closeNewModal}
         >
+          <p className="vads-u-margin--0">Please enter your folder name</p>
+          <p className="vads-u-color--gray-medium vads-u-margin--0">
+            (50 characters maximum)
+          </p>
           <VaTextInput
-            className="input"
+            className="input vads-u-margin--0"
             value={folderName}
             onInput={e => setFolderName(e.target.value)}
             maxlength="50"
             error={nameWarning}
             name="folder-name"
-            label="Please enter your folder name"
           />
-          <va-button text="Confirm" onClick={confirmNewFolder} />
+          <va-button text="Create" onClick={confirmNewFolder} />
           <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
         </VaModal>
       </>
