@@ -7,8 +7,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 
-export function HomepagRedesignModal(props) {
-  const { dismiss, vaHomePreviewModal } = props;
+export function HomepagRedesignModal({ dismiss, vaHomePreviewModal }) {
   return (
     <>
       {vaHomePreviewModal && (

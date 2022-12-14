@@ -4,7 +4,7 @@ const config = {
   announcements: [
     {
       name: 'new-homepage',
-      // All pages.
+      // Homepage only
       paths: /^\/$/,
       component: HomepagRedesignModal,
       disabled: false,
