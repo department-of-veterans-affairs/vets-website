@@ -16,7 +16,7 @@ export function HomepagRedesignModal(props) {
         <Modal
           cssClass="va-modal announcement-brand-consolidation"
           visible
-          onCloseEvent={dismiss}
+          onClose={dismiss}
           id="modal-announcement"
         >
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
