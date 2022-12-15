@@ -38,7 +38,7 @@ export const submitted = () => ({
         oneTimeRestorationRequested: true,
         irrrlRequested: true,
         cashoutRefinaceRequested: true,
-        homeSellIndicator: true,
+        homeSellIndicator: null,
         noRestorationEntitlementIndicator: true,
         ...mockAddress('property'), // *
       },
