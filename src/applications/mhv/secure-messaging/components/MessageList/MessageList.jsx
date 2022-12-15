@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, folder } = props;
+  const { messages } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -134,9 +134,7 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${
-            folder.folderId === -3 ? 'Trash' : folder.name
-          } messages by`}
+          label="Sort by"
           name="sort-order"
           value={sortOrderSelection}
           onVaSelect={e => {
