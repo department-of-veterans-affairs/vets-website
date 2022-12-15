@@ -84,10 +84,18 @@ const testConfig = createTestConfig(
       },
       'deduction-checklist': ({ afterHook }) => {
         afterHook(() => {
+          EnhancedVeteranEmploymentHistory.goBackAndValidateInput(
+            '[data-testid="gross-monthly-income"]',
+            '1000',
+          );
+
+          // continuing to deduction checklist
+          EnhancedVeteranEmploymentHistory.attemptNextPage();
+
           cy.get(`input[name="State tax"]`)
             .first()
             .check();
-          cy.get('.usa-button-primary').click();
+          EnhancedVeteranEmploymentHistory.attemptNextPage();
         });
       },
       'deduction-values': ({ afterHook }) => {

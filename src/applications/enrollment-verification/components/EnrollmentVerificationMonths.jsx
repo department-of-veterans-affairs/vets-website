@@ -39,6 +39,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
     currentPage * MONTHS_PER_PAGE,
     months?.length,
   );
+  const showingPages = months?.length
+    ? `${lowerDisplayedRange} - ${upperDisplayedRange}`
+    : '0';
   const numPages = Math.ceil(months?.length / MONTHS_PER_PAGE);
   const minMonth = (currentPage - 1) * MONTHS_PER_PAGE;
   const maxMonth = currentPage * MONTHS_PER_PAGE;
@@ -65,12 +68,10 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
         </p>
       </va-additional-info>
 
-      {enrollmentVerification?.enrollmentVerifications && (
-        <p>
-          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
-          {months?.length} monthly enrollments listed by most recent
-        </p>
-      )}
+      <p>
+        Showing {showingPages} of {months?.length || '0'} monthly enrollments
+        listed by most recent
+      </p>
 
       {months?.slice(minMonth, maxMonth)}
 

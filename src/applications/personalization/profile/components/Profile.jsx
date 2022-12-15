@@ -28,7 +28,8 @@ import {
   dismissDowntimeWarning,
 } from '~/platform/monitoring/DowntimeNotification/actions';
 
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';

@@ -97,6 +97,7 @@ const FileInput = ({ attachments, setAttachments }) => {
           primaryButtonText="Continue editing"
           status="warning"
           visible
+          data-testid="attach-file-error-modal"
         >
           <p>{error.message}</p>
         </VaModal>
@@ -107,6 +108,7 @@ const FileInput = ({ attachments, setAttachments }) => {
         type="file"
         id="attachments"
         name="attachments"
+        data-testid="attach-file-input"
         onChange={handleFiles}
         hidden
       />
@@ -116,6 +118,7 @@ const FileInput = ({ attachments, setAttachments }) => {
         secondary
         text="Attach file"
         class="attach-file-button"
+        data-testid="attach-file-button"
       />
       <HowToAttachFiles />
     </div>

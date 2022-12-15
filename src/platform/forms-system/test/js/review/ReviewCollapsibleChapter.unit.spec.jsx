@@ -1218,5 +1218,38 @@ describe('<ReviewCollapsibleChapter>', () => {
 
       expect(getByTestId('foo-value').innerHTML).to.equal('bar');
     });
+
+    it('should pass the setFormData function to the custom page component', () => {
+      const onSetData = sinon.spy();
+      const CustomPage = ({ setFormData }) => (
+        <div data-testid="custom-page-review">
+          <button
+            type="button"
+            onClick={setFormData}
+            data-testid="set-form-data-button"
+          >
+            setFormData
+          </button>
+        </div>
+      );
+      const { pages, chapterKey, chapter, form } = getProps();
+      form.pages.test.editMode = true;
+      pages[0].CustomPage = CustomPage;
+      form.pages.test.CustomPage = CustomPage;
+      const { getByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+          setData={onSetData}
+        />,
+      );
+
+      userEvent.click(getByTestId('set-form-data-button'));
+      expect(onSetData.callCount).to.equal(1);
+    });
   });
 });

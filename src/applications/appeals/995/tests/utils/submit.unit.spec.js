@@ -1,5 +1,10 @@
 import { expect } from 'chai';
-import { PRIMARY_PHONE, SELECTED, EVIDENCE_VA } from '../../constants';
+import {
+  PRIMARY_PHONE,
+  SELECTED,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+} from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
@@ -11,6 +16,7 @@ import {
   getAddress,
   getPhone,
   getEvidence,
+  getForm4142,
 } from '../../utils/submit';
 
 const validDate1 = getDate({ offset: { months: -2 } });
@@ -274,5 +280,27 @@ describe('getEvidence', () => {
   it('should process evidence when available', () => {
     const evidence = getData();
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+  });
+});
+
+describe('getForm4142', () => {
+  const formData = {
+    privacyAgreementAccepted: true,
+    limitedConsent: 'testing',
+    providerFacility: [{ test: 'foo' }, { test: 'bar' }],
+  };
+  it('should return 4142 form data', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: true,
+      ...formData,
+    };
+    expect(getForm4142(data)).to.deep.equal(formData);
+  });
+  it('should return empty object since private evidence not selected', () => {
+    const data = {
+      [EVIDENCE_PRIVATE]: false,
+      ...formData,
+    };
+    expect(getForm4142(data)).to.deep.equal({});
   });
 });
