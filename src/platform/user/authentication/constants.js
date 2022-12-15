@@ -163,8 +163,8 @@ export const OCC_MOBILE = {
 
 export const OCC_MOBILE_DSLOGON_ONLY = [
   'AHBurnPitRegistry',
-  '%2FAHBurnPitRegistry',
-  '/AHBurnPitRegistry',
+  '/AHBurnPitRegistry/',
+  '%2FAHBurnPitRegistry%2F',
 ];
 
 export const AUTH_DEPENDENCIES = [
