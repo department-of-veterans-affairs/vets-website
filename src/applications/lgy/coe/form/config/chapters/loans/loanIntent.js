@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { LOAN_INTENT } from '../../../constants';
+
 // replacing loanIntent from schemaImports
 export const schema = {
   type: 'object',
@@ -7,11 +9,11 @@ export const schema = {
     intent: {
       type: 'string',
       enum: [
-        'REGULAR', // new entry, will not be submitted
-        'REFI',
-        'IRRRL',
-        'ONETIMERESTORATION',
-        'INQUIRY',
+        LOAN_INTENT.regular, // new entry, will not be submitted
+        LOAN_INTENT.refiance,
+        LOAN_INTENT.irrrl,
+        LOAN_INTENT.oneTime,
+        LOAN_INTENT.inquiry,
       ],
       enumNames: [
         <>
