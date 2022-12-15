@@ -28,7 +28,7 @@ describe('<VARadioButton>', () => {
     wrapper
       .find('va-radio')
       .first()
-      .simulate('onVaValueChange');
+      .simulate('onVaChange');
 
     // verify that change event value matches first value in options passed to component
     expect(valueChanged).to.eql(options[0].value);
