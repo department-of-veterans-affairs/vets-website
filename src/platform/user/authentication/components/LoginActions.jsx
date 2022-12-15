@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { externalApplicationsConfig } from '../usip-config';
-import { EXTERNAL_APPS, OCC_MOBILE } from '../constants';
+import {
+  EXTERNAL_APPS,
+  OCC_MOBILE,
+  OCC_MOBILE_DSLOGON_ONLY,
+} from '../constants';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
 import CreateAccountLink from './CreateAccountLink';
@@ -21,7 +25,7 @@ export default function LoginActions({ externalApplication }) {
   const isRedirectUriPresent =
     externalApplication?.includes(EXTERNAL_APPS.VA_OCC_MOBILE) &&
     redirectUri &&
-    redirectUri.length > 0;
+    OCC_MOBILE_DSLOGON_ONLY.includes(redirectUri);
   const isRegisteredApp =
     externalApplication?.includes(EXTERNAL_APPS.VA_OCC_MOBILE) &&
     isRedirectUriPresent

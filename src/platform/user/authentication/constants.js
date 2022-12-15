@@ -161,6 +161,12 @@ export const OCC_MOBILE = {
   DEFAULT: 'default',
 };
 
+export const OCC_MOBILE_DSLOGON_ONLY = [
+  'AHBurnPitRegistry',
+  '%2FAHBurnPitRegistry',
+  '/AHBurnPitRegistry',
+];
+
 export const AUTH_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,
   EXTERNAL_SERVICES.ssoe,
