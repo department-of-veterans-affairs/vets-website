@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  VaModal,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import CreateFolderModal from '../components/Modals/CreateFolderModal';
 
 const Folders = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const folders = useSelector(state => state.sm.folders.folderList);
-  const [nameWarning, setNameWarning] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [folderName, setFolderName] = useState('');
-  let folderMatch = null;
 
   // clear out alerts if user navigates away from this component
   useEffect(
@@ -42,27 +36,10 @@ const Folders = () => {
     setIsModalVisible(true);
   };
 
-  const closeNewModal = () => {
-    setFolderName('');
-    setNameWarning('');
-    setIsModalVisible(false);
-  };
-
-  const confirmNewFolder = () => {
-    folderMatch = null;
-    folderMatch = folders.filter(folder => folder.name === folderName);
-    if (folderName === '' || folderName.match(/^[\s]+$/)) {
-      setNameWarning('Folder name cannot be blank');
-    } else if (folderMatch.length > 0) {
-      setNameWarning('Folder name alreeady in use. Please use another name.');
-    } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-      closeNewModal();
-      dispatch(newFolder(folderName)).then(dispatch(getFolders));
-    } else {
-      setNameWarning(
-        'Folder name can only contain letters, numbers, and spaces.',
-      );
-    }
+  const confirmFolderCreate = (folderName, closeNewModal) => {
+    dispatch(newFolder(folderName))
+      .then(dispatch(getFolders()))
+      .finally(closeNewModal());
   };
 
   const content = () => {
@@ -93,28 +70,12 @@ const Folders = () => {
           Create new folder
         </button>
         <FoldersList folders={folders} />
-        <VaModal
-          className="modal"
-          visible={isModalVisible}
-          large="true"
-          modalTitle="Create new folder"
-          onCloseEvent={closeNewModal}
-        >
-          <p className="vads-u-margin--0">Please enter your folder name</p>
-          <p className="vads-u-color--gray-medium vads-u-margin--0">
-            (50 characters maximum)
-          </p>
-          <VaTextInput
-            className="input vads-u-margin--0"
-            value={folderName}
-            onInput={e => setFolderName(e.target.value)}
-            maxlength="50"
-            error={nameWarning}
-            name="folder-name"
-          />
-          <va-button text="Create" onClick={confirmNewFolder} />
-          <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
-        </VaModal>
+        <CreateFolderModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+          onConfirm={confirmFolderCreate}
+          folders={folders}
+        />
       </>
     );
   };

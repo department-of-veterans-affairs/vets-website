@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaModal,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import * as Constants from '../../util/constants';
+import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
   const { messageId, allFolders } = props;
@@ -15,8 +13,6 @@ const MoveMessageToFolderBtn = props => {
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNewModalVisible, setIsNewModalVisible] = useState(false);
-  const [nameWarning, setNameWarning] = useState('');
-  const [folderName, setFolderName] = useState('');
   const folders = useSelector(state => state.sm.folders.folderList);
 
   useEffect(
@@ -135,63 +131,12 @@ const MoveMessageToFolderBtn = props => {
     );
   };
 
-  const MoveMessageToNewFolder = () => {
-    let folderMatch = null;
-
-    const closeNewModal = () => {
-      setFolderName('');
-      setNameWarning('');
-      setIsNewModalVisible(false);
-    };
-
-    const confirmNewFolder = () => {
-      folderMatch = null;
-      folderMatch = folders.filter(
-        folderToMatch => folderToMatch.name === folderName,
-      );
-      if (folderName === '' || folderName.match(/^[\s]+$/)) {
-        setNameWarning('Folder name cannot be blank');
-      } else if (folderMatch.length > 0) {
-        setNameWarning('Folder name alreeady in use. Please use another name.');
-      } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
-        dispatch(newFolder(folderName))
-          .then(createdFolder =>
-            dispatch(moveMessage(messageId, createdFolder.folderId)),
-          )
-          .finally(() => closeNewModal());
-      } else {
-        setNameWarning(
-          'Folder name can only contain letters, numbers, and spaces.',
-        );
-      }
-    };
-
-    return (
-      <>
-        <VaModal
-          className="modal"
-          visible={isNewModalVisible}
-          large="true"
-          modalTitle="Create new folder"
-          onCloseEvent={closeNewModal}
-        >
-          <p className="vads-u-margin--0">Please enter your folder name</p>
-          <p className="vads-u-color--gray-medium vads-u-margin--0">
-            (50 characters maximum)
-          </p>
-          <VaTextInput
-            className="input vads-u-margin--0"
-            value={folderName}
-            onInput={e => setFolderName(e.target.value)}
-            maxlength="50"
-            error={nameWarning}
-            name="folder-name"
-          />
-          <va-button text="Create" onClick={confirmNewFolder} />
-          <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
-        </VaModal>
-      </>
-    );
+  const confirmCreateFolder = (folderName, closeNewModal) => {
+    dispatch(newFolder(folderName))
+      .then(createdFolder =>
+        dispatch(moveMessage(messageId, createdFolder.folderId)),
+      )
+      .finally(() => closeNewModal());
   };
 
   return (
@@ -210,7 +155,12 @@ const MoveMessageToFolderBtn = props => {
         </span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
-      {isNewModalVisible ? MoveMessageToNewFolder() : null}
+      <CreateFolderModal
+        isModalVisible={isNewModalVisible}
+        setIsModalVisible={setIsNewModalVisible}
+        onConfirm={confirmCreateFolder}
+        folders={folders}
+      />
     </>
   );
 };
