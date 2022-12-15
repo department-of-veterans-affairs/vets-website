@@ -1,4 +1,4 @@
-import HomepagRedesignModal from '../components/HomepageRedesignModal';
+import HomepageRedesignModal from '../components/HomepageRedesignModal';
 
 const config = {
   announcements: [
@@ -6,7 +6,7 @@ const config = {
       name: 'new-homepage',
       // Homepage only
       paths: /^\/$/,
-      component: HomepagRedesignModal,
+      component: HomepageRedesignModal,
       disabled: false,
       showEverytime: true,
     },
