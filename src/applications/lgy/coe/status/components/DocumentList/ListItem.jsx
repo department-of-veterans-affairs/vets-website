@@ -9,6 +9,7 @@ const ListItem = ({ downloadUrl, downloadLinkLabel, sentDate, title }) => (
       download
       filetype="PDF"
       href={downloadUrl}
+      filename={downloadUrl}
       text={downloadLinkLabel}
     />
   </div>
