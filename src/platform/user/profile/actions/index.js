@@ -33,8 +33,7 @@ export function profileLoadingFinished() {
 
 // check for errors from main response body, or from meta object (aka external service errors)
 const hasError = dataPayload =>
-  dataPayload?.errors?.length > 0 ||
-  dataPayload?.data?.meta?.errors?.length > 0;
+  dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
 
 async function saveAndRefresh(payload) {
   const newPayloadObject = { payload };
@@ -74,7 +73,7 @@ export function refreshProfile(
 
     const saved = await saveAndRefresh(payload);
 
-    const eventApiStatus = hasError(saved.payload) ? 'failure' : 'success';
+    const eventApiStatus = hasError(saved.payload) ? 'failed' : 'successful';
 
     const eventData = {
       event: 'api_call',
