@@ -23,6 +23,14 @@ class EnhancedVeteranEmploymentHistory {
   attemptNextPage = () => {
     cy.get('.usa-button-primary').click();
   };
+
+  goBackAndValidateInput = (selector, value) => {
+    cy.get('#\\37 -continueButton').click();
+    cy.get(`${selector}`)
+      .shadow()
+      .find('input')
+      .should('have.value', value);
+  };
 }
 
 export default new EnhancedVeteranEmploymentHistory();

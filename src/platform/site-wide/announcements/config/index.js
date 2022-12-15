@@ -1,18 +1,9 @@
 // Relative imports.
-import ExploreVAModal from '../components/ExploreVAModal';
 import TestModal from '../components/TestModal';
 import { AnnouncementBehavior } from '../constants';
 
 const config = {
   announcements: [
-    {
-      name: 'explore-va',
-      // All pages.
-      paths: /(.)/,
-      component: ExploreVAModal,
-      disabled: !ExploreVAModal.isEnabled(),
-      showEverytime: true,
-    },
     {
       name: 'testing-announcements-once-per-session',
       paths: /test-announcement--once-per-session$/,

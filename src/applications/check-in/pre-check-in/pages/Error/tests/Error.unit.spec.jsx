@@ -78,6 +78,7 @@ describe('check-in', () => {
             pages: [],
           },
           veteranData: {},
+          error: 'pre-check-in-expired',
         },
       };
 
@@ -156,11 +157,12 @@ describe('check-in', () => {
               pages: [],
             },
             veteranData: {},
+            error: 'appointment-canceled',
           },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders correct error message and no how-to link for an in-person cancelled appointment', () => {
+      it('renders correct error message and no how-to link for an in-person canceled appointment', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>

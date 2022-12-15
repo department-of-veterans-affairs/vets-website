@@ -10,6 +10,7 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import {
@@ -23,7 +24,6 @@ import Wrapper from '../../../components/layout/Wrapper';
 const DisplayMultipleAppointments = props => {
   const { appointments, router, token } = props;
   const { t } = useTranslation();
-  const { goToErrorPage } = useFormRouting(router);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
@@ -37,6 +37,7 @@ const DisplayMultipleAppointments = props => {
   );
 
   const refreshTimer = useRef(null);
+  const { updateError } = useUpdateError();
 
   useEffect(
     () => {
@@ -57,10 +58,10 @@ const DisplayMultipleAppointments = props => {
       }
 
       if (checkInDataError) {
-        goToErrorPage('?error=cant-retrieve-check-in-data');
+        updateError('cant-retrieve-check-in-data');
       }
     },
-    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
+    [appointments, checkInDataError, updateError, refreshCheckInData],
   );
 
   const handleClick = useCallback(
