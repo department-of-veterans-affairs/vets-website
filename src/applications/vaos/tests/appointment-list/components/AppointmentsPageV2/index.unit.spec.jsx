@@ -51,7 +51,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
-        vaOnlineSchedulingStatusImprovement: false,
       },
       user: userState,
     };
