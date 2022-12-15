@@ -171,7 +171,7 @@ const MessageList = props => {
       <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} messages
+        {displayNums[1]} of {totalEntries} conversations
       </div>
       {currentMessages.map((message, idx) => (
         <MessageListItem
