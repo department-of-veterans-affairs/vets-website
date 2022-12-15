@@ -1232,21 +1232,18 @@ const formConfig = {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
+                ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
-                  pattern: 'Please enter a valid account number',
-                  required: 'Please enter a valid account number',
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
+                  pattern: 'Please enter only numbers',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
               },
               routingNumber: {
-                'ui:errorMessages': {
-                  pattern: 'Please enter a valid routing number',
-                  required: 'Please enter a valid routing number',
-                },
+                ...bankAccountUI.routingNumber,
                 'ui:reviewField': ObfuscateReviewField,
-                'ui:title': 'Routing number',
                 'ui:validations': [validateRoutingNumber],
               },
             },
