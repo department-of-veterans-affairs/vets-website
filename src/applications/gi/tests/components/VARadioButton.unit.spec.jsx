@@ -26,7 +26,7 @@ describe('<VARadioButton>', () => {
 
     // simulate change event on first input
     wrapper
-      .find('input')
+      .find('va-radio')
       .first()
       .simulate('change');
 
