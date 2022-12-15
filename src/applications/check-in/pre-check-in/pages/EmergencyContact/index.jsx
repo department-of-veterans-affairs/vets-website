@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -21,11 +21,8 @@ const EmergencyContact = props => {
 
   const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
 
-  const [isLoading, setIsLoading] = useState();
-
   const buttonClick = useCallback(
     async answer => {
-      setIsLoading(true);
       dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
       goToNextPage();
     },
@@ -52,7 +49,6 @@ const EmergencyContact = props => {
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
-        isLoading={isLoading}
         jumpToPage={jumpToPage}
       />
     </>

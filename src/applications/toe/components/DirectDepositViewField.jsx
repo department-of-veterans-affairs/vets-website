@@ -13,8 +13,8 @@ export default function DirectDepositViewField({ formData }) {
   return (
     <>
       <p className="vads-u-margin-bottom--4">
-        <strong>Note</strong>: We make payments only through direct deposit,
-        also called electronic funds transfer (EFT).
+        <strong>Note</strong>: Your bank account information is what we
+        currently have on file for you. Please ensure it is correct.
       </p>
       <div className="va-address-block vads-u-margin-left--0">
         <h5>{`${titleCase(accountType)} account`}</h5>
@@ -23,14 +23,14 @@ export default function DirectDepositViewField({ formData }) {
           <dd>{financialInstitutionName}</dd> */}
 
           <dt className="toe-definition-list_term toe-definition-list_term--normal">
-            Account Number:
+            Bank account number:
           </dt>
           <dd className="toe-definition-list_definition">
             {obfuscate(accountNumber)}
           </dd>
 
           <dt className="toe-definition-list_term toe-definition-list_term--normal">
-            Routing Number:
+            Bank routing number:
           </dt>
           <dd className="toe-definition-list_definition">
             {obfuscate(routingNumber)}

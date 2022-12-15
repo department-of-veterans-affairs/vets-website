@@ -51,6 +51,18 @@ Unit tests for both check-in and pre-check-in can be run using this command: `ya
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
 
+## Translations
+This application uses i18next to translate text to Spanish and Tagalog. Translation files for English, Spanish, and Tagalog are located in `/locals` at the root of the check-in application. All text is contained in the `translation.json` file for each language. The application should only reference the unique key for each text string with a `<Trans />` component or a `t()` function. Never hard code text within the application.
+
+### Adding new text
+When new text is needed in the application, first make a key in the English `translation.json` file. Add the new key to the bottom of the file. Keep your key no more than 80 characters long. You can simply use the first few unique characters of the string or a descriptive key that describes the text is acceptable. Example `check-in-disclaimer-text`. Each word in the key should be separated by a `-`. Do not add the key to any of the other `translation.json` files. A diff of the json files will be performed periodically and the missing keys in other files will be used to request new translations.
+
+### Adding translations
+After we receive new translations, you can add them to their respective `translation.json` files. At this time it is a good practice to alphabetize the English, Spanish, and Tagalog keys.
+
+### Changing text
+If there is a need to change text, the best practice is to create a new key. If you used a descriptive key rather than the actual text for the key, you can add a v(X) on to the end of the key. Example `check-in-disclaimer-text-v2`. This way the changed text keys will come up for translation in the next diff audit. The exception to this rule is for simple grammar changes where the translation likely won't be affected.
+
 ## Ticket lifecycle
 When starting a new ticket follow these steps:
   - Assign the ticket to your self if not already assigned to you.
@@ -85,6 +97,8 @@ DOB validation page PCI: `yarn cy:run --env with_screenshots=true --spec src/app
 DOB validation page day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-dob.day-of.cypress.spec.js`
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
+
+Travel Pay PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.

@@ -1266,6 +1266,100 @@ const mockUserData = {
       errors: null,
     },
   },
+  externalServiceError: {
+    data: {
+      id: '',
+      type: 'users_scaffolds',
+      attributes: {
+        services: [
+          'facilities',
+          'hca',
+          'edu-benefits',
+          'form-save-in-progress',
+          'form-prefill',
+          'evss-claims',
+          'form526',
+          'user-profile',
+          'appeals-status',
+          'id-card',
+          'identity-proofed',
+          'vet360',
+        ],
+        account: {
+          accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
+        },
+        profile: {
+          email: 'vets.gov.user+75@gmail.com',
+          firstName: 'MITCHELL',
+          middleName: 'G',
+          lastName: 'JENKINS',
+          birthDate: '1949-03-04',
+          gender: 'M',
+          zip: '97063',
+          lastSignedIn: '2022-03-24T18:15:06.566Z',
+          loa: {
+            current: 3,
+            highest: 3,
+          },
+          multifactor: true,
+          verified: true,
+          signIn: {
+            serviceName: 'idme',
+            accountType: 'N/A',
+          },
+          authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+        },
+        vaProfile: {
+          status: 'OK',
+          birthDate: '19490304',
+          familyName: 'Jenkins',
+          gender: 'M',
+          givenNames: ['Mitchell', 'G'],
+          isCernerPatient: false,
+          facilities: [
+            {
+              facilityId: '989',
+              isCerner: false,
+            },
+            {
+              facilityId: '987',
+              isCerner: false,
+            },
+            {
+              facilityId: '983',
+              isCerner: false,
+            },
+          ],
+          vaPatient: false,
+          mhvAccountState: 'NONE',
+        },
+        veteranStatus: {
+          status: 'OK',
+          isVeteran: true,
+          servedInMilitary: true,
+        },
+        inProgressForms: [],
+        prefillsAvailable: ['21-686C'],
+        vet360ContactInformation: null,
+        session: {
+          ssoe: true,
+          transactionid: 'YEI6t8W3ANsvCT04oB+iXh/UP03PXSFg3Y36L2QaxLE=',
+        },
+      },
+    },
+    meta: {
+      errors: [
+        {
+          externalService: 'Vet360',
+          startTime: '2020-11-19T17:32:54Z',
+          endTime: null,
+          description:
+            'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
+          status: 502,
+        },
+      ],
+    },
+  },
 };
 
 const handleUserRequest = (req, res) => {
@@ -1276,9 +1370,14 @@ const handleUserRequest = (req, res) => {
   if (req?.query?.bai === 'clear') {
     return res.json(mockUserData.user72Success);
   }
-  // default user object
-  // modify as needed for simulating varrious users
-  // return res.json(mockUserData.badAddress);
+  // default response
+  // example user data cases
+  // return res.json(mockUserData.user72Success); // control user (success)
+  // return res.json(mockUserData.badAddress); // user with bad address
+  // return res.json(mockUserData.loa3User); // user with loa3
+  // return res.json(mockUserData.nonVeteranUser); // non-veteran user
+  // return res.json(mockUserData.externalServiceError); // external service error
+
   return res.json(mockUserData.user72Success);
 };
 

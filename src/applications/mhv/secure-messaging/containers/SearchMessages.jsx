@@ -14,6 +14,10 @@ const Search = () => {
 
   const { pathname } = location;
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(
     () => {
       if (pathname === '/search/advanced') {
@@ -42,6 +46,7 @@ const Search = () => {
         <va-loading-indicator
           message="Loading your secure messages..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }

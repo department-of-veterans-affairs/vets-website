@@ -14,17 +14,19 @@ import { URLS } from '../../utils/navigation';
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useUpdateError } from '../../hooks/useUpdateError';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
 import { createSetSession } from '../../actions/authentication';
 
 const Landing = props => {
   const { location, router } = props;
-  const { jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const { updateError } = useUpdateError();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);
@@ -55,11 +57,9 @@ const Landing = props => {
     () => {
       const token = getTokenFromLocation(location);
       if (!token) {
-        goToErrorPage('?error=no=token');
-      }
-
-      if (!isUUID(token)) {
-        goToErrorPage('?error=bad-token');
+        updateError('no-token');
+      } else if (!isUUID(token)) {
+        updateError('bad-token');
       }
 
       if (token && !sessionCallMade) {
@@ -72,7 +72,7 @@ const Landing = props => {
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
-              goToErrorPage('?error=session-error');
+              updateError('session-error');
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
@@ -92,7 +92,7 @@ const Landing = props => {
           })
           .catch(() => {
             clearCurrentSession(window);
-            goToErrorPage('?error=error-fromlocation-landing');
+            updateError('error-fromlocation-landing');
           });
       }
     },
@@ -101,7 +101,7 @@ const Landing = props => {
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
-      goToErrorPage,
+      updateError,
       initForm,
       sessionCallMade,
       setSession,
@@ -111,9 +111,9 @@ const Landing = props => {
     ],
   );
   return (
-    <>
+    <div>
       <va-loading-indicator message={loadMessage} />
-    </>
+    </div>
   );
 };
 

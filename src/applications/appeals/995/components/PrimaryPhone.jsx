@@ -5,8 +5,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { getFormatedPhone } from '../utils/contactInfo';
-import { missingPrimaryPhone } from '../validations';
-import { checkValidations } from '../validations/issues';
+import { checkValidations, missingPrimaryPhone } from '../validations';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 
 export const PrimaryPhone = ({

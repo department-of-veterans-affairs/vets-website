@@ -8,7 +8,6 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';
@@ -29,10 +28,6 @@ describe('check-in', () => {
             form: {
               pages: [],
             },
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
           },
         };
         afterEach(() => {
@@ -83,10 +78,7 @@ describe('check-in', () => {
             pages: [],
           },
           veteranData: {},
-        },
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          check_in_experience_phone_appointments_enabled: false,
+          error: 'pre-check-in-expired',
         },
       };
 
@@ -114,8 +106,6 @@ describe('check-in', () => {
       it('renders correct error message when phone pre-checkin is expired', () => {
         const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
-        // eslint-disable-next-line camelcase
-        phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
         store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
 
         const component = render(
@@ -167,15 +157,12 @@ describe('check-in', () => {
               pages: [],
             },
             veteranData: {},
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
+            error: 'appointment-canceled',
           },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders correct error message and no how-to link for an in-person cancelled appointment', () => {
+      it('renders correct error message and no how-to link for an in-person canceled appointment', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -203,8 +190,6 @@ describe('check-in', () => {
       it('renders correct error message for a canceled phone appointment', () => {
         const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
-        // eslint-disable-next-line camelcase
-        phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
         store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
         const component = render(
           <Provider store={store}>
@@ -259,10 +244,6 @@ describe('check-in', () => {
             },
             veteranData: {},
           },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
-          },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
@@ -291,10 +272,6 @@ describe('check-in', () => {
               pages: [],
             },
           },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
-          },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
@@ -309,15 +286,6 @@ describe('check-in', () => {
         expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         expect(component.getByTestId('error-message')).to.exist;
-      });
-      it('Passes AxeCheck', () => {
-        axeCheck(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <Error />
-            </I18nextProvider>
-          </Provider>,
-        );
       });
     });
   });

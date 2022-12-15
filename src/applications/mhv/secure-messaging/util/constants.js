@@ -21,6 +21,9 @@ export const DefaultFolders = {
 
 export const Alerts = {
   Message: {
+    CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
+    CANNOT_REPLY_INFO_HEADER:
+      'You cannot reply to a message that is older than 45 days.',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
@@ -32,6 +35,8 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
     DELETE_DRAFT_ERROR:
       'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+    SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
+    SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Folder: {
     CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
@@ -68,7 +73,7 @@ export const Breadcrumbs = {
   },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'Folders' },
+  FOLDERS: { path: '/folders', label: 'My folders' },
   SENT: { path: '/sent', label: 'Sent messages' },
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },

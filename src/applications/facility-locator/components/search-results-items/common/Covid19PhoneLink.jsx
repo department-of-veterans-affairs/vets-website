@@ -4,7 +4,6 @@ import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
 const Covid19PhoneLink = ({
   phone,
-  showCovidVaccineSchedulingLink,
   showCovidVaccineWalkInAvailabilityText,
   labelId,
 }) => {
@@ -20,9 +19,7 @@ const Covid19PhoneLink = ({
 
   const { extension: parsedExtension, contact } = parsePhoneNumber(number);
 
-  let labelText = showCovidVaccineSchedulingLink
-    ? 'Or call to schedule'
-    : 'Call to schedule';
+  let labelText = 'Call to schedule';
 
   if (showCovidVaccineWalkInAvailabilityText) {
     labelText = 'Or make an appointment';

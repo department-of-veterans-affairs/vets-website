@@ -44,6 +44,8 @@ export const formFields = {
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
+  originalAccountNumber: 'originalAccountNumber',
+  originalRoutingNumber: 'originalRoutingNumber',
   parentGuardianSponsor: 'parentGuardianSponsor',
   phoneNumber: 'phoneNumber',
   phoneNumberInternational: 'phoneNumberInternational',

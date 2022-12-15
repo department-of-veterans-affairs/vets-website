@@ -257,6 +257,7 @@ class ReviewCollapsibleChapter extends React.Component {
           trackingPrefix={props.form.trackingPrefix}
           uploadFile={props.uploadFile}
           onReviewPage
+          setFormData={props.setData}
           data={props.form.data}
           updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
           pagePerItemIndex={page.index}

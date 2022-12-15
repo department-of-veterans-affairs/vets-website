@@ -1,6 +1,7 @@
 import appendQuery from 'append-query';
-import { apiRequest } from 'platform/utilities/api';
-import environment from 'platform/utilities/environment';
+// eslint-disable-next-line import/no-unresolved
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
@@ -9,14 +10,19 @@ const v2 = {
     checkInType,
     isLorotaSecurityUpdatesEnabled = false,
   }) => {
-    const url = `/check_in/v2/sessions/`;
-    const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
+    const url = '/check_in/v2/sessions/';
+    let requestUrl = `${environment.API_URL}${url}${token}`;
+    if (checkInType) {
+      requestUrl = appendQuery(requestUrl, {
+        checkInType,
+      });
+    }
     const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
       isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
     }`;
 
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}${checkInTypeSlug}`),
+      apiRequest(requestUrl),
       eventLabel,
       token,
     );
@@ -116,10 +122,15 @@ const v2 = {
       ...json,
     };
   },
-  getPreCheckInData: async token => {
+  getPreCheckInData: async (token, reload = false) => {
     const url = '/check_in/v2/pre_check_ins/';
+    const requestUrl = appendQuery(`${environment.API_URL}${url}${token}`, {
+      checkInType: 'preCheckIn',
+      reload,
+    });
+
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}?checkInType=preCheckIn`),
+      apiRequest(requestUrl),
       'get-lorota-data',
       token,
     );
@@ -222,6 +233,7 @@ const v2 = {
       apiRequest(`${environment.API_URL}${url}`, settings),
       'submit-travel-pay-claim',
       data.uuid,
+      true,
     );
     return {
       ...json,

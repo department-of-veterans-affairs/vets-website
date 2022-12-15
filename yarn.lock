@@ -2525,29 +2525,29 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^13.3.0":
-  version "13.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-13.3.0.tgz#b60969821d98fa6d29458862a45d84721102b98a"
-  integrity sha512-TqsCK81R5RmlXneTAVxDKIut8ZODfaP3Zprd8bVGIF/o0sj1bMwgLAj1RfEkoczOCmU2OyxREy3QQ4/MfSBJXg==
+"@department-of-veterans-affairs/component-library@^13.5.0":
+  version "13.5.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-13.5.0.tgz#4307dcbcfbb87df7c56f364c60a464995898486e"
+  integrity sha512-KsqZ5kBEKR3k4uzCUP+G5hjIkokeO1Lk0AQUmkmWD97W+cL5swfp4ReR6YvufhkshC+XAdqWecWGhDW8hGwong==
   dependencies:
     "@department-of-veterans-affairs/react-components" "8.0.0"
-    "@department-of-veterans-affairs/web-components" "4.18.0"
+    "@department-of-veterans-affairs/web-components" "4.21.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.0.tgz#9a34ae8ab8d0e65e2cdabf9e446176c25dc1b9b9"
-  integrity sha512-Gpjotl1Wh6pBZIAtOY2s80meXSvawCOpfaIaBHYkbAxngOmDLYNDFFLMwbV+jtR+5teAIbUPJvLaPoaoWy4ZWw==
+"@department-of-veterans-affairs/eslint-plugin@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.1.tgz#fc3b9b481ad2b18f4bc034b55ac62dd8915ec64c"
+  integrity sha512-B2YRGjdjdw7xZ99/zs03GaLBk7ae+5dl59YXcjydKlMBpPtucecM9ZJVFI5JCGpjF57vTjBXYhv80EujOvwOow==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.2.tgz#fa828af9c456c69d86cb9a9f7f216a1b9ba3c2d4"
-  integrity sha512-OfLkYXM3v8OVgtyh07xjTnhw0sVMH6ma5tghCxdbxCcRdcja+lYGrQr0WXhWIqPWP0s7aD783fVvF/pT9xfk0g==
+"@department-of-veterans-affairs/formation@^7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.4.tgz#897ae5dec1c63eb26d6398c556a6ea671f50ebc3"
+  integrity sha512-xgc+cWaGRNCcy1tipBzOwt9UoncH0RQKK3npnSm0uW68jTiBh3++7WlNkO7sKrxq4MqDmcgjhMt4Vnl5nT8w0A==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2604,10 +2604,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.18.0":
-  version "4.18.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.18.0.tgz#39cb8e95948601ba538c6670ac10e99e419019ee"
-  integrity sha512-rlTKe4Ha2KjtyXDE2JHGxpOaGRMbzu5RY41wR338QQfviW3/qv0uvGJcRSgtPi8wBX5H//id5TWI+Ode32nwkw==
+"@department-of-veterans-affairs/web-components@4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.21.0.tgz#af7b18aefc33da1063eb028170995d6394014a4c"
+  integrity sha512-2hrlaWy3lHFR2pUdGeQZPnjCNYUNPABVPQfTvEB2Izqe+ZIAhkuQKnMJ5LtF4oqFlJOHCNo0ybPLWKsd93ihNQ==
   dependencies:
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
@@ -19629,9 +19629,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#bdff5dfaa09db409d311029990912ebcae01c6c8":
-  version "20.24.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bdff5dfaa09db409d311029990912ebcae01c6c8"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf":
+  version "20.24.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf"
 
 vfile-message@^2.0.0:
   version "2.0.4"

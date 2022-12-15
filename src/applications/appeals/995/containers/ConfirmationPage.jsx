@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement } from 'platform/utilities/ui';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('h2');
-    scrollToTop('topScrollElement');
+    scrollTo('topScrollElement');
   }
 
   render() {

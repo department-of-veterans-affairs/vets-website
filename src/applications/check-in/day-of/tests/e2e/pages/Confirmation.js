@@ -53,7 +53,7 @@ class Confirmation {
       .should('be.visible')
       .and(
         'include.text',
-        "We're sorry something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
+        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
       );
   };
 

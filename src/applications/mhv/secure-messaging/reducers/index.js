@@ -8,8 +8,6 @@ import { messageDetailsReducer } from './messageDetails';
 import { messagesReducer } from './messages';
 import { searchReducer } from './search';
 import { triageTeamsReducer } from './triageTeams';
-
-import { allMessages, message, folders } from './oldReducers';
 import { breadcrumbsReducer } from './breadcrumbs';
 
 const rootReducer = {
@@ -24,9 +22,6 @@ const rootReducer = {
     search: searchReducer,
     triageTeams: triageTeamsReducer,
   }),
-  allMessages,
-  message,
-  folders,
 };
 
 export default rootReducer;
