@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import IssueSummary from '../../content/issueSummary';
+import IssueSummary from '../../content/IssueSummary';
 import { SELECTED } from '../../constants';
 
 // Already selected issues

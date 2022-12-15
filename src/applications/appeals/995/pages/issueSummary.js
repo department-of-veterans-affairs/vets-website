@@ -1,8 +1,8 @@
-import IssueSumary from '../content/IssueSummary';
+import IssueSummary from '../content/IssueSummary';
 
 export default {
   uiSchema: {
-    'ui:title': IssueSumary,
+    'ui:title': IssueSummary,
     'ui:options': {
       forceDivWrapper: true,
     },
