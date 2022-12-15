@@ -10,7 +10,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-export function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
+function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   return (
     <>
       {vaHomePreviewModal && (
@@ -24,11 +24,11 @@ export function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             dismiss();
           }}
           id="modal-announcement"
-          aria-labelledby="homepage-redesign-modal-description"
+          aria-describedby="homepage-modal-description"
         >
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
           <h3>Try our new VA.gov homepage</h3>
-          <p id="homepage-redesign-modal-description">
+          <p id="homepage-modal-description">
             We're redesigning the VA.gov homepage to help you get the tools and
             information you need faster.
           </p>
