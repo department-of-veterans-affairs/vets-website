@@ -7,8 +7,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
-import { fillDate } from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { fillDate } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../config/form';
 
 describe('Hca dependent information', () => {
@@ -80,6 +80,8 @@ describe('Hca dependent information', () => {
     //  updateSchemaAndData() probably isn't called when it should be.
     // expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
     // expect(onSubmit.called).to.be.false;
+
+    // TODO: It looks like expand under does not trigger, which it should with Y value.
   });
 
   it('should add another', () => {

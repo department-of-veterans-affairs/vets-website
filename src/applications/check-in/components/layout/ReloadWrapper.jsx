@@ -8,7 +8,7 @@ import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
-import { useFormRouting } from '../../hooks/useFormRouting';
+import { useUpdateError } from '../../hooks/useUpdateError';
 
 const ReloadWrapper = props => {
   const { children, router, isPreCheckIn } = props;
@@ -24,6 +24,7 @@ const ReloadWrapper = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
+  const { updateError } = useUpdateError();
   const progressState = getProgressState(window);
   const { checkInDataError, refreshCheckInData, isLoading } = useGetCheckInData(
     {
@@ -36,17 +37,16 @@ const ReloadWrapper = props => {
   );
   const [refreshData, setRefreshData] = useState(true);
 
-  const { goToErrorPage } = useFormRouting(router);
   const sessionToken = getCurrentToken(window);
   const { token: reduxToken } = useSelector(selectCurrentContext);
 
   useEffect(
     () => {
       if (checkInDataError) {
-        goToErrorPage('?error=reload-data-error');
+        updateError('reload-data-error');
       }
     },
-    [checkInDataError, goToErrorPage],
+    [checkInDataError, updateError],
   );
 
   useEffect(

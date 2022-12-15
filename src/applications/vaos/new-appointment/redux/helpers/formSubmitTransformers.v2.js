@@ -1,7 +1,11 @@
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import moment from '../../../lib/moment-tz';
-import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import {
+  LANGUAGES,
+  PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
+} from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
@@ -21,6 +25,9 @@ function getReasonCode({ data, isCC, isAcheron }) {
   )?.serviceName;
   let reasonText = null;
   let appointmentInfo = null;
+  const visitMode = TYPE_OF_VISIT.filter(
+    visit => visit.id === data.visitType,
+  ).map(visit => visit.vsGUI);
 
   if (isCC && data.reasonAdditionalInfo) {
     reasonText = data.reasonAdditionalInfo.slice(0, 250);
@@ -36,7 +43,7 @@ function getReasonCode({ data, isCC, isAcheron }) {
         }`,
     );
     const facility = `station id: ${data.vaFacility}`;
-    const modality = `preferred modality: ${data.visitType}`;
+    const modality = `preferred modality: ${visitMode}`;
     const phone = `phone number: ${data.phoneNumber}`;
     const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;

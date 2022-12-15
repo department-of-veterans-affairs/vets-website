@@ -126,7 +126,9 @@ export function fetchPersonalInformation(
       captureAndRecordError({ error, apiEventName, recordAnalyticsEvent });
       dispatch({
         type: FETCH_PERSONAL_INFORMATION_FAILED,
-        personalInformation: { error },
+        personalInformation: {
+          error: { message: error.message || 'no error message provided' },
+        },
       });
     }
   };

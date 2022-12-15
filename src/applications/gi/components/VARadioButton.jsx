@@ -28,7 +28,9 @@ const VARadioButton = ({
     class="vads-u-margin-y--4"
     enable-analytics
     label={radioLabel}
-    onVaValueChange={onVaValueChange}
+    onVaValueChange={target => {
+      onVaValueChange(target, name);
+    }}
     ariaDescribedby={ariaDescribedby || `${name}_radio`}
   >
     {options.map(({ value, label }) => (
