@@ -215,10 +215,7 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We don’t have military service records for you/i))
-        .to.exist;
-      expect(view.getByText(/If you think this is an error, call us at/i)).to
-        .exist;
+      expect(view.getByTestId('service-is-down-banner')).to.exist;
     });
   });
   describe('when the military service history is empty', () => {
