@@ -7,13 +7,14 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { isLoggedIn, selectProfile } from '../../../user/selectors';
 import { selectAnnouncement } from '../selectors';
 import { initDismissedAnnouncements, dismissAnnouncement } from '../actions';
+import { AnnouncementBehavior } from '../constants';
 
 export class Announcement extends Component {
   static propTypes = {
     // From mapStateToProps.
     announcement: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      showEverytime: PropTypes.bool,
+      show: PropTypes.oneOf(Object.keys(AnnouncementBehavior)),
       relatedAnnouncements: PropTypes.array,
     }),
     dismissed: PropTypes.array,
@@ -32,14 +33,14 @@ export class Announcement extends Component {
     const {
       announcement: {
         name: announcementName,
-        showEverytime = false,
+        show = AnnouncementBehavior.SHOW_ONCE,
         relatedAnnouncements = [],
       },
       dismissed,
     } = this.props;
 
     // Dismiss announcement.
-    this.props.dismissAnnouncement(announcementName, showEverytime);
+    this.props.dismissAnnouncement(announcementName, show);
 
     // Dismiss each related announcement.
     relatedAnnouncements
