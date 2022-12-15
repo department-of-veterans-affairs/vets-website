@@ -38,6 +38,9 @@ describe('List', () => {
       expect(link.getAttribute('href')).to.contain(
         `v0/coe/document_download/${data.id}`,
       );
+      expect(link.getAttribute('filename')).to.contain(
+        `v0/coe/document_download/${data.id}`,
+      );
 
       expect(item.textContent).to.contain(
         `Date sent: ${formatDateLong(data.createDate)}`,
