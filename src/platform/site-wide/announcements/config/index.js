@@ -1,6 +1,6 @@
 // Relative imports.
 import HomepageRedesignModal from '../components/HomepageRedesignModal';
-// import { AnnouncementBehavior } from '../constants';
+import { AnnouncementBehavior } from '../constants';
 
 const config = {
   announcements: [
@@ -10,7 +10,7 @@ const config = {
       paths: /^\/$/,
       component: HomepageRedesignModal,
       disabled: false,
-      showEverytime: true,
+      show: AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
     },
   ],
 };
