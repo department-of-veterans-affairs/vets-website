@@ -2,7 +2,6 @@
 import HomepageRedesignModal from '../components/HomepageRedesignModal';
 // import { AnnouncementBehavior } from '../constants';
 
-
 const config = {
   announcements: [
     {
