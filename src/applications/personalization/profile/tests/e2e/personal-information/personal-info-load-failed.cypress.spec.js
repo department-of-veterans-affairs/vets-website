@@ -7,6 +7,6 @@ describe('Loading errors present when viewing personal information page', () => 
 
     cy.injectAxeThenAxeCheck();
 
-    cy.findByText(/We can’t load your personal information/i).should('exist');
+    cy.findByTestId('service-is-down-banner').should('exist');
   });
 });

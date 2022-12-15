@@ -24,7 +24,7 @@ import {
 
 import { LOADING_STATES } from '../../../common/constants';
 
-import APIErrorAlert from './APIErrorAlert';
+import LoadFail from '../alerts/LoadFail';
 import ContactInfoOnFile from './ContactInfoOnFile';
 import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
@@ -98,7 +98,7 @@ const NotificationSettings = ({
           message="We’re loading your information."
         />
       ) : null}
-      {shouldShowAPIError ? <APIErrorAlert /> : null}
+      {shouldShowAPIError ? <LoadFail /> : null}
       {showMissingContactInfoAlert ? (
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
