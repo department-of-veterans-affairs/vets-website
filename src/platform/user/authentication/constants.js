@@ -153,6 +153,12 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+  redirectUri: 'redirect_uri',
+};
+
+export const OCC_MOBILE = {
+  REGISTERED_APPS: 'registeredApps',
+  DEFAULT: 'default',
 };
 
 export const AUTH_DEPENDENCIES = [
