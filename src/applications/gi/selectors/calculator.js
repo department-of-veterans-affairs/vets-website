@@ -532,8 +532,8 @@ const getDerivedValues = createSelector(
 
     const isUSSchool = facilityCode => {
       // the last two of the facility code is used to determine if the institution is foreign or domestic
-      const foreignInstituteFacilityCode = facilityCode.slice(-2);
-      const digits = parseInt(foreignInstituteFacilityCode, 10);
+      const foreignDomesticInstituteFacilityCode = facilityCode.slice(-2);
+      const digits = parseInt(foreignDomesticInstituteFacilityCode, 10);
       return digits < 52 || (digits > 60 && digits < 67);
     };
 
