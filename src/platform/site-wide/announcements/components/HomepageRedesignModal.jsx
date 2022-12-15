@@ -57,6 +57,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             </a>
 
             <VaButton
+              secondary
               text="Not today, go to the current homepage"
               onClick={() => {
                 recordEvent({
