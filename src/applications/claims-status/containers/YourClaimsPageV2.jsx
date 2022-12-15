@@ -81,7 +81,9 @@ class YourClaimsPageV2 extends React.Component {
       // END lighthouse_migration
       getStemClaims,
       stemClaimsLoading,
+      // START lighthouse_migration
       useLighthouse,
+      // END lighthouse_migration
     } = this.props;
 
     if (canAccessClaims) {
@@ -351,7 +353,9 @@ function mapStateToProps(state) {
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
+    // START lighthouse_migration
     useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
