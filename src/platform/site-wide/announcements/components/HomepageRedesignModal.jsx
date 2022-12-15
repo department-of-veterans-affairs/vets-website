@@ -1,5 +1,7 @@
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import {
+  VaButton,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -13,19 +15,20 @@ export function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     <>
       {vaHomePreviewModal && (
         // eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library
-        <Modal
+        <VaModal
           role="dialog"
           cssClass="va-modal announcement-brand-consolidation"
           visible
-          onClose={() => {
+          onCloseEvent={() => {
             recordEvent({ event: 'new-homepage-modal-close' });
             dismiss();
           }}
           id="modal-announcement"
+          aria-labelledby="homepage-redesign-modal-description"
         >
           <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
           <h3>Try our new VA.gov homepage</h3>
-          <p>
+          <p id="homepage-redesign-modal-description">
             We're redesigning the VA.gov homepage to help you get the tools and
             information you need faster.
           </p>
@@ -55,7 +58,7 @@ export function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             }}
             className="vads-u-margin-top--2"
           />
-        </Modal>
+        </VaModal>
       )}
     </>
   );
