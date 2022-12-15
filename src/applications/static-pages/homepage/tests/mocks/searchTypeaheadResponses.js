@@ -27,6 +27,13 @@ const typeaheadResponses = {
     'health care',
     'health care cost',
   ],
+  'health%20benefits': [
+    'health benefits',
+    'health benefits handbook',
+    'health card',
+    'health care',
+    'health care cost',
+  ],
 };
 
 module.exports = typeaheadResponses;
