@@ -11,6 +11,8 @@ import mockStatus from '../fixtures/profile-status.json';
 class PatientMessagesLandingPage {
   newMessageIndex = 0;
 
+  getExpired46DayOldMessage = 1;
+
   login = (loginUser = true) => {
     if (loginUser) {
       cy.login();
@@ -95,6 +97,15 @@ class PatientMessagesLandingPage {
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();

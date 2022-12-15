@@ -1,0 +1,33 @@
+import manifest from '../../manifest.json';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientReplyPage from './pages/PatientReplyPage';
+
+describe(manifest.appName, () => {
+  it('Axe Check Message Reply', () => {
+    const landingPage = new PatientMessagesLandingPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
+    const replyPage = new PatientReplyPage();
+    landingPage.login();
+    landingPage.loadPage();
+    landingPage.loadMessageDetails(
+      landingPage.getExpired46DayOldMessage().attributes.messageId,
+      landingPage.getExpired46DayOldMessage().attributes.subject,
+      landingPage.getExpired46DayOldMessage().attributes.sentDate,
+    );
+    messageDetailsPage.loadReplyPage(
+      landingPage.getExpired46DayOldMessage().attributes.messageId,
+      landingPage.getExpired46DayOldMessage().attributes.subject,
+      landingPage.getExpired46DayOldMessage().attributes.sentDate,
+    );
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
+    cy.injectAxe();
+    cy.axeCheck();
+    replyPage.sendReplyMessage(
+      landingPage.getExpired46DayOldMessage().attributes.messageId,
+    );
+  });
+});
