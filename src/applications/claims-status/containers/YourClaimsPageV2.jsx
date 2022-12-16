@@ -362,7 +362,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   // START lighthouse_migration
-  getClaimLighthouse: getClaims,
+  getClaimsLighthouse: getClaims,
   getClaimsV2: getClaimsV2Action,
   // END lighthouse_migration
   getStemClaims: getStemClaimsAction,

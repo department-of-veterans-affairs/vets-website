@@ -17,7 +17,7 @@ const getTitle = claim => {
     'MMMM D, YYYY',
   );
 
-  return `XClaim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
+  return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
 };
 
 export default function ClaimsListItem({ claim }) {
@@ -26,8 +26,10 @@ export default function ClaimsListItem({ claim }) {
     'MMMM D, YYYY',
   );
 
+  // lighthouse_migration: Remove `vads-u-border-left--4px` and `vads-u-border-color--primary`
+  // CSS classes from `claim-list-item-container` element
   return (
-    <div className="claim-list-item-container">
+    <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
       <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
       <div className="card-status">
         <div
