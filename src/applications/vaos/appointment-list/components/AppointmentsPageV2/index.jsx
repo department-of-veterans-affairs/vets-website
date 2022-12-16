@@ -21,8 +21,6 @@ import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
-let pageTitle = 'VA online scheduling';
-
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
   requested: 'requested',
@@ -96,6 +94,8 @@ function renderWarningNotification() {
 export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
+  const [pageTitle, setPageTitle] = useState('VA online scheduling');
+
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -116,12 +116,12 @@ export default function AppointmentsPageV2() {
         let prefix = 'Your';
         if (location.pathname.endsWith('pending')) {
           prefix = 'Pending';
-          pageTitle = `${prefix} appointments`;
+          setPageTitle(`${prefix} appointments`);
         } else if (location.pathname.endsWith('past')) {
           prefix = 'Past';
-          pageTitle = `${prefix} appointments`;
+          setPageTitle(`${prefix} appointments`);
         } else {
-          pageTitle = 'Your appointments';
+          setPageTitle('Your appointments');
         }
 
         document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
@@ -131,7 +131,7 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname],
+    [pageTitle, subPageTitle, featureStatusImprovement, location.pathname],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
