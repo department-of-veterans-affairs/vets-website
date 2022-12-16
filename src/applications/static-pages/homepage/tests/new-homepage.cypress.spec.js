@@ -30,7 +30,7 @@ describe('Homepage', () => {
     pageLoadTimeout: 120000,
   });
 
-  before(() => {
+  before(function() {
     // run this spec ONLY in local project
     cy.log(`Cypress.env('CI'): ${Cypress.env('CI')}`);
     cy.log(`Cypress.env('CYPRESS_CI'): ${Cypress.env('CYPRESS_CI')}`);
