@@ -13,6 +13,25 @@ import {
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
 } from '../actions';
+
+import AppealListItem from '../components/appeals-v2/AppealListItemV2';
+import AppealsUnavailable from '../components/AppealsUnavailable';
+import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
+import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClosedClaimMessage from '../components/ClosedClaimMessage';
+import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
+import FeaturesWarning from '../components/FeaturesWarning';
+import MobileAppMessage from '../components/MobileAppMessage';
+import NoClaims from '../components/NoClaims';
+import StemClaimListItem from '../components/StemClaimListItem';
+
+import { ITEMS_PER_PAGE } from '../constants';
+
+import { cstUseLighthouse } from '../selectors';
+
 import {
   appealsAvailability,
   appealTypes,
@@ -22,23 +41,6 @@ import {
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
-
-import AppealListItem from '../components/appeals-v2/AppealListItemV2';
-import AppealsUnavailable from '../components/AppealsUnavailable';
-import AskVAQuestions from '../components/AskVAQuestions';
-import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
-import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
-import FeaturesWarning from '../components/FeaturesWarning';
-import MobileAppMessage from '../components/MobileAppMessage';
-import NoClaims from '../components/NoClaims';
-import StemClaimListItem from '../components/StemClaimListItem';
-import { cstUseLighthouse } from '../selectors';
-
-import { ITEMS_PER_PAGE } from '../constants';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -60,15 +62,15 @@ class YourClaimsPageV2 extends React.Component {
     document.title = 'Check your claim or appeal status | Veterans Affairs';
 
     const {
+      appealsLoading,
       canAccessAppeals,
       canAccessClaims,
-      // useLighthouse,
+      claimsLoading,
       getAppealsV2,
       getClaimsV2,
       getStemClaims,
-      claimsLoading,
-      appealsLoading,
       stemClaimsLoading,
+      // useLighthouse,
     } = this.props;
 
     if (canAccessClaims) {
@@ -106,10 +108,10 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (claim.type === 'education_benefits_claims') {
-      return <StemClaimListItem claim={claim} key={claim.id} />;
+      return <StemClaimListItem key={claim.id} claim={claim} />;
     }
 
-    return <ClaimsListItem claim={claim} key={claim.id} />;
+    return <ClaimsListItem key={claim.id} claim={claim} />;
   }
 
   renderErrorMessages() {
@@ -316,11 +318,11 @@ function mapStateToProps(state) {
     canAccessClaims,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
-    useLighthouse: cstUseLighthouse(state),
     fullName: state.user.profile.userFullName,
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
