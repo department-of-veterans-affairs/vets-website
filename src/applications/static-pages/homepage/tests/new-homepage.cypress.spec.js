@@ -1,5 +1,5 @@
 const features = require('./mocks/features');
-const typeaheadResponses = require('./mocks/searchTypeaheadResponses');
+const searchTypeaheadResponses = require('./mocks/searchTypeaheadResponses');
 
 // NOTE: This spec tests the Staging new-homepage.  Homepage does not exist within vets-website here.
 describe('Homepage', () => {
@@ -161,7 +161,7 @@ describe('Homepage', () => {
 
         beforeEach(() => {
           cy.intercept('/v0/search_typeahead?query=*', req => {
-            req.reply(typeaheadResponses[req.query.query]);
+            req.reply(searchTypeaheadResponses[req.query.query]);
           }).as('typeahead');
         });
 

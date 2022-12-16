@@ -1,4 +1,4 @@
-const typeaheadResponses = {
+const searchTypeaheadResponses = {
   hea: [
     'headstone',
     'headstone inscription',
@@ -36,4 +36,4 @@ const typeaheadResponses = {
   ],
 };
 
-module.exports = typeaheadResponses;
+module.exports = searchTypeaheadResponses;
