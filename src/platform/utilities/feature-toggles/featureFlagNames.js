@@ -38,6 +38,7 @@ export default Object.freeze({
   covidVolunteerIntakeBackendEnabled: 'covid_volunteer_intake_backend_enabled',
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
+  cstUseLighthouse: 'cst_use_lighthouse',
   debtLettersShowLetters: 'debt_letters_show_letters',
   debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
@@ -75,6 +76,7 @@ export default Object.freeze({
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
+  mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   myvaCernerFromDrupal: 'myva_cerner_from_drupal',
@@ -133,8 +135,8 @@ export default Object.freeze({
   supplementalClaim: 'supplemental_claim',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
-  vaHomePreview:
-    'va_home_preview',
+  vaHomePreviewModal:
+    'va_home_preview_modal',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',

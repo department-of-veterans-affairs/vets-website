@@ -140,6 +140,7 @@ const GrossMonthlyIncomeInput = props => {
         <va-number-input
           inputmode="numeric"
           id="gross-monthly-income"
+          data-testid="gross-monthly-income"
           name="gross-monthly-income"
           onInput={setNewGrossMonthlyIncome}
           type="text"

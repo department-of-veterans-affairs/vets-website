@@ -174,9 +174,7 @@ const PreCheckInAccordionBlock = ({
       body: (
         <>
           <p>
-            {t(
-              'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
-            )}
+            {t('during-pre-check-in-you-can-review-your-contact-information')}
           </p>
           <p>
             <Trans
