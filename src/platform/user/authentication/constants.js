@@ -162,6 +162,9 @@ export const OCC_MOBILE = {
 };
 
 export const OCC_MOBILE_DSLOGON_ONLY = [
+  'ahburnpitregistry',
+  '/ahburnpitregistry/',
+  '%2Fahburnpitregistry%2F',
   'AHBurnPitRegistry',
   '/AHBurnPitRegistry/',
   '%2FAHBurnPitRegistry%2F',
