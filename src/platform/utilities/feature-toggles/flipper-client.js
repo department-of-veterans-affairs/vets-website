@@ -80,23 +80,6 @@ function FlipperClient({
   };
 
   const fetchToggleValues = async () => {
-    /*
-    {
-      "data":{
-          "type":"feature_toggles",
-          "features":[
-            {
-                "name":"foo",
-                "value":false
-            },
-            {
-                "name":"another_toggle",
-                "value":true
-            }
-          ]
-      }
-    }
-    */
     let data;
     const queryParams = new URLSearchParams(window.location.search);
     const disableFlipperCacheTime = queryParams.get('disableFlipperCacheFor');
