@@ -32,7 +32,9 @@ describe('Homepage', () => {
 
   before(() => {
     // run this spec ONLY in local project
-    if (Cypress.env('CI')) this.skip();
+    cy.log(`Cypress.env('CI'): ${Cypress.env('CI')}`);
+    cy.log(`Cypress.env('CYPRESS_CI'): ${Cypress.env('CYPRESS_CI')}`);
+    if (Cypress.env('CI') || Cypress.env('CYPRESS_CI')) this.skip();
   });
 
   beforeEach(() => {
