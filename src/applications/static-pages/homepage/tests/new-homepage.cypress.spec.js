@@ -30,6 +30,7 @@ describe('Homepage', () => {
   });
 
   before(() => {
+    // run this spec ONLY in local project
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -45,7 +46,7 @@ describe('Homepage', () => {
     cy.location('pathname').should('eq', '/new-home-page/');
   });
 
-  it('loads page with expected sections', () => {
+  it('loads page with expected sections - C32628', () => {
     cy.get('.homepage-hero').should('exist');
     cy.get('.homepage-common-tasks').should('exist');
     cy.get('.homepage-blog').should('exist');
@@ -57,7 +58,7 @@ describe('Homepage', () => {
 
   describe('Hero section', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('loads Hero-section contents', () => {
+    it('loads Hero-section contents - C32629', () => {
       // skipping page-content AXE-check -- already done in first test
       cy.get('.homepage-hero')
         .scrollIntoView()
@@ -73,7 +74,7 @@ describe('Homepage', () => {
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('navigates to PACT Act page', () => {
+    it('navigates to PACT Act page - C32630', () => {
       cy.get('.homepage-hero')
         .scrollIntoView()
         .within(() => {
@@ -90,7 +91,7 @@ describe('Homepage', () => {
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('displays sign-in/-up modal', () => {
+    it('displays sign-in/-up modal - C32631', () => {
       cy.get('.homepage-hero')
         .scrollIntoView()
         .within(() => {
@@ -106,7 +107,7 @@ describe('Homepage', () => {
 
   describe('Common-tasks section', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('loads Common-tasks section-contents', () => {
+    it('loads Common-tasks section-contents - C32632', () => {
       // skipping page-content AXE-check -- already done in first test
       cy.get('.homepage-common-tasks')
         .scrollIntoView()
@@ -164,7 +165,7 @@ describe('Homepage', () => {
         });
 
         // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-        it('runs text-input search', () => {
+        it('runs text-input search - C32633', () => {
           // skipping page-content AXE-check -- already done in first test
           cy.get('[data-widget-type="homepage-search"] va-search-input')
             .scrollIntoView()
@@ -177,7 +178,7 @@ describe('Homepage', () => {
         });
 
         // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-        it('runs typeahead-suggestion search', () => {
+        it('runs typeahead-suggestion search - C32634', () => {
           // skipping page-content AXE-check -- already done in first test
           cy.get('[data-widget-type="homepage-search"] va-search-input')
             .scrollIntoView()
@@ -195,7 +196,7 @@ describe('Homepage', () => {
         });
 
         // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-        it('passes empty-search to results-page', () => {
+        it('passes empty-search to results-page - C32635', () => {
           // skipping page-content AXE-check -- already done in first test
           cy.get('[data-widget-type="homepage-search"] va-search-input')
             .scrollIntoView()
@@ -209,7 +210,7 @@ describe('Homepage', () => {
 
       describe('Other search tools', () => {
         // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-        it('navigates to appropriate search-tool-pages', () => {
+        it('navigates to appropriate search-tool-pages - C32636', () => {
           const toolsListSelector = '.homepage-common-tasks__search-tools ul';
 
           // skipping page-content AXE-check -- already done in first test
@@ -234,7 +235,7 @@ describe('Homepage', () => {
 
     describe('Top-pages subsection', () => {
       // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-      it('navigates to top pages', () => {
+      it('navigates to top pages - C32637', () => {
         const linksListSelector = '#top-pages + .homepage-common-tasks__list';
 
         // skipping page-content AXE-check -- already done in first test
@@ -295,7 +296,7 @@ describe('Homepage', () => {
   describe('Blog/News section', () => {
     describe('Pathfinder article', () => {
       // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-      it('loads blog/news-section content', () => {
+      it('loads blog/news-section content - C32638', () => {
         // skipping page-content AXE-check -- already done in first test
         cy.get('.homepage-blog')
           .should('exist')
@@ -310,7 +311,7 @@ describe('Homepage', () => {
       });
 
       // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-      it('navigates to link-destinations', () => {
+      it('navigates to link-destinations - C32639', () => {
         // skipping page-content AXE-check -- already done in first test
         checkLinkNavigation(
           '.homepage-blog',
@@ -333,7 +334,7 @@ describe('Homepage', () => {
 
   describe('Benefit hubs section', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('loads benefit-hubs section content', () => {
+    it('loads benefit-hubs section content - C32640', () => {
       const checkHubContents = h3Id => {
         cy.get(`.homepage-benefits-row [data-e2e="hub"] h3#${h3Id}`)
           .should('exist')
@@ -358,7 +359,7 @@ describe('Homepage', () => {
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('navigates to benefit-hub pages', () => {
+    it('navigates to benefit-hub pages - C32641', () => {
       const hubDivSelector = '.homepage-benefits-row [data-e2e="hub"]';
 
       // skipping page-content AXE-check -- already done in first test
@@ -422,7 +423,7 @@ describe('Homepage', () => {
 
   describe('Email-signup section', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('loads email-section contents', () => {
+    it('loads email-section contents - C32642', () => {
       // skipping page-content AXE-check -- already done in first test
       cy.get('.homepage-email-update-wrapper')
         .should('exist')
@@ -436,7 +437,7 @@ describe('Homepage', () => {
 
     // TODO: Finalize & unskip when error-handling functionality is implemented in Staging.
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it.skip('handles invalid-email input', () => {
+    it.skip('handles invalid-email input - C32643', () => {
       // skipping page-content AXE-check -- already done in first test
       cy.get(
         'form[action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"]',
