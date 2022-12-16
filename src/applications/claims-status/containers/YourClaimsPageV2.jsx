@@ -127,7 +127,7 @@ class YourClaimsPageV2 extends React.Component {
     }
 
     if (claim.type === 'education_benefits_claims') {
-      return <StemClaimListItem claim={claim} key={claim.id} />;
+      return <StemClaimListItem key={claim.id} claim={claim} />;
     }
 
     // START lighthouse_migration

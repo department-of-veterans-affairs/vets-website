@@ -19,6 +19,7 @@ describe('ReviewAndDownload', () => {
 
     const valink = $('va-link', container);
     expect(valink.getAttribute('href')).to.contain('v0/coe/download_coe');
+    expect(valink.getAttribute('filename')).to.contain('v0/coe/download_coe');
     expect(valink.getAttribute('text')).to.contain('Download your COE');
   });
 });
