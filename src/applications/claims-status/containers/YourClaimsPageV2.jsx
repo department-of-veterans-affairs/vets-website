@@ -10,7 +10,10 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
   getAppealsV2 as getAppealsV2Action,
+  // START lighthouse_migration
+  getClaims,
   getClaimsV2 as getClaimsV2Action,
+  // END lighthouse_migration
   getStemClaims as getStemClaimsAction,
 } from '../actions';
 
@@ -19,7 +22,10 @@ import AppealsUnavailable from '../components/AppealsUnavailable';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimsListItem from '../components/appeals-v2/ClaimsListItemV2';
+// START lighthouse_migration
+import ClaimsListItemV1 from '../components/appeals-v2/ClaimsListItemV2';
+import ClaimsListItemLighthouse from '../components/ClaimsListItem';
+// END lighthouse_migration
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import { consolidatedClaimsContent } from '../components/ConsolidatedClaims';
@@ -30,7 +36,9 @@ import StemClaimListItem from '../components/StemClaimListItem';
 
 import { ITEMS_PER_PAGE } from '../constants';
 
+// START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
 
 import {
   appealsAvailability,
@@ -67,14 +75,25 @@ class YourClaimsPageV2 extends React.Component {
       canAccessClaims,
       claimsLoading,
       getAppealsV2,
+      // START lighthouse_migration
+      getClaimsLighthouse,
       getClaimsV2,
+      // END lighthouse_migration
       getStemClaims,
       stemClaimsLoading,
-      // useLighthouse,
+      // START lighthouse_migration
+      useLighthouse,
+      // END lighthouse_migration
     } = this.props;
 
     if (canAccessClaims) {
-      getClaimsV2();
+      // START lighthouse_migration
+      if (useLighthouse) {
+        getClaimsLighthouse();
+      } else {
+        getClaimsV2();
+      }
+      // END lighthouse_migration
     }
 
     if (canAccessAppeals) {
@@ -110,6 +129,13 @@ class YourClaimsPageV2 extends React.Component {
     if (claim.type === 'education_benefits_claims') {
       return <StemClaimListItem key={claim.id} claim={claim} />;
     }
+
+    // START lighthouse_migration
+    const { useLighthouse } = this.props;
+    const ClaimsListItem = useLighthouse
+      ? ClaimsListItemLighthouse
+      : ClaimsListItemV1;
+    // END lighthouse_migration
 
     return <ClaimsListItem key={claim.id} claim={claim} />;
   }
@@ -275,7 +301,10 @@ YourClaimsPageV2.propTypes = {
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
+  // START lighthouse_migration
+  getClaimsLighthouse: PropTypes.func,
   getClaimsV2: PropTypes.func,
+  // END lighthouse_migration
   getStemClaims: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
@@ -285,7 +314,9 @@ YourClaimsPageV2.propTypes = {
     }),
   ),
   stemClaimsLoading: PropTypes.bool,
+  // START lighthouse_migration
   useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 function mapStateToProps(state) {
@@ -322,13 +353,18 @@ function mapStateToProps(state) {
     list: sortedList,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     synced: claimsState.claimSync.synced,
+    // START lighthouse_migration
     useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
+  // START lighthouse_migration
+  getClaimsLighthouse: getClaims,
   getClaimsV2: getClaimsV2Action,
+  // END lighthouse_migration
   getStemClaims: getStemClaimsAction,
 };
 
