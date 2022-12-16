@@ -28,4 +28,4 @@ const features = {
   },
 };
 
-module.exports = features;
+export default features;

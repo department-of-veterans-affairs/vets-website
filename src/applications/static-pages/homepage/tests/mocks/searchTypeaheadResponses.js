@@ -36,4 +36,4 @@ const searchTypeaheadResponses = {
   ],
 };
 
-module.exports = searchTypeaheadResponses;
+export { searchTypeaheadResponses };

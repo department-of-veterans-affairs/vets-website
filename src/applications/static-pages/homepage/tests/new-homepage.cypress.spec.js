@@ -1,5 +1,5 @@
-const features = require('./mocks/features');
-const searchTypeaheadResponses = require('./mocks/searchTypeaheadResponses');
+import features from './mocks/features';
+import { searchTypeaheadResponses } from './mocks/searchTypeaheadResponses';
 
 // NOTE: This spec tests the Staging new-homepage.  Homepage does not exist within vets-website here.
 describe('Homepage', () => {
