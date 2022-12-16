@@ -56,6 +56,29 @@ function FlipperClient({
     handleToggleValuesRetrieved(toggleValues);
   };
 
+  const setDisableCacheSession = disableCacheTime => {
+    if (disableCacheTime === '0') {
+      localStorage.removeItem('disableCacheTime');
+    } else if (['8', '16', '24'].indexOf(disableCacheTime) > -1) {
+      const now = new Date();
+      const expiresAt = new Date(
+        now.getTime() + 60000 * 60 * Number(disableCacheTime),
+      );
+
+      localStorage.setItem(
+        'disableCacheTime',
+        JSON.stringify({ expiresAt: expiresAt.toISOString() }),
+      );
+      return true;
+    } else {
+      const disableCacheExpireTime = JSON.parse(
+        localStorage.getItem('disableCacheTime'),
+      );
+      return Date.now() < new Date(disableCacheExpireTime.expiresAt).getTime();
+    }
+    return false;
+  };
+
   const fetchToggleValues = async () => {
     /*
     {
@@ -76,8 +99,10 @@ function FlipperClient({
     */
     let data;
     const queryParams = new URLSearchParams(window.location.search);
-    const isToggleCacheDisabled =
-      queryParams.get('disableFlipperCache') === 'true';
+    const disableFlipperCacheTime = queryParams.get('disableFlipperCacheFor');
+    const isToggleCacheDisabled = setDisableCacheSession(
+      disableFlipperCacheTime,
+    );
     const isPostLogin = queryParams.get('postLogin') === 'true';
     const signOutFlag = sessionStorage.getItem('signOut') === 'true';
 
