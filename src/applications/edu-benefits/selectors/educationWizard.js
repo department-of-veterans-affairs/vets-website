@@ -23,5 +23,5 @@ export const showEduBenefits1990NWizard = state =>
 export const showEduBenefits5495Wizard = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits5495Wizard];
 
-export const showEduBenefits1990EZWizard = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showEduBenefits1990EZWizard];
+export const showMebDgi40Feature = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.showMebDgi40Features];

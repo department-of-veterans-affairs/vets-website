@@ -20,6 +20,7 @@ const MessageListItem = props => {
     recipientName,
     attachment,
     messageId,
+    keyword,
   } = props;
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
@@ -30,6 +31,30 @@ const MessageListItem = props => {
   };
 
   const formattedDate = dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z');
+
+  const getHighlightedText = text => {
+    if (!keyword) return text;
+    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+    return (
+      <span>
+        {' '}
+        {parts.map((part, i) => {
+          const highlight = part.toLowerCase() === keyword.toLowerCase();
+          const partProps = highlight
+            ? {
+                'data-testid': 'highlighted-text',
+                className: 'keyword-highlight',
+              }
+            : {};
+          return (
+            <span key={i} {...partProps}>
+              {part}
+            </span>
+          );
+        })}{' '}
+      </span>
+    );
+  };
 
   return (
     <div
@@ -44,7 +69,7 @@ const MessageListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <span>Sender: {senderName}</span>
+          <span>Sender: {getHighlightedText(senderName)}</span>
         ) : (
           <div>
             <div>To: {recipientName}</div>
@@ -60,7 +85,7 @@ const MessageListItem = props => {
             : 'message'
         }/${messageId}`}
       >
-        {subject}
+        {getHighlightedText(subject)}
       </Link>
       <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment && <i className={attachmentClasses} />}
@@ -75,6 +100,7 @@ export default MessageListItem;
 MessageListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
+  keyword: PropTypes.any,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,
   recipientName: PropTypes.string,
