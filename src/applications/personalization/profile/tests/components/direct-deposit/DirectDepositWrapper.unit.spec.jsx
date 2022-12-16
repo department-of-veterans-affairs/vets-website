@@ -128,8 +128,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
           </DirectDepositWrapper>
         </Provider>,
       );
-      expect(getByTestId('direct-deposit-service-down-alert-headline')).to
-        .exist;
+      expect(getByTestId('service-is-down-banner')).to.exist;
       expect(queryByTestId('child')).to.be.null;
 
       expect(setViewingIsRestricted.called).to.be.true;
@@ -144,8 +143,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
           </DirectDepositWrapper>
         </Provider>,
       );
-      expect(getByTestId('direct-deposit-service-down-alert-headline')).to
-        .exist;
+      expect(getByTestId('service-is-down-banner')).to.exist;
       expect(queryByTestId('child')).to.be.null;
 
       expect(setViewingIsRestricted.called).to.be.true;

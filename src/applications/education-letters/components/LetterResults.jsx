@@ -49,7 +49,10 @@ export const HasLetters = ({ claimStatus }) => {
             issued. If your claim requires further clarification, a follow-up
             decision letter will be sent to you by mail. If you have additional
             questions, you can contact us through{' '}
-            <a href="https://ask.va.gov/"> Ask VA.</a>
+            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+              {' '}
+              Ask VA.
+            </a>
           </p>
         </div>
       </va-alert>
@@ -101,7 +104,7 @@ export const HasLetters = ({ claimStatus }) => {
         At this time, we only have letters available here that you received a
         decision on after August 20, 2022. To request a copy of an older letter,
         you can contact us through Ask VA.{' '}
-        <a href="https://ask.va.gov/">
+        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
           Request your VA education letter through Ask VA.
         </a>
       </p>
@@ -128,7 +131,10 @@ export const NoLetters = () => {
             you’re a family member or dependent – your decision letter will not
             be listed here. You can contact us through Ask VA to request a copy
             of your letter. Request your VA education letter through{' '}
-            <a href="https://ask.va.gov/"> Ask VA.</a>
+            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+              {' '}
+              Ask VA.
+            </a>
           </p>
         </div>
       </va-alert>
