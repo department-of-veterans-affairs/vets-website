@@ -1,20 +1,33 @@
+const _startsWith = require('lodash/startsWith');
 const features = require('./mocks/features');
 const typeaheadResponses = require('./mocks/searchTypeaheadResponses');
 
+// NOTE: This spec tests the Staging new-homepage.  Homepage does not exist within vets-website here.
 describe('Homepage', () => {
   const BASE_URL = 'https://staging.va.gov/';
-  const checkLinkNavigation = (scrollToSelector, linkText, pathname) => {
+  const checkLinkNavigation = (scrollToSelector, linkText, destination) => {
     cy.get(scrollToSelector)
       .should('exist')
       .scrollIntoView();
     cy.contains(linkText, {
       selector: 'a',
     }).click();
-    cy.location('pathname').should('eq', pathname);
+    if (!_startsWith(destination, 'http', 0)) {
+      // root-relative
+      cy.location('pathname').should('eq', destination);
+    } else {
+      // absolute URL
+      cy.location('href').should('eq', destination);
+    }
+
     cy.go('back');
   };
 
-  Cypress.config({ includeShadowDom: true, waitForAnimations: true });
+  Cypress.config({
+    includeShadowDom: true,
+    waitForAnimations: true,
+    pageLoadTimeout: 120000,
+  });
 
   before(() => {
     if (Cypress.env('CI')) this.skip();
@@ -25,6 +38,9 @@ describe('Homepage', () => {
     cy.intercept('/v0/maintenance_windows', {
       data: [],
     }).as('maintenanceWindows');
+    cy.intercept('POST', 'https://www.google-analytics.com/*', {}).as(
+      'analytics',
+    );
     cy.visit(`${BASE_URL}new-home-page/`);
     cy.location('pathname').should('eq', '/new-home-page/');
   });
@@ -90,7 +106,7 @@ describe('Homepage', () => {
 
   describe('Common-tasks section', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('loads Common-task section-contents', () => {
+    it('loads Common-tasks section-contents', () => {
       // skipping page-content AXE-check -- already done in first test
       cy.get('.homepage-common-tasks')
         .scrollIntoView()
@@ -274,5 +290,166 @@ describe('Homepage', () => {
         );
       });
     });
+  });
+
+  describe('Blog/News section', () => {
+    describe('Pathfinder article', () => {
+      // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+      it('loads blog/news-section content', () => {
+        // skipping page-content AXE-check -- already done in first test
+        cy.get('.homepage-blog')
+          .should('exist')
+          .scrollIntoView()
+          .within(() => {
+            cy.get('h3#pathfinder-the-front-door-for-')
+              .should('exist')
+              .next('p')
+              .should('exist')
+              .and('not.be.empty');
+          });
+      });
+
+      // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+      it('navigates to link-destinations', () => {
+        // skipping page-content AXE-check -- already done in first test
+        checkLinkNavigation(
+          '.homepage-blog',
+          'Pathfinder: The front door for engaging with VA',
+          'https://pathfinder.va.gov/',
+        );
+        checkLinkNavigation(
+          '.homepage-blog',
+          'Read the full article',
+          'https://pathfinder.va.gov/',
+        );
+        checkLinkNavigation(
+          '.homepage-blog',
+          'More VA news ',
+          'https://news.va.gov/',
+        );
+      });
+    });
+  });
+
+  describe('Benefit hubs section', () => {
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('loads benefit-hubs section content', () => {
+      const checkHubContents = h3Id => {
+        cy.get(`.homepage-benefits-row [data-e2e="hub"] h3#${h3Id}`)
+          .should('exist')
+          .next('p')
+          .should('exist')
+          .and('not.be.empty');
+      };
+
+      // skipping page-content AXE-check -- already done in first test
+      cy.get('[data-e2e="hub"]').should('have.length.at.least', 11);
+      checkHubContents('service-member-benefits');
+      checkHubContents('family-member-benefits');
+      checkHubContents('burials-and-memorials');
+      checkHubContents('careers-and-employment');
+      checkHubContents('housing-assistance');
+      checkHubContents('pension');
+      checkHubContents('life-insurance');
+      checkHubContents('education-and-training');
+      checkHubContents('records');
+      checkHubContents('health-care');
+      checkHubContents('disability');
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('navigates to benefit-hub pages', () => {
+      const hubDivSelector = '.homepage-benefits-row [data-e2e="hub"]';
+
+      // skipping page-content AXE-check -- already done in first test
+      checkLinkNavigation(
+        `${hubDivSelector} h3#service-member-benefits`,
+        'Service member benefits',
+        '/service-member-benefits/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#family-member-benefits`,
+        'Family member benefits',
+        '/family-member-benefits/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#burials-and-memorials`,
+        'Burials and memorials',
+        '/burials-memorials/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#careers-and-employment`,
+        'Careers and employment',
+        '/careers-employment/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#housing-assistance`,
+        'Housing assistance',
+        '/housing-assistance/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#pension`,
+        'Pension',
+        '/pension/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#life-insurance`,
+        'Life insurance',
+        '/life-insurance/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#education-and-training`,
+        'Education and training',
+        '/education/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#records`,
+        'Records',
+        '/records/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#health-care`,
+        'Health care',
+        '/health-care/',
+      );
+      checkLinkNavigation(
+        `${hubDivSelector} h3#disability`,
+        'Disability',
+        '/disability/',
+      );
+    });
+  });
+
+  describe('Email-signup section', () => {
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('loads email-section contents', () => {
+      // skipping page-content AXE-check -- already done in first test
+      cy.get('.homepage-email-update-wrapper')
+        .should('exist')
+        .within(() => {
+          cy.get('h2#sign-up-to-get-the-latest-va-u').should('exist');
+          cy.get(
+            'form[action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"]',
+          ).should('exist');
+        });
+    });
+
+    // TODO: Finalize & unskip when error-handling functionality is implemented in Staging.
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it.skip('handles invalid-email input', () => {
+      // skipping page-content AXE-check -- already done in first test
+      cy.get(
+        'form[action="https://public.govdelivery.com/accounts/USVACHOOSE/subscribers/qualify"]',
+      )
+        .scrollIntoView()
+        .find('input#email')
+        .clear()
+        .type('invalid')
+        .next('button[type="submit"]')
+        .click();
+      // TODO: Assert error-state.
+    });
+
+    // Form-submission functionality is disabled in Staging.
   });
 });
