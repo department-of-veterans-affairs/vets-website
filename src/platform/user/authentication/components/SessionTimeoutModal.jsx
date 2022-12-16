@@ -78,12 +78,12 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
+    sessionStorage.setItem('signOut', 'true');
     if (!this.props.authenticatedWithOAuth) {
       IAMLogout();
     } else {
       window.location = logoutUrlSiS();
     }
-    sessionStorage.setItem('signOut', 'true');
   };
 
   render() {
