@@ -10,7 +10,7 @@ export const schema = {
       type: 'string',
       enum: [
         LOAN_INTENT.regular, // new entry, will not be submitted
-        LOAN_INTENT.refiance,
+        LOAN_INTENT.refinance,
         LOAN_INTENT.irrrl,
         LOAN_INTENT.oneTime,
         LOAN_INTENT.inquiry,
