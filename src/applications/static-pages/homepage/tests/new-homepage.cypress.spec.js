@@ -1,4 +1,3 @@
-const _startsWith = require('lodash/startsWith');
 const features = require('./mocks/features');
 const typeaheadResponses = require('./mocks/searchTypeaheadResponses');
 
@@ -6,17 +5,19 @@ const typeaheadResponses = require('./mocks/searchTypeaheadResponses');
 describe('Homepage', () => {
   const BASE_URL = 'https://staging.va.gov/';
   const checkLinkNavigation = (scrollToSelector, linkText, destination) => {
+    const httpProtocolRegex = new RegExp('^https?://', 'i');
+
     cy.get(scrollToSelector)
       .should('exist')
       .scrollIntoView();
     cy.contains(linkText, {
       selector: 'a',
     }).click();
-    if (!_startsWith(destination, 'http', 0)) {
-      // root-relative
+    if (!httpProtocolRegex.test(destination)) {
+      // root-relative link - assert pathname
       cy.location('pathname').should('eq', destination);
     } else {
-      // absolute URL
+      // absolute link - assert entire URL
       cy.location('href').should('eq', destination);
     }
 
