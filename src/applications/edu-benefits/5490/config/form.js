@@ -3,6 +3,19 @@ import get from 'platform/utilities/data/get';
 import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
+import {
+  validateMonthYear,
+  validateFutureDateIfExpectedGrad,
+} from 'platform/forms-system/src/js/validation';
+import * as address from 'platform/forms/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import * as personId from 'platform/forms/definitions/personId';
+import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
+import fullNameUi from 'platform/forms/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
@@ -18,21 +31,6 @@ import { urlMigration } from '../../config/migrations';
 
 import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 
-import {
-  validateMonthYear,
-  validateFutureDateIfExpectedGrad,
-} from 'platform/forms-system/src/js/validation';
-
-import * as address from 'platform/forms/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as personId from 'platform/forms/definitions/personId';
-import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
-import fullNameUi from 'platform/forms/definitions/fullName';
-
-import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
@@ -47,7 +45,6 @@ import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
 import additionalBenefitsPage from '../../pages/additionalBenefits';
-import employmentHistoryPage from '../../pages/employmentHistory';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -703,12 +700,6 @@ const formConfig = {
             },
           },
         },
-      },
-    },
-    employmentHistory: {
-      title: 'Employment history',
-      pages: {
-        employmentHistory: employmentHistoryPage(fullSchema5490, false),
       },
     },
     schoolSelection: {
