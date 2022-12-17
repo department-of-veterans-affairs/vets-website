@@ -2128,7 +2128,11 @@ const getAppealDate = appeal => {
  * @returns {string}
  */
 const getClaimDate = claim => {
-  const { phaseChangeDate } = claim.attributes;
+  if (claim.type === 'education_benefits_claims') {
+    return claim.attributes.phaseChangeDate;
+  }
+
+  const { phaseChangeDate } = claim.claimPhaseDates;
   return phaseChangeDate || '0';
 };
 
@@ -2138,11 +2142,9 @@ const getClaimDate = claim => {
  * @returns {string}
  */
 const getDate = item => {
-  if (!item.attributes) {
-    return '0';
-  }
+  const itemType = item.type || item.claimType;
 
-  return appealTypes.includes(item.type)
+  return appealTypes.includes(itemType)
     ? getAppealDate(item)
     : getClaimDate(item);
 };

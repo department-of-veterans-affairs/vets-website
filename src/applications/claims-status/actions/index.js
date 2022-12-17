@@ -116,12 +116,21 @@ export function getAppealsV2() {
   };
 }
 
-function fetchClaimsSuccess(response) {
+// START lighthouse_migration
+function fetchClaimsSuccessEVSS(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims: response.data,
   };
 }
+
+function fetchClaimsSuccess(claims) {
+  return {
+    type: FETCH_CLAIMS_SUCCESS,
+    claims,
+  };
+}
+// END
 
 export function pollRequest(options) {
   const {
@@ -208,7 +217,9 @@ export function getClaimsV2(options = {}) {
     if (USE_MOCKS) {
       return mockApi
         .getClaimList()
-        .then(mockClaimsList => dispatch(fetchClaimsSuccess(mockClaimsList)));
+        .then(mockClaimsList =>
+          dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
+        );
     }
 
     return poll({
@@ -245,7 +256,7 @@ export function getClaimsV2(options = {}) {
           startTime: startTimestampMs,
           success: true,
         });
-        dispatch(fetchClaimsSuccess(response));
+        dispatch(fetchClaimsSuccessEVSS(response));
       },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
@@ -256,7 +267,15 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export const getClaims = getClaimsV2;
+export function getClaims() {
+  return dispatch => {
+    dispatch({ type: FETCH_CLAIMS_PENDING });
+
+    return apiRequest('/benefits_claims').then(claims =>
+      dispatch(fetchClaimsSuccess(claims)),
+    );
+  };
+}
 // END lighthouse_migration
 
 export function getClaimDetail(id, router, poll = pollRequest) {

@@ -137,7 +137,7 @@ class YourClaimsPageV2 extends React.Component {
       : ClaimsListItemV1;
     // END lighthouse_migration
 
-    return <ClaimsListItem key={claim.id} claim={claim} />;
+    return <ClaimsListItem key={claim.claimId} claim={claim} />;
   }
 
   renderErrorMessages() {

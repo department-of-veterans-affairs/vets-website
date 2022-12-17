@@ -34,8 +34,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
       }
 
       return (
-        !claim.attributes.open &&
-        moment(claim.attributes.phaseChangeDate)
+        claim.closeDate &&
+        moment(claim.claimPhaseDates.phaseChangeDate)
           .startOf('day')
           .isAfter(
             moment()

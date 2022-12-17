@@ -8,20 +8,30 @@ import { RequiredLoginView } from 'platform/user/authorization/components/Requir
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 
+import { isLoadingFeatures } from '../selectors';
+
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable }) {
+function AppContent({ children, isDataAvailable, featureFlagsLoading }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
+  const shouldUseApp = canUseApp && !featureFlagsLoading;
+
   return (
     <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable />}
-      {canUseApp && <>{children}</>}
+      {shouldUseApp && <>{children}</>}
     </div>
   );
 }
 
-function ClaimsStatusApp({ children, dispatchSetLastPage, router, user }) {
+function ClaimsStatusApp({
+  children,
+  dispatchSetLastPage,
+  featureFlagsLoading,
+  router,
+  user,
+}) {
   useEffect(() => {
     router.listen(location => {
       dispatchSetLastPage(location.pathname);
@@ -37,7 +47,9 @@ function ClaimsStatusApp({ children, dispatchSetLastPage, router, user }) {
       ]}
       user={user}
     >
-      <AppContent>{children}</AppContent>
+      <AppContent featureFlagsLoading={featureFlagsLoading}>
+        {children}
+      </AppContent>
     </RequiredLoginView>
   );
 }
@@ -50,7 +62,12 @@ ClaimsStatusApp.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return { user: state.user };
+  const featureFlagsLoading = isLoadingFeatures(state);
+
+  return {
+    featureFlagsLoading,
+    user: state.user,
+  };
 }
 
 const mapDispatchToProps = {
