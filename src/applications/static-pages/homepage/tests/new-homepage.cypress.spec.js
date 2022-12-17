@@ -135,7 +135,7 @@ describe('Homepage', () => {
           cy.location('pathname').should('eq', '/search/');
           cy.location('search').should(
             'eq',
-            `?query=${searchTerm.replace(' ', '%20')}&t=false`,
+            `?query=${searchTerm.replaceAll(' ', '%20')}&t=false`,
           );
           cy.get('#h1-search-title').should('be.visible');
           if (searchTerm) {
