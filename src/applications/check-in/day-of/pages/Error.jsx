@@ -3,17 +3,14 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { makeSelectError } from '../../selectors';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Wrapper from '../../components/layout/Wrapper';
 
 const Error = () => {
   const { t } = useTranslation();
-  const { getValidateAttempts } = useSessionStorage(false);
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
 
-  const validationError = isMaxValidateAttempts || error === 'max-validation';
+  const validationError = error === 'max-validation';
 
   const maxValidateMessage = t(
     'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
