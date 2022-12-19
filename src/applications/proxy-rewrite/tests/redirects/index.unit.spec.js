@@ -64,13 +64,9 @@ describe('Redirect replaced pages', () => {
 });
 
 describe('Validate crossDomainRedirects.json', () => {
-  const nonSubdomainRedirects = redirects.reduce((redirectArray, current) => {
-    const key = 'isToSubdomain';
-    if (!current[key]) {
-      redirectArray.push(current);
-    }
-    return redirectArray;
-  }, []);
+  const nonSubdomainRedirects = redirects.filter(
+    redirect => !redirect.isToSubdomain,
+  );
 
   const redirectsBySource = nonSubdomainRedirects.reduce(
     (grouped, redirect) => {
