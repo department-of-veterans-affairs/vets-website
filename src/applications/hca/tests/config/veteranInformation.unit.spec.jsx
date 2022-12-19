@@ -9,6 +9,7 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('HCA veteranInformation', () => {
   it('should render personal information page', () => {
@@ -57,23 +58,8 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranFullName_first'),
-      {
-        target: {
-          value: 'John',
-        },
-      },
-    );
-
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranFullName_last'),
-      {
-        target: {
-          value: 'Smith',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranFullName_first', 'John');
+    simulateInputChange(formDOM, '#root_veteranFullName_last', 'Smith');
 
     submitForm(form);
 
@@ -125,13 +111,10 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranSocialSecurityNumber'),
-      {
-        target: {
-          value: '234325567',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_veteranSocialSecurityNumber',
+      '234325567',
     );
 
     submitForm(form);
@@ -187,32 +170,11 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranDateOfBirthMonth'),
-      {
-        target: {
-          value: '2',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranDateOfBirthMonth', '2');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranDateOfBirthDay'),
-      {
-        target: {
-          value: '10',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranDateOfBirthDay', '10');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranDateOfBirthYear'),
-      {
-        target: {
-          value: '1990',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranDateOfBirthYear', '1990');
 
     submitForm(form);
 
@@ -243,7 +205,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit place of birth page with valid data', () => {
+  it('should submit place of birth page with no data', () => {
     const onSubmit = sinon.spy();
     const {
       schema,
@@ -289,7 +251,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it("should submit mother's maiden name page with valid data", () => {
+  it("should submit mother's maiden name page with no data", () => {
     const onSubmit = sinon.spy();
     const {
       schema,
@@ -354,11 +316,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(formDOM.querySelector('#root_gender_1'), {
-      target: {
-        value: 'M',
-      },
-    });
+    simulateInputChange(formDOM, '#root_gender_1', 'M');
 
     submitForm(form);
 
@@ -389,7 +347,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit gender page with valid data', () => {
+  it('should submit gender page with no data', () => {
     const onSubmit = sinon.spy();
     const {
       schema,
@@ -437,7 +395,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.false;
   });
 
-  it('should submit marital status page with valid data', () => {
+  it('should submit marital status page with no data', () => {
     const onSubmit = sinon.spy();
     const {
       schema,
@@ -454,14 +412,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_maritalStatus'),
-      {
-        target: {
-          value: 'Married',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_maritalStatus', 'Married');
 
     submitForm(form);
 
@@ -492,7 +443,7 @@ describe('HCA veteranInformation', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should submit demographic information page with valid data', () => {
+  it('should submit demographic information page with no data', () => {
     const onSubmit = sinon.spy();
     const {
       schema,
@@ -560,14 +511,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_sigiIsAmericanIndianNo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_sigiIsAmericanIndianNo', 'N');
 
     submitForm(form);
 
@@ -618,59 +562,25 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranAddress_country'),
-      {
-        target: {
-          value: 'USA',
-        },
-      },
+    simulateInputChange(formDOM, '#root_veteranAddress_country', 'USA');
+
+    simulateInputChange(
+      formDOM,
+      '#root_veteranAddress_street',
+      '200 Main Street',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranAddress_street'),
-      {
-        target: {
-          value: '200 Main Street',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranAddress_city', 'Madison');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranAddress_city'),
-      {
-        target: {
-          value: 'Madison',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranAddress_state', 'NY');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranAddress_state'),
-      {
-        target: {
-          value: 'NY',
-        },
-      },
-    );
-
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_veteranAddress_postalCode'),
-      {
-        target: {
-          value: '27981',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_veteranAddress_postalCode', '27981');
 
     // root_view:doesMailingMatchHomeAddressYes
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_view\\3A doesMailingMatchHomeAddressYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_view\\3A doesMailingMatchHomeAddressYes',
+      'Y',
     );
 
     submitForm(form);
@@ -693,7 +603,7 @@ describe('HCA veteranInformation', () => {
     expect(formDOM.querySelector('#root_email')).not.to.be.null;
   });
 
-  it('should submit contact information page with valid data', () => {
+  it('should submit contact information page with no data', () => {
     const onSubmit = sinon.spy();
     const {
       schema,

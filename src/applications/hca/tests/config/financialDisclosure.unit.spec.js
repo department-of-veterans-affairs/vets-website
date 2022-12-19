@@ -9,6 +9,7 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca financial disclosure', () => {
   const {
@@ -60,14 +61,7 @@ describe('Hca financial disclosure', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_discloseFinancialInformationYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_discloseFinancialInformationYes', 'Y');
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
@@ -86,14 +80,7 @@ describe('Hca financial disclosure', () => {
     const formDOM = findDOMNode(form);
     expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(1);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_discloseFinancialInformationNo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_discloseFinancialInformationNo', 'N');
 
     expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(2);
   });

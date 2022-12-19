@@ -48,11 +48,13 @@ import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
+  CONTACT_INFO_PATH,
   CONTESTABLE_ISSUES_PATH,
+  ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
-  // EVIDENCE_OTHER_PATH,
+  EVIDENCE_OTHER_PATH,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
@@ -102,7 +104,7 @@ const formConfig = {
         },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'contact-information',
+          path: CONTACT_INFO_PATH,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
@@ -167,7 +169,7 @@ const formConfig = {
         },
         addIssue: {
           title: 'Add issues for review',
-          path: 'add-issue',
+          path: ADD_ISSUE_PATH,
           depends: () => false, // accessed from contestable issues
           CustomPage: AddIssue,
           CustomPageReview: null,
@@ -256,7 +258,7 @@ const formConfig = {
         },
         evidenceUploadOther: {
           title: 'Supporting (lay) statements or other evidence',
-          path: 'supporting-evidence/upload-other-evidence',
+          path: EVIDENCE_OTHER_PATH,
           uiSchema: evidenceUploadOther.uiSchema,
           schema: evidenceUploadOther.schema,
         },

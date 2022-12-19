@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import {
+  errorMessages,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
@@ -29,7 +30,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     expect($$('button', container).length).to.eq(2);
   });
 
-  it('should submit page without error (optional question)', () => {
+  it('should submit page with error (required question)', () => {
     const goSpy = sinon.spy();
     const { container } = render(
       <div>
@@ -38,7 +39,9 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     fireEvent($('button.usa-button-primary', container), mouseClick);
-    expect(goSpy.called).to.be.true;
+    const radio = $('va-radio', container);
+    expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
+    expect(goSpy.called).to.be.false;
   });
 
   it('should allow setting va-radio-option', () => {

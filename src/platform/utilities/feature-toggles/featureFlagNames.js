@@ -1,7 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
-  caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  caregiverSigiEnabled: 'caregiver_sigi_enabled',
   caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -69,6 +69,7 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
@@ -117,6 +118,7 @@ export default Object.freeze({
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
+  showMebDgi40Features: 'show_meb_dgi40_features',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
@@ -168,5 +170,4 @@ export default Object.freeze({
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
-  showMebDgi40Features: 'show_meb_dgi40_features'
 });
