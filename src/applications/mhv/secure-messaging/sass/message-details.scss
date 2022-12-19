@@ -1,6 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .message-detail-container {
+  max-width: 634.66px;
+  overflow-wrap: break-word;
+
   p {
     margin-top: 2px;
     margin-bottom: 1px;
@@ -41,6 +44,11 @@
     }
     .message-body {
       margin: 30px 0;
+    }
+
+    .attachment {
+      width: 96%;
+      overflow-wrap: break-word;
     }
 
     .message-attachments {
