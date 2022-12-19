@@ -106,12 +106,25 @@ describe('<EvidenceVaRecords>', () => {
     expect($('.vads-c-action-link--green', container)).to.exist;
   });
 
+  // *** CLOSE MODAL ***
   it('should show error messages after closing modal after submitting empty page', () => {
-    const { container } = render(setup({ method: 'onModalClose' }));
+    const goSpy = sinon.spy();
+    const index = 1;
+    const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
+    const page = setup({
+      index,
+      method: 'onModalClose',
+      goForward: goSpy,
+      goToPath: goSpy,
+      data,
+    });
+    const { container } = render(page);
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
     testAndCloseModal(container);
+
+    expect(goSpy.called).to.be.false;
     getAndTestAllErrors(container);
   });
 
@@ -133,11 +146,30 @@ describe('<EvidenceVaRecords>', () => {
 
   it('should show modal when submitting an empty page', () => {
     const goSpy = sinon.spy();
-    const { container } = render(setup({ goForward: goSpy }));
+    const data = { ...mockData, locations: [mockLocation, {}] };
+    const page = setup({
+      index: 1,
+      goForward: goSpy,
+      data,
+    });
+    const { container } = render(page);
     fireEvent.submit($('form', container));
 
     expect($('va-modal', container).getAttribute('visible')).to.eq('true');
     expect(goSpy.called).to.be.false;
+  });
+
+  it('should not show modal (reveal errors) when going forward on an empty page on first entry only', () => {
+    const goSpy = sinon.spy();
+    const index = 0;
+    const page = setup({ index, goForward: goSpy });
+    const { container } = render(page);
+
+    // back
+    fireEvent.click($('.usa-button-primary', container), mouseClick);
+
+    expect(goSpy.called).to.be.false;
+    getAndTestAllErrors(container);
   });
 
   it('should not navigate, but will show errors when choosing "Yes" after continuing', () => {
@@ -219,13 +251,17 @@ describe('<EvidenceVaRecords>', () => {
     expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
-  it('should show modal when going back on an empty page', () => {
+  it('should not show modal when going back on an empty page on first entry only', () => {
     const goSpy = sinon.spy();
-    const { container } = render(setup({ goBack: goSpy }));
-    fireEvent.click($('.usa-button-secondary', container));
+    const index = 0;
+    const page = setup({ index, goBack: goSpy });
+    const { container } = render(page);
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('true');
-    expect(goSpy.called).to.be.false;
+    // back
+    fireEvent.click($('.usa-button-secondary', container), mouseClick);
+
+    expect(goSpy.called).to.be.true;
+    expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
   it('should navigate back to previous index page, after choosing "Yes" in modal', () => {
@@ -249,25 +285,6 @@ describe('<EvidenceVaRecords>', () => {
       .true;
   });
 
-  it('should navigate back to VA record request page, after choosing "Yes" in modal', () => {
-    const goSpy = sinon.spy();
-    const index = 0;
-    const data = { ...mockData, locations: [{}, mockLocation] };
-    const page = setup({
-      index,
-      method: 'onModalYes',
-      goBack: goSpy,
-      data,
-    });
-    const { container } = render(page);
-
-    // continue
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
-
-    expect(goSpy.calledWith(index - 1)).to.be.true;
-  });
-
   it('should navigate back one index when choosing "No" after continuing', () => {
     const goSpy = sinon.spy();
     const index = 2;
@@ -286,25 +303,6 @@ describe('<EvidenceVaRecords>', () => {
     expect(goSpy.called).to.be.true;
     expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to.be
       .true;
-  });
-
-  it('should navigate back to request VA records page when choosing "No" after continuing', () => {
-    const goSpy = sinon.spy();
-    const index = 0;
-    const page = setup({
-      index,
-      method: 'onModalNo',
-      goBack: goSpy,
-      data: { ...mockData, locations: [{}, mockLocation] },
-    });
-    const { container } = render(page);
-
-    // back
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
-
-    expect(goSpy.called).to.be.true;
-    expect(goSpy.calledWith(index - 1)).to.be.true;
   });
 
   // *** ADD ANOTHER ***

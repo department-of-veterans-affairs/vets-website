@@ -8,8 +8,7 @@ export const Appointments = ({ appointments, hasError }) => {
   const nextAppointment = appointments?.[0];
   const start = moment.parseZone(nextAppointment?.startsAt);
   let locationName;
-  const timeZone =
-    nextAppointment?.timeZone ?? getAppointmentTimezone(nextAppointment);
+  const timeZone = getAppointmentTimezone(nextAppointment);
 
   if (nextAppointment?.isVideo) {
     locationName = 'VA Video Connect';
@@ -52,7 +51,7 @@ export const Appointments = ({ appointments, hasError }) => {
           {start.format('dddd, MMMM Do, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${start.format('h:mm a')} ${timeZone}`}
+          {`Time: ${start.format('h:mm a')} ${timeZone.abbreviation}`}
         </p>
         {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink

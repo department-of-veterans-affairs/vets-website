@@ -22,7 +22,7 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
       cy.visit(featureRoute);
-      Error.validatePageLoaded();
+      Error.validatePageLoaded(true, true);
       cy.injectAxeThenAxeCheck();
     });
   });

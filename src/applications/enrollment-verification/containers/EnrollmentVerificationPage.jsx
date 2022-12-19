@@ -17,7 +17,7 @@ import { getEVData } from '../selectors';
 export const EnrollmentVerificationPage = ({
   enrollmentVerification,
   enrollmentVerificationFetchComplete,
-  enrollmentVerificationFetchFailure,
+  // enrollmentVerificationFetchFailure,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   isLoggedIn,
@@ -60,15 +60,17 @@ export const EnrollmentVerificationPage = ({
         education payments.
       </p>
 
-      <EnrollmentVerificationAlert status={status} />
+      {enrollmentVerification?.enrollmentVerifications?.length > 0 && (
+        <EnrollmentVerificationAlert status={status} />
+      )}
 
-      {enrollmentVerificationFetchComplete &&
-        !enrollmentVerificationFetchFailure && (
-          <EnrollmentVerificationMonths
-            status={status}
-            enrollmentVerification={enrollmentVerification}
-          />
-        )}
+      {enrollmentVerificationFetchComplete && (
+        // !enrollmentVerificationFetchFailure && (
+        <EnrollmentVerificationMonths
+          status={status}
+          enrollmentVerification={enrollmentVerification}
+        />
+      )}
 
       <div className="ev-highlighted-content-container vads-u-margin-top--3">
         <header className="ev-highlighted-content-container_header">
@@ -96,7 +98,7 @@ export const EnrollmentVerificationPage = ({
 EnrollmentVerificationPage.propTypes = {
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
   enrollmentVerificationFetchComplete: PropTypes.bool,
-  enrollmentVerificationFetchFailure: PropTypes.bool,
+  // enrollmentVerificationFetchFailure: PropTypes.bool,
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
