@@ -1,0 +1,12 @@
+name: Preview Environment Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test-pr-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Text
+        run: echo ${{ github.event_name }}
