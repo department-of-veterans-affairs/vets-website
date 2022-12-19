@@ -79,6 +79,18 @@ function FlipperClient({
     return false;
   };
 
+  const isSignOutTriggered = () => {
+    const isSignOut = sessionStorage.getItem('signOut') === 'true';
+
+    if (isSignOut) {
+      setTimeout(() => {
+        sessionStorage.removeItem('signOut');
+      }, 10 * 1000);
+    }
+
+    return isSignOut;
+  };
+
   const fetchToggleValues = async () => {
     let data;
     const queryParams = new URLSearchParams(window.location.search);
@@ -87,7 +99,7 @@ function FlipperClient({
       disableFlipperCacheTime,
     );
     const isPostLogin = queryParams.get('postLogin') === 'true';
-    const signOutFlag = sessionStorage.getItem('signOut') === 'true';
+    const signOutFlag = isSignOutTriggered();
 
     const featureToggleSessionData =
       sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
@@ -96,12 +108,6 @@ function FlipperClient({
     const isSessionDataValid =
       featureToggleSessionData &&
       Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
-
-    if (signOutFlag) {
-      setTimeout(() => {
-        sessionStorage.removeItem('signOut');
-      }, 10 * 1000);
-    }
 
     if (
       !isToggleCacheDisabled &&

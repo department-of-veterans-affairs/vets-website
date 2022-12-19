@@ -303,6 +303,7 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
     return new Promise(resolve => setTimeout(resolve, time));
   };
   recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
+  sessionStorage.setItem('signOut', 'true');
 
   updateLoggedInStatus(false);
 
@@ -312,5 +313,4 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   } else {
     teardownProfileSession();
   }
-  sessionStorage.setItem('signOut', 'true');
 };
