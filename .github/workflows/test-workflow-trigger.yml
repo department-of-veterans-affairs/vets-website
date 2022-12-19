@@ -2,7 +2,7 @@ name: Test Workflow PR Triggers
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, ready_for_review]
 
 jobs:
   test-pr-trigger:
