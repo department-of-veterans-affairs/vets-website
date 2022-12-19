@@ -85,6 +85,7 @@ const Search = () => {
             messages={searchResults}
             folder={folder}
             keyword={keyword}
+            isSearch
           />
         )}
     </div>
