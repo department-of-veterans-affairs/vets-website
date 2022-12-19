@@ -64,6 +64,7 @@ const SearchMessagesForm = props => {
   };
 
   const checkFormValidity = () => {
+    // TODO: add validation for ALL blank fields
     let formInvalid;
     if (dateRange === 'custom' || testingDateRange) {
       if (!fromDate && !testingFromDate) {
@@ -270,13 +271,18 @@ const SearchMessagesForm = props => {
         </div>
       )}
 
-      <div className="advanced-search-actions">
-        <button type="submit" data-testid="advanced-search-submit">
-          Advanced search
-        </button>
-        <button type="button" className="reset" onClick={resetSearchForm}>
-          Reset search
-        </button>
+      <div className="advanced-search-actions vads-u-display--flex">
+        <va-button
+          class="vads-u-flex--1"
+          data-testid="advanced-search-submit"
+          text="Advanced search"
+        />
+        <va-button
+          class="vads-u-flex--1"
+          secondary
+          text="Reset search"
+          onClick={resetSearchForm}
+        />
       </div>
     </form>
   );
