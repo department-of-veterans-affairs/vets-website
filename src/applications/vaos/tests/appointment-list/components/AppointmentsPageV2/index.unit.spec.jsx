@@ -3,9 +3,11 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { waitFor, within } from '@testing-library/dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import environment from 'platform/utilities/environment';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
 import {
+  createTestStore,
   renderWithStoreAndRouter,
   getTimezoneTestDate,
 } from '../../../mocks/setup';
@@ -139,36 +141,36 @@ describe('VAOS <AppointmentsPageV2>', () => {
     });
   });
 
-  //   it('should render warning message', async () => {
-  //     setFetchJSONResponse(
-  //       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
-  //       {
-  //         data: [
-  //           {
-  //             id: '139',
-  //             type: 'maintenance_windows',
-  //             attributes: {
-  //               externalService: 'vaosWarning',
-  //               description: 'My description',
-  //               startTime: moment.utc().subtract('1', 'days'),
-  //               endTime: moment.utc().add('1', 'days'),
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     );
-  //     const store = createTestStore(initialState);
-  //     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
-  //       store,
-  //     });
-  //
-  //     expect(
-  //       await screen.findByRole('heading', {
-  //         level: 3,
-  //         name: /You may have trouble using the VA appointments tool right now/,
-  //       }),
-  //     ).to.exist;
-  //   });
+  it('should render warning message', async () => {
+    setFetchJSONResponse(
+      global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
+      {
+        data: [
+          {
+            id: '139',
+            type: 'maintenance_windows',
+            attributes: {
+              externalService: 'vaosWarning',
+              description: 'My description',
+              startTime: moment.utc().subtract('1', 'days'),
+              endTime: moment.utc().add('1', 'days'),
+            },
+          },
+        ],
+      },
+    );
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
+      store,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /You may have trouble using the VA appointments tool right now/,
+      }),
+    ).to.exist;
+  });
 
   it('start scheduling button should open new appointment flow', async () => {
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
