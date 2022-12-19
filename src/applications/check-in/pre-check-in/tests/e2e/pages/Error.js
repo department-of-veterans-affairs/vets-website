@@ -1,20 +1,12 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Error {
-  validatePageLoaded = (
-    lastValidateAttempt = false,
-    withPhoneAppointments = false,
-  ) => {
+  validatePageLoaded = (lastValidateAttempt = false) => {
     let messageText =
       'We’re sorry. Something went wrong on our end. Please try again.';
     if (lastValidateAttempt) {
-      if (withPhoneAppointments) {
-        messageText =
-          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.';
-      } else {
-        messageText =
-          'We’re sorry. We couldn’t match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in.';
-      }
+      messageText =
+        'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.';
     }
 
     cy.get('h1', { timeout: Timeouts.slow })

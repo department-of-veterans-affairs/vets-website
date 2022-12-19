@@ -43,7 +43,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateErrorAlert();
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded(true, true);
+      Error.validatePageLoaded(true);
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();

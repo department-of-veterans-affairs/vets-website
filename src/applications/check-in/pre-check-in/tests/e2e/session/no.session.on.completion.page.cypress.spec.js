@@ -26,7 +26,7 @@ describe('Pre Check In Experience', () => {
         window.sessionStorage.clear();
       });
       cy.visit(featureRoute);
-      Error.validatePageLoaded(true, true);
+      Error.validatePageLoaded(true);
 
       // Handle timeout error when waiting for request we don't expect to be made.
       Cypress.on('fail', error => {
