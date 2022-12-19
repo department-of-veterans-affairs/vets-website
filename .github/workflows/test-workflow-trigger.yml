@@ -1,4 +1,4 @@
-name: Preview Environment Deployment
+name: Test Workflow PR Triggers
 
 on:
   pull_request:
