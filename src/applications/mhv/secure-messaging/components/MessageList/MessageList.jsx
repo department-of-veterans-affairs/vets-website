@@ -183,6 +183,7 @@ const MessageList = props => {
           readReceipt={message.readReceipt}
           attachment={message.attachment}
           recipientName={message.recipientName}
+          category={message.category}
         />
       ))}
       {currentMessages && (

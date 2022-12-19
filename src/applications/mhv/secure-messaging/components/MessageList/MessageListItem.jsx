@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { DefaultFolders } from '../../util/constants';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, titleCase } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
-const attachmentClasses =
-  'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
 const MessageListItem = props => {
   const location = useLocation();
@@ -20,8 +18,11 @@ const MessageListItem = props => {
     recipientName,
     attachment,
     messageId,
+    category,
   } = props;
   const activeFolder = useSelector(state => state.sm.folders.folder);
+
+  const titleCaseSenderName = titleCase(senderName);
 
   const getClassNames = () => {
     return readReceipt === false
@@ -33,7 +34,7 @@ const MessageListItem = props => {
 
   return (
     <div
-      className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="message-list-item vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
       <div className={getClassNames()}>
@@ -44,27 +45,27 @@ const MessageListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <span>Sender: {senderName}</span>
+          <span>From: {titleCaseSenderName}</span>
         ) : (
           <div>
             <div>To: {recipientName}</div>
-            <div>From: {senderName}</div>
+            <div>From: {titleCaseSenderName}</div>
           </div>
         )}
       </div>
       <Link
-        className="vads-u-margin-left--3 vads-u-margin-y--0p5"
+        className="message-subject-link vads-u-margin-left--3 vads-u-margin-y--0p5"
         to={`/${
           activeFolder?.folderId === DefaultFolders.DRAFTS.id
             ? 'draft'
             : 'message'
         }/${messageId}`}
       >
-        {subject}
+        {category}: {subject}
       </Link>
-      <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
-        {attachment && <i className={attachmentClasses} />}
-        {formattedDate}
+      <p className="received-date vads-u-margin-left--3 vads-u-margin-y--0p5">
+        {attachment}
+        <span className="vads-u-font-style--italic">{formattedDate}</span>
       </p>
     </div>
   );
@@ -75,6 +76,7 @@ export default MessageListItem;
 MessageListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
+  category: PropTypes.string,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,
   recipientName: PropTypes.string,
