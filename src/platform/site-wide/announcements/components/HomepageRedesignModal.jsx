@@ -53,6 +53,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               className="vads-c-action-link--green"
               href="/new-home-page"
               onClick={() => {
+                dismiss();
                 recordEvent({
                   event: 'new-homepage-modal-click',
                   'modal-primaryButton-text': 'try the new homepage',
