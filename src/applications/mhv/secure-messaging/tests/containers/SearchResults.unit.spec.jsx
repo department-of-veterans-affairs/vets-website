@@ -93,7 +93,7 @@ describe('Search results', () => {
       const messageElems = screen
         .getAllByTestId('message-list-item')
         ?.map(el => el.value);
-      expect(messageElems.length).to.equal(10);
+      expect(messageElems.length).to.equal(5);
       done();
     }, 200);
   });

@@ -165,7 +165,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
     if (some(error.errors, ['code', '403'])) {
       return <NotInDEERSAlert />;
     }
-    return <LoadFail information="military" />;
+    return <LoadFail />;
   }
 
   if (serviceHistory.length === 0) {

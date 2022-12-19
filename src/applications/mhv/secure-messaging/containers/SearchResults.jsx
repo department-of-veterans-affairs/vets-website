@@ -81,7 +81,11 @@ const Search = () => {
 
       {searchResults &&
         searchResults.length > 0 && (
-          <MessageList messages={searchResults} folder={folder} />
+          <MessageList
+            messages={searchResults}
+            folder={folder}
+            keyword={keyword}
+          />
         )}
     </div>
   );

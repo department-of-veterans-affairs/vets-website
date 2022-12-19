@@ -21,7 +21,7 @@ describe('CategoryInput component', () => {
     expect(screen);
   });
 
-  it('should render without errors', () => {
+  it('should contain va radio button component', () => {
     const screen = renderWithStoreAndRouter(<CategoryInput />, {
       initialState,
       reducers: reducer,

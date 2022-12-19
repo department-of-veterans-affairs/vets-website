@@ -5,7 +5,9 @@ import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
 import { readableList } from '../utils/helpers';
 
 export const uploadTitle = (
-  <h3 className="vads-u-margin-top--0">Upload your supporting evidence</h3>
+  <h3 className="vads-u-margin-top--0 vads-u-display--inline">
+    Upload your supporting evidence
+  </h3>
 );
 
 export const UploadDescription = () => {
