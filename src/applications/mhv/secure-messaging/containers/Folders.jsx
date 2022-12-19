@@ -89,9 +89,7 @@ const Folders = () => {
       <>
         <h1 className="vads-u-margin-bottom--2">My folders</h1>
         <AlertBackgroundBox closeable />
-        <button type="button" className="modal-button" onClick={openNewModal}>
-          Create new folder
-        </button>
+        <va-button onClick={openNewModal} text="Create new folder" />
         <FoldersList folders={folders} />
         <VaModal
           className="modal"
@@ -99,6 +97,10 @@ const Folders = () => {
           large="true"
           modalTitle="Create new folder"
           onCloseEvent={closeNewModal}
+          onPrimaryButtonClick={confirmNewFolder}
+          onSecondaryButtonClick={closeNewModal}
+          primaryButtonText="Confirm"
+          secondaryButtonText="Cancel"
         >
           <VaTextInput
             className="input"
@@ -109,8 +111,6 @@ const Folders = () => {
             name="folder-name"
             label="Please enter your folder name"
           />
-          <va-button text="Confirm" onClick={confirmNewFolder} />
-          <va-button secondary="true" text="Cancel" onClick={closeNewModal} />
         </VaModal>
       </>
     );
