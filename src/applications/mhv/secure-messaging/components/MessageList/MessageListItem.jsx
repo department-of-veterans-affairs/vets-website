@@ -24,6 +24,7 @@ const MessageListItem = props => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const titleCaseSenderName = titleCase(senderName);
+  const titleCaseCategory = titleCase(category);
 
   const getClassNames = () => {
     return readReceipt === false
@@ -86,7 +87,7 @@ const MessageListItem = props => {
             : 'message'
         }/${messageId}`}
       >
-        {category}: {getHighlightedText(subject)}
+        {titleCaseCategory}: {getHighlightedText(subject)}
       </Link>
       <p className="received-date vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment}
