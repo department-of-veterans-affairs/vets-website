@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
+  VaRadio,
+  VaRadioOption,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +19,7 @@ const MoveMessageToFolderBtn = props => {
   const [isNewModalVisible, setIsNewModalVisible] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
   const [folderName, setFolderName] = useState('');
+  const [folderInputError, setFolderInputError] = useState(null);
   const folders = useSelector(state => state.sm.folders.folderList);
 
   useEffect(
@@ -34,19 +37,25 @@ const MoveMessageToFolderBtn = props => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+    setSelectedFolder(null);
+    setFolderInputError(null);
   };
 
-  const handleOnChangeFolder = e => {
-    setSelectedFolder(e.target.value);
+  const handleOnChangeFolder = ({ target }) => {
+    setSelectedFolder(target.value);
   };
 
   const handleConfirmMoveFolderTo = () => {
-    if (selectedFolder === 'newFolder') {
-      setIsNewModalVisible(true);
-    } else if (selectedFolder !== null) {
-      dispatch(moveMessage(messageId, selectedFolder));
+    if (selectedFolder === null) {
+      setFolderInputError('Please select a folder to move the message to.');
+    } else {
+      if (selectedFolder === 'newFolder') {
+        setIsNewModalVisible(true);
+      } else if (selectedFolder !== null) {
+        dispatch(moveMessage(messageId, selectedFolder));
+      }
+      closeModal();
     }
-    closeModal();
   };
 
   const moveToFolderModal = () => {
@@ -72,7 +81,13 @@ const MoveMessageToFolderBtn = props => {
               This conversation will be moved. Any replies to this message will
               appear in your inbox
             </p>
-            <div className="form-radio-buttons">
+            <VaRadio
+              className="form-radio-buttons"
+              required
+              enable-analytics
+              error={folderInputError}
+              onRadioOptionSelected={handleOnChangeFolder}
+            >
               {allFolders &&
                 allFolders
                   .filter(
@@ -80,55 +95,33 @@ const MoveMessageToFolderBtn = props => {
                       folder.id !== Constants.DefaultFolders.DRAFTS.id &&
                       folder.id !== Constants.DefaultFolders.SENT.id,
                   )
-                  .map(folder => (
-                    <div className="radio-button" key={folder.name}>
-                      <input
+                  .map((folder, i) => (
+                    <>
+                      <VaRadioOption
                         data-testid="folder-list-radio-button"
-                        type="radio"
-                        autoComplete="false"
+                        key={i}
                         id={`radiobutton-${folder.name}`}
+                        // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
+                        label={
+                          folder.id === Constants.DefaultFolders.DELETED.id
+                            ? Constants.DefaultFolders.DELETED.header
+                            : folder.name
+                        }
                         name="defaultName"
                         value={folder.id}
-                        onChange={handleOnChangeFolder}
                       />
-                      <label
-                        name="defaultName-0-label"
-                        htmlFor={`radiobutton-${folder.name}`}
-                      >
-                        {/* checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'. */}
-                        {folder.id === Constants.DefaultFolders.DELETED.id
-                          ? 'Trash'
-                          : folder.name}
-                      </label>
-                    </div>
+                    </>
                   ))}
-              <div className="radio-button">
-                <input
+              <>
+                <VaRadioOption
                   data-testid="folder-list-radio-button"
-                  type="radio"
-                  autoComplete="false"
                   id="radiobutton-newFolder"
+                  label="Create new folder"
                   name="defaultName"
                   value="newFolder"
-                  onChange={handleOnChangeFolder}
                 />
-                <label
-                  name="defaultName-0-label"
-                  htmlFor="radiobutton-newFolder"
-                >
-                  Create new folder
-                </label>
-              </div>
-            </div>
-            <button
-              style={{ display: 'none' }}
-              type="button"
-              onClick={closeModal}
-              aria-hidden="true"
-              data-testid="hidden-button-close-modal"
-            >
-              Cancel
-            </button>
+              </>
+            </VaRadio>
           </div>
         </VaModal>
       </div>
@@ -193,6 +186,7 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     <>
+      {/* TODO add GA event tracking for move button click */}
       <button
         type="button"
         className="message-action-button"
