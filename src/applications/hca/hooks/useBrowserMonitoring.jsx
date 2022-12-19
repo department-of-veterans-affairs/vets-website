@@ -14,7 +14,7 @@ const initializeRealUserMonitoring = () => {
     datadogRum.init({
       applicationId: '9d5155fd-8623-4bc9-8580-ad8ec2cdd7fa',
       clientToken: 'pub20bf1f8aaef56d8c0100b0a65601a702',
-      site: 'datadoghq.com',
+      site: 'ddog-gov.com',
       service: '10-10ez',
       env: environment.vspEnvironment(),
       sampleRate: 100,
