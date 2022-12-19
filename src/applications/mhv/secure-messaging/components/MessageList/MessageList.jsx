@@ -166,9 +166,7 @@ const MessageList = props => {
           )}
         </VaSelect>
 
-        <button type="button" onClick={handleMessageSort}>
-          Sort
-        </button>
+        <va-button type="button" text="Sort" onClick={handleMessageSort} />
       </div>
       <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
