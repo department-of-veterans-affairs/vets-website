@@ -11,14 +11,14 @@ export const authorizationAlertContent = onAnchorClick => (
     <h3 slot="headline">
       Authorize your doctor to release your records or upload them yourself
     </h3>
-    <p>
+    <p className="vads-u-margin-bottom--0">
       If you want us to request your private medical records from your doctor,
-      you must authorize the release.{' '}
-      <a href="#privacy-agreement" onClick={onAnchorClick}>
-        Check box to authorize
-      </a>
+      you must authorize the release.
     </p>
-    <p>
+    <a href="#privacy-agreement" onClick={onAnchorClick}>
+      Check box to authorize
+    </a>
+    <p className="vads-u-margin-bottom--0">
       Or, go back a page and select <strong>No</strong> where we ask about
       private medical records. Then you can upload your records.
     </p>
