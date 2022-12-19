@@ -11,6 +11,10 @@
         "value": false
       },
       {
+        "name": "hcaBrowserMonitoringEnabled",
+        "value": false
+      },
+      {
         "name": "hcaShortFormEnabled",
         "value": true
       },

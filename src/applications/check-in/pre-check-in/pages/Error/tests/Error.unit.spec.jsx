@@ -247,7 +247,7 @@ describe('check-in', () => {
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders no sub message or how to link when appointment started more than 15 minutes ago', () => {
+      it('renders properly when appointment started more than 15 minutes ago', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -255,7 +255,7 @@ describe('check-in', () => {
             </I18nextProvider>
           </Provider>,
         );
-        expect(component.queryByTestId('error-message')).to.be.null;
+        expect(component.queryByTestId('error-message')).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
       });
     });

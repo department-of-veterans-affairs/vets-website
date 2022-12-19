@@ -1100,6 +1100,51 @@
     "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
   },
   {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch33/ch33rates080122.asp",
+    "dest": "/education/benefit-rates/post-9-11-gi-bill-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100122.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100122.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100122.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/benefits_resources/rates/600_buyup.asp",
+    "dest": "/education/benefit-rates/montgomery-600-buy-up-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch33/ch33rates080121.asp",
+    "dest": "/education/benefit-rates/post-9-11-gi-bill-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100121.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100121.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100121.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates/past-rates/"
+  },
+  {
     "domain": "www.altoona.va.gov",
     "src": "/",
     "dest": "/altoona-health-care/",

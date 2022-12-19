@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages } = props;
+  const { messages, keyword } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -184,6 +184,7 @@ const MessageList = props => {
           attachment={message.attachment}
           recipientName={message.recipientName}
           category={message.category}
+          keyword={keyword}
         />
       ))}
       {currentMessages && (
@@ -204,5 +205,6 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
+  keyword: PropTypes.string,
   messages: PropTypes.array,
 };
