@@ -50,7 +50,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
   };
 
   return (
-    <div className="vads-u-margin-top--4">
+    <div className="vads-u-margin-top--6">
       <Element name={key} />
       <VaRadio {...radioButtonProps}>
         {options.map((option, index) => (
