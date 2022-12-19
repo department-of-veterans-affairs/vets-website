@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
@@ -72,13 +72,18 @@ describe('<EvidenceVaRecords>', () => {
     </div>
   );
 
-  const testAndCloseModal = container => {
+  const testAndCloseModal = async container => {
     // modal visible
-    expect($('va-modal', container).getAttribute('visible')).to.eq('true');
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('true');
+    });
 
     // close modal by clicking method-assigned hidden button
     fireEvent.click($('#test-method', container), mouseClick);
-    expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+    });
   };
 
   const getErrorElements = container =>
@@ -107,7 +112,7 @@ describe('<EvidenceVaRecords>', () => {
   });
 
   // *** CLOSE MODAL ***
-  it('should show error messages after closing modal after submitting empty page', () => {
+  it('should show error messages after closing modal after submitting empty page', async () => {
     const goSpy = sinon.spy();
     const index = 1;
     const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
@@ -122,14 +127,16 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
-    testAndCloseModal(container);
+    await testAndCloseModal(container);
 
-    expect(goSpy.called).to.be.false;
-    getAndTestAllErrors(container);
+    await waitFor(() => {
+      expect(goSpy.called).to.be.false;
+      getAndTestAllErrors(container);
+    });
   });
 
   // *** FORWARD ***
-  it('should navigate forward to VA private request page with valid data', () => {
+  it('should navigate forward to VA private request page with valid data', async () => {
     const goSpy = sinon.spy();
     const data = { ...mockData, locations: [mockLocation] };
     const page = setup({
@@ -141,10 +148,10 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
-    expect(goSpy.calledWith(data)).to.be.true;
+    await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
   });
 
-  it('should show modal when submitting an empty page', () => {
+  it('should show modal when submitting an empty page', async () => {
     const goSpy = sinon.spy();
     const data = { ...mockData, locations: [mockLocation, {}] };
     const page = setup({
@@ -155,11 +162,13 @@ describe('<EvidenceVaRecords>', () => {
     const { container } = render(page);
     fireEvent.submit($('form', container));
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('true');
-    expect(goSpy.called).to.be.false;
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('true');
+      expect(goSpy.called).to.be.false;
+    });
   });
 
-  it('should not show modal (reveal errors) when going forward on an empty page on first entry only', () => {
+  it('should not show modal (reveal errors) when going forward on an empty page on first entry only', async () => {
     const goSpy = sinon.spy();
     const index = 0;
     const page = setup({ index, goForward: goSpy });
@@ -168,11 +177,13 @@ describe('<EvidenceVaRecords>', () => {
     // back
     fireEvent.click($('.usa-button-primary', container), mouseClick);
 
-    expect(goSpy.called).to.be.false;
-    getAndTestAllErrors(container);
+    await waitFor(() => {
+      expect(goSpy.called).to.be.false;
+      getAndTestAllErrors(container);
+    });
   });
 
-  it('should not navigate, but will show errors when choosing "Yes" after continuing', () => {
+  it('should not navigate, but will show errors when choosing "Yes" after continuing', async () => {
     const goSpy = sinon.spy();
     const index = 1;
     const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
@@ -187,13 +198,15 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
-    testAndCloseModal(container);
+    await testAndCloseModal(container);
 
-    expect(goSpy.called).to.be.false;
-    getAndTestAllErrors(container);
+    await waitFor(() => {
+      expect(goSpy.called).to.be.false;
+      getAndTestAllErrors(container);
+    });
   });
 
-  it('should navigate forward to next index when choosing "No" after continuing', () => {
+  it('should navigate forward to next index when choosing "No" after continuing', async () => {
     const goSpy = sinon.spy();
     const index = 2;
     const data = { ...mockData, locations: [mockLocation, mockLocation2] };
@@ -207,16 +220,19 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
-    testAndCloseModal(container);
-    expect(getErrorElements(container).length).to.eq(0);
+    await testAndCloseModal(container);
 
-    // going forward requires passing the form data
-    expect(goSpy.calledWith(data)).to.be.true;
-    // index still at 2, because we've moved beyond the indexed pages
-    expect(goSpy.firstCall.args[1]).to.eq(index);
+    await waitFor(() => {
+      expect(getErrorElements(container).length).to.eq(0);
+
+      // going forward requires passing the form data
+      expect(goSpy.calledWith(data)).to.be.true;
+      // index still at 2, because we've moved beyond the indexed pages
+      expect(goSpy.firstCall.args[1]).to.eq(index);
+    });
   });
 
-  it('should navigate forward to VA private request page when choosing "No" after continuing', () => {
+  it('should navigate forward to VA private request page when choosing "No" after continuing', async () => {
     const goSpy = sinon.spy();
     const data = { ...mockData, locations: [mockLocation, mockLocation2] };
     const page = setup({
@@ -229,12 +245,12 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-primary', container), mouseClick);
-    testAndCloseModal(container);
-    expect(goSpy.calledWith(data)).to.be.true;
+    await testAndCloseModal(container);
+    await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
   });
 
   // *** BACK ***
-  it('should navigate back to VA records request page with valid data', () => {
+  it('should navigate back to VA records request page with valid data', async () => {
     const goSpy = sinon.spy();
     const data = { ...mockData, locations: [mockLocation] };
     const index = 0;
@@ -247,11 +263,14 @@ describe('<EvidenceVaRecords>', () => {
 
     // back
     fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    // passing a negative index is okay, we're leaving the indexed pages
-    expect(goSpy.calledWith(index - 1)).to.be.true;
+
+    await waitFor(() => {
+      // passing a negative index is okay, we're leaving the indexed pages
+      expect(goSpy.calledWith(index - 1)).to.be.true;
+    });
   });
 
-  it('should not show modal when going back on an empty page on first entry only', () => {
+  it('should not show modal when going back on an empty page on first entry only', async () => {
     const goSpy = sinon.spy();
     const index = 0;
     const page = setup({ index, goBack: goSpy });
@@ -260,11 +279,13 @@ describe('<EvidenceVaRecords>', () => {
     // back
     fireEvent.click($('.usa-button-secondary', container), mouseClick);
 
-    expect(goSpy.called).to.be.true;
-    expect(goSpy.calledWith(index - 1)).to.be.true;
+    await waitFor(() => {
+      expect(goSpy.called).to.be.true;
+      expect(goSpy.calledWith(index - 1)).to.be.true;
+    });
   });
 
-  it('should navigate back to previous index page, after choosing "Yes" in modal', () => {
+  it('should navigate back to previous index page, after choosing "Yes" in modal', async () => {
     const goSpy = sinon.spy();
     const index = 1;
     const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
@@ -279,13 +300,15 @@ describe('<EvidenceVaRecords>', () => {
 
     // continue
     fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
+    await testAndCloseModal(container);
 
-    expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to.be
-      .true;
+    await waitFor(() => {
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to.be
+        .true;
+    });
   });
 
-  it('should navigate back one index when choosing "No" after continuing', () => {
+  it('should navigate back one index when choosing "No" after continuing', async () => {
     const goSpy = sinon.spy();
     const index = 2;
     const page = setup({
@@ -298,15 +321,17 @@ describe('<EvidenceVaRecords>', () => {
 
     // back
     fireEvent.click($('.usa-button-secondary', container), mouseClick);
-    testAndCloseModal(container);
+    await testAndCloseModal(container);
 
-    expect(goSpy.called).to.be.true;
-    expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to.be
-      .true;
+    await waitFor(() => {
+      expect(goSpy.called).to.be.true;
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to.be
+        .true;
+    });
   });
 
   // *** ADD ANOTHER ***
-  it('should navigate from zero index to a new empty location page, of index 1, with valid data', () => {
+  it('should navigate from zero index to a new empty location page, of index 1, with valid data', async () => {
     const goSpy = sinon.spy();
     const data = { ...mockData, locations: [mockLocation] };
     const index = 0;
@@ -320,12 +345,14 @@ describe('<EvidenceVaRecords>', () => {
     // add
     fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('false');
-    expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to.be
-      .true;
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to.be
+        .true;
+    });
   });
 
-  it('should navigate from zero index to last entry + 1 when adding another with valid data', () => {
+  it('should navigate from zero index to last entry + 1 when adding another with valid data', async () => {
     const goSpy = sinon.spy();
     const locations = [mockLocation, mockLocation2, {}];
     const data = { ...mockData, locations };
@@ -340,12 +367,14 @@ describe('<EvidenceVaRecords>', () => {
     // add
     fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('false');
-    expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${locations.length}`))
-      .to.be.true;
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('false');
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${locations.length}`))
+        .to.be.true;
+    });
   });
 
-  it('should show modal when adding another on an empty page', () => {
+  it('should show modal when adding another on an empty page', async () => {
     const goSpy = sinon.spy();
     const index = 1;
     const page = setup({
@@ -357,11 +386,13 @@ describe('<EvidenceVaRecords>', () => {
     const { container } = render(page);
     fireEvent.click($('.vads-c-action-link--green', container));
 
-    expect($('va-modal', container).getAttribute('visible')).to.eq('true');
-    expect(goSpy.called).to.be.false;
+    await waitFor(() => {
+      expect($('va-modal', container).getAttribute('visible')).to.eq('true');
+      expect(goSpy.called).to.be.false;
+    });
   });
 
-  it('should not navigate, but show errors after adding another and choosing "Yes" on an empty page', () => {
+  it('should not navigate, but show errors after adding another and choosing "Yes" on an empty page', async () => {
     const goSpy = sinon.spy();
     const index = 1;
     const page = setup({
@@ -375,16 +406,18 @@ describe('<EvidenceVaRecords>', () => {
     // add
     fireEvent.click($('.vads-c-action-link--green', container));
 
-    testAndCloseModal(container);
-    getAndTestAllErrors(container);
-    expect(goSpy.called).to.be.false;
+    await testAndCloseModal(container);
+    await waitFor(() => {
+      getAndTestAllErrors(container);
+      expect(goSpy.called).to.be.false;
+    });
   });
 
-  it('should not navigate, but clear all data after adding another and choosing "No" on an empty page', () => {
+  it('should not navigate, but clear all data after adding another and choosing "No" on an empty page', async () => {
     const goSpy = sinon.spy();
     const data = {
       ...mockData,
-      locations: [mockLocation, { locationAndName: 'test' }, {}],
+      locations: [mockLocation, { locationAndName: 'test' }],
     };
     const index = 1;
     const page = setup({
@@ -398,13 +431,17 @@ describe('<EvidenceVaRecords>', () => {
     // continue
     fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
 
-    testAndCloseModal(container);
-    // stay on the same index, but clear all fields
-    expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index}`)).to.be.true;
-    expect(getErrorElements(container).length).to.eq(0);
+    await testAndCloseModal(container);
+
+    await waitFor(() => {
+      // stay on the same index, but clear all fields
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index}`)).to.be
+        .true;
+      expect(getErrorElements(container).length).to.eq(0);
+    });
   });
 
-  it('should show error when location name is too long', () => {
+  it('should show error when location name is too long', async () => {
     const name = 'abcdef '.repeat(MAX_LENGTH.EVIDENCE_LOCATION_AND_NAME / 6);
     const data = { ...mockData, locations: [{ locationAndName: name }] };
     const page = setup({ index: 0, data });
@@ -413,10 +450,12 @@ describe('<EvidenceVaRecords>', () => {
     const input = $('va-text-input', container);
     fireEvent.blur(input);
 
-    expect(input.error).to.contain(errorMessages.evidence.locationMaxLength);
+    await waitFor(() => {
+      expect(input.error).to.contain(errorMessages.evidence.locationMaxLength);
+    });
   });
 
-  it('should show error when start treatment date is in the future', () => {
+  it('should show error when start treatment date is in the future', async () => {
     const from = getDate({ offset: { years: +1 } });
     const data = {
       ...mockData,
@@ -425,15 +464,17 @@ describe('<EvidenceVaRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
-    const dateFrom = $('va-date', container);
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container), mouseClick);
 
-    expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+    await waitFor(() => {
+      const dateFrom = $('va-date', container);
+      expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
+    });
   });
 
-  it('should show error when last treatment date is in the future', () => {
+  it('should show error when last treatment date is in the future', async () => {
     const to = getDate({ offset: { years: +1 } });
     const data = {
       ...mockData,
@@ -442,15 +483,17 @@ describe('<EvidenceVaRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
-    const dateTo = $$('va-date', container)[1];
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container), mouseClick);
 
-    expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+    await waitFor(() => {
+      const dateTo = $$('va-date', container)[1];
+      expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
+    });
   });
 
-  it('should show an error when the start treament date is too far in the past', () => {
+  it('should show an error when the start treament date is too far in the past', async () => {
     const from = getDate({ offset: { years: -101 } });
     const data = {
       ...mockData,
@@ -459,15 +502,17 @@ describe('<EvidenceVaRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:from' });
     const { container } = render(page);
 
-    const dateFrom = $('va-date', container);
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
     fireEvent.click($('#test-method', container), mouseClick);
 
-    expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+    await waitFor(() => {
+      const dateFrom = $('va-date', container);
+      expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
+    });
   });
 
-  it('should show an error when the last treatment date is too far in the past', () => {
+  it('should show an error when the last treatment date is too far in the past', async () => {
     const to = getDate({ offset: { years: -101 } });
     const data = {
       ...mockData,
@@ -476,15 +521,17 @@ describe('<EvidenceVaRecords>', () => {
     const page = setup({ index: 0, data, method: 'onBlur:to' });
     const { container } = render(page);
 
-    const dateTo = $$('va-date', container)[1];
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateTo);
     fireEvent.click($('#test-method', container), mouseClick);
 
-    expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+    await waitFor(() => {
+      const dateTo = $$('va-date', container)[1];
+      expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
+    });
   });
 
-  it('should show an error when the last treatment date is before the start', () => {
+  it('should show an error when the last treatment date is before the start', async () => {
     const from = getDate({ offset: { years: -5 } });
     const to = getDate({ offset: { years: -10 } });
     const data = {
@@ -499,10 +546,12 @@ describe('<EvidenceVaRecords>', () => {
     // fireEvent.blur(dateTo);
     fireEvent.click($('#test-method', container), mouseClick);
 
-    expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+    await waitFor(() => {
+      expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+    });
   });
 
-  it('should show an error when the issue is not unique', () => {
+  it('should show an error when the issue is not unique', async () => {
     const data = { ...mockData, locations: [mockLocation, mockLocation] };
     const page = setup({ index: 1, data });
     const { container } = render(page);
@@ -510,6 +559,8 @@ describe('<EvidenceVaRecords>', () => {
     const input = $('va-text-input', container);
     fireEvent.blur(input);
 
-    expect(input.error).to.contain(errorMessages.evidence.unique);
+    await waitFor(() => {
+      expect(input.error).to.contain(errorMessages.evidence.unique);
+    });
   });
 });
