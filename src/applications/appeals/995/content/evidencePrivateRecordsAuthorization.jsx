@@ -1,7 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router';
+
+import { EVIDENCE_PRIVATE_REQUEST } from '../constants';
 
 export const authorizationLabel =
   'I acknowledge and authorize this release of information';
+
+export const authorizationAlertContent = onAnchorClick => (
+  <>
+    <h3 slot="headline">
+      Authorize your doctor to release your records or upload them yourself
+    </h3>
+    <p>
+      If you want us to request your private medical records from your doctor,
+      you must authorize the release.{' '}
+      <a href="#privacy-agreement" onClick={onAnchorClick}>
+        Check the box to authorize the release
+      </a>
+    </p>
+    <p>
+      Or, go back a page and select <strong>No</strong> where we ask about
+      private medical records. Then you can upload your records.
+    </p>
+    <Link to={`/${EVIDENCE_PRIVATE_REQUEST}`}>Go back to upload records</Link>
+  </>
+);
 
 export const authorizationInfo = (
   <>
@@ -13,7 +36,7 @@ export const authorizationInfo = (
       specific permission to release:
     </p>
 
-    <ol>
+    <ol className="vads-u-margin-left--0 vads-u-padding-left--2">
       <li>
         All records and other information regarding my treatment,
         hospitalization, and outpatient care for my impairment(s) including, but
@@ -85,11 +108,4 @@ export const authorizationInfo = (
       decide my claim.
     </p>
   </>
-);
-
-export const reviewField = () => (
-  <div className="review-row">
-    <dt>{authorizationLabel}</dt>
-    <dd>Yes, I acknowledge</dd>
-  </div>
 );
