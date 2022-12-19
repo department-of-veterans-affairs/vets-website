@@ -17,25 +17,3 @@ export const content = {
   modalYes: 'Yes',
   modalNo: 'No, remove this location',
 };
-
-/*
-export const locationView = props => {
-  const { formData } = props;
-  const { locationAndName, evidenceDates } = formData;
-  const name = locationAndName || 'Unknown location';
-  const dates =
-    evidenceDates?.map(dateRange => {
-      const range = formatDateRange(dateRange);
-      return range ? <li key={range}>{range}</li> : null;
-    }) || null;
-
-  return (
-    <div key={`${name}`}>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-top--0">{name}</h3>
-      <ul>{dates}</ul>
-    </div>
-  );
-};
-
-export const datesView = ({ formData }) => formatDateRange(formData);
-*/
