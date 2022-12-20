@@ -215,8 +215,7 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We don’t have military service records for you/i))
-        .to.exist;
+      expect(view.getByTestId('not-a-veteran-alert')).to.exist;
       expect(view.getByText(/If you think this is an error, call us at/i)).to
         .exist;
     });
@@ -276,11 +275,7 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(
-        view.getByText(
-          'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
-        ),
-      ).to.exist;
+      expect(view.getByTestId('service-is-down-banner')).to.exist;
     });
   });
 });

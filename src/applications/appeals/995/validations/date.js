@@ -11,7 +11,7 @@ export const minDate = moment()
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, dateString, fullData) => {
+export const validateDate = (errors, dateString = '', fullData) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString, FORMAT_YMD);
   const dateType = fullData?.dateType || 'decisions';
@@ -23,7 +23,7 @@ export const validateDate = (errors, dateString, fullData) => {
   ) {
     // The va-date component currently overrides the error message when the
     // value is blank
-    errors.addError(errorMessages.invalidDate);
+    errors.addError(errorMessages[dateType].missingDate);
   } else if (!day || day === 'XX' || !month || month === 'XX') {
     errors.addError(errorMessages.invalidDate);
   } else if (year?.length >= 4 && !isValidYear(year)) {

@@ -310,7 +310,7 @@ export function formValue(formData, value) {
     case IS_GTE_HIGH_DISABILITY:
       return formData['view:totalDisabilityRating'] >= HIGH_DISABILITY;
     case IS_SHORT_FORM_ENABLED:
-      return formData['view:hcaShortFormEnabled'];
+      return formData['view:isShortFormEnabled'];
     case IS_COMPENSATION_TYPE_HIGH:
       return formData.vaCompensationType === 'highDisability';
     case IS_VETERAN_IN_MVI:

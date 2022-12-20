@@ -131,7 +131,11 @@ const Error = () => {
     } else if (appointmentStartTimePast15(appointments)) {
       // don't show sub message if we are 15 minutes past appointment start time
       header = t('sorry-pre-check-in-is-no-longer-available');
-      messages = [];
+      messages = [
+        {
+          text: t('pre-check-in-no-longer-available--info-message'),
+        },
+      ];
       accordion = appointmentAccordion(appointments);
       showHowToLink = false;
     } else if (error === 'pre-check-in-expired') {

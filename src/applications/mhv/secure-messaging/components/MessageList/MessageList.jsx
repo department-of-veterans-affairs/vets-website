@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, folder } = props;
+  const { messages, folder, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -185,17 +185,24 @@ const MessageList = props => {
           readReceipt={message.readReceipt}
           attachment={message.attachment}
           recipientName={message.recipientName}
+          keyword={keyword}
         />
       ))}
-      {currentMessages && (
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={paginatedMessages.current.length}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
+      {currentPage === paginatedMessages.current.length && (
+        <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
+          End of {!isSearch ? 'messages in this folder' : 'search results'}
+        </p>
       )}
+      {currentMessages &&
+        paginatedMessages.current.length > 1 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={paginatedMessages.current.length}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
+          />
+        )}
     </div>
   );
 };
@@ -204,5 +211,7 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
+  isSearch: PropTypes.bool,
+  keyword: PropTypes.string,
   messages: PropTypes.array,
 };

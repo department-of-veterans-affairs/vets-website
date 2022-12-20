@@ -9,6 +9,7 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca spouse information', () => {
   const {
@@ -62,102 +63,36 @@ describe('Hca spouse information', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseFullName_first'),
-      {
-        target: {
-          value: 'Mary',
-        },
-      },
+    simulateInputChange(formDOM, '#root_spouseFullName_first', 'Mary');
+
+    simulateInputChange(formDOM, '#root_spouseFullName_last', 'Smith');
+
+    simulateInputChange(
+      formDOM,
+      '#root_spouseSocialSecurityNumber',
+      '899663459',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseFullName_last'),
-      {
-        target: {
-          value: 'Smith',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthMonth', '10');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseSocialSecurityNumber'),
-      {
-        target: {
-          value: '899663459',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthDay', '15');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseDateOfBirthMonth'),
-      {
-        target: {
-          value: '10',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_spouseDateOfBirthYear', '1991');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseDateOfBirthDay'),
-      {
-        target: {
-          value: '15',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_dateOfMarriageMonth', '05');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_spouseDateOfBirthYear'),
-      {
-        target: {
-          value: '1991',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_dateOfMarriageDay', '29');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dateOfMarriageMonth'),
-      {
-        target: {
-          value: '05',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_dateOfMarriageYear', '2015');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dateOfMarriageDay'),
-      {
-        target: {
-          value: '29',
-        },
-      },
-    );
-
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dateOfMarriageYear'),
-      {
-        target: {
-          value: '2015',
-        },
-      },
-    );
-
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_sameAddressYes'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_sameAddressYes', 'Y');
 
     submitForm(form);
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
 
-    // TODO: It looks like expand under does not trigger, which it should with Y value.
+    // TODO: It looks like expand under does not trigger, which it should when spouse same address is N value.
   });
 
   it('should expand hidden fields', () => {
@@ -173,26 +108,14 @@ describe('Hca spouse information', () => {
     const formDOM = findDOMNode(form);
 
     // Expand spouse address and phone number
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_sameAddressNo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+
+    simulateInputChange(formDOM, '#root_sameAddressNo', 'N');
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(23);
 
     // Expand spouse financial support
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_cohabitedLastYearNo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_cohabitedLastYearNo', 'N');
+
     expect(formDOM.querySelectorAll('input, select').length).to.equal(25);
   });
 });
