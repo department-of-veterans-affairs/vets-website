@@ -22,13 +22,13 @@ describe(manifest.appName, () => {
   it('Basic Search Drafts Check', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
-    landingPage.loadPage();
+
     cy.get('[data-testid="search-messages-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
     cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/folders/-2/messages',
+      'GET',
+      '/my_health/v1/messaging/folders/-2',
       mockMessages,
     ).as('basicSearchRequestDrafts');
     cy.get('[data-testid="basic-search-submit"]').click();
