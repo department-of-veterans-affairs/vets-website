@@ -182,6 +182,12 @@ const appointmentStartTimePast15 = appointments => {
   });
 };
 
+const hasPhoneAppointments = appointments => {
+  return Object.values(appointments).some(appt => {
+    return appt?.kind === 'phone';
+  });
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -193,4 +199,5 @@ export {
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
+  hasPhoneAppointments,
 };

@@ -26,7 +26,7 @@ const AttachmentsList = props => {
               {editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
-                  <div className="editable-attachment">
+                  <div className="editable-attachment attachment">
                     <span>
                       {file.name} ({getSize(file.size || file.attachmentSize)})
                     </span>
@@ -42,7 +42,12 @@ const AttachmentsList = props => {
               {!editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
-                  <a href={file.link} target="_blank" rel="noreferrer">
+                  <a
+                    className="attachment"
+                    href={file.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
