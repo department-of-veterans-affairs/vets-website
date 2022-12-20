@@ -19,6 +19,7 @@ import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
+import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
@@ -53,6 +54,7 @@ import {
   ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_OTHER_PATH,
 } from '../constants';
@@ -225,7 +227,7 @@ const formConfig = {
         },
         evidencePrivateRecordsRequest: {
           title: 'Request private medical records',
-          path: 'supporting-evidence/request-private-medical-records',
+          path: EVIDENCE_PRIVATE_REQUEST,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
@@ -235,6 +237,8 @@ const formConfig = {
           title: 'Private medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
+          CustomPage: EvidencePrivateRecordsAuthorization,
+          CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
         },
