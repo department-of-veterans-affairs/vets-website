@@ -35,11 +35,23 @@ const isClaimComplete = claim => {
   return claim.decisionLetterSent || claim.status === 'COMPLETE';
 };
 
+const CommunicationsItem = ({ children, icon }) => {
+  return (
+    <li className="vads-u-margin--0">
+      <i
+        className={`fa fa-${icon} vads-u-margin-right--1`}
+        aria-hidden="true"
+      />
+      {children}
+    </li>
+  );
+};
+
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = moment(claim.claimDate).format('MMMM D, YYYY');
 
-  // lighthouse_migration: Remove `vads-u-border-left--4px` and `vads-u-border-color--primary`
+  // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
   return (
     <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
@@ -47,7 +59,7 @@ export default function ClaimsListItem({ claim }) {
       <div className="card-status">
         <div
           className={`status-circle ${
-            claim.closeDate === null ? 'open-claim' : 'closed-claim'
+            claim.status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
           }`}
         />
         <p>
@@ -55,23 +67,20 @@ export default function ClaimsListItem({ claim }) {
         </p>
       </div>
       <ul className="communications">
-        {inProgress && claim.developmentLetterSent ? (
-          <li className="claim-list-item-text">
-            <i className="fa fa-envelope claim-list-item-icon" />
+        {inProgress ? (
+          <CommunicationsItem icon="envelope">
             We sent you a development letter
-          </li>
+          </CommunicationsItem>
         ) : null}
         {claim.decisionLetterSent && (
-          <li className="claim-list-item-text">
-            <i className="fa fa-envelope claim-list-item-icon" />
+          <CommunicationsItem icon="envelope">
             You have a decision letter ready
-          </li>
+          </CommunicationsItem>
         )}
         {inProgress && claim.documentsNeeded ? (
-          <li className="claim-list-item-text">
-            <i className="fa fa-exclamation-triangle claim-list-item-icon" />
+          <CommunicationsItem icon="exclamation-triangle">
             Items need attention
-          </li>
+          </CommunicationsItem>
         ) : null}
       </ul>
       <div className="card-status">
