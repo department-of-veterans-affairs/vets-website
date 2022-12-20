@@ -19,4 +19,20 @@ describe(manifest.appName, () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+  it('Basic Search Drafts Check', () => {
+    const landingPage = new PatientMessagesLandingPage();
+    landingPage.login();
+    landingPage.loadPage();
+    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-2/messages',
+      mockMessages,
+    ).as('basicSearchRequestDrafts');
+    cy.get('[data-testid="basic-search-submit"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });
