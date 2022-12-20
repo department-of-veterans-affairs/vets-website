@@ -82,9 +82,11 @@ const MessageDetail = () => {
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       {/* Only display this type of alert when it contains a header */}
       {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
-      <h1 className="vads-u-margin-top--2" ref={header}>
-        {pageTitle}
-      </h1>
+      {pageTitle === 'Message' ? null : (
+        <h1 className="vads-u-margin-top--2" ref={header}>
+          {pageTitle}
+        </h1>
+      )}
 
       {message === undefined && (
         <va-loading-indicator

@@ -54,14 +54,14 @@ const MessageDetailBlock = props => {
 
   return (
     <section className="message-detail-block">
-      <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
+      <header className="message-detail-header">
         <h2
           className="vads-u-margin-top--1 vads-u-margin-bottom--2"
           aria-label={`Message subject. ${casedCategory}: ${subject}`}
         >
           {casedCategory}: {subject}
         </h2>
-        {!hideReplyButton && (
+        {/* {!hideReplyButton && (
           <button
             type="button"
             onClick={handleReplyButton}
@@ -71,9 +71,14 @@ const MessageDetailBlock = props => {
             <i className="fas fa-reply" aria-hidden="true" />
             <span className="reply-button-top-text">Reply</span>
           </button>
-        )}
+        )} */}
       </header>
-
+      <MessageActionButtons
+        id={messageId}
+        handlePrintThreadStyleClass={handlePrintThreadStyleClass}
+        onReply={handleReplyButton}
+        hideReplyButton={hideReplyButton}
+      />
       <main className="message-detail-content">
         <section className="message-metadata" aria-label="message details.">
           <p>
@@ -117,13 +122,6 @@ const MessageDetailBlock = props => {
             </i>
           </p>
         </div>
-
-        <MessageActionButtons
-          id={messageId}
-          handlePrintThreadStyleClass={handlePrintThreadStyleClass}
-          onReply={handleReplyButton}
-          hideReplyButton={hideReplyButton}
-        />
       </main>
       <div className={printThread}>
         <PrintMessageThread messageId={messageId} />

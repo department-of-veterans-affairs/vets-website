@@ -72,16 +72,17 @@ const MessageActionButtons = props => {
 
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
         activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
-          <button
-            type="button"
+          <va-button
+            secondary
             className="message-action-button"
             onClick={() => {
               setIsDeleteVisible(true);
             }}
+            text="Trash"
           >
             <i className="fas fa-trash-alt" aria-hidden />
-            <span className="message-action-button-text">Trash</span>
-          </button>
+            {/* <span className="message-action-button-text">Trash</span> */}
+          </va-button>
         )}
 
       {isDeleteVisible && deleteMessageModal()}
@@ -91,14 +92,14 @@ const MessageActionButtons = props => {
       )}
 
       {!hideReplyButton && (
-        <button
-          type="button"
+        <va-button
+          secondary
           className="message-action-button"
           onClick={props.onReply}
+          text="Reply"
         >
           <i className="fas fa-reply" aria-hidden="true" />
-          <span className="message-action-button-text">Reply</span>
-        </button>
+        </va-button>
       )}
     </div>
   );
