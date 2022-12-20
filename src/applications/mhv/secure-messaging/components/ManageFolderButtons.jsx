@@ -149,10 +149,10 @@ const ManageFolderButtons = () => {
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
       >
-        <p className="no-margin">
-          <strong>Edit the folder name</strong>
+        <p className="vads-u-margin--0">Edit the folder name</p>
+        <p className="vads-u-color--gray-medium vads-u-margin--0">
+          (50 characters maximum)
         </p>
-        <p className="no-margin">(50 characters maximum)</p>
         <VaTextInput
           value={folderName}
           className="input"
