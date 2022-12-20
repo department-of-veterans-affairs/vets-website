@@ -12,7 +12,7 @@ const Error = () => {
 
   const message =
     error === 'max-validation'
-      ? 'were-sorry-we-couldnt-match-your-information-please-ask-for-help'
+      ? t('were-sorry-we-couldnt-match-your-information-please-ask-for-help')
       : t(
           'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
         );
