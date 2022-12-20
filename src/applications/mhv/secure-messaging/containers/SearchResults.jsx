@@ -6,9 +6,13 @@ import MessageList from '../components/MessageList/MessageList';
 import CondensedSearchForm from '../components/Search/CondensedSearchForm';
 
 const Search = () => {
-  const { awaitingResults, searchResults, folder, keyword } = useSelector(
-    state => state.sm.search,
-  );
+  const {
+    awaitingResults,
+    searchResults,
+    folder,
+    keyword,
+    query,
+  } = useSelector(state => state.sm.search);
   const history = useHistory();
 
   useEffect(() => {
@@ -50,7 +54,12 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm folder={folder} keyword={keyword} resultsView />
+      <CondensedSearchForm
+        folder={folder}
+        keyword={keyword}
+        resultsCount={searchResults.length}
+        query={query}
+      />
     );
   };
 

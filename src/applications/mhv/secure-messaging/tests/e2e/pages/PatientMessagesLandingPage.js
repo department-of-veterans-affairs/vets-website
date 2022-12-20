@@ -105,6 +105,15 @@ class PatientMessagesLandingPage {
     ).attributes.sentDate = date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
   };
+
+  getExpired46DayOldMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
 }
 
 export default PatientMessagesLandingPage;
