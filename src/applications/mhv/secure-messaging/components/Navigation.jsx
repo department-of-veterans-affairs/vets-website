@@ -80,14 +80,15 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
-  const handleOnClick = path => {
-    recordEvent({
-      // For Google Analytics
-      event: 'secure-messaging-navigation-clicked',
-      'secure-messaging-navigation-option': path.label,
-      'secure-messaging-navigation-path': path.path,
-    });
-  };
+  // TODO this is a sample GA event call. The analytics tag below is not valid
+  // const handleOnClick = path => {
+  //   recordEvent({
+  //     // For Google Analytics
+  //     event: 'secure-messaging-navigation-clicked',
+  //     'secure-messaging-navigation-option': path.label,
+  //     'secure-messaging-navigation-path': path.path,
+  //   });
+  // };
 
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
@@ -148,9 +149,9 @@ const Navigation = () => {
                       >
                         <Link
                           to={path.path}
-                          onClick={() => {
-                            handleOnClick(path);
-                          }}
+                          // onClick={() => {
+                          //   handleOnClick(path);
+                          // }}
                         >
                           {path.label}
                         </Link>
