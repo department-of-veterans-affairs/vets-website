@@ -12,7 +12,7 @@ describe('Pre-Check In Experience ', () => {
       initializePreCheckInDataPost,
       initializePreCheckInDataGet,
     } = ApiInitializer;
-    initializeFeatureToggle.withLorotaSecurityUpdate();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializePreCheckInDataGet.withSuccess();
 

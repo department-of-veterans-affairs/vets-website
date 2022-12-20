@@ -13,7 +13,7 @@ describe('Check In Experience ', () => {
       initializeCheckInDataPost,
       initializeCheckInDataGet,
     } = ApiInitializer;
-    initializeFeatureToggle.withLorotaSecurityUpdate();
+    initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeCheckInDataGet.withSuccess();
     initializeSessionPost.withSuccess();

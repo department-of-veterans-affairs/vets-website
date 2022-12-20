@@ -77,17 +77,6 @@ class ApiInitializer {
         }),
       );
     },
-    withLorotaSecurityUpdate: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          emergencyContactEnabled: true,
-        }),
-      );
-    },
     withPhoneAppointments: () => {
       cy.intercept(
         'GET',
