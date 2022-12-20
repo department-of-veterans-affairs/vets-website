@@ -2,7 +2,6 @@ import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
-import Introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -25,17 +24,6 @@ describe('Pre-Check In Experience ', () => {
     cy.window().then(window => {
       window.sessionStorage.clear();
     });
-  });
-  it('Validate with DOB', () => {
-    cy.visitPreCheckInWithUUID();
-    // page: Validate
-    ValidateVeteran.validatePage.preCheckIn();
-    ValidateVeteran.validateVeteranDob();
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Pre-check-in--Validate-with-DOB');
-    ValidateVeteran.attemptToGoToNextPage();
-    // page: Introduction
-    Introduction.validatePageLoaded();
   });
   it('only allows current and past years', () => {
     cy.visitPreCheckInWithUUID();

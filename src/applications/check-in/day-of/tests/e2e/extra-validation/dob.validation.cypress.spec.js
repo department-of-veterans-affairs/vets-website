@@ -25,17 +25,6 @@ describe('Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Validate with DOB', () => {
-    cy.visitWithUUID();
-    // page: Validate
-    ValidateVeteran.validatePage.dayOf();
-    ValidateVeteran.validateVeteranDob();
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Day-of-check-in--Validate-with-DOB');
-    ValidateVeteran.attemptToGoToNextPage();
-    // page: Demographics
-    Demographics.validatePageLoaded();
-  });
   it('only allows submits with valid date', () => {
     cy.visitWithUUID();
     // page: Validate
@@ -60,7 +49,7 @@ describe('Check In Experience ', () => {
     ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteranDobInvalidYear();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
-    ValidateVeteran.validateVeteranDob();
+    ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPageWithEnterKey();
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

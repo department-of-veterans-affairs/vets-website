@@ -34,22 +34,22 @@ describe('Pre-Check In Experience', () => {
       // First Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.validateErrorAlert();
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });
