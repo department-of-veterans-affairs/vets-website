@@ -210,7 +210,9 @@ export const EVIDENCE_PRIVATE_REQUEST =
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_LIMITATION_PATH =
-  'supporting-evidence/request-record-limitations';
+  'supporting-evidence/add-private-record-limitations';
 
 // TODO: Update this path
-export const EVIDENCE_OTHER_PATH = 'supporting-evidence/additional-evidence';
+export const EVIDENCE_ADDITIONAL_PATH =
+  'supporting-evidence/add-supporting-evidence';
+export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
