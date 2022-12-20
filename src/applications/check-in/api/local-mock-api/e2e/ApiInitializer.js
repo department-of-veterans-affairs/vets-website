@@ -239,6 +239,15 @@ class ApiInitializer {
       });
       return data;
     },
+    withPast15MinuteWindow: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.past15MinuteUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
     withBadData: ({
       extraValidation = null,
       demographicsNeedsUpdate = true,

@@ -35,7 +35,7 @@ export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
       </div>
       <legend
         name="eligibleScrollElement"
-        className="vads-u-font-weight--bold vads-u-font-size--base"
+        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
       >
         Select the issues you’d like us to review
       </legend>
@@ -70,7 +70,8 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const noneSelected = 'Please select at least one issue';
+export const noneSelected =
+  'You must select at least 1 issue before you can continue filling out your request.';
 
 /**
  * Shows the alert box only if the form has been submitted
@@ -93,10 +94,11 @@ export const NoneSelectedAlert = ({ count }) => {
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
         >
-          {`Please ${
+          {`You’ll need to ${
             count === 0 ? 'add, and select,' : 'select'
-          } at least one issue, so we can process your request`}
+          } an issue`}
         </h3>
+        <p>{noneSelected}</p>
       </va-alert>
     </div>
   );

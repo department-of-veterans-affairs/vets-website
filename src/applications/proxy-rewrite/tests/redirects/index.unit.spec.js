@@ -64,15 +64,21 @@ describe('Redirect replaced pages', () => {
 });
 
 describe('Validate crossDomainRedirects.json', () => {
-  const redirectsBySource = redirects.reduce((grouped, redirect) => {
-    const fullPath = `https://${redirect.domain}${redirect.src}`;
-    const items = grouped[fullPath] || [];
-    return {
-      ...grouped,
-      [fullPath]: items.concat(redirect.dest),
-    };
-  }, {});
+  const nonSubdomainRedirects = redirects.filter(
+    redirect => !redirect.isToSubdomain,
+  );
 
+  const redirectsBySource = nonSubdomainRedirects.reduce(
+    (grouped, redirect) => {
+      const fullPath = `https://${redirect.domain}${redirect.src}`;
+      const items = grouped[fullPath] || [];
+      return {
+        ...grouped,
+        [fullPath]: items.concat(redirect.dest),
+      };
+    },
+    {},
+  );
   Object.entries(redirectsBySource).forEach(([fullSource, destinations]) => {
     it(`${fullSource} is a valid URL`, () => {
       const url = new URL(fullSource);
