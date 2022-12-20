@@ -11,30 +11,12 @@ describe(manifest.appName, () => {
       landingPage.getExpired46DayOldMessage().attributes.subject,
       landingPage.getExpired46DayOldMessage().attributes.sentDate,
     );
-    messageDetailsPage.loadReplyPage(
-      landingPage.getExpired46DayOldMessage().attributes.messageId,
-      landingPage.getExpired46DayOldMessage().attributes.subject,
-      landingPage.getExpired46DayOldMessage().attributes.sentDate,
-    );
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .type('Test message body');
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.get('va-select#sort-order-dropdown')
-      .shadow()
-      .find('[id="select"]')
-      .select('Oldest to newest');
-    cy.get('button[type=button]')
-      .contains('Sort')
-      .click();
-    cy.contains('Appointment Inquiry').click();
-    cy.get('div#react-root h2[slot=headline]').should(
+
+    cy.get('[data-testid=expired-alert-message]').should(
       'have.text',
       'You cannot reply to a message that is older than 45 days.',
     );
-    cy.get('div#react-root h2[slot=headline]+p').should(
+    cy.get('[data-testid=expired-alert-message]+p').should(
       'have.text',
       "Please select 'Compose' to create a new message.",
     );
