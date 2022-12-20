@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from 'platform/monitoring/record-event';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   openContactFacilitiesPage,
   routeToPreviousAppointmentPage,
@@ -22,7 +22,6 @@ import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import recordEvent from 'platform/monitoring/record-event';
 import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
 const pageKey = 'contactFacilities';
@@ -151,16 +150,15 @@ export default function ContactFacilitiesPage() {
             get the COVID-19 vaccine. You don't need an appointment, but be sure
             to check the facility's walk-in hours before you go.
           </p>
-          <a
+          <VaLink
             href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
               });
             }}
-          >
-            Find VA facilities near you that offer COVID-19 vaccines
-          </a>
+            text="Find VA facilities near you that offer COVID-19 vaccines"
+          />
         </InfoAlert>
       )}
       <ProgressButton

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrByFacilityId } from '../../utils/timezone';
@@ -94,7 +95,7 @@ export default function ConfirmationPage() {
         </div>
       </div>
       <div className="vads-u-margin-y--2">
-        <va-link
+        <VaLink
           href="/"
           className="usa-button vads-u-padding-right--2"
           onClick={() => {
