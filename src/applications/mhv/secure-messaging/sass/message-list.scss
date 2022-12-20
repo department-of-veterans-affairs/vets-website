@@ -34,6 +34,9 @@
     }
     p.received-date {
       color: $color-gray-medium;
+      i {
+        color: $color-black;
+      }
     }
     .keyword-highlight {
       background-color: $color-gold-lightest;

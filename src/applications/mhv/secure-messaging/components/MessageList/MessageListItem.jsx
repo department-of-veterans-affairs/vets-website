@@ -7,6 +7,8 @@ import { dateFormat, titleCase } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
+const attachmentClasses =
+  'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
 const MessageListItem = props => {
   const location = useLocation();
@@ -90,7 +92,7 @@ const MessageListItem = props => {
         {titleCaseCategory}: {getHighlightedText(subject)}
       </Link>
       <p className="received-date vads-u-margin-left--3 vads-u-margin-y--0p5">
-        {attachment}
+        {attachment && <i className={attachmentClasses} />}
         <span className="vads-u-font-style--italic">{formattedDate}</span>
       </p>
     </div>
