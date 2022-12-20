@@ -214,5 +214,5 @@ export const EVIDENCE_LIMITATION_PATH =
 
 // TODO: Update this path
 export const EVIDENCE_ADDITIONAL_PATH =
-  'supporting-evidence/add-supporting-evidence';
+  'supporting-evidence/will-add-supporting-evidence';
 export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
