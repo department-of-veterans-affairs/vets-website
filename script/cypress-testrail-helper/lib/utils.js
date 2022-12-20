@@ -5,7 +5,6 @@ const { exec } = require('child_process');
 const { Spinner } = require('cli-spinner');
 const { parse } = require('comment-parser');
 
-const cyConfig = require('../../../config/cypress-testrail.json');
 const inquirer = require('./app-inquirer');
 const { glob } = require('glob');
 
@@ -132,39 +131,56 @@ module.exports = {
     });
   },
   async getSetCyRunConfig(myConfig, trInfo) {
-    const runConfig = Object.assign(cyConfig, {
-      reporterOptions: {
-        ...cyConfig.reporterOptions,
-        username: myConfig.trUsername,
-        password: myConfig.trPassword,
-        projectId: parseInt(trInfo.projectId),
-        suiteId: parseInt(trInfo.suiteId),
-        includeAllInTestRun: false,
-        groupId: parseInt(trInfo.groupId),
-        runName: trInfo.runName,
-        filter: '',
-      },
-    });
-
     // Write run-specific Cypress config-file.
     return new Promise((myResolve, myReject) => {
+      let cyTrConfig;
+      let myCyTrRunConfig;
+
       try {
+        // read cypress-testrail.config.js
+        cyTrConfig = fs.readFileSync(
+          './config/cypress-testrail.config.js',
+          'utf-8',
+        );
+        // modify config prop-values
+        myCyTrRunConfig = cyTrConfig
+          .replace('TR_USER', myConfig.trUsername)
+          .replace('TR_API_KEY', myConfig.trPassword)
+          .replace('TR_PROJECTID', trInfo.projectId)
+          .replace('TR_SUITEID', trInfo.suiteId)
+          .replace('TR_GROUPID', trInfo.groupId)
+          .replace('TR_RUN_NAME', trInfo.runName)
+          .replace(/'TR_INCLUDE_ALL'/, 'false')
+          .replace('TR_FILTER', '');
+      } catch (e) {
+        myReject(
+          `Failed reading cypress-testrail.config.js file.  Error message: ${
+            e.message
+          }`,
+        );
+      }
+
+      try {
+        // write new config-file
         fs.writeFileSync(
-          './config/my-cypress-testrail.json',
-          JSON.stringify(runConfig),
+          './config/my-cypress-testrail.config.js',
+          myCyTrRunConfig,
+          'utf-8',
         );
         console.log(
-          'Your Run-specific Cypress config:',
-          Object.assign(runConfig, {
-            reporterOptions: {
-              ...runConfig.reporterOptions,
-              password: '[---obfuscated---]',
-            },
-          }),
+          chalk.green(
+            'Your Run-specific Cypress config-file contents:\n\n+++++++++++++++++++++++++++++++\n',
+            myCyTrRunConfig,
+          ),
         );
+        console.log(chalk.green('+++++++++++++++++++++++++++++++\n'));
         myResolve('succeeded');
       } catch (e) {
-        myReject(`failed`);
+        myReject(
+          `Failed writing my-cypress-testrail.config.js file.  Error message: ${
+            e.message
+          }`,
+        );
       }
     });
   },
@@ -185,6 +201,12 @@ module.exports = {
         spinner.stop(true);
         console.log('\n');
         console.log(chalk.red(`stderr: ${stderr}`));
+        return;
+      }
+      if (stdout) {
+        spinner.stop(true);
+        console.log('\n');
+        console.log(chalk.yellow(`stdout: ${stdout}`));
         return;
       }
 
