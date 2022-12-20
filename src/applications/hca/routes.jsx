@@ -1,11 +1,11 @@
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
 
 import formConfig from './config/form';
-import HealthCareApp from './HealthCareApp';
+import App from './containers/App';
 
 const routes = {
   path: '/',
-  component: HealthCareApp,
+  component: App,
   indexRoute: {
     onEnter: (nextState, replace) => replace('/introduction'),
   },

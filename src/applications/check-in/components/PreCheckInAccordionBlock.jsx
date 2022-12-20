@@ -1,9 +1,6 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
-
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import ExternalLink from './ExternalLink';
 
@@ -14,14 +11,11 @@ const PreCheckInAccordionBlock = ({
   appointments = null,
   errorPage = false,
 }) => {
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
-
   const { t } = useTranslation();
   let hasUpdates = false;
   let updateBody = '';
   let appointmentType = 'clinic';
-  if (isPhoneAppointmentsEnabled && appointments && appointments.length) {
+  if (appointments && appointments.length) {
     appointmentType = appointments[0]?.kind;
   }
   if (demographicsUpToDate === 'no') {
@@ -180,9 +174,7 @@ const PreCheckInAccordionBlock = ({
       body: (
         <>
           <p>
-            {t(
-              'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
-            )}
+            {t('during-pre-check-in-you-can-review-your-contact-information')}
           </p>
           <p>
             <Trans

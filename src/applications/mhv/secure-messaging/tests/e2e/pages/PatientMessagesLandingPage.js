@@ -30,7 +30,12 @@ class PatientMessagesLandingPage {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
+        features: [
+          {
+            name: 'mhv_secure_messaging_to_va_gov_release',
+            value: true,
+          },
+        ],
       },
     }).as('featureToggle');
     cy.intercept(
@@ -75,6 +80,8 @@ class PatientMessagesLandingPage {
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
     mockMessage.data.attributes.sentDate = messageDate;
+    mockMessage.data.attributes.messageId = messageId;
+    mockMessage.data.attributes.messageTitle = messageTitle;
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${messageId}`,
@@ -93,6 +100,15 @@ class PatientMessagesLandingPage {
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();

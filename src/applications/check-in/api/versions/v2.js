@@ -10,14 +10,19 @@ const v2 = {
     checkInType,
     isLorotaSecurityUpdatesEnabled = false,
   }) => {
-    const url = `/check_in/v2/sessions/`;
-    const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
+    const url = '/check_in/v2/sessions/';
+    let requestUrl = `${environment.API_URL}${url}${token}`;
+    if (checkInType) {
+      requestUrl = appendQuery(requestUrl, {
+        checkInType,
+      });
+    }
     const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
       isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
     }`;
 
     const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}${token}${checkInTypeSlug}`),
+      apiRequest(requestUrl),
       eventLabel,
       token,
     );
@@ -228,6 +233,7 @@ const v2 = {
       apiRequest(`${environment.API_URL}${url}`, settings),
       'submit-travel-pay-claim',
       data.uuid,
+      true,
     );
     return {
       ...json,

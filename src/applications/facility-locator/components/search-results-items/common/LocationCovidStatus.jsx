@@ -43,19 +43,15 @@ const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
   }
 
   return (
-    <va-alert-expandable
-      class="vads-u-margin-x--0"
+    <va-alert
+      background-only
+      show-icon
       status="info"
-      trigger={covidStatus.name}
       data-testid={`${covidStatus.status_id.toLowerCase()}-message`}
+      class="vads-u-margin-x--0"
     >
-      {/* eslint-disable react/no-danger */}
-      <div
-        dangerouslySetInnerHTML={{
-          __html: covidStatus.description,
-        }}
-      />
-    </va-alert-expandable>
+      <div>{covidStatus.name}</div>
+    </va-alert>
   );
 };
 

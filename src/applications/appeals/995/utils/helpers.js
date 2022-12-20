@@ -282,12 +282,6 @@ export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
-// TO DO: remove
-export const hasPrivateEvidenceToUpload = formData =>
-  formData?.['view:uploadPrivateRecordsChoice']?.[
-    'view:hasPrivateRecordsToUpload'
-  ];
-
 // Update evidence issues if they change
 export const evidenceNeedsUpdating = formData => {
   if (hasVAEvidence(formData)) {

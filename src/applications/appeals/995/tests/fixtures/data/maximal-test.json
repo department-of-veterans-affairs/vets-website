@@ -81,6 +81,9 @@
         "view:selected": true
       }
     ],
+    "socOptIn": true,
+    "form5103Acknowledged": true,
+    "privacyAgreementAccepted": true,
     "locations": [
       {
         "locationAndName": "VAMC Location 1",
@@ -106,13 +109,7 @@
     ],
     "providerFacility": [
       {
-        "treatmentDateRange": {
-          "from": "2022-01-01",
-          "to": "2022-02-01"
-        },
-        "issues": [
-          "Headaches"
-        ],
+        "providerFacilityName": "Private Doctor",
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 main",
@@ -120,10 +117,33 @@
           "state": "AK",
           "postalCode": "90210"
         },
-        "providerFacilityName": "Private Hospital"
+        "issues": [
+          "PTSD",
+          "Test"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-01-01",
+          "to": "2022-02-01"
+        }
+      },
+      {
+        "providerFacilityName": "Private Hospital",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90211"
+        },
+        "issues": [
+          "Test 2"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-02-01",
+          "to": "2022-05-01"
+        }
       }
     ],
-    "view:limitedConsent": true,
     "limitedConsent": "Pizza addiction",
     "view:uploadPrivateRecordsChoice": {
       "view:hasPrivateRecordsToUpload": false
@@ -134,7 +154,7 @@
     "view:hasVaEvidence": true,
     "view:hasPrivateEvidence": true,
     "view:hasOtherEvidence": true,
-    "privateMedicalRecordAttachments": [
+    "additionalDocuments": [
       {
         "name": "private-medical-records.pdf",
         "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
@@ -148,9 +168,7 @@
         "attachmentId": "L023",
         "size": 30000,
         "isEncrypted": false
-      }
-    ],
-    "additionalDocuments": [
+      },
       {
         "name": "buddy-statement.pdf",
         "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
@@ -165,9 +183,6 @@
         "size": 40000,
         "isEncrypted": false
       }
-    ],
-    "socOptIn": true,
-    "form5103Acknowledged": true,
-    "privacyAgreementAccepted": true
+    ]
   }
 }

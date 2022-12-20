@@ -13,6 +13,15 @@
   }
 }
 
+.folder-link {
+  a {
+    color: $color-link-default;
+  }
+  a:visited {
+    color: $color-link-default;
+  }
+}
+
 .alert-box {
   p {
     margin: 0;
@@ -70,6 +79,7 @@
       flex-direction: column;
     }
   }
+
   .input {
     margin-left: 0;
   }

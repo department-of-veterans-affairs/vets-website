@@ -6,10 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  getTimezoneAbbrByFacilityId,
-  getTimezoneByFacilityId,
-} from '../../utils/timezone';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import { selectConfirmationPage } from '../redux/selectors';
@@ -19,6 +16,7 @@ import {
   formatFacilityAddress,
   getFacilityPhone,
 } from '../../services/location';
+import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -46,10 +44,12 @@ function ConfirmationPageV2({
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
-      </h1>
+      <AppointmentDate
+        classes="vads-u-font-size--h2"
+        dates={[slot.start]}
+        facilityId={data.vaFacility}
+        level="1"
+      />
       <InfoAlert status="success" backgroundOnly>
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
@@ -120,7 +120,11 @@ function ConfirmationPageV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="va-button-link"
+          onClick={() => window.print()}
+        >
           Print
         </button>
       </div>

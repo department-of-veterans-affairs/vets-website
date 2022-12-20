@@ -7,9 +7,10 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
-import { fillDate } from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { fillDate } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca dependent information', () => {
   const {
@@ -80,6 +81,8 @@ describe('Hca dependent information', () => {
     //  updateSchemaAndData() probably isn't called when it should be.
     // expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
     // expect(onSubmit.called).to.be.false;
+
+    // TODO: It looks like expand under does not trigger, which it should with Y value.
   });
 
   it('should add another', () => {
@@ -105,67 +108,34 @@ describe('Hca dependent information', () => {
     });
 
     // And fill out the required fields
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_fullName_first'),
-      {
-        target: {
-          value: 'John',
-        },
-      },
+
+    simulateInputChange(formDOM, '#root_dependents_0_fullName_first', 'John');
+
+    simulateInputChange(formDOM, '#root_dependents_0_fullName_last', 'Doe');
+
+    simulateInputChange(formDOM, '#root_dependents_0_dependentRelation', 'Son');
+
+    simulateInputChange(
+      formDOM,
+      '#root_dependents_0_socialSecurityNumber',
+      '123123123',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_fullName_last'),
-      {
-        target: {
-          value: 'Doe',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_dependents_0_cohabitedLastYearYes',
+      'Y',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_dependentRelation'),
-      {
-        target: {
-          value: 'Son',
-        },
-      },
-    );
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_socialSecurityNumber'),
-      {
-        target: {
-          value: '123123123',
-        },
-      },
-    );
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_cohabitedLastYearYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_disabledBefore18Yes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_dependents_0_disabledBefore18Yes', 'Y');
 
     fillDate(formDOM, 'root_dependents_0_dateOfBirth', '2012-12-12');
     fillDate(formDOM, 'root_dependents_0_becameDependent', '2012-12-12');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_dependents_0_dependentEducationExpenses'),
-      {
-        target: {
-          value: '1234',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_dependents_0_dependentEducationExpenses',
+      '1234',
     );
 
     submitForm(form);

@@ -54,6 +54,7 @@ import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollD
 import * as payrollDeductionInputList from './income/employmentEnhanced/payrollDeductionInputList';
 import * as grossMonthlyIncome from './income/employmentEnhanced/grossMonthlyIncome';
 import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhancedRecords';
+import * as resolutionExplainer from './resolution/resolutionExplainer';
 
 export {
   veteranInfo,
@@ -112,4 +113,5 @@ export {
   payrollDeductionInputList,
   grossMonthlyIncome,
   enhancedEmploymentRecords,
+  resolutionExplainer,
 };

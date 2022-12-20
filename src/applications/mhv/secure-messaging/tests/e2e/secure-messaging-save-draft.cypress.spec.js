@@ -32,11 +32,17 @@ describe(manifest.appName, () => {
       mockDraftResponse,
     ).as('draftMessageResponse');
     cy.contains('test').click();
-    cy.wait('@draftMessageResponse');
+    // cy.wait('@draftMessageResponse');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="message-body-field"]').clear();
-    cy.get('[data-testid="message-body-field"]').type('message Test');
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type('message Test');
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
     composePage.saveDraft();
   });
 });

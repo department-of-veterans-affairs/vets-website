@@ -8,15 +8,13 @@ export const fieldFailureMessage = (
   </span>
 );
 
-export default function LoadFail({ information }) {
+export default function LoadFail() {
   return (
     <va-alert status="warning" visible data-testid="service-is-down-banner">
-      <h2 slot="headline">
-        We can’t access your {information} information right now.
-      </h2>
+      <h2 slot="headline">This page isn't available right now.</h2>
       <p>
-        We’re sorry. Something went wrong on our end. Please refresh this page
-        or try again later.
+        We’re sorry. Something went wrong on our end. Refresh this page or try
+        again later.
       </p>
     </va-alert>
   );

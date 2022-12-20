@@ -5,13 +5,14 @@ import { useTranslation } from 'react-i18next';
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
-import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const Introduction = props => {
   const { router } = props;
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
-  const { goToErrorPage } = useFormRouting();
+
+  const { updateError } = useUpdateError();
 
   const {
     isComplete,
@@ -38,10 +39,10 @@ const Introduction = props => {
   useEffect(
     () => {
       if (checkInDataError) {
-        goToErrorPage('?error=error-fromlocation-precheckin-introduction');
+        updateError('error-fromlocation-precheckin-introduction');
       }
     },
-    [checkInDataError, goToErrorPage],
+    [checkInDataError, updateError],
   );
 
   if (isLoading) {

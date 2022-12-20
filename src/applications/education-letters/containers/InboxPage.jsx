@@ -44,6 +44,10 @@ const InboxPage = ({
       );
     }
 
+    // let mockClaimStatus = {
+    //   claimStatus: 'ELIGIBLE',
+    //   receivedDate: '2020-12-12',
+    // };
     if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
       if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
         return <HasLetters claimStatus={claimStatus} />;

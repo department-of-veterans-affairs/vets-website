@@ -25,9 +25,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: true,
           checkInExperienceTravelReimbursement: false,
         }),
       );
@@ -66,8 +64,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperiencePhoneAppointmentsEnabled: true,
-          checkInExperienceLorotaDeletionEnabled: false,
           checkInExperienceTravelReimbursement: true,
         }),
       );
@@ -93,7 +89,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
@@ -107,7 +102,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -237,6 +231,15 @@ class ApiInitializer {
     withExpired: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
         preCheckInData.get.expiredUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
+    withPast15MinuteWindow: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.past15MinuteUUID,
       );
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(data);
