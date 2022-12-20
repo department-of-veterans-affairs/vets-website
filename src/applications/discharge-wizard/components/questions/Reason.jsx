@@ -59,6 +59,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
             label={option.label}
             name={option.value}
             value={option.value}
+            checked={formValues[key] === option.value}
           />
         ))}
       </VaRadio>

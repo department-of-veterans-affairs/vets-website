@@ -66,6 +66,7 @@ const CourtMartial = ({
             label={option.label}
             name={option.value}
             value={option.value}
+            checked={formValues[key] === option.value}
           />
         ))}
       </VaRadio>
