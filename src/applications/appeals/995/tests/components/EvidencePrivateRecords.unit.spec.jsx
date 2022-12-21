@@ -117,8 +117,8 @@ describe('<EvidencePrivateRecords>', () => {
       errors.state,
       errors.postal,
       errors.issuesMissing,
-      errorMessages.invalidDate,
-      errorMessages.invalidDate,
+      errors.missingDate,
+      errors.missingDate,
     ]
       .filter(Boolean)
       .forEach((error, index) => {

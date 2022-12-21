@@ -24,7 +24,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage).to.eq(errorMessages.invalidDate);
+    expect(errorMessage).to.eq(errorMessages.decisions.missingDate);
     expect(isValidDate('200')).to.be.false;
   });
   it('should throw a range error for dates too old', () => {
@@ -54,14 +54,14 @@ describe('validateDate & isValidDate', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).substring(0, 8);
     validateDate(errors, date);
-    expect(errorMessage).to.eq(errorMessages.invalidDate);
+    expect(errorMessage).to.eq(errorMessages.decisions.missingDate);
     expect(isValidDate(date)).to.be.false;
   });
   it('should throw a invalid date for truncated dates', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
     const date = getDate({ offset: { weeks: 1 } }).replace(/-.*-/, '--');
     validateDate(errors, date);
-    expect(errorMessage).to.eq(errorMessages.invalidDate);
+    expect(errorMessage).to.eq(errorMessages.decisions.missingDate);
     expect(isValidDate(date)).to.be.false;
   });
 });

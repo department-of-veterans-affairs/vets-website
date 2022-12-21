@@ -1271,5 +1271,11 @@
     "domain": "www.fayettevillenc.va.gov",
     "src": "/locations/FayettevilleVetCenter.asp",
     "dest": "/fayetteville-nc-vet-center/"
+  },
+  {
+    "domain": "www.vetcenter.va.gov",
+    "src": "/Vet_Centers_are_Here_For_You_24_7.asp",
+    "dest": "https://www.vetcenter.va.gov/",
+    "isToSubdomain": true
   }
 ]
