@@ -276,6 +276,7 @@ const SearchMessagesForm = props => {
           class="vads-u-flex--1"
           data-testid="advanced-search-submit"
           text="Advanced search"
+          onClick={handleFormSubmit}
         />
         <va-button
           class="vads-u-flex--1"

@@ -74,13 +74,14 @@ const PrintBtn = props => {
               onRadioOptionSelected={handleOnChangePrintOption}
             >
               <VaRadioOption
-                data-testid="radio-button"
+                data-testid="radio-print-one-message"
                 label="Only print this message"
                 name="defaultName"
                 value="this message"
               />
 
               <VaRadioOption
+                data-testid="radio-print-all-messages"
                 label={`Print all messages in this conversation (${
                   messageThreadCount.current
                 } messages)`}

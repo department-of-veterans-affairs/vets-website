@@ -68,10 +68,10 @@ const MoveMessageToFolderBtn = props => {
           large
           modalTitle="Move to:"
           onCloseEvent={closeModal}
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
+          // onPrimaryButtonClick={handleConfirmMoveFolderTo}
+          // onSecondaryButtonClick={closeModal}
+          // primaryButtonText="Confirm"
+          // secondaryButtonText="Cancel"
           visible={isModalVisible}
         >
           <div className="modal-body">
@@ -120,6 +120,15 @@ const MoveMessageToFolderBtn = props => {
                 />
               </>
             </VaRadio>
+            <div>
+              <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
+              <va-button
+                secondary
+                data-testid="hidden-button-close-modal"
+                text="Cancel"
+                onClick={closeModal}
+              />
+            </div>
           </div>
         </VaModal>
       </div>
@@ -151,12 +160,14 @@ const MoveMessageToFolderBtn = props => {
         </span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
-      <CreateFolderModal
-        isModalVisible={isNewModalVisible}
-        setIsModalVisible={setIsNewModalVisible}
-        onConfirm={confirmCreateFolder}
-        folders={folders}
-      />
+      {isNewModalVisible && (
+        <CreateFolderModal
+          isModalVisible={isNewModalVisible}
+          setIsModalVisible={setIsNewModalVisible}
+          onConfirm={confirmCreateFolder}
+          folders={folders}
+        />
+      )}
     </>
   );
 };
