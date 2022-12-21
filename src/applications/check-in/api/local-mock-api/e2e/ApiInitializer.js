@@ -26,7 +26,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: true,
           checkInExperienceTravelReimbursement: false,
         }),
       );
@@ -65,7 +64,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
           checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: false,
           checkInExperienceTravelReimbursement: true,
         }),
       );
