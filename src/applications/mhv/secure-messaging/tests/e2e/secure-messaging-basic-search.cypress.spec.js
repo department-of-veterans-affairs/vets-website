@@ -32,9 +32,15 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[id="inputField"]')
       .type('test');
-    cy.contains('Drafts');
-    cy.get('[data-testid="basic-search-submit"]').click();
-    cy.get('[data-testid="highlighted-text"]').should('have.text', 'Test');
+
+    cy.get('[data-testid="folder-dropdown"]')
+      .shadow()
+      .find('select')
+      .select('Drafts', { force: true });
+
+    cy.get('[data-testid="basic-search-submit"]').click({ force: true });
+    // cy.wait(1000);
+    // cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
     cy.injectAxe();
     cy.axeCheck();
   });
