@@ -1,6 +1,7 @@
 import manifest from '../../manifest.json';
 import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from './fixtures/drafts-search-results.json';
+import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 
 describe(manifest.appName, () => {
   it('Basic Search Axe Check', () => {
@@ -24,9 +25,16 @@ describe(manifest.appName, () => {
     landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="search-messages-sidebar"]').click();
-    cy.intercept('GET', '/my_health/v1/messaging/folders/-2', mockMessages).as(
-      'basicSearchRequestDrafts',
-    );
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2',
+      mockDraftsFolder,
+    ).as('basicSearchRequestDraftsMeta');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
+      mockMessages,
+    ).as('basicSearchRequestDrafts');
 
     cy.get('[data-testid="keyword-text-input"]')
       .shadow()
@@ -39,8 +47,8 @@ describe(manifest.appName, () => {
       .select('Drafts', { force: true });
 
     cy.get('[data-testid="basic-search-submit"]').click({ force: true });
-    // cy.wait(1000);
-    // cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
+    cy.wait('@basicSearchRequestDrafts');
+    cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
     cy.injectAxe();
     cy.axeCheck();
   });
