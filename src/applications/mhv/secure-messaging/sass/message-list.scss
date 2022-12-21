@@ -1,3 +1,5 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .message-list {
   .message-list-sort {
     display: flex;
@@ -24,5 +26,9 @@
   .message-list-item-line-1 {
     display: flex;
     align-items: center;
+  }
+
+  .keyword-highlight {
+    background-color: $color-gold-lightest;
   }
 }

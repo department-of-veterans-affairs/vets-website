@@ -23,9 +23,9 @@ export const CopaysV2 = ({ copays }) => {
   }
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+    <div className="vads-u-display--flex vads-u-margin-bottom--3">
       <div
-        className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5"
+        className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5"
         data-testid="copay-card-v2"
       >
         <h3 className="vads-u-margin-top--0" data-testid="copay-due-header-v2">

@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../actions/authentication';
-import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
+import { useUpdateError } from '../../hooks/useUpdateError';
 
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
@@ -19,19 +19,9 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-    setPermissions,
-  } = useSessionStorage(false);
+  const { setPermissions } = useSessionStorage(false);
 
-  const updateError = useCallback(
-    error => {
-      dispatch(setError(error));
-    },
-    [dispatch],
-  );
+  const { updateError } = useUpdateError();
 
   const setSession = useCallback(
     (token, permissions) => {
@@ -41,7 +31,7 @@ const ValidateVeteran = props => {
     [dispatch, setPermissions],
   );
 
-  const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { goToNextPage } = useFormRouting(router);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -57,12 +47,8 @@ const ValidateVeteran = props => {
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const {
-    isLorotaSecurityUpdatesEnabled,
-    isLorotaDeletionEnabled,
-  } = useSelector(selectFeatureToggles);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
@@ -78,41 +64,29 @@ const ValidateVeteran = props => {
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
-        goToErrorPage,
         goToNextPage,
-        incrementValidateAttempts,
-        isMaxValidateAttempts,
         token,
         setSession,
         app,
-        resetAttempts,
-        isLorotaDeletionEnabled,
         updateError,
       );
     },
     [
       app,
-      goToErrorPage,
       goToNextPage,
-      incrementValidateAttempts,
-      isMaxValidateAttempts,
       last4Ssn,
       lastName,
       dob,
       dobError,
-      resetAttempts,
       setSession,
       token,
-      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
       updateError,
     ],
   );
 
   const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t(
-        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
-      )
+    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
     : t(
         'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
       );

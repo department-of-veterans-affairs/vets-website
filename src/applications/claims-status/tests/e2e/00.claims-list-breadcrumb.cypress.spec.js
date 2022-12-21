@@ -1,7 +1,7 @@
 import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/claims-list.json';
 
-describe('Breadcrumb Test', () => {
+describe.skip('Breadcrumb Test', () => {
   it('Verifies breadcrumb functionality - C30694', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList);

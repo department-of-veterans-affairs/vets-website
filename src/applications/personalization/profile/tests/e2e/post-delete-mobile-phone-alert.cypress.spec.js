@@ -37,7 +37,7 @@ describe('Contact info update success alert', () => {
   });
   it('should be shown after deleting mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-    cy.contains('Update mobile phone').click({
+    cy.contains('Update').click({
       waitForAnimations: true,
     });
     cy.findByRole('button', { name: /remove mobile phone/i }).click({

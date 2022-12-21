@@ -36,11 +36,28 @@ export const getQueryParams = () => {
   }, {});
 };
 
-export const reduceAllowedProviders = obj =>
+export const reduceProviders = obj =>
   Object.entries(obj).reduce((acc, [key, value]) => {
     if (value) acc.push(key);
     return acc;
   }, []);
+
+export const reduceAllowedProviders = (obj, type) => {
+  if (!type || type === '') return reduceProviders(obj);
+
+  if (
+    Object.keys(obj).includes('registeredApps') &&
+    type === 'registeredApps'
+  ) {
+    return reduceProviders(obj.registeredApps);
+  }
+
+  if (Object.keys(obj).includes('default') && type === 'default') {
+    return reduceProviders(obj.default);
+  }
+
+  return reduceProviders(obj);
+};
 
 export const isExternalRedirect = () => {
   const { application } = getQueryParams();

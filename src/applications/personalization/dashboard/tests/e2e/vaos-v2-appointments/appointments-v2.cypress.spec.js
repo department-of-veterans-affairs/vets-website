@@ -20,7 +20,11 @@ describe('MyVA Dashboard - Appointments - v2', () => {
   });
   it('Has an appointment in the next 30 days', () => {
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
-      expect(req.query.start).to.equal(
+      expect(
+        moment(req.query.start)
+          .startOf('day')
+          .toISOString(),
+      ).to.equal(
         moment()
           .startOf('day')
           .toISOString(),
@@ -33,7 +37,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
           .toISOString(),
       );
       expect(req.query._include).to.include('facilities');
-      expect(req.query.status).to.include('booked');
+      expect(req.query['statuses[]']).to.include('booked');
       const rv = v2.createAppointmentSuccess();
       req.reply(rv);
     });
@@ -48,7 +52,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
     cy.findByRole('heading', { name: /next appointment/i }).should('exist');
   });
 
-  it('Has apppintments, but not in 30 days', () => {
+  it('Has appointments, but not in 30 days', () => {
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
       // TODO: check for incoming params
       const rv = v2.createAppointmentSuccess({ startsInDays: [31] });

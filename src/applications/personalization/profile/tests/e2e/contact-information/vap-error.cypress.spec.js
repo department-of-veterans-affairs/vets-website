@@ -32,7 +32,7 @@ describe('When there is a known issue connecting to VA Profile', () => {
     cy.findByTestId('not-all-data-available-error').should('not.exist');
 
     // Contact info alert should be shown
-    cy.findByTestId('vap-service-not-available-error').should('exist');
+    cy.findByTestId('service-is-down-banner').should('exist');
 
     // Check full name
     cy.findByText(/Wesley Watson Ford/i).should('exist');

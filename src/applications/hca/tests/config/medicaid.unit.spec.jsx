@@ -7,8 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca medicare', () => {
   const {
@@ -60,14 +61,7 @@ describe('Hca medicare', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isMedicaidEligibleYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_isMedicaidEligibleYes', 'Y');
 
     submitForm(form);
 

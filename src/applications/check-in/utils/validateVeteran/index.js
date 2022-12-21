@@ -12,15 +12,10 @@ import { api } from '../../api';
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
  * @param {boolean} [isLorotaSecurityUpdatesEnabled]
- * @param {function} [goToErrorPage]
  * @param {function} [goToNextPage]
- * @param {function} [incrementValidateAttempts]
- * @param {boolean} [isMaxValidateAttempts]
  * @param {string} [token]
  * @param {function} [setSession]
  * @param {string} [app]
- * @param {function} [resetAttempts]
- * @param {boolean} [isLorotaDeletionEnabled]
  * @param {function} [updateError]
  */
 
@@ -34,15 +29,10 @@ const validateLogin = async (
   setIsLoading,
   setShowValidateError,
   isLorotaSecurityUpdatesEnabled,
-  goToErrorPage,
   goToNextPage,
-  incrementValidateAttempts,
-  isMaxValidateAttempts,
   token,
   setSession,
   app,
-  resetAttempts,
-  isLorotaDeletionEnabled,
   updateError,
 ) => {
   setLastNameErrorMessage();
@@ -96,28 +86,21 @@ const validateLogin = async (
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
-      goToErrorPage('?error=session-error');
+      updateError('session-error');
     } else {
       setSession(token, resp.permissions);
-      if (!isLorotaDeletionEnabled) {
-        resetAttempts(window, token, true);
-      }
       goToNextPage();
     }
   } catch (e) {
     setIsLoading(false);
-    if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      let params = '';
-      if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
-        params = '?error=validation';
-        updateError('max-validation');
+    if (e?.errors[0]?.status !== '401') {
+      let errorType = 'lorota-fail';
+      if (e?.errors[0]?.status === '410') {
+        errorType = 'max-validation';
       }
-      goToErrorPage(params);
+      updateError(errorType);
     } else {
       setShowValidateError(true);
-      if (!isLorotaDeletionEnabled) {
-        incrementValidateAttempts(window);
-      }
     }
   }
 };

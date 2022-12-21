@@ -187,6 +187,7 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
   }
 };
 
+// START lighthouse_migration
 export function getClaimsV2(options = {}) {
   // Throw an error if an unsupported value is on the `options` object
   const recognizedOptions = ['poll', 'pollingExpiration'];
@@ -254,6 +255,9 @@ export function getClaimsV2(options = {}) {
     });
   };
 }
+
+export const getClaims = getClaimsV2;
+// END lighthouse_migration
 
 export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
