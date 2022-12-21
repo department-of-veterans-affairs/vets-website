@@ -45,7 +45,7 @@ describe('Pre-Check In Experience', () => {
       Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.reload();
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
@@ -55,7 +55,7 @@ describe('Pre-Check In Experience', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       cy.reload();
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
@@ -67,7 +67,7 @@ describe('Pre-Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       cy.reload();
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
 
@@ -82,7 +82,7 @@ describe('Pre-Check In Experience', () => {
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
       cy.reload();
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
   });
