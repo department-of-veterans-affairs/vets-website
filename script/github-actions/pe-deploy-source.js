@@ -20,6 +20,6 @@ if (
   core.exportVariable('SOURCE_REF', workflowRef);
   core.exportVariable(
     'SOURCE_REF_SANITIZED',
-    workflowRef.replace(/[^a-zA-Z0-9-_]/g, ''),
+    workflowRef.replace(/[^a-zA-Z0-9-_]/g, '-'),
   );
 }
