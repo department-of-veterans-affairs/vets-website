@@ -18,12 +18,7 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-    setPermissions,
-  } = useSessionStorage(true);
+  const { setPermissions } = useSessionStorage(true);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -44,10 +39,7 @@ const Index = ({ router }) => {
   const { app } = useSelector(selectApp);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const {
-    isLorotaSecurityUpdatesEnabled,
-    isLorotaDeletionEnabled,
-  } = useSelector(selectFeatureToggles);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -58,7 +50,6 @@ const Index = ({ router }) => {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
   const validateHandler = useCallback(
@@ -74,29 +65,21 @@ const Index = ({ router }) => {
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
         goToNextPage,
-        incrementValidateAttempts,
-        isMaxValidateAttempts,
         token,
         setSession,
         app,
-        resetAttempts,
-        isLorotaDeletionEnabled,
         updateError,
       );
     },
     [
       app,
       goToNextPage,
-      incrementValidateAttempts,
-      isMaxValidateAttempts,
       last4Ssn,
       lastName,
       dob,
       dobError,
-      resetAttempts,
       setSession,
       token,
-      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
       updateError,
     ],
