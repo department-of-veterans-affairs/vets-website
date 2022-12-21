@@ -27,6 +27,7 @@ describe(manifest.appName, () => {
     cy.intercept('GET', '/my_health/v1/messaging/folders/-2', mockMessages).as(
       'basicSearchRequestDrafts',
     );
+
     cy.get('[data-testid="keyword-text-input"]')
       .shadow()
       .find('[id="inputField"]')
