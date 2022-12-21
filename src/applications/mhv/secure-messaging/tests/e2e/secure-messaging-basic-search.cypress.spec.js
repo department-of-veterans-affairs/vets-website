@@ -30,8 +30,10 @@ describe(manifest.appName, () => {
     cy.get('[data-testid="keyword-text-input"]')
       .shadow()
       .find('[id="inputField"]')
-      .type('sample text');
+      .type('test');
+    cy.contains('Drafts');
     cy.get('[data-testid="basic-search-submit"]').click();
+    cy.get('[data-testid="highlighted-text"]').should('have.text', 'Test');
     cy.injectAxe();
     cy.axeCheck();
   });
