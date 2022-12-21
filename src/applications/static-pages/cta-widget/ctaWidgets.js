@@ -39,7 +39,6 @@ export const CTA_WIDGET_TYPES = {
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VRRAP: 'vrrap',
   EDUCATION_LETTERS: 'education-letters',
-  ENROLLMENT_VERIFICATION: 'enrollment-verification',
 };
 
 export const ctaWidgetsLookup = {
@@ -348,18 +347,6 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: backendServices.EDUCATION_BENEFITS,
-    serviceDescription: 'download your education letters',
-  },
-  [CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION]: {
-    id: CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION,
-    deriveToolUrlDetails: () => ({
-      url: 'education/verify-school-enrollment',
-      redirect: false,
-    }),
-    hasRequiredMhvAccount: () => false,
-    isHealthTool: false,
-    mhvToolName: null,
-    requiredServices: backendServices.EDUCATION_BENEFITS,
-    serviceDescription: 'verify your school enrollments',
+    serviceDescription: 'check your VA education letter',
   },
 };
