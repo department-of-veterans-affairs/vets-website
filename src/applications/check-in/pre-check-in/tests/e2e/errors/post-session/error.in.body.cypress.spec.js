@@ -31,7 +31,7 @@ describe('Pre-Check In Experience ', () => {
 
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded();
+      Error.validatePageLoaded(true, true);
     });
   });
 });
