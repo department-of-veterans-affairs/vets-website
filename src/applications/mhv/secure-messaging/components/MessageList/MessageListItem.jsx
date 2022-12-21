@@ -25,7 +25,6 @@ const MessageListItem = props => {
   } = props;
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
-  const titleCaseSenderName = titleCase(senderName);
   const titleCaseCategory = titleCase(category);
 
   const getClassNames = () => {
@@ -73,11 +72,11 @@ const MessageListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <span>From: {getHighlightedText(titleCaseSenderName)}</span>
+          <span>From: {getHighlightedText(senderName)}</span>
         ) : (
           <div>
             <div>To: {recipientName}</div>
-            <div>From: {titleCaseSenderName}</div>
+            <div>From: {senderName}</div>
           </div>
         )}
       </div>
