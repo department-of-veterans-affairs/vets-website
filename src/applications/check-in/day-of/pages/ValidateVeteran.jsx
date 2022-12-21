@@ -19,12 +19,7 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-    setPermissions,
-  } = useSessionStorage(false);
+  const { setPermissions } = useSessionStorage(false);
 
   const { updateError } = useUpdateError();
 
@@ -52,12 +47,8 @@ const ValidateVeteran = props => {
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const {
-    isLorotaSecurityUpdatesEnabled,
-    isLorotaDeletionEnabled,
-  } = useSelector(selectFeatureToggles);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
@@ -74,29 +65,21 @@ const ValidateVeteran = props => {
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
         goToNextPage,
-        incrementValidateAttempts,
-        isMaxValidateAttempts,
         token,
         setSession,
         app,
-        resetAttempts,
-        isLorotaDeletionEnabled,
         updateError,
       );
     },
     [
       app,
       goToNextPage,
-      incrementValidateAttempts,
-      isMaxValidateAttempts,
       last4Ssn,
       lastName,
       dob,
       dobError,
-      resetAttempts,
       setSession,
       token,
-      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
       updateError,
     ],

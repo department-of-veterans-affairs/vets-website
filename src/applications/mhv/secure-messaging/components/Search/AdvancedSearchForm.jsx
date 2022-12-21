@@ -114,7 +114,7 @@ const SearchMessagesForm = props => {
       dateRange === DateRangeValues.LAST12
     ) {
       relativeToDate = moment(new Date());
-      relativeFromDate = getRelativeDate(dateRange);
+      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
     } else if (dateRange === DateRangeValues.CUSTOM) {
       fromDateTime = `${fromDate}T00:00:00${offset}`;
       toDateTime = `${toDate}T23:59:59${offset}`;
