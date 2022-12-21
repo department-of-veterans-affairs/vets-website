@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,6 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
   getTokenFromLocation,
@@ -26,9 +25,6 @@ import { APP_NAMES } from '../../../utils/appConstants';
 const Index = props => {
   const { router } = props;
   const { t } = useTranslation();
-
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const { jumpToPage } = useFormRouting(router);
   const {
@@ -73,7 +69,7 @@ const Index = props => {
         if (token && !sessionCallMade) {
           setSessionCallMade(true);
           api.v2
-            .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
+            .getSession({ token, checkInType })
             .then(session => {
               // if successful, dispatch session data  into redux and current window
 
@@ -108,7 +104,6 @@ const Index = props => {
       clearCurrentSession,
       dispatch,
       initForm,
-      isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
       sessionCallMade,
