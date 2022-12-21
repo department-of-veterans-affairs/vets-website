@@ -18,11 +18,11 @@ import {
   CONTESTABLE_ISSUES_PATH,
 } from '../constants';
 
+import { checkValidations } from '../validations';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import {

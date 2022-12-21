@@ -21,9 +21,10 @@ export default {
   data: (state = initialState, action) => {
     switch (action.type) {
       case FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS:
-      case FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE:
         return {
           ...state,
+          enrollmentVerificationFetchComplete: true,
+          enrollmentVerificationFetchFailure: false,
           enrollmentVerification: {
             ...action?.response?.data?.attributes,
             enrollmentVerifications: action?.response?.data?.attributes?.enrollmentVerifications?.filter(
@@ -31,6 +32,12 @@ export default {
                 ev.certifiedEndDate < new Date().toISOString().split('T')[0],
             ),
           },
+        };
+      case FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE:
+        return {
+          ...state,
+          enrollmentVerificationFetchComplete: true,
+          enrollmentVerificationFetchFailure: true,
         };
       case UPDATE_VERIFICATION_STATUS_MONTHS:
         return {

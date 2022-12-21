@@ -70,6 +70,17 @@ class Error {
     }
   };
 
+  validatePast15MinutesPageLoaded = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Sorry, pre-check-in is no longer available');
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .contains(
+        'We’re sorry. Pre-check-in is no longer available for your appointment time. Ask a staff member for help to check in.',
+      );
+  };
+
   validateDatePreCheckInDateShows = () => {
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')

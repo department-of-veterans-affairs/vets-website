@@ -22,6 +22,7 @@ import EmailAddressNotification from '../contact-information/email-addresses/Ema
 import Verified from './Verified';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
+import { recordCustomProfileEvent } from '../../util';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -85,7 +86,9 @@ export const AccountSecurityContent = ({
 
   return (
     <>
-      {isBlocked ? <AccountBlocked /> : null}
+      {isBlocked && (
+        <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
+      )}
       {!isIdentityVerified && (
         <IdentityNotVerified
           additionalInfoClickHandler={handlers.learnMoreIdentity}
@@ -100,7 +103,11 @@ export const AccountSecurityContent = ({
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
-      <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
+      <ProfileInfoTable
+        data={securitySections}
+        fieldName="accountSecurity"
+        level={3}
+      />
     </>
   );
 };

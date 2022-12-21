@@ -153,7 +153,25 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+  redirectUri: 'redirect_uri',
 };
+
+export const OCC_MOBILE = {
+  REGISTERED_APPS: 'registeredApps',
+  DEFAULT: 'default',
+};
+
+export const OCC_MOBILE_DSLOGON_ONLY = [
+  'ahburnpitregistry',
+  '/ahburnpitregistry/',
+  '%2Fahburnpitregistry%2F',
+  'AHburnpitregistry',
+  '/AHburnpitregistry/',
+  '%2FAHburnpitregistry%2F',
+  'AHBurnPitRegistry',
+  '/AHBurnPitRegistry/',
+  '%2FAHBurnPitRegistry%2F',
+];
 
 export const AUTH_DEPENDENCIES = [
   EXTERNAL_SERVICES.idme,
