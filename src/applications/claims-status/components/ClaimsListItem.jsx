@@ -9,15 +9,12 @@ const statusMap = {
   EVIDENCE_GATHERING_REVIEW_DECISION:
     'Evidence gathering, review, and decision',
   PREPARATION_FOR_NOTIFICATION: 'Preparation for notification',
-  COMPLETE: 'Complete',
+  COMPLETE: 'Closed',
 };
 
 function getStatusDescription(status) {
   return statusMap[status];
 }
-
-const listPhase = status =>
-  status === 'COMPLETE' ? 'Closed' : getStatusDescription(status);
 
 const getClaimType = claim => {
   return (claim?.claimType || 'disability compensation').toLowerCase();
@@ -63,11 +60,11 @@ export default function ClaimsListItem({ claim }) {
           }`}
         />
         <p>
-          <strong>Status:</strong> {listPhase(claim.status)}
+          <strong>Status:</strong> {getStatusDescription(claim.status)}
         </p>
       </div>
       <ul className="communications">
-        {inProgress ? (
+        {inProgress && claim.developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
             We sent you a development letter
           </CommunicationsItem>

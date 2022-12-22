@@ -2132,7 +2132,12 @@ const getClaimDate = claim => {
     return claim.attributes.phaseChangeDate;
   }
 
-  const { phaseChangeDate } = claim.claimPhaseDates;
+  let phaseChangeDate = '0';
+  if (claim.attributes) {
+    phaseChangeDate = claim.attributes.phaseChangeDate;
+  } else {
+    phaseChangeDate = claim.claimPhaseDates.phaseChangeDate;
+  }
   return phaseChangeDate || '0';
 };
 

@@ -135,9 +135,11 @@ class YourClaimsPageV2 extends React.Component {
     const ClaimsListItem = useLighthouse
       ? ClaimsListItemLighthouse
       : ClaimsListItemV1;
+    // TODO: after the lighthouse migration, this should just be `claim.claimId`
+    const key = claim.claimId || claim.id;
     // END lighthouse_migration
 
-    return <ClaimsListItem key={claim.claimId} claim={claim} />;
+    return <ClaimsListItem key={key} claim={claim} />;
   }
 
   renderErrorMessages() {
