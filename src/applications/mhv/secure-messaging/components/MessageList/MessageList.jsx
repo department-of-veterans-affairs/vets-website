@@ -3,12 +3,10 @@ This component handles:
 - displaying a list of 10 messages per page
 - pagination logic
 - sorting messages by sent date (desc - default, asc) and by sender's name (alpha desc or asc)
-
 Assumptions that may need to be addressed:
 - This component assumes it receives a payload containing ALL messages. Of the provided
 pagination metadata, per_page and total_entries is used. If each page change requires another 
 api call to fetch the next set of messages, this logic will need to be refactored, but shouldn't be difficult.
-
 Outstanding work:
 - individual message links go nowhere. Another component would need to be made 
 to display message details. Another react route would need to be set up to handle this view, 
@@ -36,7 +34,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, keyword } = props;
+  const { messages, folder, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -134,7 +132,9 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label="Sort by"
+          label={`Sort ${
+            folder.folderId === -3 ? 'Trash' : folder.name
+          } messages by`}
           name="sort-order"
           value={sortOrderSelection}
           onVaSelect={e => {
@@ -168,10 +168,10 @@ const MessageList = props => {
           Sort
         </button>
       </div>
-      <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+      <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} conversations
+        {displayNums[1]} of {totalEntries} messages
       </div>
       {currentMessages.map((message, idx) => (
         <MessageListItem
@@ -183,20 +183,24 @@ const MessageList = props => {
           readReceipt={message.readReceipt}
           attachment={message.attachment}
           recipientName={message.recipientName}
-          category={message.category}
           keyword={keyword}
         />
       ))}
-      {currentMessages && (
-        <VaPagination
-          className="vads-u-padding-top--5"
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={paginatedMessages.current.length}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
+      {currentPage === paginatedMessages.current.length && (
+        <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
+          End of {!isSearch ? 'messages in this folder' : 'search results'}
+        </p>
       )}
+      {currentMessages &&
+        paginatedMessages.current.length > 1 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={paginatedMessages.current.length}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
+          />
+        )}
     </div>
   );
 };
@@ -205,6 +209,7 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
+  isSearch: PropTypes.bool,
   keyword: PropTypes.string,
   messages: PropTypes.array,
 };
