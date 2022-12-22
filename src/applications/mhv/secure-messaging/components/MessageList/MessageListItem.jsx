@@ -57,12 +57,7 @@ const MessageListItem = props => {
     );
   };
 
-  const categoryLabel =
-    (category === 'OTHER' && Categories.OTHER) ||
-    (category === 'COVID' && Categories.COVID) ||
-    (category === 'APPOINTMENTS' && Categories.APPOINTMENTS) ||
-    (category === 'MEDICATIONS' && Categories.MEDICATIONS) ||
-    (category === 'TEST_RESULTS' && Categories.TEST_RESULTS);
+  const categoryLabel = Categories[category];
 
   return (
     <div
