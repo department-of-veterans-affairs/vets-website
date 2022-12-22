@@ -1,85 +1,34 @@
 import React from 'react';
-import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
-  // hasPrivateEvidenceToUpload,
-} from '../utils/helpers';
+import { Link } from 'react-router';
 
-export const evidenceSummaryDescription = ({ formData }) => {
-  // const hasPrivateUpload = hasPrivateEvidenceToUpload(formData);
-  const vaEvidence = hasVAEvidence(formData) ? formData.locations : [];
-  const privateEvidence = hasPrivateEvidence(formData) // && !hasPrivateUpload
-    ? formData.providerFacility
-    : [];
+import { EVIDENCE_VA_REQUEST } from '../constants';
 
-  const layEvidenceUploads = hasOtherEvidence(formData)
-    ? formData.additionalDocuments
-    : [];
+export const content = {
+  edit: 'Edit',
+  remove: 'Remove',
+  update: 'Update page',
 
-  const evidenceLength = !!vaEvidence.concat(
-    privateEvidence,
-    // privateEvidenceUploads,
-    layEvidenceUploads,
-  ).length;
+  vaTitle: 'We’re requesting records from these VA locations:',
 
-  // Evidence isn't always properly cleared out from form data if removed
-  if (!evidenceLength) {
-    return (
-      <va-alert status="error">
-        <h2 slot="headline">You haven’t uploaded any evidence</h2>
-        Providing evidence is a requirement for filing a Supplemental Claim
-      </va-alert>
-    );
-  }
+  privateTitle:
+    'We’re requesting records from these private medical providers:',
 
-  let vaContent = null;
-  let layContent = null;
-  let privateEvidenceContent = null;
+  otherTitle: 'You uploaded these documents:',
 
-  if (vaEvidence?.length) {
-    const facilitiesList = vaEvidence.map(({ locationAndName }) => (
-      <li key={locationAndName}>{locationAndName}</li>
-    ));
-    vaContent = (
-      <div>
-        <p>We’ll get your VA medical records from:</p>
-        <ul>{facilitiesList}</ul>
-      </div>
-    );
-  }
+  addMoreLink: (
+    <p>
+      <Link
+        to={`/${EVIDENCE_VA_REQUEST}`}
+        className="vads-c-action-link--green"
+      >
+        Add more evidence
+      </Link>
+    </p>
+  ),
 
-  if (privateEvidence?.length) {
-    const privateEvidenceList = privateEvidence.map(facility => (
-      <li key={facility.providerFacilityName}>
-        {facility.providerFacilityName}
-      </li>
-    ));
-    privateEvidenceContent = (
-      <div>
-        <p>We’ll get your private medical records from:</p>
-        <ul>{privateEvidenceList}</ul>
-      </div>
-    );
-  }
+  missingEvidenceHeader: 'You haven’t added any evidence',
+  missingEvidenceText:
+    'You must provide at least one type of evidence to file for a Supplemental Claim',
 
-  if (layEvidenceUploads.length) {
-    const layEvidenceUploadsList = layEvidenceUploads.map(upload => (
-      <li key={upload.name}>{upload.name}</li>
-    ));
-    layContent = (
-      <div>
-        <p>We’ll submit the below supporting evidence you uploaded:</p>
-        <ul>{layEvidenceUploadsList}</ul>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      {vaContent}
-      {privateEvidenceContent}
-      {layContent}
-    </div>
-  );
+  reviewPageHeaderText: 'Supporting evidence',
 };

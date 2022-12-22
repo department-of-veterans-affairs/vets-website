@@ -32,7 +32,7 @@ describe(manifest.appName, () => {
       mockDraftResponse,
     ).as('draftMessageResponse');
     cy.contains('test').click();
-    cy.wait('@draftMessageResponse');
+    // cy.wait('@draftMessageResponse');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="message-subject-field"]')

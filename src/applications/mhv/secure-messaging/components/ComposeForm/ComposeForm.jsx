@@ -164,6 +164,7 @@ const ComposeForm = props => {
 
   // Validations
   const sendMessageHandler = () => {
+    // TODO add GA event
     let errorCounter = 0;
     if (!selectedRecipient || selectedRecipient === '') {
       setRecipientError('Please select a recipient.');
@@ -297,22 +298,20 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions vads-u-display--flex">
-          <button
-            type="button"
-            className="vads-u-flex--1"
+          <va-button
+            text="Send"
+            class="vads-u-flex--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
-          >
-            Send
-          </button>
-          <button
-            type="button"
-            className="usa-button-secondary vads-u-flex--1"
+          />
+
+          <va-button
+            text="Save draft"
+            secondary
+            class="vads-u-flex--1"
             data-testid="Save-Draft-Button"
             onClick={() => saveDraftHandler('manual')}
-          >
-            Save draft
-          </button>
+          />
           <div className="vads-u-flex--1 vads-u-display--flex">
             {draft && <DiscardDraft draft={draft} />}
           </div>

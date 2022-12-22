@@ -52,12 +52,10 @@ class IntroductionPage extends React.Component {
           Follow these steps to get started
         </h2>
         <p className="vads-u-margin-top--2">
-          If you don’t think this is the right form for you, find out about the
-          other decision review options.{' '}
-          <a href="/resources/choosing-a-decision-review-option">
-            Learn about choosing a decision review
-          </a>
+          If you don’t think this is the right form for you, you can go back to
+          answer the questions again.
         </p>
+        <a href={`${formConfig.rootUrl}/start`}>Go back to the questions</a>
         <va-process-list>
           <li>
             <h3>Check your eligibility</h3>
@@ -160,8 +158,10 @@ IntroductionPage.propTypes = {
   loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      downtime: PropTypes.shape({}),
       formId: PropTypes.string,
       prefillEnabled: PropTypes.bool,
+      rootUrl: PropTypes.string,
       savedFormMessages: PropTypes.shape({}),
       subTitle: PropTypes.string,
       title: PropTypes.string,

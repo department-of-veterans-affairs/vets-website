@@ -104,6 +104,14 @@ export function getUserTimezoneAbbr() {
  *   - description: The written out description (e.g. Eastern time)
  */
 export function getAppointmentTimezone(appointment) {
+  if (appointment?.timeZone) {
+    return {
+      identifier: appointment.timeZone,
+      abbreviation: appointment.timeZone,
+      description: getTimezoneNameFromAbbr(appointment.timeZone),
+    };
+  }
+
   // Most VA appointments will use this, since they're associated with a facility
   if (appointment?.location?.vistaId) {
     const locationId =

@@ -1,15 +1,16 @@
 // Relative imports.
-import ExploreVAModal from '../components/ExploreVAModal';
+import HomepageRedesignModal from '../components/HomepageRedesignModal';
+import { AnnouncementBehavior } from '../constants';
 
 const config = {
   announcements: [
     {
-      name: 'explore-va',
-      // All pages.
-      paths: /(.)/,
-      component: ExploreVAModal,
-      disabled: !ExploreVAModal.isEnabled(),
-      showEverytime: true,
+      name: 'new-homepage',
+      // Homepage only
+      paths: /^\/$/,
+      component: HomepageRedesignModal,
+      disabled: false,
+      show: AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
     },
   ],
 };
