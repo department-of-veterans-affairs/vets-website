@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import {
@@ -14,10 +14,21 @@ import Navigation from '../components/Navigation';
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const currentlyLoggedIn = useSelector(
+    state => state?.user.login.currentlyLoggedIn,
+  );
+
   const mhvSecureMessagingToVaGovRelease = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease],
+  );
+
+  useEffect(
+    () => {
+      setIsLoggedIn(currentlyLoggedIn);
+    },
+    [currentlyLoggedIn],
   );
 
   const handleClick = () => {
@@ -62,16 +73,24 @@ const App = () => {
               >
                 {isLoggedIn ? <>log out</> : <>log in</>}
               </button>
-              <Switch>
-                <Route path="/faq" key="MessageFAQ">
-                  <MessageFAQs isLoggedIn={isLoggedIn} />
-                </Route>
-                {isLoggedIn ? (
-                  <AuthorizedRoutes isLoggedIn={isLoggedIn} />
-                ) : (
-                  <LandingPageUnauth />
-                )}
-              </Switch>
+              {isLoggedIn === null ? (
+                <va-loading-indicator
+                  message="Loading your secure messages..."
+                  setFocus
+                  data-testid="loading-indicator"
+                />
+              ) : (
+                <Switch>
+                  <Route path="/faq" key="MessageFAQ">
+                    <MessageFAQs isLoggedIn={isLoggedIn} />
+                  </Route>
+                  {isLoggedIn ? (
+                    <AuthorizedRoutes isLoggedIn={isLoggedIn} />
+                  ) : (
+                    <LandingPageUnauth />
+                  )}
+                </Switch>
+              )}
             </div>
           </div>
         </>
