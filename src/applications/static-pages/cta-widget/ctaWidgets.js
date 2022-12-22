@@ -346,7 +346,7 @@ export const ctaWidgetsLookup = {
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
-    requiredServices: backendServices.EDUCATION_BENEFITS,
+    requiredServices: null,
     serviceDescription: 'check your VA education letter',
   },
 };
