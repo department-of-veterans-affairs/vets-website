@@ -87,6 +87,14 @@ export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
 export const ALERT_TYPE_INFO = 'info';
 
+export const Categories = {
+  OTHER: 'General',
+  COVID: 'COVID',
+  APPOINTMENTS: 'Appointment',
+  MEDICATIONS: 'Medication',
+  TEST_RESULTS: 'Test',
+};
+
 export const acceptedFileTypes = {
   doc: 'application/msword',
   docx:
