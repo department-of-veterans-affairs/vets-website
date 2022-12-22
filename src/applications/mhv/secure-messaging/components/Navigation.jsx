@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
 import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 

@@ -68,10 +68,6 @@ const MoveMessageToFolderBtn = props => {
           large
           modalTitle="Move to:"
           onCloseEvent={closeModal}
-          // onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          // onSecondaryButtonClick={closeModal}
-          // primaryButtonText="Confirm"
-          // secondaryButtonText="Cancel"
           visible={isModalVisible}
         >
           <div className="modal-body">
