@@ -60,7 +60,7 @@ class PatientMessagesLandingPage {
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients',
+      '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/');
@@ -100,6 +100,15 @@ class PatientMessagesLandingPage {
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
