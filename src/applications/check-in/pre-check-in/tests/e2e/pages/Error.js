@@ -1,29 +1,28 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Error {
-  validatePageLoaded = (
-    lastValidateAttempt = false,
-    withPhoneAppointments = false,
-  ) => {
-    let messageText =
-      'We’re sorry. Something went wrong on our end. Please try again.';
-    if (lastValidateAttempt) {
-      if (withPhoneAppointments) {
-        messageText =
-          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.';
-      } else {
-        messageText =
-          'We’re sorry. We couldn’t match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in.';
-      }
-    }
-
+  validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-
       .and('have.text', 'Sorry, we can’t complete pre-check-in');
+
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .contains(messageText);
+      .contains(
+        'In-person appointmentYou can still check-in with your phone on the day of your appointment.Telephone appointmentYour provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+      );
+  };
+
+  validatePageLoadedGeneric = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .contains(
+        'We’re sorry. Something went wrong on our end. Please try again.',
+      );
   };
 
   validateUUIDErrorPageLoaded = () => {
