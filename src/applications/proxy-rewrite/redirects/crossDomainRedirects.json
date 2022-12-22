@@ -1170,6 +1170,16 @@
     "dest": "/life-insurance/options-eligibility/valife"
   },
   {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/valife.asp",
+    "dest": "/life-insurance/options-eligibility/valife"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/valife-rates.asp",
+    "dest": "/life-insurance/options-eligibility/valife"
+  },
+  {
     "domain": "www.altoona.va.gov",
     "src": "/",
     "dest": "/altoona-health-care/",
