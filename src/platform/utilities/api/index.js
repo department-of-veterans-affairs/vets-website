@@ -13,10 +13,11 @@ import {
 import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
-  // use regular fetch is stubbed
+  // use regular fetch if stubbed
   if (fetch.isSinonProxy) {
     return fetch(url, settings);
   }
+
   const originalFetch = isomorphicFetch;
   const mergedSettings = {
     ...settings,
