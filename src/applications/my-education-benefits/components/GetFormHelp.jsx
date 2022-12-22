@@ -18,8 +18,8 @@ function GetFormHelp({ showMebDgi40Features }) {
           <p className="vads-u-margin-bottom--0">
             If you have technical difficulties using this online application,
             call our MyVA411 main information line at{' '}
-            <va-telephone contact="8006982411" /> (TTY:{' '}
-            <va-telephone contact="711" />
+            <va-telephone contact="8006982411" /> (
+            <va-telephone contact="711" tty />
             ). We're here 24/7.
           </p>
         </>
@@ -35,8 +35,8 @@ function GetFormHelp({ showMebDgi40Features }) {
           <p className="vads-u-margin-bottom--0">
             If you have technical difficulties using this online application,
             call our MyVA411 main information line at{' '}
-            <va-telephone contact="8006982411" /> (TTY:{' '}
-            <va-telephone contact="711" />
+            <va-telephone contact="8006982411" /> (
+            <va-telephone contact="711" tty />
             ). We're here 24/7.
           </p>
         </>
