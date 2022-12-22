@@ -44,15 +44,15 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    basicSearchPage.getInputFieldText();
+    basicSearchPage.getInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
       .select('Inbox', { force: true });
-    // basicSearchPage.selectMessagesFolder(Inbox);
+    // basicSearchPage.selectMessagesFolder('Inbox');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchInboxRequest');
-    basicSearchPage.verifyHighlightedText();
+    basicSearchPage.verifyHighlightedText('test');
 
     cy.injectAxe();
     cy.axeCheck();
@@ -76,7 +76,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestDrafts');
 
-    basicSearchPage.getInputFieldText();
+    basicSearchPage.getInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
@@ -84,7 +84,7 @@ describe(manifest.appName, () => {
     // basicSearchPage.selectMessagesFolder(Drafts);
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
-    basicSearchPage.verifyHighlightedText();
+    basicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -107,7 +107,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestSentFolder');
 
-    basicSearchPage.getInputFieldText();
+    basicSearchPage.getInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
@@ -115,7 +115,7 @@ describe(manifest.appName, () => {
     // basicSearchPage.selectMessagesFolder('Sent');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
-    basicSearchPage.verifyHighlightedText();
+    basicSearchPage.verifyHighlightedText('test');
     cy.injectAxe();
     cy.axeCheck();
   });

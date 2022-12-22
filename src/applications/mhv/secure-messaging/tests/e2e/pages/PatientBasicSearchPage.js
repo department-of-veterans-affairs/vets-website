@@ -8,11 +8,11 @@ class PatientBasicSearchPage {
 
   // This method will access the input field and enters the text that will be used for search.
 
-  getInputFieldText = () => {
+  getInputFieldText = text => {
     cy.get('[data-testid="keyword-text-input"]')
       .shadow()
       .find('[id="inputField"]')
-      .type('test');
+      .type(text);
   };
 
   // This method clicks the Search button.
@@ -22,8 +22,8 @@ class PatientBasicSearchPage {
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
 
-  verifyHighlightedText = () => {
-    cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
+  verifyHighlightedText = text => {
+    cy.get('[data-testid="highlighted-text"]').should('contain', text);
   };
 
   // This method selects the folder from the drop down menu.
