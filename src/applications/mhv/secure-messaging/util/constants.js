@@ -94,3 +94,18 @@ export const Categories = {
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
 };
+
+export const acceptedFileTypes = {
+  doc: 'application/msword',
+  docx:
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  pdf: 'application/pdf',
+  png: 'image/png',
+  rtf: 'text/rtf',
+  txt: 'text/plain',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
