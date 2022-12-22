@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DefaultFolders } from '../../util/constants';
-import { dateFormat, titleCase } from '../../util/helpers';
+import { DefaultFolders, Categories } from '../../util/constants';
+import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
@@ -24,8 +24,6 @@ const MessageListItem = props => {
     keyword,
   } = props;
   const activeFolder = useSelector(state => state.sm.folders.folder);
-
-  const titleCaseCategory = titleCase(category);
 
   const getClassNames = () => {
     return readReceipt === false
@@ -59,6 +57,13 @@ const MessageListItem = props => {
     );
   };
 
+  const categoryLabel =
+    (category === 'OTHER' && Categories.OTHER) ||
+    (category === 'COVID' && Categories.COVID) ||
+    (category === 'APPOINTMENTS' && Categories.APPOINTMENTS) ||
+    (category === 'MEDICATIONS' && Categories.MEDICATIONS) ||
+    (category === 'TEST_RESULTS' && Categories.TEST_RESULTS);
+
   return (
     <div
       className="message-list-item vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
@@ -88,7 +93,7 @@ const MessageListItem = props => {
             : 'message'
         }/${messageId}`}
       >
-        {titleCaseCategory}: {getHighlightedText(subject)}
+        {categoryLabel}: {getHighlightedText(subject)}
       </Link>
       <p className="received-date vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment && <i className={attachmentClasses} />}

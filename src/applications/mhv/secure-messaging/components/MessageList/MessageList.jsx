@@ -184,6 +184,7 @@ const MessageList = props => {
           attachment={message.attachment}
           recipientName={message.recipientName}
           keyword={keyword}
+          category={message.category}
         />
       ))}
       {currentPage === paginatedMessages.current.length && (
