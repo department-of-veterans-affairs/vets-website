@@ -55,7 +55,7 @@ const PrevApplication = ({
           <va-radio-option
             key={index}
             label={option.label}
-            name={option.value}
+            name={key}
             value={option.value}
             checked={formValues[key] === option.value}
           />
