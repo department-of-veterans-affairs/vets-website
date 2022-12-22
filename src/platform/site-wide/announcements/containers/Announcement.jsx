@@ -14,7 +14,7 @@ export class Announcement extends Component {
     // From mapStateToProps.
     announcement: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      show: PropTypes.oneOf(Object.keys(AnnouncementBehavior)),
+      show: PropTypes.oneOf(Object.values(AnnouncementBehavior)),
       relatedAnnouncements: PropTypes.array,
     }),
     dismissed: PropTypes.array,
