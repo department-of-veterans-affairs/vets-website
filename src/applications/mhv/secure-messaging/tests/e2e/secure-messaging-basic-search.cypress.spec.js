@@ -3,6 +3,7 @@ import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
+import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 
 describe(manifest.appName, () => {
   it('Basic Search Axe Check', () => {
@@ -24,11 +25,14 @@ describe(manifest.appName, () => {
 
   it('Basic Search Inbox Check', () => {
     const landingPage = new PatientMessagesLandingPage();
+    const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    basicSearchPage.clickSearchMessage();
+
     cy.injectAxe();
     cy.axeCheck();
+
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/messages*',
@@ -40,23 +44,27 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    cy.get('[data-testid="keyword-text-input"]')
+    basicSearchPage.getInputFieldText();
+    cy.get('[data-testid="folder-dropdown"]')
       .shadow()
-      .find('[id="inputField"]')
-      .type('test');
-
-    cy.get('[data-testid="basic-search-submit"]').click();
+      .find('select')
+      .select('Inbox', { force: true });
+    // basicSearchPage.selectMessagesFolder(Inbox);
+    basicSearchPage.submitSearch();
     cy.wait('@basicSearchInboxRequest');
-    cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
+    basicSearchPage.verifyHighlightedText();
+
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('Basic Search Drafts Check', () => {
     const landingPage = new PatientMessagesLandingPage();
+    const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    basicSearchPage.clickSearchMessage();
+
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -68,28 +76,26 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestDrafts');
 
-    cy.get('[data-testid="keyword-text-input"]')
-      .shadow()
-      .find('[id="inputField"]')
-      .type('test');
-
+    basicSearchPage.getInputFieldText();
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
       .select('Drafts', { force: true });
-
-    cy.get('[data-testid="basic-search-submit"]').click({ force: true });
+    // basicSearchPage.selectMessagesFolder(Drafts);
+    basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
-    cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
+    basicSearchPage.verifyHighlightedText();
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('Basic Search Sent Folder Check', () => {
     const landingPage = new PatientMessagesLandingPage();
+    const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    basicSearchPage.clickSearchMessage();
+
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -101,19 +107,15 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestSentFolder');
 
-    cy.get('[data-testid="keyword-text-input"]')
-      .shadow()
-      .find('[id="inputField"]')
-      .type('test');
-
+    basicSearchPage.getInputFieldText();
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
       .select('Sent', { force: true });
-
-    cy.get('[data-testid="basic-search-submit"]').click({ force: true });
-    // cy.wait('@basicSearchRequestSentFolder');
-    // cy.get('[data-testid="highlighted-text"]').should('contain', 'test');
+    // basicSearchPage.selectMessagesFolder('Sent');
+    basicSearchPage.submitSearch();
+    cy.wait('@basicSearchRequestSentFolder');
+    basicSearchPage.verifyHighlightedText();
     cy.injectAxe();
     cy.axeCheck();
   });
