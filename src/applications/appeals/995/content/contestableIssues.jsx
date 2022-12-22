@@ -32,7 +32,7 @@ export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
       <div className="vads-u-margin-bottom--2">
         These are the issues we have on file for you. If an issue is missing
         from the list, you can add it here. Select the issues you’d like us to
-        review
+        review.
       </div>
       <legend name="eligibleScrollElement">
         Select the issues you’d like us to review
