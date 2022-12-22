@@ -130,7 +130,7 @@ function fetchClaimsSuccess(claims) {
     claims,
   };
 }
-// END
+// END lighthouse_migration
 
 export function pollRequest(options) {
   const {
@@ -269,11 +269,47 @@ export function getClaimsV2(options = {}) {
 
 export function getClaims() {
   return dispatch => {
+    const startTimeMillis = Date.now();
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
-    return apiRequest('/benefits_claims').then(claims =>
-      dispatch(fetchClaimsSuccess(claims)),
-    );
+    return apiRequest('/benefits_claims')
+      .then(claims => {
+        recordClaimsAPIEvent({
+          startTime: startTimeMillis,
+          success: true,
+        });
+
+        dispatch(fetchClaimsSuccess(claims));
+      })
+      .catch(error => {
+        const errorCode = getErrorStatus(error);
+        if (errorCode && errorCode !== UNKNOWN_STATUS) {
+          Sentry.withScope(scope => {
+            scope.setFingerprint(['{{default}}', errorCode]);
+            Sentry.captureException(
+              `lighthouse_claims_err_get_claims ${errorCode}`,
+            );
+          });
+        }
+
+        // This onError callback will be called with a null response arg when
+        // the API takes too long to return data
+        if (error === null) {
+          recordClaimsAPIEvent({
+            startTime: startTimeMillis,
+            success: false,
+            error: '504 Timed out - API took too long',
+          });
+        } else {
+          recordClaimsAPIEvent({
+            startTime: startTimeMillis,
+            success: false,
+            error: errorCode,
+          });
+        }
+
+        return dispatch({ type: FETCH_CLAIMS_ERROR });
+      });
   };
 }
 // END lighthouse_migration
