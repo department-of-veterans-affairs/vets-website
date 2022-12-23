@@ -96,7 +96,7 @@
         "dateFiled": "2020-09-29",
         "minEstDate": null,
         "maxEstDate": null,
-        "phaseChangeDate": "2022-09-01",
+        "phaseChangeDate": "2022-12-20",
         "open": false,
         "waiverSubmitted": false,
         "documentsNeeded": false,
@@ -107,7 +107,7 @@
         "currentPhaseBack": false,
         "requestedDecision": false,
         "claimType": "Dependency",
-        "updatedAt": "2022-06-08T19:01:57.543Z"
+        "updatedAt": "2022-12-20T19:01:57.543Z"
       }
     }
   ],

@@ -86,15 +86,13 @@ class YourClaimsPageV2 extends React.Component {
       // END lighthouse_migration
     } = this.props;
 
-    if (canAccessClaims) {
-      // START lighthouse_migration
-      if (useLighthouse) {
-        getClaimsLighthouse();
-      } else {
-        getClaimsV2();
-      }
-      // END lighthouse_migration
+    // START lighthouse_migration
+    if (useLighthouse) {
+      getClaimsLighthouse();
+    } else if (canAccessClaims) {
+      getClaimsV2();
     }
+    // END lighthouse_migration
 
     if (canAccessAppeals) {
       getAppealsV2();
