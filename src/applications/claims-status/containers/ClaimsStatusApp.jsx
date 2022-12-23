@@ -5,17 +5,25 @@ import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
-
 import { isLoadingFeatures } from '../selectors';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
-function AppContent({ children, isDataAvailable, featureFlagsLoading }) {
+function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
   const shouldUseApp = canUseApp && !featureFlagsLoading;
+
+  if (canUseApp && featureFlagsLoading) {
+    return (
+      <div className="vads-u-margin-y--5">
+        <va-loading-indicator message="Loading your information" />
+      </div>
+    );
+  }
 
   return (
     <div className="claims-status-content">
@@ -24,6 +32,12 @@ function AppContent({ children, isDataAvailable, featureFlagsLoading }) {
     </div>
   );
 }
+
+AppContent.propTypes = {
+  children: PropTypes.node,
+  featureFlagsLoading: PropTypes.bool,
+  isDataAvailable: PropTypes.bool,
+};
 
 function ClaimsStatusApp({
   children,
@@ -57,6 +71,7 @@ function ClaimsStatusApp({
 ClaimsStatusApp.propTypes = {
   children: PropTypes.object,
   dispatchSetLastPage: PropTypes.func,
+  featureFlagsLoading: PropTypes.bool,
   router: PropTypes.object,
   user: PropTypes.object,
 };
