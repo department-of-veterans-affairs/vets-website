@@ -145,6 +145,7 @@ dl.review {
   word-break: break-word;
 }
 
+ul.issues-summary,
 ul.evidence-summary,
 .usa-accordion-bordered ul li ul.evidence-summary {
   list-style: none;
@@ -168,8 +169,10 @@ article[data-location="edit-home-phone"] va-text-input[name="extension"] {
   display: none;
 }
 
+article[data-location="contestable-issues"],
 article[data-location$="request-va-medical-records"],
-article[data-location$="request-private-medical-records"] {
+article[data-location$="request-private-medical-records"],
+article[data-location$="upload-other-evidence"] {
   legend,
   va-radio::part(legend) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
@@ -177,7 +180,15 @@ article[data-location$="request-private-medical-records"] {
     font-size: 2rem;
     font-weight: 700;
   }
+
+  span.schemaform-required-span,
+  va-radio::part(required) {
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
 }
+
 
 article[data-location="supporting-evidence/private-medical-records"] {
   /* Add margin for error messages, otherwise the label + error + input take up

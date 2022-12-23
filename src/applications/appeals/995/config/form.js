@@ -19,6 +19,7 @@ import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
+import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
@@ -30,7 +31,7 @@ import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
-import evidenceUploadOther from '../pages/evidenceUploadOther';
+import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
 import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
@@ -48,11 +49,15 @@ import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
+  CONTACT_INFO_PATH,
   CONTESTABLE_ISSUES_PATH,
+  ADD_ISSUE_PATH,
   EVIDENCE_VA_REQUEST,
   EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
-  // EVIDENCE_OTHER_PATH,
+  EVIDENCE_ADDITIONAL_PATH,
+  EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
@@ -102,7 +107,7 @@ const formConfig = {
         },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'contact-information',
+          path: CONTACT_INFO_PATH,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
@@ -156,7 +161,7 @@ const formConfig = {
     },
 
     issues: {
-      title: 'Issues',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
           title: ' ',
@@ -167,7 +172,7 @@ const formConfig = {
         },
         addIssue: {
           title: 'Add issues for review',
-          path: 'add-issue',
+          path: ADD_ISSUE_PATH,
           depends: () => false, // accessed from contestable issues
           CustomPage: AddIssue,
           CustomPageReview: null,
@@ -194,7 +199,7 @@ const formConfig = {
     },
 
     evidence: {
-      title: 'Supporting Evidence',
+      title: 'New and relevant evidence',
       pages: {
         notice5103: {
           initialData: {
@@ -223,7 +228,7 @@ const formConfig = {
         },
         evidencePrivateRecordsRequest: {
           title: 'Request private medical records',
-          path: 'supporting-evidence/request-private-medical-records',
+          path: EVIDENCE_PRIVATE_REQUEST,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
@@ -233,6 +238,8 @@ const formConfig = {
           title: 'Private medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
+          CustomPage: EvidencePrivateRecordsAuthorization,
+          CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
         },
@@ -254,15 +261,15 @@ const formConfig = {
           uiSchema: blankUiSchema,
           schema: blankSchema,
         },
-        evidenceUploadOther: {
-          title: 'Supporting (lay) statements or other evidence',
-          path: 'supporting-evidence/upload-other-evidence',
-          uiSchema: evidenceUploadOther.uiSchema,
-          schema: evidenceUploadOther.schema,
+        evidenceWillUpload: {
+          title: 'Upload new and relevant evidence',
+          path: EVIDENCE_ADDITIONAL_PATH,
+          uiSchema: evidenceWillUpload.uiSchema,
+          schema: evidenceWillUpload.schema,
         },
         evidenceUpload: {
-          title: 'Lay statements and other evidence',
-          path: 'supporting-evidence/additional-evidence',
+          title: 'Uploaded evidence',
+          path: EVIDENCE_UPLOAD_PATH,
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,

@@ -31,12 +31,10 @@ export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
     <>
       <div className="vads-u-margin-bottom--2">
         These are the issues we have on file for you. If an issue is missing
-        from the list, you can add it here.
+        from the list, you can add it here. Select the issues you’d like us to
+        review.
       </div>
-      <legend
-        name="eligibleScrollElement"
-        className="vads-u-font-weight--bold vads-u-font-size--base"
-      >
+      <legend name="eligibleScrollElement">
         Select the issues you’d like us to review
       </legend>
     </>
@@ -70,7 +68,8 @@ MaxSelectionsAlert.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export const noneSelected = 'Please select at least one issue';
+export const noneSelected =
+  'You must select at least 1 issue before you can continue filling out your request.';
 
 /**
  * Shows the alert box only if the form has been submitted
@@ -93,10 +92,11 @@ export const NoneSelectedAlert = ({ count }) => {
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
         >
-          {`Please ${
+          {`You’ll need to ${
             count === 0 ? 'add, and select,' : 'select'
-          } at least one issue, so we can process your request`}
+          } an issue`}
         </h3>
+        <p>{noneSelected}</p>
       </va-alert>
     </div>
   );
@@ -107,7 +107,10 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info trigger="Why aren’t all my issues listed here">
+  <va-additional-info
+    trigger="Why aren’t all my issues listed here"
+    class="vads-u-margin-top--4"
+  >
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. We may
     still be processing it.
