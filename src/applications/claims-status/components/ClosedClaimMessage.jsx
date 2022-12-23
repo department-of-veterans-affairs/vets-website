@@ -9,13 +9,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
+const isBenefitsClaimOrAppeal = claim =>
+  claim.type !== 'education_benefits_claims';
+
 const getClosedClaims = claims => {
   return claims
+    .filter(isBenefitsClaimOrAppeal)
     .filter(claim => {
-      if (claim.type === 'education_benefits_claims') {
-        return false;
-      }
-
       // Check if this is an appeal, if so we want to filter it out
       // if it was closed more than 60 days ago
       if (appealTypes.includes(claim.type)) {
