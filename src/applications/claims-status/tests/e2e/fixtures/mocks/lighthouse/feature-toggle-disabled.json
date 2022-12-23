@@ -4,7 +4,7 @@
     "features": [
       {
         "name": "cst_use_lighthouse",
-        "value": true
+        "value": false
       }
     ]
   }
