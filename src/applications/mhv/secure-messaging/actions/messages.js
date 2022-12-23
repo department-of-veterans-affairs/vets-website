@@ -174,14 +174,14 @@ export const sendMessage = (message, attachments) => async dispatch => {
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
-    }
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-      ),
-    );
+    } else
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+        ),
+      );
     throw e;
   }
 };
@@ -209,14 +209,14 @@ export const sendReply = (
           Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
         ),
       );
-    }
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-      ),
-    );
+    } else
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+        ),
+      );
     throw e;
   }
 };
