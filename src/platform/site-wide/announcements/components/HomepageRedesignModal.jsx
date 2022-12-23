@@ -9,7 +9,9 @@ import recordEvent from 'platform/monitoring/record-event';
 
 function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   const noscriptElements = document.getElementsByTagName('noscript');
-  const noScriptArray = Array.from(noscriptElements);
+  const ariaExcludeArray = Array.from(noscriptElements);
+  const skipLinkElement = document.getElementsByClassName('show-on-focus')[0];
+  ariaExcludeArray.push(skipLinkElement);
 
   return (
     <>
@@ -24,7 +26,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
           }}
           id="modal-announcement"
           modalTitle=""
-          ariaHiddenNodeExceptions={noScriptArray}
+          ariaHiddenNodeExceptions={ariaExcludeArray}
           aria-describedby="homepage-modal-description"
           aria-labelledby="homepage-modal-label-title"
           secondary-button-text="Not today, go to the current homepage"
