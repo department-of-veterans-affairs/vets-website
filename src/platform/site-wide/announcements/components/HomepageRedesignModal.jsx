@@ -1,6 +1,6 @@
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -8,12 +8,8 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
-  // Ensures that there are no aria attributes on noscript elements to interfere with screenreader focus
-  useEffect(() => {
-    const noscriptElement = document.getElementsByTagName('noscript')[0];
-    noscriptElement.removeAttribute('aria-hidden');
-    noscriptElement.removeAttribute('data-aria-hidden');
-  }, []);
+  const noscriptElements = document.getElementsByTagName('noscript');
+  const noScriptArray = Array.from(noscriptElements);
 
   return (
     <>
@@ -28,6 +24,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
           }}
           id="modal-announcement"
           modalTitle=""
+          ariaHiddenNodeExceptions={noScriptArray}
           aria-describedby="homepage-modal-description"
           aria-labelledby="homepage-modal-label-title"
           secondary-button-text="Not today, go to the current homepage"
