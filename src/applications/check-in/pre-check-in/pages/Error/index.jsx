@@ -96,7 +96,6 @@ const Error = () => {
             {t('you-can-pre-check-in-online-until-date', {
               date: subDays(new Date(appointments[0].startTime), 1),
             })}
-            ;
           </div>
         </>
       );
@@ -139,16 +138,13 @@ const Error = () => {
       showHowToLink = false;
       accordion = appointmentAccordion(appointments);
       break;
-    case 'pre-check-in-expired-phone':
-      alertType = 'info';
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText = t('your-provider-will-call-you-at-your-appointment-time');
-      showHowToLink = false;
-      break;
     case 'pre-check-in-expired':
       alertType = 'info';
       header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText = t('you-can-still-check-in-once-you-arrive');
+      messageText =
+        apptType === 'clinic'
+          ? t('you-can-still-check-in-once-you-arrive')
+          : t('your-provider-will-call-you-at-your-appointment-time');
       accordion = appointmentAccordion(appointments);
       showHowToLink = true;
       break;
@@ -162,7 +158,7 @@ const Error = () => {
       showHowToLink = false;
       break;
     default:
-      // should never get here but if it does show all information
+      // should never get here but if it does show the minimum
       alertType = 'error';
       header = t('sorry-we-cant-complete-pre-check-in');
       messageText = (
