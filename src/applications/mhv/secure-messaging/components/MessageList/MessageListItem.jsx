@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { DefaultFolders } from '../../util/constants';
+import { DefaultFolders, Categories } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
@@ -21,6 +21,7 @@ const MessageListItem = props => {
     attachment,
     messageId,
     keyword,
+    category,
   } = props;
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
@@ -56,9 +57,11 @@ const MessageListItem = props => {
     );
   };
 
+  const categoryLabel = Categories[category];
+
   return (
     <div
-      className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="message-list-item vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
       <div className={getClassNames()}>
@@ -69,7 +72,7 @@ const MessageListItem = props => {
           />
         )}
         {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <span>Sender: {getHighlightedText(senderName)}</span>
+          <span>From: {getHighlightedText(senderName)}</span>
         ) : (
           <div>
             <div>To: {recipientName}</div>
@@ -78,18 +81,18 @@ const MessageListItem = props => {
         )}
       </div>
       <Link
-        className="vads-u-margin-left--3 vads-u-margin-y--0p5"
+        className="message-subject-link vads-u-margin-left--3 vads-u-margin-y--0p5"
         to={`/${
           activeFolder?.folderId === DefaultFolders.DRAFTS.id
             ? 'draft'
             : 'message'
         }/${messageId}`}
       >
-        {getHighlightedText(subject)}
+        {categoryLabel}: {getHighlightedText(subject)}
       </Link>
-      <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
+      <p className="received-date vads-u-margin-left--3 vads-u-margin-y--0p5">
         {attachment && <i className={attachmentClasses} />}
-        {formattedDate}
+        <span className="vads-u-font-style--italic">{formattedDate}</span>
       </p>
     </div>
   );
@@ -100,6 +103,7 @@ export default MessageListItem;
 MessageListItem.propTypes = {
   attachment: PropTypes.any,
   attributes: PropTypes.object,
+  category: PropTypes.string,
   keyword: PropTypes.any,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,

@@ -14,6 +14,7 @@ const UnAuthSendMessageSection = () => {
         family and caregiver health benefits.
       </p>
       <p className="vads-u-margin-top--3px">
+        {/* TODO: add GA event, fix url target */}
         <a
           className="vads-c-action-link--blue apply-for-health-care-link"
           href="/my-health/secure-messages"
@@ -22,6 +23,7 @@ const UnAuthSendMessageSection = () => {
         </a>
       </p>
       <p>
+        {/* TODO: add GA event, fix url target */}
         <a href="/my-health/secure-messages">Learn about VA health benefits</a>
       </p>
     </>

@@ -8,7 +8,7 @@ class PatientReplyPage {
       mockMessage,
     ).as('replyMessage');
     cy.get('[data-testid="Send-Button"]')
-      .contains('Send')
+      .get('[text="Send"]')
       .click();
     cy.wait('@replyMessage');
   };
