@@ -8,7 +8,7 @@
     await import('../../../pre-check-in/tests/e2e/extra-validation/validation.failed.cypress.spec');
     await import('../../../pre-check-in/tests/e2e/posting-answers/answered.no.to.three.questions.cypress.spec');
     await import('../../../pre-check-in/tests/e2e/posting-answers/answered.no.to.three.questions.with.phone.appt.cypress.spec');
-    await import('../../../pre-check-in/tests/e2e/errors/post-pre-check-in/error.in.body.cypress.spec.js');
+    await import('../../../pre-check-in/tests/e2e/errors/post-pre-check-in/error.in.body.cypress.spec');
     await import('./screenshots-phone.pci.cypress.spec');
   }
 })();
