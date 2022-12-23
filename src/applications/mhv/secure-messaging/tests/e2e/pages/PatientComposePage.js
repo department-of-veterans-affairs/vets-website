@@ -8,7 +8,7 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .contains('Send')
+      .get('[text="Send"]')
       .click();
     cy.wait('@message');
   };

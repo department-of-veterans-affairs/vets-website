@@ -18,12 +18,6 @@ const selectFeatureToggles = createSelector(
     isTranslationDisclaimerTagalogEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerTagalogEnabled
     ],
-    isLorotaSecurityUpdatesEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
-    ],
-    isLorotaDeletionEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
-    ],
     isTravelReimbursementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
     ],

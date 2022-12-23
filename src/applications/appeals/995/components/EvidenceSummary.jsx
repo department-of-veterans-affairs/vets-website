@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -35,6 +35,9 @@ const EvidenceSummary = ({
 }) => {
   // when on review & submit page, we're in edit mode
   const { limitedConsent = '' } = data;
+  // Don't show you haven't added any evidence alert before submitting, except
+  // on the review & submit page
+  const [submitted, setSubmitted] = useState(onReviewPage || false);
   const vaEvidence = hasVAEvidence(data) ? data.locations : [];
   const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
   const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
@@ -70,6 +73,7 @@ const EvidenceSummary = ({
       if (evidenceLength !== 0) {
         goForward(data);
       } else {
+        setSubmitted(true);
         focusElement('#no-evidence');
         scrollTo('evidenceSummaryScrollElement');
       }
@@ -77,6 +81,7 @@ const EvidenceSummary = ({
     onUpdate: () => {
       checkValidations([validateEvidence], data);
       if (evidenceLength !== 0) {
+        setSubmitted(true);
         updatePage();
       } else {
         focusElement('#no-evidence');
@@ -84,11 +89,22 @@ const EvidenceSummary = ({
       }
     },
   };
+  const visibleError = submitted && evidenceLength === 0;
+  const alertTabindex = visibleError ? '0' : '-1';
+  const H = onReviewPage ? 'h5' : 'h2';
 
   return (
     <div className={onReviewPage ? 'form-review-panel-page' : ''}>
       <div name="evidenceSummaryScrollElement" />
-      {evidenceLength === 0 ? content.missingEvidence : null}
+      <va-alert
+        id="no-evidence"
+        status="error"
+        visible={visibleError}
+        tabindex={alertTabindex}
+      >
+        <H slot="headline">{content.missingEvidenceHeader}</H>
+        {content.missingEvidenceText}
+      </va-alert>
       {vaEvidence?.length
         ? buildVaContent({ vaEvidence, handlers, testing })
         : null}
@@ -110,7 +126,7 @@ const EvidenceSummary = ({
         {onReviewPage && (
           <va-button
             onClick={handlers.onUpdate}
-            aria-label="Update evidence page"
+            label="Update evidence page"
             text={content.update}
           />
         )}
