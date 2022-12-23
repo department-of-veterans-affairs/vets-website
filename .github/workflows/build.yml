@@ -2,10 +2,8 @@ name: Build and Push Docker Image to ECR
 
 on:
   push:
-    branches: [ "build-workflow" ]
-  pull_request:
     branches: [ "main" ]
-
+    
 jobs:
 
   build:
