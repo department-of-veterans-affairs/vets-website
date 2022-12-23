@@ -24,7 +24,7 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[name="message-body"]')
       .type('Test message body');
-    composePage.sendMessageButton();
+    composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('[id=error-message]')
@@ -35,7 +35,7 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[name="message-subject"]')
       .type('Test Subject');
-    composePage.sendMessageButton();
+    composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('[id=error-message]')
