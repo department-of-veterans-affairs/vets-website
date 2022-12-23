@@ -94,7 +94,6 @@ export default Object.freeze({
   profileShowAppealStatusNotificationSetting: 'profile_show_appeal_status_notification_setting',
   profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
-  pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   searchRepresentative: 'search_representative',
