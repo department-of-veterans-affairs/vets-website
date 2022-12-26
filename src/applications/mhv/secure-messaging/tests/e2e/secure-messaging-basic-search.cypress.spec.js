@@ -8,13 +8,17 @@ import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 
 describe(manifest.appName, () => {
-  it('Basic Search Axe Check', () => {
+  const basicSearchPage = new PatientBasicSearchPage();
+  beforeEach(function() {
     const landingPage = new PatientMessagesLandingPage();
+    // const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    basicSearchPage.clickSearchMessage();
     cy.injectAxe();
     cy.axeCheck();
+  });
+  it('Basic Search Axe Check', () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/messages*',
@@ -26,15 +30,7 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Inbox Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    const basicSearchPage = new PatientBasicSearchPage();
-    landingPage.login();
-    landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
-
-    cy.injectAxe();
-    cy.axeCheck();
-
+    //
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/messages*',
@@ -47,11 +43,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchInboxRequest');
     basicSearchPage.getInputFieldText('test');
-    cy.get('[data-testid="folder-dropdown"]')
-      .shadow()
-      .find('select')
-      .select('Inbox', { force: true });
-    // basicSearchPage.selectMessagesFolder('Inbox');
+
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchInboxRequest');
     basicSearchPage.verifyHighlightedText('test');
@@ -61,12 +53,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Drafts Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    const basicSearchPage = new PatientBasicSearchPage();
-    landingPage.login();
-    landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
-
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -83,7 +69,7 @@ describe(manifest.appName, () => {
       .shadow()
       .find('select')
       .select('Drafts', { force: true });
-    // basicSearchPage.selectMessagesFolder(Drafts);
+    // basicSearchPage.selectMessagesFolder('Drafts');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
     basicSearchPage.verifyHighlightedText('test');
@@ -92,12 +78,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Sent Folder Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    const basicSearchPage = new PatientBasicSearchPage();
-    landingPage.login();
-    landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
-
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -123,12 +103,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Deleted Folder Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    const basicSearchPage = new PatientBasicSearchPage();
-    landingPage.login();
-    landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
-
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -154,12 +128,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Custom Folder Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    const basicSearchPage = new PatientBasicSearchPage();
-    landingPage.login();
-    landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
-
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175',
