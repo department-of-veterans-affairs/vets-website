@@ -68,10 +68,8 @@ const InboxPage = ({
         />
       );
     }
-
     return false;
   };
-
   return (
     <Layout
       clsName="inbox-page"
@@ -128,7 +126,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

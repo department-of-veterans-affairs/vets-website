@@ -21,6 +21,8 @@ export const DefaultFolders = {
 
 export const Alerts = {
   Message: {
+    BLOCKED_MESSAGE_ERROR:
+      'You are blocked from sending messages to this recipient.',
     CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
     CANNOT_REPLY_INFO_HEADER:
       'You cannot reply to a message that is older than 45 days.',
@@ -50,6 +52,12 @@ export const Alerts = {
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+  },
+};
+
+export const Errors = {
+  Code: {
+    BLOCKED_USER: 'SM151',
   },
 };
 

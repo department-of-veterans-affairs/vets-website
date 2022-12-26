@@ -11,18 +11,19 @@ export const uploadTitle = (
 );
 
 export const UploadDescription = () => {
-  const types = readableList(SUPPORTED_UPLOAD_TYPES, 'or');
+  const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
+  const list = readableList(types, 'or');
   return (
     <div className="vads-u-margin-top--2">
       <va-additional-info trigger="Evidence upload instructions" disable-border>
         <div>
           <p className="vads-u-margin-top--0">
             You’ll need to upload new and relevant evidence for your
-            Supplemental Claim. This may include supporting statements
-            (sometimes called "lay statements" or "buddy statements"), and other
-            types of evidence. We’ll prompt you to upload each document from
-            your device. But you may need to scan your document first, then save
-            each file as a PDF before you can upload it.
+            Supplemental Claim. This may include supporting evidence like
+            buddy/lay statements and other types of evidence. We’ll prompt you
+            to upload each document from your device. But you may need to scan
+            your document first, then save each file as a PDF before you can
+            upload it.
           </p>
           <p>You can do this one of 2 ways:</p>
           <p>
@@ -39,7 +40,7 @@ export const UploadDescription = () => {
       </va-additional-info>
 
       <ul>
-        <li>{`File types you can upload: ${types}`}</li>
+        <li>{`File types you can upload: ${list}`}</li>
         <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
       </ul>
       <p>

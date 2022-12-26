@@ -55,7 +55,11 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
       <p>
         <strong>Note:</strong> If you need to update your personal information,
         you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
       </p>
     </>
   );
