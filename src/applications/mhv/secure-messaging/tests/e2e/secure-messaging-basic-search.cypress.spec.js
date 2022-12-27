@@ -9,7 +9,7 @@ import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
-  beforeEach(function() {
+  beforeEach(() => {
     const landingPage = new PatientMessagesLandingPage();
     // const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
@@ -42,7 +42,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    basicSearchPage.getInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
 
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchInboxRequest');
@@ -64,7 +64,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestDrafts');
 
-    basicSearchPage.getInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
@@ -89,7 +89,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestSentFolder');
 
-    basicSearchPage.getInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
@@ -114,7 +114,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestDeletedFolder');
 
-    basicSearchPage.getInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')

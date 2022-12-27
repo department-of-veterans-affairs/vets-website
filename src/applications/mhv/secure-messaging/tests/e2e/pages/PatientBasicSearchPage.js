@@ -8,7 +8,7 @@ class PatientBasicSearchPage {
 
   // This method will access the input field and enters the text that will be used for search.
 
-  getInputFieldText = text => {
+  typeSearchInputFieldText = text => {
     cy.get('[data-testid="keyword-text-input"]')
       .shadow()
       .find('[id="inputField"]')
