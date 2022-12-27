@@ -141,20 +141,19 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     <>
-      <va-button
-        secondary
-        className="message-action-button"
+      <button
+        type="button"
+        className="message-action-button middle-right-button usa-button-secondary"
         onClick={openModal}
-        text="Move"
       >
         <i className="fas fa-folder" aria-hidden="true" />
-        {/* <span
+        <span
           className="message-action-button-text"
           data-testid="move-button-text"
         >
           Move
-        </span> */}
-      </va-button>
+        </span>
+      </button>
       {isModalVisible ? moveToFolderModal() : null}
       <CreateFolderModal
         isModalVisible={isNewModalVisible}

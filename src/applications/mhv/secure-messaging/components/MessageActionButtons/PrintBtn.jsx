@@ -98,16 +98,16 @@ const PrintBtn = props => {
 
   return (
     <>
-      <va-button
-        data-testid="print-button"
-        secondary
-        className="message-action-button"
+      <button
+        type="button"
+        className="message-action-button left-button usa-button-secondary"
         onClick={openModal}
-        text="Text"
       >
         <i className="fas fa-print" aria-hidden="true" />
-        {/* <span className="message-action-button-text">Print</span> */}
-      </va-button>
+        <span className="message-action-button-text" data-testid="print-button">
+          Print
+        </span>
+      </button>
       {isModalVisible ? printModal() : null}
     </>
   );
