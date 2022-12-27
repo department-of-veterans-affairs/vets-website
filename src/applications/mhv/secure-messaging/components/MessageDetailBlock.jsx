@@ -6,7 +6,7 @@ import { format, addDays } from 'date-fns';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
-import { dateFormat } from '../util/helpers';
+import { dateFormat, urlRegex, httpRegex } from '../util/helpers';
 
 const MessageDetailBlock = props => {
   const {
@@ -51,6 +51,9 @@ const MessageDetailBlock = props => {
       setPrintThread('dont-print-thread');
     }
   };
+
+  // url stuff
+  const words = body.split(/\s/g);
 
   return (
     <section className="message-detail-block">
@@ -100,7 +103,16 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          <pre>{body}</pre>
+          <pre>
+            {words.map(word => {
+              return (word.match(urlRegex) || word.match(httpRegex)) &&
+                words.length >= 1 ? (
+                <a href={word}>{`${word} `}</a>
+              ) : (
+                `${word} `
+              );
+            })}
+          </pre>
         </section>
 
         {!!attachments &&
