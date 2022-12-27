@@ -108,11 +108,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestDeletedFolder');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    cy.get('[data-testid="folder-dropdown"]')
-      .shadow()
-      .find('select')
-      .select('Deleted', { force: true });
-
+    basicSearchPage.selectMessagesFolder('Deleted');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDeletedFolder');
     basicSearchPage.verifyHighlightedText('test');
