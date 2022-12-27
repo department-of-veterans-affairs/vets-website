@@ -1,5 +1,3 @@
-// import folderInfo from '../fixtures/folder-response.json';
-// import mockMessages from './fixtures/drafts-search-results.json';
 class PatientBasicSearchPage {
   // This method clicks the Search messages on the side navigation bar.
   clickSearchMessage = () => {
@@ -28,13 +26,12 @@ class PatientBasicSearchPage {
 
   // This method selects the folder from the drop down menu.
 
-  // selectMessagesFolder = (name) => {
-  //   folderInfo.data.attributes.name = name;
-  //   cy.get('[data-testid="folder-dropdown"]')
-  //     .shadow()
-  //     .find('select')
-  //     .select(`${name}`, { force: true });
-  // };
+  selectMessagesFolder = name => {
+    cy.get('[data-testid="folder-dropdown"]')
+      .shadow()
+      .find('select')
+      .select(`${name}`, { force: true });
+  };
 
   // retrieveMessages = function (folderID) {
   //   folderInfo.data.attributes.folderId = folderID;

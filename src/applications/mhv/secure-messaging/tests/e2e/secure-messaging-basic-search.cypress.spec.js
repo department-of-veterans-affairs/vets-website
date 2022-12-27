@@ -6,6 +6,7 @@ import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
+import mockFolders from '../fixtures/folder-response.json';
 
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
@@ -65,11 +66,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestDrafts');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    cy.get('[data-testid="folder-dropdown"]')
-      .shadow()
-      .find('select')
-      .select('Drafts', { force: true });
-    // basicSearchPage.selectMessagesFolder('Drafts');
+    basicSearchPage.selectMessagesFolder('Drafts');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
     basicSearchPage.verifyHighlightedText('test');
@@ -90,11 +87,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestSentFolder');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    cy.get('[data-testid="folder-dropdown"]')
-      .shadow()
-      .find('select')
-      .select('Sent', { force: true });
-    // basicSearchPage.selectMessagesFolder('Sent');
+    basicSearchPage.selectMessagesFolder('Sent');
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
     basicSearchPage.verifyHighlightedText('test');
@@ -139,11 +132,11 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestCustomFolder');
 
-    basicSearchPage.getInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[data-testid="folder-dropdown"]')
       .shadow()
       .find('select')
-      .select('TEST2', { force: true });
+      .select(mockFolders.at(4).name, { force: true });
 
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestCustomFolder');
