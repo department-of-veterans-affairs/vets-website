@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
-import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
@@ -111,7 +110,7 @@ const MessageDetail = () => {
       {message &&
         messageId && (
           <>
-            <NavigationLinks messageId={messageId} />
+            {/* <NavigationLinks messageId={messageId} /> */}
             <MessageDetailBlock message={message} />
             <MessageThread messageHistory={messageHistory} />
           </>
