@@ -73,6 +73,7 @@ const BasicSearchForm = props => {
         ))}
       </VaSelect>
 
+      {/* // TODO: add GA event */}
       <button
         type="submit"
         className="search-messages-button"

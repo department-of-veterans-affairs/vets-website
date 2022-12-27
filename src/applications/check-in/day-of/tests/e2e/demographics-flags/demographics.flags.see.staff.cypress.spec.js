@@ -34,7 +34,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -68,7 +68,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -106,7 +106,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
@@ -170,7 +170,7 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteranDob();
+      ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
