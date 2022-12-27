@@ -1,11 +1,11 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
 import MessageActionButtons from './MessageActionButtons';
 import AttachmentsList from './AttachmentsList';
 import PrintMessageThread from './PrintMessageThread';
+import { Categories } from '../util/constants';
 import { dateFormat, urlRegex, httpRegex } from '../util/helpers';
 
 const MessageDetailBlock = props => {
@@ -23,7 +23,6 @@ const MessageDetailBlock = props => {
   const history = useHistory();
   const sentReplyDate = format(new Date(sentDate), 'MM-dd-yyyy');
   const cannotReplyDate = addDays(new Date(sentReplyDate), 45);
-  const casedCategory = capitalize(category);
   const [printThread, setPrintThread] = useState('dont-print-thread');
   const [hideReplyButton, setReplyButton] = useState(false);
 
@@ -52,7 +51,7 @@ const MessageDetailBlock = props => {
     }
   };
 
-  // url stuff
+  const categoryLabel = Categories[category];
   const words = body.split(/\s/g);
 
   return (
@@ -60,21 +59,10 @@ const MessageDetailBlock = props => {
       <header className="message-detail-header">
         <h2
           className="vads-u-margin-top--1 vads-u-margin-bottom--2"
-          aria-label={`Message subject. ${casedCategory}: ${subject}`}
+          aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
-          {casedCategory}: {subject}
+          {categoryLabel}: {subject}
         </h2>
-        {/* {!hideReplyButton && (
-          <button
-            type="button"
-            onClick={handleReplyButton}
-            className="send-button-top medium-screen:vads-u-padding-right--2"
-            data-testid="reply-button-top"
-          >
-            <i className="fas fa-reply" aria-hidden="true" />
-            <span className="reply-button-top-text">Reply</span>
-          </button>
-        )} */}
       </header>
       <MessageActionButtons
         id={messageId}
