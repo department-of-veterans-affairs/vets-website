@@ -45,7 +45,7 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draft={null} replyMessage={replyMessage} />;
+    return <ReplyForm draftToEdit={null} replyMessage={replyMessage} />;
   };
 
   const thread = () => {

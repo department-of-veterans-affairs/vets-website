@@ -15,7 +15,11 @@ const DiscardDraft = props => {
 
   const handleDeleteDraftConfirm = () => {
     setIsModalVisible(false);
-    dispatch(deleteDraft(props.draft.messageId));
+    if (props.draftId) {
+      dispatch(deleteDraft(props.draftId));
+    } else {
+      dispatch(deleteDraft(props.draft.messageId));
+    }
     navigateToFolderByFolderId(
       activeFolder ? activeFolder.folderId : Constants.DefaultFolders.DRAFTS.id,
       history,
@@ -47,6 +51,7 @@ const DiscardDraft = props => {
 
 DiscardDraft.propTypes = {
   draft: PropType.object,
+  draftId: PropType.string,
 };
 
 export default DiscardDraft;

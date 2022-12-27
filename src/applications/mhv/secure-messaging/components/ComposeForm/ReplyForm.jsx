@@ -31,6 +31,9 @@ const ReplyForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [bodyError, setBodyError] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [newDraftId, setNewDraftId] = useState(
+    draftToEdit ? draftToEdit.messageId : null,
+  );
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
   let draft;
@@ -173,6 +176,7 @@ const ReplyForm = props => {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
         newDraft => {
           draft = newDraft;
+          setNewDraftId(newDraft.messageId);
         },
       );
     } else {
@@ -199,6 +203,7 @@ const ReplyForm = props => {
       selectedRecipient,
     ],
   );
+
   if (replyMessage) {
     return (
       <>
@@ -257,7 +262,8 @@ const ReplyForm = props => {
               >
                 Save draft
               </button>
-              <DiscardDraft draft={draft} />
+              {/* UCD requested to keep button even when not saved as draft */}
+              <DiscardDraft draftId={newDraftId} />
             </div>
           </div>
           <DraftSavedInfo />
