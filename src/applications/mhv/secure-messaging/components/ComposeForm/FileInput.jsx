@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import HowToAttachFiles from '../HowToAttachFiles';
 
 const acceptedFileTypes = {
   doc: 'application/msword',
@@ -120,7 +119,6 @@ const FileInput = ({ attachments, setAttachments }) => {
         class="attach-file-button"
         data-testid="attach-file-button"
       />
-      <HowToAttachFiles />
     </div>
   );
 };

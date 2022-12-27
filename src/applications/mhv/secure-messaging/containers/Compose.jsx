@@ -48,9 +48,9 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (messageHistory && messageHistory.length > 0) {
+      if (messageHistory?.length > 0 && !replyMessage) {
         // TODO filter history to grab only received messages.
-        setReplyMessage(messageHistory[0]);
+        setReplyMessage(messageHistory.shift());
       }
     },
     [messageHistory],
@@ -92,11 +92,14 @@ const Compose = () => {
         </va-alert>
       );
     }
-    if (messageHistory && messageHistory.length > 0) {
+    if (replyMessage) {
       return (
         <>
-          <ReplyForm draft={draftMessage} replyMessage={replyMessage} />
-          <MessageThread messageHistory={messageHistory} />
+          <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
+          {replyMessage &&
+            messageHistory?.length > 1 && (
+              <MessageThread messageHistory={messageHistory.slice(1)} />
+            )}
         </>
       );
     }

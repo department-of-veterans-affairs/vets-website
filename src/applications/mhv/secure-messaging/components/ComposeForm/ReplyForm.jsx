@@ -10,9 +10,12 @@ import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
 import { sendReply } from '../../actions/messages';
+import EmergencyNote from '../EmergencyNote';
+import HowToAttachFiles from '../HowToAttachFiles';
+import { dateFormat } from '../../util/helpers';
 
 const ReplyForm = props => {
-  const { draft, replyMessage } = props;
+  const { draftToEdit, replyMessage } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -30,6 +33,7 @@ const ReplyForm = props => {
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
+  let draft;
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -39,14 +43,14 @@ const ReplyForm = props => {
 
   useEffect(
     () => {
-      if (replyMessage && !draft) {
+      if (replyMessage && !draftToEdit) {
         setSelectedRecipient(replyMessage.senderId);
         setSubject(replyMessage.subject);
         setMessageBody('');
         setCategory(replyMessage.category);
       }
     },
-    [replyMessage, draft],
+    [replyMessage, draftToEdit],
   );
 
   useEffect(
@@ -115,7 +119,10 @@ const ReplyForm = props => {
     );
   };
 
-  if (draft && !formPopulated) populateForm();
+  if (draftToEdit && !formPopulated) {
+    draft = draftToEdit;
+    populateForm();
+  }
 
   const setMessageTitle = () => {
     const casedCategory =
@@ -162,7 +169,15 @@ const ReplyForm = props => {
       body: messageBody,
     };
 
-    dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
+    if (!draftId) {
+      dispatch(saveReplyDraft(replyMessage.messageId, formData, type)).then(
+        newDraft => {
+          draft = newDraft;
+        },
+      );
+    } else {
+      dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
+    }
   };
 
   useEffect(
@@ -186,88 +201,123 @@ const ReplyForm = props => {
   );
   if (replyMessage) {
     return (
-      <form className="compose-form" onSubmit={sendMessageHandler}>
-        <div className="compose-form-header" data-testid="compose-form-header">
-          <h3>{setMessageTitle()}</h3>
-          <button
-            type="button"
-            className="send-button-top"
-            onClick={sendMessageHandler}
-          >
-            <i className="fas fa-paper-plane" aria-hidden="true" />
-            <span className="send-button-top-text">Send</span>
-          </button>
-        </div>
-        <div className="compose-inputs-container">
-          <p>
-            <strong>Replying To: </strong>
-            {replyMessage.senderName}
-          </p>
-          <p>
-            <strong>Category: </strong>
-            {category}
-          </p>
-          <p>
-            <strong>Subject: </strong>
-            {subject}
-          </p>
-          <va-textarea
-            label="Message"
-            required
-            id="message-body"
-            name="message-body"
-            className="message-body"
-            data-testid="message-body-field"
-            onInput={e => setMessageBody(e.target.value)}
-            value={messageBody}
-            error={bodyError}
-          />
-          <section className="attachments-section">
-            <div className="compose-attachments-heading">Attachments</div>
-
-            <AttachmentsList
-              attachments={attachments}
-              setAttachments={setAttachments}
-              editingEnabled
+      <>
+        <h1 className="page-title">{setMessageTitle()}</h1>
+        <form className="reply-form" onSubmit={sendMessageHandler}>
+          <EmergencyNote />
+          <div>
+            <p>
+              <i
+                className="fas fa-reply vads-u-margin-right--0p5"
+                aria-hidden="true"
+              />
+              <strong>{draft && '(Draft) '} To: </strong>
+              {replyMessage.senderName}
+            </p>
+            <va-textarea
+              label="Message"
+              required
+              id="message-body"
+              name="message-body"
+              className="message-body"
+              data-testid="message-body-field"
+              onInput={e => setMessageBody(e.target.value)}
+              value={messageBody}
+              error={bodyError}
             />
+            <section className="attachments-section vads-u-margin-top--2">
+              <strong>Attachments</strong>
+              <HowToAttachFiles />
 
-            <FileInput
-              attachments={attachments}
-              setAttachments={setAttachments}
-            />
-          </section>
-          <div className="compose-form-actions vads-u-display--flex">
-            <button
-              type="button"
-              className="vads-u-flex--1"
-              data-testid="Send-Button"
-              onClick={sendMessageHandler}
-            >
-              Send
-            </button>
-            <button
-              type="button"
-              className="usa-button-secondary vads-u-flex--1"
-              data-testid="Save-Draft-Button"
-              onClick={() => saveDraftHandler('manual')}
-            >
-              Save draft
-            </button>
-            <div className="vads-u-flex--1 vads-u-display--flex">
-              {draft && <DiscardDraft draft={draft} />}
+              <AttachmentsList
+                attachments={attachments}
+                setAttachments={setAttachments}
+                editingEnabled
+              />
+
+              <FileInput
+                attachments={attachments}
+                setAttachments={setAttachments}
+              />
+            </section>
+            <div className="compose-form-actions vads-u-display--flex">
+              <button
+                type="button"
+                className="vads-u-flex--1"
+                data-testid="Send-Button"
+                onClick={sendMessageHandler}
+              >
+                Send
+              </button>
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-flex--1"
+                data-testid="Save-Draft-Button"
+                onClick={() => saveDraftHandler('manual')}
+              >
+                Save draft
+              </button>
+              <DiscardDraft draft={draft} />
             </div>
           </div>
-        </div>
-        <DraftSavedInfo />
-      </form>
+          <DraftSavedInfo />
+          <div className="message-detail-note vads-u-text-align--center">
+            <p>
+              <i>
+                Note: This message may not be from the person you intially
+                contacted. It may have been reassigned to efficiently address
+                your original message
+              </i>
+            </p>
+          </div>
+        </form>
+        <main className="vads-u-margin--0">
+          <section aria-label="message details.">
+            <p className="vads-u-margin--0">
+              <strong>From: </strong>
+              {replyMessage.senderName}
+            </p>
+            <p className="vads-u-margin--0">
+              <strong>To: </strong>
+              {replyMessage.recipientName}
+            </p>
+            <p className="vads-u-margin--0">
+              <strong>Date: </strong>
+              {dateFormat(replyMessage.sentDate)}
+            </p>
+            <p className="vads-u-margin--0">
+              <strong>Message ID: </strong>
+              {replyMessage.messageId}
+            </p>
+          </section>
+
+          <section aria-label="Message body.">
+            <pre>{replyMessage.body}</pre>
+          </section>
+
+          {!!replyMessage.attachments &&
+            replyMessage.attachments.length > 0 && (
+              <>
+                <div className="message-body-attachments-label">
+                  <strong>Attachments</strong>
+                </div>
+                <AttachmentsList
+                  attachments={replyMessage.attachments}
+                  className="attachments-section"
+                />
+              </>
+            )}
+        </main>
+      </>
     );
   }
   return null;
 };
 
 ReplyForm.propTypes = {
-  draft: PropTypes.object,
+  draftToEdit: PropTypes.object,
   recipients: PropTypes.array,
+  replyMessage: PropTypes.object,
 };
 
 export default ReplyForm;

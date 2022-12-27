@@ -84,26 +84,32 @@ export const saveReplyDraft = (
     'secure-messaging-save-draft': type,
     'secure-messaging-save-draft-id': id,
   });
-  if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
-  else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+  try {
+    if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
+    else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
 
-  const response = await sendReplyDraft(replyToId, messageData, id);
-  if (response.errors) {
-    const error = response.errors[0];
-    dispatch({
-      type: Actions.Draft.SAVE_FAILED,
-      response: error,
-    });
-  } else if (id) {
-    dispatch({
-      type: Actions.Draft.UPDATE_SUCCEEDED,
-      response,
-    });
-  } else {
-    dispatch({
-      type: Actions.Draft.CREATE_SUCCEEDED,
-      response,
-    });
+    const response = await sendReplyDraft(replyToId, messageData, id);
+    if (id) {
+      dispatch({
+        type: Actions.Draft.UPDATE_SUCCEEDED,
+        response,
+      });
+    } else {
+      dispatch({
+        type: Actions.Draft.CREATE_SUCCEEDED,
+        response,
+      });
+    }
+    return response.data.attributes;
+  } catch (e) {
+    if (e.errors) {
+      const error = e.errors[0];
+      dispatch({
+        type: Actions.Draft.SAVE_FAILED,
+        response: error,
+      });
+    }
+    throw e;
   }
 };
 

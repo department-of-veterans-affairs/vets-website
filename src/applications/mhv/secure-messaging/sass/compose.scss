@@ -124,6 +124,75 @@
       margin-top: 12px;
     }
   }
+  .reply-form {
+    margin: 2rem 0 1rem 0;
+    padding-left: 2rem;
+    background-color: $color-white;
+    border-left-color: $color-primary-alt-darkest;
+    border-left-style: solid;
+    border-left-width: 8px;
+    .required {
+      color: $color-secondary-dark;
+    }
+    .compose-form-div {
+      margin-bottom: 24px;
+    }
+
+    .compose-inputs-container {
+      border: 2px solid $color-gray-lightest;
+      border-radius: 0 0 4px 4px;
+      padding: 0 14px 14px;
+      @media (min-width: $medium-screen) {
+        padding: 0 36px 36px;
+      }
+      .message-subject {
+        max-width: 100%;
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0.4rem 0px;
+      }
+      .message-body {
+        min-height: 5.2rem;
+        max-width: 100%;
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0.4rem 0px;
+        resize: none;
+      }
+
+      .attachments-section {
+        .compose-attachments-heading {
+          margin: 27px 0 8px;
+        }
+      }
+
+      .compose-form-actions {
+        display: flex;
+        flex-direction: column;
+        .send-button-bottom {
+          height: 36px;
+          margin: 0;
+        }
+        .send-button-bottom {
+          margin-bottom: 16px;
+        }
+        @media (min-width: $medium-screen) {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          .save-draft-button,
+          .send-button-bottom {
+            width: 210px;
+            margin: 0;
+          }
+        }
+      }
+    }
+    .last-save-time {
+      margin-top: 12px;
+    }
+  }
 }
 
 .file-input {
@@ -149,7 +218,6 @@
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     margin-right: 8px;
-    content: "\f0c6";
   }
 
   .how-to-attach-files {
