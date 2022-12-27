@@ -26,7 +26,11 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
           cssClass="va-modal announcement-brand-consolidation"
           visible
           onCloseEvent={() => {
-            recordEvent({ event: 'new-homepage-modal-close' });
+            recordEvent({
+              event: 'int-modal-click',
+              'modal-status': 'closed',
+              'modal-title': 'Try our new VA.gov homepage',
+            });
             dismiss();
             focusOnSkiplink();
           }}
@@ -55,8 +59,9 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               onClick={() => {
                 dismiss();
                 recordEvent({
-                  event: 'new-homepage-modal-click',
-                  'modal-primaryButton-text': 'try the new homepage',
+                  event: 'cta-button-click',
+                  'button-click-label': 'Try the new home page',
+                  'button-type': 'link',
                 });
               }}
             >
@@ -68,8 +73,9 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               text="Not today, go to the current homepage"
               onClick={() => {
                 recordEvent({
-                  event: 'new-homepage-modal-click',
-                  'modal-secondary-link': 'go to current homepage',
+                  event: 'cta-button-click',
+                  'button-type': 'secondary',
+                  'button-click-label': 'Not today, go to the current homepage',
                 });
                 dismiss();
                 focusOnSkiplink();
