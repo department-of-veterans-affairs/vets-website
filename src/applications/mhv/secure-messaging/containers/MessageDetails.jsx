@@ -78,7 +78,7 @@ const MessageDetail = () => {
   }
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+    <div className="vads-l-grid-container message-detail-container">
       {/* Only display this type of alert when it contains a header */}
       {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
       {pageTitle === 'Message' ? null : (

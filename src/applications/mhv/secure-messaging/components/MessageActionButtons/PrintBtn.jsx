@@ -103,7 +103,10 @@ const PrintBtn = props => {
         className="message-action-button left-button usa-button-secondary"
         onClick={openModal}
       >
-        <i className="fas fa-print" aria-hidden="true" />
+        <i
+          className="fas fa-print vads-u-margin-right--0p5"
+          aria-hidden="true"
+        />
         <span className="message-action-button-text" data-testid="print-button">
           Print
         </span>

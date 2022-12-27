@@ -147,7 +147,10 @@ const MoveMessageToFolderBtn = props => {
         className="message-action-button middle-right-button usa-button-secondary"
         onClick={openModal}
       >
-        <i className="fas fa-folder" aria-hidden="true" />
+        <i
+          className="fas fa-folder vads-u-margin-right--0p5"
+          aria-hidden="true"
+        />
         <span
           className="message-action-button-text"
           data-testid="move-button-text"

@@ -58,7 +58,7 @@ const MessageDetailBlock = props => {
     <section className="message-detail-block">
       <header className="message-detail-header">
         <h2
-          className="vads-u-margin-top--1 vads-u-margin-bottom--2"
+          className="vads-u-margin-bottom--2"
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
         >
           {categoryLabel}: {subject}
