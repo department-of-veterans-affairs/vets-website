@@ -71,9 +71,7 @@ describe('Message search container', () => {
         name: 'Advanced search',
       });
       const folderSelect = screen.getByTestId('folder-dropdown');
-      const advancedSearchButton = screen.getByRole('button', {
-        name: 'Advanced search',
-      });
+      const advancedSearchButton = screen.getByTestId('advanced-search-submit');
       expect(headingText).to.exist;
       expect(folderSelect).to.exist;
       expect(advancedSearchButton).to.exist;

@@ -5,8 +5,8 @@ import environment from 'platform/utilities/environment';
 // export const TOE_CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/forms_claim_status`;
 
 const CLAIM_ENDPOINTS = {
-  MEB: `${environment.API_URL}/meb_api/v0/claim_status`,
-  TOE: `${environment.API_URL}/meb_api/v0/forms_claim_status`,
+  MEB: `${environment.API_URL}/meb_api/v0/claim_status?latest=true`,
+  TOE: `${environment.API_URL}/meb_api/v0/forms_claim_status?latest=true`,
 };
 
 export const MEB_FETCH_CLAIM_STATUS = 'MEB_FETCH_CLAIM_STATUS';
