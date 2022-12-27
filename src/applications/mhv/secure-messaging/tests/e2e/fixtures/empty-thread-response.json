@@ -1,3 +1,8 @@
 {
-    "data": []
+    "data": [],
+    "meta": {
+        "sort": {
+            "sentDate": "DESC"
+        }
+    }
 }
