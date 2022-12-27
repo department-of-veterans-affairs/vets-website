@@ -80,32 +80,52 @@
   }
 
   .message-action-buttons {
-    margin-top: 20px;
+    // margin-top: 20px;
     @include media($medium-screen) {
-      justify-content: flex-end !important;
-      padding-right: 15px;
+      justify-content: flex-start !important;
+      // padding-right: 15px;
+    }
+    .left-button {
+      border-radius: 4px 0 0 4px;
+      box-shadow: -1px 0 0 2px $color-primary;
+      margin: 0px;
+    }
+    .right-button {
+      border-radius: 0 4px 4px 0;
+      box-shadow: 2px 0 0 2px $color-primary;
+      margin: 0px;
+    }
+    .middle-right-button {
+      border-radius: 0;
+      box-shadow: 1px 0 0 2px;
+      margin: 0px;
+    }
+    .middle-left-button {
+      box-shadow: 0px 0 0 2px;
+      border-radius: 0;
+      margin: 0;
     }
     .message-action-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: transparent;
-      color: $color-link-default;
-      font-weight: normal;
-      line-height: 24px;
-      width: fit-content;
-      margin: 0;
-      padding: 0;
-      @include media($medium-screen) {
-        padding-left: 44px;
-      }
+      // display: flex;
+      // flex-direction: column;
+      // align-items: center;
+      // background-color: transparent;
+      // color: $color-link-default;
+      // font-weight: normal;
+      // line-height: 24px;
+      // width: fit-content;
+      // margin: 0;
+      // padding: 0;
+      // @include media($medium-screen) {
+      //   padding-left: 44px;
+      // }
       i {
         width: 20px;
         height: 20px;
       }
-      .message-action-button-text {
-        text-decoration: underline;
-      }
+      // .message-action-button-text {
+      //   text-decoration: underline;
+      // }
     }
   }
   .message-count {

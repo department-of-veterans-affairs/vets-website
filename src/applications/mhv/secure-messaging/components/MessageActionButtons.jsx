@@ -67,7 +67,7 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
+    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around vads-u-margin-y--3">
       <PrintBtn handlePrint={handlePrint} id={id} />
 
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
