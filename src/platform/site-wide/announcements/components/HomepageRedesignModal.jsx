@@ -1,7 +1,4 @@
-import {
-  VaButton,
-  VaModal,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import React from 'react';
 import { connect } from 'react-redux';
@@ -12,12 +9,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useStaggeredFeatureRelease } from 'platform/utilities/react-hooks';
 
 function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
-  const focusOnSkiplink = () => {
-    setTimeout(
-      () => document.getElementsByClassName('show-on-focus')[0].focus(),
-      0,
-    );
-  };
+  const noscriptElements = document.getElementsByTagName('noscript');
+  const ariaExcludeArray = Array.from(noscriptElements);
+  const skipLinkElement = document.getElementsByClassName('show-on-focus')[0];
+  ariaExcludeArray.push(skipLinkElement);
 
   const isAllowed = useStaggeredFeatureRelease(
     25,
@@ -35,12 +30,20 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             onCloseEvent={() => {
               recordEvent({ event: 'new-homepage-modal-close' });
               dismiss();
-              focusOnSkiplink();
             }}
             id="modal-announcement"
             modalTitle=""
+            ariaHiddenNodeExceptions={ariaExcludeArray}
             aria-describedby="homepage-modal-description"
             aria-labelledby="homepage-modal-label-title"
+            secondary-button-text="Not today, go to the current homepage"
+            onSecondaryButtonClick={() => {
+              recordEvent({
+                event: 'new-homepage-modal-click',
+                'modal-secondary-link': 'go to current homepage',
+              });
+              dismiss();
+            }}
           >
             <img src="/img/design/logo/va-logo.png" alt="VA logo" width="300" />
             <h1
@@ -49,7 +52,10 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             >
               Try our new VA.gov homepage
             </h1>
-            <div id="homepage-modal-description">
+            <div
+              id="homepage-modal-description"
+              className="vads-u-margin-bottom--2"
+            >
               <p>
                 We're redesigning the VA.gov homepage to help you get the tools
                 and information you need faster.
@@ -69,26 +75,13 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
               >
                 Try the new home page
               </a>
-
-              <VaButton
-                secondary
-                text="Not today, go to the current homepage"
-                onClick={() => {
-                  recordEvent({
-                    event: 'new-homepage-modal-click',
-                    'modal-secondary-link': 'go to current homepage',
-                  });
-                  dismiss();
-                  focusOnSkiplink();
-                }}
-                className="vads-u-margin-top--2"
-              />
             </div>
           </VaModal>
         )}
     </>
   );
 }
+
 HomepageRedesignModal.propTypes = {
   dismiss: PropTypes.func,
   vaHomePreviewModal: PropTypes.bool,

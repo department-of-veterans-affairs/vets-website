@@ -160,3 +160,17 @@
     }
   }
 }
+
+.compose-form-actions {
+  va-button {
+    display: block;
+    height: 36px;
+    padding: 0;
+  }
+
+  va-button::part(button) {
+    height: 36px;
+    width: 90%;
+    margin: 0;
+  }
+}
