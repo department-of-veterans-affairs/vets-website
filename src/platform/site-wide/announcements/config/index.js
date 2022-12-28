@@ -11,6 +11,7 @@ const config = {
       component: HomepageRedesignModal,
       disabled: false,
       show: AnnouncementBehavior.SHOW_ONCE_PER_SESSION,
+      returnFocusToDefault: true,
     },
   ],
 };
