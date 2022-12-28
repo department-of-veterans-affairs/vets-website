@@ -45,7 +45,7 @@ describe('LocationCovidStatus', () => {
       />,
     );
 
-    expect(wrapper.find('va-alert-expandable').props()['data-testid']).to.eq(
+    expect(wrapper.find('va-alert').props()['data-testid']).to.eq(
       covidStatus.dataID,
     );
     wrapper.unmount();

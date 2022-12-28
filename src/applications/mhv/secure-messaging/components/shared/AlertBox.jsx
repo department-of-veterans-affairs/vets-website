@@ -49,7 +49,9 @@ const AlertBox = () => {
         // onCloseEvent={closeAlertBox}
         class="vads-u-margin-y--4"
       >
-        <h2 slot="headline">{activeAlert.header}</h2>
+        <h2 slot="headline" data-testid="expired-alert-message">
+          {activeAlert.header}
+        </h2>
         <p>{activeAlert.content}</p>
       </VaAlert>
     )

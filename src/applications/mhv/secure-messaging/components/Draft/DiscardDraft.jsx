@@ -28,6 +28,7 @@ const DiscardDraft = props => {
 
   return (
     <>
+      {/* TODO add GA event */}
       <button
         type="button"
         data-testid="discard-draft-button"

@@ -32,14 +32,22 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         class="float-right edit-page"
         secondary
         onClick={editPage}
-        aria-label="Update evidence page"
+        label="Update evidence page"
         text={content.edit}
       />
-      <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
+      <h5 className="vads-u-font-size--h5 vads-u-display--inline-block">
         {content.reviewPageHeaderText}
-      </h4>
+      </h5>
 
-      {evidenceLength === 0 ? content.missingEvidence : null}
+      <va-alert
+        id="no-evidence"
+        status="error"
+        visible={evidenceLength === 0}
+        tabindex={evidenceLength === 0 ? '0' : '-1'}
+      >
+        <h5 slot="headline">{content.missingEvidenceHeader}</h5>
+        {content.missingEvidenceText}
+      </va-alert>
 
       {vaEvidence?.length
         ? buildVaContent({ vaEvidence, reviewMode: true })

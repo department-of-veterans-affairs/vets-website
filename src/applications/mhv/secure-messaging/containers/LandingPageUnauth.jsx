@@ -1,6 +1,12 @@
 import React from 'react';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { useDispatch } from 'react-redux';
 
 const LandingPageUnauth = () => {
+  const dispatch = useDispatch();
+  const handleSignIn = () => {
+    dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
+  };
   return (
     <div>
       <div className="main-content">
@@ -24,7 +30,9 @@ const LandingPageUnauth = () => {
               <strong>My HealtheVet</strong> account. If you don’t have any of
               these accounts, you can create a free account now.
             </p>
-            <button className="va-button-primary">
+            {/* va-button component from design library has a bug which affects the styling */}
+            {/* However, toggleLoginModal function has appropriate analytic tags */}
+            <button className="va-button-primary" onClick={handleSignIn}>
               Sign in or create an account
             </button>
           </div>
