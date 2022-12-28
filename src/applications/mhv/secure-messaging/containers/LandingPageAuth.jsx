@@ -19,6 +19,8 @@ import { getCategories } from '../actions/categories';
 import { DefaultFolders as Folder } from '../util/constants';
 import FolderListView from './FolderListView';
 import { getMessages } from '../actions/messages';
+import { Link } from 'react-router-dom';
+import UnreadMessages from '../components/Dashboard/UnreadMessages';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -37,7 +39,23 @@ const LandingPageAuth = () => {
     [dispatch],
   );
 
-  return <FolderListView />;
+  // return <FolderListView />;
+  return (
+    <div className="dashboard">
+      <h1>Messages</h1>
+      <p className="va-introtext">
+        Send and receive messages with your care team at VA
+      </p>
+      <Link
+        className="vads-c-action-link--blue compose-message-link"
+        to="/compose"
+        data-testid="compose-message-link"
+      >
+        Start new message
+      </Link>
+      <UnreadMessages />
+    </div>
+  );
 };
 
 export default LandingPageAuth;

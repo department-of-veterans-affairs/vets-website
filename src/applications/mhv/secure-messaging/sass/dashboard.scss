@@ -1,0 +1,17 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.dashboard {
+  max-width: 80%;
+  .unread-messages {
+    margin-top: 20px;
+    padding: 5px 0 12px 15px;
+    background-color: $color-gray-lightest;
+
+    h2 {
+      margin: 0;
+    }
+    p {
+      margin: 8px 0;
+    }
+  }
+}

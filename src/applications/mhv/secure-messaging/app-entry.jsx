@@ -5,6 +5,7 @@ import './sass/message-list.scss';
 import './sass/search-messages.scss';
 import './sass/secure-messaging.scss';
 import './sass/message-thread.scss';
+import './sass/dashboard.scss';
 
 import startApp from 'platform/startup/router';
 import routes from './routes';
