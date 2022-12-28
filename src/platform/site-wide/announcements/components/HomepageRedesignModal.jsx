@@ -14,8 +14,11 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   ariaExcludeArray.push(skipLinkElement);
 
   // Prevents modal from showing when redirected to homepage for auth
-  const searchParams = new URLSearchParams(window.location.search);
-  const hasRedirectParam = searchParams.has('next');
+  let hasRedirectParam = false;
+  if (window.location.search) {
+    const searchParams = new URLSearchParams(window.location.search);
+    hasRedirectParam = searchParams.has('next');
+  }
 
   return (
     <>
