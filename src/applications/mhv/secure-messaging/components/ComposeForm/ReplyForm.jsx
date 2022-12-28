@@ -34,6 +34,7 @@ const ReplyForm = props => {
   const [newDraftId, setNewDraftId] = useState(
     draftToEdit ? draftToEdit.messageId : null,
   );
+  const [userSaved, setUserSaved] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
   let draft;
@@ -258,7 +259,10 @@ const ReplyForm = props => {
                 type="button"
                 className="usa-button-secondary vads-u-flex--1"
                 data-testid="Save-Draft-Button"
-                onClick={() => saveDraftHandler('manual')}
+                onClick={() => {
+                  setUserSaved(true);
+                  saveDraftHandler('manual');
+                }}
               >
                 Save draft
               </button>
@@ -266,7 +270,7 @@ const ReplyForm = props => {
               <DiscardDraft draftId={newDraftId} />
             </div>
           </div>
-          <DraftSavedInfo />
+          {userSaved && <DraftSavedInfo />}
           <div className="message-detail-note vads-u-text-align--center">
             <p>
               <i>

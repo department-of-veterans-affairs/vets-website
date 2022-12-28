@@ -92,7 +92,7 @@ const Compose = () => {
         </va-alert>
       );
     }
-    if (replyMessage) {
+    if (messageHistory) {
       return (
         <>
           <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
@@ -109,13 +109,17 @@ const Compose = () => {
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      <h1 className="page-title" ref={header}>
-        {pageTitle}
-      </h1>
-      <EmergencyNote />
-      <div>
-        <BeforeMessageAddlInfo />
-      </div>
+      {!replyMessage && (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote />
+          <div>
+            <BeforeMessageAddlInfo />
+          </div>
+        </>
+      )}
 
       {content()}
     </div>
