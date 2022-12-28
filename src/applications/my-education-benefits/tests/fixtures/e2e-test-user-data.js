@@ -1,4 +1,4 @@
-export const claimantInfo = {
+export const mebUser = {
   data: {
     id: '',
     type: 'users_scaffolds',
@@ -24,7 +24,7 @@ export const claimantInfo = {
         birthDate: '1988-05-10',
         gender: 'F',
         zip: '40638',
-        lastSignedIn: '2022-12-28T20:17:23.873Z',
+        lastSignedIn: '2022-12-28T21:20:44.336Z',
         loa: {
           current: 3,
           highest: 3,
@@ -99,8 +99,11 @@ export const claimantInfo = {
       session: {
         authBroker: 'iam',
         ssoe: true,
-        transactionid: 'Yb8LXg0Myx0cFP16EFFR2qKjv7k0UFxvcgqJYR96mnE=',
+        transactionid: 'TciOknEl9x0TJhLe2V6EHxSyXkgXPKShqoPqF8+Zt+s=',
       },
     },
+  },
+  meta: {
+    errors: null,
   },
 };
