@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
 
-const { Element } = Scroll;
+const Element = Scroll.Element;
 
 const CourtMartial = ({
   formValues,
@@ -29,6 +29,12 @@ const CourtMartial = ({
     return null;
   }
 
+  const label = (
+    <h4 className={`${key}_header`}>
+      Was your discharge the outcome of a <strong>general</strong>{' '}
+      court-martial?
+    </h4>
+  );
   const options = [
     {
       label: 'Yes, my discharge was the outcome of a general court-martial.',
@@ -41,35 +47,27 @@ const CourtMartial = ({
     },
     { label: "I'm not sure.", value: '3' },
   ];
-
   const radioButtonProps = {
     name: key,
-    label: 'Was your discharge the outcome of a general court-martial?',
+    label,
+    options,
     key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+    onValueChange: v => {
+      if (v.dirty) {
+        updateField(key, v.value);
       }
     },
     onMouseDown: scrollToLast,
     onKeyDown: handleKeyDown,
+    value: {
+      value: formValues[key],
+    },
   };
 
   return (
-    <div className="vads-u-margin-top--6">
+    <div>
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
+      <RadioButtons {...radioButtonProps} />
     </div>
   );
 };

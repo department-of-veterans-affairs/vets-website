@@ -33,7 +33,7 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // Fails on the rendering of the API call
-    Error.validatePageLoadedGeneric();
+    Error.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
   });
 });

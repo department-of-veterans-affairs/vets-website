@@ -318,7 +318,7 @@ export const moveMessage = (messageId, toFolderId) => {
  * @returns
  */
 export const getTriageTeamList = () => {
-  return apiRequest(`${apiBasePath}/messaging/recipients?useCache=false`, {
+  return apiRequest(`${apiBasePath}/messaging/recipients`, {
     headers: {
       'Content-Type': 'application/json',
     },

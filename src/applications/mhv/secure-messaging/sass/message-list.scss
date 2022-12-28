@@ -10,17 +10,11 @@
       min-width: 220px;
     }
 
-    va-button {
-      display: block;
-      height: 37px;
-      padding: 0;
-    }
-
-    va-button::part(button) {
+    button {
       height: 4.2rem;
       width: fit-content;
       min-width: 78px;
-      margin: 0;
+      margin: 3.2px 0;
     }
   }
 
@@ -36,20 +30,5 @@
 
   .keyword-highlight {
     background-color: $color-gold-lightest;
-  }
-
-  .message-list-item {
-    a.message-subject-link:visited {
-        color: $color-primary;
-    }
-    p.received-date {
-      color: $color-gray-medium;
-      i {
-        color: $color-black;
-      }
-    }
-    .keyword-highlight {
-      background-color: $color-gold-lightest;
-    }
   }
 }

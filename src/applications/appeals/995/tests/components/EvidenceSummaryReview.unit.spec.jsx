@@ -106,7 +106,7 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="false"]', container)).to.exist;
+    expect($('va-alert[status="error"]', container)).to.not.exist;
     expect($$('h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
@@ -119,7 +119,7 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="true"]', container)).to.exist;
+    expect($('va-alert[status="error"]', container)).to.exist;
     expect($$('h3', container).length).to.eq(0);
     expect($$('ul', container).length).to.eq(0);
     expect($$('a', container).length).to.eq(0);

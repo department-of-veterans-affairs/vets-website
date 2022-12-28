@@ -11,7 +11,7 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_OTHER_PATH,
   ATTACHMENTS_OTHER,
 } from '../constants';
 
@@ -44,7 +44,9 @@ export const buildVaContent = ({
   testing,
 }) => (
   <>
-    <h3 className="vads-u-font-size--h3">{content.vaTitle}</h3>
+    <h3 className="vads-u-font-size--h3">
+      {reviewMode ? content.vaReviewTitle : content.vaTitle}
+    </h3>
     <ul className="evidence-summary">
       {vaEvidence.map((location, index) => {
         const { locationAndName, issues, evidenceDates = {} } = location || {};
@@ -98,7 +100,9 @@ export const buildPrivateContent = ({
   testing,
 }) => (
   <>
-    <h3 className="vads-u-font-size--h3">{content.privateTitle}</h3>
+    <h3 className="vads-u-font-size--h3">
+      {reviewMode ? content.privateReviewTitle : content.privateTitle}
+    </h3>
     <ul className="evidence-summary">
       {privateEvidence.map((facility, index) => {
         const { providerFacilityName, issues, treatmentDateRange = {} } =
@@ -177,7 +181,9 @@ export const buildUploadContent = ({
   testing,
 }) => (
   <>
-    <h3 className="vads-u-font-size--h3">{content.otherTitle}</h3>
+    <h3 className="vads-u-font-size--h3">
+      {reviewMode ? content.otherReviewTitle : content.otherTitle}
+    </h3>
     <p>We’ll submit the below supporting evidence you uploaded:</p>
     <ul className="evidence-summary">
       {otherEvidence.map((upload, index) => (
@@ -185,9 +191,9 @@ export const buildUploadContent = ({
           {!reviewMode && (
             <Link
               className="float-right edit-item"
-              to={`/${EVIDENCE_UPLOAD_PATH}`}
+              to={`/${EVIDENCE_OTHER_PATH}`}
               aria-label={`${content.edit} ${upload.name}`}
-              data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+              data-link={testing ? EVIDENCE_OTHER_PATH : null}
             >
               {content.edit}
             </Link>

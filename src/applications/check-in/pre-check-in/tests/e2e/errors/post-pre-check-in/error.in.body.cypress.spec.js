@@ -66,10 +66,9 @@ describe('Pre-Check In Experience ', () => {
         NextOfKin.attemptToGoToNextPage();
 
         // page: Confirmation
-        Error.validatePageLoadedGeneric();
+        Error.validatePageLoaded();
         Error.validateDatePreCheckInDateShows();
         cy.injectAxeThenAxeCheck();
-        cy.createScreenshots('Pre-check-in--Error-with-appointment-data');
       });
     });
   });

@@ -7,7 +7,7 @@ import { months } from 'platform/static-data/options-for-select.js';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
-const { Element } = Scroll;
+const Element = Scroll.Element;
 
 const DischargeMonthQuestion = ({
   formValues,
@@ -26,8 +26,8 @@ const DischargeMonthQuestion = ({
   }
 
   const monthLabel = (
-    <legend className={`${key}_header legend-label`}>
-      What month were you discharged?
+    <legend className="legend-label">
+      <h4 className={`${key}_header`}>What month were you discharged?</h4>
     </legend>
   );
 

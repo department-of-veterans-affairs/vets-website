@@ -7,7 +7,7 @@ import Scroll from 'react-scroll';
 // Relative Imports
 import { answerReview, shouldShowQuestion } from '../helpers';
 
-const { Element } = Scroll;
+const Element = Scroll.Element;
 
 const AnswerReview = ({ formValues, handleScrollTo }) => {
   if (!formValues) {
@@ -19,9 +19,9 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
   }
 
   return (
-    <div>
+    <div className="review-answers">
       <Element name="END" />
-      <h2>Review your answers</h2>
+      <h4>Review your answers</h4>
       <div className="va-introtext">
         <p>
           If any information below is incorrect, update your answers to get the
@@ -45,7 +45,6 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
                     <p>{reviewLabel}</p>
                   </td>
                   <td>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a
                       href="#"
                       onClick={handleScrollTo}

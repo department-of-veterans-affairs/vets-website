@@ -265,7 +265,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
   });
 
-  it('should navigate forward to private limitation page when choosing "No" after continuing', async () => {
+  it('should navigate forward to private limitaion page when choosing "No" after continuing', async () => {
     const goSpy = sinon.spy();
     const data = {
       ...mockData,

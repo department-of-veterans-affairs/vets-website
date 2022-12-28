@@ -14,9 +14,9 @@ describe('check-in', () => {
         check_in_experience_next_of_kin_enabled: false,
         check_in_experience_translation_disclaimer_spanish_enabled: false,
         check_in_experience_translation_disclaimer_tagalog_enabled: false,
+        check_in_experience_lorota_security_updates_enabled: false,
         check_in_experience_travel_reimbursement: false,
         check_in_experience_browser_monitoring: false,
-        check_in_experience_updated_appt_presentation: false,
         loading: false,
       },
     };
@@ -30,9 +30,9 @@ describe('check-in', () => {
           isPreCheckInEnabled: true,
           isTranslationDisclaimerSpanishEnabled: false,
           isTranslationDisclaimerTagalogEnabled: false,
+          isLorotaSecurityUpdatesEnabled: false,
           isTravelReimbursementEnabled: false,
           isBrowserMonitoringEnabled: false,
-          isUpdatedApptPresentationEnabled: false,
         });
       });
     });

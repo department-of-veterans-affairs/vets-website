@@ -66,7 +66,7 @@ export const PrimaryPhone = ({
         <VaRadio
           class="vads-u-margin-y--2"
           label="What is your primary phone number?"
-          hint="We may need to contact you if we have questions about your Supplemental Claim."
+          hint="We may need to contact you to clarify issues related to your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required

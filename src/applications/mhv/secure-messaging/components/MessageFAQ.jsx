@@ -3,7 +3,6 @@ MessageFAQ Component
 @author Vic Saleem
 */
 import React from 'react';
-import PropTypes from 'prop-types';
 import FrequentlyAskedQuestions from './FrequentlyAskedQuestions';
 import UnAuthBanner from './shared/UnAuthBanner';
 import UnAuthSendMessageSection from './shared/UnAuthSendMessageSection';
@@ -32,9 +31,4 @@ const MessageFAQ = props => {
     </>
   );
 };
-
-MessageFAQ.propTypes = {
-  isLoggedIn: PropTypes.bool,
-};
-
 export default MessageFAQ;

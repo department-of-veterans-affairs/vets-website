@@ -28,12 +28,12 @@ describe('Pre-Check In Experience', () => {
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteranIncorrect();
+      ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteran('Smith', '1234');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });
