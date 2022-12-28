@@ -16,6 +16,7 @@ export class Announcement extends Component {
       name: PropTypes.string.isRequired,
       show: PropTypes.oneOf(Object.keys(AnnouncementBehavior)),
       relatedAnnouncements: PropTypes.array,
+      returnFocusDivContent: PropTypes.string,
     }),
     dismissed: PropTypes.array,
     isLoggedIn: PropTypes.bool,
@@ -35,6 +36,7 @@ export class Announcement extends Component {
         name: announcementName,
         show = AnnouncementBehavior.SHOW_ONCE,
         relatedAnnouncements = [],
+        returnFocusDivContent = '',
       },
       dismissed,
     } = this.props;
@@ -50,6 +52,18 @@ export class Announcement extends Component {
       .forEach(relatedAnnouncementName => {
         this.props.dismissAnnouncement(relatedAnnouncementName);
       });
+
+    // Manages focus on modal close for screen reader accessibility
+    if (returnFocusDivContent) {
+      const skipLinkParent = document.getElementsByClassName('merger')[0];
+      const skipLinkEl = document.getElementsByClassName('show-on-focus')[0];
+      const focusEl = document.createElement('div');
+      focusEl.innerHTML = 'Current Homepage';
+      focusEl.tabIndex = '-1';
+      focusEl.classList.add('sr-only', 'current-page-title');
+      skipLinkParent.insertBefore(focusEl, skipLinkEl);
+      focusEl.focus();
+    }
   };
 
   render() {
