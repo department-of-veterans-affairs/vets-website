@@ -88,7 +88,7 @@ const SmBreadcrumbs = () => {
   );
 
   return (
-    <>
+    <div className="vads-l-row breadcrumbs">
       {crumbs.length > 0 && (
         // per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296
         // eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library
@@ -109,7 +109,7 @@ const SmBreadcrumbs = () => {
           })}
         </Breadcrumbs>
       )}
-    </>
+    </div>
   );
 };
 
