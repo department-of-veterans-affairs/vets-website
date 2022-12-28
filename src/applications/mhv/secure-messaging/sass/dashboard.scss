@@ -14,4 +14,19 @@
       margin: 8px 0;
     }
   }
+  .welcome-message {
+    .text-placeholder {
+      border: 1px solid rgba(255, 255, 255, 1);
+      opacity: 1;
+      background-color: rgba(231, 228, 228, 1);
+      height: 10px;
+      margin-bottom: 20px;
+      &-upper {
+        width: 100%;
+      }
+      &-lower {
+        width: 90%;
+      }
+    }
+  }
 }

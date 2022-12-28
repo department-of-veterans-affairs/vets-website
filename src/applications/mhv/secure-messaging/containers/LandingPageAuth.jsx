@@ -12,15 +12,15 @@ then additional functionality will need to be added to account for this.
 
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
 import { DefaultFolders as Folder } from '../util/constants';
-import FolderListView from './FolderListView';
 import { getMessages } from '../actions/messages';
-import { Link } from 'react-router-dom';
 import UnreadMessages from '../components/Dashboard/UnreadMessages';
+import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -39,7 +39,6 @@ const LandingPageAuth = () => {
     [dispatch],
   );
 
-  // return <FolderListView />;
   return (
     <div className="dashboard">
       <h1>Messages</h1>
@@ -54,6 +53,7 @@ const LandingPageAuth = () => {
         Start new message
       </Link>
       <UnreadMessages />
+      <WelcomeMessage />
     </div>
   );
 };
