@@ -60,7 +60,7 @@ class PatientMessagesLandingPage {
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients?useCache=false',
+      '/my_health/v1/messaging/recipients',
       mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/');

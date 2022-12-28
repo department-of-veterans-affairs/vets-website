@@ -31,10 +31,12 @@ export const ContestableIssuesTitle = ({ formData = {} } = {}) => {
     <>
       <div className="vads-u-margin-bottom--2">
         These are the issues we have on file for you. If an issue is missing
-        from the list, you can add it here. Select the issues you’d like us to
-        review.
+        from the list, you can add it here.
       </div>
-      <legend name="eligibleScrollElement">
+      <legend
+        name="eligibleScrollElement"
+        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+      >
         Select the issues you’d like us to review
       </legend>
     </>
@@ -107,10 +109,7 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info
-    trigger="Why aren’t all my issues listed here"
-    class="vads-u-margin-top--4"
-  >
+  <va-additional-info trigger="Why aren’t all my issues listed here">
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. We may
     still be processing it.

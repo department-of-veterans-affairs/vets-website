@@ -13,7 +13,7 @@ describe('Supplemental Claims evidence upload request page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.evidenceWillUpload;
+  } = formConfig.chapters.evidence.pages.evidenceUploadOther;
 
   it('should render', () => {
     const { container } = render(

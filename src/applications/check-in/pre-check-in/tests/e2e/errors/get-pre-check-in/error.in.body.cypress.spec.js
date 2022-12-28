@@ -34,7 +34,7 @@ describe('Pre-Check In Experience ', () => {
         cy.injectAxeThenAxeCheck();
         ValidateVeteran.validateVeteran();
         ValidateVeteran.attemptToGoToNextPage();
-        Error.validatePageLoadedGeneric();
+        Error.validatePageLoaded();
         cy.createScreenshots('Pre-check-in--general-error');
       });
     });

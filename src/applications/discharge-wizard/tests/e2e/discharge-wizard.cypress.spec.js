@@ -19,32 +19,32 @@ describe('functionality of discharge wizard', () => {
     // questions page | fill out form
     cy.get('.main .usa-button-primary').click();
 
-    cy.get('va-radio[name="1_branchOfService"] va-radio-option')
+    cy.get('input[name="1_branchOfService"]')
       .first()
       .click();
 
     cy.get('select[name="2_dischargeYear"]').select('2016');
-    cy.get('va-radio[name="4_reason"] va-radio-option')
+    cy.get('input[name="4_reason"]')
       .first()
       .click();
 
-    cy.get('va-radio[name="6_intention"] va-radio-option')
+    cy.get('input[name="6_intention"]')
       .first()
       .click();
 
-    cy.get('va-radio[name="7_courtMartial"] va-radio-option')
+    cy.get('input[name="7_courtMartial"]')
       .first()
       .click();
 
-    cy.get('va-radio[name="8_prevApplication"] va-radio-option')
+    cy.get('input[name="8_prevApplication"]')
       .first()
       .click();
 
-    cy.get('va-radio[name="9_prevApplicationYear"] va-radio-option')
+    cy.get('input[name="9_prevApplicationYear"]')
       .first()
       .click();
 
-    cy.get('va-radio[name="12_priorService"] va-radio-option')
+    cy.get('input[name="12_priorService"]')
       .first()
       .click();
 

@@ -15,7 +15,7 @@ describe('Pre-Check In Experience', () => {
         initializePreCheckInDataPost,
       } = ApiInitializer;
 
-      initializeFeatureToggle.withCurrentFeatures();
+      initializeFeatureToggle.withLorotaSecurityUpdate();
       initializeSessionGet.withSuccessfulNewSession();
       initializePreCheckInDataGet.withSuccess();
 
@@ -34,22 +34,22 @@ describe('Pre-Check In Experience', () => {
       // First Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
 
       // Second Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
       ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
 
       // Second Attempt
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

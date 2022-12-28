@@ -31,7 +31,7 @@ import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
-import evidenceWillUpload from '../pages/evidenceWillUpload';
+import evidenceUploadOther from '../pages/evidenceUploadOther';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
 import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
@@ -56,8 +56,7 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_ADDITIONAL_PATH,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_OTHER_PATH,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
@@ -161,7 +160,7 @@ const formConfig = {
     },
 
     issues: {
-      title: 'Issues for review',
+      title: 'Issues',
       pages: {
         contestableIssues: {
           title: ' ',
@@ -199,7 +198,7 @@ const formConfig = {
     },
 
     evidence: {
-      title: 'New and relevant evidence',
+      title: 'Supporting Evidence',
       pages: {
         notice5103: {
           initialData: {
@@ -261,15 +260,15 @@ const formConfig = {
           uiSchema: blankUiSchema,
           schema: blankSchema,
         },
-        evidenceWillUpload: {
-          title: 'Upload new and relevant evidence',
-          path: EVIDENCE_ADDITIONAL_PATH,
-          uiSchema: evidenceWillUpload.uiSchema,
-          schema: evidenceWillUpload.schema,
+        evidenceUploadOther: {
+          title: 'Supporting (lay) statements or other evidence',
+          path: EVIDENCE_OTHER_PATH,
+          uiSchema: evidenceUploadOther.uiSchema,
+          schema: evidenceUploadOther.schema,
         },
         evidenceUpload: {
-          title: 'Uploaded evidence',
-          path: EVIDENCE_UPLOAD_PATH,
+          title: 'Lay statements and other evidence',
+          path: 'supporting-evidence/additional-evidence',
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,

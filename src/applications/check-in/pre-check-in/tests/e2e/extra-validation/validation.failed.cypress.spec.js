@@ -28,24 +28,24 @@ describe('Pre-Check In Experience', () => {
     it('validation failed with failed response from server', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteranIncorrect();
+      ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
       cy.createScreenshots('Pre-check-in--inline-validation-error');
       // Second Attempt
-      ValidateVeteran.validateVeteranIncorrect();
+      ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteranIncorrect();
+      ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
 
       // Second Attempt
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteran('Smith', '1234');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

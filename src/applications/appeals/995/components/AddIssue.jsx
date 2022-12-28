@@ -157,7 +157,6 @@ const AddIssue = props => {
         <VaDate
           name="decision-date"
           label={dateOfDecisionLabel}
-          class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}

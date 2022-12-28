@@ -1,10 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaModal,
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 
 const PrintBtn = props => {
@@ -37,8 +33,8 @@ const PrintBtn = props => {
     setIsModalVisible(false);
   };
 
-  const handleOnChangePrintOption = ({ target }) => {
-    setPrintOption(target.value);
+  const handleOnChangePrintOption = e => {
+    setPrintOption(e.target.value);
   };
 
   const handleConfirmPrint = () => {
@@ -66,29 +62,34 @@ const PrintBtn = props => {
               Would you like to print this one message, or all messages in this
               conversation?
             </p>
-            <VaRadio
-              className="form-radio-buttons"
-              required
-              enable-analytics
-              // error={ // TODO: add error state}
-              onRadioOptionSelected={handleOnChangePrintOption}
-            >
-              <VaRadioOption
-                data-testid="radio-print-one-message"
-                label="Only print this message"
-                name="defaultName"
-                value="this message"
-              />
-
-              <VaRadioOption
-                data-testid="radio-print-all-messages"
-                label={`Print all messages in this conversation (${
-                  messageThreadCount.current
-                } messages)`}
-                name="defaultName"
-                value="all messages"
-              />
-            </VaRadio>
+            <div className="form-radio-buttons">
+              <div className="radio-button">
+                <input
+                  data-testid="radio-button"
+                  type="radio"
+                  autoComplete="false"
+                  name="defaultName"
+                  value="this message"
+                  onChange={handleOnChangePrintOption}
+                />
+                <label name="defaultName-0-label" htmlFor="this-message">
+                  Only print this message
+                </label>
+                <input
+                  type="radio"
+                  autoComplete="false"
+                  name="defaultName"
+                  value="all messages"
+                  onChange={handleOnChangePrintOption}
+                />
+                <label name="defaultName-0-label" htmlFor="all-messages">
+                  Print all messages in this conversation{' '}
+                  <span className="message-count">
+                    ({messageThreadCount.current} messages)
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
         </VaModal>
       </div>
@@ -97,7 +98,6 @@ const PrintBtn = props => {
 
   return (
     <>
-      {/* TODO add GA event tracking Print button */}
       <button
         data-testid="print-button"
         type="button"

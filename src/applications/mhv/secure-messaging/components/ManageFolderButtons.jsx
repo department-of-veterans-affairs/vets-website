@@ -95,7 +95,6 @@ const ManageFolderButtons = () => {
       {folder.folderId > 0 && (
         // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
         <div className="manage-folder-container">
-          {/* TODO add GA event for both buttons */}
           <button
             type="button"
             className="left-button usa-button-secondary"

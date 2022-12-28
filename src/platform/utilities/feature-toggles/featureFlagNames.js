@@ -23,7 +23,6 @@ export default Object.freeze({
   checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
   checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
   checkInExperienceBrowserMonitoring: 'check_in_experience_browser_monitoring',
-  checkInExperienceUpdatedApptPresentation: 'check_in_experience_updated_appt_presentation',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   claimLettersAccess: 'claim_letters_access',
   coeAccess: 'coe_access',

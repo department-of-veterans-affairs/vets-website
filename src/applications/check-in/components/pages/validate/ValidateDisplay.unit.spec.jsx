@@ -25,6 +25,9 @@ describe('check-in experience', () => {
             pages: [],
           },
         },
+        featureToggles: {
+          check_in_experience_lorota_security_updates_enabled: false,
+        },
         ...scheduledDowntimeState,
       };
       beforeEach(() => {
@@ -116,10 +119,41 @@ describe('check-in experience', () => {
           expect(getByTestId('last-name-input').value).to.equal('foo');
         });
       });
-      describe('dobInput', () => {
-        it('passes the value to the web component', () => {
+      describe('last4Input', () => {
+        it('displays the value', () => {
           const { getByTestId } = render(
             <Provider store={store}>
+              <I18nextProvider i18n={i18n}>
+                <ValidateDisplay last4Input={{ last4Ssn: 'foo' }} />
+              </I18nextProvider>
+            </Provider>,
+          );
+
+          expect(getByTestId('last-4-input').value).to.equal('foo');
+        });
+      });
+      describe('dobInput', () => {
+        let dobStore;
+        const dobInitState = {
+          checkInData: {
+            context: {
+              token: '',
+            },
+            form: {
+              pages: [],
+            },
+          },
+          featureToggles: {
+            check_in_experience_lorota_security_updates_enabled: true,
+          },
+          ...scheduledDowntimeState,
+        };
+        beforeEach(() => {
+          dobStore = mockStore(dobInitState);
+        });
+        it('passes the value to the web component', () => {
+          const { getByTestId } = render(
+            <Provider store={dobStore}>
               <I18nextProvider i18n={i18n}>
                 <ValidateDisplay
                   dobInput={{
@@ -160,7 +194,7 @@ describe('check-in experience', () => {
               </I18nextProvider>
             </Provider>,
           );
-          fireEvent.keyDown(getByTestId('last-name-input'), {
+          fireEvent.keyDown(getByTestId('last-4-input'), {
             key: 'Enter',
             code: 'Enter',
             charCode: 13,

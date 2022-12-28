@@ -17,6 +17,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess(req => {
         expect(req.body.session.lastName).to.equal('Smith');
+        expect(req.body.session.last4).to.equal('4837');
       });
       initializeCheckInDataGet.withSuccess();
       cy.visitWithUUID();
@@ -29,7 +30,7 @@ describe('Check In Experience -- ', () => {
     });
     it('validation trims white space before posting', () => {
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validateVeteran('Smith           ', '1989', '03', '15');
+      ValidateVeteran.validateVeteran('Smith           ', '4837          ');
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
     });

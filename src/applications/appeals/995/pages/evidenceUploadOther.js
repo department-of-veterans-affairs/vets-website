@@ -1,8 +1,8 @@
 import {
-  evidenceWillUploadHeader,
-  evidenceWillUploadInfo,
+  evidenceUploadOtherHeader,
+  evidenceUploadOtherInfo,
   reviewField,
-} from '../content/evidenceWillUpload';
+} from '../content/evidenceUploadOther';
 
 import { EVIDENCE_OTHER, errorMessages } from '../constants';
 
@@ -13,7 +13,7 @@ export default {
       forceDivWrapper: true,
     },
     [EVIDENCE_OTHER]: {
-      'ui:title': evidenceWillUploadHeader,
+      'ui:title': evidenceUploadOtherHeader,
       'ui:widget': 'yesNo',
       'ui:errorMessages': {
         required: errorMessages.requiredYesNo,
@@ -21,7 +21,7 @@ export default {
       'ui:reviewField': reviewField,
     },
     'view:otherEvidenceInfo': {
-      'ui:description': evidenceWillUploadInfo,
+      'ui:description': evidenceUploadOtherInfo,
     },
   },
   schema: {
