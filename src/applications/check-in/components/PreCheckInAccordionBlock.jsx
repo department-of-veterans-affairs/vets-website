@@ -30,7 +30,7 @@ const PreCheckInAccordionBlock = ({
             </p>
             <p>
               <Trans
-                i18nKey="or-you-can-login-to-your-va-gov-profile-to-update-your-contact-info-online"
+                i18nKey="or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
                 components={[
                   <ExternalLink
                     key="link"
@@ -50,7 +50,7 @@ const PreCheckInAccordionBlock = ({
           <>
             <p>
               <Trans
-                i18nKey="you-can-sign-in-to-your-va-gov-profile"
+                i18nKey="you-can-sign-in-to-your-va-account"
                 components={[
                   <ExternalLink
                     key="link"
@@ -178,7 +178,7 @@ const PreCheckInAccordionBlock = ({
           </p>
           <p>
             <Trans
-              i18nKey="you-can-also-sign-in-to-your-va-gov-profile-to-review-your-information"
+              i18nKey="you-can-also-sign-in-to-your-va-account-to-review-your-information"
               components={[
                 <ExternalLink
                   key="link"

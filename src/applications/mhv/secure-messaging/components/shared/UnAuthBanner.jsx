@@ -1,12 +1,6 @@
 import React from 'react';
-import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { useDispatch } from 'react-redux';
 
 const UnAuthBanner = () => {
-  const dispatch = useDispatch();
-  const handleSignIn = () => {
-    dispatch(toggleLoginModal(true, 'mhv-sm-landing-page'));
-  };
   return (
     <va-alert
       background-only
@@ -24,9 +18,7 @@ const UnAuthBanner = () => {
           <strong>My HealtheVet</strong> account. If you don’t have any of these
           accounts, you can create a free account now.
         </p>
-        <button className="va-button-primary" onClick={handleSignIn}>
-          Sign in or create account
-        </button>
+        <button className="va-button-primary">Sign in or create account</button>
       </div>
     </va-alert>
   );

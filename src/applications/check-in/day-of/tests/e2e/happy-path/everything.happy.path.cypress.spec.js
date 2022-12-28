@@ -55,7 +55,7 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
 
-      ValidateVeteran.validateVeteran();
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();

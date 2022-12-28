@@ -12,7 +12,7 @@ import pageNames from './pageNames';
 
 const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
-  errorMessage: 'You must choose a claim type.',
+  errorMessage: 'You must choose a claim type',
 };
 
 const options = [
@@ -62,8 +62,8 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
     <>
       <h1 className="vads-u-margin-bottom--0">Is this the form I need?</h1>
       <p>
-        Use this Supplemental Claim form (VA 20-0995) if you disagree with our
-        decision on your claim and have new and relevant evidence to submit.
+        Use this Supplemental Claim form if you disagree with our decision on
+        your claim and have new and relevant evidence to submit.
       </p>
       <p>Answer this question to get started:</p>
       <VaRadio

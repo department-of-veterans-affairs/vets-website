@@ -29,25 +29,16 @@ class ValidateVeteran {
     },
   };
 
-  validateVeteran = (
-    lastName = 'Smith',
-    year = '1989',
-    month = '03',
-    day = '15',
-  ) => {
+  validateVeteran = (lastName = 'Smith', last4 = '1234') => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.clearYear();
-    this.typeYear(year);
-    this.clearMonth();
-    this.typeMonth(month);
-    this.clearDay();
-    this.typeDay(day);
+    this.clearLast4();
+    this.typeLast4(last4);
   };
 
-  validateVeteranIncorrect = (
-    lastName = 'Sith',
-    year = '1988',
+  validateVeteranDob = (
+    lastName = 'Smith',
+    year = '1989',
     month = '03',
     day = '15',
   ) => {
@@ -100,6 +91,13 @@ class ValidateVeteran {
       .find('input');
   };
 
+  getLast4Input = () => {
+    return cy
+      .get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input');
+  };
+
   getMonthInput = () => {
     return cy
       .get('[label="Date of birth"]')
@@ -131,6 +129,10 @@ class ValidateVeteran {
     this.getLastNameInput().type(lastName);
   };
 
+  typeLast4 = (last4 = '1234') => {
+    this.getLast4Input().type(last4);
+  };
+
   typeYear = (year = '1989') => {
     this.getYearInput().type(year);
   };
@@ -145,6 +147,10 @@ class ValidateVeteran {
 
   clearLastName() {
     this.getLastNameInput().invoke('val', '');
+  }
+
+  clearLast4() {
+    this.getLast4Input().invoke('val', '');
   }
 
   clearDay() {
@@ -180,15 +186,49 @@ class ValidateVeteran {
       .contains('Please enter your last name.');
   };
 
+  getLast4Error = () => {
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('#error-message')
+      .contains(
+        'Please enter the last 4 digits of your Social Security number',
+      );
+  };
+
   getDobError = () => {
     cy.get('[label="Date of birth"]')
       .shadow()
       .find('#error-message');
   };
 
-  validateErrorAlert = () => {
-    const messageText =
-      'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.';
+  validateTypedLast4 = (typed = '1234') => {
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('input')
+      .should('be.visible')
+      .and('have.value', typed);
+  };
+
+  validateMax4Text = () => {
+    cy.get('[label="Last 4 digits of your Social Security number"]')
+      .shadow()
+      .find('small')
+      .should('be.visible')
+      .and('have.text', '(Max. 4 characters)');
+  };
+
+  validateLast4InputType = () => {
+    cy.get('[label="Last 4 digits of your Social Security number"]').should(
+      'have.attr',
+      'inputmode',
+      'numeric',
+    );
+  };
+
+  validateErrorAlert = (withLorotaSecurityUpdate = false) => {
+    const messageText = withLorotaSecurityUpdate
+      ? 'We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.'
+      : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
       .and('have.text', messageText);

@@ -29,8 +29,7 @@ const createMockSuccessResponse = (
 ) => {
   const mockTime = (() => {
     switch (token) {
-      case expiredUUID:
-      case expiredPhoneUUID:
+      case expiredUUID || expiredPhoneUUID:
         return new Date();
       case past15MinuteUUID:
         return dateFns.sub(new Date(), { minutes: 15 });

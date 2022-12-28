@@ -31,7 +31,7 @@ describe('Pre-Check In Experience ', () => {
 
         ValidateVeteran.attemptToGoToNextPage();
 
-        Error.validatePageLoadedGeneric();
+        Error.validatePageLoaded();
       });
       it('bad status code (401)', () => {
         const { initializeSessionPost } = ApiInitializer;
@@ -44,7 +44,7 @@ describe('Pre-Check In Experience ', () => {
 
         ValidateVeteran.attemptToGoToNextPage();
 
-        Error.validatePageLoadedGeneric();
+        Error.validatePageLoaded();
       });
     });
   });

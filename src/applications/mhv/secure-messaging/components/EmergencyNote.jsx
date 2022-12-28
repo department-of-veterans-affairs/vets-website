@@ -1,4 +1,6 @@
 import React from 'react';
+import recordEvent from 'platform/monitoring/record-event';
+import { FOOTER_EVENTS } from 'platform/site-wide/va-footer/helpers';
 
 const EmergencyNote = () => (
   <section className="emergency-note">
@@ -7,6 +9,7 @@ const EmergencyNote = () => (
       medical emergency. If you’re in crisis and need to talk with someone now,
       call the{' '}
       <button
+        onClick={() => recordEvent({ event: FOOTER_EVENTS.CRISIS_LINE })}
         className="va-button-link va-overlay-trigger"
         data-show="#modal-crisisline"
         type="button"

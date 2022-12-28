@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -13,8 +13,13 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_OTHER_PATH,
 } from '../../constants';
+
+const mouseClick = new MouseEvent('click', {
+  bubbles: true,
+  cancelable: true,
+});
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -118,31 +123,23 @@ describe('<EvidenceSummary>', () => {
       other: false,
     });
 
-    expect($('va-alert[visible="true"]', container)).to.not.exist;
+    expect($('va-alert[status="error"]', container)).to.not.exist;
     expect($$('h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.exist;
   });
 
-  it('should render missing evidence alert after submission', () => {
+  it('should render missing evidence alert', () => {
     const { container } = setupSummary({
       vaMR: false,
       privateMR: false,
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="false"]', container)).to.exist;
+    expect($('va-alert[status="error"]', container)).to.exist;
     expect($$('h3', container).length).to.eq(0);
     expect($$('ul', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.exist;
-
-    // alert shows after trying to submit
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    waitFor(
-      () =>
-        expect($('va-alert[status="error"][visible="true"]', container)).to
-          .exist,
-    );
   });
 
   it('should include the correct edit URL links', () => {
@@ -166,15 +163,18 @@ describe('<EvidenceSummary>', () => {
     expect(links[4].getAttribute('data-link')).to.contain(
       EVIDENCE_LIMITATION_PATH,
     );
-    expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
-    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+    expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_OTHER_PATH);
+    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_OTHER_PATH);
   });
 
   it('should submit page without error', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({ goForward });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    fireEvent(
+      $('.form-progress-buttons .usa-button-primary', container),
+      mouseClick,
+    );
     expect(goForward.called).to.be.true;
   });
 
@@ -187,7 +187,10 @@ describe('<EvidenceSummary>', () => {
       goFoward,
     });
 
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
+    fireEvent.click(
+      $('.form-progress-buttons .usa-button-primary', container),
+      mouseClick,
+    );
     expect(goFoward.called).to.be.false;
   });
 
@@ -202,6 +205,7 @@ describe('<EvidenceSummary>', () => {
 
     fireEvent.click(
       $('.form-progress-buttons .usa-button-secondary', container),
+      mouseClick,
     );
     expect(goBack.called).to.be.true;
   });
@@ -212,7 +216,10 @@ describe('<EvidenceSummary>', () => {
     const result = records().locations[0];
 
     // remove second VA entry
-    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
+    fireEvent(
+      $('va-button[label="Remove VAMC Location 2"]', container),
+      mouseClick,
+    );
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].locations[0]).to.deep.equal(result);
   });
@@ -223,7 +230,10 @@ describe('<EvidenceSummary>', () => {
     const result = records().providerFacility[0];
 
     // remove second private entry
-    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
+    fireEvent(
+      $('va-button[label="Remove Private Hospital"]', container),
+      mouseClick,
+    );
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].providerFacility[0]).to.deep.equal(result);
   });
@@ -234,7 +244,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().additionalDocuments[0];
 
     // remove second upload entry
-    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
+    fireEvent($('va-button[label="Remove x-rays.pdf"]', container), mouseClick);
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(result);
   });

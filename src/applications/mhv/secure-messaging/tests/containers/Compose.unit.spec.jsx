@@ -99,7 +99,9 @@ describe('Compose message container', () => {
     const sendButton = await screen.getAllByRole('button', {
       name: 'Send',
     });
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const saveDraftButton = await screen.getByRole('button', {
+      name: 'Save draft',
+    });
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;

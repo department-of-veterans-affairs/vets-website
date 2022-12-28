@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import { api } from '../../api';
 import {
   getTokenFromLocation,
@@ -23,6 +24,8 @@ const Landing = props => {
   const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
   const { updateError } = useUpdateError();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
@@ -64,6 +67,7 @@ const Landing = props => {
         api.v2
           .getSession({
             token,
+            isLorotaSecurityUpdatesEnabled,
           })
           .then(session => {
             if (session.errors || session.error) {
@@ -103,6 +107,7 @@ const Landing = props => {
       setSession,
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
+      isLorotaSecurityUpdatesEnabled,
     ],
   );
   return (

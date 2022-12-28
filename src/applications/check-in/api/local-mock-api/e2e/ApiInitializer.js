@@ -25,6 +25,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
           checkInExperienceTravelReimbursement: false,
         }),
       );
@@ -38,6 +39,7 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -61,6 +63,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
           checkInExperienceTravelReimbursement: true,
         }),
       );
@@ -74,6 +77,19 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
+    withLorotaSecurityUpdate: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -85,6 +101,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
@@ -131,8 +148,11 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { lastName, dob } = req.body?.session || {};
-        if (dob === '1989-03-15' && lastName === 'Smith') {
+        const { last4, lastName, dob } = req.body?.session || {};
+        if (
+          (last4 === '1234' || dob === '1989-03-15') &&
+          lastName === 'Smith'
+        ) {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );

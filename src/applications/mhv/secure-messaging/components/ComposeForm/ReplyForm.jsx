@@ -189,8 +189,6 @@ const ReplyForm = props => {
       <form className="compose-form" onSubmit={sendMessageHandler}>
         <div className="compose-form-header" data-testid="compose-form-header">
           <h3>{setMessageTitle()}</h3>
-
-          {/* TODO add GA event */}
           <button
             type="button"
             className="send-button-top"
@@ -239,21 +237,22 @@ const ReplyForm = props => {
             />
           </section>
           <div className="compose-form-actions vads-u-display--flex">
-            <va-button
+            <button
               type="button"
-              text="Send"
-              class="vads-u-flex--1"
+              className="vads-u-flex--1"
               data-testid="Send-Button"
               onClick={sendMessageHandler}
-            />
-            <va-button
+            >
+              Send
+            </button>
+            <button
               type="button"
-              text="Save draft"
-              secondary
-              class="vads-u-flex--1"
+              className="usa-button-secondary vads-u-flex--1"
               data-testid="Save-Draft-Button"
               onClick={() => saveDraftHandler('manual')}
-            />
+            >
+              Save draft
+            </button>
             <div className="vads-u-flex--1 vads-u-display--flex">
               {draft && <DiscardDraft draft={draft} />}
             </div>

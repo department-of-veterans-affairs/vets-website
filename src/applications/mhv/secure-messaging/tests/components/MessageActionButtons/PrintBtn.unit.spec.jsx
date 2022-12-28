@@ -32,9 +32,8 @@ describe('Print button', () => {
   });
   it('opens modal when print button is clicked and displays both options', () => {
     fireEvent.click(screen.getByTestId('print-button'));
-    // expect(screen.getByLabelText('Only print this message')).to.exist;
-    expect(screen.getByTestId('radio-print-one-message')).to.exist;
-
-    expect(screen.getByTestId('radio-print-all-messages')).to.exist;
+    expect(screen.getByText(/Only print this message/)).to.exist;
+    expect(screen.getByText(/Print all messages in this conversation/)).to
+      .exist;
   });
 });

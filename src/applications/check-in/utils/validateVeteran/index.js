@@ -3,12 +3,15 @@ import { api } from '../../api';
 
 /**
  * Validates auth fields and makes API request and routes.
+ * @param {string} [last4Ssn]
  * @param {string} [lastName]
  * @param {object} [dob]
  * @param {boolean} [dobError]
  * @param {function} [setLastNameErrorMessage]
+ * @param {function} [setLast4ErrorMessage]
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
+ * @param {boolean} [isLorotaSecurityUpdatesEnabled]
  * @param {function} [goToNextPage]
  * @param {string} [token]
  * @param {function} [setSession]
@@ -17,12 +20,15 @@ import { api } from '../../api';
  */
 
 const validateLogin = async (
+  last4Ssn,
   lastName,
   dob,
   dobError,
   setLastNameErrorMessage,
+  setLast4ErrorMessage,
   setIsLoading,
   setShowValidateError,
+  isLorotaSecurityUpdatesEnabled,
   goToNextPage,
   token,
   setSession,
@@ -30,23 +36,38 @@ const validateLogin = async (
   updateError,
 ) => {
   setLastNameErrorMessage();
+  setLast4ErrorMessage();
 
   let valid = true;
-
-  if (!lastName) {
-    setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
-    valid = false;
-  }
-  if (dobError || dob === '--') {
-    valid = false;
-  }
-  // Use regex here to be able to validate when no error is present
-  // doesnt match the web components validation completely the year can be any 4 digit number
-  const regex = new RegExp(
-    /[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))/,
-  );
-  if (!regex.test(dob)) {
-    valid = false;
+  if (!isLorotaSecurityUpdatesEnabled) {
+    if (!lastName) {
+      setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
+      valid = false;
+    }
+    if (!last4Ssn) {
+      setLast4ErrorMessage(
+        i18next.t(
+          'please-enter-the-last-4-digits-of-your-social-security-number',
+        ),
+      );
+      valid = false;
+    }
+  } else {
+    if (!lastName) {
+      setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
+      valid = false;
+    }
+    if (dobError || dob === '--') {
+      valid = false;
+    }
+    // Use regex here to be able to validate when no error is present
+    // doesnt match the web components validation completely the year can be any 4 digit number
+    const regex = new RegExp(
+      /[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))/,
+    );
+    if (!regex.test(dob)) {
+      valid = false;
+    }
   }
 
   if (!valid) {
@@ -57,9 +78,11 @@ const validateLogin = async (
   try {
     const resp = await api.v2.postSession({
       token,
+      last4: last4Ssn,
       dob,
       lastName,
       checkInType: app,
+      isLorotaSecurityUpdatesEnabled,
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
