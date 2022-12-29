@@ -37,7 +37,7 @@ const DiscardDraft = props => {
           setIsModalVisible(true);
         }}
       >
-        Discard Draft
+        Discard draft
       </button>
       <DiscardDraftModal
         visible={isModalVisible}

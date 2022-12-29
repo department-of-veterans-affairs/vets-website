@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-const DraftSavedInfo = () => {
+const DraftSavedInfo = props => {
+  const { userSaved } = props;
+
   const getDateAndTime = timeStamp => {
     const today = new Date(timeStamp);
     const month = `0${today.getMonth() + 1}`.slice(-2);
@@ -21,8 +24,16 @@ const DraftSavedInfo = () => {
     state => state.sm.draftDetails,
   );
 
-  if (isSaving) return <div className="last-save-time">Saving...</div>;
-  if (saveError)
+  const content = () => {
+    const { date, time } = getDateAndTime(lastSaveTime);
+    if (isSaving) return 'Saving...';
+    if (lastSaveTime) {
+      return `You’re message has been saved. Last save at ${date} at ${time}`;
+    }
+    return '';
+  };
+
+  if (saveError) {
     return (
       <va-alert
         background-only
@@ -37,24 +48,29 @@ const DraftSavedInfo = () => {
         </p>
       </va-alert>
     );
+  }
   if (lastSaveTime) {
-    const { date, time } = getDateAndTime(lastSaveTime);
     return (
-      <va-alert
-        background-only
-        class="last-save-time"
-        full-width="false"
-        show-icon
-        status="success"
-        visible="true"
-      >
-        <p className="vads-u-margin-y--0">
-          {`You’re message has been saved. Last save at ${date} at ${time}`}
-        </p>
-      </va-alert>
+      <>
+        <va-alert
+          background-only
+          class="last-save-time"
+          full-width="false"
+          show-icon
+          status="success"
+          visible={userSaved}
+        >
+          <p className="vads-u-margin-y--0">{content()}</p>
+        </va-alert>
+        {userSaved === false && <p>{content()}</p>}
+      </>
     );
   }
   return '';
+};
+
+DraftSavedInfo.propTypes = {
+  userSaved: PropTypes.bool,
 };
 
 export default DraftSavedInfo;

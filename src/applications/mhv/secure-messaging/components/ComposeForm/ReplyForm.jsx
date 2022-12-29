@@ -270,7 +270,7 @@ const ReplyForm = props => {
               <DiscardDraft draftId={newDraftId} />
             </div>
           </div>
-          {userSaved && <DraftSavedInfo />}
+          <DraftSavedInfo userSaved={userSaved} />
           <div className="message-detail-note vads-u-text-align--center">
             <p>
               <i>
