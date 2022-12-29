@@ -6,6 +6,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { useStaggeredFeatureRelease } from 'platform/utilities/react-hooks';
 
 function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   const noscriptElements = document.getElementsByTagName('noscript');
@@ -19,11 +20,16 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     const searchParams = new URLSearchParams(window.location.search);
     hasRedirectParam = searchParams.has('next');
   }
+  const isAllowed = useStaggeredFeatureRelease(
+    25,
+    'show-homepage-soft-launch-modal',
+  );
 
   return (
     <>
       {vaHomePreviewModal &&
-        !hasRedirectParam && (
+        !hasRedirectParam &&
+        isAllowed && (
           <VaModal
             role="dialog"
             cssClass="va-modal announcement-brand-consolidation"
@@ -82,6 +88,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
     </>
   );
 }
+
 HomepageRedesignModal.propTypes = {
   dismiss: PropTypes.func,
   vaHomePreviewModal: PropTypes.bool,
