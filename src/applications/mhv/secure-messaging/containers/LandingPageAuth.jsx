@@ -21,6 +21,7 @@ import { DefaultFolders as Folder } from '../util/constants';
 import { getMessages } from '../actions/messages';
 import UnreadMessages from '../components/Dashboard/UnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
+import DashboardSearch from '../components/Dashboard/DashboardSearch';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const LandingPageAuth = () => {
       </Link>
       <UnreadMessages />
       <WelcomeMessage />
+      <DashboardSearch />
     </div>
   );
 };

@@ -1,7 +1,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .dashboard {
-  max-width: 80%;
+  @media (min-width: $medium-screen) {
+    max-width: 80%;
+  }
+
   .unread-messages {
     margin-top: 20px;
     padding: 5px 0 12px 15px;
@@ -27,6 +30,38 @@
       &-lower {
         width: 90%;
       }
+    }
+  }
+
+  .dashboard-search {
+    margin-bottom: 10px;
+    &-card {
+      margin-top: 20px;
+      padding: 5px 15px;
+      background-color: $color-gray-lightest;
+    }
+    #select-search-folder-dropdown {
+      @media (max-width: $small-screen) {
+        width: 100%;
+      }
+      @media (min-width: $medium-screen) {
+        padding-right: 10px;
+        margin-right: 13px;
+        min-width: 110px;
+        width: 20%;
+      }
+    }
+    #search-keyword-text-input {
+      @media (max-width: $medium-screen) {
+        width: 100%;
+      }
+    }
+    .search-button {
+      margin-bottom: 3px;
+    }
+
+    .search-additinoal-info-adv {
+      margin-top: 8px;
     }
   }
 }
