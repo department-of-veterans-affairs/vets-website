@@ -35,6 +35,7 @@ const App = ({
   isStartingOver,
   location,
   pending,
+  profile,
   router,
   setFormData,
   showFSR,
@@ -105,6 +106,34 @@ const App = ({
     [dispatch, showCombinedFSR],
   );
 
+  // Update profile data changes in the form data dynamically
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
+    profile?.vapContactInfo || {};
+
+  useEffect(
+    () => {
+      if (isLoggedIn) {
+        const { personalData = {} } = formData || {};
+        if (
+          email?.emailAddress !== personalData.emailAddress ||
+          mobilePhone?.updatedAt !== personalData.telephoneNumber?.updatedAt ||
+          mailingAddress?.updatedAt !== personalData.address?.updatedAt
+        ) {
+          setFormData({
+            ...formData,
+            personalData: {
+              ...personalData,
+              emailAddress: email?.emailAddress,
+              telephoneNumber: mobilePhone,
+              address: mailingAddress,
+            },
+          });
+        }
+      }
+    },
+    [email, formData, isLoggedIn, mailingAddress, mobilePhone, setFormData],
+  );
+
   if (pending) {
     return (
       <va-loading-indicator
@@ -172,6 +201,9 @@ App.propTypes = {
   isStartingOver: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
+  profile: PropTypes.shape({
+    vapContactInfo: PropTypes.shape({}),
+  }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showCombinedFSR: PropTypes.bool,
