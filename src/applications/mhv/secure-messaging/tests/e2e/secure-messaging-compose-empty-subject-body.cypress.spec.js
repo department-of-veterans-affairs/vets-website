@@ -9,8 +9,6 @@ describe(manifest.appName, () => {
     landingPage.login();
     landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
-    cy.injectAxe();
-    cy.axeCheck();
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
@@ -40,5 +38,7 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[id=error-message]')
       .should('be.visible');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
