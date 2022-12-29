@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import App from '../../containers/App';
+import reducer from '../../reducers';
 
 describe('App', () => {
   it('feature flag set to undefined', () => {
@@ -32,19 +33,20 @@ describe('App', () => {
   });
   it('feature flag set to true', () => {
     const initialState = {
-      featureToggles: {
-        sm: {},
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
+      sm: {},
+      user: {
+        login: {
+          currentlyLoggedIn: true,
         },
+      },
+      featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_secure_messaging_to_va_gov_release: true,
       },
     };
     const screen = renderWithStoreAndRouter(<App />, {
       initialState,
+      reducers: reducer,
       path: `/`,
     });
     expect(screen.getByTestId('feature-flag-true'));
