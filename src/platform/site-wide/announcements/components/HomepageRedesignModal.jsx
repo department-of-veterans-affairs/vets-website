@@ -14,6 +14,12 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   const skipLinkElement = document.getElementsByClassName('show-on-focus')[0];
   ariaExcludeArray.push(skipLinkElement);
 
+  // Prevents modal from showing when redirected to homepage for auth
+  let hasRedirectParam = false;
+  if (window.location.search) {
+    const searchParams = new URLSearchParams(window.location.search);
+    hasRedirectParam = searchParams.has('next');
+  }
   const isAllowed = useStaggeredFeatureRelease(
     25,
     'show-homepage-soft-launch-modal',
@@ -22,6 +28,7 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   return (
     <>
       {vaHomePreviewModal &&
+        !hasRedirectParam &&
         isAllowed && (
           <VaModal
             role="dialog"
