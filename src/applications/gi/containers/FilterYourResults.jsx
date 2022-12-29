@@ -320,6 +320,7 @@ export function FilterYourResults({
           >
             {name}
           </h3>
+          <div className="vads-u-margin-bottom--4">{specialMissions()}</div>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -330,7 +331,6 @@ export function FilterYourResults({
               inputAriaLabelledBy={legendId}
             />
             <div className="school-types expanding-group-children">
-              {specialMissions()}
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
             </div>
