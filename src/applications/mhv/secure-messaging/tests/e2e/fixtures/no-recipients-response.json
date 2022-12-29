@@ -1,15 +1,6 @@
 {
     "data": [
-        {
-            "id": "7026562",
-            "type": "triage_teams",
-            "attributes": {
-                "triageTeamId": 7026562,
-                "name": "",
-                "relationType": "PATIENT",
-                "preferredTeam": true
-            }
-        }
+       
     ],
     "meta": {
         "sort": {
