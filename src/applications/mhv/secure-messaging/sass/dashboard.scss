@@ -64,4 +64,24 @@
       margin-top: 8px;
     }
   }
+
+  .dashboard-folders {
+    &-card {
+      padding: 33px;
+      margin: 14px 0;
+      background-color: $color-gray-lightest;
+      font-weight: $font-bold;
+      font-size: 16px;
+      .folder-link {
+        padding: 0;
+        margin-bottom: 30px;
+      }
+      @media (min-width: $medium-screen) {
+        padding: 18px 25px 1px 25px;
+        margin: 14px 0;
+        min-width: 260px;
+        width: fit-content;
+      }
+    }
+  }
 }

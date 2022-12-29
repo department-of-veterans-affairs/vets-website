@@ -22,6 +22,7 @@ import { getMessages } from '../actions/messages';
 import UnreadMessages from '../components/Dashboard/UnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import DashboardSearch from '../components/Dashboard/DashboardSearch';
+import DashboardFolders from '../components/Dashboard/DashboardFolders';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const LandingPageAuth = () => {
       <UnreadMessages />
       <WelcomeMessage />
       <DashboardSearch />
+      <DashboardFolders />
     </div>
   );
 };
