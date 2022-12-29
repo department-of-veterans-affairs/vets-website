@@ -58,7 +58,7 @@ export class Announcement extends Component {
       const skipLinkParent = document.getElementsByClassName('merger')[0];
       const skipLinkEl = document.getElementsByClassName('show-on-focus')[0];
       const focusEl = document.createElement('div');
-      focusEl.innerHTML = 'Current Homepage';
+      focusEl.innerHTML = returnFocusDivContent;
       focusEl.tabIndex = '-1';
       focusEl.classList.add('sr-only', 'current-page-title');
       skipLinkParent.insertBefore(focusEl, skipLinkEl);
