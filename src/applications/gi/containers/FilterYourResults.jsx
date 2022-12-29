@@ -330,9 +330,9 @@ export function FilterYourResults({
               inputAriaLabelledBy={legendId}
             />
             <div className="school-types expanding-group-children">
+              {specialMissions()}
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
-              {specialMissions()}
             </div>
           </ExpandingGroup>
         </div>
