@@ -3,7 +3,14 @@ import React from 'react';
 const FrequentlyAskedQuestions = () => {
   return (
     <div className="vads-u-padding-bottom--9">
-      <h2 className="vads-u-margin-top--1">Frequently-asked questions</h2>
+      <h2 className="vads-u-margin-top--1">Frequently asked questions</h2>
+      <p className="va-introtext">
+        How secure messaging works, what to expect, and how to get help.
+      </p>
+      <p className="vads-u-font-weight--bold">
+        With VA secure messaging, you can communicate privately line with your
+        VA health care team.
+      </p>
       <va-accordion open-single>
         <va-accordion-item id="first">
           <h6 slot="headline">

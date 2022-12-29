@@ -23,6 +23,7 @@ import UnreadMessages from '../components/Dashboard/UnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import DashboardSearch from '../components/Dashboard/DashboardSearch';
 import DashboardFolders from '../components/Dashboard/DashboardFolders';
+import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const LandingPageAuth = () => {
       <WelcomeMessage />
       <DashboardSearch />
       <DashboardFolders />
+      <FrequentlyAskedQuestions />
     </div>
   );
 };
