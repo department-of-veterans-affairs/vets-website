@@ -58,10 +58,7 @@
     border: 0px;
   }
   .sidebar-navigation-messages-list {
-    background-color: $color-gray-lightest;
     .sidebar-navigation-messages-list-header {
-      border-left: 5px solid;
-      font-weight: 700;
       a {
         padding-top: 7px;
         &:active {
@@ -83,7 +80,6 @@
     }
   }
 }
-
 @media (max-width: $small-screen) {
   .va-btn-sidebarnav-trigger {
     z-index: 0;

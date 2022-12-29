@@ -13,7 +13,7 @@ const AuthorizedRoutes = () => {
   return (
     <div className="vads-u-flex--fill">
       <Switch>
-        <Route exact path="/" key="App">
+        <Route exact path="/inbox" key="App">
           <LandingPageAuth />
         </Route>
         <Route exact path="/folders" key="Folders">

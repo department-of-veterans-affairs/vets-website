@@ -19,7 +19,7 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose', datatestid: 'compose-sidebar' },
+      { path: '/inbox', label: 'Inbox', datatestid: 'inbox-sidebar' },
       { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
       { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
       { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
@@ -27,11 +27,6 @@ const Navigation = () => {
         path: '/folders',
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
-      },
-      {
-        path: '/search',
-        label: 'Search messages',
-        datatestid: 'search-messages-sidebar',
       },
       {
         path: '/faq',
@@ -92,7 +87,7 @@ const Navigation = () => {
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
     if (location.pathname === path.path) {
-      return 'vads-u-font-weight--bold';
+      return 'vads-u-font-weight--bold vads-u-background-color--gray-lightest vads-u-border-left--4px';
     }
     if (path.label === 'My folders') {
       if (basePath[1] === 'message') {
@@ -127,14 +122,9 @@ const Navigation = () => {
           </div>
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
-              <li>
-                <a href="/my-health/secure-messages">Pharmacy</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Appointments</a>
-              </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
+                  {/* Message Link will navigate to the new SM Home page in the future */}
                   <Link to="/">Messages</Link>
                 </div>
 
@@ -158,20 +148,6 @@ const Navigation = () => {
                     ))}
                   </ul>
                 </div>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Medical records</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">VA health care benefits</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">
-                  Copay bills and travel pay
-                </a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Health resources</a>
               </li>
             </ul>
           </div>
