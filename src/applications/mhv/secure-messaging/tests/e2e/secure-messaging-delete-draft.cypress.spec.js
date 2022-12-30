@@ -24,8 +24,8 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-2/messages**',
       mockDraftMessages,
     ).as('draftsResponse');
-    cy.wait('@draftsFolderMetaResponse');
-    cy.wait('@draftsResponse');
+    // cy.wait('@draftsFolderMetaResponse');
+    // cy.wait('@draftsResponse');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/messages/7208913',
@@ -42,6 +42,8 @@ describe(manifest.appName, () => {
       .shadow()
       .find('[type ="button"]', { force: true })
       .contains('Discard draft')
+      .should('contain', 'Discard')
       .click({ force: true });
+    cy.contains('Appointment:').should('not.exist');
   });
 });
