@@ -9,4 +9,13 @@ const setErrorHandler = (state, action) => {
 const setFormHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
-export { setAppHandler, setErrorHandler, setFormHandler };
+
+const setActiveAppointmentHandler = (state, action) => {
+  return { ...state, ...action.payload };
+};
+export {
+  setAppHandler,
+  setErrorHandler,
+  setFormHandler,
+  setActiveAppointmentHandler,
+};
