@@ -14,7 +14,8 @@ import Navigation from '../components/Navigation';
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
+  const isLoggedIn = true;
+  // const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
   const mhvSecureMessagingToVaGovRelease = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease],
