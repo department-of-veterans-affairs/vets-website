@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { DefaultFolders as Folders } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ManageFolderButtons from '../ManageFolderButtons';
-import CondensedSearchForm from '../Search/CondensedSearchForm';
+import CondensedSearchForm from '../Search/SearchForm';
 
 const FolderHeader = props => {
   const { folder } = props;

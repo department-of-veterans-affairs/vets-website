@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
-import CondensedSearchForm from '../components/Search/CondensedSearchForm';
+import CondensedSearchForm from '../components/Search/SearchForm';
 
 const Search = () => {
   const {
@@ -65,7 +65,7 @@ const Search = () => {
 
   return (
     <div
-      className="vads-l-grid-container search-messages"
+      className="vads-l-grid-container search-results"
       data-testid="search-messages"
     >
       <h1 className="page-title">Search results</h1>

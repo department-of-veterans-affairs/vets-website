@@ -16,7 +16,7 @@ import {
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
 
-const SearchMessagesForm = props => {
+const AdvancedSearchForm = props => {
   const {
     folders,
     testingSubmit,
@@ -136,21 +136,6 @@ const SearchMessagesForm = props => {
     history.push('/search/results');
   };
 
-  const resetSearchForm = () => {
-    setFolder(0);
-    setMessageId('');
-    setSenderName('');
-    setSubject('');
-    setCategory('');
-    setDateRange('any');
-    setFromDate('');
-    setToDate('');
-
-    setFromDateError('');
-    setToDateError('');
-    setFormError('');
-  };
-
   return (
     <form className="search-form" onSubmit={handleFormSubmit}>
       {formError && (
@@ -173,6 +158,10 @@ const SearchMessagesForm = props => {
           </ul>
         </VaModal>
       )}
+      <p className="vads-u-margin--0">
+        To use the advanced search please choose a folder and fill out at least
+        one other field.
+      </p>
       <VaSelect
         id="folder-dropdown"
         label="Folder"
@@ -181,6 +170,7 @@ const SearchMessagesForm = props => {
         value={folder}
         onVaSelect={e => setFolder(e.detail.value)}
         data-testid="folder-dropdown"
+        required
       >
         {foldersList.map(item => (
           <option key={item.id} value={item.id}>
@@ -196,7 +186,13 @@ const SearchMessagesForm = props => {
         value={messageId}
         class="textField"
         data-testid="message-id-text-input"
-      />
+      >
+        <va-additional-info trigger="What's this?" class="message-id-info">
+          A message ID is a number we assign to each message. If you sign up for
+          email notifications, we’ll send you an email each time you get a new
+          message. These emails include the message ID.
+        </va-additional-info>
+      </va-text-input>
       <va-text-input
         label="From"
         name="from"
@@ -271,25 +267,17 @@ const SearchMessagesForm = props => {
         </div>
       )}
 
-      <div className="advanced-search-actions vads-u-display--flex">
-        <va-button
-          class="vads-u-flex--1"
-          data-testid="advanced-search-submit"
-          text="Advanced search"
-          onClick={handleFormSubmit}
-        />
-        <va-button
-          class="vads-u-flex--1"
-          secondary
-          text="Reset search"
-          onClick={resetSearchForm}
-        />
-      </div>
+      <va-button
+        class="advanced-search-button"
+        data-testid="advanced-search-submit"
+        text="Search"
+        onClick={handleFormSubmit}
+      />
     </form>
   );
 };
 
-SearchMessagesForm.propTypes = {
+AdvancedSearchForm.propTypes = {
   advancedSearchOpen: PropTypes.bool,
   folders: PropTypes.any,
   testingDateRange: PropTypes.any,
@@ -298,4 +286,4 @@ SearchMessagesForm.propTypes = {
   testingToDate: PropTypes.any,
 };
 
-export default SearchMessagesForm;
+export default AdvancedSearchForm;
