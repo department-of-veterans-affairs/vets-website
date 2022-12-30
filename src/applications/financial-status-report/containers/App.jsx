@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
@@ -219,6 +220,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  profile: selectProfile(state),
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
