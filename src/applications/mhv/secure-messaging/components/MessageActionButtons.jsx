@@ -102,6 +102,7 @@ const MessageActionButtons = props => {
         <button
           type="button"
           className="message-action-button right-button usa-button-secondary"
+          data-testid="reply-button-top"
           onClick={props.onReply}
         >
           <i
