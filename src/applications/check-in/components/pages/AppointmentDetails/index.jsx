@@ -48,10 +48,16 @@ const AppointmentDetails = props => {
         text={t('back-to-appointments')}
       />
       <Wrapper classNames="appointment-details-page" withBackButton>
-        <div
-          className="vads-u-border--2px vads-u-border-color--gray-lighter vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2"
-          style={{ borderRadius: '20px' }}
-        >
+        <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray-lighter vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
+          <div className="appointment-details--icon">
+            <i
+              aria-label="Appointment type"
+              className={`fas ${
+                appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
+              }`}
+              aria-hidden="true"
+            />
+          </div>
           <h1
             tabIndex="-1"
             data-testid="header"
@@ -61,7 +67,7 @@ const AppointmentDetails = props => {
               'appointment',
             )}`}
           </h1>
-          <p>
+          <p className="vads-u-margin--0">
             {isPhoneAppointment
               ? t('your-provider-will-call-you-at-your-appointment-time')
               : t(
