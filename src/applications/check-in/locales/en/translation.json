@@ -210,5 +210,13 @@
   "travel-pay-reimbursement--info-message": "VA travel pay reimbursement pays eligible Veterans and caregivers back for mileage and other travel expenses to and from approved health care appointments.",
   "find-out-how-to-file--link": "Find out how to file for travel reimbursement",
   "pre-check-in-no-longer-available--info-message": "We’re sorry. Pre-check-in is no longer available for your appointment time. Ask a staff member for help to check in.",
-  "with": "with"
+  "with": "with",
+  "appointment": "appointment",
+  "when": "When",
+  "what": "What",
+  "Provider": "Provider",
+  "where-to-attend": "Where to attend",
+  "reason-for-visit": "Reason for visit",
+  "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
+  "back-to-appointments": "Back to appointments"
 }

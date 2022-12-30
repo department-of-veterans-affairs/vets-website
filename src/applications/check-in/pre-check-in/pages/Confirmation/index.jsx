@@ -16,7 +16,8 @@ import {
   makeSelectVeteranData,
 } from '../../../selectors';
 
-const Confirmation = () => {
+const Confirmation = props => {
+  const { router } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
 
@@ -94,6 +95,7 @@ const Confirmation = () => {
       appointments={appointments}
       isLoading={isLoading}
       formData={formData}
+      router={router}
     />
   );
 };

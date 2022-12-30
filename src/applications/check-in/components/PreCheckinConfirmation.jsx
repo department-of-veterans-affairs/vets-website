@@ -13,7 +13,7 @@ import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
-  const { appointments, isLoading, formData } = props;
+  const { appointments, isLoading, formData, router } = props;
   const {
     demographicsUpToDate,
     emergencyContactUpToDate,
@@ -54,6 +54,7 @@ const PreCheckinConfirmation = props => {
           <AppointmentBlockVaos
             appointments={appointments}
             page="confirmation"
+            router={router}
           />
         ) : (
           <AppointmentBlock appointments={appointments} page="confirmation" />
@@ -85,6 +86,7 @@ PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
   formData: PropTypes.object,
   isLoading: PropTypes.bool,
+  router: PropTypes.object,
 };
 
 export default PreCheckinConfirmation;
