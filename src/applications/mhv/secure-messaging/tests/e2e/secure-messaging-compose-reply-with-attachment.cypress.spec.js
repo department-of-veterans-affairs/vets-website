@@ -16,65 +16,25 @@ describe(manifest.appName, () => {
       .find('[id="select"]')
       .select('BLUE ANCILLARY_TEAM');
     cy.get('[name="COVID"]').click();
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_video.mp4',
-      { force: true },
+    composePage.attachMessageFromFile('test_video.mp4');
+    composePage.verifyAttachmentErrorMessage(
+      'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
     );
-
-    cy.get('[data-testid="attach-file-error-modal"] p')
-      .should(
-        'have.text',
-        'File supported: doc, docx, gif, jpg, jpeg, pdf, png, rtf, txt, xls, xlsx',
-      )
-      .should('be.visible');
-    cy.get('[data-testid="attach-file-error-modal"]')
-      .shadow()
-      .find('[type="button"]')
-      .first()
-      .click();
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image_10mb.jpg',
-      { force: true },
+    composePage.closeAttachmentErrorPopup();
+    composePage.attachMessageFromFile('test_image_10mb.jpg');
+    composePage.verifyAttachmentErrorMessage(
+      'File size for a single attachment cannot exceed 6MB',
     );
-    cy.get('[data-testid="attach-file-error-modal"] p')
-      .should(
-        'have.text',
-        'File size for a single attachment cannot exceed 6MB',
-      )
-      .should('be.visible');
-    cy.get('[data-testid="attach-file-error-modal"]')
-      .shadow()
-      .find('[type="button"]')
-      .first()
-      .click();
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/sample_pdf.pdf',
-      { force: true },
+    composePage.closeAttachmentErrorPopup();
+    composePage.attachMessageFromFile('sample_pdf.pdf');
+    composePage.attachMessageFromFile('sample_docx.docx');
+    composePage.attachMessageFromFile('sample_XLS.xls');
+    composePage.attachMessageFromFile('test_image.gif');
+    composePage.attachMessageFromFile('test_image.jpg');
+    composePage.verifyAttachmentErrorMessage(
+      'You may only attach up to 4 files',
     );
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/sample_docx.docx',
-      { force: true },
-    );
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/sample_XLS.xls',
-      { force: true },
-    );
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.gif',
-      { force: true },
-    );
-    cy.get('[data-testid="attach-file-input"]').selectFile(
-      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
-      { force: true },
-    );
-    cy.get('[data-testid="attach-file-error-modal"] p')
-      .should('have.text', 'You may only attach up to 4 files')
-      .should('be.visible');
-    cy.get('[data-testid="attach-file-error-modal"]')
-      .shadow()
-      .find('[type="button"]')
-      .first()
-      .click();
+    composePage.closeAttachmentErrorPopup();
 
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
