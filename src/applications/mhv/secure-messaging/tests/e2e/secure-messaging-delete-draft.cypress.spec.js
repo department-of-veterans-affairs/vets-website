@@ -31,19 +31,6 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/messages/7208913',
       mockDraftResponse,
     ).as('draftMessageResponse');
-    // cy.contains('test').click();
-    // // cy.wait('@draftMessageResponse');
-    // cy.injectAxe();
-    // cy.axeCheck();
-    // cy.get('[data-testid="message-subject-field"]')
-    //   .shadow()
-    //   .find('[name="message-subject"]')
-    //   .type('Testing Drafts');
-    // cy.get('[data-testid="message-body-field"]')
-    //   .shadow()
-    //   .find('[name="message-body"]')
-    //   .type('Test message body');
-    // composePage.saveDraft();
 
     cy.get('[data-testid="drafts-sidebar"]').click();
     // cy.get(':nth-child(3) > .message-subject-link').click();
