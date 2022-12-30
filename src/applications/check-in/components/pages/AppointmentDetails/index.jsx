@@ -72,13 +72,23 @@ const AppointmentDetails = props => {
               'appointment',
             )}`}
           </h1>
-          <p className="vads-u-margin--0">
-            {isPhoneAppointment
-              ? t('your-provider-will-call-you-at-your-appointment-time')
-              : t(
-                  'please-bring-your-insurance-cards-with-you-to-your-appointment',
-                )}
-          </p>
+          {isPhoneAppointment ? (
+            <p
+              data-testid="phone-appointment-subtitle"
+              className="vads-u-margin--0"
+            >
+              {t('your-provider-will-call-you-at-your-appointment-time')}
+            </p>
+          ) : (
+            <p
+              data-testid="in-person-appointment-subtitle"
+              className="vads-u-margin--0"
+            >
+              {t(
+                'please-bring-your-insurance-cards-with-you-to-your-appointment',
+              )}
+            </p>
+          )}
           <div data-testid="appointment-details--when">
             <h2 className="vads-u-font-size--sm">{t('when')}</h2>
             <div data-testid="appointment-details--date-value">
