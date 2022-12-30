@@ -14,7 +14,7 @@ export const QUERY_LIFESPAN = 3600000;
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 
-export const MINIMUM_RATING_COUNT = 3;
+export const MINIMUM_RATING_COUNT = 5;
 
 // Max search area distance in miles
 export const MAX_SEARCH_AREA_DISTANCE = 150;
@@ -115,3 +115,96 @@ export const ariaLabels = Object.freeze({
       'Learn more about what is covered by the Yellow Ribbon program and who can use it',
   },
 });
+
+export const aboutRatings = [
+  {
+    text: `About ratings`,
+    classes:
+      'small-screen:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font',
+    isDiv: true,
+    isParagraph: false,
+    isSpan: false,
+    isUL: false,
+    addBottomLine: true,
+  },
+  {
+    text: `We ask Veterans who have used their education benefits to rate
+    schools they’ve attended on a scale of 1 to 4 stars, with 4 stars
+    being the best rating.`,
+    classes: '',
+    isDiv: false,
+    isParagraph: true,
+    isSpan: false,
+    isUL: false,
+    addBottomLine: false,
+  },
+  {
+    text: `How ratings are collected`,
+    classes:
+      'small-screen:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font',
+    isDiv: false,
+    isParagraph: false,
+    isSpan: true,
+    isUL: false,
+    addBottomLine: false,
+  },
+  {
+    text: `VA works independently to collect ratings from Veterans. We reach
+    out to Veterans to provide a rating who have:`,
+    classes: '',
+    isDiv: false,
+    isParagraph: true,
+    isSpan: false,
+    isUL: false,
+    addBottomLine: false,
+  },
+  {
+    text: ``,
+    classes: '',
+    isDiv: false,
+    isParagraph: false,
+    isSpan: false,
+    isUL: true,
+    listBullets: [
+      'Received a Certificate of Eligibility (COE) for benefits',
+      'Transferred into or out of a school',
+      `Made a change to their program of study, or`,
+      'Completed their degree program',
+    ],
+    addBottomLine: false,
+  },
+  {
+    text: `Veterans rate schools on a number of categories. Those ratings are
+    averaged to calculate the overall school rating. If a Veteran
+    doesn’t rate a category, it has no effect on the category’s overall
+    score.`,
+    classes: '',
+    isDiv: false,
+    isParagraph: true,
+    isSpan: false,
+    isUL: false,
+    addBottomLine: false,
+  },
+  {
+    text: `Veteran privacy`,
+    classes: 'vads-u-font-size--h4 vads-u-font-weight--bold',
+    isDiv: false,
+    isParagraph: false,
+    isSpan: true,
+    isUL: false,
+    addBottomLine: false,
+  },
+  {
+    text: ` A school may ask us for a list of Veterans who rated their school,
+    but we do not share individual ratings with schools. If an
+    institution asks us for information on who rated their school, no
+    information beyond what is publicly available on the Comparison Tool
+    is shared with them that would tie an individual to their ratings.`,
+    classes: '',
+    isDiv: false,
+    isParagraph: true,
+    isSpan: false,
+    isUL: false,
+    addBottomLine: false,
+  },
+];
