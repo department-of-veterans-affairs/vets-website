@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import isValid from 'date-fns/isValid';
+import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
@@ -40,6 +41,10 @@ const AppointmentDetails = props => {
     },
     [activeAppointment, appointments, jumpToPage],
   );
+
+  const clinic = appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicName;
   return (
     <>
       <BackButton
@@ -74,44 +79,74 @@ const AppointmentDetails = props => {
                   'please-bring-your-insurance-cards-with-you-to-your-appointment',
                 )}
           </p>
-          <div className="appointment-details--when">
+          <div data-testid="appointment-details--when">
             <h2 className="vads-u-font-size--sm">{t('when')}</h2>
-            {isValid(appointmentDay) &&
-              t('appointment-day', { date: appointmentDay })}
+            <div data-testid="appointment-details--date-value">
+              {isValid(appointmentDay) &&
+                t('appointment-day', { date: appointmentDay })}
+            </div>
           </div>
-          <div className="appointment-details--what">
+          <div data-testid="appointment-details--what">
             <h2 className="vads-u-font-size--sm">{t('what')}</h2>
-            {appointment.clinicStopCodeName ?? t('VA-appointment')}
+            <div data-testid="appointment-details--appointment-value">
+              {appointment.clinicStopCodeName ?? t('VA-appointment')}
+            </div>
           </div>
           {appointment.doctorName && (
-            <div className="appointment-details--provider">
+            <div data-testid="appointment-details--provider">
               <h2 className="vads-u-font-size--sm">{t('Provider')}</h2>
-              {appointment.doctorName}
+              <div data-testid="appointment-details--provider-value">
+                {appointment.doctorName}
+              </div>
             </div>
           )}
-          <div className="appointment-details--where">
+          <div data-testid="appointment-details--where">
             <h2 className="vads-u-font-size--sm">
               {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
             </h2>
+            {/* TODO add address for in person appointments */}
+            <div data-testid="appointment-details--clinic-value">
+              {isPhoneAppointment ? '' : t('clinic')}: {clinic}
+            </div>
+            {isPhoneAppointment ? (
+              ''
+            ) : (
+              <div data-testid="appointment-details--location-value">
+                {`${t('location')}: ${appointment.clinicLocation}`}
+              </div>
+            )}
           </div>
           {appointment.clinicPhoneNumber && (
-            <div className="appointment-details--phone">
+            <div data-testid="appointment-details--phone">
               <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
-              <va-telephone contact={appointment.clinicPhoneNumber}>
-                {appointment.clinicPhoneNumber}
-              </va-telephone>
+              <div data-testid="appointment-details--phone-value">
+                <i
+                  aria-label="phone"
+                  className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
+                  aria-hidden="true"
+                />
+                <va-telephone contact={appointment.clinicPhoneNumber}>
+                  {appointment.clinicPhoneNumber}
+                </va-telephone>
+              </div>
             </div>
           )}
           {appointment.reasonForVisit && (
-            <div className="appointment-details--reason">
+            <div data-testid="appointment-details--reason">
               <h2 className="vads-u-font-size--sm">{t('reason-for-visit')}</h2>
-              {appointment.reasonForVisit}
+              <div data-testid="appointment-details--reason-value">
+                {appointment.reasonForVisit}
+              </div>
             </div>
           )}
         </div>
       </Wrapper>
     </>
   );
+};
+
+AppointmentDetails.propTypes = {
+  router: PropTypes.object,
 };
 
 export default AppointmentDetails;
