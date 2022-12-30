@@ -1,12 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const AppointmentBlockVaos = props => {
-  const { appointments, page } = props;
-  const { t } = useTranslation();
+import { setActiveAppointment } from '../actions/universal';
+import { useFormRouting } from '../hooks/useFormRouting';
 
+const AppointmentBlockVaos = props => {
+  const { appointments, page, router } = props;
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const appointmentsDateTime = new Date(appointments[0].startTime);
+  const { jumpToPage } = useFormRouting(router);
+
+  const handleDetailClick = (appointmentIen, e) => {
+    e.preventDefault();
+    dispatch(setActiveAppointment(appointmentIen));
+    jumpToPage('appointment-details');
+  };
 
   return (
     <div>
@@ -68,7 +79,14 @@ const AppointmentBlockVaos = props => {
                   </div>
                   {page === 'confirmation' && (
                     <div>
-                      <a href="#details">Details</a>
+                      <a
+                        href="#details"
+                        onClick={e =>
+                          handleDetailClick(appointment.appointmentIen, e)
+                        }
+                      >
+                        Details
+                      </a>
                     </div>
                   )}
                 </div>
@@ -84,6 +102,7 @@ const AppointmentBlockVaos = props => {
 AppointmentBlockVaos.propTypes = {
   appointments: PropTypes.array.isRequired,
   page: PropTypes.string.isRequired,
+  router: PropTypes.object,
 };
 
 export default AppointmentBlockVaos;
