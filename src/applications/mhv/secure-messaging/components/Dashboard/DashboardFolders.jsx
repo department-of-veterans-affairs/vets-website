@@ -10,7 +10,15 @@ const DashboardFolders = () => {
     <div className="dashboard-folders">
       <h2>Folders</h2>
       <div className="dashboard-folders-card">
-        {foldersList && <FoldersList folders={foldersList} />}
+        {foldersList === undefined ? (
+          <va-loading-indicator
+            class="vads-u-margin-y--2"
+            message="Loading your folders..."
+            data-testid="loading-indicator"
+          />
+        ) : (
+          <>{foldersList && <FoldersList folders={foldersList} />}</>
+        )}
       </div>
     </div>
   );

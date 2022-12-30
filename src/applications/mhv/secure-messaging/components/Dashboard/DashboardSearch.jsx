@@ -25,7 +25,9 @@ const DashboardSearch = () => {
     <div className="dashboard-search">
       <h2>Search for messages</h2>
       <div className="dashboard-search-card">
-        <p>Search messages</p>
+        <p className="vads-u-font-weight--bold vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2">
+          Search messages
+        </p>
         <div className="vads-u-width--full vads-u-display--inline-block medium-screen:vads-u-display--flex vads-u-align-items--flex-end vads-u-justify-content--flex-start vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
           <VaSelect
             id="select-search-folder-dropdown"

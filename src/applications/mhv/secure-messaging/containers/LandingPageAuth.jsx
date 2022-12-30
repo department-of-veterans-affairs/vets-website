@@ -46,7 +46,7 @@ const LandingPageAuth = () => {
     <div className="dashboard">
       <h1>Messages</h1>
       <p className="va-introtext">
-        Send and receive messages with your care team at VA
+        Send and receive messages with your care team at VA.
       </p>
       <Link
         className="vads-c-action-link--blue compose-message-link"
