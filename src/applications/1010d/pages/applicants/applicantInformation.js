@@ -1,29 +1,23 @@
-import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { without, omit } from 'lodash';
 import { applicantFields } from '../../definitions/constants';
-import ApplicantField from '../../components/ApplicantField';
 import fullSchema from '../../10-10D-schema.json';
 
-const { applicants } = fullSchema.properties;
+import ApplicantField from '../../components/ApplicantField';
+
+const { required, properties } = fullSchema.properties.applicants.items;
 
 export default {
   uiSchema: {
-    'view:newService': {
-      'ui:title':
-        'Do you have any new periods of service to record since you last applied for education benefits?',
-      'ui:widget': 'yesNo',
-    },
     [applicantFields.parentObject]: {
       'ui:options': {
         viewField: ApplicantField,
-        expandUnder: 'view:newService',
       },
       items: {
-        [applicantFields.address]: address.uiSchema(),
         [applicantFields.fullName]: fullNameUI,
         [applicantFields.ssn]: ssnUI,
         [applicantFields.gender]: {
@@ -34,9 +28,11 @@ export default {
         [applicantFields.dob]: currentOrPastDateUI('Date of birth'),
         [applicantFields.isEnrolledInMedicare]: {
           'ui:title': 'Enrolled in Medicare?',
+          'ui:widget': 'yesNo',
         },
         [applicantFields.hasOtherHealthInsurance]: {
           'ui:title': 'Other health insurance?',
+          'ui:widget': 'yesNo',
         },
         [applicantFields.vetRelationship]: {
           'ui:title': 'Veteran relationship',
@@ -47,10 +43,15 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:newService': {
-        type: 'boolean',
+      [applicantFields.parentObject]: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          required: without(required, applicantFields.address),
+          properties: omit(properties, [applicantFields.address]),
+        },
       },
-      applicants,
     },
   },
 };

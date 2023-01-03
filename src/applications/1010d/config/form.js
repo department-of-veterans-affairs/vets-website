@@ -12,6 +12,7 @@ import sponsorAddress from '../pages/sponsor/sponsorAddress';
 import sponsorDates from '../pages/sponsor/sponsorDates';
 
 import applicantInformation from '../pages/applicants/applicantInformation';
+import applicantAddress from '../pages/applicants/applicantAddress';
 
 const {
   fullName,
@@ -78,10 +79,18 @@ const formConfig = {
       title: 'Applicant Information',
       pages: {
         applicantInformation: {
-          path: 'applicant-information',
+          path: 'applicant',
           title: 'Applicant Information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
+        },
+        applicantAddress: {
+          path: 'applicant/:index',
+          title: 'Applicant Address',
+          showPagePerItem: true,
+          arrayPath: 'applicants',
+          uiSchema: applicantAddress.uiSchema,
+          schema: applicantAddress.schema,
         },
       },
     },
