@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { CSSTransition } from 'react-transition-group';
+
 import { runBasicSearch } from '../../actions/search';
-import AdvancedSearchForm from './AdvancedSearchForm';
+import AdvancedSearchExpander from './AdvancedSearchExpander';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query } = props;
@@ -143,32 +143,12 @@ const SearchForm = props => {
       )}
 
       {resultsCount !== 0 && (
-        <div className="advanced-search-expander">
-          <button
-            type="button"
-            onClick={() => setAdvancedOpen(!advancedOpen)}
-            className="advanced-search-toggle"
-          >
-            <span className="advanced-toggle-text">Advanced search</span>
-            <i
-              className={`fas fa-angle-down advanced-toggle-icon ${advancedOpen &&
-                'advanced-toggle-icon-active'}`}
-              aria-hidden="true"
-            />
-          </button>
-
-          <CSSTransition
-            in={advancedOpen}
-            nodeRef={nodeRef}
-            timeout={700}
-            classNames="advanced-open"
-            unmountOnExit
-          >
-            <div ref={nodeRef} className="advanced-search">
-              <AdvancedSearchForm folders={folders} />
-            </div>
-          </CSSTransition>
-        </div>
+        <AdvancedSearchExpander
+          advancedOpen={advancedOpen}
+          setAdvancedOpen={setAdvancedOpen}
+          nodeRef={nodeRef}
+          folders={folders}
+        />
       )}
     </div>
   );
