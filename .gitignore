@@ -52,7 +52,7 @@ all-links.csv
 # Ignore custom generated Cypress-TestRail configs
 config/my-cypress-testrail.json
 config/my-cypress-testrail.config.js
-cypress-testrail-helper/my-config.json
+script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
