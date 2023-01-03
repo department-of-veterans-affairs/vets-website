@@ -13,6 +13,7 @@ import {
   FETCH_CLAIM_STATUS_SUCCESS,
   FETCH_CLAIM_STATUS_FAILURE,
 } from './actions';
+import { formFields } from './constants';
 
 const initialState = {
   formData: {
@@ -27,23 +28,18 @@ const initialState = {
 };
 
 const handleDirectDepositApi = action => {
-  if (action?.response?.data?.attributes) {
-    return {
-      ...action?.response?.data?.attributes,
-      originalAccountNumber: action?.response?.data?.attributes?.accountNumber,
-      originalRoutingNumer:
-        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-      routingNumber:
-        action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    };
+  if (!action?.response?.data?.attributes) {
+    return {};
   }
+
   return {
-    accountNumber: '******9891',
-    accountType: 'Checking',
-    financialInstitutionName: 'Wells Fargo',
-    originalAccountNumber: '******9891',
-    originalRoutingNumber: '*****0503',
-    routingNumber: '*****0503',
+    ...action?.response?.data?.attributes,
+    [formFields.originalAccountNumber]:
+      action?.response?.data?.attributes?.accountNumber,
+    [formFields.originalRoutingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.routingNumber]:
+      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
   };
 };
 

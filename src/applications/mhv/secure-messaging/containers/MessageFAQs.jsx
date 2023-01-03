@@ -4,6 +4,7 @@ MessageFAQs Container
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import MessageFAQ from '../components/MessageFAQ';
 
 const MessageFAQs = props => {
@@ -13,6 +14,10 @@ const MessageFAQs = props => {
       <MessageFAQ isLoggedIn={isLoggedIn} />
     </div>
   );
+};
+
+MessageFAQs.propTypes = {
+  isLoggedIn: PropTypes.bool,
 };
 
 export default MessageFAQs;

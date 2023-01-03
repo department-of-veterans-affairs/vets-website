@@ -4,15 +4,19 @@ import URLSearchParams from 'url-search-params';
 
 import { makeSelectForm } from '../selectors';
 
+import { useUpdateError } from './useUpdateError';
+
 import { URLS } from '../utils/navigation';
 
 const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
   const { pages } = useSelector(selectForm);
 
+  const { updateError } = useUpdateError();
+
   const goToErrorPage = useCallback(
-    (params = '') => {
-      router.push(URLS.ERROR + params);
+    (errorType = '') => {
+      router.push(`${URLS.ERROR}?error=${errorType}`);
     },
     [router],
   );
@@ -36,10 +40,10 @@ const useFormRouting = (router = {}) => {
         }
         router.push(query);
       } else {
-        goToErrorPage('?error=routing-error');
+        updateError('routing-error');
       }
     },
-    [goToErrorPage, router],
+    [updateError, router],
   );
 
   const getCurrentPageFromRouter = useCallback(

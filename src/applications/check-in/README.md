@@ -18,7 +18,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - Login using the mock user, Last name: `Smith` Last four: `1234` or DOB `03-15-1989`
+  - Login using the mock user, Last name: `Smith` DOB: `03-15-1989`
 
 ## Mock UUIDs
 There are several different mock UUIDs that can be used as a value for the `id` URL param.
@@ -91,10 +91,6 @@ Current features PCI & day-of: `yarn cy:run --env with_screenshots=true --spec s
 Current features PCI only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.pci.cypress.spec.js`
 
 Current features day-of only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.day-of.cypress.spec.js`
-
-DOB validation page PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-dob.pci.cypress.spec.js`
-
-DOB validation page day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-dob.day-of.cypress.spec.js`
 
 Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
 

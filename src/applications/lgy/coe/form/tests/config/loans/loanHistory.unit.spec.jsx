@@ -50,7 +50,7 @@ describe('COE applicant loan history', () => {
 
     fireEvent.submit($('form'));
 
-    expect($$('.usa-input-error', container).length).to.equal(5);
+    expect($$('.usa-input-error', container).length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -74,6 +74,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                propertyOwned: true,
               },
             ],
           }}
@@ -98,6 +99,7 @@ describe('COE applicant loan history', () => {
             relevantPriorLoans: [
               {
                 vaLoanNumber: '12-34-5-6789012',
+                propertyOwned: true,
               },
             ],
           }}
@@ -180,6 +182,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                propertyOwned: true,
               },
             ],
           }}
@@ -216,6 +219,7 @@ describe('COE applicant loan history', () => {
                   propertyZip: '48017',
                 },
                 vaLoanNumber: '123456789012',
+                propertyOwned: true,
               },
               {
                 dateRange: {
@@ -228,6 +232,7 @@ describe('COE applicant loan history', () => {
                   propertyState: 'AK',
                   propertyZip: '48017',
                 },
+                propertyOwned: true,
                 vaLoanNumber: '123456789013',
               },
             ],

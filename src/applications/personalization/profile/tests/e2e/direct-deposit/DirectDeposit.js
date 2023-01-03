@@ -48,9 +48,7 @@ class DirectDepositPage {
   };
 
   confirmServiceIsDownMessageShows = () => {
-    cy.findByTestId('direct-deposit-service-down-alert-headline').should(
-      'exist',
-    );
+    cy.findByTestId('service-is-down-banner').should('exist');
   };
 
   confirmProfileIsBlocked = () => {

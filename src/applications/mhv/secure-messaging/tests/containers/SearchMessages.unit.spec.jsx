@@ -22,7 +22,7 @@ describe('Message search container', () => {
     expect(screen);
   });
 
-  it('dispays loading indicator if folders are not yet loaded', () => {
+  it('dispays loading indicator if folders are not yet loaded', async () => {
     const screen = renderWithStoreAndRouter(<SearchMessages />, {
       initialState: {
         sm: {
@@ -34,10 +34,8 @@ describe('Message search container', () => {
       path: `/search/advanced`,
     });
 
-    const loadingText = screen.findByText('Loading your secure messages...', {
-      exact: true,
-    });
-    expect(loadingText).to.exist;
+    const loadingIndicator = await screen.getByTestId('loading-indicator');
+    expect(loadingIndicator).to.exist;
   });
 
   it('displays basic search if path is /search', done => {
@@ -73,9 +71,7 @@ describe('Message search container', () => {
         name: 'Advanced search',
       });
       const folderSelect = screen.getByTestId('folder-dropdown');
-      const advancedSearchButton = screen.getByRole('button', {
-        name: 'Advanced search',
-      });
+      const advancedSearchButton = screen.getByTestId('advanced-search-submit');
       expect(headingText).to.exist;
       expect(folderSelect).to.exist;
       expect(advancedSearchButton).to.exist;
