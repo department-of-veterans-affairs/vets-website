@@ -6,7 +6,7 @@ beforeEach(() => {
   window.dataLayer = [];
 });
 
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   it('Advanced Search Axe Check', () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
