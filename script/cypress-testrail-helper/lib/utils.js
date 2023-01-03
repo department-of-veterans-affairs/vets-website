@@ -186,7 +186,6 @@ module.exports = {
     });
   },
   runCySpec(specPath) {
-    const scriptCall = `yarn cy:my-testrail-run --spec ${specPath}`;
     const spinner = new Spinner('%s processing...');
     let cp;
 
