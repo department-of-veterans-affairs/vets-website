@@ -3,7 +3,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
-  it('can send message', () => {
+  it('compose reply with attachment', () => {
     const landingPage = new PatientMessagesLandingPage();
     const composePage = new PatientComposePage();
     landingPage.login();
