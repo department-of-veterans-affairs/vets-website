@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 const EmergencyNote = props => {
   const { dropDownFlag } = props;
@@ -17,7 +16,7 @@ const EmergencyNote = props => {
             If you’re in a mental health crisis or thinking about suicide,
           </strong>{' '}
           call <va-telephone contact="988" /> then select 1. Or you can chat at{' '}
-          <Link href="988lifeline.org">988lifeline.org</Link>
+          <a href="https://988lifeline.org/">988lifeline.org</a>
         </li>
       </ul>
       <p>
