@@ -121,7 +121,7 @@ const ConfirmationPage = ({ form, download }) => {
     focusElement('.schemaform-title > h1');
 
     scrollToTop();
-  });
+  }, []);
 
   return (
     <div>
