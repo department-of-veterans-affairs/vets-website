@@ -150,7 +150,7 @@ const Error = () => {
       break;
     case 'session-error':
     case 'bad-token':
-    case 'not-token':
+    case 'no-token':
     case 'reload-data-error':
       alertType = 'info';
       header = t('sorry-we-cant-complete-pre-check-in');
