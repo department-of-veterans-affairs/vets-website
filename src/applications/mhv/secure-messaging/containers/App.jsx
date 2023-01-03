@@ -15,19 +15,19 @@ import Navigation from '../components/Navigation';
 const App = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
-  const mhvSecureMessagingToVaGovRelease = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease],
-  );
+  const mhvSecureMessagingToVaGovRelease = useSelector(state => {
+    return state.featureToggles[
+      FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease
+    ];
+  });
 
   const handleClick = () => {
     if (isLoggedIn) {
       dispatch(logOut());
     } else dispatch(updateLoggedInStatus(!isLoggedIn));
   };
-
   return (
-    <div className="vads-l-grid-container">
+    <div className="vads-l-grid-container" data-testid="feature-flag-undefined">
       {/* if the feature flag is undefined, show the loading indicator */}
       {mhvSecureMessagingToVaGovRelease === undefined && (
         <va-loading-indicator
@@ -37,7 +37,7 @@ const App = () => {
         />
       )}
       {mhvSecureMessagingToVaGovRelease && (
-        <>
+        <div data-testid="feature-flag-true">
           <div className="vads-l-row breadcrumbs">
             <SmBreadcrumbs />
           </div>
@@ -74,13 +74,13 @@ const App = () => {
               </Switch>
             </div>
           </div>
-        </>
+        </div>
       )}
       {mhvSecureMessagingToVaGovRelease === false && (
-        <>
+        <div data-testid="feature-flag-false">
           <h1>Secure Messaging</h1>
           <p className="va-introtext vads-u-margin-top--1">Coming soon...</p>
-        </>
+        </div>
       )}
     </div>
   );
