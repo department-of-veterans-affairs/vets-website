@@ -15,7 +15,7 @@ describe(manifest.appName, () => {
     // const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    basicSearchPage.clickSearchMessage();
+    // basicSearchPage.clickSearchMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -34,6 +34,8 @@ describe(manifest.appName, () => {
 
   it('Basic Search Inbox Check', () => {
     //
+    cy.get('.sidebar-navigation-messages-list-header > a');
+    cy.intercept('GET', '/my_health/v1/messaging/recipients?useCache=false');
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/messages*',
@@ -45,7 +47,8 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    basicSearchPage.typeSearchInputFieldText('test');
+    // basicSearchPage.typeSearchInputFieldText('test');
+    cy.get('[id="va-search-input"]').type('test');
 
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchInboxRequest');
@@ -56,6 +59,7 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Drafts Check', () => {
+    cy.get('[data-testid="drafts-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -68,7 +72,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestDrafts');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.selectMessagesFolder('Drafts');
+
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDrafts');
     basicSearchPage.verifyHighlightedText('test');
@@ -77,6 +81,7 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Sent Folder Check', () => {
+    cy.get('[data-testid="sent-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -89,7 +94,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestSentFolder');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.selectMessagesFolder('Sent');
+
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestSentFolder');
     basicSearchPage.verifyHighlightedText('test');
