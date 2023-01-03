@@ -7,13 +7,14 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { getFormatedPhone } from '../utils/contactInfo';
 import { checkValidations, missingPrimaryPhone } from '../validations';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
+import { content } from '../content/primaryPhone';
 
 export const PrimaryPhone = ({
   data,
   goBack,
   goForward,
   onReviewPage,
-  // updatePage,
+  updatePage,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -49,7 +50,7 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
+    <va-button text={content.update} onClick={updatePage} />
   ) : (
     <>
       {contentBeforeButtons}
@@ -73,7 +74,7 @@ export const PrimaryPhone = ({
         >
           <va-radio-option
             id="home-phone"
-            label="Home phone number"
+            label={content.homeLabel}
             value="home"
             name="primary"
             checked={primary === 'home'}
@@ -81,7 +82,7 @@ export const PrimaryPhone = ({
           />
           <va-radio-option
             id="mobile-phone"
-            label="Mobile phone number"
+            label={content.mobileLabel}
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
@@ -116,7 +117,7 @@ PrimaryPhone.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
-  // updatePage: PropTypes.func,
+  updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
 

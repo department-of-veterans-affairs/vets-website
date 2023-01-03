@@ -19,6 +19,7 @@ import ContactInfo from '../components/ContactInfo';
 import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
+import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
@@ -157,7 +158,7 @@ const formConfig = {
           // only visible if both the home & mobile phone are populated
           depends: hasHomeAndMobilePhone,
           CustomPage: PrimaryPhone,
-          CustomPageReview: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
         },
