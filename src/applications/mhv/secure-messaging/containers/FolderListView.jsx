@@ -30,7 +30,7 @@ const FolderListView = props => {
         setFolderId(params.folderId);
       } else {
         switch (location.pathname) {
-          case '/':
+          case '/inbox':
             setFolderId(Folders.INBOX.id);
             break;
           case '/sent':
@@ -52,14 +52,14 @@ const FolderListView = props => {
 
   useEffect(
     () => {
-      if (folderId) {
+      if (folderId !== null) {
         dispatch(retrieveFolder(folderId)).then(() => {
           dispatch(getMessages(folderId));
         });
       }
-      // clear out message reducer to prevent from previous message data flashing
-      // when navigating between messages
-      dispatch(clearMessage());
+      // on component unmount, clear out message reducer to prevent from
+      // previous messages results flashing when navigating between messages
+      return () => dispatch(clearMessage());
     },
     [folderId, dispatch],
   );
