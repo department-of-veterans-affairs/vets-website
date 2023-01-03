@@ -6,7 +6,7 @@ import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
-import mockFolders from '../fixtures/folder-response.json';
+// import mockFolders from '../fixtures/folder-response.json';
 
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
@@ -34,8 +34,8 @@ describe(manifest.appName, () => {
 
   it('Basic Search Inbox Check', () => {
     //
-    cy.get('.sidebar-navigation-messages-list-header > a');
-    cy.intercept('GET', '/my_health/v1/messaging/recipients?useCache=false');
+    cy.get('.sidebar-navigation-messages-list-header > a').click();
+
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/messages*',
@@ -47,7 +47,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    // basicSearchPage.typeSearchInputFieldText('test');
+    basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[id="va-search-input"]').type('test');
 
     basicSearchPage.submitSearch();
@@ -102,7 +102,8 @@ describe(manifest.appName, () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Deleted Folder Check', () => {
+  it('Basic Search Trash Folder Check', () => {
+    cy.get('[data-testid="trash-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -115,7 +116,7 @@ describe(manifest.appName, () => {
     ).as('basicSearchRequestDeletedFolder');
 
     basicSearchPage.typeSearchInputFieldText('test');
-    basicSearchPage.selectMessagesFolder('Deleted');
+
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestDeletedFolder');
     basicSearchPage.verifyHighlightedText('test');
@@ -124,6 +125,7 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Custom Folder Check', () => {
+    cy.get('[data-testid="my-folders-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175',
@@ -135,12 +137,9 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('basicSearchRequestCustomFolder');
 
+    cy.get('.folders-list > :nth-child(1) > a').click({ force: true });
     basicSearchPage.typeSearchInputFieldText('test');
-    cy.get('[data-testid="folder-dropdown"]')
-      .shadow()
-      .find('select')
-      .select(mockFolders.at(4).name, { force: true });
-
+    // cy.contains('Test2').click({ force: true });
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestCustomFolder');
     basicSearchPage.verifyHighlightedText('test');
