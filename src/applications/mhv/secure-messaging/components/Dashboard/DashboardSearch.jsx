@@ -8,19 +8,35 @@ import {
 import AdvancedSearchExpander from '../Search/AdvancedSearchExpander';
 import { foldersList as folders } from '../../selectors';
 import { runBasicSearch } from '../../actions/search';
+import { DefaultFolders as Folders } from '../../util/constants';
 
 const DashboardSearch = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const foldersList = useSelector(folders);
   const [searchFolder, setSearchFolder] = useState(null);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState(null);
+  const [searchFolderError, setSearchFolderError] = useState(null);
+  const [keywordError, setKeywordError] = useState(null);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const nodeRef = useRef(null);
 
   const handleSearchSubmit = () => {
-    dispatch(runBasicSearch(searchFolder, keyword.toLowerCase()));
-    history.push('/search/results');
+    if (!searchFolder) {
+      setSearchFolderError('Please select a folder');
+    } else {
+      setSearchFolderError(null);
+    }
+    if (!keyword) {
+      setKeywordError('Please enter a keyword');
+    } else {
+      setKeywordError(null);
+    }
+
+    if (searchFolder && keyword) {
+      dispatch(runBasicSearch(searchFolder, keyword.toLowerCase()));
+      history.push('/search/results');
+    }
   };
 
   return (
@@ -35,16 +51,23 @@ const DashboardSearch = () => {
             <>
               <VaSelect
                 id="select-search-folder-dropdown"
+                class="small-screen:vads-u-margin-left--0p5"
                 label="Folder:"
                 name="search-folder"
                 onVaSelect={e => {
                   setSearchFolder(e.target.value);
+                  setSearchFolderError(
+                    e.target.value ? null : 'Please select a folder',
+                  );
                 }}
+                error={searchFolderError}
               >
                 <option value={null}> </option>
                 {foldersList?.map(folder => (
                   <option key={folder.id} value={folder.id}>
-                    {folder.name}
+                    {folder.id === Folders.DELETED.id
+                      ? Folders.DELETED.header
+                      : folder.name}
                   </option>
                 ))}
               </VaSelect>
@@ -53,10 +76,16 @@ const DashboardSearch = () => {
                   label="Keyword (sender, subject line, or category)"
                   name="keyword"
                   onKeyPress={e => e.charCode === 13 && handleSearchSubmit()}
-                  onInput={e => setKeyword(e.target.value)}
+                  onInput={e => {
+                    setKeyword(e.target.value);
+                    setKeywordError(
+                      e.target.value ? null : 'Please enter a keyword',
+                    );
+                  }}
                   value={keyword}
                   data-testid="search-keyword-text-input"
                   id="search-keyword-text-input"
+                  error={keywordError}
                 />
                 <button
                   type="button"
@@ -69,12 +98,14 @@ const DashboardSearch = () => {
             </>
           )}
         </div>
-        <AdvancedSearchExpander
-          advancedOpen={advancedOpen}
-          setAdvancedOpen={setAdvancedOpen}
-          nodeRef={nodeRef}
-          folders={foldersList}
-        />
+        {foldersList && (
+          <AdvancedSearchExpander
+            advancedOpen={advancedOpen}
+            setAdvancedOpen={setAdvancedOpen}
+            nodeRef={nodeRef}
+            folders={foldersList}
+          />
+        )}
       </div>
     </div>
   );
