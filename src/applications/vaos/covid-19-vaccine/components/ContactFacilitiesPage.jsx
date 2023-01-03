@@ -158,6 +158,7 @@ export default function ContactFacilitiesPage() {
               });
             }}
             text="Find VA facilities near you that offer COVID-19 vaccines"
+            data-testid="find-facilities-link"
           />
         </InfoAlert>
       )}
