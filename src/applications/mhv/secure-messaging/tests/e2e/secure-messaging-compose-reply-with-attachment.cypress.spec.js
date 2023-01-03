@@ -35,7 +35,6 @@ describe(manifest.appName, () => {
       'You may only attach up to 4 files',
     );
     composePage.closeAttachmentErrorPopup();
-
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('[name="message-subject"]')
