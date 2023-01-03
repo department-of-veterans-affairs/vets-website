@@ -83,11 +83,11 @@ function fetchAppealsSuccess(response) {
 }
 
 export function getAppealsV2() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: FETCH_APPEALS_PENDING });
     return apiRequest('/appeals')
-      .then(appeals => dispatch(fetchAppealsSuccess(appeals)))
-      .catch(error => {
+      .then((appeals) => dispatch(fetchAppealsSuccess(appeals)))
+      .catch((error) => {
         const status = getErrorStatus(error);
         const action = { type: '' };
         switch (status) {
@@ -107,7 +107,7 @@ export function getAppealsV2() {
             action.type = FETCH_APPEALS_ERROR;
             break;
         }
-        Sentry.withScope(scope => {
+        Sentry.withScope((scope) => {
           scope.setFingerprint(['{{default}}', status]);
           Sentry.captureException(`vets_appeals_v2_err_get_appeals ${status}`);
         });
@@ -146,7 +146,7 @@ export function pollRequest(options) {
   return request(
     target,
     null,
-    response => {
+    (response) => {
       if (shouldSucceed(response)) {
         onSuccess(response);
         return;
@@ -164,7 +164,7 @@ export function pollRequest(options) {
 
       setTimeout(pollRequest, pollingInterval, options);
     },
-    error => onError(error),
+    (error) => onError(error),
   );
 }
 
@@ -200,7 +200,7 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
 export function getClaimsV2(options = {}) {
   // Throw an error if an unsupported value is on the `options` object
   const recognizedOptions = ['poll', 'pollingExpiration'];
-  Object.keys(options).forEach(option => {
+  Object.keys(options).forEach((option) => {
     if (!recognizedOptions.includes(option)) {
       throw new TypeError(
         `Unrecognized option "${option}" passed to "getClaimsV2"\nOnly the following options are supported:\n${recognizedOptions.join(
@@ -211,22 +211,22 @@ export function getClaimsV2(options = {}) {
   });
   const { poll = pollRequest, pollingExpiration } = options;
   const startTimestampMs = Date.now();
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     if (USE_MOCKS) {
       return mockApi
         .getClaimList()
-        .then(mockClaimsList =>
+        .then((mockClaimsList) =>
           dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
         );
     }
 
     return poll({
-      onError: response => {
+      onError: (response) => {
         const errorCode = getErrorStatus(response);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
-          Sentry.withScope(scope => {
+          Sentry.withScope((scope) => {
             scope.setFingerprint(['{{default}}', errorCode]);
             Sentry.captureException(
               `vets_claims_v2_err_get_claims ${errorCode}`,
@@ -251,7 +251,7 @@ export function getClaimsV2(options = {}) {
 
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       },
-      onSuccess: response => {
+      onSuccess: (response) => {
         recordClaimsAPIEvent({
           startTime: startTimestampMs,
           success: true,
@@ -260,20 +260,20 @@ export function getClaimsV2(options = {}) {
       },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
-      shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      shouldFail: (response) => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: (response) => getSyncStatus(response) === 'SUCCESS',
       target: '/evss_claims_async',
     });
   };
 }
 
 export function getClaims() {
-  return dispatch => {
+  return (dispatch) => {
     const startTimeMillis = Date.now();
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     return apiRequest('/benefits_claims')
-      .then(claims => {
+      .then((claims) => {
         recordClaimsAPIEvent({
           startTime: startTimeMillis,
           success: true,
@@ -281,10 +281,10 @@ export function getClaims() {
 
         dispatch(fetchClaimsSuccess(claims));
       })
-      .catch(error => {
+      .catch((error) => {
         const errorCode = getErrorStatus(error);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
-          Sentry.withScope(scope => {
+          Sentry.withScope((scope) => {
             scope.setFingerprint(['{{default}}', errorCode]);
             Sentry.captureException(
               `lighthouse_claims_err_get_claims ${errorCode}`,
@@ -294,19 +294,13 @@ export function getClaims() {
 
         // This onError callback will be called with a null response arg when
         // the API takes too long to return data
-        if (error === null) {
-          recordClaimsAPIEvent({
-            startTime: startTimeMillis,
-            success: false,
-            error: '504 Timed out - API took too long',
-          });
-        } else {
-          recordClaimsAPIEvent({
-            startTime: startTimeMillis,
-            success: false,
-            error: errorCode,
-          });
-        }
+        const errorDetail =
+          error === null ? '504 Timed out - API took too long' : errorCode;
+        recordClaimsAPIEvent({
+          startTime: startTimeMillis,
+          success: false,
+          error: errorDetail,
+        });
 
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       });
@@ -315,13 +309,13 @@ export function getClaims() {
 // END lighthouse_migration
 
 export function getClaimDetail(id, router, poll = pollRequest) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: GET_CLAIM_DETAIL,
     });
 
     if (USE_MOCKS) {
-      return mockApi.getClaimDetails(id).then(mockDetails =>
+      return mockApi.getClaimDetails(id).then((mockDetails) =>
         dispatch({
           type: SET_CLAIM_DETAIL,
           claim: mockDetails.data,
@@ -331,29 +325,29 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     }
 
     return poll({
-      onError: response => {
+      onError: (response) => {
         if (response.status !== 404 || !router) {
           return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         }
 
         return router.replace('your-claims');
       },
-      onSuccess: response =>
+      onSuccess: (response) =>
         dispatch({
           type: SET_CLAIM_DETAIL,
           claim: response.data,
           meta: response.meta,
         }),
       pollingInterval: window.VetsGov.pollTimeout || 5000,
-      shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
+      shouldFail: (response) => getSyncStatus(response) === 'FAILED',
+      shouldSucceed: (response) => getSyncStatus(response) === 'SUCCESS',
       target: `/evss_claims_async/${id}`,
     });
   };
 }
 
 export function submitRequest(id) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
@@ -366,12 +360,11 @@ export function submitRequest(id) {
         dispatch(
           setNotification({
             title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
+            body: 'Thank you. We have your claim request and will make a decision.',
           }),
         );
       },
-      error => {
+      (error) => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
       },
     );
@@ -431,7 +424,7 @@ export function submitFiles(claimId, trackedItem, files) {
     event: 'claims-upload-start',
   });
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(clearNotification());
     dispatch(clearAdditionalEvidenceNotification());
     dispatch({
@@ -444,14 +437,12 @@ export function submitFiles(claimId, trackedItem, files) {
     });
     require.ensure(
       [],
-      require => {
+      (require) => {
         const csrfTokenStored = localStorage.getItem('csrfToken');
         const { FineUploaderBasic } = require('fine-uploader/lib/core');
         const uploader = new FineUploaderBasic({
           request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/evss_claims/${claimId}/documents`,
+            endpoint: `${environment.API_URL}/v0/evss_claims/${claimId}/documents`,
             inputName: 'file',
             customHeaders: {
               'X-Key-Inflection': 'camel',
@@ -511,7 +502,7 @@ export function submitFiles(claimId, trackedItem, files) {
                 );
               }
             },
-            onTotalProgress: bytes => {
+            onTotalProgress: (bytes) => {
               bytesComplete = bytes;
               dispatch({
                 type: SET_PROGRESS,
@@ -611,7 +602,7 @@ export function setLastPage(page) {
 }
 
 // Add some attributes to the STEM claim to help normalize it's shape
-const addAttributes = claim => ({
+const addAttributes = (claim) => ({
   ...claim,
   attributes: {
     ...claim.attributes,
@@ -621,10 +612,10 @@ const addAttributes = claim => ({
 });
 
 // We don't want to show STEM claims unless they were automatically denied
-const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
+const automatedDenial = (stemClaim) => stemClaim.attributes.automatedDenial;
 
-const getStemClaimsMock = dispatch => {
-  return mockApi.getStemClaimList().then(res => {
+const getStemClaimsMock = (dispatch) => {
+  return mockApi.getStemClaimList().then((res) => {
     const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
     return dispatch({
@@ -635,7 +626,7 @@ const getStemClaimsMock = dispatch => {
 };
 
 export function getStemClaims() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
     if (USE_MOCKS) {
@@ -646,7 +637,7 @@ export function getStemClaims() {
       '/v0/education_benefits_claims/stem_claim_status',
       null,
       dispatch,
-      res => {
+      (res) => {
         const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,
