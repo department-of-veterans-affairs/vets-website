@@ -15,6 +15,8 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import ContactInfo from '../components/ContactInfo';
+import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
@@ -108,6 +110,8 @@ const formConfig = {
         confirmContactInformation: {
           title: 'Contact information',
           path: CONTACT_INFO_PATH,
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfoReview,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
