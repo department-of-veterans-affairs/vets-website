@@ -90,6 +90,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
+  // Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
@@ -161,6 +162,7 @@ const ComposeForm = props => {
     dispatch(saveDraft(formData, type, draftId));
   };
 
+  // Validations
   const sendMessageHandler = () => {
     // TODO add GA event
     let errorCounter = 0;
@@ -202,7 +204,9 @@ const ComposeForm = props => {
       category,
       debouncedMessageBody,
       debouncedSubject,
+      saveDraftHandler,
       selectedRecipient,
+      sendMessageFlag,
     ],
   );
 
@@ -234,7 +238,7 @@ const ComposeForm = props => {
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.name}>
                   {item.name}
                 </option>
               ))}

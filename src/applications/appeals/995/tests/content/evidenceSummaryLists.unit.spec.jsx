@@ -8,7 +8,7 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_OTHER_PATH,
+  EVIDENCE_UPLOAD_PATH,
 } from '../../constants';
 
 import { content } from '../../content/evidenceSummary';
@@ -93,7 +93,7 @@ describe('evidenceSummaryList', () => {
       });
       const { container } = render(list);
 
-      expect($('h3', container).textContent).to.contain(content.vaReviewTitle);
+      expect($('h3', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -173,9 +173,7 @@ describe('evidenceSummaryList', () => {
       });
       const { container } = render(list);
 
-      expect($('h3', container).textContent).to.contain(
-        content.privateReviewTitle,
-      );
+      expect($('h3', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -256,9 +254,7 @@ describe('evidenceSummaryList', () => {
       });
       const { container } = render(list);
 
-      expect($('h3', container).textContent).to.contain(
-        content.otherReviewTitle,
-      );
+      expect($('h3', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -274,10 +270,10 @@ describe('evidenceSummaryList', () => {
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
-        EVIDENCE_OTHER_PATH,
+        EVIDENCE_UPLOAD_PATH,
       );
       expect(links[1].getAttribute('data-link')).to.contain(
-        EVIDENCE_OTHER_PATH,
+        EVIDENCE_UPLOAD_PATH,
       );
     });
     it('should execute callback when removing an upload', () => {
