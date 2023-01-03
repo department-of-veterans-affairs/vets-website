@@ -34,19 +34,19 @@ describe(manifest.appName, () => {
 
   it('Basic Search Inbox Check', () => {
     //
-    cy.get('.sidebar-navigation-messages-list-header > a').click();
 
     cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/folders/*/messages*',
-      mockMessages,
-    ).as('basicSearchInboxRequest');
-
+      'GET',
+      '/my_health/v1/messaging/folders/0',
+      mockDraftsFolder,
+    ).as('basicSearchRequestInboxMeta');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
+    cy.get('.sidebar-navigation-messages-list-header > a').click();
+
     basicSearchPage.typeSearchInputFieldText('test');
     cy.get('[id="va-search-input"]').type('test');
 
@@ -59,7 +59,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Drafts Check', () => {
-    cy.get('[data-testid="drafts-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -70,6 +69,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestDrafts');
+    cy.get('[data-testid="drafts-sidebar"] > a').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
@@ -81,7 +81,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Sent Folder Check', () => {
-    cy.get('[data-testid="sent-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',
@@ -92,6 +91,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
+    cy.get('[data-testid="sent-sidebar"] > a').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
@@ -103,7 +103,6 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Trash Folder Check', () => {
-    cy.get('[data-testid="trash-sidebar"] > a').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-3',
@@ -114,6 +113,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-3/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestDeletedFolder');
+    cy.get('[data-testid="trash-sidebar"] > a').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
