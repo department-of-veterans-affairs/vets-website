@@ -166,13 +166,22 @@ export const sendMessage = (message, attachments) => async dispatch => {
       ),
     );
   } catch (e) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-      ),
-    );
+    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+        ),
+      );
+    } else
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+        ),
+      );
     throw e;
   }
 };
@@ -192,13 +201,22 @@ export const sendReply = (
       ),
     );
   } catch (e) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_ERROR,
-        '',
-        Constants.Alerts.Message.SEND_MESSAGE_ERROR,
-      ),
-    );
+    if (e.errors && e.errors[0].code === Constants.Errors.Code.BLOCKED_USER) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.BLOCKED_MESSAGE_ERROR,
+        ),
+      );
+    } else
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.SEND_MESSAGE_ERROR,
+        ),
+      );
     throw e;
   }
 };

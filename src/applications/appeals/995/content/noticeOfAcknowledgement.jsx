@@ -36,7 +36,7 @@ export const acknowledge5103Error =
 
 export const acknowledge = {
   certify: 'I certify that',
-  reviewed: ' I have reviewed the notice of evidence needed',
+  reviewed: ' I have reviewed the notice of evidence needed.',
 };
 
 export const acknowledge5103Label = (

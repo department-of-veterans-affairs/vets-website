@@ -104,8 +104,6 @@ export const errorMessages = {
 
     // private evidence
     facilityMissing: 'You must add a provider or facility name',
-    authorizationRequiredError:
-      'You’ll need to authorize this release of information',
     country: 'You must choose a country',
     street: 'You must enter a street address',
     city: 'You must enter a city name',
@@ -207,10 +205,14 @@ export const ADD_ISSUE_PATH = 'add-issue';
 export const EVIDENCE_VA_REQUEST =
   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_PRIVATE_REQUEST =
+  'supporting-evidence/request-private-medical-records';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_LIMITATION_PATH =
-  'supporting-evidence/request-record-limitations';
+  'supporting-evidence/add-private-record-limitations';
 
 // TODO: Update this path
-export const EVIDENCE_OTHER_PATH = 'supporting-evidence/additional-evidence';
+export const EVIDENCE_ADDITIONAL_PATH =
+  'supporting-evidence/will-add-supporting-evidence';
+export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';

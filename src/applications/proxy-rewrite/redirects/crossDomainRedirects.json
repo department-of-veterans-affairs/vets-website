@@ -1145,6 +1145,21 @@
     "dest": "/education/benefit-rates/chapter-35-rates/past-rates/"
   },
   {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/choose.asp",
+    "dest": "/life-insurance/manage-your-policy/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/OPA.asp",
+    "dest": "/life-insurance/manage-your-policy/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/tsgli-claim-questionnaire.asp",
+    "dest": "/life-insurance/options-eligibility/tsgli/"
+  },
+  {
     "domain": "www.altoona.va.gov",
     "src": "/",
     "dest": "/altoona-health-care/",
@@ -1271,5 +1286,11 @@
     "domain": "www.fayettevillenc.va.gov",
     "src": "/locations/FayettevilleVetCenter.asp",
     "dest": "/fayetteville-nc-vet-center/"
+  },
+  {
+    "domain": "www.vetcenter.va.gov",
+    "src": "/Vet_Centers_are_Here_For_You_24_7.asp",
+    "dest": "https://www.vetcenter.va.gov/",
+    "isToSubdomain": true
   }
 ]
