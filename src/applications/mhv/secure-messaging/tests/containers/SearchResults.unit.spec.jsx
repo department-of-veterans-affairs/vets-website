@@ -59,9 +59,9 @@ describe('Search results', () => {
     const staticText = screen.queryByText('We didn’t find any results for ', {
       exact: false,
     });
-    const keyword = screen.queryByText('covid');
+    const keyword = await screen.getAllByText('covid');
     expect(staticText).to.exist;
-    expect(keyword).to.exist;
+    expect(keyword.length).to.equal(2);
   });
 
   it('displays a message when an advanced search returns no results', () => {
@@ -69,8 +69,15 @@ describe('Search results', () => {
       sm: {
         search: {
           searchResults: [],
+          awaitingResults: false,
           folder,
-          keyword: undefined,
+          keyword: '',
+          query: {
+            messageId: '',
+            sender: 'asdf',
+            subject: '',
+            category: '',
+          },
         },
       },
     };
