@@ -1,33 +1,54 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
 import reducer from '../../../reducers';
-import CondensedSearchForm from '../../../components/Search/CondensedSearchForm';
+import SearchForm from '../../../components/Search/SearchForm';
 
-describe('Condensed search form', () => {
+describe('Search form', () => {
   const initialState = {};
+  const defaultProps = {
+    folder,
+    keyword: 'test',
+    resultsCount: searchResults.length,
+  };
+
+  const setup = (props = defaultProps) => {
+    return renderWithStoreAndRouter(<SearchForm {...props} />, {
+      initialState,
+      reducers: reducer,
+      path: `/search`,
+    });
+  };
 
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(
-      <CondensedSearchForm
-        folder={folder}
-        keyword="test"
-        resultsCount={searchResults.length}
-      />,
-      {
-        initialState,
-        reducers: reducer,
-        path: `/search/results`,
-      },
-    );
+    const screen = setup();
     expect(screen);
+  });
+
+  it('displays keyword field', () => {
+    const screen = setup();
+    const keyword = screen.getByTestId('keyword-search-input');
+    expect(keyword).to.exist;
+  });
+
+  it('displays an advanced search form toggle button', () => {
+    const screen = setup();
+    expect(screen.findByText('Advanced search', { exact: true }));
+  });
+
+  it('displays the advanced search form when the advanced search is open', () => {
+    const screen = setup();
+    fireEvent.click(screen.getByText('Advanced search'));
+    const advancedSearchButton = screen.getByTestId('advanced-search-submit');
+    expect(advancedSearchButton).to.exist;
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
     const screen = renderWithStoreAndRouter(
-      <CondensedSearchForm
+      <SearchForm
         folder={folder}
         keyword="test"
         resultsCount={searchResults.length}
@@ -35,7 +56,7 @@ describe('Condensed search form', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/search/results`,
+        path: `/search`,
       },
     );
 
@@ -60,7 +81,7 @@ describe('Condensed search form', () => {
       toDate: '2022-12-19T21:55:17.766Z',
     };
     const screen = renderWithStoreAndRouter(
-      <CondensedSearchForm
+      <SearchForm
         folder={folder}
         resultsCount={searchResults.length}
         query={query}
@@ -68,7 +89,7 @@ describe('Condensed search form', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/search/results`,
+        path: `/search`,
       },
     );
 
@@ -88,21 +109,5 @@ describe('Condensed search form', () => {
     expect(subject).to.exist;
     expect(category).to.exist;
     expect(dateRange).to.exist;
-  });
-
-  it('displays a link to the advanced search page', () => {
-    const screen = renderWithStoreAndRouter(
-      <CondensedSearchForm
-        folder={folder}
-        keyword="test"
-        resultsCount={searchResults.length}
-      />,
-      {
-        initialState,
-        reducers: reducer,
-        path: `/search/results`,
-      },
-    );
-    expect(screen.findByText('Advanced search', { exact: true }));
   });
 });
