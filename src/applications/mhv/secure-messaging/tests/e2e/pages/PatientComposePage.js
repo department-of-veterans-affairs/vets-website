@@ -38,6 +38,27 @@ class PatientComposePage {
       // expect(xhr.method).to.eq('POST');
     });
   };
+
+  verifyAttachmentErrorMessage = errormessage => {
+    cy.get('[data-testid="attach-file-error-modal"] p')
+      .should('have.text', errormessage)
+      .should('be.visible');
+  };
+
+  closeAttachmentErrorPopup = () => {
+    cy.get('[data-testid="attach-file-error-modal"]')
+      .shadow()
+      .find('[type="button"]')
+      .first()
+      .click();
+  };
+
+  attachMessageFromFile = filename => {
+    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/${filename}`;
+    cy.get('[data-testid="attach-file-input"]').selectFile(filepath, {
+      force: true,
+    });
+  };
 }
 
 export default PatientComposePage;
