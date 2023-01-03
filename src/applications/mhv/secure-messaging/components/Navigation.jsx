@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
 import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
@@ -28,11 +27,6 @@ const Navigation = () => {
         path: '/folders',
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
-      },
-      {
-        path: '/search',
-        label: 'Search messages',
-        datatestid: 'search-messages-sidebar',
       },
       {
         path: '/faq',
@@ -80,14 +74,15 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
-  const handleOnClick = path => {
-    recordEvent({
-      // For Google Analytics
-      event: 'secure-messaging-navigation-clicked',
-      'secure-messaging-navigation-option': path.label,
-      'secure-messaging-navigation-path': path.path,
-    });
-  };
+  // TODO this is a sample GA event call. The analytics tag below is not valid
+  // const handleOnClick = path => {
+  //   recordEvent({
+  //     // For Google Analytics
+  //     event: 'secure-messaging-navigation-clicked',
+  //     'secure-messaging-navigation-option': path.label,
+  //     'secure-messaging-navigation-path': path.path,
+  //   });
+  // };
 
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
@@ -148,9 +143,9 @@ const Navigation = () => {
                       >
                         <Link
                           to={path.path}
-                          onClick={() => {
-                            handleOnClick(path);
-                          }}
+                          // onClick={() => {
+                          //   handleOnClick(path);
+                          // }}
                         >
                           {path.label}
                         </Link>

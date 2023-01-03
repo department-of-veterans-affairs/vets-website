@@ -3,12 +3,16 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
-import CondensedSearchForm from '../components/Search/CondensedSearchForm';
+import SearchForm from '../components/Search/SearchForm';
 
 const Search = () => {
-  const { awaitingResults, searchResults, folder, keyword } = useSelector(
-    state => state.sm.search,
-  );
+  const {
+    awaitingResults,
+    searchResults,
+    folder,
+    keyword,
+    query,
+  } = useSelector(state => state.sm.search);
   const history = useHistory();
 
   useEffect(() => {
@@ -50,13 +54,18 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm folder={folder} keyword={keyword} resultsView />
+      <SearchForm
+        folder={folder}
+        keyword={keyword}
+        resultsCount={searchResults.length}
+        query={query}
+      />
     );
   };
 
   return (
     <div
-      className="vads-l-grid-container search-messages"
+      className="vads-l-grid-container search-results"
       data-testid="search-messages"
     >
       <h1 className="page-title">Search results</h1>
