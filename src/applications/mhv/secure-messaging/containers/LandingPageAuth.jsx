@@ -11,7 +11,7 @@ then additional functionality will need to be added to account for this.
 */
 
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
@@ -19,14 +19,16 @@ import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
 import { DefaultFolders as Folder } from '../util/constants';
 import { getMessages } from '../actions/messages';
-import UnreadMessages from '../components/Dashboard/UnreadMessages';
+import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import DashboardSearch from '../components/Dashboard/DashboardSearch';
 import DashboardFolders from '../components/Dashboard/DashboardFolders';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
+import { foldersList } from '../selectors';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
+  const folders = useSelector(foldersList);
 
   // fire api call to retreive messages
 
@@ -55,7 +57,7 @@ const LandingPageAuth = () => {
       >
         Start new message
       </Link>
-      <UnreadMessages />
+      <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />
       <DashboardSearch />
       <DashboardFolders />
