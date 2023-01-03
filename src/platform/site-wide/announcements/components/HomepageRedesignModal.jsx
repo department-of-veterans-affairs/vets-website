@@ -14,6 +14,12 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   const skipLinkElement = document.getElementsByClassName('show-on-focus')[0];
   ariaExcludeArray.push(skipLinkElement);
 
+  // Prevents modal from showing when redirected to homepage for auth
+  let hasRedirectParam = false;
+  if (window.location.search) {
+    const searchParams = new URLSearchParams(window.location.search);
+    hasRedirectParam = searchParams.has('next');
+  }
   const isAllowed = useStaggeredFeatureRelease(
     25,
     'show-homepage-soft-launch-modal',
@@ -22,13 +28,18 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
   return (
     <>
       {vaHomePreviewModal &&
+        !hasRedirectParam &&
         isAllowed && (
           <VaModal
             role="dialog"
             cssClass="va-modal announcement-brand-consolidation"
             visible
             onCloseEvent={() => {
-              recordEvent({ event: 'new-homepage-modal-close' });
+              recordEvent({
+                event: 'int-modal-click',
+                'modal-status': 'closed',
+                'modal-title': 'Try our new VA.gov homepage',
+              });
               dismiss();
             }}
             id="modal-announcement"
@@ -39,8 +50,9 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
             secondary-button-text="Not today, go to the current homepage"
             onSecondaryButtonClick={() => {
               recordEvent({
-                event: 'new-homepage-modal-click',
-                'modal-secondary-link': 'go to current homepage',
+                event: 'cta-button-click',
+                'button-type': 'secondary',
+                'button-click-label': 'Not today, go to the current homepage',
               });
               dismiss();
             }}
@@ -68,8 +80,9 @@ function HomepageRedesignModal({ dismiss, vaHomePreviewModal }) {
                 onClick={() => {
                   dismiss();
                   recordEvent({
-                    event: 'new-homepage-modal-click',
-                    'modal-primaryButton-text': 'try the new homepage',
+                    event: 'cta-button-click',
+                    'button-click-label': 'Try the new home page',
+                    'button-type': 'link',
                   });
                 }}
               >
