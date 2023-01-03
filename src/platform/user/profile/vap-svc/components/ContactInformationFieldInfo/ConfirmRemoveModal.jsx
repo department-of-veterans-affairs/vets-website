@@ -91,11 +91,11 @@ const ConfirmRemoveModal = ({
 ConfirmRemoveModal.propTypes = {
   cancelAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
   fieldName: PropTypes.string.isRequired,
   isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   onHide: PropTypes.func.isRequired,
   error: PropTypes.string,
 };
