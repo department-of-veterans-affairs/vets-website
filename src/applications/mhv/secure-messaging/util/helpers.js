@@ -6,7 +6,7 @@ export const folderPathByFolderId = folderId => {
   if (folderId !== null) {
     switch (folderId) {
       case Folders.INBOX.id:
-        path = '/';
+        path = '/inbox';
         break;
       case Folders.DRAFTS.id:
         path = '/drafts';
