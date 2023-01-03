@@ -2,6 +2,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const { Spinner } = require('cli-spinner');
 const { parse } = require('comment-parser');
 
@@ -187,32 +188,32 @@ module.exports = {
   runCySpec(specPath) {
     const scriptCall = `yarn cy:my-testrail-run --spec ${specPath}`;
     const spinner = new Spinner('%s processing...');
+    let cp;
 
     spinner.setSpinnerString(18);
     spinner.start();
-    exec(scriptCall, (error, stdout, stderr) => {
-      if (error) {
-        spinner.stop(true);
-        console.log('\n');
-        console.log(chalk.red(`error: ${error.message}`));
-        return;
-      }
-      if (stderr) {
-        spinner.stop(true);
-        console.log('\n');
-        console.log(chalk.red(`stderr: ${stderr}`));
-        return;
-      }
-      if (stdout) {
-        spinner.stop(true);
-        console.log('\n');
-        console.log(chalk.yellow(`stdout: ${stdout}`));
-        return;
-      }
 
+    cp = exec(`yarn cy:my-testrail-run --spec ${specPath}`);
+    cp.stdout.on('data', data => {
+      console.log(`Cypress child-process stdout:\n${data.toString()}`);
+    });
+    cp.stderr.on('data', data => {
+      console.log(`Cypress child-process stderr:\n: ${data.toString()}`);
+    });
+    cp.on('exit', code => {
       spinner.stop(true);
       console.log('\n');
-      console.log(chalk.green(`RUN COMPLETED!  stdout:\n${stdout}`));
+      if (code === 0) {
+        console.log(
+          chalk.green(
+            `Cypress child-process SUCCEEDED! Exited with code ${code.toString()}`,
+          ),
+        );
+      } else {
+        chalk.red(
+          `Cypress child-process FAILED! Exited with code ${code.toString()}`,
+        );
+      }
     });
   },
   saveSpecFile(myConfig, myConfigPath, specFile) {
