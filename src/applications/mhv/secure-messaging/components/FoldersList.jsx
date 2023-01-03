@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { folderPathByFolderId } from '../util/helpers';
+import { DefaultFolders as Folders } from '../util/constants';
 
 const FoldersList = props => {
   const { folders } = props;
@@ -11,9 +13,11 @@ const FoldersList = props => {
         {!!folders.length &&
           folders.map(folder => (
             <li key={folder.name} className="folder-link">
-              <Link to={`/folder/${folder.id}`}>
+              <Link to={folderPathByFolderId(folder.id)}>
                 <i className="fas fa-folder" aria-hidden="true" />
-                {folder.name}
+                {folder.id === Folders.DELETED.id
+                  ? Folders.DELETED.header
+                  : folder.name}
               </Link>
             </li>
           ))}
