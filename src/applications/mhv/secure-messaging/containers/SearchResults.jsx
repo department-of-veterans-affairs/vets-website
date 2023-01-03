@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
-import CondensedSearchForm from '../components/Search/SearchForm';
+import SearchForm from '../components/Search/SearchForm';
 
 const Search = () => {
   const {
@@ -54,7 +54,7 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm
+      <SearchForm
         folder={folder}
         keyword={keyword}
         resultsCount={searchResults.length}

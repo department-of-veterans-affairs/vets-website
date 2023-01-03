@@ -16,6 +16,7 @@ const SearchForm = props => {
   const folders = useSelector(state => state.sm.folders.folderList);
   const [searchTerm, setSearchTerm] = useState('');
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [searchTermError, setSearchTermError] = useState(null);
 
   useEffect(
     () => {
@@ -25,6 +26,12 @@ const SearchForm = props => {
   );
 
   const handleSearch = e => {
+    setSearchTermError(null);
+
+    if (!searchTerm) {
+      setSearchTermError('Please enter a search term');
+      return;
+    }
     dispatch(runBasicSearch(folder.folderId, e.target.value.toLowerCase()));
     if (!resultsCount) {
       history.push('/search/results');
@@ -117,13 +124,22 @@ const SearchForm = props => {
       {label()}
 
       {!advancedOpen && (
-        <VaSearchInput
-          buttonText={window.innerWidth <= 481 ? null : 'Search'}
-          onInput={e => setSearchTerm(e.target.value)}
-          onSubmit={handleSearch}
-          value={searchTerm}
-          label="search-message-folder-input"
-        />
+        <>
+          {searchTermError && (
+            <div className="error-message" role="alert">
+              <span className="sr-only">Error</span>
+              {searchTermError}
+            </div>
+          )}
+          <VaSearchInput
+            buttonText={window.innerWidth <= 481 ? null : 'Search'}
+            onInput={e => setSearchTerm(e.target.value)}
+            onSubmit={handleSearch}
+            value={searchTerm}
+            label="search-message-folder-input"
+            data-testid="keyword-search-input"
+          />
+        </>
       )}
 
       {resultsCount !== 0 && (

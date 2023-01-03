@@ -16,6 +16,12 @@
   .keyword-help-text {
     margin: 6px 0 4px;
   }
+  .error-message {
+    color: var(--color-secondary-dark);
+    padding-top: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+  }
   va-search-input {
     @media (min-width: $medium-screen) {
       max-width: 90%;
@@ -94,8 +100,13 @@
       transform: rotate(180deg);
     }
   }
+}
 
-  .advanced-search-button {
-    margin-top: 1.5rem;
+.advanced-search-form {
+  background-color: var(--color-gray-lightest);
+  margin-bottom: 0;
+
+  .advanced-search-field::part(label) {
+    font-weight: bold;
   }
 }
