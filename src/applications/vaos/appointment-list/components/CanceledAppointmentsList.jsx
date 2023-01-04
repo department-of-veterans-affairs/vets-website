@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
+import moment from 'moment';
+import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
@@ -11,23 +15,50 @@ import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+} from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
-import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import Card from './AppointmentsPageV2/Card';
+import { selectFeatureStatusImprovement } from '../../redux/selectors';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export default function CanceledAppointmentsList({ hasTypeChanged }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const {
     appointmentsByMonth,
     facilityData,
     futureStatus,
     showScheduleButton,
   } = useSelector(state => getCanceledAppointmentListInfo(state), shallowEqual);
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
 
-  const dispatch = useDispatch();
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
@@ -94,6 +125,11 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
             >
               {monthBucket.map((appt, index) => {
                 const facilityId = getVAAppointmentLocationId(appt);
+                const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+                const link = getLink({
+                  featureStatusImprovement,
+                  appointment: appt,
+                });
 
                 if (
                   appt.vaos.appointmentType ===
@@ -104,8 +140,20 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                     <AppointmentListItem
                       key={index}
                       appointment={appt}
-                      facility={facilityData[facilityId]}
-                    />
+                      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+                    >
+                      <Card
+                        appointment={appt}
+                        facility={facilityData[facilityId]}
+                        link={link}
+                        handleClick={() =>
+                          handleClick({ history, link, idClickable })
+                        }
+                        handleKeyDown={() =>
+                          handleKeyDown({ history, link, idClickable })
+                        }
+                      />
+                    </AppointmentListItem>
                   );
                 }
                 return null;
@@ -131,3 +179,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     </>
   );
 }
+
+CanceledAppointmentsList.propTypes = {
+  hasTypeChanged: PropTypes.bool,
+};
