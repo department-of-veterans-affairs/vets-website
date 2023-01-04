@@ -2,7 +2,6 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const { exec } = require('child_process');
-const { spawn } = require('child_process');
 const { Spinner } = require('cli-spinner');
 const { parse } = require('comment-parser');
 
