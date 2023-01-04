@@ -1,4 +1,3 @@
-import i18next from 'i18next';
 import { api } from '../../api';
 
 /**
@@ -6,7 +5,7 @@ import { api } from '../../api';
  * @param {string} [lastName]
  * @param {object} [dob]
  * @param {boolean} [dobError]
- * @param {function} [setLastNameErrorMessage]
+ * @param {boolean} [setLastNameError]
  * @param {function} [setIsLoading]
  * @param {function} [setShowValidateError]
  * @param {function} [goToNextPage]
@@ -20,7 +19,7 @@ const validateLogin = async (
   lastName,
   dob,
   dobError,
-  setLastNameErrorMessage,
+  setLastNameError,
   setIsLoading,
   setShowValidateError,
   goToNextPage,
@@ -29,12 +28,12 @@ const validateLogin = async (
   app,
   updateError,
 ) => {
-  setLastNameErrorMessage();
+  setLastNameError();
 
   let valid = true;
 
   if (!lastName) {
-    setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
+    setLastNameError(true);
     valid = false;
   }
   if (dobError || dob === '--') {
