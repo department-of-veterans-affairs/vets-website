@@ -44,6 +44,10 @@ const InboxPage = ({
       );
     }
 
+    // let mockClaimStatus = {
+    //   claimStatus: 'ELIGIBLE',
+    //   receivedDate: '2020-12-12',
+    // };
     if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
       if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
         return <HasLetters claimStatus={claimStatus} />;
@@ -64,10 +68,8 @@ const InboxPage = ({
         />
       );
     }
-
     return false;
   };
-
   return (
     <Layout
       clsName="inbox-page"
@@ -124,7 +126,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

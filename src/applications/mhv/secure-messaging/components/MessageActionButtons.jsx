@@ -11,7 +11,7 @@ import DeleteMessageModal from './Modals/DeleteMessageModal';
 import * as Constants from '../util/constants';
 
 const MessageActionButtons = props => {
-  const { id } = props;
+  const { id, hideReplyButton } = props;
   const dispatch = useDispatch();
   const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -67,20 +67,28 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
+    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around vads-u-margin-y--4">
       <PrintBtn handlePrint={handlePrint} id={id} />
 
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
         activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
           <button
             type="button"
-            className="message-action-button"
+            className="message-action-button middle-button middle-left-button usa-button-secondary"
             onClick={() => {
               setIsDeleteVisible(true);
             }}
           >
-            <i className="fas fa-trash-alt" aria-hidden />
-            <span className="message-action-button-text">Trash</span>
+            <i
+              className="fas fa-trash-alt .vads-u-margin-right--0p5"
+              aria-hidden
+            />
+            <span
+              className="message-action-button-text"
+              data-testid="move-button-text"
+            >
+              Trash
+            </span>
           </button>
         )}
 
@@ -90,20 +98,32 @@ const MessageActionButtons = props => {
         <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
       )}
 
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={props.onReply}
-      >
-        <i className="fas fa-reply" aria-hidden="true" />
-        <span className="message-action-button-text">Reply</span>
-      </button>
+      {!hideReplyButton && (
+        <button
+          type="button"
+          className="message-action-button right-button usa-button-secondary"
+          data-testid="reply-button-top"
+          onClick={props.onReply}
+        >
+          <i
+            className="fas fa-reply vads-u-margin-right--0p5"
+            aria-hidden="true"
+          />
+          <span
+            className="message-action-button-text"
+            data-testid="move-button-text"
+          >
+            Reply
+          </span>
+        </button>
+      )}
     </div>
   );
 };
 
 MessageActionButtons.propTypes = {
   handlePrintThreadStyleClass: PropTypes.func,
+  hideReplyButton: PropTypes.func,
   id: PropTypes.number,
   onReply: PropTypes.func,
 };

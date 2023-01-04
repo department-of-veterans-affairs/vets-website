@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
@@ -48,7 +48,7 @@ describe('CG <SignatureInput>', () => {
     );
   });
 
-  it('should show error without a matching representative signature', () => {
+  it('should show error without a matching representative signature', async () => {
     const view = render(
       <SignatureInput
         fullName={fullName}
@@ -65,13 +65,15 @@ describe('CG <SignatureInput>', () => {
       'Mary Jane',
     );
 
-    expect(view.container.querySelector('va-text-input')).to.have.attribute(
-      'error',
-      'You must sign as representative.',
-    );
+    await waitFor(() => {
+      expect(view.container.querySelector('va-text-input')).to.have.attribute(
+        'error',
+        'You must sign as representative.',
+      );
+    });
   });
 
-  it('should show error without a matching veteran signature', () => {
+  it('should show error without a matching veteran signature', async () => {
     const view = render(
       <SignatureInput
         fullName={fullName}
@@ -92,9 +94,11 @@ describe('CG <SignatureInput>', () => {
     // hence John  Smith in the test and not John Smith.
     // When running the application it shows with only one space.
 
-    expect(view.container.querySelector('va-text-input')).to.have.attribute(
-      'error',
-      'Your signature must match previously entered name: John  Smith',
-    );
+    await waitFor(() => {
+      expect(view.container.querySelector('va-text-input')).to.have.attribute(
+        'error',
+        'Your signature must match previously entered name: John  Smith',
+      );
+    });
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { appealTypes } from '~/applications/claims-status/utils/appeals-v2-helpers';
+import { appealTypes } from '../../claims-and-appeals-helpers';
 
 import Claim from './Claim';
 import Appeal from './Appeal';

@@ -2,6 +2,7 @@
 @import "modules/m-overrides";
 
 @import "~uswds/src/stylesheets/core/variables";
+@import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/fonts";
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/grid";
@@ -23,6 +24,7 @@
 
 @import "~@department-of-veterans-affairs/formation/sass/base/b-font-faces";
 @import "~@department-of-veterans-affairs/formation/sass/base/va";
+@import "~@department-of-veterans-affairs/formation/sass/base/b-utils";
 @import "~@department-of-veterans-affairs/formation/sass/layout/flex-grid";
 
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";

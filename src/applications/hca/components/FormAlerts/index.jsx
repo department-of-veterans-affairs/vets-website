@@ -43,28 +43,9 @@ export const FinancialDisclosureAlert = () => (
   </va-alert>
 );
 
-export const ServerErrorAlert = () => (
-  <va-alert status="error">
-    <h2 slot="headline">Something went wrong on our end</h2>
-    <p>We’re sorry. Something went wrong on our end. Please try again</p>
-  </va-alert>
-);
-
-export const ShortFormAlert = () => (
-  <va-alert-expandable
-    trigger="You’re filling out a shortened application!"
-    status="success"
-    class="vads-u-margin-y--5"
-  >
-    Your service-connected disability rating is 50% or higher. This is one of
-    our eligibility criteria. This means that we don’t have to ask you questions
-    about other criteria like income and military service.
-  </va-alert-expandable>
-);
-
-export const VerificationRequiredAlert = () => (
+export const IdentityVerificationAlert = () => (
   <va-alert status="continue">
-    <h4 slot="headline">
+    <h4 slot="headline" data-testid="identity-alert-heading">
       Please verify your identity before applying for VA health care
     </h4>
     <p>This process should take about 5 to 10 minutes.</p>
@@ -91,16 +72,20 @@ export const VerificationRequiredAlert = () => (
     </p>
     <ul>
       <li>
-        <a href="/resources/verifying-your-identity-on-vagov/">
-          Read our identity verification FAQs
-        </a>
+        <va-link
+          href="/resources/verifying-your-identity-on-vagov/"
+          text="Read our identity verification FAQs"
+        />
       </li>
       <li>
         Or call us at <va-telephone contact={CONTACTS['222_VETS']} />. If you
         have hearing hearing loss, call{' '}
         <va-telephone contact={CONTACTS['711']} tty />. We’re here Monday
         through Friday, 8:00 a.m. to 8:00 p.m.{' '}
-        <abbr title="eastern time">ET</abbr>.
+        <dfn>
+          <abbr title="Eastern Time">ET</abbr>
+        </dfn>
+        .
       </li>
     </ul>
     <p>
@@ -115,4 +100,23 @@ export const VerificationRequiredAlert = () => (
       </a>
     </p>
   </va-alert>
+);
+
+export const ServerErrorAlert = () => (
+  <va-alert status="error">
+    <h2 slot="headline">Something went wrong on our end</h2>
+    <p>We’re sorry. Something went wrong on our end. Please try again</p>
+  </va-alert>
+);
+
+export const ShortFormAlert = () => (
+  <va-alert-expandable
+    trigger="You’re filling out a shortened application!"
+    status="success"
+    class="vads-u-margin-y--5"
+  >
+    Your service-connected disability rating is 50% or higher. This is one of
+    our eligibility criteria. This means that we don’t have to ask you questions
+    about other criteria like income and military service.
+  </va-alert-expandable>
 );

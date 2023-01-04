@@ -25,9 +25,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: true,
           checkInExperienceTravelReimbursement: false,
         }),
       );
@@ -41,7 +38,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -65,9 +61,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperiencePhoneAppointmentsEnabled: true,
-          checkInExperienceLorotaDeletionEnabled: false,
           checkInExperienceTravelReimbursement: true,
         }),
       );
@@ -81,20 +74,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
-        }),
-      );
-    },
-    withLorotaSecurityUpdate: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          emergencyContactEnabled: true,
-          checkInExperiencePhoneAppointmentsEnabled: false,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -106,8 +85,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -154,11 +131,8 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName, dob } = req.body?.session || {};
-        if (
-          (last4 === '1234' || dob === '1989-03-15') &&
-          lastName === 'Smith'
-        ) {
+        const { lastName, dob } = req.body?.session || {};
+        if (dob === '1989-03-15' && lastName === 'Smith') {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
@@ -243,6 +217,15 @@ class ApiInitializer {
       });
       return data;
     },
+    withPast15MinuteWindow: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.past15MinuteUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
     withBadData: ({
       extraValidation = null,
       demographicsNeedsUpdate = true,
@@ -275,6 +258,45 @@ class ApiInitializer {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
       });
+    },
+    withBadReload: ({
+      extraValidation = null,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      uuid = sharedData.get.defaultUUID,
+    } = {}) => {
+      cy.intercept('GET', `/check_in/v2/pre_check_ins/*&reload=true`, req => {
+        req.reply(400, preCheckInData.get.createMockFailedResponse());
+      });
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*&reload=false', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(
+          preCheckInData.get.createMockSuccessResponse(
+            uuid,
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+          ),
+        );
+      });
+      return preCheckInData.get.createMockSuccessResponse(
+        uuid,
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      );
     },
   };
 

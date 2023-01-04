@@ -37,10 +37,7 @@ export const draftDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         draftMessageHistory: action.response.data.map(message => {
-          const msgAttr = message.attributes.attributes;
-          return {
-            ...msgAttr,
-          };
+          return message.attributes;
         }),
       };
     }

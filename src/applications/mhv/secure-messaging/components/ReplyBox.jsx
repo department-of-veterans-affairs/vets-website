@@ -38,7 +38,12 @@ const ReplyBox = () => (
           Message{' '}
           <span className="vads-u-color--secondary-dark">(*Required)</span>
         </p>
-        <textarea className="message-input" id="Message" name="message" />
+        <textarea
+          className="message-input"
+          id="Message"
+          name="message"
+          data-testid="reply-message-body-field"
+        />
       </div>
 
       <div className="message-body">
@@ -75,8 +80,9 @@ const ReplyBox = () => (
 
       <div className="small-screen:vads-u-display--flex small-screen:vads-u-flex-direction--row-reverse small-screen:vads-u-justify-content--space-between">
         <div>
+          {/* TODO replace with va-button or reuse a component from Compose container which looks very similar */}
           <button type="button">
-            <span className="save-button-text">{'Send '}</span>
+            <span className="save-button-text">Send</span>
             <i className="fas fa-paper-plane" aria-hidden="true" />
           </button>
         </div>

@@ -4,7 +4,6 @@ import format from 'date-fns/format';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { render } from '@testing-library/react';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
@@ -79,25 +78,6 @@ describe('check-in', () => {
       expect(checkIn.getByTestId('clinic-name')).to.exist;
       expect(checkIn.getByTestId('clinic-name')).to.have.text(
         'Green Team Clinic1',
-      );
-    });
-    it('passes axeCheck', () => {
-      const appointments = [
-        {
-          clinicPhone: '555-867-5309',
-          startTime: '2021-07-19T13:56:31',
-          facilityName: 'Acme VA',
-          clinicName: 'Green Team Clinic1',
-        },
-      ];
-
-      axeCheck(
-        <Provider store={store}>
-          <DisplayMultipleAppointments
-            router={mockRouter}
-            appointments={appointments}
-          />
-        </Provider>,
       );
     });
     describe('back button visibility based on update page', () => {

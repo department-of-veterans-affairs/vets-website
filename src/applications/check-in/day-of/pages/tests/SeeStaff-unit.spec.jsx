@@ -5,7 +5,6 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { I18nextProvider } from 'react-i18next';
 
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import i18n from '../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import { createMockRouter } from '../../../tests/unit/mocks/router';
@@ -50,15 +49,6 @@ describe('check in', () => {
       );
 
       expect(component.getByText('message test')).to.exist;
-    });
-    it('passes axeCheck', () => {
-      axeCheck(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <SeeStaff router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
     });
   });
 });

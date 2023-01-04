@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import {
@@ -286,6 +286,7 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
+      'isBlocked',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

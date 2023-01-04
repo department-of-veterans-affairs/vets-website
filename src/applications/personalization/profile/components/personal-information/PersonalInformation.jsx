@@ -5,15 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
 import {
-  showBadAddressIndicator,
   hasBadAddress,
-  forceBadAddressIndicator,
+  personalInformationLoadError,
 } from '@@profile/selectors';
+
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -37,17 +36,12 @@ const PersonalInformation = () => {
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
-  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
 
-  const userHasBadAddress = useSelector(hasBadAddress);
-
-  const shouldForceBadAddressIndicator = useSelector(
-    state =>
-      forceBadAddressIndicator(state) &&
-      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  const hasPersonalInformationServiceError = !!useSelector(
+    personalInformationLoadError,
   );
 
-  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
+  const userHasBadAddress = useSelector(hasBadAddress);
 
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
@@ -125,17 +119,13 @@ const PersonalInformation = () => {
     [openEditModal],
   );
 
-  const showHeroBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator);
-
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      {showHeroBadAddressAlert && (
+      {userHasBadAddress && (
         <>
           <BadAddressAlert />
         </>
@@ -147,7 +137,11 @@ const PersonalInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        <PersonalInformationContent hasVAPServiceError={hasVAPServiceError} />
+        <PersonalInformationContent
+          hasPersonalInformationServiceError={
+            hasPersonalInformationServiceError
+          }
+        />
       </DowntimeNotification>
     </>
   );

@@ -17,8 +17,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import constants from 'vets-json-schema/dist/constants.json';
-
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import * as BUCKETS from 'site/constants/buckets';
+import * as ENVIRONMENTS from 'site/constants/environments';
 
 import manifest from '../manifest.json';
 
@@ -70,9 +70,13 @@ import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+const checkImageSrc = (() => {
+  const bucket = environment.isProduction()
+    ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
+    : BUCKETS[ENVIRONMENTS.VAGOVSTAGING];
+
+  return `${bucket}/img/check-sample.png`;
+})();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -381,7 +385,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -408,7 +412,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -1220,7 +1224,7 @@ const formConfig = {
             },
             'ui:description': (
               <p>
-                VA makes payments through only direct deposit, also called
+                We make payments only through direct deposit, also called
                 electronic funds transfer (EFT).
               </p>
             ),
@@ -1228,21 +1232,18 @@ const formConfig = {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
+                ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
-                  pattern: 'Please enter a valid account number',
-                  required: 'Please enter a valid account number',
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
+                  pattern: 'Please enter only numbers',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
               },
               routingNumber: {
-                'ui:errorMessages': {
-                  pattern: 'Please enter a valid routing number',
-                  required: 'Please enter a valid routing number',
-                },
+                ...bankAccountUI.routingNumber,
                 'ui:reviewField': ObfuscateReviewField,
-                'ui:title': 'Routing number',
                 'ui:validations': [validateRoutingNumber],
               },
             },
