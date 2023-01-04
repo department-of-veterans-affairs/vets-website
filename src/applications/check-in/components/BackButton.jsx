@@ -10,7 +10,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 
 const BackButton = props => {
-  const { action, router, text = false } = props;
+  const { action, router, text = null } = props;
   const {
     getCurrentPageFromRouter,
     getPreviousPageFromRouter,
@@ -57,7 +57,7 @@ const BackButton = props => {
 BackButton.propTypes = {
   action: PropTypes.func,
   router: PropTypes.object,
-  text: PropTypes.bool,
+  text: PropTypes.string,
 };
 
 export default BackButton;
