@@ -38,7 +38,6 @@ import {
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { loginAppUrlRE } from 'platform/user/authentication/utilities';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
@@ -223,8 +222,9 @@ export class Main extends Component {
 
   render() {
     const { mhvTransition, mhvTransitionModal } = this.props;
-    // checks if on Unified Sign in Page
-    if (loginAppUrlRE.test(window.location.pathname)) {
+
+    // Check if displaying login is disabled.
+    if (!this.props.showNavLogin) {
       return null;
     }
     return (
@@ -327,6 +327,7 @@ Main.propTypes = {
   // From mapDispatchToProps.
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
+  showNavLogin: PropTypes.bool.isRequired,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
