@@ -3,37 +3,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function getClasses({ className, first, last }) {
-  // Append class names
-  if (className) {
-    const names = classNames('vads-l-col', 'vads-u-padding-top--0p25', {
+function getClasses({ className, first, last, padding, size }) {
+  const defaultClassNames = classNames(
+    `vads-u-flex--${size}`,
+    `vads-u-padding-top--${padding} || 0p25`,
+    {
       'vads-u-margin-left--1': first,
       'vads-u-margin-right--1': last,
       'vads-u-text-align--right': last,
       'vaos-hide-for-print': last,
-    });
-    return `${names} ${className}`;
+    },
+  );
+
+  // Append class names
+  if (className) {
+    return `${defaultClassNames} ${className}`;
   }
 
   // Default class names
-  return classNames('vads-l-col', 'vads-u-padding-top--0p25', {
-    'vads-u-margin-left--1': first,
-    'vads-u-margin-right--1': last,
-    'vads-u-text-align--right': last,
-    'vaos-hide-for-print': last,
-  });
+  return defaultClassNames;
 }
 
 export default function AppointmentColumn({
-  children,
-  first,
   canceled,
+  children,
   className,
-  classNameOverride,
-  last,
+  first,
   icon,
+  last,
+  padding,
+  size,
   style,
-  ...rest
+  ...props
 }) {
   const defaultStyles = {
     canceled: {
@@ -41,22 +42,11 @@ export default function AppointmentColumn({
     },
   };
 
-  if (classNameOverride) {
-    return (
-      <div
-        id={rest.id}
-        className={classNameOverride}
-        style={{ ...defaultStyles.canceled, ...style }}
-      >
-        {children}
-      </div>
-    );
-  }
-
   return (
     <div
-      className={getClasses({ className, first, last })}
-      style={defaultStyles.canceled}
+      className={getClasses({ className, first, padding, last, size })}
+      style={{ ...defaultStyles.canceled, ...style }}
+      {...props}
     >
       {icon && (
         <i
@@ -71,20 +61,30 @@ export default function AppointmentColumn({
 }
 
 AppointmentColumn.propTypes = {
+  /** Add strikethough for canceled appointments */
   canceled: PropTypes.bool,
 
   /** Anything that can be rendered */
   children: PropTypes.node,
 
+  /** CSS classes to be appended to the default */
   className: PropTypes.string,
 
-  /** Override default column css styles */
-  classNameOverride: PropTypes.string,
-  data: PropTypes.string,
+  /** Is this the 1st appointment */
   first: PropTypes.bool,
+
+  /** Icon to add to the column */
   icon: PropTypes.string,
-  isMobile: PropTypes.bool,
+
+  /** Is this the last appointment */
   last: PropTypes.bool,
-  render: PropTypes.func,
+
+  /** Override the default top padding */
+  padding: PropTypes.string,
+
+  /** Override the default column size */
+  size: PropTypes.string,
+
+  /** CSS styles to be appened to the default */
   style: PropTypes.object,
 };
