@@ -29,10 +29,6 @@ describe('check-in', () => {
               pages: [],
             },
           },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
-          },
         };
         afterEach(() => {
           MockDate.reset();
@@ -82,10 +78,7 @@ describe('check-in', () => {
             pages: [],
           },
           veteranData: {},
-        },
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          check_in_experience_phone_appointments_enabled: false,
+          error: 'pre-check-in-expired',
         },
       };
 
@@ -113,8 +106,6 @@ describe('check-in', () => {
       it('renders correct error message when phone pre-checkin is expired', () => {
         const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
-        // eslint-disable-next-line camelcase
-        phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
         store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
 
         const component = render(
@@ -166,15 +157,12 @@ describe('check-in', () => {
               pages: [],
             },
             veteranData: {},
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
+            error: 'appointment-canceled',
           },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders correct error message and no how-to link for an in-person cancelled appointment', () => {
+      it('renders correct error message and no how-to link for an in-person canceled appointment', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -202,8 +190,6 @@ describe('check-in', () => {
       it('renders correct error message for a canceled phone appointment', () => {
         const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
-        // eslint-disable-next-line camelcase
-        phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
         store = mockStore({ ...phoneInitState, ...scheduledDowntimeState });
         const component = render(
           <Provider store={store}>
@@ -258,14 +244,10 @@ describe('check-in', () => {
             },
             veteranData: {},
           },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
-          },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders no sub message or how to link when appointment started more than 15 minutes ago', () => {
+      it('renders properly when appointment started more than 15 minutes ago', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -273,7 +255,7 @@ describe('check-in', () => {
             </I18nextProvider>
           </Provider>,
         );
-        expect(component.queryByTestId('error-message')).to.be.null;
+        expect(component.queryByTestId('error-message')).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
       });
     });
@@ -289,10 +271,6 @@ describe('check-in', () => {
             form: {
               pages: [],
             },
-          },
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_phone_appointments_enabled: false,
           },
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });

@@ -29,6 +29,7 @@ const App = ({
   getFormStatus,
   isError,
   isLoggedIn,
+  isStartingOver,
   location,
   pending,
   router,
@@ -85,7 +86,7 @@ const App = ({
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showCombinedFSR, showEnhancedFSR, setFormData],
+    [showCombinedFSR, showEnhancedFSR, setFormData, isStartingOver],
   );
 
   if (pending) {
@@ -149,6 +150,7 @@ const mapStateToProps = state => ({
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
+  isStartingOver: state.form.isStartingOver,
 });
 
 const mapDispatchToProps = dispatch => ({

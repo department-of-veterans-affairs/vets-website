@@ -12,7 +12,6 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import {
-  paymentsError,
   paymentsSuccess,
   paymentsSuccessEmpty,
 } from '../fixtures/test-payments-response';
@@ -67,7 +66,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -98,7 +96,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('view-payment-history-link').should('exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -133,46 +130,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
       /* eslint-enable @department-of-veterans-affairs/axe-check-required */
-    });
-
-    describe('and payments-API-error', () => {
-      // Payments API returns error:
-      it('hides entire section and shows Payments-error only - C14675', () => {
-        cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-          'paymentsError1',
-        );
-        cy.visit('my-va/');
-        cy.wait(['@noDebts1', '@paymentsError1']);
-
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
-
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
-        cy.findByTestId('zero-debt-paragraph').should('not.exist');
-        cy.findByTestId('debts-error').should('not.exist');
-
-        cy.findByTestId('payment-card').should('not.exist');
-        cy.findByTestId('deposit-header').should('not.exist');
-        cy.findByTestId('payment-card-view-history-link').should('not.exist');
-        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('exist');
-
-        cy.findByTestId('view-payment-history-link').should('not.exist');
-        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
-        cy.findByTestId('learn-va-debt-link').should('not.exist');
-
-        // make the a11y check
-        cy.injectAxeThenAxeCheck();
-      });
     });
   });
 
@@ -201,7 +164,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
@@ -231,8 +193,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('exist');
-        cy.findByTestId('payments-error').should('not.exist');
-
         cy.findByTestId('view-payment-history-link').should('exist');
         cy.findByTestId('manage-direct-deposit-link').should('exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
@@ -264,40 +224,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('payment-card').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
-
-        cy.findByTestId('view-payment-history-link').should('not.exist');
-        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
-        cy.findByTestId('learn-va-debt-link').should('not.exist');
-      });
-      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
-    });
-
-    describe('and payments-API-error', () => {
-      // Payments API returns error:
-      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-      // Same display state as a previous test with AXE-check.
-      it('hides entire section and shows Payments-error only - C14391', () => {
-        cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-          'paymentsError2',
-        );
-        cy.visit('my-va/');
-        cy.wait(['@debts2', '@paymentsError2']);
-
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
-
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
-        cy.findByTestId('zero-debt-paragraph').should('not.exist');
-        cy.findByTestId('debts-error').should('not.exist');
-
-        cy.findByTestId('payment-card').should('not.exist');
-        cy.findByTestId('deposit-header').should('not.exist');
-        cy.findByTestId('payment-card-view-history-link').should('not.exist');
-        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('exist');
 
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
@@ -332,7 +258,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('exist');
         cy.findByTestId('payment-card-view-history-link').should('exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('manage-direct-deposit-link').should('exist');
         cy.findByTestId('view-payment-history-link').should('not.exist');
@@ -363,7 +288,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('exist');
-        cy.findByTestId('payments-error').should('not.exist');
 
         cy.findByTestId('manage-direct-deposit-link').should('exist');
         cy.findByTestId('view-payment-history-link').should('exist');
@@ -398,40 +322,6 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('deposit-header').should('not.exist');
         cy.findByTestId('payment-card-view-history-link').should('not.exist');
         cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('not.exist');
-
-        cy.findByTestId('manage-direct-deposit-link').should('not.exist');
-        cy.findByTestId('view-payment-history-link').should('not.exist');
-        cy.findByTestId('learn-va-debt-link').should('not.exist');
-      });
-      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
-    });
-
-    describe('and payments-API-error', () => {
-      // Payments API returns error.
-      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-      // Same display state as a previous test with AXE-check.
-      it('hides entire section and shows Payments-error only - C14392', () => {
-        cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-          'paymentsError3',
-        );
-        cy.visit('my-va/');
-        cy.wait(['@debtsError3', '@paymentsError3']);
-
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
-
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
-        cy.findByTestId('zero-debt-paragraph').should('not.exist');
-        cy.findByTestId('debts-error').should('not.exist');
-
-        cy.findByTestId('payment-card').should('not.exist');
-        cy.findByTestId('deposit-header').should('not.exist');
-        cy.findByTestId('payment-card-view-history-link').should('not.exist');
-        cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-        cy.findByTestId('payments-error').should('exist');
 
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
         cy.findByTestId('view-payment-history-link').should('not.exist');

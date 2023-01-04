@@ -34,9 +34,23 @@ export const acknowledge5103Description = (
 export const acknowledge5103Error =
   'You need to certify that you have reviewed the notice of evidence needed.';
 
+export const acknowledge = {
+  certify: 'I certify that',
+  reviewed: ' I have reviewed the notice of evidence needed.',
+};
+
 export const acknowledge5103Label = (
   <>
-    <strong>I certify that</strong> I have reviewed the notice of evidence
-    needed
+    <strong>{acknowledge.certify}</strong>
+    {acknowledge.reviewed}
   </>
+);
+
+export const reviewField = () => (
+  <div className="review-row">
+    <dt>
+      {acknowledge.certify} {acknowledge.reviewed}
+    </dt>
+    <dd>Yes, I certify</dd>
+  </div>
 );

@@ -1,26 +1,9 @@
 import { getSelected, hasSomeSelected, hasDuplicates } from '../utils/helpers';
-import { issueErrorMessages } from '../content/addIssue';
 import {
   noneSelected,
   maxSelectedErrorMessage,
 } from '../content/contestableIssues';
-import { MAX_LENGTH } from '../constants';
-
-/**
- *
- * @param {Function[]} validations - array of validation functions
- * @param {*} data - field data passed to the validation function
- * @param {*} fullData - full and appStateData passed to validation function
- * @returns {String[]} - error messages
- */
-export const checkValidations = (validations, data, fullData) => {
-  const errors = { errorMessages: [] };
-  errors.addError = message => errors.errorMessages.push(message);
-  validations.map(validation =>
-    validation(errors, data, fullData, null, null, null, fullData),
-  );
-  return errors.errorMessages;
-};
+import { errorMessages, MAX_LENGTH } from '../constants';
 
 export const selectionRequired = (
   errors,
@@ -51,7 +34,7 @@ export const uniqueIssue = (
   appStateData,
 ) => {
   if (errors?.addError && hasDuplicates(appStateData || formData)) {
-    errors.addError(issueErrorMessages.uniqueIssue);
+    errors.addError(errorMessages.uniqueIssue);
   }
 };
 
@@ -63,12 +46,12 @@ export const maxIssues = (error, data) => {
 
 export const missingIssueName = (error, data) => {
   if (!data) {
-    error.addError(issueErrorMessages.missingIssue);
+    error.addError(errorMessages.missingIssue);
   }
 };
 
 export const maxNameLength = (error, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
-    error.addError(issueErrorMessages.maxLength);
+    error.addError(errorMessages.maxLength);
   }
 };

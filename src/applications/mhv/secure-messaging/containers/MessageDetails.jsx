@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
-import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
@@ -24,7 +23,7 @@ const MessageDetail = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const location = useLocation();
   const history = useHistory();
-  const [CannotReplyAlert, setCannotReplyAlert] = useState(true);
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
   const header = useRef();
 
   useEffect(
@@ -44,11 +43,21 @@ const MessageDetail = () => {
   useEffect(
     () => {
       if (alert?.header !== null) {
-        setCannotReplyAlert(CannotReplyAlert);
+        setcannotReplyAlert(cannotReplyAlert);
       }
-      dispatch(closeAlert());
     },
-    [CannotReplyAlert, alert?.header, dispatch],
+    [cannotReplyAlert, alert?.header],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useEffect(
@@ -69,12 +78,14 @@ const MessageDetail = () => {
   }
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+    <div className="vads-l-grid-container message-detail-container">
       {/* Only display this type of alert when it contains a header */}
-      {CannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
-      <h1 className="vads-u-margin-top--2" ref={header}>
-        {pageTitle}
-      </h1>
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
+      {pageTitle === 'Message' ? null : (
+        <h1 className="vads-u-margin-top--2" ref={header}>
+          {pageTitle}
+        </h1>
+      )}
 
       {message === undefined && (
         <va-loading-indicator
@@ -99,7 +110,7 @@ const MessageDetail = () => {
       {message &&
         messageId && (
           <>
-            <NavigationLinks messageId={messageId} />
+            {/* <NavigationLinks messageId={messageId} /> */}
             <MessageDetailBlock message={message} />
             <MessageThread messageHistory={messageHistory} />
           </>

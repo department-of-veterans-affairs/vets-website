@@ -385,7 +385,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -412,7 +412,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -1224,7 +1224,7 @@ const formConfig = {
             },
             'ui:description': (
               <p>
-                VA makes payments through only direct deposit, also called
+                We make payments only through direct deposit, also called
                 electronic funds transfer (EFT).
               </p>
             ),
@@ -1232,21 +1232,18 @@ const formConfig = {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountNumber: {
+                ...bankAccountUI.accountNumber,
                 'ui:errorMessages': {
-                  pattern: 'Please enter a valid account number',
-                  required: 'Please enter a valid account number',
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
+                  pattern: 'Please enter only numbers',
                 },
                 'ui:reviewField': ObfuscateReviewField,
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
               },
               routingNumber: {
-                'ui:errorMessages': {
-                  pattern: 'Please enter a valid routing number',
-                  required: 'Please enter a valid routing number',
-                },
+                ...bankAccountUI.routingNumber,
                 'ui:reviewField': ObfuscateReviewField,
-                'ui:title': 'Routing number',
                 'ui:validations': [validateRoutingNumber],
               },
             },
