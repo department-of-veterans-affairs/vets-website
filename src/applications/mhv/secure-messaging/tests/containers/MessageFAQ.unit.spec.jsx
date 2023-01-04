@@ -29,7 +29,7 @@ describe('Message FAQ container', () => {
       },
     );
 
-    const FAQs = screen.getByText('Frequently-asked questions');
+    const FAQs = screen.getByText('Frequently asked questions');
     expect(FAQs).to.exist;
   });
 });

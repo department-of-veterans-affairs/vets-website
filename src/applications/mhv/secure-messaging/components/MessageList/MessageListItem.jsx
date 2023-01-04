@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { DefaultFolders, Categories } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
@@ -22,8 +21,9 @@ const MessageListItem = props => {
     messageId,
     keyword,
     category,
+    activeFolder,
   } = props;
-  const activeFolder = useSelector(state => state.sm.folders.folder);
+  // const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const getClassNames = () => {
     // messages in draft folder have inconsistent readReceipt values
@@ -109,6 +109,7 @@ const MessageListItem = props => {
 export default MessageListItem;
 
 MessageListItem.propTypes = {
+  activeFolder: PropTypes.object,
   attachment: PropTypes.any,
   attributes: PropTypes.object,
   category: PropTypes.string,
