@@ -224,9 +224,13 @@ export class Main extends Component {
     const { mhvTransition, mhvTransitionModal } = this.props;
 
     // Check if displaying login is disabled.
-    if (!this.props.showNavLogin) {
+    if (
+      typeof this.props.showNavLogin !== 'undefined' &&
+      !this.props.showNavLogin
+    ) {
       return null;
     }
+
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -327,7 +331,7 @@ Main.propTypes = {
   // From mapDispatchToProps.
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
-  showNavLogin: PropTypes.bool.isRequired,
+  showNavLogin: PropTypes.bool,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
