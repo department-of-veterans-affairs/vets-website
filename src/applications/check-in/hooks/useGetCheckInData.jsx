@@ -110,7 +110,7 @@ const useGetCheckInData = ({
               const { payload } = json;
               setPreCheckInData(payload);
 
-              if (payload.appointments && payload.appointments.length > 0) {
+              if (payload.appointments?.length > 0) {
                 if (appointmentStartTimePast15(payload.appointments)) {
                   updateError('pre-check-in-past-appointment');
                   return;
