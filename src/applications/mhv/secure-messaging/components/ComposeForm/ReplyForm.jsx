@@ -240,14 +240,12 @@ const ReplyForm = props => {
           </section>
           <div className="compose-form-actions vads-u-display--flex">
             <va-button
-              type="button"
               text="Send"
               class="vads-u-flex--1"
               data-testid="Send-Button"
               onClick={sendMessageHandler}
             />
             <va-button
-              type="button"
               text="Save draft"
               secondary
               class="vads-u-flex--1"
