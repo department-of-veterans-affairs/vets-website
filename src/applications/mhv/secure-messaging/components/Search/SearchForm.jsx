@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { runBasicSearch } from '../../actions/search';
 import AdvancedSearchExpander from './AdvancedSearchExpander';
 

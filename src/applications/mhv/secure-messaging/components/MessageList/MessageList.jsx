@@ -171,20 +171,21 @@ const MessageList = props => {
         &#8211;
         {displayNums[1]} of {totalEntries} conversations
       </div>
-      {currentMessages.map((message, idx) => (
-        <MessageListItem
-          key={`${message.messageId}+${idx}`}
-          messageId={message.messageId}
-          senderName={message.senderName}
-          sentDate={message.sentDate}
-          subject={message.subject}
-          readReceipt={message.readReceipt}
-          attachment={message.attachment}
-          recipientName={message.recipientName}
-          keyword={keyword}
-          category={message.category}
-        />
-      ))}
+      {currentMessages?.length > 0 &&
+        currentMessages.map((message, idx) => (
+          <MessageListItem
+            key={`${message.messageId}+${idx}`}
+            messageId={message.messageId}
+            senderName={message.senderName}
+            sentDate={message.sentDate}
+            subject={message.subject}
+            readReceipt={message.readReceipt}
+            attachment={message.attachment}
+            recipientName={message.recipientName}
+            keyword={keyword}
+            category={message.category}
+          />
+        ))}
       {currentPage === paginatedMessages.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
           End of {!isSearch ? 'messages in this folder' : 'search results'}
