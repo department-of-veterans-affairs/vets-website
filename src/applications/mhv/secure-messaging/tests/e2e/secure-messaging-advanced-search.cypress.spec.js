@@ -11,13 +11,13 @@ describe(manifest.appName, () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.get('[data-testid="drafts-sidebar"]').click();
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/folders/*/search',
       mockMessages,
     ).as('advancedSearchRequest');
-    cy.get('[data-testid="advanced-search-link"]').click();
+    cy.get('[data-testid="advanced-search-toggle"]').click();
     cy.injectAxe();
     cy.axeCheck();
 

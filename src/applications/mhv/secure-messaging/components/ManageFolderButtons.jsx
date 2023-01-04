@@ -95,6 +95,7 @@ const ManageFolderButtons = () => {
       {folder.folderId > 0 && (
         // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
         <div className="manage-folder-container">
+          {/* TODO add GA event for both buttons */}
           <button
             type="button"
             className="left-button usa-button-secondary"
@@ -148,10 +149,10 @@ const ManageFolderButtons = () => {
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
       >
-        <p className="no-margin">
-          <strong>Edit the folder name</strong>
+        <p className="vads-u-margin--0">Edit the folder name</p>
+        <p className="vads-u-color--gray-medium vads-u-margin--0">
+          (50 characters maximum)
         </p>
-        <p className="no-margin">(50 characters maximum)</p>
         <VaTextInput
           value={folderName}
           className="input"

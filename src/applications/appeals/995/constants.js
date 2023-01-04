@@ -65,34 +65,53 @@ export const MAX_LENGTH = {
   POSTAL_CODE: 16,
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
+
+  // from ./config/form-4142-schema.json
+  EVIDENCE_FACILITY_MAX: 100,
+  EVIDENCE_FACILITY_NAME: 100,
 };
 
 export const errorMessages = {
   contestedIssue: 'You must select an eligible issue',
-  missingIssue: 'You must add the name of an issue',
-  uniqueIssue: 'You must enter a unique condition name',
-  maxLength: `You must enter less than ${
-    MAX_LENGTH.ISSUE_NAME
-  } characters for this issue name`,
+  missingIssue: 'You must add an issue',
+  uniqueIssue: 'You must enter a condition you haven’t already entered',
+  maxLength: `You can enter a maximum of ${MAX_LENGTH.ISSUE_NAME} characters`,
+  requiredYesNo: 'You must answer yes or no',
 
-  invalidDate: 'You must provide a date',
-  startDateInPast: 'The start date must be in the future',
-  endDateInPast: 'The end date must be in the future',
+  invalidDate: 'You must provide a date that includes a month, day, and year',
+  // startDateInPast: 'The start date must be in the future',
+  // endDateInPast: 'The end date must be in the future',
   endDateBeforeStart: 'The end date must be after the start date',
+
   invalidDateRange: (min, max) =>
     `You must enter a year between ${min} and ${max}`,
   decisions: {
-    pastDate: 'You must add a past decision date',
+    missingDate: 'You must enter a decision date',
+    pastDate:
+      'You must add an issue with a decision date that’s less than 100 years old',
     newerDate: 'You must add a more recent decision date',
   },
   evidence: {
-    pastDate: 'You must add a past location date',
-    newerDate: 'You must add a more recent location date',
-    missing: 'You must include at least one type of supporting evidence',
-    locationMissing: 'You must add a treatment location',
+    // VA evidence
+    pastDate: 'You must add a past treatment date',
+    newerDate: 'You must add a more recent treatment date',
+    missingDate: 'You must enter a treatment date',
+    missing: 'You must include at least 1 type of supporting evidence',
+    locationMissing: 'You must enter a treatment location',
     locationMaxLength: 'You can enter a maximum of 255 characters',
-    issuesMissing: 'You must select one or more conditions (double-check)',
-    unique: 'You must add a unique location entry',
+    issuesMissing: 'You must select 1 or more conditions',
+    unique: 'You must enter a location you haven’t already entered',
+
+    // private evidence
+    facilityMissing: 'You must add a provider or facility name',
+    country: 'You must choose a country',
+    street: 'You must enter a street address',
+    city: 'You must enter a city name',
+    state: 'You must choose a state',
+    postal: 'You must enter a postal code',
+    overMaxLength: max => `You can enter a maximum of ${max} characters`,
+
+    upload: 'You must provide a password to decrypt this file',
   },
 
   missingEmail: 'You must provide an email address',
@@ -108,6 +127,7 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
+export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 
@@ -146,12 +166,6 @@ export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
-export const ATTACHMENTS_PRIVATE = {
-  L049: 'Medical Treatment Record - Non-Government Facility',
-  L107: 'VA 21-4142 Authorization for Release of Information',
-  L023: 'Other',
-};
-
 export const ATTACHMENTS_OTHER = {
   L015: 'Buddy/Lay Statement',
   L018: 'Civilian Police Reports',
@@ -185,5 +199,20 @@ export const ATTACHMENTS_OTHER = {
     'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
 };
 
+export const CONTACT_INFO_PATH = 'contact-information';
 export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
+export const ADD_ISSUE_PATH = 'add-issue';
+export const EVIDENCE_VA_REQUEST =
+  'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
+export const EVIDENCE_PRIVATE_REQUEST =
+  'supporting-evidence/request-private-medical-records';
+export const EVIDENCE_PRIVATE_PATH =
+  'supporting-evidence/private-medical-records';
+export const EVIDENCE_LIMITATION_PATH =
+  'supporting-evidence/add-private-record-limitations';
+
+// TODO: Update this path
+export const EVIDENCE_ADDITIONAL_PATH =
+  'supporting-evidence/will-add-supporting-evidence';
+export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';

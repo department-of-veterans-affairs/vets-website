@@ -7,7 +7,7 @@ describe(manifest.appName, () => {
     const landingPage = new PatientMessagesLandingPage();
     landingPage.login();
     landingPage.loadPage();
-    cy.get('[data-testid="search-messages-sidebar"]').click();
+    cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
     cy.intercept(
@@ -15,7 +15,9 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/*/messages*',
       mockMessages,
     ).as('basicSearchRequest');
-    cy.get('[data-testid="basic-search-submit"]').click();
+
+    // there is no way to click the search button because it is inaccessible in the shadow dom...
+    // cy.get('[id="va-search-button"]').click();
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -25,6 +25,7 @@ describe('ListItem', () => {
     );
     const link = $('va-link', container);
     expect(link.getAttribute('href')).to.contain(props.downloadUrl);
+    expect(link.getAttribute('filename')).to.contain(props.downloadUrl);
     expect(link.getAttribute('text')).to.contain(props.downloadLinkLabel);
   });
 });

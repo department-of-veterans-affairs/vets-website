@@ -39,10 +39,7 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
 };
 
 MissingContactInfoAlertLink.propTypes = {
-  missingInfo: PropTypes.shape({
-    linkTarget: PropTypes.string,
-    linkText: PropTypes.string,
-  }),
+  missingInfo: PropTypes.string,
 };
 
 export default MissingContactInfoAlertLink;

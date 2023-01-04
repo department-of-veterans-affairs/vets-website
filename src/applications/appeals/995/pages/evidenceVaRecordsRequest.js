@@ -3,7 +3,7 @@ import {
   requestVaRecordsInfo,
 } from '../content/evidenceVaRecordsRequest';
 
-import { EVIDENCE_VA } from '../constants';
+import { EVIDENCE_VA, errorMessages } from '../constants';
 
 export default {
   uiSchema: {
@@ -14,6 +14,9 @@ export default {
     [EVIDENCE_VA]: {
       'ui:title': requestVaRecordsTitle,
       'ui:widget': 'yesNo',
+      'ui:errorMessages': {
+        required: errorMessages.requiredYesNo,
+      },
     },
     'view:vaEvidenceInfo': {
       'ui:description': requestVaRecordsInfo,
@@ -21,6 +24,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: [EVIDENCE_VA],
     properties: {
       [EVIDENCE_VA]: {
         type: 'boolean',

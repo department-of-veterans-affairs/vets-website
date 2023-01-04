@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import recordEvent from 'platform/monitoring/record-event';
+// import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
 import State from '../../../components/State';
@@ -73,20 +74,20 @@ export default function FacilitiesNotShown({
 
   return (
     <div className="vads-u-margin-bottom--7">
-      <ExpandingGroup
+      {/* Removing ExpandingGroup. Github ticket: #50602
+       <ExpandingGroup
         open={isOpen}
         expandedContentId="facilities-not-shown-content"
-      >
-        {trigger}
+      > */}
+      {trigger}
+      {isOpen && (
         <div className="additional-info-content">
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
           </p>
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
             aria-labelledby="vaos-unsupported-label"
             className="usa-unstyled-list"
-            role="list"
           >
             {nearbyUnsupportedFacilities.map(facility => (
               <li key={facility.id} className="vads-u-margin-top--2">
@@ -105,6 +106,7 @@ export default function FacilitiesNotShown({
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
                   }
+                  level={3}
                 />
               </li>
             ))}
@@ -128,7 +130,14 @@ export default function FacilitiesNotShown({
             .
           </p>
         </div>
-      </ExpandingGroup>
+      )}
+      {/* </ExpandingGroup> */}
     </div>
   );
 }
+FacilitiesNotShown.propTypes = {
+  cernerSiteIds: PropTypes.array,
+  facilities: PropTypes.array,
+  sortMethod: PropTypes.string,
+  typeOfCareId: PropTypes.string,
+};
