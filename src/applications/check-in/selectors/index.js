@@ -72,7 +72,7 @@ const makeSelectError = () => selectError;
 const selectActiveAppointment = createSelector(
   state => {
     return {
-      activeAppointment: state?.checkInData?.activeAppointment,
+      activeAppointment: state?.checkInData?.form?.activeAppointment,
     };
   },
   activeAppointment => activeAppointment,

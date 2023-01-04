@@ -7,10 +7,10 @@ const initialState = {
   form: {
     pages: [],
     data: {},
+    activeAppointment: null,
   },
   app: '',
   error: '',
-  activeAppointment: null,
 };
 
 import {
