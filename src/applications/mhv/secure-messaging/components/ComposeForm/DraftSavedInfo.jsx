@@ -13,7 +13,7 @@ const DraftSavedInfo = props => {
   const content = () => {
     if (isSaving) return 'Saving...';
     if (lastSaveTime) {
-      return `Your message has been saved. Last save on ${dateFormat(
+      return `Your message was saved on ${dateFormat(
         lastSaveTime,
         'MMMM D, YYYY [at] h:mm a z',
       )}.`;
