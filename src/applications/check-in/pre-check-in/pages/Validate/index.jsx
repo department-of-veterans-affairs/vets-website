@@ -14,7 +14,6 @@ import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
@@ -38,32 +37,24 @@ const Index = ({ router }) => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
-
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
-  const [last4Ssn, setLast4Ssn] = useState('');
   const [dob, setDob] = useState('');
   const [dobError, setDobError] = useState(false);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
-  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
 
   const [showValidateError, setShowValidateError] = useState(false);
 
   const validateHandler = useCallback(
     () => {
       validateLogin(
-        last4Ssn,
         lastName,
         dob,
         dobError,
         setLastNameErrorMessage,
-        setLast4ErrorMessage,
         setIsLoading,
         setShowValidateError,
-        isLorotaSecurityUpdatesEnabled,
         goToNextPage,
         token,
         setSession,
@@ -74,22 +65,18 @@ const Index = ({ router }) => {
     [
       app,
       goToNextPage,
-      last4Ssn,
       lastName,
       dob,
       dobError,
       setSession,
       token,
-      isLorotaSecurityUpdatesEnabled,
       updateError,
     ],
   );
 
-  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
-    : t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-      );
+  const validateErrorMessage = t(
+    'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
+  );
 
   return (
     <>
@@ -98,11 +85,6 @@ const Index = ({ router }) => {
         subtitle={t(
           'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
         )}
-        last4Input={{
-          last4ErrorMessage,
-          setLast4Ssn,
-          last4Ssn,
-        }}
         lastNameInput={{
           lastNameErrorMessage,
           setLastName,
