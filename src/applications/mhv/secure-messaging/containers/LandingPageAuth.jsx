@@ -48,14 +48,15 @@ const LandingPageAuth = () => {
     <div className="dashboard">
       <h1>Messages</h1>
       <p className="va-introtext">
-        Send and receive messages with your care team at VA.
+        Communicate privately and securely with your VA health care team online.
       </p>
       <Link
-        className="vads-c-action-link--blue compose-message-link"
+        className="compose-message-link vads-u-font-weight--bold"
         to="/compose"
         data-testid="compose-message-link"
       >
-        Start new message
+        <i className="fas fa-edit vads-u-margin-right--1" />
+        Compose message
       </Link>
       <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />

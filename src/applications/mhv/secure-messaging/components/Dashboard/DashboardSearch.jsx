@@ -73,7 +73,7 @@ const DashboardSearch = () => {
               </VaSelect>
               <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-justify-content--flex-start">
                 <VaTextInput
-                  label="Keyword (sender, subject line, or category)"
+                  label="Keyword (sender, subject, category)"
                   name="keyword"
                   onKeyPress={e => e.charCode === 13 && handleSearchSubmit()}
                   onInput={e => {

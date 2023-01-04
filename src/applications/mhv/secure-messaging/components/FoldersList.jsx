@@ -5,7 +5,7 @@ import { folderPathByFolderId } from '../util/helpers';
 import { DefaultFolders as Folders } from '../util/constants';
 
 const FoldersList = props => {
-  const { folders } = props;
+  const { folders, showUnread } = props;
 
   return (
     <div>
@@ -17,7 +17,11 @@ const FoldersList = props => {
                 <i className="fas fa-folder" aria-hidden="true" />
                 {folder.id === Folders.DELETED.id
                   ? Folders.DELETED.header
-                  : folder.name}
+                  : folder.name}{' '}
+                {showUnread &&
+                  folder.unreadCount > 0 &&
+                  folder.id !== Folders.DRAFTS.id &&
+                  `(${folder.unreadCount} unread messages)`}
               </Link>
             </li>
           ))}
@@ -29,6 +33,7 @@ const FoldersList = props => {
 FoldersList.propTypes = {
   folders: PropTypes.array,
   highlightId: PropTypes.string,
+  showUnread: PropTypes.bool,
 };
 
 export default FoldersList;

@@ -17,7 +17,7 @@ const DashboardFolders = () => {
             data-testid="loading-indicator"
           />
         ) : (
-          <>{foldersList && <FoldersList folders={foldersList} />}</>
+          <>{foldersList && <FoldersList folders={foldersList} showUnread />}</>
         )}
       </div>
     </div>

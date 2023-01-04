@@ -1,15 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import {
-  navigateToFolderByFolderId,
-  unreadCountAllFolders,
-} from '../../util/helpers';
-import { DefaultFolders } from '../../util/constants';
+import { Link } from 'react-router-dom';
+import { unreadCountAllFolders } from '../../util/helpers';
 
 const UnreadMessages = props => {
-  const history = useHistory();
-
   return (
     <div className="unread-messages">
       {props.folders === null && (
@@ -22,13 +16,13 @@ const UnreadMessages = props => {
         </h2>
       )}
 
-      <p>You only have 45 days to respond before you can’t.</p>
-      <va-button
+      <Link
+        className="vads-c-action-link--blue vads-u-margin-top--1"
         text="View Inbox"
-        onClick={() => {
-          navigateToFolderByFolderId(DefaultFolders.INBOX.id, history);
-        }}
-      />
+        to="/inbox"
+      >
+        View Inbox
+      </Link>
     </div>
   );
 };
