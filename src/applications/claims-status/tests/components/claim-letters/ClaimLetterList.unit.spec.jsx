@@ -1,10 +1,12 @@
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
+
 import React from 'react';
 import { expect } from 'chai';
 import { render, within } from '@testing-library/react';
 
 import ClaimLetterList from '../../../components/ClaimLetterList';
 
-const mockLetters = [
+const fakeLetters = [
   {
     documentId: '{27832B64-2D88-4DEE-9F6F-DF80E4CAAA87}',
     receivedAt: '2022-09-22',
@@ -19,15 +21,15 @@ const mockLetters = [
   },
 ];
 
-describe('<ClaimLetterList', () => {
+describe('<ClaimLetterList>', () => {
   it('should render', () => {
-    const { container } = render(<ClaimLetterList letters={mockLetters} />);
+    const { container } = render(<ClaimLetterList letters={fakeLetters} />);
 
     expect(container).to.exist;
   });
 
   it('should contain 2 elements', () => {
-    const screen = render(<ClaimLetterList letters={mockLetters} />);
+    const screen = render(<ClaimLetterList letters={fakeLetters} />);
 
     const list = screen.getByRole('list');
 

@@ -11,47 +11,13 @@ import ClaimLetterList from '../components/ClaimLetterList';
 import WIP from '../components/WIP';
 import { ITEMS_PER_PAGE } from '../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
-
-const NoLettersContent = () => (
-  <>
-    <h2 className="vads-u-font-size--h3">No letters to show</h2>
-    <div className="vads-u-font-size--lg">
-      It looks like you don’t have any letters from the VA at the moment. Check
-      back when you’re notified about letters.
-    </div>
-  </>
-);
-
-const UnauthenticatedContent = () => (
-  <div className="vads-u-text-align--center">
-    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
-    <div className="vads-u-font-size--lg">
-      Something went wrong on our end. Please double check the URL and make sure
-      you are signed in.
-    </div>
-  </div>
-);
-
-const ServerErrorContent = () => (
-  <div className="vads-u-text-align--center">
-    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
-    <div className="vads-u-font-size--lg">
-      We’re sorry. Something went wrong on our end. Please refresh this page or
-      try again later.
-    </div>
-  </div>
-);
+import NoLettersContent from './errorComponents/NoLettersContent';
+import ServerErrorContent from './errorComponents/ServerErrorContent';
+import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
 };
-
-// const getFromToNums = (page, total) => {
-//   const from = (page - 1) * ITEMS_PER_PAGE + 1;
-//   const to = Math.min(page * ITEMS_PER_PAGE, total);
-
-//   return [from, to];
-// };
 
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
@@ -132,8 +98,6 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   let content;
 
   if (showClaimLetters) {
-    // const fromToNums = getFromToNums(currentPage, totalItems.current);
-
     content = (
       <>
         <h1>Your VA claim letters</h1>
