@@ -20,8 +20,12 @@ describe('Landing dashboard', () => {
     });
   };
 
+  let screen = null;
+  beforeEach(() => {
+    screen = setup();
+  });
+
   it('renders without errors', () => {
-    const screen = setup();
     expect(
       screen.getByText(
         'Communicate privately and securely with your VA health care team online.',
@@ -33,24 +37,20 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a number of unread messsages', () => {
-    const screen = setup();
     const unreadCount = unreadCountAllFolders(folderList);
     expect(screen.getByText(`You have ${unreadCount} unread messages`)).to
       .exist;
   });
 
   it('displays a View Inbox button', () => {
-    const screen = setup();
     expect(screen.getByText(`View Inbox`)).to.exist;
   });
 
   it('displays a Welcome message', () => {
-    const screen = setup();
     expect(screen.getByText(`Welcome to the updated messaging tool`)).to.exist;
   });
 
   it('displays a search component', () => {
-    const screen = setup();
     expect(
       screen.getByText(`Search for messages`, {
         exact: true,
@@ -64,7 +64,6 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a Folders List component', () => {
-    const screen = setup();
     expect(
       screen.getByText(`Folders`, {
         exact: true,
@@ -79,7 +78,6 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a FAQ component', () => {
-    const screen = setup();
     expect(screen.getByText(`Questions about this messaging tool`)).to.exist;
   });
 });
