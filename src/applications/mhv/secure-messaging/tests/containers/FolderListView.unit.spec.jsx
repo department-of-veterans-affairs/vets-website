@@ -49,11 +49,17 @@ describe('FolderListView', () => {
     expect(loadingIndicator).to.exist;
   });
 
-  it('displays the name of folder to be searched', () => {
+  it('displays the name of folder to be searched', async () => {
     const screen = setup();
-    const folderName = screen.getByText(
-      `Search the ${folder.name} messages folder`,
-    );
+    const folderStatementStart = await screen.getByText('Search your', {
+      exact: false,
+    });
+    const folderName = await screen.getByText(folder.name);
+    const folderStatementEnd = await screen.getByText('messages folder', {
+      exact: false,
+    });
+    expect(folderStatementStart).to.exist;
     expect(folderName).to.exist;
+    expect(folderStatementEnd).to.exist;
   });
 });

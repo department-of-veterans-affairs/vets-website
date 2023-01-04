@@ -23,7 +23,7 @@ const IssueSummary = ({ formData }) => {
   return (
     <>
       <p className="vads-u-margin-top--0">
-        These are the issues you’re asking to receive a Supplemental Claim.
+        These are the issues you’re asking to review.
       </p>
       <ul className="issues-summary">
         {issues.map((issue, index) => (
