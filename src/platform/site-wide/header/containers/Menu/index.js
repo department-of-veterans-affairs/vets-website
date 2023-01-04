@@ -8,12 +8,7 @@ import Search from '../../components/Search';
 import SubMenu from '../../components/SubMenu';
 import { deriveMenuItemID } from '../../helpers';
 
-export const Menu = ({
-  isMenuOpen,
-  megaMenuData,
-  showMegaMenu = true,
-  subMenu,
-}) => {
+export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
   // Do not render if the menu is closed.
   if (!isMenuOpen) {
     return null;
@@ -53,8 +48,8 @@ export const Menu = ({
 
 Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
+  showMegaMenu: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.arrayOf(PropTypes.object),
-  showMegaMenu: PropTypes.bool,
   // From mapStateToProps.
   subMenu: PropTypes.shape({
     id: PropTypes.string.isRequired,
