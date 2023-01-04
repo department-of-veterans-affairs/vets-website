@@ -6,16 +6,14 @@ import mockSentFolder from './fixtures/folder-sent-metadata.json';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
-// import mockFolders from '../fixtures/folder-response.json';
+import mockInboxFolder from './fixtures/folder-inbox-response.json';
 
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
     const landingPage = new PatientMessagesLandingPage();
-    // const basicSearchPage = new PatientBasicSearchPage();
     landingPage.login();
     landingPage.loadPage();
-    // basicSearchPage.clickSearchMessage();
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -25,33 +23,23 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/*/messages*',
       mockMessages,
     ).as('basicSearchRequest');
-
-    // there is no way to click the search button because it is inaccessible in the shadow dom...
-    // cy.get('[id="va-search-button"]').click();
     cy.injectAxe();
     cy.axeCheck();
   });
 
   it('Basic Search Inbox Check', () => {
-    //
-
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0',
-      mockDraftsFolder,
+      mockInboxFolder,
     ).as('basicSearchRequestInboxMeta');
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchInboxRequest');
-    cy.get('.sidebar-navigation-messages-list-header > a').click();
-
     basicSearchPage.typeSearchInputFieldText('test');
-    cy.get('[id="va-search-input"]').type('test');
-
     basicSearchPage.submitSearch();
-    cy.wait('@basicSearchInboxRequest');
     basicSearchPage.verifyHighlightedText('test');
 
     cy.injectAxe();
@@ -91,7 +79,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
-    cy.get('[data-testid="sent-sidebar"] > a').click();
+    cy.get('[data-testid="sent-sidebar"]').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
@@ -113,7 +101,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-3/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestDeletedFolder');
-    cy.get('[data-testid="trash-sidebar"] > a').click();
+    cy.get('[data-testid="trash-sidebar"]').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
@@ -125,7 +113,7 @@ describe(manifest.appName, () => {
   });
 
   it('Basic Search Custom Folder Check', () => {
-    cy.get('[data-testid="my-folders-sidebar"] > a').click();
+    cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175',
@@ -139,7 +127,6 @@ describe(manifest.appName, () => {
 
     cy.get('.folders-list > :nth-child(1) > a').click({ force: true });
     basicSearchPage.typeSearchInputFieldText('test');
-    // cy.contains('Test2').click({ force: true });
     basicSearchPage.submitSearch();
     cy.wait('@basicSearchRequestCustomFolder');
     basicSearchPage.verifyHighlightedText('test');
