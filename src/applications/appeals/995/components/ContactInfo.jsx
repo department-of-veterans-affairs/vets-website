@@ -8,7 +8,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { readableList } from '../utils/helpers';
-import { getFormatedPhone } from '../utils/contactInfo';
+import { getFormattedPhone } from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
 
 const ContactInfo = ({
@@ -89,7 +89,7 @@ const ContactInfo = ({
       >
         edit
       </Link>
-      <div>{getFormatedPhone(homePhone)}</div>
+      <div>{getFormattedPhone(homePhone)}</div>
 
       <Headers className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
         Mobile phone number
@@ -101,7 +101,7 @@ const ContactInfo = ({
       >
         edit
       </Link>
-      <div>{getFormatedPhone(mobilePhone)}</div>
+      <div>{getFormattedPhone(mobilePhone)}</div>
 
       <Headers className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
         Email address

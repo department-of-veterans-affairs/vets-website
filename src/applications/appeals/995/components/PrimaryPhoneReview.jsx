@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getFormatedPhone, hasHomeAndMobilePhone } from '../utils/contactInfo';
+import { getFormattedPhone, hasHomeAndMobilePhone } from '../utils/contactInfo';
 import { PRIMARY_PHONE } from '../constants';
 import { content } from '../content/primaryPhone';
 
@@ -26,7 +26,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
           <dt>{content[`${primary}Label`]}</dt>
           <dd>
             <strong>
-              {getFormatedPhone(
+              {getFormattedPhone(
                 data.veteran[primary === 'home' ? 'homePhone' : 'mobilePhone'],
               )}
             </strong>

@@ -4,7 +4,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import { getFormatedPhone } from '../utils/contactInfo';
+import { getFormattedPhone } from '../utils/contactInfo';
 import { checkValidations, missingPrimaryPhone } from '../validations';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 import { content } from '../content/primaryPhone';
@@ -78,7 +78,7 @@ export const PrimaryPhone = ({
             value="home"
             name="primary"
             checked={primary === 'home'}
-            data-number={getFormatedPhone(homePhone)}
+            data-number={getFormattedPhone(homePhone)}
           />
           <va-radio-option
             id="mobile-phone"
@@ -86,7 +86,7 @@ export const PrimaryPhone = ({
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
-            data-number={getFormatedPhone(mobilePhone)}
+            data-number={getFormattedPhone(mobilePhone)}
           />
         </VaRadio>
         {navButtons}

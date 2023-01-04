@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
 
-import { getFormatedPhone } from '../utils/contactInfo';
+import { getFormattedPhone } from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
 
 const ContactInfoReview = ({ data, editPage }) => {
@@ -16,8 +16,8 @@ const ContactInfoReview = ({ data, editPage }) => {
 
   // Label: formatted value in (design) display order
   const display = [
-    [content.home, () => getFormatedPhone(homePhone)],
-    [content.mobile, () => getFormatedPhone(mobilePhone)],
+    [content.home, () => getFormattedPhone(homePhone)],
+    [content.mobile, () => getFormattedPhone(mobilePhone)],
     [content.email, () => email],
     [content.country, () => (isUS ? '' : address.countryName)],
     [content.address1, () => address.addressLine1],
