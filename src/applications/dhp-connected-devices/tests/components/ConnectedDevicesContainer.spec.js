@@ -12,7 +12,7 @@ import {
   DISCONNECTION_SUCCESSFUL_STATUS,
 } from '../../constants/alerts';
 
-const noDevicesConnectedState = {
+const noDevicesConnectedResponse = {
   devices: [
     {
       name: 'Vendor 1',
@@ -31,7 +31,7 @@ const noDevicesConnectedState = {
   ],
 };
 
-const oneDeviceConnectedState = {
+const oneDeviceConnectedResponse = {
   devices: [
     {
       name: 'Vendor 1',
@@ -50,7 +50,7 @@ const oneDeviceConnectedState = {
   ],
 };
 
-const twoDevicesConnectedState = {
+const twoDevicesConnectedResponse = {
   devices: [
     {
       name: 'Vendor 1',
@@ -71,7 +71,7 @@ const twoDevicesConnectedState = {
 
 describe('Connect Devices Container', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
-    mockApiRequest(noDevicesConnectedState);
+    mockApiRequest(noDevicesConnectedResponse);
 
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -90,13 +90,13 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render Vendor 1 in connected devices section when connected', async () => {
-    mockApiRequest(oneDeviceConnectedState);
+    mockApiRequest(oneDeviceConnectedResponse);
 
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
 
-    const vendorKey = oneDeviceConnectedState.devices[0].key;
+    const vendorKey = oneDeviceConnectedResponse.devices[0].key;
 
     expect(
       await connectedDevicesContainer.findByTestId(
@@ -106,7 +106,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render "You do not have any devices connected" when no devices are connected', () => {
-    mockApiRequest(noDevicesConnectedState);
+    mockApiRequest(noDevicesConnectedResponse);
 
     const noConnectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -120,7 +120,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render "You have connected all supported devices" when all supported devices are connected', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
     const twoDevicesConnectedContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
@@ -131,7 +131,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render success alert when successAlert is set to true', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
     const initialState = {
       successAlert: true,
     };
@@ -145,7 +145,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render failure alert when failureAlert is set to true', () => {
-    mockApiRequest(twoDevicesConnectedState);
+    mockApiRequest(twoDevicesConnectedResponse);
 
     const initialState = {
       failureAlert: true,
@@ -184,7 +184,7 @@ describe('Device connection url parameters', () => {
   });
 
   it('should render success alert when url params contain a success message', async () => {
-    mockApiRequest(oneDeviceConnectedState);
+    mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(successUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
@@ -210,7 +210,7 @@ describe('Device connection url parameters', () => {
     ).to.exist;
   });
   it('should render successful disconnection alert when url params contain a disconnect success message', async () => {
-    await mockApiRequest(oneDeviceConnectedState);
+    await mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(successfulDisconnectUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
@@ -219,7 +219,7 @@ describe('Device connection url parameters', () => {
     expect(screen.findByTestId('disconnection-success-alert')).to.exist;
   });
   it('should render failed disconnection alert when url params contain a disconnect failure message', async () => {
-    await mockApiRequest(oneDeviceConnectedState);
+    await mockApiRequest(oneDeviceConnectedResponse);
     window.location = Object.assign(new URL(failedDisconnectUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
