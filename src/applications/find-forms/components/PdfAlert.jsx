@@ -28,12 +28,11 @@ const PdfAlert = () => {
   return ReactDOM.createPortal(
     <va-alert>
       <h2 slot="headline" className="vads-u-font-size--h3">
-        We’re updating our forms
+        We recently updated some of our forms
       </h2>
       <p>
-        After January 7, 2023, you won’t be able to use VA forms that have a
-        “last updated” date before March 2022. If you downloaded any of these
-        older VA forms, you may need to download new copies in January.
+        If you downloaded older copies of VA forms, you may not be able to use
+        them anymore. You can download new copies now.
       </p>
     </va-alert>,
     pdfCertWarningElement,
