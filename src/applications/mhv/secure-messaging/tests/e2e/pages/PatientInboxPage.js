@@ -5,23 +5,11 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockUser from '../fixtures/user.json';
-import mockStatus from '../fixtures/profile-status.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 
-class PatientMessagesInboxPage {
+class PatientInboxPage {
   newMessageIndex = 0;
-
-  login = (loginUser = true) => {
-    if (loginUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      // cy.wait('@mockUser');
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-    }
-  };
 
   loadPage = (doAxeCheck = false) => {
     const date = new Date();
@@ -228,4 +216,4 @@ class PatientMessagesInboxPage {
   };
 }
 
-export default PatientMessagesInboxPage;
+export default PatientInboxPage;

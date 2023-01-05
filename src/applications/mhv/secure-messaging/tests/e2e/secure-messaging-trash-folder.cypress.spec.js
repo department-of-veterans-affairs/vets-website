@@ -1,11 +1,12 @@
-import manifest from '../../manifest.json';
-import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from '../fixtures/messages-response.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Trash Folder AXE Check', () => {
   it('Axe Check Trash Folder', () => {
-    const landingPage = new PatientMessagesInboxPage();
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-3', mockMessages).as(
       'trashFolder',
