@@ -53,7 +53,7 @@ describe('check-in', () => {
       });
       it('should return correct structure', () => {
         const action = setActiveAppointment(1111);
-        expect(action.payload.activeAppointment).equal(1111);
+        expect(action.payload).equal(1111);
       });
     });
   });

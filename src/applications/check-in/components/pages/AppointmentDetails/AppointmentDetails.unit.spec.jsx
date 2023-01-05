@@ -48,12 +48,12 @@ describe('check-in experience', () => {
       ...JSON.parse(JSON.stringify(initState)),
       ...scheduledDowntimeState,
     };
-    phoneState.checkInData.activeAppointment = 1111;
+    phoneState.checkInData.form.activeAppointment = 1111;
     const inPersonState = {
       ...JSON.parse(JSON.stringify(initState)),
       ...scheduledDowntimeState,
     };
-    inPersonState.checkInData.activeAppointment = 2222;
+    inPersonState.checkInData.form.activeAppointment = 2222;
     describe('AppointmentDetails', () => {
       describe('Phone appointment', () => {
         const phoneStore = mockStore(phoneState);
