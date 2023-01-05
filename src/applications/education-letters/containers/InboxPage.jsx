@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
@@ -16,23 +16,39 @@ const InboxPage = ({
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
 
+  const isLoggedIn = useRef(false);
+
   useEffect(
     () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-
       if (!fetchedClaimStatus) {
         getClaimStatus('MEB');
         getClaimStatus('TOE');
         setFetchedClaimStatus(true);
       }
     },
-    [fetchedClaimStatus, getClaimStatus, user?.login?.currentlyLoggedIn],
+    [fetchedClaimStatus, getClaimStatus],
+  );
+
+  useEffect(
+    () => {
+      if (user?.login?.currentlyLoggedIn) {
+        isLoggedIn.current = true;
+      }
+      setTimeout(() => {
+        if (!isLoggedIn.current) {
+          window.location.href = '/education/download-letters/';
+        }
+      }, 2000);
+    },
+    [isLoggedIn, user?.login?.currentlyLoggedIn],
   );
 
   const renderInbox = () => {
-    if (MEBClaimStatusFetchInProgress || TOEClaimStatusFetchInProgress) {
+    if (
+      MEBClaimStatusFetchInProgress ||
+      TOEClaimStatusFetchInProgress ||
+      !isLoggedIn.current
+    ) {
       return (
         <div className="vads-u-margin-y--5">
           <va-loading-indicator
