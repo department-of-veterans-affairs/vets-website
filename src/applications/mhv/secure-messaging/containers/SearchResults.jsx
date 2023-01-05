@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
 import SearchForm from '../components/Search/SearchForm';
 
-const Search = () => {
+const SearchResults = () => {
   const {
     awaitingResults,
     searchResults,
@@ -101,4 +101,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchResults;
