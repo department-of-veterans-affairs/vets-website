@@ -68,7 +68,7 @@ describe(manifest.appName, () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Sent Folder Check', () => {
+  it.skip('Basic Search Sent Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',

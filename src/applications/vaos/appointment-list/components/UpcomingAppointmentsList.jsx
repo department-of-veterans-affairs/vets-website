@@ -30,7 +30,7 @@ import {
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
 import AppointmentListGroup from './AppointmentsPageV2/AppointmentListGroup';
-import Card from './AppointmentsPageV2/Card';
+import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -165,7 +165,7 @@ export default function UpcomingAppointmentsList() {
                         appointment={appt}
                         className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                       >
-                        <Card
+                        <AppointmentCard
                           appointment={appt}
                           facility={facilityData[facilityId]}
                           link={link}
