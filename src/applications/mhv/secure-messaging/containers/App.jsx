@@ -52,7 +52,7 @@ const App = () => {
               <button
                 style={{
                   visibility: 'hidden',
-                  zIndex: '2',
+                  'z-index': '2',
                   width: '100px',
                   position: 'absolute',
                   top: '0',
