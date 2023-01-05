@@ -1,10 +1,11 @@
-import manifest from '../../manifest.json';
+import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Messages FAQ AXE check', () => {
   it('Axe Check Messages FAQ', () => {
     const landingPage = new PatientInboxPage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();

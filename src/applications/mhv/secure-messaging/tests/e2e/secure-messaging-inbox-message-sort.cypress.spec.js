@@ -1,10 +1,11 @@
-import manifest from '../../manifest.json';
+import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
     const landingPage = new PatientInboxPage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });

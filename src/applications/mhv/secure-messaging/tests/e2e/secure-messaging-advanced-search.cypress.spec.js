@@ -1,6 +1,8 @@
 import manifest from '../../manifest.json';
+import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import mockMessages from '../fixtures/messages-response.json';
+import mockMessages from './fixtures/drafts-search-results.json';
+import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 
 beforeEach(() => {
   window.dataLayer = [];
@@ -8,9 +10,20 @@ beforeEach(() => {
 
 describe(manifest.appName, () => {
   it('Advanced Search Axe Check', () => {
+    const site = new SecureMessagingSite();
+    site.login();
     const landingPage = new PatientInboxPage();
-    landingPage.login();
     landingPage.loadPage();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2',
+      mockDraftsFolder,
+    ).as('basicSearchRequestDraftsMeta');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
+      mockMessages,
+    ).as('basicSearchRequestDrafts');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.intercept(
       'POST',
@@ -18,6 +31,7 @@ describe(manifest.appName, () => {
       mockMessages,
     ).as('advancedSearchRequest');
     cy.get('[data-testid="advanced-search-toggle"]').click();
+
     cy.injectAxe();
     cy.axeCheck();
 

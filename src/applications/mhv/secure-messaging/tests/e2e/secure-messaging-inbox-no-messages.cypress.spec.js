@@ -1,10 +1,11 @@
+import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import manifest from '../../manifest.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Inbox No Messages', () => {
   it('inbox no messages', () => {
     const landingPage = new PatientInboxPage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadEmptyPage(false);
     cy.get('[data-testid=alert-no-messages] p')
       .should('have.text', 'There are no messages in this folder.')

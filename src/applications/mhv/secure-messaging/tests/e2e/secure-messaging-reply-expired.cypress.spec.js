@@ -1,10 +1,12 @@
-import manifest from '../../manifest.json';
+import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Reply to Expired Mesage', () => {
   it('reply expired messages', () => {
     const landingPage = new PatientInboxPage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadPage();
     landingPage.loadPage();
     landingPage.loadMessageDetails(
       landingPage.getExpired46DayOldMessage().attributes.messageId,
