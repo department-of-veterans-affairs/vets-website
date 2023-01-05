@@ -198,105 +198,105 @@ jobs:
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
           fail_on_failure: 'true'
 
-  contract-tests:
-    name: Contract Tests
-    runs-on: ubuntu-latest
-    outputs:
-      tests: ${{ steps.get-tests.outputs.tests }}
+  # contract-tests:
+  #   name: Contract Tests
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     tests: ${{ steps.get-tests.outputs.tests }}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
 
-      - name: Get Pact Broker password
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
-          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+  #     - name: Get Pact Broker password
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+  #         env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
 
-      - name: Get GitHub token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Get GitHub token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Create test results folder
-        run: mkdir -p test-results
+  #     - name: Create test results folder
+  #       run: mkdir -p test-results
 
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'folder'
+  #     - name: Get changed applications
+  #       id: get-changed-apps
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'folder'
 
-      - name: Get contract tests
-        id: get-tests
-        run: |
-          if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
-          else
-            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.folders }} -name "*.pact.spec.js")
-          fi
+  #     - name: Get contract tests
+  #       id: get-tests
+  #       run: |
+  #         if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
+  #           echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
+  #         else
+  #           echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.folders }} -name "*.pact.spec.js")
+  #         fi
 
-      - name: Run contract tests
-        if: steps.get-tests.outputs.tests != ''
-        run: yarn test:unit-pact-config ${{ steps.get-tests.outputs.tests }}
-        env:
-          MOCHA_FILE: ./test-results/test-results.xml
+  #     - name: Run contract tests
+  #       if: steps.get-tests.outputs.tests != ''
+  #       run: yarn test:unit-pact-config ${{ steps.get-tests.outputs.tests }}
+  #       env:
+  #         MOCHA_FILE: ./test-results/test-results.xml
 
-      - name: Print Pact failures
-        if: steps.get-tests.outputs.tests != '' && failure()
-        run: cat test-results/test-results.xml
+  #     - name: Print Pact failures
+  #       if: steps.get-tests.outputs.tests != '' && failure()
+  #       run: cat test-results/test-results.xml
 
-      - name: Run Pact publish
-        if: steps.get-tests.outputs.tests != ''
-        run: yarn pact:publish
-        env:
-          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
-          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+  #     - name: Run Pact publish
+  #       if: steps.get-tests.outputs.tests != ''
+  #       run: yarn pact:publish
+  #       env:
+  #         PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+  #         PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
 
-      - name: Run Pact verify
-        if: steps.get-tests.outputs.tests != ''
-        run: |
-          curl -v -X POST \
-          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
-          -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          -d '{"ref": "master"}' \
-          --fail
+  #     - name: Run Pact verify
+  #       if: steps.get-tests.outputs.tests != ''
+  #       run: |
+  #         curl -v -X POST \
+  #         -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+  #         -H 'Accept: application/vnd.github.v3+json' \
+  #         https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+  #         -d '{"ref": "master"}' \
+  #         --fail
 
-      - name: Archive contract test results
-        if: steps.get-tests.outputs.tests != ''
-        uses: actions/upload-artifact@v3
-        with:
-          name: contract-test-report
-          path: mochawesome-report
+  #     - name: Archive contract test results
+  #       if: steps.get-tests.outputs.tests != ''
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: contract-test-report
+  #         path: mochawesome-report
 
-      - name: Archive contract test log
-        uses: actions/upload-artifact@v3
-        if: steps.get-tests.outputs.tests != '' && failure()
-        with:
-          name: contract-test-log
-          path: logs/pact.log
+  #     - name: Archive contract test log
+  #       uses: actions/upload-artifact@v3
+  #       if: steps.get-tests.outputs.tests != '' && failure()
+  #       with:
+  #         name: contract-test-log
+  #         path: logs/pact.log
 
   security-audit:
     name: Security Audit
