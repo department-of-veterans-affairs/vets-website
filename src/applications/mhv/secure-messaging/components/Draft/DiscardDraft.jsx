@@ -52,7 +52,7 @@ const DiscardDraft = props => {
 
 DiscardDraft.propTypes = {
   draft: PropType.object,
-  draftId: PropType.string,
+  draftId: PropType.number,
 };
 
 export default DiscardDraft;

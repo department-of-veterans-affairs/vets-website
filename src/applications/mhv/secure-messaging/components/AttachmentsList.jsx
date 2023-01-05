@@ -25,7 +25,7 @@ const AttachmentsList = props => {
             <li key={file.name}>
               {editingEnabled && (
                 <div className="editable-attachment">
-                  <span className="vads-u-margin-top--2">
+                  <span>
                     <i className="fas fa-paperclip" aria-hidden="true" />
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </span>

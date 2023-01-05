@@ -215,6 +215,12 @@ va-alert button {
       border-top: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
+      span {
+        margin-top: 16px;
+        @media (min-width: $medium-screen) {
+          margin-top: 0px;
+        }
+      }
       @media (min-width: $medium-screen) {
         width: 100%;
         flex-direction: row;

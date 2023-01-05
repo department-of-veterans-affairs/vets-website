@@ -217,7 +217,12 @@ const ReplyForm = props => {
                 className="fas fa-reply vads-u-margin-right--0p5"
                 aria-hidden="true"
               />
-              <strong>{draft && '(Draft) '} To: </strong>
+              <strong>
+                <strong className="vads-u-color--secondary-darkest">
+                  (Draft)
+                </strong>{' '}
+                To:{' '}
+              </strong>
               {replyMessage.senderName}
             </p>
             <va-textarea
