@@ -95,7 +95,8 @@ ContactInfoReview.propTypes = {
   data: PropTypes.shape({
     veteran: PropTypes.shape({
       email: PropTypes.string,
-      phone: PropTypes.shape({}),
+      homePhone: PropTypes.shape({}),
+      mobilePhone: PropTypes.shape({}),
       address: PropTypes.shape({}),
     }),
   }),
