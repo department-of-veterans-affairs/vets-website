@@ -247,7 +247,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^13.3.0",
+    "@department-of-veterans-affairs/component-library": "^13.5.1",
     "@department-of-veterans-affairs/formation": "^7.0.4",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
@@ -293,7 +293,6 @@
     "react-leaflet": "^3.2.2",
     "react-meta-tags": "^1.0.1",
     "react-redux": "^7.2.6",
-    "react-responsive": "^9.0.0",
     "react-router": "3",
     "react-router-dom": "^5.3.0",
     "react-router-dom-v5-compat": "^6.3.0",
@@ -313,7 +312,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bde8b2b06006e2d72de819ef859da527f3df77c2"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
