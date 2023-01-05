@@ -1,9 +1,9 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientInboxPage from './pages/PatientInboxPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.get('.sidebar-navigation-messages-list-header > a');
@@ -12,7 +12,6 @@ describe(manifest.appName, () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-
       .should('contain', 'Newest');
   });
 

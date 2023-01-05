@@ -1,5 +1,5 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
@@ -11,7 +11,7 @@ import mockInboxFolder from './fixtures/folder-inbox-response.json';
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.injectAxe();

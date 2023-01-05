@@ -1,11 +1,11 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientInboxPage from './pages/PatientInboxPage';
 
 import manifest from '../../manifest.json';
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 
 describe(manifest.appName, () => {
   it('can send message', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
 
     landingPage.login();
     landingPage.loadPageForNoProvider();

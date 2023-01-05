@@ -10,7 +10,7 @@ import mockStatus from '../fixtures/profile-status.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 
-class PatientMessagesLandingPage {
+class PatientInboxPage {
   newMessageIndex = 0;
 
   login = (loginUser = true) => {
@@ -228,4 +228,4 @@ class PatientMessagesLandingPage {
   };
 }
 
-export default PatientMessagesLandingPage;
+export default PatientInboxPage;

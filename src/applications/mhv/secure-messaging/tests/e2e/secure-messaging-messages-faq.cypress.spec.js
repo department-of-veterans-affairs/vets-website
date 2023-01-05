@@ -1,9 +1,9 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientInboxPage from './pages/PatientInboxPage';
 
 describe(manifest.appName, () => {
   it('Axe Check Messages FAQ', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="messages-faq-sidebar"]').click();
