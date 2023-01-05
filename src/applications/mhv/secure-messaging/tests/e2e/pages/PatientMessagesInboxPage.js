@@ -10,7 +10,7 @@ import mockStatus from '../fixtures/profile-status.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 
-class PatientMessagesLandingPage {
+class PatientMessagesInboxPage {
   newMessageIndex = 0;
 
   login = (loginUser = true) => {
@@ -65,7 +65,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -120,7 +120,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -214,7 +214,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -228,4 +228,4 @@ class PatientMessagesLandingPage {
   };
 }
 
-export default PatientMessagesLandingPage;
+export default PatientMessagesInboxPage;

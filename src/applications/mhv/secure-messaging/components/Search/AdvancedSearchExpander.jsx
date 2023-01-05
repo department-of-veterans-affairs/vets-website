@@ -12,6 +12,7 @@ const AdvancedSearchExpander = props => {
         type="button"
         onClick={() => setAdvancedOpen(!advancedOpen)}
         className="advanced-search-toggle"
+        data-testid="advanced-search-toggle"
       >
         <span className="advanced-toggle-text">Advanced search</span>
         <i
