@@ -56,6 +56,7 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
@@ -254,7 +255,7 @@ const formConfig = {
         },
         evidencePrivateLimitation: {
           title: 'Private medical record limitations',
-          path: 'supporting-evidence/request-record-limitations',
+          path: EVIDENCE_LIMITATION_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,
           CustomPageReview: null,
