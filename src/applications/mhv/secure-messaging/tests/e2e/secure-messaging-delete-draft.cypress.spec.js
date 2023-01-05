@@ -51,7 +51,7 @@ describe(manifest.appName, () => {
       .click({ force: true });
 
     cy.wait('@deletedDraftResponse');
-    cy.get('.vads-u-margin-y--0').should(
+    cy.contains('successfully discarded').should(
       'have.text',
       'Draft was successfully discarded.',
     );
