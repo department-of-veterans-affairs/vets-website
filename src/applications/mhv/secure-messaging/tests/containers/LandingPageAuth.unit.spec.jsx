@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import reducer from '../../reducers';
 import folderList from '../fixtures/folder-response.json';
@@ -36,10 +37,12 @@ describe('Landing dashboard', () => {
     ).to.exist;
   });
 
-  it('displays a number of unread messsages', () => {
+  it('displays a number of unread messsages', async () => {
     const unreadCount = unreadCountAllFolders(folderList);
-    expect(screen.getByText(`You have ${unreadCount} unread messages`)).to
-      .exist;
+    await waitFor(() => {
+      expect(screen.getByText(`You have ${unreadCount} unread messages`)).to
+        .exist;
+    });
   });
 
   it('displays a View Inbox button', () => {
