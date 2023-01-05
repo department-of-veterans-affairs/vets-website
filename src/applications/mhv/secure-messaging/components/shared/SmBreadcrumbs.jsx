@@ -126,10 +126,22 @@ const SmBreadcrumbs = () => {
               );
             })
           ) : (
-            <Link key={1} to="/">
-              <span className="breadcrumb-angle">{'\u2039'}</span> Return to{' '}
-              {crumbs[crumbs.length - 2]?.label}
-            </Link>
+            <>
+              {crumbs.length > 1 ? (
+                <>
+                  <span className="breadcrumb-angle">{'\u2039'} </span>
+                  <Link
+                    className="desktop-crumb"
+                    key={1}
+                    to={crumbs[crumbs.length - 2]?.path}
+                  >
+                    Return to {crumbs[crumbs.length - 2]?.label}
+                  </Link>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
           )}
         </Breadcrumbs>
       )}
