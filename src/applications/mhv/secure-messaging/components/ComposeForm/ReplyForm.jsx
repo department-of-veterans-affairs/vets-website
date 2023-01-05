@@ -239,7 +239,6 @@ const ReplyForm = props => {
             <section className="attachments-section vads-u-margin-top--2">
               <strong>Attachments</strong>
               <HowToAttachFiles />
-
               <AttachmentsList
                 attachments={attachments}
                 setAttachments={setAttachments}
