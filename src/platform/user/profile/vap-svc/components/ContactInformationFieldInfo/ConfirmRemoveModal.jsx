@@ -16,6 +16,9 @@ const ConfirmRemoveModal = ({
   onHide,
   error,
 }) => {
+  if (!isVisible) {
+    return null;
+  }
   return (
     <VaModal
       modalTitle="Are you sure?"
