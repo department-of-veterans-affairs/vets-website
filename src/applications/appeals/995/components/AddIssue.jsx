@@ -18,11 +18,11 @@ import {
   CONTESTABLE_ISSUES_PATH,
 } from '../constants';
 
+import { checkValidations } from '../validations';
 import {
   uniqueIssue,
   missingIssueName,
   maxNameLength,
-  checkValidations,
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
 import {
@@ -157,6 +157,7 @@ const AddIssue = props => {
         <VaDate
           name="decision-date"
           label={dateOfDecisionLabel}
+          class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
           onDateBlur={handlers.onDateBlur}

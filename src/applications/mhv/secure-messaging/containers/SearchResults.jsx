@@ -1,20 +1,32 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
-import CondensedSearchForm from '../components/Search/CondensedSearchForm';
-import { runBasicSearch } from '../actions/search';
+import SearchForm from '../components/Search/SearchForm';
 
 const Search = () => {
-  const dispatch = useDispatch();
+  const {
+    awaitingResults,
+    searchResults,
+    folder,
+    keyword,
+    query,
+  } = useSelector(state => state.sm.search);
+  const history = useHistory();
 
-  const { searchResults, folder, keyword } = useSelector(
-    state => state.sm.search,
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
+
+  useEffect(
+    () => {
+      if (!awaitingResults && !searchResults) {
+        history.goBack();
+      }
+    },
+    [awaitingResults, searchResults],
   );
-
-  const submitBasicSearch = formData => {
-    dispatch(runBasicSearch(formData.folder, formData.keyword.toLowerCase()));
-  };
 
   const noResultsMessage = () => {
     if (keyword) {
@@ -42,17 +54,18 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm
+      <SearchForm
         folder={folder}
         keyword={keyword}
-        submitBasicSearch={submitBasicSearch}
+        resultsCount={searchResults.length}
+        query={query}
       />
     );
   };
 
   return (
     <div
-      className="vads-l-grid-container search-messages"
+      className="vads-l-grid-container search-results"
       data-testid="search-messages"
     >
       <h1 className="page-title">Search results</h1>
@@ -77,7 +90,12 @@ const Search = () => {
 
       {searchResults &&
         searchResults.length > 0 && (
-          <MessageList messages={searchResults} folder={folder} />
+          <MessageList
+            messages={searchResults}
+            folder={folder}
+            keyword={keyword}
+            isSearch
+          />
         )}
     </div>
   );

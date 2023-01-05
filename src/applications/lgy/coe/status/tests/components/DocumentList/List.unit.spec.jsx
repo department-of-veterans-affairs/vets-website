@@ -8,7 +8,6 @@ import { formatDateLong } from 'platform/utilities/date';
 
 import List, {
   formatLabelDate,
-  getDocumentType,
   getDownloadLinkLabel,
 } from '../../../components/DocumentList/List';
 import documentList from '../../../../form/tests/fixtures/mocks/document-list.json';
@@ -30,7 +29,7 @@ describe('List', () => {
 
     $$('.coe-list-item', container).forEach((item, index) => {
       const data = documents[index];
-      expect($('h3', item).textContent).to.equal(data.title);
+      expect($('h3', item).textContent).to.equal(data.documentType);
       const link = $('va-link', item);
       expect(link.getAttribute('text')).to.contain(
         'Download Notification Letter',
@@ -38,6 +37,7 @@ describe('List', () => {
       expect(link.getAttribute('href')).to.contain(
         `v0/coe/document_download/${data.id}`,
       );
+      expect(link.getAttribute('filename')).to.contain(data.mimeType);
 
       expect(item.textContent).to.contain(
         `Date sent: ${formatDateLong(data.createDate)}`,
@@ -50,18 +50,6 @@ describe('formatLabelDate', () => {
   it('should return a date in MMDDYYYY format', () => {
     expect(formatLabelDate(testDates[0].time)).to.equal(testDates[0].str);
     expect(formatLabelDate(testDates[1].time)).to.equal(testDates[1].str);
-  });
-});
-
-describe('getDocumentType', () => {
-  // assuming documentType matches `.{file-extension}`
-  // which isn't what is seen in the mock data
-  it('should return a PDF extension', () => {
-    expect(getDocumentType('some-file.pdf')).to.equal('PDF');
-    expect(getDocumentType('some.file.with.periods.pdf')).to.equal('PDF');
-  });
-  it('should return a jpeg extension', () => {
-    expect(getDocumentType('image.jpeg')).to.equal('JPEG');
   });
 });
 

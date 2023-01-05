@@ -4,11 +4,12 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
+
 import {
+  getClaimType,
   getPhaseDescription,
   isClaimComplete,
-  getClaimType,
-} from '../../../claims-status/utils/helpers';
+} from '../claims-and-appeals-helpers';
 
 function listPhase(phase) {
   return phase === 8 ? 'Closed' : getPhaseDescription(phase);

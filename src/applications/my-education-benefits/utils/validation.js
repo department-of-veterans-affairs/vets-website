@@ -1,6 +1,7 @@
 import { isValidEmail } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../helpers';
+import { formFields } from '../constants';
 
 export const isValidPhone = (phone, isInternational) => {
   let stripped;
@@ -24,12 +25,14 @@ const validatePhone = (errors, phone, isInternational) => {
 };
 
 export const validateHomePhone = (errors, phone, formData) => {
-  const { isInternational } = formData['view:phoneNumbers'].phoneNumber;
+  const { isInternational } = formData[formFields.viewPhoneNumbers].phoneNumber;
   validatePhone(errors, phone, isInternational);
 };
 
 export const validateMobilePhone = (errors, phone, formData) => {
-  const { isInternational } = formData['view:phoneNumbers'].mobilePhoneNumber;
+  const { isInternational } = formData[
+    formFields.viewPhoneNumbers
+  ].mobilePhoneNumber;
   validatePhone(errors, phone, isInternational);
 };
 

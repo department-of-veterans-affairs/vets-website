@@ -22,7 +22,8 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -48,13 +49,14 @@ import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
 import DebtsV2 from './debts-v2/DebtsV2';
-import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../selectors';
 import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import SavedApplications from './apply-for-benefits/SavedApplications';
+import EducationAndTraining from './education-and-training/EducationAndTraining';
 
-const DashboardHeader = ({ showNotifications, paymentsError }) => {
+const DashboardHeader = ({ showNotifications }) => {
   return (
     <div>
       <h1
@@ -77,39 +79,25 @@ const DashboardHeader = ({ showNotifications, paymentsError }) => {
           });
         }}
       />
-      {paymentsError && (
-        <DashboardWidgetWrapper>
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
-            data-testid="payments-error"
-          >
-            <va-alert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. We can’t access some of your financial information
-              right now. We’re working to fix this problem. Please check back
-              later.
-            </va-alert>
-          </div>
-        </DashboardWidgetWrapper>
-      )}
       {showNotifications && <Notifications />}
     </div>
   );
 };
 
 DashboardHeader.propTypes = {
-  paymentsError: PropTypes.bool,
   showNotifications: PropTypes.bool,
 };
 
 const Dashboard = ({
+  canAccessMilitaryHistory,
   canAccessPaymentHistory,
+  canAccessRatingInfo,
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
   getPayments,
   isLOA3,
   payments,
-  paymentsError,
   shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
@@ -151,11 +139,17 @@ const Dashboard = ({
     () => {
       if (isLOA3) {
         fetchFullName();
-        fetchMilitaryInformation();
-        fetchTotalDisabilityRating();
+        if (canAccessMilitaryHistory) {
+          fetchMilitaryInformation();
+        }
+        if (canAccessRatingInfo) {
+          fetchTotalDisabilityRating();
+        }
       }
     },
     [
+      canAccessMilitaryHistory,
+      canAccessRatingInfo,
       isLOA3,
       fetchFullName,
       fetchMilitaryInformation,
@@ -202,10 +196,7 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader
-                paymentsError={paymentsError}
-                showNotifications={showNotifications}
-              />
+              <DashboardHeader showNotifications={showNotifications} />
 
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
@@ -260,7 +251,7 @@ const Dashboard = ({
               {props.showHealthCare && !shouldShowV2Dashboard ? (
                 <HealthCare />
               ) : null}
-              {shouldShowV2Dashboard ? (
+              {isLOA3 && shouldShowV2Dashboard ? (
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
@@ -281,8 +272,14 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-
-              <ApplyForBenefits />
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <EducationAndTraining />
+              ) : null}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <SavedApplications />
+              ) : (
+                <ApplyForBenefits />
+              )}
             </div>
           </div>
         )}
@@ -306,13 +303,22 @@ const mapStateToProps = state => {
   const hero = state.vaProfile?.hero;
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
-  const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+
   const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
     state.user?.profile?.mhvAccountState,
   );
   const hasLoadedFullName = !!hero;
 
-  const hasLoadedDisabilityRating = state.totalRating?.loading === false;
+  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
+  const canAccessRatingInfo = canAccess(state)[API_NAMES.RATING_INFO];
+  const canAccessMilitaryHistory = canAccess(state)[API_NAMES.MILITARY_HISTORY];
+
+  const hasLoadedDisabilityRating = canAccessRatingInfo
+    ? state.totalRating?.loading === false
+    : true;
+  const hasLoadedMilitaryInformation = canAccessMilitaryHistory
+    ? state.vaProfile?.militaryInformation
+    : true;
 
   const hasLoadedAllData =
     // we do not need to fetch additional data if they are only LOA1
@@ -337,7 +343,6 @@ const mapStateToProps = state => {
     !showNotInMPIError &&
     isLOA3 &&
     isVAPatient;
-  const canAccessPaymentHistory = canAccess(state)[API_NAMES.PAYMENT_HISTORY];
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
   const showBenefitPaymentsAndDebtV2 =
@@ -352,7 +357,9 @@ const mapStateToProps = state => {
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
   return {
+    canAccessMilitaryHistory,
     canAccessPaymentHistory,
+    canAccessRatingInfo,
     isLOA3,
     showLoader,
     showValidateIdentityAlert,
@@ -371,12 +378,13 @@ const mapStateToProps = state => {
     showBenefitPaymentsAndDebtV2,
     showNotifications,
     payments: state.allPayments.payments || [],
-    paymentsError: state.allPayments.error,
   };
 };
 
 Dashboard.propTypes = {
+  canAccessMilitaryHistory: PropTypes.bool,
   canAccessPaymentHistory: PropTypes.bool,
+  canAccessRatingInfo: PropTypes.bool,
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
@@ -395,7 +403,6 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
   shouldShowV2Dashboard: PropTypes.bool,
   showBenefitPaymentsAndDebt: PropTypes.bool,
   showBenefitPaymentsAndDebtV2: PropTypes.bool,

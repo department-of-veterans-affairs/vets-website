@@ -1,7 +1,11 @@
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import moment from '../../../lib/moment-tz';
-import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import {
+  LANGUAGES,
+  PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
+} from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
@@ -21,6 +25,9 @@ function getReasonCode({ data, isCC, isAcheron }) {
   )?.serviceName;
   let reasonText = null;
   let appointmentInfo = null;
+  const visitMode = TYPE_OF_VISIT.filter(
+    visit => visit.id === data.visitType,
+  ).map(visit => visit.vsGUI);
 
   if (isCC && data.reasonAdditionalInfo) {
     reasonText = data.reasonAdditionalInfo.slice(0, 250);
@@ -35,15 +42,17 @@ function getReasonCode({ data, isCC, isAcheron }) {
           moment(date).hour() >= 12 ? ' PM' : ' AM'
         }`,
     );
-    // TODO: Replace hard coded values.
-    const { phoneNumber, email } = data;
+    const facility = `station id: ${data.vaFacility}`;
+    const modality = `preferred modality: ${visitMode}`;
+    const phone = `phone number: ${data.phoneNumber}`;
+    const email = `email: ${data.email}`;
     const preferredDates = `preferred dates:${formattedDates.toString()}`;
     const reasonCode = `reason code:${apptReasonCode}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
-    // Add phone number, email, preferred Date, reason Code to
-    // appointmentInfo string in this order (phone number, email,
-    // preferred Date, reason Code)
-    appointmentInfo = `phone number: ${phoneNumber}|email: ${email}|${preferredDates}|${reasonCode}`;
+    // Add station id, preferred modality, phone number, email, preferred Date, reason Code to
+    // appointmentInfo string in this order: [0]station id, [1]preferred modality, [2]phone number,
+    // [3]email, [4]preferred Date, [5]reason Code
+    appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
   }
   const reasonCodeBody = {
     text:
@@ -170,7 +179,6 @@ export function transformFormToVAOSVARequest(
       isAcheron: featureAcheronVAOSServiceRequests,
     }),
     // comment: data.reasonAdditionalInfo,
-    // contact field removed for acheron service
     requestedPeriods: featureAcheronVAOSServiceRequests
       ? [
           {
@@ -198,7 +206,7 @@ export function transformFormToVAOSVARequest(
 
   if (featureAcheronVAOSServiceRequests) return postBody;
 
-  // add the contact field for non acheron service
+  // add contact field and modality (visitType) for non acheron service
   return {
     ...postBody,
     contact: {

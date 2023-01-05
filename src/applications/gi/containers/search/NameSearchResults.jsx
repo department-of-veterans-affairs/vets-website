@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import { fetchSearchByNameResults } from '../../actions/index';
-import ResultCard from '../search/ResultCard';
+import ResultCard from './ResultCard';
 import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../selectors/search';
 import { getFiltersChanged } from '../../selectors/filters';
 import MobileFilterControls from '../../components/MobileFilterControls';
-import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
@@ -66,7 +66,6 @@ export function NameSearchResults({
 
   useEffect(
     () => {
-      focusElement('#name-search-results-count');
       // Avoid blank searches or double events
       if (name && count !== null) {
         recordEvent({
@@ -88,6 +87,7 @@ export function NameSearchResults({
     },
     [results, name, totalPages, count],
   );
+
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
     updateUrlParams(
@@ -101,6 +101,13 @@ export function NameSearchResults({
       version,
     );
   };
+
+  useEffect(
+    () => {
+      focusElement('#name-search-results-count');
+    },
+    [results],
+  );
 
   return (
     <>

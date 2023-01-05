@@ -4,6 +4,7 @@ import {
   getPhone,
   getTimeZone,
   getEvidence,
+  getForm4142,
 } from '../utils/submit';
 
 export function transform(formConfig, form) {
@@ -25,7 +26,6 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        // homeless: formData.homeless,
         phone: getPhone(formData),
         email: veteran?.email || '',
       },
@@ -37,14 +37,14 @@ export function transform(formConfig, form) {
       attributes.claimantTypeOtherValue = claimantTypeOtherValue;
     }
 
-    const included = addIncludedIssues(formData);
-
     return {
       data: {
         type: 'supplementalClaim',
         attributes,
       },
-      included,
+      included: addIncludedIssues(formData),
+      form4142: getForm4142(formData),
+      additionalDocuments: [],
     };
   };
 

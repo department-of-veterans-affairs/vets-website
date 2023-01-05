@@ -5,8 +5,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { getFormatedPhone } from '../utils/contactInfo';
-import { missingPrimaryPhone } from '../validations';
-import { checkValidations } from '../validations/issues';
+import { checkValidations, missingPrimaryPhone } from '../validations';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 
 export const PrimaryPhone = ({
@@ -67,7 +66,7 @@ export const PrimaryPhone = ({
         <VaRadio
           class="vads-u-margin-y--2"
           label="What is your primary phone number?"
-          hint="We may need to contact you to clarify issues related to your Supplemental Claim."
+          hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required

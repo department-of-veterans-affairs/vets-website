@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
   postEnrollmentVerifications,
@@ -26,6 +27,8 @@ import {
   ENROLLMENT_VERIFICATION_TYPE,
   mapEnrollmentVerificationsForSubmission,
 } from '../helpers';
+import { getEVData } from '../selectors';
+
 import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
@@ -34,10 +37,11 @@ import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificat
 export const VerifyEnrollmentsPage = ({
   editMonthVerification,
   enrollmentVerification,
+  enrollmentVerificationFetchFailure,
   enrollmentVerificationSubmitted,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
-  loggedIn,
+  isLoggedIn,
   submissionResult,
   updateEnrollmentVerifications,
 }) => {
@@ -50,9 +54,29 @@ export const VerifyEnrollmentsPage = ({
 
   useEffect(
     () => {
-      if (hasCheckedKeepAlive && !loggedIn) {
+      if (hasCheckedKeepAlive && !isLoggedIn) {
         history.push('/');
       }
+    },
+    [hasCheckedKeepAlive, history, isLoggedIn],
+  );
+
+  useEffect(
+    () => {
+      if (enrollmentVerificationFetchFailure) {
+        history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+      }
+    },
+    [
+      enrollmentVerificationFetchFailure,
+      hasCheckedKeepAlive,
+      history,
+      isLoggedIn,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (submissionResult) {
         history.push(
           submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
@@ -60,19 +84,17 @@ export const VerifyEnrollmentsPage = ({
             : VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
         );
       }
+    },
+    [history, submissionResult],
+  );
 
+  useEffect(
+    () => {
       if (!enrollmentVerification) {
         getPost911GiBillEligibility();
       }
     },
-    [
-      enrollmentVerification,
-      submissionResult,
-      getPost911GiBillEligibility,
-      hasCheckedKeepAlive,
-      history,
-      loggedIn,
-    ],
+    [enrollmentVerification, getPost911GiBillEligibility],
   );
 
   useEffect(() => {
@@ -91,10 +113,10 @@ export const VerifyEnrollmentsPage = ({
     () =>
       earliestUnverifiedMonthIndex === -1
         ? []
-        : evs.slice(0, earliestUnverifiedMonthIndex + 1).reverse(),
+        : evs?.slice(0, earliestUnverifiedMonthIndex + 1).reverse(),
     [earliestUnverifiedMonthIndex, evs],
   );
-  const month = unverifiedMonths.length && unverifiedMonths[currentMonth];
+  const month = unverifiedMonths?.length && unverifiedMonths[currentMonth];
   const informationIncorrectMonth = unverifiedMonths?.find(
     m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
   );
@@ -128,7 +150,7 @@ export const VerifyEnrollmentsPage = ({
   const updateMonthInformationCorrect = useCallback(
     event => {
       setContinueClicked(false);
-      setMonthInformationCorrect(event.value);
+      setMonthInformationCorrect(event?.detail?.value);
     },
     [setContinueClicked, setMonthInformationCorrect],
   );
@@ -337,23 +359,26 @@ export const VerifyEnrollmentsPage = ({
     >
       <MonthReviewCard month={month} />
 
-      <RadioButtons
-        errorMessage={continueClicked ? 'Please select an option' : ''}
+      <VaRadio
+        class="vads-u-margin-y--4"
+        error={continueClicked ? 'Please select an option' : ''}
         label="To the best of your knowledge, is this enrollment information correct?"
-        onValueChange={updateMonthInformationCorrect}
-        options={[
-          {
-            value: VERIFICATION_STATUS_CORRECT,
-            label: 'Yes, this information is correct',
-          },
-          {
-            value: VERIFICATION_STATUS_INCORRECT,
-            label: 'No, this information isn’t correct',
-          },
-        ]}
+        onVaValueChange={updateMonthInformationCorrect}
         required
-        value={{ value: monthInformationCorrect }}
-      />
+      >
+        <va-radio-option
+          class="vads-u-margin-y--2"
+          label="Yes, this information is correct"
+          name={VERIFICATION_STATUS_CORRECT}
+          value={VERIFICATION_STATUS_CORRECT}
+        />
+        <va-radio-option
+          class="vads-u-margin-y--2"
+          label="No, this information isn’t correct"
+          name={VERIFICATION_STATUS_INCORRECT}
+          value={VERIFICATION_STATUS_INCORRECT}
+        />
+      </VaRadio>
 
       <va-alert
         class="vads-u-margin-top--2"
@@ -375,22 +400,17 @@ export const VerifyEnrollmentsPage = ({
 VerifyEnrollmentsPage.propTypes = {
   editMonthVerification: PropTypes.number,
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
+  enrollmentVerificationFetchFailure: PropTypes.bool,
   enrollmentVerificationSubmitted: PropTypes.bool,
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   loggedIn: PropTypes.bool,
   submissionResult: PropTypes.string,
   updateEnrollmentVerifications: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  editMonthVerification: state?.data?.editMonthVerification,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
-  loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-  enrollmentVerificationSubmitted: state?.data?.enrollmentVerificationSubmitted,
-  submissionResult: state?.data?.enrollmentVerificationSubmissionResult,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,

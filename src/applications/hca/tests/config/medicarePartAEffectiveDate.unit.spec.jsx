@@ -8,7 +8,7 @@ import {
   DefinitionTester,
   submitForm,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Hca medicare', () => {
@@ -16,9 +16,8 @@ describe('Hca medicare', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
-  const formData = {
-    'view:hcaMedicareClaimNumberEnabled': true,
-  };
+  const formData = {};
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

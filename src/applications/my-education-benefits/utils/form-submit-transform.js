@@ -1,4 +1,7 @@
 // this constant maps the values on address.js in vets.json schema from VA.gov values to LTS values
+
+import { formFields } from '../constants';
+
 // the lts values were found on the LTS database and LTS validates them, so we need to send correct value from here
 const countries = [
   { schemaValue: 'USA', ltsValue: 'US', label: 'United States' },
@@ -269,36 +272,40 @@ export function getSchemaCountryCode(ltsCountryValue) {
 }
 
 export function getAddressType(mailingAddress) {
-  if (mailingAddress) {
-    if (
-      mailingAddress.address.country !== 'USA' &&
-      mailingAddress.livesOnMilitaryBase
-    ) {
-      return 'MILITARY_OVERSEAS';
-    }
-    if (mailingAddress.address.country === 'USA') {
-      return 'DOMESTIC';
-    }
-    return 'FOREIGN';
+  if (!mailingAddress) {
+    return null;
   }
-  return null;
+
+  if (
+    mailingAddress[formFields.address]?.country !==
+      DEFAULT_SCHEMA_COUNTRY_CODE &&
+    mailingAddress[formFields.livesOnMilitaryBase]
+  ) {
+    return 'MILITARY_OVERSEAS';
+  }
+  if (
+    mailingAddress[formFields.address]?.country === DEFAULT_SCHEMA_COUNTRY_CODE
+  ) {
+    return 'DOMESTIC';
+  }
+  return 'FOREIGN';
 }
 
 export function createContactInfo(submissionForm) {
+  const address = submissionForm[formFields.viewMailingAddress]?.address;
+  const phoneNumbers = submissionForm[formFields.viewPhoneNumbers];
+
   return {
-    addressLine1: submissionForm['view:mailingAddress'].address.street,
-    addressLine2: submissionForm['view:mailingAddress'].address.street2,
-    city: submissionForm['view:mailingAddress'].address.city,
-    zipcode: submissionForm['view:mailingAddress'].address.postalCode,
+    addressLine1: address?.street,
+    addressLine2: address?.street2,
+    addressType: getAddressType(submissionForm[formFields.viewMailingAddress]),
+    city: address?.city,
+    countryCode: getLTSCountryCode(address?.country),
     emailAddress: submissionForm.email.email,
-    addressType: getAddressType(submissionForm['view:mailingAddress']),
-    mobilePhoneNumber:
-      submissionForm['view:phoneNumbers'].mobilePhoneNumber.phone,
-    homePhoneNumber: submissionForm['view:phoneNumbers'].phoneNumber.phone,
-    countryCode: getLTSCountryCode(
-      submissionForm['view:mailingAddress'].address.country,
-    ),
-    stateCode: submissionForm['view:mailingAddress'].address.state,
+    homePhoneNumber: phoneNumbers?.phoneNumber.phone,
+    mobilePhoneNumber: phoneNumbers?.mobilePhoneNumber.phone,
+    stateCode: address?.state,
+    zipcode: address?.postalCode,
   };
 }
 
@@ -314,29 +321,40 @@ export function getNotificationMethod(notificationMethod) {
 }
 
 export function createMilitaryClaimant(submissionForm) {
+  const { userFullName } = submissionForm[formFields.viewUserFullName];
+
   return {
-    claimantId: submissionForm.claimantId,
-    firstName: submissionForm['view:userFullName'].userFullName.first,
-    middleName: submissionForm['view:userFullName'].userFullName.middle,
-    lastName: submissionForm['view:userFullName'].userFullName.last,
-    suffix: submissionForm['view:userFullName'].userFullName.suffix,
-    dateOfBirth: submissionForm.dateOfBirth,
+    claimantId: submissionForm[formFields.claimantId],
+    firstName: userFullName?.first,
+    middleName: userFullName?.middle,
+    lastName: userFullName?.last,
+    suffix: userFullName?.suffix,
+    dateOfBirth: submissionForm[formFields.dateOfBirth],
     contactInfo: createContactInfo(submissionForm),
     notificationMethod: getNotificationMethod(
-      submissionForm['view:receiveTextMessages'].receiveTextMessages,
+      submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,
     ),
     preferredContact: submissionForm?.contactMethod,
   };
 }
 
 export function createRelinquishedBenefit(submissionForm) {
-  if (submissionForm['view:benefitSelection']?.benefitRelinquished) {
+  if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
+    return {};
+  }
+
+  const benefitRelinquished =
+    submissionForm[formFields.viewBenefitSelection][
+      formFields.benefitRelinquished
+    ];
+
+  if (benefitRelinquished) {
     return {
-      relinquishedBenefit:
-        submissionForm['view:benefitSelection']?.benefitRelinquished,
-      effRelinquishDate: submissionForm.benefitEffectiveDate,
+      relinquishedBenefit: benefitRelinquished,
+      effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
+
   return {};
 }
 

@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+// import {
+//   mockFetch,
+//   setFetchJSONFailure,
+//   setFetchJSONResponse,
+// } from 'platform/testing/unit/helpers';
 
 import {
   addFile,
@@ -435,17 +437,38 @@ describe('Actions', () => {
     });
   });
   describe('submitRequest', () => {
-    beforeEach(() => mockFetch());
+    let expectedUrl;
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+      server.events.on('request:start', req => {
+        expectedUrl = req.url.href;
+      });
+    });
+
+    afterEach(() => {
+      server.resetHandlers();
+      expectedUrl = undefined;
+    });
+
+    after(() => server.close());
+
     it('should submit request', done => {
-      setFetchJSONResponse(global.fetch.onCall(0), []);
-      const thunk = submitRequest(5);
+      const ID = 5;
+      server.use(
+        rest.post(
+          `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+          (req, res, ctx) => res(ctx.status(200)),
+        ),
+      );
+
+      const thunk = submitRequest(ID);
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
         if (dispatchSpy.callCount === 3) {
-          expect(global.fetch.firstCall.args[1].method).to.equal('POST');
-          expect(global.fetch.firstCall.args[0].endsWith('5/request_decision'))
-            .to.be.true;
+          expect(expectedUrl).to.contain('5/request_decision');
           expect(dispatchSpy.firstCall.args[0]).to.eql({
             type: SUBMIT_DECISION_REQUEST,
           });
@@ -460,8 +483,14 @@ describe('Actions', () => {
       thunk(dispatch);
     });
     it('should fail on error', done => {
-      setFetchJSONFailure(global.fetch.onCall(0));
-      const thunk = submitRequest(5);
+      const ID = 5;
+      server.use(
+        rest.post(
+          `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+          (req, res, ctx) => res(ctx.status(400)),
+        ),
+      );
+      const thunk = submitRequest(ID);
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
         dispatchSpy(action);
@@ -481,10 +510,26 @@ describe('Actions', () => {
   });
 
   describe('getStemClaims', () => {
-    beforeEach(() => mockFetch());
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+    });
+
+    afterEach(() => {
+      server.resetHandlers();
+    });
+
+    after(() => server.close());
+
     it('should fetch stem claims', done => {
-      const response = { data: [] };
-      setFetchJSONResponse(global.fetch.onCall(0), response);
+      server.use(
+        rest.get(
+          `https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status`,
+          (req, res, ctx) => res(ctx.status(200), ctx.json({ data: [] })),
+        ),
+      );
+
       const thunk = getStemClaims();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {
@@ -503,7 +548,12 @@ describe('Actions', () => {
       thunk(dispatch);
     });
     it('should fail on error', done => {
-      setFetchJSONFailure(global.fetch.onCall(0));
+      server.use(
+        rest.get(
+          `https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status`,
+          (req, res, ctx) => res(ctx.status(400)),
+        ),
+      );
       const thunk = getStemClaims();
       const dispatchSpy = sinon.spy();
       const dispatch = action => {

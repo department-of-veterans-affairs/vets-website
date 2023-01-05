@@ -21,6 +21,11 @@ export const DefaultFolders = {
 
 export const Alerts = {
   Message: {
+    BLOCKED_MESSAGE_ERROR:
+      'You are blocked from sending messages to this recipient.',
+    CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
+    CANNOT_REPLY_INFO_HEADER:
+      'You cannot reply to a message that is older than 45 days.',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
@@ -32,6 +37,8 @@ export const Alerts = {
     DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
     DELETE_DRAFT_ERROR:
       'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+    SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
+    SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
   Folder: {
     CREATE_FOLDER_SUCCESS: 'Folder was successfully created.',
@@ -45,6 +52,12 @@ export const Alerts = {
       'Folder could not be renamed. Try again later. If this problem persists, contact the help desk.',
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
+  },
+};
+
+export const Errors = {
+  Code: {
+    BLOCKED_USER: 'SM151',
   },
 };
 
@@ -68,7 +81,7 @@ export const Breadcrumbs = {
   },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
-  FOLDERS: { path: '/folders', label: 'Folders' },
+  FOLDERS: { path: '/folders', label: 'My folders' },
   SENT: { path: '/sent', label: 'Sent messages' },
   TRASH: { path: '/trash', label: 'Trash' },
   SEARCH: { path: '/search', label: 'Search messages' },
@@ -81,3 +94,26 @@ export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
 export const ALERT_TYPE_INFO = 'info';
+
+export const Categories = {
+  OTHER: 'General',
+  COVID: 'COVID',
+  APPOINTMENTS: 'Appointment',
+  MEDICATIONS: 'Medication',
+  TEST_RESULTS: 'Test',
+};
+
+export const acceptedFileTypes = {
+  doc: 'application/msword',
+  docx:
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  pdf: 'application/pdf',
+  png: 'image/png',
+  rtf: 'text/rtf',
+  txt: 'text/plain',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};

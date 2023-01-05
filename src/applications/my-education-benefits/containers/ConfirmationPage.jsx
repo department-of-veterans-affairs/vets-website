@@ -17,6 +17,7 @@ import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
 
 import { formatReadableDate } from '../helpers';
+import { formFields } from '../constants';
 
 export const ConfirmationPage = ({
   claimStatus,
@@ -88,7 +89,8 @@ export const ConfirmationPage = ({
 
 const mapStateToProps = state => ({
   claimStatus: state.data?.claimStatus,
-  userFullName: state.form?.data['view:userFullName']?.userFullName,
+  userFullName:
+    state.form?.data[formFields.viewUserFullName][formFields.userFullName],
 });
 
 const mapDispatchToProps = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import reducers from '../../../reducers';
 import inbox from '../../fixtures/folder-inbox-response.json';

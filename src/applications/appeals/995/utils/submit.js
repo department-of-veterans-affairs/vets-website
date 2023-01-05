@@ -1,4 +1,10 @@
-import { SELECTED, MAX_LENGTH, PRIMARY_PHONE } from '../constants';
+import {
+  SELECTED,
+  MAX_LENGTH,
+  PRIMARY_PHONE,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+} from '../constants';
 import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
 import { replaceSubmittedData } from './replace';
 
@@ -12,16 +18,6 @@ export const removeEmptyEntries = object =>
   Object.fromEntries(
     Object.entries(object).filter(([_, value]) => value !== ''),
   );
-
-// We require the user to input a 10-digit number; assuming we get a 3-digit
-// area code + 7 digit number. We're not yet supporting international numbers
-export const getPhoneNumber = (phone = '') => ({
-  countryCode: '1',
-  areaCode: phone.substring(0, 3),
-  phoneNumber: phone.substring(3),
-  // Empty string/null are not permitted values
-  // phoneNumberExt: '',
-});
 
 export const getTimeZone = () =>
   // supports IE11
@@ -139,7 +135,6 @@ export const addIncludedIssues = formData => {
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
  * @property {String} emailAddressText
- * @property {Boolean} homeless
  */
 /**
  * Address~submittableV2
@@ -275,7 +270,44 @@ export const getPhone = formData => {
  * Get evidence
  * @param {Object} formData - full form data
  */
-export const getEvidence = (/* formData */) => {
-  // do something here to extract the evidence data
-  return {};
+export const getEvidence = formData => {
+  const evidenceSubmission = {
+    evidenceType: [],
+  };
+  // Add VA evidence data
+  if (formData[EVIDENCE_VA] && formData.locations.length) {
+    evidenceSubmission.evidenceType.push('retrieval');
+    evidenceSubmission.retrieveFrom = formData.locations.map(location => ({
+      type: 'retrievalEvidence',
+      attributes: {
+        // we're not including the issues here - it's only in the form to make
+        // the UX consistent with the private records location pages
+        locationAndName: location.locationAndName,
+        // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+        // providing one
+        evidenceDates: [location.evidenceDates],
+      },
+    }));
+  }
+  return evidenceSubmission;
+};
+
+/**
+ * The backend is filling out form 4142/4142a (March 2021) which doesn't include
+ * the conditions (issues) that were treated. These are asked for in the newer
+ * 4142/4142a (July 2021)
+ */
+export const getForm4142 = formData => {
+  const {
+    privacyAgreementAccepted = true,
+    limitedConsent = '',
+    providerFacility = [],
+  } = formData;
+  return formData[EVIDENCE_PRIVATE]
+    ? {
+        privacyAgreementAccepted,
+        limitedConsent,
+        providerFacility,
+      }
+    : {};
 };

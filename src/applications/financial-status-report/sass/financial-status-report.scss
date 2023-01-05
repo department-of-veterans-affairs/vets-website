@@ -12,12 +12,6 @@
   min-height: 40px;
 }
 
-.schemaform-title > h1 {
-  @include media($small-desktop-screen) {
-    white-space: nowrap;
-  }
-}
-
 .form-review-panel-page tr td:last-child {
   font-weight: inherit;
 }
@@ -332,6 +326,5 @@
 
 .error-line {
   border-left: 4px solid var(--color-secondary-dark);
-  padding-left: 0.75rem;
   position: relative;
 }

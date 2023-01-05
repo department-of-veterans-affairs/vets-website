@@ -1,7 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 
@@ -15,16 +16,10 @@ const ConfirmablePage = ({
   data = {},
   yesAction = () => {},
   noAction = () => {},
-  isLoading = false,
-  loadingMessageOverride = null,
   withBackButton = false,
   pageType,
 }) => {
   const { t } = useTranslation();
-  const defaultLoadingMessage = () => (
-    <va-loading-indicator message={t('loading')} />
-  );
-  const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
 
   const onYesClick = () => {
     recordEvent({
@@ -81,30 +76,24 @@ const ConfirmablePage = ({
           ))}
         </ul>
       </div>
-      {isLoading ? (
-        <>
-          <LoadingMessage />
-        </>
-      ) : (
-        <>
-          <button
-            onClick={onYesClick}
-            className="usa-button-primary usa-button-big"
-            data-testid="yes-button"
-            type="button"
-          >
-            {t('yes')}
-          </button>
-          <button
-            onClick={onNoClick}
-            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
-            data-testid="no-button"
-            type="button"
-          >
-            {t('no')}
-          </button>
-        </>
-      )}
+      <>
+        <button
+          onClick={onYesClick}
+          className="usa-button-primary usa-button-big"
+          data-testid="yes-button"
+          type="button"
+        >
+          {t('yes')}
+        </button>
+        <button
+          onClick={onNoClick}
+          className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+          data-testid="no-button"
+          type="button"
+        >
+          {t('no')}
+        </button>
+      </>
     </Wrapper>
   );
 };
@@ -119,8 +108,6 @@ ConfirmablePage.propTypes = {
   header: PropTypes.string.isRequired,
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  loadingMessageOverride: PropTypes.func,
   pageType: PropTypes.string,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,

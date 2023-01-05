@@ -62,35 +62,25 @@ function showBot(
 export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
-  const requireAuth = useSelector(
-    state => state.featureToggles.virtualAgentAuth,
-  );
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
-  // this toggle is redundant but better to be as failsafe as possible
-  if (requireAuth) {
-    window.addEventListener('webchat-auth-activity', () => {
-      setTimeout(function() {
-        if (!isLoggedIn) {
-          sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
-          setIsAuthTopic(true);
-        }
-      }, 2000);
-    });
-  }
+  window.addEventListener('webchat-auth-activity', () => {
+    setTimeout(function() {
+      if (!isLoggedIn) {
+        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        setIsAuthTopic(true);
+      }
+    }, 2000);
+  });
 
   useEffect(() => {
-    // this toggle is redundant but better to be as failsafe as possible
-    if (requireAuth) {
-      // initiate the event handler
-      window.addEventListener('webchat-message-activity', storeUtterances);
+    // initiate the event handler
+    window.addEventListener('webchat-message-activity', storeUtterances);
 
-      // this will clean up the event every time the component is re-rendered
-      return function cleanup() {
-        window.removeEventListener('webchat-message-activity', storeUtterances);
-      };
-    }
-    return () => {};
+    // this will clean up the event every time the component is re-rendered
+    return function cleanup() {
+      window.removeEventListener('webchat-message-activity', storeUtterances);
+    };
   });
 
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {

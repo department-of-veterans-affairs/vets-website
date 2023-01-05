@@ -55,22 +55,9 @@ va-alert button {
 .message-action-buttons {
   margin-top: 20px;
   .message-action-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: transparent;
-    color: $color-link-default;
-    font-weight: normal;
-    line-height: 24px;
-    width: fit-content;
-    margin: 0;
-    padding: 0;
     i {
       width: 20px;
       height: 20px;
-    }
-    .message-action-button-text {
-      text-decoration: underline;
     }
   }
 }
@@ -191,10 +178,6 @@ va-alert button {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.search-messages-input {
-  max-width: 480px;
-}
-
 @media (max-width: $small-screen) {
   .secure-messaging-container {
     flex-direction: column;
@@ -215,7 +198,6 @@ va-alert button {
   margin: 0;
   padding: 0;
   li {
-    border-top: 1px solid $color-gray-medium;
     padding: 8px 0;
     margin: 0;
     display: flex;
@@ -240,7 +222,6 @@ va-alert button {
     }
   }
   li:last-child {
-    border-bottom: 1px solid $color-gray-medium;
     margin-bottom: 16px;
   }
   .remove-attachment-button {

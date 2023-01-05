@@ -4,14 +4,20 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import classNames from 'classnames';
+import { focusElement } from 'platform/utilities/ui';
+import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../components/InfoAlert';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
   APPOINTMENT_TYPES,
+  SPACE_BAR,
 } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
+import {
+  getLink,
+  getVAAppointmentLocationId,
+} from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -24,8 +30,28 @@ import {
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
 import AppointmentListGroup from './AppointmentsPageV2/AppointmentListGroup';
+import Card from './AppointmentsPageV2/Card';
+
+function handleClick({ history, link, idClickable }) {
+  return () => {
+    if (!window.getSelection().toString()) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
+
+function handleKeyDown({ history, link, idClickable }) {
+  return event => {
+    if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+      focusElement(`#${idClickable}`);
+      history.push(link);
+    }
+  };
+}
 
 export default function UpcomingAppointmentsList() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     showScheduleButton,
@@ -121,6 +147,11 @@ export default function UpcomingAppointmentsList() {
               >
                 {monthBucket.map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
+                  const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+                  const link = getLink({
+                    featureStatusImprovement,
+                    appointment: appt,
+                  });
 
                   if (
                     appt.vaos.appointmentType ===
@@ -132,8 +163,20 @@ export default function UpcomingAppointmentsList() {
                       <AppointmentListItem
                         key={index}
                         appointment={appt}
-                        facility={facilityData[facilityId]}
-                      />
+                        className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+                      >
+                        <Card
+                          appointment={appt}
+                          facility={facilityData[facilityId]}
+                          link={link}
+                          handleClick={() =>
+                            handleClick({ history, link, idClickable })
+                          }
+                          handleKeyDown={() =>
+                            handleKeyDown({ history, link, idClickable })
+                          }
+                        />
+                      </AppointmentListItem>
                     );
                   }
                   return null;

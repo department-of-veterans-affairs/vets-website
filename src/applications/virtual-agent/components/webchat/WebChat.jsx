@@ -30,7 +30,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           csrfToken,
           apiSession,
-          environment.API_URL,
+          process.env.VIRTUAL_AGENT_BACKEND_URL || environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
@@ -94,7 +94,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     timestampColor: '#000000',
     suggestedActionLayout: 'stacked',
     suggestedActionsStackedHeight: BUTTONS * 5,
-    suggestedActionHeight: 43,
     suggestedActionActiveBackground: 'rgb(17,46,81)',
     suggestedActionBackgroundColorOnHover: 'rgb(0,62,115)',
     suggestedActionBackgroundColor: 'rgb(0, 113, 187)',
