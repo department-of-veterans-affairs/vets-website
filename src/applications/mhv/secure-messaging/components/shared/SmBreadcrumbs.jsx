@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 // temporarily using deprecated Breadcrumbs React component due to issues with VaBreadcrumbs that are pending resolution
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
+// import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 
@@ -15,6 +15,23 @@ const SmBreadcrumbs = () => {
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const breadcrumbsRef = useRef();
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
+  const [isMobile, setIsMobile] = useState(false);
+
+  function checkScreenSize() {
+    if (window.innerWidth <= 481 && setIsMobile !== false) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  }
+  useEffect(
+    () => {
+      checkScreenSize();
+    },
+    [isMobile],
+  );
+
+  window.addEventListener('resize', checkScreenSize);
 
   useEffect(
     () => {
@@ -52,14 +69,14 @@ const SmBreadcrumbs = () => {
 
       function handleBreadCrumbs() {
         const arr = [];
-        arr.push({
-          path: replaceWithStagingDomain('https://www.va.gov'),
-          label: 'VA.gov home',
-        });
-        arr.push({
-          path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
-          label: 'My Health',
-        });
+        // arr.push({
+        //   path: replaceWithStagingDomain('https://www.va.gov'),
+        //   label: 'VA.gov home',
+        // });
+        // arr.push({
+        //   path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
+        //   label: 'My Health',
+        // });
         arr.push({ path: '/', label: 'Messages' });
 
         paths.forEach(path => {
@@ -93,20 +110,27 @@ const SmBreadcrumbs = () => {
         // per exisiting issue found here https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/1296
         // eslint-disable-next-line @department-of-veterans-affairs/prefer-web-component-library
         <Breadcrumbs ref={breadcrumbsRef}>
-          {crumbs?.map((crumb, i) => {
-            if (crumb.path.includes('https://')) {
+          {isMobile ? (
+            crumbs?.map((crumb, i) => {
+              if (crumb.path.includes('https://')) {
+                return (
+                  <a key={i} href={crumb.path}>
+                    Return to {crumb.label}
+                  </a>
+                );
+              }
               return (
-                <a key={i} href={crumb.path}>
-                  {crumb.label}
-                </a>
+                <Link key={i} to={crumb.path}>
+                  Return to {crumb.label}
+                </Link>
               );
-            }
-            return (
-              <Link key={i} to={crumb.path}>
-                {crumb.label}
-              </Link>
-            );
-          })}
+            })
+          ) : (
+            <Link key={1} to="/">
+              <span className="breadcrumb-angle">{'\u2039'}</span> Return to{' '}
+              {crumbs[crumbs.length - 2]?.label}
+            </Link>
+          )}
         </Breadcrumbs>
       )}
     </>
