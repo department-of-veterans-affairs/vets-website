@@ -26,22 +26,22 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/messages/7208913',
       mockDraftResponse,
     ).as('draftMessageResponse');
-
+    cy.intercept(
+      'DELETE',
+      '/my_health/v1/messaging/messages/7208913',
+      mockDraftMessages,
+    ).as('deletedDraftResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
 
-    // cy.wait('@draftsFolderMetaResponse');
+    cy.wait('@draftsFolderMetaResponse');
     cy.wait('@draftsResponse');
     // cy.get(':nth-child(3) > .message-subject-link').click();
     cy.contains('Appointment:').click();
 
     cy.get('[data-testid="discard-draft-button"]').click({ force: true });
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/-2/messages?per_page=-1&useCache=false',
-      mockDraftMessages,
-    ).as('deletedDraftResponse');
+
     cy.get('[data-testid="discard-draft-modal"] > p').should('be.visible');
     cy.get('[data-testid="discard-draft-modal"]')
       .shadow()
@@ -51,6 +51,9 @@ describe(manifest.appName, () => {
       .click({ force: true });
 
     cy.wait('@deletedDraftResponse');
-    // cy.contains('Appointment:').should('not.exist');
+    cy.get('.vads-u-margin-y--0').should(
+      'have.text',
+      'Draft was successfully discarded.',
+    );
   });
 });
