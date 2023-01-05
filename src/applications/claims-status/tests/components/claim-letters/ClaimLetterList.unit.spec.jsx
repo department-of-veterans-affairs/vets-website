@@ -1,5 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
-
 import React from 'react';
 import { expect } from 'chai';
 import { render, within } from '@testing-library/react';
