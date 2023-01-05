@@ -15,7 +15,6 @@ const InboxPage = ({
   TOEClaimStatusFetchComplete,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
-
   const isLoggedIn = useRef(false);
 
   useEffect(
@@ -34,13 +33,17 @@ const InboxPage = ({
       if (user?.login?.currentlyLoggedIn) {
         isLoggedIn.current = true;
       }
-      setTimeout(() => {
-        if (!isLoggedIn.current) {
-          window.location.href = '/education/download-letters/';
-        }
-      }, 2000);
+      if (
+        (MEBClaimStatusFetchInProgress ||
+          TOEClaimStatusFetchInProgress ||
+          MEBClaimStatusFetchComplete ||
+          TOEClaimStatusFetchComplete) &&
+        !isLoggedIn.current
+      ) {
+        window.location.href = '/education/download-letters/';
+      }
     },
-    [isLoggedIn, user?.login?.currentlyLoggedIn],
+    [isLoggedIn, user?.login],
   );
 
   const renderInbox = () => {
@@ -71,11 +74,7 @@ const InboxPage = ({
       return <NoLetters />;
     }
 
-    if (
-      MEBClaimStatusFetchComplete &&
-      TOEClaimStatusFetchComplete &&
-      !claimStatus?.claimStatus
-    ) {
+    if (MEBClaimStatusFetchComplete && TOEClaimStatusFetchComplete) {
       return (
         <va-banner
           headline="There was an error in accessing your decision letters. We’re sorry we couldn’t display your letters.  Please try again later."
