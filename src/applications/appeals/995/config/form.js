@@ -97,10 +97,10 @@ const formConfig = {
   preSubmitInfo,
   chapters: {
     infoPages: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       pages: {
         veteranInfo: {
-          title: 'Veteran Information',
+          title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
@@ -164,7 +164,7 @@ const formConfig = {
       title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: ' ',
+          title: 'Issues',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
