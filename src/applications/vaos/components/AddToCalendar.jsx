@@ -156,6 +156,7 @@ export default function AddToCalendar({
   return (
     <va-link
       download
+      calendar
       href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
       filename={filename}
       className="va-button-link vads-u-margin-right--4 vads-u-flex--0"
