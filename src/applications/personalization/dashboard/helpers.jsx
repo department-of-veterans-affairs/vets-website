@@ -10,6 +10,7 @@ export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
+  [VA_FORM_IDS.FORM_10_10D]: 'CHAMPVA benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
   [VA_FORM_IDS.FORM_22_0993]: 'opt out',
   [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
@@ -68,6 +69,7 @@ export const formDescriptions = Object.keys(formBenefits).reduce(
 export const formLinks = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrl('feedback-tool')}/`,
   [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrl('hca')}/`,
+  [VA_FORM_IDS.FORM_10_10D]: `${getAppUrl('1010d')}`,
   [VA_FORM_IDS.FORM_20_0996]: `${getAppUrl('0996-higher-level-review')}/`,
   [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrl('526EZ-all-claims')}/`,
   [VA_FORM_IDS.FORM_21_686C]: `${getAppUrl('686C-674')}/`,
@@ -92,6 +94,7 @@ export const trackingPrefixes = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability-526EZ-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
+  [VA_FORM_IDS.FORM_10_10D]: '1010d-',
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
@@ -112,6 +115,7 @@ export const trackingPrefixes = {
 };
 
 export const sipEnabledForms = new Set([
+  VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,

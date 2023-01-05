@@ -35,10 +35,19 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '10-10D',
-  saveInProgress: {},
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your 10-10D application is in progress.',
+      expired: 'Your saved 10-10D application has expired.',
+      saved: 'Your 10-10D application has been saved.',
+    },
+  },
+  savedFormMessages: {
+    notFound: 'Please start over to fill out the 10-10D application.',
+    noAuth: 'Please sign in again to continue your 10-10D application.',
+  },
   version: 0,
   prefillEnabled: true,
-  savedFormMessages: {},
   title: 'Application for CHAMPVA Benefits',
   defaultDefinitions: {
     fullName,
