@@ -92,7 +92,7 @@ const DashboardSearch = () => {
                   className="search-button"
                   onClick={handleSearchSubmit}
                 >
-                  <i className="fas fa-search" />
+                  <i className="fas fa-search" aria-hidden />
                 </button>
               </div>
             </>

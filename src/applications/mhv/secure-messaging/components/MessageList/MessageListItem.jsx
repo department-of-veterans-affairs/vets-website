@@ -98,7 +98,7 @@ const MessageListItem = props => {
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
-          {attachment && <i className={attachmentClasses} />}
+          {attachment && <i className={attachmentClasses} aria-hidden />}
           <span className="vads-u-font-style--italic">{formattedDate}</span>
         </p>
       </div>

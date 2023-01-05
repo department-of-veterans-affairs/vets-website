@@ -55,7 +55,7 @@ const LandingPageAuth = () => {
         to="/compose"
         data-testid="compose-message-link"
       >
-        <i className="fas fa-edit vads-u-margin-right--1" />
+        <i className="fas fa-edit vads-u-margin-right--1" aria-hidden />
         Compose message
       </Link>
       <DashboardUnreadMessages folders={folders} />
