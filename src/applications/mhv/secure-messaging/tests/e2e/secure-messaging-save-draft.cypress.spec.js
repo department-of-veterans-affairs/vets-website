@@ -1,4 +1,4 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
@@ -7,7 +7,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe(manifest.appName, () => {
   it('Axe Check Save Draft', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     const composePage = new PatientComposePage();
     landingPage.login();
     landingPage.loadPage(false);
@@ -16,14 +16,14 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-2',
       mockDraftFolderMetaResponse,
     ).as('draftsFolderMetaResponse');
-    cy.get('[data-testid="drafts-sidebar"]').click();
-    cy.injectAxe();
-    cy.axeCheck();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2/messages**',
       mockDraftMessages,
     ).as('draftsResponse');
+    cy.get('[data-testid="drafts-sidebar"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
     cy.wait('@draftsFolderMetaResponse');
     cy.wait('@draftsResponse');
     cy.intercept(

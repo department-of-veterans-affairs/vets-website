@@ -29,11 +29,6 @@ const Navigation = () => {
         datatestid: 'my-folders-sidebar',
       },
       {
-        path: '/search',
-        label: 'Search messages',
-        datatestid: 'search-messages-sidebar',
-      },
-      {
         path: '/faq',
         label: 'Messages FAQ',
         datatestid: 'messages-faq-sidebar',

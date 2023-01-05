@@ -6,7 +6,6 @@ import Folders from './Folders';
 import LandingPageAuth from './LandingPageAuth';
 import MessageDetails from './MessageDetails';
 import MessageReply from './MessageReply';
-import SearchMessages from './SearchMessages';
 import SearchResults from './SearchResults';
 
 const AuthorizedRoutes = () => {
@@ -28,12 +27,6 @@ const AuthorizedRoutes = () => {
         <Route exact path="/reply/:replyId" key="MessageReply">
           <MessageReply />
         </Route>
-        <Route exact path="/search" key="SearchMessages">
-          <SearchMessages />
-        </Route>
-        <Route exact path="/search/advanced" key="AdvancedSearch">
-          <SearchMessages />
-        </Route>
         <Route exact path="/search/results" key="SearchResults">
           <SearchResults />
         </Route>
@@ -47,7 +40,7 @@ const AuthorizedRoutes = () => {
           <MessageDetails />
         </Route>
         <Route
-          path={['/sent', '/trash', '/drafts', '/folder/:folderId']}
+          path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
           key="FolderListView"
         >
           <FolderListView />

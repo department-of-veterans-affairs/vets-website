@@ -11,7 +11,15 @@ if (
 ) {
   core.exportVariable('SOURCE_REPO', sourceRepo);
   core.exportVariable('SOURCE_REF', sourceRef);
+  core.exportVariable(
+    'SOURCE_REF_SANITIZED',
+    sourceRef.replace(/[^a-zA-Z0-9-_]/g, ''),
+  );
 } else {
   core.exportVariable('SOURCE_REPO', 'vets-api');
   core.exportVariable('SOURCE_REF', workflowRef);
+  core.exportVariable(
+    'SOURCE_REF_SANITIZED',
+    workflowRef.replace(/[^a-zA-Z0-9-_]/g, '-'),
+  );
 }

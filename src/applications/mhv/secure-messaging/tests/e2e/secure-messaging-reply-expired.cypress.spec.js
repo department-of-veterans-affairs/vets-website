@@ -1,9 +1,9 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 
 describe(manifest.appName, () => {
-  it('Axe Check Message Reply', () => {
-    const landingPage = new PatientMessagesLandingPage();
+  it('reply expired messages', () => {
+    const landingPage = new PatientMessagesInboxPage();
     landingPage.login();
     landingPage.loadPage();
     landingPage.loadMessageDetails(

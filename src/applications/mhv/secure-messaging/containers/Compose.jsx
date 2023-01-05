@@ -48,9 +48,9 @@ const Compose = () => {
 
   useEffect(
     () => {
-      if (messageHistory && messageHistory.length > 0) {
+      if (messageHistory?.length > 0 && !replyMessage) {
         // TODO filter history to grab only received messages.
-        setReplyMessage(messageHistory[0]);
+        setReplyMessage(messageHistory.shift());
       }
     },
     [messageHistory],
@@ -92,11 +92,14 @@ const Compose = () => {
         </va-alert>
       );
     }
-    if (messageHistory && messageHistory.length > 0) {
+    if (messageHistory) {
       return (
         <>
-          <ReplyForm draft={draftMessage} replyMessage={replyMessage} />
-          <MessageThread messageHistory={messageHistory} />
+          <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
+          {replyMessage &&
+            messageHistory?.length > 1 && (
+              <MessageThread messageHistory={messageHistory.slice(1)} />
+            )}
         </>
       );
     }
@@ -106,13 +109,17 @@ const Compose = () => {
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      <h1 className="page-title" ref={header}>
-        {pageTitle}
-      </h1>
-      <EmergencyNote />
-      <div>
-        <BeforeMessageAddlInfo />
-      </div>
+      {!replyMessage && (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote />
+          <div>
+            <BeforeMessageAddlInfo />
+          </div>
+        </>
+      )}
 
       {content()}
     </div>

@@ -127,7 +127,7 @@ describe('Compose form component', () => {
       level: 3,
     });
     const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+      name: 'Discard draft',
       exact: false,
     });
 

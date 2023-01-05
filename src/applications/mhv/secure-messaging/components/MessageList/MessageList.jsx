@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, keyword, isSearch } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -171,20 +171,22 @@ const MessageList = props => {
         &#8211;
         {displayNums[1]} of {totalEntries} conversations
       </div>
-      {currentMessages.map((message, idx) => (
-        <MessageListItem
-          key={`${message.messageId}+${idx}`}
-          messageId={message.messageId}
-          senderName={message.senderName}
-          sentDate={message.sentDate}
-          subject={message.subject}
-          readReceipt={message.readReceipt}
-          attachment={message.attachment}
-          recipientName={message.recipientName}
-          keyword={keyword}
-          category={message.category}
-        />
-      ))}
+      {currentMessages?.length > 0 &&
+        currentMessages.map((message, idx) => (
+          <MessageListItem
+            key={`${message.messageId}+${idx}`}
+            messageId={message.messageId}
+            senderName={message.senderName}
+            sentDate={message.sentDate}
+            subject={message.subject}
+            readReceipt={message.readReceipt}
+            attachment={message.attachment}
+            recipientName={message.recipientName}
+            keyword={keyword}
+            category={message.category}
+            activeFolder={folder}
+          />
+        ))}
       {currentPage === paginatedMessages.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
           End of {!isSearch ? 'messages in this folder' : 'search results'}
