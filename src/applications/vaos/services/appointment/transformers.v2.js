@@ -328,7 +328,7 @@ export function transformVAOSAppointment(appt) {
       vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
-      clinicName: appt.serviceName || null,
+      clinicName: appt.friendlyName || appt.serviceName || null,
     },
     comment:
       isVideo && !!appt.patientInstruction

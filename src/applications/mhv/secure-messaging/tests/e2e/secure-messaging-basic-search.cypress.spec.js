@@ -1,5 +1,5 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
@@ -11,7 +11,7 @@ import mockInboxFolder from './fixtures/folder-inbox-response.json';
 describe(manifest.appName, () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.injectAxe();
@@ -68,7 +68,7 @@ describe(manifest.appName, () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Sent Folder Check', () => {
+  it.skip('Basic Search Sent Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',

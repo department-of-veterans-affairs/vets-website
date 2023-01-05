@@ -38,6 +38,7 @@ export const CTA_WIDGET_TYPES = {
   VIEW_DEPENDENTS: 'view-dependents',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VRRAP: 'vrrap',
+  EDUCATION_LETTERS: 'education-letters',
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
 };
 
@@ -336,6 +337,18 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: backendServices.EDUCATION_BENEFITS,
     serviceDescription: 'apply for VRRAP',
+  },
+  [CTA_WIDGET_TYPES.EDUCATION_LETTERS]: {
+    id: CTA_WIDGET_TYPES.EDUCATION_LETTERS,
+    deriveToolUrlDetails: () => ({
+      url: 'education/download-letters',
+      redirect: false,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'check your VA education letter',
   },
   [CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION]: {
     id: CTA_WIDGET_TYPES.ENROLLMENT_VERIFICATION,

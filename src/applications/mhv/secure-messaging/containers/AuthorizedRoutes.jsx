@@ -40,7 +40,7 @@ const AuthorizedRoutes = () => {
           <MessageDetails />
         </Route>
         <Route
-          path={['/sent', '/trash', '/drafts', '/folder/:folderId']}
+          path={['/inbox', '/sent', '/trash', '/drafts', '/folder/:folderId']}
           key="FolderListView"
         >
           <FolderListView />
