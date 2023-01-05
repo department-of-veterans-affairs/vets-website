@@ -214,7 +214,6 @@
   "appointment": "appointment",
   "when": "When",
   "what": "What",
-  "Provider": "Provider",
   "where-to-attend": "Where to attend",
   "reason-for-visit": "Reason for visit",
   "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
