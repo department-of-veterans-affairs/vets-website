@@ -101,14 +101,14 @@
 
   .dashboard-folders {
     &-card {
-      padding: 33px;
+      padding: 40px 20px 15px 33px;
       margin: 14px 0 25px 0;
       background-color: $color-gray-lightest;
       font-weight: $font-bold;
       font-size: 16px;
       .folder-link {
         padding: 0;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
       }
       @media (min-width: $medium-screen) {
         padding: 18px 25px 1px 25px;

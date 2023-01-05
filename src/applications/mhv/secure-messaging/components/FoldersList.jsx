@@ -14,7 +14,7 @@ const FoldersList = props => {
           folders.map(folder => (
             <li key={folder.name} className="folder-link">
               <Link to={folderPathByFolderId(folder.id)}>
-                <i className="fas fa-folder" aria-hidden="true" />
+                <i className="fas fa-folder fa-lg" aria-hidden="true" />
                 {folder.id === Folders.DELETED.id
                   ? Folders.DELETED.header
                   : folder.name}{' '}
