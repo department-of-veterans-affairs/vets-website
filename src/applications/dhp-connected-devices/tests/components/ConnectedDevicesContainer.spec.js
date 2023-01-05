@@ -13,6 +13,7 @@ import {
 } from '../../constants/alerts';
 
 const noDevicesConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
@@ -32,6 +33,7 @@ const noDevicesConnectedResponse = {
 };
 
 const oneDeviceConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
@@ -51,6 +53,7 @@ const oneDeviceConnectedResponse = {
 };
 
 const twoDevicesConnectedResponse = {
+  connectionAvailable: true,
   devices: [
     {
       name: 'Vendor 1',
