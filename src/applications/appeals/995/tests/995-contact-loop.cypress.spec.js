@@ -116,7 +116,7 @@ describe('995 contact info loop', () => {
     cy.findByLabelText(/mobile phone/i)
       .clear()
       .type('8885551212');
-    cy.findAllByText(/update/i, { selector: 'button' })
+    cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();
 
