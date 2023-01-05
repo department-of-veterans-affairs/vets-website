@@ -16,6 +16,7 @@ import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 import { withAppSet } from '../containers/withAppSet';
+import { withError } from '../containers/withError';
 
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
@@ -107,6 +108,8 @@ const createRoutesWithStore = () => {
         Component = withFeatureFlip(Component, options);
         // Add app name
         Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
         const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */

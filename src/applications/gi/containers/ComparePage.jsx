@@ -13,6 +13,7 @@ import _ from 'lodash';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   fetchProfile,
   setPageTitle,
@@ -29,8 +30,6 @@ import {
 } from '../selectors/compare';
 import ServiceError from '../components/ServiceError';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
-import { MINIMUM_RATING_COUNT } from '../constants';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import CompareHeader from '../components/CompareHeader';
 import CompareLayout from './CompareLayout';
 import { isSmallScreen } from '../utils/helpers';
@@ -197,16 +196,10 @@ export function ComparePage({
     return <LoadingIndicator message="Loading..." />;
   }
 
-  let hasRatings = false;
+  const hasRatings = false;
   const loadedInstitutions = [];
   for (let i = 0; i < loaded.length; i++) {
     loadedInstitutions.push(institutions[loaded[i]]);
-    if (
-      institutions[loaded[i]].institutionCategoryRatings.length > 0 &&
-      institutions[loaded[i]].ratingCount >= MINIMUM_RATING_COUNT
-    ) {
-      hasRatings = true;
-    }
   }
 
   return (

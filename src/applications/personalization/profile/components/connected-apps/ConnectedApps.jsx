@@ -10,6 +10,7 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
@@ -114,17 +115,7 @@ export class ConnectedApps extends Component {
           </>
         )}
 
-        {showHasServerError && (
-          <>
-            <va-alert status="warning" className="vads-u-margin-bottom--2">
-              <h2 slot="headline">We couldn’t retrieve your connected apps</h2>
-              <p>
-                We’re sorry. Something went wrong on our end and we couldn’t
-                access your connected apps. Please try again later.
-              </p>
-            </va-alert>
-          </>
-        )}
+        {showHasServerError && <LoadFail />}
 
         {deletedApps.map(app => (
           <AppDeletedAlert

@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { EVIDENCE_VA } from '../../constants';
+import { errorMessages, EVIDENCE_VA } from '../../constants';
 
 describe('Supplemental Claims VA evidence request page', () => {
   const {
@@ -29,7 +29,7 @@ describe('Supplemental Claims VA evidence request page', () => {
     expect($$('input', container).length).to.eq(2);
   });
 
-  it('should allow submit with radios unselected (optional)', () => {
+  it('should not allow submit with radios unselected (required)', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -42,8 +42,10 @@ describe('Supplemental Claims VA evidence request page', () => {
       />,
     );
     fireEvent.submit($('form', container));
-    expect($('.usa-input-error', container)).to.not.exist;
-    expect(onSubmit.called).to.be.true;
+    expect($('.usa-input-error', container).textContent).to.contain(
+      errorMessages.requiredYesNo,
+    );
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should allow submit with one radio selected', () => {

@@ -1252,6 +1252,84 @@
       }
     },
     {
+      "id": "147685",
+      "type": "appointments",
+      "attributes": {
+        "id": "147685",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vista/983/appointment/id",
+            "value": "1081;20221214.080000"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "amputation",
+        "reasonCode": {
+          "text": "test"
+        },
+        "patientIcn": "1012845943V900681",
+        "locationId": "983GC",
+        "clinic": "1081",
+        "start": "2022-12-14T15:00:00Z",
+        "end": "2022-12-14T15:30:00Z",
+        "minutesDuration": 30,
+        "slot": {
+          "id": "3230323231323134313530303A323032323132313431353330",
+          "start": "2022-12-14T15:00:00Z",
+          "end": "2022-12-14T15:30:00Z"
+        },
+        "comment": "test",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "FUTURE"
+          ]
+        },
+        "serviceName": "FTC AMPUTATION",
+        "friendlyName": "Friendly Name FTC Amputation",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
+            "physicalAddress": {
+              "line": [
+                "2509 Research Boulevard"
+              ],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "50096",
       "type": "appointments",
       "attributes": {
@@ -1278,6 +1356,7 @@
         "cancellationReason": {
           "code": "other"
         },
+        "friendlyName": "Friendly Name CHY PC KILPATRICK",
         "serviceName": "CHY PC KILPATRICK",
         "location": {
           "id": "983",

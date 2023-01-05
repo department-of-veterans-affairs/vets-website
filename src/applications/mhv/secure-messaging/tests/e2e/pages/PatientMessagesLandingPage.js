@@ -7,6 +7,8 @@ import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockUser from '../fixtures/user.json';
 import mockStatus from '../fixtures/profile-status.json';
+import mockNoRecipients from '../fixtures/no-recipients-response.json';
+import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 
 class PatientMessagesLandingPage {
   newMessageIndex = 0;
@@ -30,7 +32,12 @@ class PatientMessagesLandingPage {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
+        features: [
+          {
+            name: 'mhv_secure_messaging_to_va_gov_release',
+            value: true,
+          },
+        ],
       },
     }).as('featureToggle');
     cy.intercept(
@@ -55,7 +62,62 @@ class PatientMessagesLandingPage {
     ).as('inboxFolderMetaData');
     cy.intercept(
       'GET',
-      '/my_health/v1/messaging/recipients',
+      '/my_health/v1/messaging/recipients?useCache=false',
+      mockRecipients,
+    ).as('recipients');
+    cy.visit('my-health/secure-messages/');
+    if (doAxeCheck) {
+      cy.injectAxe();
+    }
+
+    cy.wait('@folders');
+    cy.wait('@featureToggle');
+    cy.wait('@mockUser');
+    if (doAxeCheck) {
+      cy.axeCheck();
+    }
+  };
+
+  loadEmptyPage = (doAxeCheck = false) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'mhv_secure_messaging_to_va_gov_release',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggle');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/categories',
+      mockCategories,
+    ).as('categories');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page*',
+      mockFolders,
+    ).as('folders');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages*',
+      mockInboxNoMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0*',
+      mockInboxFolder,
+    ).as('inboxFolderMetaData');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/');
@@ -99,6 +161,70 @@ class PatientMessagesLandingPage {
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessage = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  loadPageForNoProvider = (doAxeCheck = false) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    mockMessages.data.at(
+      this.newMessageIndex,
+    ).attributes.sentDate = date.toISOString();
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'mhv_secure_messaging_to_va_gov_release',
+            value: true,
+          },
+        ],
+      },
+    }).as('featureToggle');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/categories',
+      mockCategories,
+    ).as('categories');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders?page*',
+      mockFolders,
+    ).as('folders');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages*',
+      mockMessages,
+    ).as('inboxMessages');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0*',
+      mockInboxFolder,
+    ).as('inboxFolderMetaData');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/recipients?useCache=false',
+      mockNoRecipients,
+    ).as('recipients');
+    cy.visit('my-health/secure-messages/');
+    if (doAxeCheck) {
+      cy.injectAxe();
+    }
+
+    cy.wait('@folders');
+    cy.wait('@featureToggle');
+    cy.wait('@mockUser');
+    if (doAxeCheck) {
+      cy.axeCheck();
+    }
   };
 }
 

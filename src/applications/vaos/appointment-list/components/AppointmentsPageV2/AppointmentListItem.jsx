@@ -9,14 +9,16 @@ export default function AppointmentListItem({
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
   return (
-    <li
-      id={idClickable}
-      data-request-id={appointment.id}
-      data-cy="appointment-list-item"
-      className={className}
-    >
-      {children}
-    </li>
+    <>
+      <li
+        id={idClickable}
+        className={className}
+        data-request-id={appointment.id}
+        data-cy="appointment-list-item"
+      >
+        {children}
+      </li>
+    </>
   );
 }
 

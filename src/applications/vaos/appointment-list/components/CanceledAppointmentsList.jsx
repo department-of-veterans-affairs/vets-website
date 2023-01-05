@@ -52,6 +52,7 @@ function handleKeyDown({ history, link, idClickable }) {
 }
 
 export default function CanceledAppointmentsList({ hasTypeChanged }) {
+  const dispatch = useDispatch();
   const history = useHistory();
   const {
     appointmentsByMonth,
@@ -66,7 +67,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     selectFeatureStatusImprovement(state),
   );
 
-  const dispatch = useDispatch();
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {

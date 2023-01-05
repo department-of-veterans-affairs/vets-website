@@ -100,9 +100,7 @@ export function fetchConfirmedFutureAppointmentsV2() {
       type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
     });
 
-    const startOfToday = moment()
-      .startOf('day')
-      .toISOString();
+    const now = moment().toISOString();
 
     // Maximum number of days you can schedule an appointment in advance in VAOS
     const endDate = moment()
@@ -112,7 +110,7 @@ export function fetchConfirmedFutureAppointmentsV2() {
 
     try {
       const appointmentResponse = await apiRequest(
-        `/appointments?start=${startOfToday}&end=${endDate}&_include=facilities&status=booked`,
+        `/appointments?start=${now}&end=${endDate}&_include=facilities&statuses[]=booked`,
         { apiVersion: 'vaos/v2' },
       );
 

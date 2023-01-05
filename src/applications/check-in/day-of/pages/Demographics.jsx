@@ -43,9 +43,7 @@ const Demographics = props => {
         <>
           <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
           <p className="vads-u-margin-bottom--0">
-            {t(
-              'if-you-dont-live-at-a-fixed-address-right-now-well-help-you-find-the-best-way-to-stay-connected-with-us',
-            )}
+            {t('if-you-dont-live-at-a-fixed-address')}
           </p>
         </>
       );
@@ -68,7 +66,7 @@ const Demographics = props => {
         yesAction={yesClick}
         noAction={noClick}
         subtitle={t(
-          'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+          'we-can-better-follow-up-with-when-we-have-your-current-information',
         )}
       />
     </>

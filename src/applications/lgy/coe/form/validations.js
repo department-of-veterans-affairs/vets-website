@@ -27,9 +27,9 @@ export const validateDocumentDescription = (errors, fileList) => {
 };
 
 export const validateUniqueVALoanNumber = (errors, data) => {
-  const loans = (data || []).map(loan =>
-    replaceNonDigits(loan?.vaLoanNumber || ''),
-  );
+  const loans = (data || [])
+    .map(loan => replaceNonDigits(loan?.vaLoanNumber || ''))
+    .filter(Boolean);
   const unique = new Set(loans);
   if (loans.length && loans.length !== unique.size) {
     loans.forEach((loan, index) => {

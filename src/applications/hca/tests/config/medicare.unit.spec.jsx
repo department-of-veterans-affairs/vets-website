@@ -9,6 +9,7 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca medicare', () => {
   const {
@@ -60,14 +61,7 @@ describe('Hca medicare', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isEnrolledMedicarePartANo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_isEnrolledMedicarePartANo', 'N');
 
     submitForm(form);
 

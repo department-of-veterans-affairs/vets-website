@@ -6,7 +6,7 @@ export const content = {
   addressLabels: {
     country: 'Country',
     street: 'Street address',
-    street2: 'Apt./Unit number',
+    street2: 'Street address line 2',
     city: 'City',
     state: 'State',
     postal: 'Postal code',

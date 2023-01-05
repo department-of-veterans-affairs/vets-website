@@ -8,6 +8,7 @@ import createCommonStore from 'platform/startup/store';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
+import { LOAN_INTENT } from '../../../constants';
 
 const defaultStore = createCommonStore();
 
@@ -29,7 +30,7 @@ describe('COE applicant loan intent', () => {
       </Provider>,
     );
 
-    expect($$('input', container).length).to.equal(4);
+    expect($$('input', container).length).to.equal(5);
   });
 
   it('Should submit', () => {
@@ -41,7 +42,7 @@ describe('COE applicant loan intent', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            intent: 'ONETIMERESTORATION',
+            intent: LOAN_INTENT.oneTime,
           }}
           onSubmit={onSubmit}
         />
