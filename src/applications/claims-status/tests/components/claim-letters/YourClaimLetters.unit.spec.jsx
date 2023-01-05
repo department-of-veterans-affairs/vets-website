@@ -1,5 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/telephone-contact-digits */
-
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
@@ -12,9 +10,9 @@ import reducer from '../../../reducers/index';
 import * as selectors from '../../../selectors';
 import ClaimLetterList from '../../../components/ClaimLetterList';
 import YourClaimLetters from '../../../containers/YourClaimLetters';
-import NoLettersContent from '../../../containers/errorComponents/NoLettersContent';
-import ServerErrorContent from '../../../containers/errorComponents/ServerErrorContent';
-import UnauthenticatedContent from '../../../containers/errorComponents/UnauthenticatedContent';
+import NoLettersContent from '../../../containers/YourClaimLetters/errorComponents/NoLettersContent';
+import ServerErrorContent from '../../../containers/YourClaimLetters/errorComponents/ServerErrorContent';
+import UnauthenticatedContent from '../../../containers/YourClaimLetters/errorComponents/UnauthenticatedContent';
 import WIP from '../../../components/WIP';
 
 const actions = require('../../../actions/index');
