@@ -11,6 +11,7 @@ import LandingPageUnauth from './LandingPageUnauth';
 import MessageFAQs from './MessageFAQs';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/shared/ScrollToTop';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -50,8 +51,8 @@ const App = () => {
               {/* toggle log in and out state without using va.gov sign in, to show the toggle button, comment out the visibility:hidden style */}
               <button
                 style={{
-                  // visibility: 'hidden',
-                  'z-index': '2',
+                  visibility: 'hidden',
+                  zIndex: '2',
                   width: '100px',
                   position: 'absolute',
                   top: '0',
@@ -62,6 +63,7 @@ const App = () => {
               >
                 {isLoggedIn ? <>log out</> : <>log in</>}
               </button>
+              <ScrollToTop />
               <Switch>
                 <Route path="/faq" key="MessageFAQ">
                   <MessageFAQs isLoggedIn={isLoggedIn} />
