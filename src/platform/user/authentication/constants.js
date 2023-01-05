@@ -129,6 +129,7 @@ export const POLICY_TYPES = {
   SLO: 'slo',
   CUSTOM: 'custom',
   SIGNUP: 'signup',
+  MHV_VERIFIED: 'mhv_verified',
 };
 
 export const SIGNUP_TYPES = {
