@@ -322,21 +322,22 @@ class ReviewCollapsibleChapter extends React.Component {
    */
   focusOnPage = key => {
     const name = `${key.replace(/:/g, '\\:')}`;
-    const scrollElement = document.querySelector(
-      `[name="${name}ScrollElement"]`,
-    );
 
-    if (scrollElement && scrollElement.parentElement) {
-      // Wait for edit view to render
-      setTimeout(() => {
+    // Wait for edit view to render
+    setTimeout(() => {
+      const scrollElement = document.querySelector(
+        `[name="${name}ScrollElement"]`,
+      );
+
+      if (scrollElement && scrollElement.parentElement) {
         const focusableElements = getFocusableElements(
           scrollElement.parentElement,
         );
 
         // Sets focus on the first focusable element
         focusOnChange(name, `[id="${focusableElements[0].id}"]`);
-      }, 0);
-    }
+      }
+    }, 0);
   };
 
   scrollToPage = key => {

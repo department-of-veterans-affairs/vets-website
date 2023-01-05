@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Element } from 'react-scroll';
 
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
@@ -75,14 +76,21 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
+  const headerClassNames = [
+    'vads-u-font-size--h3',
+    'vads-u-width--auto',
+    'vads-u-display--inline-block',
+  ].join(' ');
 
-  // loop to separate pages when editing
+  // Loop to separate pages when editing
+  // Each Link includes an ID for focus managements on the review & submit page
   const contactSection = (
     <>
-      <Headers className="vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-width--auto vads-u-display--inline-block">
+      <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
         Home phone number
       </Headers>
       <Link
+        id="edit-home-phone"
         to="/edit-home-phone"
         aria-label="Edit home phone number"
         className="vads-u-margin-left--2"
@@ -91,10 +99,9 @@ const ContactInfo = ({
       </Link>
       <div>{getFormattedPhone(homePhone)}</div>
 
-      <Headers className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
-        Mobile phone number
-      </Headers>
+      <Headers className={headerClassNames}>Mobile phone number</Headers>
       <Link
+        id="edit-mobile-phone"
         to="/edit-mobile-phone"
         aria-label="Edit mobile phone number"
         className="vads-u-margin-left--2"
@@ -103,10 +110,9 @@ const ContactInfo = ({
       </Link>
       <div>{getFormattedPhone(mobilePhone)}</div>
 
-      <Headers className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
-        Email address
-      </Headers>
+      <Headers className={headerClassNames}>Email address</Headers>
       <Link
+        id="edit-email"
         to="/edit-email-address"
         aria-label="Edit email address"
         className="vads-u-margin-left--2"
@@ -115,10 +121,9 @@ const ContactInfo = ({
       </Link>
       <div>{email || ''}</div>
 
-      <Headers className="vads-u-font-size--h3 vads-u-width--auto vads-u-display--inline-block">
-        Mailing address
-      </Headers>
+      <Headers className={headerClassNames}>Mailing address</Headers>
       <Link
+        id="edit-address"
         to="/edit-mailing-address"
         aria-label="Edit mailing address"
         className="vads-u-margin-left--2"
@@ -143,8 +148,12 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
+      <Element name="confirmContactInformationScrollElement" />
       <form onSubmit={handlers.onSubmit}>
-        <MainHeader className="vads-u-margin-top--0">
+        <MainHeader
+          id="confirmContactInformationHeader"
+          className="vads-u-margin-top--0"
+        >
           {content.title}
         </MainHeader>
         {content.description}
