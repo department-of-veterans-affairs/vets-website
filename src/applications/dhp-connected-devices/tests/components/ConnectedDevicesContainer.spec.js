@@ -72,7 +72,11 @@ const twoDevicesConnectedResponse = {
   ],
 };
 
-describe('Connect Devices Container', () => {
+const connectionUnavailableResponse = {
+  connectionAvailable: false,
+};
+
+describe('Connect Devices Container When Connections Available', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
     mockApiRequest(noDevicesConnectedResponse);
 
@@ -160,6 +164,22 @@ describe('Connect Devices Container', () => {
       },
     );
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
+  });
+});
+
+describe('Connect Devices Container When Connections Unavailable', () => {
+  it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
+    mockApiRequest(connectionUnavailableResponse);
+
+    const connectionUnavailableContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+
+    expect(
+      await connectionUnavailableContainer.findByTestId(
+        'connection-unavailable-alert',
+      ),
+    ).to.exist;
   });
 });
 
