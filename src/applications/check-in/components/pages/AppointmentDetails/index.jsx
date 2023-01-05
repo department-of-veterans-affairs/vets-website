@@ -126,7 +126,7 @@ const AppointmentDetails = props => {
                 </h2>
                 {/* TODO add address for in person appointments */}
                 <div data-testid="appointment-details--clinic-value">
-                  {isPhoneAppointment ? '' : t('clinic')}: {clinic}
+                  {isPhoneAppointment ? '' : `${t('clinic')}:`} {clinic}
                 </div>
                 {isPhoneAppointment ? (
                   ''

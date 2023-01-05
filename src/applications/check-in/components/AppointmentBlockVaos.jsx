@@ -80,6 +80,7 @@ const AppointmentBlockVaos = props => {
                   {page === 'confirmation' && (
                     <div>
                       <a
+                        data-testid="details-link"
                         href="#details"
                         onClick={e =>
                           handleDetailClick(appointment.appointmentIen, e)
