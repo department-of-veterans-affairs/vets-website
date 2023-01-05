@@ -15,6 +15,7 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
+import { DefaultFolders as Folders } from '../../util/constants';
 
 const AdvancedSearchForm = props => {
   const {
@@ -174,7 +175,9 @@ const AdvancedSearchForm = props => {
       >
         {foldersList.map(item => (
           <option key={item.id} value={item.id}>
-            {item.name}
+            {item.id === Folders.DELETED.id
+              ? Folders.DELETED.header
+              : item.name}
           </option>
         ))}
       </VaSelect>

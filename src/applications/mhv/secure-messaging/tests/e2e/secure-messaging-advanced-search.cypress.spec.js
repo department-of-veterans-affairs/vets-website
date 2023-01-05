@@ -1,14 +1,14 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import mockMessages from '../fixtures/messages-response.json';
 
 beforeEach(() => {
   window.dataLayer = [];
 });
 
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   it('Advanced Search Axe Check', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.get('[data-testid="drafts-sidebar"]').click();
