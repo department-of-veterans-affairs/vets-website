@@ -64,9 +64,9 @@ const Wrapper = props => {
 };
 
 Wrapper.propTypes = {
-  pageTitle: PropTypes.string,
   children: PropTypes.node,
   classNames: PropTypes.string,
+  pageTitle: PropTypes.string,
   testID: PropTypes.string,
   withBackButton: PropTypes.bool,
 };
