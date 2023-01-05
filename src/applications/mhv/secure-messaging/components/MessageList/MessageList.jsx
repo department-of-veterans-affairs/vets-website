@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, keyword, isSearch } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -184,6 +184,7 @@ const MessageList = props => {
             recipientName={message.recipientName}
             keyword={keyword}
             category={message.category}
+            activeFolder={folder}
           />
         ))}
       {currentPage === paginatedMessages.current.length && (

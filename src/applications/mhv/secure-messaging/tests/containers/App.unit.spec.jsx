@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 

@@ -16,6 +16,9 @@ import * as personId from 'platform/forms/definitions/personId';
 import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUi from 'platform/forms/definitions/fullName';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
@@ -31,8 +34,6 @@ import { urlMigration } from '../../config/migrations';
 
 import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
@@ -49,7 +50,6 @@ import additionalBenefitsPage from '../../pages/additionalBenefits';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 
 import manifest from '../manifest.json';
 
