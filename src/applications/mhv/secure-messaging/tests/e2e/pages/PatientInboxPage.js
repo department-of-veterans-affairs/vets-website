@@ -53,7 +53,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -108,7 +108,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -202,7 +202,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }

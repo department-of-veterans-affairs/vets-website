@@ -1,4 +1,5 @@
 import manifest from '../../manifest.json';
+
 import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';

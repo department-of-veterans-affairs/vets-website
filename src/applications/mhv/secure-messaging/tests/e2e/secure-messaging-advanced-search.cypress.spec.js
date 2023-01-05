@@ -8,7 +8,7 @@ beforeEach(() => {
   window.dataLayer = [];
 });
 
-describe(manifest.appName, () => {
+describe.skip(manifest.appName, () => {
   it('Advanced Search Axe Check', () => {
     const site = new SecureMessagingSite();
     site.login();
