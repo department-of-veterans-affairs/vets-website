@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-import Grid from './Grid';
+import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
   getAppointmentTimezone,
@@ -141,7 +141,7 @@ export default function AppointmentListItemGroup({ data }) {
         borderBottom={!isBorderBottom}
         status="upcoming"
       >
-        <Grid
+        <AppointmentFlexGrid
           key={index}
           index={index}
           appointment={appointment}
@@ -249,7 +249,7 @@ export default function AppointmentListItemGroup({ data }) {
               Details
             </Link>
           </div>
-        </Grid>
+        </AppointmentFlexGrid>
       </ListItem>
     );
   });

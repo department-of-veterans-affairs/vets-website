@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import { Link, useHistory } from 'react-router-dom';
-import Grid from './Grid';
+import AppointmentFlexGrid from './AppointmentFlexGrid';
 import { SPACE_BAR } from '../../../utils/constants';
 import {
   getLabelText,
@@ -114,7 +114,7 @@ export default function RequestListItemGroup({ data, facilityData }) {
         borderTop
         status="pending"
       >
-        <Grid
+        <AppointmentFlexGrid
           key={index}
           index={index}
           appointment={appointment}
@@ -180,7 +180,7 @@ export default function RequestListItemGroup({ data, facilityData }) {
               Details
             </Link>
           </div>
-        </Grid>
+        </AppointmentFlexGrid>
       </ListItem>
     );
   });
