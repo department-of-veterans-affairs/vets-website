@@ -25,7 +25,7 @@ import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import Card from './AppointmentsPageV2/Card';
+import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
 import { selectFeatureStatusImprovement } from '../../redux/selectors';
 
 function handleClick({ history, link, idClickable }) {
@@ -142,7 +142,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                       appointment={appt}
                       className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                     >
-                      <Card
+                      <AppointmentCard
                         appointment={appt}
                         facility={facilityData[facilityId]}
                         link={link}
