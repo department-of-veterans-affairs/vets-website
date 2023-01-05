@@ -1,10 +1,10 @@
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import mockMessages from '../fixtures/messages-response.json';
 
 describe(manifest.appName, () => {
   it('Axe Check Sent Folder', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     landingPage.login();
     landingPage.loadPage();
     cy.intercept('GET', '/my_health/v1/messaging/folders/-1', mockMessages).as(

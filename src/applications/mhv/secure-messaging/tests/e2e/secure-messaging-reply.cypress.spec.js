@@ -1,11 +1,11 @@
 import manifest from '../../manifest.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 
 describe(manifest.appName, () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const replyPage = new PatientReplyPage();
     landingPage.login();

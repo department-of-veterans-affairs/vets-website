@@ -1,10 +1,10 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
   it('can send message', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientMessagesInboxPage();
     const composePage = new PatientComposePage();
     landingPage.login();
     landingPage.loadPage(false);

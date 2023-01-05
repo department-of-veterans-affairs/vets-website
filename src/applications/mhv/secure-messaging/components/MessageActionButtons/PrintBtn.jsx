@@ -99,13 +99,17 @@ const PrintBtn = props => {
     <>
       {/* TODO add GA event tracking Print button */}
       <button
-        data-testid="print-button"
         type="button"
-        className="message-action-button"
+        className="message-action-button left-button usa-button-secondary"
         onClick={openModal}
       >
-        <i className="fas fa-print" aria-hidden="true" />
-        <span className="message-action-button-text">Print</span>
+        <i
+          className="fas fa-print vads-u-margin-right--0p5"
+          aria-hidden="true"
+        />
+        <span className="message-action-button-text" data-testid="print-button">
+          Print
+        </span>
       </button>
       {isModalVisible ? printModal() : null}
     </>
