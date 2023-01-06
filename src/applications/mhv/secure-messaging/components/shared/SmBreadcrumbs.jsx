@@ -131,7 +131,7 @@ const SmBreadcrumbs = () => {
                 <>
                   <span className="breadcrumb-angle">{'\u2039'} </span>
                   <Link
-                    className="desktop-crumb"
+                    className="desktop-view-crumb"
                     key={1}
                     to={crumbs[crumbs.length - 2]?.path}
                   >
