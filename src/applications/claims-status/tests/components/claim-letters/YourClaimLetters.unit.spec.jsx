@@ -55,9 +55,9 @@ describe('<YourClaimLetters>', () => {
 
       const noLetters = wrapper.find(<NoLettersContent />);
 
-      wrapper.unmount();
-
       expect(noLetters).to.exist;
+
+      wrapper.unmount();
     });
 
     it('should render a rollout message if the showLetters feature flag is false', () => {
@@ -72,13 +72,13 @@ describe('<YourClaimLetters>', () => {
 
       const wip = wrapper.find(<WIP />);
 
-      wrapper.unmount();
-
       expect(wip).to.exist;
+
+      wrapper.unmount();
     });
 
     it('should render a message alerting the user to a problem if unable to retrieve letters', () => {
-      getClaimLettersStub.rejects({ status: 500 });
+      getClaimLettersStub.rejects({ errors: [{ code: 500 }] });
 
       const wrapper = mount(
         <Provider store={store}>
@@ -87,10 +87,9 @@ describe('<YourClaimLetters>', () => {
       );
 
       const serverError = wrapper.find(<ServerErrorContent />);
+      expect(serverError).to.exist;
 
       wrapper.unmount();
-
-      expect(serverError).to.exist;
     });
 
     it('should render a message alerting the user that they are unauthenticated', () => {
@@ -104,9 +103,9 @@ describe('<YourClaimLetters>', () => {
 
       const serverError = wrapper.find(<UnauthenticatedContent />);
 
-      wrapper.unmount();
-
       expect(serverError).to.exist;
+
+      wrapper.unmount();
     });
 
     it('should render a message alerting the user that they are unauthorized', () => {
@@ -120,9 +119,9 @@ describe('<YourClaimLetters>', () => {
 
       const serverError = wrapper.find(<UnauthenticatedContent />);
 
-      wrapper.unmount();
-
       expect(serverError).to.exist;
+
+      wrapper.unmount();
     });
   });
 
@@ -138,9 +137,9 @@ describe('<YourClaimLetters>', () => {
 
       const lettersList = wrapper.find(<ClaimLetterList />);
 
-      wrapper.unmount();
-
       expect(lettersList).to.exist;
+
+      wrapper.unmount();
     });
 
     it('should render a list of letters with pagination', () => {
@@ -155,10 +154,29 @@ describe('<YourClaimLetters>', () => {
       const lettersList = wrapper.find(<ClaimLetterList />);
       const pagination = wrapper.find(<VaPagination />);
 
-      wrapper.unmount();
-
       expect(lettersList).to.exist;
       expect(pagination).to.exist;
+
+      wrapper.unmount();
+    });
+  });
+
+  context('loading', () => {
+    it('displays a loading message if feature flag is loading', () => {
+      getClaimLettersStub.resolves([]);
+      isLoadingFeaturesStub.returns(true);
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <YourClaimLetters />
+        </Provider>,
+      );
+
+      const loader = wrapper.find(<va-loading-indicator />);
+
+      expect(loader).to.exist;
+
+      wrapper.unmount();
     });
   });
 });

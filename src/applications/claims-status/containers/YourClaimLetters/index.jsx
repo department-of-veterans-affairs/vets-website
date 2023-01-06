@@ -54,6 +54,16 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     document.title = 'Your VA Claim Letters | Veterans Affairs';
   }, []);
 
+  /**
+   * This commented code was deemed likely to be needed on 01/06/2023.
+   */
+  // const getFromToNums = (page, total) => {
+  //   const from = (page - 1) * ITEMS_PER_PAGE + 1;
+  //   const to = Math.min(page * ITEMS_PER_PAGE, total);
+
+  //   return [from, to];
+  // };
+
   const onPageChange = page => {
     setCurrentItems(paginatedItems.current[page - 1]);
     setCurrentPage(page);
@@ -70,10 +80,6 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
     return (
       <>
-        {/* <p className="vads-u-font-size--lg vads-u-font-family--serif">
-        Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
-        claim letters
-      </p> */}
         {currentItems?.length ? (
           <ClaimLetterList letters={currentItems} />
         ) : (
@@ -98,6 +104,10 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   let content;
 
   if (showClaimLetters) {
+    /**
+     * This commented code was deemed likely to be needed on 01/06/2023.
+     */
+    // const fromToNums = getFromToNums(currentPage, totalItems.current);
     content = (
       <>
         <h1>Your VA claim letters</h1>
