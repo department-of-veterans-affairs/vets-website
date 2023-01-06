@@ -36,7 +36,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, folder, keyword, isSearch } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -134,9 +134,7 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${
-            folder.folderId === -3 ? 'Trash' : folder.name
-          } messages by`}
+          label="Sort by"
           name="sort-order"
           value={sortOrderSelection}
           onVaSelect={e => {
@@ -166,28 +164,29 @@ const MessageList = props => {
           )}
         </VaSelect>
 
-        <button type="button" onClick={handleMessageSort}>
-          Sort
-        </button>
+        <va-button type="button" text="Sort" onClick={handleMessageSort} />
       </div>
-      <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+      <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} messages
+        {displayNums[1]} of {totalEntries} conversations
       </div>
-      {currentMessages.map((message, idx) => (
-        <MessageListItem
-          key={`${message.messageId}+${idx}`}
-          messageId={message.messageId}
-          senderName={message.senderName}
-          sentDate={message.sentDate}
-          subject={message.subject}
-          readReceipt={message.readReceipt}
-          attachment={message.attachment}
-          recipientName={message.recipientName}
-          keyword={keyword}
-        />
-      ))}
+      {currentMessages?.length > 0 &&
+        currentMessages.map((message, idx) => (
+          <MessageListItem
+            key={`${message.messageId}+${idx}`}
+            messageId={message.messageId}
+            senderName={message.senderName}
+            sentDate={message.sentDate}
+            subject={message.subject}
+            readReceipt={message.readReceipt}
+            attachment={message.attachment}
+            recipientName={message.recipientName}
+            keyword={keyword}
+            category={message.category}
+            activeFolder={folder}
+          />
+        ))}
       {currentPage === paginatedMessages.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
           End of {!isSearch ? 'messages in this folder' : 'search results'}

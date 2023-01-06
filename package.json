@@ -17,7 +17,7 @@
     "check-app-imports": "node script/check-cross-app-imports.js",
     "cy:count": "node ./script/count-cy-specs",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
-    "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
+    "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.config.js",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
@@ -312,7 +312,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae4fc20a545d9e30abc219356285f2ecb8a566bf"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#bde8b2b06006e2d72de819ef859da527f3df77c2"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

@@ -13,7 +13,6 @@ import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const ValidateVeteran = props => {
   const { router } = props;
@@ -35,19 +34,14 @@ const ValidateVeteran = props => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
-  const [last4Ssn, setLast4Ssn] = useState('');
 
   const [dob, setDob] = useState('--');
   const [dobError, setDobError] = useState(false);
 
-  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
-  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+  const [lastNameError, setLastNameError] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
-
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
@@ -55,15 +49,12 @@ const ValidateVeteran = props => {
     () => {
       setShowValidateError(false);
       validateLogin(
-        last4Ssn,
         lastName,
         dob,
         dobError,
-        setLastNameErrorMessage,
-        setLast4ErrorMessage,
+        setLastNameError,
         setIsLoading,
         setShowValidateError,
-        isLorotaSecurityUpdatesEnabled,
         goToNextPage,
         token,
         setSession,
@@ -74,22 +65,18 @@ const ValidateVeteran = props => {
     [
       app,
       goToNextPage,
-      last4Ssn,
       lastName,
       dob,
       dobError,
       setSession,
       token,
-      isLorotaSecurityUpdatesEnabled,
       updateError,
     ],
   );
 
-  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
-    : t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-      );
+  const validateErrorMessage = t(
+    'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
+  );
 
   return (
     <>
@@ -98,13 +85,8 @@ const ValidateVeteran = props => {
         subTitle={t(
           'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
         )}
-        last4Input={{
-          last4ErrorMessage,
-          setLast4Ssn,
-          last4Ssn,
-        }}
         lastNameInput={{
-          lastNameErrorMessage,
+          lastNameError,
           setLastName,
           lastName,
         }}

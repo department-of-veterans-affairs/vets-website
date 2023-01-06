@@ -38,6 +38,7 @@ export default function AppointmentListGroup({ data }) {
                 if (collection.length > 1) {
                   return (
                     <ul
+                      key={index}
                       className="vads-u-padding-left--0 vads-u-border-bottom--1px"
                       style={{ margin: 0 }}
                     >
