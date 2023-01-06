@@ -23,6 +23,8 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1',
       mockSentFolder,
     ).as('basicSearchRequestSentMeta');
+    mockMessages.data.at(0).attributes.subject = 'Test With Special Characters';
+    mockMessages.data.at(0).attributes.body = '2343*&^%$#@!)+?*';
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
@@ -42,7 +44,7 @@ describe(manifest.appName, () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="message-body"]')
-      .type('Test message with special characters - 2343*&^%$#@!)+?*');
+      .type('2343*&^%$#@!)+?*');
     composePage.sendMessage();
 
     // cy.get('[data-testid="sent-sidebar"]').click({ force: true });
@@ -51,7 +53,7 @@ describe(manifest.appName, () => {
     cy.get('[data-testid="keyword-search-input"]')
       .shadow()
       .find('[id="va-search-input"]')
-      .type('test', { waitforanimations: true });
+      .type('Test with Special Characters', { waitforanimations: true });
     cy.get('[data-testid="keyword-search-input"]')
       .shadow()
       .find('[id="va-search-button-text"]')
