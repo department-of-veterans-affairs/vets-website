@@ -28,6 +28,11 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
 
   return (
     <>
+      <div>
+        Choose a device type below to connect. You will be directed to an
+        external website and asked to enter your sign in information for that
+        device. When complete, you will return to this page on VA.gov.
+      </div>
       {areAllDevicesConnected() && (
         <p data-testid="all-devices-connected-alert">
           There are no devices available to connect.

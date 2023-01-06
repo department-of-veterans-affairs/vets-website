@@ -81,12 +81,6 @@ export const ConnectedDevicesContainer = () => {
         />
       </div>
       <h2>Devices you can connect</h2>
-      <div>
-        Choose a device type below to connect. You will be directed to an
-        external website and asked to enter your sign in information for that
-        device. When complete, you will return to this page on VA.gov.
-      </div>
-
       <div data-testid="devices-to-connect-section">
         {connectionAvailable ? (
           <DevicesToConnectSection connectedDevices={connectedDevices} />
