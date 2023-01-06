@@ -6,7 +6,7 @@ const EmergencyNote = props => {
 
   const content = () => (
     <>
-      <ul>
+      <ul className="vads-u-margin-bottom--2">
         <li>
           <strong>If you think your life or health is in danger,</strong> call{' '}
           <va-telephone contact="911" /> or go to the nearest emergency room.
@@ -19,7 +19,7 @@ const EmergencyNote = props => {
           <a href="https://988lifeline.org/">988lifeline.org</a>
         </li>
       </ul>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         Messages are only for non-urgent questions and concerns.{' '}
         <strong>It can take up to 3 business days to get a response.</strong>
       </p>
@@ -27,25 +27,27 @@ const EmergencyNote = props => {
   );
 
   return (
-    <va-alert
-      background-only
-      class="vads-u-margin-bottom--1"
-      close-btn-aria-label="Close notification"
-      disable-analytics="false"
-      full-width="false"
-      status="warning"
-      visible="true"
-      show-icon={dropDownFlag}
-    >
+    <>
       {dropDownFlag ? (
-        <va-additional-info
-          disable-border
+        <va-alert-expandable
+          status="warning"
           trigger="Don’t use messages for emergencies"
         >
-          {content()}
-        </va-additional-info>
+          <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
+            {content()}
+          </div>
+        </va-alert-expandable>
       ) : (
-        <>
+        <va-alert
+          background-only
+          class="vads-u-margin-bottom--1"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          status="warning"
+          visible="true"
+          show-icon={dropDownFlag}
+        >
           <p>
             {' '}
             <i className="fas fa-exclamation-triangle vads-u-margin-right--1p5" />
@@ -54,9 +56,9 @@ const EmergencyNote = props => {
             </strong>
           </p>
           {content()}
-        </>
+        </va-alert>
       )}
-    </va-alert>
+    </>
   );
 };
 
