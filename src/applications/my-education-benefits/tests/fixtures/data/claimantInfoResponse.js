@@ -10,7 +10,7 @@ export const claimantResponse = {
         firstName: 'Teressa',
         lastName: 'Harber',
         middleName: 'Estefana',
-        notificationMethod: 'NONE',
+        notificationMethod: 'TEXT',
         contactInfo: {
           addressLine1: '23082 Xavier Union',
           addressLine2: 'Apt. 498',

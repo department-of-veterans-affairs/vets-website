@@ -139,16 +139,15 @@ describe('All Field prefilled tests for My Education Benefits app', () => {
     followUpPage.getListOfNotificationRadioButtons().should('have.length', 2);
 
     if (
-      claimantResponse.data.attributes.claimant.notificationMethod !== 'NONE'
+      claimantResponse.data.attributes.claimant.notificationMethod === 'EMAIL'
     ) {
-      followUpPage.getNoJustSendMeEmailButton().click();
+      followUpPage.getNoJustSendMeEmailButton().should('be.checked');
+    } else if (
+      claimantResponse.data.attributes.claimant.notificationMethod === 'TEXT'
+    ) {
+      followUpPage.getYesSendMeTextMessageButton().should('be.checked');
     } else {
-      followUpPage
-        .getListOfNotificationRadioButtons()
-        .should(
-          'have.value',
-          claimantResponse.data.attributes.claimant.notificationMethod,
-        );
+      followUpPage.getNoJustSendMeEmailButton().click();
     }
 
     yourInfoPage.clickContinueButton();
