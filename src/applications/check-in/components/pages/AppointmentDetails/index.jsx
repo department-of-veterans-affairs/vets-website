@@ -35,12 +35,7 @@ const AppointmentDetails = props => {
             appointmentItem.appointmentIen === activeAppointment,
         );
         if (activeAppointmentDetails) {
-          setAppointment(
-            appointments.find(
-              appointmentItem =>
-                appointmentItem.appointmentIen === activeAppointment,
-            ),
-          );
+          setAppointment(activeAppointmentDetails);
           return;
         }
       }
