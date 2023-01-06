@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
@@ -13,10 +14,10 @@ import {
 
 import { content } from '../../content/evidenceSummary';
 import {
-  buildVaContent,
-  buildPrivateContent,
-  buildUploadContent,
-} from '../../content/evidenceSummaryLists';
+  VaContent,
+  PrivateContent,
+  UploadContent,
+} from '../../components/EvidenceSummaryLists';
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -75,8 +76,7 @@ describe('evidenceSummaryList', () => {
   describe('buildVaContent', () => {
     it('should render editable VA content', () => {
       const vaEvidence = records().locations;
-      const list = buildVaContent({ vaEvidence, testing: true });
-      const { container } = render(list);
+      const { container } = render(<VaContent list={vaEvidence} testing />);
 
       expect($('h3', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
@@ -86,14 +86,11 @@ describe('evidenceSummaryList', () => {
     });
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
-      const list = buildVaContent({
-        vaEvidence,
-        reviewMode: true,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <VaContent list={vaEvidence} reviewMode testing />,
+      );
 
-      expect($('h3', container).textContent).to.contain(content.vaTitle);
+      expect($('h5', container).textContent).to.contain(content.vaTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -101,11 +98,7 @@ describe('evidenceSummaryList', () => {
     });
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
-      const list = buildVaContent({
-        vaEvidence,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(<VaContent list={vaEvidence} testing />);
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
@@ -118,12 +111,10 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const vaEvidence = records().locations;
-      const list = buildVaContent({
-        vaEvidence,
-        testing: true,
-        handlers: { removeVaLocation: removeSpy },
-      });
-      const { container } = render(list);
+      const handlers = { removeVaLocation: removeSpy };
+      const { container } = render(
+        <VaContent list={vaEvidence} handlers={handlers} testing />,
+      );
 
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[0]);
@@ -138,12 +129,9 @@ describe('evidenceSummaryList', () => {
   describe('buildPrivateContent', () => {
     it('should render editable private content', () => {
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        limitedConsent: 'test',
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <PrivateContent list={privateEvidence} limitedConsent="test" testing />,
+      );
 
       expect($('h3', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
@@ -153,27 +141,25 @@ describe('evidenceSummaryList', () => {
     });
     it('should not render limited consent section remove button', () => {
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        limitedConsent: '',
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <PrivateContent list={privateEvidence} limitedConsent="" testing />,
+      );
 
       expect($$('.edit-item', container).length).to.eq(3);
       expect($$('.remove-item', container).length).to.eq(2);
     });
     it('should render review-only private content', () => {
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        limitedConsent: 'test',
-        reviewMode: true,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent="test"
+          reviewMode
+          testing
+        />,
+      );
 
-      expect($('h3', container).textContent).to.contain(content.privateTitle);
+      expect($('h5', container).textContent).to.contain(content.privateTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -181,11 +167,9 @@ describe('evidenceSummaryList', () => {
     });
     it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <PrivateContent list={privateEvidence} testing />,
+      );
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
@@ -201,12 +185,10 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an entry', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        testing: true,
-        handlers: { removePrivateFacility: removeSpy },
-      });
-      const { container } = render(list);
+      const handlers = { removePrivateFacility: removeSpy };
+      const { container } = render(
+        <PrivateContent list={privateEvidence} handlers={handlers} testing />,
+      );
 
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[0]);
@@ -219,13 +201,15 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing the limitation', () => {
       const removeSpy = sinon.spy();
       const privateEvidence = records().providerFacility;
-      const list = buildPrivateContent({
-        privateEvidence,
-        limitedConsent: 'test',
-        testing: true,
-        handlers: { removePrivateLimitation: removeSpy },
-      });
-      const { container } = render(list);
+      const handlers = { removePrivateLimitation: removeSpy };
+      const { container } = render(
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent="test"
+          handlers={handlers}
+          testing
+        />,
+      );
 
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[2]);
@@ -236,8 +220,9 @@ describe('evidenceSummaryList', () => {
   describe('buildUploadContent', () => {
     it('should render editable uploaded content', () => {
       const otherEvidence = records().additionalDocuments;
-      const list = buildUploadContent({ otherEvidence, testing: true });
-      const { container } = render(list);
+      const { container } = render(
+        <UploadContent list={otherEvidence} testing />,
+      );
 
       expect($('h3', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
@@ -247,14 +232,11 @@ describe('evidenceSummaryList', () => {
     });
     it('should render review-only uploaded content', () => {
       const otherEvidence = records().additionalDocuments;
-      const list = buildUploadContent({
-        otherEvidence,
-        reviewMode: true,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <UploadContent list={otherEvidence} reviewMode testing />,
+      );
 
-      expect($('h3', container).textContent).to.contain(content.otherTitle);
+      expect($('h5', container).textContent).to.contain(content.otherTitle);
       expect($$('ul', container).length).to.eq(1);
       expect($$('li', container).length).to.eq(2);
       expect($$('.edit-item', container).length).to.eq(0);
@@ -262,11 +244,9 @@ describe('evidenceSummaryList', () => {
     });
     it('should have edit links pointing to the upload page', () => {
       const otherEvidence = records().additionalDocuments;
-      const list = buildUploadContent({
-        otherEvidence,
-        testing: true,
-      });
-      const { container } = render(list);
+      const { container } = render(
+        <UploadContent list={otherEvidence} testing />,
+      );
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
@@ -279,12 +259,10 @@ describe('evidenceSummaryList', () => {
     it('should execute callback when removing an upload', () => {
       const removeSpy = sinon.spy();
       const otherEvidence = records().additionalDocuments;
-      const list = buildUploadContent({
-        otherEvidence,
-        testing: true,
-        handlers: { removeUpload: removeSpy },
-      });
-      const { container } = render(list);
+      const handlers = { removeUpload: removeSpy };
+      const { container } = render(
+        <UploadContent list={otherEvidence} handlers={handlers} testing />,
+      );
 
       const buttons = $$('.remove-item', container);
       fireEvent.click(buttons[0]);
