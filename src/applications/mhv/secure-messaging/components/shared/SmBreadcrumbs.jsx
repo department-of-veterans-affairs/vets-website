@@ -127,7 +127,7 @@ const SmBreadcrumbs = () => {
             })
           ) : (
             <>
-              {crumbs.length > 1 ? (
+              {crumbs.length > 1 && (
                 <>
                   <span className="breadcrumb-angle">{'\u2039'} </span>
                   <Link
@@ -138,8 +138,6 @@ const SmBreadcrumbs = () => {
                     Return to {crumbs[crumbs.length - 2]?.label}
                   </Link>
                 </>
-              ) : (
-                <></>
               )}
             </>
           )}
