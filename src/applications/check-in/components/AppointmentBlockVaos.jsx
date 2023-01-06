@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { setActiveAppointment } from '../actions/universal';
 import { useFormRouting } from '../hooks/useFormRouting';
-import { appointmentIcon } from '../utils/appointment';
+import { appointmentIcon, clinicName } from '../utils/appointment';
 
 const AppointmentBlockVaos = props => {
   const { appointments, page, router } = props;
@@ -37,9 +37,7 @@ const AppointmentBlockVaos = props => {
       >
         {appointments.map((appointment, index) => {
           const appointmentDateTime = new Date(appointment.startTime);
-          const clinic = appointment.clinicFriendlyName
-            ? appointment.clinicFriendlyName
-            : appointment.clinicName;
+          const clinic = clinicName(appointment);
           return (
             <li
               key={index}

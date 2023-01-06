@@ -10,7 +10,7 @@ import {
   makeSelectVeteranData,
 } from '../../../selectors';
 
-import { appointmentIcon } from '../../../utils/appointment';
+import { appointmentIcon, clinicName } from '../../../utils/appointment';
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 
@@ -45,9 +45,7 @@ const AppointmentDetails = props => {
     [activeAppointment, appointments, jumpToPage],
   );
 
-  const clinic = appointment?.clinicFriendlyName
-    ? appointment?.clinicFriendlyName
-    : appointment?.clinicName;
+  const clinic = appointment && clinicName(appointment);
 
   return (
     <>

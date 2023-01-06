@@ -209,6 +209,19 @@ const appointmentIcon = appointment => {
   );
 };
 
+/**
+ * Return the name to use for appointment clinic.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const clinicName = appointment => {
+  return appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicName;
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -222,4 +235,5 @@ export {
   preCheckinExpired,
   hasPhoneAppointments,
   appointmentIcon,
+  clinicName,
 };

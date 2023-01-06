@@ -12,6 +12,7 @@ import {
   locationShouldBeDisplayed,
   hasPhoneAppointments,
   appointmentIcon,
+  clinicName,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -391,6 +392,18 @@ describe('check in', () => {
         const icon = render(appointmentIcon(appointment));
 
         expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+      });
+    });
+    describe('clinicName', () => {
+      it('returns clinic friendly name', () => {
+        const appointment = createAppointment({
+          clinicFriendlyName: 'test clinic',
+        });
+        expect(clinicName(appointment)).to.equal('test clinic');
+      });
+      it('returns the fallback if friendly name missing', () => {
+        const appointment = createAppointment({ clinicFriendlyName: '' });
+        expect(clinicName(appointment)).to.equal('LOM ACC CLINIC TEST');
       });
     });
   });
