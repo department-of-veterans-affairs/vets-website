@@ -19,7 +19,7 @@ const endTime = moment()
 
 const selectors = {
   app: '.facility-locator',
-  statusDown: '.usa-alert-heading',
+  statusDown: '[slot="headline"]',
   statusDownApproachingModal:
     '[data-status="downtimeApproaching"] #downtime-approaching-modal',
 };

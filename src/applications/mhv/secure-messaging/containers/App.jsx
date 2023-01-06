@@ -50,7 +50,7 @@ const App = () => {
               {/* toggle log in and out state without using va.gov sign in, to show the toggle button, comment out the visibility:hidden style */}
               <button
                 style={{
-                  // visibility: 'hidden',
+                  visibility: 'hidden',
                   'z-index': '2',
                   width: '100px',
                   position: 'absolute',

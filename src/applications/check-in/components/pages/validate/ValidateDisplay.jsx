@@ -13,7 +13,7 @@ export default function ValidateDisplay({
   subtitle = '',
   validateHandler,
   isLoading,
-  lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
+  lastNameInput: { lastNameError, setLastName, lastName } = {},
   dobInput: { setDob, dob } = {},
   setDobError,
   showValidateError,
@@ -71,6 +71,11 @@ export default function ValidateDisplay({
     e.preventDefault();
     validateHandler();
   };
+
+  const lastNameErrorMessage = lastNameError
+    ? t('please-enter-your-last-name')
+    : '';
+
   return (
     <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>

@@ -19,8 +19,21 @@ describe('MessageListItem component', () => {
     },
   };
 
+  const props = {
+    activeFolder: inbox,
+    senderName: 'Tesst, Test TEST, TTESTer',
+    sentDate: '2020-01-01T00:00:00.000Z',
+    subject: 'testtestteest ttestt',
+    readReceipt: 'READ',
+    recipientName: 'BNP!!! FOO DG_SLC4',
+    attachment: false,
+    messageId: '1234567',
+    keyword: 'test',
+    category: 'General',
+  };
+
   it('renders without errors', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem />, {
+    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
       path: `/search/results`,
@@ -29,7 +42,7 @@ describe('MessageListItem component', () => {
   });
 
   it('should have contents within main div', () => {
-    const screen = renderWithStoreAndRouter(<MessageListItem />, {
+    const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
       path: `/search/results`,
@@ -39,17 +52,6 @@ describe('MessageListItem component', () => {
   });
 
   it('should highlight a keyword when one is passed', async () => {
-    const props = {
-      senderName: 'Tesst, Test TEST, TTESTer',
-      sentDate: '2020-01-01T00:00:00.000Z',
-      subject: 'testtestteest ttestt',
-      readReceipt: 'READ',
-      recipientName: 'BNP!!! FOO DG_SLC4',
-      attachment: false,
-      messageId: '1234567',
-      keyword: 'test',
-    };
-
     const screen = renderWithStoreAndRouter(<MessageListItem {...props} />, {
       initialState,
       reducers: reducer,
