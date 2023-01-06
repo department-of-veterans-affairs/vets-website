@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   returnPhoneObject,
   getPhoneString,
-  getFormatedPhone,
+  getFormattedPhone,
   hasHomePhone,
   hasMobilePhone,
   hasHomeAndMobilePhone,
@@ -45,17 +45,17 @@ describe('getPhoneString', () => {
   });
 });
 
-describe('getFormatedPhone', () => {
+describe('getFormattedPhone', () => {
   it('should return an empty string', () => {
-    expect(getFormatedPhone()).to.eq('');
-    expect(getFormatedPhone(getPhone({ area: '', number: '' }))).to.eq('');
-    expect(getFormatedPhone(getPhone({ area: '123', number: '456789' }))).to.eq(
-      '',
-    );
-    expect(getFormatedPhone(getPhone({ area: '' }))).to.eq('');
+    expect(getFormattedPhone()).to.eq('');
+    expect(getFormattedPhone(getPhone({ area: '', number: '' }))).to.eq('');
+    expect(
+      getFormattedPhone(getPhone({ area: '123', number: '456789' })),
+    ).to.eq('');
+    expect(getFormattedPhone(getPhone({ area: '' }))).to.eq('');
   });
   it('should return a formatted phone number', () => {
-    expect(getFormatedPhone(getPhone())).to.eq('(800) 555-1212');
+    expect(getFormattedPhone(getPhone())).to.eq('(800) 555-1212');
   });
 });
 

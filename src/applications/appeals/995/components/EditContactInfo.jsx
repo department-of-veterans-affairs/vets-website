@@ -7,7 +7,11 @@ import { FIELD_NAMES } from '@@vap-svc/constants';
 import { CONTACT_INFO_PATH } from '../constants';
 
 const buildPage = ({ title, field, goToPath }) => {
-  const contactInfoPath = `/${CONTACT_INFO_PATH}`;
+  const onReviewPage = window.sessionStorage.getItem('onReviewPage') === 'true';
+  const returnPath = onReviewPage
+    ? '/review-and-submit'
+    : `/${CONTACT_INFO_PATH}`;
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -15,10 +19,10 @@ const buildPage = ({ title, field, goToPath }) => {
       event.stopPropagation();
     },
     cancel: () => {
-      goToPath(contactInfoPath);
+      goToPath(returnPath);
     },
     success: () => {
-      goToPath(contactInfoPath);
+      goToPath(returnPath);
     },
   };
 
