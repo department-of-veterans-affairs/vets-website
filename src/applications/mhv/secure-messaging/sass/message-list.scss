@@ -24,6 +24,11 @@
     }
   }
 
+  .unread-column {
+    max-width: 15px;
+    padding-top: 10px;
+  }
+
   .unread-icon {
     font-size: 12px;
     margin-left: 5px;
@@ -40,7 +45,7 @@
 
   .message-list-item {
     a.message-subject-link:visited {
-        color: $color-primary;
+      color: $color-primary;
     }
     p.received-date {
       color: $color-gray-medium;

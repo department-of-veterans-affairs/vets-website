@@ -9,6 +9,7 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/shared/ScrollToTop';
 
 const App = () => {
   const user = useSelector(selectUser);
@@ -41,6 +42,7 @@ const App = () => {
 
             <div className="secure-messaging-container vads-u-display--flex">
               <Navigation />
+              <ScrollToTop />
               <Switch>
                 <AuthorizedRoutes />
               </Switch>

@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { retrieveMessage, retrieveMessageHistory } from '../actions/messages';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
-import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
@@ -27,14 +25,6 @@ const MessageReply = () => {
     [isDraftPage, replyId, dispatch],
   );
 
-  let pageTitle;
-
-  if (isDraftPage) {
-    pageTitle = 'Edit draft';
-  } else {
-    pageTitle = 'Compose a reply';
-  }
-
   const content = () => {
     if (replyMessage === null) {
       return (
@@ -55,26 +45,22 @@ const MessageReply = () => {
         </va-alert>
       );
     }
-    return <ReplyForm draft={null} replyMessage={replyMessage} />;
+    return <ReplyForm draftToEdit={null} replyMessage={replyMessage} />;
   };
 
   const thread = () => {
-    if (messageHistory?.length > 0) {
-      return (
-        <MessageThread messageHistory={[replyMessage, ...messageHistory]} />
-      );
-    }
-    return <MessageThread messageHistory={[replyMessage]} />;
+    return (
+      <>
+        {messageHistory?.length > 0 && (
+          <MessageThread messageHistory={messageHistory} />
+        )}
+      </>
+    );
   };
 
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      <h1 className="page-title">{pageTitle}</h1>
-      <EmergencyNote />
-      <div>
-        <BeforeMessageAddlInfo />
-      </div>
 
       {content()}
       {replyMessage && thread()}
