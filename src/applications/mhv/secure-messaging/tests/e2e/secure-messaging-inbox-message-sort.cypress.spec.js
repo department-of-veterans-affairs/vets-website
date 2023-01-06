@@ -1,10 +1,11 @@
-import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
-    const landingPage = new PatientMessagesLandingPage();
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.get('.sidebar-navigation-messages-list-header > a');
   });
@@ -12,7 +13,6 @@ describe(manifest.appName, () => {
     cy.get('#sort-order-dropdown')
       .shadow()
       .find('select')
-
       .should('contain', 'Newest');
   });
 
