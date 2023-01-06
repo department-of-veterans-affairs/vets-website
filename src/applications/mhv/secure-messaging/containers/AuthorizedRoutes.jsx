@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import FolderListView from './FolderListView';
 import Folders from './Folders';
@@ -11,6 +12,7 @@ import SearchResults from './SearchResults';
 const AuthorizedRoutes = () => {
   return (
     <div className="vads-u-flex--fill">
+      <ScrollToTop />
       <Switch>
         <Route exact path="/" key="App">
           <LandingPageAuth />
