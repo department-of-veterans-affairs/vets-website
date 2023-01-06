@@ -2,7 +2,6 @@
 
 import { mebUser } from '../fixtures/userResponse';
 import { mockClaimStatus } from '../fixtures/mockClaimStatus';
-import { mockFormsClaimStatus } from '../fixtures/mockFormsClaimStatus';
 
 describe('All Field, texts and links should be validated on letters app', () => {
   it('All texts are present for the letters page unauthenticated', () => {
@@ -47,15 +46,13 @@ describe('All Field, texts and links should be validated on letters app', () => 
   });
 
   it('All texts are present for the letters page authenticated with letter', () => {
-    cy.login(mebUser);
-    cy.intercept('GET', '/meb_api/v0/claim_status', mockClaimStatus).as(
-      'mockClaimStatus',
-    );
     cy.intercept(
       'GET',
-      '/meb_api/v0/forms_claim_status',
-      mockFormsClaimStatus,
-    ).as('mockFormsClaimStatus');
+      '/meb_api/v0/claim_status?latest=true',
+      mockClaimStatus,
+    ).as('mockClaimStatus');
+    cy.login(mebUser);
+
     cy.visit('http://localhost:3001/education/download-letters/letters');
     cy.injectAxeThenAxeCheck();
     cy.url().should('include', '/education/download-letters/letters');
