@@ -252,6 +252,7 @@ class ReviewCollapsibleChapter extends React.Component {
     if (editing) {
       return (
         <page.CustomPage
+          key={page.pageKey}
           name={page.pageKey}
           title={page.title}
           trackingPrefix={props.form.trackingPrefix}
@@ -266,6 +267,7 @@ class ReviewCollapsibleChapter extends React.Component {
     }
     return (
       <page.CustomPageReview
+        key={`${page.pageKey}Review`}
         editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
         name={page.pageKey}
         title={page.title}
