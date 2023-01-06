@@ -4,6 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import manifest from '../../manifest.json';
 // import mockResponse from '../fixtures/recipients.json';
 import mockMessages from '../fixtures/messages-response.json';
+import mockSentFolder from './fixtures/folder-sent-metadata.json';
 
 describe(manifest.appName, () => {
   it('can send message with special characters', () => {
@@ -17,6 +18,17 @@ describe(manifest.appName, () => {
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1',
+      mockSentFolder,
+    ).as('basicSearchRequestSentMeta');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
+      mockMessages,
+    ).as('basicSearchRequestSentFolder');
+
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
@@ -32,31 +44,20 @@ describe(manifest.appName, () => {
       .find('[name="message-body"]')
       .type('Test message with special characters - 2343*&^%$#@!)+?*');
     composePage.sendMessage();
-    //  cy.get('[data-testid="compose-message-link"]').click({ waitForAnimations: true });
-
-    // cy.intercept(
-    //     'GET',
-    //     'my_health/v1/messaging/recipients?useCache=false',
-    //     mockResponse,);
-    // //cy.wait('@mockResponse');
-    // cy.get('.vads-u-margin-y--0')
-    //     .should('have.text', 'Message was successfully sent.');
-    cy.get('#select-search-folder-dropdown')
-      .shadow()
-      .find('select')
-      .select('-1', { force: true });
-    cy.get('[data-testid="search-keyword-text-input"]')
-      .shadow()
-      .find('[id="inputField"]')
-      .type('Test');
-    cy.intercept('GET', '/my_health/v1/messaging/folders/-1', mockMessages).as(
-      'sentResponse',
-    );
-
-    cy.get('.search-button > .fas').click({ waitForAnimations: true });
 
     // cy.get('[data-testid="sent-sidebar"]').click({ force: true });
-    // cy.get('[data-testid="Sent messages"]')
-    //     .should('contain', 'Sent')
+    cy.get('[data-testid="sent-sidebar"] > a').click({ force: true });
+
+    cy.get('[data-testid="keyword-search-input"]')
+      .shadow()
+      .find('[id="va-search-input"]')
+      .type('test', { waitforanimations: true });
+    cy.get('[data-testid="keyword-search-input"]')
+      .shadow()
+      .find('[id="va-search-button-text"]')
+      .click();
+
+    // // cy.get('.search-button > .fas').click({ waitForAnimations: true });
+    cy.wait('@basicSearchRequestSentFolder');
   });
 });
