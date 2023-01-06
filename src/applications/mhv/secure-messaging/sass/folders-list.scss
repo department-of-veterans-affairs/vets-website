@@ -43,26 +43,26 @@
 }
 
 .folders-list {
-    list-style: none;
-    margin-top: 12px;
+  list-style: none;
+  margin-top: 12px;
+  margin: 0;
+  padding: 0;
+  li {
+    padding: 8px 0;
     margin: 0;
-    padding: 0;
-    li {
-      padding: 8px 0;
-      margin: 0;
-      display: flex;
-      @media (min-width: $medium-screen) {
-        align-items: center;
-      }
-      i {
-        color: $color-link-default;
-        margin-right: 5px;
-      }
+    display: flex;
+    @media (min-width: $medium-screen) {
+      align-items: center;
     }
-    li:last-child {
-      margin-bottom: 16px;
+    i {
+      color: $color-link-default;
+      margin-right: 10px;
     }
   }
+  li:last-child {
+    margin-bottom: 16px;
+  }
+}
 
 .modal-button {
   @media (max-width: $small-screen) {
