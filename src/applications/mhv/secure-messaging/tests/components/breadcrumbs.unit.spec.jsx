@@ -21,7 +21,7 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/message/${messageResponse.messageId}`,
     });
-    expect(await screen.findByText('Return to Messages', { exact: true }));
+    expect(await screen.findByText('Return to Dashboard', { exact: true }));
   });
 
   it('on Compose renders without errors', async () => {
@@ -31,7 +31,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      await screen.findByText('Return to Messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
@@ -44,7 +44,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.DRAFTS.path,
     });
     expect(
-      await screen.findByText('Return to Messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
@@ -57,7 +57,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.SENT.path,
     });
     expect(
-      await screen.findByText('Return to Messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
@@ -70,7 +70,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.TRASH.path,
     });
     expect(
-      await screen.findByText('Return to Messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
@@ -83,7 +83,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.SEARCH.path,
     });
     expect(
-      await screen.findByText('Return to Messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
@@ -98,12 +98,12 @@ describe('Breadcrumbs', () => {
       }`,
     });
     expect(
-      await screen.findByText('Return to Search messages', {
+      await screen.findByText('Return to Search Dashboard', {
         exact: true,
       }),
     );
     expect(
-      await screen.findByText('Return to Search messages', {
+      await screen.findByText('Return to Search Dashboard', {
         exact: true,
       }),
     );
