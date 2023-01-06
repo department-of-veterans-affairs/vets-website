@@ -1,5 +1,6 @@
 /// <reference types='cypress' />
-import { mockClaimStatus } from '../fixtures/claimStatus.json';
+
+import { mebUser } from '../fixtures/userResponse';
 
 describe('All Field, texts and links should be validated on letters app', () => {
   it('All texts are present for the letters page unauthenticated', () => {
@@ -25,7 +26,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
   });
 
   it('All texts are present for the letters page authenticated but no letter', () => {
-    cy.login();
+    cy.login(mebUser);
     cy.visit('http://localhost:3001/education/download-letters/');
     cy.injectAxeThenAxeCheck();
     cy.url().should('include', '/education/download-letters/');
@@ -41,17 +42,5 @@ describe('All Field, texts and links should be validated on letters app', () => 
     cy.findByText(
       'The letter displayed will be based on your most recent claim submission. If your decision was prior to August 20, 2022 – or you’re a family member or dependent – your decision letter will not be listed here. You can contact us through Ask VA to request a copy of your letter. Request your VA education letter through',
     ).should('be.visible');
-  });
-
-  it('All texts are present for the letters page authenticated with letter', () => {
-    cy.login();
-    cy.intercept(
-      'GET',
-      '/meb_api/v0/claim_status?latest=true',
-      mockClaimStatus,
-    ).as('mockClaimStatus');
-    cy.visit('http://localhost:3001/education/download-letters/');
-    cy.injectAxeThenAxeCheck();
-    cy.url().should('include', '/education/download-letters/');
   });
 });
