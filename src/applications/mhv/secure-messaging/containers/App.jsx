@@ -32,7 +32,7 @@ const App = () => {
           <va-loading-indicator
             message="Loading your secure messages..."
             setFocus
-            data-testid="loading-indicator"
+            data-testid="feature-flag-loading-indicator"
           />
         )}
 
