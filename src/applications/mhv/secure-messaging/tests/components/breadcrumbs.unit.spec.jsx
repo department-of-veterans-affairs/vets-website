@@ -21,7 +21,7 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/message/${messageResponse.messageId}`,
     });
-    expect(await screen.findByText(messageResponse.subject, { exact: true }));
+    expect(await screen.findByText('Return to Messages', { exact: true }));
   });
 
   it('on Compose renders without errors', async () => {
@@ -31,7 +31,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.COMPOSE.path,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.COMPOSE.label, {
+      await screen.findByText('Return to Messages', {
         exact: true,
       }),
     );
@@ -44,7 +44,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.DRAFTS.path,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.DRAFTS.label, {
+      await screen.findByText('Return to Messages', {
         exact: true,
       }),
     );
@@ -57,7 +57,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.SENT.path,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.SENT.label, {
+      await screen.findByText('Return to Messages', {
         exact: true,
       }),
     );
@@ -70,7 +70,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.TRASH.path,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.TRASH.label, {
+      await screen.findByText('Return to Messages', {
         exact: true,
       }),
     );
@@ -83,7 +83,7 @@ describe('Breadcrumbs', () => {
       path: Constants.Breadcrumbs.SEARCH.path,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
+      await screen.findByText('Return to Messages', {
         exact: true,
       }),
     );
@@ -98,12 +98,12 @@ describe('Breadcrumbs', () => {
       }`,
     });
     expect(
-      await screen.findByText(Constants.Breadcrumbs.SEARCH.label, {
+      await screen.findByText('Return to Search messages', {
         exact: true,
       }),
     );
     expect(
-      await screen.findByText(Constants.Breadcrumbs.SEARCH_ADVANCED.label, {
+      await screen.findByText('Return to Search messages', {
         exact: true,
       }),
     );
