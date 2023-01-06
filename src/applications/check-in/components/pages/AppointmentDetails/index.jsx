@@ -10,6 +10,7 @@ import {
   makeSelectVeteranData,
 } from '../../../selectors';
 
+import { appointmentIcon } from '../../../utils/appointment';
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 
@@ -65,13 +66,7 @@ const AppointmentDetails = props => {
           <Wrapper classNames="appointment-details-page" withBackButton>
             <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray-lighter vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
               <div className="appointment-details--icon">
-                <i
-                  aria-label="Appointment type"
-                  className={`fas ${
-                    appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-                  }`}
-                  aria-hidden="true"
-                />
+                {appointmentIcon(appointment)}
               </div>
               <h1
                 tabIndex="-1"

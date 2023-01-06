@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { setActiveAppointment } from '../actions/universal';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { appointmentIcon } from '../utils/appointment';
 
 const AppointmentBlockVaos = props => {
   const { appointments, page, router } = props;
@@ -57,15 +58,7 @@ const AppointmentBlockVaos = props => {
                 </div>
                 <div>
                   <div className="vads-u-margin-right--1 check-in--label">
-                    <i
-                      aria-label="Appointment type"
-                      className={`fas ${
-                        appointment?.kind === 'phone'
-                          ? 'fa-phone'
-                          : 'fa-building'
-                      }`}
-                      aria-hidden="true"
-                    />
+                    {appointmentIcon(appointment)}
                   </div>
                   <div className="vads-u-display--inline">
                     {appointment?.kind === 'phone' ? (

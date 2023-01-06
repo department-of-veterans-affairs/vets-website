@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import {
   appointmentWasCanceled,
@@ -10,6 +11,7 @@ import {
   preCheckinExpired,
   locationShouldBeDisplayed,
   hasPhoneAppointments,
+  appointmentIcon,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -381,6 +383,14 @@ describe('check in', () => {
       it("doesn't find phone appointment", () => {
         const appointments = [createAppointment()];
         expect(hasPhoneAppointments(appointments)).to.be.false;
+      });
+    });
+    describe('appointmentIcon', () => {
+      it('finds phone appointment', () => {
+        const appointment = createAppointment({ kind: 'phone' });
+        const icon = render(appointmentIcon(appointment));
+
+        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
       });
     });
   });
