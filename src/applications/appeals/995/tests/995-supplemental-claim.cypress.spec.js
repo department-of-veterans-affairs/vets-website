@@ -25,6 +25,7 @@ import {
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
   EVIDENCE_PRIVATE,
+  EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 
 const testConfig = createTestConfig(
@@ -135,6 +136,19 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'supporting-evidence/private-medical-records-authorization': ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.privacyAgreementAccepted) {
+              cy.get('va-checkbox').click();
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
       [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -216,6 +230,16 @@ const testConfig = createTestConfig(
             cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
+      },
+      [EVIDENCE_UPLOAD_PATH]: () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'testing',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
+        cy.get('select').select('Buddy/Lay Statement');
       },
     },
 
