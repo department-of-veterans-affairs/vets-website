@@ -74,9 +74,27 @@ const HomepageSearch = () => {
     )}&t=${false}`;
 
     // Record the analytic event.
+
+    // Uncomment this event and delete unlabled event when analytics implements our custom GA events
+    // recordEvent({
+    //   event: 'view_search_results',
+    //   action: 'Homepage - Search',
+    //   'search-page-path': searchUrl,
+    //   'search-query': e.target.value,
+    //   'search-results-total-count': null,
+    //   'search-results-total-pages': null,
+    //   'search-selection': 'All VA.gov',
+    //   'search-typeahead-enabled': false,
+    //   'search-location': 'Homepage Search',
+    //   'sitewide-search-app-used': false,
+    //   'type-ahead-option-keyword-selected': null,
+    //   'type-ahead-option-position': null,
+    //   'type-ahead-options-list': null,
+    //   'type-ahead-options-count': null,
+    // });
+
     recordEvent({
       event: 'view_search_results',
-      action: 'Homepage - Search',
       'search-page-path': searchUrl,
       'search-query': e.target.value,
       'search-results-total-count': null,
