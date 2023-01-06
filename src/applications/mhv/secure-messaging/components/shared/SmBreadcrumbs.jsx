@@ -77,7 +77,7 @@ const SmBreadcrumbs = () => {
         //   path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
         //   label: 'My Health',
         // });
-        arr.push({ path: '/', label: 'Messages' });
+        arr.push({ path: '/', label: 'Dashboard' });
 
         paths.forEach(path => {
           const [
