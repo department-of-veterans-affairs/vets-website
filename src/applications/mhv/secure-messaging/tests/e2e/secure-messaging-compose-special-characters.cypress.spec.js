@@ -5,6 +5,7 @@ import manifest from '../../manifest.json';
 // import mockResponse from '../fixtures/recipients.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
+// import mockSpecialChar from './fixtures/message-specialCharacter-response.json';
 
 describe(manifest.appName, () => {
   it('can send message with special characters', () => {
@@ -30,6 +31,11 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
+    // cy.intercept(
+    //     'GET',
+    //     '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
+    //     mockSpecialChar,
+    // ).as('specialCharMessage');
 
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
@@ -61,5 +67,6 @@ describe(manifest.appName, () => {
 
     // // cy.get('.search-button > .fas').click({ waitForAnimations: true });
     cy.wait('@basicSearchRequestSentFolder');
+    // cy.wait('@specialCharMessage');
   });
 });
