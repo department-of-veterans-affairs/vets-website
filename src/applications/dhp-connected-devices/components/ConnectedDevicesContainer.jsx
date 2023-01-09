@@ -38,9 +38,8 @@ export const ConnectedDevicesContainer = () => {
       try {
         const headers = { 'Content-Type': 'application/json' };
         const response = await apiRequest(FETCH_CONNECTED_DEVICES, { headers });
-        // console.log('responses from call', response);
         if (response?.connectionAvailable) {
-          setConnectedDevices(response?.devices);
+          setConnectedDevices(response.devices);
           setConnectionAvailable(true);
         }
       } catch (err) {
