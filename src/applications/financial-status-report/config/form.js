@@ -478,6 +478,21 @@ const formConfig = {
           title: 'Expenses',
           uiSchema: pages.expenses.uiSchema,
           schema: pages.expenses.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesChecklist: {
+          path: 'household-expenses-checklist',
+          title: 'Household expenses checklist',
+          uiSchema: pages.householdExpensesChecklist.uiSchema,
+          schema: pages.householdExpensesChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesInputList: {
+          path: 'household-expenses-values',
+          title: 'Household expenses values',
+          uiSchema: pages.householdExpensesInputList.uiSchema,
+          schema: pages.householdExpensesInputList.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         utilities: {
           path: 'utilities',
