@@ -1,5 +1,4 @@
 import {
-  uploadTitle,
   UploadDescription,
   evidenceOtherText,
 } from '../content/evidenceUpload';
@@ -8,10 +7,6 @@ import { ATTACHMENTS_OTHER } from '../constants';
 
 export default {
   uiSchema: {
-    'view:uploadTitle': {
-      'ui:title': ' ',
-      'ui:description': uploadTitle,
-    },
     additionalDocuments: {
       ...ancillaryFormUploadUi(evidenceOtherText),
       'ui:description': UploadDescription,
@@ -22,10 +17,6 @@ export default {
     type: 'object',
     required: ['additionalDocuments'],
     properties: {
-      'view:uploadTitle': {
-        type: 'object',
-        properties: {},
-      },
       additionalDocuments: {
         type: 'array',
         items: {

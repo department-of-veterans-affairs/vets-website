@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
 import { readableList } from '../utils/helpers';
 
-export const uploadTitle = (
-  <h3 className="vads-u-margin-top--0 vads-u-display--inline">
-    Upload your supporting evidence
-  </h3>
-);
+export const uploadTitle = <h3>Upload your supporting evidence</h3>;
 
 export const UploadDescription = () => {
   const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
@@ -58,12 +54,11 @@ UploadDescription.propTypes = {
   uploadTitle: PropTypes.string,
 };
 
-export const evidencePrivateText = {
-  label: 'Upload your private medical records',
-  description: ' ',
-};
-
 export const evidenceOtherText = {
-  label: 'Supporting (lay) statements or other evidence',
+  label: (
+    <h3 className="vads-u-margin-top--0 vads-u-display--inline">
+      Upload your supporting evidence
+    </h3>
+  ),
   description: 'You’re adding this evidence:',
 };
