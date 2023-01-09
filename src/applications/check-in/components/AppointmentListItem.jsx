@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { appointmentIcon, clinicName } from '../utils/appointment';
 
 const AppointmentListItem = props => {
-  const { appointment, goToDetails } = props;
+  const { appointment, goToDetails, AppointmentAction } = props;
   const { t } = useTranslation();
 
   const appointmentDateTime = new Date(appointment.startTime);
@@ -18,7 +18,7 @@ const AppointmentListItem = props => {
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
         <div
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif"
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
         >
           {t('date-time', { date: appointmentDateTime })}
         </div>
@@ -31,7 +31,7 @@ const AppointmentListItem = props => {
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
         </div>
-        <div>
+        <div className="vads-u-display--flex vads-u-align-items--baseline">
           <div
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
@@ -51,18 +51,19 @@ const AppointmentListItem = props => {
               </>
             )}
           </div>
-          {goToDetails && (
-            <div>
-              <a
-                data-testid="details-link"
-                href="#details"
-                onClick={e => goToDetails(appointment.appointmentIen, e)}
-              >
-                Details
-              </a>
-            </div>
-          )}
         </div>
+        {goToDetails && (
+          <div className="vads-u-margin-y--2">
+            <a
+              data-testid="details-link"
+              href="#details"
+              onClick={e => goToDetails(appointment.appointmentIen, e)}
+            >
+              Details
+            </a>
+          </div>
+        )}
+        {AppointmentAction}
       </div>
     </li>
   );
@@ -70,6 +71,7 @@ const AppointmentListItem = props => {
 
 AppointmentListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
+  AppointmentAction: PropTypes.node,
   goToDetails: PropTypes.func,
 };
 
