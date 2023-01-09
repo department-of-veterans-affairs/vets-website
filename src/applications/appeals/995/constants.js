@@ -27,6 +27,9 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 export const CONTESTABLE_ISSUES_API =
   '/supplemental_claims/contestable_issues/';
 
+// Evidence upload API - same endpoint as NOD
+export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
+
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
