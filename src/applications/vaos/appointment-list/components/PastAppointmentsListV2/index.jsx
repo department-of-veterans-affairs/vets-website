@@ -240,13 +240,14 @@ export default function PastAppointmentsListNew() {
             dateRangeOptions[pastSelectedIndex]?.label
           }`}
       </div>
-      {featureAppointmentList && (
-        <AppointmentListGroup data={pastAppointmentsByMonth} />
-      )}
+      {featureAppointmentList &&
+        Object.keys(pastAppointmentsByMonth).length > 0 && (
+          <AppointmentListGroup data={pastAppointmentsByMonth} />
+        )}
 
       {!featureAppointmentList &&
         pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
+          const monthDate = moment(monthBucket.start);
           return (
             <React.Fragment key={monthIndex}>
               <h3
@@ -282,7 +283,7 @@ export default function PastAppointmentsListNew() {
                     return (
                       <AppointmentListItem
                         key={index}
-                        appointment={appt}
+                        id={appt.id}
                         className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                       >
                         <AppointmentCard
@@ -305,7 +306,7 @@ export default function PastAppointmentsListNew() {
             </React.Fragment>
           );
         })}
-      {!pastAppointmentsByMonth?.length && (
+      {Object.keys(pastAppointmentsByMonth).length === 0 && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="past appointments"
