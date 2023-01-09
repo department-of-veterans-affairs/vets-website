@@ -668,15 +668,18 @@ export function groupAppointmentsByMonth(
   appointments,
   featureAppointmentList = false,
 ) {
+  if (appointments.length === 0) {
+    return [];
+  }
+
   if (featureAppointmentList) {
-    const object = appointments.reduce((previous, current) => {
+    return appointments.reduce((previous, current) => {
       const key = moment(current.start).format('YYYY-MM');
       // eslint-disable-next-line no-param-reassign
       previous[key] = previous[key] || [];
       previous[key].push(current);
       return previous;
     }, {});
-    return Object.keys(object).length === 0 ? [] : object;
   }
 
   const appointmentsByMonth = [[]];

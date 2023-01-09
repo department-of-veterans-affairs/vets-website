@@ -247,7 +247,7 @@ export default function PastAppointmentsListNew() {
 
       {!featureAppointmentList &&
         pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket.start);
+          const monthDate = moment(monthBucket[0].start);
           return (
             <React.Fragment key={monthIndex}>
               <h3
@@ -306,7 +306,7 @@ export default function PastAppointmentsListNew() {
             </React.Fragment>
           );
         })}
-      {Object.keys(pastAppointmentsByMonth).length === 0 && (
+      {!pastAppointmentsByMonth?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="past appointments"

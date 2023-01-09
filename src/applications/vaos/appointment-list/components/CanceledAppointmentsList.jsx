@@ -139,7 +139,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                   return (
                     <AppointmentListItem
                       key={index}
-                      appointment={appt}
+                      id={appt.id}
                       className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                     >
                       <AppointmentCard
