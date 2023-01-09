@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
-import environment from 'platform/utilities/environment';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 import {
   CONNECTION_FAILED_STATUS,
