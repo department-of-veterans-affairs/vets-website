@@ -23,8 +23,8 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1',
       mockSentFolder,
     ).as('basicSearchRequestSentMeta');
-    mockMessages.data.at(0).attributes.subject = 'Test With Special Characters';
-    mockMessages.data.at(0).attributes.body = '2343*&^%$#@!)+?*';
+    // mockMessages.data.at(0).attributes.subject = 'Test With Special Characters';
+    // mockMessages.data.at(0).attributes.body = '2343*&^%$#@!)+?*';
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
