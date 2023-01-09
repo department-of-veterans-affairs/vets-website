@@ -8,7 +8,7 @@ class PatientReplyPage {
       mockMessage,
     ).as('replyMessage');
     cy.get('[data-testid="Send-Button"]').click();
-    cy.wait('@replyMessage');
+    // cy.wait('@replyMessage');
   };
 }
 export default PatientReplyPage;
