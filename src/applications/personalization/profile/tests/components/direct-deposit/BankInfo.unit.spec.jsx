@@ -75,7 +75,7 @@ function fillOutAndSubmitBankInfoForm(view) {
   const accountTypeSelect = view.container.querySelector(
     '#root_CNPAccountType',
   );
-  const submitButton = view.getByText('Update', { selector: 'button' });
+  const submitButton = view.getByText('Save', { selector: 'button' });
 
   userEvent.type(routingNumberField, '456456456');
   userEvent.type(accountNumberField, '123123123');
