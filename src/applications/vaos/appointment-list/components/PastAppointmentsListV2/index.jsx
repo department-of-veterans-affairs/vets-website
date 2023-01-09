@@ -306,7 +306,9 @@ export default function PastAppointmentsListNew() {
             </React.Fragment>
           );
         })}
-      {!pastAppointmentsByMonth?.length && (
+      {((!featureAppointmentList && !pastAppointmentsByMonth?.length) ||
+        (featureAppointmentList &&
+          Object.keys(pastAppointmentsByMonth).length === 0)) && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="past appointments"
