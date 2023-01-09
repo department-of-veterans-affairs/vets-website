@@ -47,7 +47,7 @@ function updateAddress(addressName) {
   const cityInput = view.getByLabelText(/city.*required/i);
   const stateDropdown = view.getByLabelText(/state.*required/i);
   const zipCodeInput = view.getByLabelText(/zip code/i);
-  const submitButton = view.getByText(/update/i, { selector: 'button' });
+  const submitButton = view.getByText(/save/i, { selector: 'button' });
 
   // clear the inputs
   [line1Input, cityInput, zipCodeInput].forEach(input => {
