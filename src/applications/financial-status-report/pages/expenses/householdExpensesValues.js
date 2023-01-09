@@ -1,15 +1,15 @@
 import React from 'react';
-import HouseholdExpensesChecklist from '../../components/HouseholdExpensesChecklist';
+import HouseholdExpensesInputList from '../../components/HouseholdExpensesInputList';
 
 export const uiSchema = {
-  'ui:title': 'Your monthly expenses NEW',
-  householdExpensesChecklist: {
+  'ui:title': 'Your monthly expenses VALUES',
+  householdExpensesInputList: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         Select any additional income you receive:
       </span>
     ),
-    'ui:widget': HouseholdExpensesChecklist,
+    'ui:widget': HouseholdExpensesInputList,
     'ui:required': formData => {
       const {
         additionalIncome: { addlIncRecords = [] },
@@ -29,7 +29,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    additionalIncomeChecklist: {
+    householdExpensesInputList: {
       type: 'boolean',
     },
   },
