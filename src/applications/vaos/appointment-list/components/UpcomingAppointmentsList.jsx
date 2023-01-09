@@ -17,6 +17,7 @@ import {
 import {
   getLink,
   getVAAppointmentLocationId,
+  groupAppointmentByDay,
 } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from './NoAppointments';
@@ -29,8 +30,10 @@ import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
-import AppointmentListGroup from './AppointmentsPageV2/AppointmentListGroup';
+// import AppointmentListGroup from './AppointmentsPageV2/AppointmentListGroup';
 import AppointmentCard from './AppointmentsPageV2/AppointmentCard';
+import AppointmentFlexGrid from './AppointmentsPageV2/AppointmentFlexGrid';
+import AppointmentColumnLayout from './AppointmentsPageV2/AppointmentColumnLayout';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -48,6 +51,95 @@ function handleKeyDown({ history, link, idClickable }) {
       history.push(link);
     }
   };
+}
+
+function renderFlexGrid({ featureStatusImprovement, hashTable }) {
+  const keys = Object.keys(hashTable);
+
+  return keys.map((key, i) => {
+    const isFirstInMonth = i === 0;
+    const isLastInMonth = i === keys.length - 1;
+
+    if (hashTable[key].length > 1) {
+      // Group by day
+      return (
+        <li
+          key={key}
+          className={classNames(
+            'small-screen:vads-u-border-top--0',
+            'small-desktop-screen:vads-u-padding-left--1p5',
+            'small-desktop-screen:vads-u-padding-right--1p5',
+            'vaos-appts__listItem',
+            {
+              'xsmall-screen:vads-u-border-top--1px': isFirstInMonth,
+              'vads-u-border-bottom--1px': !isLastInMonth,
+              // 'vads-u-border-bottom--1px': isLastInMonth,
+            },
+          )}
+        >
+          <ul className="usa-unstyled-list vaos-appts__list">
+            {hashTable[key].map((appt, j) => {
+              const isFirstInDay = j === 0;
+              const link = getLink({
+                featureStatusImprovement,
+                appointment: appt,
+              });
+              const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+
+              return (
+                <AppointmentListItem
+                  key={`${key}-${j + 1}`}
+                  id={appt.id}
+                  className="vaos-appts__listItem--clickable"
+                >
+                  <AppointmentFlexGrid idClickable={idClickable} link={link}>
+                    <AppointmentColumnLayout
+                      data={appt}
+                      first={isFirstInDay}
+                      // first={isFirstInMonth || isFirstInDay}
+                      grouped
+                      link={link}
+                    />
+                  </AppointmentFlexGrid>
+                </AppointmentListItem>
+              );
+            })}
+          </ul>
+        </li>
+      );
+    }
+
+    return hashTable[key].map(appt => {
+      const idClickable = `id-${appt.id.replace('.', '\\.')}`;
+
+      const link = getLink({
+        featureStatusImprovement,
+        appointment: appt,
+      });
+
+      return (
+        <AppointmentListItem
+          key={appt.id}
+          id={appt.id}
+          className={classNames(
+            'small-screen:vads-u-border-top--0',
+            'small-desktop-screen:vads-u-padding-left--1p5',
+            'small-desktop-screen:vads-u-padding-right--1p5',
+            'vaos-appts__listItem',
+            'vaos-appts__listItem--clickable',
+            {
+              'xsmall-screen:vads-u-border-top--1px': isFirstInMonth,
+              'vads-u-border-bottom--1px': !isLastInMonth,
+            },
+          )}
+        >
+          <AppointmentFlexGrid idClickable={idClickable} link={link}>
+            <AppointmentColumnLayout first data={appt} link={link} />
+          </AppointmentFlexGrid>
+        </AppointmentListItem>
+      );
+    });
+  });
 }
 
 export default function UpcomingAppointmentsList() {
@@ -109,43 +201,55 @@ export default function UpcomingAppointmentsList() {
     );
   }
 
+  const keys = Object.keys(appointmentsByMonth);
+
   return (
     <>
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing upcoming appointments'}
       </div>
 
-      {featureAppointmentList && (
-        <AppointmentListGroup
-          data={appointmentsByMonth}
-          hasTypeChanged={hasTypeChanged}
-        />
-      )}
+      {keys.map(key => {
+        const monthDate = moment(key, 'YYYY-MM');
 
-      {!featureAppointmentList &&
-        appointmentsByMonth.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
-          return (
-            <React.Fragment key={monthIndex}>
-              <h3
-                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-                data-cy="upcoming-appointment-list-header"
-              >
-                <span className="sr-only">Appointments in </span>
-                {monthDate.format('MMMM YYYY')}
-              </h3>
-              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-              <ul
-                aria-labelledby={`appointment_list_${monthDate.format(
-                  'YYYY-MM',
-                )}`}
-                className={classNames('vads-u-padding-left--0', {
+        let hashTable = appointmentsByMonth;
+        if (featureAppointmentList) {
+          hashTable = groupAppointmentByDay(hashTable[key]);
+        }
+
+        return (
+          <React.Fragment key={key}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="upcoming-appointment-list-header"
+            >
+              <span className="sr-only">Appointments in </span>
+              {monthDate.format('MMMM YYYY')}
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              aria-labelledby={`appointment_list_${monthDate.format(
+                'YYYY-MM',
+              )}`}
+              className={classNames(
+                'usa-unstyled-list',
+                'vads-u-padding-left--0',
+                {
                   'vads-u-border-bottom--1px': featureAppointmentList,
+                },
+              )}
+              data-cy="upcoming-appointment-list"
+              role="list"
+            >
+              {featureAppointmentList &&
+                renderFlexGrid({
+                  featureStatusImprovement,
+                  hashTable,
+                  history,
                 })}
-                data-cy="upcoming-appointment-list"
-                role="list"
-              >
-                {monthBucket.map((appt, index) => {
+
+              {!featureAppointmentList &&
+                hashTable[key].map(appt => {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
@@ -161,8 +265,8 @@ export default function UpcomingAppointmentsList() {
                   ) {
                     return (
                       <AppointmentListItem
-                        key={index}
-                        appointment={appt}
+                        key={key}
+                        id={idClickable}
                         className="vaos-appts__card--clickable vads-u-margin-bottom--3"
                       >
                         <AppointmentCard
@@ -181,12 +285,12 @@ export default function UpcomingAppointmentsList() {
                   }
                   return null;
                 })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
 
-      {!appointmentsByMonth?.length && (
+      {!keys?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="upcoming appointments"
