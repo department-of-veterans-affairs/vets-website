@@ -9,7 +9,6 @@ import {
   DISCONNECTION_FAILED_STATUS,
   DISCONNECTION_SUCCESSFUL_STATUS,
 } from '../constants/alerts';
-import { DeviceConnectionAlert } from './DeviceConnectionAlerts';
 
 export const ConnectedDevicesContainer = () => {
   const [connectionAvailable, setConnectionAvailable] = useState(false);
@@ -81,16 +80,10 @@ export const ConnectedDevicesContainer = () => {
       </div>
       <h2>Devices you can connect</h2>
       <div data-testid="devices-to-connect-section">
-        {connectionAvailable ? (
-          <DevicesToConnectSection connectedDevices={connectedDevices} />
-        ) : (
-          <DeviceConnectionAlert
-            testId="connection-unavailable-alert"
-            status="error"
-            headline="Unable to connect health device"
-            description="We're sorry, but your VA.gov user account is not configured to connect to health devices at this time. Please contact DHP-pilot@va.gov."
-          />
-        )}
+        <DevicesToConnectSection
+          connectedDevices={connectedDevices}
+          connectionAvailable={connectionAvailable}
+        />
       </div>
     </>
   );
