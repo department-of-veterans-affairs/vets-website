@@ -15,6 +15,7 @@ import {
 import {
   getLink,
   getVAAppointmentLocationId,
+  groupAppointmentByDay,
 } from '../../../services/appointment';
 import AppointmentListItem from '../AppointmentsPageV2/AppointmentListItem';
 import NoAppointments from '../NoAppointments';
@@ -29,8 +30,9 @@ import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
 } from '../../../redux/selectors';
-import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
+// import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
+import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -231,6 +233,8 @@ export default function PastAppointmentsListNew() {
     );
   }
 
+  const keys = Object.keys(pastAppointmentsByMonth);
+
   return (
     <>
       {dropdown}
@@ -240,33 +244,42 @@ export default function PastAppointmentsListNew() {
             dateRangeOptions[pastSelectedIndex]?.label
           }`}
       </div>
-      {featureAppointmentList &&
-        Object.keys(pastAppointmentsByMonth).length > 0 && (
-          <AppointmentListGroup data={pastAppointmentsByMonth} />
-        )}
 
-      {!featureAppointmentList &&
-        pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
-          return (
-            <React.Fragment key={monthIndex}>
-              <h3
-                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-                data-cy="past-appointment-list-header"
-              >
-                <span className="sr-only">Appointments in </span>
-                {monthDate.format('MMMM YYYY')}
-              </h3>
-              {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-              <ul
-                aria-labelledby={`appointment_list_${monthDate.format(
-                  'YYYY-MM',
-                )}`}
-                className="vads-u-padding-left--0"
-                data-cy="past-appointment-list"
-                role="list"
-              >
-                {monthBucket.map((appt, index) => {
+      {keys.map(key => {
+        const monthDate = moment(key, 'YYYY-MM');
+
+        let hashTable = pastAppointmentsByMonth;
+        if (featureAppointmentList) {
+          hashTable = groupAppointmentByDay(hashTable[key]);
+        }
+
+        return (
+          <React.Fragment key={key}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="past-appointment-list-header"
+            >
+              <span className="sr-only">Appointments in </span>
+              {monthDate.format('MMMM YYYY')}
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              aria-labelledby={`appointment_list_${monthDate.format(
+                'YYYY-MM',
+              )}`}
+              className="vads-u-padding-left--0 vads-u-border-bottom--1px"
+              data-cy="past-appointment-list"
+              role="list"
+            >
+              {featureAppointmentList &&
+                UpcomingAppointmentLayout({
+                  featureStatusImprovement,
+                  hashTable,
+                  history,
+                })}
+
+              {!featureAppointmentList &&
+                hashTable[key].map((appt, index) => {
                   const facilityId = getVAAppointmentLocationId(appt);
                   const idClickable = `id-${appt.id.replace('.', '\\.')}`;
                   const link = getLink({
@@ -302,10 +315,11 @@ export default function PastAppointmentsListNew() {
                   }
                   return null;
                 })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
+
       {((!featureAppointmentList && !pastAppointmentsByMonth?.length) ||
         (featureAppointmentList &&
           Object.keys(pastAppointmentsByMonth).length === 0)) && (
