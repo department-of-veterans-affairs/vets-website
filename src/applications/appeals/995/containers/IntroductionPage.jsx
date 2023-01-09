@@ -195,8 +195,10 @@ const mapStateToProps = state => ({
   isVerified: selectProfile(state)?.verified || false,
   canApply:
     // profile.claims.appeals indicates that the Veteran can apply for an
-    // appeal (is LOA3 AND has a SSN), but it is undefined locally :(
-    // see vets-api/app/policies/appeals_policy.rb
+    // appeal (is LOA3 AND has a SSN). See
+    // vets-api/app/policies/appeals_policy.rb - We need to use this because
+    // the SSN is available from prefill, but is not obtained until the form is
+    // started :(
     selectProfile(state).claims?.appeals || environment.isLocalhost(),
   hasDob: !!(selectProfile(state)?.dob || ''),
 });
