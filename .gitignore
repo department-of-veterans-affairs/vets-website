@@ -50,7 +50,8 @@ all-links.csv
 !.vscode/launch.json
 
 # Ignore custom generated Cypress-TestRail configs
-my-cypress-testrail.json
+config/my-cypress-testrail.json
+config/my-cypress-testrail.config.js
 script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory

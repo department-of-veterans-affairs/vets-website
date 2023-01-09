@@ -15,10 +15,6 @@ const SearchResults = () => {
   } = useSelector(state => state.sm.search);
   const history = useHistory();
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
-
   useEffect(
     () => {
       if (!awaitingResults && !searchResults) {

@@ -205,9 +205,7 @@ const ComposeForm = props => {
       category,
       debouncedMessageBody,
       debouncedSubject,
-      saveDraftHandler,
       selectedRecipient,
-      sendMessageFlag,
     ],
   );
 
@@ -239,7 +237,7 @@ const ComposeForm = props => {
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
-                <option key={item.id} value={item.name}>
+                <option key={item.id} value={item.id}>
                   {item.name}
                 </option>
               ))}

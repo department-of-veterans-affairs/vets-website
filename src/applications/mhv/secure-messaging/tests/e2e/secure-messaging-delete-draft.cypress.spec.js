@@ -1,15 +1,14 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-
-import manifest from '../../manifest.json';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
+import PatientInboxPage from './pages/PatientInboxPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Delete Draft', () => {
   it('Axe Check Delete Draft', () => {
-    const landingPage = new PatientMessagesLandingPage();
-
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage(false);
     cy.intercept(
       'GET',
