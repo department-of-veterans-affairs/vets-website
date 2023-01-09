@@ -20,7 +20,10 @@ const App = () => {
   );
 
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={[backendServices.MESSAGING]}
+    >
       {/* if the user is logged in and does not have access to secure messaging, redirect to the SM info page */}
       {!environment.isLocalhost() &&
         !userServices.includes(backendServices.MESSAGING) &&
