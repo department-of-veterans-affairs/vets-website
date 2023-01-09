@@ -50,7 +50,10 @@ const EmergencyNote = props => {
         >
           <p>
             {' '}
-            <i className="fas fa-exclamation-triangle vads-u-margin-right--1p5" />
+            <i
+              className="fas fa-exclamation-triangle vads-u-margin-right--1p5"
+              aria-hidden="true"
+            />
             <strong className="vads-u-margin-left--0p25">
               Don’t use messages for emergencies
             </strong>
