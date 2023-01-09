@@ -14,7 +14,7 @@ const MissingInfo = ({ hasSsn, hasDob }) => {
     event: 'visible-alert-box',
     'alert-box-type': 'warning',
     'alert-box-heading': 'We’re missing some of your personal information',
-    'error-key': 'missing_ssb_or_dob',
+    'error-key': 'missing_ssn_or_dob',
     'alert-box-full-width': false,
     'alert-box-background-only': false,
     'alert-box-closeable': false,
