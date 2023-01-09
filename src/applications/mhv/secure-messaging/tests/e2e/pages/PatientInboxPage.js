@@ -5,23 +5,11 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
-import mockUser from '../fixtures/user.json';
-import mockStatus from '../fixtures/profile-status.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 
-class PatientMessagesLandingPage {
+class PatientInboxPage {
   newMessageIndex = 0;
-
-  login = (loginUser = true) => {
-    if (loginUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      // cy.wait('@mockUser');
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-    }
-  };
 
   loadPage = (doAxeCheck = false) => {
     const date = new Date();
@@ -65,7 +53,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -120,7 +108,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -214,7 +202,7 @@ class PatientMessagesLandingPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockNoRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/');
+    cy.visit('my-health/secure-messages/inbox');
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -228,4 +216,4 @@ class PatientMessagesLandingPage {
   };
 }
 
-export default PatientMessagesLandingPage;
+export default PatientInboxPage;
