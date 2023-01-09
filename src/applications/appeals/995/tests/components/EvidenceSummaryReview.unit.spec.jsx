@@ -94,7 +94,7 @@ describe('<EvidenceSummaryReview>', () => {
     const { container } = setupSummary();
 
     expect($('va-button.edit-page', container)).to.exist;
-    expect($$('h3', container).length).to.eq(3);
+    expect($$('h5', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('a', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
@@ -107,7 +107,7 @@ describe('<EvidenceSummaryReview>', () => {
     });
 
     expect($('va-alert[status="error"][visible="false"]', container)).to.exist;
-    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
   });

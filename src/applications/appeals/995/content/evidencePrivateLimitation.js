@@ -23,4 +23,6 @@ export const content = {
     y: 'Yes, I want to limit the information requested',
     n: 'No, I don’t want to limit the information requested',
   },
+
+  update: 'Update page',
 };
