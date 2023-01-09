@@ -2,6 +2,7 @@
 import fullSchema from '../10-10D-schema.json';
 
 import manifest from '../manifest.json';
+import { transformForSubmit } from './submit-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -32,6 +33,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () => Promise.resolve({}),
   trackingPrefix: '1010d-',
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '10-10D',
