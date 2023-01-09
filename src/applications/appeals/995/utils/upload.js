@@ -33,9 +33,12 @@ export const ancillaryFormUploadUi = content => {
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();
-      payload.append('supporting_evidence_attachment[file_data]', file);
+      payload.append('decision_review_evidence_attachment[file_data]', file);
       if (password) {
-        payload.append('supporting_evidence_attachment[password]', password);
+        payload.append(
+          'decision_review_evidence_attachment[password]',
+          password,
+        );
       }
       return payload;
     },
