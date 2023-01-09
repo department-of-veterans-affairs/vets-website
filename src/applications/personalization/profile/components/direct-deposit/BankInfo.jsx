@@ -302,13 +302,13 @@ export const BankInfo = ({
           formSubmit={saveBankInfo}
         >
           <LoadingButton
-            aria-label={`update your bank information for ${benefitTypeLong} benefits`}
+            aria-label={`save your bank information for ${benefitTypeLong} benefits`}
             type="submit"
             loadingText="saving bank information"
             className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
-            Update
+            Save
           </LoadingButton>
           <button
             aria-label={`cancel updating your bank information for ${benefitTypeLong} benefits`}

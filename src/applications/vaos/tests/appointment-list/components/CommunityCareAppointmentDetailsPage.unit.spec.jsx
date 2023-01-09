@@ -111,7 +111,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: `Add ${appointmentTime.format(
           'MMMM D, YYYY',
         )} appointment to your calendar`,
@@ -382,7 +382,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: `Add ${appointmentTime.format(
           'MMMM D, YYYY',
         )} appointment to your calendar`,
@@ -391,7 +391,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${appointmentTime.format(
             'MMMM D, YYYY',
           )} appointment to your calendar`,
@@ -486,7 +486,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${appointmentTime.format(
             'MMMM D, YYYY',
           )} appointment to your calendar`,
@@ -633,7 +633,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     ).to.be.ok;
     expect(screen.getByText(/test comment/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: `Add ${appointmentTime.format(
           'MMMM D, YYYY',
         )} appointment to your calendar`,
@@ -1090,6 +1090,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Facility canceled your appointment/)).to.be.ok;
 
     // Then the 'Add to calendar' link should not be displayed
-    expect(screen.queryByText(/Add to calendar/)).not.to.exist;
+    expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
 });

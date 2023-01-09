@@ -127,7 +127,7 @@ describe('Compose message container', () => {
       level: 3,
     });
     const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+      name: 'Discard draft',
       exact: false,
     });
     expect(headingText).to.exist;

@@ -97,10 +97,6 @@ function ConfirmationPageV2({
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
         <AddToCalendar
           summary={`Appointment at ${clinic?.serviceName}`}
           description={{

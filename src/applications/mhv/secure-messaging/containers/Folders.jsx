@@ -67,7 +67,9 @@ const Folders = () => {
         <h1 className="vads-u-margin-bottom--2">My folders</h1>
         <AlertBackgroundBox closeable />
         <va-button onClick={openNewModal} text="Create new folder" />
-        <FoldersList folders={folders} />
+        {folders && (
+          <FoldersList folders={folders.filter(folder => folder.id > 0)} />
+        )}
         <CreateFolderModal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
