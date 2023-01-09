@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
 import { readableList } from '../utils/helpers';
 
-export const uploadTitle = <h3>Upload your supporting evidence</h3>;
-
 export const UploadDescription = () => {
   const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
   const list = readableList(types, 'or');
