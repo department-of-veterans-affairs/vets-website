@@ -1,10 +1,11 @@
-import manifest from '../../manifest.json';
-import PatientMessagesInboxPage from './pages/PatientMessagesInboxPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Custom Folder AXE Check', () => {
   it('Axe Check Custom Folder List', () => {
-    const landingPage = new PatientMessagesInboxPage();
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.contains('TEST2').click();

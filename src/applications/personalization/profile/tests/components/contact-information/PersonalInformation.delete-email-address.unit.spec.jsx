@@ -43,7 +43,9 @@ function deleteEmailAddress() {
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
-  const cancelDeleteButton = view.getByText('Cancel', { selector: 'button' });
+  const cancelDeleteButton = view.getByText('No, cancel this change', {
+    selector: 'button',
+  });
   confirmDeleteButton.click();
 
   return { confirmDeleteButton, cancelDeleteButton };
