@@ -2,14 +2,17 @@
 
 FROM public.ecr.aws/bitnami/node:14.15.5
 
-# RUN git clone https://github.com/department-of-veterans-affairs/content-build
-
 RUN mkdir vets-website
 
 COPY . ./vets-website
 
-# EXPOSE 3002
+RUN git clone https://github.com/department-of-veterans-affairs/vagov-content
+RUN git clone https://github.com/department-of-veterans-affairs/content-build
+RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema
+RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+
+EXPOSE 3002
 EXPOSE 3001
 EXPOSE 3000
 
-CMD cd vets-website; yarn install;ls; yarn watch --port=3001 --host=0.0.0.0 
+CMD cd vets-website; yarn install; yarn build; cd ../content-build; yarn install; cp .env.example .env; yarn fetch-drupal-cache; yarn build; npx http-server . -p 3002 --host=0.0.0.0 
