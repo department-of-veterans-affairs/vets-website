@@ -55,7 +55,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   }, []);
 
   /**
-   * This commented code was deemed likely to be needed on 01/06/2023.
+   * This commented code was deemed likely to be needed.
+   * Commented on: 01/06/2023
+   * Stale by: 03/01/2023
    */
   // const getFromToNums = (page, total) => {
   //   const from = (page - 1) * ITEMS_PER_PAGE + 1;
@@ -105,7 +107,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
   if (showClaimLetters) {
     /**
-     * This commented code was deemed likely to be needed on 01/06/2023.
+     * This commented code was deemed likely to be needed.
+     * Commented on: 01/06/2023
+     * Stale by: 03/01/2023
      */
     // const fromToNums = getFromToNums(currentPage, totalItems.current);
     content = (
