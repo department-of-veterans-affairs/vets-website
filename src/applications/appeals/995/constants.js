@@ -52,14 +52,10 @@ export const MAX_LENGTH = {
   EVIDENCE_DATES: 4, // items
   ISSUE_NAME: 140,
   EMAIL: 255,
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
+  PHONE_COUNTRY_CODE: 3,
+  PHONE_AREA_CODE: 4,
   PHONE_NUMBER: 14,
   PHONE_NUMBER_EXT: 10,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
   COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
@@ -155,10 +151,11 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
 // Copied from schmea
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.claimantType.enum;
 export const CLAIMANT_TYPES = [
-  'spouse_of_veteran',
-  'child_of_veteran',
-  'parent_of_veteran',
-  'other',
+  'veteran', // Phase 1
+  // 'spouse_of_veteran',
+  // 'child_of_veteran',
+  // 'parent_of_veteran',
+  // 'other',
 ];
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];

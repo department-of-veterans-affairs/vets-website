@@ -1,9 +1,11 @@
 import {
   SELECTED,
   MAX_LENGTH,
+  CLAIMANT_TYPES,
   PRIMARY_PHONE,
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
+  EVIDENCE_OTHER,
 } from '../constants';
 import { hasHomeAndMobilePhone, hasMobilePhone } from './contactInfo';
 import { replaceSubmittedData } from './replace';
@@ -20,9 +22,35 @@ export const removeEmptyEntries = object =>
   );
 
 export const getTimeZone = () =>
-  // supports IE11
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
   Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+/**
+ * @typedef ClaimantData
+ * @type {Object}
+ * @property {String} claimantType - Phase 1 only supports "veteran"
+ * @property {String} claimantTypeOtherValue - Populated if ClaimantType is "other"
+ */
+/**
+ * Get claimant type data
+ * @param {String} claimantType
+ * @param {String} claimantTypeOtherValue
+ * @returns ClaimantData
+ */
+export const getClaimantData = ({
+  claimantType = '',
+  claimantTypeOtherValue = '',
+}) => {
+  const result = {
+    // Phase 1: No claimant type question, so we default to "veteran"
+    claimantType: claimantType || CLAIMANT_TYPES[0],
+  };
+
+  if (result.claimantType === 'other' && claimantTypeOtherValue) {
+    result.claimantTypeOtherValue = claimantTypeOtherValue;
+  }
+  return result;
+};
 
 /**
  * Combine issues values into one field
@@ -41,8 +69,7 @@ export const createIssueName = ({ attributes } = {}) => {
     description,
   ]
     .filter(part => part)
-    .join(' - ')
-    .substring(0, MAX_LENGTH.ISSUE_NAME);
+    .join(' - ');
   return replaceSubmittedData(result);
 };
 
@@ -175,13 +202,16 @@ export const getAddress = formData => {
     MAX_LENGTH.POSTAL_CODE,
   );
   return removeEmptyEntries({
-    addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
-    addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
-    addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
-    city: truncate('city', MAX_LENGTH.CITY),
-    stateCode: veteran.address?.stateCode || '',
+    // Long addresses will overflow to an attachment page
+    addressLine1: truncate('addressLine1'),
+    addressLine2: truncate('addressLine2'),
+    addressLine3: truncate('addressLine3'),
+    city: truncate('city'),
+    stateCode: truncate('stateCode'),
+    // user profile provides "Iso2", whereas Lighthouse wants "ISO2"
     countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
-    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
+    // zipCode5 is always required, set to 00000 for international codes
+    // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200995.json#L28
     zipCode5: internationalPostalCode
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
@@ -204,12 +234,11 @@ export const getPhone = formData => {
     phone = 'mobilePhone';
   }
 
-  // use homePhone, for now, until we add primary phone page
   const truncate = (value, max) =>
     replaceSubmittedData(veteran?.[phone]?.[value] || '').substring(0, max);
   return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
     phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
     phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
@@ -224,11 +253,7 @@ export const getPhone = formData => {
  * @typedef EvidenceSubmission~upload - uploaded evidence
  * @type {Object}
  * @property {String} evidenceType - enum: 'upload'
- * @example
- *  [{
-      "evidenceType": "upload",
-      // TO DO - no schema for this?
-    }]
+ * @example [{ "evidenceType": "upload" }]
  */
 /**
  * @typedef EvidenceSubmission~evidenceDates
@@ -244,7 +269,7 @@ export const getPhone = formData => {
  * @property {EvidenceSubmission~evidenceDates} - date range
  * @example
   "evidenceSubmission": [{
-    "evidenceType": "retrieval",
+    "evidenceType": ["retrieval", "upload"],
     "retrieveFrom": [
       {
         "type": "retrievalEvidence",
@@ -289,7 +314,14 @@ export const getEvidence = formData => {
       },
     }));
   }
-  return evidenceSubmission;
+  // additionalDocuments added in submit-transformer
+  if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
+    evidenceSubmission.evidenceType.push('upload');
+  }
+  return {
+    form5103Acknowledged: formData.form5103Acknowledged,
+    evidenceSubmission,
+  };
 };
 
 /**

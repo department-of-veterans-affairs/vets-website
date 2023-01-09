@@ -239,6 +239,7 @@ describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
+      form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
@@ -253,29 +254,37 @@ describe('getEvidence', () => {
       ],
     },
     result: {
-      evidenceType: ['retrieval'],
-      retrieveFrom: [
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 1',
-            evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: ['retrieval'],
+        retrieveFrom: [
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 1',
+              evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+            },
           },
-        },
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 2',
-            evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 2',
+              evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+            },
           },
-        },
-      ],
+        ],
+      },
     },
   });
 
   it('should skip adding evidence when not selected', () => {
     const evidence = getData({ hasVa: false });
-    expect(getEvidence(evidence.data)).to.deep.equal({ evidenceType: [] });
+    expect(getEvidence(evidence.data)).to.deep.equal({
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: [],
+      },
+    });
   });
   it('should process evidence when available', () => {
     const evidence = getData();

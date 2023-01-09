@@ -8,7 +8,7 @@ import maximalDataV2 from '../fixtures/data/maximal-test.json';
 import transformedMaximalDataV2 from '../fixtures/data/transformed-maximal-test.json';
 
 // skip until we add 4142 transforms
-describe.skip('transform', () => {
+describe('transform', () => {
   it('should transform v2 maximal-test.json correctly', () => {
     const transformedResult = JSON.parse(transform(formConfig, maximalDataV2));
     // copy over variables that change based on date & location
