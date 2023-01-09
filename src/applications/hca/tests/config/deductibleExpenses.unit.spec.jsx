@@ -9,6 +9,7 @@ import {
   submitForm,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca deductible expenses', () => {
   const {
@@ -59,32 +60,11 @@ describe('Hca deductible expenses', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_deductibleMedicalExpenses'),
-      {
-        target: {
-          value: '100',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_deductibleFuneralExpenses'),
-      {
-        target: {
-          value: '0',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_deductibleEducationExpenses'),
-      {
-        target: {
-          value: '500',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
 
     submitForm(form);
 

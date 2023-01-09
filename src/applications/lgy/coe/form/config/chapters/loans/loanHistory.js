@@ -141,6 +141,7 @@ export const uiSchema = {
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:required': () => true,
       },
       willRefinance: {
         'ui:title': text.refinance.title,

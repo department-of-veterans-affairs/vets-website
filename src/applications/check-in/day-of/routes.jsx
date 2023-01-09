@@ -19,6 +19,7 @@ import TravelMileage from './pages/TravelMileage';
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
+import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
@@ -167,6 +168,8 @@ const createRoutesWithStore = () => {
         Component = withFeatureFlip(Component, options);
         // Add app name
         Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
         const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */

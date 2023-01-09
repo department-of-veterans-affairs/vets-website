@@ -7,7 +7,6 @@ export default function TestComponent({ window, isPreCheckIn, token }) {
     clearCurrentSession,
     getCurrentToken,
     setCurrentToken,
-    resetAttempts,
   } = useSessionStorage(isPreCheckIn);
   const [fromSession, setFromSession] = useState();
   return (
@@ -49,18 +48,6 @@ export default function TestComponent({ window, isPreCheckIn, token }) {
         type="button"
       >
         set
-      </button>
-      <button
-        onClick={useCallback(
-          () => {
-            resetAttempts(window, token, true);
-          },
-          [resetAttempts, window, token],
-        )}
-        data-testid="reset-button"
-        type="button"
-      >
-        reset
       </button>
       <div data-testid="from-session">
         {fromSession && JSON.stringify(fromSession)}

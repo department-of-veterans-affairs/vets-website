@@ -9,6 +9,7 @@ import {
   removeTimeZone,
   preCheckinExpired,
   locationShouldBeDisplayed,
+  hasPhoneAppointments,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -370,6 +371,16 @@ describe('check in', () => {
           createAppointment({ preCheckInValid: true }),
         ];
         expect(preCheckinExpired(appointments)).to.be.false;
+      });
+    });
+    describe('hasPhoneAppointments', () => {
+      it('finds phone appointment', () => {
+        const appointments = [createAppointment({ kind: 'phone' })];
+        expect(hasPhoneAppointments(appointments)).to.be.true;
+      });
+      it("doesn't find phone appointment", () => {
+        const appointments = [createAppointment()];
+        expect(hasPhoneAppointments(appointments)).to.be.false;
       });
     });
   });

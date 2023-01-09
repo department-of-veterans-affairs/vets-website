@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import moment from '../../../lib/moment-tz.js';
 import recordEvent from 'platform/monitoring/record-event.js';
+import moment from '../../../lib/moment-tz.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
 import InfoAlert from '../../../components/InfoAlert';
@@ -92,10 +92,6 @@ export default function ConfirmationDirectScheduleInfoV2({
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
         <AddToCalendar
           summary={`Appointment at ${clinic.serviceName}`}
           description={{

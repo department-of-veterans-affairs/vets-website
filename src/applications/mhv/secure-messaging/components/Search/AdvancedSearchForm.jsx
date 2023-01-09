@@ -15,8 +15,9 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
+import { DefaultFolders as Folders } from '../../util/constants';
 
-const SearchMessagesForm = props => {
+const AdvancedSearchForm = props => {
   const {
     folders,
     testingSubmit,
@@ -64,6 +65,7 @@ const SearchMessagesForm = props => {
   };
 
   const checkFormValidity = () => {
+    // TODO: add validation for ALL blank fields
     let formInvalid;
     if (dateRange === 'custom' || testingDateRange) {
       if (!fromDate && !testingFromDate) {
@@ -114,7 +116,7 @@ const SearchMessagesForm = props => {
       dateRange === DateRangeValues.LAST12
     ) {
       relativeToDate = moment(new Date());
-      relativeFromDate = getRelativeDate(dateRange);
+      relativeFromDate = `${getRelativeDate(dateRange)}T00:00:00${offset}`;
     } else if (dateRange === DateRangeValues.CUSTOM) {
       fromDateTime = `${fromDate}T00:00:00${offset}`;
       toDateTime = `${toDate}T23:59:59${offset}`;
@@ -135,23 +137,8 @@ const SearchMessagesForm = props => {
     history.push('/search/results');
   };
 
-  const resetSearchForm = () => {
-    setFolder(0);
-    setMessageId('');
-    setSenderName('');
-    setSubject('');
-    setCategory('');
-    setDateRange('any');
-    setFromDate('');
-    setToDate('');
-
-    setFromDateError('');
-    setToDateError('');
-    setFormError('');
-  };
-
   return (
-    <form className="search-form" onSubmit={handleFormSubmit}>
+    <form className="advanced-search-form" onSubmit={handleFormSubmit}>
       {formError && (
         <VaModal
           modalTitle="Invalid search"
@@ -172,36 +159,35 @@ const SearchMessagesForm = props => {
           </ul>
         </VaModal>
       )}
+      <p className="vads-u-margin--0">
+        To use the advanced search please choose a folder and fill out at least
+        one other field.
+      </p>
       <VaSelect
         id="folder-dropdown"
         label="Folder"
         name="folder"
-        class="selectField"
         value={folder}
+        class="advanced-search-field"
         onVaSelect={e => setFolder(e.detail.value)}
         data-testid="folder-dropdown"
+        required
       >
         {foldersList.map(item => (
           <option key={item.id} value={item.id}>
-            {item.name}
+            {item.id === Folders.DELETED.id
+              ? Folders.DELETED.header
+              : item.name}
           </option>
         ))}
       </VaSelect>
 
       <va-text-input
-        label="Message ID"
-        name="messageId"
-        onBlur={e => setMessageId(e.target.value)}
-        value={messageId}
-        class="textField"
-        data-testid="message-id-text-input"
-      />
-      <va-text-input
         label="From"
         name="from"
         onBlur={e => setSenderName(e.target.value)}
         value={senderName}
-        class="textField"
+        class="advanced-search-field"
         data-testid="sender-text-input"
       />
       <va-text-input
@@ -209,7 +195,7 @@ const SearchMessagesForm = props => {
         name="subject"
         onBlur={e => setSubject(e.target.value)}
         value={subject}
-        class="textField"
+        class="advanced-search-field"
         data-testid="subject-text-input"
       />
 
@@ -217,7 +203,7 @@ const SearchMessagesForm = props => {
         id="category-dropdown"
         label="Category"
         name="category"
-        class="selectField"
+        class="advanced-search-field"
         value={category}
         onVaSelect={e => setCategory(e.detail.value)}
         data-testid="category-dropdown"
@@ -233,7 +219,7 @@ const SearchMessagesForm = props => {
         id="date-range-dropdown"
         label="Date range"
         name="dateRange"
-        class="selectField"
+        class="advanced-search-field"
         value={dateRange}
         onVaSelect={e => setDateRange(e.detail.value)}
         data-testid="date-range-dropdown"
@@ -270,19 +256,31 @@ const SearchMessagesForm = props => {
         </div>
       )}
 
-      <div className="advanced-search-actions">
-        <button type="submit" data-testid="advanced-search-submit">
-          Advanced search
-        </button>
-        <button type="button" className="reset" onClick={resetSearchForm}>
-          Reset search
-        </button>
-      </div>
+      <va-text-input
+        label="Message ID"
+        name="messageId"
+        onBlur={e => setMessageId(e.target.value)}
+        value={messageId}
+        class="advanced-search-field"
+        data-testid="message-id-text-input"
+      />
+      <va-additional-info trigger="What's this?" class="message-id-info">
+        A message ID is a number we assign to each message. If you sign up for
+        email notifications, we’ll send you an email each time you get a new
+        message. These emails include the message ID.
+      </va-additional-info>
+
+      <va-button
+        class="advanced-search-button"
+        data-testid="advanced-search-submit"
+        text="Search"
+        onClick={handleFormSubmit}
+      />
     </form>
   );
 };
 
-SearchMessagesForm.propTypes = {
+AdvancedSearchForm.propTypes = {
   advancedSearchOpen: PropTypes.bool,
   folders: PropTypes.any,
   testingDateRange: PropTypes.any,
@@ -291,4 +289,4 @@ SearchMessagesForm.propTypes = {
   testingToDate: PropTypes.any,
 };
 
-export default SearchMessagesForm;
+export default AdvancedSearchForm;

@@ -9,6 +9,8 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { IssueCard } from './IssueCard';
 import { SELECTED, MAX_LENGTH, LAST_SC_ITEM } from '../constants';
 import {
+  ContestableIssuesLegend,
+  NoIssuesLoadedAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
 } from '../content/contestableIssues';
@@ -56,6 +58,7 @@ const ContestableIssuesWidget = props => {
   // inReviewMode = false (in edit mode)
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
+  const { submitted } = formContext;
 
   // combine all issues for viewing
   const items = value
@@ -137,6 +140,7 @@ const ContestableIssuesWidget = props => {
       key: index,
       options,
       showCheckbox,
+      onReviewPage,
       onChange: handlers.onChange,
       // Don't allow editing or removing API-loaded issues
       onRemove: item.ratingIssueSubjectText
@@ -148,26 +152,34 @@ const ContestableIssuesWidget = props => {
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
 
+  const showNoIssues =
+    items.length === 0 && (!onReviewPage || (onReviewPage && inReviewMode));
+
   return (
     <>
-      {formContext.submitted &&
+      <div name="eligibleScrollElement" />
+      {showNoIssues && <NoIssuesLoadedAlert submitted={submitted} />}
+      {!showNoIssues &&
+        submitted &&
         !hasSelected && <NoneSelectedAlert count={value.length} />}
-      {onReviewPage && inReviewMode ? (
-        content
-      ) : (
-        <>
-          <dl className="review vads-u-border-bottom--1px">{content}</dl>
+      <fieldset className="review-fieldset">
+        <ContestableIssuesLegend
+          onReviewPage={onReviewPage}
+          inReviewMode={inReviewMode}
+        />
+        <dl className="review">{content}</dl>
+        {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"
             to={{ pathname: '/add-issue', search: `?index=${items.length}` }}
           >
             Add a new issue
           </Link>
-        </>
-      )}
-      {showErrorModal && (
-        <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
-      )}
+        )}
+        {showErrorModal && (
+          <MaxSelectionsAlert showModal closeModal={handlers.closeModal} />
+        )}
+      </fieldset>
     </>
   );
 };
@@ -179,7 +191,9 @@ ContestableIssuesWidget.propTypes = {
     reviewMode: PropTypes.bool,
     submitted: PropTypes.bool,
   }),
-  formData: PropTypes.shape({}),
+  formData: PropTypes.shape({
+    contestedIssues: PropTypes.array,
+  }),
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,

@@ -34,6 +34,7 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [userSaved, setUserSaved] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
 
@@ -90,6 +91,7 @@ const ComposeForm = props => {
     return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
   };
 
+  // Populates form fields with recipients and categories
   const populateForm = () => {
     if (!recipientExists(draft.recipientId)) {
       const newRecipient = {
@@ -161,7 +163,9 @@ const ComposeForm = props => {
     dispatch(saveDraft(formData, type, draftId));
   };
 
+  // Validations
   const sendMessageHandler = () => {
+    // TODO add GA event
     let errorCounter = 0;
     if (!selectedRecipient || selectedRecipient === '') {
       setRecipientError('Please select a recipient.');
@@ -172,7 +176,7 @@ const ComposeForm = props => {
       errorCounter += 1;
     }
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message Body cannot be blank.');
+      setBodyError('Message body cannot be blank.');
       errorCounter += 1;
     }
     if (!category || category === '') {
@@ -229,7 +233,7 @@ const ComposeForm = props => {
               value={selectedRecipient}
               onVaSelect={e => setSelectedRecipient(e.detail.value)}
               class="composeSelect"
-              data-testid="compose-select"
+              data-testid="compose-recipient-select"
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
@@ -293,28 +297,29 @@ const ComposeForm = props => {
           />
         </section>
         <div className="compose-form-actions vads-u-display--flex">
-          <button
-            type="button"
-            className="vads-u-flex--1"
+          <va-button
+            text="Send"
+            class="vads-u-flex--1"
             data-testid="Send-Button"
             onClick={sendMessageHandler}
-          >
-            Send
-          </button>
-          <button
-            type="button"
-            className="usa-button-secondary vads-u-flex--1"
+          />
+
+          <va-button
+            text="Save draft"
+            secondary
+            class="vads-u-flex--1"
             data-testid="Save-Draft-Button"
-            onClick={() => saveDraftHandler('manual')}
-          >
-            Save draft
-          </button>
+            onClick={() => {
+              setUserSaved(true);
+              saveDraftHandler('manual');
+            }}
+          />
           <div className="vads-u-flex--1 vads-u-display--flex">
             {draft && <DiscardDraft draft={draft} />}
           </div>
         </div>
       </div>
-      <DraftSavedInfo />
+      <DraftSavedInfo userSaved={userSaved} />
     </form>
   );
 };

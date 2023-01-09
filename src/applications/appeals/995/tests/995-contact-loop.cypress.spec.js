@@ -1,6 +1,10 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
+import {
+  BASE_URL,
+  CONTESTABLE_ISSUES_API,
+  CONTACT_INFO_PATH,
+} from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
@@ -13,6 +17,7 @@ import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-succes
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
+  const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
     window.dataLayer = [];
@@ -59,7 +64,7 @@ describe('995 contact info loop', () => {
     getToContactPage();
 
     // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
     cy.injectAxe();
     cy.axeCheck();
 
@@ -70,7 +75,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
@@ -79,7 +84,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
     cy.get('a[href$="email-address"]').click();
@@ -88,7 +93,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
@@ -97,7 +102,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
@@ -120,7 +125,7 @@ describe('995 contact info loop', () => {
       .first()
       .click();
 
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Skipping AXE-check; already done in previous test.
   });
