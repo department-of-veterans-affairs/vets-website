@@ -159,7 +159,8 @@ export class AppointmentModel {
   }
 
   getTypeOfCareName() {
-    return getTypeOfCareById(this.data.serviceType);
+    const { name } = getTypeOfCareById(this.data.vaos.apiData.serviceType);
+    return name;
   }
 
   toString() {
