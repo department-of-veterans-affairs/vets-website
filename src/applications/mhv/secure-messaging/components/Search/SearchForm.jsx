@@ -141,15 +141,14 @@ const SearchForm = props => {
         </>
       )}
 
-      {resultsCount !== 0 &&
-        folders && (
-          <AdvancedSearchExpander
-            advancedOpen={advancedOpen}
-            setAdvancedOpen={setAdvancedOpen}
-            nodeRef={nodeRef}
-            folders={folders}
-          />
-        )}
+      {folders && (
+        <AdvancedSearchExpander
+          advancedOpen={advancedOpen}
+          setAdvancedOpen={setAdvancedOpen}
+          nodeRef={nodeRef}
+          folders={folders}
+        />
+      )}
     </div>
   );
 };
