@@ -11,6 +11,7 @@ import LandingPageUnauth from './LandingPageUnauth';
 import MessageFAQs from './MessageFAQs';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/shared/ScrollToTop';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const App = () => {
               >
                 {isLoggedIn ? <>log out</> : <>log in</>}
               </button>
+              <ScrollToTop />
               <Switch>
                 <Route path="/faq" key="MessageFAQ">
                   <MessageFAQs isLoggedIn={isLoggedIn} />

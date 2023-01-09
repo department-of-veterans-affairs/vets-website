@@ -38,10 +38,10 @@ function exitBankInfoForm(type) {
 
 function saveNewBankInfo(id) {
   if (!id) {
-    cy.findByRole('button', { name: /update/i }).click({ force: true });
+    cy.findByRole('button', { name: /save/i }).click({ force: true });
   } else {
     cy.findByTestId(`${id}-bank-info-form`)
-      .findByRole('button', { name: /update/i })
+      .findByRole('button', { name: /save/i })
       .click();
   }
   cy.axeCheck();

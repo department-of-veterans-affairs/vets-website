@@ -249,7 +249,7 @@ FormPage.propTypes = {
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({
       arrayPath: PropTypes.string,
-      CustomPage: PropTypes.element,
+      CustomPage: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
       onContinue: PropTypes.func,
       pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
