@@ -15,39 +15,41 @@ import {
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingDirect: true,
-  },
-  appointments: {
-    facilitySettings: [
-      {
-        id: '983',
-        services: [
-          {
-            id: 'covid',
-            direct: {
-              enabled: true,
-            },
-          },
-        ],
-      },
-    ],
-  },
-  user: {
-    profile: {
-      facilities: [
-        { facilityId: '983', isCerner: false },
-        { facilityId: '984', isCerner: false },
-      ],
-    },
-  },
-};
-
 const parentSiteIds = ['983', '984'];
 
 describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
-  beforeEach(() => mockFetch());
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingDirect: true,
+    },
+    appointments: {
+      facilitySettings: [
+        {
+          id: '983',
+          services: [
+            {
+              id: 'covid',
+              direct: {
+                enabled: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    user: {
+      profile: {
+        facilities: [
+          { facilityId: '983', isCerner: false },
+          { facilityId: '984', isCerner: false },
+        ],
+      },
+    },
+  };
+
+  beforeEach(() => {
+    mockFetch();
+  });
 
   it('should show closest two registered facilities', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -347,30 +349,34 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     const screen = renderWithStoreAndRouter(<ContactFacilitiesPage />, {
       store,
     });
-    // expect(
-    //   await screen.findByRole('link', { name: /Facility that is enabled/i }),
-    // ).to.be.ok;
-    // expect(
-    //   screen.getByRole('heading', {
-    //     name: 'Contact a facility',
-    //     level: 1,
-    //   }),
-    // ).to.be.ok;
-    // expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-    //   [
-    //     'Facility that is enabled',
-    //     'Find VA facilities near you that offer COVID-19 vaccines',
-    //   ],
-    // );
-    // expect(screen.getByTestId('tty-telephone')).to.exist;
-    // expect(screen.getByText(/Find a vaccine walk-in clinic near you/i)).to.be
-    //   .ok;
-    // expect(
-    //   screen.getByText(
-    //     /You can go to a VA facility's vaccine clinic during walk-in hours to get the COVID-19 vaccine. You don't need an appointment, but be sure to check the facility's walk-in hours before you go./i,
-    //   ),
-    // ).to.be.ok;
-    expect(screen.findByTestId('find-facilities-link')).to.have.attribute(
+    expect(
+      await screen.findByRole('link', { name: /Facility that is enabled/i }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        name: 'Contact a facility',
+        level: 1,
+      }),
+    ).to.be.ok;
+    expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
+      [
+        'Facility that is enabled',
+        'Find VA facilities near you that offer COVID-19 vaccines',
+      ],
+    );
+    expect(screen.getByTestId('tty-telephone')).to.exist;
+    expect(screen.getByText(/Find a vaccine walk-in clinic near you/i)).to.be
+      .ok;
+    expect(
+      screen.getByText(
+        /You can go to a VA facility's vaccine clinic during walk-in hours to get the COVID-19 vaccine. You don't need an appointment, but be sure to check the facility's walk-in hours before you go./i,
+      ),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: /Find VA facilities near you that offer COVID-19 vaccines/i,
+      }),
+    ).to.have.attribute(
       'href',
       '/find-locations/?facilityType=health&serviceType=Covid19Vaccine',
     );
