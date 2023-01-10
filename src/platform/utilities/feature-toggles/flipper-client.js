@@ -1,13 +1,13 @@
 /* This file is must run in both NodeJS and browser environments */
 
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getFlipperId } from './helpers';
 
 const FLIPPER_ID = getFlipperId();
 const TOGGLE_VALUES_PATH = `/v0/feature_toggles?&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
-// const TOGGLE_STORAGE_KEY = 'featureToggles';
-// const TOGGLE_STORAGE_EXPIRATION_MINUTES = environment.isLocalhost() ? 5 : 15;
+const TOGGLE_STORAGE_KEY = 'featureToggles';
+const TOGGLE_STORAGE_EXPIRATION_MINUTES = environment.isLocalhost() ? 5 : 15;
 
 let flipperClientInstance;
 
@@ -56,81 +56,82 @@ function FlipperClient({
     handleToggleValuesRetrieved(toggleValues);
   };
 
-  // const setDisableCacheSession = disableCacheTime => {
-  //   if (disableCacheTime === '0') {
-  //     localStorage.removeItem('disableCacheTime');
-  //   } else if (['8', '16', '24'].indexOf(disableCacheTime) > -1) {
-  //     const now = new Date();
-  //     const expiresAt = new Date(
-  //       now.getTime() + 60000 * 60 * Number(disableCacheTime),
-  //     );
+  const setDisableCacheSession = disableCacheTime => {
+    if (disableCacheTime === '0') {
+      localStorage.removeItem('disableCacheTime');
+    } else if (['8', '16', '24'].indexOf(disableCacheTime) > -1) {
+      const now = new Date();
+      const expiresAt = new Date(
+        now.getTime() + 60000 * 60 * Number(disableCacheTime),
+      );
 
-  //     localStorage.setItem(
-  //       'disableCacheTime',
-  //       JSON.stringify({ expiresAt: expiresAt.toISOString() }),
-  //     );
-  //     return true;
-  //   } else {
-  //     const disableCacheExpireTime = JSON.parse(
-  //       localStorage.getItem('disableCacheTime'),
-  //     );
-  //     return Date.now() < new Date(disableCacheExpireTime.expiresAt).getTime();
-  //   }
-  //   return false;
-  // };
+      localStorage.setItem(
+        'disableCacheTime',
+        JSON.stringify({ expiresAt: expiresAt.toISOString() }),
+      );
+      return true;
+    } else {
+      const disableCacheExpireTime = JSON.parse(
+        localStorage.getItem('disableCacheTime'),
+      );
+      return disableCacheExpireTime
+        ? Date.now() < new Date(disableCacheExpireTime.expiresAt).getTime()
+        : false;
+    }
+    return false;
+  };
 
-  // const isSignOutTriggered = () => {
-  //   const isSignOut = sessionStorage.getItem('signOut') === 'true';
+  const isSignOutTriggered = () => {
+    const isSignOut = sessionStorage.getItem('signOut') === 'true';
 
-  //   if (isSignOut) {
-  //     setTimeout(() => {
-  //       sessionStorage.removeItem('signOut');
-  //     }, 10 * 1000);
-  //   }
+    if (isSignOut) {
+      setTimeout(() => {
+        sessionStorage.removeItem('signOut');
+      }, 10 * 1000);
+    }
 
-  //   return isSignOut;
-  // };
+    return isSignOut;
+  };
 
   const fetchToggleValues = async () => {
-    // let data;
-    // const queryParams = new URLSearchParams(window.location.search);
-    // const disableFlipperCacheTime = queryParams.get('disableFlipperCacheFor');
-    // const isToggleCacheDisabled = setDisableCacheSession(
-    //   disableFlipperCacheTime,
-    // );
-    // const isPostLogin = queryParams.get('postLogin') === 'true';
-    // const signOutFlag = isSignOutTriggered();
+    let data;
+    const queryParams = new URLSearchParams(window.location.search);
+    const disableFlipperCacheTime = queryParams.get('disableFlipperCacheFor');
+    const isToggleCacheDisabled = setDisableCacheSession(
+      disableFlipperCacheTime,
+    );
+    const isPostLogin = queryParams.get('postLogin') === 'true';
+    const signOutFlag = isSignOutTriggered();
 
-    // const featureToggleSessionData =
-    //   sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
-    //   JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
+    const featureToggleSessionData =
+      sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
+      JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
 
-    // const isSessionDataValid =
-    //   featureToggleSessionData &&
-    //   Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
+    const isSessionDataValid =
+      featureToggleSessionData &&
+      Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
 
-    // if (
-    //   !isToggleCacheDisabled &&
-    //   isSessionDataValid &&
-    //   !isPostLogin &&
-    //   !signOutFlag
-    // ) {
-    //   data = featureToggleSessionData.data;
-    // } else {
-    //   const response = await _fetchToggleValues();
-    //   data = response.data;
+    if (
+      !isToggleCacheDisabled &&
+      isSessionDataValid &&
+      !isPostLogin &&
+      !signOutFlag
+    ) {
+      data = featureToggleSessionData.data;
+    } else {
+      const response = await _fetchToggleValues();
+      data = response.data;
 
-    //   const now = new Date();
-    //   const expiresAt = new Date(
-    //     now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
-    //   );
+      const now = new Date();
+      const expiresAt = new Date(
+        now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
+      );
 
-    //   sessionStorage.setItem(
-    //     TOGGLE_STORAGE_KEY,
-    //     JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
-    //   );
-    // }
-    const { data } = await _fetchToggleValues();
+      sessionStorage.setItem(
+        TOGGLE_STORAGE_KEY,
+        JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
+      );
+    }
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
