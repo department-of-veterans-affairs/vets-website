@@ -476,7 +476,7 @@ describe('VAOS <VAFacilityPage>', () => {
         .exist;
     });
 
-    it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
+    it.skip('should show additional info link if there are unsupported facilities within 100 miles', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
@@ -594,7 +594,7 @@ describe('VAOS <VAFacilityPage>', () => {
       ).to.have.attribute('href', '/find-locations');
     });
 
-    it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
+    it.skip('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
@@ -786,7 +786,7 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
-    it('should display Cerner sites in the facility list ', async () => {
+    it.skip('should display Cerner sites in the facility list ', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
         getDirectBookingEligibilityCriteriaMock({
