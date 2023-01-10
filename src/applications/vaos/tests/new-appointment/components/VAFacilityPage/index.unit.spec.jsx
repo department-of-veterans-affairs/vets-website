@@ -476,6 +476,10 @@ describe('VAOS <VAFacilityPage>', () => {
         .exist;
     });
 
+    //   1) VAOS <VAFacilityPage>
+    //   when there are multiple facilities to choose from
+    //     should show additional info link if there are unsupported facilities within 100 miles:
+    // Unable to find an element with the text: /Facility that is disabled/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
     it.skip('should show additional info link if there are unsupported facilities within 100 miles', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -594,6 +598,10 @@ describe('VAOS <VAFacilityPage>', () => {
       ).to.have.attribute('href', '/find-locations');
     });
 
+    //   1) VAOS <VAFacilityPage>
+    //   when there are multiple facilities to choose from
+    //     should close additional info and re-sort unsupported facilities when sort method changes:
+    // Unable to find an element with the text: /Disabled facility near residential address/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
     it.skip('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -715,6 +723,8 @@ describe('VAOS <VAFacilityPage>', () => {
         .not.to.be.ok;
     });
 
+    // AssertionError: expected [ Array(4) ] to have a length of 2 but got 4
+    // + expected - actual
     it.skip('should display correct facilities after changing type of care', async () => {
       const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
@@ -786,6 +796,10 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
+    // 1) VAOS <VAFacilityPage>
+    //    when there are multiple facilities to choose from
+    //      should display Cerner sites in the facility list :
+    //  Unable to find an element with the text: /Vista facility/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
     it.skip('should display Cerner sites in the facility list ', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
