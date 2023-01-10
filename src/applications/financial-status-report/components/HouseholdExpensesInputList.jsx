@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 const HouseholdExpensesInputList = props => {
+  const { submitted } = props.formContext;
   const { errorSchema } = props;
-  // console.log(props);
+
   const errorList = errorSchema?.expenseRecords?.__errors;
 
   const dispatch = useDispatch();
@@ -43,7 +44,9 @@ const HouseholdExpensesInputList = props => {
             value={income.amount}
             id={income.name + key}
             error={
-              errorList.includes(income.name) ? 'Enter valid dollar amount' : ''
+              submitted && errorList.includes(income.name)
+                ? 'Enter valid dollar amount'
+                : ''
             }
             inputmode="decimal"
             onInput={onChange}

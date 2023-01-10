@@ -492,7 +492,9 @@ const formConfig = {
           title: 'Household expenses values',
           uiSchema: pages.householdExpensesInputList.uiSchema,
           schema: pages.householdExpensesInputList.schema,
-          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          depends: formData =>
+            formData.expenses?.expenseRecords?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         utilities: {
           path: 'utilities',
