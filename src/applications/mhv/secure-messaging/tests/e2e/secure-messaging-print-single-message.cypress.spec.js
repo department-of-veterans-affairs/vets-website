@@ -1,16 +1,20 @@
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
 
 describe(manifest.appName, () => {
-  it('Axe Check Message Details Page', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    landingPage.login();
-    landingPage.loadPage();
+  it('print single message', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadPage(false);
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
+    cy.injectAxe();
+    cy.axeCheck();
     cy.get('[data-testid=feature-flag-true] button:nth-child(1)')
       .last()
       .click();
@@ -19,19 +23,56 @@ describe(manifest.appName, () => {
       .find('label')
       .should('have.text', 'Only print this message')
       .should('be.visible');
+    cy.get('[data-testid=radio-print-all-messages]')
+      .shadow()
+      .find('label')
+      .should('contain.text', 'Print all messages in this conversation')
+      .should('be.visible');
     cy.get('[data-testid=print-modal-popup] p')
       .should(
         'have.text',
         'Would you like to print this one message, or all messages in this conversation?',
       )
       .should('be.visible');
-    cy.get('[data-testid=radio-print-one-message]').click();
-    cy.get('[data-testid=print-modal-popup]')
-      .shadow()
-      .find('[type=button]')
-      .contains('Print')
+    cy.get('[data-testid=radio-print-all-messages]').click();
+
+    cy.visit(
+      'http://localhost:3001/my-health/secure-messages/message/7192838/inner.html',
+      {
+        onBeforeLoad: win => {
+          cy.stub(win, 'print');
+        },
+      },
+    );
+
+    cy.window().then(win => {
+      win.print();
+
+      expect(win.print).to.be.calledOnce;
+    });
+    site.login();
+    landingPage.loadPage(false);
+    landingPage.loadMessageDetails(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
+    );
+    cy.get('[data-testid=feature-flag-true] button:nth-child(1)')
+      .last()
       .click();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.get('[data-testid=radio-print-one-message]').click();
+    cy.visit(
+      'http://localhost:3001/my-health/secure-messages/message/7192838/inner.html',
+      {
+        onBeforeLoad: win => {
+          cy.stub(win, 'print');
+        },
+      },
+    );
+    cy.window().then(win => {
+      win.print();
+
+      expect(win.print).to.be.calledOnce;
+    });
   });
 });
