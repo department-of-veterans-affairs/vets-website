@@ -142,6 +142,33 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
+  loadMessageDetailsWithData = (
+    messageId,
+    messageTitle,
+    messageDate,
+    inputMockMessage,
+  ) => {
+    cy.log('loading message details.');
+    cy.log(`Sent date: ${messageDate}`);
+    mockMessage = inputMockMessage;
+    mockMessage.data.attributes.sentDate = messageDate;
+    mockMessage.data.attributes.messageId = messageId;
+    mockMessage.data.attributes.messageTitle = messageTitle;
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${messageId}`,
+      inputMockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${messageId}/thread`,
+      mockThread,
+    ).as('full-thread');
+    cy.contains(messageTitle).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
+  };
+
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);

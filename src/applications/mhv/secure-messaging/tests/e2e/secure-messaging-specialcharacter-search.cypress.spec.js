@@ -4,7 +4,7 @@ import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
-
+import mockSpeciaCharMessage from './fixtures/message-response-specialchars.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 
 describe(manifest.appName, () => {
@@ -28,16 +28,6 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/2585370',
-      mockMessages,
-    ).as('specialCharSearch');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/2585370/thread',
-      mockMessages,
-    ).as('specialCharSearchMessage');
     cy.get('[data-testid="sent-sidebar"]').click();
 
     basicSearchPage.typeSearchInputFieldText('message%$#*');
@@ -47,7 +37,10 @@ describe(manifest.appName, () => {
 
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('.message-subject-link', { timeout: 5000 }).click({ force: true });
-    cy.wait('@specialCharSearchMessage');
+    landingPage.loadMessageDetailsWithData(
+      mockSpeciaCharMessage.data.id,
+      mockSpeciaCharMessage.data.attributes.subject,
+      mockSpeciaCharMessage,
+    );
   });
 });
