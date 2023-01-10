@@ -42,9 +42,9 @@ const Navigation = () => {
     setIsNavigationOpen(true);
   }
 
-  // function closeNavigation() {
-  //   setIsNavigationOpen(false);
-  // }
+  function closeNavigation() {
+    setIsNavigationOpen(false);
+  }
 
   function checkScreenSize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
@@ -108,6 +108,18 @@ const Navigation = () => {
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
+          {isMobile && (
+            <div className="sidebar-navigation-header">
+              <button
+                className="va-btn-close-icon"
+                aria-label="Close-this-menu"
+                aria-expanded="true"
+                aria-controls="a1"
+                onClick={closeNavigation}
+                type="button"
+              />
+            </div>
+          )}
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
               <li className="sidebar-navigation-messages-list">
