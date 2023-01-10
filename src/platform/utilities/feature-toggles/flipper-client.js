@@ -125,6 +125,7 @@ function FlipperClient({
         now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
       );
 
+      // Cache feature toggle
       sessionStorage.setItem(
         TOGGLE_STORAGE_KEY,
         JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
