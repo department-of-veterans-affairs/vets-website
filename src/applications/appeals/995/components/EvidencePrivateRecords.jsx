@@ -72,7 +72,6 @@ const defaultState = {
 
 const EvidencePrivateRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -360,20 +359,6 @@ const EvidencePrivateRecords = ({
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onGoForward}
-      />
-      {contentAfterButtons}
-    </>
-  );
-
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
 
@@ -556,7 +541,15 @@ const EvidencePrivateRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onGoForward}
+          />
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -591,7 +584,6 @@ EvidencePrivateRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRecords;

@@ -1,7 +1,6 @@
 import {
   evidenceWillUploadHeader,
   evidenceWillUploadInfo,
-  reviewField,
 } from '../content/evidenceWillUpload';
 
 import { EVIDENCE_OTHER, errorMessages } from '../constants';
@@ -18,7 +17,9 @@ export default {
       'ui:errorMessages': {
         required: errorMessages.requiredYesNo,
       },
-      'ui:reviewField': reviewField,
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
     'view:otherEvidenceInfo': {
       'ui:description': evidenceWillUploadInfo,

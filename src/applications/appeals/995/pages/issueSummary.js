@@ -5,6 +5,7 @@ export default {
     'ui:title': IssueSummary,
     'ui:options': {
       forceDivWrapper: true,
+      hideOnReview: true,
     },
   },
 
