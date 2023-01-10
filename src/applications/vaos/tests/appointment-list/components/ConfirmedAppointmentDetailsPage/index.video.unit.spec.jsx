@@ -142,7 +142,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Test T+90 Test');
 
       expect(
-        screen.getByRole('link', {
+        screen.getByTestId('add-to-calendar-link', {
           name: new RegExp(
             startDate.format(
               '[Add] MMMM D, YYYY [appointment to your calendar]',
@@ -903,7 +903,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
 
       expect(
-        screen.getByRole('link', {
+        screen.getByTestId('add-to-calendar-link', {
           name: new RegExp(
             startDate.format(
               '[Add] MMMM D, YYYY [appointment to your calendar]',
@@ -975,7 +975,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       const ics = decodeURIComponent(
         screen
-          .getByRole('link', {
+          .getByTestId('add-to-calendar-link', {
             name: `Add ${moment(startDate)
               .tz('America/Denver')
               .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -1081,7 +1081,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       const ics = decodeURIComponent(
         screen
-          .getByRole('link', {
+          .getByTestId('add-to-calendar-link', {
             name: `Add ${moment(startDate)
               .tz('America/Denver')
               .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -1204,7 +1204,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       // When the user adds the appointment to their calendar
       const ics = decodeURIComponent(
         screen
-          .getByRole('link', {
+          .getByTestId('add-to-calendar-link', {
             name: `Add ${moment(startDate)
               .tz('America/Denver')
               .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -1329,7 +1329,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       const ics = decodeURIComponent(
         screen
-          .getByRole('link', {
+          .getByTestId('add-to-calendar-link', {
             name: `Add ${startDate
               .tz('America/Denver')
               .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -1471,7 +1471,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       // And the calendar link is shown with the appropriate name
       expect(
-        screen.getByRole('link', {
+        screen.getByTestId('add-to-calendar-link', {
           name: new RegExp(
             futureDate
               .tz('America/Denver')

@@ -15,7 +15,11 @@ const DiscardDraft = props => {
 
   const handleDeleteDraftConfirm = () => {
     setIsModalVisible(false);
-    dispatch(deleteDraft(props.draft.messageId));
+    if (props.draftId) {
+      dispatch(deleteDraft(props.draftId));
+    } else {
+      dispatch(deleteDraft(props.draft.messageId));
+    }
     navigateToFolderByFolderId(
       activeFolder ? activeFolder.folderId : Constants.DefaultFolders.DRAFTS.id,
       history,
@@ -24,16 +28,16 @@ const DiscardDraft = props => {
 
   return (
     <>
+      {/* TODO add GA event */}
       <button
         type="button"
         data-testid="discard-draft-button"
-        className="usa-button-secondary discard-draft-button vads-u-flex--fill vads-u-margin-right--0 vads-u-margin-y--1"
+        className="usa-button-secondary discard-draft-button vads-u-flex--1 vads-u-margin-right--0 vads-u-margin-y--1"
         onClick={() => {
           setIsModalVisible(true);
         }}
       >
-        <i className="fas fa-trash-alt vads-u-padding-right--0p5" aria-hidden />
-        Discard
+        Discard draft
       </button>
       <DiscardDraftModal
         visible={isModalVisible}
@@ -48,6 +52,7 @@ const DiscardDraft = props => {
 
 DiscardDraft.propTypes = {
   draft: PropType.object,
+  draftId: PropType.number,
 };
 
 export default DiscardDraft;
