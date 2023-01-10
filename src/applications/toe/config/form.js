@@ -364,13 +364,6 @@ const formConfig = {
             !formData.sponsors?.sponsors?.length ||
             formData.sponsors?.someoneNotListed,
           uiSchema: {
-            'view:enterYourSponsorsInformationHeading': {
-              'ui:description': (
-                <h3 className="vads-u-margin-bottom--3">
-                  Enter your sponsor’s information
-                </h3>
-              ),
-            },
             'view:noSponsorWarning': {
               'ui:description': (
                 <va-alert
@@ -427,6 +420,13 @@ const formConfig = {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
+            'view:enterYourSponsorsInformationHeading': {
+              'ui:description': (
+                <h3 className="vads-u-margin-bottom--3">
+                  Enter your sponsor’s information
+                </h3>
+              ),
+            },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
@@ -471,15 +471,15 @@ const formConfig = {
               formFields.sponsorDateOfBirth,
             ],
             properties: {
-              'view:enterYourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
               'view:noSponsorWarning': {
                 type: 'object',
                 properties: {},
               },
               'view:sponsorNotOnFileWarning': {
+                type: 'object',
+                properties: {},
+              },
+              'view:enterYourSponsorsInformationHeading': {
                 type: 'object',
                 properties: {},
               },
