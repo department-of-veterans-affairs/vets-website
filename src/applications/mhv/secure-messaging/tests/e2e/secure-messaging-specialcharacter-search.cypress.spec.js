@@ -37,10 +37,6 @@ describe(manifest.appName, () => {
 
     cy.injectAxe();
     cy.axeCheck();
-    landingPage.loadMessageDetailsWithData(
-      mockSpeciaCharMessage.data.id,
-      mockSpeciaCharMessage.data.attributes.subject,
-      mockSpeciaCharMessage,
-    );
+    landingPage.loadMessageDetailsWithData(mockSpeciaCharMessage);
   });
 });

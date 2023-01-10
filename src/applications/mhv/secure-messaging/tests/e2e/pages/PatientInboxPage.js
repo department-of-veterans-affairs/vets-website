@@ -142,29 +142,20 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
-  loadMessageDetailsWithData = (
-    messageId,
-    messageTitle,
-    messageDate,
-    inputMockMessage,
-  ) => {
+  loadMessageDetailsWithData = inputMockMessage => {
     cy.log('loading message details.');
-    cy.log(`Sent date: ${messageDate}`);
-    mockMessage = inputMockMessage;
-    mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.messageId = messageId;
-    mockMessage.data.attributes.messageTitle = messageTitle;
+
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${messageId}`,
-      inputMockMessage,
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      mockMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${messageId}/thread`,
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
       mockThread,
     ).as('full-thread');
-    cy.contains(messageTitle).click();
+    cy.contains(inputMockMessage.data.attributes.subject).click();
     cy.wait('@message');
     cy.wait('@full-thread');
   };
