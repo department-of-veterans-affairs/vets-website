@@ -15,9 +15,7 @@ describe(manifest.appName, () => {
     );
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid=feature-flag-true] button:nth-child(1)')
-      .last()
-      .click();
+    cy.get('[data-testid=print-button]').click();
     cy.get('[data-testid=radio-print-one-message]')
       .shadow()
       .find('label')
@@ -57,9 +55,7 @@ describe(manifest.appName, () => {
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
-    cy.get('[data-testid=feature-flag-true] button:nth-child(1)')
-      .last()
-      .click();
+    cy.get('[data-testid=print-button]').click();
     cy.get('[data-testid=radio-print-one-message]').click();
     cy.visit(
       'http://localhost:3001/my-health/secure-messages/message/7192838/inner.html',
