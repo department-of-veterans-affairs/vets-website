@@ -37,7 +37,7 @@ export const getPhoneString = (phone = {}) =>
 
 const hashRegex = /#/g;
 const phonePattern = '(###) ###-####';
-export const getFormatedPhone = phone => {
+export const getFormattedPhone = phone => {
   const fullString = getPhoneString(phone);
   if (fullString.length === 10) {
     let i = 0;
