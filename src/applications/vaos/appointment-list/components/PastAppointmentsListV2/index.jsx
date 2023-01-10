@@ -267,7 +267,7 @@ export default function PastAppointmentsListNew() {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="vads-u-padding-left--0 vads-u-border-bottom--1px"
+              className="usa-unstyled-list vads-u-padding-left--0 vads-u-border-bottom--1px"
               data-cy="past-appointment-list"
               role="list"
             >
