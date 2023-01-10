@@ -2,22 +2,24 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const HouseholdExpensesInputList = ({ errorSchema }) => {
-  const errorList = errorSchema?.addlIncRecords?.__errors;
+const HouseholdExpensesInputList = props => {
+  const { errorSchema } = props;
+  // console.log(props);
+  const errorList = errorSchema?.expenseRecords?.__errors;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
   const {
-    additionalIncome: { addlIncRecords },
+    expenses: { expenseRecords },
   } = data;
 
   const onChange = ({ target }) => {
     return dispatch(
       setData({
         ...data,
-        additionalIncome: {
-          ...data.additionalIncome,
-          addlIncRecords: addlIncRecords.map(income => {
+        expenses: {
+          ...data.expenses,
+          expenseRecords: expenseRecords.map(income => {
             if (income.name === target.name) {
               return {
                 ...income,
@@ -33,9 +35,7 @@ const HouseholdExpensesInputList = ({ errorSchema }) => {
 
   return (
     <div>
-      <legend className="schemaform-block-title">Your other income</legend>
-      <p>How much is your monthly income for each income source?</p>
-      {addlIncRecords?.map((income, key) => (
+      {expenseRecords?.map((income, key) => (
         <div key={income.name + key} className="vads-u-margin-y--2">
           <va-number-input
             label={income.name}

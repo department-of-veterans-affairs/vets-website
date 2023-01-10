@@ -7,8 +7,8 @@ const HouseholdExpensesChecklist = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { householdExpenses } = formData;
-  const { expenseRecords = [] } = householdExpenses;
+  const { expenses } = formData;
+  const { expenseRecords = [] } = expenses;
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -16,8 +16,8 @@ const HouseholdExpensesChecklist = () => {
       ? dispatch(
           setData({
             ...formData,
-            householdExpenses: {
-              ...householdExpenses,
+            expenses: {
+              ...expenses,
               expenseRecords: expenseRecords.filter(
                 source => source.name !== value,
               ),
@@ -27,8 +27,8 @@ const HouseholdExpensesChecklist = () => {
       : dispatch(
           setData({
             ...formData,
-            householdExpenses: {
-              ...householdExpenses,
+            expenses: {
+              ...expenses,
               expenseRecords: [...expenseRecords, { name: value, amount: '' }],
             },
           }),

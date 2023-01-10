@@ -1,27 +1,30 @@
 import React from 'react';
 import HouseholdExpensesInputList from '../../components/HouseholdExpensesInputList';
+import { validateCurrencyArray } from '../../utils/validations';
 
 export const uiSchema = {
-  'ui:title': 'Your monthly expenses VALUES',
-  householdExpensesInputList: {
+  'ui:title': 'Your monthly expenses',
+  expenses: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Select any additional income you receive:
+        How much do you pay for each housing expense every month?
       </span>
     ),
-    'ui:widget': HouseholdExpensesInputList,
-    'ui:required': formData => {
-      const {
-        additionalIncome: { addlIncRecords = [] },
-      } = formData;
-
-      return !addlIncRecords.length;
-    },
-    'ui:errorMessages': {
-      required: 'Please select at least one household expense.',
-    },
+    'ui:field': HouseholdExpensesInputList,
     'ui:options': {
       hideOnReview: true,
+    },
+    expenseRecords: {
+      'ui:title': 'householdExpensesInputList',
+      'ui:validations': [validateCurrencyArray],
+      items: {
+        name: {
+          'ui:title': 'Name of expense',
+        },
+        amount: {
+          'ui:title': 'Expense amount',
+        },
+      },
     },
   },
 };
@@ -29,8 +32,17 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    householdExpensesInputList: {
-      type: 'boolean',
+    expenses: {
+      type: 'object',
+      properties: {
+        expenseRecords: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };

@@ -10,16 +10,6 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': HouseholdExpensesChecklist,
-    'ui:required': formData => {
-      const {
-        householdExpenses: { expenseRecords = [] },
-      } = formData;
-
-      return !expenseRecords.length;
-    },
-    'ui:errorMessages': {
-      required: 'Please select at least one household expense.',
-    },
     'ui:options': {
       hideOnReview: true,
     },
@@ -29,7 +19,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    expenses: {
+    householdExpensesChecklist: {
       type: 'boolean',
     },
   },
