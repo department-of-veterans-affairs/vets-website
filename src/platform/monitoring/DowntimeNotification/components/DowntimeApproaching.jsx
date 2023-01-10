@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from '../config/externalServiceStatus';
 import DowntimeNotificationWrapper from './Wrapper';
 
@@ -7,6 +7,7 @@ class DowntimeApproaching extends React.Component {
   componentDidMount() {
     this.props.initializeDowntimeWarnings();
   }
+
   render() {
     const {
       startTime,
@@ -20,19 +21,21 @@ class DowntimeApproaching extends React.Component {
       className = 'row-padded',
     } = this.props;
     const close = () => dismissDowntimeWarning(appTitle);
+    const modalTitle =
+      messaging.title || `The ${appTitle} will be down for maintenance soon`;
     return (
       <DowntimeNotificationWrapper
         status={externalServiceStatus.downtimeApproaching}
         className={className}
       >
-        <Modal
+        <VaModal
           id="downtime-approaching-modal"
-          onClose={close}
+          onCloseEvent={close}
+          onSecondaryButtonClick={close}
           visible={!isDowntimeWarningDismissed}
+          secondaryButtonText="Dismiss"
+          modalTitle={modalTitle}
         >
-          {messaging.title || (
-            <h3>The {appTitle} will be down for maintenance soon</h3>
-          )}
           {messaging.content || (
             <p>
               We’ll be doing some work on the {appTitle} on{' '}
@@ -41,14 +44,7 @@ class DowntimeApproaching extends React.Component {
               that time, please check back soon.
             </p>
           )}
-          <button
-            type="button"
-            className="usa-button-secondary"
-            onClick={close}
-          >
-            Dismiss
-          </button>
-        </Modal>
+        </VaModal>
         {children || content}
       </DowntimeNotificationWrapper>
     );

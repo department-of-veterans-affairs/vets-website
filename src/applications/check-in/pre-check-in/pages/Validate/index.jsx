@@ -42,7 +42,7 @@ const Index = ({ router }) => {
   const [dob, setDob] = useState('');
   const [dobError, setDobError] = useState(false);
 
-  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
+  const [lastNameError, setLastNameError] = useState(false);
 
   const [showValidateError, setShowValidateError] = useState(false);
 
@@ -52,7 +52,7 @@ const Index = ({ router }) => {
         lastName,
         dob,
         dobError,
-        setLastNameErrorMessage,
+        setLastNameError,
         setIsLoading,
         setShowValidateError,
         goToNextPage,
@@ -86,7 +86,7 @@ const Index = ({ router }) => {
           'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
         )}
         lastNameInput={{
-          lastNameErrorMessage,
+          lastNameError,
           setLastName,
           lastName,
         }}

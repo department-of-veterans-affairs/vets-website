@@ -67,14 +67,15 @@ const redirectIfNecessary = currentWindow => {
   const toSubdomainRedirectMatch = toSubdomainRedirects?.find(redirect => {
     const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
     const currentPathMatchesSubdomainSrc =
-      currentWindow.location.pathname === redirect.src.toLowerCase();
+      currentWindow.location.pathname.toLowerCase() ===
+      redirect.src.toLowerCase();
     return isHostMatch && currentPathMatchesSubdomainSrc;
   });
 
   // Redirect if there is a to subdomain match
   if (toSubdomainRedirectMatch) {
     // eslint-disable-next-line no-param-reassign
-    currentWindow.location.href = `${catchAllRedirectMatch.dest}`;
+    currentWindow.location.href = `${toSubdomainRedirectMatch.dest}`;
   }
 };
 

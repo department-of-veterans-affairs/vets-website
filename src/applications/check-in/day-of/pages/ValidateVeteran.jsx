@@ -38,7 +38,7 @@ const ValidateVeteran = props => {
   const [dob, setDob] = useState('--');
   const [dobError, setDobError] = useState(false);
 
-  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
+  const [lastNameError, setLastNameError] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
@@ -52,7 +52,7 @@ const ValidateVeteran = props => {
         lastName,
         dob,
         dobError,
-        setLastNameErrorMessage,
+        setLastNameError,
         setIsLoading,
         setShowValidateError,
         goToNextPage,
@@ -86,7 +86,7 @@ const ValidateVeteran = props => {
           'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
         )}
         lastNameInput={{
-          lastNameErrorMessage,
+          lastNameError,
           setLastName,
           lastName,
         }}
