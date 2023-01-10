@@ -111,10 +111,10 @@
           "PTSD",
           "Test"
         ],
-        "treatmentDateRange": {
+        "treatmentDateRange": [{
           "from": "2022-01-01",
           "to": "2022-02-01"
-        }
+        }]
       },
       {
         "providerFacilityName": "Private Hospital",
@@ -128,10 +128,10 @@
         "issues": [
           "Test 2"
         ],
-        "treatmentDateRange": {
+        "treatmentDateRange": [{
           "from": "2022-02-01",
           "to": "2022-05-01"
-        }
+        }]
       }
     ]
   },

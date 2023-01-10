@@ -297,22 +297,27 @@ describe('getEvidence', () => {
 });
 
 describe('getForm4142', () => {
-  const formData = {
+  const getData = wrap => ({
     privacyAgreementAccepted: true,
     limitedConsent: 'testing',
-    providerFacility: [{ test: 'foo' }, { test: 'bar' }],
-  };
+    // Move treatementDateRange entry into an array
+    providerFacility: [
+      { test: 'foo', treatmentDateRange: wrap ? [{ a: true }] : { a: true } },
+      { test: 'bar', treatmentDateRange: wrap ? [{ b: false }] : { b: false } },
+    ],
+  });
+
   it('should return 4142 form data', () => {
     const data = {
       [EVIDENCE_PRIVATE]: true,
-      ...formData,
+      ...getData(),
     };
-    expect(getForm4142(data)).to.deep.equal(formData);
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
   it('should return empty object since private evidence not selected', () => {
     const data = {
       [EVIDENCE_PRIVATE]: false,
-      ...formData,
+      ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal({});
   });

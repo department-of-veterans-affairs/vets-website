@@ -335,11 +335,12 @@ export const getEvidence = formData => {
  * 4142/4142a (July 2021)
  */
 export const getForm4142 = formData => {
-  const {
-    privacyAgreementAccepted = true,
-    limitedConsent = '',
-    providerFacility = [],
-  } = formData;
+  const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
+  const providerFacility = (formData?.providerFacility || []).map(facility => ({
+    ...facility,
+    // 4142 is expecting an array
+    treatmentDateRange: [facility.treatmentDateRange],
+  }));
   return formData[EVIDENCE_PRIVATE]
     ? {
         privacyAgreementAccepted,
