@@ -25,7 +25,8 @@ const App = () => {
       serviceRequired={[backendServices.MESSAGING]}
     >
       {/* if the user is logged in and does not have access to secure messaging, redirect to the SM info page */}
-      {!environment.isLocalhost() &&
+      {user.login.currentlyLoggedIn &&
+        !environment.isLocalhost() &&
         !userServices.includes(backendServices.MESSAGING) &&
         window.location.replace('/health-care/secure-messaging')}
 
