@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
 import SearchForm from '../components/Search/SearchForm';
 
-const Search = () => {
+const SearchResults = () => {
   const {
     awaitingResults,
     searchResults,
@@ -14,10 +14,6 @@ const Search = () => {
     query,
   } = useSelector(state => state.sm.search);
   const history = useHistory();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
 
   useEffect(
     () => {
@@ -101,4 +97,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchResults;

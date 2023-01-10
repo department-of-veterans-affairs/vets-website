@@ -23,7 +23,6 @@ import {
  */
 const EvidencePrivateRequest = ({
   data = {},
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -85,18 +84,12 @@ const EvidencePrivateRequest = ({
       </VaRadio>
       {privateRecordsRequestInfo}
       <div className="vads-u-margin-top--4">
-        {onReviewPage ? (
-          <button type="submit">Review update button</button>
-        ) : (
-          <>
-            {contentBeforeButtons}
-            <FormNavButtons
-              goBack={handlers.onGoBack}
-              goForward={handlers.onGoForward}
-            />
-            {contentAfterButtons}
-          </>
-        )}
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handlers.onGoBack}
+          goForward={handlers.onGoForward}
+        />
+        {contentAfterButtons}
       </div>
     </form>
   );
@@ -111,7 +104,6 @@ EvidencePrivateRequest.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRequest;

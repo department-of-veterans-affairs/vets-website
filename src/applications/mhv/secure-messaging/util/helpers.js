@@ -6,7 +6,7 @@ export const folderPathByFolderId = folderId => {
   if (folderId !== null) {
     switch (folderId) {
       case Folders.INBOX.id:
-        path = '/';
+        path = '/inbox';
         break;
       case Folders.DRAFTS.id:
         path = '/drafts';
@@ -29,6 +29,12 @@ export const folderPathByFolderId = folderId => {
 
 export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
+};
+
+export const unreadCountAllFolders = folders => {
+  return folders
+    .filter(folder => folder.id !== Folders.DRAFTS.id)
+    .reduce((a, b) => a + b.unreadCount, 0);
 };
 
 export const navigateToFoldersPage = history => {
