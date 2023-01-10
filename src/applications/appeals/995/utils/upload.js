@@ -11,7 +11,7 @@ import {
   SUPPORTED_UPLOAD_TYPES,
 } from '../constants';
 
-export const ancillaryFormUploadUi = content => {
+export const fileUploadUi = content => {
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
