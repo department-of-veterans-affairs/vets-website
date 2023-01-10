@@ -14,7 +14,7 @@ const AuthorizedRoutes = () => {
     <div className="vads-u-flex--fill">
       <ScrollToTop />
       <Switch>
-        <Route exact path="/inbox" key="App">
+        <Route exact path="/" key="App">
           <LandingPageAuth />
         </Route>
         <Route exact path="/folders" key="Folders">
