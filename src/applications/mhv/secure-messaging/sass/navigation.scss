@@ -67,6 +67,7 @@
   .sidebar-navigation-messages-list {
     .sidebar-navigation-messages-list-header {
       background-color: $color-gray-lightest;
+      border-left: 4px solid $color-base;
       font-weight: 700;
       a {
         padding-top: 7px;
@@ -78,10 +79,15 @@
     }
     .sidebar-navigation-messages-list-menu {
       ul {
-        li:nth-child(1) {
+        // li:nth-child(1) {
+        //   a {
+        //     padding-top: 3px;
+        //     margin-top: 0px;
+        //   }
+        // }
+        li {
           a {
-            padding-top: 3px;
-            margin-top: 0px;
+            padding-left: 3rem;
           }
         }
       }
