@@ -62,7 +62,6 @@ class GitHubClient {
       '- `cross_product_dependencies`',
       '- `has_unit_tests`',
       '- `has_e2e_tests`',
-      '- `has_contract_tests`',
       '- `path_to_code`',
       '- `last_updated`',
       '',

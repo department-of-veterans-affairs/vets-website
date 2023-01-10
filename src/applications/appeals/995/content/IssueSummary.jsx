@@ -10,6 +10,12 @@ import {
   FORMAT_READABLE,
 } from '../constants';
 
+const legendClassNames = [
+  'vads-u-margin-top--0',
+  'vads-u-font-size--base',
+  'vads-u-font-weight--normal',
+].join(' ');
+
 const listClassNames = [
   'vads-u-border-top--1px',
   'vads-u-border-color--gray-light',
@@ -21,14 +27,14 @@ const IssueSummary = ({ formData }) => {
   const issues = getSelected(formData);
 
   return (
-    <>
-      <p className="vads-u-margin-top--0">
-        These are the issues you’re asking to review.
-      </p>
+    <fieldset>
+      <legend className={legendClassNames}>
+        These are the issues you’re asking to receive a Supplemental Claim.
+      </legend>
       <ul className="issues-summary">
         {issues.map((issue, index) => (
           <li key={index} className={listClassNames}>
-            <h3 className="capitalize vads-u-margin-top--0">
+            <h3 className="capitalize vads-u-margin-top--0 vads-u-font-size--h4">
               {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
             </h3>
             <div>
@@ -45,7 +51,7 @@ const IssueSummary = ({ formData }) => {
           </li>
         ))}
       </ul>
-    </>
+    </fieldset>
   );
 };
 

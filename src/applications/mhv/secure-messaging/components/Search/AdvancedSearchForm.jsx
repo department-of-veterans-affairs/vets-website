@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -15,6 +15,7 @@ import {
 } from '../../util/inputContants';
 import { runAdvancedSearch } from '../../actions/search';
 import { dateFormat } from '../../util/helpers';
+import { DefaultFolders as Folders } from '../../util/constants';
 
 const AdvancedSearchForm = props => {
   const {
@@ -26,8 +27,6 @@ const AdvancedSearchForm = props => {
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [foldersList, setFoldersList] = useState([]);
 
   const [folder, setFolder] = useState(0);
   const [messageId, setMessageId] = useState('');
@@ -41,13 +40,6 @@ const AdvancedSearchForm = props => {
   const [fromDateError, setFromDateError] = useState('');
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
-
-  useEffect(
-    () => {
-      if (folders) setFoldersList(folders);
-    },
-    [folders],
-  );
 
   const getRelativeDate = range => {
     const today = new Date();
@@ -172,11 +164,14 @@ const AdvancedSearchForm = props => {
         data-testid="folder-dropdown"
         required
       >
-        {foldersList.map(item => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
+        {folders?.length > 0 &&
+          folders?.map(item => (
+            <option key={item.id} value={item.id}>
+              {item.id === Folders.DELETED.id
+                ? Folders.DELETED.header
+                : item.name}
+            </option>
+          ))}
       </VaSelect>
 
       <va-text-input

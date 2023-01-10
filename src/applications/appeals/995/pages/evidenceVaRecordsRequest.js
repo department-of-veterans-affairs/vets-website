@@ -17,6 +17,9 @@ export default {
       'ui:errorMessages': {
         required: errorMessages.requiredYesNo,
       },
+      'ui:options': {
+        hideOnReview: true,
+      },
     },
     'view:vaEvidenceInfo': {
       'ui:description': requestVaRecordsInfo,
