@@ -28,11 +28,13 @@ const Navigation = () => {
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
-      {
-        path: '/faq',
-        label: 'Messages FAQ',
-        datatestid: 'messages-faq-sidebar',
-      },
+
+      /* Hidden from sidenav view; will implement in SM Home later */
+      // {
+      //   path: '/faq',
+      //   label: 'Messages FAQ',
+      //   datatestid: 'messages-faq-sidebar',
+      // },
     ];
   };
 
@@ -40,9 +42,9 @@ const Navigation = () => {
     setIsNavigationOpen(true);
   }
 
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
+  // function closeNavigation() {
+  //   setIsNavigationOpen(false);
+  // }
 
   function checkScreenSize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
@@ -87,7 +89,7 @@ const Navigation = () => {
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
     if (location.pathname === path.path) {
-      return 'vads-u-font-weight--bold vads-u-background-color--gray-lightest vads-u-border-left--4px';
+      return 'is-active';
     }
     if (path.label === 'My folders') {
       if (basePath[1] === 'message') {
@@ -106,37 +108,22 @@ const Navigation = () => {
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
-          <div className="sidebar-navigation-header">
-            <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
-            <h4>My Health</h4>
-            {isMobile ? (
-              <button
-                className="va-btn-close-icon"
-                aria-label="Close-this-menu"
-                aria-expanded="true"
-                aria-controls="a1"
-                onClick={closeNavigation}
-                type="button"
-              />
-            ) : null}
-          </div>
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
                   {/* Message Link will navigate to the new SM Home page in the future */}
-                  <Link to="/">Messages</Link>
+                  <Link className="" to="/">
+                    Messages
+                  </Link>
                 </div>
 
                 <div className="sidebar-navigation-messages-list-menu">
-                  <ul className="usa-sidenav-list">
+                  <ul className="usa-sidenav-list sub-list">
                     {paths().map((path, i) => (
-                      <li
-                        key={i}
-                        className={handleActiveLinksStyle(path)}
-                        data-testid={path.datatestid}
-                      >
+                      <li key={i} data-testid={path.datatestid}>
                         <Link
+                          className={handleActiveLinksStyle(path)}
                           to={path.path}
                           // onClick={() => {
                           //   handleOnClick(path);

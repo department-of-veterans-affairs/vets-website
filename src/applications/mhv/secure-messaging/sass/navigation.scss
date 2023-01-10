@@ -40,15 +40,22 @@
   a {
     font-size: 17px;
     margin: 2px 0px;
-    color: $color-link-default;
+    color: $color-black;
     &:active,
     &:focus,
     &:hover {
-      background-color: transparent;
-      font-weight: 700;
+      background-color: $color-primary-alt-lightest;
+      border-left: 4px solid $color-link-default;
+      transition: background-color 0.1s ease-in-out,
+        border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
+      // font-weight: 700;
     }
-    &:visited {
-      color: $color-link-default;
+    &.is-active {
+      background-color: $color-gray-lightest;
+      border-left: 4px solid $color-base;
+      color: $color-black;
+      font-weight: bold;
+      padding-left: units-px(1.5);
     }
   }
   ul {
@@ -59,6 +66,8 @@
   }
   .sidebar-navigation-messages-list {
     .sidebar-navigation-messages-list-header {
+      background-color: $color-gray-lightest;
+      font-weight: 700;
       a {
         padding-top: 7px;
         &:active {
@@ -68,7 +77,6 @@
       }
     }
     .sidebar-navigation-messages-list-menu {
-      padding-left: 16px;
       ul {
         li:nth-child(1) {
           a {
@@ -125,7 +133,8 @@
       padding-left: 15px;
       padding-right: 15px;
       .sidebar-navigation-messages-list-header {
-        border-left: 4px solid $color-black;
+        background-color: $color-gray-lightest;
+        font-weight: 700;
 
         a {
           color: $color-black;
@@ -150,7 +159,7 @@
           .sidebar-navigation-messages-list-menu {
             background-color: $color-white;
             display: block;
-            li {
+            .sub-list li {
               display: block;
             }
           }

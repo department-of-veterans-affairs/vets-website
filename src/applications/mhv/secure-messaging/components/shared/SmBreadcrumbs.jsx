@@ -24,6 +24,7 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.COMPOSE,
         Constants.Breadcrumbs.DRAFT,
         Constants.Breadcrumbs.DRAFTS,
+        Constants.Breadcrumbs.INBOX,
         Constants.Breadcrumbs.FOLDERS,
         Constants.Breadcrumbs.SENT,
         Constants.Breadcrumbs.TRASH,
