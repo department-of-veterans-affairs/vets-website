@@ -33,12 +33,6 @@ describe(manifest.appName, () => {
       )
       .should('be.visible');
     cy.get('[data-testid=radio-print-all-messages]').click();
-    // cy.visit(`${cy.url()}/inner.html`, {
-    //   onBeforeLoad: win => {
-    //     cy.stub(win, 'print');
-    //   },
-    // });
-
     cy.window().then(win => {
       win.print();
 
@@ -53,14 +47,6 @@ describe(manifest.appName, () => {
     );
     cy.get('[data-testid=print-button]').click();
     cy.get('[data-testid=radio-print-one-message]').click();
-    // cy.visit(
-    //   'http://localhost:3001/my-health/secure-messages/message/7192838/inner.html',
-    //   {
-    //     onBeforeLoad: win => {
-    //       cy.stub(win, 'print');
-    //     },
-    //   },
-    // );
     cy.window().then(win => {
       win.print();
 
