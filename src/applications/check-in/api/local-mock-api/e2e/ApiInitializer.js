@@ -88,6 +88,19 @@ class ApiInitializer {
         }),
       );
     },
+    withDetailsPage: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceTravelReimbursement: false,
+          checkInExperienceUpdatedApptPresentation: true,
+        }),
+      );
+    },
   };
 
   initializeSessionGet = {

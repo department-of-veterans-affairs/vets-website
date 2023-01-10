@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -16,7 +17,8 @@ import {
   makeSelectVeteranData,
 } from '../../../selectors';
 
-const Confirmation = () => {
+const Confirmation = props => {
+  const { router } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
 
@@ -94,8 +96,13 @@ const Confirmation = () => {
       appointments={appointments}
       isLoading={isLoading}
       formData={formData}
+      router={router}
     />
   );
+};
+
+Confirmation.propTypes = {
+  router: PropTypes.object,
 };
 
 export default Confirmation;
