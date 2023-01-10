@@ -17,6 +17,7 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
 import {
   CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
   CONTESTABLE_ISSUES_PATH,
@@ -35,7 +36,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test'], // , 'minimal-test'],
+    dataSets: ['maximal-test', 'minimal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -58,16 +59,6 @@ const testConfig = createTestConfig(
             cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
-      },
-      'supporting-evidence/additional-evidence': () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
       },
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.fillPage();
@@ -249,7 +240,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+      cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];
