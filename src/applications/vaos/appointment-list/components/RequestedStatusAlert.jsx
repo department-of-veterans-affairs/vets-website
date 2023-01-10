@@ -23,7 +23,6 @@ function handleNewApptClick(dispatch) {
     recordEvent({
       event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
     });
-    console.log('I called the new appointment link!');
     dispatch(startNewAppointmentFlow());
   };
 }
