@@ -10,6 +10,7 @@ import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -80,6 +81,15 @@ const routes = [
   {
     path: URLS.ERROR,
     component: Error,
+  },
+  {
+    path: URLS.APPOINTMENT_DETAILS,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
 ];
 

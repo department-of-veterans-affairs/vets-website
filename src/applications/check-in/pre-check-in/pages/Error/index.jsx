@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { subDays } from 'date-fns';
 
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
@@ -9,12 +8,9 @@ import HowToLink from '../../../components/HowToLink';
 
 import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 
-import {
-  appointmentStartTimePast15,
-  getFirstCanceledAppointment,
-} from '../../../utils/appointment';
-
 import Wrapper from '../../../components/layout/Wrapper';
+
+import { getFirstCanceledAppointment } from '../../../utils/appointment';
 
 const appointmentAccordion = appointments => {
   return (
@@ -30,12 +26,23 @@ const Error = () => {
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
 
-  let apptType = 'clinic';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
 
   const { t } = useTranslation();
+
+  let header = '';
+
+  let apptType = '';
+  if (appointments && appointments.length > 0) {
+    apptType = appointments[0]?.kind ?? 'clinic';
+  }
+
+  let accordion = null;
+  let alertType = '';
+  let messageText = '';
+  let showHowToLink = false;
 
   const mixedPhoneAndInPersonMessage = (
     <div>
@@ -62,48 +69,45 @@ const Error = () => {
     </div>
   );
 
-  let header = t('sorry-we-cant-complete-pre-check-in');
-  let messages = [];
-  let accordion = null;
-
-  let messageText = t(
-    'were-sorry-something-went-wrong-on-our-end-please-try-again',
-  );
-  let showHowToLink = true;
-  const dontShowLinkErrors = [
-    'session-error',
-    'bad-token',
-    'no-token',
-    'max-validation',
-  ];
-  if (dontShowLinkErrors.indexOf(error) > -1) {
-    showHowToLink = false;
-  }
-  if (error === 'max-validation') {
-    messageText = (
-      <>
-        <div className="vads-u-margin-bottom--2">
-          {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
-        </div>
-        {mixedPhoneAndInPersonMessage}
-      </>
-    );
-  }
-
-  const UUIDErrors = ['session-error', 'bad-token', 'no-token'];
-  const isUUIDError = () => UUIDErrors.indexOf(error) > -1;
-
-  messages.push({ text: messageText });
-  if (appointments && appointments.length > 0) {
-    apptType = appointments[0]?.kind ?? 'clinic';
-    if (apptType !== 'clinic') {
+  switch (error) {
+    case 'max-validation':
+      alertType = 'error';
+      header = t('sorry-we-cant-complete-pre-check-in');
+      messageText = (
+        <>
+          <div className="vads-u-margin-bottom--2">
+            {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
+          </div>
+          {mixedPhoneAndInPersonMessage}
+        </>
+      );
       showHowToLink = false;
-    }
-    if (error === 'appointment-canceled') {
+      break;
+    case 'pre-check-in-post-error':
+    case 'error-completing-pre-check-in':
+      alertType = 'info';
+      header = t('sorry-we-cant-complete-pre-check-in');
+      messageText = (
+        <>
+          <div>
+            {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
+          </div>
+          <div data-testid="date-message">
+            {t('you-can-pre-check-in-online-until-date', {
+              date: subDays(new Date(appointments[0].startTime), 1),
+            })}
+          </div>
+        </>
+      );
+      showHowToLink = apptType === 'clinic';
+      break;
+    case 'appointment-canceled': {
+      alertType = 'info';
+      header = t('sorry-pre-check-in-is-no-longer-available');
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
       const appointmentDateTime = new Date(canceledAppointment.startTime);
-      const cancelledMessage = (
+      messageText = (
         <div>
           <p className="vads-u-margin-top--0">
             {t('your-appointment-at-on-is-cancelled', {
@@ -123,74 +127,59 @@ const Error = () => {
           )}
         </div>
       );
-
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messages = [{ text: cancelledMessage }];
-      accordion = appointmentAccordion(appointments);
       showHowToLink = false;
-    } else if (appointmentStartTimePast15(appointments)) {
-      // don't show sub message if we are 15 minutes past appointment start time
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messages = [];
       accordion = appointmentAccordion(appointments);
-      showHowToLink = false;
-    } else if (error === 'pre-check-in-expired') {
-      header = t('sorry-pre-check-in-is-no-longer-available');
-
-      messages =
-        apptType === 'phone'
-          ? [
-              {
-                text: t('your-provider-will-call-you-at-your-appointment-time'),
-              },
-            ]
-          : [{ text: t('you-can-still-check-in-once-you-arrive') }];
-
-      accordion = appointmentAccordion(appointments);
-    } else if (appointments[0].startTime) {
-      // If date exists, then show date.
-      messages.push({
-        text: t('you-can-pre-check-in-online-until-date', {
-          date: subDays(new Date(appointments[0].startTime), 1),
-        }),
-        testId: 'date-message',
-      });
+      break;
     }
-  } else if (isUUIDError() || error === 'reload-data-error') {
-    messages = [
-      {
-        text: mixedPhoneAndInPersonMessage,
-      },
-    ];
-  } else {
-    header = t('sorry-we-cant-complete-pre-check-in');
+    case 'pre-check-in-past-appointment':
+      alertType = 'info';
+      header = t('sorry-pre-check-in-is-no-longer-available');
+      messageText = t('pre-check-in-no-longer-available--info-message');
+      showHowToLink = false;
+      accordion = appointmentAccordion(appointments);
+      break;
+    case 'pre-check-in-expired':
+      alertType = 'info';
+      header = t('sorry-pre-check-in-is-no-longer-available');
+      messageText =
+        apptType === 'clinic'
+          ? t('you-can-still-check-in-once-you-arrive')
+          : t('your-provider-will-call-you-at-your-appointment-time');
+      accordion = appointmentAccordion(appointments);
+      showHowToLink = true;
+      break;
+    case 'session-error':
+    case 'bad-token':
+    case 'no-token':
+    case 'reload-data-error':
+      alertType = 'info';
+      header = t('sorry-we-cant-complete-pre-check-in');
+      messageText = mixedPhoneAndInPersonMessage;
+      showHowToLink = false;
+      break;
+    default:
+      // should never get here but if it does show the minimum
+      alertType = 'error';
+      header = t('sorry-we-cant-complete-pre-check-in');
+      messageText = (
+        <div>
+          {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
+        </div>
+      );
+      showHowToLink = false;
+      break;
   }
-  const errorText = messages.length ? (
-    <>
-      {messages.map((message, index) => {
-        return (
-          <div key={index} data-testid={message.testId}>
-            {message.text}
-          </div>
-        );
-      })}
-    </>
-  ) : (
-    ''
-  );
 
   return (
     <Wrapper pageTitle={header}>
-      {errorText && (
-        <va-alert
-          background-only
-          show-icon
-          status={error === 'max-validation' ? 'error' : 'info'}
-          data-testid="error-message"
-        >
-          <div>{errorText}</div>
-        </va-alert>
-      )}
+      <va-alert
+        background-only
+        show-icon
+        status={alertType}
+        data-testid="error-message"
+      >
+        <div>{messageText}</div>
+      </va-alert>
       {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
     </Wrapper>

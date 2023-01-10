@@ -7,11 +7,8 @@ import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../constants';
 
 import { content } from '../content/evidencePrivateLimitation';
 
-// const REVIEW_AND_SUBMIT = '/review-and-submit';
-
 const EvidencePrivateLimitation = ({
   data = {},
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -36,16 +33,6 @@ const EvidencePrivateLimitation = ({
     },
   };
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={handlers.onGoBack} goForward={goForward} />
-      {contentAfterButtons}
-    </>
-  );
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
@@ -64,7 +51,11 @@ const EvidencePrivateLimitation = ({
         <p />
         {content.info}
         <p />
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          <FormNavButtons goBack={handlers.onGoBack} goForward={goForward} />
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -83,7 +74,6 @@ EvidencePrivateLimitation.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateLimitation;

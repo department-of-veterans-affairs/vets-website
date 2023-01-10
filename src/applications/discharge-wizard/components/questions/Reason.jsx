@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // Relative Imports
 import { shouldShowQuestion } from '../../helpers';
 import { questionLabels } from '../../constants';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
   const key = '4_reason';
@@ -32,41 +32,37 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
     { label: questionLabels[key]['7'], value: '7' },
   ];
 
-  const label = (
-    <div>
-      <h4 className={`${key}_header`}>
-        Which of the following best describes why you want to change your
-        discharge paperwork? Choose the one that’s closest to your situation.
-      </h4>
-      <p>
-        <strong>Note:</strong> If more than one of these fits your situation,
-        choose the one that started the events leading to your discharge. For
-        example, if you experienced sexual assault and have posttraumatic stress
-        disorder (PTSD) resulting from that experience, choose sexual assault.
-      </p>
-    </div>
-  );
   const radioButtonProps = {
     name: key,
-    label,
-    options,
+    label:
+      'Which of the following best describes why you want to change your discharge paperwork? Choose the one that’s closest to your situation.',
+    hint:
+      'Note: If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.',
     key,
-    onValueChange: v => {
-      if (v.dirty) {
-        updateField(key, v.value);
+    value: formValues[key],
+    onVaValueChange: e => {
+      if (e.returnValue) {
+        updateField(key, e.detail.value);
       }
     },
     onMouseDown: scrollToLast,
     onKeyDown: handleKeyDown,
-    value: {
-      value: formValues[key],
-    },
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <RadioButtons {...radioButtonProps} />
+      <VaRadio {...radioButtonProps}>
+        {options.map((option, index) => (
+          <va-radio-option
+            key={index}
+            label={option.label}
+            name={key}
+            value={option.value}
+            checked={formValues[key] === option.value}
+          />
+        ))}
+      </VaRadio>
     </div>
   );
 };

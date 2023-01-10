@@ -1,3 +1,4 @@
+import React from 'react';
 import { parseISO, startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
@@ -182,6 +183,45 @@ const appointmentStartTimePast15 = appointments => {
   });
 };
 
+const hasPhoneAppointments = appointments => {
+  return Object.values(appointments).some(appt => {
+    return appt?.kind === 'phone';
+  });
+};
+
+/**
+ * Render the appointment type icon
+ *
+ * @param {Appointment} appointment
+ * @returns {Node}
+ */
+
+const appointmentIcon = appointment => {
+  return (
+    <i
+      aria-label="Appointment type"
+      className={`fas ${
+        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
+      }`}
+      aria-hidden="true"
+      data-testid="appointment-icon"
+    />
+  );
+};
+
+/**
+ * Return the name to use for appointment clinic.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const clinicName = appointment => {
+  return appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicName;
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -193,4 +233,7 @@ export {
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
+  hasPhoneAppointments,
+  appointmentIcon,
+  clinicName,
 };

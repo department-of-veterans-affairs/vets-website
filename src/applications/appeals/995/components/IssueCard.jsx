@@ -92,6 +92,7 @@ export const IssueCard = ({
   onChange,
   showCheckbox,
   onRemove,
+  onReviewPage,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -128,12 +129,7 @@ export const IssueCard = ({
     'vads-u-margin-bottom--0',
   ].join(' ');
 
-  const titleClass = [
-    'widget-title',
-    'vads-u-font-size--md',
-    'vads-u-font-weight--bold',
-    'vads-u-line-height--1',
-  ].join(' ');
+  const titleClass = ['widget-title', 'vads-u-font-size--h4'].join(' ');
 
   const removeButtonClass = [
     'remove-issue',
@@ -175,6 +171,10 @@ export const IssueCard = ({
       </div>
     ) : null;
 
+  // Issues h4 disappears in edit mode, so we need to match the page header
+  // level
+  const Header = onReviewPage ? 'h5' : 'h3';
+
   return (
     <div
       id={`issue-${index}`}
@@ -208,7 +208,7 @@ export const IssueCard = ({
         } widget-content vads-u-font-weight--normal`}
         data-index={index}
       >
-        <div className={titleClass}>{issueName}</div>
+        <Header className={titleClass}>{issueName}</Header>
         <IssueCardContent {...item} />
         {editControls}
       </dd>
@@ -235,4 +235,5 @@ IssueCard.propTypes = {
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
   onRemove: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

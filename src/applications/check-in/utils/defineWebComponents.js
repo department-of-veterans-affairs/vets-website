@@ -5,6 +5,7 @@ import {
   defineCustomElementVaAlert,
   defineCustomElementVaLoadingIndicator,
   defineCustomElementVaMemorableDate,
+  defineCustomElementVaModal, // For global DowntimeApproaching notification
   defineCustomElementVaTelephone,
   defineCustomElementVaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/components';
@@ -14,5 +15,6 @@ defineCustomElementVaAccordionItem();
 defineCustomElementVaAlert();
 defineCustomElementVaLoadingIndicator();
 defineCustomElementVaMemorableDate();
+defineCustomElementVaModal();
 defineCustomElementVaTelephone();
 defineCustomElementVaTextInput();

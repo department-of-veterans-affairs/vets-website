@@ -16,7 +16,7 @@ import Error from '../index';
 
 describe('check-in', () => {
   describe('Pre-check-in Error page', () => {
-    describe('redux store with appointments', () => {
+    describe('redux store with appointments but pre-check-in-post-error', () => {
       let store;
       beforeEach(() => {
         const middleware = [];
@@ -28,6 +28,45 @@ describe('check-in', () => {
             form: {
               pages: [],
             },
+            error: 'pre-check-in-post-error',
+          },
+        };
+        afterEach(() => {
+          MockDate.reset();
+        });
+        store = mockStore({ ...initState, ...scheduledDowntimeState });
+      });
+      it('renders appointments date', () => {
+        MockDate.set('2022-01-01T14:00:00.000-05:00');
+        const component = render(
+          <Provider store={store}>
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
+          </Provider>,
+        );
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+          .exist;
+        const dateMessage = component.getByTestId('date-message');
+        expect(dateMessage).to.exist;
+        expect(dateMessage).to.contain.text(
+          'You can pre-check in online until 01/02/2022.',
+        );
+      });
+    });
+    describe('redux store with appointments but error-completing-pre-check-in', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          checkInData: {
+            appointments: singleAppointment,
+            veteranData: {},
+            form: {
+              pages: [],
+            },
+            error: 'error-completing-pre-check-in',
           },
         };
         afterEach(() => {
@@ -247,7 +286,7 @@ describe('check-in', () => {
         };
         store = mockStore({ ...initState, ...scheduledDowntimeState });
       });
-      it('renders no sub message or how to link when appointment started more than 15 minutes ago', () => {
+      it('renders properly when appointment started more than 15 minutes ago', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -255,7 +294,7 @@ describe('check-in', () => {
             </I18nextProvider>
           </Provider>,
         );
-        expect(component.queryByTestId('error-message')).to.be.null;
+        expect(component.queryByTestId('error-message')).to.exist;
         expect(component.queryByTestId('how-to-link')).to.not.exist;
       });
     });

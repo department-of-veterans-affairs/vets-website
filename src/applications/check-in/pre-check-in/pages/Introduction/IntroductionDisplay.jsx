@@ -4,22 +4,33 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
+import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
+import { hasPhoneAppointments } from '../../../utils/appointment';
+import { createAnalyticsSlug } from '../../../utils/analytics';
 
 const IntroductionDisplay = props => {
   const { router } = props;
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+
   const { appointments } = useSelector(selectVeteranData);
+  const { isUpdatedApptPresentationEnabled } = useSelector(
+    selectFeatureToggles,
+  );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
 
@@ -55,6 +66,24 @@ const IntroductionDisplay = props => {
       ),
     },
   ];
+  const isPhone = hasPhoneAppointments(appointments);
+
+  const handleStart = useCallback(
+    e => {
+      if (e?.key && e.key !== ' ') {
+        return;
+      }
+      recordEvent({
+        event: createAnalyticsSlug(
+          `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`,
+          'nav',
+        ),
+      });
+      e.preventDefault();
+      goToNextPage();
+    },
+    [isPhone, goToNextPage],
+  );
 
   const StartButton = () => (
     <div
@@ -64,16 +93,8 @@ const IntroductionDisplay = props => {
       <a
         className="vads-c-action-link--green"
         href="#answer"
-        onKeyDown={useCallback(e => {
-          if (e.key === ' ') {
-            e.preventDefault();
-            goToNextPage();
-          }
-        }, [])}
-        onClick={useCallback(e => {
-          e.preventDefault();
-          goToNextPage();
-        }, [])}
+        onKeyDown={handleStart}
+        onClick={handleStart}
       >
         {t('answer-questions')}
       </a>
@@ -87,7 +108,11 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      <AppointmentBlock appointments={appointments} page="intro" />
+      {isUpdatedApptPresentationEnabled ? (
+        <AppointmentBlockVaos appointments={appointments} page="intro" />
+      ) : (
+        <AppointmentBlock appointments={appointments} page="intro" />
+      )}
 
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />

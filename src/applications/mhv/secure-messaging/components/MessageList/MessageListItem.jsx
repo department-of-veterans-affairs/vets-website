@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { DefaultFolders } from '../../util/constants';
+import { DefaultFolders, Categories } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
-const readMessageClassList = 'vads-u-margin-left--3 vads-u-margin-y--0p5';
+const readMessageClassList = 'vads-u-margin-y--0p5';
 const attachmentClasses =
   'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
 
@@ -20,52 +19,89 @@ const MessageListItem = props => {
     recipientName,
     attachment,
     messageId,
+    keyword,
+    category,
+    activeFolder,
   } = props;
-  const activeFolder = useSelector(state => state.sm.folders.folder);
+  // const activeFolder = useSelector(state => state.sm.folders.folder);
 
   const getClassNames = () => {
-    return readReceipt === false
-      ? unreadMessageClassList
-      : readMessageClassList;
+    // messages in draft folder have inconsistent readReceipt values
+    // we need to mark all messages in draft folder as read
+    return activeFolder.folderId === DefaultFolders.DRAFTS.id ||
+      readReceipt === 'READ'
+      ? readMessageClassList
+      : unreadMessageClassList;
   };
 
   const formattedDate = dateFormat(sentDate, 'MMMM D, YYYY [at] h:mm a z');
 
+  const getHighlightedText = text => {
+    if (!keyword) return text;
+    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+    return (
+      <span>
+        {' '}
+        {parts.map((part, i) => {
+          const highlight = part.toLowerCase() === keyword.toLowerCase();
+          const partProps = highlight
+            ? {
+                'data-testid': 'highlighted-text',
+                className: 'keyword-highlight',
+              }
+            : {};
+          return (
+            <span key={i} {...partProps}>
+              {part}
+            </span>
+          );
+        })}{' '}
+      </span>
+    );
+  };
+
+  const categoryLabel = Categories[category];
+
   return (
     <div
-      className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="message-list-item vads-l-row vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light"
       data-testid="message-list-item"
     >
-      <div className={getClassNames()}>
-        {readReceipt === false && (
-          <i
-            aria-hidden="true"
-            className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
-          />
-        )}
-        {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
-          <span>Sender: {senderName}</span>
-        ) : (
-          <div>
-            <div>To: {recipientName}</div>
-            <div>From: {senderName}</div>
-          </div>
-        )}
+      <div className="unread-column vads-l-col">
+        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
+          (readReceipt !== 'READ' && (
+            <i
+              aria-hidden="true"
+              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+            />
+          ))}
       </div>
-      <Link
-        className="vads-u-margin-left--3 vads-u-margin-y--0p5"
-        to={`/${
-          activeFolder?.folderId === DefaultFolders.DRAFTS.id
-            ? 'draft'
-            : 'message'
-        }/${messageId}`}
-      >
-        {subject}
-      </Link>
-      <p className="vads-u-margin-left--3 vads-u-margin-y--0p5">
-        {attachment && <i className={attachmentClasses} />}
-        {formattedDate}
-      </p>
+      <div className="vads-l-col vads-u-margin-left--1">
+        <div className={getClassNames()}>
+          {location.pathname !== '/sent' && location.pathname !== '/drafts' ? (
+            <span>From: {getHighlightedText(senderName)}</span>
+          ) : (
+            <div>
+              <div>To: {recipientName}</div>
+              <div>From: {senderName}</div>
+            </div>
+          )}
+        </div>
+        <Link
+          className="message-subject-link vads-u-margin-y--0p5"
+          to={`/${
+            activeFolder?.folderId === DefaultFolders.DRAFTS.id
+              ? 'draft'
+              : 'message'
+          }/${messageId}`}
+        >
+          {categoryLabel}: {getHighlightedText(subject)}
+        </Link>
+        <p className="received-date vads-u-margin-y--0p5">
+          {attachment && <i className={attachmentClasses} aria-hidden />}
+          <span className="vads-u-font-style--italic">{formattedDate}</span>
+        </p>
+      </div>
     </div>
   );
 };
@@ -73,8 +109,11 @@ const MessageListItem = props => {
 export default MessageListItem;
 
 MessageListItem.propTypes = {
+  activeFolder: PropTypes.object,
   attachment: PropTypes.any,
   attributes: PropTypes.object,
+  category: PropTypes.string,
+  keyword: PropTypes.any,
   messageId: PropTypes.number,
   readReceipt: PropTypes.any,
   recipientName: PropTypes.string,

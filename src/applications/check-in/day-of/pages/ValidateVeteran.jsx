@@ -13,18 +13,12 @@ import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    getValidateAttempts,
-    incrementValidateAttempts,
-    resetAttempts,
-    setPermissions,
-  } = useSessionStorage(false);
+  const { setPermissions } = useSessionStorage(false);
 
   const { updateError } = useUpdateError();
 
@@ -40,73 +34,49 @@ const ValidateVeteran = props => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
-  const [last4Ssn, setLast4Ssn] = useState('');
 
   const [dob, setDob] = useState('--');
   const [dobError, setDobError] = useState(false);
 
-  const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
-  const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+  const [lastNameError, setLastNameError] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const {
-    isLorotaSecurityUpdatesEnabled,
-    isLorotaDeletionEnabled,
-  } = useSelector(selectFeatureToggles);
-
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
     () => {
       setShowValidateError(false);
       validateLogin(
-        last4Ssn,
         lastName,
         dob,
         dobError,
-        setLastNameErrorMessage,
-        setLast4ErrorMessage,
+        setLastNameError,
         setIsLoading,
         setShowValidateError,
-        isLorotaSecurityUpdatesEnabled,
         goToNextPage,
-        incrementValidateAttempts,
-        isMaxValidateAttempts,
         token,
         setSession,
         app,
-        resetAttempts,
-        isLorotaDeletionEnabled,
         updateError,
       );
     },
     [
       app,
       goToNextPage,
-      incrementValidateAttempts,
-      isMaxValidateAttempts,
-      last4Ssn,
       lastName,
       dob,
       dobError,
-      resetAttempts,
       setSession,
       token,
-      isLorotaDeletionEnabled,
-      isLorotaSecurityUpdatesEnabled,
       updateError,
     ],
   );
 
-  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
-    ? t('sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob')
-    : t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-      );
+  const validateErrorMessage = t(
+    'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
+  );
 
   return (
     <>
@@ -115,13 +85,8 @@ const ValidateVeteran = props => {
         subTitle={t(
           'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
         )}
-        last4Input={{
-          last4ErrorMessage,
-          setLast4Ssn,
-          last4Ssn,
-        }}
         lastNameInput={{
-          lastNameErrorMessage,
+          lastNameError,
           setLastName,
           lastName,
         }}

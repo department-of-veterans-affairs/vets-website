@@ -5,16 +5,12 @@ import sinon from 'sinon';
 
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import {
+  errorMessages,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
 } from '../../constants';
 import { $, $$ } from '../../utils/ui';
-
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
 
 describe('<EvidencePrivateRecordsRequest>', () => {
   it('should render', () => {
@@ -29,7 +25,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     expect($$('button', container).length).to.eq(2);
   });
 
-  it('should submit page without error (optional question)', () => {
+  it('should submit page with error (required question)', () => {
     const goSpy = sinon.spy();
     const { container } = render(
       <div>
@@ -37,8 +33,10 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-primary', container), mouseClick);
-    expect(goSpy.called).to.be.true;
+    fireEvent.click($('button.usa-button-primary', container));
+    const radio = $('va-radio', container);
+    expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
+    expect(goSpy.called).to.be.false;
   });
 
   it('should allow setting va-radio-option', () => {
@@ -69,7 +67,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('button.usa-button-secondary', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -82,7 +80,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('button.usa-button-secondary', container));
     expect(
       goSpy.calledWith(
         `/${EVIDENCE_VA_PATH}?index=${data.locations.length - 1}`,

@@ -25,8 +25,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: true,
           checkInExperienceTravelReimbursement: false,
         }),
       );
@@ -40,7 +38,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -64,8 +61,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTranslationDisclaimerSpanishEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: false,
           checkInExperienceTravelReimbursement: true,
         }),
       );
@@ -79,19 +74,6 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceTravelReimbursement: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
-        }),
-      );
-    },
-    withLorotaSecurityUpdate: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          emergencyContactEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
     },
@@ -103,7 +85,19 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
-          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+        }),
+      );
+    },
+    withDetailsPage: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceTravelReimbursement: false,
+          checkInExperienceUpdatedApptPresentation: true,
         }),
       );
     },
@@ -150,11 +144,8 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName, dob } = req.body?.session || {};
-        if (
-          (last4 === '1234' || dob === '1989-03-15') &&
-          lastName === 'Smith'
-        ) {
+        const { lastName, dob } = req.body?.session || {};
+        if (dob === '1989-03-15' && lastName === 'Smith') {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
@@ -233,6 +224,15 @@ class ApiInitializer {
     withExpired: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
         preCheckInData.get.expiredUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
+    withPast15MinuteWindow: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.past15MinuteUUID,
       );
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(data);

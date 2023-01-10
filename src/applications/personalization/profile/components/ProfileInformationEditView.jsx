@@ -337,7 +337,7 @@ export class ProfileInformationEditView extends Component {
                     className="vads-u-margin-top--0"
                     onClick={onClickUpdateHandler}
                   >
-                    Update
+                    Save
                   </LoadingButton>
 
                   {!isLoading && (

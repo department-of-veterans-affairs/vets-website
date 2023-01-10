@@ -17,9 +17,16 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
 import {
   CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
+  CONTESTABLE_ISSUES_PATH,
+  EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_REQUEST,
+  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_PRIVATE,
+  EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 
 const testConfig = createTestConfig(
@@ -29,7 +36,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test'], // , 'minimal-test'],
+    dataSets: ['maximal-test', 'minimal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -53,17 +60,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/additional-evidence': () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
-      },
-      'contestable-issues': ({ afterHook }) => {
+      [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.fillPage();
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -85,7 +82,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/va-medical-records': ({ afterHook }) => {
+      [EVIDENCE_VA_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(({ locations = [] }) => {
@@ -118,9 +115,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/request-private-medical-records': ({
-        afterHook,
-      }) => {
+      [EVIDENCE_PRIVATE_REQUEST]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -132,7 +127,20 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/private-medical-records': ({ afterHook }) => {
+      'supporting-evidence/private-medical-records-authorization': ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.privacyAgreementAccepted) {
+              cy.get('va-checkbox').click();
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(({ providerFacility = [] }) => {
@@ -200,7 +208,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/request-record-limitations': ({ afterHook }) => {
+      [EVIDENCE_LIMITATION_PATH]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.injectAxeThenAxeCheck();
@@ -214,6 +222,16 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [EVIDENCE_UPLOAD_PATH]: () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'testing',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
+        cy.get('select').select('Buddy/Lay Statement');
+      },
     },
 
     setupPerTest: () => {
@@ -222,7 +240,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+      cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];
