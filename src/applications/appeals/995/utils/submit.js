@@ -310,7 +310,12 @@ export const getEvidence = formData => {
         locationAndName: location.locationAndName,
         // Lighthouse wants between 1 and 4 evidenceDates, but we're only
         // providing one
-        evidenceDates: [location.evidenceDates],
+        evidenceDates: [
+          {
+            startDate: location.evidenceDates.from,
+            endDate: location.evidenceDates.to,
+          },
+        ],
       },
     }));
   }

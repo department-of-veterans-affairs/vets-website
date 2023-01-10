@@ -262,14 +262,18 @@ describe('getEvidence', () => {
             type: 'retrievalEvidence',
             attributes: {
               locationAndName: 'test 1',
-              evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+              evidenceDates: [
+                { startDate: '2022-01-01', endDate: '2022-02-02' },
+              ],
             },
           },
           {
             type: 'retrievalEvidence',
             attributes: {
               locationAndName: 'test 2',
-              evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+              evidenceDates: [
+                { startDate: '2022-03-03', endDate: '2022-04-04' },
+              ],
             },
           },
         ],

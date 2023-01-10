@@ -30,6 +30,8 @@ export const CONTESTABLE_ISSUES_API =
 // Evidence upload API - same endpoint as NOD
 export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
+export const SUBMIT_URL = '/v1/supplemental_claims';
+
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
