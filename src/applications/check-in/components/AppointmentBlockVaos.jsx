@@ -1,14 +1,19 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentListItem from './AppointmentListItem';
+import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { setActiveAppointment } from '../actions/universal';
+import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { APP_NAMES } from '../utils/appConstants';
 
 const AppointmentBlockVaos = props => {
-  const { appointments, page, router } = props;
+  const { appointments, page, router, token } = props;
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const appointmentsDateTime = new Date(appointments[0].startTime);
 
@@ -23,15 +28,22 @@ const AppointmentBlockVaos = props => {
 
   return (
     <div>
-      <p
-        className="vads-u-font-family--serif"
-        data-testid="appointment-day-location"
-      >
-        {t('your-appointments-on-day', {
-          count: appointments.length,
-          day: appointmentsDateTime,
-        })}
-      </p>
+      {app === APP_NAMES.PRE_CHECK_IN ? (
+        <p
+          className="vads-u-font-family--serif"
+          data-testid="appointment-day-location"
+        >
+          {t('your-appointments-on-day', {
+            count: appointments.length,
+            day: appointmentsDateTime,
+          })}
+        </p>
+      ) : (
+        <p data-testid="date-text">
+          {t('here-are-your-appointments-for-today', { date: new Date() })}
+        </p>
+      )}
+
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
@@ -41,7 +53,18 @@ const AppointmentBlockVaos = props => {
             <AppointmentListItem
               key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
-              goToDetails={page === 'confirmation' ? handleDetailClick : null}
+              goToDetails={
+                page === 'confirmation' || page === 'details'
+                  ? handleDetailClick
+                  : null
+              }
+              AppointmentAction={
+                <AppointmentActionVaos
+                  appointment={appointment}
+                  router={router}
+                  token={token}
+                />
+              }
             />
           );
         })}
@@ -54,6 +77,7 @@ AppointmentBlockVaos.propTypes = {
   appointments: PropTypes.array.isRequired,
   page: PropTypes.string.isRequired,
   router: PropTypes.object,
+  token: PropTypes.string,
 };
 
 export default AppointmentBlockVaos;
