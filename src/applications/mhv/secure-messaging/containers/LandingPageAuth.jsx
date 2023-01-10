@@ -12,7 +12,6 @@ then additional functionality will need to be added to account for this.
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
@@ -25,6 +24,7 @@ import DashboardSearch from '../components/Dashboard/DashboardSearch';
 import DashboardFolders from '../components/Dashboard/DashboardFolders';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import { foldersList } from '../selectors';
+import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -50,14 +50,7 @@ const LandingPageAuth = () => {
       <p className="va-introtext">
         Communicate privately and securely with your VA health care team online.
       </p>
-      <Link
-        className="compose-message-link vads-u-font-weight--bold"
-        to="/compose"
-        data-testid="compose-message-link"
-      >
-        <i className="fas fa-edit vads-u-margin-right--1" aria-hidden />
-        Compose message
-      </Link>
+      <ComposeMessageButton />
       <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />
       <DashboardSearch />
