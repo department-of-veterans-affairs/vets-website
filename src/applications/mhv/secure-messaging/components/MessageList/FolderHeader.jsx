@@ -60,15 +60,7 @@ const FolderHeader = props => {
       {folder.folderId === Folders.INBOX.id && (
         <>
           <EmergencyNote dropDownFlag />
-          <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--2p5">
-            <Link
-              className="vads-c-action-link--blue compose-message-link"
-              to="/compose"
-              data-testid="compose-message-link"
-            >
-              Compose message
-            </Link>
-          </p>
+          <ComposeMessageButton />
         </>
       )}
       <ManageFolderButtons />
