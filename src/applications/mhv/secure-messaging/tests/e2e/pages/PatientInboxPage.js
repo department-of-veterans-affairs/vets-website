@@ -3,7 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockMessage from '../fixtures/message-response.json';
+import mockMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';

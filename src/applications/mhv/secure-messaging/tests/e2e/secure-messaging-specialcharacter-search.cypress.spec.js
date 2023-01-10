@@ -37,6 +37,9 @@ describe(manifest.appName, () => {
 
     cy.injectAxe();
     cy.axeCheck();
+    mockSpeciaCharMessage.data.attributes.messageId = '2585370';
+    mockSpeciaCharMessage.data.attributes.body = 'special %$#';
     landingPage.loadMessageDetailsWithData(mockSpeciaCharMessage);
+    cy.get('pre').should('contain', 'special %$#');
   });
 });
