@@ -96,7 +96,6 @@ class ClaimStatusPage extends React.Component {
           {phase !== null && attributes.open ? (
             <ClaimsTimeline
               id={claim.id}
-              estimatedDate={attributes.maxEstDate}
               phase={phase}
               currentPhaseBack={attributes.currentPhaseBack}
               everPhaseBack={attributes.everPhaseBack}
