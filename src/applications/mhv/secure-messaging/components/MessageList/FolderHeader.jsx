@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { DefaultFolders as Folders } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
+import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 
 const FolderHeader = props => {
   const { folder } = props;

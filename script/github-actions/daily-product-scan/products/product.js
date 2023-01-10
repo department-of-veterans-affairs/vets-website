@@ -5,7 +5,6 @@ class Product {
     this.crossProductDependencies = new Set();
     this.hasUnitTests = null;
     this.hasE2eTests = null;
-    this.hasContractTests = null;
     this.lastUpdated = null;
   }
 }
