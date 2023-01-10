@@ -18,6 +18,14 @@
   }
 }
 
+.breadcrumb-angle
+.desktop-view-crumb {
+  color: unset;
+  pointer-events: auto;
+  font-weight: unset;
+  text-decoration: unset;
+}
+
 .compose-message-link:visited {
   color: $color-link-default;
   text-decoration: underline;
@@ -187,7 +195,6 @@ va-alert button {
     }
     .secure-messaging-navigation {
       margin-top: 24px;
-      margin-bottom: 30px;
       margin-right: 0px;
     }
   }
@@ -197,9 +204,10 @@ va-alert button {
   list-style: none;
   margin: 0;
   padding: 0;
+  line-height: 16px;
   li {
-    padding: 8px 0;
-    margin: 0;
+    padding: 0;
+    margin: 16px 0 0 0;
     display: flex;
     @media (min-width: $medium-screen) {
       align-items: center;
@@ -211,8 +219,15 @@ va-alert button {
       }
     }
     .editable-attachment {
+      border-top: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
+      span {
+        margin-top: 16px;
+        @media (min-width: $medium-screen) {
+          margin-top: 0px;
+        }
+      }
       @media (min-width: $medium-screen) {
         width: 100%;
         flex-direction: row;
@@ -222,7 +237,10 @@ va-alert button {
     }
   }
   li:last-child {
-    margin-bottom: 16px;
+    margin: 0 0 16px;
+    .editable-attachment {
+      border-bottom: 1px solid $color-gray-medium;
+    }
   }
   .remove-attachment-button {
     padding: 0;
@@ -243,9 +261,9 @@ va-alert button {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
     color: $color-gray-dark;
     height: 36px;
-    margin: 16px 0 8px;
+    margin: 8px 0 16px;
     @media (min-width: $medium-screen) {
-      margin-top: 8px;
+      margin-top: 16px;
     }
   }
   .remove-attachment-button::part(button)::before {
