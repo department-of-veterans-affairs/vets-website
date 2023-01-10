@@ -19,7 +19,7 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose', datatestid: 'compose-sidebar' },
+      { path: '/inbox', label: 'Inbox', datatestid: 'inbox-sidebar' },
       { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
       { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
       { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
@@ -28,16 +28,13 @@ const Navigation = () => {
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
-      {
-        path: '/search',
-        label: 'Search messages',
-        datatestid: 'search-messages-sidebar',
-      },
-      {
-        path: '/faq',
-        label: 'Messages FAQ',
-        datatestid: 'messages-faq-sidebar',
-      },
+
+      /* Hidden from sidenav view; will implement in SM Home later */
+      // {
+      //   path: '/faq',
+      //   label: 'Messages FAQ',
+      //   datatestid: 'messages-faq-sidebar',
+      // },
     ];
   };
 
@@ -92,7 +89,7 @@ const Navigation = () => {
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
     if (location.pathname === path.path) {
-      return 'vads-u-font-weight--bold';
+      return 'is-active';
     }
     if (path.label === 'My folders') {
       if (basePath[1] === 'message') {
@@ -107,14 +104,12 @@ const Navigation = () => {
   };
 
   return (
-    <div className="secure-messaging-navigation vads-u-padding-bottom--7">
+    <div className="secure-messaging-navigation vads-u-padding-bottom--7 vads-u-flex--auto">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
-          <div className="sidebar-navigation-header">
-            <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
-            <h4>My Health</h4>
-            {isMobile ? (
+          {isMobile && (
+            <div className="sidebar-navigation-header">
               <button
                 className="va-btn-close-icon"
                 aria-label="Close-this-menu"
@@ -123,30 +118,24 @@ const Navigation = () => {
                 onClick={closeNavigation}
                 type="button"
               />
-            ) : null}
-          </div>
+            </div>
+          )}
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
-              <li>
-                <a href="/my-health/secure-messages">Pharmacy</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Appointments</a>
-              </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
-                  <Link to="/">Messages</Link>
+                  {/* Message Link will navigate to the new SM Home page in the future */}
+                  <Link className="" to="/">
+                    Messages
+                  </Link>
                 </div>
 
                 <div className="sidebar-navigation-messages-list-menu">
-                  <ul className="usa-sidenav-list">
+                  <ul className="usa-sidenav-list sub-list">
                     {paths().map((path, i) => (
-                      <li
-                        key={i}
-                        className={handleActiveLinksStyle(path)}
-                        data-testid={path.datatestid}
-                      >
+                      <li key={i} data-testid={path.datatestid}>
                         <Link
+                          className={handleActiveLinksStyle(path)}
                           to={path.path}
                           // onClick={() => {
                           //   handleOnClick(path);
@@ -158,20 +147,6 @@ const Navigation = () => {
                     ))}
                   </ul>
                 </div>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Medical records</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">VA health care benefits</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">
-                  Copay bills and travel pay
-                </a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Health resources</a>
               </li>
             </ul>
           </div>

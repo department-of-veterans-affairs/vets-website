@@ -24,6 +24,9 @@ const selectFeatureToggles = createSelector(
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
     ],
+    isUpdatedApptPresentationEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceUpdatedApptPresentation
+    ],
   }),
   toggles => toggles,
 );

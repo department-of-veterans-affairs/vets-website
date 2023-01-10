@@ -52,14 +52,20 @@ const EvidencePrivateRecordsAuthorization = ({
     },
   };
 
-  // focusElement will add -1 if this isn't set; and don't make it tabbable when
-  // hidden
+  /**
+   * We are rendering the va-alert so the focus doesn't need to wait for render
+   * Problems that show up include:
+   * - focusElement will add -1 if this isn't set; and don't make it tabbable
+   *   when hidden
+   * - Only render the alert content since the screenreader can still target
+   *   the headers inside
+   */
   const isTabbable = hasError ? '0' : '-1';
   return (
     <>
       <form>
         <va-alert status="warning" visible={hasError} tabIndex={isTabbable}>
-          {authorizationAlertContent(handlers.onAnchorClick)}
+          {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationInfo}
         <VaCheckbox
@@ -70,10 +76,12 @@ const EvidencePrivateRecordsAuthorization = ({
           required
           tabindex="0" // focusElement will add -1 if this isn't set
         />
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+          {contentAfterButtons}
+        </div>
       </form>
-      {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
-      {contentAfterButtons}
     </>
   );
 };
@@ -87,7 +95,6 @@ EvidencePrivateRecordsAuthorization.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
 };
 
 export default EvidencePrivateRecordsAuthorization;

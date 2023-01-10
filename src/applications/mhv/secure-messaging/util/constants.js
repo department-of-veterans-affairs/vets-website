@@ -21,6 +21,8 @@ export const DefaultFolders = {
 
 export const Alerts = {
   Message: {
+    BLOCKED_MESSAGE_ERROR:
+      'You are blocked from sending messages to this recipient.',
     CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
     CANNOT_REPLY_INFO_HEADER:
       'You cannot reply to a message that is older than 45 days.',
@@ -53,6 +55,12 @@ export const Alerts = {
   },
 };
 
+export const Errors = {
+  Code: {
+    BLOCKED_USER: 'SM151',
+  },
+};
+
 export const Prompts = {
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -71,6 +79,7 @@ export const Breadcrumbs = {
     path: '/compose',
     label: 'Compose message',
   },
+  INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
   FOLDERS: { path: '/folders', label: 'My folders' },

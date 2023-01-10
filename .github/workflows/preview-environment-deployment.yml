@@ -56,5 +56,5 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: deploy_review_instance
           repository: department-of-veterans-affairs/devops
-          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}" }'
+          client-payload: '{"source_repo": "${{ env.SOURCE_REPO }}", "source_ref": "${{ env.SOURCE_REF }}", "source_ref_sanitized": "${{ env.SOURCE_REF_SANITIZED }}" }'
           # Once docker image is built, add the name of the image to this object as a new property.
