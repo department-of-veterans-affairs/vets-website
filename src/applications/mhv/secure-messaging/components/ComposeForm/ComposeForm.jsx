@@ -34,6 +34,7 @@ const ComposeForm = props => {
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [userSaved, setUserSaved] = useState(false);
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
 
@@ -75,10 +76,12 @@ const ComposeForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true)).then(() => history.push('/'));
+          dispatch(sendMessage(sendData, true)).then(() =>
+            history.push('/inbox'),
+          );
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/'),
+            history.push('/inbox'),
           );
         }
       }
@@ -204,9 +207,7 @@ const ComposeForm = props => {
       category,
       debouncedMessageBody,
       debouncedSubject,
-      saveDraftHandler,
       selectedRecipient,
-      sendMessageFlag,
     ],
   );
 
@@ -238,7 +239,7 @@ const ComposeForm = props => {
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
-                <option key={item.id} value={item.name}>
+                <option key={item.id} value={item.id}>
                   {item.name}
                 </option>
               ))}
@@ -310,14 +311,17 @@ const ComposeForm = props => {
             secondary
             class="vads-u-flex--1"
             data-testid="Save-Draft-Button"
-            onClick={() => saveDraftHandler('manual')}
+            onClick={() => {
+              setUserSaved(true);
+              saveDraftHandler('manual');
+            }}
           />
           <div className="vads-u-flex--1 vads-u-display--flex">
             {draft && <DiscardDraft draft={draft} />}
           </div>
         </div>
       </div>
-      <DraftSavedInfo />
+      <DraftSavedInfo userSaved={userSaved} />
     </form>
   );
 };

@@ -14,7 +14,7 @@ export class Announcement extends Component {
     // From mapStateToProps.
     announcement: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      show: PropTypes.oneOf(Object.keys(AnnouncementBehavior)),
+      show: PropTypes.oneOf(Object.values(AnnouncementBehavior)),
       relatedAnnouncements: PropTypes.array,
       returnFocusDivContent: PropTypes.string,
     }),
@@ -58,7 +58,7 @@ export class Announcement extends Component {
       const skipLinkParent = document.getElementsByClassName('merger')[0];
       const skipLinkEl = document.getElementsByClassName('show-on-focus')[0];
       const focusEl = document.createElement('div');
-      focusEl.innerHTML = 'Current Homepage';
+      focusEl.innerHTML = returnFocusDivContent;
       focusEl.tabIndex = '-1';
       focusEl.classList.add('sr-only', 'current-page-title');
       skipLinkParent.insertBefore(focusEl, skipLinkEl);

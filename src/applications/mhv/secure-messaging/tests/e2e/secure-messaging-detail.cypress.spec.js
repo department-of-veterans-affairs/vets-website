@@ -1,10 +1,11 @@
-import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
-    const landingPage = new PatientMessagesLandingPage();
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,

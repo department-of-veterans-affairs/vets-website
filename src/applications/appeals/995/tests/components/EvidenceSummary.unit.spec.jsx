@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import EvidenceSummary from '../../components/EvidenceSummary';
+import { content } from '../../content/evidenceSummary';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
@@ -110,6 +111,7 @@ describe('<EvidenceSummary>', () => {
     expect($$('h3', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
   it('should render only one section', () => {
@@ -237,5 +239,27 @@ describe('<EvidenceSummary>', () => {
     fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(result);
+  });
+
+  it('should render on review & submit in edit mode', () => {
+    const { container } = setupSummary({ onReviewPage: true });
+
+    expect($$('h4', container).length).to.eq(1);
+    expect($$('h5', container).length).to.eq(3);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(0);
+    expect(
+      $('.form-nav-buttons va-button', container).getAttribute('text'),
+    ).to.eq(content.update);
+  });
+  it('should call updatePage on review & submit in edit mode', () => {
+    const updateSpy = sinon.spy();
+    const { container } = setupSummary({
+      onReviewPage: true,
+      updatePage: updateSpy,
+    });
+
+    fireEvent.click($('.form-nav-buttons va-button', container));
+    expect(updateSpy.called).to.be.true;
   });
 });
