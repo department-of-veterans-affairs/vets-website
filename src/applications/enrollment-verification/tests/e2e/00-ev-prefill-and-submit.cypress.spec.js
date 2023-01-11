@@ -1,6 +1,7 @@
 /// <reference types='cypress' />
 import { mockEnrollmentResponse } from '../fixtures/mockEnrollmentResponse';
 import { mockEnrollmentResponseTwoMonthNotVerified } from '../fixtures/mockEnrollmentResponseTwoMonthNotVerified';
+import { mockEnrollmentVerification } from '../fixtures/mockEnrollmentVerification';
 
 describe('Enrollment verification e2e - user unauthenticated', () => {
   it('All texts are present for the - claimant ev is up to date', () => {
@@ -91,5 +92,11 @@ describe('Enrollment verification e2e - user unauthenticated', () => {
     cy.get('button[type="button"')
       .contains('Submit verification')
       .click();
+
+    cy.intercept(
+      'POST',
+      '/meb_api/v0/submit_enrollment_verification',
+      mockEnrollmentVerification,
+    ).as('mockEnrollmentVerification');
   });
 });
