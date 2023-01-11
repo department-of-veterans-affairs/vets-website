@@ -1,4 +1,4 @@
-export const mockEnrollmentResponse = {
+export const mockEnrollmentVerification = {
   enrollmentVerifications: {
     enrollmentCertifyRequests: [
       {
