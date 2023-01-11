@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -13,10 +16,12 @@ import useDebounce from '../../hooks/use-debounce';
 import DiscardDraft from '../Draft/DiscardDraft';
 import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
+import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
   const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
@@ -35,8 +40,10 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [userSaved, setUserSaved] = useState(false);
+  const [navigationError, setNavigationError] = useState(null);
+  const [saveError, setSaveError] = useState(null);
+
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
-  const history = useHistory();
 
   const debouncedSubject = useDebounce(subject, 3000);
   const debouncedMessageBody = useDebounce(messageBody, 3000);
@@ -140,7 +147,50 @@ const ComposeForm = props => {
     return 'New message';
   };
 
+  const checkMessageValidity = () => {
+    let messageValid = true;
+    if (!selectedRecipient || selectedRecipient === '') {
+      setRecipientError('Please select a recipient.');
+      messageValid = false;
+    }
+    if (!subject || subject === '') {
+      setSubjectError('Subject cannot be blank.');
+      messageValid = false;
+    }
+    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
+      setBodyError('Message body cannot be blank.');
+      messageValid = false;
+    }
+    if (!category || category === '') {
+      setCategoryError('Please select a category.');
+      messageValid = false;
+    }
+    return messageValid;
+  };
+
   const saveDraftHandler = type => {
+    if (type === 'manual') {
+      setUserSaved(true);
+      if (!checkMessageValidity()) {
+        setSaveError({
+          title: "We can't save this message yet",
+          p1:
+            'We need more information from you before we can save this draft.',
+          p2: 'The following fields are required to save a draft:',
+          requiredFields: true,
+        });
+        return;
+      }
+      if (attachments.length) {
+        setSaveError({
+          title: "We can't save attachments in a draft message",
+          p1:
+            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+        });
+        setNavigationError(null);
+      }
+    }
+
     const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
       rec: selectedRecipient,
@@ -163,31 +213,12 @@ const ComposeForm = props => {
     };
 
     dispatch(saveDraft(formData, type, draftId));
+    if (!attachments.length) setNavigationError(null);
   };
 
-  // Validations
   const sendMessageHandler = () => {
     // TODO add GA event
-    let errorCounter = 0;
-    if (!selectedRecipient || selectedRecipient === '') {
-      setRecipientError('Please select a recipient.');
-      errorCounter += 1;
-    }
-    if (!subject || subject === '') {
-      setSubjectError('Subject cannot be blank.');
-      errorCounter += 1;
-    }
-    if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
-      setBodyError('Message body cannot be blank.');
-      errorCounter += 1;
-    }
-    if (!category || category === '') {
-      setCategoryError('Please select a category.');
-      errorCounter += 1;
-    }
-    if (errorCounter === 0) {
-      setSendMessageFlag(true);
-    }
+    if (checkMessageValidity()) setSendMessageFlag(true);
   };
 
   useEffect(
@@ -211,8 +242,64 @@ const ComposeForm = props => {
     ],
   );
 
+  const messageBodyHandler = e => {
+    setMessageBody(e.target.value);
+    setNavigationError({
+      title: "We can't save this message yet",
+      p1: 'We need more information from you before we can save this draft.',
+      p2:
+        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'Discard draft',
+    });
+  };
+
+  if (!navigationError && attachments.length)
+    setNavigationError({
+      title: "We can't save attachments in a draft message",
+      p1:
+        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      confirmButtonText: 'Cancel',
+      cancelButtonText: 'OK',
+    });
+
   return (
     <form className="compose-form">
+      {saveError && (
+        <VaModal
+          modalTitle={saveError.title}
+          onPrimaryButtonClick={() => setSaveError(null)}
+          onCloseEvent={() => setSaveError(null)}
+          primaryButtonText="OK"
+          status="warning"
+          visible
+        >
+          <p>{saveError.p1}</p>
+          {saveError.p2 && <p>{saveError.p2}</p>}
+          {saveError.requiredFields && (
+            <ul>
+              <li>To</li>
+              <li>Category</li>
+              <li>Subject</li>
+              <li>Message</li>
+            </ul>
+          )}
+        </VaModal>
+      )}
+      <RouteLeavingGuard
+        when={!!navigationError}
+        navigate={path => {
+          history.push(path);
+        }}
+        shouldBlockNavigation={() => {
+          return !!navigationError;
+        }}
+        title={navigationError?.title}
+        p1={navigationError?.p1}
+        p2={navigationError?.p2}
+        confirmButtonText={navigationError?.confirmButtonText}
+        cancelButtonText={navigationError?.cancelButtonText}
+      />
       <div className="compose-form-header" data-testid="compose-form-header">
         <h3>{setMessageTitle()}</h3>
         <button
@@ -279,7 +366,7 @@ const ComposeForm = props => {
             name="message-body"
             className="message-body"
             data-testid="message-body-field"
-            onInput={e => setMessageBody(e.target.value)}
+            onInput={messageBodyHandler}
             value={messageBody}
             error={bodyError}
           />
@@ -311,10 +398,7 @@ const ComposeForm = props => {
             secondary
             class="vads-u-flex--1"
             data-testid="Save-Draft-Button"
-            onClick={() => {
-              setUserSaved(true);
-              saveDraftHandler('manual');
-            }}
+            onClick={() => saveDraftHandler('manual')}
           />
           <div className="vads-u-flex--1 vads-u-display--flex">
             {draft && <DiscardDraft draft={draft} />}
