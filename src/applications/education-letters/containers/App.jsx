@@ -4,6 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
+import SignInWidget from '../components/SignInWidget';
 
 const App = ({ toggleLoginModal, user }) => {
   function toggleLogin(e) {
@@ -27,35 +28,7 @@ const App = ({ toggleLoginModal, user }) => {
       window.location.href = '/education/download-letters/letters';
     }
 
-    return (
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-      >
-        <p
-          className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
-          slot="headline"
-        >
-          Please sign in to check your VA education letter.
-        </p>
-        <div>
-          Sign in with your existing ID.me or Login.gov account. If you don’t
-          have an account, you can create a free{' '}
-          <a href="https://www.id.me/" target="_blank" rel="noreferrer">
-            ID.me account
-          </a>{' '}
-          or{' '}
-          <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
-            Login.gov account
-          </a>{' '}
-          now.
-        </div>
-        <button className="va-button" type="button" onClick={toggleLogin}>
-          Sign in or create an account
-        </button>
-      </va-alert>
-    );
+    return <SignInWidget toggleLogin={toggleLogin} />;
   }
 
   return (
@@ -81,27 +54,24 @@ const App = ({ toggleLoginModal, user }) => {
           <p>
             You can download your education letter if you’re a Veteran and you
             meet both of the requirements listed here. At this time, family
-            members and dependents can’t get their education letters online.
+            members and dependents can’t get their education letter online.
           </p>
           <p>
             <b>Both of these must be true:</b>
           </p>
           <ul>
-            <li>
-              You applied for Post-9/11 GI Bill benefits, <b>and</b>
-            </li>
+            <li>You applied for Post-9/11 GI Bill benefits, and</li>
             <li>
               You received a decision from us about your application after
               August 20, 2022.
             </li>
           </ul>
           <p>
-            <b>Note:</b> If you have an older decision letter—or you’re a family
-            member or dependent—you can contact us through Ask VA to request a
-            copy of your letter.{' '}
-            <a href="https://ask.va.gov/">
-              Request your VA education letter through Ask VA.
-            </a>
+            <b>Note:</b> The letter displayed will be based on your most recent
+            claim submission. If you have an older decision letter – or you’re a
+            family member or dependent – you can contact us through Ask VA to
+            request a copy of your letter. Request your VA education letter
+            through <a href="https://ask.va.gov/">Ask VA.</a>
           </p>
           <va-alert
             close-btn-aria-label="Close notification"
@@ -114,7 +84,8 @@ const App = ({ toggleLoginModal, user }) => {
               future
             </h3>
             <div>
-              Right now you can only download your education decision letter.
+              Right now you can only download your education decision letters.
+              But we’re working to make other types of letters available too.
             </div>
           </va-alert>
         </div>
