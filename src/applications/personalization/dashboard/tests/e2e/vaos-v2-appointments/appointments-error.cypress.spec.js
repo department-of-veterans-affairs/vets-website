@@ -17,6 +17,7 @@ describe('MyVA Dashboard - Appointments - v2', () => {
       '/v0/feature_toggles*',
       generateFeatureToggles({
         profileUseVaosV2Api: true,
+        showMyVADashboardV2: false,
       }),
     );
   });

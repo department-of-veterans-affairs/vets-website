@@ -5,7 +5,7 @@ export const content = {
     'We may need to contact you to clarify issues related to your Supplemental Claim.',
   update: 'Update',
   edit: 'Edit',
-  editLabel: 'update primary phone',
+  editLabel: 'Edit primary phone',
   homeLabel: 'Home phone number',
   mobileLabel: 'Mobile phone number',
 };
