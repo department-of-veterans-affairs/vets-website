@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { AuthenticatedPageContent } from '../../components/AuthenticatedPageContent';
 
 describe('as an authenticated user, landing page', () => {

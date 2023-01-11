@@ -79,6 +79,7 @@ export const Breadcrumbs = {
     path: '/compose',
     label: 'Compose message',
   },
+  INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
   FOLDERS: { path: '/folders', label: 'My folders' },
