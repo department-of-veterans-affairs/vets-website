@@ -12,7 +12,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
     <>
       <va-breadcrumbs>
         <a href="/">Home</a>
-        <a href="/education/">Eduction and training</a>
+        <a href="/education/">Education and training</a>
         {renderBreadCrumbs()}
       </va-breadcrumbs>
       <section id={`education-letters-${clsName}`} className={clsName}>
