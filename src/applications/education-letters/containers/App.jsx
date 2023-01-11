@@ -54,24 +54,27 @@ const App = ({ toggleLoginModal, user }) => {
           <p>
             You can download your education letter if you’re a Veteran and you
             meet both of the requirements listed here. At this time, family
-            members and dependents can’t get their education letter online.
+            members and dependents can’t get their education letters online.
           </p>
           <p>
             <b>Both of these must be true:</b>
           </p>
           <ul>
-            <li>You applied for Post-9/11 GI Bill benefits, and</li>
+            <li>
+              You applied for Post-9/11 GI Bill benefits, <b>and</b>
+            </li>
             <li>
               You received a decision from us about your application after
               August 20, 2022.
             </li>
           </ul>
           <p>
-            <b>Note:</b> The letter displayed will be based on your most recent
-            claim submission. If you have an older decision letter – or you’re a
-            family member or dependent – you can contact us through Ask VA to
-            request a copy of your letter. Request your VA education letter
-            through <a href="https://ask.va.gov/">Ask VA.</a>
+            <b>Note:</b> If you have an older decision letter—or you’re a family
+            member or dependent—you can contact us through Ask VA to request a
+            copy of your letter.{' '}
+            <a href="https://ask.va.gov/">
+              Request your VA education letter through Ask VA.
+            </a>
           </p>
           <va-alert
             close-btn-aria-label="Close notification"
@@ -84,8 +87,7 @@ const App = ({ toggleLoginModal, user }) => {
               future
             </h3>
             <div>
-              Right now you can only download your education decision letters.
-              But we’re working to make other types of letters available too.
+              Right now you can only download your education decision letter.
             </div>
           </va-alert>
         </div>
