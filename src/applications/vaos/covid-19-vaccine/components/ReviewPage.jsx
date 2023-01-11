@@ -72,12 +72,9 @@ export default function ReviewPage() {
             <h3 className="vaos-appts__block-label">{facility.name}</h3>
             {clinic.serviceName}
             <br />
-            {facility.address?.line?.map(line => (
-              <React.Fragment key={line}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
+            {/* removes falsy value from address array */}
+            {facility.address?.line?.filter(Boolean).join(', ')}
+            <br />
             {facility.address?.city}, <State state={facility.address?.state} />
           </div>
         </div>
