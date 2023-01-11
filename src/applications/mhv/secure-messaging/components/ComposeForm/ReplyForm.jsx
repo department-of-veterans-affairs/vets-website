@@ -224,7 +224,8 @@ const ReplyForm = props => {
                 To:{' '}
               </strong>
               {replyMessage.senderName}
-              <br />({replyMessage.triageGroupName})
+              <br />
+              (Team: {replyMessage.triageGroupName})
             </p>
             <va-textarea
               label="Message"
