@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import recordEvent from 'platform/monitoring/record-event';
 import SignatureInput from './SignatureInput';
 
 const SignatureCheckbox = ({
