@@ -731,7 +731,7 @@ export function checkCommunityCareEligibility() {
           isEligible: response.eligible || response.length > 0,
         });
 
-        if (response.eligible || response.communityCare) {
+        if (response.eligible || response.length > 0) {
           recordEvent({
             event: `${GA_PREFIX}-cc-eligible-yes`,
           });
