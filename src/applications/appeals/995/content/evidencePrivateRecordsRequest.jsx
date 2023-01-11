@@ -17,10 +17,3 @@ export const privateRecordsRequestInfo = (
     </p>
   </va-additional-info>
 );
-
-export const reviewField = ({ children }) => (
-  <div className="review-row">
-    <dt>{privateRecordsRequestTitle}</dt>
-    <dd>{children.props.formData ? 'Yes' : 'No'}</dd>
-  </div>
-);

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import {
   appointmentWasCanceled,
@@ -10,6 +11,8 @@ import {
   preCheckinExpired,
   locationShouldBeDisplayed,
   hasPhoneAppointments,
+  appointmentIcon,
+  clinicName,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -381,6 +384,26 @@ describe('check in', () => {
       it("doesn't find phone appointment", () => {
         const appointments = [createAppointment()];
         expect(hasPhoneAppointments(appointments)).to.be.false;
+      });
+    });
+    describe('appointmentIcon', () => {
+      it('finds phone appointment', () => {
+        const appointment = createAppointment({ kind: 'phone' });
+        const icon = render(appointmentIcon(appointment));
+
+        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+      });
+    });
+    describe('clinicName', () => {
+      it('returns clinic friendly name', () => {
+        const appointment = createAppointment({
+          clinicFriendlyName: 'test clinic',
+        });
+        expect(clinicName(appointment)).to.equal('test clinic');
+      });
+      it('returns the fallback if friendly name missing', () => {
+        const appointment = createAppointment({ clinicFriendlyName: '' });
+        expect(clinicName(appointment)).to.equal('LOM ACC CLINIC TEST');
       });
     });
   });

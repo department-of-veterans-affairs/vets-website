@@ -76,10 +76,12 @@ const ComposeForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true)).then(() => history.push('/'));
+          dispatch(sendMessage(sendData, true)).then(() =>
+            history.push('/inbox'),
+          );
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/'),
+            history.push('/inbox'),
           );
         }
       }
@@ -205,9 +207,7 @@ const ComposeForm = props => {
       category,
       debouncedMessageBody,
       debouncedSubject,
-      saveDraftHandler,
       selectedRecipient,
-      sendMessageFlag,
     ],
   );
 
@@ -239,7 +239,7 @@ const ComposeForm = props => {
               error={recipientError}
             >
               {sortRecipients(recipientsList)?.map(item => (
-                <option key={item.id} value={item.name}>
+                <option key={item.id} value={item.id}>
                   {item.name}
                 </option>
               ))}
