@@ -58,8 +58,9 @@ export class ConfirmationPage extends React.Component {
 
           {submitDate.isValid() ? (
             <p>
-              <h4>Date you filed your claim</h4>
-              <br />
+              <h4 className="vads-u-margin-top--0">
+                Date you filed your claim
+              </h4>
               <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           ) : null}
