@@ -67,14 +67,14 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around vads-u-margin-y--4">
+    <div className="message-action-buttons vads-l-row vads-u-margin-y--4">
       <PrintBtn handlePrint={handlePrint} id={id} />
 
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
         activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
           <button
             type="button"
-            className="message-action-button middle-button middle-left-button usa-button-secondary"
+            className="message-action-button usa-button-secondary"
             onClick={() => {
               setIsDeleteVisible(true);
             }}
@@ -101,7 +101,7 @@ const MessageActionButtons = props => {
       {!hideReplyButton && (
         <button
           type="button"
-          className="message-action-button right-button usa-button-secondary"
+          className="message-action-button usa-button-secondary"
           data-testid="reply-button-top"
           onClick={props.onReply}
         >

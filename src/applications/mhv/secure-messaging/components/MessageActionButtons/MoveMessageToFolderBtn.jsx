@@ -144,7 +144,7 @@ const MoveMessageToFolderBtn = props => {
       {/* TODO add GA event tracking for move button click */}
       <button
         type="button"
-        className="message-action-button middle-right-button usa-button-secondary"
+        className="message-action-button usa-button-secondary"
         onClick={openModal}
       >
         <i
