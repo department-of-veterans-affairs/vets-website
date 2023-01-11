@@ -23,6 +23,10 @@
             {
               "name": "Rent",
               "amount": "1200.53"
+            },
+            {
+              "name": "Food",
+              "amount": "4000.38"
             }
           ],
           "rentOrMortgage": "1200.53",
