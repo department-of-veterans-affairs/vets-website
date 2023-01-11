@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import AppointmentListItemVaos from './AppointmentListItemVaos';
+import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
 import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { setActiveAppointment } from '../actions/universal';
 import { makeSelectApp } from '../selectors';
@@ -62,6 +62,7 @@ const AppointmentBlockVaos = props => {
                   token={token}
                 />
               }
+              appointmentMessage
             />
           );
         })}

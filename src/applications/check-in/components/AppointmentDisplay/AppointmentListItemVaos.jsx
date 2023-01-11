@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import { appointmentIcon, clinicName } from '../utils/appointment';
+import AppointmentMessageVaos from './AppointmentMessageVaos';
+import { appointmentIcon, clinicName } from '../../utils/appointment';
 
 const AppointmentListItemVaos = props => {
   const {
@@ -10,6 +11,7 @@ const AppointmentListItemVaos = props => {
     goToDetails,
     AppointmentAction,
     showDetailsLink,
+    appointmentMessage,
   } = props;
   const { t } = useTranslation();
 
@@ -68,6 +70,9 @@ const AppointmentListItemVaos = props => {
             </a>
           </div>
         )}
+        {appointmentMessage && (
+          <AppointmentMessageVaos appointment={appointment} />
+        )}
         {AppointmentAction}
       </div>
     </li>
@@ -77,6 +82,7 @@ const AppointmentListItemVaos = props => {
 AppointmentListItemVaos.propTypes = {
   appointment: PropTypes.object.isRequired,
   AppointmentAction: PropTypes.node,
+  appointmentMessage: PropTypes.bool,
   goToDetails: PropTypes.func,
   showDetailsLink: PropTypes.bool,
 };
