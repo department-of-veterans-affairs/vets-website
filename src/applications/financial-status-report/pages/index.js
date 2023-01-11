@@ -57,6 +57,7 @@ import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhanced
 import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
+import * as expensesExplainer from './expenses/expensesExplainer';
 
 export {
   veteranInfo,
@@ -118,4 +119,5 @@ export {
   resolutionExplainer,
   householdExpensesChecklist,
   householdExpensesInputList,
+  expensesExplainer,
 };

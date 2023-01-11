@@ -473,6 +473,12 @@ const formConfig = {
     householdExpensesChapter: {
       title: 'Household expenses',
       pages: {
+        expensesExplainer: {
+          path: 'expenses-explainer',
+          title: 'Household expenses explainer',
+          uiSchema: pages.expensesExplainer.uiSchema,
+          schema: pages.expensesExplainer.schema,
+        },
         expenses: {
           path: 'expenses',
           title: 'Expenses',
