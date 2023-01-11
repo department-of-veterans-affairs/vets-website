@@ -257,10 +257,23 @@ export const getMonthlyExpenses = ({
   const utilities = sumValues(utilityRecords, 'monthlyUtilityAmount');
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
-  const totalExp = expenses.expenseRecords.reduce(
-    (acc, expense) => acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '')),
-    0,
-  );
+  const expVals = Object.values(expenses).filter(Boolean);
+
+  let totalExp = 0;
+
+  if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
+    totalExp = expenses.expenseRecords.reduce(
+      (acc, expense) =>
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '')),
+      0,
+    );
+  } else {
+    totalExp = expVals.reduce(
+      (acc, expense) =>
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '')),
+      0,
+    );
+  }
 
   return utilities + installments + otherExp + totalExp;
 };
