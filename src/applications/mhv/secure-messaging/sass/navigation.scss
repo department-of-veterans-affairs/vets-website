@@ -40,7 +40,7 @@
   a {
     font-size: 17px;
     margin: 2px 0px;
-    color: $color-black;
+    color: $color-link-default;
     &:active,
     &:focus,
     &:hover {
@@ -66,11 +66,17 @@
   }
   .sidebar-navigation-messages-list {
     .sidebar-navigation-messages-list-header {
-      background-color: $color-gray-lightest;
-      border-left: 4px solid $color-base;
+      &.is-active {
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+      }
       font-weight: 700;
       a {
         padding-top: 7px;
+        color: $color-link-default;
+        &.is-active{
+          color: $color-black;
+        }
         &:active {
           color: $color-gray-dark;
           text-decoration: underline;
@@ -139,11 +145,11 @@
       padding-left: 15px;
       padding-right: 15px;
       .sidebar-navigation-messages-list-header {
-        background-color: $color-gray-lightest;
+        // background-color: $color-gray-lightest;
         font-weight: 700;
 
         a {
-          color: $color-black;
+          color: $color-link-default;
         }
       }
       .usa-sidenav-list {

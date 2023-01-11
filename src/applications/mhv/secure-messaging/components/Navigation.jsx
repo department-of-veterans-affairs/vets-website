@@ -86,6 +86,8 @@ const Navigation = () => {
   //   });
   // };
 
+  const headerStyle = location.pathname === '/' ? 'is-active' : null;
+
   const handleActiveLinksStyle = path => {
     const basePath = location.pathname.split('/');
     if (location.pathname === path.path) {
@@ -125,7 +127,7 @@ const Navigation = () => {
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
                   {/* Message Link will navigate to the new SM Home page in the future */}
-                  <Link className="" to="/">
+                  <Link className={headerStyle} to="/">
                     Messages
                   </Link>
                 </div>
