@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SignInWidget = toggleLogin => (
+const LoginInWidget = toggleLogin => (
   // const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   <va-alert close-btn-aria-label="Close notification" status="continue" visible>
     <p
@@ -12,8 +12,8 @@ const SignInWidget = toggleLogin => (
     <div>
       Sign in with your existing{' '}
       <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
-      <span className="vads-u-font-weight--bold">Login.gov</span>
-      account. If you don’t have an account, you can create a free{' '}
+      <span className="vads-u-font-weight--bold">Login.gov</span> account. If
+      you don’t have an account, you can create a free{' '}
       <a href="https://www.id.me/" target="_blank" rel="noreferrer">
         ID.me account
       </a>{' '}
@@ -29,4 +29,4 @@ const SignInWidget = toggleLogin => (
   </va-alert>
 );
 
-export default SignInWidget;
+export default LoginInWidget;

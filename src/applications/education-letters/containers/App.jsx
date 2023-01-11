@@ -4,7 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
-import SignInWidget from '../components/SignInWidget';
+import LoginWidget from '../components/LoginWidget';
 
 const App = ({ toggleLoginModal, user }) => {
   function toggleLogin(e) {
@@ -28,7 +28,7 @@ const App = ({ toggleLoginModal, user }) => {
       window.location.href = '/education/download-letters/letters';
     }
 
-    return <SignInWidget toggleLogin={toggleLogin} />;
+    return <LoginWidget toggleLogin={toggleLogin} />;
   }
 
   return (
