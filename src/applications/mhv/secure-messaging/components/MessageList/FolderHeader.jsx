@@ -59,7 +59,7 @@ const FolderHeader = props => {
       <>{handleFolderDescription()}</>
       {folder.folderId === Folders.INBOX.id && (
         <>
-          <EmergencyNote />
+          <EmergencyNote dropDownFlag />
           <ComposeMessageButton />
         </>
       )}
