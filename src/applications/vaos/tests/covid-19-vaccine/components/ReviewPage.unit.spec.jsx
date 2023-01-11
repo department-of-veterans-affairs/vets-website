@@ -94,7 +94,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     expect(descHeading).to.have.tagName('h2');
 
     expect(dateHeading).to.contain.text(
-      start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
+      start.format('dddd, MMMM D, YYYY [at] h:mm a'),
     );
     expect(dateHeading).to.have.tagName('h3');
 
