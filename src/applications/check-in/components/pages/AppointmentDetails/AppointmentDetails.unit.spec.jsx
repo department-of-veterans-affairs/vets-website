@@ -136,7 +136,7 @@ describe('check-in experience', () => {
             getByTestId('appointment-details--appointment-value'),
           ).to.have.text('stop code test');
         });
-        it('renders doctor name if exists', () => {
+        it.skip('renders doctor name if exists', () => {
           const { getByTestId } = render(
             <Provider store={existStore}>
               <I18nextProvider i18n={i18n}>

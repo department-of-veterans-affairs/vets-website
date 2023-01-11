@@ -14,10 +14,7 @@ import {
 } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-import {
-  selectIsCernerPatient,
-  selectAvailableServices,
-} from '~/platform/user/selectors';
+import { selectAvailableServices } from '~/platform/user/selectors';
 
 import HealthCareHeader from './HealthCareHeader';
 
@@ -54,14 +51,6 @@ const HealthCare = ({
 };
 
 const mapStateToProps = state => {
-  const facilityLocations = [
-    'VA Spokane health care',
-    'VA Walla Walla health care',
-    'VA Central Ohio health care',
-    'Roseburg (Oregon) VA health care',
-    'White City health care',
-  ];
-
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
@@ -81,10 +70,8 @@ const mapStateToProps = state => {
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    facilityLocations,
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
-    isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
@@ -123,13 +110,11 @@ HealthCare.propTypes = {
     }),
   ),
   dataLoadingDisabled: PropTypes.bool,
-  facilityLocations: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
   fetchUnreadMessages: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
-  isCernerPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   shouldShowLoadingIndicator: PropTypes.bool,
