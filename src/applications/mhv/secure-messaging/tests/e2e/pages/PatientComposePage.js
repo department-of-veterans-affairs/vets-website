@@ -9,7 +9,7 @@ class PatientComposePage {
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
       .get('[text="Send"]')
-      .click();
+      .click({ waitforanimations: true });
     cy.wait('@message');
   };
 

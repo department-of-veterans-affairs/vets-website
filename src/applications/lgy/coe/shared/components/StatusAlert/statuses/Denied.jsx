@@ -28,7 +28,7 @@ const Denied = ({ origin, referenceNumber, requestDate, testUrl = '' }) => (
 Denied.propTypes = {
   origin: PropTypes.oneOf(['form', 'status']).isRequired,
   referenceNumber: PropTypes.string.isRequired,
-  requestDate: PropTypes.number,
+  requestDate: PropTypes.number.isRequired,
   testUrl: PropTypes.string,
 };
 

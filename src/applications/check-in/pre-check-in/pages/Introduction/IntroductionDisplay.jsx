@@ -8,10 +8,12 @@ import { VaModal } from '@department-of-veterans-affairs/web-components/react-bi
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
+import AppointmentBlockVaos from '../../../components/AppointmentBlockVaos';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
@@ -23,7 +25,12 @@ const IntroductionDisplay = props => {
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+
   const { appointments } = useSelector(selectVeteranData);
+  const { isUpdatedApptPresentationEnabled } = useSelector(
+    selectFeatureToggles,
+  );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
 
@@ -101,7 +108,11 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      <AppointmentBlock appointments={appointments} page="intro" />
+      {isUpdatedApptPresentationEnabled ? (
+        <AppointmentBlockVaos appointments={appointments} page="intro" />
+      ) : (
+        <AppointmentBlock appointments={appointments} page="intro" />
+      )}
 
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />

@@ -1,14 +1,21 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/react';
 import searchResults from '../../fixtures/search-response.json';
 import folder from '../../fixtures/folder-inbox-metadata.json';
+import folderList from '../../fixtures/folder-inbox-response.json';
 import reducer from '../../../reducers';
 import SearchForm from '../../../components/Search/SearchForm';
 
 describe('Search form', () => {
-  const initialState = {};
+  const initialState = {
+    sm: {
+      folders: {
+        folderList,
+      },
+    },
+  };
   const defaultProps = {
     folder,
     keyword: 'test',
@@ -19,7 +26,7 @@ describe('Search form', () => {
     return renderWithStoreAndRouter(<SearchForm {...props} />, {
       initialState,
       reducers: reducer,
-      path: `/search`,
+      path: `/inbox`,
     });
   };
 
@@ -39,11 +46,12 @@ describe('Search form', () => {
     expect(screen.findByText('Advanced search', { exact: true }));
   });
 
-  it('displays the advanced search form when the advanced search is open', () => {
+  it('displays the advanced search form when the advanced search is open', async () => {
     const screen = setup();
-    fireEvent.click(screen.getByText('Advanced search'));
-    const advancedSearchButton = screen.getByTestId('advanced-search-submit');
-    expect(advancedSearchButton).to.exist;
+    screen.debug();
+
+    fireEvent.click(await screen.getByText('Advanced search'));
+    expect(await screen.getByTestId('advanced-search-submit')).to.exist;
   });
 
   it('renders displays a query summary containing the number of results, searched keyword, and folder', async () => {
