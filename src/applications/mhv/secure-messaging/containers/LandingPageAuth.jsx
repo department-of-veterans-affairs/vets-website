@@ -11,17 +11,24 @@ then additional functionality will need to be added to account for this.
 */
 
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllMessages } from '../actions';
 import { getTriageTeams } from '../actions/triageTeams';
 import { retrieveFolder } from '../actions/folders';
 import { getCategories } from '../actions/categories';
 import { DefaultFolders as Folder } from '../util/constants';
-import FolderListView from './FolderListView';
 import { getMessages } from '../actions/messages';
+import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
+import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
+import DashboardSearch from '../components/Dashboard/DashboardSearch';
+import DashboardFolders from '../components/Dashboard/DashboardFolders';
+import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
+import { foldersList } from '../selectors';
+import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
+  const folders = useSelector(foldersList);
 
   // fire api call to retreive messages
 
@@ -37,7 +44,20 @@ const LandingPageAuth = () => {
     [dispatch],
   );
 
-  return <FolderListView />;
+  return (
+    <div className="dashboard">
+      <h1>Messages</h1>
+      <p className="va-introtext">
+        Communicate privately and securely with your VA health care team online.
+      </p>
+      <ComposeMessageButton />
+      <DashboardUnreadMessages folders={folders} />
+      <WelcomeMessage />
+      <DashboardSearch />
+      <DashboardFolders />
+      <FrequentlyAskedQuestions />
+    </div>
+  );
 };
 
 export default LandingPageAuth;

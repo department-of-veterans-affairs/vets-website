@@ -6,8 +6,10 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
 import NeedsToVerify from '../components/NeedsToVerify';
+import MissingInfo from '../components/MissingInfo';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -15,12 +17,21 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    const { isVerified, loggedIn, route, location } = this.props;
+    const {
+      isVerified,
+      loggedIn,
+      route,
+      location,
+      canApply,
+      hasDob,
+    } = this.props;
     const { formConfig, pageList } = route;
     const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
 
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
+    // Missing SSN or DOB
+    const showMissingInfo = !canApply || !hasDob;
     const pathname = location.basename;
 
     const sipOptions = {
@@ -37,6 +48,7 @@ class IntroductionPage extends React.Component {
       useActionLinks: true,
     };
 
+    // Check LOA3 first, then check canApply (true when LOA3 & has SSN)
     return (
       <div className="schemaform-intro">
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
@@ -47,17 +59,20 @@ class IntroductionPage extends React.Component {
           changes the decision.
         </p>
         {loggedIn && showVerifyLink && <NeedsToVerify pathname={pathname} />}
-        {loggedIn && !showVerifyLink && <SaveInProgressIntro {...sipOptions} />}
+        {loggedIn &&
+          showMissingInfo &&
+          !showVerifyLink && <MissingInfo hasSsn={canApply} hasDob={hasDob} />}
+        {loggedIn &&
+          !showVerifyLink &&
+          !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
         <h2 className="vad-u-margin-top--0">
           Follow these steps to get started
         </h2>
         <p className="vads-u-margin-top--2">
-          If you don’t think this is the right form for you, find out about the
-          other decision review options.{' '}
-          <a href="/resources/choosing-a-decision-review-option">
-            Learn about choosing a decision review
-          </a>
+          If you don’t think this is the right form for you, you can go back to
+          answer the questions again.
         </p>
+        <a href={`${formConfig.rootUrl}/start`}>Go back to the questions</a>
         <va-process-list>
           <li>
             <h3>Check your eligibility</h3>
@@ -153,6 +168,8 @@ class IntroductionPage extends React.Component {
 }
 
 IntroductionPage.propTypes = {
+  canApply: PropTypes.bool,
+  hasDob: PropTypes.bool,
   isVerified: PropTypes.bool,
   location: PropTypes.shape({
     basename: PropTypes.string,
@@ -160,8 +177,10 @@ IntroductionPage.propTypes = {
   loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
+      downtime: PropTypes.array,
       formId: PropTypes.string,
       prefillEnabled: PropTypes.bool,
+      rootUrl: PropTypes.string,
       savedFormMessages: PropTypes.shape({}),
       subTitle: PropTypes.string,
       title: PropTypes.string,
@@ -170,11 +189,18 @@ IntroductionPage.propTypes = {
   }),
 };
 
-function mapStateToProps(state) {
-  return {
-    loggedIn: isLoggedIn(state),
-    isVerified: selectProfile(state)?.verified || false,
-  };
-}
+const mapStateToProps = state => ({
+  loggedIn: isLoggedIn(state),
+  // Verified LOA3?
+  isVerified: selectProfile(state)?.verified || false,
+  canApply:
+    // profile.claims.appeals indicates that the Veteran can apply for an
+    // appeal (is LOA3 AND has a SSN). See
+    // vets-api/app/policies/appeals_policy.rb - We need to use this because
+    // the SSN is available from prefill, but is not obtained until the form is
+    // started :(
+    selectProfile(state).claims?.appeals || environment.isLocalhost(),
+  hasDob: !!(selectProfile(state)?.dob || ''),
+});
 
 export default connect(mapStateToProps)(IntroductionPage);

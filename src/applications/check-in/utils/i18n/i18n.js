@@ -59,6 +59,12 @@ i18n
           if (format === 'time') {
             return formatDate(value, 'h:mm aaaa', { locale });
           }
+          if (format === 'day') {
+            return formatDate(value, 'iiii', { locale });
+          }
+          if (format === 'monthDay') {
+            return formatDate(value, "MMMM' 'dd", { locale });
+          }
           return formatDate(value, format, { locale });
         }
         return value;

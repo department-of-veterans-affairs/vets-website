@@ -52,7 +52,7 @@ const form = createTestConfig(
         });
       },
     },
-    skip: false,
+    skip: true, // Online form no longer in use. Code remains incase the online form is brought back
   },
   manifest,
   formConfig,

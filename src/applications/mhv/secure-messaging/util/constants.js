@@ -21,6 +21,8 @@ export const DefaultFolders = {
 
 export const Alerts = {
   Message: {
+    BLOCKED_MESSAGE_ERROR:
+      'You are blocked from sending messages to this recipient.',
     CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
     CANNOT_REPLY_INFO_HEADER:
       'You cannot reply to a message that is older than 45 days.',
@@ -53,6 +55,12 @@ export const Alerts = {
   },
 };
 
+export const Errors = {
+  Code: {
+    BLOCKED_USER: 'SM151',
+  },
+};
+
 export const Prompts = {
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -71,6 +79,7 @@ export const Breadcrumbs = {
     path: '/compose',
     label: 'Compose message',
   },
+  INBOX: { path: '/inbox', label: 'Inbox' },
   DRAFTS: { path: '/drafts', label: 'Drafts' },
   DRAFT: { path: '/draft', label: 'Drafts' },
   FOLDERS: { path: '/folders', label: 'My folders' },
@@ -86,3 +95,26 @@ export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_WARNING = 'warning';
 export const ALERT_TYPE_INFO = 'info';
+
+export const Categories = {
+  OTHER: 'General',
+  COVID: 'COVID',
+  APPOINTMENTS: 'Appointment',
+  MEDICATIONS: 'Medication',
+  TEST_RESULTS: 'Test',
+};
+
+export const acceptedFileTypes = {
+  doc: 'application/msword',
+  docx:
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  pdf: 'application/pdf',
+  png: 'image/png',
+  rtf: 'text/rtf',
+  txt: 'text/plain',
+  xls: 'application/vnd.ms-excel',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};

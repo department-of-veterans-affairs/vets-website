@@ -1,17 +1,19 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import manifest from '../../manifest.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadPage();
     landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('[data-testid="compose-select"]')
+    cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
       .select('BLUE ANCILLARY_TEAM');

@@ -53,10 +53,11 @@ const ProcessTimeline = () => (
 
           <p data-testid="poa-info-note" className="vads-u-margin-bottom--4">
             <strong>Note:</strong> If you’re a legal representative who can make
-            medical decisions for the Veteran, you can sign this application for
-            them. You’ll need to upload proof of your legal authority to make
-            medical decisions for the Veteran. This type of document is
-            sometimes called a medical proxy or medical power of attorney.
+            decisions for the Veteran, you can sign this application for them.
+            You’ll need to upload proof of your legal authority to make
+            decisions for the Veteran. Upload a document that we can accept
+            (such as a valid power of attorney, legal guardianship order, or
+            other legal document).
           </p>
 
           <h4 className="vads-u-font-size--h6">

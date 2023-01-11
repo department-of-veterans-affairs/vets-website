@@ -4,7 +4,14 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
+import { CONTACT_INFO_PATH } from '../constants';
+
 const buildPage = ({ title, field, goToPath }) => {
+  const onReviewPage = window.sessionStorage.getItem('onReviewPage') === 'true';
+  const returnPath = onReviewPage
+    ? '/review-and-submit'
+    : `/${CONTACT_INFO_PATH}`;
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -12,10 +19,10 @@ const buildPage = ({ title, field, goToPath }) => {
       event.stopPropagation();
     },
     cancel: () => {
-      goToPath('/contact-information');
+      goToPath(returnPath);
     },
     success: () => {
-      goToPath('/contact-information');
+      goToPath(returnPath);
     },
   };
 

@@ -233,7 +233,7 @@ describe('check-in', () => {
           'A staff member will help you on the day of your appointment.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'Or you can sign in to your VA account to update your contact information online.',
+          'Or you can sign in to your VA.gov profile to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Emergency and next of kin information',
@@ -279,7 +279,7 @@ describe('check-in', () => {
           'Contact Information',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'You can sign in to your VA account to update your contact information online.',
+          'You can sign in to your VA.gov profile to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Or you can call 800-698-2411 and select 0. We’re here 24/7.',
@@ -332,7 +332,7 @@ describe('check-in', () => {
           'Contact Information',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'You can sign in to your VA account to update your contact information online.',
+          'You can sign in to your VA.gov profile to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Or you can call 800-698-2411 and select 0. We’re here 24/7.',

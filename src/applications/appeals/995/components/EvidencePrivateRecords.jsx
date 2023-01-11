@@ -72,7 +72,6 @@ const defaultState = {
 
 const EvidencePrivateRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -103,19 +102,6 @@ const EvidencePrivateRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  useEffect(
-    () => {
-      setCurrentData(providerFacility?.[currentIndex] || defaultData);
-      setCurrentState(defaultState);
-      focusElement('#add-facility-name');
-      scrollTo('topPageElement');
-      setForceReload(false);
-    },
-    // don't include providerFacility or we clear state & move focus every time
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentIndex, forceReload],
-  );
-
   const availableIssues = getSelected(data).map(getIssueName);
 
   // *** validations ***
@@ -138,6 +124,24 @@ const EvidencePrivateRecords = ({
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
+  const focusErrors = () => {
+    if (hasErrors()) {
+      focusElement('[error]');
+    }
+  };
+
+  useEffect(
+    () => {
+      setCurrentData(providerFacility?.[currentIndex] || defaultData);
+      setCurrentState(defaultState);
+      focusElement('#add-facility-name');
+      scrollTo('topPageElement');
+      setForceReload(false);
+    },
+    // don't include providerFacility or we clear state & move focus every time
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentIndex, forceReload],
+  );
 
   const updateCurrentFacility = ({
     name = currentData.providerFacilityName,
@@ -228,9 +232,12 @@ const EvidencePrivateRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      updateState({ submitted: true });
       if (hasErrors()) {
-        updateState({ modal: { show: true, direction: NAV_PATHS.add } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
+        });
+        focusElement('[error]');
         return;
       }
       // clear state and start over for new entry
@@ -240,10 +247,14 @@ const EvidencePrivateRecords = ({
     onGoForward: event => {
       event.preventDefault();
       if (hasErrors()) {
-        // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.forward } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
+        });
+        focusElement('[error]');
         return;
       }
+      updateState({ submitted: true });
       const nextIndex = currentIndex + 1;
       if (currentIndex < providerFacility.length - 1) {
         goToPageIndex(nextIndex);
@@ -253,9 +264,12 @@ const EvidencePrivateRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors()) {
+      if (hasErrors() && currentIndex !== 0) {
         // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.back } });
+        updateState({
+          submitted: true,
+          modal: { show: true, direction: NAV_PATHS.back },
+        });
         return;
       }
       const prevIndex = currentIndex - 1;
@@ -271,6 +285,7 @@ const EvidencePrivateRecords = ({
       // For unit testing only
       event.stopPropagation();
       updateState({ submitted: true, modal: { show: false, direction: '' } });
+      focusErrors();
     },
     onModalYes: () => {
       // Yes, keep providerFacility; do nothing for forward & add
@@ -285,6 +300,7 @@ const EvidencePrivateRecords = ({
           goToPageIndex(prevIndex);
         }
       }
+      focusErrors();
     },
     onModalNo: () => {
       // No, clear current data and navigate
@@ -343,20 +359,6 @@ const EvidencePrivateRecords = ({
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onGoForward}
-      />
-      {contentAfterButtons}
-    </>
-  );
-
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
 
@@ -378,7 +380,7 @@ const EvidencePrivateRecords = ({
           modalTitle={content.modal.title}
           primaryButtonText={content.modal.yes}
           secondaryButtonText={content.modal.no}
-          onCloseEvent={handlers.onModalYes}
+          onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.modal.show}
@@ -539,7 +541,15 @@ const EvidencePrivateRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onGoForward}
+          />
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -574,7 +584,6 @@ EvidencePrivateRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRecords;

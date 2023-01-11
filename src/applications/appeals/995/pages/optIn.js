@@ -1,4 +1,4 @@
-import { optInDescription, optInLabel } from '../content/optIn';
+import { optInDescription, optInLabel, reviewField } from '../content/optIn';
 
 export default {
   uiSchema: {
@@ -12,6 +12,7 @@ export default {
         forceDivWrapper: true,
         keepInPageOnReview: false,
       },
+      'ui:reviewField': reviewField,
     },
   },
   schema: {

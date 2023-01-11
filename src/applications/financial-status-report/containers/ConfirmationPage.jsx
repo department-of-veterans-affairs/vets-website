@@ -6,7 +6,6 @@ import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import recordEvent from '~/platform/monitoring/record-event';
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
@@ -118,28 +117,11 @@ const ConfirmationPage = ({ form, download }) => {
   const { response } = form.submission;
   const { data } = form;
 
-  useEffect(
-    () => {
-      focusElement('.schemaform-title > h1');
-      if (response.content) {
-        const debtAdmins = {};
-        debtAdmins[DEBT_TYPES.DEBT] = 'vba';
-        debtAdmins[DEBT_TYPES.COPAY] = 'vha';
-        const debtTypes = [
-          ...new Set(
-            data.selectedDebtsAndCopays.map(
-              debtOrCopay => debtAdmins[debtOrCopay.debtType],
-            ),
-          ),
-        ];
+  useEffect(() => {
+    focusElement('.schemaform-title > h1');
 
-        const prefix = debtTypes.length > 1 ? 'combined' : debtTypes[0];
-        recordEvent({ event: `cfsr-5655-${prefix}-submitted` });
-      }
-      scrollToTop();
-    },
-    [response, data],
-  );
+    scrollToTop();
+  }, []);
 
   return (
     <div>

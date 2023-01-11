@@ -68,26 +68,37 @@ const SingleColumnInfo = ({
   hasCopayError,
   copaysCount,
   debtsCount,
+  withWrapper = false,
 }) => {
-  return (
-    <>
-      {(hasDebtError || hasCopayError) && (
-        <>
-          <OutstandingDebtsError />
-          {((hasDebtError && copaysCount < 1) ||
-            (hasCopayError && debtsCount < 1)) && <PopularActionsForDebts />}
-        </>
-      )}
-      {!hasDebtError &&
-        !hasCopayError &&
-        debtsCount < 1 &&
-        copaysCount < 1 && (
+  const SingleColumnInfoWithoutWrapper = () => {
+    return (
+      <>
+        {(hasDebtError || hasCopayError) && (
           <>
-            <NoOutstandingDebtsText />
-            <PopularActionsForDebts />
+            <OutstandingDebtsError />
+            {((hasDebtError && copaysCount < 1) ||
+              (hasCopayError && debtsCount < 1)) && <PopularActionsForDebts />}
           </>
         )}
-    </>
+        {!hasDebtError &&
+          !hasCopayError &&
+          debtsCount < 1 &&
+          copaysCount < 1 && (
+            <>
+              <NoOutstandingDebtsText />
+              <PopularActionsForDebts />
+            </>
+          )}
+      </>
+    );
+  };
+
+  return withWrapper ? (
+    <DashboardWidgetWrapper>
+      <SingleColumnInfoWithoutWrapper />
+    </DashboardWidgetWrapper>
+  ) : (
+    <SingleColumnInfoWithoutWrapper />
   );
 };
 
@@ -96,6 +107,7 @@ SingleColumnInfo.propTypes = {
   debtsCount: PropTypes.number,
   hasCopayError: PropTypes.bool,
   hasDebtError: PropTypes.bool,
+  withWrapper: PropTypes.bool,
 };
 
 const BenefitPaymentsAndDebtV2 = ({
@@ -145,14 +157,19 @@ const BenefitPaymentsAndDebtV2 = ({
             copaysCount={copaysCount}
             hasCopayError={hasCopayError}
             hasDebtError={hasDebtError}
+            withWrapper
           />
           <div className="vads-l-row">
-            <DashboardWidgetWrapper>
-              {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
-            </DashboardWidgetWrapper>
-            <DashboardWidgetWrapper>
-              <CopaysCardV2 copays={copays} />
-            </DashboardWidgetWrapper>
+            {debtsCount > 0 && (
+              <DashboardWidgetWrapper>
+                <DebtsCardV2 debts={debts} />
+              </DashboardWidgetWrapper>
+            )}
+            {copaysCount > 0 && (
+              <DashboardWidgetWrapper>
+                <CopaysCardV2 copays={copays} />
+              </DashboardWidgetWrapper>
+            )}
           </div>
         </>
       )}

@@ -24,25 +24,28 @@ const AttachmentsList = props => {
           attachments.map(file => (
             <li key={file.name}>
               {editingEnabled && (
-                <>
-                  <i className="fas fa-paperclip" aria-hidden="true" />
-                  <div className="editable-attachment">
-                    <span>
-                      {file.name} ({getSize(file.size || file.attachmentSize)})
-                    </span>
-                    <va-button
-                      onClick={() => removeAttachment(file.name)}
-                      secondary
-                      text="Remove"
-                      class="remove-attachment-button"
-                    />
-                  </div>
-                </>
+                <div className="editable-attachment">
+                  <span>
+                    <i className="fas fa-paperclip" aria-hidden="true" />
+                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                  </span>
+                  <va-button
+                    onClick={() => removeAttachment(file.name)}
+                    secondary
+                    text="Remove"
+                    class="remove-attachment-button"
+                  />
+                </div>
               )}
               {!editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
-                  <a href={file.link} target="_blank" rel="noreferrer">
+                  <a
+                    className="attachment"
+                    href={file.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
