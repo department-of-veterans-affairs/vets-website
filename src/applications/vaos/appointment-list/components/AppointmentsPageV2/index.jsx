@@ -129,7 +129,7 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname],
+    [subPageTitle, featureStatusImprovement, location],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
