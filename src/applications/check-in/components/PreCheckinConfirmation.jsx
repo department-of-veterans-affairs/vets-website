@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+
 import AppointmentBlock from './AppointmentBlock';
+import AppointmentBlockVaos from './AppointmentBlockVaos';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
-  const { appointments, isLoading, formData } = props;
+  const { appointments, isLoading, formData, router } = props;
   const {
     demographicsUpToDate,
     emergencyContactUpToDate,
     nextOfKinUpToDate,
   } = formData;
   const { t } = useTranslation();
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+
+  const { isUpdatedApptPresentationEnabled } = useSelector(
+    selectFeatureToggles,
+  );
 
   if (appointments.length === 0) {
     return <></>;
   }
+
   const apptType = appointments[0]?.kind ?? 'clinic';
   const renderLoadingMessage = () => {
     return (
@@ -40,7 +50,15 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        <AppointmentBlock appointments={appointments} page="confirmation" />
+        {isUpdatedApptPresentationEnabled ? (
+          <AppointmentBlockVaos
+            appointments={appointments}
+            page="confirmation"
+            router={router}
+          />
+        ) : (
+          <AppointmentBlock appointments={appointments} page="confirmation" />
+        )}
         <HowToLink apptType={apptType} />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
@@ -68,6 +86,7 @@ PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
   formData: PropTypes.object,
   isLoading: PropTypes.bool,
+  router: PropTypes.object,
 };
 
 export default PreCheckinConfirmation;
