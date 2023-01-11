@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { totalDisabilityError } from '~/applications/personalization/rated-disabilities/selectors';
 
 const ErrorAlert = () => (
   <va-alert status="warning" background-only show-icon>
@@ -10,7 +10,7 @@ const ErrorAlert = () => (
 );
 
 const DisabilityRating = () => {
-  const hasError = useSelector(hasTotalDisabilityServerError);
+  const hasError = useSelector(totalDisabilityError);
   const rating = useSelector(state => state.totalRating?.totalDisabilityRating);
 
   return (
