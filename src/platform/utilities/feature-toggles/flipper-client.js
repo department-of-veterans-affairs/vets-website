@@ -102,11 +102,9 @@ function FlipperClient({
     );
     const isPostLogin = queryParams.get('postLogin') === 'true';
     const signOutFlag = isSignOutTriggered();
-
     const featureToggleSessionData =
       sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
       JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
-
     const isSessionDataValid =
       featureToggleSessionData &&
       Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
@@ -121,12 +119,10 @@ function FlipperClient({
     } else {
       const response = await _fetchToggleValues();
       data = response.data;
-
       const now = new Date();
       const expiresAt = new Date(
         now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
       );
-
       sessionStorage.setItem(
         TOGGLE_STORAGE_KEY,
         JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
@@ -135,7 +131,6 @@ function FlipperClient({
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
-
       return acc;
     }, {});
   };
