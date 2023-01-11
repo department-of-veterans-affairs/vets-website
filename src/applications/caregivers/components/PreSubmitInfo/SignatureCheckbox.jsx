@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import SignatureInput from './SignatureInput';
 
 const SignatureCheckbox = ({
@@ -32,34 +32,32 @@ const SignatureCheckbox = ({
   );
 
   return (
-    <article
+    <fieldset
       data-testid={label}
-      className="signature-box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
+      className="signature-box vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--5"
     >
-      {children && <header>{children}</header>}
+      {!!children && <>{children}</>}
 
-      <section>
-        <SignatureInput
-          ariaDescribedBy={representativeLabelId}
-          label={label}
-          fullName={fullName}
-          required={isRequired}
-          showError={showError}
-          hasSubmittedForm={hasSubmittedForm}
-          isRepresentative={isRepresentative}
-          setSignatures={setSignatures}
-          isChecked={isChecked}
-        />
+      <SignatureInput
+        ariaDescribedBy={representativeLabelId}
+        label={label}
+        fullName={fullName}
+        required={isRequired}
+        showError={showError}
+        hasSubmittedForm={hasSubmittedForm}
+        isRepresentative={isRepresentative}
+        setSignatures={setSignatures}
+        isChecked={isChecked}
+      />
 
-        {isRepresentative && (
-          <p className="on-behalf-representative" id={representativeLabelId}>
-            On behalf of
-            <strong className="vads-u-font-size--lg">
-              {fullName.first} {fullName.middle} {fullName.last}
-            </strong>
-          </p>
-        )}
-      </section>
+      {isRepresentative && (
+        <p className="signature-box--representative" id={representativeLabelId}>
+          On behalf of
+          <strong className="vads-u-font-size--lg">
+            {fullName.first} {fullName.middle} {fullName.last}
+          </strong>
+        </p>
+      )}
 
       <Checkbox
         onValueChange={value => {
@@ -75,7 +73,7 @@ const SignatureCheckbox = ({
         errorMessage={hasError && 'Must certify by checking box'}
         required={isRequired}
       />
-    </article>
+    </fieldset>
   );
 };
 
