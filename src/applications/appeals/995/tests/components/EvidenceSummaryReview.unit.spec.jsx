@@ -8,11 +8,6 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
 import { EVIDENCE_PRIVATE, EVIDENCE_VA, EVIDENCE_OTHER } from '../../constants';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 const providerFacilityAddress = {
   country: 'USA',
   street: '123 main',
@@ -93,7 +88,7 @@ describe('<EvidenceSummaryReview>', () => {
   it('should render', () => {
     const { container } = setupSummary();
 
-    expect($('va-button.edit-page', container)).to.exist;
+    expect($('button.edit-page', container)).to.exist;
     expect($$('h5', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('a', container).length).to.eq(0);
@@ -127,11 +122,11 @@ describe('<EvidenceSummaryReview>', () => {
   });
 
   it('should call editPage callback', () => {
-    const editPage = sinon.spy();
-    const { container } = setupSummary({ editPage });
+    const editPageSpy = sinon.spy();
+    const { container } = setupSummary({ editPage: editPageSpy });
 
-    fireEvent.click($('va-button.edit-page', container), mouseClick);
+    fireEvent.click($('.edit-page', container));
 
-    expect(editPage.called).to.be.true;
+    expect(editPageSpy.called).to.be.true;
   });
 });

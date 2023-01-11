@@ -58,15 +58,16 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   return (
     <div className="form-review-panel-page">
       <div name="evidenceSummaryScrollElement" />
-      <va-button
+      <button
+        type="button"
         ref={editRef}
-        class="float-right edit-page"
-        secondary
+        className="float-right edit-page usa-button-secondary"
         onClick={handlers.onEditPage}
-        label="Update evidence summary page"
-        text={content.edit}
-        tabindex="0"
-      />
+        aria-label={content.editLabel}
+        tabIndex="0"
+      >
+        {content.edit}
+      </button>
       <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
         {content.reviewPageHeaderText}
       </h4>
