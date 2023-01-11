@@ -89,7 +89,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       <VaContent list={vaEvidence} reviewMode />
       <PrivateContent
         list={privateEvidence}
-        limit={limitedConsent}
+        limitedConsent={limitedConsent}
         reviewMode
       />
       <UploadContent list={otherEvidence} reviewMode />
