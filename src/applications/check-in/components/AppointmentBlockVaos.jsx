@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import AppointmentListItem from './AppointmentListItem';
+import AppointmentListItemVaos from './AppointmentListItemVaos';
 import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { setActiveAppointment } from '../actions/universal';
 import { makeSelectApp } from '../selectors';
@@ -50,14 +50,11 @@ const AppointmentBlockVaos = props => {
       >
         {appointments.map(appointment => {
           return (
-            <AppointmentListItem
+            <AppointmentListItemVaos
               key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
-              goToDetails={
-                page === 'confirmation' || page === 'details'
-                  ? handleDetailClick
-                  : null
-              }
+              showDetailsLink={page === 'confirmation' || page === 'details'}
+              goToDetails={handleDetailClick}
               AppointmentAction={
                 <AppointmentActionVaos
                   appointment={appointment}

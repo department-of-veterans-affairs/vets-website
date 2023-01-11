@@ -4,8 +4,13 @@ import { useTranslation } from 'react-i18next';
 
 import { appointmentIcon, clinicName } from '../utils/appointment';
 
-const AppointmentListItem = props => {
-  const { appointment, goToDetails, AppointmentAction } = props;
+const AppointmentListItemVaos = props => {
+  const {
+    appointment,
+    goToDetails,
+    AppointmentAction,
+    showDetailsLink,
+  } = props;
   const { t } = useTranslation();
 
   const appointmentDateTime = new Date(appointment.startTime);
@@ -52,7 +57,7 @@ const AppointmentListItem = props => {
             )}
           </div>
         </div>
-        {goToDetails && (
+        {showDetailsLink && (
           <div className="vads-u-margin-y--2">
             <a
               data-testid="details-link"
@@ -69,10 +74,11 @@ const AppointmentListItem = props => {
   );
 };
 
-AppointmentListItem.propTypes = {
+AppointmentListItemVaos.propTypes = {
   appointment: PropTypes.object.isRequired,
   AppointmentAction: PropTypes.node,
   goToDetails: PropTypes.func,
+  showDetailsLink: PropTypes.bool,
 };
 
-export default AppointmentListItem;
+export default AppointmentListItemVaos;
