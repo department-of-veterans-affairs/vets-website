@@ -1,5 +1,3 @@
-import manifest from '../../manifest.json';
-
 import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
@@ -7,7 +5,7 @@ import mockMessages from './fixtures/drafts-search-results.json';
 import mockSpeciaCharMessage from './fixtures/message-response-specialchars.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaing - Search Special Characters', () => {
   const basicSearchPage = new PatientBasicSearchPage();
 
   const landingPage = new PatientInboxPage();
