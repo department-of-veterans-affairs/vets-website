@@ -78,4 +78,15 @@ module.exports = {
       returnUrl: '/download-letters/letters',
     },
   },
+  'GET /meb_api/v0/forms_claim_status?latest=true': {
+    claimStatus: {
+      claimStatus: 'ELIGIBLE',
+      receivedDate: '2021-01-23',
+    },
+    metadata: {
+      version: 0,
+      prefill: false,
+      returnUrl: '/download-letters/letters',
+    },
+  },
 };
