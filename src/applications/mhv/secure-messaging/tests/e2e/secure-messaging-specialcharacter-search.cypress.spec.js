@@ -5,7 +5,7 @@ import mockMessages from './fixtures/drafts-search-results.json';
 import mockSpeciaCharMessage from './fixtures/message-response-specialchars.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
 
-describe('Secure Messaing - Search Special Characters', () => {
+describe('Secure Messaging - Search Special Characters', () => {
   const basicSearchPage = new PatientBasicSearchPage();
 
   const landingPage = new PatientInboxPage();
