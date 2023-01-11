@@ -54,6 +54,7 @@ describe('MyVA Dashboard - Cerner Widget', () => {
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
       );
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
     });
     it('should show the Cerner alert', () => {
       cy.visit('my-va/');
