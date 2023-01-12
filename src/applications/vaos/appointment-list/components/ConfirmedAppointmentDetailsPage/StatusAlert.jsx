@@ -63,7 +63,7 @@ export default function StatusAlert({ appointment, facility }) {
         </div>
         <div>
           <va-link
-            href="/new-appointment"
+            href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
           />
