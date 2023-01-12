@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 export default function NoAppointments({
@@ -21,13 +21,12 @@ export default function NoAppointments({
             </NewTabAnchor>{' '}
             to schedule an appointment.
           </p>
-          <Link
+          <VaLink
             className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-            to="/new-appointment"
+            href="/new-appointment"
             onClick={startNewAppointmentFlow}
-          >
-            Schedule an appointment
-          </Link>
+            text="Schedule an appointment"
+          />
         </>
       )}
       {!showScheduleButton && (
