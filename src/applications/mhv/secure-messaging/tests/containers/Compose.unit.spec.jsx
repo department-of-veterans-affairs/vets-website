@@ -7,7 +7,7 @@ import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
 
-describe('Compose message container', () => {
+describe('Compose container', () => {
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
@@ -96,9 +96,7 @@ describe('Compose message container', () => {
       path: `/compose`,
     });
 
-    const sendButton = await screen.getAllByRole('button', {
-      name: 'Send',
-    });
+    const sendButton = await screen.getByTestId('Send-Button');
     const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
 
     expect(sendButton).to.exist;
