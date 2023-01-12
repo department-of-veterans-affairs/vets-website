@@ -44,13 +44,11 @@ LoginInWidget.propTypes = {
   toggleLoginModal: PropTypes.func,
 };
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(LoginInWidget);

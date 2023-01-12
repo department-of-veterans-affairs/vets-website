@@ -120,6 +120,6 @@
   {
     "appName": "Education Letters",
     "rootUrl": "/education/download-letters/",
-    "entryName": "view_education_letters_login"
+    "widgetType": "view-education-letters-login"
   }
 ]
