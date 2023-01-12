@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import InfoAlert from '../../../components/InfoAlert';
@@ -54,12 +55,17 @@ export default function StatusAlert({ appointment, facility }) {
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link to="/" onClick={handleClick()}>
-            Review your appointments
-          </Link>
+          <VaLink
+            to="/health-care/schedule-view-va-appointments/appointments/"
+            onClick={handleClick()}
+            text="Review your appointments"
+          />
         </div>
         <div>
-          <Link to="/new-appointment">Schedule a new appointment</Link>
+          <VaLink
+            href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
+            text="Schedule a new appointment"
+          />
         </div>
       </InfoAlert>
     );
