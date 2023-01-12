@@ -2,23 +2,25 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
-  const errorList = errorSchema?.addlIncRecords?.__errors;
-  const { submitted } = formContext;
+const HouseholdExpensesInputList = props => {
+  const { submitted } = props.formContext;
+  const { errorSchema } = props;
+
+  const errorList = errorSchema?.expenseRecords?.__errors;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
   const {
-    additionalIncome: { addlIncRecords },
+    expenses: { expenseRecords },
   } = data;
 
   const onChange = ({ target }) => {
     return dispatch(
       setData({
         ...data,
-        additionalIncome: {
-          ...data.additionalIncome,
-          addlIncRecords: addlIncRecords.map(income => {
+        expenses: {
+          ...data.expenses,
+          expenseRecords: expenseRecords.map(income => {
             if (income.name === target.name) {
               return {
                 ...income,
@@ -34,9 +36,7 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
 
   return (
     <div>
-      <legend className="schemaform-block-title">Your other income</legend>
-      <p>How much is your monthly income for each income source?</p>
-      {addlIncRecords?.map((income, key) => (
+      {expenseRecords?.map((income, key) => (
         <div key={income.name + key} className="vads-u-margin-y--2">
           <va-number-input
             label={income.name}
@@ -58,4 +58,4 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   );
 };
 
-export default AdditionalIncomeInputList;
+export default HouseholdExpensesInputList;
