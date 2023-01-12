@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event.js';
 import moment from '../../../lib/moment-tz.js';
@@ -115,3 +116,10 @@ export default function ConfirmationDirectScheduleInfoV2({
     </>
   );
 }
+
+ConfirmationDirectScheduleInfoV2.propTypes = {
+  clinic: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  facilityDetails: PropTypes.object.isRequired,
+  slot: PropTypes.object.isRequired,
+};
