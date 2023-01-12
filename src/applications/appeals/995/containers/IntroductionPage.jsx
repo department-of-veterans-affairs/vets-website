@@ -152,8 +152,7 @@ class IntroductionPage extends React.Component {
             </va-additional-info>
           </li>
         </va-process-list>
-        {loggedIn &&
-          !showVerifyLink &&
+        {!showVerifyLink &&
           !showMissingInfo && (
             <div className="sip-wrapper vads-u-margin-bottom--4">
               <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
