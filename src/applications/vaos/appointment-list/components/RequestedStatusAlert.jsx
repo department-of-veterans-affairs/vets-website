@@ -68,7 +68,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             </div>
             <div className=" vads-u-margin-top--1">
               <VaLink
-                href="/new-appointment"
+                href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
                 onClick={handleNewApptClick(dispatch)}
                 text="New appointment"
               />
