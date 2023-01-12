@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
-import { selectCernerFacilities } from '~/platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
+
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
+  selectUserCernerFacilityNames,
   selectUseVaosV2APi,
 } from '~/applications/personalization/dashboard/selectors';
 import {
@@ -18,10 +18,7 @@ import {
 } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-import {
-  selectIsCernerPatient,
-  selectAvailableServices,
-} from '~/platform/user/selectors';
+import { selectAvailableServices } from '~/platform/user/selectors';
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import HealthCareCTA from './HealthCareCTAV2';
@@ -36,8 +33,7 @@ const HealthCareContentV2 = ({
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   fetchConfirmedFutureAppointmentsV2,
-  isCernerPatient,
-  facilityLocations,
+  facilityNames,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
@@ -50,11 +46,6 @@ const HealthCareContentV2 = ({
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    connectDrupalSourceOfTruthCerner(dispatch);
-  }, []);
 
   useEffect(
     () => {
@@ -153,12 +144,12 @@ const HealthCareContentV2 = ({
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
   }
-  if (isCernerPatient && facilityLocations?.length) {
+  if (facilityNames?.length > 0) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
           <CernerWidget
-            facilityLocations={facilityLocations}
+            facilityLocations={facilityNames}
             authenticatedWithSSOe={authenticatedWithSSOe}
           />
         </div>
@@ -232,28 +223,6 @@ const HealthCareContentV2 = ({
 };
 
 const mapStateToProps = state => {
-  let facilityLocations = [
-    'VA Spokane health care',
-    'VA Walla Walla health care',
-    'VA Central Ohio health care',
-    'Roseburg (Oregon) VA health care',
-    'White City health care',
-  ];
-  const facilities = selectPatientFacilitiesDsot(state);
-
-  const userFacilityIds = (facilities || []).map(f => f.facilityId);
-
-  const allCernerFacilities = selectCernerFacilities(state);
-
-  const userCernerFacilities = allCernerFacilities?.filter(f =>
-    userFacilityIds.includes(f.vhaId),
-  );
-
-  facilityLocations =
-    allCernerFacilities && userCernerFacilities
-      ? userCernerFacilities.map(f => f.vamcSystemName)
-      : facilities;
-
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
@@ -270,7 +239,6 @@ const mapStateToProps = state => {
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    facilityLocations,
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
@@ -286,6 +254,7 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
     useVaosV2Api: selectUseVaosV2APi(state),
+    facilityNames: selectUserCernerFacilityNames(state),
   };
 };
 
@@ -311,7 +280,7 @@ HealthCareContentV2.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   canAccessRx: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
-  facilityLocations: PropTypes.arrayOf(PropTypes.string),
+  facilityNames: PropTypes.arrayOf(PropTypes.string),
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchConfirmedFutureAppointmentsV2: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,

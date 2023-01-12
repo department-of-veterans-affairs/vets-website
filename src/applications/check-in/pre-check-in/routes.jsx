@@ -10,12 +10,14 @@ import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withAuthorization from '../containers/withAuthorization';
 import withForm from '../containers/withForm';
 import { withAppSet } from '../containers/withAppSet';
+import { withError } from '../containers/withError';
 
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
@@ -80,6 +82,15 @@ const routes = [
     path: URLS.ERROR,
     component: Error,
   },
+  {
+    path: URLS.APPOINTMENT_DETAILS,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
 ];
 
 const createRoutesWithStore = () => {
@@ -107,6 +118,8 @@ const createRoutesWithStore = () => {
         Component = withFeatureFlip(Component, options);
         // Add app name
         Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
         const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
@@ -8,9 +9,9 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import PropTypes from 'prop-types';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
@@ -22,7 +23,8 @@ import {
   hasMPIConnectionError,
   isNotInMPI,
 } from '~/platform/user/selectors';
-import RequiredLoginView, {
+import {
+  RequiredLoginView,
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -48,13 +50,14 @@ import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
 import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
 import DebtsV2 from './debts-v2/DebtsV2';
-import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../selectors';
 import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
+import SavedApplications from './apply-for-benefits/SavedApplications';
+import EducationAndTraining from './education-and-training/EducationAndTraining';
 
-const DashboardHeader = ({ showNotifications, paymentsError }) => {
+const DashboardHeader = ({ showNotifications }) => {
   return (
     <div>
       <h1
@@ -77,27 +80,12 @@ const DashboardHeader = ({ showNotifications, paymentsError }) => {
           });
         }}
       />
-      {paymentsError && (
-        <DashboardWidgetWrapper>
-          <div
-            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
-            data-testid="payments-error"
-          >
-            <va-alert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. We can’t access some of your financial information
-              right now. We’re working to fix this problem. Please check back
-              later.
-            </va-alert>
-          </div>
-        </DashboardWidgetWrapper>
-      )}
       {showNotifications && <Notifications />}
     </div>
   );
 };
 
 DashboardHeader.propTypes = {
-  paymentsError: PropTypes.bool,
   showNotifications: PropTypes.bool,
 };
 
@@ -111,7 +99,6 @@ const Dashboard = ({
   getPayments,
   isLOA3,
   payments,
-  paymentsError,
   shouldShowV2Dashboard,
   showLoader,
   showMPIConnectionError,
@@ -124,14 +111,18 @@ const Dashboard = ({
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
+  const dispatch = useDispatch();
 
-  // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-  // v1 is retired
   useEffect(() => {
+    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
+    // v1 is retired
     recordEvent({
       event: 'phased-roll-out-enabled',
       'product-description': 'My VA v2',
     });
+
+    // use Drupal based Cerner facility data
+    connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
 
   // focus on the name tag or the header when we are done loading
@@ -210,10 +201,7 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader
-                paymentsError={paymentsError}
-                showNotifications={showNotifications}
-              />
+              <DashboardHeader showNotifications={showNotifications} />
 
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
@@ -268,7 +256,7 @@ const Dashboard = ({
               {props.showHealthCare && !shouldShowV2Dashboard ? (
                 <HealthCare />
               ) : null}
-              {shouldShowV2Dashboard ? (
+              {isLOA3 && shouldShowV2Dashboard ? (
                 <HealthCareV2 isVAPatient={isVAPatient} />
               ) : null}
 
@@ -289,8 +277,14 @@ const Dashboard = ({
                   />
                 </>
               ) : null}
-
-              <ApplyForBenefits />
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <EducationAndTraining />
+              ) : null}
+              {isLOA3 && shouldShowV2Dashboard ? (
+                <SavedApplications />
+              ) : (
+                <ApplyForBenefits />
+              )}
             </div>
           </div>
         )}
@@ -389,7 +383,6 @@ const mapStateToProps = state => {
     showBenefitPaymentsAndDebtV2,
     showNotifications,
     payments: state.allPayments.payments || [],
-    paymentsError: state.allPayments.error,
   };
 };
 
@@ -415,7 +408,6 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
   shouldShowV2Dashboard: PropTypes.bool,
   showBenefitPaymentsAndDebt: PropTypes.bool,
   showBenefitPaymentsAndDebtV2: PropTypes.bool,

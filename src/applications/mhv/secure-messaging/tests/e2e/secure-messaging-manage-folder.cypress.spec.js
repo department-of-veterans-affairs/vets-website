@@ -1,15 +1,11 @@
-import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-beforeEach(() => {});
-
-describe(manifest.appName, () => {
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
-  it('is test fine accessible', () => {
-    const landingPage = new PatientMessagesLandingPage();
+describe('Secure Messaging Manage Folder AXE check', () => {
+  it('Axe Check Manage Folders', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     cy.get('[data-testid="my-folders-sidebar"]').click();
     cy.injectAxe();

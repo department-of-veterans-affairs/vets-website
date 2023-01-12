@@ -19,10 +19,13 @@ import {
   preCheckinExpired,
   appointmentWasCanceled,
   preCheckinAlreadyCompleted,
+  appointmentStartTimePast15,
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
 import { useSessionStorage } from './useSessionStorage';
 import { URLS } from '../utils/navigation';
+
+import { useUpdateError } from './useUpdateError';
 
 const useGetCheckInData = ({
   refreshNeeded,
@@ -40,10 +43,12 @@ const useGetCheckInData = ({
   const { token } = useSelector(selectCurrentContext);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
-  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const { setPreCheckinComplete } = useSessionStorage();
 
   const dispatch = useDispatch();
+
+  const { updateError } = useUpdateError();
 
   const refreshCheckInData = () => {
     setIsStale(true);
@@ -99,22 +104,25 @@ const useGetCheckInData = ({
             .getPreCheckInData(token, reload)
             .then(json => {
               if (json.error) {
-                goToErrorPage('?error=error-getting-pre-check-in-data');
+                updateError('error-getting-pre-check-in-data');
                 return; // prevent a react no-op on an unmounted component
               }
               const { payload } = json;
               setPreCheckInData(payload);
-              if (
-                payload.appointments &&
-                payload.appointments.length > 0 &&
-                preCheckinExpired(payload.appointments)
-              ) {
-                goToErrorPage('?error=pre-check-in-expired');
-                return;
+
+              if (payload.appointments?.length > 0) {
+                if (appointmentStartTimePast15(payload.appointments)) {
+                  updateError('pre-check-in-past-appointment');
+                  return;
+                }
+                if (preCheckinExpired(payload.appointments)) {
+                  updateError('pre-check-in-expired');
+                  return;
+                }
               }
 
               if (appointmentWasCanceled(payload.appointments)) {
-                goToErrorPage('?error=appointment-canceled');
+                updateError('appointment-canceled');
                 return;
               }
 
@@ -155,7 +163,7 @@ const useGetCheckInData = ({
       isLoading,
       reload,
       isPreCheckIn,
-      goToErrorPage,
+      updateError,
       jumpToPage,
       setPreCheckInData,
       setPreCheckinComplete,

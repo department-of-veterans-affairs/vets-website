@@ -7,8 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca deductible expenses', () => {
   const {
@@ -44,5 +45,30 @@ describe('Hca deductible expenses', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+
+    simulateInputChange(formDOM, '#root_deductibleMedicalExpenses', '100');
+
+    simulateInputChange(formDOM, '#root_deductibleFuneralExpenses', '0');
+
+    simulateInputChange(formDOM, '#root_deductibleEducationExpenses', '500');
+
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 });

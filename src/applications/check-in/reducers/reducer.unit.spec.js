@@ -17,6 +17,7 @@ describe('check in', () => {
           form: {
             pages: [],
             data: {},
+            activeAppointment: null,
           },
           error: '',
         });

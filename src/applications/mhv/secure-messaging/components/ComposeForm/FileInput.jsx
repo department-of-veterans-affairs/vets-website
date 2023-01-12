@@ -1,22 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import HowToAttachFiles from '../HowToAttachFiles';
-
-const acceptedFileTypes = {
-  doc: 'application/msword',
-  docx:
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  gif: 'image/gif',
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  pdf: 'application/pdf',
-  png: 'image/png',
-  rtf: 'text/rtf',
-  txt: 'text/plain',
-  xls: 'application/vnd.ms-excel',
-  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-};
+import { acceptedFileTypes } from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
   const [error, setError] = useState();
@@ -97,6 +82,7 @@ const FileInput = ({ attachments, setAttachments }) => {
           primaryButtonText="Continue editing"
           status="warning"
           visible
+          data-testid="attach-file-error-modal"
         >
           <p>{error.message}</p>
         </VaModal>
@@ -107,6 +93,7 @@ const FileInput = ({ attachments, setAttachments }) => {
         type="file"
         id="attachments"
         name="attachments"
+        data-testid="attach-file-input"
         onChange={handleFiles}
         hidden
       />
@@ -116,8 +103,8 @@ const FileInput = ({ attachments, setAttachments }) => {
         secondary
         text="Attach file"
         class="attach-file-button"
+        data-testid="attach-file-button"
       />
-      <HowToAttachFiles />
     </div>
   );
 };

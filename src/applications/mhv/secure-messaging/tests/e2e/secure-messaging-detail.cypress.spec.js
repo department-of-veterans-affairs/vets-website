@@ -1,26 +1,18 @@
-import manifest from '../../manifest.json';
-import mockMessage from './fixtures/message-response.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 
-beforeEach(() => {});
-
-describe(manifest.appName, function() {
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
-  it('is test fine accessible', () => {
-    const landingPage = new PatientMessagesLandingPage();
+describe('Secure Messaging Message Details AXE Check', () => {
+  it('Axe Check Message Details Page', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
-    cy.intercept('GET', '/my_health/v1/messaging/messages/*', mockMessage).as(
-      'message',
+    landingPage.loadMessageDetails(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
     );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/messages/*/thread',
-      mockMessage,
-    ).as('message');
-    cy.contains('Test Inquiry').click();
-    cy.wait('@message');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

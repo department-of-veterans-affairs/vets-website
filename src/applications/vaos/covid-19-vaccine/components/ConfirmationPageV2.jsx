@@ -2,22 +2,20 @@ import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event.js';
-import moment from '../../lib/moment-tz.js';
+import recordEvent from 'platform/monitoring/record-event';
+import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  getTimezoneAbbrByFacilityId,
-  getTimezoneByFacilityId,
-} from '../../utils/timezone.js';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
-import { selectConfirmationPage } from '../redux/selectors.js';
+import { selectConfirmationPage } from '../redux/selectors';
 import AddToCalendar from '../../components/AddToCalendar';
 import InfoAlert from '../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
 } from '../../services/location';
+import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -45,10 +43,12 @@ function ConfirmationPageV2({
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">
-        {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
-      </h1>
+      <AppointmentDate
+        classes="vads-u-font-size--h2"
+        dates={[slot.start]}
+        facilityId={data.vaFacility}
+        level="1"
+      />
       <InfoAlert status="success" backgroundOnly>
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
@@ -92,10 +92,6 @@ function ConfirmationPageV2({
       </div>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
         <AddToCalendar
           summary={`Appointment at ${clinic?.serviceName}`}
           description={{
@@ -115,7 +111,11 @@ function ConfirmationPageV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="va-button-link"
+          onClick={() => window.print()}
+        >
           Print
         </button>
       </div>

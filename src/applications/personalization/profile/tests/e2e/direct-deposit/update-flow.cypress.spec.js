@@ -38,10 +38,10 @@ function exitBankInfoForm(type) {
 
 function saveNewBankInfo(id) {
   if (!id) {
-    cy.findByRole('button', { name: /update/i }).click({ force: true });
+    cy.findByRole('button', { name: /save/i }).click({ force: true });
   } else {
     cy.findByTestId(`${id}-bank-info-form`)
-      .findByRole('button', { name: /update/i })
+      .findByRole('button', { name: /save/i })
       .click();
   }
   cy.axeCheck();
@@ -82,7 +82,9 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_CNPRoutingNumber').should('be.focused');
+      cy.get('#disability-compensation-and-pension-benefits').should(
+        'be.focused',
+      );
       fillInBankInfoForm('CNP');
       exitBankInfoForm('CNP');
       dismissUnsavedChangesModal();
@@ -128,7 +130,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.get('#root_EDURoutingNumber').should('be.focused');
+      cy.get('#education-benefits').should('be.focused');
       fillInBankInfoForm('EDU');
       exitBankInfoForm('EDU');
       dismissUnsavedChangesModal();

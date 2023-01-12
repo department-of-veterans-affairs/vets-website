@@ -42,6 +42,9 @@ export const transform = (formConfig, form) => {
       telephoneNumber,
       dateOfBirth,
       dependents,
+      employmentHistory: {
+        veteran: { employmentRecords = [] },
+      },
     },
     expenses,
     otherExpenses,
@@ -73,7 +76,9 @@ export const transform = (formConfig, form) => {
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = !enhancedFSRActive
     ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
@@ -81,7 +86,12 @@ export const transform = (formConfig, form) => {
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
   const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);

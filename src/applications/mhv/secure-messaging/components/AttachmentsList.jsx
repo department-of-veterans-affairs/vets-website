@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -25,30 +24,25 @@ const AttachmentsList = props => {
           attachments.map(file => (
             <li key={file.name}>
               {editingEnabled && (
-                <>
-                  <i className="fas fa-paperclip" aria-hidden="true" />
-                  <div className="editable-attachment">
-                    <span>
-                      {file.name} ({getSize(file.size || file.attachmentSize)})
-                    </span>
-                    <va-button
-                      onClick={() => removeAttachment(file.name)}
-                      secondary
-                      text="Remove"
-                      class="remove-attachment-button"
-                    />
-                  </div>
-                </>
+                <div className="editable-attachment">
+                  <span>
+                    <i className="fas fa-paperclip" aria-hidden="true" />
+                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                  </span>
+                  <va-button
+                    onClick={() => removeAttachment(file.name)}
+                    secondary
+                    text="Remove"
+                    class="remove-attachment-button"
+                  />
+                </div>
               )}
               {!editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
                   <a
-                    href={`${
-                      environment.API_URL
-                    }/my_health/v1/messaging/messages/${
-                      file.messageId
-                    }/attachments/${file.attachmentId}`}
+                    className="attachment"
+                    href={file.link}
                     target="_blank"
                     rel="noreferrer"
                   >

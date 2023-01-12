@@ -66,7 +66,7 @@ describe('Pre-Check In Experience ', () => {
         NextOfKin.attemptToGoToNextPage();
 
         // page: Confirmation
-        Error.validatePageLoaded();
+        Error.validatePageLoadedGeneric();
         Error.validateDatePreCheckInDateShows();
         cy.injectAxeThenAxeCheck();
       });

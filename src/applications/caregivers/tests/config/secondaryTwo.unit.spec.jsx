@@ -6,11 +6,12 @@ import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { mount } from 'enzyme';
 
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('CG Secondary Caregiver Two', () => {
@@ -62,6 +63,32 @@ describe('CG Secondary Caregiver Two', () => {
 
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
+  });
+
+  it('should render secondary caregiver Two information page and submit successfully', () => {
+    const onSubmit = sinon.spy();
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.secondaryCaregiversTwoChapter.pages.secondaryCaregiverTwo;
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        data={{
+          secondaryTwoFullName: {
+            first: 'Jill',
+            last: 'Smith',
+          },
+          secondaryTwoDateOfBirth: '2012-01-18',
+        }}
+        definitions={formConfig.defaultDefinitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    form.find('form').simulate('submit');
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
   });
 
   it('should render primary caregiver two contact page', () => {

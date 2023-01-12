@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { getCernerURL } from 'platform/utilities/cerner';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { getCernerURL } from '~/platform/utilities/cerner';
 
 const SeparatorSpan = ({ children }) => (
   <span className="vads-u-font-weight--normal vads-u-font-size--base">

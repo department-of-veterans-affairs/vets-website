@@ -2,13 +2,13 @@ import {
   UploadDescription,
   evidenceOtherText,
 } from '../content/evidenceUpload';
-import { ancillaryFormUploadUi } from '../utils/upload';
+import { fileUploadUi } from '../utils/upload';
 import { ATTACHMENTS_OTHER } from '../constants';
 
 export default {
   uiSchema: {
     additionalDocuments: {
-      ...ancillaryFormUploadUi(evidenceOtherText),
+      ...fileUploadUi(evidenceOtherText),
       'ui:description': UploadDescription,
     },
   },

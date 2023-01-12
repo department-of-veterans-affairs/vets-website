@@ -7,7 +7,7 @@ import Scroll from 'react-scroll';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { shouldShowQuestion } from '../../helpers';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const DischargeYearQuestion = ({
   formValues,
@@ -35,10 +35,8 @@ const DischargeYearQuestion = ({
   yearOptions.push({ label: 'Before 1992', value: '1991' });
 
   const label = (
-    <legend className="legend-label">
-      <h4 className={`${key}_header`}>
-        What year were you discharged from the military?
-      </h4>
+    <legend className={`${key}_header legend-label`}>
+      What year were you discharged from the military?
     </legend>
   );
 

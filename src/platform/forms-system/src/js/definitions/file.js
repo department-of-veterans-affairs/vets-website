@@ -32,8 +32,8 @@ export default function fileUiSchema(label, userOptions = {}) {
       ...userOptions,
     },
     'ui:errorMessages': {
-      required: 'Please upload a file',
-      minItems: 'Please upload at least one file',
+      required: 'You must upload a file',
+      minItems: 'You must upload at least one file',
     },
     'ui:validations': [validateFileField],
   };

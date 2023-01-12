@@ -54,10 +54,10 @@ describe('<ContestableIssuesWidget>', () => {
     wrapper.unmount();
   });
 
-  it('should not wrap the checkboxes in a fieldset', () => {
+  it('should wrap the checkboxes in a fieldset', () => {
     const props = getProps();
     const wrapper = mount(<ContestableIssuesWidget {...props} />);
-    expect(wrapper.find('fieldset').length).to.equal(0);
+    expect(wrapper.find('fieldset').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -119,7 +119,7 @@ describe('<ContestableIssuesWidget>', () => {
     const props = getProps({ review: true });
     const wrapper = mount(<ContestableIssuesWidget {...props} />);
     expect(wrapper.find('dt').text()).to.contain(
-      'at least one issue, so we can process your request',
+      'at least 1 issue before you can continue',
     );
     wrapper.unmount();
   });

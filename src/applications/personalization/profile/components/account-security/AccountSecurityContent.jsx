@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
@@ -21,6 +20,9 @@ import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
+import { selectIsBlocked } from '../../selectors';
+import { AccountBlocked } from '../alerts/AccountBlocked';
+import { recordCustomProfileEvent } from '../../util';
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -31,6 +33,7 @@ export const AccountSecurityContent = ({
   showMPIConnectionError,
   showNotInMPIError,
   signInServiceName,
+  isBlocked,
 }) => {
   const handlers = {
     learnMoreIdentity: () => {
@@ -83,6 +86,9 @@ export const AccountSecurityContent = ({
 
   return (
     <>
+      {isBlocked && (
+        <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
+      )}
       {!isIdentityVerified && (
         <IdentityNotVerified
           additionalInfoClickHandler={handlers.learnMoreIdentity}
@@ -97,60 +103,25 @@ export const AccountSecurityContent = ({
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
-      <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
-      <AlertBox
-        status="info"
-        headline="Have questions about signing in to VA.gov?"
-        className="medium-screen:vads-u-margin-top--4"
-        backgroundOnly
-        level={2}
-      >
-        <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <p>
-            Get answers to frequently asked questions about how to sign in,
-            common issues with verifying your identity, and your privacy and
-            security on VA.gov.
-          </p>
-
-          <h3 className="vads-u-font-size--h4">
-            Go to FAQs about these topics:
-          </h3>
-          <a
-            href="/resources/signing-in-to-vagov/"
-            className="vads-u-margin-y--1"
-            onClick={handlers.vetsFAQ}
-          >
-            Signing in to VA.gov
-          </a>
-          <a
-            href="/resources/verifying-your-identity-on-vagov/"
-            className="vads-u-margin-y--1"
-            onClick={handlers.vetsFAQ}
-          >
-            Verifying your identity on VA.gov
-          </a>
-          <a
-            href="/resources/privacy-and-security-on-vagov/"
-            className="vads-u-margin-y--1"
-            onClick={handlers.vetsFAQ}
-          >
-            Privacy and security on VA.gov
-          </a>
-        </div>
-      </AlertBox>
+      <ProfileInfoTable
+        data={securitySections}
+        fieldName="accountSecurity"
+        level={3}
+      />
     </>
   );
 };
 
 AccountSecurityContent.propTypes = {
+  isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
-  isInMPI: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
+  isInMPI: PropTypes.bool,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
     accountState: PropTypes.string,
@@ -172,6 +143,7 @@ export const mapStateToProps = state => {
   const showNotInMPIError =
     isIdentityVerified && !hasMPIConnectionError && !isInMPI;
   const showWeHaveVerifiedYourID = isInMPI && isIdentityVerified;
+  const isBlocked = selectIsBlocked(state);
 
   return {
     isIdentityVerified,
@@ -182,6 +154,7 @@ export const mapStateToProps = state => {
     showNotInMPIError,
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
+    isBlocked,
   };
 };
 
