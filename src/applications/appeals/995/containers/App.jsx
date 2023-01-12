@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getStoredSubTask } from 'platform/forms/sub-task';
@@ -14,6 +15,8 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
+
+import user from '../tests/fixtures/mocks/user.json';
 
 import formConfig from '../config/form';
 import {
@@ -41,8 +44,17 @@ export const App = ({
   isLoadingFeatures,
   show995,
 }) => {
-  const { email = {}, homePhone = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  // vapContactInfo is an empty object locally, so mock it
+  const data = environment.isLocalhost()
+    ? user.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
+  const {
+    email = {},
+    homePhone = {},
+    mobilePhone = {},
+    mailingAddress = {},
+  } = data;
 
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931

@@ -29,7 +29,8 @@ const createMockSuccessResponse = (
 ) => {
   const mockTime = (() => {
     switch (token) {
-      case expiredUUID || expiredPhoneUUID:
+      case expiredUUID:
+      case expiredPhoneUUID:
         return new Date();
       case past15MinuteUUID:
         return dateFns.sub(new Date(), { minutes: 15 });
@@ -93,6 +94,7 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           checkInSteps,
           preCheckInValid: true,
+          appointmentIen: 1111,
         }),
         createAppointment({
           clinicLocation: location ?? 'SECOND FLOOR ROOM 2',

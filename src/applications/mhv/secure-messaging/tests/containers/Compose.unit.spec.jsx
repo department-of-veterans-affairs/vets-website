@@ -31,11 +31,11 @@ describe('Compose message container', () => {
       path: `/compose`,
     });
     const note = screen.getByText(
-      'if you have a medical emergency. If you’re in crisis and need to talk with someone now, call the',
+      'If you’re in a mental health crisis or thinking about suicide',
       { exact: false },
     );
-    const crisisLineButton = screen.getByRole('button', {
-      name: 'Veterans Crisis Line',
+    const crisisLineButton = screen.getByRole('link', {
+      name: '988lifeline.org',
     });
     expect(note).to.exist;
     expect(crisisLineButton).to.exist;
@@ -99,9 +99,7 @@ describe('Compose message container', () => {
     const sendButton = await screen.getAllByRole('button', {
       name: 'Send',
     });
-    const saveDraftButton = await screen.getByRole('button', {
-      name: 'Save draft',
-    });
+    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -129,7 +127,7 @@ describe('Compose message container', () => {
       level: 3,
     });
     const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+      name: 'Discard draft',
       exact: false,
     });
     expect(headingText).to.exist;

@@ -8,7 +8,12 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
-const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
+const getData = ({
+  loggedIn = true,
+  isVerified = true,
+  dob = '2000-01-01',
+  canAppeal = true,
+} = {}) => ({
   props: {
     loggedIn,
     location: {
@@ -29,6 +34,10 @@ const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
+          dob,
+          claims: {
+            appeals: canAppeal,
+          },
         },
       },
       form: {
@@ -38,6 +47,7 @@ const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
         loadedData: {
           metadata: {},
         },
+        data: {},
       },
       scheduledDowntime: {
         globalDowntime: null,
@@ -87,7 +97,51 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('va-alert[status="warning"]', container)).to.exist;
+    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('.schemaform-sip-alert', container)).to.not.exist;
+  });
+
+  it('should render missing SSN alert', () => {
+    const { props, mockStore } = getData({ canAppeal: '' });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const alert = $('va-alert[status="error"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain('your Social Security number.');
+    expect($('.schemaform-sip-alert', container)).to.not.exist;
+  });
+
+  it('should render missing DOB alert', () => {
+    const { props, mockStore } = getData({ dob: '' });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const alert = $('va-alert[status="error"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain('your date of birth.');
+    expect($('.schemaform-sip-alert', container)).to.not.exist;
+  });
+
+  it('should render missing SSN and DOB alert', () => {
+    const { props, mockStore } = getData({ dob: '', canAppeal: '' });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    const alert = $('va-alert[status="error"]', container);
+    expect(alert).to.exist;
+    expect(alert.innerHTML).to.contain(
+      'your Social Security number and date of birth.',
+    );
     expect($('.schemaform-sip-alert', container)).to.not.exist;
   });
 

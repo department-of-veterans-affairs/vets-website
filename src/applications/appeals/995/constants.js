@@ -27,6 +27,11 @@ export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-bene
 export const CONTESTABLE_ISSUES_API =
   '/supplemental_claims/contestable_issues/';
 
+// Evidence upload API - same endpoint as NOD
+export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
+
+export const SUBMIT_URL = '/v1/supplemental_claims';
+
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
@@ -52,14 +57,10 @@ export const MAX_LENGTH = {
   EVIDENCE_DATES: 4, // items
   ISSUE_NAME: 140,
   EMAIL: 255,
-  COUNTRY_CODE: 3,
-  AREA_CODE: 4,
+  PHONE_COUNTRY_CODE: 3,
+  PHONE_AREA_CODE: 4,
   PHONE_NUMBER: 14,
   PHONE_NUMBER_EXT: 10,
-  ADDRESS_LINE1: 60,
-  ADDRESS_LINE2: 30,
-  ADDRESS_LINE3: 10,
-  CITY: 60,
   COUNTRY: 2,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
@@ -155,10 +156,11 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
 // Copied from schmea
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.claimantType.enum;
 export const CLAIMANT_TYPES = [
-  'spouse_of_veteran',
-  'child_of_veteran',
-  'parent_of_veteran',
-  'other',
+  'veteran', // Phase 1
+  // 'spouse_of_veteran',
+  // 'child_of_veteran',
+  // 'parent_of_veteran',
+  // 'other',
 ];
 
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
@@ -210,7 +212,9 @@ export const EVIDENCE_PRIVATE_REQUEST =
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
 export const EVIDENCE_LIMITATION_PATH =
-  'supporting-evidence/request-record-limitations';
+  'supporting-evidence/add-private-record-limitations';
 
 // TODO: Update this path
-export const EVIDENCE_OTHER_PATH = 'supporting-evidence/additional-evidence';
+export const EVIDENCE_ADDITIONAL_PATH =
+  'supporting-evidence/will-add-supporting-evidence';
+export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';

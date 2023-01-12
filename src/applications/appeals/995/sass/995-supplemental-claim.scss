@@ -169,9 +169,16 @@ article[data-location="edit-home-phone"] va-text-input[name="extension"] {
   display: none;
 }
 
+article[data-location="issue-summary"] {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+article[data-location="review-and-submit"],
+article[data-location="primary-phone-number"],
 article[data-location$="request-va-medical-records"],
 article[data-location$="request-private-medical-records"],
-article[data-location$="upload-other-evidence"] {
+article[data-location$="upload-evidence"] {
   legend,
   va-radio::part(legend) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
@@ -187,7 +194,6 @@ article[data-location$="upload-other-evidence"] {
     font-weight: 400;
   }
 }
-
 
 article[data-location="supporting-evidence/private-medical-records"] {
   /* Add margin for error messages, otherwise the label + error + input take up
@@ -209,6 +215,7 @@ article[data-location$="va-medical-records"] {
   }
 }
 
+article[data-location="review-and-submit"],
 article[data-location="primary-phone-number"] {
   /* Make radio group legend the same size as an h3 */
   va-radio::part(legend) {
@@ -222,9 +229,25 @@ article[data-location="primary-phone-number"] {
   /* Add actual phone number to radio option */
   va-radio-option:after {
     display: block;
-    margin-left: 5rem;
+    margin-left: 3rem;
     font-weight: 400;
     content: attr(data-number);
+  }
+}
+
+article[data-location="review-and-submit"] {
+  /* Add actual phone number to radio option */
+  va-radio-option:after {
+    margin-left: 3rem;
+  }
+
+  .review-fieldset {
+    margin-top: 2rem;
+
+    legend {
+      border-top: 1px solid $color-gray-light;
+      padding-top: 2rem;
+    }
   }
 }
 

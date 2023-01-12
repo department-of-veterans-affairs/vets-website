@@ -136,7 +136,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
           today
             .tz('America/Denver')
@@ -216,7 +216,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
           moment()
             .tz('America/Denver')
@@ -809,7 +809,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${moment(startDateTime)
             .tz('America/Denver')
             .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -918,7 +918,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link', {
+        .getByTestId('add-to-calendar-link', {
           name: `Add ${moment(appointment.start)
             .tz('America/Denver')
             .format('MMMM D, YYYY')} appointment to your calendar`,
@@ -1136,7 +1136,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     ).to.be.ok;
     expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
           futureDate
             .tz('America/Denver')
@@ -1256,7 +1256,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     ).to.be.ok;
     expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
-      screen.getByRole('link', {
+      screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
           futureDate
             .tz('America/Denver')
@@ -1381,16 +1381,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
 
     // And it should not display the add to calendar link
-    expect(
-      screen.queryByRole('link', {
-        name: new RegExp(
-          futureDate
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-          'i',
-        ),
-      }),
-    ).to.not.be.ok;
+    expect(screen.queryByTestId('add-to-calendar-link')).to.be.null;
 
     // And it should not display the print link
     expect(screen.queryByRole(/Print/)).to.not.be.ok;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Element } from 'react-scroll';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
@@ -17,10 +18,10 @@ import { validateEvidence } from '../validations/evidence';
 import { content } from '../content/evidenceSummary';
 
 import {
-  buildVaContent,
-  buildPrivateContent,
-  buildUploadContent,
-} from '../content/evidenceSummaryLists';
+  VaContent,
+  PrivateContent,
+  UploadContent,
+} from './EvidenceSummaryLists';
 
 const EvidenceSummary = ({
   data,
@@ -29,16 +30,18 @@ const EvidenceSummary = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
-  // review & submit page
+  // on review & submit page, in edit mode
   onReviewPage,
   updatePage,
 }) => {
-  // when on review & submit page, we're in edit mode
   const { limitedConsent = '' } = data;
+  // Don't show you haven't added any evidence alert before submitting, except
+  // on the review & submit page
+  const [submitted, setSubmitted] = useState(onReviewPage || false);
+
   const vaEvidence = hasVAEvidence(data) ? data.locations : [];
   const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
   const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
-  const testing = contentBeforeButtons === 'testing';
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -70,6 +73,7 @@ const EvidenceSummary = ({
       if (evidenceLength !== 0) {
         goForward(data);
       } else {
+        setSubmitted(true);
         focusElement('#no-evidence');
         scrollTo('evidenceSummaryScrollElement');
       }
@@ -77,6 +81,7 @@ const EvidenceSummary = ({
     onUpdate: () => {
       checkValidations([validateEvidence], data);
       if (evidenceLength !== 0) {
+        setSubmitted(true);
         updatePage();
       } else {
         focusElement('#no-evidence');
@@ -84,43 +89,76 @@ const EvidenceSummary = ({
       }
     },
   };
+  const visibleError = submitted && evidenceLength === 0;
+  const alertTabindex = visibleError ? '0' : '-1';
+  const H = onReviewPage ? 'h5' : 'h3';
+
+  const props = {
+    handlers,
+    onReviewPage,
+    testing: contentBeforeButtons === 'testing',
+  };
 
   return (
     <div className={onReviewPage ? 'form-review-panel-page' : ''}>
-      <div name="evidenceSummaryScrollElement" />
-      {evidenceLength === 0 ? content.missingEvidence : null}
-      {vaEvidence?.length
-        ? buildVaContent({ vaEvidence, handlers, testing })
-        : null}
-      {privateEvidence?.length
-        ? buildPrivateContent({
-            privateEvidence,
-            limitedConsent,
-            handlers,
-            testing,
-          })
-        : null}
-      {otherEvidence?.length
-        ? buildUploadContent({ otherEvidence, handlers, testing })
-        : null}
-
-      {content.addMoreLink}
-
-      <div className="vads-u-margin-top--4">
+      {/* <Element> is outside of div wrapper because of how the first element
+        is found and focused in the ReviewCollapsibleChapter code */}
+      <Element name="evidenceSummaryScrollElement" />
+      <div>
+        {/* Maintains header levels in edit mode on review & submit page */}
         {onReviewPage && (
-          <va-button
-            onClick={handlers.onUpdate}
-            aria-label="Update evidence page"
-            text={content.update}
-          />
+          <h4 className="vads-u-font-size--h5">Supporting evidence</h4>
         )}
-        {!onReviewPage && (
-          <>
-            {contentBeforeButtons}
-            <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
-            {contentAfterButtons}
-          </>
-        )}
+
+        {/* We are rendering the va-alert so the focus doesn't need to wait for
+          render. Problems that show up include:
+          - focusElement will add -1 if this isn't set; and don't make it
+            tabbable when hidden
+          - Only render the alert content since the screenreader can still
+            target the headers inside */}
+        <va-alert
+          id="no-evidence"
+          status="error"
+          visible={visibleError}
+          tabindex={alertTabindex}
+        >
+          {visibleError && (
+            <>
+              <H slot="headline">{content.missingEvidenceHeader}</H>
+              {content.missingEvidenceText}
+            </>
+          )}
+        </va-alert>
+
+        <VaContent list={vaEvidence} {...props} />
+        <PrivateContent
+          list={privateEvidence}
+          limitedConsent={limitedConsent}
+          {...props}
+        />
+        <UploadContent list={otherEvidence} {...props} />
+
+        {content.addMoreLink}
+
+        <div className="form-nav-buttons vads-u-margin-top--4">
+          {onReviewPage && (
+            <va-button
+              onClick={handlers.onUpdate}
+              label="Update evidence page"
+              text={content.update}
+            />
+          )}
+          {!onReviewPage && (
+            <>
+              {contentBeforeButtons}
+              <FormNavButtons
+                goBack={goBack}
+                goForward={handlers.onGoForward}
+              />
+              {contentAfterButtons}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
