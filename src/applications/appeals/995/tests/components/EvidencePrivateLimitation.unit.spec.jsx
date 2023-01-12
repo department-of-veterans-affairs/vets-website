@@ -7,11 +7,6 @@ import EvidencePrivateLimitation from '../../components/EvidencePrivateLimitatio
 import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../../constants';
 import { $, $$ } from '../../utils/ui';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 describe('<EvidencePrivateLimitation>', () => {
   it('should render', () => {
     const { container } = render(
@@ -33,7 +28,7 @@ describe('<EvidencePrivateLimitation>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-primary', container), mouseClick);
+    fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -61,7 +56,7 @@ describe('<EvidencePrivateLimitation>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('button.usa-button-secondary', container));
     expect(
       goSpy.calledWith(
         `/${EVIDENCE_PRIVATE_PATH}?index=${data.providerFacility.length - 1}`,
