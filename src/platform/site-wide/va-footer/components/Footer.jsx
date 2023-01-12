@@ -1,5 +1,6 @@
 // Node modules.
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
@@ -41,7 +42,10 @@ class Footer extends Component {
     return (
       <div>
         <div className="footer-inner">
-          <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
+          <DesktopLinks
+            visible={this.props.showLinks && !this.state.isMobile}
+            links={this.linkObj}
+          />
           <MobileLinks
             visible={this.state.isMobile}
             links={this.linkObj}
@@ -49,14 +53,17 @@ class Footer extends Component {
               dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
+            showLanguageAssistance={this.props.showLanguageAssistance}
+            showLinks={this.props.showLinks}
           />
-          {!this.state.isMobile && (
-            <LanguageSupport
-              isDesktop
-              dispatchLanguageSelection={this.props.dispatchLanguageSelection}
-              languageCode={this.props.languageCode}
-            />
-          )}
+          {this.props.showLanguageAssistance &&
+            !this.state.isMobile && (
+              <LanguageSupport
+                isDesktop
+                dispatchLanguageSelection={this.props.dispatchLanguageSelection}
+                languageCode={this.props.languageCode}
+              />
+            )}
 
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" title="Go to VA.gov">
@@ -86,6 +93,15 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   languageCode: state.i18State.lang,
 });
+
+Footer.propTypes = {
+  footerData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showLanguageAssistance: PropTypes.bool.isRequired,
+  showLinks: PropTypes.bool.isRequired,
+  dispatchLanguageSelection: PropTypes.func,
+  languageCode: PropTypes.string,
+  onFooterLoad: PropTypes.func,
+};
 
 export default connect(
   mapStateToProps,

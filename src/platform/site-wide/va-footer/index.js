@@ -19,9 +19,18 @@ export const footerElemementId = 'footerNav';
  * @param {Redux.Store} store The common store used on the site
  */
 export default function startVAFooter(footerData, store, onFooterLoad) {
+  // Derive the widget and its data properties for props.
+  const root = document.querySelector(`[id="footerNav"]`);
+  const props = root?.dataset;
+
   startReactApp(
     <Provider store={store}>
-      <Footer footerData={footerData} onFooterLoad={onFooterLoad} />
+      <Footer
+        footerData={footerData}
+        onFooterLoad={onFooterLoad}
+        showLanguageAssistance={props.showLanguageAssistance !== 'false'}
+        showLinks={props.showLinks !== 'false'}
+      />
     </Provider>,
     document.getElementById(footerElemementId),
   );

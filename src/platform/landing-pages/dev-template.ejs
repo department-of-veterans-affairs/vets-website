@@ -212,7 +212,10 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
-      <div id="footerNav"></div> <!-- let's try this React thing -->
+      <div id="footerNav"
+        data-show-links="<%= typeof noFooterLinks !== 'undefined' ? !noFooterLinks : true %>"
+        data-show-language-assistance="<%= typeof noFooterLanguageAssistance !== 'undefined' ? !noFooterLanguageAssistance : true %>"
+      ></div>
     </footer>
 
     <!--
