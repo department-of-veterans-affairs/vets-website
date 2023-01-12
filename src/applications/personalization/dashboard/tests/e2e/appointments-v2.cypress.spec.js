@@ -2,13 +2,13 @@ import { mockUser } from '@@profile/tests/fixtures/users/user';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import moment from 'moment';
 import ERROR_500 from '@@profile/tests/fixtures/500.json';
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import vamcErc from '../fixtures/vamc-ehr';
 import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_VA_APPOINTMENTS_EMPTY from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS_EMPTY';

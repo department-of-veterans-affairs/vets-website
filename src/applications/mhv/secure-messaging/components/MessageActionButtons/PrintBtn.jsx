@@ -59,6 +59,7 @@ const PrintBtn = props => {
           onSecondaryButtonClick={closeModal}
           primaryButtonText="Print"
           secondaryButtonText="Cancel"
+          data-testid="print-modal-popup"
           visible={isModalVisible}
         >
           <div className="modal-body">

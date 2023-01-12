@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import HealthCareContent from './HealthCareContentV2';
+import HealthCareContentV2 from './HealthCareContentV2';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -14,10 +14,7 @@ import {
 } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-import {
-  selectIsCernerPatient,
-  selectAvailableServices,
-} from '~/platform/user/selectors';
+import { selectAvailableServices } from '~/platform/user/selectors';
 
 const HealthCareV2 = ({
   shouldFetchUnreadMessages,
@@ -72,7 +69,7 @@ const HealthCareV2 = ({
       >
         Health care
       </h2>
-      <HealthCareContent
+      <HealthCareContentV2
         dataLoadingDisabled={dataLoadingDisabled}
         isVAPatient={isVAPatient}
       />
@@ -102,7 +99,6 @@ const mapStateToProps = state => {
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
-    isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
@@ -147,7 +143,6 @@ HealthCareV2.propTypes = {
   fetchUnreadMessages: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
-  isCernerPatient: PropTypes.bool,
   isVAPatient: PropTypes.bool,
   shouldFetchUnreadMessages: PropTypes.bool,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
