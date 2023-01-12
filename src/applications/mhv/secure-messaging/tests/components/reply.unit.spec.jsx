@@ -13,7 +13,9 @@ describe('Reply Header', () => {
   it('renders without errors', () => {
     const screen = render(<ReplyHeader />);
 
-    screen.getByText('call', { exact: false });
+    screen.getByText('If you think your life or health is in danger,', {
+      exact: false,
+    });
   });
 });
 
