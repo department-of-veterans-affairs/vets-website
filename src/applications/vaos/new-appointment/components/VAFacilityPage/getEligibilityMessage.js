@@ -97,6 +97,7 @@ export default function getEligibilityMessage({
           <va-link
             href={featureStatusImprovement ? '/pending' : '/requested'}
             text="your appointment list"
+            data-testid="appointment-list-link"
           />
           .
         </p>

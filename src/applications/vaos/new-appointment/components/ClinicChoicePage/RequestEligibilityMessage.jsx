@@ -81,6 +81,7 @@ export default function RequestEligibilityMessage({
                 <va-link
                   href={featureStatusImprovement ? '/pending' : '/requested'}
                   text="your appointment list"
+                  data-testid="appointment-list-link"
                 />{' '}
                 and cancel open requests, or
               </li>

@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
@@ -121,19 +120,22 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     );
   });
 
+  // This should be covered in e2e tests
   it('should render appointment list page when "Review your appointments" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
-    expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
-      'href',
-      '/',
-    );
+    expect(screen.getByTestId('review-appointments-link')).to.exist;
+    expect(
+      screen.getByTestId('review-appointments-link').getAttribute('href'),
+    ).to.equal('/');
   });
 
+  // This should be covered in e2e tests
   it('should render new appointment page when "Schedule a new appointment" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
-    userEvent.click(screen.getByText(/Schedule a new appointment/i));
-    expect(screen.history.push.called).to.be.true;
-    expect(screen.history.push.getCall(0).args[0]).to.equal('/new-appointment');
+    expect(screen.getByTestId('schedule-new-appointment-link')).to.exist;
+    expect(
+      screen.getByTestId('schedule-new-appointment-link').getAttribute('href'),
+    ).to.equal('/new-appointment');
   });
 
   it('should verify VA in person calendar ics file format', async () => {

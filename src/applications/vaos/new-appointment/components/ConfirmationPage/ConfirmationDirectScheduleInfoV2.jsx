@@ -47,10 +47,15 @@ export default function ConfirmationDirectScheduleInfoV2({
               });
             }}
             text="Review your appointments"
+            data-testid="review-appointments-link"
           />
         </div>
         <div>
-          <va-link href="/new-appointment" text="Schedule a new appointment" />
+          <va-link
+            href="/new-appointment"
+            text="Schedule a new appointment"
+            data-testid="schedule-new-appointment-link"
+          />
         </div>
       </InfoAlert>
       {typeOfCare && (
