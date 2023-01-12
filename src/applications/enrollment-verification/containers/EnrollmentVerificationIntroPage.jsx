@@ -83,7 +83,7 @@ export function EnrollmentVerificationIntroPage({
 
   const EVLoginPlaceholder = (
     <div
-      data-widget-type="view_enrollment_verification_login"
+      data-widget-type="view-enrollment-verification-login"
       id="enrollment_verification_login_widget"
     />
   );

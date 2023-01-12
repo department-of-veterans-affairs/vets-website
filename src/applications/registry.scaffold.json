@@ -120,6 +120,6 @@
   {
     "appName": "Enrollment Verification",
     "rootUrl": "/education/verify-school-enrollment/",
-    "widgetType": "view_enrollment_verification_login"
+    "widgetType": "view-enrollment-verification-login"
   }
 ]
