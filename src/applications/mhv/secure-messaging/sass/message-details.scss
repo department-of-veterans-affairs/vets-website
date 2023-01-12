@@ -55,37 +55,41 @@
   }
 
   .message-action-buttons {
-    @include media($medium-screen) {
-      justify-content: flex-start !important;
-    }
-    .left-button {
-      border-radius: 4px 0 0 4px;
-      box-shadow: -1px 0 0 2px $color-primary;
-      margin: 0px;
-      margin-left: 3px;
-    }
-    .right-button {
-      border-radius: 0 4px 4px 0;
-      box-shadow: 1px 0 0 2px $color-primary;
-      margin: 0px;
-      margin-left: 3px;
-    }
-    .middle-right-button {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0px;
+    button {
+      box-shadow: 2px $color-primary;
       border-radius: 0;
-      box-shadow: 1px 0 0 2px;
-      margin: 0px;
-      margin-left: 3px;
+      margin-right: -1px;
+      margin-left: -1px;
     }
-    .middle-left-button {
-      box-shadow: 0px 0 0 2px;
-      border-radius: 0;
-      margin: 0;
-      margin-left: 3px;
+    :first-child button{
+      border-radius: 5px 0 0 5px;
     }
+    :last-child button{
+      border-radius: 0 5px 5px 0;
+    }
+
     .message-action-button {
+      padding-top: 22px;
+      padding-bottom: 17px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: auto;
+      box-shadow: inset 0 0 0 2px $color-primary;
       i {
         width: 20px;
         height: 20px;
+      }
+      @media (max-width: $small-screen) {
+        // justify-content: flex-start !important;
+        // width: 70px;
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
   }

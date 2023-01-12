@@ -69,7 +69,7 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <ul className="message-action-buttons vads-l-row vads-u-margin-y--4">
+    <ul className="message-action-buttons vads-u-margin-y--4">
       <li>
         <PrintBtn handlePrint={handlePrint} id={id} />
       </li>
@@ -85,7 +85,7 @@ const MessageActionButtons = props => {
               }}
             >
               <i
-                className="fas fa-trash-alt .vads-u-margin-right--0p5"
+                className="fas fa-trash-alt vads-u-margin-right--0p5"
                 aria-hidden
               />
               <span
