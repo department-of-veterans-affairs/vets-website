@@ -135,6 +135,7 @@ describe('check in', () => {
             'emergency-contact',
             'next-of-kin',
             'complete',
+            'appointment-details',
           ]);
         });
       });

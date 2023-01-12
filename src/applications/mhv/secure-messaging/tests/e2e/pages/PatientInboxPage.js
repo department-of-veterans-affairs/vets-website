@@ -53,7 +53,11 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
+    cy.visit('my-health/secure-messages/inbox', {
+      onBeforeLoad: win => {
+        cy.stub(win, 'print');
+      },
+    });
     if (doAxeCheck) {
       cy.injectAxe();
     }

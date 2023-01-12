@@ -76,10 +76,12 @@ const ComposeForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true)).then(() => history.push('/'));
+          dispatch(sendMessage(sendData, true)).then(() =>
+            history.push('/inbox'),
+          );
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
-            history.push('/'),
+            history.push('/inbox'),
           );
         }
       }

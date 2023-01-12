@@ -81,5 +81,19 @@ describe('check-in', () => {
       );
       expect(screen.queryByTestId('back-button')).to.not.exist;
     });
+    it('renders custom text', () => {
+      const screen = render(
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <BackButton
+              action={() => {}}
+              router={() => {}}
+              text="go back test"
+            />
+          </I18nextProvider>
+        </Provider>,
+      );
+      expect(screen.getByTestId('back-button')).to.have.text('go back test');
+    });
   });
 });

@@ -46,9 +46,11 @@ const Wrapper = props => {
       >
         <MixedLanguageDisclaimer />
         <LanguagePicker withTopMargin={!withBackButton} />
-        <h1 tabIndex="-1" data-testid="header">
-          {pageTitle}
-        </h1>
+        {pageTitle && (
+          <h1 tabIndex="-1" data-testid="header">
+            {pageTitle}
+          </h1>
+        )}
         <DowntimeNotification
           appTitle={appTitle}
           dependencies={[downtimeDependency]}
@@ -62,9 +64,9 @@ const Wrapper = props => {
 };
 
 Wrapper.propTypes = {
-  pageTitle: PropTypes.string.isRequired,
   children: PropTypes.node,
   classNames: PropTypes.string,
+  pageTitle: PropTypes.string,
   testID: PropTypes.string,
   withBackButton: PropTypes.bool,
 };

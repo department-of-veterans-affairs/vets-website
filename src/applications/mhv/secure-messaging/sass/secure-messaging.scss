@@ -18,6 +18,14 @@
   }
 }
 
+.breadcrumb-angle
+.desktop-view-crumb {
+  color: unset;
+  pointer-events: auto;
+  font-weight: unset;
+  text-decoration: unset;
+}
+
 .compose-message-link:visited {
   color: $color-link-default;
   text-decoration: underline;
