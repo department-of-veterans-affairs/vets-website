@@ -31,8 +31,8 @@ describe('995 contact info loop', () => {
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
     );
-    cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
-    cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
     // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);

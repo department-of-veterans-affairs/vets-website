@@ -134,6 +134,7 @@ const AdvancedSearchForm = props => {
         <VaModal
           modalTitle="Invalid search"
           onPrimaryButtonClick={() => setFormError()}
+          onCloseEvent={() => setFormError()}
           primaryButtonText="Ok"
           status="error"
           visible
