@@ -6,8 +6,8 @@ function ActionButtons(props) {
 
   return (
     <ul className="message-action-buttons vads-u-margin-y--4">
-      {buttonsArray.map(button => (
-        <>{button}</>
+      {buttonsArray.map((button, i) => (
+        <div key={i}>{button}</div>
       ))}
     </ul>
   );

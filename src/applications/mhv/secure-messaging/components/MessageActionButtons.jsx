@@ -70,36 +70,33 @@ const MessageActionButtons = props => {
   };
 
   const buttonsArray = [
-    <>
-      <li key="print">
-        <PrintBtn handlePrint={handlePrint} id={id} />
-      </li>
-    </>,
-    <>
-      <li key="trash">
-        {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-          activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
-            <button
-              type="button"
-              className="usa-button-secondary"
-              onClick={() => {
-                setIsDeleteVisible(true);
-              }}
+    <li key="print">
+      <PrintBtn handlePrint={handlePrint} id={id} />
+    </li>,
+
+    <li key="trash">
+      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
+        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+          <button
+            type="button"
+            className="usa-button-secondary"
+            onClick={() => {
+              setIsDeleteVisible(true);
+            }}
+          >
+            <i
+              className="fas fa-trash-alt vads-u-margin-right--0p5"
+              aria-hidden
+            />
+            <span
+              className="message-action-button-text"
+              data-testid="move-button-text"
             >
-              <i
-                className="fas fa-trash-alt vads-u-margin-right--0p5"
-                aria-hidden
-              />
-              <span
-                className="message-action-button-text"
-                data-testid="move-button-text"
-              >
-                Trash
-              </span>
-            </button>
-          )}
-      </li>
-    </>,
+              Trash
+            </span>
+          </button>
+        )}
+    </li>,
     <>{isDeleteVisible && deleteMessageModal()}</>,
     <>
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
