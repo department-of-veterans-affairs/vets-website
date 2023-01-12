@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
+import environment from 'platform/utilities/environment';
 import fullSchema from '../10-10D-schema.json';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 import { transformForSubmit } from './submit-transformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -30,8 +32,8 @@ const {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () => Promise.resolve({}),
+  submitUrl: `${environment.API_URL}/forms_api/v1/submit`,
+  // submit: () => Promise.resolve({}),
   trackingPrefix: '1010d-',
   transformForSubmit,
   introduction: IntroductionPage,
@@ -50,6 +52,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   title: 'Application for CHAMPVA Benefits',
   defaultDefinitions: {
     fullName,

@@ -18,6 +18,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle title="10-10d" subtitle="Equal to VA Form 10-10D (10-10d)" />
         <SaveInProgressIntro
+          formId={formConfig.formId}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}

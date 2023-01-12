@@ -262,6 +262,7 @@ export function fetchInProgressForm(
   prefill = false,
   prefillTransformer = null,
 ) {
+  console.log("fetching in progress form");
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
@@ -282,6 +283,7 @@ export function fetchInProgressForm(
     })
       .then(res => {
         if (res.ok) {
+          console.log("returning response: ", res.json());
           return res.json();
         }
 
@@ -298,6 +300,7 @@ export function fetchInProgressForm(
         return Promise.reject(status);
       })
       .then(resBody => {
+        console.log("handling response body");
         // Just in case something funny happens where the json returned isn’t an object as expected
         // Unfortunately, JavaScript is quite fiddly here, so there has to be additional checks
         if (typeof resBody !== 'object' || Array.isArray(resBody) || !resBody) {
@@ -352,6 +355,7 @@ export function fetchInProgressForm(
         }
       })
       .catch(status => {
+        console.log("caught error. status: ", status);
         let loadedStatus = status;
         if (status instanceof SyntaxError) {
           // if res.json() has a parsing error, it’ll reject with a SyntaxError
