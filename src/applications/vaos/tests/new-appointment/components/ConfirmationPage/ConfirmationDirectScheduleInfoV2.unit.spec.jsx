@@ -75,7 +75,7 @@ const store = createTestStore({
             postalCode: '82001-5356',
             city: 'Cheyenne',
             state: 'WY',
-            line: ['2360 East Pershing Boulevard'],
+            line: ['2360 East Pershing Boulevard', undefined, 'Suite 10'],
           },
           telecom: [{ system: 'phone', value: '307-778-7550' }],
         },
@@ -99,7 +99,8 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     ).to.be.ok;
     expect(screen.getByText('Primary care')).to.be.ok;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
-    expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
+    expect(screen.getByText(/2360 East Pershing Boulevard, Suite 10/i)).to.be
+      .ok;
     expect(screen.baseElement).to.contain.text(
       'Cheyenne, WyomingWY 82001-5356',
     );
@@ -163,18 +164,19 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     // with a tab character
     let description = tokens.get('DESCRIPTION');
     description = description.split(/(?=\t)/g); // look ahead include the split character in the results
-
     expect(description[0]).to.equal(
       'You have a health care appointment at CHY PC CASSIDY',
     );
     expect(description[1]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
-    expect(description[2]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(description[2]).to.equal(
+      '\tSuite 10\\, Cheyenne\\, WY 82001-5356\\n',
+    );
     expect(description[3]).to.equal('\t307-778-7550\\n');
     expect(description[4]).to.equal(
       '\t\\nSign in to VA.gov to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal(
-      '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+      '2360 East Pershing Boulevard\\, Suite 10\\, Cheyenne\\, WY 82001-5356',
     );
     expect(tokens.get('DTSTAMP')).to.equal(
       `${moment(start)

@@ -276,9 +276,9 @@ export function formatFacilityAddress(facility) {
     facility?.address?.state &&
     facility?.address?.postalCode
   ) {
-    return `${facility.address.line.join(', ')}, ${facility.address.city}, ${
-      facility.address.state
-    } ${facility.address.postalCode}`;
+    return `${facility.address.line.filter(Boolean).join(', ')}, ${
+      facility.address.city
+    }, ${facility.address.state} ${facility.address.postalCode}`;
   }
 
   return '';

@@ -35,3 +35,12 @@ export const payrollDeductionOptions = [
   'Allotment',
   'Other',
 ];
+
+export const householdExpensesOptions = [
+  'Rent',
+  `Renter's or home insurance`,
+  'Mortgage payment',
+  'Property tax',
+  `Homeowner's Association (HOA) fees`,
+  'Community Development District (CDD) fees',
+];
