@@ -40,7 +40,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         <br />
         <div className="vads-u-margin-y--1">
           <VaLink
-            href="/"
+            href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,

@@ -126,7 +126,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     expect(screen.getByTestId('review-appointments-link')).to.exist;
     expect(
       screen.getByTestId('review-appointments-link').getAttribute('href'),
-    ).to.equal('/');
+    ).to.equal('/health-care/schedule-view-va-appointments/appointments/');
   });
 
   // This should be covered in e2e tests
