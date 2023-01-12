@@ -41,16 +41,18 @@ const MessageActionButtons = props => {
 
   const deleteMessageModal = () => {
     return (
-      <DeleteMessageModal
-        id={props.id}
-        visible={isDeleteVisible}
-        onClose={() => {
-          setIsDeleteVisible(false);
-        }}
-        onDelete={() => {
-          handleDeleteMessageConfirm();
-        }}
-      />
+      <li>
+        <DeleteMessageModal
+          id={props.id}
+          visible={isDeleteVisible}
+          onClose={() => {
+            setIsDeleteVisible(false);
+          }}
+          onDelete={() => {
+            handleDeleteMessageConfirm();
+          }}
+        />
+      </li>
     );
   };
 
@@ -67,57 +69,64 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="message-action-buttons vads-l-row vads-u-margin-y--4">
-      <PrintBtn handlePrint={handlePrint} id={id} />
+    <ul className="message-action-buttons vads-l-row vads-u-margin-y--4">
+      <li>
+        <PrintBtn handlePrint={handlePrint} id={id} />
+      </li>
 
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+      <li>
+        {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
+          activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+            <button
+              type="button"
+              className="message-action-button usa-button-secondary"
+              onClick={() => {
+                setIsDeleteVisible(true);
+              }}
+            >
+              <i
+                className="fas fa-trash-alt .vads-u-margin-right--0p5"
+                aria-hidden
+              />
+              <span
+                className="message-action-button-text"
+                data-testid="move-button-text"
+              >
+                Trash
+              </span>
+            </button>
+          )}
+      </li>
+      {isDeleteVisible && deleteMessageModal()}
+
+      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
+        <li>
+          <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+        </li>
+      )}
+
+      {!hideReplyButton && (
+        <li>
           <button
             type="button"
             className="message-action-button usa-button-secondary"
-            onClick={() => {
-              setIsDeleteVisible(true);
-            }}
+            data-testid="reply-button-top"
+            onClick={props.onReply}
           >
             <i
-              className="fas fa-trash-alt .vads-u-margin-right--0p5"
-              aria-hidden
+              className="fas fa-reply vads-u-margin-right--0p5"
+              aria-hidden="true"
             />
             <span
               className="message-action-button-text"
               data-testid="move-button-text"
             >
-              Trash
+              Reply
             </span>
           </button>
-        )}
-
-      {isDeleteVisible && deleteMessageModal()}
-
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
-        <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+        </li>
       )}
-
-      {!hideReplyButton && (
-        <button
-          type="button"
-          className="message-action-button usa-button-secondary"
-          data-testid="reply-button-top"
-          onClick={props.onReply}
-        >
-          <i
-            className="fas fa-reply vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
-          <span
-            className="message-action-button-text"
-            data-testid="move-button-text"
-          >
-            Reply
-          </span>
-        </button>
-      )}
-    </div>
+    </ul>
   );
 };
 
