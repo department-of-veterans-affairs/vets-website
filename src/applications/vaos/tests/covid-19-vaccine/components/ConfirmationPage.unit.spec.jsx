@@ -87,7 +87,10 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
 
     expect(
       screen.getByTestId('review-your-appointments-link'),
-    ).to.have.attribute('href', '/');
+    ).to.have.attribute(
+      'href',
+      '/health-care/schedule-view-va-appointments/appointments/',
+    );
   });
 
   it('should redirect to home page if no form data', async () => {
