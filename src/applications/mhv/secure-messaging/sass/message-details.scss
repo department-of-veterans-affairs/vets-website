@@ -66,32 +66,26 @@
       border-radius: 0;
       margin-right: -1px;
       margin-left: -1px;
-    }
-    :first-child button{
-      border-radius: 5px 0 0 5px;
-    }
-    :last-child button{
-      border-radius: 0 5px 5px 0;
-    }
-
-    .message-action-button {
       padding-top: 22px;
       padding-bottom: 17px;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
       width: auto;
-      box-shadow: inset 0 0 0 2px $color-primary;
       i {
         width: 20px;
         height: 20px;
       }
       @media (max-width: $small-screen) {
-        // justify-content: flex-start !important;
-        // width: 70px;
         padding-left: 10px;
         padding-right: 10px;
       }
+    }
+    :first-child button{
+      border-radius: 5px 0 0 5px;
+    }
+    :last-child button{
+      border-radius: 0 5px 5px 0;
     }
   }
   .message-count {
