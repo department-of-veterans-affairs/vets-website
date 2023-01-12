@@ -39,20 +39,20 @@ describe('Secure Messaging Delete Draft', () => {
     // cy.get(':nth-child(3) > .message-subject-link').click();
     cy.contains('Appointment:').click();
 
-    cy.get('[data-testid="discard-draft-button"]').click({ force: true });
+    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
 
-    cy.get('[data-testid="discard-draft-modal"] > p').should('be.visible');
-    cy.get('[data-testid="discard-draft-modal"]')
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]')
       .shadow()
       .find('[type ="button"]', { force: true })
-      .contains('Discard draft')
-      .should('contain', 'Discard')
+      .contains('Delete draft')
+      .should('contain', 'Delete')
       .click({ force: true });
 
     cy.wait('@deletedDraftResponse');
-    cy.contains('successfully discarded').should(
+    cy.contains('successfully deleted').should(
       'have.text',
-      'Draft was successfully discarded.',
+      'Draft was successfully deleted.',
     );
   });
 });
