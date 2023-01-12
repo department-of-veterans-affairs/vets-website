@@ -177,7 +177,9 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
       interval: 5000,
       value: Date.now() - startTime,
     });
-    event['api-latency-ms'] = apiLatencyMs;
+
+    // eslint-disable-next-line dot-notation
+    event['api_latency_ms'] = apiLatencyMs;
   }
   recordEvent(event);
   if (event['error-key']) {
