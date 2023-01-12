@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import Breadcrumbs from '../../components/Breadcrumbs';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 
 export default function FormLayout({ children }) {
@@ -13,7 +13,7 @@ export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <Link to={match.url}>New COVID-19 vaccine appointment</Link>
+        <va-link href={match.url} text="New COVID-19 vaccine appointment" />
       </Breadcrumbs>
       {location.pathname.endsWith(match.url) && (
         <DowntimeNotification
