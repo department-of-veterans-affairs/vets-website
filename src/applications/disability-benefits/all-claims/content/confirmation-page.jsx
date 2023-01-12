@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  CONTACTS,
+  Telephone,
+} from '@department-of-veterans-affairs/component-library/contacts';
 
 import DownloadPDF from '../components/DownloadPDF';
 import { capitalizeEachWord, formatDate } from '../utils';
@@ -277,6 +280,18 @@ export const exhaustedErrorContent = props =>
       </p>
       {claimsIntakeAddress}
       <h4>In person:</h4>
+      <p className="vads-u-font-size--base">
+        Bring your application to
+        <a href="/find-locations/?facilityType=benefits">
+          a VA regional office near you
+        </a>
+        .
+      </p>
+      <h4>Via fax:</h4>
+      <p className="vads-u-font-size--base">
+        <Telephone contact="844-531-7818" /> (toll free) or
+        <Telephone contact="248-524-4260" /> (foreign claims)
+      </p>
     </div>,
     checkLaterMessage(props.jobId),
     'warning',
