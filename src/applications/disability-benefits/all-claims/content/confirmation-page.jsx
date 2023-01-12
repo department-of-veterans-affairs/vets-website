@@ -11,6 +11,7 @@ import {
 } from './confirmation-poll';
 
 import { NULL_CONDITION_STRING } from '../constants';
+import { claimsIntakeAddress } from './itfWrapper';
 
 const template = (props, title, content, submissionMessage, messageType) => {
   const { fullName, disabilities, submittedAt, isSubmittingBDD } = props;
@@ -221,33 +222,6 @@ const template = (props, title, content, submissionMessage, messageType) => {
   );
 };
 
-// export const retryableErrorContent = props =>
-//   template(
-//     props,
-//     "It's taking us longer than expected to submit your claim.",
-//     <div>
-//       <p className="vads-u-font-size--base">
-//         This delay should be resolved within a few hours. We’ll keep trying to
-//         submit your claim. You can check the status of your claim online after
-//         24 hours.
-//       </p>
-//       <p className="vads-u-font-size--base">
-//         <a href="/track-claims">Check the status of your claim</a>
-//       </p>
-//       <p className="vads-u-font-size--base">
-//         <strong>
-//           If you don’t see your disability claim online after 24 hours,
-//         </strong>{' '}
-//         please call Veterans Benefits Assistance at{' '}
-//         <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-//         8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
-//         {props.jobId}.
-//       </p>
-//     </div>,
-//     checkLaterMessage(props.jobId),
-//     'warning',
-//   );
-
 export const retryableErrorContent = props =>
   template(
     props,
@@ -265,6 +239,44 @@ export const retryableErrorContent = props =>
         We appreciate your patience and are committed to helping you submit your
         benefits application as soon as possible.
       </p>
+    </div>,
+    checkLaterMessage(props.jobId),
+    'warning',
+  );
+
+export const exhaustedErrorContent = props =>
+  template(
+    props,
+    "It's taking us longer than expected to submit your claim.",
+    <div>
+      <p className="vads-u-font-size--base">
+        We’re sorry. Something went wrong while transmitting your claim. Please
+        contact VA Benefits Assistance at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:00 a.m. to 9:00 p.m. ET and provide this reference number{' '}
+        {props.jobId}.
+      </p>
+      <p className="vads-u-font-size--base">
+        Alternatively, you can contact your nearest Veterans Service Officer
+        (VSO) through
+        <a href="https://www.vetassist.org/">VetAssist</a>.
+      </p>
+      <p className="vads-u-font-size--base">Other claim submission options:</p>
+      <h4>By mail:</h4>
+      <p className="vads-u-font-size--base">
+        File your claim using an Application for Disability Compensation and
+        Related Compensation Benefits
+        <br />
+        <DownloadPDF
+          formNumber="21-526EZ"
+          fileName="VBA-21-526EZ-ARE"
+          size="2"
+        />
+        <br />
+        Print the form, fill it out, and send it to:
+      </p>
+      {claimsIntakeAddress}
+      <h4>In person:</h4>
     </div>,
     checkLaterMessage(props.jobId),
     'warning',
