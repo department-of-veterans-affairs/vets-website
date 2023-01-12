@@ -43,7 +43,7 @@ class IntroductionPage extends React.Component {
       hideUnauthedStartLink: true,
       messages: savedFormMessages,
       startText: 'Start your Claim',
-      gaStartEventName: 'decision-reviews-va20-0996-start-form',
+      gaStartEventName: 'decision-reviews-va20-0995-start-form',
       testActionLink: true,
       useActionLinks: true,
     };
