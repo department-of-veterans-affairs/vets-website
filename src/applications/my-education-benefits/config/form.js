@@ -44,6 +44,7 @@ import PhoneViewField from '../components/PhoneViewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
+import ReceiveTextMessages from '../components/ReceiveTextMessages';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -948,39 +949,29 @@ const formConfig = {
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
-                'ui:widget': 'radio',
-                'ui:validations': [
-                  (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
-                      .mobilePhoneNumber.phone;
-                    const { isInternational } = formData[
-                      formFields.viewPhoneNumbers
-                    ].mobilePhoneNumber;
-
-                    if (isYes) {
-                      if (!phoneExist) {
-                        errors.addError(
-                          "You can't select that response because we don't have a mobile phone number on file for you.",
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          "You can't select that response because you have an international mobile phone number",
-                        );
-                      }
-                    }
-                  },
-                ],
-                'ui:options': {
-                  widgetProps: {
-                    Yes: { 'data-info': 'yes' },
-                    No: { 'data-info': 'no' },
-                  },
-                  selectedProps: {
-                    Yes: { 'aria-describedby': 'yes' },
-                    No: { 'aria-describedby': 'no' },
-                  },
-                },
+                'ui:widget': ReceiveTextMessages,
+                // 'ui:validations': [
+                //   (errors, field, formData) => {
+                //     const isYes = field.slice(0, 4).includes('Yes');
+                //     const phoneExist = !!formData[formFields.viewPhoneNumbers]
+                //       .mobilePhoneNumber.phone;
+                //     const { isInternational } = formData[
+                //       formFields.viewPhoneNumbers
+                //     ].mobilePhoneNumber;
+                //
+                //     if (isYes) {
+                //       if (!phoneExist) {
+                //         errors.addError(
+                //           "You can't select that response because we don't have a mobile phone number on file for you.",
+                //         );
+                //       } else if (isInternational) {
+                //         errors.addError(
+                //           "You can't select that response because you have an international mobile phone number",
+                //         );
+                //       }
+                //     }
+                //   },
+                // ],
               },
             },
             'view:textMessagesAlert': {
@@ -1014,27 +1005,27 @@ const formConfig = {
                   ].isInternational,
               },
             },
-            'view:noMobilePhoneAlert': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you.
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  isValidPhone(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
-              },
-            },
+            // 'view:noMobilePhoneAlert': {
+            //   'ui:description': (
+            //     <va-alert status="warning">
+            //       <>
+            //         You can’t choose to get text message notifications because
+            //         we don’t have a mobile phone number on file for you.
+            //       </>
+            //     </va-alert>
+            //   ),
+            //   'ui:options': {
+            //     hideIf: formData =>
+            //       isValidPhone(
+            //         formData[formFields.viewPhoneNumbers][
+            //           formFields.mobilePhoneNumber
+            //         ].phone,
+            //       ) ||
+            //       formData[formFields.viewPhoneNumbers][
+            //         formFields.mobilePhoneNumber
+            //       ].isInternational,
+            //   },
+            // },
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert status="warning">
@@ -1082,10 +1073,10 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:noMobilePhoneAlert': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:noMobilePhoneAlert': {
+              //   type: 'object',
+              //   properties: {},
+              // },
               'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
