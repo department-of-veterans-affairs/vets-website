@@ -75,6 +75,7 @@ import {
 import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
 import createHomepageSearch from './homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
+import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -199,6 +200,10 @@ create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 
+createEnrollmentVerificationLoginWidget(
+  store,
+  widgetTypes.VIEW_ENROLLMENT_VERIFICATION_LOGIN,
+);
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
   createMyVALoginWidget(store);
