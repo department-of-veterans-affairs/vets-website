@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -15,7 +16,7 @@ const getData = ({
   mobile = true,
   email = true,
   address = true,
-  editSpy = () => {},
+  editPage = () => {},
 } = {}) => ({
   data: {
     veteran: {
@@ -25,7 +26,7 @@ const getData = ({
       address: address ? vapProfile.mailingAddress : null,
     },
   },
-  editPage: editSpy,
+  editPage,
 });
 
 describe('<ContactInfoReview>', () => {
@@ -33,6 +34,7 @@ describe('<ContactInfoReview>', () => {
     const data = getData();
     const { container } = render(<ContactInfoReview {...data} />);
 
+    expect($('button.edit-page', container)).to.exist;
     expect($('h4', container).textContent).to.eq(content.title);
     expect($$('dt', container).length).to.eq(8);
     expect(container.innerHTML).to.contain('Home phone');
@@ -44,5 +46,15 @@ describe('<ContactInfoReview>', () => {
     expect($('h4', container).textContent).to.eq(content.title);
     expect($$('dt', container).length).to.eq(7);
     expect(container.innerHTML).to.not.contain('Home phone');
+  });
+
+  it('should call editPage callback', () => {
+    const editPageSpy = sinon.spy();
+    const data = getData({ editPage: editPageSpy });
+    const { container } = render(<ContactInfoReview {...data} />);
+
+    fireEvent.click($('button.edit-page', container));
+
+    expect(editPageSpy.called).to.be.true;
   });
 });

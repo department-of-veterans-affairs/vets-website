@@ -177,7 +177,7 @@ IntroductionPage.propTypes = {
   loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      downtime: PropTypes.array,
+      downtime: PropTypes.shape({}),
       formId: PropTypes.string,
       prefillEnabled: PropTypes.bool,
       rootUrl: PropTypes.string,
