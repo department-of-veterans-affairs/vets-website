@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event.js';
 import moment from '../../../lib/moment-tz.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
@@ -38,19 +38,18 @@ export default function ConfirmationDirectScheduleInfoV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link
-            to="/"
+          <VaLink
+            href="/"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
               });
             }}
-          >
-            Review your appointments
-          </Link>
+            text="Review your appointments"
+          />
         </div>
         <div>
-          <Link to="/new-appointment">Schedule a new appointment</Link>
+          <va-link href="/new-appointment" text="Schedule a new appointment" />
         </div>
       </InfoAlert>
       {typeOfCare && (

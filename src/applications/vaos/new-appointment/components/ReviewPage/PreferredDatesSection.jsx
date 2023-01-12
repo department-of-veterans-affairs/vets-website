@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDates from './PreferredDates';
 
@@ -16,12 +15,12 @@ export default function PreferredDatesSection(props) {
             </ul>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.requestDateTime.url}
+            <va-link
+              href={newAppointmentFlow.requestDateTime.url}
               aria-label="Edit preferred date"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+            />
           </div>
         </div>
       </div>

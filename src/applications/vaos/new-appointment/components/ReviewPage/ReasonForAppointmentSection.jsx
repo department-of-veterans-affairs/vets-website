@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -25,12 +24,12 @@ export default function ReasonForAppointmentSection({ data }) {
             </span>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.reasonForAppointment.url}
+            <va-link
+              href={newAppointmentFlow.reasonForAppointment.url}
               aria-label="Edit purpose of appointment"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+            />
           </div>
         </div>
       </div>
