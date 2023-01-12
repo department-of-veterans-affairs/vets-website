@@ -152,11 +152,13 @@ class IntroductionPage extends React.Component {
             </va-additional-info>
           </li>
         </va-process-list>
-        {!showVerifyLink && (
-          <div className="sip-wrapper vads-u-margin-bottom--4">
-            <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
-          </div>
-        )}
+        {loggedIn &&
+          !showVerifyLink &&
+          !showMissingInfo && (
+            <div className="sip-wrapper vads-u-margin-bottom--4">
+              <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
+            </div>
+          )}
         <va-omb-info
           res-burden="15"
           omb-number="2900-0862"
