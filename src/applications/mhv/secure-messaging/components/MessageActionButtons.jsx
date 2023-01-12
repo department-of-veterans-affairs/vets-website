@@ -9,6 +9,7 @@ import PrintBtn from './MessageActionButtons/PrintBtn';
 import { navigateToFolderByFolderId } from '../util/helpers';
 import DeleteMessageModal from './Modals/DeleteMessageModal';
 import * as Constants from '../util/constants';
+import ActionButtons from './shared/ActionButtons';
 
 const MessageActionButtons = props => {
   const { id, hideReplyButton } = props;
@@ -68,18 +69,19 @@ const MessageActionButtons = props => {
     }
   };
 
-  return (
-    <ul className="message-action-buttons vads-u-margin-y--4">
-      <li>
+  const buttonsArray = [
+    <>
+      <li key="print">
         <PrintBtn handlePrint={handlePrint} id={id} />
       </li>
-
-      <li>
+    </>,
+    <>
+      <li key="trash">
         {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
           activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
             <button
               type="button"
-              className="message-action-button usa-button-secondary"
+              className="usa-button-secondary"
               onClick={() => {
                 setIsDeleteVisible(true);
               }}
@@ -97,19 +99,21 @@ const MessageActionButtons = props => {
             </button>
           )}
       </li>
-      {isDeleteVisible && deleteMessageModal()}
-
+    </>,
+    <>{isDeleteVisible && deleteMessageModal()}</>,
+    <>
       {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
-        <li>
+        <li key="MoveMessage">
           <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
         </li>
       )}
-
+    </>,
+    <>
       {!hideReplyButton && (
-        <li>
+        <li key="reply">
           <button
             type="button"
-            className="message-action-button usa-button-secondary"
+            className="usa-button-secondary"
             data-testid="reply-button-top"
             onClick={props.onReply}
           >
@@ -126,8 +130,10 @@ const MessageActionButtons = props => {
           </button>
         </li>
       )}
-    </ul>
-  );
+    </>,
+  ];
+
+  return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
