@@ -126,12 +126,12 @@ describe('Compose message container', () => {
       name: 'COVID: Covid-Inquiry',
       level: 3,
     });
-    const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard draft',
+    const deleteButton = await screen.getAllByRole('button', {
+      name: 'Delete draft',
       exact: false,
     });
     expect(headingText).to.exist;
     expect(draftMessageHeadingText).to.exist;
-    expect(discardButton).to.exist;
+    expect(deleteButton).to.exist;
   });
 });
