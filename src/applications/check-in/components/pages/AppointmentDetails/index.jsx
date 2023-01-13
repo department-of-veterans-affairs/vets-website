@@ -168,6 +168,7 @@ const AppointmentDetails = props => {
                     appointment={appointment}
                     router={router}
                     token={token}
+                    event="check-in-from-details"
                   />
                 </div>
               )}

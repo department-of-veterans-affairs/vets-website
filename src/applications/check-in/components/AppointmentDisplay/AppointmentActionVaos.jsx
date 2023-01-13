@@ -2,8 +2,11 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { parseISO } from 'date-fns';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
 
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
@@ -13,7 +16,7 @@ import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
 const AppointmentActionVaos = props => {
-  const { appointment, router, token } = props;
+  const { appointment, router, token, event } = props;
 
   const dispatch = useDispatch();
   const setSelectedAppointment = useCallback(
@@ -27,6 +30,11 @@ const AppointmentActionVaos = props => {
   const { jumpToPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
+      if (event) {
+        recordEvent({
+          event: createAnalyticsSlug(event, 'nav'),
+        });
+      }
       try {
         const json = await api.v2.postCheckInData({
           uuid: token,
@@ -44,7 +52,14 @@ const AppointmentActionVaos = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, setSelectedAppointment, token],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      setSelectedAppointment,
+      token,
+      event,
+    ],
   );
   if (
     appointment.eligibility &&
@@ -66,6 +81,7 @@ const AppointmentActionVaos = props => {
 
 AppointmentActionVaos.propTypes = {
   appointment: PropTypes.object,
+  event: PropTypes.string,
   router: PropTypes.object,
   token: PropTypes.string,
 };

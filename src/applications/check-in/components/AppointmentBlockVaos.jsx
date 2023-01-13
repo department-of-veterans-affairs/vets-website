@@ -2,7 +2,10 @@ import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
+import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
 import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { setActiveAppointment } from '../actions/universal';
@@ -22,6 +25,9 @@ const AppointmentBlockVaos = props => {
 
   const handleDetailClick = (appointmentIen, e) => {
     e.preventDefault();
+    recordEvent({
+      event: createAnalyticsSlug('details-link-clicked', 'nav'),
+    });
     dispatch(setActiveAppointment(appointmentIen));
     jumpToPage('appointment-details');
   };
