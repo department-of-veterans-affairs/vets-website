@@ -19,7 +19,7 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
   const [mobileIsInternational, setMobileIsInternational] = useState(true);
 
   // dummy logic, will update
-  if (user) {
+  if (user === undefined) {
     setMobileIsInternational(false);
     setNoMobilePhone(false);
   }
@@ -92,7 +92,7 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
 ReceiveTextMessages.propTypes = {
   user: PropTypes.object,
   options: PropTypes.object,
-  value: PropTypes.bool,
+  value: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   id: PropTypes.string,
