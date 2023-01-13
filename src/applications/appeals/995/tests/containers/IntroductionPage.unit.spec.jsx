@@ -76,6 +76,7 @@ describe('IntroductionPage', () => {
     expect($('.va-introtext', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
+    expect($('.sip-wrapper', container)).to.exist;
   });
 
   it('should render one SIP alert when not logged in', () => {
@@ -99,6 +100,7 @@ describe('IntroductionPage', () => {
     );
     expect($('va-alert[status="continue"]', container)).to.exist;
     expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('.sip-wrapper', container)).to.not.exist;
   });
 
   it('should render missing SSN alert', () => {
@@ -113,6 +115,7 @@ describe('IntroductionPage', () => {
     expect(alert).to.exist;
     expect(alert.innerHTML).to.contain('your Social Security number.');
     expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should render missing DOB alert', () => {
@@ -127,6 +130,7 @@ describe('IntroductionPage', () => {
     expect(alert).to.exist;
     expect(alert.innerHTML).to.contain('your date of birth.');
     expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should render missing SSN and DOB alert', () => {
@@ -143,6 +147,7 @@ describe('IntroductionPage', () => {
       'your Social Security number and date of birth.',
     );
     expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('.sip-wrapper', container)).to.not.exist;
   });
 
   it('should render top SIP alert with action links', () => {
