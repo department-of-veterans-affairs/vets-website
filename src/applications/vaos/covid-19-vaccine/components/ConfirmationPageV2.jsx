@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -17,8 +17,19 @@ import {
   getFacilityPhone,
 } from '../../services/location';
 import AppointmentDate from '../../new-appointment/components/ReviewPage/AppointmentDate';
+import { startNewAppointmentFlow } from '../redux/actions';
 
 const pageTitle = 'We’ve scheduled your appointment';
+
+function handleClick(history, dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
+  };
+}
 
 function ConfirmationPageV2({
   clinic,
@@ -27,6 +38,9 @@ function ConfirmationPageV2({
   slot,
   submitStatus,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -66,10 +80,10 @@ function ConfirmationPageV2({
           />
         </div>
         <div>
-          <va-link
-            href="/new-appointment"
+          <VaLink
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
+            onClick={handleClick(history, dispatch)}
           />
         </div>
       </InfoAlert>
