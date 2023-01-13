@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
     // Missing SSN or DOB
-    const showMissingInfo = !canApply || !hasDob;
+    const showMissingInfo = loggedIn && (!canApply || !hasDob);
     const pathname = location.basename;
 
     const sipOptions = {
