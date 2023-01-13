@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { formatFullName } from '~/applications/personalization/common/helpers';
+import { SingleFieldLoadFailAlert } from '../alerts/LoadFail';
 
 export default function LegalName() {
-  const { first = '', middle = '', last = '', suffix = '' } = useSelector(
+  const { first, middle, last, suffix } = useSelector(
     state =>
       state.vaProfile?.hero?.userFullName || {
         first: null,
@@ -13,5 +14,9 @@ export default function LegalName() {
       },
   );
   const fullName = formatFullName({ first, middle, last, suffix });
-  return <p className="vads-u-margin--0 vads-u-width--full">{fullName}</p>;
+  return fullName ? (
+    <p className="vads-u-margin--0 vads-u-width--full">{fullName}</p>
+  ) : (
+    <SingleFieldLoadFailAlert sectionName="legal name" />
+  );
 }

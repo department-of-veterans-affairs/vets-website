@@ -1,13 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { totalDisabilityError } from '~/applications/personalization/rated-disabilities/selectors';
-
-const ErrorAlert = () => (
-  <va-alert status="warning" background-only show-icon>
-    We’re sorry. Something went wrong on our end and we can’t load your
-    disability information. Please try again later.
-  </va-alert>
-);
+import { SingleFieldLoadFailAlert } from '../alerts/LoadFail';
 
 const DisabilityRating = () => {
   const hasError = useSelector(totalDisabilityError);
@@ -16,7 +10,7 @@ const DisabilityRating = () => {
   return (
     <div>
       {hasError ? (
-        <ErrorAlert />
+        <SingleFieldLoadFailAlert sectionName="disability rating information" />
       ) : (
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5">
           {rating
