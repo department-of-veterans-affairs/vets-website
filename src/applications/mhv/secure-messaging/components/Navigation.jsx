@@ -128,7 +128,7 @@ const Navigation = () => {
                 <div className="sidebar-navigation-messages-list-header">
                   {/* Message Link will navigate to the new SM Home page in the future */}
                   <Link className={headerStyle} to="/">
-                    Messages
+                    <span>Messages</span>
                   </Link>
                 </div>
 
@@ -143,7 +143,7 @@ const Navigation = () => {
                           //   handleOnClick(path);
                           // }}
                         >
-                          {path.label}
+                          <span>{path.label}</span>
                         </Link>
                       </li>
                     ))}
