@@ -23,9 +23,10 @@ function handleClick(history, dispatch) {
 }
 
 export default function StatusAlert({ appointment, facility }) {
-  const { search } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { search } = useLocation();
 
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
@@ -64,18 +65,19 @@ export default function StatusAlert({ appointment, facility }) {
         <br />
         <div className="vads-u-margin-y--1">
           <VaLink
-            to="/health-care/schedule-view-va-appointments/appointments/"
-            onClick={() => {
+            text="Review your appointments"
+            data-testid="review-appointments-link"
+            onClick={() =>
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-              });
-            }}
-            text="Review your appointments"
+              })
+            }
           />
         </div>
         <div>
           <VaLink
             text="Schedule a new appointment"
+            data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch)}
           />
         </div>
@@ -88,4 +90,5 @@ export default function StatusAlert({ appointment, facility }) {
 
 StatusAlert.propTypes = {
   appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object.isRequired,
 };
