@@ -5,6 +5,7 @@ import { EVIDENCE_VA_REQUEST } from '../constants';
 
 export const content = {
   edit: 'Edit',
+  editLabel: 'Edit evidence summary page',
   remove: 'Remove',
   update: 'Update page',
 

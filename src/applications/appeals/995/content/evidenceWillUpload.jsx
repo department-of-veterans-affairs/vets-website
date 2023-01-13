@@ -4,7 +4,9 @@ const evidenceWillUploadTitle =
   'Do you want to upload your records or other documents to support your claim?';
 
 export const evidenceWillUploadHeader = (
-  <h3 className="vads-u-margin-top--0">{evidenceWillUploadTitle}</h3>
+  <h3 className="vads-u-margin-top--0 vads-u-display--inline">
+    {evidenceWillUploadTitle}
+  </h3>
 );
 
 export const evidenceWillUploadInfo = (
