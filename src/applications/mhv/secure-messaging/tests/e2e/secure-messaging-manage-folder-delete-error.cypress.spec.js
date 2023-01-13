@@ -24,14 +24,20 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.contains('TEST2').click({ force: true });
 
-    cy.wait('@test2Folder', { responseTimeout: 8000 });
+    cy.wait('@test2Folder');
 
     cy.injectAxe();
     cy.axeCheck();
 
-    // cy.wait('@customFolder');
+    cy.wait('@customFolder');
 
-    cy.get('.right-button').click();
+    cy.get('.right-button').click({ force: true });
+
+    cy.get('[class="modal hydrated"]')
+      .shadow()
+      .find('[class="va-modal-inner va-modal-alert"]');
+
+    // cy.get('[visible=""] > p');
 
     // For edit button
     // cy.get('.left-button')
