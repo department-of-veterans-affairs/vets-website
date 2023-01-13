@@ -23,16 +23,26 @@ const LoginInWidget = ({ toggleLoginModal }) => {
       <div>
         Sign in with your existing{' '}
         <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
-        <span className="vads-u-font-weight--bold">Login.gov</span>
-        account. If you don’t have any of these accounts, you can create a free{' '}
-        <a href="https://www.id.me/" target="_blank" rel="noreferrer">
+        <span className="vads-u-font-weight--bold">Login.gov</span> account. If
+        you don’t have any of these accounts, you can create a free{' '}
+        <a
+          className="vads-u-font-weight--bold"
+          href="https://www.id.me/"
+          target="_blank"
+          rel="noreferrer"
+        >
           ID.me
         </a>{' '}
-        or{' '}
-        <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
+        account or{' '}
+        <a
+          className="vads-u-font-weight--bold"
+          href="https://secure.login.gov/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Login.gov
         </a>{' '}
-        now.
+        account now.
       </div>
       <button className="va-button" type="button" onClick={toggleLogin}>
         Sign in or create an account
