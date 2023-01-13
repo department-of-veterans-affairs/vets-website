@@ -14,20 +14,20 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
       >
-        Please sign in to verify your enrollment
+        Please sign in to verify your school enrollment.
       </h1>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have an account, you
-        can create a free{' '}
+        <strong>Login.gov</strong> account. If you don’t have any of these
+        accounts, you can create a free{' '}
         <a href="https://api.id.me/" target="_blank" rel="noreferrer">
           ID.me
         </a>{' '}
-        account or{' '}
+        or{' '}
         <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
           Login.gov
         </a>{' '}
-        account now.
+        now.
       </p>
       <button
         type="button"
