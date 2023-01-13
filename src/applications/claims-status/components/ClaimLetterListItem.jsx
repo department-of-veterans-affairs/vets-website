@@ -40,8 +40,8 @@ const filename = 'ClaimLetter.pdf';
 const downloadHandler = () => {
   recordEvent({
     event: 'claim-letters-download',
-    'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/:id.pdf`,
     'gtm.element.textContent': 'Download Claim Letter (PDF)',
+    'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/:id.pdf`,
   });
 };
 
