@@ -5,53 +5,19 @@ import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { getClaimLetters } from '../actions';
-import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import ClaimLetterList from '../components/ClaimLetterList';
-import WIP from '../components/WIP';
-import { ITEMS_PER_PAGE } from '../constants';
-import { isLoadingFeatures, showClaimLettersFeature } from '../selectors';
-
-const NoLettersContent = () => (
-  <>
-    <h2 className="vads-u-font-size--h3">No letters to show</h2>
-    <div className="vads-u-font-size--lg">
-      It looks like you don’t have any letters from the VA at the moment. Check
-      back when you’re notified about letters.
-    </div>
-  </>
-);
-
-const UnauthenticatedContent = () => (
-  <div className="vads-u-text-align--center">
-    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
-    <div className="vads-u-font-size--lg">
-      Something went wrong on our end. Please double check the URL and make sure
-      you are signed in.
-    </div>
-  </div>
-);
-
-const ServerErrorContent = () => (
-  <div className="vads-u-text-align--center">
-    <h2 className="vads-u-font-size--h3">We can’t load this page</h2>
-    <div className="vads-u-font-size--lg">
-      We’re sorry. Something went wrong on our end. Please refresh this page or
-      try again later.
-    </div>
-  </div>
-);
+import { getClaimLetters } from '../../actions';
+import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
+import ClaimLetterList from '../../components/ClaimLetterList';
+import WIP from '../../components/WIP';
+import { ITEMS_PER_PAGE } from '../../constants';
+import { isLoadingFeatures, showClaimLettersFeature } from '../../selectors';
+import NoLettersContent from './errorComponents/NoLettersContent';
+import ServerErrorContent from './errorComponents/ServerErrorContent';
+import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
 };
-
-// const getFromToNums = (page, total) => {
-//   const from = (page - 1) * ITEMS_PER_PAGE + 1;
-//   const to = Math.min(page * ITEMS_PER_PAGE, total);
-
-//   return [from, to];
-// };
 
 export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const [currentItems, setCurrentItems] = useState([]);
@@ -88,6 +54,18 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     document.title = 'Your VA Claim Letters | Veterans Affairs';
   }, []);
 
+  /**
+   * This commented code was deemed likely to be needed.
+   * Commented on: 01/06/2023
+   * Stale by: 03/01/2023
+   */
+  // const getFromToNums = (page, total) => {
+  //   const from = (page - 1) * ITEMS_PER_PAGE + 1;
+  //   const to = Math.min(page * ITEMS_PER_PAGE, total);
+
+  //   return [from, to];
+  // };
+
   const onPageChange = page => {
     setCurrentItems(paginatedItems.current[page - 1]);
     setCurrentPage(page);
@@ -104,10 +82,6 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
     return (
       <>
-        {/* <p className="vads-u-font-size--lg vads-u-font-family--serif">
-        Showing {fromToNums[0]} - {fromToNums[1]} of {totalItems.current}{' '}
-        claim letters
-      </p> */}
         {currentItems?.length ? (
           <ClaimLetterList letters={currentItems} />
         ) : (
@@ -132,8 +106,12 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   let content;
 
   if (showClaimLetters) {
+    /**
+     * This commented code was deemed likely to be needed.
+     * Commented on: 01/06/2023
+     * Stale by: 03/01/2023
+     */
     // const fromToNums = getFromToNums(currentPage, totalItems.current);
-
     content = (
       <>
         <h1>Your VA claim letters</h1>

@@ -108,6 +108,22 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'household-expenses-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'household-expenses-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           SpouseEmploymentHistory.fillEmployerInfo();
