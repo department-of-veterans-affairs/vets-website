@@ -15,7 +15,12 @@ export default function LegalName() {
   );
   const fullName = formatFullName({ first, middle, last, suffix });
   return fullName ? (
-    <p className="vads-u-margin--0 vads-u-width--full">{fullName}</p>
+    <p
+      className="vads-u-margin--0 vads-u-width--full"
+      data-testid="legalNameField"
+    >
+      {fullName}
+    </p>
   ) : (
     <SingleFieldLoadFailAlert sectionName="legal name" />
   );

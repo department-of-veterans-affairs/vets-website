@@ -12,7 +12,10 @@ const DisabilityRating = () => {
       {hasError ? (
         <SingleFieldLoadFailAlert sectionName="disability rating information" />
       ) : (
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5">
+        <p
+          className="vads-u-margin-top--0 vads-u-margin-bottom--0p5"
+          data-testid="disabilityRatingField"
+        >
           {rating
             ? `${rating}% service connected`
             : 'Our records show that you don’t have a disability rating.'}
