@@ -31,7 +31,7 @@ class IntroductionPage extends React.Component {
     // Without being LOA3 (verified), the prefill & contestable issues won't load
     const showVerifyLink = loggedIn && !isVerified;
     // Missing SSN or DOB
-    const showMissingInfo = !canApply || !hasDob;
+    const showMissingInfo = loggedIn && (!canApply || !hasDob);
     const pathname = location.basename;
 
     const sipOptions = {
@@ -152,11 +152,12 @@ class IntroductionPage extends React.Component {
             </va-additional-info>
           </li>
         </va-process-list>
-        {!showVerifyLink && (
-          <div className="sip-wrapper vads-u-margin-bottom--4">
-            <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
-          </div>
-        )}
+        {!showVerifyLink &&
+          !showMissingInfo && (
+            <div className="sip-wrapper vads-u-margin-bottom--4">
+              <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
+            </div>
+          )}
         <va-omb-info
           res-burden="15"
           omb-number="2900-0862"
