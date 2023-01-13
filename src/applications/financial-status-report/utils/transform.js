@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import {
   sumValues,
   dateFormatter,
@@ -170,6 +171,18 @@ export const transform = (formConfig, form) => {
     combinedFSRActive,
   );
 
+  // Temporary loggin to track issue with empty selectedDebtsAndCopays potentially coming from dirty SIP flags
+  if (!selectedDebtsAndCopays.length) {
+    Sentry.withScope(scope => {
+      scope.setContext('config data', {
+        combinedFSRActive,
+        enhancedFSRActive,
+        'selectedDebts-length': selectedDebts.length,
+      });
+      Sentry.captureMessage(`selectedDebtsAndCopays empty`);
+    });
+  }
+
   const submissionObj = {
     personalIdentification: {
       ssn: personalIdentification.ssn,
@@ -314,7 +327,9 @@ export const transform = (formConfig, form) => {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
-    selectedDebtsAndCopays: [...selectedDebtsAndCopays],
+    selectedDebtsAndCopays: !selectedDebtsAndCopays.length
+      ? selectedDebts
+      : selectedDebtsAndCopays,
   };
 
   // calculated values should formatted then converted to string
