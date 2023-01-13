@@ -288,7 +288,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       ];
 
       if (includeRequests) {
-        const p = fetchPendingAppointments()(dispatch, getState);
+        const p = dispatch(fetchPendingAppointments());
         promises.push(p);
       }
       const data = await Promise.all(promises);
