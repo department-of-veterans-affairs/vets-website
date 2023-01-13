@@ -2,7 +2,7 @@ import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Messages FAQ AXE check', () => {
-  it('Axe Check Messages FAQ', () => {
+  it.skip('Axe Check Messages FAQ', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();

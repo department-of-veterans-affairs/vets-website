@@ -94,6 +94,7 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           checkInSteps,
           preCheckInValid: true,
+          appointmentIen: 1111,
         }),
         createAppointment({
           clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
