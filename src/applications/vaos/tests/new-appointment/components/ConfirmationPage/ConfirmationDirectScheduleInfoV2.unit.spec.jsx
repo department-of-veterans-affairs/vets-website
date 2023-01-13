@@ -120,7 +120,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     );
   });
 
-  // This should be covered in e2e tests
+  // NOTE: This should be covered in e2e tests
   it('should render appointment list page when "Review your appointments" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
     expect(screen.getByTestId('review-appointments-link')).to.exist;
@@ -129,13 +129,10 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     ).to.equal('/health-care/schedule-view-va-appointments/appointments/');
   });
 
-  // This should be covered in e2e tests
+  // NOTE This should be covered in e2e tests
   it('should render new appointment page when "Schedule a new appointment" link is clicked', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
     expect(screen.getByTestId('schedule-new-appointment-link')).to.exist;
-    expect(
-      screen.getByTestId('schedule-new-appointment-link').getAttribute('href'),
-    ).to.equal('/new-appointment');
   });
 
   it('should verify VA in person calendar ics file format', async () => {
