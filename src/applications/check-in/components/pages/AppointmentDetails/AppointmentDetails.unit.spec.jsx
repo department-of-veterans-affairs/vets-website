@@ -5,28 +5,45 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import { format, add } from 'date-fns';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import AppointmentDetails from './index';
 import i18n from '../../../utils/i18n/i18n';
-import { multipleAppointments } from '../../../tests/unit/mocks/mock-appointments';
+import {
+  multipleAppointments,
+  singleAppointment,
+} from '../../../tests/unit/mocks/mock-appointments';
 
 describe('check-in experience', () => {
   describe('shared components', () => {
     const middleware = [];
     const mockStore = configureStore(middleware);
-    const initAppointments = [...multipleAppointments];
-
+    const initAppointments = [...multipleAppointments, ...singleAppointment];
+    const now = format(new Date(), "yyyy-LL-dd'T'HH:mm:ss");
     initAppointments[0] = {
       ...initAppointments[0],
       kind: 'phone',
       appointmentIen: 1111,
     };
     initAppointments[1] = {
-      ...initAppointments[0],
+      ...initAppointments[1],
       kind: 'clinic',
       appointmentIen: 2222,
       clinicStopCodeName: 'stop code test',
       doctorName: 'test doc',
+    };
+    initAppointments[2] = {
+      ...initAppointments[2],
+      kind: 'clinic',
+      appointmentIen: 3333,
+      startTime: now,
+      checkInWindowEnd: add(now, { minutes: 30 }),
+    };
+    initAppointments[3] = {
+      ...initAppointments[3],
+      kind: 'clinic',
+      appointmentIen: 4444,
+      eligibility: 'INELIGIBLE_BAD_STATUS',
     };
     delete initAppointments[0].clinicPhoneNumber;
 
@@ -42,6 +59,7 @@ describe('check-in experience', () => {
         form: {
           pages: [],
         },
+        app: 'preCheckIn',
       },
     };
     const phoneState = {
@@ -54,8 +72,20 @@ describe('check-in experience', () => {
       ...scheduledDowntimeState,
     };
     inPersonState.checkInData.form.activeAppointment = 2222;
+    const dayOfEligibleState = {
+      ...JSON.parse(JSON.stringify(initState)),
+      ...scheduledDowntimeState,
+    };
+    dayOfEligibleState.checkInData.form.activeAppointment = 3333;
+    dayOfEligibleState.checkInData.app = 'dayOf';
+    const dayOfIneligibleState = {
+      ...JSON.parse(JSON.stringify(initState)),
+      ...scheduledDowntimeState,
+    };
+    dayOfIneligibleState.checkInData.form.activeAppointment = 4444;
+    dayOfIneligibleState.checkInData.app = 'dayOf';
     describe('AppointmentDetails', () => {
-      describe('Phone appointment', () => {
+      describe('Phone pre-check-in appointment', () => {
         const phoneStore = mockStore(phoneState);
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
@@ -88,7 +118,7 @@ describe('check-in experience', () => {
           expect(getByRole('heading', { name: 'Clinic', level: 2 })).to.exist;
         });
       });
-      describe('In person appointment', () => {
+      describe('In person pre-check-in appointment', () => {
         const inPersonStore = mockStore(inPersonState);
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
@@ -199,6 +229,34 @@ describe('check-in experience', () => {
         // it('does not render reason for visit', () => {
 
         // });
+      });
+      describe('Day-of check-in eligible appointment', () => {
+        const dayofEligibleStore = mockStore(dayOfEligibleState);
+        it('Renders the check-in button and no message', () => {
+          const { getByTestId, queryByTestId } = render(
+            <Provider store={dayofEligibleStore}>
+              <I18nextProvider i18n={i18n}>
+                <AppointmentDetails />
+              </I18nextProvider>
+            </Provider>,
+          );
+          expect(getByTestId('check-in-button')).to.exist;
+          expect(queryByTestId('appointment-action-message')).to.not.exist;
+        });
+      });
+      describe('Day-of check-in ineligible appointment', () => {
+        const dayofIneligibleStore = mockStore(dayOfIneligibleState);
+        it('Renders the check-in button and no message', () => {
+          const { getByTestId, queryByTestId } = render(
+            <Provider store={dayofIneligibleStore}>
+              <I18nextProvider i18n={i18n}>
+                <AppointmentDetails />
+              </I18nextProvider>
+            </Provider>,
+          );
+          expect(getByTestId('appointment-action-message')).to.exist;
+          expect(queryByTestId('check-in-button')).to.not.exist;
+        });
       });
     });
   });
