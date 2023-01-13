@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
@@ -23,7 +24,6 @@ export default function NoAppointments({
           </p>
           <VaLink
             className="va-button-link vads-u-font-weight--bold vads-u-font-size--md"
-            href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
             onClick={startNewAppointmentFlow}
             text="Schedule an appointment"
           />
@@ -43,3 +43,9 @@ export default function NoAppointments({
     </>
   );
 }
+
+NoAppointments.propTypes = {
+  showScheduleButton: PropTypes.bool.isRequired,
+  startNewAppointmentFlow: PropTypes.func.isRequired,
+  description: PropTypes.string,
+};
