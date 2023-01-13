@@ -69,14 +69,13 @@ const MessageActionButtons = props => {
     }
   };
 
-  const buttonsArray = [
-    <li key="print">
-      <PrintBtn handlePrint={handlePrint} id={id} />
-    </li>,
-
-    <li key="trash">
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+  const displayTrashBtn = () => {
+    if (
+      activeFolder?.folderId !== Constants.DefaultFolders.SENT.id ||
+      activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+    ) {
+      return (
+        <li key="trash">
           <button
             type="button"
             className="usa-button-secondary"
@@ -95,18 +94,26 @@ const MessageActionButtons = props => {
               Trash
             </span>
           </button>
-        )}
-    </li>,
-    <>{isDeleteVisible && deleteMessageModal()}</>,
-    <>
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
+          {isDeleteVisible && deleteMessageModal()}
+        </li>
+      );
+    }
+    return null;
+  };
+  const displayMoveBtn = () => {
+    if (activeFolder?.folderId !== Constants.DefaultFolders.SENT.id) {
+      return (
         <li key="MoveMessage">
           <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
         </li>
-      )}
-    </>,
-    <>
-      {!hideReplyButton && (
+      );
+    }
+    return null;
+  };
+
+  const displayReplyBtn = () => {
+    if (!hideReplyButton) {
+      return (
         <li key="reply">
           <button
             type="button"
@@ -126,8 +133,18 @@ const MessageActionButtons = props => {
             </span>
           </button>
         </li>
-      )}
-    </>,
+      );
+    }
+    return null;
+  };
+
+  const buttonsArray = [
+    <li key="print">
+      <PrintBtn handlePrint={handlePrint} id={id} />
+    </li>,
+    displayTrashBtn(),
+    displayMoveBtn(),
+    displayReplyBtn(),
   ];
 
   return <ActionButtons buttonsArray={buttonsArray} />;
@@ -135,7 +152,7 @@ const MessageActionButtons = props => {
 
 MessageActionButtons.propTypes = {
   handlePrintThreadStyleClass: PropTypes.func,
-  hideReplyButton: PropTypes.func,
+  hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
   onReply: PropTypes.func,
 };
