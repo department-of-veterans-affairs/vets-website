@@ -15,9 +15,6 @@ const AppointmentMessageVaos = props => {
 
   let alertMessage = '';
   if (appointment.eligibility) {
-    if (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)) {
-      return <></>;
-    }
     // Disable check-in 10 seconds before the end of the eligibility window.
     // This helps prevent Veterans from getting an error if they click the
     // button and it takes too long to make the API call.
@@ -51,12 +48,13 @@ const AppointmentMessageVaos = props => {
             })}
           </span>
         );
+      } else {
+        alertMessage = (
+          <span data-testid="no-time-too-early-reason-message">
+            {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
+          </span>
+        );
       }
-      alertMessage = (
-        <span data-testid="no-time-too-early-reason-message">
-          {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
-        </span>
-      );
     }
     if (
       areEqual(
@@ -89,34 +87,47 @@ const AppointmentMessageVaos = props => {
               {t('you-are-already-checked-in')}
             </span>
           );
+        } else {
+          alertMessage = (
+            <span data-testid="already-checked-in-message">
+              {t('you-checked-in-at', { date: appointmentDateTime })}
+            </span>
+          );
         }
+      } else {
         alertMessage = (
-          <span data-testid="already-checked-in-message">
-            {t('you-checked-in-at', { date: appointmentDateTime })}
+          <span data-testid="already-checked-in-no-time-message">
+            {t('you-are-already-checked-in')}
           </span>
         );
       }
-      alertMessage(
-        <span data-testid="already-checked-in-no-time-message">
-          {t('you-are-already-checked-in')}
-        </span>,
-      );
     }
-    if (!alertMessage) {
+    if (
+      !alertMessage &&
+      !areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)
+    ) {
       alertMessage = (
         <span data-testid="no-status-given-message">{defaultMessage}</span>
       );
     }
   }
   return (
-    <va-alert
-      background-only
-      show-icon
-      data-testid="appointment-action-message"
-      class="vads-u-margin-bottom--2"
-    >
-      {alertMessage}
-    </va-alert>
+    <>
+      {alertMessage ? (
+        <div data-testid="appointment-message">
+          <va-alert
+            background-only
+            show-icon
+            class="vads-u-margin-bottom--2"
+            data-testid="appointment-action-message"
+          >
+            {alertMessage}
+          </va-alert>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
