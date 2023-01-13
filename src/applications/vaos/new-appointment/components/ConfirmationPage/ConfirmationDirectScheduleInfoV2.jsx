@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event.js';
 import moment from '../../../lib/moment-tz.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
@@ -16,6 +18,17 @@ import {
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
 import { getTypeOfCareById } from '../../../utils/appointment';
+import { startNewAppointmentFlow } from '../../redux/actions';
+
+function handleClick(history, dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
+  };
+}
 
 export default function ConfirmationDirectScheduleInfoV2({
   data,
@@ -23,6 +36,9 @@ export default function ConfirmationDirectScheduleInfoV2({
   clinic,
   slot,
 }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
     ? moment(slot.start).tz(timezone, true)
@@ -51,9 +67,9 @@ export default function ConfirmationDirectScheduleInfoV2({
           />
         </div>
         <div>
-          <va-link
-            href="/new-appointment"
+          <VaLink
             text="Schedule a new appointment"
+            onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"
           />
         </div>
