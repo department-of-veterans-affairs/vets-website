@@ -116,10 +116,5 @@
     "appName": "Notice of Disagreement",
     "rootUrl": "/decision-reviews/board-appeal/",
     "entryName": "form-10182-cta"
-  },
-  {
-    "appName": "Education Letters",
-    "rootUrl": "/education/download-letters/",
-    "widgetType": "view-education-letters-login"
   }
 ]
