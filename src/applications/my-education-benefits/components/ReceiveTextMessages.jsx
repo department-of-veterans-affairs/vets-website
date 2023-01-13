@@ -65,8 +65,7 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
       </div>
 
       {enumOptions[0].value === value &&
-        noMobilePhone &&
-        mobileIsInternational &&
+        (noMobilePhone || mobileIsInternational) &&
         captureMobilePhone}
 
       <div className="form-radio-buttons" key={enumOptions[1].value}>
