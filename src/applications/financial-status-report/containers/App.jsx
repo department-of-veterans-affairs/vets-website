@@ -131,6 +131,7 @@ App.propTypes = {
   getFormStatus: PropTypes.func,
   isError: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isStartingOver: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
   router: PropTypes.object,
