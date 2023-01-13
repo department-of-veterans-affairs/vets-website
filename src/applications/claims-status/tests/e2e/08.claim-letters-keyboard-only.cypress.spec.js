@@ -37,9 +37,7 @@ describe('Claim Letters Page', () => {
 
       // Back on first page
       // 'Prev' button should not show
-      cy.get('va-pagination')
-        .findByText(/Prev/i)
-        .should('not.exist');
+      cy.get('.pagination-prev li .button-prev').should('not.exist');
 
       cy.axeCheck();
     });
