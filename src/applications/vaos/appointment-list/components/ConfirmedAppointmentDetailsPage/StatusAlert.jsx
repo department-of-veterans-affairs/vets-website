@@ -1,5 +1,6 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -9,16 +10,23 @@ import {
   CANCELLATION_REASONS,
   GA_PREFIX,
 } from '../../../utils/constants';
+import { startNewAppointmentFlow } from '../../redux/actions';
 
-function handleClick() {
+function handleClick(history, dispatch) {
   return () => {
     recordEvent({
-      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
+    dispatch(startNewAppointmentFlow());
+    history.push(`/new-appointment`);
   };
 }
+
 export default function StatusAlert({ appointment, facility }) {
   const { search } = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
@@ -57,14 +65,18 @@ export default function StatusAlert({ appointment, facility }) {
         <div className="vads-u-margin-y--1">
           <VaLink
             to="/health-care/schedule-view-va-appointments/appointments/"
-            onClick={handleClick()}
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+              });
+            }}
             text="Review your appointments"
           />
         </div>
         <div>
           <VaLink
-            href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
             text="Schedule a new appointment"
+            onClick={handleClick(history, dispatch)}
           />
         </div>
       </InfoAlert>
