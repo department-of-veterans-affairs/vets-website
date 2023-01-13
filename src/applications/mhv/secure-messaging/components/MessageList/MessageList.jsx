@@ -22,6 +22,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
@@ -168,7 +169,14 @@ const MessageList = props => {
           type="button"
           text="Sort"
           label="Sort"
-          onClick={handleMessageSort}
+          onClick={() => {
+            handleMessageSort();
+            recordEvent({
+              event: 'cta-button-click',
+              'button-type': 'primary',
+              'button-click-label': 'Sort messages',
+            });
+          }}
         />
       </div>
       <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
