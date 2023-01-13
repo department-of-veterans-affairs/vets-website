@@ -350,7 +350,7 @@ const EvidenceVaRecords = ({
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
-          autocomplete="facility name"
+          autocomplete="section-facility name"
         />
         <br />
         <VaCheckboxGroup
