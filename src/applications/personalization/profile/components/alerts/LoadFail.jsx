@@ -8,6 +8,7 @@ export const defaultFailureMessage = (
   </span>
 );
 
+// alert with headline and body text that is shown for more 'global' failures
 export default function LoadFail() {
   return (
     <va-alert status="warning" visible data-testid="service-is-down-banner">
@@ -24,6 +25,10 @@ LoadFail.propTypes = {
   information: PropTypes.string.isRequired,
 };
 
+// Helper function to determine which message to render
+// If no props are passed, return the default failure message
+// If children are passed, render those
+// If a sectionName is passed, render the default failure message with the sectionName
 const renderSingleFieldFailMessage = (sectionName, children) => {
   if (!children && !sectionName) {
     return defaultFailureMessage;
@@ -41,6 +46,7 @@ const renderSingleFieldFailMessage = (sectionName, children) => {
   );
 };
 
+// alert for a single field that is shown when that field fails to load
 export const SingleFieldLoadFailAlert = ({ sectionName, children }) => {
   const message = renderSingleFieldFailMessage(sectionName, children);
   return (
@@ -50,6 +56,7 @@ export const SingleFieldLoadFailAlert = ({ sectionName, children }) => {
   );
 };
 
+// custom props validation function to ensure that either children or sectionName is passed, but not both
 function validateChildrenOrSectionNameProps(props, propName, componentName) {
   if (props?.sectionName && typeof props?.sectionName !== 'string') {
     return new Error(
