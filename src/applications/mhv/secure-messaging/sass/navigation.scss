@@ -48,7 +48,6 @@
       border-left: 4px solid $color-link-default;
       transition: background-color 0.1s ease-in-out,
         border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
-      // font-weight: 700;
     }
     &.is-active {
       background-color: $color-gray-lightest;
@@ -87,12 +86,6 @@
     }
     .sidebar-navigation-messages-list-menu {
       ul {
-        // li:nth-child(1) {
-        //   a {
-        //     padding-top: 3px;
-        //     margin-top: 0px;
-        //   }
-        // }
         li {
           a {
             padding-left: 3rem;
@@ -147,9 +140,6 @@
       padding-left: 15px;
       padding-right: 15px;
       .sidebar-navigation-messages-list-header {
-        // background-color: $color-gray-lightest;
-        font-weight: 700;
-
         a {
           color: $color-link-default;
         }
