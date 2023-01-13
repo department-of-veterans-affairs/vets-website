@@ -277,9 +277,7 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
         postalCode: contactInfo?.zipcode,
         country: getSchemaCountryCode(contactInfo?.countryCode),
       },
-      livesOnMilitaryBase:
-        contactInfo?.countryCode !== 'US' &&
-        contactInfo?.addressType === 'MILITARY_OVERSEAS',
+      livesOnMilitaryBase: contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
     toursOfDuty: serviceData.map(transformServiceHistory),
   };
@@ -306,7 +304,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
-
   const stateUser = state.user || {};
 
   const profile = stateUser?.profile;
@@ -401,7 +398,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
         country: getSchemaCountryCode(address?.countryCode),
       },
       [formFields.livesOnMilitaryBase]:
-        address?.countryCode !== 'US' &&
         address?.addressType === 'MILITARY_OVERSEAS',
     },
     [formFields.bankAccount]: {

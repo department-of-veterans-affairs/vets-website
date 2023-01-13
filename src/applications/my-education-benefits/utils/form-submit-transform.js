@@ -276,11 +276,7 @@ export function getAddressType(mailingAddress) {
     return null;
   }
 
-  if (
-    mailingAddress[formFields.address]?.country !==
-      DEFAULT_SCHEMA_COUNTRY_CODE &&
-    mailingAddress[formFields.livesOnMilitaryBase]
-  ) {
+  if (mailingAddress[formFields.livesOnMilitaryBase]) {
     return 'MILITARY_OVERSEAS';
   }
   if (
