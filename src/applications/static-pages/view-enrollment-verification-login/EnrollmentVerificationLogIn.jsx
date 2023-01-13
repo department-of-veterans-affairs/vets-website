@@ -20,11 +20,21 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
         Sign in with your existing <strong>ID.me</strong> or{' '}
         <strong>Login.gov</strong> account. If you don’t have any of these
         accounts, you can create a free{' '}
-        <a href="https://api.id.me/" target="_blank" rel="noreferrer">
+        <a
+          className="vads-u-font-weight--bold"
+          href="https://www.id.me/"
+          target="_blank"
+          rel="noreferrer"
+        >
           ID.me
         </a>{' '}
-        or{' '}
-        <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
+        account or{' '}
+        <a
+          className="vads-u-font-weight--bold"
+          href="https://secure.login.gov/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Login.gov
         </a>{' '}
         now.
