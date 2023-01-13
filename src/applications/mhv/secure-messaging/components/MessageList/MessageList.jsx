@@ -169,6 +169,7 @@ const MessageList = props => {
           type="button"
           text="Sort"
           label="Sort"
+          data-testid="sort-button"
           onClick={() => {
             handleMessageSort();
             recordEvent({
