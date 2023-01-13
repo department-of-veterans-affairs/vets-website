@@ -24,13 +24,13 @@ const LoginInWidget = ({ toggleLoginModal }) => {
         Sign in with your existing{' '}
         <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
         <span className="vads-u-font-weight--bold">Login.gov</span>
-        account. If you don’t have an account, you can create a free{' '}
+        account. If you don’t have any of these accounts, you can create a free{' '}
         <a href="https://www.id.me/" target="_blank" rel="noreferrer">
-          ID.me account
+          ID.me
         </a>{' '}
         or{' '}
         <a href="https://secure.login.gov/" target="_blank" rel="noreferrer">
-          Login.gov account
+          Login.gov
         </a>{' '}
         now.
       </div>
