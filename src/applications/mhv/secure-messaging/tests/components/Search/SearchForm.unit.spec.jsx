@@ -48,7 +48,6 @@ describe('Search form', () => {
 
   it('displays the advanced search form when the advanced search is open', async () => {
     const screen = setup();
-
     fireEvent.click(await screen.getByText('Advanced search'));
     expect(await screen.getByTestId('advanced-search-submit')).to.exist;
   });
