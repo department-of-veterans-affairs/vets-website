@@ -36,7 +36,9 @@ const filename = 'ClaimLetter.pdf';
 const downloadHandler = () => {
   recordEvent({
     event: 'claim-letters-download',
-    'click-text': 'Download letter (PDF)',
+    eventLabel: `${environment.API_URL}/v0/claim_letters/:id.pdf`,
+    clickText: 'Download letter (PDF)',
+    clickURL: `${environment.API_URL}/v0/claim_letters/:id.pdf`,
   });
 };
 

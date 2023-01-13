@@ -132,6 +132,16 @@ describe('efsr-fsr transform helper functions', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
         expenses: {
+          expenseRecords: [
+            {
+              name: 'Rent',
+              amount: '100',
+            },
+            {
+              name: 'Food',
+              amount: '100',
+            },
+          ],
           rentOrMortgage: '100',
           food: '100',
         },
