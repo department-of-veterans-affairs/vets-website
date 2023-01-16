@@ -417,6 +417,26 @@ describe('526 helpers', () => {
         }),
       ).to.be.false;
     });
+    it('should return false if in BDD flow', () => {
+      expect(
+        needsToEnter781({
+          'view:isBddData': true,
+          serviceInformation: {
+            servicePeriods: [
+              {
+                dateRange: {
+                  to: moment()
+                    .add(90, 'days')
+                    .format('YYYY-MM-DD'),
+                },
+              },
+            ],
+          },
+          'view:claimType': { 'view:claimingnew': true },
+          newDisabilities: [{ condition: 'PTSD' }],
+        }),
+      ).to.be.false;
+    });
   });
 
   describe('needsToEnter781a', () => {
