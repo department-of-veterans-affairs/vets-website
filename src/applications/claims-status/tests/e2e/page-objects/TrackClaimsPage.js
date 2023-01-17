@@ -132,10 +132,8 @@ class TrackClaimsPage {
 
     cy.url().should('contain', '/your-claims/189685/status');
 
-    // Disabled until COVID-19 message removed
-    // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
     if (inProgress) {
-      cy.get('va-alert').should('contain', 'because of COVID-19');
+      cy.get('.process-step.last div').should('be.empty');
     }
   }
 

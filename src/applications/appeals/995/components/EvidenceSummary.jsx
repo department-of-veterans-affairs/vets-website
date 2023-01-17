@@ -133,7 +133,7 @@ const EvidenceSummary = ({
         <VaContent list={vaEvidence} {...props} />
         <PrivateContent
           list={privateEvidence}
-          limit={limitedConsent}
+          limitedConsent={limitedConsent}
           {...props}
         />
         <UploadContent list={otherEvidence} {...props} />
