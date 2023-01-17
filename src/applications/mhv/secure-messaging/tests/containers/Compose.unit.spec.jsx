@@ -7,7 +7,7 @@ import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
 
-describe('Compose message container', () => {
+describe('Compose container', () => {
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
@@ -31,11 +31,11 @@ describe('Compose message container', () => {
       path: `/compose`,
     });
     const note = screen.getByText(
-      'if you have a medical emergency. If you’re in crisis and need to talk with someone now, call the',
+      'If you’re in a mental health crisis or thinking about suicide',
       { exact: false },
     );
-    const crisisLineButton = screen.getByRole('button', {
-      name: 'Veterans Crisis Line',
+    const crisisLineButton = screen.getByRole('link', {
+      name: '988lifeline.org',
     });
     expect(note).to.exist;
     expect(crisisLineButton).to.exist;
@@ -96,9 +96,7 @@ describe('Compose message container', () => {
       path: `/compose`,
     });
 
-    const sendButton = await screen.getAllByRole('button', {
-      name: 'Send',
-    });
+    const sendButton = await screen.getByTestId('Send-Button');
     const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
 
     expect(sendButton).to.exist;
@@ -126,12 +124,12 @@ describe('Compose message container', () => {
       name: 'COVID: Covid-Inquiry',
       level: 3,
     });
-    const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+    const deleteButton = await screen.getAllByRole('button', {
+      name: 'Delete draft',
       exact: false,
     });
     expect(headingText).to.exist;
     expect(draftMessageHeadingText).to.exist;
-    expect(discardButton).to.exist;
+    expect(deleteButton).to.exist;
   });
 });

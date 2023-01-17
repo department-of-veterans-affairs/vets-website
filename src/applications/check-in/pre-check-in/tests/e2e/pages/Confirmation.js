@@ -107,6 +107,12 @@ class Confirmation {
       });
     }
   };
+
+  clickDetails = (appointment = 1) => {
+    cy.get(`li:nth-child(${appointment}) [data-testid="details-link"]`).click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new Confirmation();

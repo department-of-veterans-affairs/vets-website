@@ -44,8 +44,8 @@ const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
  */
 const BenefitType = ({ data = {}, error, setPageData }) => {
   const handlers = {
-    setBenefitType: ({ target }) => {
-      const { value } = target;
+    setBenefitType: event => {
+      const { value } = event.detail;
       setPageData({ benefitType: value || null });
 
       recordEvent({
@@ -69,7 +69,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}
-        onRadioOptionSelected={handlers.setBenefitType}
+        onVaValueChange={handlers.setBenefitType}
       >
         {options.map(({ value, label }) => (
           <VaRadioOption

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
@@ -8,9 +9,9 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import PropTypes from 'prop-types';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
@@ -110,14 +111,18 @@ const Dashboard = ({
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
+  const dispatch = useDispatch();
 
-  // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
-  // v1 is retired
   useEffect(() => {
+    // TODO: remove this after My VA v2 is rolled out to 100% of users and My VA
+    // v1 is retired
     recordEvent({
       event: 'phased-roll-out-enabled',
       'product-description': 'My VA v2',
     });
+
+    // use Drupal based Cerner facility data
+    connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
 
   // focus on the name tag or the header when we are done loading

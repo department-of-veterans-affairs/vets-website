@@ -72,7 +72,6 @@ const defaultState = {
 
 const EvidencePrivateRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -360,20 +359,6 @@ const EvidencePrivateRecords = ({
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onGoForward}
-      />
-      {contentAfterButtons}
-    </>
-  );
-
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
 
@@ -413,6 +398,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
+          autocomplete="section-provider name"
         />
 
         <VaSelect
@@ -442,6 +428,7 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('street')}
+          autocomplete="section-provider address-line1"
         />
         <VaTextInput
           id="street2"
@@ -450,6 +437,7 @@ const EvidencePrivateRecords = ({
           label={content.addressLabels.street2}
           value={currentData.providerFacilityAddress?.street2}
           onInput={handlers.onChange}
+          autocomplete="section-provider address-line2"
         />
         <VaTextInput
           id="city"
@@ -461,6 +449,7 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('city')}
+          autocomplete="section-provider address-level2"
         />
         {hasStates.length ? (
           <VaSelect
@@ -491,6 +480,7 @@ const EvidencePrivateRecords = ({
             onInput={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
+            autocomplete="section-provider address-level1"
           />
         )}
 
@@ -504,6 +494,8 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('postal')}
+          inputmode="numeric"
+          autocomplete="section-provider postal-code"
         />
 
         <br />
@@ -556,7 +548,15 @@ const EvidencePrivateRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onGoForward}
+          />
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -591,7 +591,6 @@ EvidencePrivateRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRecords;

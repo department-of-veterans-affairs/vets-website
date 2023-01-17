@@ -67,7 +67,7 @@ function editPhoneNumber(numberName) {
   user.clear(extensionInput);
 
   // save
-  view.getByText('Update', { selector: 'button' }).click();
+  view.getByText('Save', { selector: 'button' }).click();
 
   return { phoneNumberInput };
 }

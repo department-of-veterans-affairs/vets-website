@@ -22,6 +22,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
@@ -36,7 +37,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, keyword, isSearch } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -164,7 +165,20 @@ const MessageList = props => {
           )}
         </VaSelect>
 
-        <va-button type="button" text="Sort" onClick={handleMessageSort} />
+        <va-button
+          type="button"
+          text="Sort"
+          label="Sort"
+          data-testid="sort-button"
+          onClick={() => {
+            handleMessageSort();
+            recordEvent({
+              event: 'cta-button-click',
+              'button-type': 'primary',
+              'button-click-label': 'Sort messages',
+            });
+          }}
+        />
       </div>
       <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
@@ -184,6 +198,7 @@ const MessageList = props => {
             recipientName={message.recipientName}
             keyword={keyword}
             category={message.category}
+            activeFolder={folder}
           />
         ))}
       {currentPage === paginatedMessages.current.length && (
