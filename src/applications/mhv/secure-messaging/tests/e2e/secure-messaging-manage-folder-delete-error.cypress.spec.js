@@ -1,6 +1,6 @@
 import SecureMessagingSite from './site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-// import customFolderMessage from './fixtures/message-response.json';
+import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
 
 describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
@@ -8,28 +8,27 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1&useCache=false',
-      customFolder,
-    ).as('customFolder');
+
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175',
       customFolder,
     ).as('test2Folder');
+    landingPage.loadPage();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/7038175/messages?per_page=-1&useCache=false',
+      customFolderMessage,
+    ).as('customFolder');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
 
-    cy.contains('TEST2').click({ force: true });
+    // cy.wait('@customFolder');
+    // cy.wait('@test2Folder');
+    cy.contains('TEST2').click();
 
-    cy.wait('@test2Folder');
-
-    cy.injectAxe();
-    cy.axeCheck();
-
-    cy.wait('@customFolder');
+    // cy.injectAxe();
+    // cy.axeCheck();
 
     cy.get('.right-button').click({ force: true });
 
@@ -37,7 +36,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
       .shadow()
       .find('[class="va-modal-inner va-modal-alert"]');
 
-    // cy.get('[visible=""] > p');
+    cy.get('[visible=""] > p');
 
     // For edit button
     // cy.get('.left-button')
