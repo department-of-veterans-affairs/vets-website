@@ -579,7 +579,6 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Verify your high school education</h3>
                   <va-alert
                     close-btn-aria-label="Close notification"
                     status="info"
@@ -592,6 +591,7 @@ const formConfig = {
                       education.
                     </div>
                   </va-alert>
+                  <h3>Verify your high school education</h3>
                 </>
               ),
             },
@@ -626,7 +626,6 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Verify your high school education</h3>
                   <va-alert
                     close-btn-aria-label="Close notification"
                     status="info"
@@ -639,6 +638,7 @@ const formConfig = {
                       education.
                     </div>
                   </va-alert>
+                  <h3>Verify your high school education</h3>
                 </>
               ),
             },
