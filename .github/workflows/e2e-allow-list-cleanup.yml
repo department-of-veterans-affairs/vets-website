@@ -51,9 +51,7 @@ jobs:
     name: Clean up E2E Allow List
     runs-on: ubuntu-latest
     needs: [fetch-e2e-allow-list]
-    outputs:
-      allow_list: ${{ steps.allow-list-output.outputs.list }}
 
     steps:
       - name: Log out app list
-        run: echo ${{ needs.fetch-e2e-allow-list.list }}
+        run: echo ${{ needs.fetch-e2e-allow-list.allow_list }}
