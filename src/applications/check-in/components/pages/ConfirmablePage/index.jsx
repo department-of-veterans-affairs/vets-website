@@ -8,6 +8,7 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
+import { toCamelCase } from '../../../utils/formatters';
 
 const ConfirmablePage = ({
   header,
@@ -53,13 +54,13 @@ const ConfirmablePage = ({
           {dataFields.map((field, i, { length }) => (
             <li key={field.key}>
               <div
+                id={toCamelCase(field.title)}
                 className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light"
-                aria-describedby={field.title}
               >
                 {field.title}
               </div>
               <div
-                id={field.title}
+                aria-describedby={toCamelCase(field.title)}
                 className={
                   i + 1 === length
                     ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
