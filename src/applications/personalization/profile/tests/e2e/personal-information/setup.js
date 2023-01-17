@@ -14,9 +14,10 @@ export const setup = (
     isEnhanced: false,
     fullNameMockResponse: null,
     disabilityRatingMockResponse: null,
+    customMockUser: null,
   },
 ) => {
-  cy.login(mockUser);
+  cy.login(options?.customMockUser || mockUser);
 
   cy.intercept(
     'GET',

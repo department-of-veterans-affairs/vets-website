@@ -2,21 +2,26 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { totalDisabilityError } from '~/applications/personalization/rated-disabilities/selectors';
 import { SingleFieldLoadFailAlert } from '../alerts/LoadFail';
+import { canAccess } from '~/applications/personalization/common/selectors';
+import { API_NAMES } from '~/applications/personalization/common/constants';
 
 const DisabilityRating = () => {
   const hasError = useSelector(totalDisabilityError);
   const rating = useSelector(state => state.totalRating?.totalDisabilityRating);
+  const canAccessRatingInfo = useSelector(canAccess)?.[API_NAMES.RATING_INFO];
+
+  const shouldShowRating = canAccessRatingInfo && rating;
 
   return (
     <div>
-      {hasError ? (
+      {canAccessRatingInfo && hasError ? (
         <SingleFieldLoadFailAlert sectionName="disability rating information" />
       ) : (
         <p
           className="vads-u-margin-top--0 vads-u-margin-bottom--0p5"
           data-testid="disabilityRatingField"
         >
-          {rating
+          {shouldShowRating
             ? `${rating}% service connected`
             : 'Our records show that you don’t have a disability rating.'}
         </p>
@@ -24,7 +29,7 @@ const DisabilityRating = () => {
 
       <p className="vads-u-margin--0">
         <a href="/disability/view-disability-rating/rating">
-          {rating
+          {shouldShowRating
             ? 'Learn more about your disability rating'
             : 'Learn more about VA disability ratings'}
         </a>

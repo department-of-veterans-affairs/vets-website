@@ -79,7 +79,7 @@ const responses = {
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
   'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected40,
+    ratingInfo.createErrorBadRequest403,
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
   },

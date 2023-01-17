@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 /**
  * Loops through the claims array and adds the claims to the user object
  *
@@ -1401,15 +1399,13 @@ const mockUserData = {
   },
 };
 
-const loa3UserWithoutMilitaryHistoryClaim = createUserWithDataClaims(
-  mockUserData.loa3User72,
-  [{ name: 'militaryHistory', value: false }],
-);
-
-const loa3UserWithoutRatingInfoClaim = createUserWithDataClaims(
-  mockUserData.loa3User72,
-  [{ name: 'ratingInfo', value: false }],
-);
+// example of creating a user with data claims
+// eslint-disable-next-line no-unused-vars
+const loa3UserWithoutMilitaryHistoryClaim = () =>
+  createUserWithDataClaims(mockUserData.loa3User72, [
+    { name: 'militaryHistory', value: false },
+    { name: 'ratingInfo', value: false },
+  ]);
 
 const handleUserRequest = (req, res) => {
   // here we can customize the return of the user request
@@ -1427,6 +1423,7 @@ const handleUserRequest = (req, res) => {
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
 
+  loa3UserWithoutMilitaryHistoryClaim();
   return res.json(mockUserData.loa3User72);
 };
 

@@ -23,14 +23,31 @@ const error = {
       },
     ],
   },
+  badRequest403: {
+    errors: [
+      {
+        title: 'Not authorized',
+        detail: 'User cannot access this resource',
+        code: '403',
+        source: 'EVSS::DisabilityCompensationForm::Service',
+        status: '403',
+        meta: {},
+      },
+    ],
+  },
 };
 
 const createErrorBadRequest500 = (_, res) => {
   return res.status(500).json(error.badRequestUpstreamServer500);
 };
 
+const createErrorBadRequest403 = (_, res) => {
+  return res.status(403).json(error.badRequestUpstreamServer500);
+};
+
 module.exports = {
   createErrorBadRequest500,
+  createErrorBadRequest403,
   success,
   error,
 };
