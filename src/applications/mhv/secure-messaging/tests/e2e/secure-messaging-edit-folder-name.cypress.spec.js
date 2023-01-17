@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
 
-describe('Secure Messaging Custom Folder Delete Error Message Validation', () => {
+describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', () => {
   it('Axe Check Custom Folder List', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
@@ -22,14 +22,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     ).as('customFolder');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
-
-    // cy.wait('@customFolder');
-    // cy.wait('@test2Folder');
     cy.contains('TEST2').click();
-
-    // cy.injectAxe();
-    // cy.axeCheck();
-
     cy.get('.left-button').click({ force: true });
     cy.get('[name="new-folder-name"]')
       .shadow()
