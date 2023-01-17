@@ -28,7 +28,7 @@ describe('Header <Menu>', () => {
     wrapper.unmount();
   });
 
-  it('renders nav without megamenu data when subMenu is truthy', () => {
+  it('renders nav without megamenu data when isMenuOpen is truthy', () => {
     // Set up.
     const wrapper = shallow(<Menu isMenuOpen />);
 
