@@ -29,5 +29,7 @@ describe('Secure Messaging Custom Folder Edit Folder Name Message Validation', (
       .find('[id="inputField"]')
       .type('Testing');
     cy.get('[visible=""] > [secondary=""]').click();
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
