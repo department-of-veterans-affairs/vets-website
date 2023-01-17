@@ -115,7 +115,7 @@ export const HasLetters = ({ claimStatus }) => {
 export const NoLetters = () => {
   return (
     <>
-      <FormTitle title="VA education inbox" />
+      <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
         Download important documents about your education benefits here,
         including your decision letters.{' '}
