@@ -12,6 +12,7 @@ import {
 } from '../constants';
 import {
   retryableErrorContent,
+  exhaustedErrorContent,
   successfulSubmitContent,
   submitErrorContent,
 } from '../content/confirmation-page';
@@ -37,9 +38,10 @@ export default class ConfirmationPage extends React.Component {
       case submissionStatuses.succeeded:
         return successfulSubmitContent(this.props);
       case submissionStatuses.retry:
+        return retryableErrorContent(this.props);
       case submissionStatuses.exhausted:
       case submissionStatuses.apiFailure:
-        return retryableErrorContent(this.props);
+        return exhaustedErrorContent(this.props);
       default:
         return submitErrorContent(this.props);
     }
