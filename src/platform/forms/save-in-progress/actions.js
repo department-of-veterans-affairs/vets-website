@@ -283,8 +283,9 @@ export function fetchInProgressForm(
     })
       .then(res => {
         if (res.ok) {
-          console.log("returning response: ", res.json());
-          return res.json();
+          const responseJSON = res.json();
+          console.log("returning response: ", responseJSON);
+          return responseJSON;
         }
 
         // Make me a switch?
