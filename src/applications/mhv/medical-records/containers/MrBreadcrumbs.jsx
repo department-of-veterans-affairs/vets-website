@@ -7,7 +7,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 
-const SmBreadcrumbs = () => {
+const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const breadcrumbsRef = useRef();
@@ -118,4 +118,4 @@ const SmBreadcrumbs = () => {
   );
 };
 
-export default SmBreadcrumbs;
+export default MrBreadcrumbs;
