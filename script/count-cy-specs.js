@@ -97,3 +97,5 @@ countCySpecs().then(
   },
 );
 /* eslint-enable no-console */
+
+export default countCySpecs;
