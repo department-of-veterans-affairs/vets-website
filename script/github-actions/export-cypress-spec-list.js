@@ -1,4 +1,6 @@
 const glob = require('glob');
+const core = require('@actions/core');
+
 /* eslint-disable no-console */
 
 const countCySpecs = () => {
@@ -14,5 +16,5 @@ const countCySpecs = () => {
   });
 };
 countCySpecs().then(files => {
-  console.log(files);
+  core.exportVariable('ALL_CYPRESS_SPECS', files);
 });

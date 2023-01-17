@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       allow_list: ${{ steps.allow-list-output.outputs.list }}
+      all_specs: ${{ steps.spec-list-output.outputs.specs }}
 
     steps:
       - name: Checkout
@@ -44,6 +45,10 @@ jobs:
 
       - name: Log full spec list
         run: node script/github-actions/export-cypress-spec-list.js
+
+      - name: Set Spec List Output
+        id: spec-list-output
+        run: echo ::set-output name=specs::$ALL_CYPRESS_SPECS
 
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
@@ -110,3 +115,4 @@ jobs:
         run: yarn cleanup-allow-list
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          ALL_SPECS: ${{ needs.fetch-e2e-allow-list.outputs.all_specs }}
