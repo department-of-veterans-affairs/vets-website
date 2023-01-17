@@ -62,7 +62,7 @@ export const MissingId = ({ title }) => {
       <p className="vads-u-font-size--base">
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase(title)}. To update your
-        account, please call VA Help Desk at{' '}
+        account, please call the VA Help Desk at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
         <va-telephone contact={CONTACTS['711']} />
         ). We’re here 24 hours a day, 7 days a week.
