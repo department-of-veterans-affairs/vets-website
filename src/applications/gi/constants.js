@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
+
 export const PAGE_TITLE = 'GI Bill® CT Redesign Sandbox';
 
 export const NAV_WIDTH = 951;
@@ -116,95 +119,147 @@ export const ariaLabels = Object.freeze({
   },
 });
 
-export const aboutRatings = [
+const CTRatingsHeaders = {
+  // m1 : "Quality of Learning Experience",
+  m1: 'Learning Experience',
+  m2: 'GI Bill Support',
+  m3: 'Veteran Community',
+  m4: 'Overall Experience',
+  m5: 'for furture use',
+  m6: 'for furture use',
+  m7: 'for furture use',
+};
+
+const CTRatingsQuestions = {
+  q1Long: `Instructors' knowledge in the subject being taught`,
+  q1: 'Instructor knowledge',
+  q2Long: `Instructors' ability to engage with students around course content`,
+  q2: 'Instructor engagment',
+  q3Long: `Support of course materials in meeting learning objectives`,
+  q3: 'Course material support',
+  q4Long: `Contribution of school-supplied technology and/or facilities to successful learning experience`,
+  q4: 'Successful learning experience',
+  q5Long: `Contribution of learning experience to skills needed for career journey`,
+  q5: 'Contribution career learning experience',
+  q6Long: `Did you interact with the School Certifying Officials `,
+  q7Long: `Supportiveness of School Certifying Officials `,
+  q7: 'Support of school officials',
+  q8Long: `Availability of School Certifying Officials`,
+  q8: 'Availability of school officials',
+  q9Long: `School's timely completion of VA enrollment documentation`,
+  q9: 'Timely completion of VA documents',
+  q10Long: `Helpfulness of school-provided information about GI Bill, other VA benefits`,
+  q10: 'Helpfulness of school',
+  q11Long: `Extent of school's support for its Veteran community`,
+  q11: 'Extent support school',
+  q12Long: `Extent of support from others in the school's Veteran community`,
+  q12: 'Extent support others',
+  q13: `Overall learning experience`,
+  q14: `Overall school experience`,
+  q15: `for future use`,
+  q16: `for future use`,
+  q17: `for future use`,
+  q18: `for future use`,
+  q19: `for future use`,
+  q20: `for future use`,
+};
+
+export const CTRatingsHeaderQuestions = [
   {
-    text: `About ratings`,
-    classes:
-      'small-screen:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font',
-    isDiv: true,
-    isParagraph: false,
-    isSpan: false,
-    isUL: false,
-    addBottomLine: true,
-  },
-  {
-    text: `We ask Veterans who have used their education benefits to rate
-    schools they’ve attended on a scale of 1 to 4 stars, with 4 stars
-    being the best rating.`,
-    classes: '',
-    isDiv: false,
-    isParagraph: true,
-    isSpan: false,
-    isUL: false,
-    addBottomLine: false,
-  },
-  {
-    text: `How ratings are collected`,
-    classes:
-      'small-screen:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font',
-    isDiv: false,
-    isParagraph: false,
-    isSpan: true,
-    isUL: false,
-    addBottomLine: false,
-  },
-  {
-    text: `VA works independently to collect ratings from Veterans. We reach
-    out to Veterans to provide a rating who have:`,
-    classes: '',
-    isDiv: false,
-    isParagraph: true,
-    isSpan: false,
-    isUL: false,
-    addBottomLine: false,
-  },
-  {
-    text: ``,
-    classes: '',
-    isDiv: false,
-    isParagraph: false,
-    isSpan: false,
-    isUL: true,
-    listBullets: [
-      'Received a Certificate of Eligibility (COE) for benefits',
-      'Transferred into or out of a school',
-      `Made a change to their program of study, or`,
-      'Completed their degree program',
+    title: {
+      heading: CTRatingsHeaders.m1,
+      m1_avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q1,
+        q1_avg: '0',
+        q1_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q2,
+        q2_avg: '0',
+        q2_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q3,
+        q3_avg: '0',
+        q3_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q4,
+        q4_avg: '0',
+        q4_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q5,
+        q5_avg: '0',
+        q5_count: 0,
+      },
     ],
-    addBottomLine: false,
   },
   {
-    text: `Veterans rate schools on a number of categories. Those ratings are
-    averaged to calculate the overall school rating. If a Veteran
-    doesn’t rate a category, it has no effect on the category’s overall
-    score.`,
-    classes: '',
-    isDiv: false,
-    isParagraph: true,
-    isSpan: false,
-    isUL: false,
-    addBottomLine: false,
+    title: {
+      heading: CTRatingsHeaders.m2,
+      m2_avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q7,
+        q7_avg: '0',
+        q7_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q8,
+        q7_avg: '0',
+        q7_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q9,
+        q9_avg: '0',
+        q9_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q10,
+        q10_avg: '0',
+        q10_count: 0,
+      },
+    ],
   },
   {
-    text: `Veteran privacy`,
-    classes: 'vads-u-font-size--h4 vads-u-font-weight--bold',
-    isDiv: false,
-    isParagraph: false,
-    isSpan: true,
-    isUL: false,
-    addBottomLine: false,
+    title: {
+      heading: CTRatingsHeaders.m3,
+      m3_avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q11,
+        q11_avg: '0',
+        q11_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q12,
+        q12_avg: '0',
+        q12_count: 0,
+      },
+    ],
   },
   {
-    text: ` A school may ask us for a list of Veterans who rated their school,
-    but we do not share individual ratings with schools. If an
-    institution asks us for information on who rated their school, no
-    information beyond what is publicly available on the Comparison Tool
-    is shared with them that would tie an individual to their ratings.`,
-    classes: '',
-    isDiv: false,
-    isParagraph: true,
-    isSpan: false,
-    isUL: false,
-    addBottomLine: false,
+    title: {
+      heading: CTRatingsHeaders.m4,
+      m4_avg: '0',
+    },
+    questions: [
+      {
+        question: CTRatingsQuestions.q13,
+        q13_avg: '0',
+        q13_count: 0,
+      },
+      {
+        question: CTRatingsQuestions.q14,
+        q13_avg: '0',
+        q13_count: 0,
+      },
+    ],
   },
 ];

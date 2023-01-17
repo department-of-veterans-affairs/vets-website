@@ -4,10 +4,10 @@ import { useLocation } from 'react-router-dom';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
 
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
+import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
 import { SMALL_SCREEN_WIDTH } from '../constants';
@@ -182,7 +182,7 @@ export const searchCriteriaFromCoords = async (longitude, latitude) => {
     })
     .send();
 
-  const features = response.body.features;
+  const { features } = response.body;
   const placeName = features[0].place_name;
 
   return {
@@ -195,7 +195,8 @@ export const schoolSize = enrollment => {
   if (!enrollment) return 'Unknown';
   if (enrollment <= 2000) {
     return 'Small';
-  } else if (enrollment <= 15000) {
+  }
+  if (enrollment <= 15000) {
     return 'Medium';
   }
   return 'Large';
@@ -238,4 +239,17 @@ export const scrollToFocusedElement = () => {
   ) {
     scroller.scrollTo(document.activeElement.id, getScrollOptions());
   }
+};
+
+export const getAvgCount = (questionsArrObj, index) => {
+  let result = '-1';
+  const questionObj = questionsArrObj[index];
+  const keys = Object.keys(questionObj);
+  const values = Object.values(questionObj);
+  keys.forEach((keyValue, keyIndex) => {
+    if (keyValue.includes('_avg')) {
+      result = values[keyIndex];
+    }
+  });
+  return result;
 };
