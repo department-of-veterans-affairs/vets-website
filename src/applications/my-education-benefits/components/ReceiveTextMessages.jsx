@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -30,10 +30,13 @@ function ReceiveTextMessages({
   const [dirty, setDirty] = useState(false);
   const [newMobilePhone, setNewMobilePhone] = useState(false);
 
-  const handleInput = event => {
-    setDirty(true);
-    setNewMobilePhone(event.nativeEvent.data);
-  };
+  const handleInput = useCallback(
+    event => {
+      formData['view:phoneNumbers'].mobilePhoneNumber.phone = // eslint-disable-line no-param-reassign
+        event.target.value;
+    },
+    [newMobilePhone],
+  );
 
   const handleBlur = event => {
     setDirty(true);
@@ -53,17 +56,6 @@ function ReceiveTextMessages({
       showError = dirty && !value ? errorMessages.required : false;
     },
     [dirty, hasMobilePhone, mobileIsInternational],
-  );
-
-  useEffect(
-    () => {
-      const newFormData = {
-        ...formData,
-        // formData['view:phoneNumbers']?.mobilePhoneNumber?.isInternational : newMobilePhone
-      };
-      setData(newFormData);
-    },
-    [newMobilePhone],
   );
 
   return (
