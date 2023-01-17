@@ -40,7 +40,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   afterEach(() => {
-    cy.get('.message-list-sort > va-button.hydrated').click();
+    cy.get('[data-testid="sort-button"]').click({ force: true });
     cy.injectAxe();
     cy.axeCheck();
   });

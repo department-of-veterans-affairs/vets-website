@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
-import DiscardDraftModal from '../Modals/DiscardDraftModal';
+import DeleteDraftModal from '../Modals/DeleteDraftModal';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import { deleteDraft } from '../../actions/draftDetails';
 
-const DiscardDraft = props => {
+const DeleteDraft = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -31,15 +31,15 @@ const DiscardDraft = props => {
       {/* TODO add GA event */}
       <button
         type="button"
-        data-testid="discard-draft-button"
-        className="usa-button-secondary discard-draft-button vads-u-flex--1 vads-u-margin-right--0 vads-u-margin-y--1"
+        data-testid="delete-draft-button"
+        className="usa-button-secondary delete-draft-button vads-u-flex--1 vads-u-margin-right--0 vads-u-margin-y--1"
         onClick={() => {
           setIsModalVisible(true);
         }}
       >
-        Discard draft
+        Delete draft
       </button>
-      <DiscardDraftModal
+      <DeleteDraftModal
         visible={isModalVisible}
         onClose={() => {
           setIsModalVisible(false);
@@ -50,9 +50,9 @@ const DiscardDraft = props => {
   );
 };
 
-DiscardDraft.propTypes = {
+DeleteDraft.propTypes = {
   draft: PropType.object,
   draftId: PropType.number,
 };
 
-export default DiscardDraft;
+export default DeleteDraft;

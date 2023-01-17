@@ -8,11 +8,6 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 describe('Supplemental Claims notice-of-acknowledgement page', () => {
   const { schema, uiSchema } = formConfig.chapters.evidence.pages.notice5103;
 
@@ -59,7 +54,7 @@ describe('Supplemental Claims notice-of-acknowledgement page', () => {
         onSubmit={onSubmit}
       />,
     );
-    fireEvent.click($('input[type="checkbox"]', container), mouseClick);
+    fireEvent.click($('input[type="checkbox"]', container));
     fireEvent.submit($('form', container));
     expect($('.usa-input-error', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
