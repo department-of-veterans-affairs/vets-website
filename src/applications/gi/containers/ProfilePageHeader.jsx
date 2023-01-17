@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  convertRatingToStars,
+  // convertRatingToStars, turn on for ratings
   createId,
   formatNumber,
   locationInfo,
@@ -100,13 +100,16 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-  // const stars = convertRatingToStars(ratingAverage);
-  // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
+  // const stars = convertRatingToStars(ratingAverage); // turn on with new API
+  // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT; // turn on with new API
 
   /// ////////////////////////////////////////////////////////////////////////////
-  const ratingAvg = institutionRatingsMockData[0].overall_avg;
-  const stars = convertRatingToStars(ratingAvg);
-  const displayStars = true;
+  const ratingAvg = '0';
+  const stars = 0;
+  // uncomment to run ratings with mock data
+  // const ratingAvg = institutionRatingsMockData[0].overall_avg;
+  // const stars = convertRatingToStars(ratingAvg);
+  const displayStars = false; // set to true to run mock data
   /// ////////////////////////////////////////////////////////////////////////////
 
   const titleClasses = classNames(
