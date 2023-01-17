@@ -54,6 +54,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     window.dispatchEvent(event);
   };
 
+  sendWindowEvent('bot-incoming-activity');
+
   const isAtBeginningOfConversation = !sessionStorage.getItem(
     IS_TRACKING_UTTERANCES,
   );
