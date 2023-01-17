@@ -1,4 +1,5 @@
 const glob = require('glob');
+/* eslint-disable no-console */
 
 const countCySpecs = () => {
   return new Promise((resolve, reject) => {
@@ -12,7 +13,6 @@ const countCySpecs = () => {
     });
   });
 };
-const files = countCySpecs();
-/* eslint-disable no-console */
-
-console.log(files);
+countCySpecs().then(files => {
+  console.log(files);
+});
