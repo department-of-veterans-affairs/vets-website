@@ -113,6 +113,7 @@ jobs:
 
       - name: Run cleanup script
         run: yarn cleanup-allow-list
+        working-directory: qa-standards-dashboard-data
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           ALL_SPECS: ${{ needs.fetch-e2e-allow-list.outputs.all_specs }}
