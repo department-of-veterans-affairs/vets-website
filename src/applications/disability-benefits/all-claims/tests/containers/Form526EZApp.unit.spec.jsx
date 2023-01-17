@@ -154,6 +154,7 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('h1').text()).to.contain('File for disability');
     expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('VA Help Desk');
     expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
