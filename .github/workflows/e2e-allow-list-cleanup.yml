@@ -9,13 +9,6 @@ env:
   BUILDTYPE: vagovprod
 
 jobs:
-  build:
-    name: Build
-    runs-on: self-hosted
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-
   fetch-e2e-allow-list:
     name: Fetch E2E Allow List
     runs-on: ubuntu-latest
