@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 
-function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
+function ReceiveTextMessages({
+  options,
+  value,
+  disabled,
+  onChange,
+  id,
+  formData,
+}) {
   const {
     enumOptions,
     labels = {},
@@ -15,38 +23,51 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
     ...((checked && selectedProps[key]) || {}),
   });
 
-  const [noMobilePhone, setNoMobilePhone] = useState(true);
-  const [mobileIsInternational, setMobileIsInternational] = useState(true);
+  const errorMessages = { required: 'Please provide a response' };
 
-  // dummy logic, will update
-  if (user === undefined) {
-    setMobileIsInternational(false);
-    setNoMobilePhone(false);
-  }
+  const [hasMobilePhone, setHasMobilePhone] = useState(false);
+  const [mobileIsInternational, setMobileIsInternational] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [newMobilePhone, setNewMobilePhone] = useState(false);
 
-  const captureMobilePhone = (
-    <>
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          We’ll need a mobile phone number to send you text message
-          notifications
-        </h2>
-      </va-alert>
-      <div>
-        <va-text-input
-          hint={null}
-          label="Mobile phone number"
-          name="my-input"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
-          required
-        />
-      </div>
-    </>
+  const handleInput = event => {
+    setDirty(true);
+    setNewMobilePhone(event.nativeEvent.data);
+  };
+
+  const handleBlur = event => {
+    setDirty(true);
+    setNewMobilePhone(event.nativeEvent.data);
+  };
+
+  let showError;
+
+  useEffect(
+    () => {
+      setMobileIsInternational(
+        !!formData['view:phoneNumbers']?.mobilePhoneNumber?.isInternational,
+      );
+      setHasMobilePhone(
+        !!formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+      );
+      showError = dirty && !value ? errorMessages.required : false;
+    },
+    [dirty, hasMobilePhone, mobileIsInternational],
+  );
+
+  useEffect(
+    () => {
+      const newFormData = {
+        ...formData,
+        // formData['view:phoneNumbers']?.mobilePhoneNumber?.isInternational : newMobilePhone
+      };
+      setData(newFormData);
+    },
+    [newMobilePhone],
   );
 
   return (
-    <div>
+    <>
       <div className="form-radio-buttons" key={enumOptions[0].value}>
         <input
           type="radio"
@@ -65,8 +86,30 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
       </div>
 
       {enumOptions[0].value === value &&
-        (noMobilePhone || mobileIsInternational) &&
-        captureMobilePhone}
+        (!hasMobilePhone || mobileIsInternational) && (
+          <>
+            <va-alert
+              background-only
+              show-icon
+              close-btn-aria-label="Close notification"
+              status="info"
+              visible
+            >
+              We’ll need a mobile phone number to send you text message
+              notifications
+            </va-alert>
+            <va-text-input
+              hint={null}
+              type="tel"
+              error={showError}
+              label="Mobile phone number"
+              name="my-input"
+              onBlur={handleBlur}
+              onInput={handleInput}
+              required
+            />
+          </>
+        )}
 
       <div className="form-radio-buttons" key={enumOptions[1].value}>
         <input
@@ -84,24 +127,30 @@ function ReceiveTextMessages({ options, value, disabled, onChange, id, user }) {
           {labels[enumOptions[1].value] || enumOptions[1].label}
         </label>
       </div>
-    </div>
+    </>
   );
 }
 
 ReceiveTextMessages.propTypes = {
-  user: PropTypes.object,
-  options: PropTypes.object,
-  value: PropTypes.string,
   disabled: PropTypes.bool,
-  onChange: PropTypes.func,
+  formData: PropTypes.shape({}),
   id: PropTypes.string,
+  onChange: PropTypes.func,
+  options: PropTypes.object,
+  user: PropTypes.object,
+  value: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   user: state.user || {},
+  formData: state.form?.data || {},
 });
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(ReceiveTextMessages);
