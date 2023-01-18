@@ -1423,7 +1423,6 @@ const handleUserRequest = (req, res) => {
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
 
-  loa3UserWithoutMilitaryHistoryClaim();
   return res.json(mockUserData.loa3User72);
 };
 
