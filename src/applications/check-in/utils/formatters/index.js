@@ -32,7 +32,7 @@ const toCamelCase = str => {
   return str
     .toLowerCase()
     .split(' ')
-    .map(function(word, index) {
+    .map((word, index) => {
       if (index === 0) {
         return word.charAt(0).toLowerCase() + word.slice(1);
       }
