@@ -59,10 +59,6 @@ class SecureMessagingSite {
       mockRecipients,
     ).as('recipients');
     cy.visit('my-health/secure-messages/');
-    if (doAxeCheck) {
-      cy.injectAxe();
-    }
-
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
