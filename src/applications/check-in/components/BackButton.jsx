@@ -10,7 +10,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 
 const BackButton = props => {
-  const { action, router } = props;
+  const { action, router, text = null } = props;
   const {
     getCurrentPageFromRouter,
     getPreviousPageFromRouter,
@@ -45,7 +45,7 @@ const BackButton = props => {
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
             <a onClick={handleClick} href="#back" data-testid="back-button">
-              {t('back-to-last-screen')}
+              {text || t('back-to-last-screen')}
             </a>
           </li>
         </ul>
@@ -57,6 +57,7 @@ const BackButton = props => {
 BackButton.propTypes = {
   action: PropTypes.func,
   router: PropTypes.object,
+  text: PropTypes.string,
 };
 
 export default BackButton;
