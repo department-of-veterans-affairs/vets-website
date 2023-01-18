@@ -6,7 +6,7 @@ const primaryPhone = {
     type: 'object',
     properties: {
       [PRIMARY_PHONE]: {
-        type: 'boolean',
+        type: 'string',
       },
     },
   },

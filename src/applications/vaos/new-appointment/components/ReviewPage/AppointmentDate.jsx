@@ -20,7 +20,7 @@ export default function AppointmentDate({
       <Heading key={i} className={classes || 'vaos-appts__block-label'}>
         {moment(selected)
           .tz(timezone)
-          .format('dddd, MMMM DD, YYYY [at] h:mm a ') +
+          .format('dddd, MMMM D, YYYY [at] h:mm a ') +
           getTimezoneAbbrByFacilityId(facilityId)}
       </Heading>
     ));
@@ -28,7 +28,7 @@ export default function AppointmentDate({
   return dates?.map((selected, i) => (
     <h3 key={i} className="vaos-appts__block-label">
       {moment(selected, 'YYYY-MM-DDTHH:mm:ssZ').format(
-        'dddd, MMMM DD, YYYY [at] h:mm a ',
+        'dddd, MMMM D, YYYY [at] h:mm a ',
       ) + getTimezoneAbbrByFacilityId(facilityId)}
     </h3>
   ));

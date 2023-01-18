@@ -1,27 +1,24 @@
 import {
   addIncludedIssues,
   getAddress,
+  getClaimantData,
   getPhone,
   getTimeZone,
   getEvidence,
   getForm4142,
 } from '../utils/submit';
 
+import { EVIDENCE_OTHER } from '../constants';
+
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   // match supplemental claims schema here
   const mainTransform = formData => {
-    const {
-      veteran,
-      benefitType,
-      claimantType,
-      claimantTypeOtherValue,
-      socOptIn,
-    } = formData;
+    const { veteran, benefitType, socOptIn, additionalDocuments } = formData;
 
     const attributes = {
       benefitType,
-      claimantType,
+      ...getClaimantData(formData),
 
       veteran: {
         timezone: getTimeZone(),
@@ -29,13 +26,9 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: veteran?.email || '',
       },
-      evidenceSubmission: getEvidence(formData),
+      ...getEvidence(formData),
       socOptIn,
     };
-
-    if (claimantType === 'other' && claimantTypeOtherValue) {
-      attributes.claimantTypeOtherValue = claimantTypeOtherValue;
-    }
 
     return {
       data: {
@@ -44,7 +37,7 @@ export function transform(formConfig, form) {
       },
       included: addIncludedIssues(formData),
       form4142: getForm4142(formData),
-      additionalDocuments: [],
+      additionalDocuments: formData[EVIDENCE_OTHER] ? additionalDocuments : [],
     };
   };
 
