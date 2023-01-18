@@ -11,6 +11,7 @@ import {
   mockContestableIssuesWithLegacyAppeals,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
@@ -252,19 +253,15 @@ const testConfig = createTestConfig(
           : mockContestableIssues,
       );
 
-      cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-
       cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
 
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
-        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
+      cy.get('@testData').then(() => {
+        cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
         cy.intercept('GET', '/v0/feature_toggles?*', {
           data: { features: [{ name: 'supplemental_claim', value: true }] },
         });
       });
-
-      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.

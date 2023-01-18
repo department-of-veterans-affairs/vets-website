@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import AdvancedSearchForm from './AdvancedSearchForm';
 
@@ -10,7 +11,15 @@ const AdvancedSearchExpander = props => {
     <div className="advanced-search-expander">
       <button
         type="button"
-        onClick={() => setAdvancedOpen(!advancedOpen)}
+        onClick={() => {
+          setAdvancedOpen(!advancedOpen);
+          recordEvent({
+            event: advancedOpen
+              ? 'int-additional-info-collapse'
+              : 'int-additional-info-expand',
+            'additional-info-click-label': 'Advanced search',
+          });
+        }}
         className="advanced-search-toggle"
         data-testid="advanced-search-toggle"
       >
