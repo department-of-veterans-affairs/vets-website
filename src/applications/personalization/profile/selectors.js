@@ -126,12 +126,6 @@ export const selectShowPaymentsNotificationSetting = state =>
     FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
   ];
 
-// select the feature flag from appeals status notification settings
-export const selectShowAppealStatusNotificationSetting = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowAppealStatusNotificationSetting
-  ];
-
 // toggle used for 47841
 export const selectToggleProfileBlockForFiduciaryDeceasedOrIncompetent = state =>
   toggleValues(state)?.[
