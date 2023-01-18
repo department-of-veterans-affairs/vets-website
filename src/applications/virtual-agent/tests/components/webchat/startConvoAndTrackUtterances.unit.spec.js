@@ -124,7 +124,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const authEvent = spyDispatchEvent.firstCall.args[0];
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
-      expect(spyDispatchEvent.callCount).to.equal(1);
+      expect(spyDispatchEvent.callCount).to.equal(2);
       expect(authEvent.data).to.equal(activity);
       expect(authEvent.type).to.equal('webchat-auth-activity');
     });
