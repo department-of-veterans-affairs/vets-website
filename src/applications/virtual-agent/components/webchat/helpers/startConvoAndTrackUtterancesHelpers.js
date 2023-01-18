@@ -11,6 +11,10 @@ import {
   CONVERSATION_ID_KEY,
 } from '../../chatbox/utils';
 
+const ONE_SEC_IN_MILLISECONDS = 1000;
+const ONE_MIN = ONE_SEC_IN_MILLISECONDS * 60;
+const TIME_FOR_REFRESH = 30 * ONE_MIN;
+
 // define thunks for actions
 export const processActionConnectFulfilled = ({
   dispatch,
@@ -54,8 +58,6 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     window.dispatchEvent(event);
   };
 
-  sendWindowEvent('bot-incoming-activity');
-
   const isAtBeginningOfConversation = !sessionStorage.getItem(
     IS_TRACKING_UTTERANCES,
   );
@@ -68,6 +70,13 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   if (dataIsMessageWithTextFromBot) {
+    const incomingActivityEvent = new Event('bot-incoming-activity');
+    incomingActivityEvent.data = setTimeout(
+      () => window.location.reload(),
+      TIME_FOR_REFRESH,
+    );
+    window.dispatchEvent(incomingActivityEvent);
+
     const botWantsToSignInUser = data.text.includes(
       'Alright. Sending you to the sign in page...',
     );

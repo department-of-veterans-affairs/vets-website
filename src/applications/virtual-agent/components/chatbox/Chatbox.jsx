@@ -63,7 +63,7 @@ export default function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
-  const [timeoutID] = useState(0);
+  const [timeoutID, setTimeoutID] = useState(null);
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
@@ -74,14 +74,13 @@ export default function Chatbox(props) {
     }, 2000);
   });
 
-  window.addEventListener('bot-incoming-activity', () => {
-    if (timeoutID) {
-      clearTimeout(timeoutID);
-    }
-    const timer = setTimeout(() => {
-      window.location.reload();
-    }, 10000);
-    setTimeout(timer);
+  useEffect(() => {
+    window.addEventListener('bot-incoming-activity', event => {
+      setTimeoutID(event.data);
+      if (timeoutID !== null) {
+        clearTimeout(timeoutID);
+      }
+    });
   });
 
   useEffect(() => {
