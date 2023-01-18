@@ -42,19 +42,6 @@ export default function RatingsAccordion({
     openHandler(title);
   };
 
-  useEffect(
-    () => {
-      // set initial state of subHeader absed on innerWidth
-      const { innerWidth } = window;
-      if (innerWidth <= breakPoint) {
-        setSubHeader(true);
-      } else {
-        setSubHeader(false);
-      }
-    },
-    [title],
-  );
-
   useEffect(() => {
     // controls expansion of accordion block to make room for stars
     // when they move below title

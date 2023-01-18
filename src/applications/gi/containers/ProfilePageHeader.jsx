@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  // convertRatingToStars, turn on for ratings
+  // convertRatingToStars, // turn on for ratings
   createId,
   formatNumber,
   locationInfo,
@@ -302,7 +302,6 @@ const ProfilePageHeader = ({
         {displayStars && (
           <div className={starClasses}>
             <span className="vads-u-font-size--sm">
-              {/* <RatingsStars rating={ratingAverage} /> */}
               <RatingsStars rating={ratingAvg} />
             </span>{' '}
             <span className="vads-u-padding-left--1 vads-u-padding-right--1">
