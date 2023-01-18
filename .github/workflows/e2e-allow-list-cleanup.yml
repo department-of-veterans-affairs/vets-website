@@ -1,12 +1,8 @@
 name: E2E Allow List Cleanup
 
 on:
-  # schedule:
-  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  push
-
-env:
-  BUILDTYPE: vagovprod
+  schedule:
+    - cron: '0 12 * * 1-5'
 
 jobs:
   fetch-e2e-allow-list:
@@ -43,8 +39,9 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Log full spec list
+      - name: Get list of existing specs in vets-website
         run: node script/github-actions/export-cypress-spec-list.js
+        # exports spec list and assigns to environmental variable at this step
 
       - name: Set Spec List Output
         id: spec-list-output
@@ -59,7 +56,7 @@ jobs:
       - name: Fetch E2E allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
+      # exports allow list and assigns to environmental variable at this step
 
       - name: Set Allow List Output
         id: allow-list-output
