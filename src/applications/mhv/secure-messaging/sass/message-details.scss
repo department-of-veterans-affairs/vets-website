@@ -4,10 +4,6 @@
   max-width: 634.66px;
   overflow-wrap: break-word;
 
-  p {
-    margin-top: 2px;
-    margin-bottom: 1px;
-  }
   .message-detail-block {
     background-color: $color-white;
 
@@ -20,6 +16,12 @@
       h2 {
         margin: 0;
         overflow-wrap: break-word;
+      }
+    }
+    .message-detail-content {
+      p {
+        margin-top: 2px;
+        margin-bottom: 1px;
       }
     }
     .message-body {
