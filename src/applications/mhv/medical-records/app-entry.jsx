@@ -1,5 +1,7 @@
 import 'platform/polyfills';
 import './sass/medical-records.scss';
+import './sass/vaccines.scss';
+import './sass/record-list.scss';
 
 import startApp from 'platform/startup/router';
 import routes from './routes';
