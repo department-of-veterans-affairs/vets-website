@@ -58,9 +58,18 @@ export const validateVaToDate = (errors, data) => {
   }
 };
 
+// Check if VA evidence object is empty
+export const isEmptyVaEntry = (checkData = {}) =>
+  [
+    checkData.locationAndName || '',
+    (checkData.issues || []).join(''),
+    Object.values(checkData.evidenceDates || {}).join(''),
+  ].join('') === '';
+
 export const validateVaUnique = (errors, _data, fullData) => {
-  const locations = (fullData?.locations || []).map(
-    ({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
+  const locations = (fullData?.locations || [])
+    .filter(location => !isEmptyVaEntry(location))
+    .map(({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
       [
         locationAndName || '',
         ...issues,
@@ -69,7 +78,7 @@ export const validateVaUnique = (errors, _data, fullData) => {
       ]
         .join(',')
         .toLowerCase(),
-  );
+    );
   const uniqueLocations = new Set(locations);
   if (locations.length > 1 && locations.length !== uniqueLocations.size) {
     errors.addError(errorMessages.evidence.unique);
@@ -140,6 +149,14 @@ export const validatePrivateToDate = (errors, data) => {
     errors.addError(errorMessages.endDateBeforeStart);
   }
 };
+
+export const isEmptyPrivateEntry = (checkData = {}) =>
+  [
+    checkData.providerFacilityName || '',
+    Object.values(checkData.providerFacilityAddress || {}).join(''),
+    (checkData.issues || []).join(''),
+    Object.values(checkData.treatmentDateRange || {}).join(''),
+  ].join('') === '';
 
 export const validatePrivateUnique = (
   errors,
