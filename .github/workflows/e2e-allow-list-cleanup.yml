@@ -71,6 +71,9 @@ jobs:
     needs: [fetch-e2e-allow-list]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
