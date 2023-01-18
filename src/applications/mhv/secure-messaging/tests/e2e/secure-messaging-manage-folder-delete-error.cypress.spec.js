@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import customFolderMessage from './fixtures/messages-response.json';
 import customFolder from './fixtures/folder-custom-metadata.json';
