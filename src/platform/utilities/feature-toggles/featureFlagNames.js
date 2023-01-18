@@ -76,6 +76,7 @@ export default Object.freeze({
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
+  mbsPreneedChangeVa4010007: 'mbs_preneed_change_va_4010007',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   medicalCopaysHtmlMedicalStatementsViewEnabled: 'medical_copays_html_medical_statements_view_enabled',
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
