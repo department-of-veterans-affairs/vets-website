@@ -92,6 +92,9 @@ jobs:
           path: qa-standards-dashboard-data
           ref: cleanup-allow-list
 
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
       - name: Get Node version
         id: get-node-version
         shell: bash
