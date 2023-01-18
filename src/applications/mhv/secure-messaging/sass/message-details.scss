@@ -61,13 +61,16 @@
     flex-wrap: nowrap;
     margin: 0px;
     padding: 0px;
+    @media (max-width: $small-screen) {
+      li{
+        width: 100%;
+      }
+    }
     button {
       box-shadow: 2px $color-primary;
       border-radius: 0;
       margin-right: -1px;
       margin-left: -1px;
-      padding-top: 22px;
-      padding-bottom: 17px;
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -79,6 +82,7 @@
       @media (max-width: $small-screen) {
         padding-left: 10px;
         padding-right: 10px;
+        width: 102%;
       }
     }
     :first-child button{
