@@ -381,15 +381,3 @@ export const getDebtName = debt => {
 export const getCurrentEmploymentHistoryObject = () => {
   return null;
 };
-
-export const isDateComplete = (date, dateTemplate) => {
-  return date?.length === dateTemplate.length;
-};
-
-export const isDateInFuture = date => {
-  return date?.diff(moment()) > 0;
-};
-
-export const isDateLessThanMax = (date, maxDate) => {
-  return date?.isBefore(maxDate);
-};
