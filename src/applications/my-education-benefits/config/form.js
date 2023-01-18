@@ -949,7 +949,16 @@ const formConfig = {
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
-                'ui:widget': ReceiveTextMessages,
+                'ui:widget': props => {
+                  // const handlePhoneOnChange = arg => {
+                  //   console.log(arg);
+                  // };
+                  // props = {
+                  //   ...props,
+                  // handlePhoneOnChange,
+                  // };
+                  return <ReceiveTextMessages {...props} />;
+                },
                 // 'ui:validations': [
                 //   (errors, field, formData) => {
                 //     const isYes = field.slice(0, 4).includes('Yes');

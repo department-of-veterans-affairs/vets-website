@@ -6,10 +6,10 @@ import { setData } from 'platform/forms-system/src/js/actions';
 function ReceiveTextMessages({
   options,
   value,
-  disabled,
   onChange,
   id,
   formData,
+  handlePhoneOnChange,
 }) {
   const {
     enumOptions,
@@ -23,39 +23,55 @@ function ReceiveTextMessages({
     ...((checked && selectedProps[key]) || {}),
   });
 
-  const errorMessages = { required: 'Please provide a response' };
-
   const [hasMobilePhone, setHasMobilePhone] = useState(false);
-  const [mobileIsInternational, setMobileIsInternational] = useState(false);
   const [dirty, setDirty] = useState(false);
-  const [newMobilePhone, setNewMobilePhone] = useState(false);
+  const [showError, setShowError] = useState('');
 
   const handleInput = useCallback(
     event => {
       formData['view:phoneNumbers'].mobilePhoneNumber.phone = // eslint-disable-line no-param-reassign
         event.target.value;
+
+      setDirty(true);
+      handlePhoneOnChange(event.target.value);
     },
-    [newMobilePhone],
+    [formData],
   );
 
-  const handleBlur = event => {
-    setDirty(true);
-    setNewMobilePhone(event.nativeEvent.data);
-  };
+  // const handleBlur = event => {
+  //   setDirty(true);
+  //   setNewMobilePhone(event.nativeEvent.data);
+  // };
 
-  let showError;
+  const handleError = () => {
+    const pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+    if (formData['view:phoneNumbers']?.mobilePhoneNumber?.phone?.length < 10) {
+      setShowError(
+        'Please enter a 10-digit phone number (with or without dashes)',
+      );
+    } else {
+      setShowError('');
+    }
+
+    if (!pattern.test(formData['view:phoneNumbers'].mobilePhoneNumber.phone)) {
+      setShowError(
+        'Please enter a 10-digit phone number (with or without dashes)',
+      );
+    } else {
+      setShowError(undefined);
+    }
+  };
 
   useEffect(
     () => {
-      setMobileIsInternational(
-        !!formData['view:phoneNumbers']?.mobilePhoneNumber?.isInternational,
-      );
       setHasMobilePhone(
         !!formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
       );
-      showError = dirty && !value ? errorMessages.required : false;
+
+      handleError();
     },
-    [dirty, hasMobilePhone, mobileIsInternational],
+    [dirty, hasMobilePhone],
   );
 
   return (
@@ -68,7 +84,6 @@ function ReceiveTextMessages({
           id={`${id}_0`}
           name={`${id}`}
           value={enumOptions[0].value}
-          disabled={disabled}
           onChange={_ => onChange(enumOptions[0].value)}
           {...getProps(enumOptions[0].value, enumOptions[0].value === value)}
         />
@@ -78,7 +93,7 @@ function ReceiveTextMessages({
       </div>
 
       {enumOptions[0].value === value &&
-        (!hasMobilePhone || mobileIsInternational) && (
+        (!hasMobilePhone || showError) && (
           <>
             <va-alert
               background-only
@@ -96,7 +111,7 @@ function ReceiveTextMessages({
               error={showError}
               label="Mobile phone number"
               name="my-input"
-              onBlur={handleBlur}
+              onBlur={handleError}
               onInput={handleInput}
               required
             />
@@ -111,7 +126,6 @@ function ReceiveTextMessages({
           id={`${id}_1`}
           name={`${id}`}
           value={enumOptions[1].value}
-          disabled={disabled}
           onChange={_ => onChange(enumOptions[1].value)}
           {...getProps(enumOptions[1].value, enumOptions[1].value === value)}
         />
@@ -124,10 +138,10 @@ function ReceiveTextMessages({
 }
 
 ReceiveTextMessages.propTypes = {
-  disabled: PropTypes.bool,
   formData: PropTypes.shape({}),
   id: PropTypes.string,
   onChange: PropTypes.func,
+  handlePhoneOnChange: PropTypes.func,
   options: PropTypes.object,
   user: PropTypes.object,
   value: PropTypes.string,
