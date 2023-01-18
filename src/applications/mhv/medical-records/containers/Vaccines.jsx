@@ -4,7 +4,7 @@ import vaccines from '../tests/fixtures/vaccines.json';
 
 const Vaccines = () => {
   return (
-    <div className="vaccines">
+    <div className="vaccines vads-l-grid-container">
       <div className="breadcrumb-placeholder">
         &#8249; <span>Health history</span>
       </div>

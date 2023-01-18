@@ -1,13 +1,9 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-import Routes from './Routes';
 
 const App = () => {
   return (
     <div className="vads-l-grid-container">
-      <Switch>
-        <Routes />
-      </Switch>
+      <h1 className="vads-u-margin-bottom--1p5">Medical Records</h1>
     </div>
   );
 };
