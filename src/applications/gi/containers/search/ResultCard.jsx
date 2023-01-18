@@ -21,7 +21,7 @@ import {
   convertRatingToStars,
 } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
-import RatingsStars from '../../components/RatingsStars';
+import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
 
 export function ResultCard({

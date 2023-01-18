@@ -12,7 +12,7 @@ import {
   upperCaseFirstLetterOnly,
 } from '../utils/helpers';
 import { MINIMUM_RATING_COUNT } from '../constants';
-import RatingsStars from '../components/RatingsStars';
+import RatingsStars from '../components/profile/schoolRatings/RatingsStars';
 import { showModal } from '../actions';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import {

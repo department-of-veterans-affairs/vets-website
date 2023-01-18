@@ -11,7 +11,7 @@ import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
-import SchoolRatings from './SchoolRatings';
+import SchoolRatings from './schoolRatings/SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
@@ -41,7 +41,11 @@ export default function InstitutionProfile({
 
   const stars = convertRatingToStars(institution.ratingAverage);
 
+  /// //////////////////////////////////////////////////////////////////////////////
+
   const displayStars = stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
+
+  /// //////////////////////////////////////////////////////////////////////////////
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
