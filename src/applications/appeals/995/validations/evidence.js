@@ -62,8 +62,8 @@ export const validateVaToDate = (errors, data) => {
 export const isEmptyVaEntry = (checkData = {}) =>
   [
     checkData.locationAndName || '',
-    (checkData.issues || []).join(''),
-    Object.values(checkData.evidenceDates || {}).join(''),
+    ...(checkData.issues || []),
+    ...Object.values(checkData.evidenceDates || {}),
   ].join('') === '';
 
 export const validateVaUnique = (errors, _data, fullData) => {
@@ -153,9 +153,9 @@ export const validatePrivateToDate = (errors, data) => {
 export const isEmptyPrivateEntry = (checkData = {}) =>
   [
     checkData.providerFacilityName || '',
-    Object.values(checkData.providerFacilityAddress || {}).join(''),
-    (checkData.issues || []).join(''),
-    Object.values(checkData.treatmentDateRange || {}).join(''),
+    ...Object.values(checkData.providerFacilityAddress || {}),
+    ...(checkData.issues || []),
+    ...Object.values(checkData.treatmentDateRange || {}),
   ].join('') === '';
 
 export const validatePrivateUnique = (
