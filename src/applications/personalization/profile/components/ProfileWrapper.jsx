@@ -16,7 +16,7 @@ import ProfileMobileSubNav from './ProfileMobileSubNav';
 const NotAllDataAvailableError = () => (
   <div
     data-testid="not-all-data-available-error"
-    className="vads-u-margin-bottom--4"
+    className="vads-u-margin-y--4"
   >
     <va-alert status="warning" visible>
       <h2 slot="headline">We can’t load all the information in your profile</h2>
