@@ -68,10 +68,10 @@ VAFacilityName.propTypes = {
 function getIsCommunityCare({ appointment, featureStatusImprovement }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
   return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}/cc/${
         appointment.id
       }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}/va/${
         appointment.id
       }`;
 }
@@ -151,6 +151,7 @@ export default function AppointmentCard({
             href={link}
             onClick={e => e.preventDefault()}
             text="Details"
+            role="link"
           />
           <i
             aria-hidden="true"
