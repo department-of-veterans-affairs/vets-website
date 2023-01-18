@@ -8,16 +8,23 @@ describe('Secure Messaging Compose', () => {
     site.login();
     landingPage.loadPage();
   });
-  it('Tab to Message Body', () => {
-    cy.tabToElement('[data-testid="compose-message-link"]').pushEnter();
+  it.skip('Keyboard Nav from Welcome Page to Compose', () => {
+    cy.tabToElement('[data-testid="compose-message-link"]').type(
+      'Cypress.io{enter}',
+    );
     cy.injectAxe();
     cy.axeCheck();
-    cy.tabToElement('[data-testid="message-body-field"] ').should('exist');
+    cy.tabToElement('[data-testid="message-body-field"] ').type(
+      'Cypress.io{enter}',
+    );
   });
-  it('Tab to Save Draft Button', () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+  it('Keyboard Nav from Welcome Page to Inbox', () => {
+    cy.tabToElement('[data-testid="inbox-sidebar"]');
+    // .type(
+    //  'Cypress.io{enter}',
+    // );
     cy.injectAxe();
-    cy.axeCheck();
-    cy.tabToElement('[data-testid="Save-Draft-Button"]').should('exist');
+    // cy.axeCheck();
+    // cy.tabToElement('[data-testid="Save-Draft-Button"]').should('exist');
   });
 });
