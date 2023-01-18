@@ -286,6 +286,7 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
+      'isBlocked',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

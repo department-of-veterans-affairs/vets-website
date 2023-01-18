@@ -9,10 +9,11 @@ import ListItem from '../../../components/DocumentList/ListItem';
 describe('ListItem', () => {
   it('should render document list item', () => {
     const props = {
-      downloadUrl: 'doc-url.com/1234',
-      downloadLinkLabel: 'download test.pdf',
+      downloadUrl: 'http://example.com/v0/coe/document_download/12341234',
+      downloadLinkLabel: 'Download Notification Letter 11-22-2022',
       sentDate: 'July 10, 2022',
-      title: 'Test file',
+      title: 'COE Application First Returned Letter',
+      fileName: '12341234.pdf',
     };
     const { container } = render(
       <div>
@@ -25,6 +26,7 @@ describe('ListItem', () => {
     );
     const link = $('va-link', container);
     expect(link.getAttribute('href')).to.contain(props.downloadUrl);
+    expect(link.getAttribute('filename')).to.contain(props.fileName);
     expect(link.getAttribute('text')).to.contain(props.downloadLinkLabel);
   });
 });

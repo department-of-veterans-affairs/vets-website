@@ -6,7 +6,7 @@
       "address": {
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
-        "addressLine3": "Box 45678901234",
+        "addressLine3": "Box 4567890",
         "city": "New York",
         "countryName": "United States",
         "countryCodeIso2": "US",
@@ -74,30 +74,42 @@
         "issue": "Test",
         "decisionDate": "2022-01-01",
         "view:selected": true
-      }, 
+      },
       {
         "issue": "Test 2",
         "decisionDate": "2022-06-28",
         "view:selected": true
       }
     ],
+    "socOptIn": true,
+    "form5103Acknowledged": true,
+    "privacyAgreementAccepted": true,
     "locations": [
       {
         "locationAndName": "VAMC Location 1",
-        "evidenceDates": [
-          {
-            "from": "2022-01-01",
-            "to": "2022-01-02"
-          }
-        ]
+        "issues": [
+          "PTSD",
+          "Test"
+        ],
+        "evidenceDates": {
+          "from": "2001-01-01",
+          "to": "2011-01-01"
+        }
+      },
+      {
+        "locationAndName": "VAMC Location 2",
+        "issues": [
+          "Test 2"
+        ],
+        "evidenceDates": {
+          "from": "2002-02-02",
+          "to": "2012-02-02"
+        }
       }
     ],
     "providerFacility": [
       {
-        "treatmentDateRange": {
-          "from": "2022-01-01",
-          "to": "2022-02-01"
-        },
+        "providerFacilityName": "Private Doctor",
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 main",
@@ -105,10 +117,33 @@
           "state": "AK",
           "postalCode": "90210"
         },
-        "providerFacilityName": "Private Hospital"
+        "issues": [
+          "PTSD",
+          "Test"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-01-01",
+          "to": "2022-02-01"
+        }
+      },
+      {
+        "providerFacilityName": "Private Hospital",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90211"
+        },
+        "issues": [
+          "Test 2"
+        ],
+        "treatmentDateRange": {
+          "from": "2022-02-01",
+          "to": "2022-05-01"
+        }
       }
     ],
-    "view:limitedConsent": true,
     "limitedConsent": "Pizza addiction",
     "view:uploadPrivateRecordsChoice": {
       "view:hasPrivateRecordsToUpload": false
@@ -116,12 +151,10 @@
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
-    "view:selectableEvidenceTypes": {
-      "view:hasVaEvidence": true,
-      "view:hasPrivateEvidence": true,
-      "view:hasOtherEvidence": true
-    },
-    "privateMedicalRecordAttachments": [
+    "view:hasVaEvidence": true,
+    "view:hasPrivateEvidence": true,
+    "view:hasOtherEvidence": true,
+    "additionalDocuments": [
       {
         "name": "private-medical-records.pdf",
         "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
@@ -135,9 +168,7 @@
         "attachmentId": "L023",
         "size": 30000,
         "isEncrypted": false
-      }
-    ],
-    "additionalDocuments": [
+      },
       {
         "name": "buddy-statement.pdf",
         "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
@@ -152,9 +183,6 @@
         "size": 40000,
         "isEncrypted": false
       }
-    ],
-    "socOptIn": true,
-    "form5103Acknowledged": true,
-    "privacyAgreementAccepted": true
+    ]
   }
 }

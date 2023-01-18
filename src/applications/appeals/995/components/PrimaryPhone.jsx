@@ -4,17 +4,17 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-import { getFormatedPhone } from '../utils/contactInfo';
-import { missingPrimaryPhone } from '../validations';
-import { checkValidations } from '../validations/issues';
+import { getFormattedPhone } from '../utils/contactInfo';
+import { checkValidations, missingPrimaryPhone } from '../validations';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
+import { content } from '../content/primaryPhone';
 
 export const PrimaryPhone = ({
   data,
   goBack,
   goForward,
   onReviewPage,
-  // updatePage,
+  updatePage,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
@@ -50,7 +50,7 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
+    <va-button text={content.update} onClick={updatePage} />
   ) : (
     <>
       {contentBeforeButtons}
@@ -67,26 +67,26 @@ export const PrimaryPhone = ({
         <VaRadio
           class="vads-u-margin-y--2"
           label="What is your primary phone number?"
-          hint="We may need to contact you to clarify issues related to your Supplemental Claim."
+          hint="We may need to contact you if we have questions about your Supplemental Claim."
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
         >
           <va-radio-option
             id="home-phone"
-            label="Home phone number"
+            label={content.homeLabel}
             value="home"
             name="primary"
             checked={primary === 'home'}
-            data-number={getFormatedPhone(homePhone)}
+            data-number={getFormattedPhone(homePhone)}
           />
           <va-radio-option
             id="mobile-phone"
-            label="Mobile phone number"
+            label={content.mobileLabel}
             value="mobile"
             name="primary"
             checked={primary === 'mobile'}
-            data-number={getFormatedPhone(mobilePhone)}
+            data-number={getFormattedPhone(mobilePhone)}
           />
         </VaRadio>
         {navButtons}
@@ -117,7 +117,7 @@ PrimaryPhone.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   setFormData: PropTypes.func,
-  // updatePage: PropTypes.func,
+  updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
 

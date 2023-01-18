@@ -232,7 +232,7 @@ const addressFormFields = Object.freeze({
   ],
 });
 // Station numbers of stations where travel pay is enabled.
-const travelAllowList = ['0001'];
+const travelAllowList = ['0001', '500', '530'];
 
 export {
   APP_NAMES,

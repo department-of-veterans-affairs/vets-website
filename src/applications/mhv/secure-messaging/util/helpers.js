@@ -6,7 +6,7 @@ export const folderPathByFolderId = folderId => {
   if (folderId !== null) {
     switch (folderId) {
       case Folders.INBOX.id:
-        path = '/';
+        path = '/inbox';
         break;
       case Folders.DRAFTS.id:
         path = '/drafts';
@@ -31,6 +31,12 @@ export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
 
+export const unreadCountAllFolders = folders => {
+  return folders
+    .filter(folder => folder.id !== Folders.DRAFTS.id)
+    .reduce((a, b) => a + b.unreadCount, 0);
+};
+
 export const navigateToFoldersPage = history => {
   history.push('/folders');
 };
@@ -44,7 +50,7 @@ export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();
   return moment
     .tz(timestamp, timeZone)
-    .format(format || 'MMMM d, YYYY, h:mm a z');
+    .format(format || 'MMMM D, YYYY, h:mm a z');
 };
 
 export const sortRecipients = recipientsList => {
@@ -59,3 +65,14 @@ export const sortRecipients = recipientsList => {
   }
   return list;
 };
+
+export const titleCase = str => {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
+export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https

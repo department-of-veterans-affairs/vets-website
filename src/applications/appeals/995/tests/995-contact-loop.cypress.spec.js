@@ -1,6 +1,10 @@
-import { setStoredSubTask } from 'platform/forms/sub-task';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL, CONTESTABLE_ISSUES_API } from '../constants';
+import {
+  BASE_URL,
+  CONTESTABLE_ISSUES_API,
+  CONTACT_INFO_PATH,
+} from '../constants';
 
 import mockUser from './fixtures/mocks/user.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
@@ -13,9 +17,7 @@ import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-succes
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
+  const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
     window.dataLayer = [];
@@ -29,8 +31,8 @@ describe('995 contact info loop', () => {
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
     );
-    cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
-    cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
     // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
@@ -62,7 +64,7 @@ describe('995 contact info loop', () => {
     getToContactPage();
 
     // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
     cy.injectAxe();
     cy.axeCheck();
 
@@ -73,7 +75,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
@@ -82,7 +84,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
     cy.get('a[href$="email-address"]').click();
@@ -91,7 +93,7 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
@@ -100,34 +102,31 @@ describe('995 contact info loop', () => {
     cy.axeCheck();
 
     cy.findByText(/cancel/i, { selector: 'button' }).click();
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
-  /*
-   * Skipping for now because clicking "update" should return to the contact
-   * info page, but this isn't working... I think I'm missing an intermediate
-   * step here?
-
-  it.skip('should edit info on a new page, update & return to contact info page - C12884', () => {
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('should edit info on a new page, update & return to contact info page - C31614', () => {
     getToContactPage();
 
+    cy.intercept('/v0/profile/telephones', mockTelephoneUpdateSuccess);
+
     // Contact info
-    cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Mobile phone
-    cy.get('a[href$="phone"]').click();
+    cy.get('a[href$="mobile-phone"]').click();
+    cy.contains('Edit phone number').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
     cy.findByLabelText(/mobile phone/i)
       .clear()
       .type('8885551212');
-    cy.findByLabelText(/extension/i)
-      .clear()
-      .type('12345');
-    cy.findAllByText(/update/i, { selector: 'button' })
+    cy.findAllByText(/save/i, { selector: 'button' })
       .first()
       .click();
-    // Not returning to the contact info page :(
+
+    cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
+
+    // Skipping AXE-check; already done in previous test.
   });
-  */
 });

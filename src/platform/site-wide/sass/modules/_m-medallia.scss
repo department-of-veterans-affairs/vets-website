@@ -191,3 +191,20 @@
 .btn-close-wrapper {
   text-align: left !important;
 }
+
+/* checkboxes labels on VAMC surveys */
+._md-label {
+  color: $color-gray-dark !important;
+  font-size: 16px !important;
+}
+
+/* space between checkboxes on VAMC surveys */
+.neb-content .checkbox {
+  margin-bottom: 10px
+}
+
+/*  next button on VAMC muli-page surveys in-line style override*/
+.form-next-btn[style] {
+  background-color: $color-blue !important;
+  margin-right: 10px !important
+}

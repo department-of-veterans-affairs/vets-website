@@ -170,11 +170,46 @@ const analyticsEvents = {
       prefix: 'breadcrumbs',
     },
   ],
+  'va-banner': [
+    {
+      action: 'close',
+      event: 'int-banner-close',
+      prefix: 'banner',
+    },
+  ],
+  'va-button': [
+    {
+      action: 'click',
+      event: 'cta-button-click',
+      prefix: 'button',
+    },
+  ],
+  'va-button-pair': [
+    {
+      action: 'click',
+      event: 'int-button-pair-click',
+      prefix: 'button-pair',
+    },
+  ],
   'va-checkbox-group': [
     {
       action: 'change',
       event: 'int-checkbox-group-option-click',
       prefix: 'checkbox-group',
+    },
+  ],
+  'va-date': [
+    {
+      action: 'blur',
+      event: 'int-date-blur',
+      prefix: 'date',
+    },
+  ],
+  'va-link': [
+    {
+      action: 'click',
+      event: 'nav-link-click',
+      prefix: 'link',
     },
   ],
   'va-loading-indicator': [
@@ -184,11 +219,25 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
+  'va-memorable-date': [
+    {
+      action: 'blur',
+      event: 'int-memorable-date-blur',
+      prefix: 'memorable-date',
+    },
+  ],
   'va-modal': [
     {
       action: 'show',
       event: 'int-modal-show',
       prefix: 'modal',
+    },
+  ],
+  'va-number-input': [
+    {
+      action: 'blur',
+      event: 'int-number-input-blur',
+      prefix: 'number-input',
     },
   ],
   'va-promo-banner': [
@@ -209,6 +258,11 @@ const analyticsEvents = {
         },
       },
     },
+    {
+      action: 'close',
+      event: 'int-promo-banner-close',
+      prefix: 'promo-banner',
+    },
   ],
   'va-radio': [
     {
@@ -222,6 +276,23 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-select-box-option-click',
       prefix: 'select',
+    },
+  ],
+  'va-pagination': [
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-number',
+      prefix: 'pagination',
+    },
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-previous',
+      prefix: 'pagination',
+    },
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-next',
+      prefix: 'pagination',
     },
   ],
   'va-progress-bar': [

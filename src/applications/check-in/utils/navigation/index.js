@@ -90,19 +90,7 @@ const URLS = Object.freeze({
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
+  APPOINTMENT_DETAILS: 'appointment-details',
 });
 
-const isAnInternalPage = location => {
-  let valid = false;
-  const url = location.split('/');
-  // Analyze the part of the URL where internal pages are.
-  const pageFromUrl = url[3];
-  if (pageFromUrl && Object.values(URLS).includes(pageFromUrl)) {
-    // Any page except verify is valid.
-    valid = pageFromUrl !== 'verify';
-  }
-
-  return valid;
-};
-
-export { updateFormPages, URLS, isAnInternalPage };
+export { updateFormPages, URLS };

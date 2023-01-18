@@ -3,7 +3,7 @@
  */
 
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import { getTestFacilityId } from '../../utils/appointment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
 
@@ -53,14 +53,10 @@ function isFacilityOpenAllDay(hours) {
   const sanitizedOperatingHours = hours.replace(/\s/g, '');
 
   // Escape early if it is 'Sunrise - Sunset'.
-  if (
+  return (
     sanitizedOperatingHours.toLowerCase() === 'sunrise-sunset' ||
     sanitizedOperatingHours === '24/7'
-  ) {
-    return true;
-  }
-
-  return false;
+  );
 }
 
 function isFacilityClosed(hours) {
@@ -142,21 +138,6 @@ function transformOperatingHours(facilityHours) {
         closingTime,
       };
     });
-}
-
-/**
- * Converts back from a real facility id to our test facility ids
- * in lower environments
- *
- * @param {String} facilityId - facility id to convert
- * @returns A facility id with either 442 or 552 replaced with 983 or 984
- */
-function getTestFacilityId(facilityId) {
-  if (facilityId && (!environment.isProduction() || window.Cypress)) {
-    return facilityId.replace('442', '983').replace('552', '984');
-  }
-
-  return facilityId;
 }
 
 /**

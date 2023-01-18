@@ -21,6 +21,13 @@ export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
 export const FETCH_CLAIM_STATUS_SUCCESS = 'FETCH_CLAIM_STATUS_SUCCESS';
 export const FETCH_CLAIM_STATUS_FAILURE = 'FETCH_CLAIM_STATUS_FAILURE';
 
+export const FETCH_DIRECT_DEPOSIT = 'FETCH_DIRECT_DEPOSIT';
+export const FETCH_DIRECT_DEPOSIT_SUCCESS = 'FETCH_DIRECT_DEPOSIT_SUCCESS';
+export const FETCH_DIRECT_DEPOSIT_FAILED = 'FETCH_DIRECT_DEPOSIT_FAILED';
+export const DIRECT_DEPOSIT_ENDPOINT = `${
+  environment.API_URL
+}/v0/profile/ch33_bank_accounts`;
+
 export const CLAIM_STATUS_RESPONSE_ELIGIBLE = 'ELIGIBLE';
 export const CLAIM_STATUS_RESPONSE_DENIED = 'DENIED';
 export const CLAIM_STATUS_RESPONSE_IN_PROGRESS = 'INPROGRESS';
@@ -152,5 +159,24 @@ export function fetchEligibility() {
           errors,
         }),
       );
+  };
+}
+
+export function fetchDirectDeposit() {
+  return async dispatch => {
+    dispatch({ type: FETCH_DIRECT_DEPOSIT });
+    return apiRequest(DIRECT_DEPOSIT_ENDPOINT)
+      .then(response => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_FAILED,
+          errors,
+        });
+      });
   };
 }

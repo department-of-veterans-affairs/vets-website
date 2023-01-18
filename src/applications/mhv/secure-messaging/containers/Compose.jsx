@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { clearDraft } from '../actions/draftDetails';
@@ -6,6 +6,8 @@ import { retrieveMessage } from '../actions/messages';
 import { getTriageTeams } from '../actions/triageTeams';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
+import ReplyForm from '../components/ComposeForm/ReplyForm';
+import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { DefaultFolders } from '../util/constants';
@@ -16,9 +18,14 @@ const Compose = () => {
   const { triageTeams } = useSelector(state => state.sm.triageTeams);
   const { draftId } = useParams();
   const activeFolder = useSelector(state => state.sm.folders.folder);
+  const messageHistory = useSelector(
+    state => state.sm.draftDetails.draftMessageHistory,
+  );
+  const [replyMessage, setReplyMessage] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
+  const header = useRef();
 
   useEffect(
     () => {
@@ -38,6 +45,16 @@ const Compose = () => {
     [isDraftPage, draftId, activeFolder, dispatch, history],
   );
 
+  useEffect(
+    () => {
+      if (messageHistory?.length > 0 && !replyMessage) {
+        // TODO filter history to grab only received messages.
+        setReplyMessage(messageHistory.shift());
+      }
+    },
+    [messageHistory],
+  );
+
   let pageTitle;
 
   if (isDraftPage) {
@@ -52,6 +69,7 @@ const Compose = () => {
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
+          data-testid="loading-indicator"
         />
       );
     }
@@ -66,17 +84,34 @@ const Compose = () => {
         </va-alert>
       );
     }
+    if (messageHistory) {
+      return (
+        <>
+          <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
+          {replyMessage &&
+            messageHistory?.length > 1 && (
+              <MessageThread messageHistory={messageHistory.slice(1)} />
+            )}
+        </>
+      );
+    }
     return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
   };
 
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      <h1 className="page-title">{pageTitle}</h1>
-      <EmergencyNote />
-      <div>
-        <BeforeMessageAddlInfo />
-      </div>
+      {!replyMessage && (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote />
+          <div>
+            <BeforeMessageAddlInfo />
+          </div>
+        </>
+      )}
 
       {content()}
     </div>

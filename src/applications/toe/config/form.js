@@ -17,8 +17,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 import constants from 'vets-json-schema/dist/constants.json';
-
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import * as BUCKETS from 'site/constants/buckets';
+import * as ENVIRONMENTS from 'site/constants/environments';
 
 import manifest from '../manifest.json';
 
@@ -42,11 +42,10 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import preSubmitInfo from '../components/preSubmitInfo';
 
 import {
-  isOnlyWhitespace,
-  hideUnder18Field,
   addWhitespaceOnlyError,
-  isAlphaNumeric,
   applicantIsChildOfSponsor,
+  hideUnder18Field,
+  isOnlyWhitespace,
   prefillTransformer,
 } from '../helpers';
 
@@ -58,19 +57,26 @@ import {
   isValidLastName,
   isValidPhoneField,
   nameErrorMessage,
+  validateAccountNumber,
   validateEmail,
+  validateRoutingNumber,
 } from '../utils/validation';
 import {
   formFields,
   SPONSOR_RELATIONSHIP,
   YOUR_PROFILE_URL,
 } from '../constants';
+import ObfuscateReviewField from '../ObfuscateReviewField';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+const checkImageSrc = (() => {
+  const bucket = environment.isProduction()
+    ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
+    : BUCKETS[ENVIRONMENTS.VAGOVSTAGING];
+
+  return `${bucket}/img/check-sample.png`;
+})();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -358,13 +364,6 @@ const formConfig = {
             !formData.sponsors?.sponsors?.length ||
             formData.sponsors?.someoneNotListed,
           uiSchema: {
-            'view:enterYourSponsorsInformationHeading': {
-              'ui:description': (
-                <h3 className="vads-u-margin-bottom--3">
-                  Enter your sponsor’s information
-                </h3>
-              ),
-            },
             'view:noSponsorWarning': {
               'ui:description': (
                 <va-alert
@@ -379,7 +378,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -406,7 +405,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
+                    <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -420,6 +419,13 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
+            },
+            'view:enterYourSponsorsInformationHeading': {
+              'ui:description': (
+                <h3 className="vads-u-margin-bottom--3">
+                  Enter your sponsor’s information
+                </h3>
+              ),
             },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
@@ -465,15 +471,15 @@ const formConfig = {
               formFields.sponsorDateOfBirth,
             ],
             properties: {
-              'view:enterYourSponsorsInformationHeading': {
-                type: 'object',
-                properties: {},
-              },
               'view:noSponsorWarning': {
                 type: 'object',
                 properties: {},
               },
               'view:sponsorNotOnFileWarning': {
+                type: 'object',
+                properties: {},
+              },
+              'view:enterYourSponsorsInformationHeading': {
                 type: 'object',
                 properties: {},
               },
@@ -573,7 +579,6 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Verify your high school education</h3>
                   <va-alert
                     close-btn-aria-label="Close notification"
                     status="info"
@@ -586,6 +591,7 @@ const formConfig = {
                       education.
                     </div>
                   </va-alert>
+                  <h3>Verify your high school education</h3>
                 </>
               ),
             },
@@ -620,7 +626,6 @@ const formConfig = {
             'view:subHeadings': {
               'ui:description': (
                 <>
-                  <h3>Verify your high school education</h3>
                   <va-alert
                     close-btn-aria-label="Close notification"
                     status="info"
@@ -633,6 +638,7 @@ const formConfig = {
                       education.
                     </div>
                   </va-alert>
+                  <h3>Verify your high school education</h3>
                 </>
               ),
             },
@@ -1216,52 +1222,61 @@ const formConfig = {
               viewComponent: DirectDepositViewField,
               volatileData: true,
             },
+            'ui:description': (
+              <p>
+                We make payments only through direct deposit, also called
+                electronic funds transfer (EFT).
+              </p>
+            ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': [
-                formFields.accountType,
-                formFields.accountNumber,
-                formFields.routingNumber,
-              ],
-              [formFields.accountType]: {
-                ...bankAccountUI.accountType,
-                'ui:errorMessages': {
-                  required: 'Please select an account type',
-                },
-              },
-              [formFields.accountNumber]: {
+              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
                 ...bankAccountUI.accountNumber,
-                'ui:validations': [
-                  (errors, field) => {
-                    if (!isAlphaNumeric(field)) {
-                      errors.addError('Please enter a valid account number');
-                    }
-                  },
-                ],
+                'ui:errorMessages': {
+                  ...bankAccountUI.accountNumber['ui:errorMessages'],
+                  pattern: 'Please enter only numbers',
+                },
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
+              },
+              routingNumber: {
+                ...bankAccountUI.routingNumber,
+                'ui:reviewField': ObfuscateReviewField,
+                'ui:validations': [validateRoutingNumber],
               },
             },
-            'view:directDepositLearnMore': {
+            'view:learnMore': {
               'ui:description': (
-                <va-additional-info trigger="Where can I find these numbers?">
+                <>
                   <img
                     key="check-image-src"
+                    style={{ marginTop: '1rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
-                  <p>
+                  <p key="learn-more-title">Where can I find these numbers?</p>
+                  <p key="learn-more-description">
                     The bank routing number is the first 9 digits on the bottom
                     left corner of a printed check. Your account number is the
                     second set of numbers on the bottom of a printed check, just
                     to the right of the bank routing number.
                   </p>
-                </va-additional-info>
+                  <va-additional-info key="learn-more-btn" trigger="Learn More">
+                    <p key="btn-copy">
+                      If you don’t have a printed check, you can sign in to your
+                      online banking institution for this information
+                    </p>
+                  </va-additional-info>
+                </>
               ),
             },
           },
           schema: {
             type: 'object',
             properties: {
-              [formFields.bankAccount]: {
+              bankAccount: {
                 type: 'object',
                 required: [
                   formFields.accountType,
@@ -1269,20 +1284,21 @@ const formConfig = {
                   formFields.routingNumber,
                 ],
                 properties: {
-                  [formFields.accountType]: {
+                  accountNumber: {
+                    type: 'string',
+                    pattern: '^\\**[a-z0-9]+$',
+                  },
+                  accountType: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
-                  [formFields.routingNumber]: {
+                  routingNumber: {
                     type: 'string',
-                    pattern: '^\\d{9}$',
-                  },
-                  [formFields.accountNumber]: {
-                    type: 'string',
+                    pattern: '^[\\d*]{5}\\d{4}$',
                   },
                 },
               },
-              'view:directDepositLearnMore': {
+              'view:learnMore': {
                 type: 'object',
                 properties: {},
               },

@@ -2,8 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import PropTypes from 'prop-types';
-import LoginModalButton from 'platform/user/authentication/components/LoginModalButton';
 import Layout from '../components/Layout';
+
+const EVLoginPlaceholder = (
+  <div
+    data-widget-type="view-education-letters-login"
+    id="education-letters-login-widget"
+  />
+);
 
 const App = ({ user }) => {
   function renderUI() {
@@ -22,22 +28,7 @@ const App = ({ user }) => {
       window.location.href = '/education/download-letters/letters';
     }
 
-    return (
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-      >
-        <h3 slot="headline">
-          Please sign in to check your VA education letter
-        </h3>
-        <div>
-          Sign in with your existing <b>ID.me</b> account. If you don’t have an
-          account, you can create a free <b>ID.me</b> account now.
-        </div>
-        <LoginModalButton className="va-button" />
-      </va-alert>
-    );
+    return EVLoginPlaceholder;
   }
 
   return (

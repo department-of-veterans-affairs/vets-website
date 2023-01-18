@@ -17,7 +17,7 @@ describe('Check In Experience -- Error page is translated - Spanish', () => {
     });
   });
   it('Error page - spanish', () => {
-    Error.validatePageLoaded(null, 'es');
+    Error.validatePageLoaded(false, 'es');
     cy.injectAxe();
     cy.axeCheck();
   });
@@ -37,7 +37,7 @@ describe('Check In Experience -- Error page is translated - Tagalog', () => {
     });
   });
   it('Error page - tagalog', () => {
-    Error.validatePageLoaded(null, 'tl');
+    Error.validatePageLoaded(false, 'tl');
     cy.injectAxe();
     cy.axeCheck();
   });

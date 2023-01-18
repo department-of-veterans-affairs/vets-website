@@ -7,8 +7,9 @@
  */
 import moment from 'moment';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-
 import ERROR_500 from '@@profile/tests/fixtures/500.json';
+import vamcErc from '../fixtures/vamc-ehr.json';
+
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import PARTIAL_ERROR from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_VA_APPOINTMENTS_PARTIAL_ERROR';
 
@@ -54,6 +55,7 @@ describe('MyVA Dashboard - Appointments', () => {
     mockLocalStorage();
     cy.login(mockUser);
     getFacilitiesStub = cy.stub();
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcErc);
   });
   context('when there is a 500 error fetching VA appointments', () => {
     it('should show the appointments error alert and never call the facilities API - C15725', () => {

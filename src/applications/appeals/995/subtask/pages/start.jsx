@@ -12,7 +12,7 @@ import pageNames from './pageNames';
 
 const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
-  errorMessage: 'You must choose a claim type',
+  errorMessage: 'You must choose a claim type.',
 };
 
 const options = [
@@ -44,8 +44,8 @@ const validate = ({ benefitType } = {}) => optionValues.includes(benefitType);
  */
 const BenefitType = ({ data = {}, error, setPageData }) => {
   const handlers = {
-    setBenefitType: ({ target }) => {
-      const { value } = target;
+    setBenefitType: event => {
+      const { value } = event.detail;
       setPageData({ benefitType: value || null });
 
       recordEvent({
@@ -62,14 +62,14 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
     <>
       <h1 className="vads-u-margin-bottom--0">Is this the form I need?</h1>
       <p>
-        Use this Supplemental Claim form if you disagree with our decision on
-        your claim and have new and relevant evidence to submit.
+        Use this Supplemental Claim form (VA 20-0995) if you disagree with our
+        decision on your claim and have new and relevant evidence to submit.
       </p>
       <p>Answer this question to get started:</p>
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}
-        onRadioOptionSelected={handlers.setBenefitType}
+        onVaValueChange={handlers.setBenefitType}
       >
         {options.map(({ value, label }) => (
           <VaRadioOption

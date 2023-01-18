@@ -1,6 +1,12 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { Actions } from '../util/actionTypes';
-import { createDraft, deleteMessage, updateDraft } from '../api/SmApi';
+import {
+  createDraft,
+  deleteMessage,
+  updateDraft,
+  createReplyDraft,
+  updateReplyDraft,
+} from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
@@ -10,6 +16,17 @@ const sendSaveDraft = async (messageData, id) => {
       return await updateDraft(id, messageData);
     }
     return await createDraft(messageData);
+  } catch (error) {
+    return error;
+  }
+};
+
+const sendReplyDraft = async (replyToId, messageData, id) => {
+  try {
+    if (id) {
+      return await updateReplyDraft(replyToId, id, messageData);
+    }
+    return await createReplyDraft(replyToId, messageData);
   } catch (error) {
     return error;
   }
@@ -47,6 +64,52 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
       type: Actions.Draft.CREATE_SUCCEEDED,
       response,
     });
+  }
+};
+
+/**
+ * @param {Object} messageData
+ * @param {String} type manual/auto
+ * @returns
+ */
+export const saveReplyDraft = (
+  replyToId,
+  messageData,
+  type,
+  id,
+) => async dispatch => {
+  recordEvent({
+    // For Google Analytics
+    event: 'secure-messaging-save-draft-type',
+    'secure-messaging-save-draft': type,
+    'secure-messaging-save-draft-id': id,
+  });
+  try {
+    if (type === 'auto') dispatch({ type: Actions.Draft.AUTO_SAVE_STARTED });
+    else if (type === 'manual') dispatch({ type: Actions.Draft.SAVE_STARTED });
+
+    const response = await sendReplyDraft(replyToId, messageData, id);
+    if (id) {
+      dispatch({
+        type: Actions.Draft.UPDATE_SUCCEEDED,
+        response,
+      });
+    } else {
+      dispatch({
+        type: Actions.Draft.CREATE_SUCCEEDED,
+        response,
+      });
+    }
+    return response.data.attributes;
+  } catch (e) {
+    if (e.errors) {
+      const error = e.errors[0];
+      dispatch({
+        type: Actions.Draft.SAVE_FAILED,
+        response: error,
+      });
+    }
+    throw e;
   }
 };
 

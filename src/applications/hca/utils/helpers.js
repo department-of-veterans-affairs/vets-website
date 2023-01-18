@@ -310,7 +310,7 @@ export function formValue(formData, value) {
     case IS_GTE_HIGH_DISABILITY:
       return formData['view:totalDisabilityRating'] >= HIGH_DISABILITY;
     case IS_SHORT_FORM_ENABLED:
-      return formData['view:hcaShortFormEnabled'];
+      return formData['view:isShortFormEnabled'];
     case IS_COMPENSATION_TYPE_HIGH:
       return formData.vaCompensationType === 'highDisability';
     case IS_VETERAN_IN_MVI:
@@ -333,4 +333,19 @@ export function NotHighDisability(formData) {
     formValue(formData, IS_SHORT_FORM_ENABLED) &&
     formValue(formData, IS_GTE_HIGH_DISABILITY)
   );
+}
+
+/**
+ * Helper that maps an array to an object literal to allow for
+ * multiple keys to have the same value
+ * @param {Array} arrayToMap - an array of arrays that defines the keys/values to map
+ * @returns {Object} - an object literal
+ */
+export function createLiteralMap(arrayToMap) {
+  return arrayToMap.reduce((obj, [value, keys]) => {
+    for (const key of keys) {
+      Object.defineProperty(obj, key, { value });
+    }
+    return obj;
+  }, {});
 }

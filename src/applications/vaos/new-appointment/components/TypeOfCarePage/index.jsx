@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getLongTermAppointmentHistory } from '../../../services/var';
@@ -20,7 +20,7 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
-import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';

@@ -7,8 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca vaBenefits', () => {
   const { schema, uiSchema } = formConfig.chapters.vaBenefits.pages.vaBenefits;
@@ -57,14 +58,7 @@ describe('Hca vaBenefits', () => {
     );
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_vaCompensationType_0'),
-      {
-        target: {
-          value: 'lowDisability',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_vaCompensationType_0', 'lowDisability');
 
     submitForm(form);
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);

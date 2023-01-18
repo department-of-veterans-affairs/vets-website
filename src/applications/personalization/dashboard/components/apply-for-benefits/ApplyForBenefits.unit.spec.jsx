@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 
+import { wait } from '@@profile/tests/unit-test-helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
-import { wait } from '@@profile/tests/unit-test-helpers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;

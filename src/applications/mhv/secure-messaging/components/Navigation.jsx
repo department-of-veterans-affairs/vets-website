@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
 import { getFolders } from '../actions/folders';
 import SectionGuideButton from './SectionGuideButton';
 
@@ -20,7 +19,7 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/compose', label: 'Compose', datatestid: 'compose-sidebar' },
+      { path: '/inbox', label: 'Inbox', datatestid: 'inbox-sidebar' },
       { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
       { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
       { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
@@ -29,16 +28,13 @@ const Navigation = () => {
         label: 'My folders',
         datatestid: 'my-folders-sidebar',
       },
-      {
-        path: '/search',
-        label: 'Search messages',
-        datatestid: 'search-messages-sidebar',
-      },
-      {
-        path: '/faq',
-        label: 'Messages FAQ',
-        datatestid: 'messages-faq-sidebar',
-      },
+
+      /* Hidden from sidenav view; will implement in SM Home later */
+      // {
+      //   path: '/faq',
+      //   label: 'Messages FAQ',
+      //   datatestid: 'messages-faq-sidebar',
+      // },
     ];
   };
 
@@ -80,85 +76,79 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
-  const handleOnClick = path => {
-    recordEvent({
-      // For Google Analytics
-      event: 'secure-messaging-navigation-clicked',
-      'secure-messaging-navigation-option': path.label,
-      'secure-messaging-navigation-path': path.path,
-    });
+  // TODO this is a sample GA event call. The analytics tag below is not valid
+  // const handleOnClick = path => {
+  //   recordEvent({
+  //     // For Google Analytics
+  //     event: 'secure-messaging-navigation-clicked',
+  //     'secure-messaging-navigation-option': path.label,
+  //     'secure-messaging-navigation-path': path.path,
+  //   });
+  // };
+
+  const headerStyle = location.pathname === '/' ? 'is-active' : null;
+
+  const handleActiveLinksStyle = path => {
+    const basePath = location.pathname.split('/');
+    if (location.pathname === path.path) {
+      return 'is-active';
+    }
+    if (path.label === 'My folders') {
+      if (basePath[1] === 'message') {
+        return 'vads-u-font-weight--bold';
+      }
+      if (basePath[1] === 'folder') {
+        return 'vads-u-font-weight--bold';
+      }
+    }
+
+    return undefined;
   };
 
   return (
-    <div className="secure-messaging-navigation">
+    <div className="secure-messaging-navigation vads-u-padding-bottom--7 vads-u-flex--auto">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
-          <div className="sidebar-navigation-header">
-            <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
-            <h4>My Health</h4>
-            <button
-              className={
-                isMobile === true ? 'va-btn-close-icon' : 'no-close-btn'
-              }
-              aria-label="Close-this-menu"
-              aria-expanded="true"
-              aria-controls="a1"
-              onClick={closeNavigation}
-              type="button"
-            />
-          </div>
+          {isMobile && (
+            <div className="sidebar-navigation-header">
+              <button
+                className="va-btn-close-icon"
+                aria-label="Close-this-menu"
+                aria-expanded="true"
+                aria-controls="a1"
+                onClick={closeNavigation}
+                type="button"
+              />
+            </div>
+          )}
           <div id="a1" className="sidebar-navigation-list" aria-hidden="false">
             <ul className="usa-sidenav-list">
-              <li>
-                <a href="/my-health/secure-messages">Pharmacy</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Appointments</a>
-              </li>
               <li className="sidebar-navigation-messages-list">
                 <div className="sidebar-navigation-messages-list-header">
-                  <Link to="/">Messages</Link>
+                  {/* Message Link will navigate to the new SM Home page in the future */}
+                  <Link className={headerStyle} to="/">
+                    <span>Messages</span>
+                  </Link>
                 </div>
 
                 <div className="sidebar-navigation-messages-list-menu">
-                  <ul className="usa-sidenav-list">
+                  <ul className="usa-sidenav-list sub-list">
                     {paths().map((path, i) => (
-                      <li
-                        key={i}
-                        className={
-                          location.pathname === path.path
-                            ? 'vads-u-font-weight--bold'
-                            : undefined
-                        }
-                        data-testid={path.datatestid}
-                      >
+                      <li key={i} data-testid={path.datatestid}>
                         <Link
+                          className={handleActiveLinksStyle(path)}
                           to={path.path}
-                          onClick={() => {
-                            handleOnClick(path);
-                          }}
+                          // onClick={() => {
+                          //   handleOnClick(path);
+                          // }}
                         >
-                          {path.label}
+                          <span>{path.label}</span>
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Medical records</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">VA health care benefits</a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">
-                  Copay bills and travel pay
-                </a>
-              </li>
-              <li>
-                <a href="/my-health/secure-messages">Health resources</a>
               </li>
             </ul>
           </div>
