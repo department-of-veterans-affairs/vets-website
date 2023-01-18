@@ -67,65 +67,59 @@ const MoveMessageToFolderBtn = props => {
           data-testid="move-to-modal"
           large
           modalTitle="Move to:"
+          onPrimaryButtonClick={handleConfirmMoveFolderTo}
+          onSecondaryButtonClick={closeModal}
+          primaryButtonText="Confirm"
+          secondaryButtonText="Cancel"
           onCloseEvent={closeModal}
           visible={isModalVisible}
         >
-          <div className="modal-body">
-            <p>
-              This conversation will be moved. Any replies to this message will
-              appear in your inbox
-            </p>
-            <VaRadio
-              className="form-radio-buttons"
-              required
-              enable-analytics
-              error={folderInputError}
-              onRadioOptionSelected={handleOnChangeFolder}
-            >
-              {allFolders &&
-                allFolders
-                  .filter(
-                    folder =>
-                      folder.id !== Constants.DefaultFolders.DRAFTS.id &&
-                      folder.id !== Constants.DefaultFolders.SENT.id,
-                  )
-                  .map((folder, i) => (
-                    <>
-                      <VaRadioOption
-                        data-testid="folder-list-radio-button"
-                        key={i}
-                        id={`radiobutton-${folder.name}`}
-                        // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
-                        label={
-                          folder.id === Constants.DefaultFolders.DELETED.id
-                            ? Constants.DefaultFolders.DELETED.header
-                            : folder.name
-                        }
-                        name="defaultName"
-                        value={folder.id}
-                      />
-                    </>
-                  ))}
-              <>
-                <VaRadioOption
-                  data-testid="folder-list-radio-button"
-                  id="radiobutton-newFolder"
-                  label="Create new folder"
-                  name="defaultName"
-                  value="newFolder"
-                />
-              </>
-            </VaRadio>
-            <div>
-              <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
-              <va-button
-                secondary
-                data-testid="hidden-button-close-modal"
-                text="Cancel"
-                onClick={closeModal}
+          <p>
+            This conversation will be moved. Any replies to this message will
+            appear in your inbox
+          </p>
+          <VaRadio
+            className="form-radio-buttons"
+            required
+            enable-analytics
+            error={folderInputError}
+            onRadioOptionSelected={handleOnChangeFolder}
+          >
+            {allFolders &&
+              allFolders
+                .filter(
+                  folder =>
+                    folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+                    folder.id !== Constants.DefaultFolders.SENT.id,
+                )
+                .map((folder, i) => (
+                  <>
+                    <VaRadioOption
+                      data-testid="folder-list-radio-button"
+                      key={i}
+                      id={`radiobutton-${folder.name}`}
+                      // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
+                      label={
+                        folder.id === Constants.DefaultFolders.DELETED.id
+                          ? Constants.DefaultFolders.DELETED.header
+                          : folder.name
+                      }
+                      name="defaultName"
+                      value={folder.id}
+                    />
+                  </>
+                ))}
+            <>
+              <VaRadioOption
+                data-testid="folder-list-radio-button"
+                id="radiobutton-newFolder"
+                label="Create new folder"
+                name="defaultName"
+                value="newFolder"
               />
-            </div>
-          </div>
+            </>
+          </VaRadio>
+          <p /> {/* to create extra margin between radio and action buttons */}
         </VaModal>
       </div>
     );
@@ -141,7 +135,6 @@ const MoveMessageToFolderBtn = props => {
 
   return (
     <>
-      {/* TODO add GA event tracking for move button click */}
       <button
         type="button"
         className="usa-button-secondary"

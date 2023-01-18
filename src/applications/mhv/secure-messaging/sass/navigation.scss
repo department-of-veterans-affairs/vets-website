@@ -40,7 +40,7 @@
   a {
     font-size: 17px;
     margin: 2px 0px;
-    color: $color-black;
+    color: $color-link-default;
     &:active,
     &:focus,
     &:hover {
@@ -48,7 +48,6 @@
       border-left: 4px solid $color-link-default;
       transition: background-color 0.1s ease-in-out,
         border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
-      // font-weight: 700;
     }
     &.is-active {
       background-color: $color-gray-lightest;
@@ -56,6 +55,9 @@
       color: $color-black;
       font-weight: bold;
       padding-left: units-px(1.5);
+      span{
+        margin-left: -4px;
+      }
     }
   }
   ul {
@@ -66,11 +68,16 @@
   }
   .sidebar-navigation-messages-list {
     .sidebar-navigation-messages-list-header {
-      background-color: $color-gray-lightest;
-      border-left: 4px solid $color-base;
-      font-weight: 700;
+      &.is-active {
+        background-color: $color-gray-lightest;
+        border-left: 4px solid $color-base;
+      }
       a {
         padding-top: 7px;
+        color: $color-link-default;
+        &.is-active{
+          color: $color-black;
+        }
         &:active {
           color: $color-gray-dark;
           text-decoration: underline;
@@ -79,12 +86,6 @@
     }
     .sidebar-navigation-messages-list-menu {
       ul {
-        // li:nth-child(1) {
-        //   a {
-        //     padding-top: 3px;
-        //     margin-top: 0px;
-        //   }
-        // }
         li {
           a {
             padding-left: 3rem;
@@ -139,11 +140,8 @@
       padding-left: 15px;
       padding-right: 15px;
       .sidebar-navigation-messages-list-header {
-        background-color: $color-gray-lightest;
-        font-weight: 700;
-
         a {
-          color: $color-black;
+          color: $color-link-default;
         }
       }
       .usa-sidenav-list {
