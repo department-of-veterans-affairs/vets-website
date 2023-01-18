@@ -15,7 +15,7 @@ const routes = (
       <Route exact path="/vaccines" key="Vaccines">
         <Vaccines />
       </Route>
-      <Route exact path="/vaccine" key="vaccine">
+      <Route exact path="/vaccine" key="Vaccine">
         <VaccineDetails />
       </Route>
     </Switch>
