@@ -84,6 +84,9 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v3
         with:
@@ -91,9 +94,6 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: qa-standards-dashboard-data
           ref: cleanup-allow-list
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
 
       - name: Get Node version
         id: get-node-version
