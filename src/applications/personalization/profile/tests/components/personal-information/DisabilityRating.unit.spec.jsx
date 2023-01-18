@@ -39,10 +39,8 @@ describe('Personal Info - Disability Rating', () => {
   });
 
   it('should render no rating content if user doesnt have claim in state', () => {
-    const happyState = createHappyState();
-
-    const state = assign(
-      happyState,
+    const initialState = assign(
+      createHappyState(),
       {
         totalRating: {
           error: {
@@ -57,7 +55,7 @@ describe('Personal Info - Disability Rating', () => {
     );
 
     const tree = render(<DisabilityRating />, {
-      initialState: state,
+      initialState,
     });
     expect(
       tree.getByText(
