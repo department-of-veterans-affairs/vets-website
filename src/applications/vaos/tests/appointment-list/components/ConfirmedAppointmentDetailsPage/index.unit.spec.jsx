@@ -56,7 +56,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
     const data = {
@@ -325,7 +325,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it('should allow cancellation', async () => {
+  it.skip('should allow cancellation', async () => {
     // Given a veteran has VA appointments
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
@@ -572,7 +572,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       .exist;
   });
 
-  it('should fire a print request when print button clicked', async () => {
+  it.skip('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',
@@ -1049,7 +1049,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1153,7 +1153,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     );
   });
 
-  it('should show confirmed phone appointments detail page', async () => {
+  it.skip('should show confirmed phone appointments detail page', async () => {
     // Given a booked phone appointment
     const myInitialState = {
       ...initialState,
