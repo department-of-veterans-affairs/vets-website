@@ -9,7 +9,7 @@ function ReceiveTextMessages({
   onChange,
   id,
   formData,
-  handlePhoneOnChange,
+  // handlePhoneOnChange,
 }) {
   const {
     enumOptions,
@@ -33,7 +33,7 @@ function ReceiveTextMessages({
         event.target.value;
 
       setDirty(true);
-      handlePhoneOnChange(event.target.value);
+      // handlePhoneOnChange(event.target.value);
     },
     [formData],
   );
@@ -51,7 +51,7 @@ function ReceiveTextMessages({
         'Please enter a 10-digit phone number (with or without dashes)',
       );
     } else {
-      setShowError('');
+      setShowError(undefined);
     }
 
     if (!pattern.test(formData['view:phoneNumbers'].mobilePhoneNumber.phone)) {
@@ -93,7 +93,7 @@ function ReceiveTextMessages({
       </div>
 
       {enumOptions[0].value === value &&
-        (!hasMobilePhone || showError) && (
+        (!hasMobilePhone || showError || dirty) && (
           <>
             <va-alert
               background-only
@@ -105,7 +105,26 @@ function ReceiveTextMessages({
               We’ll need a mobile phone number to send you text message
               notifications
             </va-alert>
+
+            {/* <label */}
+            {/*  className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary" */}
+            {/*  htmlFor="my-input" */}
+            {/* > */}
+            {/*  Mobile phone number */}
+            {/*  <span className="required">(*Required)</span> */}
+            {/* </label> */}
+
+            {/* <input */}
+            {/*  autoComplete="tel" */}
+            {/*  type="tel" */}
+            {/*  className="va-input-medium-large vads-u-width--auto" */}
+            {/*  onInput={handleInput} */}
+            {/*  onBlur={handleError} */}
+            {/*  id="my-input" */}
+            {/* /> */}
+
             <va-text-input
+              className="vads-u-width--auto"
               hint={null}
               type="tel"
               error={showError}
@@ -141,7 +160,7 @@ ReceiveTextMessages.propTypes = {
   formData: PropTypes.shape({}),
   id: PropTypes.string,
   onChange: PropTypes.func,
-  handlePhoneOnChange: PropTypes.func,
+  // handlePhoneOnChange: PropTypes.func,
   options: PropTypes.object,
   user: PropTypes.object,
   value: PropTypes.string,
