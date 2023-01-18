@@ -1,5 +1,5 @@
 import React from 'react';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import date from 'platform/forms-system/src/js/definitions/date';
 import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
 export const uiSchema = {
@@ -7,14 +7,16 @@ export const uiSchema = {
   additionalData: {
     bankruptcy: {
       dateDischarged: {
-        ...monthYearUI('Date a court granted you a bankruptcy discharge'),
+        ...date('Date a court granted you a bankruptcy discharge'),
         'ui:validations': [validateCurrentOrPastDate],
+        'ui:required': () => true,
       },
       courtLocation: {
         'ui:title': 'Location of court (city, state)',
         'ui:options': {
           widgetClassNames: 'input-size-6',
         },
+        'ui:required': () => true,
       },
       docketNumber: {
         'ui:title': 'Case or docket number',
@@ -26,6 +28,7 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-6',
         },
+        'ui:required': () => true,
       },
     },
   },
