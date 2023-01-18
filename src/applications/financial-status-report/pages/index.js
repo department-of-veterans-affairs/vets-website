@@ -48,6 +48,7 @@ import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
+import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
 import * as addIssue from './income/employmentEnhanced/addIssue';
 import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
 import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollDeductionChecklist';
@@ -109,6 +110,7 @@ export {
   resolutionComment,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
+  enhancedBankruptcyHistoryRecords,
   contactInfo,
   addIssue,
   employmentHistory,
