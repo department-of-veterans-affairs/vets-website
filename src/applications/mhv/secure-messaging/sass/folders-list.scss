@@ -1,6 +1,7 @@
 .manage-folder-container {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
   .left-button {
     border-radius: 4px 0 0 4px;
     box-shadow: -1px 0 0 2px $color-primary;
