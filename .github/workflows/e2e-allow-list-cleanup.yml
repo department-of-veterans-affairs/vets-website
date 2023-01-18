@@ -1,8 +1,9 @@
 name: E2E Allow List Cleanup
 
 on:
-  schedule:
-    - cron: '0 12 * * 1-5'
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 
 jobs:
   fetch-e2e-allow-list:
@@ -45,7 +46,7 @@ jobs:
 
       - name: Set Spec List Output
         id: spec-list-output
-        run: echo ::set-output name=specs::$ALL_CYPRESS_SPECS
+        run: echo specs=$ALL_CYPRESS_SPECS >> $GITHUB_OUTPUT
 
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
@@ -60,7 +61,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo ::set-output name=list::$ALLOW_LIST
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
 
   clean-up-allow-list:
     name: Clean up E2E Allow List
@@ -87,32 +88,8 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Checkout Testing Tools Team Dashboard Data repo
-        uses: actions/checkout@v3
-        with:
-          repository: department-of-veterans-affairs/qa-standards-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: qa-standards-dashboard-data
-          ref: cleanup-allow-list
-
-      - name: Get Node version
-        id: get-node-version
-        shell: bash
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-        working-directory: qa-standards-dashboard-data
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      # TODO: Potentially use install composite
-      - name: Install dependencies
-        shell: bash
-        run: yarn install --frozen-lockfile --prefer-offline --production=false
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
-        working-directory: qa-standards-dashboard-data
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Run cleanup script
         run: yarn cleanup-allow-list
