@@ -32,6 +32,7 @@ import {
   validatePrivateFromDate,
   validatePrivateToDate,
   validatePrivateUnique,
+  isEmptyPrivateEntry,
 } from '../validations/evidence';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
@@ -124,6 +125,7 @@ const EvidencePrivateRecords = ({
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
+
   const focusErrors = () => {
     if (hasErrors()) {
       focusElement('[error]');
@@ -198,6 +200,16 @@ const EvidencePrivateRecords = ({
     goToPath(`${PRIVATE_PATH}?index=${index}`);
   };
 
+  const addAndGoToPageIndex = index => {
+    const newProviderFacility = [...providerFacility];
+    if (!isEmptyPrivateEntry(providerFacility[index])) {
+      // only insert a new entry if the existing entry isn't empty
+      newProviderFacility.splice(index, 0, {});
+    }
+    setFormData({ ...data, providerFacility: newProviderFacility });
+    goToPageIndex(index);
+  };
+
   const handlers = {
     onBlur: event => {
       const fieldName = event.target.getAttribute('name');
@@ -240,8 +252,11 @@ const EvidencePrivateRecords = ({
         focusElement('[error]');
         return;
       }
-      // clear state and start over for new entry
-      goToPageIndex(providerFacility.length); // add to end
+      // clear state and insert a new entry after the current index (previously
+      // added new entry to the end). This change prevents the situation where
+      // an invalid entry in the middle of the array can get bypassed by adding
+      // a new entry
+      addAndGoToPageIndex(currentIndex + 1);
     },
 
     onGoForward: event => {

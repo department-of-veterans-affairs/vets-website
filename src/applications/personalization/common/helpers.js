@@ -77,3 +77,24 @@ export function makeUserObject(options = {}) {
     meta: { errors: null },
   };
 }
+
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export function formatFullName({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) {
+  return [first, middle, last, suffix].filter(name => !!name).join(' ');
+}
