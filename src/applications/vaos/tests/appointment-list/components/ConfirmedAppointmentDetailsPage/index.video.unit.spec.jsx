@@ -38,7 +38,7 @@ const initialState = {
 describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   describe('video appointments', () => {
     // VA appointment id from confirmed_va.json
-    const url = 'va/05760f00c80ae60ce49879cf37a05fc8';
+    const url = '/va/05760f00c80ae60ce49879cf37a05fc8';
 
     beforeEach(() => {
       mockFetch();
@@ -108,8 +108,16 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
+
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
       // And the user select the appointment to display the appointment details page
-      fireEvent.click(await screen.findByText(/Details/));
+      // fireEvent.click(await screen.findByText(/Details/));
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
