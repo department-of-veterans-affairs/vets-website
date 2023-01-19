@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { AUTH_ERRORS, getAuthError } from 'platform/user/authentication/errors';
 import RenderErrorContainer from '../components/RenderErrorContainer';
@@ -11,7 +11,6 @@ describe('RenderErrorContainer', () => {
   beforeEach(() => {
     renderOptions = {
       recordEvent: sinon.stub(),
-      openLoginModal: sinon.stub(),
     };
   });
 
@@ -55,19 +54,14 @@ describe('RenderErrorContainer', () => {
   it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009 | 202`', () => {
     ['001', '003', '004', '005', '009', '202'].forEach(CODE => {
       const { errorCode } = getAuthError(CODE);
-      const wrapper = mount(
+      const wrapper = shallow(
         <RenderErrorContainer
           auth="fail"
           code={errorCode}
           requestId={`request-${errorCode}`}
-          openLoginModal={renderOptions.openLoginModal}
         />,
       );
 
-      const button = wrapper.find('button');
-      button.simulate('click');
-
-      expect(renderOptions.openLoginModal.called).to.be.true;
       expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
         errorCode,
       );

@@ -147,6 +147,11 @@ describe('HCA IntroductionPage', () => {
     expect(
       view.container.querySelector('[data-testid="login-alert-button"]'),
     ).to.have.attribute('text', 'Sign in to check your application status');
+    expect(
+      view.getByRole('button', {
+        name: 'Sign in to check your application status',
+      }),
+    ).to.have.attr('class', 'va-button');
   });
 
   it('should show start your application for Loa3 user that is logged in and not already enrolled', () => {

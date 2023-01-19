@@ -15,6 +15,7 @@ const GetStartedContent = ({ route, showLoginAlert }) => {
             Have you applied for VA health care before?
           </h2>
           <LoginModalButton
+            className="va-button"
             context="hcainfo"
             message="Sign in to check your application status"
             data-testid="login-alert-button"

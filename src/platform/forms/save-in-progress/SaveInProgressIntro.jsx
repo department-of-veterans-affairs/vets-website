@@ -192,21 +192,19 @@ class SaveInProgressIntro extends React.Component {
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
-      const unauthStartButton = unauthStartText ? (
+      const unauthStartButton = (
         <LoginModalButton
           className="usa-button-primary"
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedby}
-          message={unauthStartText}
-        />
-      ) : (
-        <LoginModalButton
-          className="usa-button-primary"
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
-          message={UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+          message={
+            unauthStartText.length > 0
+              ? unauthStartText
+              : UNAUTH_SIGN_IN_DEFAULT_MESSAGE
+          }
         />
       );
+
       alert = buttonOnly ? (
         <>
           {unauthStartButton}

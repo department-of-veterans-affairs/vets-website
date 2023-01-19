@@ -198,8 +198,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    const link = tree.find('.va-button-link');
-    expect(link.text()).to.contain('Sign in to your account.');
+    const link = tree.find('Connect(LoginModalButton)');
+    expect(link.props().message).to.contain('Sign in to your account.');
     expect(link.prop('aria-label')).to.eq('test aria-label');
     expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
@@ -243,7 +243,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.usa-alert').text()).to.contain(
       'Save time—and save your work in progress—by signing in before starting your application',
     );
-    expect(tree.find('.usa-button-primary').text()).to.contain(
+    expect(tree.find('Connect(LoginModalButton)').props().message).to.contain(
       'Sign in to start your application',
     );
     expect(tree.find('.schemaform-start-button').html()).to.contain(
@@ -687,7 +687,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
-    expect(tree.find('.usa-button-primary').text()).to.equal(
+
+    expect(tree.find('Connect(LoginModalButton)').props().message).to.equal(
       'Custom message displayed to non-signed-in users',
     );
     tree.unmount();
