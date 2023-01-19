@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { formFields } from '../constants';
 
 function ReceiveTextMessages({
   options,
@@ -9,7 +10,7 @@ function ReceiveTextMessages({
   onChange,
   id,
   formData,
-  // handlePhoneOnChange,
+  setFormData,
 }) {
   const {
     enumOptions,
@@ -27,26 +28,15 @@ function ReceiveTextMessages({
   const [dirty, setDirty] = useState(false);
   const [showError, setShowError] = useState('');
 
-  const handleInput = useCallback(
-    event => {
-      formData['view:phoneNumbers'].mobilePhoneNumber.phone = // eslint-disable-line no-param-reassign
-        event.target.value;
-
-      setDirty(true);
-      // handlePhoneOnChange(event.target.value);
-    },
-    [formData],
-  );
-
-  // const handleBlur = event => {
-  //   setDirty(true);
-  //   setNewMobilePhone(event.nativeEvent.data);
-  // };
+  const [flag, setFlag] = useState();
 
   const handleError = () => {
     const pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
 
-    if (formData['view:phoneNumbers']?.mobilePhoneNumber?.phone?.length < 10) {
+    if (
+      dirty &&
+      formData['view:phoneNumbers']?.mobilePhoneNumber?.phone?.length < 10
+    ) {
       setShowError(
         'Please enter a 10-digit phone number (with or without dashes)',
       );
@@ -63,17 +53,55 @@ function ReceiveTextMessages({
     }
   };
 
+  const handleInput = useCallback(
+    event => {
+      setFlag(event.target.value);
+      setDirty(true);
+    },
+    [formData],
+  );
+
+  const handleBlur = useCallback(
+    event => {
+      setFlag(event.target.value);
+      setDirty(true);
+      handleError();
+    },
+    [formData],
+  );
+
   useEffect(
     () => {
       setHasMobilePhone(
         !!formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
       );
-
       handleError();
     },
     [dirty, hasMobilePhone],
   );
 
+  useEffect(
+    () => {
+      if (flag === formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
+        return;
+      }
+      setFormData({
+        ...formData,
+        'view:phoneNumbers': {
+          ...formData['view:phoneNumbers'],
+          mobilePhoneNumber: {
+            ...formData['view:phoneNumbers'].mobilePhoneNumber,
+            phone: flag,
+          },
+        },
+        [formFields.viewReceiveTextMessages]: {
+          ...formData[formFields.viewReceiveTextMessages],
+          textMessageMobilePhone: flag,
+        },
+      });
+    },
+    [setFormData, formData, flag],
+  );
   return (
     <>
       <div className="form-radio-buttons" key={enumOptions[0].value}>
@@ -130,7 +158,7 @@ function ReceiveTextMessages({
               error={showError}
               label="Mobile phone number"
               name="my-input"
-              onBlur={handleError}
+              onBlur={handleBlur}
               onInput={handleInput}
               required
             />

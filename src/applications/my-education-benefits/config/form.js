@@ -949,38 +949,13 @@ const formConfig = {
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
-                'ui:widget': props => {
-                  // const handlePhoneOnChange = arg => {
-                  //   console.log(arg);
-                  // };
-                  // props = {
-                  //   ...props,
-                  // handlePhoneOnChange,
-                  // };
-                  return <ReceiveTextMessages {...props} />;
+                'ui:widget': ReceiveTextMessages,
+              },
+              textMessageMobilePhone: {
+                'ui:options': {
+                  hideLabelText: true,
+                  showFieldLabel: false,
                 },
-                // 'ui:validations': [
-                //   (errors, field, formData) => {
-                //     const isYes = field.slice(0, 4).includes('Yes');
-                //     const phoneExist = !!formData[formFields.viewPhoneNumbers]
-                //       .mobilePhoneNumber.phone;
-                //     const { isInternational } = formData[
-                //       formFields.viewPhoneNumbers
-                //     ].mobilePhoneNumber;
-                //
-                //     if (isYes) {
-                //       if (!phoneExist) {
-                //         errors.addError(
-                //           "You can't select that response because we don't have a mobile phone number on file for you.",
-                //         );
-                //       } else if (isInternational) {
-                //         errors.addError(
-                //           "You can't select that response because you have an international mobile phone number",
-                //         );
-                //       }
-                //     }
-                //   },
-                // ],
               },
             },
             'view:textMessagesAlert': {
@@ -1076,6 +1051,10 @@ const formConfig = {
                       'No, just send me email notifications',
                     ],
                   },
+                  textMessageMobilePhone: {
+                    type: 'string',
+                    pattern: '^\\d{10}$',
+                  },
                 },
               },
               'view:textMessagesAlert': {
@@ -1091,7 +1070,10 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [formFields.contactMethod],
+            required: [
+              formFields.contactMethod,
+              formFields.viewReceiveTextMessages.textMessageMobilePhone,
+            ],
           },
         },
       },
