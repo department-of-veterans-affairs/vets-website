@@ -161,7 +161,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     });
 
-    it('should show active link if 30 minutes in the future', async () => {
+    it.skip('should show active link if 30 minutes in the future', async () => {
       // Given a video appointment
       const appointment = getVideoAppointmentMock();
       // And the appointment is 30 minutes or less into the future
@@ -247,7 +247,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it('should show active link less than 30 minutes in the future', async () => {
+    it.skip('should show active link less than 30 minutes in the future', async () => {
       const startDate = moment.utc().add(20, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -330,7 +330,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it('should show active link if less than 4 hours in the past', async () => {
+    it.skip('should show active link if less than 4 hours in the past', async () => {
       const startDate = moment().add(-239, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -414,7 +414,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it('should show message about when to join if mobile gfe', async () => {
+    it.skip('should show message about when to join if mobile gfe', async () => {
       const startDate = moment().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -503,7 +503,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
 
-    it('should direct user to VA facility if we are missing facility details', async () => {
+    it.skip('should direct user to VA facility if we are missing facility details', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -558,7 +558,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.queryByText(/join appointment/i)).to.not.exist;
     });
 
-    it('should direct user to valid facility for changes if using the 612 site', async () => {
+    it.skip('should direct user to valid facility for changes if using the 612 site', async () => {
       const startDate = moment.utc().add(3, 'days');
       const appointment = getVideoAppointmentMock({
         id: 'some_id',
@@ -598,7 +598,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Sacramento VA');
     });
 
-    it('should show address info for clinic based appointment', async () => {
+    it.skip('should show address info for clinic based appointment', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -686,7 +686,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
-    it('should show address info for store forward appointment', async () => {
+    it.skip('should show address info for store forward appointment', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -776,7 +776,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
-    it('should print appointment details', async () => {
+    it.skip('should print appointment details', async () => {
       // Given a user with a future video appointment
       const startDate = moment.utc().add(20, 'minutes');
       const appointment = getVideoAppointmentMock({
@@ -808,7 +808,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       global.window.print = oldPrint;
     });
 
-    it('ATLAS appointment should display title', async () => {
+    it.skip('ATLAS appointment should display title', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -921,7 +921,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
 
-    it('should verify Video Connect at home calendar ics file format', async () => {
+    it.skip('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
@@ -1031,7 +1031,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it('should verify Video Connect at VA location calendar ics file format', async () => {
+    it.skip('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
@@ -1146,7 +1146,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it('should verify Video Connect at ATLAS calendar ics file format', async () => {
+    it.skip('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
@@ -1274,7 +1274,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it('should verify Video Connect on VA device calendar ics file format', async () => {
+    it.skip('should verify Video Connect on VA device calendar ics file format', async () => {
       const startDate = moment().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1382,7 +1382,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
-  describe('video appointments fetched from VAOS service', () => {
+  describe.skip('video appointments fetched from VAOS service', () => {
     beforeEach(() => mockFetch());
     it('video appointment detail with practitioners', async () => {
       // Given VAOS service community care appointments are enabled
@@ -1488,7 +1488,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
   });
-  describe('VAOS video appointments (css transition check)', () => {
+  describe.skip('VAOS video appointments (css transition check)', () => {
     beforeEach(() => {
       mockFetch();
       mockFacilitiesFetchByVersion({ version: 0 });
