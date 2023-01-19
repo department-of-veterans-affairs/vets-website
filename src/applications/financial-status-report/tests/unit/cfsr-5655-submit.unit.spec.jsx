@@ -19,16 +19,13 @@ const combined = {
 describe('Submit event data', () => {
   it('should build submit event data', () => {
     expect(buildEventData(debtOnly)).to.deep.equal({
-      'request-includes-copay': false,
-      'request-includes-debt': true,
+      'submission-type': 'debt-submission',
     });
     expect(buildEventData(copayOnly)).to.deep.equal({
-      'request-includes-copay': true,
-      'request-includes-debt': false,
+      'submission-type': 'copay-submission',
     });
     expect(buildEventData(combined)).to.deep.equal({
-      'request-includes-copay': true,
-      'request-includes-debt': true,
+      'submission-type': 'combo-submission',
     });
   });
 });
