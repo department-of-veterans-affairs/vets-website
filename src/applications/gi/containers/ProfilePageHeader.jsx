@@ -104,11 +104,10 @@ const ProfilePageHeader = ({
   // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT; // turn on with new API
 
   /// ////////////////////////////////////////////////////////////////////////////
-  const ratingAvg = '0';
-  const stars = 0;
-  // uncomment to run ratings with mock data
-  // const ratingAvg = institutionRatingsMockData[0].overall_avg;
-  // const stars = convertRatingToStars(ratingAvg);
+  const ratingAvg = '0'; // comment out to use mock data, delete when API is attached
+  const stars = 0; // comment out to use mock data, delete when API is attached
+  // const ratingAvg = institutionRatingsMockData[0].overall_avg;  // uncomment to run ratings with mock data
+  // const stars = convertRatingToStars(ratingAvg);  // uncomment to run ratings with mock data
   const displayStars = false; // set to true to run mock data
   /// ////////////////////////////////////////////////////////////////////////////
 

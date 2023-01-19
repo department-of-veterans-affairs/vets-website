@@ -5,11 +5,11 @@ export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
   return (
     <div className="vads-l-grid-container main-rating">
       <div className="vads-l-row">
-        <div className="vads-l-col--1 vads-u-margin-right--1 ratings-star-block">
+        <div className="vads-l-col--1 vads-u-margin-right--1 vads-u-margin-top--0p5 ratings-star-block">
           <RatingsStars rating={ratingAverage} />
         </div>
 
-        <div className="vads-l-col-- vads-u-font-weight--bold">
+        <div className="vads-u-font-weight--bold vads-u-margin-left--neg1p5">
           {`${displayStars} out of 4 overall`}
         </div>
 
