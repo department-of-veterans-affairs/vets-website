@@ -9,10 +9,10 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { API_NAMES } from '../../common/constants';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
-import API_NAMES from '../utils/apiNames';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -52,7 +52,7 @@ import BenefitPaymentsV2 from './benefit-payments-v2/BenefitPaymentsV2';
 import DebtsV2 from './debts-v2/DebtsV2';
 import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
-import { canAccess } from '../selectors';
+import { canAccess } from '../../common/selectors';
 import { RenderClaimsWidgetDowntimeNotification } from './RenderWidgetDowntimeNotification';
 import SavedApplications from './apply-for-benefits/SavedApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';

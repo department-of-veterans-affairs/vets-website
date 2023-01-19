@@ -61,7 +61,7 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
             information.
           </li>
         </ul>
-        <p>
+        <p className="vads-u-padding-top--2">
           If you notice a mistake, it’s best if you reach out to your SCO soon.
           The sooner VA knows about changes to your enrollment, the less likely
           you are to be overpaid and incur a debt.
