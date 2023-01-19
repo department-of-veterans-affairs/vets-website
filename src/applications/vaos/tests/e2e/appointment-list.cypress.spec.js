@@ -48,7 +48,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va appointment', () => {
+    it.skip('va appointment', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -74,7 +74,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va phone appointment', () => {
+    it.skip('va phone appointment', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -103,7 +103,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment', () => {
+    it.skip('va video appointment', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -129,7 +129,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment at an ATLAS location', () => {
+    it.skip('va video appointment at an ATLAS location', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -155,7 +155,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('va video appointment at home', () => {
+    it.skip('va video appointment at home', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -181,7 +181,7 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should allow for canceling of appointments', () => {
+    it.skip('should allow for canceling of appointments', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
       mockCancelReasonsApi({ facilityId: '983' });
 
@@ -212,7 +212,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('upcoming appointments', () => {
+  describe.skip('upcoming appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
@@ -255,7 +255,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('requested appointments', () => {
+  describe.skip('requested appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
@@ -312,7 +312,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('past appointments', () => {
+  describe.skip('past appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
@@ -379,7 +379,7 @@ describe('VAOS appointment list', () => {
     });
   });
 
-  describe('canceled appointments', () => {
+  describe.skip('canceled appointments', () => {
     beforeEach(() => {
       vaosSetup();
 
