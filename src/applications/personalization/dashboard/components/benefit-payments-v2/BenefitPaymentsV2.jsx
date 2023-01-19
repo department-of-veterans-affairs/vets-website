@@ -6,8 +6,8 @@ import PaymentsCardV2 from './PaymentsCardV2';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-import { canAccess } from '../../selectors';
-import API_NAMES from '../../utils/apiNames';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 const NoRecentPaymentText = () => {
   return (

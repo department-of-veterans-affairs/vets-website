@@ -1,4 +1,4 @@
-import { badAddress, user72Success } from '../../../mocks/user';
+import { badAddress, loa3User72 } from '../../../mocks/user';
 
 import { generateFeatureToggles } from '../../../mocks/feature-toggles';
 import {
@@ -17,7 +17,7 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
     });
 
     cy.intercept('GET', '/v0/user*', req => {
-      req.reply(200, user72Success);
+      req.reply(200, loa3User72);
     });
   });
 

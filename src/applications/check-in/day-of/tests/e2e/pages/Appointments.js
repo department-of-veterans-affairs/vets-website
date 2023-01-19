@@ -103,6 +103,12 @@ class Appointments {
       `:nth-child(${appointmentNumber}) > [data-testid=check-in-button]`,
     ).click({ waitForAnimations: true });
   };
+
+  clickDetails = (appointment = 1) => {
+    cy.get(`li:nth-child(${appointment}) [data-testid="details-link"]`).click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default new Appointments();

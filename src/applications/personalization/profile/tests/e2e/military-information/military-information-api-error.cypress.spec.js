@@ -1,4 +1,4 @@
-import { user72Success, nonVeteranUser } from '../../../mocks/user';
+import { loa3User72, nonVeteranUser } from '../../../mocks/user';
 
 import { generateFeatureToggles } from '../../../mocks/feature-toggles';
 import fullName from '../../../mocks/full-name';
@@ -16,7 +16,7 @@ describe('Military Information - Profile page', () => {
         profileAlwaysShowDirectDepositDisplay: true,
       }),
     );
-    cy.intercept('GET', '/v0/user', user72Success);
+    cy.intercept('GET', '/v0/user', loa3User72);
 
     cy.intercept('GET', '/v0/profile/full_name', fullName.success);
     cy.intercept('GET', '/v0/profile/personal_information', resp => {
@@ -34,7 +34,7 @@ describe('Military Information - Profile page', () => {
   });
 
   it('Should not display error message on Personal and Contact page', () => {
-    cy.login(user72Success);
+    cy.login(loa3User72);
     MilitaryInformation.visitContactInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
@@ -43,7 +43,7 @@ describe('Military Information - Profile page', () => {
     MilitaryInformation.heroErrorMessageShouldNotExist();
   });
   it('should display correct error messaging on military information page', () => {
-    cy.login(user72Success);
+    cy.login(loa3User72);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
@@ -94,7 +94,7 @@ describe('Military Information - NotInDeers', () => {
         profileAlwaysShowDirectDepositDisplay: true,
       }),
     );
-    cy.intercept('GET', '/v0/user', user72Success);
+    cy.intercept('GET', '/v0/user', loa3User72);
 
     cy.intercept('GET', '/v0/profile/full_name', fullName.success);
     cy.intercept('GET', '/v0/profile/personal_information', resp => {
@@ -111,7 +111,7 @@ describe('Military Information - NotInDeers', () => {
     });
   });
   it('should display user not in deers error on military information page', () => {
-    cy.login(user72Success);
+    cy.login(loa3User72);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
