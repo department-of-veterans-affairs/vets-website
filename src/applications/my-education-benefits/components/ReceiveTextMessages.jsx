@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { formFields } from '../constants';
+// import { formFields } from '../constants';
 
 function ReceiveTextMessages({
   options,
@@ -44,7 +44,10 @@ function ReceiveTextMessages({
       setShowError(undefined);
     }
 
-    if (!pattern.test(formData['view:phoneNumbers'].mobilePhoneNumber.phone)) {
+    if (
+      dirty &&
+      !pattern.test(formData['view:phoneNumbers'].mobilePhoneNumber.phone)
+    ) {
       setShowError(
         'Please enter a 10-digit phone number (with or without dashes)',
       );
@@ -58,7 +61,7 @@ function ReceiveTextMessages({
       setFlag(event.target.value);
       setDirty(true);
     },
-    [formData],
+    [dirty, formData],
   );
 
   const handleBlur = useCallback(
@@ -67,7 +70,7 @@ function ReceiveTextMessages({
       setDirty(true);
       handleError();
     },
-    [formData],
+    [dirty, formData],
   );
 
   useEffect(
@@ -94,10 +97,7 @@ function ReceiveTextMessages({
             phone: flag,
           },
         },
-        [formFields.viewReceiveTextMessages]: {
-          ...formData[formFields.viewReceiveTextMessages],
-          textMessageMobilePhone: flag,
-        },
+        textMessageMobilePhone: flag,
       });
     },
     [setFormData, formData, flag],

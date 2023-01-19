@@ -347,6 +347,12 @@ const validateAccountNumber = (
   }
 };
 
+const addToRequire = formData => {
+  return formData['view:receiveTextMessages']?.receiveTextMessages
+    ?.slice(0, 4)
+    ?.includes('Yes');
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -951,11 +957,16 @@ const formConfig = {
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': ReceiveTextMessages,
               },
-              textMessageMobilePhone: {
-                'ui:options': {
-                  hideLabelText: true,
-                  showFieldLabel: false,
-                },
+            },
+            textMessageMobilePhone: {
+              'ui:required': formData => addToRequire(formData),
+              'ui:options': {
+                // hideLabelText: true,
+                // showFieldLabel: false,
+                hideIf: data =>
+                  data['view:receiveTextMessages']?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No'),
               },
             },
             'view:textMessagesAlert': {
@@ -1051,11 +1062,11 @@ const formConfig = {
                       'No, just send me email notifications',
                     ],
                   },
-                  textMessageMobilePhone: {
-                    type: 'string',
-                    pattern: '^\\d{10}$',
-                  },
                 },
+              },
+              textMessageMobilePhone: {
+                type: 'string',
+                pattern: '^\\d{10}$',
               },
               'view:textMessagesAlert': {
                 type: 'object',
@@ -1070,10 +1081,8 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [
-              formFields.contactMethod,
-              formFields.viewReceiveTextMessages.textMessageMobilePhone,
-            ],
+            // Can't proceed with form due to "textMessageMobilePhone", if hidden it prevents the user from moving
+            required: [formFields.contactMethod],
           },
         },
       },
