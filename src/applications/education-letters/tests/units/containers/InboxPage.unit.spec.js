@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import InboxPage from '../containers/InboxPage';
-import { TOEClaimStatus, MEBClaimStatus } from './fixtures/claimStatus.json';
+import InboxPage from '../../../containers/InboxPage';
+import {
+  TOEClaimStatus,
+  MEBClaimStatus,
+} from '../../fixtures/claimStatus.json';
 
 describe('Render MEB or TOE claim status', () => {
   const initialState = {

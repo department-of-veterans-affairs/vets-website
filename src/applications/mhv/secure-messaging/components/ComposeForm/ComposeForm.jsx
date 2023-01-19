@@ -17,6 +17,7 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+import HowToAttachFiles from '../HowToAttachFiles';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -379,7 +380,7 @@ const ComposeForm = props => {
         </div>
         <section className="attachments-section">
           <div className="compose-attachments-heading">Attachments</div>
-
+          <HowToAttachFiles />
           <AttachmentsList
             attachments={attachments}
             setAttachments={setAttachments}

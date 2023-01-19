@@ -1,15 +1,14 @@
 .signature-box {
-  .on-behalf-representative {
+  .signature-box--representative {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
     margin: 10px 0 0 0;
   }
 
-  header {
-    p + p {
-      margin-bottom: 0;
-    }
+  .signature-box--legend {
+    color: inherit;
+    float: left;
   }
 
   label:first-child {

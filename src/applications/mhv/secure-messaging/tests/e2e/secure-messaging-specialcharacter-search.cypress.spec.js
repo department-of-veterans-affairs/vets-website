@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';

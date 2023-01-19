@@ -28,12 +28,15 @@ const PdfAlert = () => {
   return ReactDOM.createPortal(
     <va-alert>
       <h2 slot="headline" className="vads-u-font-size--h3">
-        We’re updating our forms
+        Use the latest version of Acrobat Reader
       </h2>
       <p>
-        After January 7, 2023, you won’t be able to use VA forms that have a
-        “last updated” date before March 2022. If you downloaded any of these
-        older VA forms, you may need to download new copies in January.
+        Some VA forms may not work with older versions of Acrobat Reader. You
+        may also need to download a new copy of the VA form.&nbsp;
+        <va-link
+          href="https://get.adobe.com/reader/"
+          text="Get Acrobat Reader for free from Adobe"
+        />
       </p>
     </va-alert>,
     pdfCertWarningElement,
