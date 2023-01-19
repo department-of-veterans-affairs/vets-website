@@ -5,6 +5,7 @@ import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
   mockAppointmentInfo,
