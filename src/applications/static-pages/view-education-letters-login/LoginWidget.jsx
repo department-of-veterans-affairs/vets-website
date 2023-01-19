@@ -23,7 +23,7 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
         className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
         slot="headline"
       >
-        Please sign in to get your VA education letter.
+        Download your VA education decision letter
       </p>
       <div>
         Sign in with your existing{' '}
