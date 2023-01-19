@@ -134,6 +134,7 @@ const AdvancedSearchForm = props => {
         <VaModal
           modalTitle="Invalid search"
           onPrimaryButtonClick={() => setFormError()}
+          onCloseEvent={() => setFormError()}
           primaryButtonText="Ok"
           status="error"
           visible
@@ -163,6 +164,7 @@ const AdvancedSearchForm = props => {
         onVaSelect={e => setFolder(e.detail.value)}
         data-testid="folder-dropdown"
         required
+        enable-analytics
       >
         {folders?.length > 0 &&
           folders?.map(item => (

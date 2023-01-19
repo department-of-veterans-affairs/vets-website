@@ -75,6 +75,9 @@ function ToeApp({
       <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education">Education and training</a>
+        <a href="/education/survivor-dependent-benefits/transferred-benefits/">
+          VA education benefits for survivors and dependents
+        </a>
         <a href="/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e">
           Apply to use transferred education benefits
         </a>

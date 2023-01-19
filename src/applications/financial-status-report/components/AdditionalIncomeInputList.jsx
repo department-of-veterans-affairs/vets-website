@@ -2,8 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const AdditionalIncomeInputList = ({ errorSchema }) => {
+const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   const errorList = errorSchema?.addlIncRecords?.__errors;
+  const { submitted } = formContext;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
@@ -43,7 +44,9 @@ const AdditionalIncomeInputList = ({ errorSchema }) => {
             value={income.amount}
             id={income.name + key}
             error={
-              errorList.includes(income.name) ? 'Enter valid dollar amount' : ''
+              submitted && errorList.includes(income.name)
+                ? 'Enter valid dollar amount'
+                : ''
             }
             inputmode="decimal"
             onInput={onChange}

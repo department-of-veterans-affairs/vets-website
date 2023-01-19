@@ -13,13 +13,14 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
         <h4 className="vads-u-font-size--h5 vads-u-margin--0">
           {content.reviewTitle}
         </h4>
-        <va-button
-          class="edit-page"
-          secondary
+        <button
+          type="button"
+          className="edit-page usa-button-secondary"
           onClick={editPage}
           aria-label={content.editLabel}
-          text={content.edit}
-        />
+        >
+          {content.edit}
+        </button>
       </div>
       <dl className="review">
         <div className="review-row">

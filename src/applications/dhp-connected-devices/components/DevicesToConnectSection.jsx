@@ -36,7 +36,7 @@ export const DevicesToConnectSection = ({
         testId="connection-unavailable-alert"
         status="error"
         headline="Unable to connect health device"
-        description="We're sorry, but your VA.gov user account is not configured to connect to health devices at this time. Please contact DHP-pilot@va.gov."
+        description="We're sorry, but your VA.gov user account is not configured to connect to health devices at this time. Please contact VA-DHP-Pilot@va.gov."
       />
     );
   };

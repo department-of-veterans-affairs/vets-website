@@ -1,5 +1,5 @@
 import manifest from '../../manifest.json';
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';

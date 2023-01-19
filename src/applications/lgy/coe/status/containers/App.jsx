@@ -83,7 +83,12 @@ const App = ({
         );
         break;
       case COE_ELIGIBILITY_STATUS.denied:
-        content = <Denied referenceNumber={coe.referenceNumber} />;
+        content = (
+          <Denied
+            referenceNumber={coe.referenceNumber}
+            requestDate={coe.applicationCreateDate}
+          />
+        );
         break;
       case COE_ELIGIBILITY_STATUS.pending:
         content = (

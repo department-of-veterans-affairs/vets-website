@@ -367,12 +367,14 @@ export const VerifyEnrollmentsPage = ({
         required
       >
         <va-radio-option
+          checked={monthInformationCorrect === VERIFICATION_STATUS_CORRECT}
           class="vads-u-margin-y--2"
           label="Yes, this information is correct"
           name={VERIFICATION_STATUS_CORRECT}
           value={VERIFICATION_STATUS_CORRECT}
         />
         <va-radio-option
+          checked={monthInformationCorrect === VERIFICATION_STATUS_INCORRECT}
           class="vads-u-margin-y--2"
           label="No, this information isn’t correct"
           name={VERIFICATION_STATUS_INCORRECT}

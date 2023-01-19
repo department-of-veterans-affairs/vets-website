@@ -1,9 +1,8 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import manifest from '../../manifest.json';
 
-describe(manifest.appName, () => {
-  it('print single message', () => {
+describe('Secure Messaging - Print Functionality', () => {
+  it('print all messages', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -35,22 +34,27 @@ describe(manifest.appName, () => {
     cy.get('[data-testid=radio-print-all-messages]').click();
     cy.window().then(win => {
       win.print();
-
       expect(win.print).to.be.calledOnce;
+      cy.injectAxe();
+      cy.axeCheck();
     });
-    site.login();
-    landingPage.loadPage(false);
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.sentDate,
-    );
-    cy.get('[data-testid=print-button]').click();
-    cy.get('[data-testid=radio-print-one-message]').click();
-    cy.window().then(win => {
-      win.print();
+    it('print single message', () => {
+      site.login();
+      landingPage.loadPage(false);
+      landingPage.loadMessageDetails(
+        landingPage.getNewMessage().attributes.messageId,
+        landingPage.getNewMessage().attributes.subject,
+        landingPage.getNewMessage().attributes.sentDate,
+      );
+      cy.get('[data-testid=print-button]').click();
+      cy.get('[data-testid=radio-print-one-message]').click();
+      cy.window().then(win => {
+        win.print();
 
-      expect(win.print).to.be.calledOnce;
+        expect(win.print).to.be.calledOnce;
+      });
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });

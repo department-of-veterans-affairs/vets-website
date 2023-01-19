@@ -9,6 +9,7 @@ import PrintBtn from './MessageActionButtons/PrintBtn';
 import { navigateToFolderByFolderId } from '../util/helpers';
 import DeleteMessageModal from './Modals/DeleteMessageModal';
 import * as Constants from '../util/constants';
+import ActionButtons from './shared/ActionButtons';
 
 const MessageActionButtons = props => {
   const { id, hideReplyButton } = props;
@@ -41,16 +42,18 @@ const MessageActionButtons = props => {
 
   const deleteMessageModal = () => {
     return (
-      <DeleteMessageModal
-        id={props.id}
-        visible={isDeleteVisible}
-        onClose={() => {
-          setIsDeleteVisible(false);
-        }}
-        onDelete={() => {
-          handleDeleteMessageConfirm();
-        }}
-      />
+      <li>
+        <DeleteMessageModal
+          id={props.id}
+          visible={isDeleteVisible}
+          onClose={() => {
+            setIsDeleteVisible(false);
+          }}
+          onDelete={() => {
+            handleDeleteMessageConfirm();
+          }}
+        />
+      </li>
     );
   };
 
@@ -66,21 +69,22 @@ const MessageActionButtons = props => {
     }
   };
 
-  return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around vads-u-margin-y--4">
-      <PrintBtn handlePrint={handlePrint} id={id} />
-
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
+  const displayTrashBtn = () => {
+    if (
+      activeFolder?.folderId !== Constants.DefaultFolders.SENT.id ||
+      activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+    ) {
+      return (
+        <li key="trash">
           <button
             type="button"
-            className="message-action-button middle-button middle-left-button usa-button-secondary"
+            className="usa-button-secondary"
             onClick={() => {
               setIsDeleteVisible(true);
             }}
           >
             <i
-              className="fas fa-trash-alt .vads-u-margin-right--0p5"
+              className="fas fa-trash-alt vads-u-margin-right--0p5"
               aria-hidden
             />
             <span
@@ -90,40 +94,65 @@ const MessageActionButtons = props => {
               Trash
             </span>
           </button>
-        )}
+          {isDeleteVisible && deleteMessageModal()}
+        </li>
+      );
+    }
+    return null;
+  };
+  const displayMoveBtn = () => {
+    if (activeFolder?.folderId !== Constants.DefaultFolders.SENT.id) {
+      return (
+        <li key="MoveMessage">
+          <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
+        </li>
+      );
+    }
+    return null;
+  };
 
-      {isDeleteVisible && deleteMessageModal()}
-
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
-        <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
-      )}
-
-      {!hideReplyButton && (
-        <button
-          type="button"
-          className="message-action-button right-button usa-button-secondary"
-          data-testid="reply-button-top"
-          onClick={props.onReply}
-        >
-          <i
-            className="fas fa-reply vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
-          <span
-            className="message-action-button-text"
-            data-testid="reply-button-text"
+  const displayReplyBtn = () => {
+    if (!hideReplyButton) {
+      return (
+        <li key="reply">
+          <button
+            type="button"
+            className="usa-button-secondary"
+            data-testid="reply-button-top"
+            onClick={props.onReply}
           >
-            Reply
-          </span>
-        </button>
-      )}
-    </div>
-  );
+            <i
+              className="fas fa-reply vads-u-margin-right--0p5"
+              aria-hidden="true"
+            />
+            <span
+              className="message-action-button-text"
+              data-testid="move-button-text"
+            >
+              Reply
+            </span>
+          </button>
+        </li>
+      );
+    }
+    return null;
+  };
+
+  const buttonsArray = [
+    <li key="print">
+      <PrintBtn handlePrint={handlePrint} id={id} />
+    </li>,
+    displayTrashBtn(),
+    displayMoveBtn(),
+    displayReplyBtn(),
+  ];
+
+  return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
   handlePrintThreadStyleClass: PropTypes.func,
-  hideReplyButton: PropTypes.func,
+  hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
   onReply: PropTypes.func,
 };
