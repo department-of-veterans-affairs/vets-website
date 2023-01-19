@@ -36,7 +36,10 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'have.text',
       'Download important documents about your education benefits here, including your decision letters. ',
     );
-    cy.findByTestId('form-title').should('have.text', 'VA education inbox');
+    cy.findByTestId('form-title').should(
+      'have.text',
+      'Your VA education letter',
+    );
     cy.findByText(
       'Your letter is not available to you through this tool',
     ).should('be.visible');
