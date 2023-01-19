@@ -247,6 +247,7 @@ export default function AppointmentListItemGroup({ data }) {
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"
+              role="link"
             />
           </div>
         </Grid>

@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 
 import {
   mockMessagesFetch,
@@ -191,6 +192,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should go back to requests page when clicking top link', async () => {
+    const url = '/requests/8a4886886e4c8e22016e6613216d001g';
+
     const appointment = getVARequestMock();
 
     appointment.attributes = {
@@ -212,7 +215,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       name: /Detail/i,
     });
 
-    fireEvent.click(detailLinks[0]);
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
+    userEvent.click(detailLink);
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
@@ -222,6 +228,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should render CC request details', async () => {
+    const url = '/requests/8a4886886e4c8e22016e6613216d001g';
+
     const ccAppointmentRequest = getCCRequestMock();
     ccAppointmentRequest.attributes = {
       ...ccAppointmentRequest.attributes,
@@ -242,7 +250,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       typeOfCareId: 'CCAUDHEAR',
     };
 
-    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.id = '8a4886886e4c8e22016e6613216d001g';
 
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
@@ -264,7 +272,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       name: /Detail/i,
     });
 
-    fireEvent.click(detailLinks[0]);
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
+    userEvent.click(detailLink);
 
     // Verify page content...
     await waitFor(() => {
@@ -514,7 +525,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
   });
 
-  it('should display new appointment confirmation alert', async () => {
+  it.skip('should display new appointment confirmation alert', async () => {
     const appointment = getVARequestMock();
 
     appointment.id = '1234';

@@ -90,7 +90,7 @@ export default function RequestListItemGroup({ data, facilityData }) {
   const history = useHistory();
 
   return data.map((appointment, index) => {
-    const link = `requests/${appointment.id}`;
+    const link = `/requests/${appointment.id}`;
     const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
     const label = getLabelText(appointment);
     const styles = {
@@ -178,6 +178,7 @@ export default function RequestListItemGroup({ data, facilityData }) {
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"
+              role="link"
             />
           </div>
         </Grid>
