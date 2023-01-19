@@ -79,7 +79,7 @@ import {
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
-import { getSchedulingConfigurations } from '../../services/vaos/index';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -722,7 +722,7 @@ export function checkCommunityCareEligibility() {
       if (ccEnabledSystems.length) {
         let response = null;
         if (useV2) {
-          response = await getSchedulingConfigurations(siteIds, true);
+          response = await getCommunityCareV2(getCCEType(state));
         } else {
           response = await getCommunityCare(getCCEType(state));
         }
@@ -731,13 +731,13 @@ export function checkCommunityCareEligibility() {
           isEligible: response.eligible || response.length > 0,
         });
 
-        if (response.eligible || response.length > 0) {
+        if (response.eligible) {
           recordEvent({
             event: `${GA_PREFIX}-cc-eligible-yes`,
           });
         }
 
-        return response.eligible || response.length > 0;
+        return response.eligible;
       }
     } catch (e) {
       captureError(e, false, null, {
