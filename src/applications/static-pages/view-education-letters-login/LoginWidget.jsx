@@ -71,7 +71,7 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
       type="button"
       onClick={redirectToEducationLetters}
     >
-      Get your education letter
+      Download your VA education decision letter
     </button>
   );
 
