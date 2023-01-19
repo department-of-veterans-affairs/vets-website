@@ -64,6 +64,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
                 href="/"
                 onClick={handleViewClick}
                 text="View your appointments"
+                data-testid="review-appointments-link"
               />
             </div>
             <div className=" vads-u-margin-top--1">
@@ -71,6 +72,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
                 href="/health-care/schedule-view-va-appointments/appointments/new-appointment"
                 onClick={handleNewApptClick(dispatch)}
                 text="New appointment"
+                data-testid="schedule-appointment-link"
               />
             </div>
           </>

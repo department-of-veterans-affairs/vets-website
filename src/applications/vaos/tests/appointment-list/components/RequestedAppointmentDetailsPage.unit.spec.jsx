@@ -525,7 +525,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
   });
 
-  it.skip('should display new appointment confirmation alert', async () => {
+  it('should display new appointment confirmation alert for VA appointment request', async () => {
     const appointment = getVARequestMock();
 
     appointment.id = '1234';
@@ -538,14 +538,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       optionTime1: 'AM',
     };
 
-    const ccAppointmentRequest = getCCRequestMock();
-
-    ccAppointmentRequest.id = '1234';
-    ccAppointmentRequest.attributes = {
-      ...ccAppointmentRequest.attributes,
-      appointmentType: 'Audiology (hearing aid support)',
-      typeOfCareId: 'CCAUDHEAR',
-    };
+    //     const ccAppointmentRequest = getCCRequestMock();
+    //
+    //     ccAppointmentRequest.id = '1234';
+    //     ccAppointmentRequest.attributes = {
+    //       ...ccAppointmentRequest.attributes,
+    //       appointmentType: 'Audiology (hearing aid support)',
+    //       typeOfCareId: 'CCAUDHEAR',
+    //     };
 
     // Verify VA pending
     mockSingleRequestFetch({
@@ -567,12 +567,52 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    // // Verify CC pending appointment
+    // mockSingleRequestFetch({
+    //   request: ccAppointmentRequest,
+    //   type: 'cc',
+    // });
+    //
+    //     renderWithStoreAndRouter(<AppointmentList />, {
+    //       initialState,
+    //       path: `/requests/${appointment.id}?confirmMsg=true`,
+    //     });
+    //
+    //     await waitFor(() => {
+    //       expect(global.document.title).to.equal(
+    //         `Pending Community care hearing aid support appointment`,
+    //       );
+    //     });
+    //     expect(screen.baseElement).to.contain('.usa-alert-success');
+    //     expect(screen.baseElement).to.contain.text(
+    //       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    //     );
+    //     expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    //     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+  });
+
+  it('should display new appointment confirmation alert for CC appointment request', async () => {
+    const appointment = getCCRequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentType: 'Audiology (hearing aid support)',
+      typeOfCareId: 'CCAUDHEAR',
+    };
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
 
     // Verify CC pending appointment
     mockSingleRequestFetch({
-      request: ccAppointmentRequest,
+      request: appointment,
       type: 'cc',
     });
 
@@ -590,8 +630,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.baseElement).to.contain.text('View your appointments');
-    expect(screen.baseElement).to.contain.text('New appointment');
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
   });
 
   it('should handle error when cancelling', async () => {
