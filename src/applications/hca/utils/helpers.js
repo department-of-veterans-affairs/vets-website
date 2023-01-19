@@ -155,12 +155,15 @@ export function transform(formConfig, form) {
 
   // add back & double check compensation type because it could have been removed in filterInactivePages
   if (!withoutViewFields.vaCompensationType) {
-    const disabilityRating = parseInt(
+    const highDisabilityRating = 50;
+    const userDisabilityRating = parseInt(
       form.data['view:totalDisabilityRating'],
       10,
     );
     const compensationType =
-      disabilityRating >= 50 ? 'highDisability' : form.data.vaCompensationType;
+      userDisabilityRating >= highDisabilityRating
+        ? 'highDisability'
+        : form.data.vaCompensationType;
     withoutViewFields = set(
       'vaCompensationType',
       compensationType,
