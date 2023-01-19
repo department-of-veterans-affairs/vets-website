@@ -116,7 +116,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
 
       // And the user select the appointment to display the appointment details page
-      // fireEvent.click(await screen.findByText(/Details/));
       userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
@@ -170,7 +169,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     });
 
-    it.skip('should show active link if 30 minutes in the future', async () => {
+    it('should show active link if 30 minutes in the future', async () => {
       // Given a video appointment
       const appointment = getVideoAppointmentMock();
       // And the appointment is 30 minutes or less into the future
@@ -228,8 +227,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-      // And user clicks on the appointment to view its details
-      fireEvent.click(await screen.findByText(/Details/));
+
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -256,7 +262,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it.skip('should show active link less than 30 minutes in the future', async () => {
+    it('should show active link less than 30 minutes in the future', async () => {
       const startDate = moment.utc().add(20, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -312,7 +318,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -339,7 +352,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it.skip('should show active link if less than 4 hours in the past', async () => {
+    it('should show active link if less than 4 hours in the past', async () => {
       const startDate = moment().add(-239, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -396,7 +409,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -423,7 +443,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
 
-    it.skip('should show message about when to join if mobile gfe', async () => {
+    it('should show message about when to join if mobile gfe', async () => {
       const startDate = moment().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -478,7 +498,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -512,7 +539,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
 
-    it.skip('should direct user to VA facility if we are missing facility details', async () => {
+    it('should direct user to VA facility if we are missing facility details', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -567,7 +594,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.queryByText(/join appointment/i)).to.not.exist;
     });
 
-    it.skip('should direct user to valid facility for changes if using the 612 site', async () => {
+    it('should direct user to valid facility for changes if using the 612 site', async () => {
       const startDate = moment.utc().add(3, 'days');
       const appointment = getVideoAppointmentMock({
         id: 'some_id',
@@ -607,7 +634,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Sacramento VA');
     });
 
-    it.skip('should show address info for clinic based appointment', async () => {
+    it('should show address info for clinic based appointment', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -659,7 +686,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findAllByText(/Cheyenne VA medical center/i);
 
@@ -695,7 +729,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
-    it.skip('should show address info for store forward appointment', async () => {
+    it('should show address info for store forward appointment', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -749,7 +783,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findAllByText(/Cheyenne VA medical center/i);
 
@@ -785,7 +826,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.getAllByTestId('facility-telephone')).to.exist;
     });
 
-    it.skip('should print appointment details', async () => {
+    it('should print appointment details', async () => {
       // Given a user with a future video appointment
       const startDate = moment.utc().add(20, 'minutes');
       const appointment = getVideoAppointmentMock({
@@ -817,7 +858,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       global.window.print = oldPrint;
     });
 
-    it.skip('ATLAS appointment should display title', async () => {
+    it('ATLAS appointment should display title', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
       appointment.attributes = {
@@ -874,7 +915,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -930,7 +978,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
 
-    it.skip('should verify Video Connect at home calendar ics file format', async () => {
+    it('should verify Video Connect at home calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
@@ -977,7 +1025,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
+
       await screen.findByText(/Cheyenne VA medical center/i);
 
       await screen.findByText(/at home/);
@@ -1040,7 +1096,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it.skip('should verify Video Connect at VA location calendar ics file format', async () => {
+    it('should verify Video Connect at VA location calendar ics file format', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       appointment.attributes = {
@@ -1081,7 +1137,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
@@ -1155,7 +1218,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it.skip('should verify Video Connect at ATLAS calendar ics file format', async () => {
+    it('should verify Video Connect at ATLAS calendar ics file format', async () => {
       // Given a user with an ATLAS video appointment
       const startDate = moment(getTimezoneTestDate()).add(3, 'days');
       const appointment = getVideoAppointmentMock({
@@ -1283,7 +1346,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
 
-    it.skip('should verify Video Connect on VA device calendar ics file format', async () => {
+    it('should verify Video Connect on VA device calendar ics file format', async () => {
       const startDate = moment().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();
       appointment.attributes = {
@@ -1332,7 +1395,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         initialState,
       });
 
-      fireEvent.click(await screen.findByText(/Details/));
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -1391,7 +1461,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
-  describe.skip('video appointments fetched from VAOS service', () => {
+  describe('video appointments fetched from VAOS service', () => {
     beforeEach(() => mockFetch());
     it('video appointment detail with practitioners', async () => {
       // Given VAOS service community care appointments are enabled
@@ -1497,7 +1567,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
     });
   });
-  describe.skip('VAOS video appointments (css transition check)', () => {
+  describe('VAOS video appointments (css transition check)', () => {
+    const url = '/va/05760f00c80ae60ce49879cf37a05fc8';
+
     beforeEach(() => {
       mockFetch();
       mockFacilitiesFetchByVersion({ version: 0 });
@@ -1559,8 +1631,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-      // And the user click details to view appointment detail page
-      fireEvent.click(await screen.findByText(/Details/));
+
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 
@@ -1609,8 +1688,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
       });
-      // And the user click details to view appointment detail page
-      fireEvent.click(await screen.findByText(/Details/));
+
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+      // And the user select the appointment to display the appointment details page
+      userEvent.click(detailLink);
 
       await screen.findByText(/Cheyenne VA medical center/i);
 

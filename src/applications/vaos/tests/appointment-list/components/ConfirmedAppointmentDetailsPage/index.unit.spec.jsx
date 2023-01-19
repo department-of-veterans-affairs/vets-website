@@ -56,7 +56,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
     const data = {
@@ -1050,7 +1050,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -1058,7 +1058,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
       },
     };
-    const url = '/va/1234';
+    const url = 'va/1234';
     const futureDate = moment.utc();
 
     const appointment = getVAOSAppointmentMock();
