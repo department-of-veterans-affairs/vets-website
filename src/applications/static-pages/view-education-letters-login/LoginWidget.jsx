@@ -1,14 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const LoginInWidget = ({ toggleLoginModal }) => {
-  function toggleLogin(e) {
+const LoginInWidget = ({ toggleLoginModal, user }) => {
+  const redirectToEducationLetters = () => {
+    window.location.href = '/education/download-letters/letters';
+  };
+
+  const toggleLogin = e => {
     e.preventDefault();
     toggleLoginModal(true, 'cta-form');
-  }
-  return (
+  };
+
+  const visitorUI = (
     <va-alert
       close-btn-aria-label="Close notification"
       status="continue"
@@ -18,7 +23,7 @@ const LoginInWidget = ({ toggleLoginModal }) => {
         className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
         slot="headline"
       >
-        Please sign in to verify your VA education letter.
+        Please sign in to get your VA education letter.
       </p>
       <div>
         Sign in with your existing{' '}
@@ -49,16 +54,55 @@ const LoginInWidget = ({ toggleLoginModal }) => {
       </button>
     </va-alert>
   );
+
+  const spinner = (
+    <div className="vads-u-margin-y--5">
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+        set-focus
+      />
+    </div>
+  );
+
+  const loggedInUserUI = (
+    <button
+      className="va-button-primary"
+      type="button"
+      onClick={redirectToEducationLetters}
+    >
+      Get your education letter
+    </button>
+  );
+
+  const renderUI = () => {
+    if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
+      return spinner;
+    }
+    if (user?.login?.currentlyLoggedIn) {
+      return loggedInUserUI;
+    }
+
+    return visitorUI;
+  };
+
+  return renderUI();
 };
+
 LoginInWidget.propTypes = {
   toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
 };
+
+const mapStateToProps = state => ({
+  user: state.user || {},
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LoginInWidget);
