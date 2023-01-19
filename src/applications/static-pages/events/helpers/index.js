@@ -180,7 +180,7 @@ export const filterEvents = (
       return events
         .filter(event => {
           return moment(
-            event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
+            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
           ).isAfter(now.clone());
         })
         .reduce(keepUniqueEventsFromList, []);
@@ -190,7 +190,9 @@ export const filterEvents = (
     case 'next-week': {
       return events
         ?.filter(event =>
-          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+          moment(
+            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
+          ).isBetween(
             now
               .clone()
               .add('7', 'days')
@@ -208,7 +210,9 @@ export const filterEvents = (
     case 'next-month': {
       return events
         ?.filter(event =>
-          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+          moment(
+            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
+          ).isBetween(
             now
               .clone()
               .add('1', 'month')
