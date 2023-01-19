@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { fetchPost911GiBillEligibility } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
+import EnrollmentVerificationLogin from '../components/EnrollmentVerificationLogIn';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
@@ -81,13 +82,6 @@ export function EnrollmentVerificationIntroPage({
     return <EnrollmentVerificationLoadingIndicator />;
   }
 
-  const EVLoginPlaceholder = (
-    <div
-      data-widget-type="view-enrollment-verification-login"
-      id="enrollment_verification_login_widget"
-    />
-  );
-
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your school enrollments</h1>
@@ -96,7 +90,7 @@ export function EnrollmentVerificationIntroPage({
         continue getting paid.
       </p>
 
-      {!isLoggedIn && EVLoginPlaceholder}
+      {!isLoggedIn && <EnrollmentVerificationLogin />}
       {isLoggedIn &&
         !enrollmentVerificationFetchComplete && (
           <EnrollmentVerificationLoadingIndicator message="Loading..." />

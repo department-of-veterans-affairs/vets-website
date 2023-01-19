@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
-export function EnrollmentVerificationLogin({ toggleLoginModal }) {
+export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   const onSignInClicked = useCallback(() => toggleLoginModal(true), [
     toggleLoginModal,
   ]);
-  return (
+
+  const redirectToEnrollmentVerification = () => {
+    window.location.href = '/education/verify-school-enrollment/';
+  };
+
+  const visitorUI = (
     <va-alert status="continue" visible>
       <h1
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
@@ -37,7 +42,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
         >
           Login.gov
         </a>{' '}
-        now.
+        account now.
       </p>
       <button
         type="button"
@@ -48,17 +53,55 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
       </button>
     </va-alert>
   );
+
+  const loggedInUserUI = (
+    <button
+      className="va-button-primary"
+      type="button"
+      onClick={redirectToEnrollmentVerification}
+    >
+      Verify your enrollments for Post-9/11 GI Bill
+    </button>
+  );
+
+  const spinner = (
+    <div className="vads-u-margin-y--5">
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+        set-focus
+      />
+    </div>
+  );
+
+  const renderUI = () => {
+    if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
+      return spinner;
+    }
+    if (user?.login?.currentlyLoggedIn) {
+      return loggedInUserUI;
+    }
+
+    return visitorUI;
+  };
+
+  return renderUI();
 }
+
+const mapStateToProps = state => ({
+  user: state.user || {},
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationLogin);
 
 EnrollmentVerificationLogin.propTypes = {
   toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
 };
