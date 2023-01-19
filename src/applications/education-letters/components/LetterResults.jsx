@@ -18,7 +18,7 @@ export const HasLetters = ({ claimStatus }) => {
         Download your VA education decision letter.
       </p>
       <h2>Letter available for you to download</h2>
-      <div className="edu-certi-eligibility vads-u-margin-bottom--4">
+      <div className="vads-u-margin-bottom--4">
         <h3 className="vads-u-margin-top--2">Education decision letter</h3>
         <p>
           The letter displayed is based on your most recent claim submission and
@@ -121,9 +121,9 @@ export const NoLetters = () => {
         including your decision letters.{' '}
       </p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3 slot="headline">
+        <h2 slot="headline">
           Your letter is not available to you through this tool
-        </h3>
+        </h2>
         <div>
           <p>
             The letter displayed will be based on your most recent claim

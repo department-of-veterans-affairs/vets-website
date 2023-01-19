@@ -21,7 +21,7 @@ export const fileUploadUi = content => {
       focusElement(lastSelect[0]);
     }
   };
-  const addAnotherLabel = 'Upload another document';
+  const addAnotherLabel = 'Upload another file';
 
   return fileUploadUI(content.label, {
     itemDescription: content.description,

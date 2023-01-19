@@ -9,17 +9,16 @@ export const UploadDescription = () => {
   const list = readableList(types, 'or');
   return (
     <div className="vads-u-margin-top--2">
-      <va-additional-info trigger="Evidence upload instructions" disable-border>
+      <p>
+        You’ll need to upload new and relevant evidence for your Supplemental
+        Claim. This may include supporting evidence like buddy/lay statements
+        and other types of evidence. We’ll prompt you to upload each document
+        from your device. But you may need to scan your document first, then
+        save each file as a PDF before you can upload it.
+      </p>
+      <va-additional-info trigger="Document upload instructions" disable-border>
         <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to upload new and relevant evidence for your
-            Supplemental Claim. This may include supporting evidence like
-            buddy/lay statements and other types of evidence. We’ll prompt you
-            to upload each document from your device. But you may need to scan
-            your document first, then save each file as a PDF before you can
-            upload it.
-          </p>
-          <p>You can do this one of 2 ways:</p>
+          <p className="vads-u-margin-top--0">You can do this one of 2 ways:</p>
           <p>
             If you have access to a computer connected to a scanner, you can
             scan each document onto the computer. Save the file as a PDF.
@@ -33,7 +32,7 @@ export const UploadDescription = () => {
         </div>
       </va-additional-info>
 
-      <ul>
+      <ul className="vads-u-margin-top--0">
         <li>{`File types you can upload: ${list}`}</li>
         <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
       </ul>
