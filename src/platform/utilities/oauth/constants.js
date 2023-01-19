@@ -27,7 +27,9 @@ export const API_SIGN_IN_SERVICE_URL = ({
 
 export const CLIENT_IDS = {
   WEB: 'web',
+  VAWEB: 'vaweb',
   MOBILE: 'mobile',
+  VAMOBILE: 'vamobile',
 };
 
 export const COOKIES = {
