@@ -1,8 +1,6 @@
 const glob = require('glob');
 const core = require('@actions/core');
 
-/* eslint-disable no-console */
-
 const countCySpecs = () => {
   return new Promise((resolve, reject) => {
     glob('**/*.cypress.spec.js?(x)', (error, files) => {
