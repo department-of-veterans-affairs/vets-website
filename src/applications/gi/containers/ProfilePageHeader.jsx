@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  convertRatingToStars,
+  // convertRatingToStars, // turn on for ratings
   createId,
   formatNumber,
   locationInfo,
@@ -19,13 +19,16 @@ import {
   removeCompareInstitution,
   showModal,
 } from '../actions';
-import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
-import RatingsStars from '../components/RatingsStars';
+import { ariaLabels } from '../constants';
+// import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
+import RatingsStars from '../components/profile/schoolRatings/RatingsStars';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import CompareCheckbox from '../components/CompareCheckbox';
+
+import { institutionRatingsMockData } from '../components/profile/schoolRatings/IPMockData'; // used for mock data, will delete when API is ready
 
 const ProfilePageHeader = ({
   compare,
@@ -43,8 +46,8 @@ const ProfilePageHeader = ({
     physicalCountry,
     facilityCode,
     facilityMap,
-    ratingCount,
-    ratingAverage,
+    // ratingCount,
+    // ratingAverage,
     cautionFlags,
     highestDegree,
     accreditationType,
@@ -97,8 +100,16 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-  const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
+  // const stars = convertRatingToStars(ratingAverage); // turn on with new API
+  // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT; // turn on with new API
+
+  /// ////////////////////////////////////////////////////////////////////////////
+  const ratingAvg = '0'; // comment out to use mock data, delete when API is attached
+  const stars = 0; // comment out to use mock data, delete when API is attached
+  // const ratingAvg = institutionRatingsMockData[0].overall_avg;  // uncomment to run ratings with mock data
+  // const stars = convertRatingToStars(ratingAvg);  // uncomment to run ratings with mock data
+  const displayStars = false; // set to true to run mock data
+  /// ////////////////////////////////////////////////////////////////////////////
 
   const titleClasses = classNames(
     'small-screen-header',
@@ -290,7 +301,7 @@ const ProfilePageHeader = ({
         {displayStars && (
           <div className={starClasses}>
             <span className="vads-u-font-size--sm">
-              <RatingsStars rating={ratingAverage} />
+              <RatingsStars rating={ratingAvg} />
             </span>{' '}
             <span className="vads-u-padding-left--1 vads-u-padding-right--1">
               |
@@ -303,7 +314,11 @@ const ProfilePageHeader = ({
               href="#profile-school-ratings"
               onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             >
-              See {ratingCount} ratings by Veterans
+              {/* //////////////////////////////////////////////////////////////////////////////////// */}
+              {/* See {ratingCount} ratings by Veterans */}
+              See {institutionRatingsMockData[0].institution_rating_count}{' '}
+              ratings by Veterans
+              {/* //////////////////////////////////////////////////////////////////////////////////// */}
             </a>
             )
           </div>
