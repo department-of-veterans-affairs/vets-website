@@ -92,7 +92,7 @@ const MoveMessageToFolderBtn = props => {
                   .map((folder, i) => (
                     <>
                       <VaRadioOption
-                        data-testid="folder-list-radio-button"
+                        data-testid={`radiobutton-${folder.name}`}
                         key={i}
                         id={`radiobutton-${folder.name}`}
                         // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'

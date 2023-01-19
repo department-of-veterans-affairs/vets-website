@@ -85,7 +85,7 @@ const MessageActionButtons = props => {
             />
             <span
               className="message-action-button-text"
-              data-testid="move-button-text"
+              data-testid="trash-button-text"
             >
               Trash
             </span>
@@ -111,7 +111,7 @@ const MessageActionButtons = props => {
           />
           <span
             className="message-action-button-text"
-            data-testid="move-button-text"
+            data-testid="reply-button-text"
           >
             Reply
           </span>
