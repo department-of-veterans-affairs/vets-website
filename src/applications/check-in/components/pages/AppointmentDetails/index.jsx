@@ -8,11 +8,17 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
   makeSelectActiveAppointment,
   makeSelectVeteranData,
+  makeSelectApp,
+  makeSelectCurrentContext,
 } from '../../../selectors';
 
 import { appointmentIcon, clinicName } from '../../../utils/appointment';
+import { APP_NAMES } from '../../../utils/appConstants';
+
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
+import AppointmentActionVaos from '../../AppointmentDisplay/AppointmentActionVaos';
+import AppointmentMessageVaos from '../../AppointmentDisplay/AppointmentMessageVaos';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -22,7 +28,11 @@ const AppointmentDetails = props => {
   const selectActiveAppointment = useMemo(makeSelectActiveAppointment, []);
   const { appointments } = useSelector(selectVeteranData);
   const { activeAppointment } = useSelector(selectActiveAppointment);
-  const [appointment, setAppointment] = useState([]);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
+  const [appointment, setAppointment] = useState({});
 
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
@@ -47,6 +57,19 @@ const AppointmentDetails = props => {
 
   const clinic = appointment && clinicName(appointment);
 
+  const preCheckInSubTitle = isPhoneAppointment ? (
+    <p data-testid="phone-appointment-subtitle" className="vads-u-margin--0">
+      {t('your-provider-will-call-you-at-your-appointment-time')}
+    </p>
+  ) : (
+    <p
+      data-testid="in-person-appointment-subtitle"
+      className="vads-u-margin--0"
+    >
+      {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+    </p>
+  );
+
   return (
     <>
       {appointment ? (
@@ -57,7 +80,7 @@ const AppointmentDetails = props => {
             text={t('back-to-appointments')}
           />
           <Wrapper classNames="appointment-details-page" withBackButton>
-            <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray-lighter vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
+            <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
               <div className="appointment-details--icon">
                 {appointmentIcon(appointment)}
               </div>
@@ -70,22 +93,12 @@ const AppointmentDetails = props => {
                   'appointment',
                 )}`}
               </h1>
-              {isPhoneAppointment ? (
-                <p
-                  data-testid="phone-appointment-subtitle"
-                  className="vads-u-margin--0"
-                >
-                  {t('your-provider-will-call-you-at-your-appointment-time')}
-                </p>
+              {app === APP_NAMES.PRE_CHECK_IN ? (
+                preCheckInSubTitle
               ) : (
-                <p
-                  data-testid="in-person-appointment-subtitle"
-                  className="vads-u-margin--0"
-                >
-                  {t(
-                    'please-bring-your-insurance-cards-with-you-to-your-appointment',
-                  )}
-                </p>
+                <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
+                  <AppointmentMessageVaos appointment={appointment} />
+                </div>
               )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
@@ -147,6 +160,16 @@ const AppointmentDetails = props => {
                   <div data-testid="appointment-details--reason-value">
                     {appointment.reasonForVisit}
                   </div>
+                </div>
+              )}
+              {app === APP_NAMES.CHECK_IN && (
+                <div className="vads-u-margin-top--2">
+                  <AppointmentActionVaos
+                    appointment={appointment}
+                    router={router}
+                    token={token}
+                    event="check-in-from-details"
+                  />
                 </div>
               )}
             </div>
