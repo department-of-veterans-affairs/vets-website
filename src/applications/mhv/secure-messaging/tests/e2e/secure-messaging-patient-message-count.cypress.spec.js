@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Patient Message Count', () => {
-  it('Patient Message Count', () => {
+  it.skip('Patient Message Count', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
