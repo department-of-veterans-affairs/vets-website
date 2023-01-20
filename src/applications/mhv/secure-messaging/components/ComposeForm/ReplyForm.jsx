@@ -15,6 +15,7 @@ import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+import { draftAutoSaveTimeout } from '../../util/constants';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage } = props;
@@ -44,8 +45,8 @@ const ReplyForm = props => {
   const history = useHistory();
   let draft;
 
-  const debouncedSubject = useDebounce(subject, 3000);
-  const debouncedMessageBody = useDebounce(messageBody, 3000);
+  const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
+  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');

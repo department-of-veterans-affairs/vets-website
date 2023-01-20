@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';

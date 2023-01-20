@@ -66,10 +66,6 @@ export const MAX_LENGTH = {
   POSTAL_CODE: 16,
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
-
-  // from ./config/form-4142-schema.json
-  EVIDENCE_FACILITY_MAX: 100,
-  EVIDENCE_FACILITY_NAME: 100,
 };
 
 export const errorMessages = {
