@@ -107,7 +107,7 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (!isLoggedIn && !debts.length && !statementsByUniqueFacility.length) {
+  if (isLoggedIn && !debts.length && !statementsByUniqueFacility.length) {
     return (
       <div className="row vads-u-margin-bottom--5">
         <div className="medium-9 columns">
