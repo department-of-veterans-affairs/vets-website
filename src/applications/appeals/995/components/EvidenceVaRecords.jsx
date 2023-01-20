@@ -431,7 +431,7 @@ const EvidenceVaRecords = ({
                   buttonClass="usa-button-secondary"
                   beforeText="«"
                   // This button is described by the current form's header ID
-                  ariaDescribedBy="nav-form-header"
+                  aria-describedby="nav-form-header"
                 />
               )}
             </div>
@@ -442,7 +442,7 @@ const EvidenceVaRecords = ({
                 buttonClass="usa-button-primary"
                 afterText="»"
                 // This button is described by the current form's header ID
-                ariaDescribedBy="nav-form-header"
+                aria-describedby="nav-form-header"
               />
             </div>
           </div>
