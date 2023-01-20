@@ -1,3 +1,6 @@
+/** time to wait (in ms) after the user stops typing before initiating draft auto-save */
+export const draftAutoSaveTimeout = 15000;
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
