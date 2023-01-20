@@ -19,7 +19,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
       >
-        Please sign in to verify your school enrollment.
+        Sign in to verify your school enrollment
       </h1>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
