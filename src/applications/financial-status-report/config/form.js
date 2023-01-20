@@ -116,29 +116,29 @@ const formConfig = {
           schema: pages.combinedDebts.schema,
           depends: formData => formData['view:combinedFinancialStatusReport'],
         },
-        // contactInfo: {
-        //   initialData: {
-        //     personalData: {
-        //       address: {
-        //         street: '',
-        //         city: '',
-        //         state: '',
-        //         country: '',
-        //         postalCode: '',
-        //       },
-        //       telephoneNumber: '',
-        //       emailAddress: '',
-        //     },
-        //   },
-        //   path: 'contact-information',
-        //   title: 'Contact Information',
-        //   uiSchema: pages.contactInfo.uiSchema,
-        //   schema: pages.contactInfo.schema,
-        //   depends: formData => !formData['view:enhancedFinancialStatusReport'],
-        // },
+        contactInfo: {
+          initialData: {
+            personalData: {
+              address: {
+                street: '',
+                city: '',
+                state: '',
+                country: '',
+                postalCode: '',
+              },
+              telephoneNumber: '',
+              emailAddress: '',
+            },
+          },
+          path: 'contact-information',
+          title: 'Contact Information',
+          uiSchema: pages.contactInfo.uiSchema,
+          schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
         confirmContactInformation: {
           title: 'Contact information',
-          path: 'contact-information',
+          path: 'current-contact-information',
           uiSchema: pages.contactInformation.uiSchema,
           schema: pages.contactInformation.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],

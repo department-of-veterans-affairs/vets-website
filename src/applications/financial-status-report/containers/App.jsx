@@ -113,7 +113,7 @@ const App = ({
 
   useEffect(
     () => {
-      if (isLoggedIn) {
+      if (isLoggedIn && showEnhancedFSR) {
         const { personalData = {} } = formData || {};
         if (
           email?.emailAddress !== personalData.emailAddress ||
@@ -132,7 +132,15 @@ const App = ({
         }
       }
     },
-    [email, formData, isLoggedIn, mailingAddress, mobilePhone, setFormData],
+    [
+      email,
+      formData,
+      isLoggedIn,
+      mailingAddress,
+      mobilePhone,
+      setFormData,
+      showEnhancedFSR,
+    ],
   );
 
   if (pending) {
