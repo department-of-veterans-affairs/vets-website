@@ -136,7 +136,7 @@
   },
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2004-10-22",
+      "dateDischarged": "2004-10-XX",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
     },
