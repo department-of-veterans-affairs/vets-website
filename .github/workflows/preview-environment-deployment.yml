@@ -43,23 +43,23 @@ jobs:
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Login to ECR # Update ECR credentials if necessary
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      # - name: Login to ECR # Update ECR credentials if necessary
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Docker Image #use "file" input to designate alternate dockerfile path. Defaults to "Dockerfile": https://github.com/docker/build-push-action
-        uses: docker/build-push-action@v2
-        with:
-          build-args: |
-            userid=${{ env.VETS_API_USER_ID }}
-          context: .
-          target: production
-          push: true
-          # Update tags and ECR Repository
-          tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
-          cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
-          cache-to: type=inline
+      # - name: Build Docker Image #use "file" input to designate alternate dockerfile path. Defaults to "Dockerfile": https://github.com/docker/build-push-action
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     build-args: |
+      #       userid=${{ env.VETS_API_USER_ID }}
+      #     context: .
+      #     target: production
+      #     push: true
+      #     # Update tags and ECR Repository
+      #     tags: |
+      #       ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      #     cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
+      #     cache-to: type=inline
 
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js
