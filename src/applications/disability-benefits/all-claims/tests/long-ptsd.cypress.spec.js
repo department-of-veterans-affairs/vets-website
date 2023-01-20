@@ -13,7 +13,9 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['minimal-test', 'newOnly-test', 'maximal-test'],
+    // This longest running test gets separated out; also as of 1/2023 forms
+    // 8940 & 4192 are not released to production
+    dataSets: ['full-781-781a-8940-test.json'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
