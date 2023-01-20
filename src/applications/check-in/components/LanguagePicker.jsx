@@ -48,10 +48,11 @@ function LanguagePicker(props) {
               {link.label}
             </span>
           ) : (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <a
               onClick={changeLanguage}
               data-testid={`translate-button-${link.lang}`}
-              href={`#${link.lang}`}
+              href="#"
               lang={link.lang}
             >
               {link.label}
