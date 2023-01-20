@@ -6,13 +6,7 @@ import LanguageSupport from './LanguageSupport';
 import VeteranCrisisLine from '../../header/components/VeteranCrisisLine';
 
 export default function MobileLinks(props) {
-  const {
-    links,
-    visible,
-    langConfig,
-    showLinks,
-    showLanguageAssistance,
-  } = props;
+  const { links, visible, langConfig, minimalFooter } = props;
 
   return (
     <div
@@ -23,7 +17,7 @@ export default function MobileLinks(props) {
         <li>
           <VeteranCrisisLine id="footer-crisis-line" />
         </li>
-        {showLinks && (
+        {!minimalFooter && (
           <>
             <li>
               <button
@@ -96,13 +90,11 @@ export default function MobileLinks(props) {
                 {links[FOOTER_COLUMNS.CONNECT]}
               </div>
             </li>
+            <LanguageSupport
+              dispatchLanguageSelection={langConfig.dispatchLanguageSelection}
+              languageCode={langConfig.languageCode}
+            />
           </>
-        )}
-        {showLanguageAssistance && (
-          <LanguageSupport
-            dispatchLanguageSelection={langConfig.dispatchLanguageSelection}
-            languageCode={langConfig.languageCode}
-          />
         )}
       </ul>
     </div>
@@ -112,7 +104,6 @@ export default function MobileLinks(props) {
 MobileLinks.propTypes = {
   langConfig: PropTypes.object.isRequired,
   links: PropTypes.object.isRequired,
-  showLanguageAssistance: PropTypes.bool.isRequired,
-  showLinks: PropTypes.bool.isRequired,
+  minimalFooter: PropTypes.bool.isRequired,
   visible: PropTypes.bool.isRequired,
 };

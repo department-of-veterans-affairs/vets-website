@@ -28,8 +28,7 @@ export default function startVAFooter(footerData, store, onFooterLoad) {
       <Footer
         footerData={footerData}
         onFooterLoad={onFooterLoad}
-        showLanguageAssistance={props.showLanguageAssistance !== 'false'}
-        showLinks={props.showLinks !== 'false'}
+        minimalFooter={props.minimalFooter === 'true'}
       />
     </Provider>,
     document.getElementById(footerElemementId),

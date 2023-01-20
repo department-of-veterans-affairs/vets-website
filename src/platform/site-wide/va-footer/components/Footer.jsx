@@ -43,7 +43,7 @@ class Footer extends Component {
       <div>
         <div className="footer-inner">
           <DesktopLinks
-            visible={this.props.showLinks && !this.state.isMobile}
+            visible={!this.props.minimalFooter && !this.state.isMobile}
             links={this.linkObj}
           />
           <MobileLinks
@@ -53,10 +53,9 @@ class Footer extends Component {
               dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
-            showLanguageAssistance={this.props.showLanguageAssistance}
-            showLinks={this.props.showLinks}
+            minimalFooter={this.props.minimalFooter}
           />
-          {this.props.showLanguageAssistance &&
+          {!this.props.minimalFooter &&
             !this.state.isMobile && (
               <LanguageSupport
                 isDesktop
@@ -77,9 +76,11 @@ class Footer extends Component {
               />
             </a>
           </div>
-          <div className="usa-grid usa-grid-full va-footer-links-bottom">
-            {this.linkObj.bottomLinks}
-          </div>
+          {!this.props.minimalFooter && (
+            <div className="usa-grid usa-grid-full va-footer-links-bottom">
+              {this.linkObj.bottomLinks}
+            </div>
+          )}
         </div>
         <CrisisPanel />
       </div>
@@ -96,8 +97,7 @@ const mapStateToProps = state => ({
 
 Footer.propTypes = {
   footerData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showLanguageAssistance: PropTypes.bool.isRequired,
-  showLinks: PropTypes.bool.isRequired,
+  minimalFooter: PropTypes.bool.isRequired,
   dispatchLanguageSelection: PropTypes.func,
   languageCode: PropTypes.string,
   onFooterLoad: PropTypes.func,
