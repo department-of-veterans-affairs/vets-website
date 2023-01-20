@@ -22,6 +22,8 @@ export default {
   icmhs: 'icmhs',
   // ID.me, identity provider
   idme: 'idme',
+  // LGY, LGY Eligibility Manager API
+  lgyEligibilityManager: 'lgyEligibilityManager',
   // Login.gov, identity provider
   logingov: 'logingov',
   // Master Veteran Index (source of veteran profile info)

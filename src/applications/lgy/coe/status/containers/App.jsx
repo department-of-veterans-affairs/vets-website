@@ -7,6 +7,10 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 
 import { generateCoe } from '../../shared/actions';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
@@ -126,7 +130,14 @@ const App = ({
         <header className="row vads-u-padding-x--1">
           <FormTitle title="Your VA home loan COE" />
         </header>
-        {content}
+        <div className="row">
+          <DowntimeNotification
+            appTitle="Certificate of Eligibility Status Tool"
+            dependencies={[externalServices.lgyEligibilityManager]}
+          >
+            {content}
+          </DowntimeNotification>
+        </div>
       </RequiredLoginView>
     </>
   );

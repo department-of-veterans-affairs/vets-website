@@ -2,6 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import environment from 'platform/utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
@@ -44,7 +48,12 @@ function App({
       data-location={`${location?.pathname?.slice(1)}`}
     >
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
+        <DowntimeNotification
+          appTitle="Certificate of Eligibility Form"
+          dependencies={[externalServices.lgyEligibilityManager]}
+        >
+          {children}
+        </DowntimeNotification>
       </RoutedSavableApp>
     </article>
   ) : (
