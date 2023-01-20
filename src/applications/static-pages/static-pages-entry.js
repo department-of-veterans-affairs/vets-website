@@ -79,7 +79,6 @@ import create1095BDownloadCTA from './download-1095b';
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 
-
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
