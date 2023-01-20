@@ -57,7 +57,7 @@ describe('VerifyAccountLink', () => {
 
       await waitFor(() => expect(anchor.href).to.include(`type=${policy}`));
       await waitFor(() => expect(anchor.href).to.include(`acr=${expectedAcr}`));
-      await waitFor(() => expect(anchor.href).to.include(`client_id=web`));
+      await waitFor(() => expect(anchor.href).to.include(`client_id=vaweb`));
       await waitFor(() => expect(anchor.href).to.include('/authorize'));
       await waitFor(() => expect(anchor.href).to.include('response_type=code'));
       await waitFor(() => expect(anchor.href).to.include('code_challenge='));

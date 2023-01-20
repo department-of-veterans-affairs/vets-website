@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Inbox Message Sort', () => {
@@ -40,7 +40,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
   });
 
   afterEach(() => {
-    cy.get('.message-list-sort > va-button.hydrated').click();
+    cy.get('[data-testid="sort-button"]').click({ force: true });
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -71,7 +71,7 @@ export class ConfirmationPage extends React.Component {
             className="usa-button screen-only"
             onClick={window.print}
           >
-            Print this for your records
+            Print this page
           </button>
         </div>
         <h3>What to expect next</h3>
@@ -99,7 +99,7 @@ export class ConfirmationPage extends React.Component {
           us yet, please don't request another review. Call us instead.
         </p>
         <a href="/track-claims/your-claims" className="usa-button">
-          Track the status of your claim or appeal
+          Track the status of your claim
         </a>
       </div>
     );

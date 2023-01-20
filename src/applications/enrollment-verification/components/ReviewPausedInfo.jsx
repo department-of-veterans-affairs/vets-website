@@ -12,7 +12,10 @@ export default function ReviewPausedInfo({ onFinishVerifyingLater }) {
       status="warning"
       visible
     >
-      <va-additional-info trigger="If you submit this verification, we'll pause your monthly education payments">
+      <va-additional-info
+        trigger="If you submit this verification, we'll pause your monthly education payments"
+        disable-border="true"
+      >
         <p>
           If you submit this verification, we will pause your monthly payments
           until your enrollment information is corrected.

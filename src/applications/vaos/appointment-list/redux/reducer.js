@@ -65,9 +65,6 @@ export default function appointmentsReducer(state = initialState, action) {
     case FETCH_FUTURE_APPOINTMENTS:
       return {
         ...state,
-        pendingStatus: action.includeRequests
-          ? FETCH_STATUS.loading
-          : state.pendingStatus,
         confirmedStatus: FETCH_STATUS.loading,
       };
     case FETCH_FUTURE_APPOINTMENTS_SUCCEEDED: {

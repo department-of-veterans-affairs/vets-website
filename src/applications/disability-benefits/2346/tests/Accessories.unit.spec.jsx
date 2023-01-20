@@ -1,7 +1,18 @@
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import React from 'react';
+import moment from 'moment';
 import Accessories from '../components/Accessories';
+
+const lastYear = moment()
+  .subtract(1, 'years')
+  .format('YYYY');
+
+const fakeLastOrderDates = [
+  `${lastYear}-01-18`,
+  `${lastYear}-03-02`,
+  `${lastYear}-03-30`,
+];
 
 const fakeStore = {
   getState: () => ({
@@ -13,7 +24,7 @@ const fakeStore = {
             productGroup: 'Accessory',
             productId: 3,
             availableForReorder: true,
-            lastOrderDate: '2020-03-30',
+            lastOrderDate: fakeLastOrderDates[0],
             nextAvailabilityDate: '2020-12-15',
             quantity: 10,
             size: '6mm',
@@ -23,7 +34,7 @@ const fakeStore = {
             productGroup: 'Accessory',
             productId: 4,
             availableForReorder: true,
-            lastOrderDate: '2020-01-18',
+            lastOrderDate: fakeLastOrderDates[1],
             nextAvailabilityDate: '2019-12-15',
             quantity: 5,
             size: '3mm',
@@ -33,7 +44,7 @@ const fakeStore = {
             productGroup: 'Accessory',
             productId: 9,
             availableForReorder: false,
-            lastOrderDate: '2020-03-02',
+            lastOrderDate: fakeLastOrderDates[2],
             nextAvailabilityDate: '2999-12-15',
             quantity: 2,
           },
@@ -118,9 +129,15 @@ describe('Accessories', () => {
   });
   it('should display the last order date of the accessories', () => {
     const wrapper = mount(<Accessories store={fakeStore} />);
-    expect(wrapper.text()).to.include('Last order date:  03/30/2020');
-    expect(wrapper.text()).to.include('Last order date:  01/18/2020');
-    expect(wrapper.text()).to.include('Last order date:  03/02/2020');
+    expect(wrapper.text()).to.include(
+      `Last order date:  ${moment(fakeLastOrderDates[0]).format('MM/DD/YYYY')}`,
+    );
+    expect(wrapper.text()).to.include(
+      `Last order date:  ${moment(fakeLastOrderDates[1]).format('MM/DD/YYYY')}`,
+    );
+    expect(wrapper.text()).to.include(
+      `Last order date:  ${moment(fakeLastOrderDates[2]).format('MM/DD/YYYY')}`,
+    );
     wrapper.unmount();
   });
   it('should display the product name of the accessory', () => {

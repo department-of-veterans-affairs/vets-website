@@ -4,10 +4,6 @@
   max-width: 634.66px;
   overflow-wrap: break-word;
 
-  p {
-    margin-top: 2px;
-    margin-bottom: 1px;
-  }
   .message-detail-block {
     background-color: $color-white;
 
@@ -20,6 +16,12 @@
       h2 {
         margin: 0;
         overflow-wrap: break-word;
+      }
+    }
+    .message-detail-content {
+      p {
+        margin-top: 2px;
+        margin-bottom: 1px;
       }
     }
     .message-body {
@@ -55,38 +57,41 @@
   }
 
   .message-action-buttons {
-    @include media($medium-screen) {
-      justify-content: flex-start !important;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0px;
+    padding: 0px;
+    @media (max-width: $small-screen) {
+      li{
+        width: 100%;
+      }
     }
-    .left-button {
-      border-radius: 4px 0 0 4px;
-      box-shadow: -1px 0 0 2px $color-primary;
-      margin: 0px;
-      margin-left: 3px;
-    }
-    .right-button {
-      border-radius: 0 4px 4px 0;
-      box-shadow: 1px 0 0 2px $color-primary;
-      margin: 0px;
-      margin-left: 3px;
-    }
-    .middle-right-button {
+    button {
+      box-shadow: 2px $color-primary;
       border-radius: 0;
-      box-shadow: 1px 0 0 2px;
-      margin: 0px;
-      margin-left: 3px;
-    }
-    .middle-left-button {
-      box-shadow: 0px 0 0 2px;
-      border-radius: 0;
-      margin: 0;
-      margin-left: 3px;
-    }
-    .message-action-button {
+      margin-right: -1px;
+      margin-left: -1px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: auto;
       i {
         width: 20px;
         height: 20px;
       }
+      @media (max-width: $small-screen) {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 102%;
+      }
+    }
+    :first-child button{
+      border-radius: 5px 0 0 5px;
+    }
+    :last-child button{
+      border-radius: 0 5px 5px 0;
     }
   }
   .message-count {
@@ -104,9 +109,6 @@
       display: none;
     }
     .breadcrumbs {
-      display: none;
-    }
-    .send-button-top {
       display: none;
     }
     .page-title {
