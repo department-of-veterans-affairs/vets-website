@@ -153,6 +153,24 @@ export function transform(formConfig, form) {
     }
   });
 
+  // add back & double check compensation type because it could have been removed in filterInactivePages
+  if (!withoutViewFields.vaCompensationType) {
+    const highDisabilityRating = 50;
+    const userDisabilityRating = parseInt(
+      form.data['view:totalDisabilityRating'],
+      10,
+    );
+    const compensationType =
+      userDisabilityRating >= highDisabilityRating
+        ? 'highDisability'
+        : form.data.vaCompensationType;
+    withoutViewFields = set(
+      'vaCompensationType',
+      compensationType,
+      withoutViewFields,
+    );
+  }
+
   // add back dependents here, because it could have been removed in filterViewFields
   if (!withoutViewFields.dependents) {
     withoutViewFields = set('dependents', [], withoutViewFields);

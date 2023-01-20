@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import sinon from 'sinon';
 import { expect } from 'chai';
+// import { rest } from 'msw';
+// import { createServer } from 'msw/node';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -91,7 +93,7 @@ describe('OAuth - Utilities', () => {
         const { oAuthOptions } = externalApplicationsConfig.default;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=web`);
+        expect(url).to.include(`client_id=vaweb`);
       });
 
       it('should generate the proper signin url based on `csp` for mobile', async () => {
@@ -102,7 +104,7 @@ describe('OAuth - Utilities', () => {
         const { oAuthOptions } = externalApplicationsConfig.vamobile;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=mobile`);
+        expect(url).to.include(`client_id=vamobile`);
       });
     });
     it('should append additional params', async () => {
@@ -173,7 +175,7 @@ describe('OAuth - Utilities', () => {
       storage.setItem('code_verifier', cvValue);
       const tokenPath = `${
         environment.API_URL
-      }/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      }/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
       const btr = await oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr.href).to.eql(tokenPath);
       expect(btr.href).includes('code=');
@@ -393,7 +395,7 @@ describe('OAuth - Utilities', () => {
         });
         expect(url).to.include(`type=${policy}`);
         expect(url).to.include(`acr=min`);
-        expect(url).to.include(`client_id=web`);
+        expect(url).to.include(`client_id=vaweb`);
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
         expect(url).to.include('code_challenge=');
@@ -411,7 +413,7 @@ describe('OAuth - Utilities', () => {
           externalApplicationsConfig.default.oAuthOptions.acrVerify[policy];
         expect(url).to.include(`type=${policy}`);
         expect(url).to.include(`acr=${expectedAcr}`);
-        expect(url).to.include(`client_id=web`);
+        expect(url).to.include(`client_id=vaweb`);
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
         expect(url).to.include('code_challenge=');

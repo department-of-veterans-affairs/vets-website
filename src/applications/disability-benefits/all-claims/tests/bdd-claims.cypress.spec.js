@@ -13,7 +13,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['minimal-test', 'newOnly-test', 'maximal-test'],
+    dataSets: ['minimal-bdd-test', 'maximal-bdd-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
