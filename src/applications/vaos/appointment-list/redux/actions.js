@@ -254,9 +254,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             }),
         );
       }
-      const getData = await Promise.all(promises);
-      const data = getData[0]?.filter(appt => !appt.meta);
-      const backendSystemFailures = getData[0]?.filter(appt => appt.meta);
+      const results = await Promise.all(promises);
+      const data = results[0]?.filter(appt => !appt.meta);
+      const backendSystemFailures = results[0]?.filter(appt => appt.meta);
 
       recordEvent({
         event: `${GA_PREFIX}-get-future-appointments-retrieved`,
@@ -300,7 +300,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           facilityData = getAdditionalFacilityInfoV2(data);
         } else {
           facilityData = await getAdditionalFacilityInfo(
-            [].concat(...getData),
+            [].concat(...results),
             featureFacilitiesServiceV2,
           );
         }
