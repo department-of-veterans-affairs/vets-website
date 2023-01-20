@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-export function EnrollmentVerificationLogin({ toggleLoginModal }) {
+export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   const onSignInClicked = useCallback(() => toggleLoginModal(true), [
     toggleLoginModal,
   ]);
-  return (
+
+  const redirectToEnrollmentVerification = () => {
+    window.location.href = '/education/verify-school-enrollment/';
+  };
+
+  const visitorUI = (
     <va-alert status="continue" visible>
       <h1
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
@@ -18,8 +23,8 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
       </h1>
       <p>
         Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have an account, you
-        can create a free{' '}
+        <strong>Login.gov</strong> account. If you don’t have any of these
+        accounts, you can create a free{' '}
         <a
           className="vads-u-font-weight--bold"
           href="https://www.id.me/"
@@ -48,17 +53,55 @@ export function EnrollmentVerificationLogin({ toggleLoginModal }) {
       </button>
     </va-alert>
   );
+
+  const loggedInUserUI = (
+    <button
+      className="va-button-primary"
+      type="button"
+      onClick={redirectToEnrollmentVerification}
+    >
+      Verify your enrollments for Post-9/11 GI Bill
+    </button>
+  );
+
+  const spinner = (
+    <div className="vads-u-margin-y--5">
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+        set-focus
+      />
+    </div>
+  );
+
+  const renderUI = () => {
+    if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
+      return spinner;
+    }
+    if (user?.login?.currentlyLoggedIn) {
+      return loggedInUserUI;
+    }
+
+    return visitorUI;
+  };
+
+  return renderUI();
 }
+
+const mapStateToProps = state => ({
+  user: state.user || {},
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationLogin);
 
 EnrollmentVerificationLogin.propTypes = {
   toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
 };
