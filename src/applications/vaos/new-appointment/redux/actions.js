@@ -728,7 +728,7 @@ export function checkCommunityCareEligibility() {
         }
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
-          isEligible: response.eligible || response.length > 0,
+          isEligible: response.eligible,
         });
 
         if (response.eligible) {
