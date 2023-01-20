@@ -269,13 +269,13 @@ export const getMonthlyExpenses = ({
   if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
     totalExp = expenses.expenseRecords.reduce(
       (acc, expense) =>
-        acc + Number((expense.amount || '0').replaceAll(/[^0-9.-]/g, '') ?? 0),
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
   } else {
     totalExp = expVals.reduce(
       (acc, expense) =>
-        acc + Number((expense.amount || '0').replaceAll(/[^0-9.-]/g, '') ?? 0),
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
   }
@@ -292,7 +292,7 @@ export const getTotalAssets = ({
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number((assets?.recVehicleAmount).replaceAll(/[^0-9.-]/g, '') ?? 0);
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = !enhancedFSRActive
