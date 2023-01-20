@@ -11,12 +11,14 @@ import {
   mockContestableIssuesWithLegacyAppeals,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
 import {
   CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
   CONTESTABLE_ISSUES_PATH,
@@ -35,7 +37,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test'], // , 'minimal-test'],
+    dataSets: ['maximal-test', 'minimal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -58,16 +60,6 @@ const testConfig = createTestConfig(
             cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
-      },
-      'supporting-evidence/additional-evidence': () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
       },
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.fillPage();
@@ -249,7 +241,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+      cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];
@@ -261,19 +253,15 @@ const testConfig = createTestConfig(
           : mockContestableIssues,
       );
 
-      cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-
       cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
 
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
-        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
+      cy.get('@testData').then(() => {
+        cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
         cy.intercept('GET', '/v0/feature_toggles?*', {
           data: { features: [{ name: 'supplemental_claim', value: true }] },
         });
       });
-
-      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.

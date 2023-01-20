@@ -32,6 +32,10 @@
   display: none;
 }
 
+#root_additionalDocuments_add_label {
+  margin-top: 0;
+}
+
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
@@ -178,7 +182,7 @@ article[data-location="review-and-submit"],
 article[data-location="primary-phone-number"],
 article[data-location$="request-va-medical-records"],
 article[data-location$="request-private-medical-records"],
-article[data-location$="additional-evidence"] {
+article[data-location$="upload-evidence"] {
   legend,
   va-radio::part(legend) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;

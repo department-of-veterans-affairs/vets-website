@@ -3,7 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockMessage from '../fixtures/message-response.json';
+import mockMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
@@ -53,7 +53,11 @@ class PatientInboxPage {
       '/my_health/v1/messaging/recipients?useCache=false',
       mockRecipients,
     ).as('recipients');
-    cy.visit('my-health/secure-messages/inbox');
+    cy.visit('my-health/secure-messages/inbox', {
+      onBeforeLoad: win => {
+        cy.stub(win, 'print');
+      },
+    });
     if (doAxeCheck) {
       cy.injectAxe();
     }
@@ -138,6 +142,24 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.contains(messageTitle).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
+  };
+
+  loadMessageDetailsWithData = inputMockMessage => {
+    cy.log('loading message details.');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      mockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
+      mockThread,
+    ).as('full-thread');
+    cy.contains(inputMockMessage.data.attributes.subject).click();
     cy.wait('@message');
     cy.wait('@full-thread');
   };

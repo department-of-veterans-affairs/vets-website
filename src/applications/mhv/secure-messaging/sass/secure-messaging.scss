@@ -18,8 +18,7 @@
   }
 }
 
-.breadcrumb-angle
-.desktop-view-crumb {
+.breadcrumb-angle .desktop-view-crumb {
   color: unset;
   pointer-events: auto;
   font-weight: unset;
@@ -57,16 +56,6 @@ va-alert button {
   padding: 0;
   .send-button-top-text {
     text-decoration: underline;
-  }
-}
-
-.message-action-buttons {
-  margin-top: 20px;
-  .message-action-button {
-    i {
-      width: 20px;
-      height: 20px;
-    }
   }
 }
 

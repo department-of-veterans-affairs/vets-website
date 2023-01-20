@@ -15,20 +15,43 @@ export function displayFileSize(size) {
   return `${Math.round(mbSize)}MB`;
 }
 
-export function focusElement(selectorOrElement, options) {
+/**
+ * Focus on element
+ * @param {String|Element} selectorOrElement - CSS selector or attached DOM
+ *  element
+ * @param {FocusOptions} options - "preventScroll" or "focusVisible". See
+ *  https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#parameters
+ * @param {Element} root - root element for querySelector; would allow focusing
+ *  on elements inside of shadow dom
+ */
+export function focusElement(selectorOrElement, options, root) {
   const el =
     typeof selectorOrElement === 'string'
-      ? document.querySelector(selectorOrElement)
+      ? (root || document).querySelector(selectorOrElement)
       : selectorOrElement;
 
   if (el) {
-    if (el.tabIndex === 0) {
-      el.setAttribute('tabindex', '0');
-    }
-    if (el.tabIndex < 0) {
+    // Use getAttribute to grab the "tabindex" attribute (returns string), not
+    // the "tabIndex" property (returns number). Focusable elements will
+    // automatically have a tabIndex of zero, otherwise it's -1.
+    const tabindex = el.getAttribute('tabindex');
+    // No need to add, or remove a tabindex="0"
+    if (el.tabIndex !== 0) {
       el.setAttribute('tabindex', '-1');
+      if (typeof tabindex === 'undefined' || tabindex === null) {
+        // Remove tabindex on blur. If a web-component is focused using a -1
+        // tabindex and is not removed on blur, the shadow elements inside will
+        // not be focusable
+        el.addEventListener(
+          'blur',
+          () => {
+            el.removeAttribute('tabindex');
+          },
+          { once: true },
+        );
+      }
     }
-    el?.focus(options);
+    el.focus(options);
   }
 }
 

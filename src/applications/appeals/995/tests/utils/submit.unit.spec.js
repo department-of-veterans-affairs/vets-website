@@ -239,6 +239,7 @@ describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
+      form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
@@ -253,29 +254,41 @@ describe('getEvidence', () => {
       ],
     },
     result: {
-      evidenceType: ['retrieval'],
-      retrieveFrom: [
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 1',
-            evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: ['retrieval'],
+        retrieveFrom: [
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 1',
+              evidenceDates: [
+                { startDate: '2022-01-01', endDate: '2022-02-02' },
+              ],
+            },
           },
-        },
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 2',
-            evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 2',
+              evidenceDates: [
+                { startDate: '2022-03-03', endDate: '2022-04-04' },
+              ],
+            },
           },
-        },
-      ],
+        ],
+      },
     },
   });
 
   it('should skip adding evidence when not selected', () => {
     const evidence = getData({ hasVa: false });
-    expect(getEvidence(evidence.data)).to.deep.equal({ evidenceType: [] });
+    expect(getEvidence(evidence.data)).to.deep.equal({
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: [],
+      },
+    });
   });
   it('should process evidence when available', () => {
     const evidence = getData();
@@ -284,22 +297,27 @@ describe('getEvidence', () => {
 });
 
 describe('getForm4142', () => {
-  const formData = {
+  const getData = wrap => ({
     privacyAgreementAccepted: true,
     limitedConsent: 'testing',
-    providerFacility: [{ test: 'foo' }, { test: 'bar' }],
-  };
+    // Move treatementDateRange entry into an array
+    providerFacility: [
+      { test: 'foo', treatmentDateRange: wrap ? [{ a: true }] : { a: true } },
+      { test: 'bar', treatmentDateRange: wrap ? [{ b: false }] : { b: false } },
+    ],
+  });
+
   it('should return 4142 form data', () => {
     const data = {
       [EVIDENCE_PRIVATE]: true,
-      ...formData,
+      ...getData(),
     };
-    expect(getForm4142(data)).to.deep.equal(formData);
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
   it('should return empty object since private evidence not selected', () => {
     const data = {
       [EVIDENCE_PRIVATE]: false,
-      ...formData,
+      ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal({});
   });
