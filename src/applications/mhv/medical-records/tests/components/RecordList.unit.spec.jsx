@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import RecordList from '../../components/RecordList';
@@ -10,11 +10,12 @@ describe('Record list component', () => {
     expect(screen.getByText('Displaying', { exact: false })).to.exist;
   });
 
-  it('displays a list of records when records are provided', () => {
+  it('displays a list of records when records are provided', async () => {
     const screen = render(<RecordList records={vaccines} type="vaccine" />);
-    const recordItems = screen
-      .getAllByTestId('record-list-item')
-      ?.map(el => el.value);
+    let recordItems = null;
+    await waitFor(() => {
+      recordItems = screen.getAllByTestId('record-list-item');
+    });
     expect(recordItems.length).to.equal(5);
   });
 });
