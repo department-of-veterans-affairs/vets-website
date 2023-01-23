@@ -1,8 +1,17 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDates from './PreferredDates';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.requestDateTime.url);
+  };
+}
+
 export default function PreferredDatesSection(props) {
+  const history = useHistory();
   return (
     <>
       <div className="vads-l-grid-container vads-u-padding--0">
@@ -15,11 +24,11 @@ export default function PreferredDatesSection(props) {
             </ul>
           </div>
           <div>
-            <va-link
-              href={newAppointmentFlow.requestDateTime.url}
+            <VaLink
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
             />
           </div>
         </div>

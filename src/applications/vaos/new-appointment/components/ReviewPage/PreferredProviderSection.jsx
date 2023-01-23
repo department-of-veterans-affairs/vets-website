@@ -1,10 +1,20 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.ccPreferences.url);
+  };
+}
+
 export default function PreferredProviderSection(props) {
+  const history = useHistory();
+
   return (
     <>
       {props.data.hasCommunityCareProvider && (
@@ -41,8 +51,8 @@ export default function PreferredProviderSection(props) {
               </span>
             </div>
             <div>
-              <va-link
-                href={newAppointmentFlow.ccPreferences.url}
+              <VaLink
+                onClick={handleClick(history)}
                 aria-label="Edit provider preference"
                 text="Edit"
                 data-testid="edit-new-appointment"

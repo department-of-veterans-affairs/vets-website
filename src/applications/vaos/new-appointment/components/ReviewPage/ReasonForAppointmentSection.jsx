@@ -1,9 +1,18 @@
 import React from 'react';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useHistory } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.reasonForAppointment.url);
+  };
+}
+
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
+  const history = useHistory();
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -24,11 +33,11 @@ export default function ReasonForAppointmentSection({ data }) {
             </span>
           </div>
           <div>
-            <va-link
-              href={newAppointmentFlow.reasonForAppointment.url}
+            <VaLink
               aria-label="Edit purpose of appointment"
               text="Edit"
               data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
             />
           </div>
         </div>
