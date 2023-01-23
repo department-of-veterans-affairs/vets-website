@@ -421,3 +421,7 @@ export function selectFacilitiesRadioWidget(state) {
     sortMethod,
   };
 }
+
+export function selectAppointmentSlotsStatus(state) {
+  return state.appointmentSlotsStatus;
+}
