@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
-import i18n from '../../utils/i18n/i18n';
-import AppointmentListItem from '../AppointmentListItem';
+import i18n from '../../../utils/i18n/i18n';
+import AppointmentListItemVaos from '../AppointmentListItemVaos';
 
 const appointments = [
   {
@@ -30,13 +30,13 @@ const appointments = [
     kind: 'phone',
   },
 ];
-describe('pre-check-in', () => {
-  describe('AppointmentListItem', () => {
+describe('AppointmentListItemVaos', () => {
+  describe('pre-check-in and day-of', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItem appointment={appointments[0]} />
+            <AppointmentListItemVaos appointment={appointments[0]} />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -56,7 +56,7 @@ describe('pre-check-in', () => {
       it('Renders appointment details', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItem appointment={appointments[1]} />
+            <AppointmentListItemVaos appointment={appointments[1]} />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -71,20 +71,25 @@ describe('pre-check-in', () => {
       });
     });
     describe('Details link', () => {
-      it("Doesn't show if no function", () => {
+      it("Doesn't show if false", () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItem appointment={appointments[0]} />
+            <AppointmentListItemVaos
+              appointment={appointments[0]}
+              showDetailsLink={false}
+              goToDetails={() => {}}
+            />
           </I18nextProvider>,
         );
         expect(screen.queryByTestId('details-link')).to.not.exist;
       });
-      it('Does show if function', () => {
+      it('Does show if true', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItem
+            <AppointmentListItemVaos
               appointment={appointments[0]}
               goToDetails={() => {}}
+              showDetailsLink
             />
           </I18nextProvider>,
         );
@@ -94,9 +99,10 @@ describe('pre-check-in', () => {
         const goToDetails = sinon.spy();
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItem
+            <AppointmentListItemVaos
               appointment={appointments[0]}
               goToDetails={goToDetails}
+              showDetailsLink
             />
           </I18nextProvider>,
         );

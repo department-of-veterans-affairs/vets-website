@@ -30,7 +30,6 @@ Cypress.Commands.add(
       const data = win.dataLayer.find(
         obj => obj?.['form-field-value'] === value,
       );
-      // console.log(value, data, win.dataLayer)
       assert.equal(data?.event || '', 'howToWizard-formChange');
       assert.equal(data['form-field-type'], type);
       assert.equal(data['form-field-label'], label);
