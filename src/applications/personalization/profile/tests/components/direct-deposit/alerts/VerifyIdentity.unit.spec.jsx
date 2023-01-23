@@ -47,7 +47,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       );
       await waitFor(() => expect(loginGovAnchor.href).to.include(`acr=min`));
       await waitFor(() =>
-        expect(loginGovAnchor.href).to.include(`client_id=web`),
+        expect(loginGovAnchor.href).to.include(`client_id=vaweb`),
       );
       await waitFor(() => expect(loginGovAnchor.href).to.include('/authorize'));
       await waitFor(() =>
@@ -60,7 +60,9 @@ describe('authenticated experience -- profile -- direct deposit', () => {
 
       await waitFor(() => expect(idmeAnchor.href).to.include(`type=idme`));
       await waitFor(() => expect(idmeAnchor.href).to.include(`acr=min`));
-      await waitFor(() => expect(idmeAnchor.href).to.include(`client_id=web`));
+      await waitFor(() =>
+        expect(idmeAnchor.href).to.include(`client_id=vaweb`),
+      );
       await waitFor(() => expect(idmeAnchor.href).to.include('/authorize'));
       await waitFor(() =>
         expect(idmeAnchor.href).to.include('response_type=code'),

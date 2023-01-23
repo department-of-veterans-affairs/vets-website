@@ -18,8 +18,17 @@ const fetchFailureAlert = (
 );
 
 const successAlert = submissionResult => (
-  <va-alert status="success" visible>
-    {submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+  <va-alert
+    aria-live={
+      submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
+        ? 'assertive'
+        : 'off'
+    }
+    role="alert"
+    status="success"
+    visible
+  >
+    {submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
       ? 'Congratulations, you’re'
       : 'You’re'}{' '}
     up-to-date with your monthly enrollment verification. You’ll be able to
