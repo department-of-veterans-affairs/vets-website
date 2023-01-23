@@ -1,12 +1,13 @@
+import RealEstateOwnershipValue from '../../../components/RealEstateOwnershipValue';
+
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': '',
   questions: {
     hasRealEstate: {
-      'ui:title': 'HELLOOOO',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
+      'ui:title': ' ',
+      'ui:widget': RealEstateOwnershipValue,
       'ui:errorMessages': {
-        required: 'Please enter your real estate information.',
+        required: 'Please enter your property value.',
       },
     },
   },

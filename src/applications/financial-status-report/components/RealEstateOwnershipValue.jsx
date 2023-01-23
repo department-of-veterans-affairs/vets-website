@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
-import { useSelector, connect } from 'react-redux';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
 const ResolutionExplainerWidget = props => {
   const { goToPath, goBack, onReviewPage } = props;
 
-  const [hasRealEstate, setHasRealEstate] = useState('false');
-  const formData = useSelector(state => state.form.data);
+  const [realEstateValue, setRealEstateValue] = useState(0);
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasRealEstate === 'true') {
-        goToPath(`/enhanced-real-estate-asset-records`);
-      } else {
+      if (realEstateValue >= 0) {
         goToPath(`/vehicles`);
+      } else {
+        goToPath(`/enhanced-real-estate-assets`);
       }
     },
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
-        setHasRealEstate(value);
-        formData.questions.hasRealEstate = value;
+        setRealEstateValue(value);
       }
     },
   };
@@ -34,27 +31,15 @@ const ResolutionExplainerWidget = props => {
       <div>
         <h3>Your real estate assets</h3>
       </div>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Do you currently own any property?"
-        hin="This includes properties with a mortage."
-        onVaValueChange={handlers.onSelection}
+      <va-number-input
+        label="What is the estimated value of your property?"
+        name="property-value"
+        value={realEstateValue}
+        id="property-value"
+        inputmode="decimal"
         required
-      >
-        <va-radio-option
-          id="has-property"
-          label="Yes"
-          value="true"
-          checked={hasRealEstate === 'true'}
-        />
-        <va-radio-option
-          id="has-no-property"
-          label="No"
-          value="false"
-          name="primary"
-          checked={hasRealEstate === 'false'}
-        />
-      </VaRadio>
+      />
+      <br />
       <va-additional-info trigger="Why do I need to provide this information?">
         <p>
           We want to make sure we fully understand your financial situation. We

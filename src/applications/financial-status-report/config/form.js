@@ -17,6 +17,7 @@ import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
 import RealEstateOwnershipQuestion from '../components/RealEstateOwnershipQuestion';
+import RealEstateOwnershipValue from '../components/RealEstateOwnershipValue';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -432,6 +433,7 @@ const formConfig = {
             formData.questions.hasRealEstate &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+          CustomPage: RealEstateOwnershipValue,
         },
         vehicles: {
           path: 'vehicles',
