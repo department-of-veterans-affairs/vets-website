@@ -1,3 +1,5 @@
+const error401Data = require('../../tests/fixtures/401.json');
+
 const success = {
   data: {
     id: '',
@@ -11,4 +13,8 @@ const success = {
   },
 };
 
-module.exports = { success };
+const createErrorBadRequest401 = (_, res) => {
+  return res.status(401).json(error401Data);
+};
+
+module.exports = { success, error401Data, createErrorBadRequest401 };

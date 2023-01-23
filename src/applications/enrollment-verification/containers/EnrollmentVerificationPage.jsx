@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { fetchPost911GiBillEligibility } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
+
+import {
+  fetchPost911GiBillEligibility,
+  UPDATE_VERIFICATION_STATUS_SUCCESS,
+} from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
@@ -17,10 +22,10 @@ import { getEVData } from '../selectors';
 export const EnrollmentVerificationPage = ({
   enrollmentVerification,
   enrollmentVerificationFetchComplete,
-  // enrollmentVerificationFetchFailure,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   isLoggedIn,
+  submissionResult,
 }) => {
   const history = useHistory();
 
@@ -40,6 +45,15 @@ export const EnrollmentVerificationPage = ({
       }
     },
     [getPost911GiBillEligibility, enrollmentVerification],
+  );
+
+  useEffect(
+    () => {
+      if (submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS) {
+        focusElement('va-alert');
+      }
+    },
+    [submissionResult],
   );
 
   if (!enrollmentVerificationFetchComplete) {
@@ -102,6 +116,7 @@ EnrollmentVerificationPage.propTypes = {
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  submissionResult: PropTypes.string,
 };
 
 const mapStateToProps = state => getEVData(state);

@@ -7,6 +7,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
 import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
+import { formatFullName } from '../common/helpers';
 
 const DisabilityRatingContent = ({ rating }) => {
   const disabilityRatingClasses = prefixUtilityClasses([
@@ -96,9 +97,7 @@ const NameTag = ({
   totalDisabilityRating,
   totalDisabilityRatingServerError,
 }) => {
-  const fullName = [first, middle, last, suffix]
-    .filter(name => !!name)
-    .join(' ');
+  const fullName = formatFullName({ first, middle, last, suffix });
 
   const updatedWrapperClasses = prefixUtilityClasses([
     'background-color--primary',
