@@ -64,6 +64,9 @@ class SecureMessagingSite {
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
+    cy.wait('@inboxMessages');
+    cy.wait('@inboxFolderMetaData');
+    cy.wait('@categories');
     if (doAxeCheck) {
       cy.axeCheck();
     }
