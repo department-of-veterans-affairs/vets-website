@@ -29,7 +29,8 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     // cy.injectAxe();
     // cy.axeCheck();
-
+    cy.wait('@customFolder');
+    cy.wait('@test2Folder');
     cy.get('.right-button').click({ force: true });
 
     cy.get('[class="modal hydrated"]')
