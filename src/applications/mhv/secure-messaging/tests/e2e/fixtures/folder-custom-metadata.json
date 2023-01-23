@@ -7,7 +7,7 @@
             "name": "TEST2",
             "count": 8,
             "unreadCount": 3,
-            "systemFolder": true
+            "systemFolder": false
         },
         "links": {
             "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/7038175"

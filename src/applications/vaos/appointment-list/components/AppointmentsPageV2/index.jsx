@@ -107,21 +107,21 @@ export default function AppointmentsPageV2() {
     subHeading,
   } = getDropdownValueFromLocation(location.pathname);
 
-  const [count, setCount] = useState(0);
+  let prefix = 'Your';
+  if (featureStatusImprovement) {
+    if (location.pathname.endsWith('pending')) {
+      prefix = 'Pending';
+      pageTitle = `${prefix} appointments`;
+    } else if (location.pathname.endsWith('past')) {
+      prefix = 'Past';
+      pageTitle = `${prefix} appointments`;
+    } else {
+      pageTitle = 'Your appointments';
+    }
+  }
   useEffect(
     () => {
       if (featureStatusImprovement) {
-        let prefix = 'Your';
-        if (location.pathname.endsWith('pending')) {
-          prefix = 'Pending';
-          pageTitle = `${prefix} appointments`;
-        } else if (location.pathname.endsWith('past')) {
-          prefix = 'Past';
-          pageTitle = `${prefix} appointments`;
-        } else {
-          pageTitle = 'Your appointments';
-        }
-
         document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
         scrollAndFocus('h1');
       } else {
@@ -129,7 +129,7 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname],
+    [subPageTitle, featureStatusImprovement, location.pathname, prefix],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
@@ -154,6 +154,7 @@ export default function AppointmentsPageV2() {
     [documentTitle, subPageTitle],
   );
 
+  const [count, setCount] = useState(0);
   useEffect(
     () => {
       // Get non cancelled appointment requests from store

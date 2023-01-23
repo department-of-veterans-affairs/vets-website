@@ -129,7 +129,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       expect(
         screen.getByRole('heading', { level: 2, name: 'Canceled requests' }),
       ).to.be.ok;
-      expect(screen.getByText('Your appointment requests that where canceled'))
+      expect(screen.getByText('Your appointment requests that were canceled'))
         .to.be.ok;
     });
 
@@ -224,9 +224,8 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       expect(
         screen.queryByRole('heading', { level: 2, name: 'Canceled requests' }),
       ).not.to.be.ok;
-      expect(
-        screen.queryByText('Your appointment requests that where canceled'),
-      ).not.to.be.ok;
+      expect(screen.queryByText('Your appointment requests that were canceled'))
+        .not.to.be.ok;
 
       // And the no appointments alert message should not be displayed
       expect(
@@ -366,7 +365,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
           name: 'Canceled requests',
         }),
       ).to.be.ok;
-      expect(screen.getByText('Your appointment requests that where canceled'))
+      expect(screen.getByText('Your appointment requests that were canceled'))
         .to.be.ok;
 
       // And it should display the no appointments alert message
