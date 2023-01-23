@@ -1,7 +1,7 @@
 import DirectDeposit from '../DirectDeposit';
 import { paymentHistory } from '../../../../mocks/payment-history';
 import { noAccount } from '../../../../mocks/bank-accounts';
-import { user72Success } from '../../../../mocks/user';
+import { loa3User72 } from '../../../../mocks/user';
 
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
 
@@ -11,7 +11,7 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('should display the ineligible message', () => {
-    cy.login(user72Success);
+    cy.login(loa3User72);
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',

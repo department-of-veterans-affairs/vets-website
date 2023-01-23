@@ -2,7 +2,7 @@ import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json'
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Delete Draft', () => {
   it('Axe Check Delete Draft', () => {

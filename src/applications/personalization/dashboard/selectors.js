@@ -10,8 +10,6 @@ export const selectFolder = state => selectFolders(state)?.data?.currentItem;
 export const selectUseVaosV2APi = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileUseVaosV2Api] || false;
 
-export const canAccess = state => state.user?.profile?.claims || {};
-
 export const selectUserCernerFacilityNames = state => {
   const patientCernerFacilityIds = selectPatientCernerFacilities(state)?.map(
     f => f.facilityId,
