@@ -9,7 +9,7 @@ const HowToAttachFiles = () => {
       disable-border={false}
     >
       <section className="how-to-attach-files">
-        <ul>
+        <ul className="vads-u-margin-y--0">
           <li>You may attach up to 4 files to each message</li>
           <li>
             You can attach only these file types: doc, docx, gif, jpg, pdf, png,
