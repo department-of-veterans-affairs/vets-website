@@ -57,6 +57,7 @@ describe('SIP Finish Later', () => {
     cy.get('.schemaform-sip-save-link').should('be.visible');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
+      body: { status: 500 },
     });
     cy.get('.schemaform-sip-save-link').click();
 
@@ -107,6 +108,7 @@ describe('SIP Finish Later', () => {
     cy.fill('input[name="root_veteranFullName_last"]', 'Mouse');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
+      body: { status: 401 },
     }).as('401Form');
     cy.get('.schemaform-sip-save-link').click();
 
