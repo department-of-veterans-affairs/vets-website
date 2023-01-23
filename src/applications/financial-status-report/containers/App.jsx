@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   WIZARD_STATUS_NOT_STARTED,
@@ -13,9 +13,10 @@ import {
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
 import formConfig from '../config/form';
+import { fetchDebts, fetchFormStatus } from '../actions';
+import { getStatements } from '../actions/copays';
 import { ZeroDebtAlert, ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
-import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
@@ -93,6 +94,17 @@ const App = ({
     [showCombinedFSR, showEnhancedFSR, setFormData, isStartingOver],
   );
 
+  const dispatch = useDispatch();
+  useEffect(
+    () => {
+      if (showCombinedFSR) {
+        fetchDebts(dispatch);
+        getStatements(dispatch);
+      }
+    },
+    [dispatch, showCombinedFSR],
+  );
+
   if (pending) {
     return (
       <va-loading-indicator
@@ -107,7 +119,12 @@ const App = ({
     return <ErrorAlert />;
   }
 
-  if (isLoggedIn && !debts.length && !statementsByUniqueFacility.length) {
+  if (
+    isLoggedIn &&
+    showCombinedFSR &&
+    !debts.length &&
+    !statementsByUniqueFacility.length
+  ) {
     return (
       <div className="row vads-u-margin-bottom--5">
         <div className="medium-9 columns">
