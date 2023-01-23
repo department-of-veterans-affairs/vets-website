@@ -356,6 +356,7 @@ export function transformTOEForm(_formConfig, form) {
       },
       preferredContact: form?.data?.contactMethod,
     },
+    parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     sponsorOptions: getSponsorInformation(form),
     highSchoolDiplomaInfo: {
       highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',

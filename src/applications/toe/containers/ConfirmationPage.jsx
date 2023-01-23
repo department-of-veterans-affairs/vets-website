@@ -57,6 +57,7 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
       );
     }
     case 'INPROGRESS':
+    case 'SUBMITTED':
     case 'ERROR': {
       return (
         <UnderReviewConfirmation
