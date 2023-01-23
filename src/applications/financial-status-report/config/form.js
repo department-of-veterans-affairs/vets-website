@@ -616,7 +616,18 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: ({ questions }) => questions.hasBeenAdjudicatedBankrupt,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            !formData['view:enhancedFinancialStatusReport'],
+        },
+        enhancedBankruptcyHistoryRecords: {
+          path: 'enhanced-bankruptcy-history-records',
+          title: 'Bankruptcy history',
+          uiSchema: pages.enhancedBankruptcyHistoryRecords.uiSchema,
+          schema: pages.enhancedBankruptcyHistoryRecords.schema,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            formData['view:enhancedFinancialStatusReport'],
         },
       },
     },

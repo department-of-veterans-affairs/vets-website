@@ -42,13 +42,20 @@ va-alert button {
   border-radius: 4px;
 }
 
-.message-action-buttons {
-  margin-top: 20px;
-  .message-action-button {
-    i {
-      width: 20px;
-      height: 20px;
-    }
+.send-button-top,
+.reply-button-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent !important;
+  color: $color-link-default !important;
+  font-weight: normal;
+  line-height: 24px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  .send-button-top-text {
+    text-decoration: underline;
   }
 }
 

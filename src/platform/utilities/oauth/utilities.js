@@ -95,11 +95,12 @@ export async function createOAuthRequest({
   type = '',
   acr,
 }) {
-  const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
+  const isDefaultOAuth =
+    !application || [CLIENT_IDS.WEB, CLIENT_IDS.VAWEB].includes(clientId);
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
-    ) || clientId === CLIENT_IDS.MOBILE;
+    ) || [CLIENT_IDS.MOBILE, CLIENT_IDS.VAMOBILE].includes(clientId);
   const { oAuthOptions } =
     config ??
     (externalApplicationsConfig[application] ||
@@ -169,7 +170,7 @@ export function buildTokenRequest({
   // Build the authorization URL
   const oAuthParams = {
     [OAUTH_KEYS.GRANT_TYPE]: OAUTH_ALLOWED_PARAMS.AUTH_CODE,
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.WEB),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.VAWEB),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
     [OAUTH_KEYS.CODE]: code,
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,

@@ -27,6 +27,7 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import submissionError from '../content/submissionError';
 
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
@@ -100,6 +101,7 @@ const formConfig = {
   subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
+  submissionError,
   chapters: {
     infoPages: {
       title: 'Veteran information',

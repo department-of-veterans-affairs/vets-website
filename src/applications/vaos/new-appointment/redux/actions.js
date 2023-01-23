@@ -13,6 +13,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
@@ -78,6 +79,7 @@ import {
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -692,6 +694,7 @@ export function checkCommunityCareEligibility() {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
+    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -717,8 +720,12 @@ export function checkCommunityCareEligibility() {
 
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
-        const response = await getCommunityCare(getCCEType(state));
-
+        let response = null;
+        if (useV2) {
+          response = await getCommunityCareV2(getCCEType(state));
+        } else {
+          response = await getCommunityCare(getCCEType(state));
+        }
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
