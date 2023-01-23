@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
@@ -45,3 +46,7 @@ export default function ReasonForAppointmentSection({ data }) {
     </>
   );
 }
+
+ReasonForAppointmentSection.propTypes = {
+  data: PropTypes.object.isRequired,
+};
