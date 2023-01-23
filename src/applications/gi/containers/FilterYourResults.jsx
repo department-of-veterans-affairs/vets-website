@@ -19,6 +19,7 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import VARadioButton from '../components/VARadioButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -249,6 +250,79 @@ export function FilterYourResults({
     );
   };
 
+  const handleInputChange = (event, target, name) => {
+    const { value } = event ? event.target : target.detail;
+    const field = event ? event.target.name : name;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+    updateInstitutionFilters(field, value);
+  };
+
+  const specialMissionsWithRadioButtons = () => {
+    const options = [
+      {
+        value: 'ALL',
+        label: 'All',
+      },
+      {
+        value: 'hbcu',
+        label: 'Historically Black college or university',
+      },
+      {
+        value: 'menonly',
+        label: 'Men-only',
+      },
+      {
+        value: 'womenonly',
+        label: 'Women-only',
+      },
+      {
+        value: 'relaffil',
+        label: 'Religious affiliation',
+      },
+      {
+        value: 'HSI',
+        label: 'Hispanic-serving institutions',
+      },
+      {
+        value: 'NANTI',
+        label: 'Native American-serving institutions',
+      },
+      {
+        value: 'ANNHI',
+        label: 'Alaska Native-serving institutions',
+      },
+      {
+        value: 'AANAPII',
+        label:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        value: 'PBI',
+        label: 'Predominantly Black institutions',
+      },
+      {
+        value: 'TRIBAL',
+        label: 'Tribal college and university',
+      },
+    ];
+
+    return (
+      <VARadioButton
+        radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        name="specialMission"
+        initialValue={specialMission}
+        options={options}
+        onVaValueChange={(target, name) =>
+          handleInputChange(null, target, name)
+        }
+      />
+    );
+  };
+
   const specialMissions = () => {
     const options = [
       {
@@ -320,6 +394,9 @@ export function FilterYourResults({
           >
             {name}
           </h3>
+          <div className="vads-u-margin-bottom--4">
+            {specialMissionsWithRadioButtons()}
+          </div>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
