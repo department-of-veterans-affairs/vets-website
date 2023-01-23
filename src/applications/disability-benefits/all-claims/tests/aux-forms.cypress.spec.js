@@ -13,7 +13,13 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['minimal-test', 'newOnly-test', 'maximal-test'],
+    // 'full-781-781a-8940-test.json' moved to long-ptsd.cypress.spec.js
+    // to help balance out CI
+    dataSets: [
+      'minimal-skip-781.json',
+      'upload-781-781a-8940-test.json',
+      'secondary-new-test.json',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
