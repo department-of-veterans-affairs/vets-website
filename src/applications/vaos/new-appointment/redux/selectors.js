@@ -423,5 +423,5 @@ export function selectFacilitiesRadioWidget(state) {
 }
 
 export function selectAppointmentSlotsStatus(state) {
-  return state.appointmentSlotsStatus;
+  return getNewAppointment(state).appointmentSlotsStatus;
 }
