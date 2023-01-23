@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from './FileInput';
 import AttachmentsList from '../AttachmentsList';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import DraftSavedInfo from './DraftSavedInfo';
 import useDebounce from '../../hooks/use-debounce';
-import DiscardDraft from '../Draft/DiscardDraft';
+import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat } from '../../util/helpers';
+import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+import { draftAutoSaveTimeout } from '../../util/constants';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage } = props;
@@ -35,12 +38,15 @@ const ReplyForm = props => {
     draftToEdit ? draftToEdit.messageId : null,
   );
   const [userSaved, setUserSaved] = useState(false);
+  const [navigationError, setNavigationError] = useState(null);
+  const [saveError, setSaveError] = useState(null);
+
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
   let draft;
 
-  const debouncedSubject = useDebounce(subject, 3000);
-  const debouncedMessageBody = useDebounce(messageBody, 3000);
+  const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
+  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
@@ -143,15 +149,45 @@ const ReplyForm = props => {
     return 'New message';
   };
 
-  const sendMessageHandler = () => {
+  const checkMessageValidity = () => {
+    let messageValid = true;
     if (messageBody === '' || messageBody.match(/^[\s]+$/)) {
       setBodyError('Message body cannot be blank.');
-    } else {
+      messageValid = false;
+    }
+    return messageValid;
+  };
+
+  const sendMessageHandler = () => {
+    if (checkMessageValidity()) {
       setSendMessageFlag(true);
+      setNavigationError(null);
     }
   };
 
   const saveDraftHandler = type => {
+    if (type === 'manual') {
+      setUserSaved(true);
+      if (!checkMessageValidity()) {
+        setSaveError({
+          title: "We can't save this message yet",
+          p1:
+            'We need more information from you before we can save this draft.',
+          p2:
+            "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+        });
+        return;
+      }
+      if (attachments.length) {
+        setSaveError({
+          title: "We can't save attachments in a draft message",
+          p1:
+            "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+        });
+        setNavigationError(null);
+      }
+    }
+
     const draftId = draft && draft.messageId;
     const newFieldsString = JSON.stringify({
       rec: selectedRecipient,
@@ -183,6 +219,7 @@ const ReplyForm = props => {
     } else {
       dispatch(saveReplyDraft(replyMessage.messageId, formData, type, draftId));
     }
+    if (!attachments.length) setNavigationError(null);
   };
 
   useEffect(
@@ -205,11 +242,48 @@ const ReplyForm = props => {
     ],
   );
 
+  if (!sendMessageFlag && !navigationError && attachments.length) {
+    setNavigationError({
+      title: "We can't save attachments in a draft message",
+      p1:
+        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'OK',
+    });
+  }
+
   if (replyMessage) {
     return (
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
         <form className="reply-form" onSubmit={sendMessageHandler}>
+          {saveError && (
+            <VaModal
+              modalTitle={saveError.title}
+              onPrimaryButtonClick={() => setSaveError(null)}
+              onCloseEvent={() => setSaveError(null)}
+              primaryButtonText="Continue editing"
+              status="warning"
+              visible
+            >
+              <p>{saveError.p1}</p>
+              {saveError.p2 && <p>{saveError.p2}</p>}
+            </VaModal>
+          )}
+          <RouteLeavingGuard
+            when={!!navigationError}
+            navigate={path => {
+              history.push(path);
+            }}
+            shouldBlockNavigation={() => {
+              return !!navigationError;
+            }}
+            title={navigationError?.title}
+            p1={navigationError?.p1}
+            p2={navigationError?.p2}
+            confirmButtonText={navigationError?.confirmButtonText}
+            cancelButtonText={navigationError?.cancelButtonText}
+          />
           <EmergencyNote />
           <div>
             <p>
@@ -224,6 +298,8 @@ const ReplyForm = props => {
                 To:{' '}
               </strong>
               {replyMessage.senderName}
+              <br />
+              (Team: {replyMessage.triageGroupName})
             </p>
             <va-textarea
               label="Message"
@@ -263,15 +339,12 @@ const ReplyForm = props => {
                 type="button"
                 className="usa-button-secondary vads-u-flex--1"
                 data-testid="Save-Draft-Button"
-                onClick={() => {
-                  setUserSaved(true);
-                  saveDraftHandler('manual');
-                }}
+                onClick={() => saveDraftHandler('manual')}
               >
                 Save draft
               </button>
               {/* UCD requested to keep button even when not saved as draft */}
-              <DiscardDraft draftId={newDraftId} />
+              <DeleteDraft draftId={newDraftId} />
             </div>
           </div>
           <DraftSavedInfo userSaved={userSaved} />

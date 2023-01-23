@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -45,6 +46,13 @@ const AttachmentsList = props => {
                     href={file.link}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => {
+                      recordEvent({
+                        event: 'cta-button-click',
+                        'button-type': 'link',
+                        'button-click-label': 'Attachment link',
+                      });
+                    }}
                   >
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </a>

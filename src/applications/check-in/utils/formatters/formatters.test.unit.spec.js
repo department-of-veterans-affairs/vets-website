@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatPhone, formatDemographicString } from './index';
+import { formatPhone, formatDemographicString, toCamelCase } from './index';
 
 describe('check in', () => {
   describe('format helpers', () => {
@@ -30,6 +30,13 @@ describe('check in', () => {
         const testEmail = 'email@email.com';
         const formatedEmail = formatDemographicString(testEmail);
         expect(formatedEmail).to.equal('email@email.com');
+      });
+    });
+    describe('toCamelCase', () => {
+      it('formats string to camel case', () => {
+        const str = 'Mailing Address';
+        const transformedString = toCamelCase(str);
+        expect(transformedString).to.equal('mailingAddress');
       });
     });
   });

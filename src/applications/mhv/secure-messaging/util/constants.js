@@ -1,3 +1,6 @@
+/** time to wait (in ms) after the user stops typing before initiating draft auto-save */
+export const draftAutoSaveTimeout = 15000;
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -34,9 +37,9 @@ export const Alerts = {
     MOVE_MESSAGE_ERROR:
       'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
-    DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
+    DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
-      'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+      'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
     SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
@@ -69,8 +72,8 @@ export const Prompts = {
       'Messages in the trash folder won’t be permanently deleted.',
   },
   Draft: {
-    DISCARD_DRAFT_CONFIRM: 'Are you sure you want to discard this draft?',
-    DISCARD_DRAFT_CONFIRM_NOTE:
+    DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
+    DELETE_DRAFT_CONFIRM_NOTE:
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };

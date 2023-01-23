@@ -367,7 +367,10 @@ describe('<EvidencePrivateRecords>', () => {
   // *** ADD ANOTHER ***
   it('should navigate from zero index to a new empty facility page, of index 1, with valid data', async () => {
     const goSpy = sinon.spy();
-    const data = { ...mockData, providerFacility: [mockFacility] };
+    const data = {
+      ...mockData,
+      providerFacility: [mockFacility, {}, mockFacility2],
+    };
     const index = 0;
     const page = setup({
       index,
@@ -386,7 +389,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
   });
 
-  it('should navigate from zero index to last entry + 1 when adding another with valid data', async () => {
+  it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
     const goSpy = sinon.spy();
     const providerFacility = [mockFacility, mockFacility2, {}];
     const data = { ...mockData, providerFacility };
@@ -403,11 +406,8 @@ describe('<EvidencePrivateRecords>', () => {
 
     await waitFor(() => {
       expect($('va-modal', container).getAttribute('visible')).to.eq('false');
-      expect(
-        goSpy.calledWith(
-          `/${EVIDENCE_PRIVATE_PATH}?index=${providerFacility.length}`,
-        ),
-      ).to.be.true;
+      expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
+        .to.be.true;
     });
   });
 
