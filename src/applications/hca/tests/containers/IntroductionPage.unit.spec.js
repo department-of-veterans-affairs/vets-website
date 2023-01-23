@@ -145,9 +145,6 @@ describe('HCA IntroductionPage', () => {
     );
 
     expect(
-      view.container.querySelector('[data-testid="login-alert-button"]'),
-    ).to.have.attribute('text', 'Sign in to check your application status');
-    expect(
       view.getByRole('button', {
         name: 'Sign in to check your application status',
       }),

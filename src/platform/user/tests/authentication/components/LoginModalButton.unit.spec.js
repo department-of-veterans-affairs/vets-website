@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import LoginModalButton from '../../../authentication/components/LoginModalButton';
 
 describe('LoginModal Button', () => {
@@ -26,7 +26,7 @@ describe('LoginModal Button', () => {
   };
   const generateProps = ({
     context,
-    shouldConfirmLeavingForm,
+    shouldConfirmLeavingForm = true,
     analyticsEvent,
     message = 'Sign in or create an account',
     className,
@@ -78,22 +78,36 @@ describe('LoginModal Button', () => {
     screen.unmount();
   });
 
-  // it(`should call the function on click`, () => {
-  //   const screen = mount(
-  //     <Provider store={fakeStore}>
-  //       <LoginModalButton {...props} />
-  //     </Provider>,
-  //   );
+  it(`should call the function on click`, () => {
+    props = generateProps({
+      context: 'main',
+      // message: 'new button message',
+      className: 'usa-button',
+    });
+    // console.log(props);
+    const screen = shallow(
+      <Provider store={fakeStore}>
+        <LoginModalButton {...props} />
+      </Provider>,
+    );
 
-  //   const mockGetBackendStatuses = sinon.spy(getBackendStatuses);
+    const loginModalButton = screen.find('Connect(LoginModalButton)');
 
-  //   fireEvent.click(
-  //     screen.getByRole('button', { name: 'Sign in or create an account' }),
-  //   );
-  //   expect(verifyHandlerSpy.called).to.be.true;
-  //   verifyHandlerSpy.reset();
-  //   screen.unmount();
-  // });
+    loginModalButton.simulate('click');
+    // console.log(props.storeProps.getBackendStatuses);
+    // mockGetBackendStatuses.reset();
+    // console.log(fakeStore);
+    // fireEvent.click(screen.find('LoginModalButton'));
+
+    // console.log(loginModalButton.props('storeProps').getBackendStatuses);
+    expect(
+      loginModalButton.props('storeProps').shouldConfirmLeavingForm.calledOnce,
+    ).to.be.true;
+    // expect(props.storeProps.toggleLoginModal.calledOnce).to.be.true;
+
+    // handleSignInSignUpSpy.reset();
+    screen.unmount();
+  });
 
   // const mockOAuthUpdateStateAndVerifier = sinon.spy(
   //   OAuthUtils,
