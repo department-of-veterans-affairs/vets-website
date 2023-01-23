@@ -1,35 +1,30 @@
-import React from 'react';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const LoginInWidget = ({ toggleLoginModal, user }) => {
-  const redirectToEducationLetters = () => {
-    window.location.href = '/education/download-letters/letters';
-  };
+import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-  const toggleLogin = e => {
-    e.preventDefault();
-    toggleLoginModal(true, 'cta-form');
+export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
+  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
+    toggleLoginModal,
+  ]);
+
+  const redirectToEnrollmentVerification = () => {
+    window.location.href = '/education/verify-school-enrollment/';
   };
 
   const visitorUI = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <p
-        className="vads-u-font-size--h3 vads-u-font-weight--bold vads-u-font-family--serif"
+    <va-alert status="continue" visible>
+      <h1
+        className="vads-u-font-size--h1 vads-u-font-weight--bold"
         slot="headline"
       >
-        Sign in to download your VA education decision letter
-      </p>
-      <div>
-        Sign in with your existing{' '}
-        <span className="vads-u-font-weight--bold">ID.me</span> or{' '}
-        <span className="vads-u-font-weight--bold">Login.gov</span> account. If
-        you don’t have any of these accounts, you can create a free{' '}
+        Sign in to verify your school enrollment
+      </h1>
+      <p>
+        Sign in with your existing <strong>ID.me</strong> or{' '}
+        <strong>Login.gov</strong> account. If you don’t have any of these
+        accounts, you can create a free{' '}
         <a
           className="vads-u-font-weight--bold"
           href="https://www.id.me/"
@@ -48,11 +43,25 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
           Login.gov
         </a>{' '}
         account now.
-      </div>
-      <button className="va-button-primary" type="button" onClick={toggleLogin}>
+      </p>
+      <button
+        type="button"
+        className="usa-button-primary va-button-primary"
+        onClick={onSignInClicked}
+      >
         Sign in or create an account
       </button>
     </va-alert>
+  );
+
+  const loggedInUserUI = (
+    <button
+      className="va-button-primary"
+      type="button"
+      onClick={redirectToEnrollmentVerification}
+    >
+      Verify your enrollments for Post-9/11 GI Bill
+    </button>
   );
 
   const spinner = (
@@ -63,16 +72,6 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
         set-focus
       />
     </div>
-  );
-
-  const loggedInUserUI = (
-    <button
-      className="va-button-primary"
-      type="button"
-      onClick={redirectToEducationLetters}
-    >
-      Download your VA education decision letter
-    </button>
   );
 
   const renderUI = () => {
@@ -87,12 +86,7 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
   };
 
   return renderUI();
-};
-
-LoginInWidget.propTypes = {
-  toggleLoginModal: PropTypes.func,
-  user: PropTypes.object,
-};
+}
 
 const mapStateToProps = state => ({
   user: state.user || {},
@@ -105,4 +99,9 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginInWidget);
+)(EnrollmentVerificationLogin);
+
+EnrollmentVerificationLogin.propTypes = {
+  toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
+};

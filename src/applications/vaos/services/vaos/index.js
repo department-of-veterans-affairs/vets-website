@@ -133,3 +133,8 @@ export function getPreferredCCProvider(id) {
     method: 'GET',
   }).then(parseApiObject);
 }
+export function getCommunityCareV2(typeOfCare) {
+  return apiRequestWithUrl(
+    `/vaos/v2/community_care/eligibility/${typeOfCare}`,
+  ).then(parseApiObject);
+}

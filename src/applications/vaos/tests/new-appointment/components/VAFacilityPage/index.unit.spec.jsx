@@ -577,11 +577,7 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
-      expect(screen.queryByText(/Facility that is disabled/i)).not.to.be.ok;
-      const additionalInfoButton = screen.getByText(
-        /Why isn.t my facility listed/i,
-      );
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       await screen.findByText(/Facility that is disabled/i);
       expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
       expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
@@ -590,7 +586,7 @@ describe('VAOS <VAFacilityPage>', () => {
         screen.queryByText(
           /Facility that is over 100 miles away and disabled/i,
         ),
-      ).not.to.be.ok;
+      ).to.be.null;
       expect(
         screen.getByRole('link', { name: /different VA location/i }),
       ).to.have.attribute('href', '/find-locations');
@@ -690,15 +686,12 @@ describe('VAOS <VAFacilityPage>', () => {
       });
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
-      let additionalInfoButton = screen.getByText(
-        /Why isn.t my facility listed/i,
-      );
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       expect(
         await screen.findByText(/Disabled facility near residential address/i),
       ).to.be.ok;
-      expect(screen.queryByText(/Disabled facility near current location/i)).not
-        .to.be.ok;
+      expect(screen.queryByText(/Disabled facility near current location/i)).to
+        .be.null;
 
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
       // call VaSelect custom event for onChange handling
@@ -709,13 +702,12 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findByLabelText(/Facility that is enabled/i)).to.be
         .ok;
 
-      additionalInfoButton = screen.getByText(/Why isn.t my facility listed/i);
-      userEvent.click(additionalInfoButton);
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
       expect(
         await screen.findByText(/Disabled facility near current location/i),
       ).to.be.ok;
       expect(screen.queryByText(/Disabled facility near residential address/i))
-        .not.to.be.ok;
+        .to.be.null;
     });
 
     it.skip('should display correct facilities after changing type of care', async () => {
@@ -889,12 +881,10 @@ describe('VAOS <VAFacilityPage>', () => {
           .getAttribute('href'),
       ).to.contain('pages%2Fscheduling%2Fupcoming');
 
-      // commenting this section out because the expandingGroup component
-      // is not working per GH50602
-      // userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
-      // await waitFor(() => {
-      //   expect(screen.getByText(/Vista facility/i));
-      // });
+      expect(screen.getByTestId('facility-not-listed')).to.exist;
+      await waitFor(() => {
+        expect(screen.getByText(/Vista facility/i));
+      });
 
       // Make sure Cerner facilities show up only once
       expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
