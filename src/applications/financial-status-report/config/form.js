@@ -16,6 +16,7 @@ import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
+import RealEstateOwnershipQuestion from '../components/RealEstateOwnershipQuestion';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -402,13 +403,34 @@ const formConfig = {
           title: 'Real estate',
           uiSchema: pages.realEstate.uiSchema,
           schema: pages.realEstate.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         realEstateRecords: {
           path: 'real-estate-asset-records',
           title: 'Real estate',
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
-          depends: ({ questions }) => questions.hasRealEstate,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            !formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+        },
+        enhancedRealEstate: {
+          path: 'enhanced-real-estate-assets',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstate.uiSchema,
+          schema: pages.enhancedRealEstate.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          CustomPage: RealEstateOwnershipQuestion,
+        },
+        enhancedRealEstateRecords: {
+          path: 'enhanced-real-estate-asset-records',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstateRecords.uiSchema,
+          schema: pages.enhancedRealEstateRecords.schema,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         vehicles: {
