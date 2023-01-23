@@ -13,7 +13,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
     window.location.href = '/education/verify-school-enrollment/';
   };
 
-  const visitorUI = (
+  const VisitorUI = (
     <va-alert status="continue" visible>
       <h1
         className="vads-u-font-size--h1 vads-u-font-weight--bold"
@@ -54,7 +54,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
     </va-alert>
   );
 
-  const loggedInUserUI = (
+  const LoggedInUserUI = (
     <button
       className="va-button-primary"
       type="button"
@@ -64,7 +64,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
     </button>
   );
 
-  const spinner = (
+  const Spinner = (
     <div className="vads-u-margin-y--5">
       <va-loading-indicator
         label="Loading"
@@ -74,18 +74,18 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
     </div>
   );
 
-  const renderUI = () => {
+  const renderLoginUI = () => {
     if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
-      return spinner;
+      return Spinner;
     }
     if (user?.login?.currentlyLoggedIn) {
-      return loggedInUserUI;
+      return LoggedInUserUI;
     }
 
-    return visitorUI;
+    return VisitorUI;
   };
 
-  return renderUI();
+  return renderLoginUI();
 }
 
 const mapStateToProps = state => ({
