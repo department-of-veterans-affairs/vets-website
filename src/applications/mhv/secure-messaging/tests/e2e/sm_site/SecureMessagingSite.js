@@ -5,6 +5,8 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockUser from '../fixtures/user.json';
 import mockStatus from '../fixtures/profile-status.json';
+import mockMessage from '../fixtures/message-response-specialchars.json';
+import mockThread from '../fixtures/thread-response.json';
 
 class SecureMessagingSite {
   login = (loginUser = true) => {
@@ -68,6 +70,24 @@ class SecureMessagingSite {
     if (doAxeCheck) {
       cy.axeCheck();
     }
+  };
+
+  loadMessageDetailsWithData = inputMockMessage => {
+    cy.log('loading message details.');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      mockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
+      mockThread,
+    ).as('full-thread');
+    cy.contains(inputMockMessage.data.attributes.subject).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
   };
 }
 export default SecureMessagingSite;
