@@ -44,7 +44,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'Your letter is not available to you through this tool',
     ).should('be.visible');
     cy.findByText(
-      'The letter displayed will be based on your most recent claim submission. If your decision was prior to August 20, 2022 – or you’re a family member or dependent – your decision letter will not be listed here. You can contact us through Ask VA to request a copy of your letter. Request your VA education letter through',
+      'The letter displayed will be based on your most recent claim submission. If your decision was before August 20, 2022 – or you’re a family member or dependent – your decision letter will not be listed here. You can contact us through Ask VA to request a copy of your letter. Request your VA education letter through',
     ).should('be.visible');
   });
 

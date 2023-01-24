@@ -127,10 +127,10 @@ export const NoLetters = () => {
         <div>
           <p>
             The letter displayed will be based on your most recent claim
-            submission. If your decision was prior to August 20, 2022 – or
-            you’re a family member or dependent – your decision letter will not
-            be listed here. You can contact us through Ask VA to request a copy
-            of your letter. Request your VA education letter through{' '}
+            submission. If your decision was before August 20, 2022 – or you’re
+            a family member or dependent – your decision letter will not be
+            listed here. You can contact us through Ask VA to request a copy of
+            your letter. Request your VA education letter through{' '}
             <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
               {' '}
               Ask VA.
