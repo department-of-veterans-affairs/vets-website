@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test', 'minimal-test'],
+    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -66,7 +66,7 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
-            testData.additionalIssues.forEach(({ issue, decisionDate }) => {
+            testData.additionalIssues?.forEach(({ issue, decisionDate }) => {
               if (issue) {
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
