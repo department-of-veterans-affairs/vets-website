@@ -51,7 +51,10 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
       {showDirections &&
         placeName && (
           <div data-testid="directions-link-wrapper">
-            <i className="fas fa-road vads-u-color--link-default vads-u-margin-right--0p5" />
+            <i
+              className="fas fa-road vads-u-color--link-default vads-u-margin-right--0p5"
+              aria-hidden="true"
+            />
             <a
               data-testid="directions-link"
               href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
