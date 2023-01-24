@@ -22,7 +22,7 @@ import {
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
-import { mockVamcEhr } from './vaos-cypress-v2-helpers';
+import { mockGetEligibility, mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 // skipped due to failures with date validation
 describe('VAOS VA request flow', () => {
@@ -166,6 +166,7 @@ describe('VAOS VA request flow', () => {
     mockSchedulingConfigurationApi({
       facilityIds: ['983'],
     });
+    mockGetEligibility();
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
