@@ -43,6 +43,14 @@ jobs:
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
+      - name: Get Source Repo and Source Ref
+        run: node ./script/github-actions/pe-deploy-source.js
+        env:
+          SOURCE_EVENT: ${{ github.event_name }}
+          SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
+          SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
+          WORKFLOW_BRANCH: ${{ github.ref_name }}
+
       # - name: Login to ECR # Update ECR credentials if necessary
       #   id: login-ecr
       #   uses: aws-actions/amazon-ecr-login@v1
@@ -51,23 +59,15 @@ jobs:
       #   uses: docker/build-push-action@v2
       #   with:
       #     build-args: |
-      #       userid=${{ env.VETS_API_USER_ID }}
+      #       userid=${{ env.VETS_WEBSITE_USER_ID }}
       #     context: .
       #     target: production
       #     push: true
       #     # Update tags and ECR Repository
       #     tags: |
-      #       ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      #       ${{ steps.login-ecr.outputs.registry }}/preview-environment/vets-website:${{ env.SOURCE_REF_SANITIZED }}
       #     cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
       #     cache-to: type=inline
-
-      - name: Get Source Repo and Source Ref
-        run: node ./script/github-actions/pe-deploy-source.js
-        env:
-          SOURCE_EVENT: ${{ github.event_name }}
-          SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
-          SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
-          WORKFLOW_BRANCH: ${{ github.ref_name }}
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
