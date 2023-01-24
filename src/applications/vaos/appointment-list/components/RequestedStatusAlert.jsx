@@ -15,7 +15,7 @@ import { startNewAppointmentFlow } from '../redux/actions';
 function handleClick(history, dispatch) {
   return () => {
     recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+      event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
     history.push(`/new-appointment`);
@@ -60,7 +60,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
                 href="/health-care/schedule-view-va-appointments/appointments/"
                 onClick={() =>
                   recordEvent({
-                    event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+                    event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
                   })
                 }
                 text="View your appointments"
