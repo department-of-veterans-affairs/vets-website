@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation, useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { useDispatch } from 'react-redux';
@@ -56,7 +55,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             available appointment.
             <br />
             <div className=" vads-u-margin-top--1">
-              <VaLink
+              <va-link
                 href="/health-care/schedule-view-va-appointments/appointments/"
                 onClick={() =>
                   recordEvent({
@@ -68,7 +67,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
               />
             </div>
             <div className=" vads-u-margin-top--1">
-              <VaLink
+              <va-link
                 onClick={handleClick(history, dispatch)}
                 text="New appointment"
                 data-testid="new-appointment-link"
