@@ -46,14 +46,15 @@ const IntroductionPage = props => {
         appTitle="Application for VA health care"
         dependencies={[externalServices.es]}
       >
-        {!showLOA3Content && (
-          <p>
-            VA health care covers care for your physical and mental health. This
-            includes a range of services from checkups to surgeries to home
-            health care. It also includes prescriptions and medical equipment.
-            Apply online now.
-          </p>
-        )}
+        {!showLoader &&
+          !showLOA3Content && (
+            <p>
+              VA health care covers care for your physical and mental health.
+              This includes a range of services from checkups to surgeries to
+              home health care. It also includes prescriptions and medical
+              equipment. Apply online now.
+            </p>
+          )}
 
         {showLoader && (
           <va-loading-indicator

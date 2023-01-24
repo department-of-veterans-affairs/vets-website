@@ -217,5 +217,6 @@
   "where-to-attend": "Where to attend",
   "reason-for-visit": "Reason for visit",
   "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
-  "back-to-appointments": "Back to appointments"
+  "back-to-appointments": "Back to appointments",
+  "click-to-see-details-for-your-time-appointment": "Click to see the details for your {{ time, time }} appointment"
 }

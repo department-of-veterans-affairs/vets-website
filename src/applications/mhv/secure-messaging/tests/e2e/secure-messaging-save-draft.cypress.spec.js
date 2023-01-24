@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';

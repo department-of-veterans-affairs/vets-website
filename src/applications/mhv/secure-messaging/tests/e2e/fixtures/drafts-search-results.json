@@ -26,8 +26,8 @@
             "attributes": {
                 "messageId": 2585368,
                 "category": "EDUCATION",
-                "subject": "test1",
-                "body": null,
+                "subject": "clickable url test",
+                "body": "https://www.va.gov/",
                 "attachment": false,
                 "sentDate": "2022-12-21T20:15:07.000Z",
                 "senderId": 406227,

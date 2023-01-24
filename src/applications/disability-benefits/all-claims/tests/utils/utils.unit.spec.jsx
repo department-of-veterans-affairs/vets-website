@@ -43,6 +43,7 @@ import {
   showSeparationLocation,
   isExpired,
   truncateDescriptions,
+  hasNewPtsdDisability,
   showPtsdCombat,
   showPtsdNonCombat,
   skip781,
@@ -413,6 +414,26 @@ describe('526 helpers', () => {
         needsToEnter781({
           ...formData,
           skip781ForNonCombatReason: true,
+        }),
+      ).to.be.false;
+    });
+    it('should return false if in BDD flow', () => {
+      expect(
+        needsToEnter781({
+          'view:isBddData': true,
+          serviceInformation: {
+            servicePeriods: [
+              {
+                dateRange: {
+                  to: moment()
+                    .add(90, 'days')
+                    .format('YYYY-MM-DD'),
+                },
+              },
+            ],
+          },
+          'view:claimType': { 'view:claimingnew': true },
+          newDisabilities: [{ condition: 'PTSD' }],
         }),
       ).to.be.false;
     });
@@ -1201,6 +1222,30 @@ describe('skip PTSD questions', () => {
     },
     skip781ForCombatReason: skipCombat,
     skip781ForNonCombatReason: skipNonCombat,
+  });
+
+  describe('hasNewPtsdDisability', () => {
+    const getPtsdData = (date, bddState = true) => ({
+      'view:isBddData': bddState,
+      serviceInformation: {
+        servicePeriods: [{ dateRange: { to: date } }],
+      },
+      'view:claimType': { 'view:claimingnew': true },
+      newDisabilities: [{ condition: 'PTSD' }],
+    });
+
+    it('should return true for PTSD in non-BDD flow', () => {
+      expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
+      // invalid BDD separation date negates BDD flow
+      const today = moment().format('YYYY-MM-DD');
+      expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
+    });
+    it('should return false for PTSD in BDD flow', () => {
+      const date = moment()
+        .add(90, 'days')
+        .format('YYYY-MM-DD');
+      expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
+    });
   });
 
   describe('showPtsdCombat', () => {
