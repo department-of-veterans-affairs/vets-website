@@ -1,3 +1,4 @@
+import FolderResponse from './fixtures/folder-response.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 
@@ -7,13 +8,21 @@ describe('Secure Messaging Patient Message Count', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.sentDate,
-    );
-
     cy.injectAxe();
     cy.axeCheck();
+    cy.get('[data-testid=message-list-item]').should('have.length', 10);
+    cy.visit('/my-health/secure-messages/');
+    cy.get('[data-testid=Sent] a')
+      .invoke('text')
+      .should(
+        'contain',
+        `${FolderResponse.data[2].attributes.unreadCount} unread messages`,
+      );
+    cy.get('[data-testid=TEST2] a')
+      .invoke('text')
+      .should(
+        'contain',
+        `${FolderResponse.data[4].attributes.unreadCount} unread messages`,
+      );
   });
 });
