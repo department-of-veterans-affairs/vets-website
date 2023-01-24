@@ -12,10 +12,10 @@ const buildPage = ({ title, field, goToPath }) => {
       event.stopPropagation();
     },
     cancel: () => {
-      goToPath('/contact-information');
+      goToPath('/current-contact-information');
     },
     success: () => {
-      goToPath('/contact-information');
+      goToPath('/current-contact-information');
     },
   };
 
