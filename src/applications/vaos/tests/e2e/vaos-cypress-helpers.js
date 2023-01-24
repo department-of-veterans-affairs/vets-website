@@ -1014,7 +1014,7 @@ export function mockLoginApi({
             ...mockUser.data.attributes.vaProfile,
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
-              { facilityId: cernerFacilityId, isCerner: true },
+              { facilityId: cernerFacilityId },
             ],
           },
         },

@@ -483,6 +483,46 @@ export function mockGetClinics(locations = []) {
   });
 }
 
+export function mockVamcEhr() {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/data/cms/vamc-ehr.json',
+    },
+    req => {
+      req.reply({
+        data: {
+          nodeQuery: {
+            count: 2,
+            entities: [
+              {
+                fieldFacilityLocatorApiId: 'vha_442',
+                title: 'Cheyenne VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Cheyenne health care',
+                    fieldVamcEhrSystem: 'cerner',
+                  },
+                },
+              },
+              {
+                fieldFacilityLocatorApiId: 'vha_552',
+                title: 'Dayton VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Dayton health care',
+                    fieldVamcEhrSystem: 'cerner',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+    },
+  ).as('drupal-source-of-truth');
+}
+
 export function mockVAOSAppointmentsApi() {
   mockGetAppointments();
   mockGetAppointments({ version: 2 });

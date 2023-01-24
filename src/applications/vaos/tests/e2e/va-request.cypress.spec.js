@@ -21,6 +21,7 @@ import {
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
+import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 // skipped due to failures with date validation
 describe('VAOS VA request flow', () => {
@@ -43,6 +44,7 @@ describe('VAOS VA request flow', () => {
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
     mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
+    mockVamcEhr();
   });
 
   function fillOutForm(facilitySelection) {
@@ -147,7 +149,7 @@ describe('VAOS VA request flow', () => {
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
-    mockLoginApi({ cernerFacilityId: '983' });
+    mockLoginApi({ cernerFacilityId: '442' });
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
@@ -160,13 +162,13 @@ describe('VAOS VA request flow', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility-2');
     cy.axeCheckBestPractice();
-    cy.findByLabelText(/Rawlins/)
+    cy.findByLabelText(/Cheyenne/)
       .focus()
       .click();
     cy.findByText(/Continue/).click();
 
     cy.url().should('include', '/how-to-schedule');
-    cy.findByText(/Rawlins VA Clinic/);
+    cy.findByText(/Cheyenne VA Medical Center/i);
     cy.findByText(/To schedule an appointment online at this facility/);
     cy.axeCheckBestPractice();
   });
