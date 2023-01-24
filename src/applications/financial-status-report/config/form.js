@@ -144,7 +144,7 @@ const formConfig = {
           depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         editMobilePhone: {
-          title: 'Edit mobile phone',
+          title: 'Edit phone number',
           path: 'edit-mobile-phone',
           CustomPage: EditPhone,
           CustomPageReview: EditPhone,
