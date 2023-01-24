@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
@@ -19,6 +20,7 @@ const App = props => {
     hasSavedForm,
     isAiqEnabled = false,
     isFacilitiesApiEnabled = false,
+    isLoading = true,
     isLoggedIn,
     isShortFormEnabled = false,
     isSigiEnabled = false,
@@ -27,6 +29,7 @@ const App = props => {
     user,
   } = props;
 
+  // Attempt to fetch disability rating for authenticated users
   useEffect(
     () => {
       if (isLoggedIn) {
@@ -36,10 +39,16 @@ const App = props => {
     [getTotalDisabilityRating, isLoggedIn],
   );
 
+  /**
+   * Set default view fields within the form data
+   *
+   * NOTE: we have included veteranFullName in the dependency list to reset view fields when starting a new application from save-in-progress.
+   *
+   * NOTE (2): to account for users with a form already in-progress at the time the short form is released, we need to check for that form
+   * using the "hasSavedForm" prop. The users will get their current in-progress form, instead of the short form option, to avoid any validation
+   * errors. This can be removed 90 days after hcaShortFormEnabled flipper toggle is fully enabled for all users.
+   */
   useEffect(
-    // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
-    // So users can complete the form as they started, we want to use 'view:isShortFormEnabled' from save in progress data,
-    // we can check using hasSavedForm. This can be removed 90 days after hcaShortFormEnabled flipper toggle is fully enabled for all users
     () => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
@@ -85,7 +94,29 @@ const App = props => {
     ],
   );
 
-  // Add Datadog RUM to the
+  // Attach analytics events to all yes/no radio inputs
+  useEffect(
+    () => {
+      if (!isLoading) {
+        const radios = document.querySelectorAll(
+          'input[id$=Yes], input[id$=No]',
+        );
+        for (const radio of radios) {
+          radio.onclick = e => {
+            const label = e.target.nextElementSibling.innerText;
+            recordEvent({
+              'hca-radio-label': label,
+              'hca-radio-clicked': e.target,
+              'hca-radio-value-selected': e.target.value,
+            });
+          };
+        }
+      }
+    },
+    [isLoading, location],
+  );
+
+  // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
   return (
@@ -105,6 +136,7 @@ App.propTypes = {
   hasSavedForm: PropTypes.bool,
   isAiqEnabled: PropTypes.bool,
   isFacilitiesApiEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isShortFormEnabled: PropTypes.bool,
   isSigiEnabled: PropTypes.bool,
@@ -116,12 +148,13 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  hasSavedForm: state?.user?.profile?.savedForms.some(
+  hasSavedForm: state.user.profile.savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_10_10EZ,
   ),
   isAiqEnabled: state.featureToggles.hcaAmericanIndianEnabled,
   isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
-  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  isLoading: state.featureToggles.loading,
+  isLoggedIn: state.user.login.currentlyLoggedIn,
   isShortFormEnabled: state.featureToggles.hcaShortFormEnabled,
   isSigiEnabled: state.featureToggles.caregiverSigiEnabled,
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
