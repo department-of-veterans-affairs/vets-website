@@ -17,7 +17,7 @@ export const HasLetters = ({ claimStatus }) => {
       <p className="va-introtext">
         Download your VA education decision letter.
       </p>
-      <h2>Letter available for you to download</h2>
+      <h2>You have a letter available for you to download</h2>
       <div className="vads-u-margin-bottom--4">
         <h3 className="vads-u-margin-top--2">Education decision letter</h3>
         <p>

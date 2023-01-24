@@ -23,7 +23,9 @@ describe('Render letter results UI', () => {
     expect(wrapper.text()).to.not.include(
       'Your letter is not available to you through this tool',
     );
-    expect(wrapper.text()).to.include('Letter available for you to download');
+    expect(wrapper.text()).to.include(
+      'You have a letter available for you to download',
+    );
     wrapper.unmount();
   });
 
