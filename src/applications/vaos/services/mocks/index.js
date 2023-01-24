@@ -285,6 +285,15 @@ const responses = {
 
     return res.json(schedulingConfigurations);
   },
+  'GET /vaos/v2/community_care/eligibility/:id': (req, res) => {
+    return res.json({
+      data: {
+        id: req.param.id,
+        type: 'cc_eligibility',
+        attributes: { eligible: true },
+      },
+    });
+  },
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),

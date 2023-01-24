@@ -15,12 +15,14 @@ import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import submitForm from './submitForm';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
+  submit: submitForm,
   submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
@@ -614,7 +616,18 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: ({ questions }) => questions.hasBeenAdjudicatedBankrupt,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            !formData['view:enhancedFinancialStatusReport'],
+        },
+        enhancedBankruptcyHistoryRecords: {
+          path: 'enhanced-bankruptcy-history-records',
+          title: 'Bankruptcy history',
+          uiSchema: pages.enhancedBankruptcyHistoryRecords.uiSchema,
+          schema: pages.enhancedBankruptcyHistoryRecords.schema,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            formData['view:enhancedFinancialStatusReport'],
         },
       },
     },
