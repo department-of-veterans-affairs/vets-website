@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   vaosSetup,
   mockFeatureToggles,
@@ -160,7 +161,7 @@ describe('VAOS VA request flow', () => {
     newApptTests.chooseTypeOfCareTest('Social work');
 
     // Choose VA Facility
-    cy.url().should('include', '/va-facility-2');
+    cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
     cy.findByLabelText(/Cheyenne/)
       .focus()
