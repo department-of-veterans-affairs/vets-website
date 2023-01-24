@@ -31,11 +31,7 @@ describe('VAOS VA request flow', () => {
 
     mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
-    mockAppointmentsApi({ apiVersion: 0 });
     mockCCProvidersApi();
-    mockFacilitiesApi({ apiVersion: 0 });
-    mockFacilitiesApi({ apiVersion: 1 });
-    mockFeatureToggles();
     mockPreferencesApi();
     mockSupportedSitesApi();
     mockRequestEligibilityCriteriaApi();
@@ -127,7 +123,11 @@ describe('VAOS VA request flow', () => {
   }
 
   it('should submit form successfully for a multi system user', () => {
+    mockFeatureToggles();
     mockLoginApi({ withoutAddress: false });
+    mockAppointmentsApi({ apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 1 });
 
     fillOutForm(() => {
       cy.findByLabelText(/Sidney/)
@@ -138,8 +138,13 @@ describe('VAOS VA request flow', () => {
   });
 
   it('should submit form successfully for a single system user', () => {
+    mockFeatureToggles();
     mockLoginApi({ withoutAddress: false });
+    mockAppointmentsApi({ apiVersion: 0 });
     mockFacilitiesApi({ count: 1, apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 1 });
+
     fillOutForm(() => {
       cy.findByLabelText(/Sidney/)
         .focus()
@@ -150,7 +155,18 @@ describe('VAOS VA request flow', () => {
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
+    mockFeatureToggles({
+      v2Requests: true,
+      v2Facilities: true,
+      v2DirectSchedule: true,
+    });
     mockLoginApi({ cernerFacilityId: '442' });
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockFacilitiesApi({ apiVersion: 2 });
+    mockSchedulingConfigurationApi({
+      facilityIds: ['983'],
+    });
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
@@ -163,13 +179,13 @@ describe('VAOS VA request flow', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
-    cy.findByLabelText(/Cheyenne/)
+    cy.findByLabelText(/Wheatland VA Mobile Clinic/)
       .focus()
       .click();
     cy.findByText(/Continue/).click();
 
     cy.url().should('include', '/how-to-schedule');
-    cy.findByText(/Cheyenne VA Medical Center/i);
+    cy.findByText(/Wheatland VA Mobile Clinic/i);
     cy.findByText(/To schedule an appointment online at this facility/);
     cy.axeCheckBestPractice();
   });
