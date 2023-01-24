@@ -26,4 +26,5 @@ export const VERIFICATION_RESPONSE = {
 };
 export const CERTIFICATION_METHOD = 'MEB';
 
-export const PAYMENT_PAUSED_DAY_OF_MONTH = 25;
+export const PAYMENT_PAUSED_NUMBER_OF_MONTHS = 2;
+export const PAYMENT_PAUSED_DAY_OF_MONTH = 26;

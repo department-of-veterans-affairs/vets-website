@@ -1,5 +1,5 @@
 import Scroll from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 
 export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
@@ -10,19 +10,7 @@ export const $$ = (selector, root) => [
   ...(root || document).querySelectorAll(selector),
 ];
 
-export function focusElement(selectorOrElement, options) {
-  const el = $(selectorOrElement);
-
-  if (el) {
-    if (el.tabIndex === 0) {
-      el.setAttribute('tabindex', '0');
-    }
-    if (el.tabIndex < 0) {
-      el.setAttribute('tabindex', '-1');
-    }
-    el.focus(options);
-  }
-}
+export { focusElement };
 
 // List from https://html.spec.whatwg.org/dev/dom.html#interactive-content
 const focusableElements = [
