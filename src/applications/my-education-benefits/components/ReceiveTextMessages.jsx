@@ -1,17 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-// import { formFields } from '../constants';
 
-function ReceiveTextMessages({
-  options,
-  value,
-  onChange,
-  id,
-  formData,
-  setFormData,
-}) {
+function ReceiveTextMessages({ options, value, onChange, id, formData }) {
   const {
     enumOptions,
     labels = {},
@@ -25,83 +16,20 @@ function ReceiveTextMessages({
   });
 
   const [hasMobilePhone, setHasMobilePhone] = useState(false);
-  const [dirty, setDirty] = useState(false);
-  const [showError, setShowError] = useState('');
 
-  const [flag, setFlag] = useState();
-
-  const handleError = () => {
-    const pattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
-
-    if (
-      dirty &&
-      formData['view:phoneNumbers']?.mobilePhoneNumber?.phone?.length < 10
-    ) {
-      setShowError(
-        'Please enter a 10-digit phone number (with or without dashes)',
-      );
-    } else {
-      setShowError(undefined);
-    }
-
-    if (
-      dirty &&
-      !pattern.test(formData['view:phoneNumbers'].mobilePhoneNumber.phone)
-    ) {
-      setShowError(
-        'Please enter a 10-digit phone number (with or without dashes)',
-      );
-    } else {
-      setShowError(undefined);
-    }
+  const sendToMEBPhoneForm = () => {
+    history.go(-2);
   };
-
-  const handleInput = useCallback(
-    event => {
-      setFlag(event.target.value);
-      setDirty(true);
-    },
-    [dirty, formData],
-  );
-
-  const handleBlur = useCallback(
-    event => {
-      setFlag(event.target.value);
-      setDirty(true);
-      handleError();
-    },
-    [dirty, formData],
-  );
 
   useEffect(
     () => {
       setHasMobilePhone(
         !!formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
       );
-      handleError();
     },
-    [dirty, hasMobilePhone],
+    [hasMobilePhone, formData, history],
   );
 
-  useEffect(
-    () => {
-      if (flag === formData['view:phoneNumbers'].mobilePhoneNumber.phone) {
-        return;
-      }
-      setFormData({
-        ...formData,
-        'view:phoneNumbers': {
-          ...formData['view:phoneNumbers'],
-          mobilePhoneNumber: {
-            ...formData['view:phoneNumbers'].mobilePhoneNumber,
-            phone: flag,
-          },
-        },
-        textMessageMobilePhone: flag,
-      });
-    },
-    [setFormData, formData, flag],
-  );
   return (
     <>
       <div className="form-radio-buttons" key={enumOptions[0].value}>
@@ -121,47 +49,27 @@ function ReceiveTextMessages({
       </div>
 
       {enumOptions[0].value === value &&
-        (!hasMobilePhone || showError || dirty) && (
+        !hasMobilePhone && (
           <>
             <va-alert
               background-only
-              show-icon
               close-btn-aria-label="Close notification"
-              status="info"
+              show-icon
+              status="warning"
               visible
             >
-              We’ll need a mobile phone number to send you text message
-              notifications
+              <div>
+                <p className="vads-u-margin-y--0">
+                  We can't send you text message notifications because we don’t
+                  have a mobile phone number on file for you
+                </p>
+                <va-button
+                  onClick={sendToMEBPhoneForm}
+                  secondary
+                  text="Go back and add a mobile phone number"
+                />
+              </div>
             </va-alert>
-
-            {/* <label */}
-            {/*  className="vads-u-margin--0 vads-u-font-weight--bold vads-u-color--primary" */}
-            {/*  htmlFor="my-input" */}
-            {/* > */}
-            {/*  Mobile phone number */}
-            {/*  <span className="required">(*Required)</span> */}
-            {/* </label> */}
-
-            {/* <input */}
-            {/*  autoComplete="tel" */}
-            {/*  type="tel" */}
-            {/*  className="va-input-medium-large vads-u-width--auto" */}
-            {/*  onInput={handleInput} */}
-            {/*  onBlur={handleError} */}
-            {/*  id="my-input" */}
-            {/* /> */}
-
-            <va-text-input
-              className="vads-u-width--auto"
-              hint={null}
-              type="tel"
-              error={showError}
-              label="Mobile phone number"
-              name="my-input"
-              onBlur={handleBlur}
-              onInput={handleInput}
-              required
-            />
           </>
         )}
 
@@ -188,7 +96,6 @@ ReceiveTextMessages.propTypes = {
   formData: PropTypes.shape({}),
   id: PropTypes.string,
   onChange: PropTypes.func,
-  // handlePhoneOnChange: PropTypes.func,
   options: PropTypes.object,
   user: PropTypes.object,
   value: PropTypes.string,
@@ -199,11 +106,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(ReceiveTextMessages);

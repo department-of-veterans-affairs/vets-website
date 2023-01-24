@@ -347,12 +347,6 @@ const validateAccountNumber = (
   }
 };
 
-const addToRequire = formData => {
-  return formData['view:receiveTextMessages']?.receiveTextMessages
-    ?.slice(0, 4)
-    ?.includes('Yes');
-};
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -956,17 +950,28 @@ const formConfig = {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': ReceiveTextMessages,
-              },
-            },
-            textMessageMobilePhone: {
-              'ui:required': formData => addToRequire(formData),
-              'ui:options': {
-                // hideLabelText: true,
-                // showFieldLabel: false,
-                hideIf: data =>
-                  data['view:receiveTextMessages']?.receiveTextMessages
-                    ?.slice(0, 3)
-                    ?.includes('No'),
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
+                      .mobilePhoneNumber.phone;
+                    const { isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ].mobilePhoneNumber;
+
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
+                    }
+                  },
+                ],
               },
             },
             'view:textMessagesAlert': {
@@ -1063,10 +1068,6 @@ const formConfig = {
                     ],
                   },
                 },
-              },
-              textMessageMobilePhone: {
-                type: 'string',
-                pattern: '^\\d{10}$',
               },
               'view:textMessagesAlert': {
                 type: 'object',
