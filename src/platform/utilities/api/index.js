@@ -13,8 +13,8 @@ import {
 import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
-  // use regular fetch if stubbed
-  if (fetch.isSinonProxy) {
+  // use regular fetch if stubbed by sinon or cypress
+  if (fetch.isSinonProxy || window.Cypress) {
     return fetch(url, settings);
   }
 

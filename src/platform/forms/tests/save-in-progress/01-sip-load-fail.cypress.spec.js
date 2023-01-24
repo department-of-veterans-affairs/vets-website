@@ -53,7 +53,6 @@ describe('SIP Load Fail Test', () => {
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       statusCode: 404,
-      body: { status: 404 },
     });
 
     cy.get('.main .usa-button-primary');
@@ -73,7 +72,6 @@ describe('SIP Load Fail Test', () => {
 
     cy.intercept('GET', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
-      body: { status: 401 },
     });
 
     cy.get('.main .usa-button-primary').should('exist');

@@ -49,7 +49,6 @@ describe('SIP Review Test', () => {
     cy.get('body');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 500,
-      body: { status: 500 },
     });
     cy.get('.schemaform-sip-save-link')
       .should('be.visible')
