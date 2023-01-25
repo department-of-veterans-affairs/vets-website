@@ -41,10 +41,11 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
+import ReceiveTextMessages from '../components/ReceiveTextMessages';
+import ReceiveTextMessagesReviewField from '../components/ReceiveTextMessagesReviewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
-import ReceiveTextMessages from '../components/ReceiveTextMessages';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -949,6 +950,7 @@ const formConfig = {
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
+                'ui:reviewField': ReceiveTextMessagesReviewField,
                 'ui:widget': ReceiveTextMessages,
                 'ui:validations': [
                   (errors, field, formData) => {
