@@ -94,6 +94,8 @@ export const HasLetters = ({ claimStatus }) => {
       </p>
       <p>
         To request a different letter, you’ll need to contact us through Ask VA.{' '}
+      </p>
+      <p>
         <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
           Request a decision letter through Ask VA.
         </a>
