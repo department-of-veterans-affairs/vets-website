@@ -49,7 +49,8 @@ export const HasLetters = ({ claimStatus }) => {
         Acrobat Reader installed on your computer. It’s free to download.{' '}
       </p>
       <p>
-        <a href="/">Download the latest version</a> of Adobe Acrobat Reader.
+        <a href="https://get.adobe.com/reader/">Download the latest version</a>{' '}
+        of Adobe Acrobat Reader.
       </p>
       <p>
         <strong>
