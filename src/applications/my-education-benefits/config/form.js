@@ -382,7 +382,7 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  getHelp: () => <GetFormHelp />, // Wrapping in a funciton to skirt failing platform unit test
+  getHelp: () => <GetFormHelp />, // Wrapping in a function to skirt failing platform unit test
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {

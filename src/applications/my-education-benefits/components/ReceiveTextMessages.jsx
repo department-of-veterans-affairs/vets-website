@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 function ReceiveTextMessages({ options, value, onChange, id, formData }) {
   const {
@@ -16,10 +17,6 @@ function ReceiveTextMessages({ options, value, onChange, id, formData }) {
   });
 
   const [hasMobilePhone, setHasMobilePhone] = useState(false);
-
-  const sendToMEBPhoneForm = () => {
-    history.go(-2);
-  };
 
   useEffect(
     () => {
@@ -63,11 +60,20 @@ function ReceiveTextMessages({ options, value, onChange, id, formData }) {
                   We can't send you text message notifications because we don’t
                   have a mobile phone number on file for you
                 </p>
-                <va-button
-                  onClick={sendToMEBPhoneForm}
-                  secondary
-                  text="Go back and add a mobile phone number"
-                />
+
+                <Link
+                  aria-label="go back and add any missing issues for review"
+                  to={{
+                    pathname: 'contact-information/email-phone',
+                    search: '?redirect',
+                  }}
+                >
+                  <va-button
+                    onClick={() => {}}
+                    secondary
+                    text="Go back and add a mobile phone number"
+                  />
+                </Link>
               </div>
             </va-alert>
           </>
