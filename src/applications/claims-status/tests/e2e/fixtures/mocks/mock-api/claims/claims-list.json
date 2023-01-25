@@ -67,6 +67,28 @@
       }
     },
     {
+      "id": "phase3-decision-mailed",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 18968500,
+        "dateFiled": "2021-09-16",
+        "minEstDate": null,
+        "maxEstDate": null,
+        "phaseChangeDate": "2021-09-19",
+        "open": true,
+        "waiverSubmitted": false,
+        "documentsNeeded": false,
+        "developmentLetterSent": false,
+        "decisionLetterSent": true,
+        "phase": 3,
+        "everPhaseBack": false,
+        "currentPhaseBack": false,
+        "requestedDecision": false,
+        "claimType": "Compensation",
+        "updatedAt": "2022-06-08T03:34:10.967Z"
+      }
+    },
+    {
       "id": "decision-mailed",
       "type": "evss_claims",
       "attributes": {

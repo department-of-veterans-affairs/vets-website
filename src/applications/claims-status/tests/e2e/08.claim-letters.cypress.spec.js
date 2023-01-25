@@ -1,6 +1,6 @@
-import claimLetters from './fixtures/mocks/claim_letters/list.json';
-import featureToggleEnabled from './fixtures/mocks/claim_letters/feature-toggle-enabled.json';
-import featureToggleDisabled from './fixtures/mocks/claim_letters/feature-toggle-disabled.json';
+import claimLetters from './fixtures/mocks/claim-letters/list.json';
+import featureToggleEnabled from './fixtures/mocks/claim-letters/feature-toggle-enabled.json';
+import featureToggleDisabled from './fixtures/mocks/claim-letters/feature-toggle-disabled.json';
 
 const generateErrorContent = (title, code) => {
   return {
@@ -141,7 +141,7 @@ describe('Claim Letters Page', () => {
           'Content-disposition': 'attachment; filename=ClaimLetter.txt',
         },
         fixture:
-          'applications/claims-status/tests/e2e/fixtures/mocks/claim_letters/ClaimLetter.txt',
+          'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
       }).as('downloadFile');
 
       cy.get('va-link')
