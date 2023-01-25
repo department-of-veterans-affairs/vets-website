@@ -62,7 +62,7 @@ function ReceiveTextMessages({ options, value, onChange, id, formData }) {
                 </p>
 
                 <Link
-                  aria-label="go back and add any missing issues for review"
+                  aria-label="Go back and add a mobile phone number"
                   to={{
                     pathname: 'contact-information/email-phone',
                     search: '?redirect',
