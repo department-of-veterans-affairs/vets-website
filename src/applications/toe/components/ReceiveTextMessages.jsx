@@ -64,7 +64,7 @@ function ReceiveTextMessages({ options, value, onChange, id, formData }) {
                 <Link
                   aria-label="Go back and add a mobile phone number"
                   to={{
-                    pathname: 'contact-information/email-phone',
+                    pathname: 'phone-email',
                     search: '?redirect',
                   }}
                 >
