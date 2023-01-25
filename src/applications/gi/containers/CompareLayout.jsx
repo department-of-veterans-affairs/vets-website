@@ -37,32 +37,48 @@ import {
 const CompareLayout = ({
   calculated,
   estimated,
-  hasRatings,
+  // hasRatings,
   institutions,
-  gibctSchoolRatings,
+  // gibctSchoolRatings,
   showDifferences,
   smallScreen,
 }) => {
-  const mapRating = (institution, categoryName) => {
-    const categoryRatings = institution.institutionCategoryRatings.filter(
-      category => category.categoryName === categoryName,
-    );
+  /// /////////////////////////////////////////////////////////////////////
+  /* Use with Mock data / delete when API is connected */
 
-    if (
-      categoryRatings.length > 0 &&
-      categoryRatings[0].averageRating &&
-      institution.ratingCount >= MINIMUM_RATING_COUNT
-    ) {
-      const categoryRating = categoryRatings[0];
-      const stars = convertRatingToStars(categoryRating.averageRating);
-      return (
-        <div>
-          <RatingsStars rating={categoryRating.averageRating} /> {stars.display}
-        </div>
-      );
-    }
-    return 'N/A';
-  };
+  const mockRatingAverage = 3.2; // ratingAverage
+  const mockRatingCount = 5; // ratingCount
+
+  /// /////////////////////////////////////////////////////////////////////
+  const mapRating = () =>
+    // institution, categoryName
+    {
+      // const categoryRatings = institution.institutionCategoryRatings.filter(
+      //   category => category.categoryName === categoryName,
+      // );
+
+      if (
+        // categoryRatings.length > 0 &&
+        // categoryRatings[0].averageRating && //use when api is connected
+        mockRatingAverage &&
+        // institution.ratingCount >= MINIMUM_RATING_COUNT
+        mockRatingCount >= MINIMUM_RATING_COUNT
+      ) {
+        // const categoryRating = categoryRatings[0];
+        // const stars = convertRatingToStars(categoryRating.averageRating);
+        const stars = convertRatingToStars(mockRatingAverage);
+        return (
+          <div>
+            <div>{stars.display} out of a possible 4 stars</div>
+            <div>
+              <RatingsStars rating={mockRatingAverage} />{' '}
+            </div>
+            {/* <RatingsStars rating={categoryRating.averageRating} /> {stars.display} */}
+          </div>
+        );
+      }
+      return 'N/A';
+    };
 
   const formatEstimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -106,6 +122,12 @@ const CompareLayout = ({
                 ? `${institution.city}, ${institution.state}`
                 : `${institution.city}, ${institution.country}`;
             },
+          },
+          {
+            label: 'Overall rating',
+            mapper: () => mapRating(),
+            // mapper: institution =>
+            // mapRating(institution, 'overall_experience'), use with API
           },
           {
             label: 'Accreditation',
@@ -244,7 +266,7 @@ const CompareLayout = ({
         <HousingAllowanceSchoolModalContent />
         <BookStipendInfoModalContent />
       </va-additional-info>
-      {gibctSchoolRatings &&
+      {/* {//gibctSchoolRatings && used for toggle, rework this before pushing to staging
         hasRatings && (
           <>
             <CompareGrid
@@ -258,10 +280,12 @@ const CompareLayout = ({
                   className: 'vads-u-text-align--center rating-value',
                   mapper: institution => {
                     const stars = convertRatingToStars(
-                      institution.ratingAverage,
+                      // institution.ratingAverage,
+                      mockRatingAverage
                     );
                     const aboveMinimumRatingCount =
-                      institution.ratingCount >= MINIMUM_RATING_COUNT;
+                      // institution.ratingCount >= MINIMUM_RATING_COUNT;
+                      mockRatingCount >= MINIMUM_RATING_COUNT;
 
                     return (
                       <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
@@ -273,7 +297,7 @@ const CompareLayout = ({
                         </div>
                         <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
                           {aboveMinimumRatingCount &&
-                            stars && <span>out of a possible 5 stars</span>}
+                            stars && <span>out of a possible 4 stars</span>}
                           {(!aboveMinimumRatingCount || !stars) && (
                             <span>not yet rated</span>
                           )}
@@ -295,13 +319,15 @@ const CompareLayout = ({
                   className: () =>
                     !smallScreen ? 'vads-u-text-align--center' : '',
                   mapper: institution =>
-                    institution.ratingCount >= MINIMUM_RATING_COUNT
-                      ? institution.ratingCount
+                    // institution.ratingCount >= MINIMUM_RATING_COUNT
+                    //   ? institution.ratingCount
+                    mockRatingCount >= MINIMUM_RATING_COUNT
+                      ? mockRatingCount
                       : '0',
                 },
               ]}
-            />
-            <CompareGrid
+            /> */}
+      {/* <CompareGrid
               subSectionLabel="Education ratings"
               institutions={institutions}
               showDifferences={showDifferences}
@@ -328,7 +354,7 @@ const CompareLayout = ({
                     mapRating(institution, 'job_preparation'),
                 },
               ]}
-            />
+            />S
 
             <CompareGrid
               subSectionLabel="Veteran friendliness"
@@ -354,7 +380,7 @@ const CompareLayout = ({
               ]}
             />
           </>
-        )}
+        )} */}
 
       <CompareGrid
         sectionLabel="Cautionary information"

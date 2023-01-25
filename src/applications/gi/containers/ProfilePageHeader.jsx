@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  // convertRatingToStars, // turn on for ratings
+  convertRatingToStars, // turn on for ratings
   createId,
   formatNumber,
   locationInfo,
@@ -104,11 +104,11 @@ const ProfilePageHeader = ({
   // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT; // turn on with new API
 
   /// ////////////////////////////////////////////////////////////////////////////
-  const ratingAvg = '0'; // comment out to use mock data, delete when API is attached
-  const stars = 0; // comment out to use mock data, delete when API is attached
-  // const ratingAvg = institutionRatingsMockData[0].overall_avg;  // uncomment to run ratings with mock data
-  // const stars = convertRatingToStars(ratingAvg);  // uncomment to run ratings with mock data
-  const displayStars = false; // set to true to run mock data
+  // const ratingAvg = '0'; // comment out to use mock data, delete when API is attached
+  // const stars = 0; // comment out to use mock data, delete when API is attached
+  const ratingAvg = institutionRatingsMockData[0].overall_avg; // uncomment to run ratings with mock data
+  const stars = convertRatingToStars(ratingAvg); // uncomment to run ratings with mock data
+  const displayStars = true; // set to true to run mock data
   /// ////////////////////////////////////////////////////////////////////////////
 
   const titleClasses = classNames(

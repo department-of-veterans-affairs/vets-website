@@ -196,7 +196,7 @@ export function ComparePage({
     return <LoadingIndicator message="Loading..." />;
   }
 
-  const hasRatings = false;
+  const hasRatings = true;
   const loadedInstitutions = [];
   for (let i = 0; i < loaded.length; i++) {
     loadedInstitutions.push(institutions[loaded[i]]);
