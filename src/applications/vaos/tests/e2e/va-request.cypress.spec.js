@@ -174,7 +174,7 @@ describe('VAOS VA request flow', () => {
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
     cy.wait('@drupal-source-of-truth').then(interception => {
-      cy.log(JSON.stringify(interception));
+      cy.task('log', JSON.stringify(interception));
     });
 
     // Choose Type of Care
