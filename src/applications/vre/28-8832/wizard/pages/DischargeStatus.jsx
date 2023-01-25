@@ -22,7 +22,7 @@ const DischargeStatus = ({ setPageState, state = {} }) => {
       event: `howToWizard-formChange`,
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'Have you or your sponsor been discharged form active-duty service in the last year, or do you have less than 6 months until discharge?',
+        'Have you or your sponsor been discharged from active-duty service in the last year, or do you have less than 6 months until discharge?',
       'form-field-value': value,
     });
     setPageState({ selected: value }, value);
@@ -32,7 +32,7 @@ const DischargeStatus = ({ setPageState, state = {} }) => {
     <VaRadio
       id="dischargeStatus"
       class="vads-u-margin-y--2"
-      label="Have you or your sponsor been discharged form active-duty service in the last year, or do you have less than 6 months until discharge?"
+      label="Have you or your sponsor been discharged from active-duty service in the last year, or do you have less than 6 months until discharge?"
       onVaValueChange={handleValueChange}
     >
       {options.map(option => (

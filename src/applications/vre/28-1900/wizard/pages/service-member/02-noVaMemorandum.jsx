@@ -15,7 +15,7 @@ const noVaMemorandum = ({ setPageState, state = {} }) => {
       setPageState,
       value,
       options,
-      'Are you in the Integrated Disability Evaluation System (IDES)or going through Physical Evaluation Board process?',
+      'Are you in the Integrated Disability Evaluation System (IDES) or going through Physical Evaluation Board process?',
     );
   };
   return (
