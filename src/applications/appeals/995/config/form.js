@@ -214,8 +214,8 @@ const formConfig = {
           initialData: {
             form5103Acknowledged: false,
           },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
           uiSchema: noticeOfAcknowledgement.uiSchema,
           schema: noticeOfAcknowledgement.schema,
         },
