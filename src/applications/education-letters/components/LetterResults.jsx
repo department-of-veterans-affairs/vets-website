@@ -164,6 +164,14 @@ export const NoLetters = () => {
           </p>
         </div>
       </va-alert>
+      <h2 id="letter-isnt-listed">What if I have other questions?</h2>
+      <p>You can contact us online through Ask VA</p>
+      <p>
+        Contact us online through{' '}
+        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+          Ask VA.
+        </a>
+      </p>
     </>
   );
 };
