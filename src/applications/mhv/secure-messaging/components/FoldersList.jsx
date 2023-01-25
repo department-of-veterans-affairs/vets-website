@@ -12,7 +12,11 @@ const FoldersList = props => {
       <ul className="folders-list">
         {!!folders.length &&
           folders.map(folder => (
-            <li key={folder.name} className="folder-link">
+            <li
+              key={folder.name}
+              className="folder-link"
+              data-testid={folder.name}
+            >
               <Link to={folderPathByFolderId(folder.id)}>
                 <i className="fas fa-folder fa-lg" aria-hidden="true" />
                 {folder.id === Folders.DELETED.id

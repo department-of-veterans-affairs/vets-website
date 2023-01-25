@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import recordEvent from 'platform/monitoring/record-event';
+
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { GA_PREFIX } from '../../../utils/constants';
@@ -45,43 +45,13 @@ export default function FacilitiesNotShown({
     return null;
   }
 
-  const buttonClass = classNames(
-    'additional-info-button',
-    'va-button-link',
-    'vads-u-display--block',
-  );
-
-  const iconClass = classNames({
-    fas: true,
-    'fa-angle-down': true,
-    open: isOpen,
-  });
-
-  const trigger = (
-    <button
-      type="button"
-      className={buttonClass}
-      aria-expanded={isOpen ? 'true' : 'false'}
-      aria-controls="facilities-not-shown-content"
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <span className="additional-info-title">
-        Why isn’t my facility listed?
-        <i className={iconClass} />
-      </span>
-    </button>
-  );
-
   return (
     <div className="vads-u-margin-bottom--7">
-      {/* Removing ExpandingGroup. Github ticket: #50602
-       <ExpandingGroup
-        open={isOpen}
-        expandedContentId="facilities-not-shown-content"
-      > */}
-      {trigger}
-      {isOpen && (
-        <div className="additional-info-content">
+      <div className="additional-info-content">
+        <va-additional-info
+          data-testid="facility-not-listed"
+          trigger="Why isn't my facility listed?"
+        >
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.
           </p>
@@ -111,6 +81,7 @@ export default function FacilitiesNotShown({
               </li>
             ))}
           </ul>
+          <br />
           <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
             What you can do
           </h3>
@@ -129,9 +100,8 @@ export default function FacilitiesNotShown({
             </NewTabAnchor>
             .
           </p>
-        </div>
-      )}
-      {/* </ExpandingGroup> */}
+        </va-additional-info>
+      </div>
     </div>
   );
 }

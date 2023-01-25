@@ -469,7 +469,7 @@ describe('Disability benefits helpers: ', () => {
       server.use(
         rest.get(
           'https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status',
-          (req, res, ctx) => res(ctx.status(401)),
+          (req, res, ctx) => res(ctx.status(401), ctx.json({ status: 401 })),
         ),
       );
       const onError = sinon.spy();
