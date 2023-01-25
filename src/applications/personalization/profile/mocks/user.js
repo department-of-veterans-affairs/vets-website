@@ -271,7 +271,7 @@ const mockUserData = {
             current: 3,
             highest: 3,
           },
-          multifactor: false,
+          multifactor: true,
           verified: true,
           signIn: {
             serviceName: 'idme',
