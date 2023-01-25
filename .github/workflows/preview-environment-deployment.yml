@@ -67,8 +67,8 @@ jobs:
           # Update tags and ECR Repository
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/preview-environment/vets-website:${{ env.SOURCE_REF_SANITIZED }}
-          cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
-          cache-to: type=inline
+          # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
+          # cache-to: type=inline
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
