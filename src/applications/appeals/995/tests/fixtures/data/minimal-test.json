@@ -6,7 +6,7 @@
       "address": {
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
-        "addressLine3": "Box 45678901234",
+        "addressLine3": "Box 4567890",
         "city": "New York",
         "countryName": "United States",
         "countryCodeIso2": "US",
@@ -49,7 +49,7 @@
       {
         "locationAndName": "VAMC Location",
         "issues": [
-          "Headaches"
+          "PTSD"
         ],
         "evidenceDates": {
           "from": "2022-01-01",
@@ -74,9 +74,6 @@
       }
     ],
     "limitedConsent": "Pizza addiction",
-    "view:uploadPrivateRecordsChoice": {
-      "view:hasPrivateRecordsToUpload": false
-    },
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },

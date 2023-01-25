@@ -3,6 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { createServiceMap } from '../util/helpers';
 import { externalServices, externalServiceStatus } from '../index';
@@ -132,7 +133,7 @@ describe('<DowntimeNotification/>', () => {
           `[data-status="${externalServiceStatus.downtimeApproaching}"]`,
         ),
       ).to.have.lengthOf(1, 'The correct status was rendered');
-      expect(innerWrapper.find('Modal')).to.have.lengthOf(
+      expect(innerWrapper.find(VaModal)).to.have.lengthOf(
         1,
         'Authenticated users will see a modal',
       );

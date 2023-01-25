@@ -1,3 +1,18 @@
+/**
+ * Loops through the claims array and adds the claims to the user object
+ *
+ * @param {Object} user
+ * @param {Array} claims
+ * @returns user with claims added to the profile.claims object with boolean values
+ */
+const createUserWithDataClaims = (user, claims) => {
+  const result = { ...user };
+  claims.forEach(claim => {
+    result.data.attributes.profile.claims[claim.name] = claim.value;
+  });
+  return result;
+};
+
 const mockUserData = {
   loa1User: {
     data: {
@@ -40,6 +55,17 @@ const mockUserData = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            ch33BankAccounts: false,
+            communicationPreferences: false,
+            connectedApps: false,
+            militaryHistory: false,
+            paymentHistory: false,
+            personalInformation: false,
+            ratingInfo: false,
+            appeals: false,
+            medicalCopays: false,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -210,7 +236,7 @@ const mockUserData = {
       errors: null,
     },
   },
-  user72Success: {
+  loa3User72: {
     data: {
       id: '',
       type: 'users_scaffolds',
@@ -252,6 +278,17 @@ const mockUserData = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            ch33BankAccounts: true,
+            communicationPreferences: true,
+            connectedApps: true,
+            militaryHistory: true,
+            paymentHistory: true,
+            personalInformation: true,
+            ratingInfo: true,
+            appeals: true,
+            medicalCopays: true,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -1362,23 +1399,31 @@ const mockUserData = {
   },
 };
 
+// example of creating a user with data claims
+// eslint-disable-next-line no-unused-vars
+const loa3UserWithoutMilitaryHistoryClaim = () =>
+  createUserWithDataClaims(mockUserData.loa3User72, [
+    { name: 'militaryHistory', value: false },
+    { name: 'ratingInfo', value: false },
+  ]);
+
 const handleUserRequest = (req, res) => {
   // here we can customize the return of the user request
   // the main mechanism that we customize around is the query string passed to the request
 
   // handle test case of BAI being cleared on user request
   if (req?.query?.bai === 'clear') {
-    return res.json(mockUserData.user72Success);
+    return res.json(mockUserData.loa3User72);
   }
   // default response
   // example user data cases
-  // return res.json(mockUserData.user72Success); // control user (success)
+  // return res.json(mockUserData.loa3User72); // control user (success)
   // return res.json(mockUserData.badAddress); // user with bad address
   // return res.json(mockUserData.loa3User); // user with loa3
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
 
-  return res.json(mockUserData.user72Success);
+  return res.json(mockUserData.loa3User72);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };

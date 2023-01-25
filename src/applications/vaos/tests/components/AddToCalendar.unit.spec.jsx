@@ -2,13 +2,13 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
-import moment from '../../lib/moment-tz.js';
 import MockDate from 'mockdate';
-
-import AddToCalendar from '../../components/AddToCalendar';
 import userEvent from '@testing-library/user-event';
-import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar.js';
-import { getTimezoneTestDate } from '../mocks/setup.js';
+import moment from '../../lib/moment-tz';
+import AddToCalendar from '../../components/AddToCalendar';
+
+import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar';
+import { getTimezoneTestDate } from '../mocks/setup';
 
 describe('VAOS <AddToCalendar>', () => {
   it('should render link with calendar info', () => {
@@ -23,18 +23,21 @@ describe('VAOS <AddToCalendar>', () => {
       />,
     );
 
-    expect(screen.getByRole('link')).to.contain.text('Add to calendar');
-    expect(screen.getByRole('link')).to.have.attribute(
-      'download',
+    const addToCalendarLink = screen.getByTestId('add-to-calendar-link');
+    expect(addToCalendarLink.getAttribute('text')).to.contain(
+      'Add to calendar',
+    );
+
+    expect(addToCalendarLink.getAttribute('filename')).to.contain(
       'VA_Appointment.ics',
     );
-    expect(screen.getByRole('link')).to.have.attribute(
-      'aria-label',
-      `Add January 2, 2020 appointment to your calendar`,
+
+    expect(addToCalendarLink.getAttribute('aria-label')).to.contain(
+      'Add January 2, 2020 appointment to your calendar',
     );
+
     const ics = decodeURIComponent(
-      screen
-        .getByRole('link')
+      addToCalendarLink
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -74,18 +77,21 @@ describe('VAOS <AddToCalendar>', () => {
       />,
     );
 
-    expect(screen.getByRole('link')).to.contain.text('Add to calendar');
-    expect(screen.getByRole('link')).to.have.attribute(
-      'download',
+    const addToCalendarLink = screen.getByTestId('add-to-calendar-link');
+    expect(addToCalendarLink.getAttribute('text')).to.contain(
+      'Add to calendar',
+    );
+
+    expect(addToCalendarLink.getAttribute('filename')).to.contain(
       'VA_Appointment.ics',
     );
-    expect(screen.getByRole('link')).to.have.attribute(
-      'aria-label',
-      `Add January 2, 2020 appointment to your calendar`,
+
+    expect(addToCalendarLink.getAttribute('aria-label')).to.contain(
+      'Add January 2, 2020 appointment to your calendar',
     );
+
     const ics = decodeURIComponent(
-      screen
-        .getByRole('link')
+      addToCalendarLink
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -118,7 +124,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link')
+        .getByTestId('add-to-calendar-link')
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -150,7 +156,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link')
+        .getByTestId('add-to-calendar-link')
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -183,7 +189,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link')
+        .getByTestId('add-to-calendar-link')
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -223,7 +229,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link')
+        .getByTestId('add-to-calendar-link')
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
@@ -259,7 +265,7 @@ describe('VAOS <AddToCalendar>', () => {
   // All ICS file properties have a 75 character line limit. So the 'description' property,
   // which is comprised of multiply values, is folded into multiply lines 75 characters long
   // with each line starting with a tab character.
-  //
+
   it('should propertly format long description text', () => {
     const screen = render(
       <AddToCalendar
@@ -276,7 +282,7 @@ describe('VAOS <AddToCalendar>', () => {
 
     const ics = decodeURIComponent(
       screen
-        .getByRole('link')
+        .getByTestId('add-to-calendar-link')
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );

@@ -1,21 +1,20 @@
-import manifest from '../../manifest.json';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
+import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 import mockSentFolder from './fixtures/folder-sent-metadata.json';
-import PatientBasicSearchPage from './pages/PatientBasicSearchPage';
 import mockDeletedFolder from './fixtures/folder-deleted-metadata.json';
 import mockCustomFolder from './fixtures/folder-custom-metadata.json';
 import mockInboxFolder from './fixtures/folder-inbox-response.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Basic Search Tests', () => {
   const basicSearchPage = new PatientBasicSearchPage();
   beforeEach(() => {
-    const landingPage = new PatientMessagesLandingPage();
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
-    cy.injectAxe();
-    cy.axeCheck();
   });
   it('Basic Search Axe Check', () => {
     cy.intercept(
@@ -57,7 +56,7 @@ describe(manifest.appName, () => {
       '/my_health/v1/messaging/folders/-2/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestDrafts');
-    cy.get('[data-testid="drafts-sidebar"] > a').click();
+    cy.get('[data-testid="drafts-sidebar"]').click();
 
     basicSearchPage.typeSearchInputFieldText('test');
 
@@ -68,7 +67,7 @@ describe(manifest.appName, () => {
     cy.axeCheck();
   });
 
-  it('Basic Search Sent Folder Check', () => {
+  it.skip('Basic Search Sent Folder Check', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-1',

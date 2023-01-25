@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import FoldersList from '../components/FoldersList';
@@ -66,8 +67,20 @@ const Folders = () => {
       <>
         <h1 className="vads-u-margin-bottom--2">My folders</h1>
         <AlertBackgroundBox closeable />
-        <va-button onClick={openNewModal} text="Create new folder" />
-        <FoldersList folders={folders} />
+        <va-button
+          onClick={() => {
+            openNewModal();
+            recordEvent({
+              event: 'cta-button-click',
+              'button-type': 'primary',
+              'button-click-label': 'Create new folder',
+            });
+          }}
+          text="Create new folder"
+        />
+        {folders && (
+          <FoldersList folders={folders.filter(folder => folder.id > 0)} />
+        )}
         <CreateFolderModal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}

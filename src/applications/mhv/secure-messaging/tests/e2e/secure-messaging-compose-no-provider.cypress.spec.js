@@ -1,13 +1,12 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
-
-import manifest from '../../manifest.json';
+import PatientInboxPage from './pages/PatientInboxPage';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Compose with No Provider', () => {
   it('can send message', () => {
-    const landingPage = new PatientMessagesLandingPage();
-
-    landingPage.login();
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPageForNoProvider();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();

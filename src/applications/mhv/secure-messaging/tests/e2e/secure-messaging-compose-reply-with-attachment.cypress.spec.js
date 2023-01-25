@@ -1,12 +1,13 @@
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import manifest from '../../manifest.json';
 
-describe(manifest.appName, () => {
+describe('Compose Reply With Attacments and Errors', () => {
   it('compose reply with attachment', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
-    landingPage.login();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage(false);
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();

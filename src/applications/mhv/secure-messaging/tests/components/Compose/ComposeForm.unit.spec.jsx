@@ -126,12 +126,12 @@ describe('Compose form component', () => {
       name: 'COVID: Covid-Inquiry',
       level: 3,
     });
-    const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+    const deleteButton = await screen.getAllByRole('button', {
+      name: 'Delete draft',
       exact: false,
     });
 
     expect(draftMessageHeadingText).to.exist;
-    expect(discardButton).to.exist;
+    expect(deleteButton).to.exist;
   });
 });

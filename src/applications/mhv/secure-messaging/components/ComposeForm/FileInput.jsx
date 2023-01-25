@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import HowToAttachFiles from '../HowToAttachFiles';
 import { acceptedFileTypes } from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
@@ -17,6 +16,12 @@ const FileInput = ({ attachments, setAttachments }) => {
       return currentSize + item.size;
     }, 0);
     const selectedFile = event.target.files[0];
+
+    // eslint disabled here to clear the input's stored value to allow a user to remove and re-add the same attachment
+    // https://stackoverflow.com/questions/42192346/how-to-reset-reactjs-file-input
+    // eslint-disable-next-line no-param-reassign
+    event.target.value = null;
+
     if (!selectedFile) return;
     const fileExtension =
       selectedFile.name && selectedFile.name.split('.').pop();
@@ -106,7 +111,6 @@ const FileInput = ({ attachments, setAttachments }) => {
         class="attach-file-button"
         data-testid="attach-file-button"
       />
-      <HowToAttachFiles />
     </div>
   );
 };

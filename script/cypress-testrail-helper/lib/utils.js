@@ -5,7 +5,6 @@ const { exec } = require('child_process');
 const { Spinner } = require('cli-spinner');
 const { parse } = require('comment-parser');
 
-const cyConfig = require('../../../config/cypress-testrail.json');
 const inquirer = require('./app-inquirer');
 const { glob } = require('glob');
 
@@ -132,65 +131,87 @@ module.exports = {
     });
   },
   async getSetCyRunConfig(myConfig, trInfo) {
-    const runConfig = Object.assign(cyConfig, {
-      reporterOptions: {
-        ...cyConfig.reporterOptions,
-        username: myConfig.trUsername,
-        password: myConfig.trPassword,
-        projectId: parseInt(trInfo.projectId),
-        suiteId: parseInt(trInfo.suiteId),
-        includeAllInTestRun: false,
-        groupId: parseInt(trInfo.groupId),
-        runName: trInfo.runName,
-        filter: '',
-      },
-    });
-
     // Write run-specific Cypress config-file.
     return new Promise((myResolve, myReject) => {
+      let cyTrConfig;
+      let myCyTrRunConfig;
+
       try {
+        // read cypress-testrail.config.js
+        cyTrConfig = fs.readFileSync(
+          './config/cypress-testrail.config.js',
+          'utf-8',
+        );
+        // modify config prop-values
+        myCyTrRunConfig = cyTrConfig
+          .replace('TR_USER', myConfig.trUsername)
+          .replace('TR_API_KEY', myConfig.trPassword)
+          .replace('TR_PROJECTID', trInfo.projectId)
+          .replace('TR_SUITEID', trInfo.suiteId)
+          .replace('TR_GROUPID', trInfo.groupId)
+          .replace('TR_RUN_NAME', trInfo.runName)
+          .replace(/'TR_INCLUDE_ALL'/, 'false')
+          .replace('TR_FILTER', '');
+      } catch (e) {
+        myReject(
+          `Failed reading cypress-testrail.config.js file.  Error message: ${
+            e.message
+          }`,
+        );
+      }
+
+      try {
+        // write new config-file
         fs.writeFileSync(
-          './config/my-cypress-testrail.json',
-          JSON.stringify(runConfig),
+          './config/my-cypress-testrail.config.js',
+          myCyTrRunConfig,
+          'utf-8',
         );
         console.log(
-          'Your Run-specific Cypress config:',
-          Object.assign(runConfig, {
-            reporterOptions: {
-              ...runConfig.reporterOptions,
-              password: '[---obfuscated---]',
-            },
-          }),
+          chalk.green(
+            'Your Run-specific Cypress config-file contents:\n\n+++++++++++++++++++++++++++++++\n',
+            myCyTrRunConfig,
+          ),
         );
+        console.log(chalk.green('+++++++++++++++++++++++++++++++\n'));
         myResolve('succeeded');
       } catch (e) {
-        myReject(`failed`);
+        myReject(
+          `Failed writing my-cypress-testrail.config.js file.  Error message: ${
+            e.message
+          }`,
+        );
       }
     });
   },
   runCySpec(specPath) {
-    const scriptCall = `yarn cy:my-testrail-run --spec ${specPath}`;
     const spinner = new Spinner('%s processing...');
+    let cp;
 
     spinner.setSpinnerString(18);
     spinner.start();
-    exec(scriptCall, (error, stdout, stderr) => {
-      if (error) {
-        spinner.stop(true);
-        console.log('\n');
-        console.log(chalk.red(`error: ${error.message}`));
-        return;
-      }
-      if (stderr) {
-        spinner.stop(true);
-        console.log('\n');
-        console.log(chalk.red(`stderr: ${stderr}`));
-        return;
-      }
 
+    cp = exec(`yarn cy:my-testrail-run --spec ${specPath}`);
+    cp.stdout.on('data', data => {
+      console.log(`Cypress child-process stdout:\n${data.toString()}`);
+    });
+    cp.stderr.on('data', data => {
+      console.log(`Cypress child-process stderr:\n: ${data.toString()}`);
+    });
+    cp.on('exit', code => {
       spinner.stop(true);
       console.log('\n');
-      console.log(chalk.green(`RUN COMPLETED!  stdout:\n${stdout}`));
+      if (code === 0) {
+        console.log(
+          chalk.green(
+            `Cypress child-process SUCCEEDED! Exited with code ${code.toString()}`,
+          ),
+        );
+      } else {
+        chalk.red(
+          `Cypress child-process FAILED! Exited with code ${code.toString()}`,
+        );
+      }
     });
   },
   saveSpecFile(myConfig, myConfigPath, specFile) {
