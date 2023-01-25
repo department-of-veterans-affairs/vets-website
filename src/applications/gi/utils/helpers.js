@@ -240,3 +240,16 @@ export const scrollToFocusedElement = () => {
     scroller.scrollTo(document.activeElement.id, getScrollOptions());
   }
 };
+
+export const getAvgCount = (questionsArrObj, index) => {
+  let result = '-1';
+  const questionObj = questionsArrObj[index];
+  const keys = Object.keys(questionObj);
+  const values = Object.values(questionObj);
+  keys.forEach((keyValue, keyIndex) => {
+    if (keyValue.includes('_avg')) {
+      result = values[keyIndex];
+    }
+  });
+  return result;
+};
