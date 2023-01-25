@@ -60,7 +60,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'have.text',
       'Your VA education letter',
     );
-    cy.findByText('Your decision Letter').should('be.visible');
+    cy.findByText('Your decision letter').should('be.visible');
 
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should('be.visible');
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should(
