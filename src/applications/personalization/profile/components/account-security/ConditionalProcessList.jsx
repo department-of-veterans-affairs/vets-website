@@ -22,79 +22,12 @@ HeadingWrapper.propTypes = {
 };
 
 const ContentWrapper = ({ children }) => {
-  return <p className="vads-u-margin-y--0">{children}</p>;
+  return <div className="vads-u-margin-y--0">{children}</div>;
 };
 
 ContentWrapper.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-const CompleteContext = createContext();
-
-// The ListItem component is a wrapper for the list item content, and
-// conditionally renders the content based on the `complete` prop
-
-/**
- * A list item with context for whether or not the process has been completed
- *
- * @param {boolean} complete - Whether or not the process has been completed
- * @param {node} children - The content of the list item
- * @return {node} - The list item
- */
-const ListItem = ({ complete, children }) => {
-  return (
-    <li className={`item ${complete && 'item-complete'}`}>
-      <CompleteContext.Provider value={complete}>
-        {children}
-      </CompleteContext.Provider>
-    </li>
-  );
-};
-
-ListItem.propTypes = {
-  children: PropTypes.node.isRequired,
-  complete: PropTypes.bool.isRequired,
-};
-
-// The ListItem.HeadingComplete and ListItem.HeadingIncomplete components
-// are wrappers for the heading content, and conditionally render the content
-// based on the `complete` prop
-
-const HeadingComplete = ({ children }) => {
-  const complete = useContext(CompleteContext);
-  return complete ? <HeadingWrapper>{children}</HeadingWrapper> : null;
-};
-
-HeadingComplete.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-const HeadingIncomplete = ({ children }) => {
-  const complete = useContext(CompleteContext);
-  return !complete ? <HeadingWrapper>{children}</HeadingWrapper> : null;
-};
-
-HeadingIncomplete.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-// The ListItem.ContentComplete and ListItem.ContentIncomplete components
-// are wrappers for the body content, and conditionally render the content
-// based on the `complete` prop
-
-const ContentComplete = ({ children }) => {
-  const complete = useContext(CompleteContext);
-  return complete ? <ContentWrapper>{children}</ContentWrapper> : null;
-};
-
-ContentComplete.propTypes = { children: PropTypes.node.isRequired };
-
-const ContentIncomplete = ({ children }) => {
-  const complete = useContext(CompleteContext);
-  return !complete ? <ContentWrapper>{children}</ContentWrapper> : null;
-};
-
-ContentIncomplete.propTypes = { children: PropTypes.node.isRequired };
 
 export const ConditionalProcessList = ({ children }) => {
   return (
@@ -108,8 +41,91 @@ ConditionalProcessList.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+// The CompleteContext is used to share the `complete` state to the
+// ListItem.HeadingComplete and ListItem.ContentComplete components
+const CompleteContext = createContext();
+CompleteContext.displayName = 'CompleteContext';
+
+const useComplete = () => {
+  const context = useContext(CompleteContext);
+
+  if (typeof context !== 'boolean') {
+    throw new Error('useComplete must be used within a ListItem component');
+  }
+
+  return context;
+};
+
+// The ListItem component is a wrapper for the list item content, and
+// conditionally renders the content based on the `complete` prop
+
+/**
+ * A list item with context for whether or not the process has been completed
+ *
+ * @param {boolean} complete - Whether or not the process has been completed
+ * @param {boolean} show - Whether or not to show the list item at all
+ * @param {node} children - The content of the list item
+ * @return {node} - The list item
+ */
+const Item = ({ complete = false, shouldShow = true, children }) => {
+  return shouldShow ? (
+    <li className={`item${complete ? ' item-complete' : ''}`}>
+      <CompleteContext.Provider value={complete}>
+        {children}
+      </CompleteContext.Provider>
+    </li>
+  ) : null;
+};
+
+Item.propTypes = {
+  children: PropTypes.node.isRequired,
+  complete: PropTypes.bool.isRequired,
+  shouldShow: PropTypes.bool,
+};
+
+// The ListItem.HeadingComplete and ListItem.HeadingIncomplete components
+// are wrappers for the heading content, and conditionally render the content
+// based on the `complete` prop
+
+const HeadingComplete = ({ children }) => {
+  const complete = useComplete();
+  return complete ? (
+    <HeadingWrapper data-testid="headingComplete">{children}</HeadingWrapper>
+  ) : null;
+};
+
+HeadingComplete.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+const HeadingIncomplete = ({ children }) => {
+  const complete = useComplete();
+  return !complete ? <HeadingWrapper>{children}</HeadingWrapper> : null;
+};
+
+HeadingIncomplete.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+// The ListItem.ContentComplete and ListItem.ContentIncomplete components
+// are wrappers for the body content, and conditionally render the content
+// based on the `complete` context value
+const ContentComplete = ({ children }) => {
+  const complete = useComplete();
+  return complete ? <ContentWrapper>{children}</ContentWrapper> : null;
+};
+
+ContentComplete.propTypes = { children: PropTypes.node.isRequired };
+
+const ContentIncomplete = ({ children }) => {
+  const complete = useComplete();
+  return !complete ? <ContentWrapper>{children}</ContentWrapper> : null;
+};
+
+ContentIncomplete.propTypes = { children: PropTypes.node.isRequired };
+
 ConditionalProcessList.HeadingComplete = HeadingComplete;
 ConditionalProcessList.HeadingIncomplete = HeadingIncomplete;
 ConditionalProcessList.ContentComplete = ContentComplete;
 ConditionalProcessList.ContentIncomplete = ContentIncomplete;
-ConditionalProcessList.ListItem = ListItem;
+ConditionalProcessList.Item = Item;

@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import {
@@ -37,7 +38,7 @@ export const AccountSecurityContent = ({
   showNotInMPIError,
   signInServiceName,
   isBlocked,
-  useProcessList,
+  profileUseSecurityProcessList,
 }) => {
   const handlers = {
     learnMoreIdentity: () => {
@@ -109,7 +110,7 @@ export const AccountSecurityContent = ({
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
 
-      {useProcessList ? (
+      {profileUseSecurityProcessList ? (
         <AccountSecurityTables
           signInServiceName={signInServiceName}
           isIdentityVerified={isIdentityVerified}
@@ -132,12 +133,12 @@ AccountSecurityContent.propTypes = {
   isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
+  profileUseSecurityProcessList: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
   signInServiceName: PropTypes.string.isRequired,
-  useProcessList: PropTypes.bool.isRequired,
   isInMPI: PropTypes.bool,
   mhvAccount: PropTypes.shape({
     accountLevel: PropTypes.string,
@@ -172,7 +173,9 @@ export const mapStateToProps = state => {
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
     isBlocked,
-    useProcessList: toggleValues(state)?.profileUseSecurityProcessList,
+    profileUseSecurityProcessList:
+      toggleValues(state)?.[TOGGLE_NAMES.profileUseSecurityProcessList] ||
+      false,
   };
 };
 

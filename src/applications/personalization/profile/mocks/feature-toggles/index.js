@@ -13,7 +13,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
     profileBlockForFiduciaryDeceasedOrIncompetent = false,
-    profileSecurityUseProcessList = true,
+    profileUseSecurityProcessList = true,
   } = toggles;
 
   return {
@@ -62,8 +62,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: profileBlockForFiduciaryDeceasedOrIncompetent,
         },
         {
-          name: 'profile_security_use_process_list',
-          value: profileSecurityUseProcessList,
+          name: 'profile_use_security_process_list',
+          value: profileUseSecurityProcessList,
         },
       ],
     },

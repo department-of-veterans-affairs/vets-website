@@ -40,8 +40,9 @@ const AccountSetupTable = ({
       </ol> */}
 
       <List>
-        <List.ListItem complete={isIdentityVerified}>
+        <List.Item complete={isIdentityVerified}>
           <List.HeadingComplete>Verify your identity</List.HeadingComplete>
+
           <List.ContentComplete>
             We’ve verified your identity.
           </List.ContentComplete>
@@ -51,15 +52,17 @@ const AccountSetupTable = ({
               Verify your identity
             </a>
           </List.HeadingIncomplete>
+
           <List.ContentIncomplete>
             Verify your identity to view your complete profile.
           </List.ContentIncomplete>
-        </List.ListItem>
+        </List.Item>
 
-        <List.ListItem complete={isMultifactorEnabled}>
+        <List.Item complete={isMultifactorEnabled}>
           <List.HeadingComplete>
             Add 2-factor authentication
           </List.HeadingComplete>
+
           <List.ContentComplete>
             You’ve added an extra layer of security to your account with
             2-factor authentication.
@@ -74,63 +77,68 @@ const AccountSetupTable = ({
               Add 2-factor authentication
             </button>
           </List.HeadingIncomplete>
+
           <List.ContentIncomplete>
             Add an extra layer of security (called 2-factor authentication).
             This helps to make sure only you can access your account—even if
             someone gets your password.
           </List.ContentIncomplete>
-        </List.ListItem>
+        </List.Item>
 
-        {showMHVTermsAndConditions && (
-          <List.ListItem complete={mhvAccount.termsAndConditionsAccepted}>
-            <List.HeadingComplete>
-              Review terms and conditions
-            </List.HeadingComplete>
-            <List.ContentComplete>
+        <List.Item
+          complete={mhvAccount.termsAndConditionsAccepted}
+          shouldShow={showMHVTermsAndConditions}
+        >
+          <List.HeadingComplete>
+            Review terms and conditions
+          </List.HeadingComplete>
+
+          <List.ContentComplete>
+            <p className="vads-u-margin-y--0">
               You’ve accepted the terms and conditions for using VA.gov health
               tools
-              <a
-                href={termsAndConditionsUrl}
-                onClick={() =>
-                  recordEvent({
-                    event: 'profile-navigation',
-                    'profile-action': 'view-link',
-                    'profile-section': 'terms',
-                  })
-                }
-              >
-                View terms and conditions for medical information
-              </a>
-            </List.ContentComplete>
+            </p>
+            <a
+              href={termsAndConditionsUrl}
+              onClick={() =>
+                recordEvent({
+                  event: 'profile-navigation',
+                  'profile-action': 'view-link',
+                  'profile-section': 'terms',
+                })
+              }
+            >
+              View terms and conditions for medical information
+            </a>
+          </List.ContentComplete>
 
-            {mhvAccount.accountState === 'needs_terms_acceptance' && (
-              <>
-                <List.HeadingIncomplete>
-                  <a
-                    href={termsAndConditionsUrl}
-                    onClick={() =>
-                      recordEvent({
-                        event: 'profile-navigation',
-                        'profile-action': 'view-link',
-                        'profile-section': 'terms',
-                      })
-                    }
-                  >
-                    Review terms and conditions
-                  </a>
-                </List.HeadingIncomplete>
+          {mhvAccount.accountState === 'needs_terms_acceptance' && (
+            <>
+              <List.HeadingIncomplete>
+                <a
+                  href={termsAndConditionsUrl}
+                  onClick={() =>
+                    recordEvent({
+                      event: 'profile-navigation',
+                      'profile-action': 'view-link',
+                      'profile-section': 'terms',
+                    })
+                  }
+                >
+                  Review terms and conditions
+                </a>
+              </List.HeadingIncomplete>
 
-                <List.ContentIncomplete>
-                  Before using our health tools, you’ll need to read and agree
-                  to the terms and conditions for medical information. This will
-                  give us permission to share your VA medical information with
-                  you. Once you do this, you can use the tools to refill your VA
-                  prescriptions or download your VA health records.
-                </List.ContentIncomplete>
-              </>
-            )}
-          </List.ListItem>
-        )}
+              <List.ContentIncomplete>
+                Before using our health tools, you’ll need to read and agree to
+                the terms and conditions for medical information. This will give
+                us permission to share your VA medical information with you.
+                Once you do this, you can use the tools to refill your VA
+                prescriptions or download your VA health records.
+              </List.ContentIncomplete>
+            </>
+          )}
+        </List.Item>
       </List>
     </section>
   );
