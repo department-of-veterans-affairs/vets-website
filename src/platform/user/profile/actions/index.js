@@ -5,7 +5,6 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import { updateLoggedInStatus } from '../../authentication/actions';
-import { infoTokenExists, refresh } from '../../../utilities/oauth/utilities';
 import { teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -35,23 +34,6 @@ export function profileLoadingFinished() {
 const hasError = dataPayload =>
   dataPayload?.errors?.length > 0 || dataPayload?.meta?.errors?.length > 0;
 
-async function saveAndRefresh(payload) {
-  const newPayloadObject = { payload };
-  if (payload.errors === 'Access token has expired' && infoTokenExists()) {
-    const refreshResponse = await refresh({
-      type: sessionStorage.getItem('serviceName'),
-    });
-    if (!refreshResponse.ok) {
-      throw new Error('Could not refresh AT');
-    }
-
-    const newPayload = await apiRequest(baseUrl);
-    return { payload: newPayload };
-  }
-
-  return newPayloadObject;
-}
-
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
@@ -71,9 +53,7 @@ export function refreshProfile(
       );
     }
 
-    const saved = await saveAndRefresh(payload);
-
-    const eventApiStatus = hasError(saved.payload) ? 'failed' : 'successful';
+    const eventApiStatus = hasError(payload) ? 'failed' : 'successful';
 
     const eventData = {
       event: 'api_call',
@@ -83,8 +63,8 @@ export function refreshProfile(
 
     recordEvent(eventData);
 
-    dispatch(updateProfileFields(saved.payload));
-    return saved.payload;
+    dispatch(updateProfileFields(payload));
+    return payload;
   };
 }
 
