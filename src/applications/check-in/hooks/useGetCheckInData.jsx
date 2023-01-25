@@ -18,6 +18,7 @@ import {
 import {
   preCheckinExpired,
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   preCheckinAlreadyCompleted,
   appointmentStartTimePast15,
 } from '../utils/appointment';
@@ -122,6 +123,11 @@ const useGetCheckInData = ({
               }
 
               if (appointmentWasCanceled(payload.appointments)) {
+                updateError('possible-canceled-appointment');
+                return;
+              }
+
+              if (allAppointmentsCanceled(payload.appointments)) {
                 updateError('appointment-canceled');
                 return;
               }

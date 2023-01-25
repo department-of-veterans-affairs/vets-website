@@ -92,7 +92,6 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
-  profileShowAppealStatusNotificationSetting: 'profile_show_appeal_status_notification_setting',
   profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
