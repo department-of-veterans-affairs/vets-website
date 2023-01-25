@@ -1,5 +1,5 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
 
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
