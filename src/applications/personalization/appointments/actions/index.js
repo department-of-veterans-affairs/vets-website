@@ -126,6 +126,12 @@ export function fetchConfirmedFutureAppointmentsV2() {
           'api-name': 'GET v2/appointments ',
           'api-status': 'failed',
         });
+      } else {
+        recordEvent({
+          event: `api_call`,
+          'api-name': 'GET v2/appointments ',
+          'api-status': 'successful',
+        });
       }
 
       const { data: appointments } = appointmentResponse;
@@ -243,7 +249,6 @@ export function fetchConfirmedFutureAppointments() {
       );
       recordEvent({
         event: `api_call`,
-        'error-key': `internal error`,
         'api-name': 'GET appointments',
         'api-status': 'successful',
       });

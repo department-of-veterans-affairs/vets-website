@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import { paymentHistory } from '../../../../mocks/payment-history';
-import { user72Success } from '../../../../mocks/user';
+import { loa3User72 } from '../../../../mocks/user';
 import { basicUserPersonalInfo } from '../../../../mocks/personal-information';
 
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
@@ -9,7 +9,7 @@ import { airForce } from '../../../../mocks/service-history';
 describe('Direct Deposit Consistently', () => {
   describe('alert is hidden', () => {
     beforeEach(() => {
-      cy.login(user72Success);
+      cy.login(loa3User72);
       cy.intercept(
         'GET',
         'v0/profile/personal_information',

@@ -260,7 +260,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the api returns a 401', done => {
       server.use(
         rest.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(401));
+          return res(ctx.status(401), ctx.json({ status: 401 }));
         }),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -283,7 +283,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on any other failure', done => {
       server.use(
         rest.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(500));
+          return res(ctx.status(500), ctx.json({ status: 500 }));
         }),
       );
 
@@ -423,7 +423,8 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches: `no-auth` if the API returns a 401', () => {
       server.use(
         rest.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(401));
+          // ctx.json({ status }) is a workaround for isomorphicFetch bug
+          return res(ctx.status(401), ctx.json({ status: 401 }));
         }),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -439,7 +440,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches: `not-found` if the API returns a 404', () => {
       server.use(
         rest.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-          return res(ctx.status(404));
+          return res(ctx.status(404), ctx.json({ status: 404 }));
         }),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -502,7 +503,7 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
         server.use(
           rest.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-            return res(ctx.status(401));
+            return res(ctx.status(401), ctx.json({ status: 401 }));
           }),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
@@ -668,7 +669,7 @@ describe('Schemaform save / load actions:', () => {
         rest.delete(
           inProgressApi(VA_FORM_IDS.FORM_10_10EZ),
           (req, res, ctx) => {
-            return res(ctx.status(401));
+            return res(ctx.status(401), ctx.json({ status: 401 }));
           },
         ),
       );
