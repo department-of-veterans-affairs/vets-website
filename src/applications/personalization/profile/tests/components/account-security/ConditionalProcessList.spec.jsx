@@ -108,4 +108,60 @@ describe('ConditionalProcessList', () => {
     expect(view.queryByText('Process 1 Heading Incomplete')).to.not.exist;
     expect(view.queryByText('Process 1 Content Incomplete')).to.not.exist;
   });
+
+  it('should use a dynamic heading level passed into props for a list item that is complete', () => {
+    const view = render(
+      <List>
+        <List.Item complete>
+          <List.HeadingComplete headingLevel={1}>
+            Process 1 Heading Complete
+          </List.HeadingComplete>
+
+          <List.ContentComplete>
+            Process 1 Content Complete
+          </List.ContentComplete>
+
+          <List.HeadingIncomplete>
+            Process 1 Heading Incomplete
+          </List.HeadingIncomplete>
+
+          <List.ContentIncomplete>
+            Process 1 Content Incomplete
+          </List.ContentIncomplete>
+        </List.Item>
+      </List>,
+    );
+
+    expect($('.item-complete h1.item-heading', view.container)).to.exist;
+    expect($('.item-incomplete h1.item-heading', view.container)).to.not.exist;
+    expect($('h3', view.container)).to.not.exist;
+  });
+
+  it('should use a dynamic heading level passed into props for a list item that is incomplete', () => {
+    const view = render(
+      <List>
+        <List.Item>
+          <List.HeadingComplete headingLevel={1}>
+            Process 1 Heading Complete
+          </List.HeadingComplete>
+
+          <List.ContentComplete>
+            Process 1 Content Complete
+          </List.ContentComplete>
+
+          <List.HeadingIncomplete headingLevel={1}>
+            Process 1 Heading Incomplete
+          </List.HeadingIncomplete>
+
+          <List.ContentIncomplete>
+            Process 1 Content Incomplete
+          </List.ContentIncomplete>
+        </List.Item>
+      </List>,
+    );
+
+    expect($('.item-complete h1.item-heading', view.container)).to.not.exist;
+    expect($('.item-incomplete h1.item-heading', view.container)).to.exist;
+    expect($('h3', view.container)).to.not.exist;
+  });
 });

@@ -1,5 +1,6 @@
 import React, { useContext, createContext } from 'react';
 import PropTypes from 'prop-types';
+import { optionalNumberBetween } from '~/applications/personalization/common/proptypeValidators';
 
 // A derivative of the va-process-list compnenent, but with a few changes to
 // support the Account Security section of the Profile.
@@ -8,26 +9,6 @@ import PropTypes from 'prop-types';
 // Each list item is a process that a user may need to complete in order to
 // access all of the features of VA.gov, and will diplay whether or not the
 // process has been completed
-
-const HeadingWrapper = ({ children }) => {
-  return (
-    <h3 className="vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading">
-      {children}
-    </h3>
-  );
-};
-
-HeadingWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-const ContentWrapper = ({ children }) => {
-  return <div className="vads-u-margin-y--0">{children}</div>;
-};
-
-ContentWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export const ConditionalProcessList = ({ children }) => {
   return (
@@ -69,7 +50,7 @@ const useComplete = () => {
  */
 const Item = ({ complete = false, shouldShow = true, children }) => {
   return shouldShow ? (
-    <li className={`item${complete ? ' item-complete' : ''}`}>
+    <li className={`item${complete ? ' item-complete' : ' item-incomplete'}`}>
       <CompleteContext.Provider value={complete}>
         {children}
       </CompleteContext.Provider>
@@ -83,43 +64,48 @@ Item.propTypes = {
   shouldShow: PropTypes.bool,
 };
 
-// The ListItem.HeadingComplete and ListItem.HeadingIncomplete components
-// are wrappers for the heading content, and conditionally render the content
-// based on the `complete` prop
-
-const HeadingComplete = ({ children }) => {
+const HeadingComplete = ({ children, headingLevel = 3 }) => {
   const complete = useComplete();
+  const Heading = `h${headingLevel}`;
   return complete ? (
-    <HeadingWrapper data-testid="headingComplete">{children}</HeadingWrapper>
+    <Heading className="vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading">
+      {children}
+    </Heading>
   ) : null;
 };
 
 HeadingComplete.propTypes = {
   children: PropTypes.node.isRequired,
+  headingLevel: optionalNumberBetween(1, 6),
 };
 
-const HeadingIncomplete = ({ children }) => {
+const HeadingIncomplete = ({ children, headingLevel }) => {
   const complete = useComplete();
-  return !complete ? <HeadingWrapper>{children}</HeadingWrapper> : null;
+  const Heading = `h${headingLevel}`;
+  return !complete ? (
+    <Heading className="vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading">
+      {children}
+    </Heading>
+  ) : null;
 };
 
 HeadingIncomplete.propTypes = {
   children: PropTypes.node.isRequired,
+  headingLevel: optionalNumberBetween(1, 6),
 };
 
-// The ListItem.ContentComplete and ListItem.ContentIncomplete components
-// are wrappers for the body content, and conditionally render the content
-// based on the `complete` context value
 const ContentComplete = ({ children }) => {
   const complete = useComplete();
-  return complete ? <ContentWrapper>{children}</ContentWrapper> : null;
+  return complete ? <div className="vads-u-margin-y--0">{children}</div> : null;
 };
 
 ContentComplete.propTypes = { children: PropTypes.node.isRequired };
 
 const ContentIncomplete = ({ children }) => {
   const complete = useComplete();
-  return !complete ? <ContentWrapper>{children}</ContentWrapper> : null;
+  return !complete ? (
+    <div className="vads-u-margin-y--0">{children}</div>
+  ) : null;
 };
 
 ContentIncomplete.propTypes = { children: PropTypes.node.isRequired };
