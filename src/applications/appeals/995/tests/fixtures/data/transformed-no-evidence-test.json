@@ -22,9 +22,6 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
-      "evidenceSubmission": {
-        "evidenceType": []
-      },
       "socOptIn": false
     }
   },
