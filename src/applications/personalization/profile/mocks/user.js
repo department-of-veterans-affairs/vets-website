@@ -271,7 +271,7 @@ const mockUserData = {
             current: 3,
             highest: 3,
           },
-          multifactor: true,
+          multifactor: false,
           verified: true,
           signIn: {
             serviceName: 'idme',
@@ -1423,7 +1423,7 @@ const handleUserRequest = (req, res) => {
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
 
-  return res.json(mockUserData.loa3User72);
+  return res.json(mockUserData.loa1User);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };
