@@ -6,6 +6,7 @@ import {
 import {
   CERTIFICATION_METHOD,
   PAYMENT_PAUSED_DAY_OF_MONTH,
+  PAYMENT_PAUSED_NUMBER_OF_MONTHS,
   STATUS,
   VERIFICATION_RESPONSE,
 } from '../constants';
@@ -121,36 +122,46 @@ export const convertNumberToStringWithMinimumDigits = (n, minDigits) => {
  * Given a date in UTC format, determine if the current date is after
  * the "paused" day of the month following the given date.
  *
- * For example (given PAYMENT_PAUSED_DATE_OF_MONTH = 25):
- * * if today is 2022-02-24 and the given date is 2022-01-01,
+ * For example (given PAYMENT_PAUSED_NUMBER_OF_MONTHS is 2 and
+ * PAYMENT_PAUSED_DATE_OF_MONTH = 25):
+ * * if today is 2022-03-24 and the given date is 2022-01-01,
  *   return false;
- * * if today is 2022-02-25 and the given date is 2022-01-01,
+ * * if today is 2022-03-25 and the given date is 2022-01-01,
  *   return true;
- * * if today is 2022-02-25 and the given date is 2022-02-01,
+ * * if today is 2022-03-25 and the given date is 2022-02-01,
  *   return false;
  *
- * @param {string} date
+ * @param {string} earliestUncertifiedEndDate The date through which
+ * enrollments have been verified.
  */
-export const monthlyPaymentsPaused = date => {
+export const monthlyPaymentsPaused = earliestUncertifiedEndDate => {
   const now = new Date().toISOString();
 
-  if (now <= date) {
+  if (now <= earliestUncertifiedEndDate) {
     return false;
   }
 
-  const dateSplit = date.split('-');
-  dateSplit[1] = (parseInt(dateSplit[1], 10) % 12) + 1;
-  if (dateSplit[1] === 1) {
-    // If we rolled over to a near year, increment the year.
-    dateSplit[0] += 1;
-  }
-  dateSplit[1] = convertNumberToStringWithMinimumDigits(dateSplit[1], 2);
-  dateSplit[2] = convertNumberToStringWithMinimumDigits(
-    PAYMENT_PAUSED_DAY_OF_MONTH,
-    2,
-  );
+  // Given the last certified-through date, generate the date
+  // when payments will paused and compare it with the current
+  // date.
+  const dateSplit = earliestUncertifiedEndDate.split('-');
+  let year = parseInt(dateSplit[0], 10);
+  let month =
+    (parseInt(dateSplit[1], 10) + PAYMENT_PAUSED_NUMBER_OF_MONTHS) % 12;
+  let day = parseInt(dateSplit[2], 10);
 
-  return now >= dateSplit.join('-');
+  if (month <= PAYMENT_PAUSED_NUMBER_OF_MONTHS) {
+    // If we rolled over to a near year, increment the year.
+    year += 1;
+  }
+  month = convertNumberToStringWithMinimumDigits(month, 2);
+  day = convertNumberToStringWithMinimumDigits(PAYMENT_PAUSED_DAY_OF_MONTH, 2);
+
+  // If the current date is equal to or after this date, payments may
+  // be paused.
+  const paymentPausedDate = [year, month, day].join('-');
+
+  return now >= paymentPausedDate;
 };
 
 export const getEnrollmentVerificationStatus = enrollmentVerification => {

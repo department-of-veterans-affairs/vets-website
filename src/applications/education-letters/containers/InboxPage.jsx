@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
@@ -15,24 +15,43 @@ const InboxPage = ({
   TOEClaimStatusFetchComplete,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
+  const isLoggedIn = useRef(false);
 
   useEffect(
     () => {
-      if (!user?.login?.currentlyLoggedIn) {
-        return;
-      }
-
       if (!fetchedClaimStatus) {
         getClaimStatus('MEB');
         getClaimStatus('TOE');
         setFetchedClaimStatus(true);
       }
     },
-    [fetchedClaimStatus, getClaimStatus, user?.login?.currentlyLoggedIn],
+    [fetchedClaimStatus, getClaimStatus],
+  );
+
+  useEffect(
+    () => {
+      if (user?.login?.currentlyLoggedIn) {
+        isLoggedIn.current = true;
+      }
+      if (
+        (MEBClaimStatusFetchInProgress ||
+          TOEClaimStatusFetchInProgress ||
+          MEBClaimStatusFetchComplete ||
+          TOEClaimStatusFetchComplete) &&
+        !isLoggedIn.current
+      ) {
+        window.location.href = '/education/download-letters/';
+      }
+    },
+    [isLoggedIn, user?.login],
   );
 
   const renderInbox = () => {
-    if (MEBClaimStatusFetchInProgress || TOEClaimStatusFetchInProgress) {
+    if (
+      MEBClaimStatusFetchInProgress ||
+      TOEClaimStatusFetchInProgress ||
+      !isLoggedIn.current
+    ) {
       return (
         <div className="vads-u-margin-y--5">
           <va-loading-indicator
@@ -55,11 +74,7 @@ const InboxPage = ({
       return <NoLetters />;
     }
 
-    if (
-      MEBClaimStatusFetchComplete &&
-      TOEClaimStatusFetchComplete &&
-      !claimStatus?.claimStatus
-    ) {
+    if (MEBClaimStatusFetchComplete && TOEClaimStatusFetchComplete) {
       return (
         <va-banner
           headline="There was an error in accessing your decision letters. We’re sorry we couldn’t display your letters.  Please try again later."
@@ -68,10 +83,8 @@ const InboxPage = ({
         />
       );
     }
-
     return false;
   };
-
   return (
     <Layout
       clsName="inbox-page"
@@ -128,7 +141,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

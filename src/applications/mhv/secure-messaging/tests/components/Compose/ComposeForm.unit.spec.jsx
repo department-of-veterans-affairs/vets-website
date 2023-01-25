@@ -71,12 +71,8 @@ describe('Compose form component', () => {
       },
     );
 
-    const sendButton = await screen.getAllByRole('button', {
-      name: 'Send',
-    });
-    const saveDraftButton = await screen.getByRole('button', {
-      name: 'Save draft',
-    });
+    const sendButton = await screen.getByTestId('Send-Button');
+    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -92,9 +88,7 @@ describe('Compose form component', () => {
       },
     );
 
-    const sendButton = screen.getAllByRole('button', {
-      name: 'Send',
-    })[1];
+    const sendButton = screen.getByTestId('Send-Button');
 
     fireEvent.click(sendButton);
 
@@ -132,12 +126,12 @@ describe('Compose form component', () => {
       name: 'COVID: Covid-Inquiry',
       level: 3,
     });
-    const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard',
+    const deleteButton = await screen.getAllByRole('button', {
+      name: 'Delete draft',
       exact: false,
     });
 
     expect(draftMessageHeadingText).to.exist;
-    expect(discardButton).to.exist;
+    expect(deleteButton).to.exist;
   });
 });

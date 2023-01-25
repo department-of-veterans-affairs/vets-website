@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
-import NavigationLinks from '../components/NavigationLinks';
 import MessageThread from '../components/MessageThread/MessageThread';
 import { retrieveMessage } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
@@ -79,12 +78,14 @@ const MessageDetail = () => {
   }
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
+    <div className="vads-l-grid-container message-detail-container">
       {/* Only display this type of alert when it contains a header */}
       {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
-      <h1 className="vads-u-margin-top--2" ref={header}>
-        {pageTitle}
-      </h1>
+      {pageTitle === 'Message' ? null : (
+        <h1 className="vads-u-margin-top--2" ref={header}>
+          {pageTitle}
+        </h1>
+      )}
 
       {message === undefined && (
         <va-loading-indicator
@@ -109,7 +110,7 @@ const MessageDetail = () => {
       {message &&
         messageId && (
           <>
-            <NavigationLinks messageId={messageId} />
+            {/* <NavigationLinks messageId={messageId} /> */}
             <MessageDetailBlock message={message} />
             <MessageThread messageHistory={messageHistory} />
           </>

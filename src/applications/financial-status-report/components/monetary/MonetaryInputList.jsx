@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 
-const MonetaryInputList = ({ errorSchema }) => {
+const MonetaryInputList = ({ errorSchema, formContext }) => {
   const errorList = errorSchema?.monetaryAssets?.__errors;
+  const { submitted } = formContext;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
@@ -47,7 +48,9 @@ const MonetaryInputList = ({ errorSchema }) => {
             value={asset.amount}
             id={asset.name + key}
             error={
-              errorList.includes(asset.name) ? 'Enter valid dollar amount' : ''
+              submitted && errorList.includes(asset.name)
+                ? 'Enter valid dollar amount'
+                : ''
             }
             inputmode="decimal"
             onInput={onChange}

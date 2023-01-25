@@ -165,21 +165,12 @@ describe('form submit transform', () => {
       );
       expect(addressType).to.eql('FOREIGN');
     });
-    it('should set addressType to MILITARY_OVERSEAS if livesOnMilitaryBase is true AND country is not USA', () => {
+    it('should set addressType to MILITARY_OVERSEAS if livesOnMilitaryBase is true', () => {
       mockSubmissionForm['view:mailingAddress'].livesOnMilitaryBase = true;
-      mockSubmissionForm['view:mailingAddress'].address.country = 'AFG';
       const addressType = getAddressType(
         mockSubmissionForm['view:mailingAddress'],
       );
       expect(addressType).to.eql('MILITARY_OVERSEAS');
-    });
-    it('should set addressType to DOMESTIC if livesOnMilitaryBase is true AND country is USA', () => {
-      mockSubmissionForm['view:mailingAddress'].livesOnMilitaryBase = true;
-      mockSubmissionForm['view:mailingAddress'].address.country = 'USA';
-      const addressType = getAddressType(
-        mockSubmissionForm['view:mailingAddress'],
-      );
-      expect(addressType).to.eql('DOMESTIC');
     });
   });
   describe('has a getLTSCountryCode method', () => {

@@ -8,12 +8,12 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
+import { beforeEach } from 'mocha';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
-import { beforeEach } from 'mocha';
 
 const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newUserName = 'newemailaddress';
@@ -53,7 +53,7 @@ function editEmailAddress() {
   user.type(emailAddressInput, newEmailAddress);
 
   // save
-  view.getByText('Update', { selector: 'button' }).click();
+  view.getByText('Save', { selector: 'button' }).click();
 
   return { emailAddressInput };
 }

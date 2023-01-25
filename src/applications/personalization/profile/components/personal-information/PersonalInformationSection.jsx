@@ -10,12 +10,15 @@ import { renderDOB } from '@@profile/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import ProfileInfoTable from '../ProfileInfoTable';
 import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
+import LegalName from './LegalName';
+import DisabilityRating from './DisabilityRating';
 
 const PersonalInformationSection = ({
   dob,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
+    { title: 'Legal name', value: <LegalName /> },
     { title: 'Date of birth', value: renderDOB(dob) },
     {
       title: 'Preferred name',
@@ -68,6 +71,10 @@ const PersonalInformationSection = ({
           },
         ]
       : []),
+    {
+      title: 'Disability rating',
+      value: <DisabilityRating />,
+    },
   ];
 
   return (

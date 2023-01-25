@@ -10,12 +10,23 @@
       min-width: 220px;
     }
 
-    button {
+    va-button {
+      display: contents;
+      height: 37px;
+      padding: 0;
+    }
+
+    va-button::part(button) {
       height: 4.2rem;
       width: fit-content;
       min-width: 78px;
-      margin: 3.2px 0;
+      margin: 3px;
     }
+  }
+
+  .unread-column {
+    max-width: 15px;
+    padding-top: 10px;
   }
 
   .unread-icon {
@@ -30,5 +41,20 @@
 
   .keyword-highlight {
     background-color: $color-gold-lightest;
+  }
+
+  .message-list-item {
+    a.message-subject-link:visited {
+      color: $color-primary;
+    }
+    p.received-date {
+      color: $color-gray-medium;
+      i {
+        color: $color-black;
+      }
+    }
+    .keyword-highlight {
+      background-color: $color-gold-lightest;
+    }
   }
 }

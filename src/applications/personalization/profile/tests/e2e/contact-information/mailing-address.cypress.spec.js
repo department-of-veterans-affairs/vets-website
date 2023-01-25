@@ -76,7 +76,8 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /street address.*required/i })
     .clear()
     .type('x.com', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
+
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -88,7 +89,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByLabelText(/^Street address line 2/i)
     .clear()
     .type('www.x.blah', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -100,7 +101,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByLabelText(/^Street address line 3/i)
     .clear()
     .type('x.net', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid street address/i);
@@ -110,7 +111,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /city/i })
     .clear()
     .type('http://', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid city/i);
@@ -122,7 +123,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /state/i })
     .clear()
     .type('x.gov', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid state/i);
@@ -134,7 +135,7 @@ const confirmWebAddressesAreBlocked = () => {
   cy.findByRole('textbox', { name: /postal code/i })
     .clear()
     .type('x.edu', { delay: 1 });
-  cy.findByRole('button', { name: 'Update' }).focus();
+  cy.findByRole('button', { name: 'Save' }).focus();
   cy.findByRole('alert')
     .should('exist')
     .contains(/please enter a valid postal code/i);

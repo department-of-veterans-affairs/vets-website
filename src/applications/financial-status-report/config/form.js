@@ -15,12 +15,14 @@ import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import submitForm from './submitForm';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
+  submit: submitForm,
   submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
@@ -473,11 +475,35 @@ const formConfig = {
     householdExpensesChapter: {
       title: 'Household expenses',
       pages: {
+        expensesExplainer: {
+          path: 'expenses-explainer',
+          title: 'Household expenses explainer',
+          uiSchema: pages.expensesExplainer.uiSchema,
+          schema: pages.expensesExplainer.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
         expenses: {
           path: 'expenses',
           title: 'Expenses',
           uiSchema: pages.expenses.uiSchema,
           schema: pages.expenses.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesChecklist: {
+          path: 'household-expenses-checklist',
+          title: 'Household expenses checklist',
+          uiSchema: pages.householdExpensesChecklist.uiSchema,
+          schema: pages.householdExpensesChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesInputList: {
+          path: 'household-expenses-values',
+          title: 'Household expenses values',
+          uiSchema: pages.householdExpensesInputList.uiSchema,
+          schema: pages.householdExpensesInputList.schema,
+          depends: formData =>
+            formData.expenses?.expenseRecords?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         utilities: {
           path: 'utilities',
@@ -590,7 +616,18 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: ({ questions }) => questions.hasBeenAdjudicatedBankrupt,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            !formData['view:enhancedFinancialStatusReport'],
+        },
+        enhancedBankruptcyHistoryRecords: {
+          path: 'enhanced-bankruptcy-history-records',
+          title: 'Bankruptcy history',
+          uiSchema: pages.enhancedBankruptcyHistoryRecords.uiSchema,
+          schema: pages.enhancedBankruptcyHistoryRecords.schema,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            formData['view:enhancedFinancialStatusReport'],
         },
       },
     },

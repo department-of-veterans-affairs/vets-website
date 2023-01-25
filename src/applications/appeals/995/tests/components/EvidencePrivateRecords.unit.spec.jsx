@@ -12,11 +12,6 @@ import {
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 describe('<EvidencePrivateRecords>', () => {
   const validDate = getDate({ offset: { months: -2 } });
   const mockData = {
@@ -58,7 +53,6 @@ describe('<EvidencePrivateRecords>', () => {
   const setup = ({
     index = 0,
     method = '',
-    onReviewPage = false,
     data = mockData,
     goBack = () => {},
     goForward = () => {},
@@ -69,7 +63,6 @@ describe('<EvidencePrivateRecords>', () => {
       <EvidencePrivateRecords
         testingIndex={index}
         testingMethod={method}
-        onReviewPage={onReviewPage}
         data={data}
         goBack={goBack}
         goForward={goForward}
@@ -88,7 +81,7 @@ describe('<EvidencePrivateRecords>', () => {
     );
 
     // close modal by clicking method-assigned hidden button
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() =>
       expect($('va-modal', container).getAttribute('visible')).to.eq('false'),
@@ -155,7 +148,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
     await testAndCloseModal(container);
 
     expect(goSpy.called).to.be.false;
@@ -174,7 +167,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
     await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
   });
 
@@ -202,7 +195,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // back
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
 
     await waitFor(() => {
       expect(goSpy.called).to.be.false;
@@ -227,7 +220,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
     await testAndCloseModal(container);
 
     await waitFor(() => {
@@ -252,7 +245,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
     await testAndCloseModal(container);
 
     await waitFor(() => {
@@ -265,7 +258,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
   });
 
-  it('should navigate forward to private limitaion page when choosing "No" after continuing', async () => {
+  it('should navigate forward to private limitation page when choosing "No" after continuing', async () => {
     const goSpy = sinon.spy();
     const data = {
       ...mockData,
@@ -284,7 +277,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-primary', container), mouseClick);
+    fireEvent.click($('.usa-button-primary', container));
 
     await testAndCloseModal(container);
     await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
@@ -303,7 +296,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // back
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('.usa-button-secondary', container));
     // passing a negative index is okay, we're leaving the indexed pages
     await waitFor(() => expect(goSpy.calledWith(index - 1)).to.be.true);
   });
@@ -340,7 +333,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('.usa-button-secondary', container));
     await testAndCloseModal(container);
 
     await waitFor(() => {
@@ -361,7 +354,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // back
-    fireEvent.click($('.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('.usa-button-secondary', container));
     await testAndCloseModal(container);
 
     await waitFor(() => {
@@ -374,7 +367,10 @@ describe('<EvidencePrivateRecords>', () => {
   // *** ADD ANOTHER ***
   it('should navigate from zero index to a new empty facility page, of index 1, with valid data', async () => {
     const goSpy = sinon.spy();
-    const data = { ...mockData, providerFacility: [mockFacility] };
+    const data = {
+      ...mockData,
+      providerFacility: [mockFacility, {}, mockFacility2],
+    };
     const index = 0;
     const page = setup({
       index,
@@ -384,7 +380,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // add
-    fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
+    fireEvent.click($('.vads-c-action-link--green', container));
 
     await waitFor(() => {
       expect($('va-modal', container).getAttribute('visible')).to.eq('false');
@@ -393,7 +389,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
   });
 
-  it('should navigate from zero index to last entry + 1 when adding another with valid data', async () => {
+  it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
     const goSpy = sinon.spy();
     const providerFacility = [mockFacility, mockFacility2, {}];
     const data = { ...mockData, providerFacility };
@@ -406,15 +402,12 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // add
-    fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
+    fireEvent.click($('.vads-c-action-link--green', container));
 
     await waitFor(() => {
       expect($('va-modal', container).getAttribute('visible')).to.eq('false');
-      expect(
-        goSpy.calledWith(
-          `/${EVIDENCE_PRIVATE_PATH}?index=${providerFacility.length}`,
-        ),
-      ).to.be.true;
+      expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
+        .to.be.true;
     });
   });
 
@@ -474,7 +467,7 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(page);
 
     // continue
-    fireEvent.click($('.vads-c-action-link--green', container), mouseClick);
+    fireEvent.click($('.vads-c-action-link--green', container));
 
     await testAndCloseModal(container);
 
@@ -498,7 +491,7 @@ describe('<EvidencePrivateRecords>', () => {
     const dateFrom = $('va-date', container);
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() => {
       expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
@@ -517,7 +510,7 @@ describe('<EvidencePrivateRecords>', () => {
     const dateTo = $$('va-date', container)[1];
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() => {
       expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
@@ -536,7 +529,7 @@ describe('<EvidencePrivateRecords>', () => {
     const dateFrom = $('va-date', container);
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateFrom);
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() => {
       expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
@@ -555,7 +548,7 @@ describe('<EvidencePrivateRecords>', () => {
     const dateTo = $$('va-date', container)[1];
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateTo);
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() => {
       expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
@@ -575,7 +568,7 @@ describe('<EvidencePrivateRecords>', () => {
     const dateTo = $$('va-date', container)[1];
     // blur date inputs - va-text-input blur works, but not the va-date?
     // fireEvent.blur(dateTo);
-    fireEvent.click($('#test-method', container), mouseClick);
+    fireEvent.click($('#test-method', container));
 
     await waitFor(() => {
       expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);

@@ -2,27 +2,8 @@ import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import {
-  errorMessages,
-  MAX_LENGTH,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-} from '../constants';
+import { errorMessages, MAX_LENGTH } from '../constants';
 import { validateDate } from './date';
-
-export const validateEvidence = (errors, formData) => {
-  const va = formData?.[EVIDENCE_VA];
-  const priv8 = formData?.[EVIDENCE_PRIVATE];
-  const other = formData?.[EVIDENCE_OTHER];
-  if (
-    (!va || (va && !formData.locations?.length)) &&
-    (!priv8 || (priv8 && !formData.providerFacility?.length)) &&
-    (!other || (other && !formData.additionalDocuments?.length))
-  ) {
-    errors.addError(errorMessages.evidence.missing);
-  }
-};
 
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
@@ -58,9 +39,18 @@ export const validateVaToDate = (errors, data) => {
   }
 };
 
+// Check if VA evidence object is empty
+export const isEmptyVaEntry = (checkData = {}) =>
+  [
+    checkData.locationAndName || '',
+    ...(checkData.issues || []),
+    ...Object.values(checkData.evidenceDates || {}),
+  ].join('') === '';
+
 export const validateVaUnique = (errors, _data, fullData) => {
-  const locations = (fullData?.locations || []).map(
-    ({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
+  const locations = (fullData?.locations || [])
+    .filter(location => !isEmptyVaEntry(location))
+    .map(({ locationAndName, issues = [], evidenceDates = {} } = {}) =>
       [
         locationAndName || '',
         ...issues,
@@ -69,7 +59,7 @@ export const validateVaUnique = (errors, _data, fullData) => {
       ]
         .join(',')
         .toLowerCase(),
-  );
+    );
   const uniqueLocations = new Set(locations);
   if (locations.length > 1 && locations.length !== uniqueLocations.size) {
     errors.addError(errorMessages.evidence.unique);
@@ -140,6 +130,14 @@ export const validatePrivateToDate = (errors, data) => {
     errors.addError(errorMessages.endDateBeforeStart);
   }
 };
+
+export const isEmptyPrivateEntry = (checkData = {}) =>
+  [
+    checkData.providerFacilityName || '',
+    ...Object.values(checkData.providerFacilityAddress || {}),
+    ...(checkData.issues || []),
+    ...Object.values(checkData.treatmentDateRange || {}),
+  ].join('') === '';
 
 export const validatePrivateUnique = (
   errors,

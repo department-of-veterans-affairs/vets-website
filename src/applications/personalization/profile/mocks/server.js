@@ -6,6 +6,7 @@ const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const phoneNumber = require('./phone-number');
 const status = require('./status');
+const ratingInfo = require('./rating-info');
 const {
   handlePutGenderIdentitiesRoute,
   handleGetPersonalInformationRoute,
@@ -77,15 +78,8 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info': {
-    data: {
-      id: '',
-      type: 'evss_disability_compensation_form_rating_info_responses',
-      attributes: {
-        userPercentOfDisability: 40,
-      },
-    },
-  },
+  'GET /v0/disability_compensation_form/rating_info':
+    ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
   },

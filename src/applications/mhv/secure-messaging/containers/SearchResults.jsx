@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import MessageList from '../components/MessageList/MessageList';
-import CondensedSearchForm from '../components/Search/CondensedSearchForm';
+import SearchForm from '../components/Search/SearchForm';
 
-const Search = () => {
+const SearchResults = () => {
   const {
     awaitingResults,
     searchResults,
@@ -14,10 +14,6 @@ const Search = () => {
     query,
   } = useSelector(state => state.sm.search);
   const history = useHistory();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
 
   useEffect(
     () => {
@@ -54,7 +50,7 @@ const Search = () => {
       );
     }
     return (
-      <CondensedSearchForm
+      <SearchForm
         folder={folder}
         keyword={keyword}
         resultsCount={searchResults.length}
@@ -65,7 +61,7 @@ const Search = () => {
 
   return (
     <div
-      className="vads-l-grid-container search-messages"
+      className="vads-l-grid-container search-results"
       data-testid="search-messages"
     >
       <h1 className="page-title">Search results</h1>
@@ -101,4 +97,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchResults;
