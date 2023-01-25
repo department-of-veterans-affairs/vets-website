@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+// Importing from @department... is causing Cypress tests to fail.
+// import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
