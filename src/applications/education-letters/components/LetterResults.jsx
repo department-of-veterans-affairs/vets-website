@@ -17,7 +17,7 @@ export const HasLetters = ({ claimStatus }) => {
       <p className="va-introtext">
         Check this page for your decision letter for Post-9/11 GI Bill benefits.
       </p>
-      <h2>Your decision Letter</h2>
+      <h2>Your decision letter</h2>
       <div className="vads-u-margin-bottom--4">
         <h3 className="vads-u-margin-top--2">
           Your decision letter is available
