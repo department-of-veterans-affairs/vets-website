@@ -62,7 +62,7 @@ jobs:
             userid=${{ env.VETS_WEBSITE_USER_ID }}
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile
-          target: production
+          # target: production
           push: true
           # Update tags and ECR Repository
           tags: |
