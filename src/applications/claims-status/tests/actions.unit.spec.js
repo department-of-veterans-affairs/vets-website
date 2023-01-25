@@ -459,7 +459,14 @@ describe('Actions', () => {
       server.use(
         rest.post(
           `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-          (req, res, ctx) => res(ctx.status(200)),
+          (req, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.json({
+                // eslint-disable-next-line camelcase
+                job_id: ID,
+              }),
+            ),
         ),
       );
 
@@ -487,7 +494,7 @@ describe('Actions', () => {
       server.use(
         rest.post(
           `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-          (req, res, ctx) => res(ctx.status(400)),
+          (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
         ),
       );
       const thunk = submitRequest(ID);
