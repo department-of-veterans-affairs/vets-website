@@ -21,11 +21,9 @@ describe('Render letter results UI', () => {
     );
 
     expect(wrapper.text()).to.not.include(
-      'Your letter is not available to you through this tool',
+      'Your decision letter isn’t available online',
     );
-    expect(wrapper.text()).to.include(
-      'You have a letter available for you to download',
-    );
+    expect(wrapper.text()).to.include('Your decision letter is available');
     wrapper.unmount();
   });
 
@@ -38,9 +36,9 @@ describe('Render letter results UI', () => {
     );
 
     expect(wrapper.text()).to.not.include(
-      'Your letter is not available to you through this tool',
+      'Your decision letter isn’t available online',
     );
-    expect(wrapper.text()).to.include('Letter available for you to download');
+    expect(wrapper.text()).to.include('Your decision letter is available');
     wrapper.unmount();
   });
 

@@ -34,17 +34,14 @@ describe('All Field, texts and links should be validated on letters app', () => 
 
     cy.get('.va-introtext').should(
       'have.text',
-      'Download important documents about your education benefits here, including your decision letters. ',
+      'Check this page for your decision letter for Post-9/11 GI Bill benefits.',
     );
-    cy.findByTestId('form-title').should(
-      'have.text',
-      'Your VA education letter',
+    cy.findByTestId('form-title').should('have.text', 'Your decision letter');
+    cy.findByText('Your decision letter isn’t available online').should(
+      'be.visible',
     );
     cy.findByText(
-      'Your letter is not available to you through this tool',
-    ).should('be.visible');
-    cy.findByText(
-      'The letter displayed will be based on your most recent claim submission. If your decision was before August 20, 2022 – or you’re a family member or dependent – your decision letter will not be listed here. You can contact us through Ask VA to request a copy of your letter. Request your VA education letter through',
+      'Your letter won’t be here if 1 of these situations is true for you:',
     ).should('be.visible');
   });
 
@@ -63,17 +60,15 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'have.text',
       'Your VA education letter',
     );
-    cy.findByText('You have a letter available for you to download').should(
-      'be.visible',
-    );
+    cy.findByText('Your decision Letter').should('be.visible');
 
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should('be.visible');
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should(
       'have.text',
-      'Download Post-9/11 GI Bill decision letter (PDF)',
+      'Download your education decision letter (PDF)',
     );
 
-    cy.findByText('COE Decision Letter Update').should('be.visible');
+    cy.findByText('Education Decision Letter Update').should('be.visible');
 
     cy.findByText('How do I download and open a letter?').should('be.visible');
   });
