@@ -41,8 +41,6 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
-import ReceiveTextMessages from '../components/ReceiveTextMessages';
-import ReceiveTextMessagesReviewField from '../components/ReceiveTextMessagesReviewField';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
 import YesNoReviewField from '../components/YesNoReviewField';
@@ -950,8 +948,7 @@ const formConfig = {
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
-                'ui:reviewField': ReceiveTextMessagesReviewField,
-                'ui:widget': ReceiveTextMessages,
+                'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -974,6 +971,16 @@ const formConfig = {
                     }
                   },
                 ],
+                'ui:options': {
+                  widgetProps: {
+                    Yes: { 'data-info': 'yes' },
+                    No: { 'data-info': 'no' },
+                  },
+                  selectedProps: {
+                    Yes: { 'aria-describedby': 'yes' },
+                    No: { 'aria-describedby': 'no' },
+                  },
+                },
               },
             },
             'view:textMessagesAlert': {
@@ -1007,27 +1014,27 @@ const formConfig = {
                   ].isInternational,
               },
             },
-            // 'view:noMobilePhoneAlert': {
-            //   'ui:description': (
-            //     <va-alert status="warning">
-            //       <>
-            //         You can’t choose to get text message notifications because
-            //         we don’t have a mobile phone number on file for you.
-            //       </>
-            //     </va-alert>
-            //   ),
-            //   'ui:options': {
-            //     hideIf: formData =>
-            //       isValidPhone(
-            //         formData[formFields.viewPhoneNumbers][
-            //           formFields.mobilePhoneNumber
-            //         ].phone,
-            //       ) ||
-            //       formData[formFields.viewPhoneNumbers][
-            //         formFields.mobilePhoneNumber
-            //       ].isInternational,
-            //   },
-            // },
+            'view:noMobilePhoneAlert': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text message notifications because
+                    we don’t have a mobile phone number on file for you.
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
+              },
+            },
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert status="warning">
@@ -1075,16 +1082,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              // 'view:noMobilePhoneAlert': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:noMobilePhoneAlert': {
+                type: 'object',
+                properties: {},
+              },
               'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
               },
             },
-            // Can't proceed with form due to "textMessageMobilePhone", if hidden it prevents the user from moving
             required: [formFields.contactMethod],
           },
         },

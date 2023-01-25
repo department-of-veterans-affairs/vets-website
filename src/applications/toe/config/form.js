@@ -67,6 +67,8 @@ import {
   YOUR_PROFILE_URL,
 } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
+import ReceiveTextMessagesReviewField from '../components/ReceiveTextMessagesReviewField';
+import ReceiveTextMessages from '../components/ReceiveTextMessages';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1066,68 +1068,59 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications about your education benefits?',
-                'ui:widget': 'radio',
+                  'Would you like to receive text message notifications on your education benefits?',
+                'ui:reviewField': ReceiveTextMessagesReviewField,
+                'ui:widget': ReceiveTextMessages,
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field?.slice(0, 4).includes('Yes');
-                    if (!isYes) {
-                      return;
-                    }
-
-                    const { phone, isInternational } = formData[
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
+                      .mobilePhoneNumber.phone;
+                    const { isInternational } = formData[
                       formFields.viewPhoneNumbers
-                    ][formFields.mobilePhoneNumber];
+                    ].mobilePhoneNumber;
 
-                    if (!phone) {
-                      errors.addError(
-                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                      );
-                    } else if (isInternational) {
-                      errors.addError(
-                        'You can’t select that response because you have an international mobile phone number',
-                      );
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
                     }
                   },
                 ],
-                'ui:options': {
-                  widgetProps: {
-                    Yes: { 'data-info': 'yes' },
-                    No: { 'data-info': 'no' },
-                  },
-                  selectedProps: {
-                    Yes: { 'aria-describedby': 'yes' },
-                    No: { 'aria-describedby': 'no' },
-                  },
-                },
               },
             },
-            'view:noMobilePhoneAlert': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you.
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  (formData[formFields.viewReceiveTextMessages][
-                    formFields.receiveTextMessages
-                  ] &&
-                    !formData[formFields.viewReceiveTextMessages][
-                      formFields.receiveTextMessages
-                    ]
-                      .slice(0, 4)
-                      .includes('Yes')) ||
-                  isValidPhoneField(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ],
-                  ),
-              },
-            },
+            // 'view:noMobilePhoneAlert': {
+            //   'ui:description': (
+            //     <va-alert status="warning">
+            //       <>
+            //         You can’t choose to get text message notifications because
+            //         we don’t have a mobile phone number on file for you.
+            //       </>
+            //     </va-alert>
+            //   ),
+            //   'ui:options': {
+            //     hideIf: formData =>
+            //       (formData[formFields.viewReceiveTextMessages][
+            //         formFields.receiveTextMessages
+            //       ] &&
+            //         !formData[formFields.viewReceiveTextMessages][
+            //           formFields.receiveTextMessages
+            //         ]
+            //           .slice(0, 4)
+            //           .includes('Yes')) ||
+            //       isValidPhoneField(
+            //         formData[formFields.viewPhoneNumbers][
+            //           formFields.mobilePhoneNumber
+            //         ],
+            //       ),
+            //   },
+            // },
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert status="warning">
@@ -1184,10 +1177,10 @@ const formConfig = {
                   },
                 },
               },
-              'view:noMobilePhoneAlert': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:noMobilePhoneAlert': {
+              //   type: 'object',
+              //   properties: {},
+              // },
               'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
