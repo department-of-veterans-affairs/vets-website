@@ -71,7 +71,7 @@ const MessageActionButtons = props => {
 
   const displayTrashBtn = () => {
     if (
-      activeFolder?.folderId !== Constants.DefaultFolders.SENT.id ||
+      activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
       activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
     ) {
       return (
