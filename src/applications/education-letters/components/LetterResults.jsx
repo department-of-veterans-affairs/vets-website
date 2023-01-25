@@ -43,30 +43,13 @@ export const HasLetters = ({ claimStatus }) => {
           download the new decision letter in this tool.
         </p>
       </div>
-
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          Education Decision Letter Update
-        </h2>
-        <div>
-          <p className="vads-u-margin-y--0">
-            The letter displayed here may not be the most recent decision letter
-            issued. If your claim requires further clarification, a follow-up
-            decision letter will be sent to you by mail. If you have additional
-            questions, you can contact us through{' '}
-            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-              {' '}
-              Ask VA.
-            </a>
-          </p>
-        </div>
-      </va-alert>
-
       <h2>How do I download and open a letter?</h2>
       <p>
         First, you’ll need to make sure you have the latest version of Adobe
         Acrobat Reader installed on your computer. It’s free to download.{' '}
-        <a href="/">Download the latest version</a>.
+      </p>
+      <p>
+        <a href="/">Download the latest version</a> of Adobe Acrobat Reader.
       </p>
       <p>
         <strong>
@@ -94,7 +77,7 @@ export const HasLetters = ({ claimStatus }) => {
           <h3>Open Adobe Acrobat Reader.</h3>
         </li>
         <li>
-          <h3>From the File menu, and click Open.</h3>
+          <h3>Click on the File menu, and click Open.</h3>
         </li>
         <li>
           <h3>
