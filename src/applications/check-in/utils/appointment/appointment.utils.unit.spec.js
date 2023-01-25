@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import {
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
@@ -130,6 +131,48 @@ describe('check in', () => {
         ).to.equal(false);
       });
     });
+    describe('allAppointmentsCanceled', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T00:00:00.000Z';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:00:00.000Z';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T23:59:59.000Z';
+
+        return [latest, earliest, midday];
+      };
+
+      it('returns false when no appointment was canceled', () => {
+        const appointments = generateAppointments();
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when appointments are not set', () => {
+        expect(allAppointmentsCanceled(null)).to.deep.equal(false);
+      });
+      it('returns false when there are no appointments', () => {
+        expect(allAppointmentsCanceled([])).to.deep.equal(false);
+      });
+      it('returns false when some appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when status is undefined', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appt, idx) => {
+          delete appointments[idx].status;
+        });
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns true when all appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appointment, index) => {
+          appointments[index].status = 'CANCELLED BY CLINIC';
+        });
+        expect(allAppointmentsCanceled(appointments)).to.deep.equal(true);
+      });
+    });
     describe('appointmentWasCanceled', () => {
       const generateAppointments = () => {
         const earliest = createAppointment();
@@ -152,7 +195,7 @@ describe('check in', () => {
       it('returns false when there are no appointments', () => {
         expect(appointmentWasCanceled([])).to.deep.equal(false);
       });
-      it('returns true when any appointment has been canceled', () => {
+      it('returns true when some appointments have been canceled', () => {
         const appointments = generateAppointments();
         appointments[0].status = 'CANCELLED BY CLINIC';
         expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
@@ -164,12 +207,12 @@ describe('check in', () => {
         });
         expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
       });
-      it('returns true when all appointments have been canceled', () => {
+      it('returns false when all appointments have been canceled', () => {
         const appointments = generateAppointments();
-        appointments[0].status = 'CANCELLED BY CLINIC';
-        appointments[1].status = 'CANCELLED BY PATIENT';
-        appointments[0].status = 'CANCELLED BY CLINIC';
-        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+        appointments.forEach((appointment, index) => {
+          appointments[index].status = 'CANCELLED BY CLINIC';
+        });
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
       });
     });
     describe('intervalUntilNextAppointmentIneligibleForCheckin', () => {
