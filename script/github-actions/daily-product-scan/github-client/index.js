@@ -71,32 +71,27 @@ class GitHubClient {
     const commit = 'Update fields in the Product Directory JSON';
 
     try {
-      return await this.octokit
-        .createPullRequest({
-          owner: constants.owner,
-          repo: constants.repo,
-          title,
-          body,
-          base: constants.branch,
-          head,
-          forceFork: false,
-          changes: [
-            {
-              files: {
-                [constants.path]: content,
-              },
-              commit,
+      return await this.octokit.createPullRequest({
+        owner: constants.owner,
+        repo: constants.repo,
+        title,
+        body,
+        base: constants.branch,
+        head,
+        forceFork: false,
+        changes: [
+          {
+            files: {
+              [constants.path]: content,
             },
-          ],
-        })
-        .then(pr => {
-          core.exportVariable('NEW_PR_NUMBER', pr.data.number);
-          core.exportVariable('NEW_PR_URL', pr.data.html_url);
-        });
+            commit,
+          },
+        ],
+      });
     } catch (e) {
       /* eslint-disable no-console */
-
       console.log(e);
+      core.setFailed(e);
       return e;
     }
   }
