@@ -42,6 +42,7 @@ describe('VAOS VA request flow', () => {
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
     mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
+    mockVamcEhr();
   });
 
   function fillOutForm(facilitySelection) {
@@ -120,6 +121,7 @@ describe('VAOS VA request flow', () => {
     // cy.findByText('VA appointment');
     cy.findByText(/your appointment request has been submitted/i);
     cy.axeCheckBestPractice();
+    cy.wait(['@v1:get:facilities']);
   }
 
   it('should submit form successfully for a multi system user', () => {
@@ -156,52 +158,103 @@ describe('VAOS VA request flow', () => {
 });
 
 describe('VAOS VA request flow using VAOS service', () => {
+  const appointments = [
+    {
+      id: '1',
+      type: 'appointment',
+      attributes: {
+        end: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        id: '1',
+        locationId: '442HK',
+        serviceType: 'socialWork',
+        start: moment()
+          .subtract(1, 'month')
+          .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        status: 'booked',
+      },
+    },
+  ];
+  const facilities = [
+    {
+      id: '442',
+      type: 'facilities',
+      attributes: {
+        id: '442',
+        vistaSite: '442',
+        vastParent: '442',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        physicalAddress: {
+          line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+      },
+    },
+    {
+      id: '442HK',
+      type: 'facilities',
+      attributes: {
+        id: '442HK',
+        vistaSite: '983',
+        name: 'Wheatland VA Mobile Clinic',
+        physicalAddress: {
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+      },
+    },
+  ];
+
   beforeEach(() => {
     vaosSetup();
 
     mockAppointmentsApi({ apiVersion: 0 });
-    mockAppointmentsApi({ apiVersion: 2 });
+    mockAppointmentsApi({ data: appointments, apiVersion: 2 });
     mockCCEligibilityApi();
     mockClinicApi({ locations: ['983GB'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
     mockEligibilityApi({ isEligible: true });
-    mockFacilityApi({ id: '983GB', apiVersion: 2 });
-    mockFacilitiesApi({ apiVersion: 2 });
+    mockFacilitiesApi({ data: facilities, apiVersion: 2 });
     mockFeatureToggles({
       v2Requests: true,
       v2Facilities: true,
       v2DirectSchedule: true,
     });
-    mockLoginApi();
     mockPreferencesApi();
     mockVamcEhr();
+  });
+
+  it('should submit request successfully', () => {
+    mockLoginApi();
+    mockFacilityApi({ id: '442HK', apiVersion: 2 });
+    // VATS Settings
+    mockSchedulingConfigurationApi({
+      facilityIds: ['442', '442HK'],
+      typeOfCareId: 'socialWork',
+      isRequest: true,
+    });
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
-  });
-
-  it('should submit request successfully', () => {
-    mockLoginApi();
-    mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
-    // VATS Settings
-    mockSchedulingConfigurationApi({
-      facilityIds: ['983', '983GB'],
-      typeOfCareId: 'socialWork',
-      isRequest: true,
-    });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');
 
     // Choose VA Facility
-    cy.url().should('include', '/va-facility');
+    cy.url().should('include', '/va-facility-2');
     cy.axeCheckBestPractice();
     cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
 
-    cy.findByLabelText(/Sidney/)
+    cy.findByLabelText(/Wheatland VA Mobile Clinic/)
       .focus()
       .click();
     cy.findByText(/Continue/).click();
@@ -233,7 +286,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       const { body } = xhr.request;
       cy.assertRequestedPeriod(body.requestedPeriods[0].start);
 
-      expect(body.locationId).to.eq('983GB');
+      expect(body.locationId).to.eq('442HK');
       expect(body).to.have.property('serviceType', 'socialWork');
       expect(body).to.have.property('kind', 'clinic');
       expect(body.contact.telecom[1].value).to.equal('veteran@gmail.com');
@@ -245,64 +298,9 @@ describe('VAOS VA request flow using VAOS service', () => {
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
-    const appointments = [
-      {
-        id: '1',
-        type: 'appointment',
-        attributes: {
-          end: moment()
-            .subtract(1, 'month')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          id: '1',
-          locationId: '442HK',
-          serviceType: 'socialWork',
-          start: moment()
-            .subtract(1, 'month')
-            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
-          status: 'booked',
-        },
-      },
-    ];
-    const facilities = [
-      {
-        id: '442',
-        type: 'facilities',
-        attributes: {
-          id: '442',
-          vistaSite: '442',
-          vastParent: '442',
-          name: 'Cheyenne VA Medical Center',
-          classification: 'VA Medical Center (VAMC)',
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-      {
-        id: '442HK',
-        type: 'facilities',
-        attributes: {
-          id: '442HK',
-          vistaSite: '983',
-          name: 'Wheatland VA Mobile Clinic',
-          physicalAddress: {
-            line: ['2360 East Pershing Boulevard'],
-            city: 'Cheyenne',
-            state: 'WY',
-            postalCode: '82001-5356',
-          },
-        },
-      },
-    ];
-
     mockLoginApi({ cernerFacilityId: '442' });
-    mockAppointmentsApi({ data: appointments, apiVersion: 2 });
-    mockFacilitiesApi({ data: facilities, apiVersion: 2 });
     mockSchedulingConfigurationApi({
-      facilityIds: ['442'],
+      facilityIds: ['442HK'],
       typeOfCareId: 'socialWork',
       isDirect: true,
     });
@@ -313,9 +311,7 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
-    cy.wait('@drupal-source-of-truth').then(interception => {
-      cy.task('log', JSON.stringify(interception));
-    });
+    cy.wait('@drupal-source-of-truth');
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');

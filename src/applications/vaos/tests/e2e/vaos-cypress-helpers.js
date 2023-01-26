@@ -24,6 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
+import { getRealFacilityId } from '../../utils/appointment';
 
 const mockUser = {
   data: {
@@ -479,7 +480,7 @@ export function mockAppointmentsApi({
           createPastVAAppointments().data,
         );
         req.reply({
-          appointments,
+          data: appointments,
         });
       },
     ).as('v0:get:appointments:va');
@@ -731,7 +732,7 @@ export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
         //   data: facilityData.data.filter(f => f.id === 'vha_442GC'),
         // });
         // const f = facilities.data.slice(0);
-        req.reply({ filteredFacilities });
+        req.reply({ data: filteredFacilities });
       },
     ).as(`v1:get:facilities`);
   } else if (apiVersion === 2) {
@@ -771,7 +772,11 @@ export function mockSchedulingConfigurationApi({
 
       if (facilityIds && typeOfCareId) {
         data = schedulingConfigurations.data
-          .filter(facility => facilityIds.some(id => id === facility.id))
+          .filter(facility =>
+            facilityIds.some(id => {
+              return id === getRealFacilityId(facility.id);
+            }),
+          )
           .map(facility => {
             const services = facility.attributes.services
               .map(
@@ -789,8 +794,10 @@ export function mockSchedulingConfigurationApi({
 
             return {
               ...facility,
+              id: getRealFacilityId(facility.id),
               attributes: {
                 ...facility.attributes,
+                facililtyId: getRealFacilityId(facility.id),
                 services,
               },
             };
