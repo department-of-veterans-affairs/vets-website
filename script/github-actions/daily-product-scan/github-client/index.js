@@ -94,6 +94,9 @@ class GitHubClient {
           core.exportVariable('NEW_PR_URL', pr.data.html_url);
         });
     } catch (e) {
+      /* eslint-disable no-console */
+
+      console.log(e);
       return e;
     }
   }
