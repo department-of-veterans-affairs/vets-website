@@ -12,7 +12,7 @@ import { optionalNumberBetween } from '~/applications/personalization/common/pro
 
 export const ConditionalProcessList = ({ children }) => {
   return (
-    <ol className="va-account-security-process-list vads-u-margin-top--4">
+    <ol className="va-conditional-process-list vads-u-margin-top--4 vads-u-padding-x--3 medium-screen:vads-u-padding-x--5">
       {children}
     </ol>
   );
@@ -79,7 +79,7 @@ HeadingComplete.propTypes = {
   headingLevel: optionalNumberBetween(1, 6),
 };
 
-const HeadingIncomplete = ({ children, headingLevel }) => {
+const HeadingIncomplete = ({ children, headingLevel = 3 }) => {
   const complete = useComplete();
   const Heading = `h${headingLevel}`;
   return !complete ? (
