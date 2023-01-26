@@ -16,7 +16,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
     );
     cy.findByTestId('form-title').should(
       'have.text',
-      'Your VA education letter',
+      'Download your VA education letter',
     );
     cy.findByText('Who can download VA education letters?').should(
       'be.visible',
@@ -58,9 +58,11 @@ describe('All Field, texts and links should be validated on letters app', () => 
     cy.url().should('include', '/education/download-letters/letters');
     cy.findByTestId('form-title').should(
       'have.text',
-      'Your VA education letter',
+      'Download your VA education decision letter',
     );
-    cy.findByText('Your decision letter').should('be.visible');
+    cy.findByText('Download your education decision letter').should(
+      'be.visible',
+    );
 
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should('be.visible');
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should(
