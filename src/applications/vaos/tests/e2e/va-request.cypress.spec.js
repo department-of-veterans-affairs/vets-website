@@ -1,3 +1,4 @@
+import moment from 'moment/moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   vaosSetup,
@@ -41,7 +42,6 @@ describe('VAOS VA request flow', () => {
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
     mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
-    mockVamcEhr();
   });
 
   function fillOutForm(facilitySelection) {
@@ -153,47 +153,6 @@ describe('VAOS VA request flow', () => {
 
     cy.axeCheckBestPractice();
   });
-
-  it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
-    mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-      v2DirectSchedule: true,
-    });
-    mockLoginApi({ cernerFacilityId: '442' });
-    mockAppointmentsApi({ apiVersion: 2 });
-    mockFacilitiesApi({ apiVersion: 2 });
-    mockSchedulingConfigurationApi({
-      facilityIds: ['442'],
-    });
-    mockGetEligibility();
-
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
-
-    // Start flow
-    cy.findByText('Start scheduling').click({ waitForAnimations: true });
-    cy.wait('@drupal-source-of-truth').then(interception => {
-      cy.task('log', JSON.stringify(interception));
-    });
-
-    // Choose Type of Care
-    newApptTests.chooseTypeOfCareTest('Social work');
-
-    // Choose VA Facility
-    cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
-    cy.axeCheckBestPractice();
-    cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
-    cy.findByLabelText(/Wheatland VA Mobile Clinic/)
-      .focus()
-      .click();
-    cy.findByText(/Continue/).click();
-
-    cy.url().should('include', '/how-to-schedule');
-    cy.findByText(/Wheatland VA Mobile Clinic/i);
-    cy.findByText(/To schedule an appointment online at this facility/);
-    cy.axeCheckBestPractice();
-  });
 });
 
 describe('VAOS VA request flow using VAOS service', () => {
@@ -215,6 +174,8 @@ describe('VAOS VA request flow using VAOS service', () => {
     });
     mockLoginApi();
     mockPreferencesApi();
+    mockVamcEhr();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
@@ -238,6 +199,8 @@ describe('VAOS VA request flow using VAOS service', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
+    cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
+
     cy.findByLabelText(/Sidney/)
       .focus()
       .click();
@@ -279,5 +242,96 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.url().should('include', '/requests/mock1');
     cy.findByText('VA appointment');
     cy.findByText(/your appointment request has been submitted/i);
+  });
+
+  it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
+    const appointments = [
+      {
+        id: '1',
+        type: 'appointment',
+        attributes: {
+          end: moment()
+            .subtract(1, 'month')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          id: '1',
+          locationId: '442HK',
+          serviceType: 'socialWork',
+          start: moment()
+            .subtract(1, 'month')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          status: 'booked',
+        },
+      },
+    ];
+    const facilities = [
+      {
+        id: '442',
+        type: 'facilities',
+        attributes: {
+          id: '442',
+          vistaSite: '442',
+          vastParent: '442',
+          name: 'Cheyenne VA Medical Center',
+          classification: 'VA Medical Center (VAMC)',
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+      {
+        id: '442HK',
+        type: 'facilities',
+        attributes: {
+          id: '442HK',
+          vistaSite: '983',
+          name: 'Wheatland VA Mobile Clinic',
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+    ];
+
+    mockLoginApi({ cernerFacilityId: '442' });
+    mockAppointmentsApi({ data: appointments, apiVersion: 2 });
+    mockFacilitiesApi({ data: facilities, apiVersion: 2 });
+    mockSchedulingConfigurationApi({
+      facilityIds: ['442'],
+      typeOfCareId: 'socialWork',
+      isDirect: true,
+    });
+    mockGetEligibility();
+
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+
+    // Start flow
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
+    cy.wait('@drupal-source-of-truth').then(interception => {
+      cy.task('log', JSON.stringify(interception));
+    });
+
+    // Choose Type of Care
+    newApptTests.chooseTypeOfCareTest('Social work');
+
+    // Choose VA Facility
+    cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
+    cy.axeCheckBestPractice();
+    cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
+    cy.findByLabelText(/Wheatland VA Mobile Clinic/)
+      .focus()
+      .click();
+    cy.findByText(/Continue/).click();
+
+    cy.url().should('include', '/how-to-schedule');
+    cy.findByText(/Wheatland VA Mobile Clinic/i);
+    cy.findByText(/To schedule an appointment online at this facility/);
+    cy.axeCheckBestPractice();
   });
 });

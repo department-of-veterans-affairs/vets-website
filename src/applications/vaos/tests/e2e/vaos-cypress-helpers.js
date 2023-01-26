@@ -135,96 +135,6 @@ const mockUser = {
   },
 };
 
-const cernerFacilities = {
-  data: [
-    {
-      id: '442',
-      type: 'facilities',
-      attributes: {
-        id: '442',
-        vistaSite: '442',
-        vastParent: '442',
-        type: 'va_facilities',
-        name: 'Cheyenne VA Medical Center',
-        classification: 'VA Medical Center (VAMC)',
-        timezone: null,
-        lat: 41.148179,
-        long: -104.786159,
-        website: 'https://www.cheyenne.va.gov/locations/directions.asp',
-        phone: {
-          main: '307-778-7550',
-          fax: '307-778-7381',
-          pharmacy: '866-420-6337',
-          afterHours: '307-778-7550',
-          patientAdvocate: '307-778-7550 x7517',
-          mentalHealthClinic: '307-778-7349',
-          enrollmentCoordinator: '307-778-7550 x7579',
-        },
-        hoursOfOperation: null,
-        mailingAddress: null,
-        physicalAddress: {
-          type: 'physical',
-          line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
-          city: 'Cheyenne',
-          state: 'WY',
-          postalCode: '82001-5356',
-        },
-        mobile: false,
-        healthService: [
-          'Audiology',
-          'Cardiology',
-          'DentalServices',
-          'EmergencyCare',
-          'Gastroenterology',
-          'Gynecology',
-          'MentalHealthCare',
-          'Nutrition',
-          'Ophthalmology',
-          'Optometry',
-          'Orthopedics',
-          'Podiatry',
-          'PrimaryCare',
-          'SpecialtyCare',
-          'UrgentCare',
-          'Urology',
-          'WomensHealth',
-        ],
-        operatingStatus: { code: 'NORMAL' },
-      },
-    },
-    {
-      id: '442HK',
-      type: 'facilities',
-      attributes: {
-        id: '442HK',
-        vistaSite: '983',
-        vastParent: null,
-        type: 'va_health_facility',
-        name: 'Wheatland VA Mobile Clinic',
-        classification: 'Other Outpatient Services (OOS)',
-        timezone: null,
-        lat: null,
-        long: null,
-        website:
-          'https://www.cheyenne.va.gov/locations/Wheatland_VA_Mobile_Clinic.asp',
-        phone: { main: '307-778-7550' },
-        hoursOfOperation: null,
-        mailingAddress: null,
-        physicalAddress: {
-          type: 'physical',
-          line: ['2360 East Pershing Boulevard'],
-          city: 'Cheyenne',
-          state: 'WY',
-          postalCode: '82001-5356',
-        },
-        mobile: null,
-        healthService: null,
-        operatingStatus: null,
-      },
-    },
-  ],
-};
-
 function createPastVAAppointments() {
   const appointments = [];
   let appointment = getVAAppointmentMock();
@@ -553,6 +463,7 @@ export function mockCCProvidersApi() {
 }
 
 export function mockAppointmentsApi({
+  data,
   status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
@@ -564,11 +475,11 @@ export function mockAppointmentsApi({
         query: { start_date: '*', end_date: '*', type: 'va' },
       },
       req => {
-        const data = updateConfirmedVADates(confirmedVA).data.concat(
+        const appointments = updateConfirmedVADates(confirmedVA).data.concat(
           createPastVAAppointments().data,
         );
         req.reply({
-          data,
+          appointments,
         });
       },
     ).as('v0:get:appointments:va');
@@ -616,7 +527,9 @@ export function mockAppointmentsApi({
         },
       },
       req => {
-        if (status === APPOINTMENT_STATUS.booked) {
+        if (data) {
+          req.reply({ data });
+        } else if (status === APPOINTMENT_STATUS.booked) {
           req.reply({
             data: confirmedV2.data,
           });
@@ -778,7 +691,7 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
   }
 }
 
-export function mockFacilitiesApi({ count, apiVersion = 0 }) {
+export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
   if (apiVersion === 0) {
     cy.intercept(
       {
@@ -804,7 +717,7 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
       },
       req => {
         const tokens = req.query.ids.split(',');
-        let data = tokens.map(token => {
+        let filteredFacilities = tokens.map(token => {
           // NOTE: Convert test facility ids to real ids
           return facilityData.data.find(f => {
             return f.id === token.replace('983', '442').replace('984', '552');
@@ -812,13 +725,13 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
         });
 
         // Remove 'falsey' values
-        data = data.filter(Boolean);
+        filteredFacilities = filteredFacilities.filter(Boolean);
         // TODO: remove the harded coded id.
         // req.reply({
         //   data: facilityData.data.filter(f => f.id === 'vha_442GC'),
         // });
         // const f = facilities.data.slice(0);
-        req.reply({ data });
+        req.reply({ filteredFacilities });
       },
     ).as(`v1:get:facilities`);
   } else if (apiVersion === 2) {
@@ -832,8 +745,11 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
         },
       },
       req => {
-        // req.reply(facilitiesV2);
-        req.reply(cernerFacilities);
+        if (data) {
+          req.reply({ data });
+        } else {
+          req.reply(facilitiesV2);
+        }
       },
     ).as('v2:get:facilities');
   }
