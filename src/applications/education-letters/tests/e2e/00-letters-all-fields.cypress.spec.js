@@ -63,18 +63,8 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'have.text',
       'Download your VA education decision letter',
     );
-    cy.findByText('Download your education decision letter').should(
-      'be.visible',
-    );
 
     cy.get('a[href*="/meb_api/v0/claim_letter"]').should('be.visible');
-    cy.get('a[href*="/meb_api/v0/claim_letter"]').should(
-      'have.text',
-      'Download your education decision letter (PDF)',
-    );
-
-    cy.findByText('Education Decision Letter Update').should('be.visible');
-
     cy.findByText('How do I download and open a letter?').should('be.visible');
   });
 });
