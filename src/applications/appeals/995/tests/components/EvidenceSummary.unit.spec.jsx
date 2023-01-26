@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
@@ -126,25 +126,17 @@ describe('<EvidenceSummary>', () => {
     expect($('a.vads-c-action-link--green', container)).to.exist;
   });
 
-  it('should render missing evidence alert after submission', () => {
+  it('should render missing evidence alert', () => {
     const { container } = setupSummary({
       vaMR: false,
       privateMR: false,
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="false"]', container)).to.exist;
-    expect($$('h3', container).length).to.eq(0);
+    expect($('va-alert[status="warning"][visible="true"]', container)).to.exist;
+    expect($$('va-alert h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.exist;
-
-    // alert shows after trying to submit
-    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-    waitFor(
-      () =>
-        expect($('va-alert[status="error"][visible="true"]', container)).to
-          .exist,
-    );
   });
 
   it('should include the correct edit URL links', () => {
