@@ -31,7 +31,7 @@ const testConfig = createTestConfig(
       start: () => {
         cy.get('@testData').then(() => {
           // wizard
-          cy.get('[type="radio"][value="compensation"]').click();
+          cy.get('va-radio-option[value="compensation"]').click();
           cy.axeCheck();
           cy.findByText(/review online/i, { selector: 'a' }).click();
         });

@@ -91,7 +91,7 @@ describe('helpers', () => {
 
       // Paused if we're past the payment paused date (the 25th)
       expect(paymentsPaused).to.eql(
-        now.getDate() > PAYMENT_PAUSED_DAY_OF_MONTH,
+        now.getDate() >= PAYMENT_PAUSED_DAY_OF_MONTH,
       );
     });
 
