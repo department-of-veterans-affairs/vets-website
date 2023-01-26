@@ -164,7 +164,7 @@ describe('VAOS VA request flow', () => {
     mockAppointmentsApi({ apiVersion: 2 });
     mockFacilitiesApi({ apiVersion: 2 });
     mockSchedulingConfigurationApi({
-      facilityIds: ['983'],
+      facilityIds: ['442'],
     });
     mockGetEligibility();
 
@@ -183,7 +183,7 @@ describe('VAOS VA request flow', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
-    cy.get('#test-rk-1').then(el => cy.task('log', el.text()));
+    cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
     cy.findByLabelText(/Wheatland VA Mobile Clinic/)
       .focus()
       .click();

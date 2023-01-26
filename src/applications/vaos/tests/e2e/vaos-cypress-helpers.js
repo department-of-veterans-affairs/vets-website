@@ -135,6 +135,96 @@ const mockUser = {
   },
 };
 
+const cernerFacilities = {
+  data: [
+    {
+      id: '442',
+      type: 'facilities',
+      attributes: {
+        id: '442',
+        vistaSite: '442',
+        vastParent: '442',
+        type: 'va_facilities',
+        name: 'Cheyenne VA Medical Center',
+        classification: 'VA Medical Center (VAMC)',
+        timezone: null,
+        lat: 41.148179,
+        long: -104.786159,
+        website: 'https://www.cheyenne.va.gov/locations/directions.asp',
+        phone: {
+          main: '307-778-7550',
+          fax: '307-778-7381',
+          pharmacy: '866-420-6337',
+          afterHours: '307-778-7550',
+          patientAdvocate: '307-778-7550 x7517',
+          mentalHealthClinic: '307-778-7349',
+          enrollmentCoordinator: '307-778-7550 x7579',
+        },
+        hoursOfOperation: null,
+        mailingAddress: null,
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: false,
+        healthService: [
+          'Audiology',
+          'Cardiology',
+          'DentalServices',
+          'EmergencyCare',
+          'Gastroenterology',
+          'Gynecology',
+          'MentalHealthCare',
+          'Nutrition',
+          'Ophthalmology',
+          'Optometry',
+          'Orthopedics',
+          'Podiatry',
+          'PrimaryCare',
+          'SpecialtyCare',
+          'UrgentCare',
+          'Urology',
+          'WomensHealth',
+        ],
+        operatingStatus: { code: 'NORMAL' },
+      },
+    },
+    {
+      id: '442HK',
+      type: 'facilities',
+      attributes: {
+        id: '442HK',
+        vistaSite: '983',
+        vastParent: null,
+        type: 'va_health_facility',
+        name: 'Wheatland VA Mobile Clinic',
+        classification: 'Other Outpatient Services (OOS)',
+        timezone: null,
+        lat: null,
+        long: null,
+        website:
+          'https://www.cheyenne.va.gov/locations/Wheatland_VA_Mobile_Clinic.asp',
+        phone: { main: '307-778-7550' },
+        hoursOfOperation: null,
+        mailingAddress: null,
+        physicalAddress: {
+          type: 'physical',
+          line: ['2360 East Pershing Boulevard'],
+          city: 'Cheyenne',
+          state: 'WY',
+          postalCode: '82001-5356',
+        },
+        mobile: null,
+        healthService: null,
+        operatingStatus: null,
+      },
+    },
+  ],
+};
+
 function createPastVAAppointments() {
   const appointments = [];
   let appointment = getVAAppointmentMock();
@@ -742,7 +832,8 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
         },
       },
       req => {
-        req.reply(facilitiesV2);
+        // req.reply(facilitiesV2);
+        req.reply(cernerFacilities);
       },
     ).as('v2:get:facilities');
   }
