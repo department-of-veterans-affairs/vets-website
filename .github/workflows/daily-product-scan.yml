@@ -1,6 +1,7 @@
 on:
-  schedule:
-    - cron: '0 12 * * 1-5'
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
+  push
 
 name: Daily Product Scan
 
@@ -48,6 +49,13 @@ jobs:
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
+      - name: Add PR Labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "vfs-product-directory"
+          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "update-request"
+
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
         uses: ./.github/workflows/slack-notify
@@ -58,3 +66,10 @@ jobs:
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Auto-merge update PR
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          event-type: merge_auto_updates
+          repository: department-of-veterans-affairs/product-directory

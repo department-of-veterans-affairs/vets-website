@@ -1,7 +1,7 @@
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
 const { createPullRequest } = require('octokit-plugin-create-pull-request');
-
+const core = require('@actions/core');
 const githubAppCredentials = require('./github-app-credentials');
 const constants = require('./constants');
 const { getDateTime } = require('./helpers');
@@ -71,23 +71,28 @@ class GitHubClient {
     const commit = 'Update fields in the Product Directory JSON';
 
     try {
-      return await this.octokit.createPullRequest({
-        owner: constants.owner,
-        repo: constants.repo,
-        title,
-        body,
-        base: constants.branch,
-        head,
-        forceFork: false,
-        changes: [
-          {
-            files: {
-              [constants.path]: content,
+      return await this.octokit
+        .createPullRequest({
+          owner: constants.owner,
+          repo: constants.repo,
+          title,
+          body,
+          base: constants.branch,
+          head,
+          forceFork: false,
+          changes: [
+            {
+              files: {
+                [constants.path]: content,
+              },
+              commit,
             },
-            commit,
-          },
-        ],
-      });
+          ],
+        })
+        .then(pr => {
+          core.exportVariable('NEW_PR_NUMBER', pr.data.number);
+          core.exportVariable('NEW_PR_URL', pr.data.html_url);
+        });
     } catch (e) {
       return e;
     }
