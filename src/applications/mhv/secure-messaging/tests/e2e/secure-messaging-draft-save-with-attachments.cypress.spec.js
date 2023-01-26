@@ -69,6 +69,15 @@ describe('Secure Messaging Draft Save with Attachments', () => {
         subject: 'test Draft Save with Attachments',
         body: 'ststASertTesting Save Drafts with Attachments',
       });
+    // Assertion of network response including attachment:false
+
+    cy.get('@draft_message')
+      .its('response')
+      .then(res => {
+        expect(res.body.data.attributes).to.include({
+          attachment: false,
+        });
+      });
 
     cy.get('[visible=""] > p').should(
       'contain',
