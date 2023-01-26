@@ -36,7 +36,10 @@ describe('All Field, texts and links should be validated on letters app', () => 
       'have.text',
       'Check this page for your decision letter for Post-9/11 GI Bill benefits. Your decision letter isn’t available online ',
     );
-    cy.findByTestId('form-title').should('have.text', 'Your decision letter');
+    cy.findByTestId('form-title').should(
+      'have.text',
+      'Download your education decision letter',
+    );
     cy.findByText('Your decision letter isn’t available online').should(
       'be.visible',
     );
