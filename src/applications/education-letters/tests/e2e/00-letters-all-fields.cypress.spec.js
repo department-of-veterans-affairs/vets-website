@@ -16,7 +16,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
     );
     cy.findByTestId('form-title').should(
       'have.text',
-      'Download your VA education letter',
+      'Your VA education letter',
     );
     cy.findByText('Who can download VA education letters?').should(
       'be.visible',
@@ -34,7 +34,7 @@ describe('All Field, texts and links should be validated on letters app', () => 
 
     cy.get('.va-introtext').should(
       'have.text',
-      'Check this page for your decision letter for Post-9/11 GI Bill benefits.',
+      'Check this page for your decision letter for Post-9/11 GI Bill benefits. Your decision letter isn’t available online ',
     );
     cy.findByTestId('form-title').should('have.text', 'Your decision letter');
     cy.findByText('Your decision letter isn’t available online').should(
