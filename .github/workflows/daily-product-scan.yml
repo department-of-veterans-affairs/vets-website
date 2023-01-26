@@ -53,8 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "vfs-product-directory"
-          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "update-request"
+          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
