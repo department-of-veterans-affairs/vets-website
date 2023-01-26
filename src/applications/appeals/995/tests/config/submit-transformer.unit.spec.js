@@ -4,16 +4,26 @@ import formConfig from '../../config/form';
 
 import { transform } from '../../config/submit-transformer';
 
-import maximalDataV2 from '../fixtures/data/maximal-test.json';
-import transformedMaximalDataV2 from '../fixtures/data/transformed-maximal-test.json';
+import maximalData from '../fixtures/data/maximal-test.json';
+import transformedMaximalData from '../fixtures/data/transformed-maximal-test.json';
 
-// skip until we add 4142 transforms
-describe.skip('transform', () => {
-  it('should transform v2 maximal-test.json correctly', () => {
-    const transformedResult = JSON.parse(transform(formConfig, maximalDataV2));
+import noEvidence from '../fixtures/data/no-evidence-test.json';
+import transformedNoEvidence from '../fixtures/data/transformed-no-evidence-test.json';
+
+describe('transform', () => {
+  it('should transform maximal-test.json correctly', () => {
+    const transformedResult = JSON.parse(transform(formConfig, maximalData));
     // copy over variables that change based on date & location
     transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
 
-    expect(transformedResult).to.deep.equal(transformedMaximalDataV2);
+    expect(transformedResult).to.deep.equal(transformedMaximalData);
+  });
+
+  it('should transform no evidence test correctly', () => {
+    const transformedResult = JSON.parse(transform(formConfig, noEvidence));
+    // copy over variables that change based on date & location
+    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
+
+    expect(transformedResult).to.deep.equal(transformedNoEvidence);
   });
 });

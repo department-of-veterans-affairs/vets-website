@@ -32,6 +32,7 @@ import {
   validatePrivateFromDate,
   validatePrivateToDate,
   validatePrivateUnique,
+  isEmptyPrivateEntry,
 } from '../validations/evidence';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
@@ -72,7 +73,6 @@ const defaultState = {
 
 const EvidencePrivateRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -125,6 +125,7 @@ const EvidencePrivateRecords = ({
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
+
   const focusErrors = () => {
     if (hasErrors()) {
       focusElement('[error]');
@@ -199,6 +200,16 @@ const EvidencePrivateRecords = ({
     goToPath(`${PRIVATE_PATH}?index=${index}`);
   };
 
+  const addAndGoToPageIndex = index => {
+    const newProviderFacility = [...providerFacility];
+    if (!isEmptyPrivateEntry(providerFacility[index])) {
+      // only insert a new entry if the existing entry isn't empty
+      newProviderFacility.splice(index, 0, {});
+    }
+    setFormData({ ...data, providerFacility: newProviderFacility });
+    goToPageIndex(index);
+  };
+
   const handlers = {
     onBlur: event => {
       const fieldName = event.target.getAttribute('name');
@@ -241,8 +252,11 @@ const EvidencePrivateRecords = ({
         focusElement('[error]');
         return;
       }
-      // clear state and start over for new entry
-      goToPageIndex(providerFacility.length); // add to end
+      // clear state and insert a new entry after the current index (previously
+      // added new entry to the end). This change prevents the situation where
+      // an invalid entry in the middle of the array can get bypassed by adding
+      // a new entry
+      addAndGoToPageIndex(currentIndex + 1);
     },
 
     onGoForward: event => {
@@ -360,20 +374,6 @@ const EvidencePrivateRecords = ({
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <FormNavButtons
-        goBack={handlers.onGoBack}
-        goForward={handlers.onGoForward}
-      />
-      {contentAfterButtons}
-    </>
-  );
-
   const hasStates =
     states[(currentData.providerFacilityAddress?.country)] || [];
 
@@ -413,6 +413,7 @@ const EvidencePrivateRecords = ({
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
+          autocomplete="section-provider name"
         />
 
         <VaSelect
@@ -442,6 +443,7 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('street')}
+          autocomplete="section-provider address-line1"
         />
         <VaTextInput
           id="street2"
@@ -450,6 +452,7 @@ const EvidencePrivateRecords = ({
           label={content.addressLabels.street2}
           value={currentData.providerFacilityAddress?.street2}
           onInput={handlers.onChange}
+          autocomplete="section-provider address-line2"
         />
         <VaTextInput
           id="city"
@@ -461,6 +464,7 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('city')}
+          autocomplete="section-provider address-level2"
         />
         {hasStates.length ? (
           <VaSelect
@@ -491,6 +495,7 @@ const EvidencePrivateRecords = ({
             onInput={handlers.onChange}
             onBlur={handlers.onBlur}
             error={showError('state')}
+            autocomplete="section-provider address-level1"
           />
         )}
 
@@ -504,6 +509,8 @@ const EvidencePrivateRecords = ({
           onInput={handlers.onChange}
           onBlur={handlers.onBlur}
           error={showError('postal')}
+          inputmode="numeric"
+          autocomplete="section-provider postal-code"
         />
 
         <br />
@@ -556,7 +563,15 @@ const EvidencePrivateRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <FormNavButtons
+            goBack={handlers.onGoBack}
+            goForward={handlers.onGoForward}
+          />
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -591,7 +606,6 @@ EvidencePrivateRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRecords;

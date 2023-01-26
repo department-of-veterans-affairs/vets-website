@@ -20,7 +20,7 @@ const ManageFolderButtons = () => {
   const location = useLocation();
   const [folderId, setFolderId] = useState(null);
   const folders = useSelector(state => state.sm.folders.folderList);
-  const messages = useSelector(state => state.sm.messages?.messageList);
+  const messages = useSelector(state => state.sm.messages.messageList);
   const folder = useSelector(state => state.sm.folders.folder);
   const [isEmptyWarning, setIsEmptyWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState('');
@@ -39,12 +39,12 @@ const ManageFolderButtons = () => {
   );
 
   const openDelModal = () => {
-    if (messages.length > 0) {
+    if (messages?.length > 0) {
       setIsEmptyWarning(true);
     } else {
       setIsEmptyWarning(false);
+      setDeleteModal(true);
     }
-    setDeleteModal(true);
   };
 
   const closeDelModal = () => {
@@ -95,6 +95,7 @@ const ManageFolderButtons = () => {
       {folder.folderId > 0 && (
         // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
         <div className="manage-folder-container">
+          {/* TODO add GA event for both buttons */}
           <button
             type="button"
             className="left-button usa-button-secondary"
@@ -114,10 +115,12 @@ const ManageFolderButtons = () => {
       {isEmptyWarning && (
         <VaModal
           className="modal"
-          visible={deleteModal}
+          visible={isEmptyWarning}
           large="true"
           modalTitle="Empty this folder before removing it from the list."
-          onCloseEvent={closeDelModal}
+          onCloseEvent={() => {
+            setIsEmptyWarning(false);
+          }}
           status="warning"
         >
           <p>

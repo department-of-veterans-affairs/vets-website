@@ -5,11 +5,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
-  getSession: async ({
-    token,
-    checkInType,
-    isLorotaSecurityUpdatesEnabled = false,
-  }) => {
+  getSession: async ({ token, checkInType }) => {
     const url = '/check_in/v2/sessions/';
     let requestUrl = `${environment.API_URL}${url}${token}`;
     if (checkInType) {
@@ -17,9 +13,7 @@ const v2 = {
         checkInType,
       });
     }
-    const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
-      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
-    }`;
+    const eventLabel = `${checkInType || 'day-of'}-get-current-session-dob`;
 
     const json = await makeApiCallWithSentry(
       apiRequest(requestUrl),
@@ -30,35 +24,17 @@ const v2 = {
       ...json,
     };
   },
-  postSession: async ({
-    lastName,
-    last4,
-    dob,
-    token,
-    checkInType = '',
-    isLorotaSecurityUpdatesEnabled = false,
-  }) => {
+  postSession: async ({ lastName, dob, token, checkInType = '' }) => {
     const url = '/check_in/v2/sessions/';
     const headers = { 'Content-Type': 'application/json' };
-    let data = {
+    const data = {
       session: {
         uuid: token,
-        last4: last4.trim(),
+        dob,
         lastName: lastName.trim(),
         checkInType,
       },
     };
-    if (isLorotaSecurityUpdatesEnabled) {
-      data = {
-        session: {
-          uuid: token,
-          dob,
-          lastName: lastName.trim(),
-          checkInType,
-        },
-      };
-    }
-
     const body = JSON.stringify(data);
     const settings = {
       headers,
@@ -67,9 +43,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const eventLabel = `${checkInType || 'day-of'}-validating-user-${
-      isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
-    }`;
+    const eventLabel = `${checkInType || 'day-of'}-validating-user-dob`;
 
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}`, settings),

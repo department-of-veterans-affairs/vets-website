@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import EvidenceSummary from '../../components/EvidenceSummary';
+import { content } from '../../content/evidenceSummary';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
@@ -13,13 +14,8 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_OTHER_PATH,
+  EVIDENCE_UPLOAD_PATH,
 } from '../../constants';
-
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -115,6 +111,7 @@ describe('<EvidenceSummary>', () => {
     expect($$('h3', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(2);
   });
 
   it('should render only one section', () => {
@@ -123,7 +120,7 @@ describe('<EvidenceSummary>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"]', container)).to.not.exist;
+    expect($('va-alert[visible="true"]', container)).to.not.exist;
     expect($$('h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.exist;
@@ -136,8 +133,8 @@ describe('<EvidenceSummary>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"]', container)).to.exist;
-    expect($$('h3', container).length).to.eq(0);
+    expect($('va-alert[status="warning"][visible="true"]', container)).to.exist;
+    expect($$('va-alert h3', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.exist;
   });
@@ -163,18 +160,15 @@ describe('<EvidenceSummary>', () => {
     expect(links[4].getAttribute('data-link')).to.contain(
       EVIDENCE_LIMITATION_PATH,
     );
-    expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_OTHER_PATH);
-    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_OTHER_PATH);
+    expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
+    expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
   });
 
   it('should submit page without error', () => {
     const goForward = sinon.spy();
     const { container } = setupSummary({ goForward });
 
-    fireEvent(
-      $('.form-progress-buttons .usa-button-primary', container),
-      mouseClick,
-    );
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
     expect(goForward.called).to.be.true;
   });
 
@@ -187,10 +181,7 @@ describe('<EvidenceSummary>', () => {
       goFoward,
     });
 
-    fireEvent.click(
-      $('.form-progress-buttons .usa-button-primary', container),
-      mouseClick,
-    );
+    fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
     expect(goFoward.called).to.be.false;
   });
 
@@ -205,7 +196,6 @@ describe('<EvidenceSummary>', () => {
 
     fireEvent.click(
       $('.form-progress-buttons .usa-button-secondary', container),
-      mouseClick,
     );
     expect(goBack.called).to.be.true;
   });
@@ -216,10 +206,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().locations[0];
 
     // remove second VA entry
-    fireEvent(
-      $('va-button[label="Remove VAMC Location 2"]', container),
-      mouseClick,
-    );
+    fireEvent.click($('va-button[label="Remove VAMC Location 2"]', container));
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].locations[0]).to.deep.equal(result);
   });
@@ -230,10 +217,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().providerFacility[0];
 
     // remove second private entry
-    fireEvent(
-      $('va-button[label="Remove Private Hospital"]', container),
-      mouseClick,
-    );
+    fireEvent.click($('va-button[label="Remove Private Hospital"]', container));
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].providerFacility[0]).to.deep.equal(result);
   });
@@ -244,8 +228,30 @@ describe('<EvidenceSummary>', () => {
     const result = records().additionalDocuments[0];
 
     // remove second upload entry
-    fireEvent($('va-button[label="Remove x-rays.pdf"]', container), mouseClick);
+    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].additionalDocuments[0]).to.deep.equal(result);
+  });
+
+  it('should render on review & submit in edit mode', () => {
+    const { container } = setupSummary({ onReviewPage: true });
+
+    expect($$('h4', container).length).to.eq(1);
+    expect($$('h5', container).length).to.eq(3);
+    expect($('a.vads-c-action-link--green', container)).to.exist;
+    expect($$('.form-nav-buttons button', container).length).to.eq(0);
+    expect(
+      $('.form-nav-buttons va-button', container).getAttribute('text'),
+    ).to.eq(content.update);
+  });
+  it('should call updatePage on review & submit in edit mode', () => {
+    const updateSpy = sinon.spy();
+    const { container } = setupSummary({
+      onReviewPage: true,
+      updatePage: updateSpy,
+    });
+
+    fireEvent.click($('.form-nav-buttons va-button', container));
+    expect(updateSpy.called).to.be.true;
   });
 });

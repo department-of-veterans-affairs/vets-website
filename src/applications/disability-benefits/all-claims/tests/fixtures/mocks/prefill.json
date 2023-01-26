@@ -1,0 +1,63 @@
+{
+  "formData": {
+    "veteran": {
+      "mailingAddress": {
+        "country": "USA",
+        "city": "APO",
+        "state": "AE",
+        "zipCode": "09028",
+        "addressLine1": "123 MAIN ST",
+        "addressLine2": "BEN FRANKLIN VILLAGE"
+      },
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "disabilities": [{
+      "name": "Hypertension",
+      "ratedDisabilityId": "0",
+      "ratingDecisionId": "63655",
+      "diagnosticCode": 7101,
+      "decisionCode": "SVCCONNCTED",
+      "decisionText": "Service Connected",
+      "ratingPercentage": 30
+    }, {
+      "name": "Diabetes mellitus0",
+      "ratedDisabilityId": "0",
+      "ratingDecisionId": "63655",
+      "diagnosticCode": 5238,
+      "decisionCode": "SVCCONNCTED",
+      "decisionText": "Service Connected",
+      "ratingPercentage": 100
+    }, {
+      "name": "Diabetes mellitus1",
+      "ratedDisabilityId": "1",
+      "ratingDecisionId": "63655",
+      "diagnosticCode": 5238,
+      "decisionCode": "SVCCONNCTED",
+      "decisionText": "Service Connected",
+      "ratingPercentage": 100
+    }],
+    "servicePeriods": [{
+      "serviceBranch": "Air Force Reserve",
+      "dateRange": {
+        "from": "2001-03-21",
+        "to": "2014-07-21"
+      }
+    }],
+    "reservesNationalGuardService": {
+      "obligationTermOfServiceDateRange": {
+        "from": "2007-05-22",
+        "to": "2008-06-05"
+      }
+    },
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "*********1234",
+    "bankRoutingNumber": "*****2115",
+    "bankName": "Comerica"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

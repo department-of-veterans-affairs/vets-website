@@ -414,6 +414,7 @@ export const isBDD = formData => {
 };
 
 export const hasNewPtsdDisability = formData =>
+  !isBDD(formData) &&
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
@@ -434,6 +435,7 @@ export const skip781 = formData =>
   _.get('skip781ForNonCombatReason', formData) === true;
 
 export const needsToEnter781 = formData =>
+  hasNewPtsdDisability(formData) &&
   (showPtsdCombat(formData) || showPtsdNonCombat(formData)) &&
   !skip781(formData);
 

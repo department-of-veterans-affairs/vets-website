@@ -108,6 +108,14 @@ describe('form submit transform', () => {
         });
       });
     });
+
+    describe('creates Parent or Guardian Signature', () => {
+      it('sets up parentOrGuardianSignature', () => {
+        expect(submissionObject.parentOrGuardianSignature).to.eql(
+          'John Hancock',
+        );
+      });
+    });
     describe('creates sponsor options', () => {
       it('sets up firstSponsorVaId if already set', () => {
         expect(submissionObject.sponsorOptions.firstSponsorVaId).to.eql(

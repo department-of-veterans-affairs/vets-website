@@ -7,11 +7,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
 import { EVIDENCE_PRIVATE, EVIDENCE_VA, EVIDENCE_OTHER } from '../../constants';
-
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
+import { content } from '../../content/evidenceSummary';
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -93,8 +89,8 @@ describe('<EvidenceSummaryReview>', () => {
   it('should render', () => {
     const { container } = setupSummary();
 
-    expect($('va-button.edit-page', container)).to.exist;
-    expect($$('h3', container).length).to.eq(3);
+    expect($('button.edit-page', container)).to.exist;
+    expect($$('h5', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($$('a', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
@@ -106,8 +102,7 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"]', container)).to.not.exist;
-    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
   });
@@ -119,19 +114,19 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"]', container)).to.exist;
     expect($$('h3', container).length).to.eq(0);
     expect($$('ul', container).length).to.eq(0);
     expect($$('a', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
+    expect(container.innerHTML).to.contain(content.missingEvidenceReviewText);
   });
 
   it('should call editPage callback', () => {
-    const editPage = sinon.spy();
-    const { container } = setupSummary({ editPage });
+    const editPageSpy = sinon.spy();
+    const { container } = setupSummary({ editPage: editPageSpy });
 
-    fireEvent.click($('va-button.edit-page', container), mouseClick);
+    fireEvent.click($('.edit-page', container));
 
-    expect(editPage.called).to.be.true;
+    expect(editPageSpy.called).to.be.true;
   });
 });
