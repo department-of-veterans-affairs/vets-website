@@ -88,8 +88,7 @@ class GitHubClient {
               commit,
             },
           ],
-        })
-        .then(pr => {
+        }).then(pr => {
           /* eslint-disable no-console */
 
           console.log(pr);
