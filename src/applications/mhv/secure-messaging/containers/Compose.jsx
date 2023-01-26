@@ -95,7 +95,12 @@ const Compose = () => {
         </>
       );
     }
-    return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
+    return (
+      <ComposeForm
+        draft={draftMessage}
+        recipients={triageTeams.filter(team => team.preferredTeam === true)} // remove teams that are disables in preferences on MHV
+      />
+    );
   };
 
   return (
