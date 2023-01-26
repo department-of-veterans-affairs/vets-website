@@ -183,6 +183,7 @@ describe('VAOS VA request flow', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility-2', { timeout: Timeouts.slow });
     cy.axeCheckBestPractice();
+    cy.get('#test-rk-1').then(el => cy.task('log', el.text()));
     cy.findByLabelText(/Wheatland VA Mobile Clinic/)
       .focus()
       .click();
