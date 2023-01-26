@@ -1,5 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+import { Link } from 'react-router';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -67,8 +68,6 @@ import {
   YOUR_PROFILE_URL,
 } from '../constants';
 import ObfuscateReviewField from '../ObfuscateReviewField';
-import ReceiveTextMessagesReviewField from '../components/ReceiveTextMessagesReviewField';
-import ReceiveTextMessages from '../components/ReceiveTextMessages';
 
 const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -1066,11 +1065,48 @@ const formConfig = {
                   </div>
                 </>
               ),
+              'view:noMobilePhoneAlert': {
+                'ui:description': (
+                  <va-alert
+                    background-only
+                    close-btn-aria-label="Close notification"
+                    show-icon
+                    status="warning"
+                    visible
+                  >
+                    <div>
+                      <p className="vads-u-margin-y--0">
+                        We can’t send you text message notifications because we
+                        don’t have a mobile phone number on file for you
+                      </p>
+
+                      <Link
+                        aria-label="Go back and add a mobile phone number"
+                        to={{
+                          pathname: 'phone-email',
+                          search: '?redirect',
+                        }}
+                      >
+                        <va-button
+                          onClick={() => {}}
+                          secondary
+                          text="Go back and add a mobile phone number"
+                        />
+                      </Link>
+                    </div>
+                  </va-alert>
+                ),
+                'ui:options': {
+                  hideIf: formData => {
+                    return !!formData['view:phoneNumbers']?.mobilePhoneNumber
+                      ?.phone;
+                  },
+                },
+              },
               [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
-                'ui:reviewField': ReceiveTextMessagesReviewField,
-                'ui:widget': ReceiveTextMessages,
+                'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
@@ -1095,32 +1131,6 @@ const formConfig = {
                 ],
               },
             },
-            // 'view:noMobilePhoneAlert': {
-            //   'ui:description': (
-            //     <va-alert status="warning">
-            //       <>
-            //         You can’t choose to get text message notifications because
-            //         we don’t have a mobile phone number on file for you.
-            //       </>
-            //     </va-alert>
-            //   ),
-            //   'ui:options': {
-            //     hideIf: formData =>
-            //       (formData[formFields.viewReceiveTextMessages][
-            //         formFields.receiveTextMessages
-            //       ] &&
-            //         !formData[formFields.viewReceiveTextMessages][
-            //           formFields.receiveTextMessages
-            //         ]
-            //           .slice(0, 4)
-            //           .includes('Yes')) ||
-            //       isValidPhoneField(
-            //         formData[formFields.viewPhoneNumbers][
-            //           formFields.mobilePhoneNumber
-            //         ],
-            //       ),
-            //   },
-            // },
             'view:internationalTextMessageAlert': {
               'ui:description': (
                 <va-alert status="warning">
@@ -1168,6 +1178,10 @@ const formConfig = {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
+                  'view:noMobilePhoneAlert': {
+                    type: 'object',
+                    properties: {},
+                  },
                   [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
@@ -1177,10 +1191,6 @@ const formConfig = {
                   },
                 },
               },
-              // 'view:noMobilePhoneAlert': {
-              //   type: 'object',
-              //   properties: {},
-              // },
               'view:internationalTextMessageAlert': {
                 type: 'object',
                 properties: {},
