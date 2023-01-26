@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
@@ -70,8 +69,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
-
-  const patientFacilities = useSelector(selectPatientFacilities);
 
   const uiSchema = {
     vaFacility: {
@@ -229,7 +226,6 @@ export default function VAFacilityPageV2() {
 
   return (
     <div>
-      <div id="test-rk-1">{JSON.stringify(patientFacilities)}</div>
       {pageHeader}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">
