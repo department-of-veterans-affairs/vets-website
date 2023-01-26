@@ -1,15 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { dateFormat } from '../util/helpers';
 
 const VaccineDetails = () => {
+  const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
+  const formattedDate = dateFormat(vaccineDetails.date, 'MMMM D, YYYY');
+
   return (
     <div className="vads-l-grid-container">
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        <p className="vads-l-col--3">Januarry 13, 2023</p>
+        <p className="vads-l-col--3">{formattedDate}</p>
         <button className="vads-l-col--3" type="button">
           Print
         </button>
       </div>
-      <h1 className="vads-u-margin-bottom--1p5">FLU vaccines</h1>
+      <h1 className="vads-u-margin-bottom--1p5">{vaccineDetails.name}</h1>
       <div className="detail-block">
         <h2>Type and dosage</h2>
         <p>This is some content about the type and dosage.</p>

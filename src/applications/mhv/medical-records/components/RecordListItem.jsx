@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { dateFormat } from '../util/helpers';
+import { getVaccineDetails } from '../actions/vaccine';
 
 const VaccineListItem = props => {
-  const { name, date } = props;
-
+  const dispatch = useDispatch();
+  const { name, date, vaccineId } = props;
   const formattedDate = dateFormat(date, 'MMMM D, YYYY');
+
+  const showDetailsHandler = () => {
+    dispatch(getVaccineDetails(vaccineId));
+  };
 
   return (
     <div
@@ -21,9 +27,13 @@ const VaccineListItem = props => {
         View details
       </Link> */}
       <div>
-        <a href="/record" className="record-details-link vads-u-margin-y--0p5">
+        <Link
+          to="/vaccine"
+          className="record-details-link vads-u-margin-y--0p5"
+          onClick={showDetailsHandler}
+        >
           View details
-        </a>
+        </Link>
       </div>
     </div>
   );
