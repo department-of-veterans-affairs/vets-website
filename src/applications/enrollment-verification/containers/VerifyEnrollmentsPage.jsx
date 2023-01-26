@@ -370,21 +370,6 @@ export const VerifyEnrollmentsPage = ({
         onVaValueChange={updateMonthInformationCorrect}
         required
       >
-        <va-alert
-          class="vads-u-margin-top--2"
-          close-btn-aria-label="Close notification"
-          id="information-incorrect-warning"
-          status="warning"
-          visible
-        >
-          If you select “<em>No, this information isn’t correct</em>”{' '}
-          <strong>
-            we will pause your monthly payment until your information is updated
-          </strong>
-          . Work with your School Certifying Official (SCO) to ensure your
-          enrollment information is updated with VA.
-        </va-alert>
-
         <va-radio-option
           aria-describedby="information-incorrect-warning"
           checked={monthInformationCorrect === VERIFICATION_STATUS_CORRECT}
@@ -397,6 +382,7 @@ export const VerifyEnrollmentsPage = ({
           aria-describedby="information-incorrect-warning"
           checked={monthInformationCorrect === VERIFICATION_STATUS_INCORRECT}
           class="vads-u-margin-y--2"
+          description="If you select “No, this information isn’t correct” we will pause your monthly payment until your information is updated. Work with your School Certifying Official (SCO) to ensure your enrollment information is updated with VA."
           label="No, this information isn’t correct"
           name={VERIFICATION_STATUS_INCORRECT}
           value={VERIFICATION_STATUS_INCORRECT}

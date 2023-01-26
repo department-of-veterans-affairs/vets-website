@@ -10,7 +10,10 @@ const DischargeNotification = () => {
     });
   });
   return (
-    <div className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest">
+    <div
+      id="dischargeNotification"
+      className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
+    >
       <p className="vads-u-margin--0">
         To be eligible for career planning and guidance, you or your sponsor
         must have been discharged from active duty in the last year, or have
