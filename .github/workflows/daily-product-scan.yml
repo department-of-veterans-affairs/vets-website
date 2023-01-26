@@ -51,7 +51,7 @@ jobs:
 
       - name: Add PR Labels
         env:
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
         run: |
           gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
 
