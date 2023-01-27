@@ -3,7 +3,7 @@ const glob = require('glob');
 const core = require('@actions/core');
 const fs = require('fs');
 
-const { exit } = require('process');
+// const { exit } = require('process');
 const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
@@ -63,7 +63,7 @@ async function main({ octokit }) {
     lastUpdated.setLastUpdated();
   }
 
-  let response = await octokit.getProductJson();
+  const response = await octokit.getProductJson();
 
   if (response?.status !== 200) {
     return handleFailure({ response });
@@ -109,16 +109,15 @@ async function main({ octokit }) {
     });
   }
   /* eslint-disable no-console */
-
   console.log(updatedProductDirectory);
-  exit(1);
-  response = await octokit.createPull({
-    content: updatedProductDirectory,
-  });
 
-  if (response?.status !== 201) {
-    return handleFailure({ response });
-  }
+  // response = await octokit.createPull({
+  //   content: updatedProductDirectory,
+  // });
+
+  // if (response?.status !== 201) {
+  //   return handleFailure({ response });
+  // }
 
   return handleSuccess({
     changeDetected,
