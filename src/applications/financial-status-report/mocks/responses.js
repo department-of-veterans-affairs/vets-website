@@ -8,8 +8,31 @@ module.exports = {
       features: [
         { name: 'combined_financial_status_report', value: true },
         { name: 'combined_financial_status_report_enhancements', value: true },
+        { name: 'show_financial_status_report', value: true },
+        { name: 'show_financial_status_report_wizard', value: true },
       ],
     },
+  },
+  'OPTIONS /v0/in_progress_forms/5655': 'OK',
+  'GET /v0/in_progress_forms/5655': {
+    formData: {
+      personalIdentification: { ssn: '1200', fileNumber: '1200' },
+      personalData: {
+        veteranFullName: { first: 'Greg', middle: 'A', last: 'Anderson' },
+        address: {
+          street: '123 avenue du Maine',
+          city: 'Paris',
+          state: 'Paris',
+          country: 'FRA',
+          postalCode: '75014',
+        },
+        telephoneNumber: '4445551212',
+        emailAddress: 'test2@test1.net',
+        dateOfBirth: '1933-04-05',
+      },
+      income: [{ veteranOrSpouse: 'VETERAN' }],
+    },
+    metadata: { version: 0, prefill: true, returnUrl: '/veteran-information' },
   },
   'OPTIONS /v0/medical_copays': 'OK',
   'GET /v0/medical_copays': {
@@ -1401,5 +1424,34 @@ module.exports = {
         ],
       },
     ],
+  },
+  'POST /v0/financial_status_reports': {
+    content: '',
+  },
+  'PUT /v0/in_progress_forms/5655': {
+    data: {
+      id: '1',
+      type: 'in_progress_forms',
+      attributes: {
+        formId: '5655',
+        createdAt: '2023-01-27T20:39:19.326Z',
+        updatedAt: '2023-01-27T20:39:58.323Z',
+        metadata: {
+          version: 0,
+          returnUrl: '/veteran-information',
+          savedAt: 1674851994998,
+          submission: {
+            status: false,
+            errorMessage: false,
+            id: false,
+            timestamp: 1674851994994,
+            hasAttemptedSubmit: true,
+          },
+          expiresAt: 1680035998,
+          lastUpdated: 1674851998,
+          inProgressFormId: 1,
+        },
+      },
+    },
   },
 };
