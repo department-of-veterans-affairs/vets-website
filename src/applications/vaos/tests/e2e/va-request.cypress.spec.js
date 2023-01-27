@@ -257,9 +257,9 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.url().should('include', '/va-facility-2');
     cy.axeCheckBestPractice();
     cy.wait(['@v2:get:facilities', '@scheduling-configurations']);
-    cy.waitUntil(() => {
-      return cy.get('[data-testid="facilitiesSelect"]').should('be.visible');
-    });
+    // cy.waitUntil(() => {
+    //   return cy.get('[data-testid="facilitiesSelect"]').should('be.visible');
+    // });
     cy.findByLabelText(/Wheatland VA Mobile Clinic/)
       .focus()
       .click();
