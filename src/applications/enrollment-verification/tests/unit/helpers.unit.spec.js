@@ -76,7 +76,7 @@ describe('helpers', () => {
       expect(paymentsPaused).to.eql(false);
     });
 
-    it('payments may be paused when two months have’t been verified', () => {
+    it('payments may be paused when two months have not been verified', () => {
       const now = new Date();
 
       const lastDayOfTwoMonthsAgo = new Date(
