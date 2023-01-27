@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const LoginInWidget = ({ toggleLoginModal, user }) => {
-  const redirectToEducationLetters = () => {
-    window.location.href = '/education/download-letters/letters';
-  };
-
   const toggleLogin = e => {
     e.preventDefault();
     toggleLoginModal(true, 'cta-form');
@@ -66,13 +62,12 @@ const LoginInWidget = ({ toggleLoginModal, user }) => {
   );
 
   const loggedInUserUI = (
-    <button
-      className="va-button-primary"
-      type="button"
-      onClick={redirectToEducationLetters}
+    <a
+      className="vads-c-action-link--green"
+      href="/education/download-letters/letters"
     >
       Download your VA education decision letter
-    </button>
+    </a>
   );
 
   const renderUI = () => {
