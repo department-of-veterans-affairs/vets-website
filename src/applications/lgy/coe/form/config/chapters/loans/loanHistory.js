@@ -8,17 +8,21 @@ import {
 import monthYearRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { states } from 'platform/forms/address';
 
-import { loanHistory } from '../../schemaImports';
+// import { loanHistory } from '../../schemaImports';
 import LoanReviewField from '../../../components/LoanReviewField';
 import text from '../../../content/loanHistory';
 import {
   validateVALoanNumber,
   validateUniqueVALoanNumber,
 } from '../../../validations';
+import { LOAN_INTENT, LOAN_INTENT_SCHEMA } from '../../../constants';
 
 const stateLabels = createUSAStateLabels(states);
 
 const PreviousLoanView = ({ formData }) => {
+  const intent = Object.values(LOAN_INTENT).find(
+    type => type.value === formData.intent,
+  );
   const {
     propertyAddress1,
     propertyCity,
@@ -34,19 +38,21 @@ const PreviousLoanView = ({ formData }) => {
   }
 
   return (
-    <div>
+    <>
       <div>
+        <div>{intent ? intent.shortLabel : null}</div>
         <strong>
           {`${propertyAddress1}, ${propertyCity}, ${propertyState}, ${propertyZip}`}
         </strong>
       </div>
       <div>{to ? `${from} - ${to}` : `${from} - present`}</div>
-    </div>
+    </>
   );
 };
 
 PreviousLoanView.propTypes = {
   formData: PropTypes.shape({
+    intent: PropTypes.string,
     dateRange: PropTypes.shape({
       from: PropTypes.string,
       to: PropTypes.string,
@@ -60,7 +66,36 @@ PreviousLoanView.propTypes = {
   }),
 };
 
-export const schema = loanHistory;
+export const schema = {
+  type: 'object',
+  properties: {
+    relevantPriorLoans: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'object',
+        properties: {
+          intent: LOAN_INTENT_SCHEMA,
+          dateRange: {
+            $ref: '#/definitions/dateRange',
+          },
+          propertyAddress: {
+            $ref: '#/definitions/loanAddress',
+          },
+          vaLoanNumber: {
+            $ref: '#/definitions/loanNumber',
+          },
+          propertyOwned: {
+            type: 'boolean',
+          },
+          willRefinance: {
+            type: 'boolean',
+          },
+        },
+      },
+    },
+  },
+};
 
 export const uiSchema = {
   'ui:objectViewField': LoanReviewField,
@@ -78,6 +113,11 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'column',
         itemName: 'VA-backed loan',
+      },
+      intent: {
+        'ui:widget': 'radio',
+        'ui:title': 'How will you use your Certificate of Eligibility?',
+        'ui:required': () => true,
       },
       dateRange: monthYearRangeUI(
         text.loanClose.title,
