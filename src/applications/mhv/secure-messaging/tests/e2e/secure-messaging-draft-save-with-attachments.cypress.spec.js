@@ -42,6 +42,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       '/my_health/v1/messaging/messages/7208913/thread',
       mockDraftResponse,
     ).as('draftwithAttachment');
+
     cy.contains('test').click();
 
     // Assertion of network response
