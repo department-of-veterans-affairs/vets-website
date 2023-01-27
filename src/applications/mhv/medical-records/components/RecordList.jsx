@@ -52,12 +52,7 @@ const RecordList = props => {
       </div>
       {currentRecords?.length > 0 &&
         currentRecords.map((record, idx) => (
-          <RecordListItem
-            key={idx}
-            name={record.name}
-            date={record.date}
-            vaccineId={record.vaccineId}
-          />
+          <RecordListItem key={idx} record={record} />
         ))}
       {currentPage === paginatedRecords.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">

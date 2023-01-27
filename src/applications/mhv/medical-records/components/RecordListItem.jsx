@@ -7,11 +7,11 @@ import { getVaccineDetails } from '../actions/vaccine';
 
 const VaccineListItem = props => {
   const dispatch = useDispatch();
-  const { name, date, vaccineId } = props;
-  const formattedDate = dateFormat(date, 'MMMM D, YYYY');
+  const { record } = props;
+  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
 
   const showDetailsHandler = () => {
-    dispatch(getVaccineDetails(vaccineId));
+    dispatch(getVaccineDetails(record.vaccineId));
   };
 
   return (
@@ -20,7 +20,7 @@ const VaccineListItem = props => {
       data-testid="record-list-item"
     >
       <div>
-        <strong>{name}</strong>
+        <strong>{record.name}</strong>
       </div>
       <div>{formattedDate}</div>
       {/* <Link className="record-details-link vads-u-margin-y--0p5" to="details">
@@ -42,6 +42,5 @@ const VaccineListItem = props => {
 export default VaccineListItem;
 
 VaccineListItem.propTypes = {
-  date: PropTypes.string,
-  name: PropTypes.string,
+  record: PropTypes.object,
 };

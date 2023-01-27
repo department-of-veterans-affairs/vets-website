@@ -26,18 +26,7 @@ export const vaccineReducer = (state = initialState, action) => {
       return {
         ...state,
         vaccineList: action.response.map(vaccine => {
-          const vacAttr = {
-            name: vaccine.name,
-            date: vaccine.date,
-            vaccineId: vaccine.vaccineId,
-            type: vaccine.type,
-            dosage: vaccine.dosage,
-            series: vaccine.series,
-            facility: vaccine.facility,
-            reactions: vaccine.reactions,
-            comments: vaccine.comments,
-          };
-          return { ...vacAttr };
+          return { ...vaccine };
         }),
       };
     }
