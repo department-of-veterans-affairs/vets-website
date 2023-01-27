@@ -88,12 +88,13 @@ class GitHubClient {
               commit,
             },
           ],
-        }).then(pr => {
-          /* eslint-disable no-console */
-
-          console.log(pr);
+        })
+        .then(pr => {
+          core.exportVariable('NEW_PR_NUMBER', pr.data.number);
+          core.exportVariable('NEW_PR_URL', pr.data.html_url);
         });
     } catch (e) {
+      /* eslint-disable no-console */
       console.log(e);
       core.setFailed(e);
       return e;
