@@ -35,6 +35,13 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      - name: Checkout product directory repo
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: product-directory
+
       - name: Set GitHub Product Directory Id
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
@@ -55,27 +62,36 @@ jobs:
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
+      - name: Add and Commit change(s)
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: va-vsp-bot
+          author_email: devops@va.gov
+          branch: main
+          cwd: product-directory
+          add: 'product-directory.json'
+          message: 'Update Product Directory'
       # - name: Add PR Labels
       #   env:
       #     GH_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
       #   run: |
       #     gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
 
-      - name: Notify Slack that a PR in the Product Directory repo has been submitted
-        if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
-        uses: ./.github/workflows/slack-notify
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> AUTOMATIC UPDATE! The product-directory.json file has been updated. A PR to update it has been submitted and needs to be approved - <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
-          channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - name: Notify Slack that a PR in the Product Directory repo has been submitted
+      #   if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
+      #   uses: ./.github/workflows/slack-notify
+      #   env:
+      #     SSL_CERT_DIR: /etc/ssl/certs
+      #   with:
+      #     payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> AUTOMATIC UPDATE! The product-directory.json file has been updated. A PR to update it has been submitted and needs to be approved - <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
+      #     channel_id: C026PD47Z19 #gha-test-status
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Auto-merge update PR
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          event-type: merge_auto_updates
-          repository: department-of-veterans-affairs/product-directory
-          client-payload: '{"automerge_pr": "${{ env.NEW_PR_NUMBER }}"}'
+      # - name: Auto-merge update PR
+      #   uses: peter-evans/repository-dispatch@v2
+      #   with:
+      #     token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     event-type: merge_auto_updates
+      #     repository: department-of-veterans-affairs/product-directory
+      #     client-payload: '{"automerge_pr": "${{ env.NEW_PR_NUMBER }}"}'
