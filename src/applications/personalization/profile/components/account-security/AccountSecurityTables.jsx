@@ -26,18 +26,9 @@ const AccountSetupTable = ({
 }) => {
   return (
     <section className="profile-info-table vads-u-margin-bottom--2 vads-u-border--1px vads-u-border-color--gray-lighter">
-      <h3 className="vads-u-background-color--gray-lightest vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2 heading">
+      <h2 className="vads-u-background-color--gray-lightest vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2 heading">
         {title}
-      </h3>
-
-      {/* <ol>
-        <li>isIdentityVerified: {isIdentityVerified ? 'true' : 'false'}</li>
-        <li>isMultifactorEnabled: {isMultifactorEnabled ? 'true' : 'false'}</li>
-        <li>
-          showMHVTermsAndConditions:{' '}
-          {showMHVTermsAndConditions ? 'true' : 'false'}
-        </li>
-      </ol> */}
+      </h2>
 
       <List>
         <List.Item complete={isIdentityVerified}>
@@ -48,9 +39,7 @@ const AccountSetupTable = ({
           </List.ContentComplete>
 
           <List.HeadingIncomplete>
-            <a className="vads-u-font-size--h3" href="/verify">
-              Verify your identity
-            </a>
+            <a href="/verify">Verify your identity</a>
           </List.HeadingIncomplete>
 
           <List.ContentIncomplete>
@@ -71,7 +60,7 @@ const AccountSetupTable = ({
           <List.HeadingIncomplete>
             <button
               onClick={mfaHandler}
-              className="va-button-link vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold"
+              className="va-button-link vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h4"
               type="button"
             >
               Add 2-factor authentication

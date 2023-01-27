@@ -64,13 +64,14 @@ Item.propTypes = {
   shouldShow: PropTypes.bool,
 };
 
+const headingClasses =
+  'vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading vads-u-font-size--h4';
+
 const HeadingComplete = ({ children, headingLevel = 3 }) => {
   const complete = useComplete();
   const Heading = `h${headingLevel}`;
   return complete ? (
-    <Heading className="vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading">
-      {children}
-    </Heading>
+    <Heading className={headingClasses}>{children}</Heading>
   ) : null;
 };
 
@@ -83,9 +84,7 @@ const HeadingIncomplete = ({ children, headingLevel = 3 }) => {
   const complete = useComplete();
   const Heading = `h${headingLevel}`;
   return !complete ? (
-    <Heading className="vads-u-margin-y--0 vads-u-padding-top--0p5 item-heading">
-      {children}
-    </Heading>
+    <Heading className={headingClasses}>{children}</Heading>
   ) : null;
 };
 
@@ -96,7 +95,9 @@ HeadingIncomplete.propTypes = {
 
 const ContentComplete = ({ children }) => {
   const complete = useComplete();
-  return complete ? <div className="vads-u-margin-y--0">{children}</div> : null;
+  return complete ? (
+    <div className="vads-u-margin-y--0 vads-u-padding-top--1">{children}</div>
+  ) : null;
 };
 
 ContentComplete.propTypes = { children: PropTypes.node.isRequired };
@@ -104,7 +105,7 @@ ContentComplete.propTypes = { children: PropTypes.node.isRequired };
 const ContentIncomplete = ({ children }) => {
   const complete = useComplete();
   return !complete ? (
-    <div className="vads-u-margin-y--0">{children}</div>
+    <div className="vads-u-margin-y--0 vads-u-padding-top--1">{children}</div>
   ) : null;
 };
 
