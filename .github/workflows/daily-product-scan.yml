@@ -75,7 +75,7 @@ jobs:
       - name: Auto-merge update PR
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           event-type: merge_auto_updates
           repository: department-of-veterans-affairs/product-directory
           client-payload: '{"automerge_pr": "${{ env.NEW_PR_NUMBER }}"}'
