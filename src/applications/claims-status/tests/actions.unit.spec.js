@@ -264,8 +264,14 @@ describe('Actions', () => {
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
           'api-name': 'GET claims',
+          // eslint-disable-next-line prettier/prettier
+          'api_name': 'GET claims',
           'api-status': 'successful',
+          // eslint-disable-next-line prettier/prettier
+          'api_status': 'succesful',
           'api-latency-ms': 0,
+          // eslint-disable-next-line prettier/prettier
+          'api_latency_ms': 0,
         });
       });
     });
