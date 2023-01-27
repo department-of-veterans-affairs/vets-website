@@ -326,11 +326,9 @@ const formConfig = {
                   class="vads-u-margin-bottom--4"
                 >
                   <p className="vads-u-margin-y--0">
-                    You will only receive a decision for the sponsor(s) you
-                    select. VA will review your eligibility for each selection.
-                    For any sponsors you do not select, you may impact your
-                    ability to use those benefits in the future. You can reapply
-                    for those sponsors using this application.
+                    By not selecting all options, the VA will not provide a
+                    decision for those not selected until you re-apply, which
+                    may impact the use of those transferred benefits.
                   </p>
                 </va-additional-info>
               ),
