@@ -84,25 +84,23 @@ const responses = {
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
-    if (
-      req?.body?.id === address.homeAddressUpdateReceived.payload.id &&
-      req?.body?.addressPou ===
-        address.mailingAddressUpdateReceived.request.payload.addressPou
-    ) {
-      return res.json(
-        _.set(
-          address.mailingAddressUpdateReceived.response,
-          'data.attributes.transactionId',
-          'erroredId',
-        ),
-      );
-    }
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggereing error from GET v0/profile/status
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
 
     // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
     if (req?.body?.addressLine1 === 'same') {
       return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
+    // default response provided based on if
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'POST /v0/profile/addresses': (req, res) => {

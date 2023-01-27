@@ -62,6 +62,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
 import { getEditButtonId } from '../util/id-factory';
+import VAPServiceTransactionInlineErrorMessage from './base/VAPServiceTransactionInlineErrorMessage';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -319,6 +320,10 @@ class ProfileInformationFieldController extends React.Component {
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
 
+    const error =
+      transactionRequest?.error ||
+      (isFailedTransaction(transaction) ? {} : null);
+
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
@@ -356,6 +361,10 @@ class ProfileInformationFieldController extends React.Component {
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
+
+        {error && (
+          <VAPServiceTransactionInlineErrorMessage fieldName={fieldName} />
+        )}
 
         <div className="vads-u-width--full">
           <div>
@@ -447,10 +456,6 @@ class ProfileInformationFieldController extends React.Component {
         />
       );
     }
-
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
 
     return (
       <div

@@ -7,7 +7,6 @@ import {
   isFailedTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 
-import VAPServiceTransactionInlineErrorMessage from './VAPServiceTransactionInlineErrorMessage';
 import VAPServiceTransactionPending from './VAPServiceTransactionPending';
 
 function VAPServiceTransaction(props) {
@@ -33,7 +32,6 @@ function VAPServiceTransaction(props) {
 
   return (
     <div className={classes}>
-      {hasError && <VAPServiceTransactionInlineErrorMessage {...props} />}
       {transactionRequestPending && (
         <div id={id}>
           <VAPServiceTransactionPending
