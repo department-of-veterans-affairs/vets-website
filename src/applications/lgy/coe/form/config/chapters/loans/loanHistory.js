@@ -75,7 +75,6 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          intent: LOAN_INTENT_SCHEMA,
           dateRange: {
             $ref: '#/definitions/dateRange',
           },
@@ -88,6 +87,7 @@ export const schema = {
           propertyOwned: {
             type: 'boolean',
           },
+          intent: LOAN_INTENT_SCHEMA,
           willRefinance: {
             type: 'boolean',
           },
@@ -113,11 +113,6 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'column',
         itemName: 'VA-backed loan',
-      },
-      intent: {
-        'ui:widget': 'radio',
-        'ui:title': 'How will you use your Certificate of Eligibility?',
-        'ui:required': () => true,
       },
       dateRange: monthYearRangeUI(
         text.loanClose.title,
@@ -182,6 +177,15 @@ export const uiSchema = {
           hideEmptyValueInReview: true,
         },
         'ui:required': () => true,
+      },
+      intent: {
+        'ui:widget': 'radio',
+        'ui:title': 'How will you use your Certificate of Eligibility?',
+        'ui:required': (formData, index) =>
+          formData.relevantPriorLoans[index].propertyOwned,
+        'ui:options': {
+          expandUnder: 'propertyOwned',
+        },
       },
       willRefinance: {
         'ui:title': text.refinance.title,
