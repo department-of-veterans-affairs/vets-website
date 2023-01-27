@@ -1,0 +1,7 @@
+{
+  "appName": "DS Playground",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "ds-playground",
+  "rootUrl": "/ds-playground",
+  "productId": "7cb70bc6-9331-416f-aa20-20e6a595cfb1"
+}
