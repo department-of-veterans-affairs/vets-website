@@ -37,7 +37,7 @@ const FileInput = ({ attachments, setAttachments }) => {
       return;
     }
 
-    if (!fileExtension || !acceptedFileTypes[fileExtension]) {
+    if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
       setError({
         title: 'File type not supported',
         message:
