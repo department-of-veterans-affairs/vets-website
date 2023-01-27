@@ -483,7 +483,9 @@ export function mockGetClinics(locations = []) {
   });
 }
 
-export function mockVamcEhr() {
+export function mockVamcEhr({ isCerner = false } = {}) {
+  const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
+
   cy.intercept(
     {
       method: 'GET',
@@ -501,7 +503,7 @@ export function mockVamcEhr() {
                 fieldRegionPage: {
                   entity: {
                     title: 'VA Cheyenne health care',
-                    fieldVamcEhrSystem: 'cerner',
+                    fieldVamcEhrSystem,
                   },
                 },
               },
@@ -511,7 +513,7 @@ export function mockVamcEhr() {
                 fieldRegionPage: {
                   entity: {
                     title: 'VA Dayton health care',
-                    fieldVamcEhrSystem: 'cerner',
+                    fieldVamcEhrSystem,
                   },
                 },
               },

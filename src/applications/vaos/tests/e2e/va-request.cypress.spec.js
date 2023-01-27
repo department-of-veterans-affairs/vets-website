@@ -23,7 +23,7 @@ import {
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
-import { mockGetEligibility, mockVamcEhr } from './vaos-cypress-v2-helpers';
+import { mockVamcEhr } from './vaos-cypress-v2-helpers';
 
 // skipped due to failures with date validation
 describe('VAOS VA request flow', () => {
@@ -42,7 +42,6 @@ describe('VAOS VA request flow', () => {
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
     mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
-    mockVamcEhr();
   });
 
   function fillOutForm(facilitySelection) {
@@ -130,6 +129,7 @@ describe('VAOS VA request flow', () => {
     mockAppointmentsApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 1 });
+    mockVamcEhr();
 
     fillOutForm(() => {
       cy.findByLabelText(/Sidney/)
@@ -146,6 +146,7 @@ describe('VAOS VA request flow', () => {
     mockFacilitiesApi({ count: 1, apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 1 });
+    mockVamcEhr();
 
     fillOutForm(() => {
       cy.findByLabelText(/Sidney/)
@@ -219,7 +220,6 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockCCEligibilityApi();
     mockClinicApi({ locations: ['983GB'], apiVersion: 2 });
     mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
-    mockEligibilityApi({ isEligible: true });
     mockFacilitiesApi({ data: facilities, apiVersion: 2 });
     mockFeatureToggles({
       v2Requests: true,
@@ -227,11 +227,14 @@ describe('VAOS VA request flow using VAOS service', () => {
       v2DirectSchedule: true,
     });
     mockPreferencesApi();
-    mockVamcEhr();
   });
 
   it('should submit request successfully', () => {
-    mockLoginApi();
+    mockLoginApi({ facilityId: '442' });
+    mockEligibilityApi({
+      typeOfCare: 'socialWork',
+      isEligible: true,
+    });
     mockFacilityApi({ id: '442HK', apiVersion: 2 });
     // VATS Settings
     mockSchedulingConfigurationApi({
@@ -239,6 +242,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       typeOfCareId: 'socialWork',
       isRequest: true,
     });
+    mockVamcEhr();
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
@@ -300,13 +304,13 @@ describe('VAOS VA request flow using VAOS service', () => {
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
-    mockLoginApi({ cernerFacilityId: '442' });
+    mockLoginApi({ facilityId: '442' });
     mockSchedulingConfigurationApi({
       facilityIds: ['442HK'],
       typeOfCareId: 'socialWork',
       isDirect: true,
     });
-    mockGetEligibility();
+    mockVamcEhr({ isCerner: true });
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();

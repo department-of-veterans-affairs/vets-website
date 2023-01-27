@@ -1012,13 +1012,9 @@ export function mockDirectScheduleSlotsApi({
   }
 }
 
-export function mockLoginApi({
-  cernerFacilityId,
-  withoutAddress = false,
-} = {}) {
-  if (cernerFacilityId) {
-    cy.log('Cerner enabled');
-    const mockCernerUser = {
+export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
+  if (facilityId) {
+    const user = {
       ...mockUser,
       data: {
         ...mockUser.data,
@@ -1028,13 +1024,13 @@ export function mockLoginApi({
             ...mockUser.data.attributes.vaProfile,
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
-              { facilityId: cernerFacilityId },
+              { facilityId },
             ],
           },
         },
       },
     };
-    cy.login(mockCernerUser);
+    cy.login(user);
   } else if (withoutAddress) {
     const mockUserWithoutAddress = unset(
       'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
