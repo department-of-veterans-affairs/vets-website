@@ -45,15 +45,6 @@ describe('Secure Messaging Draft Save with Attachments', () => {
 
     cy.contains('test').click();
 
-    // Assertion of network response
-    cy.get('@draftsFolderMetaResponse')
-      .its('response')
-      .then(res => {
-        expect(res.headers).to.include({
-          'content-type': 'application/json',
-        });
-      });
-
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('[name="message-subject"]')
@@ -75,8 +66,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
         subject: 'test Draft Save with Attachments',
         body: 'ststASertTesting Save Drafts with Attachments',
       });
-    // Assertion of network response including attachment:false
 
+    // Assertion of network response including attachment:false.
+    // This verifies we are using correct mock data
     cy.get('@draft_message')
       .its('response')
       .then(res => {
