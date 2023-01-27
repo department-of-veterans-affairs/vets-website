@@ -55,11 +55,11 @@ jobs:
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
-      - name: Add PR Labels
-        env:
-          GH_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-        run: |
-          gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
+      # - name: Add PR Labels
+      #   env:
+      #     GH_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #   run: |
+      #     gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
@@ -78,3 +78,4 @@ jobs:
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           event-type: merge_auto_updates
           repository: department-of-veterans-affairs/product-directory
+          client-payload: '{"automerge_pr": "${{ env.NEW_PR_NUMBER }}"}'
