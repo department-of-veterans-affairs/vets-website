@@ -91,16 +91,7 @@
         }
       ]
     },
-    "realEstateRecords": [
-      {
-        "realEstateType": "Vacation property",
-        "realEstateAmount": "350000.47"
-      },
-      {
-        "realEstateType": "Single-family home",
-        "realEstateAmount": "450000.34"
-      }
-    ],
+    "realEstateOwned": "800000.81",
     "additionalIncome": {
       "spouse": {
         "spAddlIncome": [
