@@ -296,6 +296,9 @@ export const getPhone = formData => {
  * @param {Object} formData - full form data
  */
 export const getEvidence = formData => {
+  const submittedData = {
+    form5103Acknowledged: formData.form5103Acknowledged,
+  };
   const evidenceSubmission = {
     evidenceType: [],
   };
@@ -323,10 +326,12 @@ export const getEvidence = formData => {
   if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
     evidenceSubmission.evidenceType.push('upload');
   }
-  return {
-    form5103Acknowledged: formData.form5103Acknowledged,
-    evidenceSubmission,
-  };
+  // Lighthouse wants us to drop the evidenceSubmission section if we're not
+  // submitting evidence
+  if (evidenceSubmission.evidenceType.length) {
+    submittedData.evidenceSubmission = evidenceSubmission;
+  }
+  return submittedData;
 };
 
 /**

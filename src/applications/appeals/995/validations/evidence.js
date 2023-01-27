@@ -2,27 +2,8 @@ import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidDateRange } from 'platform/forms-system/src/js/utilities/validations';
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import {
-  errorMessages,
-  MAX_LENGTH,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-} from '../constants';
+import { errorMessages, MAX_LENGTH } from '../constants';
 import { validateDate } from './date';
-
-export const validateEvidence = (errors, formData) => {
-  const va = formData?.[EVIDENCE_VA];
-  const priv8 = formData?.[EVIDENCE_PRIVATE];
-  const other = formData?.[EVIDENCE_OTHER];
-  if (
-    (!va || (va && !formData.locations?.length)) &&
-    (!priv8 || (priv8 && !formData.providerFacility?.length)) &&
-    (!other || (other && !formData.additionalDocuments?.length))
-  ) {
-    errors.addError(errorMessages.evidence.missing);
-  }
-};
 
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
