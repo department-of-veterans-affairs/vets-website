@@ -84,6 +84,8 @@ const responses = {
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
+    // return res.status(401).json(require('../tests/fixtures/401.json'));
+
     // simulate a initial request returning a transactionId that is
     // subsequently used for triggereing error from GET v0/profile/status
     // return res.json(
@@ -115,14 +117,14 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    // if (
-    //   req?.params?.id === 'erroredId' ||
-    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    // ) {
-    //   return res.json(
-    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-    //   );
-    // }
+    if (
+      req?.params?.id === 'erroredId' ||
+      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    ) {
+      return res.json(
+        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+      );
+    }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
