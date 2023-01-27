@@ -268,7 +268,7 @@ describe('Actions', () => {
           'api_name': 'GET claims',
           'api-status': 'successful',
           // eslint-disable-next-line prettier/prettier
-          'api_status': 'succesful',
+          'api_status': 'successful',
           'api-latency-ms': 0,
           // eslint-disable-next-line prettier/prettier
           'api_latency_ms': 0,
