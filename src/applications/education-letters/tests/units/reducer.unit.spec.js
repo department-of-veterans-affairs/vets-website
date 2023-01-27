@@ -36,12 +36,12 @@ const denied = {
 };
 
 describe('MEB: Fetching claim status api', () => {
-  it('should wait and fetch claim status api', () => {
+  it('should wait and fetch a MEB claim status api', () => {
     const state = reducer.data(undefined, { type: MEB_FETCH_CLAIM_STATUS });
     expect(state.MEBClaimStatusFetchInProgress).to.be.true;
   });
 
-  it('should fetch a successful claim status api', () => {
+  it('should fetch a successful MEB claim status api', () => {
     const mockAction = {
       type: MEB_FETCH_CLAIM_STATUS_SUCCESS,
       ...eligible,
@@ -53,7 +53,7 @@ describe('MEB: Fetching claim status api', () => {
     expect(state.MEBClaimStatusFetchComplete).to.be.true;
   });
 
-  it('should load a failed claim status api', () => {
+  it('should load a failed MEB claim status api', () => {
     const mockAction = {
       type: MEB_FETCH_CLAIM_STATUS_FAILED,
       ...denied,
@@ -67,12 +67,12 @@ describe('MEB: Fetching claim status api', () => {
 });
 
 describe('TOE: Fetching claim status api', () => {
-  it('should wait and fetch claim status api', () => {
+  it('should wait and fetch a TOE claim status api', () => {
     const state = reducer.data(undefined, { type: TOE_FETCH_CLAIM_STATUS });
     expect(state.TOEClaimStatusFetchInProgress).to.be.true;
   });
 
-  it('should fetch a successful claim status api', () => {
+  it('should fetch a successful TOE claim status api', () => {
     const mockAction = {
       type: TOE_FETCH_CLAIM_STATUS_SUCCESS,
       ...eligible,
@@ -84,7 +84,7 @@ describe('TOE: Fetching claim status api', () => {
     expect(state.TOEClaimStatusFetchComplete).to.be.true;
   });
 
-  it('should load a failed claim status api', () => {
+  it('should load a failed TOE claim status api', () => {
     const mockAction = {
       type: TOE_FETCH_CLAIM_STATUS_FAILED,
       ...denied,
