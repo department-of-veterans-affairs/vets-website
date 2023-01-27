@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
-  makeSelectActiveAppointment,
   makeSelectVeteranData,
   makeSelectApp,
   makeSelectCurrentContext,
@@ -25,9 +24,7 @@ const AppointmentDetails = props => {
   const { t } = useTranslation();
   const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const selectActiveAppointment = useMemo(makeSelectActiveAppointment, []);
   const { appointments } = useSelector(selectVeteranData);
-  const { activeAppointment } = useSelector(selectActiveAppointment);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const selectContext = useMemo(makeSelectCurrentContext, []);
@@ -36,13 +33,13 @@ const AppointmentDetails = props => {
 
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
-
+  const { appointmentId } = router.params;
   useEffect(
     () => {
-      if (activeAppointment) {
+      if (appointmentId) {
         const activeAppointmentDetails = appointments.find(
           appointmentItem =>
-            appointmentItem.appointmentIen === activeAppointment,
+            Number(appointmentItem.appointmentIen) === Number(appointmentId),
         );
         if (activeAppointmentDetails) {
           setAppointment(activeAppointmentDetails);
@@ -52,7 +49,7 @@ const AppointmentDetails = props => {
       // Go back to complete page if no activeAppointment or not in list.
       jumpToPage('complete');
     },
-    [activeAppointment, appointments, jumpToPage],
+    [appointmentId, appointments, jumpToPage],
   );
 
   const clinic = appointment && clinicName(appointment);

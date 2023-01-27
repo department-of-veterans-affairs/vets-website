@@ -69,17 +69,6 @@ const selectError = createSelector(
 
 const makeSelectError = () => selectError;
 
-const selectActiveAppointment = createSelector(
-  state => {
-    return {
-      activeAppointment: state?.checkInData?.form?.activeAppointment,
-    };
-  },
-  activeAppointment => activeAppointment,
-);
-
-const makeSelectActiveAppointment = () => selectActiveAppointment;
-
 export {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -88,5 +77,4 @@ export {
   makeSelectSeeStaffMessage,
   makeSelectApp,
   makeSelectError,
-  makeSelectActiveAppointment,
 };

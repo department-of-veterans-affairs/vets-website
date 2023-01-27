@@ -7,7 +7,6 @@ const initialState = {
   form: {
     pages: [],
     data: {},
-    activeAppointment: null,
   },
   app: '',
   error: '',
@@ -37,12 +36,7 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import {
-  setAppHandler,
-  setErrorHandler,
-  setFormHandler,
-  setActiveAppointmentHandler,
-} from './universal';
+import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
 
@@ -57,7 +51,6 @@ import {
   RECORD_ANSWER,
   SET_ERROR,
   SET_FORM,
-  SET_ACTIVE_APPOINTMENT,
 } from '../actions/universal';
 
 const handler = Object.freeze({
@@ -75,7 +68,6 @@ const handler = Object.freeze({
   [SET_APP]: setAppHandler,
   [SET_ERROR]: setErrorHandler,
   [SET_FORM]: setFormHandler,
-  [SET_ACTIVE_APPOINTMENT]: setActiveAppointmentHandler,
 
   default: state => {
     return { ...state };

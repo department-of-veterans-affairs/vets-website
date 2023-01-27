@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
@@ -8,7 +8,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
 import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
-import { setActiveAppointment } from '../actions/universal';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
@@ -20,7 +19,6 @@ const AppointmentBlockVaos = props => {
   const { t } = useTranslation();
   const appointmentsDateTime = new Date(appointments[0].startTime);
 
-  const dispatch = useDispatch();
   const { jumpToPage } = useFormRouting(router);
 
   const handleDetailClick = (appointmentIen, e) => {
@@ -28,8 +26,7 @@ const AppointmentBlockVaos = props => {
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),
     });
-    dispatch(setActiveAppointment(appointmentIen));
-    jumpToPage('appointment-details');
+    jumpToPage(`appointment-details/${appointmentIen}`);
   };
 
   return (
@@ -62,11 +59,13 @@ const AppointmentBlockVaos = props => {
               showDetailsLink={page === 'confirmation' || page === 'details'}
               goToDetails={handleDetailClick}
               AppointmentAction={
-                <AppointmentActionVaos
-                  appointment={appointment}
-                  router={router}
-                  token={token}
-                />
+                app === APP_NAMES.CHECK_IN && (
+                  <AppointmentActionVaos
+                    appointment={appointment}
+                    router={router}
+                    token={token}
+                  />
+                )
               }
               appointmentMessage
             />

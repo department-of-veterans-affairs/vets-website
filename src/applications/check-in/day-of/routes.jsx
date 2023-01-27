@@ -143,7 +143,7 @@ const routes = [
     component: Error,
   },
   {
-    path: URLS.APPOINTMENT_DETAILS,
+    path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
     component: AppointmentDetails,
     permissions: {
       requiresForm: true,
