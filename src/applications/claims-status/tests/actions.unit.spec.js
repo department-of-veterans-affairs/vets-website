@@ -228,9 +228,17 @@ describe('Actions', () => {
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
           'api-name': 'GET claims',
+          // eslint-disable-next-line prettier/prettier
+          'api_name': 'GET claims',
           'api-status': 'failed',
+          // eslint-disable-next-line prettier/prettier
+          'api_status': 'failed',
           'error-key': 'unknown',
+          // eslint-disable-next-line prettier/prettier
+          'error_key': 'unknown',
           'api-latency-ms': 0,
+          // eslint-disable-next-line prettier/prettier
+          'api_latency_ms': 0,
         });
         expect(global.window.dataLayer[1]).to.eql({
           'error-key': undefined,
