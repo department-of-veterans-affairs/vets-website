@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
@@ -77,7 +77,11 @@ const getCloseDate = claim => claim.attributes.phaseChangeDate;
 
 const getFileDate = claim => claim.attributes.dateFiled;
 
-const formatDate = date => format(new Date(date), 'MMMM d, yyyy');
+const formatDate = date => {
+  const dateObj = new Date(date);
+
+  return isValid(dateObj) ? format(dateObj, 'MMMM d, yyyy') : '';
+};
 
 export default function ClosedClaimMessage({ claims, onClose }) {
   const closedClaims = getRecentlyClosedClaims(claims);
