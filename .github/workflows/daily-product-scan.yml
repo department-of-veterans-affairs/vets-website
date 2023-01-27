@@ -38,7 +38,7 @@ jobs:
       - name: Checkout product directory repo
         uses: actions/checkout@v3
         with:
-          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          repository: department-of-veterans-affairs/product-directory
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: product-directory
 
@@ -67,6 +67,7 @@ jobs:
         with:
           author_name: va-vsp-bot
           author_email: devops@va.gov
+          branch: main
           cwd: product-directory
           add: 'product-directory.json'
           message: 'Update Product Directory'
