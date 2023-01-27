@@ -55,6 +55,7 @@ export const transform = (formConfig, form) => {
     selectedDebts,
     selectedDebtsAndCopays = [],
     realEstateRecords,
+    realEstateValue,
     currEmployment,
     spCurrEmployment,
     additionalIncome: {
@@ -275,7 +276,9 @@ export const transform = (formConfig, form) => {
       stocksAndOtherBonds: enhancedFSRActive
         ? calculatedStocksAndOther
         : assets.stocksAndOtherBonds,
-      realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
+      realEstateOwned: !enhancedFSRActive
+        ? sumValues(realEstateRecords, 'realEstateAmount')
+        : realEstateValue,
       otherAssets: assets.otherAssets,
       totalAssets,
     },

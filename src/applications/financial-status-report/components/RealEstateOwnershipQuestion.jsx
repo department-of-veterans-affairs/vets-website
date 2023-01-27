@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import { useSelector, connect } from 'react-redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
-const ResolutionExplainerWidget = props => {
+const RealEstateOwnershipQuestion = props => {
   const { goToPath, goBack, onReviewPage } = props;
+  const dispatch = useDispatch();
 
-  const [hasRealEstate, setHasRealEstate] = useState('false');
   const formData = useSelector(state => state.form.data);
+  const hasRealEstate = formData?.questions?.hasRealEstate;
 
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasRealEstate === 'true') {
+      if (hasRealEstate) {
         goToPath(`/enhanced-real-estate-asset-records`);
       } else {
         goToPath(`/vehicles`);
@@ -21,8 +24,16 @@ const ResolutionExplainerWidget = props => {
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
-        setHasRealEstate(value);
-        formData.questions.hasRealEstate = value;
+        dispatch(
+          setData({
+            ...formData,
+            questions: {
+              ...formData.questions,
+              hasRealEstate: value === 'true',
+            },
+            realEstateValue: value === 'false' ? 0 : formData.realEstateValue,
+          }),
+        );
       }
     },
   };
@@ -45,14 +56,14 @@ const ResolutionExplainerWidget = props => {
           id="has-property"
           label="Yes"
           value="true"
-          checked={hasRealEstate === 'true'}
+          checked={hasRealEstate}
         />
         <va-radio-option
           id="has-no-property"
           label="No"
           value="false"
           name="primary"
-          checked={hasRealEstate === 'false'}
+          checked={!hasRealEstate}
         />
       </VaRadio>
       <va-additional-info trigger="Why do I need to provide this information?">
@@ -72,10 +83,10 @@ const ResolutionExplainerWidget = props => {
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-  };
+RealEstateOwnershipQuestion.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(ResolutionExplainerWidget);
+export default RealEstateOwnershipQuestion;

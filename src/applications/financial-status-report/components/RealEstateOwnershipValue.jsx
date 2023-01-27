@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
-const ResolutionExplainerWidget = props => {
+const RealEstateOwnershipValue = props => {
   const { goToPath, goBack, onReviewPage } = props;
+  const dispatch = useDispatch();
 
-  const [realEstateValue, setRealEstateValue] = useState(0);
+  const formData = useSelector(state => state.form.data);
+  const realEstateValue = formData?.realEstateValue || 0;
 
   const handlers = {
     onSubmit: event => {
@@ -16,11 +20,13 @@ const ResolutionExplainerWidget = props => {
         goToPath(`/enhanced-real-estate-assets`);
       }
     },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setRealEstateValue(value);
-      }
+    onRealEstateValueChange: ({ target }) => {
+      dispatch(
+        setData({
+          ...formData,
+          realEstateValue: target.value || 0,
+        }),
+      );
     },
   };
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -36,6 +42,7 @@ const ResolutionExplainerWidget = props => {
         name="property-value"
         value={realEstateValue}
         id="property-value"
+        onInput={handlers.onRealEstateValueChange}
         inputmode="decimal"
         required
       />
@@ -57,10 +64,10 @@ const ResolutionExplainerWidget = props => {
   );
 };
 
-const mapStateToProps = ({ form }) => {
-  return {
-    formData: form.data,
-  };
+RealEstateOwnershipValue.propTypes = {
+  goToPath: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(ResolutionExplainerWidget);
+export default RealEstateOwnershipValue;
