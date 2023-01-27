@@ -1,19 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { format } from 'date-fns';
 import moment from 'moment';
 import { orderBy } from 'lodash';
-import recordEvent from 'platform/monitoring/record-event';
-import { appealTypes } from '../utils/appeals-v2-helpers';
+import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
-export default function ClosedClaimMessage({ claims, onClose }) {
-  const closedClaims = claims
-    .filter(claim => {
-      if (claim.type === 'education_benefits_claims') {
-        return false;
-      }
+// HELPERS
+const isBenefitsClaimOrAppeal = claim =>
+  claim.type !== 'education_benefits_claims';
 
+const getRecentlyClosedClaims = claims => {
+  return claims
+    .filter(isBenefitsClaimOrAppeal)
+    .filter(claim => {
+      // Check if this is an appeal, if so we want to filter it out
+      // if it was closed more than 60 days ago
       if (appealTypes.includes(claim.type)) {
         const sixtyDaysAgo = moment()
           .add(-60, 'days')
@@ -33,6 +39,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         );
       }
 
+      // Do the same thing as above but for benefits claims
+      // closed in the last 30 days
       return (
         !claim.attributes.open &&
         moment(claim.attributes.phaseChangeDate)
@@ -63,6 +71,16 @@ export default function ClosedClaimMessage({ claims, onClose }) {
 
       return c;
     });
+};
+
+const getCloseDate = claim => claim.attributes.phaseChangeDate;
+
+const getFileDate = claim => claim.attributes.dateFiled;
+
+const formatDate = date => format(new Date(date), 'MMMM d, yyyy');
+
+export default function ClosedClaimMessage({ claims, onClose }) {
+  const closedClaims = getRecentlyClosedClaims(claims);
 
   if (!closedClaims.length) {
     return null;
@@ -77,6 +95,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
         className="va-alert-close notification-close"
         onClick={onClose}
         aria-label="Close notification"
+        type="button"
       >
         <i
           className="fas fa-times-circle va-alert-close-icon"
@@ -101,14 +120,17 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               {appealTypes.includes(claim.type)
                 ? 'Compensation Appeal'
                 : getClaimType(claim)}{' '}
-              – Received{' '}
-              {moment(claim.attributes.dateFiled).format('MMMM D, YYYY')}
+              – Received {formatDate(getFileDate(claim))}
             </Link>{' '}
-            has been closed as of{' '}
-            {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
+            has been closed as of {formatDate(getCloseDate(claim))}
           </p>
         ))}
       </div>
     </div>
   );
 }
+
+ClosedClaimMessage.propTypes = {
+  claims: PropTypes.array,
+  onClose: PropTypes.func,
+};
