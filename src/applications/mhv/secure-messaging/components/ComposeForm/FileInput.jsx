@@ -46,6 +46,19 @@ const FileInput = ({ attachments, setAttachments }) => {
       fileInputRef.current.value = null;
       return;
     }
+    if (
+      attachments.filter(
+        a => a.name === selectedFile.name && a.size === selectedFile.size,
+      ).length > 0
+    ) {
+      setError({
+        title: 'File already attached',
+        message: 'You have already attached this file.',
+      });
+      fileInputRef.current.value = null;
+      return;
+    }
+
     if (attachments.length === 4) {
       setError('You have already attached the maximum number of files.');
       setError({
