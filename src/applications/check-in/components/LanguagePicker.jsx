@@ -10,8 +10,16 @@ function LanguagePicker(props) {
   const { withTopMargin } = props;
   const { i18n } = useTranslation();
   const { language } = i18n;
+
+  function getUrl(lang) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', lang);
+    return url;
+  }
+
   function changeLanguage(e) {
     e.preventDefault();
+    window.history.replaceState(null, null, getUrl(e.target.lang));
     recordEvent({
       event: createAnalyticsSlug(`language-switch-${e.target.lang}`, 'nav'),
     });
@@ -51,7 +59,7 @@ function LanguagePicker(props) {
             <a
               onClick={changeLanguage}
               data-testid={`translate-button-${link.lang}`}
-              href={`#${link.lang}`}
+              href={getUrl(link.lang)}
               lang={link.lang}
             >
               {link.label}
