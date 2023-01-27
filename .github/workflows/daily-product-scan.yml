@@ -29,6 +29,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Set GitHub Product Directory Id
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
@@ -51,7 +57,7 @@ jobs:
 
       - name: Add PR Labels
         env:
-          GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
         run: |
           gh pr edit ${{ env.NEW_PR_NUMBER }} --add-label "automerge" --repo department-of-veterans-affairs/product-directory
 
