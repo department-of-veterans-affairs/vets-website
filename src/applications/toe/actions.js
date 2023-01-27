@@ -125,12 +125,8 @@ const poll = ({
 };
 
 function getNowDate() {
-  const today = new Date();
-  const localDate = new Date(
-    today.getTime() + today.getTimezoneOffset() * 60000,
-  );
-  return `${localDate.getFullYear()}-${localDate.getMonth() +
-    1}-${localDate.getDate()}`;
+  const date = new Date();
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 export function fetchClaimStatus() {
