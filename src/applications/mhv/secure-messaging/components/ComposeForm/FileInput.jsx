@@ -27,6 +27,16 @@ const FileInput = ({ attachments, setAttachments }) => {
       selectedFile.name && selectedFile.name.split('.').pop();
     setError(null);
 
+    if (selectedFile.size === 0) {
+      setError({
+        title: 'File is empty',
+        message:
+          'The file you are attempting to attach is empty. Please select a non-empty file',
+      });
+      fileInputRef.current.value = null;
+      return;
+    }
+
     if (!fileExtension || !acceptedFileTypes[fileExtension]) {
       setError({
         title: 'File type not supported',
