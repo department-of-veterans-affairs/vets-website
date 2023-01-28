@@ -17,8 +17,8 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="26-4555 Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant"
-          subtitle="Equal to VA Form 26-4555 (26-4555 Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant)"
+          title="Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant"
+          subtitle="Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)"
         />
         <SaveInProgressIntro
           headingLevel={2}
@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
         >
           Please complete the 26-4555 form to apply for adapted housing.
         </SaveInProgressIntro>
+        {/*
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow the steps below to apply for adapted housing.
         </h2>
@@ -72,6 +73,7 @@ class IntroductionPage extends React.Component {
             </p>
           </li>
         </va-process-list>
+        */}
         <SaveInProgressIntro
           buttonOnly
           headingLevel={2}
@@ -81,7 +83,7 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <p />
-        <OMBInfo resBurden={30} ombNumber="2900-0132" expDate="6/1/2024" />
+        <OMBInfo resBurden={10} ombNumber="2900-0132" expDate="6/20/2024" />
       </article>
     );
   }

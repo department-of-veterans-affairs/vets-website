@@ -6,14 +6,6 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../26-4555-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -24,8 +16,19 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+// import directDeposit from '../pages/directDeposit';
+// import serviceHistory from '../pages/serviceHistory';
+import personalInformation1 from '../pages/personalInformation1';
+import personalInformation2 from '../pages/personalInformation2';
+import contactInformation1 from '../pages/contactInformation1';
+import contactInformation2 from '../pages/contactInformation2';
+import previousSahApplication1 from '../pages/previousSahApplication1';
+import previousSahApplication2 from '../pages/previousSahApplication2';
+import previousHiApplication1 from '../pages/previousHiApplication1';
+import previousHiApplication2 from '../pages/previousHiApplication2';
+import livingSituation1 from '../pages/livingSituation1';
+import livingSituation2 from '../pages/livingSituation2';
+import livingSituation3 from '../pages/livingSituation3';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -53,7 +56,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for adapted housing.',
   },
-  title: 'Complex Form',
+  title:
+    'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -62,75 +66,95 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    personalInformationChapter: {
+      title: 'Your personal information',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
+        personalInformation1: {
+          path: 'personal-information-1',
+          title: 'Personal Information',
+          uiSchema: personalInformation1.uiSchema,
+          schema: personalInformation1.schema,
+        },
+        personalInformation2: {
+          path: 'personal-information-2',
+          title: "Personal Information (cont'd)",
+          uiSchema: personalInformation2.uiSchema,
+          schema: personalInformation2.schema,
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    contactInformationChapter: {
+      title: 'Your contact information',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
+        contactInformation1: {
+          path: 'contact-information-1',
           title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
+          uiSchema: contactInformation1.uiSchema,
+          schema: contactInformation1.schema,
         },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
+        contactInformation2: {
+          path: 'contact-information-2',
+          title: 'Additional contact information',
+          uiSchema: contactInformation2.uiSchema,
+          schema: contactInformation2.schema,
+        },
+      },
+    },
+    previousApplicationsChapter: {
+      title: 'Your previous applications',
+      pages: {
+        previousSahApplication1: {
+          path: 'previous-sah-application-1',
+          title: 'Have you applied for specially adapted housing?',
+          uiSchema: previousSahApplication1.uiSchema,
+          schema: previousSahApplication1.schema,
+        },
+        previousSahApplication2: {
+          path: 'previous-sah-application-2',
+          title:
+            'Details about your past application for specially adapted housing or special home adaptation grant',
+          depends: form => form.hasPreviousSahApplication,
+          uiSchema: previousSahApplication2.uiSchema,
+          schema: previousSahApplication2.schema,
+        },
+        previousHiApplication1: {
+          path: 'previous-hi-application-1',
+          title: 'Have you applied for home improvement?',
+          uiSchema: previousHiApplication1.uiSchema,
+          schema: previousHiApplication1.schema,
+        },
+        previousHiApplication2: {
+          path: 'previous-hi-application-2',
+          title:
+            'Details about your past application for home improvement or structural alteration grant',
+          depends: form => form.hasPreviousHiApplication,
+          uiSchema: previousHiApplication2.uiSchema,
+          schema: previousHiApplication2.schema,
+        },
+      },
+    },
+    livingSituationChapter: {
+      title: 'Your current living situation',
+      pages: {
+        livingSituation1: {
+          path: 'living-situation-1',
+          title:
+            'Are you currently living in a nursing home or medical care facility?',
+          uiSchema: livingSituation1.uiSchema,
+          schema: livingSituation1.schema,
+        },
+        livingSituation2: {
+          path: 'living-situation-2',
+          title: 'Details about your current living situation',
+          depends: form => form.isLivingInCareFacility,
+          uiSchema: livingSituation2.uiSchema,
+          schema: livingSituation2.schema,
+        },
+        livingSituation3: {
+          path: 'living-situation-3',
+          title: 'Additional medical information',
+          uiSchema: livingSituation3.uiSchema,
+          schema: livingSituation3.schema,
         },
       },
     },

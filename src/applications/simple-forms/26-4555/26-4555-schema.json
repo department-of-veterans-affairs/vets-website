@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "26-4555 Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (26-4555)",
+  "title": "Apply for Specially Adapted Housing or Special Home Adaptation Grant",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -11,9 +11,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "CAN"
-              ]
+              "enum": ["CAN"]
             },
             "state": {
               "type": "string",
@@ -43,9 +41,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "MEX"
-              ]
+              "enum": ["MEX"]
             },
             "state": {
               "type": "string",
@@ -94,9 +90,7 @@
           "properties": {
             "country": {
               "type": "string",
-              "enum": [
-                "USA"
-              ]
+              "enum": ["USA"]
             },
             "state": {
               "type": "string",
@@ -176,11 +170,7 @@
             "country": {
               "not": {
                 "type": "string",
-                "enum": [
-                  "CAN",
-                  "MEX",
-                  "USA"
-                ]
+                "enum": ["CAN", "MEX", "USA"]
               }
             },
             "state": {

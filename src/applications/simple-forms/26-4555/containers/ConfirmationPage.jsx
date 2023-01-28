@@ -28,7 +28,10 @@ export class ConfirmationPage extends React.Component {
             alt="VA logo"
             width="300"
           />
-          <h2>Application for Mock Form</h2>
+          <h2>
+            Apply for a Specially Adapted Housing Grant or Special Home
+            Adaptation Grant
+          </h2>
         </div>
         <h2 className="vads-u-font-size--h3">
           Your application has been submitted
