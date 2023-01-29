@@ -21,13 +21,9 @@ describe('Chapter 31 wizard', () => {
   it('should fill out the wizard and orientation', () => {
     cy.url().should('include', `${CHAPTER_31_ROOT_URL}/start`);
     cy.axeCheck();
-    cy.findByRole('radio', { name: /Veteran/i }).click();
-    cy.findAllByRole('radio', { name: /Yes/i })
-      .first()
-      .click();
-    cy.findAllByRole('radio', { name: /Yes/i })
-      .last()
-      .click();
+    cy.get('va-radio-option[value="isVeteran"]').click();
+    cy.get('va-radio-option[value="yesHonorableDischarge"]').click();
+    cy.get('va-radio-option[value="yesDisabilityRating"]').click();
     cy.axeCheck();
     cy.findByRole('button', {
       name: /Start VR&E orientation slideshow/i,
