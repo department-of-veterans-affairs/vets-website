@@ -19,6 +19,8 @@ describe('COE applicant loan history', () => {
     uiSchema,
   } = formConfig.chapters.loansChapter.pages.loanHistory;
 
+  const intentData = { relevantPriorLoans: [{ propertyOwned: true }] };
+
   it('should render', () => {
     const { container } = render(
       <Provider store={defaultStore}>
@@ -27,6 +29,22 @@ describe('COE applicant loan history', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{}}
+        />
+      </Provider>,
+    );
+
+    expect($$('input', container).length).to.equal(11);
+    expect($$('select', container).length).to.equal(3);
+  });
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={intentData}
         />
       </Provider>,
     );
@@ -51,7 +69,32 @@ describe('COE applicant loan history', () => {
 
     fireEvent.submit($('form'));
 
-    expect($$('.usa-input-error', container).length).to.equal(7);
+    expect($$('.usa-input-error', container).length).to.equal(6);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('Should not submit without required fields', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    fireEvent.submit($('form'));
+
+    expect($$('.usa-input-error', container).length).to.equal(6);
+    fireEvent.click(
+      $('#root_relevantPriorLoans_0_propertyOwnedYes', container),
+    );
+
+    expect($$('.usa-input-error', container).length).to.equal(6);
     expect(onSubmit.called).to.be.false;
   });
 
