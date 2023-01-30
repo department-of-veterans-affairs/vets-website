@@ -271,6 +271,10 @@ class PatientInboxPage {
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };
+
+  verifySentSuccessMessage = () => {
+    cy.contains('Message was successfully sent.').should('be.visible');
+  };
 }
 
 export default PatientInboxPage;

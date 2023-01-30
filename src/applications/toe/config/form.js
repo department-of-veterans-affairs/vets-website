@@ -1,5 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+import { Link } from 'react-router';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
@@ -1064,68 +1065,70 @@ const formConfig = {
                   </div>
                 </>
               ),
-              [formFields.receiveTextMessages]: {
-                'ui:title':
-                  'Would you like to receive text message notifications about your education benefits?',
-                'ui:widget': 'radio',
-                'ui:validations': [
-                  (errors, field, formData) => {
-                    const isYes = field?.slice(0, 4).includes('Yes');
-                    if (!isYes) {
-                      return;
-                    }
+              'view:noMobilePhoneAlert': {
+                'ui:description': (
+                  <va-alert
+                    background-only
+                    close-btn-aria-label="Close notification"
+                    show-icon
+                    status="warning"
+                    visible
+                  >
+                    <div>
+                      <p className="vads-u-margin-y--0">
+                        We can’t send you text message notifications because we
+                        don’t have a mobile phone number on file for you
+                      </p>
 
-                    const { phone, isInternational } = formData[
-                      formFields.viewPhoneNumbers
-                    ][formFields.mobilePhoneNumber];
-
-                    if (!phone) {
-                      errors.addError(
-                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                      );
-                    } else if (isInternational) {
-                      errors.addError(
-                        'You can’t select that response because you have an international mobile phone number',
-                      );
-                    }
-                  },
-                ],
+                      <Link
+                        aria-label="Go back and add a mobile phone number"
+                        to={{
+                          pathname: 'phone-email',
+                          search: '?redirect',
+                        }}
+                      >
+                        <va-button
+                          onClick={() => {}}
+                          secondary
+                          text="Go back and add a mobile phone number"
+                        />
+                      </Link>
+                    </div>
+                  </va-alert>
+                ),
                 'ui:options': {
-                  widgetProps: {
-                    Yes: { 'data-info': 'yes' },
-                    No: { 'data-info': 'no' },
-                  },
-                  selectedProps: {
-                    Yes: { 'aria-describedby': 'yes' },
-                    No: { 'aria-describedby': 'no' },
+                  hideIf: formData => {
+                    return !!formData['view:phoneNumbers']?.mobilePhoneNumber
+                      ?.phone;
                   },
                 },
               },
-            },
-            'view:noMobilePhoneAlert': {
-              'ui:description': (
-                <va-alert status="warning">
-                  <>
-                    You can’t choose to get text message notifications because
-                    we don’t have a mobile phone number on file for you.
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  (formData[formFields.viewReceiveTextMessages][
-                    formFields.receiveTextMessages
-                  ] &&
-                    !formData[formFields.viewReceiveTextMessages][
-                      formFields.receiveTextMessages
-                    ]
-                      .slice(0, 4)
-                      .includes('Yes')) ||
-                  isValidPhoneField(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ],
-                  ),
+              [formFields.receiveTextMessages]: {
+                'ui:title':
+                  'Would you like to receive text message notifications on your education benefits?',
+                'ui:widget': 'radio',
+                'ui:validations': [
+                  (errors, field, formData) => {
+                    const isYes = field.slice(0, 4).includes('Yes');
+                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
+                      .mobilePhoneNumber.phone;
+                    const { isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ].mobilePhoneNumber;
+
+                    if (isYes) {
+                      if (!phoneExist) {
+                        errors.addError(
+                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                        );
+                      } else if (isInternational) {
+                        errors.addError(
+                          "You can't select that response because you have an international mobile phone number",
+                        );
+                      }
+                    }
+                  },
+                ],
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1175,6 +1178,10 @@ const formConfig = {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
+                  'view:noMobilePhoneAlert': {
+                    type: 'object',
+                    properties: {},
+                  },
                   [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
@@ -1183,10 +1190,6 @@ const formConfig = {
                     ],
                   },
                 },
-              },
-              'view:noMobilePhoneAlert': {
-                type: 'object',
-                properties: {},
               },
               'view:internationalTextMessageAlert': {
                 type: 'object',
