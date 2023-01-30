@@ -133,9 +133,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
         .split('-')
         .map(v => parseInt(v, 10).toString());
 
-      cy.tabToElement(`[name="${root}intent"]`);
-      cy.chooseRadio(firstLoan.intent);
-
       cy.tabToElement(`#${root}dateRange_fromMonth`);
       cy.chooseSelectOptionUsingValue(from[1]);
       cy.tabToElement(`input[name="${root}dateRange_fromYear"]`);
@@ -171,6 +168,11 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       cy.typeInIfDataExists(`#${root}vaLoanNumber`, firstLoan.vaLoanNumber);
       cy.tabToElement(`[name="${root}propertyOwned"]`);
       cy.chooseRadio(firstLoan.propertyOwned ? 'Y' : 'N');
+
+      if (firstLoan.propertyOwned) {
+        cy.tabToElement(`[name="${root}intent"]`);
+        cy.chooseRadio(firstLoan.intent);
+      }
       cy.tabToElement(`[name="${root}willRefinance"]`);
       cy.chooseRadio(firstLoan.willRefinance ? 'Y' : 'N');
     }
