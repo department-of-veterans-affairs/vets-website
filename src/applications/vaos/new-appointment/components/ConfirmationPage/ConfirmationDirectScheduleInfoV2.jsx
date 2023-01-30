@@ -130,9 +130,12 @@ export default function ConfirmationDirectScheduleInfoV2({
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
         <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
-        <button className="va-button-link" onClick={() => window.print()}>
-          Print
-        </button>
+        <va-button
+          className="va-button-link"
+          onClick={() => window.print()}
+          text="Print"
+          data-testid="print-button"
+        />
       </div>
     </>
   );
