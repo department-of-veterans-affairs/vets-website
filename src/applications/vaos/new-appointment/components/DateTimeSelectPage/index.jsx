@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -213,3 +214,8 @@ export default function DateTimeSelectPage() {
     </div>
   );
 }
+
+ErrorMessage.propTypes = {
+  facilityId: PropTypes.string.isRequired,
+  history: PropTypes.objectOf.isRequired,
+};
