@@ -20,7 +20,9 @@ import {
   EditPhone,
   EditEmail,
   EditAddress,
-} from '../components/EditContactInfo';
+} from '../components/contact-information/EditContactInfo';
+
+import ContactInformationReview from '../components/contact-information/ContactInformationReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -141,6 +143,7 @@ const formConfig = {
           path: 'current-contact-information',
           uiSchema: pages.contactInformation.uiSchema,
           schema: pages.contactInformation.schema,
+          CustomPageReview: ContactInformationReview,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         editMobilePhone: {

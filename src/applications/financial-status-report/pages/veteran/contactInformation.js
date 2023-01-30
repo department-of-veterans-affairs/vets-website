@@ -1,4 +1,4 @@
-import ContactInfoDescription from '../../components/ContactInformation';
+import ContactInfoDescription from '../../components/contact-information/ContactInformation';
 import { contactInfoValidation } from '../../utils/validations';
 
 export const uiSchema = {

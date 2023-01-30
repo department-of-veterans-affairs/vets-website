@@ -60,6 +60,8 @@ export const transform = (formConfig, form) => {
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
+
+  // Contact information conversion from profile format
   const submitTelephoneNumber = enhancedFSRActive
     ? `${telephoneNumber?.areaCode || ''}${telephoneNumber?.phoneNumber || ''}`
     : telephoneNumber;
