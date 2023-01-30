@@ -15,10 +15,10 @@ describe('Enrollment verification e2e - user unauthenticated', () => {
     cy.url().should('include', '/education/verify-school-enrollment/');
 
     cy.get(
-      'a[type="button"][href*="/education/verify-school-enrollment/enrollment-verifications/"]',
+      'a[href*="/education/verify-school-enrollment/enrollment-verifications/"]',
     ).should('be.visible');
     cy.get(
-      'a[type="button"][href*="/education/verify-school-enrollment/enrollment-verifications/"]',
+      'a[href*="/education/verify-school-enrollment/enrollment-verifications/"]',
     ).should('have.text', 'Verify your enrollments for Post-9/11 GI Bill');
     cy.findByText(
       'If you have education benefits, verify your enrollments each month to continue getting paid.',
@@ -36,7 +36,7 @@ describe('Enrollment verification e2e - user unauthenticated', () => {
     cy.login();
     cy.visit('http://localhost:3001/education/verify-school-enrollment/');
     cy.get(
-      'a[type="button"][href*="/education/verify-school-enrollment/enrollment-verifications/"]',
+      'a[href*="/education/verify-school-enrollment/enrollment-verifications/"]',
     ).click();
     cy.injectAxeThenAxeCheck();
     cy.url().should(
@@ -57,7 +57,7 @@ describe('Enrollment verification e2e - user unauthenticated', () => {
     cy.login();
     cy.visit('http://localhost:3001/education/verify-school-enrollment/');
     cy.get(
-      'a[type="button"][href*="/education/verify-school-enrollment/enrollment-verifications/"]',
+      'a[href*="/education/verify-school-enrollment/enrollment-verifications/"]',
     ).click();
     cy.injectAxeThenAxeCheck();
     cy.url().should(

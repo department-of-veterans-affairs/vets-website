@@ -86,7 +86,9 @@ export default function EnrollmentVerificationMonth({
       </h1>
       {monthStatusMessage}
 
-      <va-additional-info trigger="More information">
+      <va-additional-info
+        trigger={`More information for ${month.verificationMonth}`}
+      >
         <EnrollmentVerificationMonthInfo month={month} />
       </va-additional-info>
     </div>

@@ -30,7 +30,6 @@ import {
 } from '../helpers';
 import { getEVData } from '../selectors';
 
-import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
@@ -328,16 +327,15 @@ export const VerifyEnrollmentsPage = ({
         showPrivacyAgreement
         totalProgressBarSegments={unverifiedMonths.length + 1}
       >
-        {informationIncorrectMonth &&
-        currentMonth !== unverifiedMonths.length ? (
-          <ReviewSkippedAheadAlert
-            incorrectMonth={informationIncorrectMonth.verificationMonth}
-          />
-        ) : (
-          <></>
-        )}
         {informationIncorrectMonth ? (
-          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+          <ReviewPausedInfo
+            skippedAheadIncorrectMonth={
+              currentMonth !== unverifiedMonths.length
+                ? informationIncorrectMonth.verificationMonth
+                : null
+            }
+            onFinishVerifyingLater={onFinishVerifyingLater}
+          />
         ) : (
           <></>
         )}
