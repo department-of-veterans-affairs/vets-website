@@ -50,7 +50,7 @@ function App({
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <DowntimeNotification
           appTitle="Certificate of Eligibility Form"
-          dependencies={[externalServices.lgyEligibilityManager]}
+          dependencies={[externalServices.coe]}
         >
           {children}
         </DowntimeNotification>

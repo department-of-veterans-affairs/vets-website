@@ -133,7 +133,7 @@ const App = ({
         <div className="row">
           <DowntimeNotification
             appTitle="Certificate of Eligibility Status Tool"
-            dependencies={[externalServices.lgyEligibilityManager]}
+            dependencies={[externalServices.coe]}
           >
             {content}
           </DowntimeNotification>
