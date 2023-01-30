@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
-
+  const inputReference = useRef(null);
   const getSize = num => {
     if (num > 999999) {
       return `${(num / 1000000).toFixed(1)} MB`;
     }
     return `${Math.floor(num / 1000)} KB`;
   };
+
+  useEffect(
+    () => {
+      if (attachments?.length > 0 && props.compose) {
+        inputReference.current?.focus();
+      }
+    },
+    [attachments],
+  );
 
   const removeAttachment = name => {
     const newAttArr = attachments.filter(item => item.name !== name);
@@ -28,7 +37,10 @@ const AttachmentsList = props => {
                 <div className="editable-attachment">
                   <span>
                     <i className="fas fa-paperclip" aria-hidden="true" />
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                    <span ref={inputReference} tabIndex={-1}>
+                      {file.name}{' '}
+                    </span>
+                    ({getSize(file.size || file.attachmentSize)})
                   </span>
                   <va-button
                     onClick={() => removeAttachment(file.name)}
@@ -54,7 +66,10 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                    <span ref={inputReference} tabIndex={-1}>
+                      {file.name}{' '}
+                    </span>
+                    ({getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
               )}
@@ -67,6 +82,7 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachments: PropTypes.array,
+  compose: PropTypes.bool,
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
 };
