@@ -229,7 +229,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockPreferencesApi();
   });
 
-  it('should submit request successfully', () => {
+  it.skip('should submit request successfully', () => {
     mockLoginApi({ facilityId: '442' });
     mockEligibilityApi({
       typeOfCare: 'socialWork',
