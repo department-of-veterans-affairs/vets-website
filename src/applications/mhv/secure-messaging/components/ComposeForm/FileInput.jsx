@@ -114,23 +114,27 @@ const FileInput = ({ attachments, setAttachments }) => {
         </VaModal>
       )}
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        id="attachments"
-        name="attachments"
-        data-testid="attach-file-input"
-        onChange={handleFiles}
-        hidden
-      />
+      {attachments.length < 4 && (
+        <>
+          <input
+            ref={fileInputRef}
+            type="file"
+            id="attachments"
+            name="attachments"
+            data-testid="attach-file-input"
+            onChange={handleFiles}
+            hidden
+          />
 
-      <va-button
-        onClick={useFileInput}
-        secondary
-        text="Attach file"
-        class="attach-file-button"
-        data-testid="attach-file-button"
-      />
+          <va-button
+            onClick={useFileInput}
+            secondary
+            text="Attach file"
+            class="attach-file-button"
+            data-testid="attach-file-button"
+          />
+        </>
+      )}
     </div>
   );
 };
