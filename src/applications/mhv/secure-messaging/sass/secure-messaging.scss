@@ -211,6 +211,7 @@ va-alert button {
       border-top: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
+      width: 100%;
       span {
         margin-top: 16px;
         @media (min-width: $medium-screen) {
@@ -218,7 +219,6 @@ va-alert button {
         }
       }
       @media (min-width: $medium-screen) {
-        width: 100%;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -226,7 +226,6 @@ va-alert button {
     }
   }
   li:last-child {
-    margin: 0 0 16px;
     .editable-attachment {
       border-bottom: 1px solid $color-gray-medium;
     }
