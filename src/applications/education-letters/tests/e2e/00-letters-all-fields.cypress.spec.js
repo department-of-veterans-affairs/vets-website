@@ -1,7 +1,7 @@
 /// <reference types='cypress' />
 
 import { mebUser } from '../fixtures/userResponse';
-import { mockClaimStatus } from '../fixtures/mockClaimStatus';
+import { mockClaimStatus } from '../fixtures/mockClaimStatusEligible';
 
 describe('All Field, texts and links should be validated on letters app', () => {
   it('All texts are present for the letters page unauthenticated', () => {
@@ -29,8 +29,10 @@ describe('All Field, texts and links should be validated on letters app', () => 
   it('All texts are present for the letters page authenticated but no letter', () => {
     cy.login(mebUser);
     cy.visit('http://localhost:3001/education/download-letters/');
+
+    cy.get('a[href*="/education/download-letters/letters"').click();
     cy.injectAxeThenAxeCheck();
-    cy.url().should('include', '/education/download-letters/');
+    cy.url().should('include', '/education/download-letters/letters');
 
     cy.get('.va-introtext').should(
       'have.text',
