@@ -6,7 +6,7 @@
 - *(Summarize the changes that have been made to the platform)*
 - *(If bug, how to reproduce)*
 - *(What is the solution, why is this the solution)*
-- *(Which team do you work for, does your team own the maintainence of this component?)*
+- *(Which team do you work for, does your team own the maintenance of this component?)*
 - *(If using a flipper, what is the end date of the flipper being required/success criteria being targeted)*
 
 ## Related issue(s)

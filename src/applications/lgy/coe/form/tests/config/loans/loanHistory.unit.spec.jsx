@@ -9,6 +9,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../../config/form';
+import { LOAN_INTENT } from '../../../constants';
 
 const defaultStore = createCommonStore();
 
@@ -17,6 +18,8 @@ describe('COE applicant loan history', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.loansChapter.pages.loanHistory;
+
+  const intentData = { relevantPriorLoans: [{ propertyOwned: true }] };
 
   it('should render', () => {
     const { container } = render(
@@ -31,6 +34,22 @@ describe('COE applicant loan history', () => {
     );
 
     expect($$('input', container).length).to.equal(11);
+    expect($$('select', container).length).to.equal(3);
+  });
+
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={intentData}
+        />
+      </Provider>,
+    );
+
+    expect($$('input', container).length).to.equal(16);
     expect($$('select', container).length).to.equal(3);
   });
 
@@ -54,6 +73,31 @@ describe('COE applicant loan history', () => {
     expect(onSubmit.called).to.be.false;
   });
 
+  it('Should not submit without required fields', () => {
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+
+    fireEvent.submit($('form'));
+
+    expect($$('.usa-input-error', container).length).to.equal(6);
+    fireEvent.click(
+      $('#root_relevantPriorLoans_0_propertyOwnedYes', container),
+    );
+
+    expect($$('.usa-input-error', container).length).to.equal(6);
+    expect(onSubmit.called).to.be.false;
+  });
+
   it('Should submit with required fields filled', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
@@ -65,6 +109,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.irrrl.value,
                 dateRange: {
                   from: '2019-02-XX',
                 },
@@ -98,6 +143,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.oneTime.value,
                 vaLoanNumber: '12-34-5-6789012',
                 propertyOwned: true,
               },
@@ -122,6 +168,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.refinance.value,
                 vaLoanNumber: '-1-234-56789012',
               },
             ],
@@ -146,6 +193,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.irrrl.value,
                 vaLoanNumber: '1-234-56a789012',
               },
             ],
@@ -172,6 +220,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.irrrl.value,
                 dateRange: {
                   from: '2019-02-XX',
                   to: '2019-02-XX',
@@ -208,6 +257,7 @@ describe('COE applicant loan history', () => {
           data={{
             relevantPriorLoans: [
               {
+                intent: LOAN_INTENT.irrrl.value,
                 dateRange: {
                   from: '2019-02-XX',
                   to: '2019-03-XX',
