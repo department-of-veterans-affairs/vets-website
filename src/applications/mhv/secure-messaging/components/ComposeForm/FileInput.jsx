@@ -87,9 +87,6 @@ const FileInput = ({ attachments, setAttachments }) => {
 
     if (attachments.length) {
       setAttachments(prevFiles => {
-        if (prevFiles.find(item => item.name === selectedFile.name)) {
-          return [...prevFiles];
-        }
         return [...prevFiles, selectedFile];
       });
     } else {
