@@ -113,11 +113,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
       }),
     ).to.be.ok;
 
-    expect(
-      screen.getByRole('button', {
-        name: 'Print',
-      }),
-    );
+    expect(screen.getByTestId('print-button'));
   });
 
   // NOTE: This should be covered in e2e tests

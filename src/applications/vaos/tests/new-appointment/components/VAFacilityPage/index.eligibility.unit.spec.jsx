@@ -572,7 +572,9 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       expect(screen.getByTestId('appointment-list-link')).to.exist;
       expect(
         screen.getByTestId('appointment-list-link').getAttribute('href'),
-      ).to.equal('/requested');
+      ).to.equal(
+        '/health-care/schedule-view-va-appointments/appointments/requested',
+      );
     });
 
     it('should show past visits message when not eligible for direct, requests are supported, no past visit', async () => {
