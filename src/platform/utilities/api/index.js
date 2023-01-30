@@ -12,6 +12,11 @@ import {
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
+const isJson = response => {
+  const contentType = response.headers.get('Content-Type');
+  return contentType && contentType.includes('application/json');
+};
+
 export function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
   if (fetch.isSinonProxy || window.Cypress) {
@@ -23,10 +28,16 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     ...settings,
     async retryOn(attempt, error, response) {
       if (error) return false;
-      const atError = await response.clone().json();
+
+      const errorResponse = isJson
+        ? await response
+            ?.clone()
+            ?.json()
+            .catch(() => response.text())
+        : response.text();
 
       if (
-        atError.errors === 'Access token has expired' &&
+        errorResponse?.errors === 'Access token has expired' &&
         infoTokenExists() &&
         attempt < 1
       ) {
@@ -60,11 +71,6 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     }
     return response;
   });
-}
-
-function isJson(response) {
-  const contentType = response.headers.get('Content-Type');
-  return contentType && contentType.includes('application/json');
 }
 
 /**
