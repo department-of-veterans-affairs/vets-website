@@ -1,12 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { startRequestAppointmentFlow } from '../../redux/actions';
 import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import InfoAlert from '../../../components/InfoAlert';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
+
+function handleClick(history, dispatch) {
+  return () => {
+    dispatch(startRequestAppointmentFlow());
+    history.push(newAppointmentFlow.requestDateTime.url);
+  };
+}
 
 function UrgentCareMessage() {
   return (
@@ -31,19 +42,19 @@ function UrgentCareMessage() {
 }
 
 function ActionButtons(props) {
-  const { eligibleForRequests, facilityId, onClickRequest } = props;
+  const { eligibleForRequests, facilityId } = props;
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   return (
     <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
       {eligibleForRequests && (
         <>
-          <va-link href={newAppointmentFlow.requestDateTime.url}>
-            <button
-              className="usa-button-secondary vads-u-margin-x--0"
-              onClick={onClickRequest}
-            >
-              Request an earlier appointment
-            </button>
-          </va-link>
+          <va-button
+            className="usa-button-secondary vads-u-margin-x--0"
+            onClick={handleClick(history, dispatch)}
+            text="Request an earlier appointment"
+          />
           <span className="vads-u-display--inline-block vads-u-margin-x--2p5 vads-u-font-weight--bold">
             OR
           </span>
@@ -62,7 +73,6 @@ export const WaitTimeAlert = ({
   eligibleForRequests,
   facilityId,
   nextAvailableApptDate,
-  onClickRequest,
   preferredDate,
 }) => {
   const today = moment();
@@ -111,7 +121,6 @@ export const WaitTimeAlert = ({
             <ActionButtons
               eligibleForRequests={eligibleForRequests}
               facilityId={facilityId}
-              onClickRequest={onClickRequest}
             />
           </>
         </InfoAlert>
@@ -137,7 +146,6 @@ export const WaitTimeAlert = ({
             <ActionButtons
               eligibleForRequests={eligibleForRequests}
               facilityId={facilityId}
-              onClickRequest={onClickRequest}
             />
           </>
         </InfoAlert>
@@ -154,7 +162,11 @@ WaitTimeAlert.propTypes = {
   eligibleForRequests: PropTypes.bool,
   nextAvailableApptDate: PropTypes.string,
   typeOfCareId: PropTypes.string,
-  onClickRequest: PropTypes.func,
+};
+
+ActionButtons.propTypes = {
+  facilityId: PropTypes.string.isRequired,
+  eligibleForRequests: PropTypes.bool,
 };
 
 export default WaitTimeAlert;

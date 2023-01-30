@@ -10,7 +10,6 @@ import {
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow,
   requestAppointmentDateChoice,
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -126,7 +125,7 @@ export default function DateTimeSelectPage() {
     [loadingSlots, appointmentSlotsStatus],
   );
 
-  const selectedDates = data.selectedDates;
+  const { selectedDates } = data;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -139,9 +138,6 @@ export default function DateTimeSelectPage() {
           eligibleForRequests={eligibleForRequests}
           facilityId={facilityId}
           nextAvailableApptDate={availableSlots?.[0]?.start}
-          onClickRequest={(...args) =>
-            dispatch(startRequestAppointmentFlow(...args))
-          }
           preferredDate={preferredDate}
           timezone={timezoneDescription}
         />
