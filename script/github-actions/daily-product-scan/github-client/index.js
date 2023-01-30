@@ -1,10 +1,8 @@
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
 const { createPullRequest } = require('octokit-plugin-create-pull-request');
-const core = require('@actions/core');
 const githubAppCredentials = require('./github-app-credentials');
 const constants = require('./constants');
-const { getDateTime } = require('./helpers');
 
 class GitHubClient {
   constructor() {
@@ -46,56 +44,6 @@ class GitHubClient {
         path: constants.path,
       });
     } catch (e) {
-      return e;
-    }
-  }
-
-  async createPull({ content }) {
-    const title = 'Update product-directory.json';
-    const body = [
-      'This is an automatic update.',
-      '',
-      'Changes were detected in one or more products listed in `product-directory.json`.',
-      '',
-      'This PR was made by the Product Directory Updater bot. It scans `vets-website` once a day for changes to the following property values for each product:',
-      '- `package_dependencies`',
-      '- `cross_product_dependencies`',
-      '- `has_unit_tests`',
-      '- `has_e2e_tests`',
-      '- `path_to_code`',
-      '- `last_updated`',
-      '',
-      'The bot runs weekdays at 12am.',
-    ].join('\n');
-    const head = `update_dependencies_${getDateTime()}`;
-    const commit = 'Update fields in the Product Directory JSON';
-
-    try {
-      const pr = await this.octokit.createPullRequest({
-        owner: constants.owner,
-        repo: constants.repo,
-        title,
-        body,
-        base: constants.branch,
-        head,
-        forceFork: false,
-        changes: [
-          {
-            files: {
-              [constants.path]: content,
-            },
-            commit,
-          },
-        ],
-      });
-
-      core.exportVariable('NEW_PR_NUMBER', pr.data.number);
-      core.exportVariable('NEW_PR_URL', pr.data.html_url);
-      return pr;
-    } catch (e) {
-      /* eslint-disable no-console */
-      console.log(e);
-      core.setFailed(e);
       return e;
     }
   }

@@ -108,19 +108,11 @@ async function main({ octokit }) {
       data: updatedProductDirectory,
     });
   }
-  /* eslint-disable no-console */
-  console.log(updatedProductDirectory);
+
   fs.writeFileSync(
     'product-directory/product-directory.json',
     updatedProductDirectory,
   );
-  // response = await octokit.createPull({
-  //   content: updatedProductDirectory,
-  // });
-
-  // if (response?.status !== 201) {
-  //   return handleFailure({ response });
-  // }
 
   return handleSuccess({
     changeDetected,
