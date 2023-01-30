@@ -323,64 +323,6 @@ export function FilterYourResults({
     );
   };
 
-  const specialMissions = () => {
-    const options = [
-      {
-        optionValue: 'hbcu',
-        optionLabel: 'Historically Black college or university',
-      },
-      {
-        optionValue: 'menonly',
-        optionLabel: 'Men-only',
-      },
-      {
-        optionValue: 'womenonly',
-        optionLabel: 'Women-only',
-      },
-      {
-        optionValue: 'relaffil',
-        optionLabel: 'Religious affiliation',
-      },
-      {
-        optionValue: 'HSI',
-        optionLabel: 'Hispanic-serving institutions',
-      },
-      {
-        optionValue: 'NANTI',
-        optionLabel: 'Native American-serving institutions',
-      },
-      {
-        optionValue: 'ANNHI',
-        optionLabel: 'Alaska Native-serving institutions',
-      },
-      {
-        optionValue: 'AANAPII',
-        optionLabel:
-          'Asian American Native American Pacific Islander-serving institutions',
-      },
-      {
-        optionValue: 'PBI',
-        optionLabel: 'Predominantly Black institutions',
-      },
-      {
-        optionValue: 'TRIBAL',
-        optionLabel: 'Tribal college and university',
-      },
-    ];
-
-    return (
-      <Dropdown
-        onChange={onChange}
-        value={specialMission}
-        name="specialMission"
-        options={addAllOption(options)}
-        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        visible
-      />
-    );
-  };
-
   const typeOfInstitution = () => {
     const name = 'Type of institution';
     const legendId = `${createId(name)}-legend`;
@@ -409,7 +351,6 @@ export function FilterYourResults({
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
-              {specialMissions()}
             </div>
           </ExpandingGroup>
         </div>
