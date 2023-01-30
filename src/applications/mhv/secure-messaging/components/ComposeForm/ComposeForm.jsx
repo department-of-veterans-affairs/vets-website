@@ -383,6 +383,7 @@ const ComposeForm = props => {
           <div className="compose-attachments-heading">Attachments</div>
           <HowToAttachFiles />
           <AttachmentsList
+            compose
             attachments={attachments}
             setAttachments={setAttachments}
             editingEnabled
