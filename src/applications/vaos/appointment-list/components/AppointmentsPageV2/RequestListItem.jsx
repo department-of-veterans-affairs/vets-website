@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
@@ -81,7 +80,7 @@ export default function RequestListItem({ appointment, facility }) {
           {isCC && ccFacilityName}
         </div>
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
-          <VaLink
+          <va-link
             className="vaos-appts__focus--hide-outline"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''

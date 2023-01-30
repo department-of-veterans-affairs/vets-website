@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import moment from '../../../lib/moment-tz';
 import {
@@ -145,7 +144,7 @@ export default function AppointmentCard({
           )}
         </div>
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
-          <VaLink
+          <va-link
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
             href={link}

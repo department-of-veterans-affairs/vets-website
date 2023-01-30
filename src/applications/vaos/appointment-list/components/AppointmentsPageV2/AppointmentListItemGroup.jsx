@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -241,7 +240,7 @@ export default function AppointmentListItemGroup({ data }) {
               },
             )}
           >
-            <VaLink
+            <va-link
               className="vaos-appts__focus--hide-outline"
               aria-label={label}
               href={link}
