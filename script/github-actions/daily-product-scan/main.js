@@ -3,7 +3,6 @@ const glob = require('glob');
 const core = require('@actions/core');
 const fs = require('fs');
 
-// const { exit } = require('process');
 const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
