@@ -84,8 +84,8 @@ const RealEstateOwnershipQuestion = props => {
 };
 
 RealEstateOwnershipQuestion.propTypes = {
-  goToPath: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
+  goToPath: PropTypes.func,
+  goBack: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
 

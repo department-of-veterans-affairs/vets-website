@@ -17,7 +17,9 @@ import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
 import RealEstateOwnershipQuestion from '../components/RealEstateOwnershipQuestion';
+import RealEstateOwnershipQuestionReview from '../components/RealEstateOwnershipQuestionReview';
 import RealEstateOwnershipValue from '../components/RealEstateOwnershipValue';
+import RealEstateOwnershipValueReview from '../components/RealEstateOwnershipValueReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -423,6 +425,8 @@ const formConfig = {
           schema: pages.enhancedRealEstate.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
           CustomPage: RealEstateOwnershipQuestion,
+          editModeOnReviewPage: true,
+          CustomPageReview: RealEstateOwnershipQuestionReview,
         },
         enhancedRealEstateRecords: {
           path: 'enhanced-real-estate-asset-records',
@@ -434,6 +438,7 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: RealEstateOwnershipValue,
+          CustomPageReview: RealEstateOwnershipValueReview,
         },
         vehicles: {
           path: 'vehicles',
