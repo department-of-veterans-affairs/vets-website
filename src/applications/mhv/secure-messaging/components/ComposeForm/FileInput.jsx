@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { acceptedFileTypes } from '../../util/constants';
+import { acceptedFileTypes, Attachments } from '../../util/constants';
 
 const FileInput = ({ attachments, setAttachments }) => {
   const [error, setError] = useState();
@@ -68,7 +68,7 @@ const FileInput = ({ attachments, setAttachments }) => {
       fileInputRef.current.value = null;
       return;
     }
-    if (selectedFile.size > 6000000) {
+    if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
         title: 'File is too large',
         message: 'File size for a single attachment cannot exceed 6MB',
@@ -76,7 +76,10 @@ const FileInput = ({ attachments, setAttachments }) => {
       fileInputRef.current.value = null;
       return;
     }
-    if (currentTotalSize + selectedFile.size > 10000000) {
+    if (
+      currentTotalSize + selectedFile.size >
+      Attachments.TOTAL_MAX_FILE_SIZE
+    ) {
       setError({
         title: 'Total size of files is too large',
         message: 'The total size of all attachments cannot exceed 10MB',
@@ -114,7 +117,7 @@ const FileInput = ({ attachments, setAttachments }) => {
         </VaModal>
       )}
 
-      {attachments.length < 4 && (
+      {attachments?.length < Attachments.MAX_FILE_COUNT && (
         <>
           <input
             ref={fileInputRef}

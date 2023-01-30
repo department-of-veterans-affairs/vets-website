@@ -30,7 +30,6 @@ describe('Move button', () => {
     expect(screen);
   });
   it('displays Move button text, but not modal', () => {
-    screen.debug();
     expect(screen.getByTestId('move-button-text')).to.exist;
     expect(
       screen.queryByText(

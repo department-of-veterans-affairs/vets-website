@@ -31,7 +31,7 @@ const AttachmentsList = props => {
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
-            <li key={file.name}>
+            <li key={file.name + file.size}>
               {editingEnabled && (
                 <div className="editable-attachment">
                   <span>
