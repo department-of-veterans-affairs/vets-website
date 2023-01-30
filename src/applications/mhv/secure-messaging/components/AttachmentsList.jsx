@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
-  const { attachments, setAttachments, editingEnabled } = props;
+  const { attachments, setAttachments, editingEnabled, compose } = props;
   const inputReference = useRef(null);
   const getSize = num => {
     if (num > 999999) {
@@ -14,7 +14,7 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachments?.length > 0 && props.compose) {
+      if (attachments?.length > 0 && compose) {
         inputReference.current?.focus();
       }
     },
