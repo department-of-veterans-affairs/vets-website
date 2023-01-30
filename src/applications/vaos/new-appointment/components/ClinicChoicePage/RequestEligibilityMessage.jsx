@@ -79,7 +79,11 @@ export default function RequestEligibilityMessage({
               <li>
                 Go to{' '}
                 <va-link
-                  href={featureStatusImprovement ? '/pending' : '/requested'}
+                  href={
+                    featureStatusImprovement
+                      ? '/health-care/schedule-view-va-appointments/appointments/pending'
+                      : '/health-care/schedule-view-va-appointments/appointments/requested'
+                  }
                   text="your appointment list"
                   data-testid="appointment-list-link"
                 />{' '}

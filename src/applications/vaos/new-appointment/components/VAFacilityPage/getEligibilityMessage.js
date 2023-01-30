@@ -95,7 +95,11 @@ export default function getEligibilityMessage({
           Call this facility to schedule or cancel an open appointment request.
           You can also cancel a request from{' '}
           <va-link
-            href={featureStatusImprovement ? '/pending' : '/requested'}
+            href={
+              featureStatusImprovement
+                ? '/health-care/schedule-view-va-appointments/appointments/pending'
+                : '/health-care/schedule-view-va-appointments/appointments/requested'
+            }
             text="your appointment list"
             data-testid="appointment-list-link"
           />
