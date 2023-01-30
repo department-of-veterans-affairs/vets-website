@@ -284,17 +284,23 @@ export const getMonthlyExpenses = ({
 };
 
 export const getTotalAssets = ({
+  realEstateValue,
   assets,
   realEstateRecords,
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
+  const formattedREValue = Number(
+    realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const realEstate = !enhancedFSRActive
+    ? sumValues(realEstateRecords, 'realEstateAmount')
+    : formattedREValue;
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))

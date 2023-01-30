@@ -34,6 +34,7 @@
       "rentOrMortgage": "1200.53",
       "food": "4000.38"
     },
+    "realEstateValue": "800000.81",
     "assets": {
       "otherAssets": [
         {
@@ -91,7 +92,6 @@
         }
       ]
     },
-    "realEstateOwned": "800000.81",
     "additionalIncome": {
       "spouse": {
         "spAddlIncome": [
