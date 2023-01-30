@@ -22,7 +22,7 @@ const encryptedMockFile = [
   ...arrayOfZeros,
 ];
 
-describe.skip('readAndCheckFile', () => {
+describe('readAndCheckFile', () => {
   let oldFileReader;
 
   const setup = (ext = 'pdf', isEncrypted) => {
@@ -158,7 +158,7 @@ describe.skip('readAndCheckFile', () => {
   });
 });
 
-describe.skip('checkIsEncryptedPdf', () => {
+describe('checkIsEncryptedPdf', () => {
   const file = { name: 'some-file.PDF' };
   it('should return false for non-PDF files', () => {
     expect(
@@ -173,7 +173,7 @@ describe.skip('checkIsEncryptedPdf', () => {
   });
 });
 
-describe.skip('checkTypeAndExtensionMatches', () => {
+describe('checkTypeAndExtensionMatches', () => {
   const getFile = ({
     name = 'foo.gif',
     type = fileTypeSignatures.gif.mime,
@@ -196,15 +196,31 @@ describe.skip('checkTypeAndExtensionMatches', () => {
     const file = getFile();
     expect(checkTypeAndExtensionMatches(file)).to.be.true;
   });
+  it('should return true for jpg files with jpg type3 signature', () => {
+    const file = getFile({
+      name: 'foo.jpg',
+      type: fileTypeSignatures.jpeg.mime,
+      result: [...fileTypeSignatures.jpeg.sigs.jpgType3, ...arrayOfZeros],
+    });
+    expect(checkTypeAndExtensionMatches(file)).to.be.true;
+  });
   it('should return true for jpeg files with lots of leading zeros', () => {
     const file = getFile({
       name: 'foo.jpeg',
       type: fileTypeSignatures.jpeg.mime,
       result: [
         ...arrayOfZeros,
-        ...fileTypeSignatures.jpeg.sig, // starts with 3 zeros
+        ...fileTypeSignatures.jpeg.sigs.jpgType2, // starts with 3 zeros
         ...arrayOfZeros,
       ],
+    });
+    expect(checkTypeAndExtensionMatches(file)).to.be.true;
+  });
+  it('should return true for jpeg files with jpg signature', () => {
+    const file = getFile({
+      name: 'foo.jpeg',
+      type: fileTypeSignatures.jpeg.mime,
+      result: [...fileTypeSignatures.jpeg.sigs.jpgType4, ...arrayOfZeros],
     });
     expect(checkTypeAndExtensionMatches(file)).to.be.true;
   });
@@ -259,7 +275,7 @@ describe('arrayIncludesArray', () => {
   });
 });
 
-describe.skip('ShowPdfPassword', () => {
+describe('ShowPdfPassword', () => {
   const buttonClick = new MouseEvent('click', {
     bubbles: true,
     cancelable: true,
