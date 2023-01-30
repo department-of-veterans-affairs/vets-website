@@ -6,7 +6,7 @@ export const toeClaimantTestData = {
       claimant: {
         claimantId: 300000000000001,
         suffix: 'Jr.',
-        dateOfBirth: '1988-10-01',
+        dateOfBirth: '1985-01-01',
         firstName: 'Teressa',
         lastName: 'Harber',
         middleName: 'Estefana',
