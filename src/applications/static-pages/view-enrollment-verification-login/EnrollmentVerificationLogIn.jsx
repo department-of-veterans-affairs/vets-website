@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import manifest from '../../enrollment-verification/manifest.json';
-import { REVIEW_ENROLLMENTS_RELATIVE_URL } from '../../enrollment-verification/constants';
 
-export const BASE_URL = `${manifest.rootUrl}/`;
+export const BASE_URL = '/education/verify-school-enrollment/';
 export const REVIEW_ENROLLMENTS_URL_SEGMENT = 'enrollment-verifications';
 export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
+export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 
 export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   const onSignInClicked = useCallback(() => toggleLoginModal(true), [
