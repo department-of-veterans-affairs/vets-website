@@ -28,17 +28,22 @@ describe('All Field, texts and links should be validated on letters app', () => 
 
   it('All texts are present for the letters page authenticated but no letter', () => {
     cy.login(mebUser);
+    cy.intercept(
+      'GET',
+      '/meb_api/v0/claim_status?latest=true',
+      mockClaimStatus,
+    ).as('mockClaimStatus');
     cy.visit('http://localhost:3001/education/download-letters/');
     cy.injectAxeThenAxeCheck();
     cy.url().should('include', '/education/download-letters/');
 
     cy.get('.va-introtext').should(
       'have.text',
-      'Check this page for your decision letter for Post-9/11 GI Bill benefits. Your decision letter isn’t available online ',
+      'If you’re a Veteran and you recently received your VA education decision letter, you can download it now.',
     );
     cy.findByTestId('form-title').should(
       'have.text',
-      'Download your education decision letter',
+      'Download your VA education letter',
     );
     cy.findByText('Your decision letter isn’t available online').should(
       'be.visible',
