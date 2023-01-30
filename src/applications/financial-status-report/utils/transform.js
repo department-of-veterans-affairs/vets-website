@@ -68,8 +68,8 @@ export const transform = (formConfig, form) => {
   const submitAddress = enhancedFSRActive
     ? {
         addresslineOne: address.addressLine1,
-        addresslineTwo: address.addressLine2,
-        addresslineThree: address.addressLine3,
+        addresslineTwo: address.addressLine2 || '',
+        addresslineThree: address.addressLine3 || '',
         city: address.city,
         stateOrProvince: address.stateCode,
         zipOrPostalCode: address.zipCode,
@@ -77,8 +77,8 @@ export const transform = (formConfig, form) => {
       }
     : {
         addresslineOne: address.street,
-        addresslineTwo: address.street2,
-        addresslineThree: address.street3,
+        addresslineTwo: address.street2 || '',
+        addresslineThree: address.street3 || '',
         city: address.city,
         stateOrProvince: address.state,
         zipOrPostalCode: address.postalCode,
