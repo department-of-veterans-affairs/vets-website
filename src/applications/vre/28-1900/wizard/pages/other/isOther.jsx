@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { otherPathPageNames } from '../pageList';
 import { CAREERS_EMPLOYMENT_ROOT_URL } from 'applications/vre/28-1900/constants';
+import { otherPathPageNames } from '../pageList';
 import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 
 const AmOther = props => {
@@ -14,6 +14,7 @@ const AmOther = props => {
   recordNotificationEvent('ineligibility - is not a Veteran or Service Member');
   return (
     <div
+      id={otherPathPageNames.isOther}
       className="feature vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"

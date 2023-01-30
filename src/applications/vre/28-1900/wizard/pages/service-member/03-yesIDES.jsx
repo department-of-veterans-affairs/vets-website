@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { serviceMemberPathPageNames } from '../pageList';
 import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
 import recordEvent from 'platform/monitoring/record-event';
+import { serviceMemberPathPageNames } from '../pageList';
 
 const YesIDES = props => {
   const { setWizardStatus } = props;
@@ -15,6 +15,7 @@ const YesIDES = props => {
   );
   return (
     <div
+      id={serviceMemberPathPageNames.yesIDES}
       className="vads-u-margin-top--2 vads-u-padding--3 vads-u-background-color--gray-lightest"
       aria-live="polite"
       aria-atomic="true"
