@@ -1,10 +1,17 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import newAppointmentFlow from '../../newAppointmentFlow';
-
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.ccPreferences.url);
+  };
+}
+
 export default function SelectedProviderSection({ data, vaCityState }) {
+  const history = useHistory();
   const provider = data.communityCareProvider;
   const hasProvider =
     !!provider && !!Object.keys(data.communityCareProvider).length;
@@ -38,13 +45,14 @@ export default function SelectedProviderSection({ data, vaCityState }) {
               LANGUAGES.find(language => language.id === data.preferredLanguage)
                 ?.value
             }
-            <br />
+            onClick=
+            {handleClick(history)}
             {vaCityState && <>Closest VA health system: {vaCityState}</>}
           </span>
         </div>
         <div>
           <va-link
-            href={newAppointmentFlow.ccPreferences.url}
+            onClick={handleClick(history)}
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
