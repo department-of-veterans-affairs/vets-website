@@ -3,18 +3,20 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import RecordListItem from '../../components/RecordListItem';
 import reducer from '../../reducers';
+import vaccines from '../fixtures/vaccines.json';
 
 describe('Record list item component', () => {
   const initialState = {
     mr: {
       vaccines: {
-        vaccineList: null,
+        vaccineList: vaccines,
+        vaccineDetails: vaccines[0],
       },
     },
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<RecordListItem />, {
+    return renderWithStoreAndRouter(<RecordListItem record={vaccines[0]} />, {
       initialState: state,
       reducers: reducer,
       path: '/vaccines',
@@ -28,8 +30,8 @@ describe('Record list item component', () => {
 
   it('should contain the name and date of the record', () => {
     const screen = setup();
-    const recordName = screen.getByText('Flu vaccine', { exact: true });
-    const recordDate = screen.getByText('July', { exact: false });
+    const recordName = screen.getByText('COVID-19 vaccine', { exact: true });
+    const recordDate = screen.getByText('June', { exact: false });
     expect(recordName).to.exist;
     expect(recordDate).to.exist;
   });

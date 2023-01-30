@@ -16,11 +16,14 @@ describe('Record list component', () => {
   };
 
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<RecordList />, {
-      initialState: state,
-      reducers: reducer,
-      path: '/vaccines',
-    });
+    return renderWithStoreAndRouter(
+      <RecordList records={vaccines} type="vaccines" />,
+      {
+        initialState: state,
+        reducers: reducer,
+        path: '/vaccines',
+      },
+    );
   };
 
   it('renders without errors', () => {
