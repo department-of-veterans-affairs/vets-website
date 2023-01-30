@@ -20,7 +20,7 @@ export const LOAN_INTENT = {
     value: 'REFI', // cash out refinance
     label: (
       <>
-        A regular <strong>cash-out refinance</strong> of a current VA home loan
+        A <strong>cash-out refinance</strong>
       </>
     ),
     shortLabel: 'A regular cash-out refinance',
@@ -29,8 +29,7 @@ export const LOAN_INTENT = {
     value: 'IRRRL',
     label: (
       <>
-        An <strong>Interest Rate Reduction Refinance Loan</strong> (IRRRL) to
-        refinance the balance of a current VA home loan
+        An <strong>Interest Rate Reduction Refinance Loan</strong> (IRRRL)
       </>
     ),
     shortLabel: 'An Interest Rate Reduction Refinance Loan',

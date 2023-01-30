@@ -180,7 +180,8 @@ export const uiSchema = {
       },
       intent: {
         'ui:widget': 'radio',
-        'ui:title': 'How will you use your Certificate of Eligibility?',
+        'ui:title':
+          'How will you use your Certificate of Eligibility with this VA Home Loan:',
         'ui:required': (formData, index) =>
           formData.relevantPriorLoans[index].propertyOwned,
         'ui:options': {
