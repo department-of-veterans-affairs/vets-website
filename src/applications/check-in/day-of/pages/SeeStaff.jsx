@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+
+import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import Wrapper from '../../components/layout/Wrapper';
 
@@ -13,6 +15,7 @@ import useSendDemographicsFlags from '../../hooks/useSendDemographicsFlags';
 const SeeStaff = props => {
   const { router } = props;
   const { goBack } = router;
+  const { getPreviousPageFromRouter } = useFormRouting(router);
   const { t } = useTranslation();
   const selectSeeStaffMessage = useMemo(makeSelectSeeStaffMessage, []);
   const { message } = useSelector(selectSeeStaffMessage);
@@ -24,7 +27,11 @@ const SeeStaff = props => {
 
   return (
     <>
-      <BackButton router={router} action={goBack} />
+      <BackButton
+        router={router}
+        action={goBack}
+        prevUrl={router.createHref(getPreviousPageFromRouter())}
+      />
       <Wrapper pageTitle={t('check-in-with-a-staff-member')} withBackButton>
         {message ? (
           <span>{message}</span>

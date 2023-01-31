@@ -41,12 +41,17 @@ describe('check-in', () => {
       const screen = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <BackButton action={goBack} router={mockRouterThirdPage} />
+            <BackButton
+              action={goBack}
+              router={mockRouterThirdPage}
+              prevUrl="/second-page"
+            />
           </I18nextProvider>
         </Provider>,
       );
 
       expect(screen.getByTestId('back-button')).to.exist;
+      expect(screen.getByTestId('back-button').href).to.contain('/second-page');
       expect(screen.getByTestId('back-button')).to.have.text(
         'Back to last screen',
       );

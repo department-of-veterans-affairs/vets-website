@@ -18,7 +18,12 @@ const NextOfKin = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
-  const { jumpToPage, goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const {
+    jumpToPage,
+    goToNextPage,
+    goToPreviousPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
   const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const seeStaffMessage = t(
@@ -59,7 +64,11 @@ const NextOfKin = props => {
 
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={router.createHref(getPreviousPageFromRouter())}
+      />
       <NextOfKinDisplay
         nextOfKin={nextOfKin}
         yesAction={yesClick}
