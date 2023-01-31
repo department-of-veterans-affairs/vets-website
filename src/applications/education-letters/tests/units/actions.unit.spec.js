@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import * as mockPersonalInfo from '../../testing/response';
+import * as mockResponse from '../../testing/response';
 
 import {
   fetchClaimStatus,
@@ -23,7 +23,7 @@ describe('Render Letters UI', () => {
       recordEventSpy = sinon.spy();
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
-        mockPersonalInfo['GET /meb_api/v0/claim_status?latest=true'],
+        mockResponse['GET /meb_api/v0/claim_status?latest=true'],
       );
       actionCreator = fetchClaimStatus('MEB', recordEventSpy);
       dispatch = sinon.spy();
@@ -37,8 +37,7 @@ describe('Render Letters UI', () => {
         MEB_FETCH_CLAIM_STATUS_SUCCESS,
       );
       expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
-        mockPersonalInfo['GET /meb_api/v0/claim_status?latest=true']
-          .claimStatus,
+        mockResponse['GET /meb_api/v0/claim_status?latest=true'].claimStatus,
       );
       expect(
         global.fetch.firstCall.args[0].endsWith(
@@ -54,7 +53,7 @@ describe('Render Letters UI', () => {
       recordEventSpy = sinon.spy();
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
-        mockPersonalInfo['GET /meb_api/v0/forms_claim_status?latest=true'],
+        mockResponse['GET /meb_api/v0/forms_claim_status?latest=true'],
       );
       actionCreator = fetchClaimStatus('TOE', recordEventSpy);
       dispatch = sinon.spy();
@@ -67,7 +66,7 @@ describe('Render Letters UI', () => {
         TOE_FETCH_CLAIM_STATUS_SUCCESS,
       );
       expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
-        mockPersonalInfo['GET /meb_api/v0/forms_claim_status?latest=true']
+        mockResponse['GET /meb_api/v0/forms_claim_status?latest=true']
           .claimStatus,
       );
       expect(
