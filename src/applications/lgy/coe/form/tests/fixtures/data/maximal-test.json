@@ -32,9 +32,9 @@
     }
   ],
   "vaLoanIndicator": true,
-  "intent": "ONETIMERESTORATION",
   "relevantPriorLoans": [
     {
+      "intent": "ONETIMERESTORATION",
       "dateRange": {
         "from": "2015-01-XX",
         "to": "2020-01-XX"
@@ -51,6 +51,7 @@
       "willRefinance": false
     },
     {
+      "intent": "REFI",
       "dateRange": {
         "from": "2020-01-XX"
       },

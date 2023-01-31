@@ -10,7 +10,7 @@ import mockPayment from './fixtures/mocks/payment-information.json';
 import mockUpload from './fixtures/mocks/document-upload.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { mockItf } from './all-claims.cypress.helpers';
+import { mockItf } from './cypress.helpers';
 
 import {
   MOCK_SIPS_API,

@@ -1,12 +1,12 @@
 [
-  { "name": "COVID-19 vaccine", "date": "2022-06-14T17:42:46.000Z" },
-  { "name": "COVID-19 vaccine", "date": "2022-04-13T17:42:46.000Z" },
-  { "name": "Flu vaccine", "date": "2022-04-13T17:42:46.000Z" },
-  { "name": "Flu vaccine", "date": "2018-05-04T17:42:46.000Z" },
-  { "name": "PneumoPPV vaccine", "date": "2016-04-28T17:42:46.000Z" },
-  { "name": "Flu vaccine", "date": "2016-04-28T17:42:46.000Z" },
-  { "name": "PneumoPPV vaccine", "date": "2015-04-05T17:42:46.000Z" },
-  { "name": "Td vaccine", "date": "2012-04-05T17:42:46.000Z" },
-  { "name": "Flu vaccine", "date": "2012-04-03T17:42:46.000Z" },
-  { "name": "Flu vaccine", "date": "2011-04-01T17:42:46.000Z" }
+  { "name": "COVID-19 vaccine", "date": "2022-06-14T17:42:46.000Z", "vaccineId": "000000", "type": "COVID-19 booster", "dosage": "1st booster", "series": "Phizer", "facility":"school parking lot", "reactions": ["sore arm", "fever"], "comments": ["Protects from 5G sickness", "Need another booster to help with 6G"] },
+  { "name": "COVID-19 vaccine", "date": "2022-04-13T17:42:46.000Z", "vaccineId": "000001" },
+  { "name": "Flu vaccine", "date": "2022-04-13T17:42:46.000Z", "vaccineId": "000002" },
+  { "name": "Flu vaccine", "date": "2018-05-04T17:42:46.000Z", "vaccineId": "000003" },
+  { "name": "PneumoPPV vaccine", "date": "2016-04-28T17:42:46.000Z", "vaccineId": "000004" },
+  { "name": "Flu vaccine", "date": "2016-04-28T17:42:46.000Z", "vaccineId": "000005" },
+  { "name": "PneumoPPV vaccine", "date": "2015-04-05T17:42:46.000Z", "vaccineId": "000006" },
+  { "name": "Td vaccine", "date": "2012-04-05T17:42:46.000Z", "vaccineId": "000007" },
+  { "name": "Flu vaccine", "date": "2012-04-03T17:42:46.000Z", "vaccineId": "000008" },
+  { "name": "Flu vaccine", "date": "2011-04-01T17:42:46.000Z", "vaccineId": "000009" }
 ]
