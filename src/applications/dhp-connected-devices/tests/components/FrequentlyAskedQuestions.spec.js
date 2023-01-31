@@ -41,6 +41,46 @@ describe('Frequently asked questions component', () => {
       expect(screen.getByText(/Connecting Your Device & Data Sharing/)).to
         .exist;
     });
+
+    it('renders the first item', () => {
+      const faq = screen.getByTestId('connect-share-first-faq');
+      expect(faq.getAttribute('header')).to.eq('How can I connect my device?');
+    });
+
+    it('renders the second item', () => {
+      const faq = screen.getByTestId('connect-share-second-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'Can I stop sharing my connected device data with VA?',
+      );
+    });
+
+    it('renders the third item', () => {
+      const faq = screen.getByTestId('connect-share-third-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'What information can VA access from the devices that I have connected on VA.gov?',
+      );
+    });
+
+    it('renders the fourth item', () => {
+      const faq = screen.getByTestId('connect-share-fourth-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'Who can access data from the devices I have connected on VA.gov?',
+      );
+    });
+
+    it('renders the fifth item', () => {
+      const faq = screen.getByTestId('connect-share-fifth-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'How will my private information be protected?',
+      );
+    });
+
+    it('renders the sixth item', () => {
+      const faq = screen.getByTestId('connect-share-sixth-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'Does VA keep my data after I disconnect a device?',
+      );
+    });
   });
 
   describe('Troubleshooting section', () => {

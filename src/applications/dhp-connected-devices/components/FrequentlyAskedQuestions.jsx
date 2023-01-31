@@ -71,8 +71,8 @@ export const FrequentlyAskedQuestions = () => {
         <h3>Connecting Your Device & Data Sharing</h3>
         <va-accordion-item
           header="What are connected devices and why might I use them?"
-          id="third-dhp-faq"
-          data-testid="third-faq"
+          id="dhp-connect-share-first-faq"
+          data-testid="connect-share-first-faq"
         >
           Connected devices let you share your data from your wearables and
           other health devices with VA. If your VA care team asked you to
@@ -81,15 +81,15 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="How can I connect my devices?"
-          id="second-dhp-faq"
-          data-testid="second-faq"
+          id="dhp-connect-share-second-faq"
+          data-testid="connect-share-second-faq"
         >
           <strong>Take these steps to connect a device:</strong>
           <p />
           <ol>
             <li>
               Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
-              account
+              account TODO Signing in to VA.gov guide
             </li>
             <li>
               Select the <strong>Connect</strong> link below the device you
@@ -99,11 +99,13 @@ export const FrequentlyAskedQuestions = () => {
               Follow the instructions shown on the device vendor’s website
             </li>
           </ol>
+          Watch this video for detailed instructions on how to connect your
+          device.
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
-          id="third-dhp-faq"
-          data-testid="third-faq"
+          id="dhp-connect-share-third-faq"
+          data-testid="connect-share-third-faq"
         >
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
@@ -118,7 +120,7 @@ export const FrequentlyAskedQuestions = () => {
             </li>
             <li>
               Select the <strong>Disconnect</strong> button below the device
-              name
+              name TODO: Signing in to VA.gov guide
             </li>
             <li>
               Confirm you would like to disconnect the device by selecting
@@ -128,21 +130,35 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="What information can VA access from the devices that I have connected on VA.gov?"
-          id="fourth-dhp-faq"
-          data-testid="fourth-faq"
+          id="dhp-connect-share-fourth-faq"
+          data-testid="connect-share-fourth-faq"
         >
           When you connect a device, you can choose the type of data that will
           be shared with VA.
         </va-accordion-item>
         <va-accordion-item
           header="Who can access data from the devices I have connected on VA.gov?"
-          id="fifth-dhp-faq"
-          data-testid="fifth-faq"
+          id="dhp-connect-share-fifth-faq"
+          data-testid="connect-share-fifth-faq"
         >
           Your VA care team will be able to view the data from your connected
           devices. Authorized researchers at VA may also be able to view data
           from your connected devices, but that data will not be identified as
           yours.
+        </va-accordion-item>
+        <va-accordion-item
+          header="How will my private information be protected?"
+          id="dhp-connect-share-sixth-faq"
+          data-testid="connect-share-sixth-faq"
+        >
+          VA will keep information about you, including any connected device
+          data that you share, strictly confidential to the extent required by
+          law. The VA will not sell, rent, or otherwise provide your personal
+          information to outside marketers. Information collected via VA.gov,
+          including data shared with VA as a part of this Pilot, may be shared
+          with employees, contractors, and other service providers as necessary
+          to respond to a request, provide a service, or as otherwise authorized
+          by law.
         </va-accordion-item>
         <va-accordion-item
           header="Does VA keep my data after I disconnect a device?"
