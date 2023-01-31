@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const Acknowledge5103Description = ({ formContext }) => {
+export const Notice5103Description = ({ onReviewPage }) => {
   const [visibleAlert, setVisibleAlert] = useState(true);
-  const Header = formContext.onReviewPage ? 'h4' : 'h3';
+  const Header = onReviewPage ? 'h4' : 'h3';
 
   const hideAlert = () => setVisibleAlert(false);
   return (
@@ -52,32 +52,21 @@ export const Acknowledge5103Description = ({ formContext }) => {
   );
 };
 
-Acknowledge5103Description.propTypes = {
-  formContext: PropTypes.shape({
-    onReviewPage: PropTypes.bool,
-  }),
+Notice5103Description.propTypes = {
+  onReviewPage: PropTypes.bool,
 };
 
-export const acknowledge5103Error =
-  'You need to certify that you have reviewed the notice of evidence needed.';
-
-export const acknowledge = {
-  certify: 'I certify that',
-  reviewed: ' I have reviewed the notice of evidence needed.',
+export const content = {
+  error:
+    'You need to certify that you have reviewed the notice of evidence needed.',
+  label: 'I certify that I have reviewed the notice of evidence needed.',
+  update: 'Update page',
+  updateLabel: 'Update notice of evidence needed page',
 };
-
-export const acknowledge5103Label = (
-  <>
-    <strong>{acknowledge.certify}</strong>
-    {acknowledge.reviewed}
-  </>
-);
 
 export const reviewField = () => (
   <div className="review-row">
-    <dt>
-      {acknowledge.certify} {acknowledge.reviewed}
-    </dt>
+    <dt>{content.label}</dt>
     <dd>Yes, I certify</dd>
   </div>
 );
