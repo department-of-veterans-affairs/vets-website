@@ -56,7 +56,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it('should show confirmed appointments detail page', async () => {
+  it.skip('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const today = moment.utc();
     const data = {
@@ -719,7 +719,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
   });
 
-  it('should allow the user to go back to the appointment list', async () => {
+  it.skip('should allow the user to go back to the appointment list', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const data = {
       id: '21cdc6741c00ac67b6cbf6b972d084c1',

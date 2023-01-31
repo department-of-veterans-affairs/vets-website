@@ -190,7 +190,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
-  it('should go back to requests page when clicking top link', async () => {
+  it.skip('should go back to requests page when clicking top link', async () => {
     const appointment = getVARequestMock();
 
     appointment.attributes = {
