@@ -17,6 +17,8 @@ import {
   updateCurrentSection,
 } from '../actions';
 
+import featureFlagNames from '../../../utilities/feature-toggles/featureFlagNames';
+
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -176,14 +178,17 @@ export class Main extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
-
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
   defaultLinks.push(MY_VA_LINK);
-
+  const authenticatedLinks = state?.featureToggles[
+    featureFlagNames.superCoolMHVFeature
+  ]
+    ? [{ href: 'thing', title: 'not thing' }]
+    : undefined;
   const data = flagCurrentPageInTopLevelLinks(
-    getAuthorizedLinkData(loggedIn, defaultLinks),
+    getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
   );
 
   return {
