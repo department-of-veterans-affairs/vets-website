@@ -149,3 +149,16 @@ export const validateCurrencyArray = (errors, fieldData) => {
     });
   }
 };
+
+export const contactInfoValidation = (errors, _fieldData, formData) => {
+  const { personalData = {} } = formData;
+  if (!personalData.emailAddress) {
+    errors.addError('Please add an email address to your profile');
+  }
+  if (!personalData.telephoneNumber?.phoneNumber) {
+    errors.addError('Please add a phone number to your profile');
+  }
+  if (!personalData.address?.addressLine1) {
+    errors.addError('Please add an address to your profile');
+  }
+};
