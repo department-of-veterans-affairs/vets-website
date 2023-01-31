@@ -1,5 +1,8 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { startRequestAppointmentFlow } from '../../redux/actions';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import PreferredDatesSection from './PreferredDatesSection';
 import ContactDetailSection from './ContactDetailSection';
@@ -7,7 +10,16 @@ import ReasonForAppointmentSection from './ReasonForAppointmentSection';
 import { TYPE_OF_VISIT } from '../../../utils/constants';
 import State from '../../../components/State';
 
+function handleClick(history, dispatch) {
+  return () => {
+    dispatch(startRequestAppointmentFlow());
+    history.push(newAppointmentFlow.visitType.url);
+  };
+}
+
 export default function VAAppointmentSection({ data, facility }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   return (
     <>
       <PreferredDatesSection data={data} />
@@ -24,7 +36,7 @@ export default function VAAppointmentSection({ data, facility }) {
           </div>
           <div>
             <va-link
-              href={newAppointmentFlow.visitType.url}
+              onClick={handleClick(history, dispatch)}
               aria-label="Edit how to be seen"
             />
           </div>
