@@ -64,7 +64,7 @@ export default function VAPServiceEditModalErrorMessage({
       content = (
         <p id="error-message-details" className="vads-u-margin-y--0">
           We’re sorry. We can’t update your information right now. We’re working
-          to fix this problem. Please check back later.
+          to fix this problem. Try again later.
         </p>
       );
   }
