@@ -78,9 +78,24 @@ const ContactInformationReview = props => {
 ContactInformationReview.propTypes = {
   data: PropTypes.shape({
     personalData: PropTypes.shape({
-      email: PropTypes.string,
-      phone: PropTypes.shape({}),
-      address: PropTypes.shape({}),
+      emailAddress: PropTypes.string,
+      telephoneNumber: PropTypes.shape({
+        countryCode: PropTypes.string,
+        areaCode: PropTypes.string,
+        phoneNumber: PropTypes.string,
+        extension: PropTypes.string,
+      }),
+      address: PropTypes.shape({
+        addressLine1: PropTypes.string,
+        addressLine2: PropTypes.string,
+        addressLine3: PropTypes.string,
+        city: PropTypes.string,
+        province: PropTypes.string,
+        stateCode: PropTypes.string,
+        countryCodeIso3: PropTypes.string,
+        zipCode: PropTypes.string,
+        internationalPostalCode: PropTypes.string,
+      }),
     }),
   }),
 };
