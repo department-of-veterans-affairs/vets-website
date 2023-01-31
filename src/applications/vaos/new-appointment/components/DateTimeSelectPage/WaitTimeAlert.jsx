@@ -51,9 +51,9 @@ function ActionButtons(props) {
       {eligibleForRequests && (
         <>
           <va-button
-            className="usa-button-secondary vads-u-margin-x--0"
             onClick={handleClick(history, dispatch)}
             text="Request an earlier appointment"
+            secondary
           />
           <span className="vads-u-display--inline-block vads-u-margin-x--2p5 vads-u-font-weight--bold">
             OR
