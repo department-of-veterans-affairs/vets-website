@@ -25,10 +25,11 @@ export const FrequentlyAskedQuestions = () => {
         }}
       >
         <h3>Connecting Your Device & Data Sharing</h3>
-        <va-accordion-item id="first-dhp-faq">
-          <h3 slot="headline">
-            What are connected devices and why might I use them?
-          </h3>
+        <va-accordion-item
+          header="What are connected devices and why might I use them?"
+          id="third-dhp-faq"
+          data-testid="third-faq"
+        >
           Connected devices let you share your data from your wearables and
           other health devices with VA. If your VA care team asked you to
           connect your devices, they will be able to access the data you choose
@@ -82,7 +83,7 @@ export const FrequentlyAskedQuestions = () => {
           </ol>
         </va-accordion-item>
         <va-accordion-item
-          header="What information can VA access from my devices?"
+          header="What information can VA access from the devices that I have connected on VA.gov?"
           id="fourth-dhp-faq"
           data-testid="fourth-faq"
         >
@@ -90,7 +91,7 @@ export const FrequentlyAskedQuestions = () => {
           be shared with VA.
         </va-accordion-item>
         <va-accordion-item
-          header="Who can access data from my connected devices?"
+          header="Who can access data from the devices I have connected on VA.gov?"
           id="fifth-dhp-faq"
           data-testid="fifth-faq"
         >
@@ -137,14 +138,12 @@ export const FrequentlyAskedQuestions = () => {
         }}
       >
         <h3>Feedback</h3>
-        <va-accordion-item id="first-dhp-faq">
-          <h3 slot="headline">
-            What are connected devices and why might I use them?
-          </h3>
-          Connected devices let you share your data from your wearables and
-          other health devices with VA. If your VA care team asked you to
-          connect your devices, they will be able to access the data you choose
-          to share.
+        <va-accordion-item
+          header="I have general questions or feedback about the pilot"
+          id="third-dhp-faq"
+          data-testid="third-faq"
+        >
+          Contact VA-DHP-Pilot@va.gov
         </va-accordion-item>
       </va-accordion>
     </>
