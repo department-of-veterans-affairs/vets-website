@@ -15,6 +15,8 @@ import {
 } from './loadingStatus';
 import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
+const ONE_MINUTE_IN_MS = 60_000;
+
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
@@ -73,6 +75,11 @@ export default function Chatbox(props) {
       }
     }, 2000);
   });
+
+  useEffect(
+    () => setTimeout(() => window.location.reload(), 60 * ONE_MINUTE_IN_MS),
+    [],
+  );
 
   useEffect(() => {
     window.addEventListener('bot-incoming-activity', event => {
