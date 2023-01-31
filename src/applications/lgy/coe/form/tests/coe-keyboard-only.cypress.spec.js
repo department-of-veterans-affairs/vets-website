@@ -39,8 +39,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       'include',
       chapters.contactInformationChapter.pages.mailingAddress.path,
     );
-    cy.tabToElement('#root_applicantAddress_country');
-    cy.chooseSelectOptionUsingValue(data.applicantAddress.country);
     cy.typeInIfDataExists(
       '#root_applicantAddress_street',
       data.applicantAddress.street,
