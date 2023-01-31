@@ -39,8 +39,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
       'include',
       chapters.contactInformationChapter.pages.mailingAddress.path,
     );
-    cy.tabToElement('#root_applicantAddress_country');
-    cy.chooseSelectOptionUsingValue(data.applicantAddress.country);
     cy.typeInIfDataExists(
       '#root_applicantAddress_street',
       data.applicantAddress.street,
@@ -173,8 +171,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
         cy.tabToElement(`[name="${root}intent"]`);
         cy.chooseRadio(firstLoan.intent);
       }
-      cy.tabToElement(`[name="${root}willRefinance"]`);
-      cy.chooseRadio(firstLoan.willRefinance ? 'Y' : 'N');
     }
 
     cy.tabToContinueForm();

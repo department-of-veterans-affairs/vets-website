@@ -33,7 +33,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    expect($$('input', container).length).to.equal(11);
+    expect($$('input', container).length).to.equal(9);
     expect($$('select', container).length).to.equal(3);
   });
 
@@ -49,7 +49,7 @@ describe('COE applicant loan history', () => {
       </Provider>,
     );
 
-    expect($$('input', container).length).to.equal(16);
+    expect($$('input', container).length).to.equal(14);
     expect($$('select', container).length).to.equal(3);
   });
 
