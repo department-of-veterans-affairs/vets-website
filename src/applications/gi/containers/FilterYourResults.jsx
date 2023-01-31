@@ -5,6 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -323,6 +324,75 @@ export function FilterYourResults({
     );
   };
 
+  const specialMissions = () => {
+    const options = [
+      {
+        optionValue: 'hbcu',
+        optionLabel: 'Historically Black college or university',
+      },
+      {
+        optionValue: 'menonly',
+        optionLabel: 'Men-only',
+      },
+      {
+        optionValue: 'womenonly',
+        optionLabel: 'Women-only',
+      },
+      {
+        optionValue: 'relaffil',
+        optionLabel: 'Religious affiliation',
+      },
+      {
+        optionValue: 'HSI',
+        optionLabel: 'Hispanic-serving institutions',
+      },
+      {
+        optionValue: 'NANTI',
+        optionLabel: 'Native American-serving institutions',
+      },
+      {
+        optionValue: 'ANNHI',
+        optionLabel: 'Alaska Native-serving institutions',
+      },
+      {
+        optionValue: 'AANAPII',
+        optionLabel:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        optionValue: 'PBI',
+        optionLabel: 'Predominantly Black institutions',
+      },
+      {
+        optionValue: 'TRIBAL',
+        optionLabel: 'Tribal college and university',
+      },
+    ];
+
+    return (
+      <Dropdown
+        onChange={onChange}
+        value={specialMission}
+        name="specialMission"
+        options={addAllOption(options)}
+        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        visible
+      />
+    );
+  };
+
+  const specialMissionsFlag = () => {
+    if (!environment.isProduction()) {
+      return (
+        <div className="vads-u-margin-bottom--4">
+          {specialMissionsWithRadioButtons()}
+        </div>
+      );
+    }
+    return <div className="vads-u-margin-bottom--4">{specialMissions()}</div>;
+  };
+
   const typeOfInstitution = () => {
     const name = 'Type of institution';
     const legendId = `${createId(name)}-legend`;
@@ -336,9 +406,7 @@ export function FilterYourResults({
           >
             {name}
           </h3>
-          <div className="vads-u-margin-bottom--4">
-            {specialMissionsWithRadioButtons()}
-          </div>
+          {specialMissionsFlag()}
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
