@@ -45,8 +45,6 @@ export default function SelectedProviderSection({ data, vaCityState }) {
               LANGUAGES.find(language => language.id === data.preferredLanguage)
                 ?.value
             }
-            onClick=
-            {handleClick(history)}
             {vaCityState && <>Closest VA health system: {vaCityState}</>}
           </span>
         </div>
