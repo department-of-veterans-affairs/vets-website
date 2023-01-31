@@ -1,16 +1,13 @@
-// const initialState = {
-//   // whatever initial state you have
-// };
+import { combineReducers } from 'redux';
 
-// function myNewApplication(state = initialState, action) {
-//   switch (action.type) {
-//     case SOME_ACTION:
-//       return state;
-//     default:
-//       return state;
-//   }
-// }
+import { breadcrumbsReducer } from './breadcrumbs';
+import { vaccineReducer } from './vaccine';
 
-// export default {
-//   myNewApplication,
-// };
+const rootReducer = {
+  mr: combineReducers({
+    breadcrumbs: breadcrumbsReducer,
+    vaccines: vaccineReducer,
+  }),
+};
+
+export default rootReducer;

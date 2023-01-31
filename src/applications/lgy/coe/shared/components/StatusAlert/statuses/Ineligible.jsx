@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Ineligible = () => (
-  <va-alert status="info">
+  <va-alert status="info" class="vads-u-margin-bottom--2">
     <h2 slot="headline" className="vads-u-font-size--h3">
       We don’t have a COE on file for you
     </h2>

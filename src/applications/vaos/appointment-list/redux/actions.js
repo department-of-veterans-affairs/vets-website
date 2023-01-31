@@ -164,7 +164,7 @@ async function getAdditionalFacilityInfo(futureAppointments, useV2 = false) {
 function getAdditionalFacilityInfoV2(appointments) {
   // Facility information included with v2 appointment api call.
   return appointments
-    ?.map(appt => (appt.vaos.facilityData ? appt.vaos.facilityData : null))
+    ?.map(appt => appt?.vaos?.facilityData ?? null)
     .filter(n => n);
 }
 
@@ -354,7 +354,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       if (
         data
           .flat()
-          ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          ?.filter(appt => appt?.videoData?.kind === VIDEO_TYPES.clinic)
           .some(appt => !appt.location?.stationId)
       ) {
         Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');

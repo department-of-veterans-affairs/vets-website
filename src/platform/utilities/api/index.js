@@ -1,37 +1,65 @@
 import * as Sentry from '@sentry/browser';
+import merge from 'lodash/merge';
+import isomorphicFetch from 'isomorphic-fetch';
+import retryFetch from 'fetch-retry';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import {
   infoTokenExists,
   checkOrSetSessionExpiration,
+  refresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
-export function fetchAndUpdateSessionExpiration(...args) {
-  // Only replace with custom fetch if not stubbed for unit testing
-  if (!fetch.isSinonProxy) {
-    return fetch.apply(this, args).then(response => {
-      const apiURL = environment.API_URL;
-
-      if (response.url.includes(apiURL)) {
-        /**
-         * Sets sessionExpiration
-         * SAML - Response headers `X-Session-Expiration`
-         * OAuth - Cookie set by response
-         * */
-        checkOrSetSessionExpiration(response);
-
-        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-        if (response.ok || response.status === 304) {
-          checkAndUpdateSSOeSession();
-        }
-      }
-      return response;
-    });
+export function fetchAndUpdateSessionExpiration(url, settings) {
+  // use regular fetch if stubbed by sinon or cypress
+  if (fetch.isSinonProxy || window.Cypress) {
+    return fetch(url, settings);
   }
 
-  return fetch(...args);
+  const originalFetch = isomorphicFetch;
+  const mergedSettings = {
+    ...settings,
+    async retryOn(attempt, error, response) {
+      if (error) return false;
+      const atError = await response.clone().json();
+
+      if (
+        atError.errors === 'Access token has expired' &&
+        infoTokenExists() &&
+        attempt < 1
+      ) {
+        await refresh({
+          type: sessionStorage.getItem('serviceName'),
+        });
+
+        return true;
+      }
+      return false;
+    },
+  };
+
+  // Only replace with custom fetch if not stubbed for unit testing
+  const _fetch = retryFetch(originalFetch);
+  return _fetch(url, mergedSettings).then(response => {
+    const apiURL = environment.API_URL;
+
+    if (response.url.includes(apiURL)) {
+      /**
+       * Sets sessionExpiration
+       * SAML - Response headers `X-Session-Expiration`
+       * OAuth - Cookie set by response
+       * */
+      checkOrSetSessionExpiration(response);
+
+      // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+      if (response.ok || response.status === 304) {
+        checkAndUpdateSSOeSession();
+      }
+    }
+    return response;
+  });
 }
 
 function isJson(response) {
@@ -51,7 +79,7 @@ function isJson(response) {
  * the initial fetch request.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
-export function apiRequest(resource, optionalSettings = {}, success, error) {
+export function apiRequest(resource, optionalSettings, success, error) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
@@ -80,14 +108,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       'X-CSRF-Token': csrfTokenStored,
     },
   };
-
-  const newHeaders = {
-    ...defaultSettings.headers,
-    ...(optionalSettings ? optionalSettings.headers : undefined),
-  };
-
-  const settings = { ...defaultSettings, ...optionalSettings };
-  settings.headers = newHeaders;
+  const settings = merge(defaultSettings, optionalSettings);
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
@@ -111,12 +132,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (
-        response.ok ||
-        response.status === 304 ||
-        ((response.status === 403 || response.status === 401) &&
-          infoTokenExists())
-      ) {
+      if (response.ok || response.status === 304) {
         return data;
       }
 
