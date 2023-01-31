@@ -14,6 +14,17 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
+        <h3>DHP Fitbit Pilot</h3>
+      </va-accordion>
+      <va-accordion
+        disable-analytics={{
+          value: 'false',
+        }}
+        section-heading={{
+          value: 'null',
+        }}
+      >
+        <h3>Connecting Your Device & Data Sharing</h3>
         <va-accordion-item id="first-dhp-faq">
           <h3 slot="headline">
             What are connected devices and why might I use them?
@@ -96,6 +107,44 @@ export const FrequentlyAskedQuestions = () => {
           VA will no longer receive new data from your device after it is
           disconnected. Data shared while your device was connected will not be
           deleted.
+        </va-accordion-item>
+      </va-accordion>
+      <va-accordion
+        disable-analytics={{
+          value: 'false',
+        }}
+        section-heading={{
+          value: 'null',
+        }}
+      >
+        <va-accordion-item id="first-dhp-faq">
+          <h3 slot="headline">
+            What are connected devices and why might I use them?
+          </h3>
+          Connected devices let you share your data from your wearables and
+          other health devices with VA. If your VA care team asked you to
+          connect your devices, they will be able to access the data you choose
+          to share.
+        </va-accordion-item>
+        <h3>Troubleshooting</h3>
+      </va-accordion>
+      <va-accordion
+        disable-analytics={{
+          value: 'false',
+        }}
+        section-heading={{
+          value: 'null',
+        }}
+      >
+        <h3>Feedback</h3>
+        <va-accordion-item id="first-dhp-faq">
+          <h3 slot="headline">
+            What are connected devices and why might I use them?
+          </h3>
+          Connected devices let you share your data from your wearables and
+          other health devices with VA. If your VA care team asked you to
+          connect your devices, they will be able to access the data you choose
+          to share.
         </va-accordion-item>
       </va-accordion>
     </>
