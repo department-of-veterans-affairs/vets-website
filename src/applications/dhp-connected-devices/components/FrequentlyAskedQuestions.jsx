@@ -11,22 +11,42 @@ export const FrequentlyAskedQuestions = () => {
           value: 'false',
         }}
         section-heading={{
-          value: 'null',
+          value: 'DHP Fitbit Pilot',
         }}
       >
         <va-accordion-item id="first-dhp-faq">
           <h3 slot="headline">
+            Why are we doing this pilot with Fitbit?
+          </h3>
+          The goal of the Digital Health Platform Fitbit pilot (the “Pilot”) is to help the VA understand the best ways for Veterans to connect and share their connected device data (i.e., data from a Fitbit) with their VA care team. By volunteering to connect your device, you will be helping the VA and other Veterans by supporting an early-stage evaluation of a new offering from VA. We expect this pilot to take about 6 to 12 months, and your ability to connect your device with the VA to share data through the Digital Health Platform may be discontinued after the pilot is over. There may still be other ways for you to keep sharing the data with your care team at that time, and we will let you know about any available options after the Pilot is over. The Pilot is not meant to replace normal care activities between you and your VA care team. 
+        </va-accordion-item>
+        <va-accordion-item id="first-dhp-faq">
+          <h3 slot="headline">
+           Do I have to participate in this pilot?
+          </h3>
+          It is your decision to be part of this Pilot program. It is completely voluntary. Your participation is voluntary, and you have the right to refuse to participate. You do not have to take part in this Pilot to receive treatment at the VA. Your choice will not affect in any way your current or future medical care or any other benefits from the VA to which you are otherwise 
+        </va-accordion-item>
+        <va-accordion-item id="first-dhp-faq">
+          <h3 slot="headline">
             What are connected devices and why might I use them?
           </h3>
-          Connected devices let you share your data from your wearables and
-          other health devices with VA. If your VA care team asked you to
-          connect your devices, they will be able to access the data you choose
-          to share.
+          A connected device is any device that can connect to the internet so that it can communicate with other devices or computers. Examples of connected devices including smartphones, wearable fitness trackers (like a Fitbit), or a connected blood pressure cuff. Many connected devices let you share your data from the device with other people such as your care provider. If your VA care team asked you to connect your device, they will be able to access the data you choose to share.
         </va-accordion-item>
+      </va-accordion>
+
+      <va-accordion
+        disable-analytics={{
+          value: 'false',
+        }}
+        section-heading={{
+          value: 'Connecting Your Device & Data Sharing',
+        }}
+      >
+
         <va-accordion-item
           header="How can I connect my devices?"
-          id="second-dhp-faq"
-          data-testid="second-faq"
+          id="dhp-connecting-sharing-one-faq"
+          data-testid="connecting-sharing-one-faq"
         >
           <strong>Take these steps to connect a device:</strong>
           <p />
@@ -46,8 +66,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
-          id="third-dhp-faq"
-          data-testid="third-faq"
+          id="dhp-connecting-sharing-two-faq"
+          data-testid="dhp-connecting-sharing-two-faq"
         >
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
@@ -72,8 +92,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="What information can VA access from my devices?"
-          id="fourth-dhp-faq"
-          data-testid="fourth-faq"
+          id="dhp-connecting-sharing-third-faq"
+          data-testid="dhp-connecting-sharing-third-faq"
         >
           When you connect a device, you can choose the type of data that will
           be shared with VA.
