@@ -53,7 +53,7 @@ describe('COE mailing address', () => {
 
     formDOM.submitForm();
 
-    expect($$('.usa-input-error', formDOM).length).to.equal(4);
+    expect($$('.usa-input-error', formDOM).length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 

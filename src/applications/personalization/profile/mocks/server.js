@@ -61,7 +61,7 @@ const responses = {
       );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
-  'GET /v0/mhv_account': mhvAcccount,
+  'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
