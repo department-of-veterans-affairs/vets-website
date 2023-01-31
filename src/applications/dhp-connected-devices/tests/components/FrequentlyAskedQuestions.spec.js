@@ -15,11 +15,24 @@ describe('Frequently asked questions component', () => {
     });
 
     it('renders the first question', () => {
-      expect(
-        screen.getByText(
-          /What are connected devices and why might I use them?/,
-        ),
-      ).to.exist;
+      const faq = screen.getByTestId('pilot-first-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'Why are we doing this pilot with Fitbit?',
+      );
+    });
+
+    it('renders the second question', () => {
+      const faq = screen.getByTestId('pilot-second-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'Do I have to participate in this pilot?',
+      );
+    });
+
+    it('renders the third question', () => {
+      const faq = screen.getByTestId('pilot-third-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'What is a connected device and why might I use one?',
+      );
     });
   });
 
@@ -27,36 +40,6 @@ describe('Frequently asked questions component', () => {
     it('renders with Connecting Your Device & Data Sharing section', () => {
       expect(screen.getByText(/Connecting Your Device & Data Sharing/)).to
         .exist;
-    });
-    it('renders the second question', () => {
-      const secondFaq = screen.getByTestId('second-faq');
-      expect(secondFaq.getAttribute('header')).to.eq(
-        'How can I connect my devices?',
-      );
-    });
-    it('renders the third question', () => {
-      const thirdFaq = screen.getByTestId('third-faq');
-      expect(thirdFaq.getAttribute('header')).to.eq(
-        'Can I stop sharing my connected device data with VA?',
-      );
-    });
-    it('renders the fourth question', () => {
-      const fourthFaq = screen.getByTestId('fourth-faq');
-      expect(fourthFaq.getAttribute('header')).to.eq(
-        'What information can VA access from my devices?',
-      );
-    });
-    it('renders the fifth question', () => {
-      const fifthFaq = screen.getByTestId('fifth-faq');
-      expect(fifthFaq.getAttribute('header')).to.eq(
-        'Who can access data from my connected devices?',
-      );
-    });
-    it('renders the sixth question', () => {
-      const sixthFaq = screen.getByTestId('sixth-faq');
-      expect(sixthFaq.getAttribute('header')).to.eq(
-        'Does VA keep my data after I disconnect a device?',
-      );
     });
   });
 

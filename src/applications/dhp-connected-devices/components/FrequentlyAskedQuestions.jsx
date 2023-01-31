@@ -15,6 +15,50 @@ export const FrequentlyAskedQuestions = () => {
         }}
       >
         <h3>DHP Fitbit Pilot</h3>
+        <va-accordion-item
+          header="Why are we doing this pilot with Fitbit?"
+          id="dhp-pilot-first-faq"
+          data-testid="pilot-first-faq"
+        >
+          The goal of the Digital Health Platform Fitbit pilot (the “Pilot”) is
+          to help the VA understand the best ways for Veterans to connect and
+          share their connected device data (i.e., data from a Fitbit) with
+          their VA care team. By volunteering to connect your device, you will
+          be helping the VA and other Veterans by supporting an early-stage
+          evaluation of a new offering from VA. We expect this pilot to take
+          about 6 to 12 months, and your ability to connect your device with the
+          VA to share data through the Digital Health Platform may be
+          discontinued after the pilot is over. There may still be other ways
+          for you to keep sharing the data with your care team at that time, and
+          we will let you know about any available options after the Pilot is
+          over. The Pilot is not meant to replace normal care activities between
+          you and your VA care team.
+        </va-accordion-item>
+        <va-accordion-item
+          header="Do I have to participate in this pilot?"
+          id="dhp-pilot-second-faq"
+          data-testid="pilot-second-faq"
+        >
+          It is your decision to be part of this Pilot program. It is completely
+          voluntary. Your participation is voluntary, and you have the right to
+          refuse to participate. You do not have to take part in this Pilot to
+          receive treatment at the VA. Your choice will not affect in any way
+          your current or future medical care or any other benefits from the VA
+          to which you are otherwise entitled.
+        </va-accordion-item>
+        <va-accordion-item
+          header="What is a connected device and why might I use one?"
+          id="dhp-pilot-third-faq"
+          data-testid="pilot-third-faq"
+        >
+          A connected device is any device that can connect to the internet so
+          that it can communicate with other devices or computers. Examples of
+          connected devices including smartphones, wearable fitness trackers
+          (like a Fitbit), or a connected blood pressure cuff. Many connected
+          devices let you share your data from the device with other people such
+          as your care provider. If your VA care team asked you to connect your
+          device, they will be able to access the data you choose to share.
+        </va-accordion-item>
       </va-accordion>
       <va-accordion
         disable-analytics={{
