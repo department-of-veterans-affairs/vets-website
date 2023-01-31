@@ -184,8 +184,8 @@ export const FrequentlyAskedQuestions = () => {
         <h3>Feedback</h3>
         <va-accordion-item
           header="I have general questions or feedback about the pilot"
-          id="third-dhp-faq"
-          data-testid="third-faq"
+          id="dhp-feedback-first-faq"
+          data-testid="feedback-first-faq"
         >
           Contact VA-DHP-Pilot@va.gov
         </va-accordion-item>

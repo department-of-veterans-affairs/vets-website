@@ -14,21 +14,21 @@ describe('Frequently asked questions component', () => {
       expect(screen.getByText(/DHP Fitbit Pilot/)).to.exist;
     });
 
-    it('renders the first question', () => {
+    it('renders the first item', () => {
       const faq = screen.getByTestId('pilot-first-faq');
       expect(faq.getAttribute('header')).to.eq(
         'Why are we doing this pilot with Fitbit?',
       );
     });
 
-    it('renders the second question', () => {
+    it('renders the second item', () => {
       const faq = screen.getByTestId('pilot-second-faq');
       expect(faq.getAttribute('header')).to.eq(
         'Do I have to participate in this pilot?',
       );
     });
 
-    it('renders the third question', () => {
+    it('renders the third item', () => {
       const faq = screen.getByTestId('pilot-third-faq');
       expect(faq.getAttribute('header')).to.eq(
         'What is a connected device and why might I use one?',
@@ -52,6 +52,12 @@ describe('Frequently asked questions component', () => {
   describe('Feedback section', () => {
     it('renders with Feedback section', () => {
       expect(screen.getByText(/Feedback/)).to.exist;
+    });
+    it('renders the first item', () => {
+      const faq = screen.getByTestId('feedback-first-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'I have general questions or feedback about the pilot',
+      );
     });
   });
 });
