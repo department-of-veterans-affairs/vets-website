@@ -47,6 +47,15 @@ const getData = ({
         // eslint-disable-next-line camelcase
         coe_access: showCOE,
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: {
+          get() {},
+        },
+        dismissedDowntimeWarnings: [],
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
@@ -116,7 +125,7 @@ describe('App', () => {
     );
 
     expect(getCoeMock.called).to.be.true;
-    // we are skippingt generateCoe action
+    // we are skipping generateCoe action
     expect(getCoeMock.args[0][0]).to.be.true;
   });
 
