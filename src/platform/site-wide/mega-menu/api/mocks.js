@@ -5,7 +5,7 @@ const commonResponses = require('../../../testing/local-dev-mock-api/common');
 
 const featureToggles = {
   generateFeatureToggles: (toggles = {}) => {
-    const { superCoolMHVFeature = false } = toggles;
+    const { superCoolMHVFeature = true } = toggles;
 
     return {
       data: {

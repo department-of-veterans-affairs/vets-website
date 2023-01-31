@@ -185,7 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   const authenticatedLinks = state?.featureToggles[
     featureFlagNames.superCoolMHVFeature
   ]
-    ? [{ href: 'thing', title: 'not thing' }]
+    ? [{ href: 'thing', title: 'All New MHV on VA' }]
     : undefined;
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
