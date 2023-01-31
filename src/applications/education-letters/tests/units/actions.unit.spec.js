@@ -4,7 +4,13 @@ import sinon from 'sinon';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import * as mockPersonalInfo from '../../testing/response';
 
-import { fetchClaimStatus } from '../../actions';
+import {
+  fetchClaimStatus,
+  MEB_FETCH_CLAIM_STATUS,
+  MEB_FETCH_CLAIM_STATUS_SUCCESS,
+  TOE_FETCH_CLAIM_STATUS,
+  TOE_FETCH_CLAIM_STATUS_SUCCESS,
+} from '../../actions';
 
 describe('Render Letters UI', () => {
   let actionCreator;
@@ -25,10 +31,20 @@ describe('Render Letters UI', () => {
 
     it('calls fetch to `GET download-letters/letters`', async () => {
       await actionCreator(dispatch);
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+
+      expect(dispatch.firstCall.args[0].type).to.equal(MEB_FETCH_CLAIM_STATUS);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        MEB_FETCH_CLAIM_STATUS_SUCCESS,
+      );
+      expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
+        mockPersonalInfo['GET /meb_api/v0/claim_status?latest=true']
+          .claimStatus,
+      );
       expect(
-        global.fetch.firstCall.args[0].endsWith('/download-letters/letters'),
-      ).to.not.be.true;
+        global.fetch.firstCall.args[0].endsWith(
+          '/meb_api/v0/claim_status?latest=true',
+        ),
+      ).to.be.true;
     });
   });
 
@@ -46,10 +62,19 @@ describe('Render Letters UI', () => {
 
     it('calls fetch to `GET download-letters/letters`', async () => {
       await actionCreator(dispatch);
-      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+      expect(dispatch.firstCall.args[0].type).to.equal(TOE_FETCH_CLAIM_STATUS);
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        TOE_FETCH_CLAIM_STATUS_SUCCESS,
+      );
+      expect(dispatch.secondCall.args[0].response.claimStatus).to.equal(
+        mockPersonalInfo['GET /meb_api/v0/forms_claim_status?latest=true']
+          .claimStatus,
+      );
       expect(
-        global.fetch.firstCall.args[0].endsWith('/download-letters/letters'),
-      ).to.not.be.true;
+        global.fetch.firstCall.args[0].endsWith(
+          '/meb_api/v0/forms_claim_status?latest=true',
+        ),
+      ).to.be.true;
     });
   });
 });
