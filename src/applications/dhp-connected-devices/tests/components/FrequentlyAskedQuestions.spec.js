@@ -47,6 +47,20 @@ describe('Frequently asked questions component', () => {
     it('renders with Troubleshooting section', () => {
       expect(screen.getByText(/Troubleshooting/)).to.exist;
     });
+
+    it('renders the first item', () => {
+      const faq = screen.getByTestId('troubleshooting-first-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'I am having issues with my Fitbit or my Fitbit account',
+      );
+    });
+
+    it('renders the second item', () => {
+      const faq = screen.getByTestId('troubleshooting-second-faq');
+      expect(faq.getAttribute('header')).to.eq(
+        'I can’t login or need help with my VA account',
+      );
+    });
   });
 
   describe('Feedback section', () => {

@@ -162,16 +162,45 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <va-accordion-item id="first-dhp-faq">
-          <h3 slot="headline">
-            What are connected devices and why might I use them?
-          </h3>
-          Connected devices let you share your data from your wearables and
-          other health devices with VA. If your VA care team asked you to
-          connect your devices, they will be able to access the data you choose
-          to share.
-        </va-accordion-item>
         <h3>Troubleshooting</h3>
+        <va-accordion-item
+          header="I am having issues with my Fitbit or my Fitbit account"
+          id="dhp-troubleshooting-first-faq"
+          data-testid="troubleshooting-first-faq"
+        >
+          Please visit the Fitbit support website or call 877-623-4997 for
+          Fitbit related help.
+          <ul>
+            <li>I cannot log into my Fitbit account</li>
+            <li>My Fitbit isn’t syncing</li>
+            <li>I want to set up my Fitbit</li>
+            <li>How do I restart my Fitbit?</li>
+            <li>Etc.</li>
+          </ul>
+        </va-accordion-item>
+        <va-accordion-item
+          header="I can’t login or need help with my VA account"
+          id="dhp-troubleshooting-second-faq"
+          data-testid="troubleshooting-second-faq"
+        />
+        Signing in to VA.gov guide. Please contact the VA help desk that applies
+        to you from the list below:
+        <ul>
+          <li>Login.gov - Access the Login.gov help center at 844-875-6446</li>
+          <li>ID.me - Go to the ID.me help center at 855-927-4363</li>
+          <li>DS Logon - Call the DMDC Support Office at 800-538-9552</li>
+          <li>
+            My HealtheVet - Contact the My HealtheVet Help Desk at 877-327-0022
+            or 800-877-8339 (TTY), Monday to Friday, 7:00 a.m. — 7:00 p.m.
+            (Central Time)
+          </li>
+          <li>
+            Forgot Your My HealtheVet User ID (Continue to My HealtheVet Only)
+          </li>
+          <li>
+            Forgot Your My HealtheVet Password (Continue to My HealtheVet Only)
+          </li>
+        </ul>
       </va-accordion>
       <va-accordion
         disable-analytics={{
