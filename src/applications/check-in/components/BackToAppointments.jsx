@@ -33,7 +33,7 @@ const BackToAppointments = ({ router }) => {
       >
         <a
           onClick={handleClick}
-          href="#appointments"
+          href={`/health-care/appointment-check-in/${URLS.DETAILS}`}
           data-testid="go-to-appointments-button"
         >
           {t('back-to-todays-appointments')}
