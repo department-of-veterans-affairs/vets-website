@@ -1,4 +1,4 @@
-import TextareaWidget from 'applications/vaos/components/TextareaWidget';
+import TextareaWidget from 'platform/forms-system/src/js/widgets/TextWidget.jsx';
 
 const livingSituation3 = {
   uiSchema: {
