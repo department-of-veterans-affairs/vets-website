@@ -142,7 +142,7 @@
 .file-input {
   .attach-file-button {
     display: block;
-    margin-bottom: 24px;
+    margin: 16px 0 24px 0;
   }
   .attach-file-button::part(button) {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
@@ -161,6 +161,7 @@
 }
 
 .compose-form-actions {
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
 
