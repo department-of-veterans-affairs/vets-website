@@ -1423,7 +1423,7 @@ const handleUserRequest = (req, res) => {
   // return res.json(mockUserData.nonVeteranUser); // non-veteran user
   // return res.json(mockUserData.externalServiceError); // external service error
 
-  return res.json(mockUserData.loa1User);
+  return res.json(mockUserData.loa3User72);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };

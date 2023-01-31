@@ -102,7 +102,7 @@ const responses = {
       return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
-    // default response provided based on if
+    // default response
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'POST /v0/profile/addresses': (req, res) => {
