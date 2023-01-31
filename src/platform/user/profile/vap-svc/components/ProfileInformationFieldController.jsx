@@ -154,7 +154,6 @@ class ProfileInformationFieldController extends React.Component {
       if (typeof this.props.cancelCallback === 'function') {
         this.props.cancelCallback();
       }
-
       return;
     }
 
@@ -320,10 +319,6 @@ class ProfileInformationFieldController extends React.Component {
     const isLoading =
       transactionRequest?.isPending || isPendingTransaction(transaction);
 
-    const error =
-      transactionRequest?.error ||
-      (isFailedTransaction(transaction) ? {} : null);
-
     const wrapInTransaction = children => {
       return (
         <VAPServiceTransaction
@@ -452,6 +447,10 @@ class ProfileInformationFieldController extends React.Component {
         />
       );
     }
+
+    const error =
+      transactionRequest?.error ||
+      (isFailedTransaction(transaction) ? {} : null);
 
     return (
       <div
