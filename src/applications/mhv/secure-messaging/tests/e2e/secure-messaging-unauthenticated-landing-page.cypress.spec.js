@@ -7,5 +7,6 @@ describe('Secure Messaging Compose', () => {
     site.loadPageUnauthenticated();
 
     cy.get('body').should('contain', 'health-care/secure-messaging');
+    cy.url().should('contain', '/health-care/secure-messaging');
   });
 });
