@@ -18,8 +18,8 @@ export const FrequentlyAskedQuestions = () => {
         <h3>DHP Fitbit Pilot</h3>
         <va-accordion-item
           header="Why are we doing this pilot with Fitbit?"
-          id="dhp-pilot-first-faq"
-          data-testid="pilot-first-faq"
+          id="dhp-faq-first-section-first-question"
+          data-testid="faq-first-section-first-question"
         >
           The goal of the Digital Health Platform Fitbit pilot (the “Pilot”) is
           to help the VA understand the best ways for Veterans to connect and
@@ -37,8 +37,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Do I have to participate in this pilot?"
-          id="dhp-pilot-second-faq"
-          data-testid="pilot-second-faq"
+          id="dhp-faq-first-section-second-question"
+          data-testid="faq-first-section-second-question"
         >
           It is your decision to be part of this Pilot program. It is completely
           voluntary. Your participation is voluntary, and you have the right to
@@ -49,8 +49,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="What is a connected device and why might I use one?"
-          id="dhp-pilot-third-faq"
-          data-testid="pilot-third-faq"
+          id="dhp-faq-first-section-third-question"
+          data-testid="faq-first-section-third-question"
         >
           A connected device is any device that can connect to the internet so
           that it can communicate with other devices or computers. Examples of
@@ -185,8 +185,8 @@ export const FrequentlyAskedQuestions = () => {
         <h3>Troubleshooting</h3>
         <va-accordion-item
           header="I am having issues with my Fitbit or my Fitbit account"
-          id="dhp-troubleshooting-first-faq"
-          data-testid="troubleshooting-first-faq"
+          id="dhp-faq-third-section-first-question"
+          data-testid="faq-third-section-first-question"
         >
           Please visit the Fitbit support website or call 877-623-4997 for
           Fitbit related help.
@@ -201,8 +201,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="I can’t login or need help with my VA account"
-          id="dhp-troubleshooting-second-faq"
-          data-testid="troubleshooting-second-faq"
+          id="dhp-faq-third-section-second-question"
+          data-testid="faq-third-section-second-question"
         >
           <a href="va.gov">Signing in to VA.gov guide.</a> Please contact the VA
           help desk that applies to you from the list below:
@@ -240,8 +240,8 @@ export const FrequentlyAskedQuestions = () => {
         <h3>Feedback</h3>
         <va-accordion-item
           header="I have general questions or feedback about the pilot"
-          id="dhp-feedback-first-faq"
-          data-testid="feedback-first-faq"
+          id="dhp-faq-fourth-section-first-question"
+          data-testid="faq-fourth-section-first-question"
         >
           Contact VA-DHP-Pilot@va.gov
         </va-accordion-item>

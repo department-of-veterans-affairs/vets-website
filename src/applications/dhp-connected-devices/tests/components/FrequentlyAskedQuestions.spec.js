@@ -15,21 +15,21 @@ describe('Frequently asked questions component', () => {
     });
 
     it('renders the first item', () => {
-      const faq = screen.getByTestId('pilot-first-faq');
+      const faq = screen.getByTestId('faq-first-section-first-question');
       expect(faq.getAttribute('header')).to.eq(
         'Why are we doing this pilot with Fitbit?',
       );
     });
 
     it('renders the second item', () => {
-      const faq = screen.getByTestId('pilot-second-faq');
+      const faq = screen.getByTestId('faq-first-section-second-question');
       expect(faq.getAttribute('header')).to.eq(
         'Do I have to participate in this pilot?',
       );
     });
 
     it('renders the third item', () => {
-      const faq = screen.getByTestId('pilot-third-faq');
+      const faq = screen.getByTestId('faq-first-section-third-question');
       expect(faq.getAttribute('header')).to.eq(
         'What is a connected device and why might I use one?',
       );
@@ -89,14 +89,14 @@ describe('Frequently asked questions component', () => {
     });
 
     it('renders the first item', () => {
-      const faq = screen.getByTestId('troubleshooting-first-faq');
+      const faq = screen.getByTestId('faq-third-section-first-question');
       expect(faq.getAttribute('header')).to.eq(
         'I am having issues with my Fitbit or my Fitbit account',
       );
     });
 
     it('renders the second item', () => {
-      const faq = screen.getByTestId('troubleshooting-second-faq');
+      const faq = screen.getByTestId('faq-third-section-second-question');
       expect(faq.getAttribute('header')).to.eq(
         'I can’t login or need help with my VA account',
       );
@@ -108,7 +108,7 @@ describe('Frequently asked questions component', () => {
       expect(screen.getByText(/Feedback/)).to.exist;
     });
     it('renders the first item', () => {
-      const faq = screen.getByTestId('feedback-first-faq');
+      const faq = screen.getByTestId('faq-fourth-section-first-question');
       expect(faq.getAttribute('header')).to.eq(
         'I have general questions or feedback about the pilot',
       );
