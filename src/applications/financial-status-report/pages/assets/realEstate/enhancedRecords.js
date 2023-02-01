@@ -3,7 +3,7 @@ import { validateCurrency } from '../../../utils/validations';
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
   questions: {
-    hasRealEstate: {
+    realEstateValue: {
       'ui:title': 'What is the estimated value of your property?',
       'ui:options': {
         classNames: 'schemaform-currency-input',
