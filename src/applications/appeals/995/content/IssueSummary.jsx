@@ -29,7 +29,7 @@ const IssueSummary = ({ formData }) => {
   return (
     <fieldset>
       <legend className={legendClassNames}>
-        These are the issues you’re asking to receive a Supplemental Claim.
+        Confirm the issues you’re asking to receive a Supplemental Claim for.
       </legend>
       <ul className="issues-summary">
         {issues.map((issue, index) => (
