@@ -46,24 +46,13 @@ describe('check in', () => {
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
-    const routerObject = {
-      params: {
-        token: 'token-123',
-      },
-      location: {
-        pathname: '/first-page',
-      },
-    };
+    const mockRouter = createMockRouter();
+
     beforeEach(() => {
       store = mockStore(initState);
     });
 
     it('renders', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -77,6 +66,17 @@ describe('check in', () => {
       ).to.exist;
       expect(component.getByText('445 Fine Finch Fairway')).to.exist;
       expect(component.queryByText('Not available')).to.be.null;
+    });
+    it('calls createHref', () => {
+      mockRouter.createHref = sinon.spy();
+      render(
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <NextOfKin router={mockRouter} />
+          </I18nextProvider>
+        </Provider>,
+      );
+      expect(mockRouter.createHref.calledOnce).to.be.true;
     });
 
     it('shows "Not available" for unavailable fields', () => {
@@ -102,11 +102,6 @@ describe('check in', () => {
         },
         ...scheduledDowntimeState,
       };
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
       const component = render(
         <Provider store={mockStore(updatedStore)}>
           <I18nextProvider i18n={i18n}>
@@ -126,11 +121,7 @@ describe('check in', () => {
     });
 
     it('has a clickable no button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -143,15 +134,11 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('no-button').click();
-      sinon.assert.calledOnce(push);
+      sinon.assert.calledOnce(mockRouter.push);
     });
 
     it('has a clickable yes button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -164,15 +151,11 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
-      sinon.assert.calledOnce(push);
+      sinon.assert.calledOnce(mockRouter.push);
     });
 
     it('has a clickable yes button with update page enabled', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -185,14 +168,10 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
-      sinon.assert.calledOnce(push);
+      sinon.assert.calledOnce(mockRouter.push);
     });
     it('has a clickable yes button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -205,7 +184,7 @@ describe('check in', () => {
         component.getByText('Is this your current next of kin information?'),
       ).to.exist;
       component.getByTestId('yes-button').click();
-      sinon.assert.calledOnce(push);
+      sinon.assert.calledOnce(mockRouter.push);
     });
   });
 });

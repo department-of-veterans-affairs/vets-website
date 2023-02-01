@@ -5,11 +5,13 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
+import sinon from 'sinon';
 
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';
 
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
 
 describe('check-in', () => {
   describe('DisplayMultipleAppointments component', () => {
@@ -30,15 +32,8 @@ describe('check-in', () => {
       };
       store = mockStore(initState);
     });
-    const mockRouter = {
-      params: {
-        token: 'token-123',
-      },
-      location: {
-        pathname: '/third-page',
-      },
-    };
-    it('show appointment details progress', () => {
+    const mockRouter = createMockRouter();
+    it('shows appointment details progress', () => {
       const token = 'token-123';
       const appointments = [
         {
@@ -80,6 +75,32 @@ describe('check-in', () => {
         'Green Team Clinic1',
       );
     });
+
+    it('calls createHref', () => {
+      const token = 'token-123';
+      const appointments = [
+        {
+          clinicPhone: '555-867-5309',
+          startTime: '2021-07-19T13:56:31',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        },
+      ];
+      mockRouter.createHref = sinon.spy();
+      render(
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <DisplayMultipleAppointments
+              router={mockRouter}
+              token={token}
+              appointments={appointments}
+            />
+          </I18nextProvider>
+        </Provider>,
+      );
+      expect(mockRouter.createHref.calledOnce).to.be.true;
+    });
+
     describe('back button visibility based on update page', () => {
       it('shows the back button if update page is enabled', () => {
         const token = 'token-123';
