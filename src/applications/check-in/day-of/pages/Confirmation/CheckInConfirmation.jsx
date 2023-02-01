@@ -16,12 +16,14 @@ import TravelPayAlert from './TravelPayAlert';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
-
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
 
   const { t } = useTranslation();
+
+  const appointment = selectedAppointment;
+  const appointmentDateTime = new Date(appointment.startTime);
 
   const {
     isLoading,
@@ -31,10 +33,7 @@ const CheckInConfirmation = props => {
     travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
-  } = useSendTravelPayClaim();
-
-  const appointment = selectedAppointment;
-  const appointmentDateTime = new Date(appointment.startTime);
+  } = useSendTravelPayClaim(appointment);
 
   useEffect(
     () => {

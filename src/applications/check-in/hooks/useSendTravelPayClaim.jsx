@@ -5,7 +5,7 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useSessionStorage } from './useSessionStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
 
-const useSendTravelPayClaim = () => {
+const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
   const [travelPayClaimData, setTravelPayClaimData] = useState(null);
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
@@ -21,7 +21,7 @@ const useSendTravelPayClaim = () => {
     travelPayClaimSent,
     setTravelPayClaimSent,
     travelPayEligible,
-  } = useTravelPayFlags();
+  } = useTravelPayFlags(appointment);
 
   useEffect(
     () => {

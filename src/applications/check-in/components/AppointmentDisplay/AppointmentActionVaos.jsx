@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -10,21 +9,12 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
-import { appointmentWasCheckedInto } from '../../actions/day-of';
-
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 
 const AppointmentActionVaos = props => {
   const { appointment, router, token, event } = props;
 
-  const dispatch = useDispatch();
-  const setSelectedAppointment = useCallback(
-    appt => {
-      dispatch(appointmentWasCheckedInto(appt));
-    },
-    [dispatch],
-  );
   const { updateError } = useUpdateError();
 
   const { jumpToPage } = useFormRouting(router);
@@ -43,8 +33,7 @@ const AppointmentActionVaos = props => {
         });
         const { status } = json;
         if (status === 200) {
-          setSelectedAppointment(appointment);
-          jumpToPage('complete');
+          jumpToPage(`complete/${appointment.appointmentIen}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -52,14 +41,7 @@ const AppointmentActionVaos = props => {
         updateError('error-completing-check-in');
       }
     },
-    [
-      appointment,
-      updateError,
-      jumpToPage,
-      setSelectedAppointment,
-      token,
-      event,
-    ],
+    [appointment, updateError, jumpToPage, token, event],
   );
   if (
     appointment.eligibility &&

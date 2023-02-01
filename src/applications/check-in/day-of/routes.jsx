@@ -76,7 +76,7 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.COMPLETE,
+    path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
       requiresForm: true,

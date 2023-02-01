@@ -1,14 +1,11 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
 import { api } from '../../api';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
-
-import { appointmentWasCheckedInto } from '../../actions/day-of';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
@@ -17,19 +14,12 @@ const AppointmentAction = props => {
   const { appointment, router, token } = props;
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const setSelectedAppointment = useCallback(
-    appt => {
-      dispatch(appointmentWasCheckedInto(appt));
-    },
-    [dispatch],
-  );
   const { updateError } = useUpdateError();
 
   const defaultMessage = t(
     'online-check-in-isnt-available-check-in-with-a-staff-member',
   );
-  const { goToNextPage } = useFormRouting(router);
+  const { jumpToPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
       try {
@@ -40,8 +30,7 @@ const AppointmentAction = props => {
         });
         const { status } = json;
         if (status === 200) {
-          setSelectedAppointment(appointment);
-          goToNextPage();
+          jumpToPage(`complete/${appointment.appointmentIen}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -49,7 +38,7 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, goToNextPage, setSelectedAppointment, token],
+    [appointment, updateError, jumpToPage, token],
   );
 
   if (appointment.eligibility) {
