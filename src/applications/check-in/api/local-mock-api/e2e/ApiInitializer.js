@@ -145,7 +145,7 @@ class ApiInitializer {
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         const { lastName, dob } = req.body?.session || {};
-        if (dob === '1989-03-15' && lastName === 'Smith') {
+        if (dob === '1935-04-07' && lastName === 'Smith') {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
