@@ -923,6 +923,40 @@ describe('App', () => {
           expect(window.ReactDOM).to.eql(ReactDOM);
         });
       });
+      describe('Timers', () => {
+        const locationReload = window.location;
+        // const clock = FakeTimers.install({ shouldAdvanceTime: true });
+        const clock = sinon.useFakeTimers({
+          now: 0,
+          toFake: ['setTimeout'],
+        });
+        afterEach(() => {
+          window.location = locationReload;
+          clock.restore();
+        });
+        it('Will reload the page after 60 minutes of first render', () => {
+          const unacknowledgedUserStore = {
+            initialState: {
+              featureToggles: { loading: false },
+              virtualAgentData: { termsAccepted: false },
+              user: {
+                login: { currentlyLoggedIn: true },
+                profile: { userFullName: { first: 'Steve' } },
+              },
+            },
+            reducers: virtualAgentReducer,
+          };
+          renderInReduxProvider(
+            <Chatbox {...defaultProps} />,
+            unacknowledgedUserStore,
+          );
+          window.location = { reload: sinon.stub() };
+          clock.tick(60 * 60 * 1000 - 1);
+          expect(window.location.reload.called).to.be.false;
+          clock.tick(1);
+          expect(window.location.reload.called).to.be.true;
+        });
+      });
     });
   });
 });
