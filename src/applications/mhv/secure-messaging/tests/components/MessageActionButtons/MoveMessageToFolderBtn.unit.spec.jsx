@@ -14,7 +14,11 @@ describe('Move button', () => {
       message: { folder: null, folderList: { folderResponse } },
     };
     screen = renderInReduxProvider(
-      <MoveMessageToFolderBtn messageId={id} allFolders={folderResponse} />,
+      <MoveMessageToFolderBtn
+        messageId={id}
+        allFolders={folderResponse}
+        isVisible
+      />,
       {
         initialState,
         reducers,

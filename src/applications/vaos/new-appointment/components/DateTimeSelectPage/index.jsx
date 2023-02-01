@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
+import PropTypes from 'prop-types';
 import InfoAlert from '../../../components/InfoAlert';
 
 import {
@@ -15,7 +16,7 @@ import {
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
-import { getDateTimeSelect } from '../../redux/selectors';
+import { getDateTimeSelect, selectEligibility } from '../../redux/selectors';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -26,21 +27,16 @@ import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 const pageKey = 'selectDateTime';
 const pageTitle = 'Choose a date and time';
 
-function ErrorMessage({ facilityId, history }) {
-  return (
-    <div
-      aria-atomic="true"
-      aria-live="assertive"
-      className="vads-u-margin-bottom--2"
-    >
-      <InfoAlert
-        status="error"
-        level="2"
-        headline="We’ve run into a problem trying to find an appointment time"
-      >
+function renderContent({ dispatch, isRequest, facilityId, history }) {
+  // Display this content when the facility is configured to accept appointment
+  // request
+  if (isRequest) {
+    return (
+      <>
         To schedule this appointment, you can{' '}
         <button
-          onClick={() => requestAppointmentDateChoice(history)}
+          type="button"
+          onClick={() => dispatch(requestAppointmentDateChoice(history))}
           className="va-button-link"
         >
           submit a request for a VA appointment
@@ -52,10 +48,48 @@ function ErrorMessage({ facilityId, history }) {
           call your local VA medical center
         </NewTabAnchor>
         .
+      </>
+    );
+  }
+
+  return (
+    <>
+      To schedule this appointment, you can{' '}
+      <NewTabAnchor
+        href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
+      >
+        call your local VA medical center
+      </NewTabAnchor>
+      .
+    </>
+  );
+}
+
+function ErrorMessage({ eligibility, facilityId, history }) {
+  const { request: isRequest } = eligibility;
+  const dispatch = useDispatch();
+
+  return (
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      className="vads-u-margin-bottom--2"
+    >
+      <InfoAlert
+        status="error"
+        level="2"
+        headline="We’ve run into a problem trying to find an appointment time"
+      >
+        {renderContent({ dispatch, isRequest, facilityId, history })}
       </InfoAlert>
     </div>
   );
 }
+ErrorMessage.propTypes = {
+  eligibility: PropTypes.object,
+  facilityId: PropTypes.string,
+  history: PropTypes.object,
+};
 
 function goForward({ dispatch, data, history, setSubmitted }) {
   setSubmitted(true);
@@ -89,22 +123,26 @@ export default function DateTimeSelectPage() {
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
+  const eligibility = useSelector(selectEligibility);
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment(preferredDate)
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment(preferredDate)
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        getAppointmentSlots(
+          moment(preferredDate)
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+          moment(preferredDate)
+            .add(1, 'months')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          true,
+        ),
+      );
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch, preferredDate],
+  );
 
   useEffect(
     () => {
@@ -123,10 +161,11 @@ export default function DateTimeSelectPage() {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [loadingSlots, appointmentSlotsStatus],
   );
 
-  const selectedDates = data.selectedDates;
+  const { selectedDates } = data;
   const startMonth = preferredDate
     ? moment(preferredDate).format('YYYY-MM')
     : null;
@@ -153,6 +192,7 @@ export default function DateTimeSelectPage() {
           requestAppointmentDateChoice={(...args) =>
             dispatch(requestAppointmentDateChoice(...args))
           }
+          eligibility={eligibility}
         />
       )}
       {!fetchFailed && (

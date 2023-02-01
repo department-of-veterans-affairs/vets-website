@@ -212,7 +212,9 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
-      <div id="footerNav"></div> <!-- let's try this React thing -->
+      <div id="footerNav"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+      ></div>
     </footer>
 
     <!--

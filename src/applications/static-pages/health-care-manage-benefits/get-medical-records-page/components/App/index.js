@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { selectPatientFacilities } from 'platform/user/selectors';
 import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import PropTypes from 'prop-types';
@@ -49,9 +48,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
   ehrDataByVhaId: selectEhrDataByVhaId(state),
-  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
-    ? selectPatientFacilitiesDsot(state)
-    : selectPatientFacilities(state),
+  facilities: selectPatientFacilitiesDsot(state),
   useSingleLogout: state?.featureToggles?.pwEhrCtaUseSlo,
 });
 
