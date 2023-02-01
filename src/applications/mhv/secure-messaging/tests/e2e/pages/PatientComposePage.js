@@ -13,6 +13,30 @@ class PatientComposePage {
     cy.wait('@message');
   };
 
+  enterComposeMessageDetails = category => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="select"]')
+      .select('###PQR TRIAGE_TEAM 747###');
+    cy.get('[data-testid=compose-category-radio-button]')
+      .shadow()
+      .find('label')
+      .contains(category)
+      .click();
+    cy.get('[data-testid="attach-file-input"]').selectFile(
+      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
+      { force: true },
+    );
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type('Test Subject');
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
+  };
+
   clickOnSendMessageButton = () => {
     cy.intercept(
       'POST',

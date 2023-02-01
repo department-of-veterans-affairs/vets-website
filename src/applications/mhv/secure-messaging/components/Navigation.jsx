@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getFolders } from '../actions/folders';
+import { folder } from '../selectors';
 import SectionGuideButton from './SectionGuideButton';
+import { DefaultFolders } from '../util/constants';
 
 const Navigation = () => {
   const dispatch = useDispatch();
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
+  const activeFolder = useSelector(folder);
 
   useEffect(
     () => {
@@ -19,10 +22,30 @@ const Navigation = () => {
 
   const paths = () => {
     return [
-      { path: '/inbox', label: 'Inbox', datatestid: 'inbox-sidebar' },
-      { path: '/drafts', label: 'Drafts', datatestid: 'drafts-sidebar' },
-      { path: '/sent', label: 'Sent', datatestid: 'sent-sidebar' },
-      { path: '/trash', label: 'Trash', datatestid: 'trash-sidebar' },
+      {
+        path: '/inbox',
+        label: 'Inbox',
+        id: DefaultFolders.INBOX.id,
+        datatestid: 'inbox-sidebar',
+      },
+      {
+        path: '/drafts',
+        label: 'Drafts',
+        id: DefaultFolders.DRAFTS.id,
+        datatestid: 'drafts-sidebar',
+      },
+      {
+        path: '/sent',
+        label: 'Sent',
+        id: DefaultFolders.SENT.id,
+        datatestid: 'sent-sidebar',
+      },
+      {
+        path: '/trash',
+        label: 'Trash',
+        id: DefaultFolders.DELETED.id,
+        datatestid: 'trash-sidebar',
+      },
       {
         path: '/folders',
         label: 'My folders',
@@ -76,33 +99,27 @@ const Navigation = () => {
 
   window.addEventListener('resize', checkScreenSize);
 
-  // TODO this is a sample GA event call. The analytics tag below is not valid
-  // const handleOnClick = path => {
-  //   recordEvent({
-  //     // For Google Analytics
-  //     event: 'secure-messaging-navigation-clicked',
-  //     'secure-messaging-navigation-option': path.label,
-  //     'secure-messaging-navigation-path': path.path,
-  //   });
-  // };
-
   const headerStyle = location.pathname === '/' ? 'is-active' : null;
 
   const handleActiveLinksStyle = path => {
-    const basePath = location.pathname.split('/');
-    if (location.pathname === path.path) {
-      return 'is-active';
-    }
-    if (path.label === 'My folders') {
-      if (basePath[1] === 'message') {
-        return 'vads-u-font-weight--bold';
-      }
-      if (basePath[1] === 'folder') {
-        return 'vads-u-font-weight--bold';
-      }
+    let isActive = false;
+    if (location.pathname === '/') {
+      // Highlight Messages on Lnading page
+      isActive = false;
+    } else if (location.pathname === '/folders') {
+      // To ensure other nav links are not bolded when landed on "/folders"
+      isActive = location.pathname === path.path;
+    } else if (location.pathname.split('/')[1] === 'folder') {
+      // Highlight "My Folders" when landed on "/folder/:id"
+      isActive = path.path === '/folders';
+    } else if (location.pathname === path.path) {
+      isActive = true;
+    } else if (path.id !== undefined && activeFolder?.folderId === path.id) {
+      // To highlight a corresponding folder when landed on "/message/:id"
+      isActive = true;
     }
 
-    return undefined;
+    return isActive ? 'is-active' : '';
   };
 
   return (
