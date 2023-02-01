@@ -6,6 +6,7 @@ export const FrequentlyAskedQuestions = () => {
       <div className="schemaform-title">
         <h2>Frequently Asked Questions</h2>
       </div>
+      <h3 className="dhp-faq-section-header">DHP Fitbit Pilot</h3>
       <va-accordion
         bordered
         disable-analytics={{
@@ -15,7 +16,6 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <h3>DHP Fitbit Pilot</h3>
         <va-accordion-item
           header="Why are we doing this pilot with Fitbit?"
           id="dhp-faq-first-section-first-question"
@@ -61,6 +61,9 @@ export const FrequentlyAskedQuestions = () => {
           device, they will be able to access the data you choose to share.
         </va-accordion-item>
       </va-accordion>
+      <h3 className="dhp-faq-section-header">
+        Connecting Your Device & Data Sharing
+      </h3>
       <va-accordion
         bordered
         disable-analytics={{
@@ -70,7 +73,6 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <h3>Connecting Your Device & Data Sharing</h3>
         <va-accordion-item
           header="How can I connect my device?"
           id="dhp-faq-second-section-first-question"
@@ -173,6 +175,8 @@ export const FrequentlyAskedQuestions = () => {
           deleted.
         </va-accordion-item>
       </va-accordion>
+
+      <h3 className="dhp-faq-section-header">Troubleshooting</h3>
       <va-accordion
         bordered
         disable-analytics={{
@@ -182,7 +186,6 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <h3>Troubleshooting</h3>
         <va-accordion-item
           header="I am having issues with my Fitbit or my Fitbit account"
           id="dhp-faq-third-section-first-question"
@@ -218,16 +221,20 @@ export const FrequentlyAskedQuestions = () => {
               877-327-0022 or 800-877-8339 (TTY), Monday to Friday, 7:00 a.m. —
               7:00 p.m. (Central Time)
             </li>
-            <li>
-              Forgot Your My HealtheVet User ID (Continue to My HealtheVet Only)
-            </li>
-            <li>
-              Forgot Your My HealtheVet Password (Continue to My HealtheVet
-              Only)
-            </li>
+            <ul>
+              <li>
+                Forgot Your My HealtheVet User ID (Continue to My HealtheVet
+                Only)
+              </li>
+              <li>
+                Forgot Your My HealtheVet Password (Continue to My HealtheVet
+                Only)
+              </li>
+            </ul>
           </ul>
         </va-accordion-item>
       </va-accordion>
+      <h3 className="dhp-faq-section-header">Feedback</h3>
       <va-accordion
         bordered
         disable-analytics={{
@@ -237,7 +244,6 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <h3>Feedback</h3>
         <va-accordion-item
           header="I have general questions or feedback about the pilot"
           id="dhp-faq-fourth-section-first-question"
