@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Apply for Specially Adapted Housing or Special Home Adaptation Grant",
+  "title": "Apply for Specially Adapted Housing Grant (26-4555)",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -199,6 +199,176 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 51
+        }
+      }
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 256,
+      "format": "email"
+    },
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+        }
+      },
+      "required": ["first", "last"]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "vaFileNumber": {
+      "type": "string",
+      "pattern": "^[cC]{0,1}\\d{7,9}$"
+    }
+  },
+  "properties": {
+    "personalChapter": {
+      "type": "object",
+      "properties": {
+        "personalPage1": {
+          "type": "object",
+          "properties": {
+            "fullName": {
+              "$ref": "#/definitions/fullName"
+            },
+            "birthDate": {
+              "$ref": "#/definitions/date"
+            }
+          }
+        },
+        "personalPage2": {
+          "type": "object",
+          "properties": {
+            "ssn": {
+              "$ref": "#/definitions/ssn"
+            },
+            "vaFileNumber": {
+              "$ref": "#/definitions/vaFileNumber"
+            }
+          }
+        }
+      }
+    },
+    "contactChapter": {
+      "type": "object",
+      "contactPage1": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/definitions/address"
+          }
+        }
+      },
+      "contactPage2": {
+        "type": "object",
+        "properties": {
+          "homePhone": {
+            "$ref": "#/definitions/phone"
+          },
+          "mobilePhone": {
+            "$ref": "#/definitions/phone"
+          },
+          "email": {
+            "$ref": "#/definitions/email"
+          }
+        }
+      }
+    },
+    "previousApplicationsChapter": {
+      "type": "object",
+      "previousSahApplicationPage1": {
+        "type": "object",
+        "properties": {
+          "hasPreviousSahApplication": {
+            "type": "boolean "
+          }
+        }
+      },
+      "previousSahApplicationPage2": {
+        "type": "object",
+        "properties": {
+          "previousSahApplicationDate": {
+            "$ref": "#/definitions/date "
+          },
+          "previousSahApplicationAddress": {
+            "$ref": "#/definitions/address"
+          }
+        }
+      },
+      "previousHiApplicationPage1": {
+        "type": "object",
+        "properties": {
+          "hasPreviousHiApplication": {
+            "type": "boolean"
+          }
+        }
+      },
+      "previousHiApplicationPage2": {
+        "type": "object",
+        "properties": {
+          "previousHiApplicationDate": {
+            "$ref": "#/definitions/date "
+          },
+          "previousHiApplicationAddress": {
+            "$ref": "#/definitions/address"
+          }
+        }
+      }
+    },
+    "livingSituationChapter": {
+      "type": "object",
+      "livingSituationPage1": {
+        "type": "object",
+        "properties": {
+          "isInCareFacility": {
+            "type": "boolean"
+          }
+        }
+      },
+      "livingSituationPage2": {
+        "type": "object",
+        "properties": {
+          "careFacilityName": {
+            "type": "string"
+          },
+          "careFacilityAddress": {
+            "$ref": "#/definitions/address"
+          }
+        }
+      },
+      "livingSituationPage3": {
+        "type": "object",
+        "properties": {
+          "otherMedicalInformation": {
+            "type": "string",
+            "maxLength": 512
+          }
         }
       }
     }

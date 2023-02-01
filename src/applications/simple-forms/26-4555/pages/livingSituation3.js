@@ -1,17 +1,20 @@
-import TextareaWidget from 'platform/forms-system/src/js/widgets/TextWidget.jsx';
+import TextareaWidget from '../widgets/TextareaWidget';
 
 const livingSituation3 = {
   uiSchema: {
-    additionalMedicalInformation: {
+    otherMedicalInformation: {
       'ui:title':
         'Is there any other medical information that you could tell us that would help you quality for the grant?',
       'ui:widget': TextareaWidget,
+      'ui:options': {
+        rows: 5,
+      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      additionalMedicalInformation: {
+      otherMedicalInformation: {
         type: 'string',
       },
     },

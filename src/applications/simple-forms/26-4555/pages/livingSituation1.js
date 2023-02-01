@@ -1,6 +1,6 @@
 const livingSituation1 = {
   uiSchema: {
-    isLivingInCareFacility: {
+    isInCareFacility: {
       'ui:title':
         'Are you currently living in a nursing home or medical care facility?',
       'ui:widget': 'yesNo',
@@ -8,9 +8,9 @@ const livingSituation1 = {
   },
   schema: {
     type: 'object',
-    required: ['isLivingInCareFacility'],
+    required: ['isInCareFacility'],
     properties: {
-      isLivingInCareFacility: {
+      isInCareFacility: {
         type: 'boolean',
       },
     },

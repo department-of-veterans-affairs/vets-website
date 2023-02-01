@@ -1,28 +1,23 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 
-const { usaPhone } = commonDefinitions;
+const { email, phone } = commonDefinitions;
 
 const contactInformation2 = {
   uiSchema: {
-    daytimePhone: phoneUI('Daytime phone number'),
-    eveningPhone: phoneUI('Evening phone number'),
-    cellPhone: phoneUI('Cell phone number'),
+    homePhone: phoneUI('Home phone number'),
+    mobilePhone: phoneUI('Cell phone number'),
     email: {
       'ui:title': 'Email address',
     },
   },
   schema: {
     type: 'object',
-    required: ['daytimePhone'],
+    required: ['homePhone'],
     properties: {
-      daytimePhone: usaPhone,
-      eveningPhone: usaPhone,
-      cellPhone: usaPhone,
-      email: {
-        type: 'string',
-        format: 'email',
-      },
+      homePhone: phone,
+      mobilePhone: phone,
+      email,
     },
   },
 };

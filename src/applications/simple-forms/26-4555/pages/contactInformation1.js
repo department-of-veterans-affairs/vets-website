@@ -1,4 +1,5 @@
 import * as address from 'platform/forms-system/src/js/definitions/address';
+
 import fullSchema from '../26-4555-schema.json';
 
 const contactInformation1 = {

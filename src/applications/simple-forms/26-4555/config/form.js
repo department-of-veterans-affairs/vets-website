@@ -16,8 +16,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-// import directDeposit from '../pages/directDeposit';
-// import serviceHistory from '../pages/serviceHistory';
 import personalInformation1 from '../pages/personalInformation1';
 import personalInformation2 from '../pages/personalInformation2';
 import contactInformation1 from '../pages/contactInformation1';
