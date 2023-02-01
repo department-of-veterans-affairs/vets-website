@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+
+import recordEvent from '~/platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
   hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
   selectProfile,
-} from 'platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+} from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
@@ -20,6 +23,7 @@ import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
 import Verified from './Verified';
+import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
 import { recordCustomProfileEvent } from '../../util';
@@ -34,6 +38,7 @@ export const AccountSecurityContent = ({
   showNotInMPIError,
   signInServiceName,
   isBlocked,
+  profileUseSecurityProcessList,
 }) => {
   const handlers = {
     learnMoreIdentity: () => {
@@ -51,6 +56,7 @@ export const AccountSecurityContent = ({
       });
     },
   };
+
   const securitySections = [
     {
       title: '2-factor authentication',
@@ -103,11 +109,22 @@ export const AccountSecurityContent = ({
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
-      <ProfileInfoTable
-        data={securitySections}
-        fieldName="accountSecurity"
-        level={3}
-      />
+
+      {profileUseSecurityProcessList ? (
+        <AccountSecurityTables
+          signInServiceName={signInServiceName}
+          isIdentityVerified={isIdentityVerified}
+          isMultifactorEnabled={isMultifactorEnabled}
+          showMHVTermsAndConditions={showMHVTermsAndConditions}
+          mhvAccount={mhvAccount}
+        />
+      ) : (
+        <ProfileInfoTable
+          data={securitySections}
+          fieldName="accountSecurity"
+          level={3}
+        />
+      )}
     </>
   );
 };
@@ -116,6 +133,7 @@ AccountSecurityContent.propTypes = {
   isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
+  profileUseSecurityProcessList: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
@@ -155,6 +173,9 @@ export const mapStateToProps = state => {
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
     isBlocked,
+    profileUseSecurityProcessList:
+      toggleValues(state)?.[TOGGLE_NAMES.profileUseSecurityProcessList] ||
+      false,
   };
 };
 

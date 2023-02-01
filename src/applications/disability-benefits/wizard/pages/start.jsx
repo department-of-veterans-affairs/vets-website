@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -12,25 +12,39 @@ const options = [
   { value: pageNames.appeals, label: 'No' },
 ];
 
-const StartPage = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    name={`${pageNames.start}-option`}
-    label={label}
-    id={`${pageNames.start}-option`}
-    options={options}
-    onValueChange={({ value }) => {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
-        'form-field-value': value === pageNames.bdd ? 'yes-bdd' : 'no-appeals',
-      });
-      setPageState({ selected: value }, value);
-    }}
-    value={{ value: state.selected }}
-    ariaDescribedby={[pageNames.bdd, pageNames.appeals]}
-  />
-);
+const StartPage = ({ setPageState, state = {} }) => {
+  const onValueChange = ({ detail } = {}) => {
+    const { value } = detail;
+    recordEvent({
+      event: 'howToWizard-formChange',
+      'form-field-type': 'form-radio-buttons',
+      'form-field-label': label,
+      'form-field-value': value === pageNames.bdd ? 'yes-bdd' : 'no-appeals',
+    });
+    setPageState({ selected: value }, value);
+  };
+
+  return (
+    <VaRadio
+      class="vads-u-margin-y--2"
+      label={label}
+      onVaValueChange={onValueChange}
+    >
+      {options.map(option => (
+        <va-radio-option
+          key={option.value}
+          name="active-duty"
+          label={option.label}
+          value={option.value}
+          checked={state.selected === option.value}
+          aria-describedby={
+            state.selected === option.value ? option.value : null
+          }
+        />
+      ))}
+    </VaRadio>
+  );
+};
 
 export default {
   name: pageNames.start,
