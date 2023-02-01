@@ -18,6 +18,7 @@ const StartForm = props => {
   };
   return (
     <a
+      id="startForm"
       onClick={handleClick}
       href={`${PCPG_ROOT_URL}/introduction`}
       className="vads-c-action-link--green"

@@ -1,8 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  selectHasVAPResidentialAddress,
-  selectRegisteredCernerFacilityIds,
-} from '../redux/selectors';
+import { selectRegisteredCernerFacilityIds } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
   getFormData,
@@ -210,13 +207,7 @@ export default {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
-    next(state) {
-      if (selectHasVAPResidentialAddress(state)) {
-        return 'ccLanguage';
-      }
-
-      return 'reasonForAppointment';
-    },
+    next: 'ccLanguage',
   },
   ccLanguage: {
     url: '/new-appointment/community-care-language',

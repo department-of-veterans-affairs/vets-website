@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # - name: Setup Environment
+      #   run: echo "VETS_WEBSITE_USER_ID=$(id -u)" >> $GITHUB_ENV
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -40,8 +43,6 @@ jobs:
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-        #Actions for building docker image go here
-
       - name: Get Source Repo and Source Ref
         run: node ./script/github-actions/pe-deploy-source.js
         env:
@@ -49,6 +50,25 @@ jobs:
           SOURCE_BRANCH: ${{ github.event.client_payload.source_ref }}
           SOURCE_REPO: ${{ github.event.client_payload.source_repo }}
           WORKFLOW_BRANCH: ${{ github.ref_name }}
+
+      # - name: Login to ECR # Update ECR credentials if necessary
+      #   id: login-ecr
+      #   uses: aws-actions/amazon-ecr-login@v1
+
+      # - name: Build Docker Image #use "file" input to designate alternate dockerfile path. Defaults to "Dockerfile": https://github.com/docker/build-push-action
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     build-args: |
+      #       userid=${{ env.VETS_WEBSITE_USER_ID }}
+      #     context: .
+      #     file: src/platform/utilities/preview-environment/Dockerfile
+      #     # target: production
+      #     push: false
+      #     # Update tags and ECR Repository
+      #     tags: |
+      #       ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/vets-website:${{ env.SOURCE_REF_SANITIZED }}
+      #     # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
+      #     # cache-to: type=inline
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2

@@ -18,7 +18,7 @@ const COEAccess = ({ includedInFlipper }) => {
           className="vads-c-action-link--green"
           href="/housing-assistance/home-loans/request-coe-form-26-1880"
         >
-          Request a COE
+          Request a COE or check COE status
         </a>
       </>
     );

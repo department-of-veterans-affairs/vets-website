@@ -142,6 +142,19 @@ describe('VAOS community care flow', () => {
       .contains('Continue')
       .click();
 
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-language',
+    );
+    cy.axeCheckBestPractice();
+    // Select preferred language
+    cy.get('#root_preferredLanguage').select('english');
+    cy.get('#root_preferredLanguage').should('have.value', 'english');
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
     // Tell us the reason for this appointment step
     cy.url().should(
       'contain',

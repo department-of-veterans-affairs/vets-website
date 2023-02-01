@@ -3,6 +3,7 @@ import {
   PRIMARY_PHONE,
   SELECTED,
   EVIDENCE_VA,
+  EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
 } from '../../constants';
 import { getDate } from '../../utils/dates';
@@ -281,18 +282,37 @@ describe('getEvidence', () => {
     },
   });
 
-  it('should skip adding evidence when not selected', () => {
+  it('should not include evidenceSubmission section adding evidence when not selected', () => {
     const evidence = getData({ hasVa: false });
     expect(getEvidence(evidence.data)).to.deep.equal({
       form5103Acknowledged: true,
-      evidenceSubmission: {
-        evidenceType: [],
-      },
     });
   });
   it('should process evidence when available', () => {
     const evidence = getData();
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
+  });
+  it('should add "upload" to evidence type when available', () => {
+    const { data } = getData();
+    const evidence = {
+      ...data,
+      [EVIDENCE_OTHER]: true,
+      additionalDocuments: [{}],
+    };
+    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
+      ['retrieval', 'upload'],
+    );
+  });
+  it('should only include "upload" when documents were uploaded with no VA evidence', () => {
+    const { data } = getData({ hasVa: false });
+    const evidence = {
+      ...data,
+      [EVIDENCE_OTHER]: true,
+      additionalDocuments: [{}],
+    };
+    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
+      ['upload'],
+    );
   });
 });
 

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList';
-import vaccines from '../tests/fixtures/vaccines.json';
+import { getVaccineList } from '../actions/vaccine';
 
 const Vaccines = () => {
+  const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getVaccineList());
+  });
+
   return (
     <div className="vaccines">
       <div className="breadcrumb-placeholder">

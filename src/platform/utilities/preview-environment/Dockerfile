@@ -4,6 +4,7 @@ RUN mkdir vets-website
 
 COPY . ./vets-website
 
+
 EXPOSE 3001
 EXPOSE 3000
 
