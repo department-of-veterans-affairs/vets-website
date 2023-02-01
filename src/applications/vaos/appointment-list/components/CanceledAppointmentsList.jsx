@@ -98,13 +98,16 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     );
   }
 
+  const keys = Object.keys(appointmentsByMonth);
   return (
     <>
       <div aria-live="assertive" className="sr-only">
         {hasTypeChanged && 'Showing canceled appointments and requests'}
       </div>
-      {appointmentsByMonth?.map((monthBucket, monthIndex) => {
-        const monthDate = moment(monthBucket[0].start);
+      {keys.map((key, monthIndex) => {
+        const monthDate = moment(key, 'YYYY-MM');
+        const monthBucket = appointmentsByMonth[key];
+
         return (
           <React.Fragment key={monthIndex}>
             <h3

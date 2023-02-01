@@ -657,48 +657,26 @@ export function getPreferredCommunityCareProviderName(appointment) {
 }
 
 /**
- * Groups appointments into an array of arrays by month
+ * Groups appointments by month into an array of objects with appointment start
+ * date as the key.
  * Assumes appointments are already sorted
  *
  * @export
  * @param {Appointment[]} appointments List of FHIR appointments
- * @returns {Array} An array of arrays by month
+ * @returns {Array} An array of objects grouped by month
  */
-export function groupAppointmentsByMonth(
-  appointments,
-  featureAppointmentList = false,
-) {
+export function groupAppointmentsByMonth(appointments) {
   if (appointments.length === 0) {
     return [];
   }
 
-  if (featureAppointmentList) {
-    return appointments.reduce((previous, current) => {
-      const key = moment(current.start).format('YYYY-MM');
-      // eslint-disable-next-line no-param-reassign
-      previous[key] = previous[key] || [];
-      previous[key].push(current);
-      return previous;
-    }, {});
-  }
-
-  const appointmentsByMonth = [[]];
-  let currentIndex = 0;
-  appointments.forEach(appt => {
-    if (
-      !appointmentsByMonth[currentIndex].length ||
-      moment(appt.start).format('YYYY-MM') ===
-        moment(appointmentsByMonth[currentIndex][0].start).format('YYYY-MM')
-    ) {
-      appointmentsByMonth[currentIndex].push(appt);
-    } else {
-      appointmentsByMonth.push([appt]);
-      // eslint-disable-next-line no-plusplus
-      currentIndex++;
-    }
-  });
-
-  return appointmentsByMonth;
+  return appointments.reduce((previous, current) => {
+    const key = moment(current.start).format('YYYY-MM');
+    // eslint-disable-next-line no-param-reassign
+    previous[key] = previous[key] || [];
+    previous[key].push(current);
+    return previous;
+  }, {});
 }
 
 /**

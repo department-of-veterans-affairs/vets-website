@@ -114,7 +114,7 @@ export const selectUpcomingAppointments = createSelector(
       .filter(isUpcomingAppointment)
       .sort(sortByDateAscending);
 
-    return groupAppointmentsByMonth(sortedAppointments, true);
+    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
@@ -180,10 +180,7 @@ export const selectPastAppointmentsV2 = (state, featureAppointmentList) => {
           .sort(sortByDateAscending);
       }
 
-      return groupAppointmentsByMonth(
-        sortedAppointments,
-        featureAppointmentList,
-      );
+      return groupAppointmentsByMonth(sortedAppointments);
     },
   );
   return selector(state);
