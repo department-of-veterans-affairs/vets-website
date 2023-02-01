@@ -1,5 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
 const { email, phone } = commonDefinitions;
 

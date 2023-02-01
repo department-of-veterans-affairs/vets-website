@@ -1,5 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import fullNameUI from '@department-of-veterans-affairs/platform-forms-system/fullName';
+import fullNameUI from 'platform/forms-system/src/js/definitions//fullName';
 
 const { fullName } = commonDefinitions;
 const personalInformation1 = {
