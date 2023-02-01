@@ -23,8 +23,6 @@ import {
 } from '../components/contact-information/EditContactInfo';
 
 import ContactInformationReview from '../components/contact-information/ContactInformationReview';
-import RealEstateOwnershipValue from '../components/RealEstateOwnershipValue';
-import RealEstateOwnershipValueReview from '../components/RealEstateOwnershipValueReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -476,8 +474,6 @@ const formConfig = {
             formData.questions.hasRealEstate &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
-          CustomPage: RealEstateOwnershipValue,
-          CustomPageReview: RealEstateOwnershipValueReview,
         },
         vehicles: {
           path: 'vehicles',
