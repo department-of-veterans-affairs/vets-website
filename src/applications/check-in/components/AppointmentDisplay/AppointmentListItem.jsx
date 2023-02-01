@@ -10,61 +10,55 @@ const AppointmentListItem = props => {
   const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
   const { t } = useTranslation();
-  const apptId = `${appointment.stationNo ? appointment.stationNo : ''}${
-    appointment.appointmentIen
-  }`;
   return (
     <li className="appointment-item vads-u-padding--2">
       <div className="appointment-summary vads-u-margin--0 vads-u-padding--0">
         <h2
           className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0"
           data-testid="appointment-time"
-          aria-describedby={apptId}
         >
           {t('date-time', { date: appointmentDateTime })}
         </h2>
-        <div id={apptId}>
-          <p className="vads-u-margin--0 vads-u-margin-bottom--1 appointment-detail">
-            <span className="item-label vads-u-font-weight--bold ">
-              {t('type-of-care')}:{' '}
-            </span>
-            <span className="item-value" data-testid="type-of-care">
-              {appointment.clinicStopCodeName ?? t('VA-appointment')}
-            </span>
-            {appointment.doctorName && (
-              <>
-                <span className="item-label vads-u-font-weight--bold ">
-                  {t('provider')}:{' '}
-                </span>
-                <span className="item-value" data-testid="provider">
-                  {appointment.doctorName}
-                </span>
-              </>
-            )}
-            <span className="item-label vads-u-font-weight--bold ">
-              {t('facility')}:{' '}
-            </span>
-            <span className="item-value" data-testid="facility-name">
-              {appointment.facility}
-            </span>
-            <span className="item-label vads-u-font-weight--bold ">
-              {t('clinic')}:{' '}
-            </span>
-            <span className="item-value" data-testid="clinic-name">
-              <AppointmentLocation appointment={appointment} />
-            </span>
-            {locationShouldBeDisplayed(appointment) && (
-              <>
-                <span className="item-label vads-u-font-weight--bold ">
-                  {t('location')}:{' '}
-                </span>
-                <span className="item-value" data-testid="clinic-location">
-                  {appointment.clinicLocation}
-                </span>
-              </>
-            )}
-          </p>
-        </div>
+        <p className="vads-u-margin--0 vads-u-margin-bottom--1 appointment-detail">
+          <span className="item-label vads-u-font-weight--bold ">
+            {t('type-of-care')}:{' '}
+          </span>
+          <span className="item-value" data-testid="type-of-care">
+            {appointment.clinicStopCodeName ?? t('VA-appointment')}
+          </span>
+          {appointment.doctorName && (
+            <>
+              <span className="item-label vads-u-font-weight--bold ">
+                {t('provider')}:{' '}
+              </span>
+              <span className="item-value" data-testid="provider">
+                {appointment.doctorName}
+              </span>
+            </>
+          )}
+          <span className="item-label vads-u-font-weight--bold ">
+            {t('facility')}:{' '}
+          </span>
+          <span className="item-value" data-testid="facility-name">
+            {appointment.facility}
+          </span>
+          <span className="item-label vads-u-font-weight--bold ">
+            {t('clinic')}:{' '}
+          </span>
+          <span className="item-value" data-testid="clinic-name">
+            <AppointmentLocation appointment={appointment} />
+          </span>
+          {locationShouldBeDisplayed(appointment) && (
+            <>
+              <span className="item-label vads-u-font-weight--bold ">
+                {t('location')}:{' '}
+              </span>
+              <span className="item-value" data-testid="clinic-location">
+                {appointment.clinicLocation}
+              </span>
+            </>
+          )}
+        </p>
       </div>
       <AppointmentAction
         appointment={appointment}

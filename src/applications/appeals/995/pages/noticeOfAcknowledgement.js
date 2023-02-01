@@ -1,5 +1,5 @@
 import {
-  acknowledge5103Description,
+  Acknowledge5103Description,
   acknowledge5103Label,
   acknowledge5103Error,
   reviewField,
@@ -7,7 +7,7 @@ import {
 
 export default {
   uiSchema: {
-    'ui:description': acknowledge5103Description,
+    'ui:description': Acknowledge5103Description,
     'ui:options': {
       forceDivWrapper: true,
     },

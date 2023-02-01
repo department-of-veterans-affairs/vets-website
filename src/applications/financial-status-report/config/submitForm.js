@@ -4,6 +4,13 @@ import { DEBT_TYPES } from '../utils/helpers';
 
 // Analytics event
 export const buildEventData = ({ selectedDebtsAndCopays }) => {
+  // temp - Handling empty selectedDebtsAndCopays
+  if (!selectedDebtsAndCopays.length) {
+    return {
+      'submission-type': 'debt-submission',
+    };
+  }
+
   // Check types of debts and copays selected
   const hasDebts = selectedDebtsAndCopays.some(
     selected => selected.debtType === DEBT_TYPES.DEBT,
@@ -12,9 +19,27 @@ export const buildEventData = ({ selectedDebtsAndCopays }) => {
     selected => selected.debtType === DEBT_TYPES.COPAY,
   );
 
+  if (hasDebts && hasCopays) {
+    return {
+      'submission-type': 'combo-submission',
+    };
+  }
+
+  if (hasDebts && !hasCopays) {
+    return {
+      'submission-type': 'debt-submission',
+    };
+  }
+
+  if (!hasDebts && hasCopays) {
+    return {
+      'submission-type': 'copay-submission',
+    };
+  }
+
+  // This should never happen
   return {
-    'request-includes-copay': hasCopays,
-    'request-includes-debt': hasDebts,
+    'submission-type': 'err-submission',
   };
 };
 

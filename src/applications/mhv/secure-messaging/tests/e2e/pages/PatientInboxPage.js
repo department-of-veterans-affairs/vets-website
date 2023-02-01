@@ -11,6 +11,8 @@ import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 class PatientInboxPage {
   newMessageIndex = 0;
 
+  loadedMessagesData = undefined;
+
   loadPage = (doAxeCheck = false) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
@@ -43,6 +45,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/messages*',
       mockMessages,
     ).as('inboxMessages');
+    this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0*',
@@ -65,6 +68,7 @@ class PatientInboxPage {
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
+    cy.wait('@inboxMessages');
     if (doAxeCheck) {
       cy.axeCheck();
     }
@@ -102,6 +106,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/messages*',
       mockInboxNoMessages,
     ).as('inboxMessages');
+    this.loadedMessagesData = mockInboxNoMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0*',
@@ -142,6 +147,31 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.contains(messageTitle).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
+  };
+
+  loadMessageDetailsByTabbingAndEnterKey = inputMockMessage => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        inputMockMessage.attributes.messageId
+      }`,
+      mockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        inputMockMessage.attributes.messageId
+      }/thread`,
+      mockThread,
+    ).as('full-thread');
+    cy.tabToElement(
+      `a[href*="/my-health/secure-messages/message/${
+        inputMockMessage.attributes.messageId
+      }"]`,
+    );
+    cy.realPress(['Enter']);
     cy.wait('@message');
     cy.wait('@full-thread');
   };
@@ -214,6 +244,7 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/messages*',
       mockMessages,
     ).as('inboxMessages');
+    this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0*',
@@ -235,6 +266,14 @@ class PatientInboxPage {
     if (doAxeCheck) {
       cy.axeCheck();
     }
+  };
+
+  getLoadedMessages = () => {
+    return this.loadedMessagesData;
+  };
+
+  verifySentSuccessMessage = () => {
+    cy.contains('Message was successfully sent.').should('be.visible');
   };
 }
 

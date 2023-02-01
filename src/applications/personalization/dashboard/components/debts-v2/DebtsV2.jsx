@@ -12,8 +12,8 @@ import {
 } from '~/applications/personalization/dashboard/actions/debts';
 import DebtsCardV2 from './DebtsCardV2';
 import CopaysCardV2 from './CopaysCardV2';
-import { canAccess } from '../../selectors';
-import API_NAMES from '../../utils/apiNames';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 const NoOutstandingDebtsText = () => {
   return (

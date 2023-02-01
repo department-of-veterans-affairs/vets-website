@@ -42,13 +42,20 @@ va-alert button {
   border-radius: 4px;
 }
 
-.message-action-buttons {
-  margin-top: 20px;
-  .message-action-button {
-    i {
-      width: 20px;
-      height: 20px;
-    }
+.send-button-top,
+.reply-button-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent !important;
+  color: $color-link-default !important;
+  font-weight: normal;
+  line-height: 24px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  .send-button-top-text {
+    text-decoration: underline;
   }
 }
 
@@ -204,6 +211,7 @@ va-alert button {
       border-top: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
+      width: 100%;
       span {
         margin-top: 16px;
         @media (min-width: $medium-screen) {
@@ -211,7 +219,6 @@ va-alert button {
         }
       }
       @media (min-width: $medium-screen) {
-        width: 100%;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -219,7 +226,6 @@ va-alert button {
     }
   }
   li:last-child {
-    margin: 0 0 16px;
     .editable-attachment {
       border-bottom: 1px solid $color-gray-medium;
     }
