@@ -88,9 +88,6 @@ export const schema = {
             type: 'boolean',
           },
           intent: LOAN_INTENT_SCHEMA,
-          willRefinance: {
-            type: 'boolean',
-          },
         },
       },
     },
@@ -186,13 +183,6 @@ export const uiSchema = {
           formData.relevantPriorLoans[index].propertyOwned,
         'ui:options': {
           expandUnder: 'propertyOwned',
-        },
-      },
-      willRefinance: {
-        'ui:title': text.refinance.title,
-        'ui:widget': 'yesNo',
-        'ui:options': {
-          hideEmptyValueInReview: true,
         },
       },
     },

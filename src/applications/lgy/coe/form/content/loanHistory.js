@@ -49,8 +49,4 @@ export default {
     title: 'Do you still own this property?',
     value: data => (get('propertyOwned', data, '') ? 'Yes' : 'No'),
   },
-  refinance: {
-    title: 'Do you want to refinance this loan?',
-    value: data => (get('willRefinance', data, '') ? 'Yes' : 'No'),
-  },
 };
