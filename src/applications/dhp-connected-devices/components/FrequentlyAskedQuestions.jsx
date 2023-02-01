@@ -7,6 +7,7 @@ export const FrequentlyAskedQuestions = () => {
         <h2>Frequently asked questions</h2>
       </div>
       <va-accordion
+        bordered
         disable-analytics={{
           value: 'false',
         }}
@@ -61,6 +62,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
       </va-accordion>
       <va-accordion
+        bordered
         disable-analytics={{
           value: 'false',
         }}
@@ -70,26 +72,17 @@ export const FrequentlyAskedQuestions = () => {
       >
         <h3>Connecting Your Device & Data Sharing</h3>
         <va-accordion-item
-          header="What are connected devices and why might I use them?"
-          id="dhp-connect-share-first-faq"
-          data-testid="connect-share-first-faq"
-        >
-          Connected devices let you share your data from your wearables and
-          other health devices with VA. If your VA care team asked you to
-          connect your devices, they will be able to access the data you choose
-          to share.
-        </va-accordion-item>
-        <va-accordion-item
-          header="How can I connect my devices?"
-          id="dhp-connect-share-second-faq"
-          data-testid="connect-share-second-faq"
+          header="How can I connect my device?"
+          id="dhp-faq-second-section-first-question"
+          data-testid="faq-second-section-first-question"
         >
           <strong>Take these steps to connect a device:</strong>
           <p />
           <ol>
             <li>
               Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
-              account TODO Signing in to VA.gov guide
+              account
+              {/* TODO Signing in to VA.gov guide */}
             </li>
             <li>
               Select the <strong>Connect</strong> link below the device you
@@ -104,12 +97,42 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
-          id="dhp-connect-share-third-faq"
-          data-testid="connect-share-third-faq"
+          id="dhp-faq-second-section-second-question"
+          data-testid="faq-second-section-second-question"
         >
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
           share new data with VA.
+          <strong>To disconnect a device:</strong>
+          <p />
+          <ol>
+            <li>
+              Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
+              account
+              {/* TODO Signing in to VA.gov guide */}
+            </li>
+            <li>
+              Select the <strong>Disconnect</strong> button below the device
+              name
+            </li>
+            <li>
+              Confirm you would like to disconnect the device by selecting
+              Disconnect Device
+            </li>
+          </ol>
+          Watch this video for detailed instructions on how to disconnect your
+          device.
+          {/* TODO link */}
+        </va-accordion-item>
+        <va-accordion-item
+          header="What information can VA access from the devices that I have connected on VA.gov?"
+          id="dhp-faq-second-section-third-question"
+          data-testid="faq-second-section-third-question"
+        >
+          When you connect a device, such as a Fitbit , you will be able to
+          choose the type of data (for example, heart rate, exercise, sleep,
+          activity, and/or diet data) to share with the VA and your care team as
+          part of the Pilot.
           <p />
           <strong>To disconnect a device:</strong>
           <p />
@@ -129,27 +152,21 @@ export const FrequentlyAskedQuestions = () => {
           </ol>
         </va-accordion-item>
         <va-accordion-item
-          header="What information can VA access from the devices that I have connected on VA.gov?"
-          id="dhp-connect-share-fourth-faq"
-          data-testid="connect-share-fourth-faq"
-        >
-          When you connect a device, you can choose the type of data that will
-          be shared with VA.
-        </va-accordion-item>
-        <va-accordion-item
           header="Who can access data from the devices I have connected on VA.gov?"
-          id="dhp-connect-share-fifth-faq"
-          data-testid="connect-share-fifth-faq"
+          id="dhp-faq-second-section-fourth-question"
+          data-testid="faq-second-section-fourth-question"
         >
-          Your VA care team will be able to view the data from your connected
-          devices. Authorized researchers at VA may also be able to view data
-          from your connected devices, but that data will not be identified as
-          yours.
+          The primary individuals who will have access to your device include
+          your VA care team. However, any of the information collected via
+          VA.gov, including data shared with VA from your connected device as a
+          part of this Pilot, may be shared with employees, contractors, and
+          other service providers as necessary to respond to a request, provide
+          a service, or as otherwise authorized by law.
         </va-accordion-item>
         <va-accordion-item
           header="How will my private information be protected?"
-          id="dhp-connect-share-sixth-faq"
-          data-testid="connect-share-sixth-faq"
+          id="dhp-faq-second-section-fifth-question"
+          data-testid="faq-second-section-fifth-question"
         >
           VA will keep information about you, including any connected device
           data that you share, strictly confidential to the extent required by
@@ -162,8 +179,8 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Does VA keep my data after I disconnect a device?"
-          id="sixth-dhp-faq"
-          data-testid="sixth-faq"
+          id="dhp-faq-second-section-sixth-question"
+          data-testid="faq-second-section-sixth-question"
         >
           VA will no longer receive new data from your device after it is
           disconnected. Data shared while your device was connected will not be
@@ -171,6 +188,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
       </va-accordion>
       <va-accordion
+        bordered
         disable-analytics={{
           value: 'false',
         }}
@@ -198,27 +216,32 @@ export const FrequentlyAskedQuestions = () => {
           header="I can’t login or need help with my VA account"
           id="dhp-troubleshooting-second-faq"
           data-testid="troubleshooting-second-faq"
-        />
-        Signing in to VA.gov guide. Please contact the VA help desk that applies
-        to you from the list below:
-        <ul>
-          <li>Login.gov - Access the Login.gov help center at 844-875-6446</li>
-          <li>ID.me - Go to the ID.me help center at 855-927-4363</li>
-          <li>DS Logon - Call the DMDC Support Office at 800-538-9552</li>
-          <li>
-            My HealtheVet - Contact the My HealtheVet Help Desk at 877-327-0022
-            or 800-877-8339 (TTY), Monday to Friday, 7:00 a.m. — 7:00 p.m.
-            (Central Time)
-          </li>
-          <li>
-            Forgot Your My HealtheVet User ID (Continue to My HealtheVet Only)
-          </li>
-          <li>
-            Forgot Your My HealtheVet Password (Continue to My HealtheVet Only)
-          </li>
-        </ul>
+        >
+          <a href="va.gov">Signing in to VA.gov guide.</a> Please contact the VA
+          help desk that applies to you from the list below:
+          <ul>
+            <li>
+              Login.gov - Access the Login.gov help center at 844-875-6446
+            </li>
+            <li>ID.me - Go to the ID.me help center at 855-927-4363</li>
+            <li>DS Logon - Call the DMDC Support Office at 800-538-9552</li>
+            <li>
+              My HealtheVet - Contact the My HealtheVet Help Desk at
+              877-327-0022 or 800-877-8339 (TTY), Monday to Friday, 7:00 a.m. —
+              7:00 p.m. (Central Time)
+            </li>
+            <li>
+              Forgot Your My HealtheVet User ID (Continue to My HealtheVet Only)
+            </li>
+            <li>
+              Forgot Your My HealtheVet Password (Continue to My HealtheVet
+              Only)
+            </li>
+          </ul>
+        </va-accordion-item>
       </va-accordion>
       <va-accordion
+        bordered
         disable-analytics={{
           value: 'false',
         }}
@@ -231,7 +254,9 @@ export const FrequentlyAskedQuestions = () => {
           header="I have general questions or feedback about the pilot"
           id="dhp-feedback-first-faq"
           data-testid="feedback-first-faq"
+          subheader="subheader"
         >
+          {/* TODO: remove subheader after demo */}
           Contact VA-DHP-Pilot@va.gov
         </va-accordion-item>
       </va-accordion>
