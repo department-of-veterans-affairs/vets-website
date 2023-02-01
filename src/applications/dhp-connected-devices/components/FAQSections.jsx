@@ -88,7 +88,13 @@ export const SecondFAQSection = () => {
             <li>
               Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
               account
-              {/* TODO Signing in to VA.gov guide */}
+              <ol type="a">
+                <li>
+                  <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+                    Signing in to VA.gov guide
+                  </a>
+                </li>
+              </ol>
             </li>
             <li>
               Select the <strong>Connect</strong> link below the device you
@@ -117,7 +123,13 @@ export const SecondFAQSection = () => {
             <li>
               Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
               account
-              {/* TODO Signing in to VA.gov guide */}
+              <ol type="a">
+                <li>
+                  <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+                    Signing in to VA.gov guide
+                  </a>
+                </li>
+              </ol>
             </li>
             <li>
               Select the <strong>Disconnect</strong> button below the device
@@ -129,9 +141,9 @@ export const SecondFAQSection = () => {
             </li>
           </ol>
           <p />
-          Watch this video for detailed instructions on how to disconnect your
-          device.
-          {/* TODO link */}
+          Watch this{' '}
+          <a href="https://www.youtube.com/watch?v=37aRcEZ3vyo">video</a> for
+          detailed instructions on how to disconnect your device.
         </va-accordion-item>
         <va-accordion-item
           header="What information can VA access from the devices that I have connected on VA.gov?"
@@ -201,9 +213,11 @@ export const ThirdFAQSection = () => {
           id="dhp-faq-third-section-first-question"
           data-testid="faq-third-section-first-question"
         >
-          Please visit the Fitbit support website or call 877-623-4997 for
-          Fitbit related help.
-          {/* TODO link to Fitbit support */}
+          Please visit the{' '}
+          <a href="https://myhelp.fitbit.com/s/support?language=en_US">
+            Fitbit support website
+          </a>{' '}
+          or call 877-623-4997 for Fitbit related help.
           <ul>
             <li>I cannot log into my Fitbit account</li>
             <li>My Fitbit isn’t syncing</li>
@@ -217,28 +231,42 @@ export const ThirdFAQSection = () => {
           id="dhp-faq-third-section-second-question"
           data-testid="faq-third-section-second-question"
         >
-          <a href="va.gov">Signing in to VA.gov guide.</a> Please contact the VA
-          help desk that applies to you from the list below:
-          {/* TODO link to Signing in */}
+          <a href="https://www.va.gov/resources/signing-in-to-vagov/">
+            Signing in to VA.gov guide.
+          </a>{' '}
+          Please contact the VA help desk that applies to you from the list
+          below:
           <ul>
             <li>
-              Login.gov - Access the Login.gov help center at 844-875-6446
+              Login.gov - Access the Login.gov help center at{' '}
+              <va-telephone contact="8448756446" />
             </li>
-            <li>ID.me - Go to the ID.me help center at 855-927-4363</li>
-            <li>DS Logon - Call the DMDC Support Office at 800-538-9552</li>
             <li>
-              My HealtheVet - Contact the My HealtheVet Help Desk at
-              877-327-0022 or 800-877-8339 (TTY), Monday to Friday, 7:00 a.m. —
+              ID.me - Go to the ID.me help center at{' '}
+              <va-telephone contact="8559274363" />
+            </li>
+            <li>
+              DS Logon - Call the DMDC Support Office at{' '}
+              <va-telephone contact="8005389552" />
+            </li>
+            <li>
+              My HealtheVet - Contact the My HealtheVet Help Desk at{' '}
+              <va-telephone contact="8773270022" /> or{' '}
+              <va-telephone contact="8008778339" /> (TTY), Monday to 7:00 a.m. —
               7:00 p.m. (Central Time)
             </li>
             <ul>
               <li>
-                Forgot Your My HealtheVet User ID (Continue to My HealtheVet
-                Only)
+                <a href="https://www.myhealth.va.gov/forgot-user-id?action=new">
+                  Forgot Your My HealtheVet User ID
+                </a>{' '}
+                (Continue to My HealtheVet Only)
               </li>
               <li>
-                Forgot Your My HealtheVet Password (Continue to My HealtheVet
-                Only)
+                <a href="https://www.myhealth.va.gov/forgot-password?action=new">
+                  Forgot Your My HealtheVet Password
+                </a>{' '}
+                (Continue to My HealtheVet Only)
               </li>
             </ul>
           </ul>
@@ -266,7 +294,7 @@ export const FourthFAQSection = () => {
           id="dhp-faq-fourth-section-first-question"
           data-testid="faq-fourth-section-first-question"
         >
-          Contact VA-DHP-Pilot@va.gov
+          Contact <a href="mailto:VA-DHP-Pilot@va.gov">VA-DHP-Pilot@va.gov</a>
         </va-accordion-item>
       </va-accordion>
     </>
