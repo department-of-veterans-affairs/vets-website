@@ -105,8 +105,9 @@ export const SecondFAQSection = () => {
             </li>
           </ol>
           <p />
-          Watch this video for detailed instructions on how to connect your
-          device.
+          Watch this{' '}
+          <a href="https://www.youtube.com/watch?v=37aRcEZ3vyo">video</a> for
+          detailed instructions on how to connect your device.
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
@@ -217,7 +218,13 @@ export const ThirdFAQSection = () => {
           <a href="https://myhelp.fitbit.com/s/support?language=en_US">
             Fitbit support website
           </a>{' '}
-          or call 877-623-4997 for Fitbit related help.
+          or call{' '}
+          <va-telephone
+            contact="8776234997"
+            aria-label="8 7 7. 6 2 3. 4 9 9 7."
+            international
+          />{' '}
+          for Fitbit related help.
           <ul>
             <li>I cannot log into my Fitbit account</li>
             <li>My Fitbit isn’t syncing</li>
@@ -239,21 +246,43 @@ export const ThirdFAQSection = () => {
           <ul>
             <li>
               Login.gov - Access the Login.gov help center at{' '}
-              <va-telephone contact="8448756446" />
+              <va-telephone
+                contact="8448756446"
+                aria-label="8 4 4. 8 7 5. 6 4 4 6."
+                international
+              />
             </li>
             <li>
               ID.me - Go to the ID.me help center at{' '}
-              <va-telephone contact="8559274363" />
+              <va-telephone
+                contact="8559274363"
+                aria-label="8 5 5. 9 2 7. 4 3 6 3."
+                international
+              />
             </li>
             <li>
               DS Logon - Call the DMDC Support Office at{' '}
-              <va-telephone contact="8005389552" />
+              <va-telephone
+                contact="8005389552"
+                aria-label="8 0 0. 5 3 8. 9 5 5 2."
+                international
+              />
             </li>
             <li>
               My HealtheVet - Contact the My HealtheVet Help Desk at{' '}
-              <va-telephone contact="8773270022" /> or{' '}
-              <va-telephone contact="8008778339" /> (TTY), Monday to 7:00 a.m. —
-              7:00 p.m. (Central Time)
+              <va-telephone
+                contact="8773270022"
+                aria-label="8 7 7. 3 2 7. 0 0 2 2."
+                international
+              />{' '}
+              or{' '}
+              <va-telephone
+                contact="8008778339"
+                aria-label="TTY. 8 0 0. 8 7 7. 8 3 3 9."
+                tty
+                international
+              />{' '}
+              (TTY), Monday to 7:00 a.m. — 7:00 p.m. (Central Time)
             </li>
             <ul>
               <li>
