@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Eligible = ({ referenceNumber }) => (
-  <va-alert status="success">
+  <va-alert status="success" class="vads-u-margin-bottom--2">
     <h2 slot="headline" className="vads-u-font-size--h3">
       Congratulations on your automatic COE
     </h2>

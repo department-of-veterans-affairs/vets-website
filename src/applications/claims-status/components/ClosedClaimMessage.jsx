@@ -9,10 +9,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 import { getClaimType } from '../utils/helpers';
 
+// HELPERS
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
 
-const getClosedClaims = claims => {
+const getRecentlyClosedClaims = claims => {
   return claims
     .filter(isBenefitsClaimOrAppeal)
     .filter(claim => {
@@ -80,16 +81,16 @@ const getClosedClaims = claims => {
     });
 };
 
-const getClaimCloseDate = claim =>
+const getCloseDate = claim =>
   claim.attributes ? claim.attributes.phaseChangeDate : claim.closeDate;
 
-const getClaimFileDate = claim =>
+const getFileDate = claim =>
   claim.attributes ? claim.attributes.dateFiled : claim.claimDate;
 
 const formatDate = date => moment(date).format('MMMM D, YYYY');
 
 export default function ClosedClaimMessage({ claims, onClose }) {
-  const closedClaims = getClosedClaims(claims);
+  const closedClaims = getRecentlyClosedClaims(claims);
 
   if (!closedClaims.length) {
     return null;
@@ -132,9 +133,9 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               {appealTypes.includes(claim.type)
                 ? 'Compensation Appeal'
                 : getClaimType(claim)}{' '}
-              – Received {formatDate(getClaimFileDate(claim))}
+              – Received {formatDate(getFileDate(claim))}
             </Link>{' '}
-            has been closed as of {formatDate(getClaimCloseDate(claim))}
+            has been closed as of {formatDate(getCloseDate(claim))}
           </p>
         ))}
       </div>

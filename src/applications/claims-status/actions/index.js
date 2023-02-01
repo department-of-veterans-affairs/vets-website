@@ -123,6 +123,7 @@ function fetchClaimsSuccessEVSS(response) {
     claims: response.data,
   };
 }
+// END lighthouse_migration
 
 function fetchClaimsSuccess(claims) {
   return {
@@ -188,6 +189,19 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     });
     event['api-latency-ms'] = apiLatencyMs;
   }
+
+  // There is a difference between the way that custom dimensions
+  // and metrics are dealt with in UA (Universal Analytics) vs in
+  // GA4. In UA, we push keys with dashes ('-') but in GA4 the object
+  // keys must be delimited with ('_'). So we should just include
+  // both versions for the applicable keys
+  Object.keys(event).forEach(key => {
+    if (key.includes('-')) {
+      const newKey = key.replace(/-/g, '_');
+      event[newKey] = event[key];
+    }
+  });
+
   recordEvent(event);
   if (event['error-key']) {
     recordEvent({
