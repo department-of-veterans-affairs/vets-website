@@ -1,10 +1,19 @@
+/* eslint-disable @department-of-veterans-affairs/telephone-contact-3-or-10-digits */
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { intersection, pick } from 'lodash';
 import { sponsorFields } from '../../definitions/constants';
 import fullSchema from '../../10-10D-schema.json';
 
-const { properties } = fullSchema.properties.veteran;
+const { required, properties } = fullSchema.properties.veteran;
+
+const pageFields = [
+  sponsorFields.fullName,
+  sponsorFields.ssn,
+  sponsorFields.claim,
+  sponsorFields.phone,
+];
 
 export default {
   uiSchema: {
@@ -22,18 +31,8 @@ export default {
     properties: {
       [sponsorFields.parentObject]: {
         type: 'object',
-        required: [
-          sponsorFields.fullName,
-          sponsorFields.ssn,
-          sponsorFields.claim,
-          sponsorFields.phone,
-        ],
-        properties: {
-          [sponsorFields.fullName]: properties[sponsorFields.fullName],
-          [sponsorFields.ssn]: properties[sponsorFields.ssn],
-          [sponsorFields.claim]: properties[sponsorFields.claim],
-          [sponsorFields.phone]: properties[sponsorFields.phone],
-        },
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
       },
     },
   },

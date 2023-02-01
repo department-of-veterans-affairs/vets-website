@@ -17,18 +17,6 @@ import sponsorDates from '../pages/sponsor/sponsorDates';
 import applicantInformation from '../pages/applicants/applicantInformation';
 import applicantAddress from '../pages/applicants/applicantAddress';
 
-const {
-  fullName,
-  ssn,
-  date,
-  gender,
-  phone,
-  email,
-  address,
-  vetRelationship,
-  centralMailVaFile,
-} = fullSchema.definitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -54,17 +42,7 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   title: 'Application for CHAMPVA Benefits',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    gender,
-    phone,
-    email,
-    address,
-    vetRelationship,
-    centralMailVaFile,
-  },
+  defaultDefinitions: fullSchema.definitions,
   chapters: {
     sponsorChapter: {
       title: 'Sponsor Information',
