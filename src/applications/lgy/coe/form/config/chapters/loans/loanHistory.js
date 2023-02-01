@@ -15,14 +15,13 @@ import {
   validateVALoanNumber,
   validateUniqueVALoanNumber,
 } from '../../../validations';
-import { LOAN_INTENT, LOAN_INTENT_SCHEMA } from '../../../constants';
+import { LOAN_INTENT_SCHEMA } from '../../../constants';
+import { getLoanIntent } from '../../helpers';
 
 const stateLabels = createUSAStateLabels(states);
 
 const PreviousLoanView = ({ formData }) => {
-  const intent = Object.values(LOAN_INTENT).find(
-    type => type.value === formData.intent,
-  );
+  const intent = getLoanIntent(formData.intent);
   const {
     propertyAddress1,
     propertyCity,
