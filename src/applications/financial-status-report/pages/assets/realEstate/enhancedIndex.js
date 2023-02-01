@@ -15,12 +15,16 @@ const Explainer = (
   </va-additional-info>
 );
 
+const RealEstateDescription = (
+  <p className="vads-u-color--gray">This includes properties with a mortage.</p>
+);
+
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
-  'ui:description': 'This includes properties with a mortage.',
   questions: {
     hasRealEstate: {
       'ui:title': 'Do you currently own any property?',
+      'ui:description': RealEstateDescription,
       'ui:widget': 'yesNo',
       'ui:required': () => true,
       'ui:errorMessages': {
