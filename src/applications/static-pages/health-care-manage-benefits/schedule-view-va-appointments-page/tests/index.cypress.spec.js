@@ -2,12 +2,14 @@ import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import cernerUser from '../../fixtures/user/cerner.json';
 import notCernerUser from '../../fixtures/user/notCerner.json';
 import features from '../../fixtures/feature-toggles/enabled.json';
+import staticEhrData from '../../fixtures/vamc-ehr-static.json';
 
 const TEST_URL = '/health-care/schedule-view-va-appointments/';
 
 const setup = ({ authenticated, isCerner } = {}) => {
   // Mock feature toggles route.
   cy.intercept('GET', '/v0/feature_toggles*', features);
+  cy.intercept('GET', '/data/cms/vamc-ehr.json', staticEhrData);
 
   // Clear announcements.
   disableFTUXModals();

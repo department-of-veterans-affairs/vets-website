@@ -55,11 +55,15 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
+      const filteredRecipients = recipients.filter(
+        team => team.preferredTeam === true,
+      );
       setRecipientsList(prevRecipientsList => [
         ...prevRecipientsList.filter(
-          oldRecip => !recipients.find(newRecip => newRecip.id === oldRecip.id),
+          oldRecip =>
+            !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
         ),
-        ...recipients,
+        ...filteredRecipients,
       ]);
       if (!draft) {
         setSelectedRecipient('');

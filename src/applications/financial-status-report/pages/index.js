@@ -61,6 +61,7 @@ import * as resolutionExplainer from './resolution/resolutionExplainer';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
 import * as expensesExplainer from './expenses/expensesExplainer';
+import * as contactInformation from './veteran/contactInformation';
 
 export {
   veteranInfo,
@@ -126,4 +127,5 @@ export {
   householdExpensesInputList,
   expensesExplainer,
   enhancedBankruptcyHistoryRecords,
+  contactInformation,
 };

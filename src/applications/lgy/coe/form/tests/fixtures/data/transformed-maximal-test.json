@@ -34,9 +34,9 @@
         }
       ],
       "vaLoanIndicator": true,
-      "intent": "ONETIMERESTORATION",
       "relevantPriorLoans": [
         {
+          "intent": "ONETIMERESTORATION",
           "dateRange": {
             "from": "2015-01-01T00:00:00.000Z",
             "to": "2020-01-01T00:00:00.000Z"
@@ -49,10 +49,10 @@
             "propertyZip": "85274"
           },
           "vaLoanNumber": "123456789012",
-          "propertyOwned": true,
-          "willRefinance": false
+          "propertyOwned": true
         },
         {
+          "intent": "REFI",
           "dateRange": {
             "from": "2020-01-01T00:00:00.000Z",
             "to": ""
@@ -65,8 +65,7 @@
             "propertyZip": "85274"
           },
           "vaLoanNumber": "210987654321",
-          "propertyOwned": true,
-          "willRefinance": false
+          "propertyOwned": true
         }
       ],
       "files": [

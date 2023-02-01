@@ -16,6 +16,13 @@ import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/contact-information/EditContactInfo';
+
+import ContactInformationReview from '../components/contact-information/ContactInformationReview';
 import RealEstateOwnershipQuestion from '../components/RealEstateOwnershipQuestion';
 import RealEstateOwnershipQuestionReview from '../components/RealEstateOwnershipQuestionReview';
 import RealEstateOwnershipValue from '../components/RealEstateOwnershipValue';
@@ -133,6 +140,42 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'current-contact-information',
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformation.schema,
+          CustomPageReview: ContactInformationReview,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editMobilePhone: {
+          title: 'Edit phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
