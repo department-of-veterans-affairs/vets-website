@@ -67,10 +67,10 @@ VAFacilityName.propTypes = {
 function getIsCommunityCare({ appointment, featureStatusImprovement }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
   return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}/cc/${
+    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
         appointment.id
       }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}/va/${
+    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
         appointment.id
       }`;
 }
