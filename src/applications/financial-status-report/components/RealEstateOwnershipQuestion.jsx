@@ -48,7 +48,7 @@ const RealEstateOwnershipQuestion = props => {
       <VaRadio
         class="vads-u-margin-y--2"
         label="Do you currently own any property?"
-        hin="This includes properties with a mortage."
+        hint="This includes properties with a mortage."
         onVaValueChange={handlers.onSelection}
         required
       >

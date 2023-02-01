@@ -23,8 +23,6 @@ import {
 } from '../components/contact-information/EditContactInfo';
 
 import ContactInformationReview from '../components/contact-information/ContactInformationReview';
-import RealEstateOwnershipQuestion from '../components/RealEstateOwnershipQuestion';
-import RealEstateOwnershipQuestionReview from '../components/RealEstateOwnershipQuestionReview';
 import RealEstateOwnershipValue from '../components/RealEstateOwnershipValue';
 import RealEstateOwnershipValueReview from '../components/RealEstateOwnershipValueReview';
 
@@ -467,9 +465,7 @@ const formConfig = {
           uiSchema: pages.enhancedRealEstate.uiSchema,
           schema: pages.enhancedRealEstate.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
-          CustomPage: RealEstateOwnershipQuestion,
           editModeOnReviewPage: true,
-          CustomPageReview: RealEstateOwnershipQuestionReview,
         },
         enhancedRealEstateRecords: {
           path: 'enhanced-real-estate-asset-records',
