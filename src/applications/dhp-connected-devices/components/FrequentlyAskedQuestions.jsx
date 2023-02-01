@@ -4,7 +4,7 @@ export const FrequentlyAskedQuestions = () => {
   return (
     <>
       <div className="schemaform-title">
-        <h2>Frequently asked questions</h2>
+        <h2>Frequently Asked Questions</h2>
       </div>
       <va-accordion
         bordered
@@ -92,6 +92,7 @@ export const FrequentlyAskedQuestions = () => {
               Follow the instructions shown on the device vendor’s website
             </li>
           </ol>
+          <p />
           Watch this video for detailed instructions on how to connect your
           device.
         </va-accordion-item>
@@ -103,6 +104,7 @@ export const FrequentlyAskedQuestions = () => {
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
           share new data with VA.
+          <p />
           <strong>To disconnect a device:</strong>
           <p />
           <ol>
@@ -120,6 +122,7 @@ export const FrequentlyAskedQuestions = () => {
               Disconnect Device
             </li>
           </ol>
+          <p />
           Watch this video for detailed instructions on how to disconnect your
           device.
           {/* TODO link */}
@@ -133,23 +136,6 @@ export const FrequentlyAskedQuestions = () => {
           choose the type of data (for example, heart rate, exercise, sleep,
           activity, and/or diet data) to share with the VA and your care team as
           part of the Pilot.
-          <p />
-          <strong>To disconnect a device:</strong>
-          <p />
-          <ol>
-            <li>
-              Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
-              account
-            </li>
-            <li>
-              Select the <strong>Disconnect</strong> button below the device
-              name TODO: Signing in to VA.gov guide
-            </li>
-            <li>
-              Confirm you would like to disconnect the device by selecting
-              <strong> Disconnect Device</strong>
-            </li>
-          </ol>
         </va-accordion-item>
         <va-accordion-item
           header="Who can access data from the devices I have connected on VA.gov?"
@@ -204,6 +190,7 @@ export const FrequentlyAskedQuestions = () => {
         >
           Please visit the Fitbit support website or call 877-623-4997 for
           Fitbit related help.
+          {/* TODO link to Fitbit support */}
           <ul>
             <li>I cannot log into my Fitbit account</li>
             <li>My Fitbit isn’t syncing</li>
@@ -219,6 +206,7 @@ export const FrequentlyAskedQuestions = () => {
         >
           <a href="va.gov">Signing in to VA.gov guide.</a> Please contact the VA
           help desk that applies to you from the list below:
+          {/* TODO link to Signing in */}
           <ul>
             <li>
               Login.gov - Access the Login.gov help center at 844-875-6446
@@ -254,9 +242,7 @@ export const FrequentlyAskedQuestions = () => {
           header="I have general questions or feedback about the pilot"
           id="dhp-feedback-first-faq"
           data-testid="feedback-first-faq"
-          subheader="subheader"
         >
-          {/* TODO: remove subheader after demo */}
           Contact VA-DHP-Pilot@va.gov
         </va-accordion-item>
       </va-accordion>
