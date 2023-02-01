@@ -2,11 +2,29 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 export const Notice5103Description = ({ onReviewPage }) => {
   const [visibleAlert, setVisibleAlert] = useState(true);
   const Header = onReviewPage ? 'h4' : 'h3';
 
-  const hideAlert = () => setVisibleAlert(false);
+  const analyticsEvent = {
+    'alert-box-type': 'info',
+    'alert-box-heading': 'If you have a presumptive condition',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': true,
+    'reason-for-alert': 'presumptive condition details',
+  };
+
+  const hideAlert = () => {
+    setVisibleAlert(false);
+    recordEvent({ ...analyticsEvent, event: 'int-alert-box-close' });
+  };
+  if (visibleAlert) {
+    recordEvent({ ...analyticsEvent, event: 'visible-alert-box' });
+  }
+
   return (
     <>
       <VaAlert
