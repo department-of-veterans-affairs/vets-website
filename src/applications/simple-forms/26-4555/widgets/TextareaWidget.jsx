@@ -3,16 +3,18 @@ import React from 'react';
 import classNames from 'classnames';
 
 function TextareaWidget({
-  schema,
   id,
-  placeholder,
-  value,
-  required,
-  disabled,
-  readonly,
-  onChange,
-  onBlur,
-}) {
+  schema = { maxLength: 512 },
+  placeholder = `[any medical information (in under ${
+    schema.maxLength
+  } characters)]`,
+  value = '',
+  required = false,
+  disabled = false,
+  readonly = false,
+  onChange = () => {},
+  onBlur = () => {},
+} = {}) {
   let remainingCharacters = null;
   let isOverLimit = false;
   let characterLimitClasses = null;
@@ -53,14 +55,16 @@ function TextareaWidget({
 }
 
 TextareaWidget.propTypes = {
-  schema: PropTypes.object.isRequired,
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
-  required: PropTypes.bool,
   autofocus: PropTypes.bool,
-  onChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  placeholder: PropTypes.string,
+  readonly: PropTypes.bool,
+  required: PropTypes.bool,
+  schema: PropTypes.object,
+  value: PropTypes.string,
   onBlur: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default TextareaWidget;
