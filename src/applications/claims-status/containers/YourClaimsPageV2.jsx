@@ -79,8 +79,8 @@ class YourClaimsPageV2 extends React.Component {
       claimsLoading,
       getAppealsV2,
       // START lighthouse_migration
+      getClaimsEVSS,
       getClaimsLighthouse,
-      getClaimsV2,
       // END lighthouse_migration
       getStemClaims,
       stemClaimsLoading,
@@ -90,10 +90,16 @@ class YourClaimsPageV2 extends React.Component {
     } = this.props;
 
     // START lighthouse_migration
+    // Only call if we should be using Lighthouse and the current
+    // user has access to Lighthouse claims
     if (useLighthouse && canAccessClaimsLighthouse) {
       getClaimsLighthouse();
-    } else if (canAccessClaimsEVSS) {
-      getClaimsV2();
+    }
+
+    // Only call if we should be using EVSS and the current
+    // user has access to EVSS claims
+    if (!useLighthouse && canAccessClaimsEVSS) {
+      getClaimsEVSS();
     }
     // END lighthouse_migration
 
@@ -311,8 +317,8 @@ YourClaimsPageV2.propTypes = {
   fullName: PropTypes.shape({}),
   getAppealsV2: PropTypes.func,
   // START lighthouse_migration
+  getClaimsEVSS: PropTypes.func,
   getClaimsLighthouse: PropTypes.func,
-  getClaimsV2: PropTypes.func,
   // END lighthouse_migration
   getStemClaims: PropTypes.func,
   list: PropTypes.arrayOf(
@@ -377,7 +383,7 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   // START lighthouse_migration
   getClaimsLighthouse: getClaimsAction,
-  getClaimsV2: getClaimsV2Action,
+  getClaimsEVSS: getClaimsV2Action,
   // END lighthouse_migration
   getStemClaims: getStemClaimsAction,
 };

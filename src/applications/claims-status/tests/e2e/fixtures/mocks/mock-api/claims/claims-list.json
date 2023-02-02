@@ -36,7 +36,7 @@
         "documentsNeeded": false,
         "developmentLetterSent": false,
         "decisionLetterSent": false,
-        "phase": 2,
+        "phase": null,
         "everPhaseBack": false,
         "currentPhaseBack": false,
         "requestedDecision": false,
