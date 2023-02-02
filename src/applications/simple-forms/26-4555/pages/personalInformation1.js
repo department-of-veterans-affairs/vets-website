@@ -5,7 +5,7 @@ const { fullName } = commonDefinitions;
 const personalInformation1 = {
   uiSchema: {
     fullName: fullNameUI,
-    birthDate: {
+    dateOfBirth: {
       'ui:title': 'Your date of birth',
       'ui:widget': 'date',
     },
@@ -15,7 +15,7 @@ const personalInformation1 = {
     required: ['fullName'],
     properties: {
       fullName,
-      birthDate: {
+      dateOfBirth: {
         pattern:
           '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
         type: 'string',

@@ -1,24 +1,24 @@
 import TextareaWidget from '../widgets/TextareaWidget';
 
-const livingSituation3 = {
+const remarks = {
   uiSchema: {
-    otherMedicalInformation: {
+    remarks: {
       'ui:title':
-        'Is there any other medical information that you could tell us that would help you quality for the grant?',
+        'Is there any other medical information that you could tell us that would help you qualify for the grant?',
       'ui:widget': TextareaWidget,
       'ui:options': {
-        rows: 5,
+        rows: 8,
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      otherMedicalInformation: {
+      remarks: {
         type: 'string',
       },
     },
   },
 };
 
-export default livingSituation3;
+export default remarks;

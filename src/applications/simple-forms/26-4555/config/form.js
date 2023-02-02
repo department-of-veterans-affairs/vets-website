@@ -26,7 +26,7 @@ import previousHiApplication1 from '../pages/previousHiApplication1';
 import previousHiApplication2 from '../pages/previousHiApplication2';
 import livingSituation1 from '../pages/livingSituation1';
 import livingSituation2 from '../pages/livingSituation2';
-import livingSituation3 from '../pages/livingSituation3';
+import remarks from '../pages/remarks';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -148,11 +148,16 @@ const formConfig = {
           uiSchema: livingSituation2.uiSchema,
           schema: livingSituation2.schema,
         },
-        livingSituation3: {
-          path: 'living-situation-3',
-          title: 'Additional medical information',
-          uiSchema: livingSituation3.uiSchema,
-          schema: livingSituation3.schema,
+      },
+    },
+    remarksChapter: {
+      title: 'Additional information',
+      pages: {
+        remarks: {
+          path: 'remarks',
+          title: 'Additional information',
+          uiSchema: remarks.uiSchema,
+          schema: remarks.schema,
         },
       },
     },
