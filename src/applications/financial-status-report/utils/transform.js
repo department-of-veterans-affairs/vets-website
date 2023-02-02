@@ -285,7 +285,7 @@ export const transform = (formConfig, form) => {
         : assets.stocksAndOtherBonds,
       realEstateOwned: !enhancedFSRActive
         ? sumValues(realEstateRecords, 'realEstateAmount')
-        : questions.realEstateValue,
+        : Number(assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       otherAssets: assets.otherAssets,
       totalAssets,
     },

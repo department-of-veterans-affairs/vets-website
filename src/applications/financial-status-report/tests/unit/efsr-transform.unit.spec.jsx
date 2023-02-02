@@ -298,14 +298,6 @@ describe('efsr-fsr transform helper functions', () => {
             },
           ],
         },
-        realEstateRecords: [
-          {
-            realEstateAmount: '1000',
-          },
-          {
-            realEstateAmount: '1000',
-          },
-        ],
       };
       expect(getTotalAssets(totalAssets)).to.equal(2320);
     });

@@ -2,7 +2,7 @@ import { validateCurrency } from '../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
-  questions: {
+  assets: {
     realEstateValue: {
       'ui:title': 'What is the estimated value of your property?',
       'ui:options': {
@@ -20,7 +20,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    questions: {
+    assets: {
       type: 'object',
       required: ['realEstateValue'],
       properties: {

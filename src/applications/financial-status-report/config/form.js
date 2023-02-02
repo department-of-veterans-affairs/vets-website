@@ -463,7 +463,7 @@ const formConfig = {
           uiSchema: pages.enhancedRealEstate.uiSchema,
           schema: pages.enhancedRealEstate.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         enhancedRealEstateRecords: {
           path: 'enhanced-real-estate-asset-records',
@@ -473,7 +473,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.hasRealEstate &&
             formData['view:enhancedFinancialStatusReport'],
-          editModeOnReviewPage: true,
+          editModeOnReviewPage: false,
         },
         vehicles: {
           path: 'vehicles',

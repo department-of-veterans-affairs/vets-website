@@ -34,8 +34,8 @@
       "rentOrMortgage": "1200.53",
       "food": "4000.38"
     },
-    "realEstateValue": "800000.81",
     "assets": {
+      "realEstateValue": "800000.81",
       "otherAssets": [
         {
           "name": "Gambling earning",

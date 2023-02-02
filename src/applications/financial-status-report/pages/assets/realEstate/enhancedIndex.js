@@ -21,6 +21,9 @@ const RealEstateDescription = (
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
+  'ui:options': {
+    hideOnReview: true,
+  },
   questions: {
     hasRealEstate: {
       'ui:title': 'Do you currently own any property?',
