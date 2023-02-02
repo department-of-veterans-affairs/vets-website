@@ -120,7 +120,6 @@ export const ariaLabels = Object.freeze({
 });
 
 const CTRatingsHeaders = {
-  // m1 : "Quality of Learning Experience",
   m1: 'Learning Experience',
   m2: 'GI Bill Support',
   m3: 'Veteran Community',
@@ -168,97 +167,97 @@ export const CTRatingsHeaderQuestions = [
   {
     title: {
       heading: CTRatingsHeaders.m1,
-      m1_avg: '0',
+      m1Avg: '0',
     },
     questions: [
       {
         question: CTRatingsQuestions.q1,
-        q1_avg: '0',
-        q1_count: 0,
+        q1Avg: '0',
+        q1Count: 0,
       },
       {
         question: CTRatingsQuestions.q2,
-        q2_avg: '0',
-        q2_count: 0,
+        q2Avg: '0',
+        q2Count: 0,
       },
       {
         question: CTRatingsQuestions.q3,
-        q3_avg: '0',
-        q3_count: 0,
+        q3Avg: '0',
+        q3Count: 0,
       },
       {
         question: CTRatingsQuestions.q4,
-        q4_avg: '0',
-        q4_count: 0,
+        q4Avg: '0',
+        q4Count: 0,
       },
       {
         question: CTRatingsQuestions.q5,
-        q5_avg: '0',
-        q5_count: 0,
+        q5Avg: '0',
+        q5Count: 0,
       },
     ],
   },
   {
     title: {
       heading: CTRatingsHeaders.m2,
-      m2_avg: '0',
+      m2Avg: '0',
     },
     questions: [
       {
         question: CTRatingsQuestions.q7,
-        q7_avg: '0',
-        q7_count: 0,
+        q7Avg: '0',
+        q7Count: 0,
       },
       {
         question: CTRatingsQuestions.q8,
-        q7_avg: '0',
-        q7_count: 0,
+        q7Avg: '0',
+        q7Count: 0,
       },
       {
         question: CTRatingsQuestions.q9,
-        q9_avg: '0',
-        q9_count: 0,
+        q9Avg: '0',
+        q9Count: 0,
       },
       {
         question: CTRatingsQuestions.q10,
-        q10_avg: '0',
-        q10_count: 0,
+        q10Avg: '0',
+        q10Count: 0,
       },
     ],
   },
   {
     title: {
       heading: CTRatingsHeaders.m3,
-      m3_avg: '0',
+      m3Avg: '0',
     },
     questions: [
       {
         question: CTRatingsQuestions.q11,
-        q11_avg: '0',
-        q11_count: 0,
+        q11Avg: '0',
+        q11Count: 0,
       },
       {
         question: CTRatingsQuestions.q12,
-        q12_avg: '0',
-        q12_count: 0,
+        q12Avg: '0',
+        q12Count: 0,
       },
     ],
   },
   {
     title: {
       heading: CTRatingsHeaders.m4,
-      m4_avg: '0',
+      m4Avg: '0',
     },
     questions: [
       {
         question: CTRatingsQuestions.q13,
-        q13_avg: '0',
-        q13_count: 0,
+        q13Avg: '0',
+        q13Count: 0,
       },
       {
         question: CTRatingsQuestions.q14,
-        q13_avg: '0',
-        q13_count: 0,
+        q13Avg: '0',
+        q13Count: 0,
       },
     ],
   },

@@ -5,16 +5,12 @@ import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-// import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
-// used for mock data, will delete when API is ready | comment out when pushing to github, uncomment to use
-// import { institutionRatingsMockData } from '../components/profile/schoolRatings/IPMockData';
 
 const { Element: ScrollElement } = Scroll;
 
@@ -72,23 +68,6 @@ export function ProfilePage({
     },
     [version],
   );
-
-  /// //////////////////////////////////////////////////////////////////////////////////////
-  /*
-    USE BELOW USEEFFECT FOR TESTING UNTIL API IS READY | uncomment to use. Must comment out code before pushing to github
-  */
-  // useEffect(() =>{
-  //   const addRatingsToProfile =()=>{
-
-  //       profile.attributes.ratingAverage = institutionRatingsMockData[0]['overall_avg']
-  //       profile.attributes.ratingCount = institutionRatingsMockData[0]['institution_rating_count']
-  //       // profile.attributes.ratingAverage = 4
-  //       // profile.attributes.ratingCount = 6
-  //   }
-  //   addRatingsToProfile()
-
-  // },[profile])
-  /// //////////////////////////////////////////////////////////////////////////////////////
 
   let content;
 
@@ -154,16 +133,6 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    // gibctEybBottomSheet: toggleValues(state).true,
-    // //[
-    //   //true
-    //   // FEATURE_FLAG_NAMES.gibctEybBottomSheet
-    // //],
-    // gibctSchoolRatings: toggleValues(state).true
-    // //[
-    //   //true
-    //   // FEATURE_FLAG_NAMES.gibctSchoolRatings
-    // //],
   };
 };
 

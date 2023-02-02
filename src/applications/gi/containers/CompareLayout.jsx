@@ -37,48 +37,64 @@ import {
 const CompareLayout = ({
   calculated,
   estimated,
-  // hasRatings,
   institutions,
-  // gibctSchoolRatings,
   showDifferences,
   smallScreen,
 }) => {
-  /// /////////////////////////////////////////////////////////////////////
-  /* Use with Mock data / delete when API is connected */
+  const mapRating = institution => {
+    const { type } = institution; // used to identify if the training is OJT
+    let ratingAverage = false;
+    let ratingCount = -1;
+    let institutionRatingIsNotNull = false;
+    let institutionCountIsNotNull = false;
+    let institutionOverallAvgIsNotNull = false;
+    /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+    if (institution.institutionRating != null) {
+      institutionRatingIsNotNull = true;
+    }
+    if (
+      institutionRatingIsNotNull &&
+      institution.institutionRating.institutionRatingCount != null
+    ) {
+      institutionCountIsNotNull = true;
+    }
+    if (
+      institutionRatingIsNotNull &&
+      institutionCountIsNotNull &&
+      institution.institutionRating.overallAvg != null
+    ) {
+      institutionOverallAvgIsNotNull = true;
+    }
+    if (
+      institutionRatingIsNotNull &&
+      institutionCountIsNotNull &&
+      institutionOverallAvgIsNotNull
+    ) {
+      const {
+        institutionRatingCount,
+        overallAvg,
+      } = institution.institutionRating;
+      ratingAverage = overallAvg;
+      ratingCount = institutionRatingCount;
+    }
+    /// /////////////////////////////////////////////////////////////////////
 
-  const mockRatingAverage = 3.2; // ratingAverage
-  const mockRatingCount = 5; // ratingCount
-
-  /// /////////////////////////////////////////////////////////////////////
-  const mapRating = () =>
-    // institution, categoryName
-    {
-      // const categoryRatings = institution.institutionCategoryRatings.filter(
-      //   category => category.categoryName === categoryName,
-      // );
-
-      if (
-        // categoryRatings.length > 0 &&
-        // categoryRatings[0].averageRating && //use when api is connected
-        mockRatingAverage &&
-        // institution.ratingCount >= MINIMUM_RATING_COUNT
-        mockRatingCount >= MINIMUM_RATING_COUNT
-      ) {
-        // const categoryRating = categoryRatings[0];
-        // const stars = convertRatingToStars(categoryRating.averageRating);
-        const stars = convertRatingToStars(mockRatingAverage);
-        return (
+    if (ratingAverage && ratingCount >= MINIMUM_RATING_COUNT) {
+      const stars = convertRatingToStars(ratingAverage);
+      return (
+        <div>
+          <div>{stars.display} out of a possible 4 stars</div>
           <div>
-            <div>{stars.display} out of a possible 4 stars</div>
-            <div>
-              <RatingsStars rating={mockRatingAverage} />{' '}
-            </div>
-            {/* <RatingsStars rating={categoryRating.averageRating} /> {stars.display} */}
+            <RatingsStars rating={ratingAverage} />{' '}
           </div>
-        );
-      }
+        </div>
+      );
+    }
+    if (type.toUpperCase() === 'OJT') {
       return 'N/A';
-    };
+    }
+    return 'Not yet rated by Veterans';
+  };
 
   const formatEstimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -125,9 +141,8 @@ const CompareLayout = ({
           },
           {
             label: 'Overall rating',
-            mapper: () => mapRating(),
-            // mapper: institution =>
-            // mapRating(institution, 'overall_experience'), use with API
+            // mapper: () => mapRating(),
+            mapper: institution => mapRating(institution),
           },
           {
             label: 'Accreditation',
@@ -266,8 +281,11 @@ const CompareLayout = ({
         <HousingAllowanceSchoolModalContent />
         <BookStipendInfoModalContent />
       </va-additional-info>
+
+      {/* ////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* LEAVING CODE IN UNTIL EDU APPROVES DELETION */}
       {/* {//gibctSchoolRatings && used for toggle, rework this before pushing to staging
-        hasRatings && (
+        (
           <>
             <CompareGrid
               sectionLabel="Veteran ratings"
@@ -281,11 +299,11 @@ const CompareLayout = ({
                   mapper: institution => {
                     const stars = convertRatingToStars(
                       // institution.ratingAverage,
-                      mockRatingAverage
+                      ratingAverage
                     );
                     const aboveMinimumRatingCount =
                       // institution.ratingCount >= MINIMUM_RATING_COUNT;
-                      mockRatingCount >= MINIMUM_RATING_COUNT;
+                      ratingCount >= MINIMUM_RATING_COUNT;
 
                     return (
                       <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
@@ -321,8 +339,8 @@ const CompareLayout = ({
                   mapper: institution =>
                     // institution.ratingCount >= MINIMUM_RATING_COUNT
                     //   ? institution.ratingCount
-                    mockRatingCount >= MINIMUM_RATING_COUNT
-                      ? mockRatingCount
+                    ratingCount >= MINIMUM_RATING_COUNT
+                      ? ratingCount
                       : '0',
                 },
               ]}
@@ -381,6 +399,7 @@ const CompareLayout = ({
             />
           </>
         )} */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////////////////////// */}
 
       <CompareGrid
         sectionLabel="Cautionary information"

@@ -8,7 +8,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  convertRatingToStars, // turn on for ratings
+  convertRatingToStars,
   createId,
   formatNumber,
   locationInfo,
@@ -19,16 +19,13 @@ import {
   removeCompareInstitution,
   showModal,
 } from '../actions';
-import { ariaLabels } from '../constants';
-// import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/profile/schoolRatings/RatingsStars';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
 import SchoolClassification from '../components/SchoolClassification';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import CompareCheckbox from '../components/CompareCheckbox';
-
-import { institutionRatingsMockData } from '../components/profile/schoolRatings/IPMockData'; // used for mock data, will delete when API is ready
 
 const ProfilePageHeader = ({
   compare,
@@ -46,8 +43,7 @@ const ProfilePageHeader = ({
     physicalCountry,
     facilityCode,
     facilityMap,
-    // ratingCount,
-    // ratingAverage,
+    institutionRating,
     cautionFlags,
     highestDegree,
     accreditationType,
@@ -100,16 +96,39 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-  // const stars = convertRatingToStars(ratingAverage); // turn on with new API
-  // const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT; // turn on with new API
-
-  /// ////////////////////////////////////////////////////////////////////////////
-  // const ratingAvg = '0'; // comment out to use mock data, delete when API is attached
-  // const stars = 0; // comment out to use mock data, delete when API is attached
-  const ratingAvg = institutionRatingsMockData[0].overall_avg; // uncomment to run ratings with mock data
-  const stars = convertRatingToStars(ratingAvg); // uncomment to run ratings with mock data
-  const displayStars = true; // set to true to run mock data
-  /// ////////////////////////////////////////////////////////////////////////////
+  let ratingAvg = -1;
+  let ratingCount = -1;
+  let institutionRatingIsNotNull = false;
+  let institutionCountIsNotNull = false;
+  let institutionOverallAvgIsNotNull = false;
+  /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+  if (institution.institutionRating != null) {
+    institutionRatingIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institution.institutionRating.institutionRatingCount != null
+  ) {
+    institutionCountIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institution.institutionRating.overallAvg != null
+  ) {
+    institutionOverallAvgIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institutionOverallAvgIsNotNull
+  ) {
+    ratingAvg = institutionRating.overallAvg;
+    ratingCount = institutionRating.institutionRatingCount;
+  }
+  /** ******************************************************************************* */
+  const stars = ratingAvg === -1 ? false : convertRatingToStars(ratingAvg);
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames(
     'small-screen-header',
@@ -314,15 +333,15 @@ const ProfilePageHeader = ({
               href="#profile-school-ratings"
               onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
             >
-              {/* //////////////////////////////////////////////////////////////////////////////////// */}
-              {/* See {ratingCount} ratings by Veterans */}
-              See {institutionRatingsMockData[0].institution_rating_count}{' '}
-              ratings by Veterans
-              {/* //////////////////////////////////////////////////////////////////////////////////// */}
+              See {ratingCount} ratings by Veterans
             </a>
             )
           </div>
         )}
+        {!displayStars &&
+          type.toUpperCase() !== 'OJT' && (
+            <span>Not yet rated by Veterans</span>
+          )}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel

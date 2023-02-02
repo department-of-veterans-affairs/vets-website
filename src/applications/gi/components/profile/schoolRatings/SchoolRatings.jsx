@@ -2,7 +2,6 @@
 import React from 'react';
 import { convertRatingToStars } from '../../../utils/helpers';
 import { CTRatingsHeaderQuestions } from '../../../constants';
-import { institutionRatingsMockData } from './IPMockData';
 import RatingsAbout from './RatingsAbout';
 import RatingHeading from './RatingHeading';
 import SchoolCategoryRating from './SchoolCategoryRating';
@@ -10,11 +9,8 @@ import SchoolCategoryRating from './SchoolCategoryRating';
 export default function SchoolRatings({
   ratingAverage,
   ratingCount,
-  // institutionCategoryRatings = [],
+  institutionCategoryRatings,
 }) {
-  /** *******************************************************
-  Mockdata currently being used, will convert back to institutionCategoryRatings when api is ready
-  ******************************************************** */
   const stars = convertRatingToStars(ratingAverage);
 
   const updateQuestionRatingsCounts = questionsArrary => {
@@ -25,8 +21,7 @@ export default function SchoolRatings({
       const objKeys = Object.keys(valueObj);
       objKeys.forEach(key => {
         if (key !== 'question') {
-          tempQuestions[valueObjIndex][key] =
-            institutionRatingsMockData[0][key];
+          tempQuestions[valueObjIndex][key] = institutionCategoryRatings[key];
         }
       });
     });
@@ -37,7 +32,7 @@ export default function SchoolRatings({
     return CTRatingsHeaderQuestions.map((response, index) => {
       const { title, questions } = response;
       const avgKey = Object.keys(title)[1];
-      title[avgKey] = institutionRatingsMockData[0][avgKey]; // update avg amount for category rating using api data
+      title[avgKey] = institutionCategoryRatings[avgKey]; // update avg amount for category rating using api data
       const updatedQuestions = updateQuestionRatingsCounts(questions);
       return (
         <SchoolCategoryRating

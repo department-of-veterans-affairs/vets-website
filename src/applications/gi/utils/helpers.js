@@ -247,7 +247,7 @@ export const getAvgCount = (questionsArrObj, index) => {
   const keys = Object.keys(questionObj);
   const values = Object.values(questionObj);
   keys.forEach((keyValue, keyIndex) => {
-    if (keyValue.includes('_avg')) {
+    if (keyValue.includes('Avg')) {
       result = values[keyIndex];
     }
   });

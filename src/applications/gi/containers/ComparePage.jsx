@@ -196,7 +196,6 @@ export function ComparePage({
     return <LoadingIndicator message="Loading..." />;
   }
 
-  const hasRatings = true;
   const loadedInstitutions = [];
   for (let i = 0; i < loaded.length; i++) {
     loadedInstitutions.push(institutions[loaded[i]]);
@@ -263,7 +262,6 @@ export function ComparePage({
           calculated={calculated}
           estimated={estimated}
           showDifferences={showDifferences}
-          hasRatings={hasRatings}
           smallScreen={smallScreen}
           institutions={loadedInstitutions}
           gibctSchoolRatings={gibctSchoolRatings}

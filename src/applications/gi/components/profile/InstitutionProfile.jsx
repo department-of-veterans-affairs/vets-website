@@ -39,13 +39,38 @@ export default function InstitutionProfile({
     scrollTo('school-locations', getScrollOptions());
   };
 
-  const stars = convertRatingToStars(institution.ratingAverage);
-
-  /// //////////////////////////////////////////////////////////////////////////////
-
-  const displayStars = stars && institution.ratingCount >= MINIMUM_RATING_COUNT;
-
-  /// //////////////////////////////////////////////////////////////////////////////
+  let stars = false;
+  let ratingCount = 0;
+  let institutionRatingIsNotNull = false;
+  let institutionCountIsNotNull = false;
+  let institutionOverallAvgIsNotNull = false;
+  /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+  if (institution.institutionRating != null) {
+    institutionRatingIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institution.institutionRating.institutionRatingCount != null
+  ) {
+    institutionCountIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institution.institutionRating.overallAvg != null
+  ) {
+    institutionOverallAvgIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institutionOverallAvgIsNotNull
+  ) {
+    stars = convertRatingToStars(institution.institutionRating.overallAvg);
+    ratingCount = institution.institutionRating.institutionRatingCount;
+  }
+  /** ************************************************************************ */
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -115,15 +140,14 @@ export default function InstitutionProfile({
         <ProfileSection label="Veteran ratings" id="veteran-ratings">
           <div id="profile-school-ratings">
             <SchoolRatings
-              ratingAverage={institution.ratingAverage}
-              ratingCount={institution.ratingCount}
-              institutionCategoryRatings={
-                institution.institutionCategoryRatings
-              }
+              ratingAverage={institution.institutionRating.overallAvg}
+              ratingCount={institution.institutionRating.institutionRatingCount}
+              institutionCategoryRatings={institution.institutionRating}
             />
           </div>
         </ProfileSection>
       )}
+
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
