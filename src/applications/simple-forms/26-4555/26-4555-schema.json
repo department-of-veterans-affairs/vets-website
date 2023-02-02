@@ -248,127 +248,85 @@
     }
   },
   "properties": {
-    "personalChapter": {
+    "veteran": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "personalPage1": {
-          "type": "object",
-          "properties": {
-            "fullName": {
-              "$ref": "#/definitions/fullName"
-            },
-            "birthDate": {
-              "$ref": "#/definitions/date"
-            }
-          }
+        "required": ["fullName", "ssn", "address", "homePhone"],
+        "fullName": {
+          "$ref": "#/definitions/fullName"
         },
-        "personalPage2": {
-          "type": "object",
-          "properties": {
-            "ssn": {
-              "$ref": "#/definitions/ssn"
-            },
-            "vaFileNumber": {
-              "$ref": "#/definitions/vaFileNumber"
-            }
-          }
+        "birthDate": {
+          "$ref": "#/definitions/date"
+        },
+        "ssn": {
+          "$ref": "#/definitions/ssn"
+        },
+        "vaFileNumber": {
+          "$ref": "#/definitions/vaFileNumber"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "homePhone": {
+          "$ref": "#/definitions/phone"
+        },
+        "mobilePhone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
         }
       }
     },
-    "contactChapter": {
+    "previousSahApplication": {
       "type": "object",
-      "contactPage1": {
-        "type": "object",
-        "properties": {
-          "address": {
-            "$ref": "#/definitions/address"
-          }
-        }
-      },
-      "contactPage2": {
-        "type": "object",
-        "properties": {
-          "homePhone": {
-            "$ref": "#/definitions/phone"
-          },
-          "mobilePhone": {
-            "$ref": "#/definitions/phone"
-          },
-          "email": {
-            "$ref": "#/definitions/email"
-          }
+      "additionalProperties": false,
+      "required": ["hasPreviousSahApplication"],
+      "properties": {
+        "hasPreviousSahApplication": {
+          "type": "boolean "
+        },
+        "previousSahApplicationDate": {
+          "$ref": "#/definitions/date "
+        },
+        "previousSahApplicationAddress": {
+          "$ref": "#/definitions/address"
         }
       }
     },
-    "previousApplicationsChapter": {
+    "previousHiApplication": {
       "type": "object",
-      "previousSahApplicationPage1": {
-        "type": "object",
-        "properties": {
-          "hasPreviousSahApplication": {
-            "type": "boolean "
-          }
-        }
-      },
-      "previousSahApplicationPage2": {
-        "type": "object",
-        "properties": {
-          "previousSahApplicationDate": {
-            "$ref": "#/definitions/date "
-          },
-          "previousSahApplicationAddress": {
-            "$ref": "#/definitions/address"
-          }
-        }
-      },
-      "previousHiApplicationPage1": {
-        "type": "object",
-        "properties": {
-          "hasPreviousHiApplication": {
-            "type": "boolean"
-          }
-        }
-      },
-      "previousHiApplicationPage2": {
-        "type": "object",
-        "properties": {
-          "previousHiApplicationDate": {
-            "$ref": "#/definitions/date "
-          },
-          "previousHiApplicationAddress": {
-            "$ref": "#/definitions/address"
-          }
+      "additionalProperties": false,
+      "required": ["hasPreviousHiApplication"],
+      "properties": {
+        "hasPreviousHiApplication": {
+          "type": "boolean"
+        },
+        "previousHiApplicationDate": {
+          "$ref": "#/definitions/date "
+        },
+        "previousHiApplicationAddress": {
+          "$ref": "#/definitions/address"
         }
       }
     },
-    "livingSituationChapter": {
+    "livingSituation": {
       "type": "object",
-      "livingSituationPage1": {
-        "type": "object",
-        "properties": {
-          "isInCareFacility": {
-            "type": "boolean"
-          }
-        }
-      },
-      "livingSituationPage2": {
-        "type": "object",
-        "properties": {
-          "careFacilityName": {
-            "type": "string"
-          },
-          "careFacilityAddress": {
-            "$ref": "#/definitions/address"
-          }
-        }
-      },
-      "livingSituationPage3": {
-        "type": "object",
-        "properties": {
-          "otherMedicalInformation": {
-            "type": "string",
-            "maxLength": 512
-          }
+      "additionalProperties": false,
+      "required": ["isInCareFacility"],
+      "properties": {
+        "isInCareFacility": {
+          "type": "boolean"
+        },
+        "careFacilityName": {
+          "type": "string"
+        },
+        "careFacilityAddress": {
+          "$ref": "#/definitions/address"
+        },
+        "otherMedicalInformation": {
+          "type": "string"
         }
       }
     }
