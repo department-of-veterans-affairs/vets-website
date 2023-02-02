@@ -35,6 +35,7 @@
       "food": "4000.38"
     },
     "assets": {
+      "realEstateValue": "800000.81",
       "otherAssets": [
         {
           "name": "Gambling earning",
@@ -91,16 +92,6 @@
         }
       ]
     },
-    "realEstateRecords": [
-      {
-        "realEstateType": "Vacation property",
-        "realEstateAmount": "350000.47"
-      },
-      {
-        "realEstateType": "Single-family home",
-        "realEstateAmount": "450000.34"
-      }
-    ],
     "additionalIncome": {
       "spouse": {
         "spAddlIncome": [
