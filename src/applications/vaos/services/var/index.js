@@ -247,18 +247,6 @@ export function sendRequestMessage(id, messageText) {
   }).then(parseApiObject);
 }
 
-export function getPreferences() {
-  return apiRequestWithUrl(`/vaos/v0/preferences`).then(parseApiObject);
-}
-
-export function updatePreferences(data) {
-  return apiRequestWithUrl(`/vaos/v0/preferences`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  }).then(parseApiObject);
-}
-
 export function getRequestEligibilityCriteria(sites) {
   return apiRequestWithUrl(
     `/vaos/v0/request_eligibility_criteria?${sites

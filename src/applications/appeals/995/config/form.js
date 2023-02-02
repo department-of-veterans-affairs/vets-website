@@ -27,6 +27,8 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import OptIn from '../components/OptIn';
+import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
 
 import contactInfo from '../pages/contactInformation';
@@ -38,7 +40,7 @@ import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
-import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
+import notice5103 from '../pages/notice5103';
 import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
 
@@ -197,9 +199,11 @@ const formConfig = {
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
+          depends: mayHaveLegacyAppeals,
+          CustomPage: OptIn,
+          CustomPageReview: null, // reviewField renders this!
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: mayHaveLegacyAppeals,
           initialData: {
             socOptIn: false,
           },
@@ -211,13 +215,15 @@ const formConfig = {
       title: 'New and relevant evidence',
       pages: {
         notice5103: {
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
+          CustomPage: Notice5103,
+          CustomPageReview: null, // reviewField renders this!
+          uiSchema: notice5103.uiSchema,
+          schema: notice5103.schema,
           initialData: {
             form5103Acknowledged: false,
           },
-          title: 'Notice of evidence needed',
-          path: 'notice-of-evidence-needed',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',

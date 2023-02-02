@@ -228,9 +228,15 @@ describe('Actions', () => {
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
           'api-name': 'GET claims',
+          /* eslint-disable camelcase */
+          api_name: 'GET claims',
           'api-status': 'failed',
+          api_status: 'failed',
           'error-key': 'unknown',
+          error_key: 'unknown',
           'api-latency-ms': 0,
+          api_latency_ms: 0,
+          /* eslint-enable camelcase */
         });
         expect(global.window.dataLayer[1]).to.eql({
           'error-key': undefined,
@@ -256,8 +262,13 @@ describe('Actions', () => {
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
           'api-name': 'GET claims',
+          /* eslint-disable camelcase */
+          api_name: 'GET claims',
           'api-status': 'successful',
+          api_status: 'successful',
           'api-latency-ms': 0,
+          api_latency_ms: 0,
+          /* eslint-enable camelcase */
         });
       });
     });
