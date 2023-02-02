@@ -9,8 +9,8 @@ const MrBreadcrumbs = () => {
   let crumbs = null;
 
   const paths = [
-    { url: `/health-history`, label: `Health history` },
-    { url: `/vaccines`, label: `Vaccine list`, parent: `/health-history` },
+    { url: `/health-history`, label: `Health History` },
+    { url: `/vaccines`, label: `VA Vaccines`, parent: `/health-history` },
     { url: `/vaccine`, label: `Vaccine Details`, parent: `/vaccines` },
   ];
 
