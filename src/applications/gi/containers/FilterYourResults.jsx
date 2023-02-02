@@ -5,6 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -19,6 +20,7 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import VARadioButton from '../components/VARadioButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -249,6 +251,79 @@ export function FilterYourResults({
     );
   };
 
+  const handleInputChange = (event, target, name) => {
+    const { value } = event ? event.target : target.detail;
+    const field = event ? event.target.name : name;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+    updateInstitutionFilters(field, value);
+  };
+
+  const specialMissionsWithRadioButtons = () => {
+    const options = [
+      {
+        value: 'ALL',
+        label: 'All',
+      },
+      {
+        value: 'hbcu',
+        label: 'Historically Black college or university',
+      },
+      {
+        value: 'menonly',
+        label: 'Men-only',
+      },
+      {
+        value: 'womenonly',
+        label: 'Women-only',
+      },
+      {
+        value: 'relaffil',
+        label: 'Religious affiliation',
+      },
+      {
+        value: 'HSI',
+        label: 'Hispanic-serving institutions',
+      },
+      {
+        value: 'NANTI',
+        label: 'Native American-serving institutions',
+      },
+      {
+        value: 'ANNHI',
+        label: 'Alaska Native-serving institutions',
+      },
+      {
+        value: 'AANAPII',
+        label:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        value: 'PBI',
+        label: 'Predominantly Black institutions',
+      },
+      {
+        value: 'TRIBAL',
+        label: 'Tribal college and university',
+      },
+    ];
+
+    return (
+      <VARadioButton
+        radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
+        name="specialMission"
+        initialValue={specialMission}
+        options={options}
+        onVaValueChange={(target, name) =>
+          handleInputChange(null, target, name)
+        }
+      />
+    );
+  };
+
   const specialMissions = () => {
     const options = [
       {
@@ -307,6 +382,17 @@ export function FilterYourResults({
     );
   };
 
+  const specialMissionsFlag = () => {
+    if (!environment.isProduction()) {
+      return (
+        <div className="vads-u-margin-bottom--4">
+          {specialMissionsWithRadioButtons()}
+        </div>
+      );
+    }
+    return <div className="vads-u-margin-bottom--4">{specialMissions()}</div>;
+  };
+
   const typeOfInstitution = () => {
     const name = 'Type of institution';
     const legendId = `${createId(name)}-legend`;
@@ -320,6 +406,7 @@ export function FilterYourResults({
           >
             {name}
           </h3>
+          {specialMissionsFlag()}
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -332,7 +419,6 @@ export function FilterYourResults({
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
-              {specialMissions()}
             </div>
           </ExpandingGroup>
         </div>

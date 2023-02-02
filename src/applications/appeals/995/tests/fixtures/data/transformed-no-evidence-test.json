@@ -22,10 +22,12 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
+      "socOptIn": false,
       "evidenceSubmission": {
-        "evidenceType": []
-      },
-      "socOptIn": false
+        "evidenceType": [
+          "none"
+        ]
+      }
     }
   },
   "included": [{
