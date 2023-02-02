@@ -4,6 +4,7 @@ describe('Secure Messaging Compose', () => {
   it('can send message', () => {
     const site = new SecureMessagingSite();
     site.login(false);
+
     cy.url().should('contain', '/health-care/secure-messaging');
   });
 });
