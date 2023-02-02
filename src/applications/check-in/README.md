@@ -26,6 +26,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
   - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
+  - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
