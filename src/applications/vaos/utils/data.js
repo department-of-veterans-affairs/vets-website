@@ -1,19 +1,4 @@
 /**
- * Data utility methods
- * @module utils/data
- *
- */
-
-export function createPreferenceBody(preferences, emailAddress) {
-  return {
-    ...preferences,
-    emailAddress,
-    notificationFrequency: 'Each new message',
-    emailAllowed: true,
-  };
-}
-
-/**
  * Converts an array of items into an object with item.id as
  * the key, and item as the value
  *
