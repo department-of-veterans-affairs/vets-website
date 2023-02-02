@@ -280,6 +280,7 @@ describe('efsr-fsr transform helper functions', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
         assets: {
+          realEstateValue: '2000',
           otherAssets: [
             {
               amount: '10',
