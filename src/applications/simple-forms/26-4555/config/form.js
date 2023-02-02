@@ -144,7 +144,7 @@ const formConfig = {
         livingSituation2: {
           path: 'living-situation-2',
           title: 'Details about your current living situation',
-          depends: form => form.isLivingInCareFacility,
+          depends: form => form.isInCareFacility,
           uiSchema: livingSituation2.uiSchema,
           schema: livingSituation2.schema,
         },
