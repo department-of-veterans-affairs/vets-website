@@ -282,10 +282,13 @@ describe('getEvidence', () => {
     },
   });
 
-  it('should not include evidenceSubmission section adding evidence when not selected', () => {
+  it('should include evidenceType of none when no evidence submitted', () => {
     const evidence = getData({ hasVa: false });
     expect(getEvidence(evidence.data)).to.deep.equal({
       form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: ['none'],
+      },
     });
   });
   it('should process evidence when available', () => {

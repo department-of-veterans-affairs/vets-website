@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -6,6 +6,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { scrollAndFocus } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   authorizationLabel,
@@ -22,6 +23,24 @@ const EvidencePrivateRecordsAuthorization = ({
   contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
+  useEffect(
+    () => {
+      if (hasError) {
+        recordEvent({
+          event: 'visible-alert-box',
+          'alert-box-type': 'warning',
+          'alert-box-heading':
+            'Authorize your doctor to release your records or upload them yourself',
+          'error-key': 'not_authorizing_records_release',
+          'alert-box-full-width': false,
+          'alert-box-background-only': false,
+          'alert-box-closeable': false,
+          'reason-for-alert': 'Not authorizing records release',
+        });
+      }
+    },
+    [hasError],
+  );
 
   const handlers = {
     onSubmit: event => {
@@ -52,19 +71,10 @@ const EvidencePrivateRecordsAuthorization = ({
     },
   };
 
-  /**
-   * We are rendering the va-alert so the focus doesn't need to wait for render
-   * Problems that show up include:
-   * - focusElement will add -1 if this isn't set; and don't make it tabbable
-   *   when hidden
-   * - Only render the alert content since the screenreader can still target
-   *   the headers inside
-   */
-  const isTabbable = hasError ? '0' : '-1';
   return (
     <>
       <form>
-        <va-alert status="warning" visible={hasError} tabIndex={isTabbable}>
+        <va-alert status="warning" visible={hasError}>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
         {authorizationInfo}
@@ -74,7 +84,7 @@ const EvidencePrivateRecordsAuthorization = ({
           checked={data.privacyAgreementAccepted}
           onVaChange={handlers.onChange}
           required
-          tabindex="0" // focusElement will add -1 if this isn't set
+          enable-analytics
         />
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}

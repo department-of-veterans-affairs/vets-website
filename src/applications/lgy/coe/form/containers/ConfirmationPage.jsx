@@ -21,7 +21,9 @@ const ConfirmationPage = ({ form }) => {
 
   const { data, submission } = form;
   const name = data?.fullName || {};
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
+  const fullName = [name.first || '', name.middle || '', name.last || '']
+    .join(' ')
+    .trim();
 
   const submitDate = moment(submission?.timestamp || Date.now());
   const { referenceNumber = '' } = submission?.response?.attributes || {};
@@ -44,9 +46,10 @@ const ConfirmationPage = ({ form }) => {
           <span className="additional">(VA Form 26-1880)</span>
         </h2>
 
-        {name && (
+        {fullName && (
           <span>
-            For: {fullName} {name.suffix && `, ${name.suffix}`}
+            For: {fullName}
+            {name.suffix && `, ${name.suffix}`}
           </span>
         )}
 
