@@ -105,6 +105,7 @@ export const Categories = {
   APPOINTMENTS: 'Appointment',
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
+  EDUCATION: 'Education',
 };
 
 export const acceptedFileTypes = {
