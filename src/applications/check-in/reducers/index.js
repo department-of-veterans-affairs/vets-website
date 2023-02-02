@@ -20,7 +20,6 @@ import {
 import { recordAnswerHandler, setVeteranDataHandler } from './pre-check-in';
 
 import {
-  APPOINTMENT_WAS_CHECKED_INTO,
   RECEIVED_APPOINTMENT_DETAILS,
   RECEIVED_DEMOGRAPHICS_DATA,
   TRIGGER_REFRESH,
@@ -29,7 +28,6 @@ import {
 } from '../actions/day-of';
 
 import {
-  appointmentWasCheckedIntoHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
   triggerRefreshHandler,
@@ -58,7 +56,6 @@ const handler = Object.freeze({
   [SET_SESSION]: setSessionHandler,
   [RECORD_ANSWER]: recordAnswerHandler,
   [SET_VETERAN_DATA]: setVeteranDataHandler,
-  [APPOINTMENT_WAS_CHECKED_INTO]: appointmentWasCheckedIntoHandler,
   [RECEIVED_APPOINTMENT_DETAILS]: receivedAppointmentDetailsHandler,
   [RECEIVED_DEMOGRAPHICS_DATA]: receivedDemographicsDataHandler,
   [TRIGGER_REFRESH]: triggerRefreshHandler,
