@@ -84,14 +84,6 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showBadAddressIndicator = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowBadAddressIndicator] ||
-  false;
-
-export const forceBadAddressIndicator = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileForceBadAddressIndicator] ||
-  false;
-
 export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 
@@ -132,12 +124,6 @@ export const selectHideDirectDepositCompAndPen = state =>
 export const selectShowPaymentsNotificationSetting = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
-  ];
-
-// select the feature flag from appeals status notification settings
-export const selectShowAppealStatusNotificationSetting = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowAppealStatusNotificationSetting
   ];
 
 // toggle used for 47841

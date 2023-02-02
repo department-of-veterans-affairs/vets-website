@@ -11,19 +11,21 @@ import {
 import environment from 'platform/utilities/environment';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 import { focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import { EVIDENCE_VA_PATH } from '../constants';
 
 import { content } from '../content/evidenceVaRecords';
 import { getSelected, getIssueName } from '../utils/helpers';
 
-import { checkValidations } from '../validations/issues';
+import { checkValidations } from '../validations';
 import {
   validateVaLocation,
   validateVaIssues,
   validateVaFromDate,
   validateVaToDate,
   validateVaUnique,
+  isEmptyVaEntry,
 } from '../validations/evidence';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
@@ -37,7 +39,7 @@ const defaultData = {
 };
 const defaultState = {
   dirty: {
-    input: false,
+    name: false,
     issues: false,
     from: false,
     to: false,
@@ -51,7 +53,6 @@ const defaultState = {
 
 const EvidenceVaRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -82,11 +83,36 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
+  const availableIssues = getSelected(data).map(getIssueName);
+
+  // *** validations ***
+  const errors = {
+    unique: checkValidations(
+      [validateVaUnique],
+      currentData,
+      data,
+      currentIndex,
+    )[0],
+    name: checkValidations([validateVaLocation], currentData, data)[0],
+    issues: checkValidations([validateVaIssues], currentData)[0],
+    from: checkValidations([validateVaFromDate], currentData)[0],
+    to: checkValidations([validateVaToDate], currentData)[0],
+  };
+
+  const hasErrors = () => Object.values(errors).filter(Boolean).length;
+
+  const focusErrors = () => {
+    if (hasErrors()) {
+      focusElement('[error]');
+    }
+  };
+
   useEffect(
     () => {
       setCurrentData(locations?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement('va-text-input');
+      focusElement(hasErrors() ? '[error]' : 'va-text-input');
+      scrollTo('topPageElement');
       setForceReload(false);
     },
     // don't include locations or we clear state & move focus every time
@@ -94,35 +120,19 @@ const EvidenceVaRecords = ({
     [currentIndex, forceReload],
   );
 
-  const availableIssues = getSelected(data).map(getIssueName);
-
-  // *** validations ***
-  const showInputError = checkValidations([validateVaLocation], currentData);
-  const showIssuesError = checkValidations([validateVaIssues], currentData);
-  const showDateStartError = checkValidations(
-    [validateVaFromDate],
-    currentData,
-  );
-  const showDateEndError = checkValidations([validateVaToDate], currentData);
-  const showUniqueError = checkValidations(
-    [validateVaUnique],
-    currentData,
-    data,
-  );
-
   const updateCurrentLocation = ({
-    newLocationAndName = currentData.locationAndName,
-    newIssues = currentData.issues,
-    newDateStart = currentData.evidenceDates?.from,
-    newDateEnd = currentData.evidenceDates?.to,
+    name = currentData.locationAndName,
+    issues = currentData.issues,
+    from = currentData.evidenceDates?.from,
+    to = currentData.evidenceDates?.to,
     remove = false,
   } = {}) => {
     const newData = {
-      locationAndName: newLocationAndName,
-      issues: newIssues,
+      locationAndName: name,
+      issues,
       evidenceDates: {
-        from: newDateStart,
-        to: newDateEnd,
+        from,
+        to,
       },
     };
 
@@ -151,19 +161,29 @@ const EvidenceVaRecords = ({
     goToPath(`${VA_PATH}?index=${index}`);
   };
 
-  const hasErrors = () =>
-    showInputError.length ||
-    showIssuesError.length ||
-    showDateStartError.length ||
-    showDateEndError.length;
+  const addAndGoToPageIndex = index => {
+    const newLocations = [...locations];
+    if (!isEmptyVaEntry(locations[index])) {
+      // only insert a new entry if the existing entry isn't empty
+      newLocations.splice(index, 0, {});
+    }
+    setFormData({ ...data, locations: newLocations });
+    goToPageIndex(index);
+  };
 
   const handlers = {
-    onInputChange: event => {
-      updateCurrentLocation({ newLocationAndName: event.target.value });
+    onBlur: event => {
+      const fieldName = event.target.getAttribute('name');
+      updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
     },
-    onInputBlur: () => {
-      updateState({ dirty: { ...currentState.dirty, input: true } });
+    onChange: event => {
+      const { target = {} } = event;
+      const fieldName = target.name;
+      // detail.value from va-select & target.value from va-text-input
+      const value = event.detail?.value || target.value;
+      updateCurrentLocation({ [fieldName]: value });
     },
+
     onIssueChange: event => {
       updateState({ dirty: { ...currentState.dirty, issues: true } });
       const { target } = event;
@@ -180,39 +200,36 @@ const EvidenceVaRecords = ({
       } else {
         newIssues.delete(target.label);
       }
-      updateCurrentLocation({ newIssues: [...newIssues] });
+      updateCurrentLocation({ issues: [...newIssues] });
     },
-    onDateStartChange: event => {
-      updateCurrentLocation({ newDateStart: event.target.value });
-    },
-    onDateStartBlur: () => {
-      // this is currently called for each of the 3 elements
-      updateState({ dirty: { ...currentState.dirty, from: true } });
-    },
-    onDateEndChange: event => {
-      updateCurrentLocation({ newDateEnd: event.target.value });
-    },
-    onDateEndBlur: () => {
-      // this is currently called for each of the 3 elements
-      updateState({ dirty: { ...currentState.dirty, to: true } });
-    },
+
     onAddAnother: event => {
       event.preventDefault();
-      updateState({ submitted: true });
       if (hasErrors()) {
-        updateState({ modal: { show: true, direction: NAV_PATHS.add } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.add },
+        });
+        focusElement('[error]');
         return;
       }
-      // clear state and start over for new entry
-      goToPageIndex(locations.length); // add to end
+      // clear state and insert a new entry after the current index (previously
+      // added new entry to the end). This change prevents the situation where
+      // an invalid entry in the middle of the array can get bypassed by adding
+      // a new entry
+      addAndGoToPageIndex(currentIndex + 1);
     },
     onGoForward: event => {
       event.preventDefault();
       if (hasErrors()) {
-        // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.forward } });
+        updateState({
+          submitted: true,
+          modal: { show: currentIndex !== 0, direction: NAV_PATHS.forward },
+        });
+        focusElement('[error]');
         return;
       }
+      updateState({ submitted: true });
       const nextIndex = currentIndex + 1;
       if (currentIndex < locations.length - 1) {
         goToPageIndex(nextIndex);
@@ -222,9 +239,11 @@ const EvidenceVaRecords = ({
       }
     },
     onGoBack: () => {
-      if (hasErrors()) {
-        // focus on first error
-        updateState({ modal: { show: true, direction: NAV_PATHS.back } });
+      if (hasErrors() && currentIndex !== 0) {
+        updateState({
+          submitted: true,
+          modal: { show: true, direction: NAV_PATHS.back },
+        });
         return;
       }
       const prevIndex = currentIndex - 1;
@@ -235,10 +254,12 @@ const EvidenceVaRecords = ({
         goBack(prevIndex);
       }
     },
+
     onModalClose: event => {
       // For unit testing only
       event.stopPropagation();
       updateState({ submitted: true, modal: { show: false, direction: '' } });
+      focusErrors();
     },
     onModalYes: () => {
       // Yes, keep location; do nothing for forward & add
@@ -253,6 +274,7 @@ const EvidenceVaRecords = ({
           goToPageIndex(prevIndex);
         }
       }
+      focusErrors();
     },
     onModalNo: () => {
       // No, clear current data and navigate
@@ -289,63 +311,34 @@ const EvidenceVaRecords = ({
     },
   };
 
+  const showError = name =>
+    ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
+    null;
+
   // for testing only; testing-library can't close modal by clicking shadow dom
-  // so this adds a clickable button for testing
+  // so this adds a clickable button for testing, adding a color + attr name
+  // will allow simulating a field name, e.g. "onBlur:from" blurs the from date
+  const [testMethod, testName = 'test'] = (testingMethod || '').split(':');
   const testMethodButton =
     testingMethod && !environment.isProduction() ? (
       <button
         id="test-method"
         className="sr-only"
         type="button"
-        onClick={handlers[testingMethod]}
+        name={testName}
+        onClick={handlers[testMethod]}
       >
         test
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          {goBack && (
-            <ProgressButton
-              onButtonClick={handlers.onGoBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"
-              // This button is described by the current form's header ID
-              ariaDescribedBy="nav-form-header"
-            />
-          )}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            onButtonClick={handlers.onGoForward}
-            buttonText="Continue"
-            buttonClass="usa-button-primary"
-            afterText="»"
-            // This button is described by the current form's header ID
-            ariaDescribedBy="nav-form-header"
-          />
-        </div>
-      </div>
-      {contentAfterButtons}
-    </>
-  );
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <legend
-          id="decision-date-description"
-          className="vads-u-font-family--serif"
-          name="addIssue"
-        >
-          <h3 className="vads-u-margin--0">{content.title}</h3>
+        <legend id="va-evidence-title" className="vads-u-font-family--serif">
+          <h3 name="topPageElement" className="vads-u-margin--0">
+            {content.title}
+          </h3>
         </legend>
         <p>{content.description}</p>
         <VaModal
@@ -354,7 +347,7 @@ const EvidenceVaRecords = ({
           modalTitle={content.modalTitle}
           primaryButtonText={content.modalYes}
           secondaryButtonText={content.modalNo}
-          onCloseEvent={handlers.onModalYes}
+          onCloseEvent={handlers.onModalClose}
           onPrimaryButtonClick={handlers.onModalYes}
           onSecondaryButtonClick={handlers.onModalNo}
           visible={currentState.modal.show}
@@ -362,37 +355,32 @@ const EvidenceVaRecords = ({
           <p>{content.modalDescription}</p>
         </VaModal>
         <VaTextInput
-          id="add-sc-issue"
-          name="add-sc-issue"
+          id="add-location-name"
+          name="name"
           type="text"
           label={content.locationAndName}
           required
           value={currentData.locationAndName}
-          onInput={handlers.onInputChange}
-          onBlur={handlers.onInputBlur}
-          error={
-            ((currentState.submitted || currentState.dirty.input) &&
-              showInputError[0]) ||
-            showUniqueError[0] ||
-            null
-          }
+          onInput={handlers.onChange}
+          onBlur={handlers.onBlur}
+          // ignore submitted & dirty state when showing unique error
+          error={showError('name') || errors.unique || null}
+          autocomplete="section-facility name"
         />
         <br />
         <VaCheckboxGroup
           label={content.conditions}
-          error={
-            ((currentState.submitted || currentState.dirty.issues) &&
-              showIssuesError[0]) ||
-            null
-          }
+          name="issues"
           onVaChange={handlers.onIssueChange}
+          onBlur={handlers.onBlur}
+          error={showError('issues')}
           required
         >
           {availableIssues.map((issue, index) => {
             return (
               <va-checkbox
                 key={index}
-                name="conditions"
+                name="issues"
                 label={issue}
                 value={issue}
                 checked={(currentData?.issues || []).includes(issue)}
@@ -403,31 +391,23 @@ const EvidenceVaRecords = ({
 
         <VaDate
           id="location-from-date"
-          name="location-from-date"
+          name="from"
           label={content.dateStart}
           required
-          onDateChange={handlers.onDateStartChange}
-          onDateBlur={handlers.onDateStartBlur}
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
           value={currentData.evidenceDates?.from}
-          error={
-            ((currentState.submitted || currentState.dirty.from) &&
-              showDateStartError[0]) ||
-            null
-          }
+          error={showError('from')}
         />
         <VaDate
           id="location-to-date"
-          name="location-to-date"
+          name="to"
           label={content.dateEnd}
-          required
-          onDateChange={handlers.onDateEndChange}
-          onDateBlur={handlers.onDateEndBlur}
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
           value={currentData.evidenceDates?.to}
-          error={
-            ((currentState.submitted || currentState.dirty.to) &&
-              showDateEndError[0]) ||
-            null
-          }
+          error={showError('to')}
+          required
         />
         <div className="vads-u-margin-top--2">
           <Link
@@ -439,7 +419,35 @@ const EvidenceVaRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+            <div className="small-6 medium-5 columns">
+              {goBack && (
+                <ProgressButton
+                  onButtonClick={handlers.onGoBack}
+                  buttonText="Back"
+                  buttonClass="usa-button-secondary"
+                  beforeText="«"
+                  // This button is described by the current form's header ID
+                  aria-describedby="nav-form-header"
+                />
+              )}
+            </div>
+            <div className="small-6 medium-5 end columns">
+              <ProgressButton
+                onButtonClick={handlers.onGoForward}
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"
+                // This button is described by the current form's header ID
+                aria-describedby="nav-form-header"
+              />
+            </div>
+          </div>
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -455,7 +463,6 @@ EvidenceVaRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidenceVaRecords;

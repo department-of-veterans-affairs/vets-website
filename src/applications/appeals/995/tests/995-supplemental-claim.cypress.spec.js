@@ -11,11 +11,24 @@ import {
   mockContestableIssuesWithLegacyAppeals,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 import mockUser from './fixtures/mocks/user.json';
-import { CONTESTABLE_ISSUES_API, PRIMARY_PHONE, BASE_URL } from '../constants';
+import {
+  CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
+  PRIMARY_PHONE,
+  BASE_URL,
+  CONTESTABLE_ISSUES_PATH,
+  EVIDENCE_VA_PATH,
+  EVIDENCE_PRIVATE_REQUEST,
+  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_UPLOAD_PATH,
+} from '../constants';
 
 const testConfig = createTestConfig(
   {
@@ -24,7 +37,7 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['maximal-test'], // , 'minimal-test'],
+    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -48,22 +61,12 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/additional-evidence': () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
-      },
-      'contestable-issues': ({ afterHook }) => {
+      [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.fillPage();
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(testData => {
-            testData.additionalIssues.forEach(({ issue, decisionDate }) => {
+            testData.additionalIssues?.forEach(({ issue, decisionDate }) => {
               if (issue) {
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
@@ -80,7 +83,29 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'supporting-evidence/va-medical-records': ({ afterHook }) => {
+      'opt-in': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(({ socOptIn }) => {
+            if (socOptIn) {
+              cy.get('va-checkbox').click();
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'notice-of-evidence-needed': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(({ form5103Acknowledged }) => {
+            if (form5103Acknowledged) {
+              cy.get('va-checkbox').click();
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      [EVIDENCE_VA_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(({ locations = [] }) => {
@@ -89,7 +114,7 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
-                cy.get('#add-sc-issue')
+                cy.get('#add-location-name')
                   .shadow()
                   .find('input')
                   .type(location.locationAndName);
@@ -99,8 +124,8 @@ const testConfig = createTestConfig(
                     .find('input')
                     .check();
                 });
-                cy.fillDate('location-from-date', location.evidenceDates?.from);
-                cy.fillDate('location-to-date', location.evidenceDates?.to);
+                cy.fillDate('from', location.evidenceDates?.from);
+                cy.fillDate('to', location.evidenceDates?.to);
                 cy.axeCheck();
 
                 // Add another
@@ -113,6 +138,123 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [EVIDENCE_PRIVATE_REQUEST]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const hasPrivate = data[EVIDENCE_PRIVATE];
+            cy.get(
+              `va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`,
+            ).click();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      'supporting-evidence/private-medical-records-authorization': ({
+        afterHook,
+      }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.privacyAgreementAccepted) {
+              cy.get('va-checkbox').click();
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(({ providerFacility = [] }) => {
+            providerFacility.forEach((facility, index) => {
+              if (facility) {
+                if (index > 0) {
+                  cy.url().should('include', `index=${index}`);
+                }
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityName);
+
+                cy.get('#country')
+                  .shadow()
+                  .find('select')
+                  .select(facility.providerFacilityAddress.country);
+                cy.get('#street')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.street);
+                if (facility.street2) {
+                  cy.get('#street2')
+                    .shadow()
+                    .find('input')
+                    .type(facility.providerFacilityAddress.street2);
+                }
+                cy.get('#city')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.city);
+                if (facility.providerFacilityAddress.country === 'USA') {
+                  cy.get('#state')
+                    .shadow()
+                    .find('select')
+                    .select(facility.providerFacilityAddress.state);
+                } else {
+                  cy.get('#state')
+                    .shadow()
+                    .find('input')
+                    .type(facility.providerFacilityAddress.state);
+                }
+                cy.get('#postal')
+                  .shadow()
+                  .find('input')
+                  .type(facility.providerFacilityAddress.postalCode);
+
+                facility?.issues.forEach(issue => {
+                  cy.get(`va-checkbox[value="${issue}"]`)
+                    .shadow()
+                    .find('input')
+                    .check();
+                });
+                cy.fillDate('from', facility.treatmentDateRange?.from);
+                cy.fillDate('to', facility.treatmentDateRange?.to);
+                cy.axeCheck();
+
+                // Add another
+                if (index + 1 < providerFacility.length) {
+                  cy.get('.vads-c-action-link--green').click();
+                }
+              }
+            });
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      [EVIDENCE_LIMITATION_PATH]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.injectAxeThenAxeCheck();
+            if (data.limitedConsent) {
+              cy.get('va-textarea')
+                .shadow()
+                .find('textarea')
+                .type(data.limitedConsent);
+            }
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+      [EVIDENCE_UPLOAD_PATH]: () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'testing',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
+        cy.get('select').select('Buddy/Lay Statement');
+      },
     },
 
     setupPerTest: () => {
@@ -121,7 +263,7 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept('POST', '/v0/upload_supporting_evidence', mockUpload);
+      cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];
@@ -133,19 +275,15 @@ const testConfig = createTestConfig(
           : mockContestableIssues,
       );
 
-      cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-
       cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
 
-      cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/20-0995', testData);
-        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', testData);
+      cy.get('@testData').then(() => {
+        cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+        cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
         cy.intercept('GET', '/v0/feature_toggles?*', {
           data: { features: [{ name: 'supplemental_claim', value: true }] },
         });
       });
-
-      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.

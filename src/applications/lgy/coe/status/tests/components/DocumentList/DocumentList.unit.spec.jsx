@@ -36,7 +36,7 @@ describe('DocumentList', () => {
       expect(h2.textContent).to.eq('You have letters about your COE request');
 
       $$('.coe-list-item', container).forEach((item, index) => {
-        expect($('h3', item).textContent).to.equal(data[index].title);
+        expect($('h3', item).textContent).to.equal(data[index].documentType);
         expect(item.textContent).to.contain(
           formatDateLong(data[index].createDate),
         );

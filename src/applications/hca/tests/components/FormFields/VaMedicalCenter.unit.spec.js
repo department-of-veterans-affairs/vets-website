@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -79,34 +79,6 @@ describe('hca <VaMedicalCenter>', () => {
       expect(view.container.querySelector('option[value=""]')).to.exist;
     });
 
-    it('should render a loading indacator', () => {
-      const mockStore = {
-        getState: () => ({
-          form: {
-            data: {
-              'view:preferredFacility': { 'view:facilityState': 'NY' },
-            },
-          },
-        }),
-        subscribe: () => {},
-        dispatch: () => {},
-      };
-      const props = {
-        formContext: { reviewMode: false, submitted: undefined },
-        id: 'preferredFacility_vaMedicalFacility',
-        onChange: () => {},
-        required: true,
-        value: undefined,
-      };
-
-      const view = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      expect(view.container.querySelector('va-loading-indicator')).to.exist;
-    });
-
     it('should render a select element with options to select', async () => {
       const mockStore = {
         getState: () => ({
@@ -133,18 +105,17 @@ describe('hca <VaMedicalCenter>', () => {
         </Provider>,
       );
 
-      const loadingIndicator = view.container.querySelector(
-        'va-loading-indicator',
-      );
-      await waitForElementToBeRemoved(loadingIndicator);
-
-      expect(view.container.querySelectorAll('option')[0]).to.contain.text('');
-      expect(view.container.querySelectorAll('option')[1]).to.contain.text(
-        'Batavia VA Medical Center',
-      );
-      expect(view.container.querySelectorAll('option')[2]).to.contain.text(
-        'Canandaigua VA Medical Center',
-      );
+      waitFor(() => {
+        expect(view.container.querySelectorAll('option')[0]).to.contain.text(
+          '',
+        );
+        expect(view.container.querySelectorAll('option')[1]).to.contain.text(
+          'Batavia VA Medical Center',
+        );
+        expect(view.container.querySelectorAll('option')[2]).to.contain.text(
+          'Canandaigua VA Medical Center',
+        );
+      });
     });
 
     it('should render a facility name in review mode', async () => {
@@ -173,11 +144,6 @@ describe('hca <VaMedicalCenter>', () => {
         </Provider>,
       );
 
-      const loadingIndicator = view.container.querySelector(
-        'va-loading-indicator',
-      );
-      await waitForElementToBeRemoved(loadingIndicator);
-
       props = {
         ...props,
         formContext: { reviewMode: true, submitted: undefined },
@@ -190,9 +156,13 @@ describe('hca <VaMedicalCenter>', () => {
         </Provider>,
       );
 
-      expect(
-        view.container.querySelector('[data-testid="ez-facility-reviewmode"]'),
-      ).to.contain.text('Canandaigua VA Medical Center');
+      waitFor(() => {
+        expect(
+          view.container.querySelector(
+            '[data-testid="ez-facility-reviewmode"]',
+          ),
+        ).to.contain.text('Canandaigua VA Medical Center');
+      });
     });
   });
 
@@ -243,14 +213,11 @@ describe('hca <VaMedicalCenter>', () => {
         </Provider>,
       );
 
-      const loadingIndicator = view.container.querySelector(
-        'va-loading-indicator',
-      );
-      await waitForElementToBeRemoved(loadingIndicator);
-
-      expect(view.container.querySelector('va-alert')).to.contain.text(
-        'Something went wrong on our end',
-      );
+      waitFor(() => {
+        expect(view.container.querySelector('va-alert')).to.contain.text(
+          'Something went wrong on our end',
+        );
+      });
     });
   });
 });

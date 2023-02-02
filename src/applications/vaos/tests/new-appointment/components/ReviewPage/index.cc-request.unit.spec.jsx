@@ -20,11 +20,7 @@ import {
   onCalendarChange,
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
-import {
-  mockMessagesFetch,
-  mockPreferences,
-  mockRequestSubmit,
-} from '../../../mocks/helpers';
+import { mockMessagesFetch, mockRequestSubmit } from '../../../mocks/helpers';
 
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
@@ -119,7 +115,6 @@ describe('VAOS <ReviewPage> CC request', () => {
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -392,7 +387,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     mockRequestSubmit('cc', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -424,9 +418,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
     const messageData = JSON.parse(global.fetch.getCall(1).args[1].body);
     expect(messageData.messageText).to.equal('I need an appt');
-
-    const preferences = JSON.parse(global.fetch.getCall(3).args[1].body);
-    expect(preferences.emailAddress).to.equal('joeblow@gmail.com');
   });
 
   it('should show error message on failure', async () => {
@@ -564,7 +555,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
@@ -655,7 +645,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,

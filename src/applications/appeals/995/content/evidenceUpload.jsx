@@ -3,23 +3,37 @@ import PropTypes from 'prop-types';
 
 import { MAX_FILE_SIZE_MB, SUPPORTED_UPLOAD_TYPES } from '../constants';
 import { readableList } from '../utils/helpers';
-/**
- * Generic description added to file upload pages
- * @param {String|ReactComponent} uploadTitle - page title
- */
-export const UploadDescription = ({ uploadTitle }) => {
-  const types = readableList(SUPPORTED_UPLOAD_TYPES, 'or');
+
+export const UploadDescription = () => {
+  const types = SUPPORTED_UPLOAD_TYPES.map(text => text.toUpperCase());
+  const list = readableList(types, 'or');
   return (
-    <div>
-      {uploadTitle && <h3 className="vads-u-font-size--h5">{uploadTitle}</h3>}
+    <div className="vads-u-margin-top--2">
       <p>
-        {`You can upload your document in a ${types} file format.`} You’ll first
-        need to scan a copy of your document onto your computer or mobile phone.
-        You can then upload the document from there.
+        You’ll need to upload new and relevant evidence for your Supplemental
+        Claim. This may include supporting evidence like buddy/lay statements
+        and other types of evidence. We’ll prompt you to upload each document
+        from your device. But you may need to scan your document first, then
+        save each file as a PDF before you can upload it.
       </p>
-      <p>Guidelines for uploading a file:</p>
-      <ul>
-        <li>{`File types you can upload: ${types}`}</li>
+      <va-additional-info trigger="Document upload instructions" disable-border>
+        <div>
+          <p className="vads-u-margin-top--0">You can do this one of 2 ways:</p>
+          <p>
+            If you have access to a computer connected to a scanner, you can
+            scan each document onto the computer. Save the file as a PDF.
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            If you have access to a smartphone, you can download or use the
+            Notes app (for an iPhone) or the Google Drive app (for an Android
+            phone) to scan each document onto the phone. The file will
+            automatically save as a PDF when you’re done scanning.
+          </p>
+        </div>
+      </va-additional-info>
+
+      <ul className="vads-u-margin-top--0">
+        <li>{`File types you can upload: ${list}`}</li>
         <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
       </ul>
       <p>
@@ -37,12 +51,11 @@ UploadDescription.propTypes = {
   uploadTitle: PropTypes.string,
 };
 
-export const evidencePrivateText = {
-  label: 'Upload your private medical records',
-  description: ' ',
-};
-
 export const evidenceOtherText = {
-  label: 'Supporting (lay) statements or other evidence',
-  description: 'Adding additional evidence:',
+  label: (
+    <h3 className="vads-u-margin-top--0 vads-u-display--inline">
+      Upload your supporting evidence
+    </h3>
+  ),
+  description: 'You’re adding this evidence:',
 };

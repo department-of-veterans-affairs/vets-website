@@ -1,3 +1,18 @@
+/**
+ * Loops through the claims array and adds the claims to the user object
+ *
+ * @param {Object} user
+ * @param {Array} claims
+ * @returns user with claims added to the profile.claims object with boolean values
+ */
+const createUserWithDataClaims = (user, claims) => {
+  const result = { ...user };
+  claims.forEach(claim => {
+    result.data.attributes.profile.claims[claim.name] = claim.value;
+  });
+  return result;
+};
+
 const mockUserData = {
   loa1User: {
     data: {
@@ -40,6 +55,17 @@ const mockUserData = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            ch33BankAccounts: false,
+            communicationPreferences: false,
+            connectedApps: false,
+            militaryHistory: false,
+            paymentHistory: false,
+            personalInformation: false,
+            ratingInfo: false,
+            appeals: false,
+            medicalCopays: false,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -210,7 +236,7 @@ const mockUserData = {
       errors: null,
     },
   },
-  user72Success: {
+  loa3User72: {
     data: {
       id: '',
       type: 'users_scaffolds',
@@ -252,6 +278,17 @@ const mockUserData = {
             accountType: 'N/A',
           },
           authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+          claims: {
+            ch33BankAccounts: true,
+            communicationPreferences: true,
+            connectedApps: true,
+            militaryHistory: true,
+            paymentHistory: true,
+            personalInformation: true,
+            ratingInfo: true,
+            appeals: true,
+            medicalCopays: true,
+          },
         },
         vaProfile: {
           status: 'OK',
@@ -1266,7 +1303,109 @@ const mockUserData = {
       errors: null,
     },
   },
+  externalServiceError: {
+    data: {
+      id: '',
+      type: 'users_scaffolds',
+      attributes: {
+        services: [
+          'facilities',
+          'hca',
+          'edu-benefits',
+          'form-save-in-progress',
+          'form-prefill',
+          'evss-claims',
+          'form526',
+          'user-profile',
+          'appeals-status',
+          'id-card',
+          'identity-proofed',
+          'vet360',
+        ],
+        account: {
+          accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
+        },
+        profile: {
+          email: 'vets.gov.user+75@gmail.com',
+          firstName: 'MITCHELL',
+          middleName: 'G',
+          lastName: 'JENKINS',
+          birthDate: '1949-03-04',
+          gender: 'M',
+          zip: '97063',
+          lastSignedIn: '2022-03-24T18:15:06.566Z',
+          loa: {
+            current: 3,
+            highest: 3,
+          },
+          multifactor: true,
+          verified: true,
+          signIn: {
+            serviceName: 'idme',
+            accountType: 'N/A',
+          },
+          authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
+        },
+        vaProfile: {
+          status: 'OK',
+          birthDate: '19490304',
+          familyName: 'Jenkins',
+          gender: 'M',
+          givenNames: ['Mitchell', 'G'],
+          isCernerPatient: false,
+          facilities: [
+            {
+              facilityId: '989',
+              isCerner: false,
+            },
+            {
+              facilityId: '987',
+              isCerner: false,
+            },
+            {
+              facilityId: '983',
+              isCerner: false,
+            },
+          ],
+          vaPatient: false,
+          mhvAccountState: 'NONE',
+        },
+        veteranStatus: {
+          status: 'OK',
+          isVeteran: true,
+          servedInMilitary: true,
+        },
+        inProgressForms: [],
+        prefillsAvailable: ['21-686C'],
+        vet360ContactInformation: null,
+        session: {
+          ssoe: true,
+          transactionid: 'YEI6t8W3ANsvCT04oB+iXh/UP03PXSFg3Y36L2QaxLE=',
+        },
+      },
+    },
+    meta: {
+      errors: [
+        {
+          externalService: 'Vet360',
+          startTime: '2020-11-19T17:32:54Z',
+          endTime: null,
+          description:
+            'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
+          status: 502,
+        },
+      ],
+    },
+  },
 };
+
+// example of creating a user with data claims
+// eslint-disable-next-line no-unused-vars
+const loa3UserWithoutMilitaryHistoryClaim = () =>
+  createUserWithDataClaims(mockUserData.loa3User72, [
+    { name: 'militaryHistory', value: false },
+    { name: 'ratingInfo', value: false },
+  ]);
 
 const handleUserRequest = (req, res) => {
   // here we can customize the return of the user request
@@ -1274,13 +1413,17 @@ const handleUserRequest = (req, res) => {
 
   // handle test case of BAI being cleared on user request
   if (req?.query?.bai === 'clear') {
-    return res.json(mockUserData.user72Success);
+    return res.json(mockUserData.loa3User72);
   }
-  // default user object
-  // modify as needed for simulating varrious users
-  // return res.json(mockUserData.badAddress);
-  // return res.json(mockUserData.loa3User);
-  return res.json(mockUserData.user72Success);
+  // default response
+  // example user data cases
+  // return res.json(mockUserData.loa3User72); // control user (success)
+  // return res.json(mockUserData.badAddress); // user with bad address
+  // return res.json(mockUserData.loa3User); // user with loa3
+  // return res.json(mockUserData.nonVeteranUser); // non-veteran user
+  // return res.json(mockUserData.externalServiceError); // external service error
+
+  return res.json(mockUserData.loa3User72);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };

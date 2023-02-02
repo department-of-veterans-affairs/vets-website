@@ -22,6 +22,7 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import MessageListItem from './MessageListItem';
 
 const DESCENDING = 'desc';
@@ -36,7 +37,7 @@ const MAX_PAGE_LIST_LENGTH = 5;
 let sortOrderSelection;
 const MessageList = props => {
   const location = useLocation();
-  const { messages, folder } = props;
+  const { folder, messages, keyword, isSearch } = props;
   // const perPage = messages.meta.pagination.per_page;
   const perPage = 10;
   // const totalEntries = messages.meta.pagination.total_entries;
@@ -134,9 +135,7 @@ const MessageList = props => {
       <div className="message-list-sort">
         <VaSelect
           id="sort-order-dropdown"
-          label={`Sort ${
-            folder.folderId === -3 ? 'Trash' : folder.name
-          } messages by`}
+          label="Sort by"
           name="sort-order"
           value={sortOrderSelection}
           onVaSelect={e => {
@@ -166,36 +165,57 @@ const MessageList = props => {
           )}
         </VaSelect>
 
-        <button type="button" onClick={handleMessageSort}>
-          Sort
-        </button>
+        <va-button
+          type="button"
+          text="Sort"
+          label="Sort"
+          data-testid="sort-button"
+          onClick={() => {
+            handleMessageSort();
+            recordEvent({
+              event: 'cta-button-click',
+              'button-type': 'primary',
+              'button-click-label': 'Sort messages',
+            });
+          }}
+        />
       </div>
-      <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+      <div className="vads-u-padding-y--1 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
-        {displayNums[1]} of {totalEntries} messages
+        {displayNums[1]} of {totalEntries} conversations
       </div>
-      {currentMessages.map((message, idx) => (
-        <MessageListItem
-          key={`${message.messageId}+${idx}`}
-          messageId={message.messageId}
-          senderName={message.senderName}
-          sentDate={message.sentDate}
-          subject={message.subject}
-          readReceipt={message.readReceipt}
-          attachment={message.attachment}
-          recipientName={message.recipientName}
-        />
-      ))}
-      {currentMessages && (
-        <VaPagination
-          onPageSelect={e => onPageChange(e.detail.page)}
-          page={currentPage}
-          pages={paginatedMessages.current.length}
-          maxPageListLength={MAX_PAGE_LIST_LENGTH}
-          showLastPage
-        />
+      {currentMessages?.length > 0 &&
+        currentMessages.map((message, idx) => (
+          <MessageListItem
+            key={`${message.messageId}+${idx}`}
+            messageId={message.messageId}
+            senderName={message.senderName}
+            sentDate={message.sentDate}
+            subject={message.subject}
+            readReceipt={message.readReceipt}
+            attachment={message.attachment}
+            recipientName={message.recipientName}
+            keyword={keyword}
+            category={message.category}
+            activeFolder={folder}
+          />
+        ))}
+      {currentPage === paginatedMessages.current.length && (
+        <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
+          End of {!isSearch ? 'messages in this folder' : 'search results'}
+        </p>
       )}
+      {currentMessages &&
+        paginatedMessages.current.length > 1 && (
+          <VaPagination
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={currentPage}
+            pages={paginatedMessages.current.length}
+            maxPageListLength={MAX_PAGE_LIST_LENGTH}
+            showLastPage
+          />
+        )}
     </div>
   );
 };
@@ -204,5 +224,7 @@ export default MessageList;
 
 MessageList.propTypes = {
   folder: PropTypes.object,
+  isSearch: PropTypes.bool,
+  keyword: PropTypes.string,
   messages: PropTypes.array,
 };

@@ -11,8 +11,8 @@ import {
   cnpDirectDepositIsBlocked,
 } from '@@profile/selectors';
 import VerifyIdentity from './alerts/VerifyIdentity';
-import ServiceDown from './alerts/ServiceDown';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
+import LoadFail from '../alerts/LoadFail';
 
 const DirectDepositWrapper = props => {
   const { children, setViewingIsRestricted } = props;
@@ -29,7 +29,7 @@ const DirectDepositWrapper = props => {
   const errored = !!cnpError || !!eduError;
   if (errored) {
     setViewingIsRestricted(true);
-    return <ServiceDown />;
+    return <LoadFail />;
   }
 
   if (isBlocked) {

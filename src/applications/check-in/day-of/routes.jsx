@@ -15,10 +15,12 @@ import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
 import TravelMileage from './pages/TravelMileage';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
 import withAuthorization from '../containers/withAuthorization';
+import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
 
@@ -140,6 +142,15 @@ const routes = [
     path: URLS.ERROR,
     component: Error,
   },
+  {
+    path: URLS.APPOINTMENT_DETAILS,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
 ];
 
 const createRoutesWithStore = () => {
@@ -167,6 +178,8 @@ const createRoutesWithStore = () => {
         Component = withFeatureFlip(Component, options);
         // Add app name
         Component = withAppSet(Component, options);
+        // Catch Errors
+        Component = withError(Component);
 
         const WrappedComponent = props => {
           /* eslint-disable react/jsx-props-no-spreading */

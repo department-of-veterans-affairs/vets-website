@@ -54,7 +54,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, ''));
+      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   return formatter.format(value);
 };
 
@@ -75,9 +75,10 @@ export const sumValues = (arr, key) => {
 export const filterReduceByName = (deductions, filters) => {
   if (!deductions?.length) return 0;
   return deductions
-    .filter(({ name }) => filters.includes(name))
+    .filter(({ name = '' }) => filters.includes(name))
     .reduce(
-      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
 };
@@ -85,7 +86,7 @@ export const filterReduceByName = (deductions, filters) => {
 export const otherDeductionsName = (deductions, filters) => {
   if (!deductions.length) return '';
   return deductions
-    .filter(({ name }) => !filters.includes(name))
+    .filter(({ name = '' }) => !filters.includes(name))
     .map(({ name }) => name)
     .join(', ');
 };
@@ -93,9 +94,10 @@ export const otherDeductionsName = (deductions, filters) => {
 export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
-    .filter(({ name }) => name && !filters.includes(name))
+    .filter(({ name = '' }) => name && !filters.includes(name))
     .reduce(
-      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
 };
@@ -145,7 +147,8 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '')),
+            acc +
+            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
           0,
         )
     : debts
@@ -153,7 +156,9 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .reduce(
           (acc, debt) =>
             acc +
-            Number(debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '')),
+            Number(
+              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+            ),
           0,
         );
 };
@@ -175,6 +180,11 @@ export const getMonthlyIncome = ({
     addlIncRecords,
     spouse: { spAddlIncome },
   },
+  personalData: {
+    employmentHistory: {
+      veteran: { employmentRecords = [] },
+    },
+  },
   socialSecurity,
   benefits,
   currEmployment,
@@ -189,7 +199,9 @@ export const getMonthlyIncome = ({
   const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 
   // veteran
-  const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
+  const vetGrossSalary = enhancedFSRActive
+    ? sumValues(employmentRecords, 'grossMonthlyIncome')
+    : sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = !enhancedFSRActive
     ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
@@ -197,7 +209,12 @@ export const getMonthlyIncome = ({
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = currEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const vetDeductions = enhancedFSRActive
+    ? employmentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
   const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
   const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
@@ -246,10 +263,22 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
-  const totalExp = expVals.reduce(
-    (acc, expense) => acc + Number(expense?.replaceAll(/[^0-9.-]/g, '')),
-    0,
-  );
+
+  let totalExp = 0;
+
+  if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
+    totalExp = expenses.expenseRecords.reduce(
+      (acc, expense) =>
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
+  } else {
+    totalExp = expVals.reduce(
+      (acc, expense) =>
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
+  }
 
   return utilities + installments + otherExp + totalExp;
 };
@@ -263,14 +292,15 @@ export const getTotalAssets = ({
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, ''));
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))
         .reduce(
-          (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
+          (acc, amount) =>
+            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
           0,
         )
     : sumValues(assets.monetaryAssets, 'amount');
@@ -352,4 +382,23 @@ export const getDebtName = debt => {
   return debt.debtType === 'COPAY'
     ? debt.station.facilityName
     : deductionCodes[debt.deductionCode] || debt.benefitType;
+};
+
+export const getCurrentEmploymentHistoryObject = () => {
+  return null;
+};
+
+/**
+ * Convert an array into a readable list of items
+ * @param {String[]} list - Array of items. Empty entries are stripped out
+ * @returns {String}
+ * @example
+ * readableList(['1', '2', '3', '4', 'five'])
+ * // => '1, 2, 3, 4 and five'
+ */
+export const readableList = list => {
+  const cleanedList = list.filter(Boolean);
+  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
+    cleanedList.length < 2 ? '' : ' and ',
+  );
 };

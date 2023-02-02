@@ -81,10 +81,14 @@ export default function EnrollmentVerificationMonth({
 
   return (
     <div className="ev-enrollment-month vads-u-margin-y--3">
-      <h4>{month.verificationMonth}</h4>
+      <h1 className="vads-u-font-size--h4 vads-u-font-weight--bold vads-u-margin-top--3">
+        {month.verificationMonth}
+      </h1>
       {monthStatusMessage}
 
-      <va-additional-info trigger="More information">
+      <va-additional-info
+        trigger={`More information for ${month.verificationMonth}`}
+      >
         <EnrollmentVerificationMonthInfo month={month} />
       </va-additional-info>
     </div>

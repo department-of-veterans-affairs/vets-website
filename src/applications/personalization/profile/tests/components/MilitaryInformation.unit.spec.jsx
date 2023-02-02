@@ -215,8 +215,7 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We don’t have military service records for you/i))
-        .to.exist;
+      expect(view.getByTestId('not-a-veteran-alert')).to.exist;
       expect(view.getByText(/If you think this is an error, call us at/i)).to
         .exist;
     });
@@ -229,13 +228,12 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(view.getByText(/We can’t access your military information/i)).to
-        .exist;
       expect(
         view.getByText(
-          /We’re sorry. We can’t access your military service records. If you think you should be able to view your service information here, please file a request to change or correct your DD214 or other military records./i,
+          /We can’t match your information to any military service records/i,
         ),
       ).to.exist;
+      expect(view.getByText(/We’re sorry for this issue./i)).to.exist;
     });
   });
   describe('when a 403 error occurs', () => {
@@ -277,11 +275,7 @@ describe('MilitaryInformation', () => {
         initialState,
       });
 
-      expect(
-        view.getByText(
-          'We’re sorry. Something went wrong on our end. Please refresh this page or try again later.',
-        ),
-      ).to.exist;
+      expect(view.getByTestId('service-is-down-banner')).to.exist;
     });
   });
 });

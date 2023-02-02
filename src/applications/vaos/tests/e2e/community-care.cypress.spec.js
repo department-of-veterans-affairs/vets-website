@@ -2,7 +2,6 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   mockFeatureToggles,
   vaosSetup,
-  mockPreferencesApi,
   mockAppointmentsApi,
   mockAppointmentRequestsApi,
   mockLoginApi,
@@ -27,7 +26,6 @@ describe('VAOS community care flow', () => {
     mockFacilitiesApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 1 });
     mockFeatureToggles();
-    mockPreferencesApi();
     mockSupportedSitesApi();
   });
 
@@ -137,6 +135,19 @@ describe('VAOS community care flow', () => {
     cy.get('.form-radio-buttons > button').click();
     // Verify selected provider
     cy.get('#providerPostSelectionHeader').contains(/Selected provider/i);
+    // Click continue button
+    cy.get('.usa-button')
+      .contains('Continue')
+      .click();
+
+    cy.url().should(
+      'contain',
+      '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-language',
+    );
+    cy.axeCheckBestPractice();
+    // Select preferred language
+    cy.get('#root_preferredLanguage').select('english');
+    cy.get('#root_preferredLanguage').should('have.value', 'english');
     // Click continue button
     cy.get('.usa-button')
       .contains('Continue')
@@ -474,8 +485,8 @@ describe('VAOS community care flow', () => {
     cy.axeCheckBestPractice();
   });
 });
-// skipped due to failures around accurate test naming convention
-describe.skip('VAOS community care flow using VAOS service', () => {
+
+describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
 
@@ -489,7 +500,6 @@ describe.skip('VAOS community care flow using VAOS service', () => {
     mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
     mockFeatureToggles({ v2Requests: true, v2Facilities: true });
     mockLoginApi();
-    mockPreferencesApi();
     mockSchedulingConfigurationApi();
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');

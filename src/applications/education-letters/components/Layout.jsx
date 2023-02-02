@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
-  const classNa = `main ${clsName}`;
-
   const renderBreadCrumbs = () => {
     const { text, href } = breadCrumbs;
     if (text) return <a href={href}>{text}</a>;
@@ -14,10 +12,10 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
     <>
       <va-breadcrumbs>
         <a href="/">Home</a>
-        <a href="/education/">Eduction and training</a>
+        <a href="/education/">Education and training</a>
         {renderBreadCrumbs()}
       </va-breadcrumbs>
-      <main id="main" className={classNa}>
+      <section id={`education-letters-${clsName}`} className={clsName}>
         <div className="usa-grid usa-grid-full">
           <div className="usa-width-three-fourths">
             <article className="usa-content vads-u-padding-bottom--0">
@@ -25,7 +23,7 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
             </article>
           </div>
         </div>
-      </main>
+      </section>
     </>
   );
 };

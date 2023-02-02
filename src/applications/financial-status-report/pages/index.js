@@ -48,6 +48,18 @@ import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
+import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
+import * as addIssue from './income/employmentEnhanced/addIssue';
+import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
+import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollDeductionChecklist';
+import * as payrollDeductionInputList from './income/employmentEnhanced/payrollDeductionInputList';
+import * as grossMonthlyIncome from './income/employmentEnhanced/grossMonthlyIncome';
+import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhancedRecords';
+import * as resolutionExplainer from './resolution/resolutionExplainer';
+import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
+import * as householdExpensesInputList from './expenses/householdExpensesValues';
+import * as expensesExplainer from './expenses/expensesExplainer';
+import * as contactInformation from './veteran/contactInformation';
 
 export {
   veteranInfo,
@@ -100,4 +112,16 @@ export {
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,
+  addIssue,
+  employmentHistory,
+  payrollDeductionChecklist,
+  payrollDeductionInputList,
+  grossMonthlyIncome,
+  enhancedEmploymentRecords,
+  resolutionExplainer,
+  householdExpensesChecklist,
+  householdExpensesInputList,
+  expensesExplainer,
+  enhancedBankruptcyHistoryRecords,
+  contactInformation,
 };

@@ -136,7 +136,7 @@ const ApplyForBenefits = ({ getESREnrollmentStatus, shouldGetESRStatus }) => {
               });
             }}
           >
-            <p>
+            <p data-testid="benefit-of-interest-education-text">
               With VA education benefits, you and your qualified family members
               can get help finding a college or training program and paying for
               tuition or test fees.

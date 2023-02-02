@@ -1,20 +1,34 @@
-import manifest from '../../manifest.json';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import PatientMessagesLandingPage from './pages/PatientMessagesLandingPage';
+import PatientInboxPage from './pages/PatientInboxPage';
+import PatientReplyPage from './pages/PatientReplyPage';
 
-describe(manifest.appName, () => {
+describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientMessagesLandingPage();
+    const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    landingPage.login();
+    const replyPage = new PatientReplyPage();
+    const site = new SecureMessagingSite();
+    site.login();
     landingPage.loadPage();
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
-    messageDetailsPage.loadReplyPage();
+    messageDetailsPage.loadReplyPage(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
+    );
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
     cy.injectAxe();
     cy.axeCheck();
+    replyPage.sendReplyMessage(
+      landingPage.getNewMessage().attributes.messageId,
+    );
   });
 });

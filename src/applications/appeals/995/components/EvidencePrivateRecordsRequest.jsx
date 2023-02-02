@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
 
-import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
+import {
+  EVIDENCE_VA_PATH,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  errorMessages,
+} from '../constants';
 
 import {
   privateRecordsRequestTitle,
@@ -17,7 +23,6 @@ import {
  */
 const EvidencePrivateRequest = ({
   data = {},
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -26,6 +31,7 @@ const EvidencePrivateRequest = ({
   contentAfterButtons,
 }) => {
   const { locations = [] } = data || {};
+  const [error, setError] = useState(null);
 
   const handlers = {
     onSelected: event => {
@@ -33,6 +39,7 @@ const EvidencePrivateRequest = ({
         ...data,
         [EVIDENCE_PRIVATE]: event.detail.value === 'y',
       });
+      setError(null);
     },
     onGoBack: () => {
       if (data[EVIDENCE_VA]) {
@@ -43,6 +50,15 @@ const EvidencePrivateRequest = ({
         goBack();
       }
     },
+    onGoForward: () => {
+      if (typeof data[EVIDENCE_PRIVATE] === 'undefined') {
+        setError(errorMessages.requiredYesNo);
+        focusElement('va-radio');
+      } else {
+        setError(null);
+        goForward(data);
+      }
+    },
   };
 
   return (
@@ -50,6 +66,8 @@ const EvidencePrivateRequest = ({
       <VaRadio
         label={privateRecordsRequestTitle}
         onVaValueChange={handlers.onSelected}
+        required
+        error={error}
       >
         <va-radio-option
           label="Yes"
@@ -61,20 +79,17 @@ const EvidencePrivateRequest = ({
           label="No"
           name="private"
           value="n"
-          checked={!data[EVIDENCE_PRIVATE]}
+          checked={data[EVIDENCE_PRIVATE] === false}
         />
       </VaRadio>
       {privateRecordsRequestInfo}
       <div className="vads-u-margin-top--4">
-        {onReviewPage ? (
-          <button type="submit">Review update button</button>
-        ) : (
-          <>
-            {contentBeforeButtons}
-            <FormNavButtons goBack={handlers.onGoBack} goForward={goForward} />
-            {contentAfterButtons}
-          </>
-        )}
+        {contentBeforeButtons}
+        <FormNavButtons
+          goBack={handlers.onGoBack}
+          goForward={handlers.onGoForward}
+        />
+        {contentAfterButtons}
       </div>
     </form>
   );
@@ -89,7 +104,6 @@ EvidencePrivateRequest.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidencePrivateRequest;

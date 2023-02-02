@@ -6,6 +6,7 @@ const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const phoneNumber = require('./phone-number');
 const status = require('./status');
+const ratingInfo = require('./rating-info');
 const {
   handlePutGenderIdentitiesRoute,
   handleGetPersonalInformationRoute,
@@ -46,7 +47,7 @@ const responses = {
     // This is a 'normal' payment history / control case data
     // payments.paymentHistory.simplePaymentHistory
 
-    return res.status(200).json(payments.paymentHistory.isNotCompetent);
+    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
     return res
@@ -60,7 +61,7 @@ const responses = {
       );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
-  'GET /v0/mhv_account': mhvAcccount,
+  'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
@@ -72,43 +73,36 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // return res.status(200).json(serviceHistory.airForce);
-    return res
-      .status(200)
-      .json(serviceHistory.generateServiceHistoryError('403'));
+    return res.status(200).json(serviceHistory.airForce);
+    // return res
+    //   .status(200)
+    //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info': {
-    data: {
-      id: '',
-      type: 'evss_disability_compensation_form_rating_info_responses',
-      attributes: {
-        userPercentOfDisability: 40,
-      },
-    },
-  },
+  'GET /v0/disability_compensation_form/rating_info':
+    ratingInfo.success.serviceConnected40,
   'PUT /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
-    if (
-      req?.body?.id === address.homeAddressUpdateReceived.payload.id &&
-      req?.body?.addressPou ===
-        address.mailingAddressUpdateReceived.request.payload.addressPou
-    ) {
-      return res.json(
-        _.set(
-          address.mailingAddressUpdateReceived.response,
-          'data.attributes.transactionId',
-          'erroredId',
-        ),
-      );
-    }
+    // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggereing error from GET v0/profile/status
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
 
     // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
     if (req?.body?.addressLine1 === 'same') {
       return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
+    // default response
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'POST /v0/profile/addresses': (req, res) => {
@@ -123,14 +117,14 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    // if (
-    //   req?.params?.id === 'erroredId' ||
-    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    // ) {
-    //   return res.json(
-    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-    //   );
-    // }
+    if (
+      req?.params?.id === 'erroredId' ||
+      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    ) {
+      return res.json(
+        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+      );
+    }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),

@@ -7,8 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../config/form';
+import { simulateInputChange } from '../helpers';
 
 describe('Hca general insurance', () => {
   const {
@@ -62,14 +63,7 @@ describe('Hca general insurance', () => {
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isCoveredByHealthInsuranceYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
 
     expect(formDOM.querySelectorAll('input, select').length).to.equal(6);
 
@@ -92,39 +86,24 @@ describe('Hca general insurance', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isCoveredByHealthInsuranceYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
+    simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
+
+    simulateInputChange(
+      formDOM,
+      '#root_providers_0_insuranceName',
+      'Insurer name',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insuranceName'),
-      {
-        target: {
-          value: 'Insurer name',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_providers_0_insurancePolicyHolderName',
+      'Testing',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insurancePolicyHolderName'),
-      {
-        target: {
-          value: 'Testing',
-        },
-      },
-    );
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insurancePolicyNumber'),
-      {
-        target: {
-          value: '123123',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_providers_0_insurancePolicyNumber',
+      '123123',
     );
 
     submitForm(form);
@@ -151,43 +130,24 @@ describe('Hca general insurance', () => {
 
     const formDOM = findDOMNode(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isCoveredByHealthInsuranceYes'),
-      {
-        target: {
-          value: 'Y',
-        },
-      },
-    );
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insuranceName'),
-      {
-        target: {
-          value: 'Insurer name',
-        },
-      },
+    simulateInputChange(formDOM, '#root_isCoveredByHealthInsuranceYes', 'Y');
+
+    simulateInputChange(
+      formDOM,
+      '#root_providers_0_insuranceName',
+      'Insurer name',
     );
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insurancePolicyHolderName'),
-      {
-        target: {
-          value: 'Testing',
-        },
-      },
+    simulateInputChange(
+      formDOM,
+      '#root_providers_0_insurancePolicyHolderName',
+      'Testing',
     );
 
     submitForm(form);
     expect(onSubmit.called).to.be.false;
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_providers_0_insuranceGroupCode'),
-      {
-        target: {
-          value: '123',
-        },
-      },
-    );
+    simulateInputChange(formDOM, '#root_providers_0_insuranceGroupCode', '123');
 
     submitForm(form);
     expect(onSubmit.called).to.be.true;

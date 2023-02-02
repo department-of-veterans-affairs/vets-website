@@ -8,9 +8,9 @@
         "address": {
           "addressLine1": "123 Main St",
           "addressLine2": "Suite #1200",
-          "addressLine3": "Box 45678901234",
+          "addressLine3": "Box 4567890",
           "city": "New York",
-          "countryCodeIso2": "US",
+          "countryCodeISO2": "US",
           "stateCode": "NY",
           "zipCode5": "30012"
         },
@@ -21,14 +21,14 @@
           "phoneNumberExt": "2"
         },
         "email": "user@example.com",
-        "timezone": "America/Chicago"
+        "timezone": "America/Los_Angeles"
       },
       "socOptIn": true,
       "form5103Acknowledged": true,
       "evidenceSubmission": {
         "evidenceType": [
-          "upload",
-          "retrieval"
+          "retrieval",
+          "upload"
         ],
         "retrieveFrom": [
           {
@@ -37,8 +37,8 @@
               "locationAndName": "VAMC Location 1",
               "evidenceDates": [
                 {
-                  "from": "2001-01-01",
-                  "to": "2011-01-01"
+                  "startDate": "2001-01-01",
+                  "endDate": "2011-01-01"
                 }
               ]
             }
@@ -49,56 +49,57 @@
               "locationAndName": "VAMC Location 2",
               "evidenceDates": [
                 {
-                  "from": "2002-02-02",
-                  "to": "2012-02-02"
+                  "startDate": "2002-02-02",
+                  "endDate": "2012-02-02"
                 }
               ]
             }
           }
         ]
       }
-    },
-    "included": [
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "issue": "Headaches",
-          "decisionDate": "2021-06-10"
-        }
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "issue": "Being green",
-          "decisionDate": "2021-06-01"
-        }
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "issue": "Test",
-          "decisionDate": "2022-01-01"
-        }
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "issue": "Test 2",
-          "decisionDate": "2022-06-28"
-        }
-      }
-    ]
+    }
   },
-  "4142": {
+  "included": [
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "decisionDate": "2021-06-10",
+        "decisionIssueId": 44,
+        "issue": "Headaches - 20% - Acute chronic head pain",
+        "ratingIssueReferenceId": "66"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "decisionDate": "2021-06-01",
+        "decisionIssueId": 42,
+        "issue": "Being green - 50% - Chronic greenness",
+        "ratingDecisionReferenceId": "999",
+        "ratingIssueReferenceId": "52"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Test",
+        "decisionDate": "2022-01-01"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Test 2",
+        "decisionDate": "2022-06-28"
+      }
+    }
+  ],
+  "form4142": {
+    "privacyAgreementAccepted": true,
+    "limitedConsent": "Pizza addiction",
     "providerFacility": [
       {
-        "treatmentDateRange": {
-          "from": "2022-01-01",
-          "to": "2022-02-01"
-        },
-        "issues": [
-          "Headaches"
-        ],
+        "providerFacilityName": "Private Doctor",
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 main",
@@ -106,10 +107,33 @@
           "state": "AK",
           "postalCode": "90210"
         },
-        "providerFacilityName": "Private Hospital"
+        "issues": [
+          "PTSD",
+          "Test"
+        ],
+        "treatmentDateRange": [{
+          "from": "2022-01-01",
+          "to": "2022-02-01"
+        }]
+      },
+      {
+        "providerFacilityName": "Private Hospital",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 main",
+          "city": "city",
+          "state": "AK",
+          "postalCode": "90211"
+        },
+        "issues": [
+          "Test 2"
+        ],
+        "treatmentDateRange": [{
+          "from": "2022-02-01",
+          "to": "2022-05-01"
+        }]
       }
-    ],
-    "limitedConsent": "Pizza addiction"
+    ]
   },
   "additionalDocuments": [
     {

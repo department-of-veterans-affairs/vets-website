@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { createSessionStorageKeys } from '../utils/session-storage';
 
-const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
+const useSessionStorage = (isPreCheckIn = true) => {
   const SESSION_STORAGE_KEYS = useMemo(
     () => {
       return createSessionStorageKeys({ isPreCheckIn });
@@ -32,29 +32,11 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     return data ? JSON.parse(data) : null;
   };
 
-  const resetAttempts = useCallback(
-    (window, uuid, complete = false) => {
-      if (uuid !== SESSION_STORAGE_KEYS.CURRENT_UUID || complete === true) {
-        window.sessionStorage.removeItem(
-          SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS,
-        );
-      }
-    },
-    [SESSION_STORAGE_KEYS],
-  );
-
   const setCurrentToken = useCallback(
     (window, token) => {
-      const lastToken = JSON.parse(
-        sessionStorage.getItem(SESSION_STORAGE_KEYS.CURRENT_UUID),
-      );
-
-      if (lastToken && lastToken.token !== token) {
-        resetAttempts(window, token);
-      }
       setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
     },
-    [SESSION_STORAGE_KEYS, resetAttempts],
+    [SESSION_STORAGE_KEYS],
   );
 
   const getCurrentToken = useCallback(
@@ -77,27 +59,6 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     },
     [SESSION_STORAGE_KEYS],
   );
-
-  const incrementValidateAttempts = window => {
-    const validateAttempts =
-      getSessionKey(window, SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS) ?? 0;
-    setSessionKey(
-      window,
-      SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS,
-      validateAttempts + 1,
-    );
-  };
-
-  const getValidateAttempts = window => {
-    const validateAttempts =
-      getSessionKey(window, SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS) ?? 0;
-    const isMaxValidateAttempts = validateAttempts >= maxValidateAttempts - 1;
-    const remainingValidateAttempts = maxValidateAttempts - validateAttempts;
-    return {
-      isMaxValidateAttempts,
-      remainingValidateAttempts,
-    };
-  };
 
   const setShouldSendDemographicsFlags = useCallback(
     (window, value) => {
@@ -179,13 +140,10 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     getCurrentToken,
     setPreCheckinComplete,
     getPreCheckinComplete,
-    incrementValidateAttempts,
-    getValidateAttempts,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
     getShouldSendTravelPayClaim,
-    resetAttempts,
     setProgressState,
     getProgressState,
     setPermissions,

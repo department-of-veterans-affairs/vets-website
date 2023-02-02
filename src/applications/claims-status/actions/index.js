@@ -57,14 +57,7 @@ const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
-  try {
-    return await apiRequest('/claim_letters');
-    // return new Promise(res => {
-    //   setTimeout(() => res(letters), 500);
-    // });
-  } catch (err) {
-    throw new Error('error.unknown');
-  }
+  return apiRequest('/claim_letters');
 };
 
 export function setNotification(message) {
@@ -123,12 +116,14 @@ export function getAppealsV2() {
   };
 }
 
-function fetchClaimsSuccess(response) {
+// START lighthouse_migration
+function fetchClaimsSuccessEVSS(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims: response.data,
   };
 }
+// END lighthouse_migration
 
 export function pollRequest(options) {
   const {
@@ -186,6 +181,19 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     });
     event['api-latency-ms'] = apiLatencyMs;
   }
+
+  // There is a difference between the way that custom dimensions
+  // and metrics are dealt with in UA (Universal Analytics) vs in
+  // GA4. In UA, we push keys with dashes ('-') but in GA4 the object
+  // keys must be delimited with ('_'). So we should just include
+  // both versions for the applicable keys
+  Object.keys(event).forEach(key => {
+    if (key.includes('-')) {
+      const newKey = key.replace(/-/g, '_');
+      event[newKey] = event[key];
+    }
+  });
+
   recordEvent(event);
   if (event['error-key']) {
     recordEvent({
@@ -194,6 +202,7 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
   }
 };
 
+// START lighthouse_migration
 export function getClaimsV2(options = {}) {
   // Throw an error if an unsupported value is on the `options` object
   const recognizedOptions = ['poll', 'pollingExpiration'];
@@ -214,7 +223,9 @@ export function getClaimsV2(options = {}) {
     if (USE_MOCKS) {
       return mockApi
         .getClaimList()
-        .then(mockClaimsList => dispatch(fetchClaimsSuccess(mockClaimsList)));
+        .then(mockClaimsList =>
+          dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
+        );
     }
 
     return poll({
@@ -251,7 +262,7 @@ export function getClaimsV2(options = {}) {
           startTime: startTimestampMs,
           success: true,
         });
-        dispatch(fetchClaimsSuccess(response));
+        dispatch(fetchClaimsSuccessEVSS(response));
       },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
@@ -261,6 +272,9 @@ export function getClaimsV2(options = {}) {
     });
   };
 }
+
+export const getClaims = getClaimsV2;
+// END lighthouse_migration
 
 export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
@@ -586,7 +600,9 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) return getStemClaimsMock(dispatch);
+    if (USE_MOCKS) {
+      return getStemClaimsMock(dispatch);
+    }
 
     return makeAuthRequest(
       '/v0/education_benefits_claims/stem_claim_status',
@@ -594,7 +610,6 @@ export function getStemClaims() {
       dispatch,
       res => {
         const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
-
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,
           stemClaims,

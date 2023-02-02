@@ -28,13 +28,8 @@ export function obfuscate(str, numVisibleChars = 4, obfuscateChar = '●') {
     return '';
   }
 
-  if (str.length <= 2 * numVisibleChars) {
-    const visibileChars = Math.floor(str.length / 2);
-
-    return (
-      obfuscateChar.repeat(str.length - visibileChars) +
-      str.substring(str.length - visibileChars, str.length)
-    );
+  if (str.length <= numVisibleChars) {
+    return str;
   }
 
   return (
@@ -162,8 +157,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
   }
 
   const emailAddress =
-    profile?.email ||
     vapContactInfo.email?.emailAddress ||
+    profile?.email ||
     contactInfo.emailAddress ||
     undefined;
 

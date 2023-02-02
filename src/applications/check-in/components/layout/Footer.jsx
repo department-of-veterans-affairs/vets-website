@@ -37,9 +37,7 @@ const Footer = ({ router, isPreCheckIn }) => {
           </p>
           <p>
             <span className="vads-u-font-weight--bold">
-              {t(
-                'for-questions-about-how-to-fill-out-your-pre-check-in-tasks-or-if-you-need-help-with-the-form',
-              )}
+              {t('for-questions-or-help-with-pre-check-in')}
             </span>{' '}
             {t('please-call-our-myva411-main-information-line-at')}{' '}
             <va-telephone contact="8006982411" />{' '}

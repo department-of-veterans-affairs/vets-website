@@ -12,10 +12,13 @@ import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
   REVIEW_ENROLLMENTS_URL,
 } from '../constants';
+import { getEVData } from '../selectors';
 
 export function EnrollmentVerificationIntroPage({
-  loggedIn,
+  isLoggedIn,
   enrollmentVerification,
+  enrollmentVerificationFetchComplete,
+  enrollmentVerificationFetchFailure,
   hasCheckedKeepAlive,
   getPost911GiBillEligibility,
   post911GiBillEligibility,
@@ -48,10 +51,12 @@ export function EnrollmentVerificationIntroPage({
     [history],
   );
 
+  const enrollmentsLoadedOrFetchFailed =
+    enrollmentVerification || enrollmentVerificationFetchFailure;
+
   const verifyEnrollmentsButton = (
     <a
-      type="button"
-      className="usa-button-primary va-button-primary"
+      className="vads-c-action-link--green"
       href={REVIEW_ENROLLMENTS_URL}
       onClick={onVerifyEnrollmentsClick}
     >
@@ -66,13 +71,13 @@ export function EnrollmentVerificationIntroPage({
       </h3>
       <div>
         If you think this is a mistake, please call the Education Call Center at{' '}
-        <a href="tel:888-442-4551">888-442-4551</a>. We’re here Monday through
-        Friday, 8:00 a.m. to 7:00 p.m. ET.
+        <va-telephone contact="8884424551" />. We’re here Monday through Friday,
+        8:00 a.m. to 7:00 p.m. ET.
       </div>
     </va-alert>
   );
 
-  if (!loggedIn && !hasCheckedKeepAlive) {
+  if (!isLoggedIn && !hasCheckedKeepAlive) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
 
@@ -84,20 +89,33 @@ export function EnrollmentVerificationIntroPage({
         continue getting paid.
       </p>
 
-      <h2>
-        For Post-9/11 GI Bill
-        <sup>&reg;</sup> benefits
-      </h2>
+      {!isLoggedIn && <EnrollmentVerificationLogin />}
+      {isLoggedIn &&
+        !enrollmentVerificationFetchComplete && (
+          <EnrollmentVerificationLoadingIndicator message="Loading..." />
+        )}
+      {isLoggedIn &&
+        enrollmentVerificationFetchComplete &&
+        enrollmentsLoadedOrFetchFailed &&
+        verifyEnrollmentsButton}
+      {isLoggedIn &&
+        enrollmentVerificationFetchComplete &&
+        !enrollmentsLoadedOrFetchFailed &&
+        noPost911GiBillAlert}
+
+      <h2>Who will need to verify their enrollment?</h2>
       <p>
         If you get a monthly housing allowance (MHA) or kicker payments (or
         both) under the Post-9/11 GI Bill (Chapter 33), you’ll need to verify
-        your enrollments each month. If you don’t verify your enrollment for
-        more than two months, we will pause your monthly education payments.
+        your enrollments each month.
       </p>
-
-      {!loggedIn ? <EnrollmentVerificationLogin /> : <></>}
-      {loggedIn && enrollmentVerification ? verifyEnrollmentsButton : <></>}
-      {loggedIn && !enrollmentVerification ? noPost911GiBillAlert : <></>}
+      <p>
+        If you have any questions, you can contact us through{' '}
+        <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+          Ask VA
+        </a>
+        .
+      </p>
 
       <h2>For Montgomery GI Bill benefits:</h2>
       <p>
@@ -174,26 +192,15 @@ export function EnrollmentVerificationIntroPage({
       </p>
       <p>
         <strong>Note</strong>: If you need to update your primary phone number,
-        call us at{' '}
-        <a href="tel:+1-888-442-4551" aria-label="8 8 8. 4 4 2. 4 5 5 1.">
-          888-442-4551
-        </a>
-        . We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET. If you
-        have hearing loss, call{' '}
-        <a href="tel:711" aria-label="TTY. 7 1 1.">
-          TTY: 711
-        </a>
-        .
+        call us at <va-telephone contact="8884424551" />. We’re here Monday
+        through Friday, 8:00 a.m. to 7:00 p.m. ET. If you have hearing loss,
+        call <va-telephone contact="711" />.
       </p>
     </EnrollmentVerificationPageWrapper>
   );
 }
 
-const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn,
-  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive,
-  enrollmentVerification: state?.data?.enrollmentVerification,
-});
+const mapStateToProps = state => getEVData(state);
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,

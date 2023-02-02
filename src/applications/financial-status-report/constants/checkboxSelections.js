@@ -22,3 +22,25 @@ export const monetaryAssets = [
   'Pension',
   'Cryptocurrency',
 ];
+
+export const payrollDeductionOptions = [
+  'State tax',
+  'Federal tax',
+  'Local tax',
+  'Garnishment',
+  'Health insurance',
+  'Life insurance',
+  'Retirement accounts (401k, IRAs, 403b, TSP)',
+  'FICA (Social Security and Medicare)',
+  'Allotment',
+  'Other',
+];
+
+export const householdExpensesOptions = [
+  'Rent',
+  `Renter's or home insurance`,
+  'Mortgage payment',
+  'Property tax',
+  `Homeowner's Association (HOA) fees`,
+  'Community Development District (CDD) fees',
+];

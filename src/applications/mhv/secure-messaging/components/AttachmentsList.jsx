@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled } = props;
@@ -9,11 +9,19 @@ const AttachmentsList = props => {
     if (num > 999999) {
       return `${(num / 1000000).toFixed(1)} MB`;
     }
-    return `${Math.floor(num / 1000)} KB`;
+    if (num > 999) {
+      return `${Math.floor(num / 1000)} KB`;
+    }
+    return `${num} B`;
   };
 
-  const removeAttachment = name => {
-    const newAttArr = attachments.filter(item => item.name !== name);
+  const removeAttachment = file => {
+    const newAttArr = attachments.filter(item => {
+      if (item.name !== file.name) {
+        return true;
+      }
+      return item.size !== file.size;
+    });
     setAttachments(newAttArr);
   };
 
@@ -23,34 +31,36 @@ const AttachmentsList = props => {
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
-            <li key={file.name}>
+            <li key={file.name + file.size}>
               {editingEnabled && (
-                <>
-                  <i className="fas fa-paperclip" aria-hidden="true" />
-                  <div className="editable-attachment">
-                    <span>
-                      {file.name} ({getSize(file.size || file.attachmentSize)})
-                    </span>
-                    <va-button
-                      onClick={() => removeAttachment(file.name)}
-                      secondary
-                      text="Remove"
-                      class="remove-attachment-button"
-                    />
-                  </div>
-                </>
+                <div className="editable-attachment">
+                  <span>
+                    <i className="fas fa-paperclip" aria-hidden="true" />
+                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                  </span>
+                  <va-button
+                    onClick={() => removeAttachment(file)}
+                    secondary
+                    text="Remove"
+                    class="remove-attachment-button"
+                  />
+                </div>
               )}
               {!editingEnabled && (
                 <>
                   <i className="fas fa-paperclip" aria-hidden="true" />
                   <a
-                    href={`${
-                      environment.API_URL
-                    }/my_health/v1/messaging/messages/${
-                      file.messageId
-                    }/attachments/${file.attachmentId}`}
+                    className="attachment"
+                    href={file.link}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => {
+                      recordEvent({
+                        event: 'cta-button-click',
+                        'button-type': 'link',
+                        'button-click-label': 'Attachment link',
+                      });
+                    }}
                   >
                     {file.name} ({getSize(file.size || file.attachmentSize)})
                   </a>

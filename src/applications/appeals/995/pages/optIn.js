@@ -1,17 +1,11 @@
-import { optInDescription, optInLabel } from '../content/optIn';
+import { content, reviewField } from '../content/optIn';
 
 export default {
   uiSchema: {
-    'ui:description': optInDescription,
-    'ui:options': {
-      forceDivWrapper: true,
-    },
+    'ui:description': content.description,
     socOptIn: {
-      'ui:title': optInLabel,
-      'ui:options': {
-        forceDivWrapper: true,
-        keepInPageOnReview: false,
-      },
+      'ui:title': content.label,
+      'ui:reviewField': reviewField,
     },
   },
   schema: {
