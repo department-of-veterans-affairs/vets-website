@@ -209,7 +209,7 @@ const responses = {
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
-    const providerNpi = req.body.practitioners[0].identifier[0].value;
+    const providerNpi = req.body.practitioners[0]?.identifier?.[0].value;
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {

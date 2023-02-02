@@ -356,8 +356,8 @@ export function transformVAOSAppointment(appt) {
           }
         : null,
     preferredProviderName:
-      isCC && isRequest
-        ? { preferredProviderName: appt.preferredProviderName }
+      isCC && isRequest && appt.preferredProviderName
+        ? { providerName: appt.preferredProviderName }
         : null,
     practitioners: appt.practitioners,
     ...requestFields,
