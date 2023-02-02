@@ -1,7 +1,4 @@
-import {
-  VaTelephone,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
@@ -84,7 +81,7 @@ export default function ContactDetailSection({ data }) {
             </span>
           </div>
           <div>
-            <VaLink
+            <va-link
               aria-label="Edit call back time"
               text="Edit"
               data-testid="edit-new-appointment"

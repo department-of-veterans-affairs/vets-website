@@ -1,5 +1,4 @@
 import React from 'react';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
@@ -25,7 +24,7 @@ export default function PreferredDatesSection(props) {
             </ul>
           </div>
           <div>
-            <VaLink
+            <va-link
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"

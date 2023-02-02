@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -55,7 +54,7 @@ export default function ConfirmationDirectScheduleInfoV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <VaLink
+          <va-link
             href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() => {
               recordEvent({
@@ -67,7 +66,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           />
         </div>
         <div>
-          <VaLink
+          <va-link
             text="Schedule a new appointment"
             onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"

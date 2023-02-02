@@ -1,5 +1,4 @@
 import React from 'react';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
@@ -52,7 +51,7 @@ export default function PreferredProviderSection(props) {
               </span>
             </div>
             <div>
-              <VaLink
+              <va-link
                 onClick={handleClick(history)}
                 aria-label="Edit provider preference"
                 text="Edit"
