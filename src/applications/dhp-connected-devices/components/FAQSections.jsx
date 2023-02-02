@@ -17,6 +17,7 @@ export const FirstFAQSection = () => {
         <va-accordion-item
           header="Why are we doing this pilot with Fitbit?"
           id="dhp-faq-first-section-first-question"
+          aria-controls="dhp-faq-first-section-first-question"
           data-testid="faq-first-section-first-question"
         >
           The goal of the Digital Health Platform Fitbit pilot (the “Pilot”) is
@@ -36,6 +37,7 @@ export const FirstFAQSection = () => {
         <va-accordion-item
           header="Do I have to participate in this pilot?"
           id="dhp-faq-first-section-second-question"
+          aria-controls="dhp-faq-first-section-second-question"
           data-testid="faq-first-section-second-question"
         >
           It is your decision to be part of this Pilot program. It is completely
@@ -48,6 +50,7 @@ export const FirstFAQSection = () => {
         <va-accordion-item
           header="What is a connected device and why might I use one?"
           id="dhp-faq-first-section-third-question"
+          aria-controls="dhp-faq-first-section-third-question"
           data-testid="faq-first-section-third-question"
         >
           A connected device is any device that can connect to the internet so
@@ -82,6 +85,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="How can I connect my device?"
           id="dhp-faq-second-section-first-question"
+          aria-controls="dhp-faq-second-section-first-question"
           data-testid="faq-second-section-first-question"
         >
           <strong>Take these steps to connect a device:</strong>
@@ -114,6 +118,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
           id="dhp-faq-second-section-second-question"
+          aria-controls="dhp-faq-second-section-second-question"
           data-testid="faq-second-section-second-question"
         >
           Yes. If you no longer want to share your information with VA, you can
@@ -151,6 +156,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="What information can VA access from the devices that I have connected on VA.gov?"
           id="dhp-faq-second-section-third-question"
+          aria-controls="dhp-faq-second-section-third-question"
           data-testid="faq-second-section-third-question"
         >
           When you connect a device, such as a Fitbit , you will be able to
@@ -161,6 +167,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="Who can access data from the devices I have connected on VA.gov?"
           id="dhp-faq-second-section-fourth-question"
+          aria-controls="dhp-faq-second-section-fourth-question"
           data-testid="faq-second-section-fourth-question"
         >
           The primary individuals who will have access to your device include
@@ -173,6 +180,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="How will my private information be protected?"
           id="dhp-faq-second-section-fifth-question"
+          aria-controls="dhp-faq-second-section-fifth-question"
           data-testid="faq-second-section-fifth-question"
         >
           VA will keep information about you, including any connected device
@@ -187,6 +195,7 @@ export const SecondFAQSection = () => {
         <va-accordion-item
           header="Does VA keep my data after I disconnect a device?"
           id="dhp-faq-second-section-sixth-question"
+          aria-controls="dhp-faq-second-section-sixth-question"
           data-testid="faq-second-section-sixth-question"
         >
           VA will no longer receive new data from your device after it is
@@ -215,6 +224,7 @@ export const ThirdFAQSection = () => {
         <va-accordion-item
           header="I am having issues with my Fitbit or my Fitbit account"
           id="dhp-faq-third-section-first-question"
+          aria-controls="dhp-faq-third-section-first-question"
           data-testid="faq-third-section-first-question"
         >
           Please visit the{' '}
@@ -239,6 +249,7 @@ export const ThirdFAQSection = () => {
         <va-accordion-item
           header="I can’t login or need help with my VA account"
           id="dhp-faq-third-section-second-question"
+          aria-controls="dhp-faq-third-section-second-question"
           data-testid="faq-third-section-second-question"
         >
           <a href="https://www.va.gov/resources/signing-in-to-vagov/">
@@ -325,6 +336,7 @@ export const FourthFAQSection = () => {
         <va-accordion-item
           header="I have general questions or feedback about the pilot"
           id="dhp-faq-fourth-section-first-question"
+          aria-controls="dhp-faq-fourth-section-first-question"
           data-testid="faq-fourth-section-first-question"
         >
           Contact <a href="mailto:VA-DHP-Pilot@va.gov">VA-DHP-Pilot@va.gov</a>
