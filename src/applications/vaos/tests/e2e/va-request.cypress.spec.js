@@ -6,7 +6,6 @@ import {
   mockAppointmentsApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
-  mockPreferencesApi,
   mockSupportedSitesApi,
   mockRequestEligibilityCriteriaApi,
   mockDirectBookingEligibilityCriteriaApi,
@@ -34,14 +33,12 @@ describe('VAOS VA request flow', () => {
     mockFacilitiesApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 1 });
     mockFeatureToggles();
-    mockPreferencesApi();
     mockSupportedSitesApi();
     mockRequestEligibilityCriteriaApi();
     mockDirectBookingEligibilityCriteriaApi();
     mockRequestLimitsApi();
     mockClinicApi({ facilityId: '983', apiVersion: 0 });
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
-    mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
   });
 
@@ -190,7 +187,6 @@ describe('VAOS VA request flow using VAOS service', () => {
       v2DirectSchedule: true,
     });
     mockLoginApi();
-    mockPreferencesApi();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
