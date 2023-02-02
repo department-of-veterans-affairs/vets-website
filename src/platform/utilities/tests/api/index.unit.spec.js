@@ -1,7 +1,8 @@
+import path from 'path';
+import fs from 'fs';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-// import
 import { apiRequest } from '../../api';
 
 describe('apiRequest', () => {
@@ -9,11 +10,10 @@ describe('apiRequest', () => {
   let expected;
 
   before(() => {
-    server.listen({
-      onUnhandledRequest: 'bypass',
-    });
+    server.listen();
     server.events.on('request:end', async req => {
       expected = { ...expected, request: req };
+      // console.log(req);
     });
     server.events.on('response:mocked', async res => {
       expected = { ...expected, response: res };
@@ -46,7 +46,6 @@ describe('apiRequest', () => {
     );
     expect(response.status).to.eql('ok');
   });
-
   it('should not return JSON on (status: 204)', async () => {
     server.use(rest.get(/v0\/status/, (req, res, ctx) => res(ctx.status(204))));
 
@@ -75,6 +74,45 @@ describe('apiRequest', () => {
       expect(error).to.deep.equal(JSON.parse(expected.response.body));
     });
   });
-});
+  it('should not fail when downloading a file', async () => {
+    const benefitLetterOptions = {
+      letterName: 'Benefit Summary Letter',
+      letterType: 'benefit_summary',
+      letterOptions: {
+        militaryService: true,
+        monthlyAward: true,
+        serviceConnectedEvaluation: true,
+        chapter35Eligibility: true,
+        serviceConnectedDisabilities: true,
+      },
+    };
 
-describe('fetchAndUpdateSessionExpiration', () => {});
+    server.use(
+      rest.post(
+        `https://dev-api.va.gov/v0/letters/benefit_summary`,
+        (_, res, ctx) => {
+          const pdfFile = fs.readFileSync(
+            path.resolve(__dirname, './pdfFixture.pdf'),
+          );
+
+          return res(
+            ctx.status(200),
+            ctx.set('Content-Length', pdfFile.byteLength.toString()),
+            ctx.set('Content-Type', 'application/pdf'),
+            ctx.body(pdfFile),
+          );
+        },
+      ),
+    );
+
+    const response = await apiRequest('/letters/benefit_summary', {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
+      body: JSON.stringify(benefitLetterOptions),
+    });
+
+    expect(response.bodyUsed).to.be.false;
+    expect(response.status).to.eql(200);
+    expect(expected.response.body).to.not.be.null;
+  });
+});

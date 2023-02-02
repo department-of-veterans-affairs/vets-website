@@ -29,12 +29,14 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     async retryOn(attempt, error, response) {
       if (error) return false;
 
-      const errorResponse = isJson
-        ? await response
-            ?.clone()
-            ?.json()
-            .catch(() => response.text())
-        : response.text();
+      const clonedResponse = await response.clone();
+      const errorResponse =
+        isJson(response) && clonedResponse.status === 403
+          ? await clonedResponse
+              ?.clone()
+              ?.json()
+              .catch(() => clonedResponse.text())
+          : clonedResponse?.clone();
 
       if (
         errorResponse?.errors === 'Access token has expired' &&
@@ -127,18 +129,19 @@ export function apiRequest(resource, optionalSettings, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
-      const data = isJson(response)
-        ? response.json()
+      const responseClone = response.clone();
+      const data = isJson(responseClone)
+        ? responseClone?.json()
         : Promise.resolve(response);
 
       // Get CSRF Token from API header
-      const csrfToken = response.headers.get('X-CSRF-Token');
+      const csrfToken = responseClone.headers.get('X-CSRF-Token');
 
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (response.ok || response.status === 304) {
+      if (responseClone.ok || responseClone.status === 304) {
         return data;
       }
 
@@ -146,7 +149,7 @@ export function apiRequest(resource, optionalSettings, success, error) {
         const { pathname } = window.location;
 
         const shouldRedirectToSessionExpired =
-          response.status === 401 &&
+          responseClone.status === 401 &&
           !pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
