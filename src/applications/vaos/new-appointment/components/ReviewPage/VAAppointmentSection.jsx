@@ -37,6 +37,7 @@ export default function VAAppointmentSection({ data, facility }) {
           <div>
             <va-link
               onClick={handleClick(history, dispatch)}
+              text="Edit"
               aria-label="Edit how to be seen"
             />
           </div>
