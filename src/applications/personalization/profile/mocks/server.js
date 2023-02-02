@@ -61,7 +61,7 @@ const responses = {
       );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
-  'GET /v0/mhv_account': mhvAcccount,
+  'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
@@ -84,25 +84,25 @@ const responses = {
     return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
-    if (
-      req?.body?.id === address.homeAddressUpdateReceived.payload.id &&
-      req?.body?.addressPou ===
-        address.mailingAddressUpdateReceived.request.payload.addressPou
-    ) {
-      return res.json(
-        _.set(
-          address.mailingAddressUpdateReceived.response,
-          'data.attributes.transactionId',
-          'erroredId',
-        ),
-      );
-    }
+    // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // simulate a initial request returning a transactionId that is
+    // subsequently used for triggereing error from GET v0/profile/status
+    // return res.json(
+    //   _.set(
+    //     address.mailingAddressUpdateReceived.response,
+    //     'data.attributes.transactionId',
+    //     'erroredId',
+    //   ),
+    // );
 
     // trigger NO_CHANGES_DETECTED response
+    // based on the text 'same' being put into address line 1 of ui
     if (req?.body?.addressLine1 === 'same') {
       return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
+    // default response
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'POST /v0/profile/addresses': (req, res) => {
@@ -117,14 +117,14 @@ const responses = {
     // }
 
     // uncomment to conditionally provide a failure error code based on transaction id
-    // if (
-    //   req?.params?.id === 'erroredId' ||
-    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
-    // ) {
-    //   return res.json(
-    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-    //   );
-    // }
+    if (
+      req?.params?.id === 'erroredId' ||
+      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    ) {
+      return res.json(
+        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+      );
+    }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),

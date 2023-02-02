@@ -11,6 +11,7 @@ describe('<ClosedClaimMessage>', () => {
       {
         id: 1,
         attributes: {
+          dateFiled: '2023-01-01',
           open: false,
           phaseChangeDate: moment()
             .add(-29, 'days')
@@ -27,6 +28,7 @@ describe('<ClosedClaimMessage>', () => {
       {
         id: 1,
         attributes: {
+          dateFiled: '2023-01-01',
           open: false,
           phaseChangeDate: moment()
             .add(-30, 'days')
@@ -43,6 +45,7 @@ describe('<ClosedClaimMessage>', () => {
       {
         id: 1,
         attributes: {
+          dateFiled: '2023-01-01',
           open: true,
           phaseChangeDate: moment()
             .add(-29, 'days')

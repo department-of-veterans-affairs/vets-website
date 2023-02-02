@@ -7,7 +7,6 @@ import {
   mockFacilityApi,
   mockFeatureToggles,
   mockLoginApi,
-  mockPreferencesApi,
   mockSchedulingConfigurationApi,
   mockAppointmentsApi,
   vaosSetup,
@@ -43,14 +42,12 @@ describe('VAOS direct schedule flow', () => {
     mockFacilitiesApi({ apiVersion: 0 });
     mockFacilitiesApi({ apiVersion: 1 });
     mockFeatureToggles();
-    mockPreferencesApi();
     mockSupportedSitesApi();
     mockRequestEligibilityCriteriaApi();
     mockDirectBookingEligibilityCriteriaApi();
     mockRequestLimitsApi();
     mockClinicApi({ facilityId: '983', apiVersion: 0 });
     mockDirectScheduleSlotsApi({ start, end, apiVersion: 0 });
-    mockPreferencesApi();
     mockVisitsApi();
   });
 
@@ -109,11 +106,6 @@ describe('VAOS direct schedule flow', () => {
       expect(body).to.have.property('dateTime');
       expect(body).to.have.property('bookingNotes', fullReason);
       expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
-    });
-    // TODO: Not needed since check is in the mock
-    cy.wait('@v0:update:preferences').should(xhr => {
-      const { body } = xhr.request;
-      expect(body.emailAddress).to.eq('veteran@gmail.com');
     });
 
     // Confirmation page
@@ -289,7 +281,6 @@ describe('VAOS direct schedule flow using VAOS service', () => {
       v2DirectSchedule: true,
     });
     mockLoginApi();
-    mockPreferencesApi();
     mockSchedulingConfigurationApi();
   });
 
@@ -345,10 +336,6 @@ describe('VAOS direct schedule flow using VAOS service', () => {
         `${start.format('YYYY-MM-DD')}T00:00:00+00:00`,
       );
       expect(request.status).to.eq('booked');
-    });
-    cy.wait('@v0:update:preferences').should(xhr => {
-      const request = xhr.request.body;
-      expect(request.emailAddress).to.eq('veteran@gmail.com');
     });
 
     // Confirmation page

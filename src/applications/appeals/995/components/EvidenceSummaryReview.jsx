@@ -64,7 +64,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         className="float-right edit-page usa-button-secondary"
         onClick={handlers.onEditPage}
         aria-label={content.editLabel}
-        tabIndex="0"
       >
         {content.edit}
       </button>
