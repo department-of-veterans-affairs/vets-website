@@ -11,6 +11,7 @@ describe('Secure Messaging Compose', () => {
     site.login();
 
     site.loadPage();
+    cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.injectAxe();
     cy.axeCheck();
