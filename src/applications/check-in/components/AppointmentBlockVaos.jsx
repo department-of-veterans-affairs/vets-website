@@ -48,7 +48,7 @@ const AppointmentBlockVaos = props => {
       )}
 
       <ol
-        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
+        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
         data-testid="appointment-list"
       >
         {appointments.map(appointment => {

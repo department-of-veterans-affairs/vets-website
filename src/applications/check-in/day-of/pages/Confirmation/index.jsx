@@ -28,23 +28,14 @@ const Confirmation = props => {
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
-    getShouldSendTravelPayClaim,
-    setShouldSendTravelPayClaim,
   } = useSessionStorage(false);
 
   useEffect(
     () => {
       if (getShouldSendDemographicsFlags(window))
         setShouldSendDemographicsFlags(window, false);
-      if (getShouldSendTravelPayClaim(window))
-        setShouldSendTravelPayClaim(window, false);
     },
-    [
-      getShouldSendDemographicsFlags,
-      setShouldSendDemographicsFlags,
-      getShouldSendTravelPayClaim,
-      setShouldSendTravelPayClaim,
-    ],
+    [getShouldSendDemographicsFlags, setShouldSendDemographicsFlags],
   );
 
   useEffect(
