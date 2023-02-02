@@ -9,6 +9,7 @@ import {
 // updatePage isn't available for CustomPage on non-review pages, see
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33797
 import { setData } from 'platform/forms-system/src/js/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { getSelected, calculateIndexOffset } from '../utils/helpers';
 import {
@@ -122,10 +123,22 @@ const AddIssue = props => {
     },
     onCancel: event => {
       event.preventDefault();
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'secondary',
+        'button-click-label': 'Cancel',
+        'button-background-color': 'white',
+      });
       goToPath(returnPath);
     },
     onUpdate: event => {
       event.preventDefault();
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'primary',
+        'button-click-label': 'Add issue',
+        'button-background-color': 'blue',
+      });
       addOrUpdateIssue();
     },
   };

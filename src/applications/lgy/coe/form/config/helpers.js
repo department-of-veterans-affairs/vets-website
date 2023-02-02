@@ -1,6 +1,6 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { NON_DIGIT_REGEX } from '../constants';
+import { NON_DIGIT_REGEX, LOAN_INTENT } from '../constants';
 
 export const replaceNonDigits = number =>
   (number || '').replace(NON_DIGIT_REGEX, '');
@@ -51,3 +51,6 @@ export const customCOEsubmit = (formConfig, form) => {
     },
   });
 };
+
+export const getLoanIntent = value =>
+  Object.values(LOAN_INTENT).find(type => type.value === value);
