@@ -45,6 +45,18 @@ const mocks = {
         ],
       };
     },
+    createMockMissingUuidErrorResponse: () => {
+      return {
+        errors: [
+          {
+            title: 'Data Not Found',
+            detail: 'Data Not Found',
+            code: 'CIE-VETS-API_404',
+            status: '404',
+          },
+        ],
+      };
+    },
     createMockMaxValidateErrorResponse: () => {
       return {
         errors: [
