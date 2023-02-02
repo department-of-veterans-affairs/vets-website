@@ -1,10 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import V1V3Page from '../pages/V1V3Page';
 
-export default function App({ children }) {
-  return <div>{children}</div>;
+export default function App() {
+  return <V1V3Page />;
 }
-
-App.propTypes = {
-  children: PropTypes.object,
-};

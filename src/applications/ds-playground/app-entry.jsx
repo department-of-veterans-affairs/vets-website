@@ -1,7 +1,7 @@
-import '@department-of-veterans-affairs/platform-polyfills';
+import 'platform/polyfills';
 import './sass/ds-playground.scss';
 
-import startApp from '@department-of-veterans-affairs/platform-startup';
+import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
@@ -11,6 +11,5 @@ startApp({
   url: manifest.rootUrl,
   reducer,
   routes,
-  component: null,
-  analyticsEvents: [],
+  entryName: manifest.entryName,
 });
