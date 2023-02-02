@@ -219,11 +219,7 @@ export function selectCanUseVaccineFlow(state) {
 }
 
 export function selectRequestedAppointmentDetails(state, id) {
-  const {
-    appointmentDetailsStatus,
-    facilityData,
-    providerData,
-  } = state.appointments;
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
     state,
   );
@@ -234,7 +230,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
-    providerData,
     message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
     useV2: featureVAOSServiceCCAppointments,

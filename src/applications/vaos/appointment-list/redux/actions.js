@@ -33,8 +33,6 @@ import {
   fetchRequestById,
   fetchBookedAppointment,
   cancelAppointment,
-  fetchPreferredProvider,
-  getPreferredCCProviderNPI,
 } from '../../services/appointment';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
@@ -715,40 +713,6 @@ export function fetchFacilitySettings() {
       });
 
       captureError(e, false);
-    }
-  };
-}
-
-/**
- * Function to retrieve provider information from the provider
- * endpoint when using the v2 api.
- *
- * @param {*} appointment
- */
-export function getProviderInfoV2(appointment) {
-  // Provider information included with v2 provider api call.
-  return async (dispatch, getState) => {
-    const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-      getState(),
-    );
-    if (featureVAOSServiceCCAppointments && appointment.practitioners?.length) {
-      const ProviderNpi = getPreferredCCProviderNPI(appointment);
-
-      const providerData = await fetchPreferredProvider(ProviderNpi);
-
-      dispatch({
-        type: FETCH_PROVIDER_SUCCEEDED,
-        providerData,
-      });
-    }
-    if (
-      featureVAOSServiceCCAppointments &&
-      !appointment.practitioners?.length
-    ) {
-      dispatch({
-        type: FETCH_PROVIDER_SUCCEEDED,
-        providerData: null,
-      });
     }
   };
 }
