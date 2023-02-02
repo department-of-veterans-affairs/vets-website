@@ -6,6 +6,7 @@ export const FirstFAQSection = () => {
       <h3 className="dhp-faq-section-header">DHP Fitbit Pilot</h3>
       <va-accordion
         bordered
+        data-testid="faq-first-section"
         disable-analytics={{
           value: 'false',
         }}
@@ -70,6 +71,7 @@ export const SecondFAQSection = () => {
       </h3>
       <va-accordion
         bordered
+        data-testid="faq-second-section"
         disable-analytics={{
           value: 'false',
         }}
@@ -202,6 +204,7 @@ export const ThirdFAQSection = () => {
       <h3 className="dhp-faq-section-header">Troubleshooting</h3>
       <va-accordion
         bordered
+        data-testid="faq-third-section"
         disable-analytics={{
           value: 'false',
         }}
@@ -311,6 +314,7 @@ export const FourthFAQSection = () => {
       <h3 className="dhp-faq-section-header">Feedback</h3>
       <va-accordion
         bordered
+        data-testid="faq-fourth-section"
         disable-analytics={{
           value: 'false',
         }}
