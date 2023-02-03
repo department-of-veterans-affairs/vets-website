@@ -11,15 +11,16 @@ const valuesFiles = fs
 
 if (valuesFiles.length > 0) {
   core.exportVariable('FILES_TO_DELETE', true);
+  valuesFiles.forEach(file => {
+    try {
+      fs.unlinkSync(
+        `./manifests/apps/preview-environment/dev/environment-values/${file}`,
+      );
+    } catch (error) {
+      /* eslint-disable no-console */
+      console.log(error);
+    }
+  });
+} else {
+  core.exportVariable('FILES_TO_DELETE', false);
 }
-
-valuesFiles.forEach(file => {
-  try {
-    fs.unlinkSync(
-      `./manifests/apps/preview-environment/dev/environment-values/${file}`,
-    );
-  } catch (error) {
-    /* eslint-disable no-console */
-    console.log(error);
-  }
-});
