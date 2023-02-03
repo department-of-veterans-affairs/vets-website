@@ -22,6 +22,9 @@ import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditiona
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
 
+// environment variable to keep ratings out of production until ready
+const isProduction = !environment.isProduction();
+
 export function ResultCard({
   compare,
   estimated,
@@ -175,7 +178,7 @@ export function ResultCard({
 
   // toggle for production/staging------------------------------------------------
   let ratingsInformation = false;
-  if (!environment.isProduction()) {
+  if (isProduction) {
     const stars = convertRatingToStars(ratingAverage);
     const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 

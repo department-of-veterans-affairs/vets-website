@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
@@ -41,6 +42,8 @@ const CompareLayout = ({
   showDifferences,
   smallScreen,
 }) => {
+  // environment variable to keep ratings out of production until ready
+  const isProduction = !environment.isProduction();
   const mapRating = institution => {
     const { type } = institution; // used to identify if the training is OJT
     let ratingAverage = false;
@@ -93,6 +96,7 @@ const CompareLayout = ({
     if (type.toUpperCase() === 'OJT') {
       return 'N/A';
     }
+
     return 'Not yet rated by Veterans';
   };
 
@@ -122,6 +126,87 @@ const CompareLayout = ({
     }
     return 'N/A';
   };
+
+  const fieldDataSummary = [
+    {
+      label: 'Location',
+      className: 'capitalize-value',
+      mapper: institution => {
+        return institution.country === 'USA'
+          ? `${institution.city}, ${institution.state}`
+          : `${institution.city}, ${institution.country}`;
+      },
+    },
+    {
+      label: 'Overall rating',
+      mapper: institution => mapRating(institution),
+    },
+    {
+      label: 'Accreditation',
+      className: 'capitalize-value',
+      mapper: institution => naIfNull(institution.accreditationType),
+    },
+    {
+      label: 'GI Bill students',
+      className: 'capitalize-value',
+      mapper: institution => naIfNull(institution.studentCount),
+    },
+    {
+      label: 'Length of program',
+      mapper: institution => {
+        if (!institution.highestDegree) {
+          return 'N/A';
+        }
+
+        return _.isFinite(institution.highestDegree)
+          ? `${institution.highestDegree} year`
+          : `${institution.highestDegree} program`;
+      },
+    },
+    {
+      label: 'Type of institution',
+      mapper: institution => {
+        if (institution.vetTecProvider) {
+          return 'VET TEC';
+        }
+        if (institution.type.toLowerCase() === 'ojt') {
+          return 'Employer';
+        }
+        return `${upperCaseFirstLetterOnly(institution.type)} school`;
+      },
+    },
+    {
+      label: 'Institution locale',
+      className: 'capitalize-value',
+      mapper: institution => naIfNull(institution.localeType),
+    },
+    {
+      label: 'Size of institution',
+      className: 'capitalize-value',
+      mapper: institution => schoolSize(institution.undergradEnrollment),
+    },
+    {
+      label: 'Specialized mission',
+      className: 'capitalize-value',
+      mapper: institution => {
+        const specialMission = [];
+        if (institution.hbcu) {
+          specialMission.push('Historically black college or university');
+        }
+        if (institution.relaffil) {
+          specialMission.push(religiousAffiliations[institution.relaffil]);
+        }
+        if (institution.womenonly) {
+          specialMission.push('Women-only');
+        }
+        if (institution.menonly) {
+          specialMission.push('Men-only');
+        }
+        return specialMission.length > 0 ? specialMission.join(', ') : 'N/A';
+      },
+    },
+  ];
+
   return (
     <div className={classNames({ 'row vads-l-grid-container': !smallScreen })}>
       <CompareGrid
@@ -129,90 +214,13 @@ const CompareLayout = ({
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
-        fieldData={[
-          {
-            label: 'Location',
-            className: 'capitalize-value',
-            mapper: institution => {
-              return institution.country === 'USA'
-                ? `${institution.city}, ${institution.state}`
-                : `${institution.city}, ${institution.country}`;
-            },
-          },
-          {
-            label: 'Overall rating',
-            // mapper: () => mapRating(),
-            mapper: institution => mapRating(institution),
-          },
-          {
-            label: 'Accreditation',
-            className: 'capitalize-value',
-            mapper: institution => naIfNull(institution.accreditationType),
-          },
-          {
-            label: 'GI Bill students',
-            className: 'capitalize-value',
-            mapper: institution => naIfNull(institution.studentCount),
-          },
-          {
-            label: 'Length of program',
-            mapper: institution => {
-              if (!institution.highestDegree) {
-                return 'N/A';
-              }
-
-              return _.isFinite(institution.highestDegree)
-                ? `${institution.highestDegree} year`
-                : `${institution.highestDegree} program`;
-            },
-          },
-          {
-            label: 'Type of institution',
-            mapper: institution => {
-              if (institution.vetTecProvider) {
-                return 'VET TEC';
-              }
-              if (institution.type.toLowerCase() === 'ojt') {
-                return 'Employer';
-              }
-              return `${upperCaseFirstLetterOnly(institution.type)} school`;
-            },
-          },
-          {
-            label: 'Institution locale',
-            className: 'capitalize-value',
-            mapper: institution => naIfNull(institution.localeType),
-          },
-          {
-            label: 'Size of institution',
-            className: 'capitalize-value',
-            mapper: institution => schoolSize(institution.undergradEnrollment),
-          },
-          {
-            label: 'Specialized mission',
-            className: 'capitalize-value',
-            mapper: institution => {
-              const specialMission = [];
-              if (institution.hbcu) {
-                specialMission.push('Historically black college or university');
-              }
-              if (institution.relaffil) {
-                specialMission.push(
-                  religiousAffiliations[institution.relaffil],
-                );
-              }
-              if (institution.womenonly) {
-                specialMission.push('Women-only');
-              }
-              if (institution.menonly) {
-                specialMission.push('Men-only');
-              }
-              return specialMission.length > 0
-                ? specialMission.join(', ')
-                : 'N/A';
-            },
-          },
-        ]}
+        fieldData={
+          isProduction
+            ? fieldDataSummary
+            : fieldDataSummary.filter(
+                value => value.label.toUpperCase() !== 'OVERALL RATING',
+              )
+        }
       />
       <va-additional-info trigger="Additional information on comparison summary fields">
         <AccreditationModalContent />

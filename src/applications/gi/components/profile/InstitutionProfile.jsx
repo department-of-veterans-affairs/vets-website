@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -38,7 +39,8 @@ export default function InstitutionProfile({
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
-
+  // environment variable to keep ratings out of production until ready
+  const isProduction = !environment.isProduction();
   let stars = false;
   let ratingCount = 0;
   let institutionRatingIsNotNull = false;
@@ -70,7 +72,11 @@ export default function InstitutionProfile({
     ratingCount = institution.institutionRating.institutionRatingCount;
   }
   /** ************************************************************************ */
-  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars =
+    isProduction &&
+    stars &&
+    isProduction &&
+    ratingCount >= MINIMUM_RATING_COUNT;
 
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
@@ -97,9 +103,10 @@ export default function InstitutionProfile({
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
           />
-          {displayStars && (
-            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
-          )}
+          {displayStars &&
+            isProduction && (
+              <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            )}
           <JumpLink
             label="Cautionary information"
             jumpToId="cautionary-information"
@@ -136,17 +143,20 @@ export default function InstitutionProfile({
       >
         <GettingStartedWithBenefits />
       </ProfileSection>
-      {displayStars && (
-        <ProfileSection label="Veteran ratings" id="veteran-ratings">
-          <div id="profile-school-ratings">
-            <SchoolRatings
-              ratingAverage={institution.institutionRating.overallAvg}
-              ratingCount={institution.institutionRating.institutionRatingCount}
-              institutionCategoryRatings={institution.institutionRating}
-            />
-          </div>
-        </ProfileSection>
-      )}
+      {displayStars &&
+        isProduction && (
+          <ProfileSection label="Veteran ratings" id="veteran-ratings">
+            <div id="profile-school-ratings">
+              <SchoolRatings
+                ratingAverage={institution.institutionRating.overallAvg}
+                ratingCount={
+                  institution.institutionRating.institutionRatingCount
+                }
+                institutionCategoryRatings={institution.institutionRating}
+              />
+            </div>
+          </ProfileSection>
+        )}
 
       <ProfileSection
         label="Cautionary information"

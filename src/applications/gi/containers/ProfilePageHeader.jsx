@@ -3,10 +3,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import {
   convertRatingToStars,
   createId,
@@ -56,6 +54,9 @@ const ProfilePageHeader = ({
     programs,
     ownershipName,
   } = institution;
+
+  // environment variable to keep ratings out of production until ready
+  const isProduction = !environment.isProduction();
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
     physicalCity,
@@ -317,31 +318,31 @@ const ProfilePageHeader = ({
             </span>
           )}
         </div>
-        {displayStars && (
-          <div className={starClasses}>
-            <span className="vads-u-font-size--sm">
-              <RatingsStars rating={ratingAvg} />
-            </span>{' '}
-            <span className="vads-u-padding-left--1 vads-u-padding-right--1">
-              |
-            </span>{' '}
-            <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-              {stars.display} of 4
-            </span>{' '}
-            (
-            <a
-              href="#profile-school-ratings"
-              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-            >
-              See {ratingCount} ratings by Veterans
-            </a>
-            )
-          </div>
-        )}
-        {!displayStars &&
-          type.toUpperCase() !== 'OJT' && (
-            <span>Not yet rated by Veterans</span>
+        {displayStars &&
+          isProduction && (
+            <div className={starClasses}>
+              <span className="vads-u-font-size--sm">
+                <RatingsStars rating={ratingAvg} />
+              </span>{' '}
+              <span className="vads-u-padding-left--1 vads-u-padding-right--1">
+                |
+              </span>{' '}
+              <span className="vads-u-font-weight--bold vads-u-padding-right--1">
+                {stars.display} of 4
+              </span>{' '}
+              (
+              <a
+                href="#profile-school-ratings"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+              >
+                See {ratingCount} ratings by Veterans
+              </a>
+              )
+            </div>
           )}
+        {!displayStars &&
+          type.toUpperCase() !== 'OJT' &&
+          isProduction && <span>Not yet rated by Veterans</span>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
@@ -391,9 +392,6 @@ ProfilePageHeader.propTypes = {
 
 const mapStateToProps = state => ({
   compare: state.compare,
-  gibctSchoolRatings: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSchoolRatings
-  ],
 });
 
 const mapDispatchToProps = {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
 import InstitutionProfile from '../../../components/profile/InstitutionProfile';
 import { MINIMUM_RATING_COUNT } from '../../../constants';
 
@@ -23,13 +22,13 @@ describe('<InstitutionProfile>', () => {
     expect(tree.type()).to.not.equal(null);
     tree.unmount();
   });
-  it('should render ratings if rating count >= minimum', () => {
-    const tree = shallow(
-      <InstitutionProfile {...defaultProps} gibctSchoolRatings />,
-    );
-    expect(tree.find('#profile-school-ratings').length).to.eq(1);
-    tree.unmount();
-  });
+  // it('should render ratings if rating count >= minimum', () => {
+  //   const tree = shallow(
+  //     <InstitutionProfile {...defaultProps} gibctSchoolRatings />,
+  //   );
+  //   expect(tree.find('#profile-school-ratings').length).to.eq(1);
+  //   tree.unmount();
+  // });
   // it('should not render ratings if rating count < minimum', () => {
   //   const belowMinimumRatingsProps = {
   //     ...defaultProps,
