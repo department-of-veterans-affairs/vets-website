@@ -1,0 +1,52 @@
+on:
+  delete:
+    branches:
+      - '**'
+  schedule:
+    - cron: 00 00,12 * * *
+  push:
+    branches:
+      - '**'
+
+name: Preview Environment Cleanup
+
+env:
+  # DELETED_BRANCH: ${{ github.event.ref }}
+  DELETED_BRANCH: pe-deploy-image
+
+jobs:
+  # cleanup-expired-preview-environments:
+  #   name: Cleanup Expired Preview Environments
+  #   if: ${{ github.event_name }} == 'schedule'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  cleanup-deleted-branch-preview-environment:
+    name: Remove Deleted Branch Preview Environment
+    if: ${{ github.event_name }} === 'delete'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get GitHub Bot Token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout Application Infra Manifests Repository
+        uses: actions/checkout@v3
+        with:
+          repository: department-of-veterans-affairs/vsp-infra-application-manifests
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: manifests
+          fetch-depth: 0
+
+      - name: Scan values files and delete as necessary
+        run: node ./script/github-actions/pe-cleanup.js
