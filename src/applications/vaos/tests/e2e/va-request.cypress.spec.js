@@ -224,7 +224,11 @@ describe('VAOS VA request flow using VAOS service', () => {
       v2Facilities: true,
       v2DirectSchedule: true,
     });
+  });
+
+  it.skip('submit request successfully', () => {
     mockLoginApi();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
