@@ -15,9 +15,7 @@ export default function VistaSchedulingServiceAlert() {
 
   if (futureStatus === FETCH_STATUS.succeeded) {
     const hasVistaServiceFailure = !!backendServiceFailures?.meta.find(
-      backendServiceFailure =>
-        backendServiceFailure?.system === 'VSP' &&
-        backendServiceFailure?.code === 10000,
+      backendServiceFailure => backendServiceFailure?.system === 'VSP',
     );
     // const hasVistaServiceFailure = true;
     if (featureVaosV2Next && hasVistaServiceFailure) {
