@@ -25,7 +25,7 @@ jobs:
 
   cleanup-deleted-branch-preview-environment:
     name: Remove Deleted Branch Preview Environment
-    if: ${{ github.event_name }} === 'delete'
+    if: ${{ github.event_name }} == 'delete'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -65,7 +65,7 @@ jobs:
         run: node ./script/github-actions/pe-cleanup.js
 
       - name: Add and Commit change(s)
-        if: ${{ env.FILES_TO_DELETE }} == 'true'
+        if: ${{ env.FILES_TO_DELETE == 'true'}}
         uses: EndBug/add-and-commit@v7
         with:
           author_name: va-vsp-bot
