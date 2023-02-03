@@ -47,7 +47,7 @@ export const LOAN_INTENT = {
     value: 'INQUIRY',
     label: (
       <>
-        An <strong>entitlement inqury only</strong>
+        An <strong>entitlement inquiry only</strong>
       </>
     ),
     shortLabel: 'An inquiry only',

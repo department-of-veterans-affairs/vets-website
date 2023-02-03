@@ -82,3 +82,6 @@ export const selectFeatureClinicFilter = state =>
 
 export const selectFeatureAcheronService = state =>
   toggleValues(state).vaOnlineSchedulingAcheronService;
+
+export const selectFeatureRequestFlowUpdate = state =>
+  toggleValues(state).vaOnlineSchedulingRequestFlowUpdate;

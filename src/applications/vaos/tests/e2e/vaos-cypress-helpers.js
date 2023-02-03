@@ -1042,22 +1042,6 @@ export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
   }
 }
 
-export function mockPreferencesApi() {
-  cy.intercept({ method: 'GET', pathname: '/vaos/v0/preferences' }, req =>
-    req.reply({ data: {} }),
-  ).as('v0:get:preferences');
-
-  cy.intercept({ method: 'PUT', pathname: '/vaos/v0/preferences' }, req => {
-    expect(req.body).to.have.property('emailAddress', 'veteran@gmail.com');
-    expect(req.body).to.have.property('emailAllowed', true);
-    expect(req.body).to.have.property(
-      'notificationFrequency',
-      'Each new message',
-    );
-    req.reply({ data: {} });
-  }).as('v0:update:preferences');
-}
-
 export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {

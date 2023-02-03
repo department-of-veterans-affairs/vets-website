@@ -8,7 +8,6 @@ import {
   mockAppointmentsApi,
   mockCCProvidersApi,
   mockFacilitiesApi,
-  mockPreferencesApi,
   mockSupportedSitesApi,
   mockRequestEligibilityCriteriaApi,
   mockDirectBookingEligibilityCriteriaApi,
@@ -18,8 +17,6 @@ import {
   mockVisitsApi,
   mockLoginApi,
   mockCCEligibilityApi,
-  mockEligibilityApi,
-  mockFacilityApi,
   mockSchedulingConfigurationApi,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
@@ -33,14 +30,15 @@ describe('VAOS VA request flow', () => {
     mockAppointmentRequestMessagesApi();
     mockAppointmentRequestsApi();
     mockCCProvidersApi();
-    mockPreferencesApi();
+    mockFacilitiesApi({ apiVersion: 0 });
+    mockFacilitiesApi({ apiVersion: 1 });
+    mockFeatureToggles();
     mockSupportedSitesApi();
     mockRequestEligibilityCriteriaApi();
     mockDirectBookingEligibilityCriteriaApi();
     mockRequestLimitsApi();
     mockClinicApi({ facilityId: '983', apiVersion: 0 });
     mockDirectScheduleSlotsApi({ apiVersion: 0 });
-    mockPreferencesApi();
     mockVisitsApi({ facilityId: '983GB' });
   });
 
@@ -226,24 +224,7 @@ describe('VAOS VA request flow using VAOS service', () => {
       v2Facilities: true,
       v2DirectSchedule: true,
     });
-    mockPreferencesApi();
-  });
-
-  it.skip('should submit request successfully', () => {
-    mockLoginApi({ facilityId: '442' });
-    mockEligibilityApi({
-      typeOfCare: 'socialWork',
-      isEligible: true,
-    });
-    mockFacilityApi({ id: '442HK', apiVersion: 2 });
-    // VATS Settings
-    mockSchedulingConfigurationApi({
-      facilityIds: ['442', '442HK'],
-      typeOfCareId: 'socialWork',
-      isRequest: true,
-    });
-    mockVamcEhr();
-
+    mockLoginApi();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 

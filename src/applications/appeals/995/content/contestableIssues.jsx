@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import { MAX_LENGTH } from '../constants';
@@ -78,6 +79,17 @@ export const NoIssuesLoadedAlert = ({ submitted }) => {
     [wrapAlert, submitted],
   );
 
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'error',
+    'alert-box-heading': 'Sorry, we couldn’t find any eligible issues',
+    'error-key': 'missing_eligible_issues',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+    'reason-for-alert': 'Missing eligible issues',
+  });
+
   return (
     <div ref={wrapAlert}>
       <va-alert status="error" class="vads-u-margin-bottom--2">
@@ -112,6 +124,22 @@ export const NoneSelectedAlert = ({ count }) => {
     },
     [wrapAlert],
   );
+
+  const title = `You’ll need to ${
+    count === 0 ? 'add, and select,' : 'select'
+  } an issue`;
+
+  recordEvent({
+    event: 'visible-alert-box',
+    'alert-box-type': 'error',
+    'alert-box-heading': title,
+    'error-key': 'no_issues_selected',
+    'alert-box-full-width': false,
+    'alert-box-background-only': false,
+    'alert-box-closeable': false,
+    'reason-for-alert': 'Missing eligible issues',
+  });
+
   return (
     <div ref={wrapAlert}>
       <va-alert status="error" class="vads-u-margin-bottom--2">
@@ -119,9 +147,7 @@ export const NoneSelectedAlert = ({ count }) => {
           slot="headline"
           className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
         >
-          {`You’ll need to ${
-            count === 0 ? 'add, and select,' : 'select'
-          } an issue`}
+          {title}
         </h3>
         <p>{noneSelected}</p>
       </va-alert>
