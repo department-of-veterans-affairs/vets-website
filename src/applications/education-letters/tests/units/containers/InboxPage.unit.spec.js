@@ -37,9 +37,7 @@ describe('Render as a logged in user <InboxPage />', () => {
       </Provider>,
     );
 
-    expect(wrapper.html()).to.include(
-      'Download your VA education decision letter',
-    );
+    expect(wrapper.html()).to.include('Your VA education letter');
 
     expect(wrapper.html()).to.include('November 03, 2022');
     wrapper.unmount();
@@ -71,11 +69,11 @@ describe('Render as a logged in user <InboxPage />', () => {
     );
 
     expect(wrapper.html()).to.include(
-      'Your decision letter isn’t available online',
+      'Your education decision letter isn’t available',
     );
 
     expect(wrapper.html()).to.include(
-      'Your letter won’t be here if 1 of these situations is true for you:',
+      'If you applied for Post-9/11 GI Bill benefits on VA.gov',
     );
     wrapper.unmount();
   });

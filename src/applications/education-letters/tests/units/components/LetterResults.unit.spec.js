@@ -51,7 +51,7 @@ describe('Render letter results UI', () => {
     );
 
     expect(wrapper.text()).to.include(
-      'Your decision letter isn’t available online',
+      'Your education decision letter isn’t available',
     );
     expect(wrapper.text()).to.not.include(
       'Letter available for you to download',
