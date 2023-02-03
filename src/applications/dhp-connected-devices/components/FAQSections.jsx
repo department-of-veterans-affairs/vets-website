@@ -55,10 +55,10 @@ export const FirstFAQSection = () => {
         >
           A connected device is any device that can connect to the internet so
           that it can communicate with other devices or computers. Examples of
-          connected devices including smartphones, wearable fitness trackers
-          (like a Fitbit), or a connected blood pressure cuff. Many connected
-          devices let you share your data from the device with other people such
-          as your care provider. If your VA care team asked you to connect your
+          connected devices include smartphones, wearable fitness trackers (like
+          a Fitbit), or a connected blood pressure cuff. Many connected let you
+          share your data from the device with other people such as your care
+          provider. If your VA care team asked you to connect your device,
           device, they will be able to access the data you choose to share.
         </va-accordion-item>
       </va-accordion>
@@ -92,8 +92,8 @@ export const SecondFAQSection = () => {
           <p />
           <ol>
             <li>
-              Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
-              account
+              <strong>Sign in</strong> to VA.gov with your DS Logon, My
+              HealtheVet, or ID.me account
               <ol type="a">
                 <li>
                   <a href="https://www.va.gov/resources/signing-in-to-vagov/">
@@ -112,8 +112,13 @@ export const SecondFAQSection = () => {
           </ol>
           <p />
           Watch this{' '}
-          <a href="https://www.youtube.com/watch?v=37aRcEZ3vyo">video</a> for
-          detailed instructions on how to connect your device.
+          <a
+            href="https://www.youtube.com/watch?v=37aRcEZ3vyo"
+            aria-label="This video will help Veterans connect their Fitbit device to va.gov"
+          >
+            video
+          </a>{' '}
+          for detailed instructions on how to connect your device.
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
@@ -129,8 +134,8 @@ export const SecondFAQSection = () => {
           <p />
           <ol>
             <li>
-              Sign in to VA.gov with your DS Logon, My HealtheVet, or ID.me
-              account
+              <strong>Sign in</strong> to VA.gov with your DS Logon, My
+              HealtheVet, or ID.me account
               <ol type="a">
                 <li>
                   <a href="https://www.va.gov/resources/signing-in-to-vagov/">
@@ -144,14 +149,19 @@ export const SecondFAQSection = () => {
               name
             </li>
             <li>
-              Confirm you would like to disconnect the device by selecting
-              Disconnect Device
+              Confirm you would like to disconnect the device by selecting{' '}
+              <strong>Disconnect Device</strong>
             </li>
           </ol>
           <p />
           Watch this{' '}
-          <a href="https://www.youtube.com/watch?v=37aRcEZ3vyo">video</a> for
-          detailed instructions on how to disconnect your device.
+          <a
+            href="https://www.youtube.com/watch?v=37aRcEZ3vyo"
+            aria-label="This video will help Veterans disconnect their Fitbit device to va.gov"
+          >
+            video
+          </a>{' '}
+          for detailed instructions on how to disconnect your device.
         </va-accordion-item>
         <va-accordion-item
           header="What information can VA access from the devices that I have connected on VA.gov?"
@@ -159,7 +169,7 @@ export const SecondFAQSection = () => {
           aria-controls="dhp-faq-second-section-third-question"
           data-testid="faq-second-section-third-question"
         >
-          When you connect a device, such as a Fitbit , you will be able to
+          When you connect a device, such as a Fitbit, you will be able to
           choose the type of data (for example, heart rate, exercise, sleep,
           activity, and/or diet data) to share with the VA and your care team as
           part of the Pilot.
@@ -231,13 +241,8 @@ export const ThirdFAQSection = () => {
           <a href="https://myhelp.fitbit.com/s/support?language=en_US">
             Fitbit support website
           </a>{' '}
-          or call{' '}
-          <va-telephone
-            contact="8776234997"
-            aria-label="8 7 7. 6 2 3. 4 9 9 7."
-            international
-          />{' '}
-          for Fitbit related help.
+          or call <va-telephone contact="8776234997" international /> for Fitbit
+          related help.
           <ul>
             <li>I cannot log into my Fitbit account</li>
             <li>My Fitbit isn’t syncing</li>
@@ -247,7 +252,7 @@ export const ThirdFAQSection = () => {
           </ul>
         </va-accordion-item>
         <va-accordion-item
-          header="I can’t login or need help with my VA account"
+          header="I can’t log in or need help with my VA account"
           id="dhp-faq-third-section-second-question"
           aria-controls="dhp-faq-third-section-second-question"
           data-testid="faq-third-section-second-question"
@@ -259,44 +264,22 @@ export const ThirdFAQSection = () => {
           below:
           <ul>
             <li>
-              Login.gov - Access the Login.gov help center at{' '}
-              <va-telephone
-                contact="8448756446"
-                aria-label="8 4 4. 8 7 5. 6 4 4 6."
-                international
-              />
+              <strong>Login.gov</strong> - Access the Login.gov help center at{' '}
+              <va-telephone contact="8448756446" international />
             </li>
             <li>
-              ID.me - Go to the ID.me help center at{' '}
-              <va-telephone
-                contact="8559274363"
-                aria-label="8 5 5. 9 2 7. 4 3 6 3."
-                international
-              />
+              <strong>ID.me</strong> - Go to the ID.me help center at{' '}
+              <va-telephone contact="8559274363" international />
             </li>
             <li>
-              DS Logon - Call the DMDC Support Office at{' '}
-              <va-telephone
-                contact="8005389552"
-                aria-label="8 0 0. 5 3 8. 9 5 5 2."
-                international
-              />
+              <strong>DS Logon</strong> - Call the DMDC Support Office at{' '}
+              <va-telephone contact="8005389552" international />
             </li>
             <li>
-              My HealtheVet - Contact the My HealtheVet Help Desk at{' '}
-              <va-telephone
-                contact="8773270022"
-                aria-label="8 7 7. 3 2 7. 0 0 2 2."
-                international
-              />{' '}
-              or{' '}
-              <va-telephone
-                contact="8008778339"
-                aria-label="TTY. 8 0 0. 8 7 7. 8 3 3 9."
-                tty
-                international
-              />{' '}
-              (TTY), Monday to 7:00 a.m. — 7:00 p.m. (Central Time)
+              <strong>My HealtheVet</strong> - Contact the My HealtheVet Help
+              Desk at <va-telephone contact="8773270022" international /> or{' '}
+              <va-telephone contact="8008778339" tty international /> (TTY),
+              Monday to 7:00 a.m. — 7:00 p.m. (Central Time)
             </li>
             <ul>
               <li>
