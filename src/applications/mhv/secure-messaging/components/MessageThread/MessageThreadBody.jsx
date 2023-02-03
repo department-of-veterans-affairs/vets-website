@@ -14,7 +14,7 @@ const MessageThreadBody = props => {
       }
     >
       <>
-        <pre>
+        <pre className="vads-u-margin-y--0">
           {words.map(word => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (

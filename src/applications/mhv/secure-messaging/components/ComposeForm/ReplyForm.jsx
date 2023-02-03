@@ -379,7 +379,7 @@ const ReplyForm = props => {
             </p>
           </section>
 
-          <section aria-label="Message body.">
+          <section aria-label="Message body." className="vads-u-margin-top--1">
             <MessageThreadBody text={replyMessage.body} />
           </section>
 
