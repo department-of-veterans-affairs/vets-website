@@ -17,44 +17,47 @@ const isJson = response => {
   return contentType && contentType.includes('application/json');
 };
 
+const retryOn = async (attempt, error, response) => {
+  if (error) return false;
+
+  const clonedResponse = await response.clone();
+  const errorResponse =
+    clonedResponse.status === 403
+      ? await clonedResponse
+          ?.clone()
+          ?.json()
+          .catch(() => clonedResponse.text())
+      : clonedResponse?.clone();
+
+  if (
+    errorResponse?.errors === 'Access token has expired' &&
+    infoTokenExists() &&
+    attempt < 1
+  ) {
+    await refresh({ type: sessionStorage.getItem('serviceName') });
+
+    return true;
+  }
+  return false;
+};
+
 export function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
   if (fetch.isSinonProxy || window.Cypress) {
     return fetch(url, settings);
   }
 
-  const originalFetch = isomorphicFetch;
-  const mergedSettings = {
-    ...settings,
-    async retryOn(attempt, error, response) {
-      if (error) return false;
-
-      const clonedResponse = await response.clone();
-      const errorResponse =
-        clonedResponse.status === 403
-          ? await clonedResponse
-              ?.clone()
-              ?.json()
-              .catch(() => clonedResponse.text())
-          : clonedResponse?.clone();
-
-      if (
-        errorResponse?.errors === 'Access token has expired' &&
-        infoTokenExists() &&
-        attempt < 1
-      ) {
-        await refresh({
-          type: sessionStorage.getItem('serviceName'),
-        });
-
-        return true;
-      }
-      return false;
-    },
-  };
+  const shouldReleaseToLowers = process.env.BUILDTYPE !== 'production';
 
   // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = retryFetch(originalFetch);
+  const _fetch = shouldReleaseToLowers ? retryFetch(isomorphicFetch) : fetch;
+  const mergedSettings = {
+    ...settings,
+    ...(shouldReleaseToLowers && {
+      retryOn,
+    }),
+  };
+
   return _fetch(url, mergedSettings).then(response => {
     const apiURL = environment.API_URL;
 
