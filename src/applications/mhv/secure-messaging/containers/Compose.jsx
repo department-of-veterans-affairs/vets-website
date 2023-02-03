@@ -10,6 +10,8 @@ import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import AlertBox from '../components/shared/AlertBox';
+import { closeAlert } from '../actions/alerts';
 import { DefaultFolders } from '../util/constants';
 
 const Compose = () => {
@@ -21,7 +23,9 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
+  const alert = useSelector(state => state.sm.alerts.alert);
   const [replyMessage, setReplyMessage] = useState(null);
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -42,7 +46,28 @@ const Compose = () => {
         dispatch(retrieveMessage(draftId, true));
       }
     },
-    [isDraftPage, draftId, activeFolder, dispatch, history],
+    [isDraftPage, draftId, activeFolder, dispatch, history, location.pathname],
+  );
+
+  // Waiting for additional response data
+  useEffect(
+    () => {
+      if (alert?.header !== null) {
+        setcannotReplyAlert(cannotReplyAlert);
+      }
+    },
+    [alert?.header, cannotReplyAlert, dispatch, draftId, location.pathname],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useEffect(
@@ -52,7 +77,7 @@ const Compose = () => {
         setReplyMessage(messageHistory.shift());
       }
     },
-    [messageHistory],
+    [messageHistory, replyMessage],
   );
 
   let pageTitle;
@@ -87,7 +112,11 @@ const Compose = () => {
     if (messageHistory) {
       return (
         <>
-          <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
+          <ReplyForm
+            draftToEdit={draftMessage}
+            replyMessage={replyMessage}
+            cannotReplyAlert={cannotReplyAlert}
+          />
           {replyMessage &&
             messageHistory?.length > 1 && (
               <MessageThread messageHistory={messageHistory.slice(1)} />
@@ -100,7 +129,7 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
-      <AlertBackgroundBox closeable />
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
       {!replyMessage && (
         <>
           <h1 className="page-title" ref={header}>
