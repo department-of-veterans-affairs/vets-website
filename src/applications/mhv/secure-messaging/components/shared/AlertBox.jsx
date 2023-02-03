@@ -47,11 +47,9 @@ const AlertBox = () => {
           {activeAlert.header}
         </h2>
         <p>{activeAlert.content}</p>
-        <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1">
-          <Link
-            className={`alertbox-link ${activeAlert.className}`}
-            to={`${activeAlert.link}`}
-          >
+        <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
+          <Link className="alertbox-link" to={`${activeAlert.link}`}>
+            <i className={activeAlert.className} />
             {activeAlert.title}
           </Link>
         </p>
