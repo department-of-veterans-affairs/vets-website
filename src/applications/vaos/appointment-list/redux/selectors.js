@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
+import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -20,7 +21,6 @@ import {
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
-  selectIsCernerOnlyPatient,
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,

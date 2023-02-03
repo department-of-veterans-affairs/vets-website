@@ -18,10 +18,6 @@ const App = ({ user }) => {
         </div>
       );
     }
-    if (user?.login?.currentlyLoggedIn) {
-      window.location.href = '/education/download-letters/letters';
-    }
-
     return <LoginWidget />;
   }
 

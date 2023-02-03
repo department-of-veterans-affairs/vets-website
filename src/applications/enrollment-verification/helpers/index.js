@@ -131,20 +131,20 @@ export const convertNumberToStringWithMinimumDigits = (n, minDigits) => {
  * * if today is 2022-03-25 and the given date is 2022-02-01,
  *   return false;
  *
- * @param {string} lastCertifiedThroughDate The date through which
+ * @param {string} earliestUncertifiedEndDate The date through which
  * enrollments have been verified.
  */
-export const monthlyPaymentsPaused = lastCertifiedThroughDate => {
+export const monthlyPaymentsPaused = earliestUncertifiedEndDate => {
   const now = new Date().toISOString();
 
-  if (now <= lastCertifiedThroughDate) {
+  if (now <= earliestUncertifiedEndDate) {
     return false;
   }
 
   // Given the last certified-through date, generate the date
   // when payments will paused and compare it with the current
   // date.
-  const dateSplit = lastCertifiedThroughDate.split('-');
+  const dateSplit = earliestUncertifiedEndDate.split('-');
   let year = parseInt(dateSplit[0], 10);
   let month =
     (parseInt(dateSplit[1], 10) + PAYMENT_PAUSED_NUMBER_OF_MONTHS) % 12;

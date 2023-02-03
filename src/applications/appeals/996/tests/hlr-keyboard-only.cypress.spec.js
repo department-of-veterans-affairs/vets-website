@@ -50,8 +50,8 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.injectAxeThenAxeCheck();
 
       // Wizard
-      cy.tabToElement('input[name="higher-level-review-option"]');
-      cy.chooseRadio('compensation');
+      cy.tabToElement('va-radio-option');
+      cy.realPress('Space');
       cy.tabToStartForm();
 
       // Intro page
