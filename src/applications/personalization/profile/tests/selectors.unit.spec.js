@@ -424,33 +424,6 @@ describe('profile selectors', () => {
     });
   });
 
-  describe('fullNameLoadError', () => {
-    it('should return the error data if it exists', () => {
-      const state = {
-        vaProfile: {
-          hero: {
-            errors,
-          },
-        },
-      };
-      expect(selectors.fullNameLoadError(state)).to.deep.equal(errors);
-    });
-    it('should return undefined if there are no errors', () => {
-      const state = {
-        vaProfile: {
-          hero: {},
-        },
-      };
-      expect(selectors.fullNameLoadError(state)).to.be.undefined;
-    });
-    it('should return undefined if hero info does not exist on the state', () => {
-      let state = {};
-      expect(selectors.fullNameLoadError(state)).to.be.undefined;
-      state = { vaProfile: {} };
-      expect(selectors.fullNameLoadError(state)).to.be.undefined;
-    });
-  });
-
   describe('personalInformationLoadError', () => {
     it('should return the error data if it exists', () => {
       const state = {
