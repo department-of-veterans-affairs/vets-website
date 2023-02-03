@@ -15,7 +15,7 @@ const InboxPage = ({
   TOEClaimStatusFetchComplete,
 }) => {
   const [fetchedClaimStatus, setFetchedClaimStatus] = useState(null);
-  const isLoggedIn = useRef(false);
+  const isLoggedIn = useRef(user?.login?.currentlyLoggedIn);
 
   useEffect(
     () => {
@@ -63,10 +63,6 @@ const InboxPage = ({
       );
     }
 
-    // let mockClaimStatus = {
-    //   claimStatus: 'ELIGIBLE',
-    //   receivedDate: '2020-12-12',
-    // };
     if (MEBClaimStatusFetchComplete || TOEClaimStatusFetchComplete) {
       if (['ELIGIBLE', 'DENIED'].includes(claimStatus?.claimStatus)) {
         return <HasLetters claimStatus={claimStatus} />;
@@ -119,7 +115,7 @@ const mapStateToProps = state => {
     !['ERROR', 'SUBMITTED'].includes(TOEClaimStatus?.claimStatus)
   ) {
     latestClaim =
-      MEBClaimStatus?.receivedDate > TOEClaimStatus?.receivedDate
+      MEBClaimStatus?.receivedDate >= TOEClaimStatus?.receivedDate
         ? { ...MEBClaimStatus }
         : { ...TOEClaimStatus };
   } else if (['ELIGIBLE', 'DENIED'].includes(MEBClaimStatus?.claimStatus)) {
