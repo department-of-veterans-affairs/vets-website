@@ -101,7 +101,6 @@ describe('Render as a logged in user <InboxPage />', () => {
         <InboxPage />,
       </Provider>,
     );
-
     expect(wrapper.html()).to.include(
       'Please wait while we load the application for you',
     );

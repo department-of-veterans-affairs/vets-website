@@ -20,10 +20,9 @@ describe('Render letter results UI', () => {
       </Provider>,
     );
 
-    expect(wrapper.text()).to.not.include(
-      'Your decision letter isn’t available online',
+    expect(wrapper.text()).to.include(
+      'Your education decision letter is available',
     );
-    expect(wrapper.text()).to.include('Your decision letter is available');
     wrapper.unmount();
   });
 
@@ -34,11 +33,9 @@ describe('Render letter results UI', () => {
         <HasLetters claimStatus={TOEClaimStatus} />
       </Provider>,
     );
-
-    expect(wrapper.text()).to.not.include(
-      'Your decision letter isn’t available online',
+    expect(wrapper.text()).to.include(
+      ' Your education decision letter is available',
     );
-    expect(wrapper.text()).to.include('Your decision letter is available');
     wrapper.unmount();
   });
 
@@ -52,9 +49,6 @@ describe('Render letter results UI', () => {
 
     expect(wrapper.text()).to.include(
       'Your education decision letter isn’t available',
-    );
-    expect(wrapper.text()).to.not.include(
-      'Letter available for you to download',
     );
     wrapper.unmount();
   });
