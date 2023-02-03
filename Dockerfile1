@@ -1,0 +1,32 @@
+# based on https://github.com/nodejs/docker-node/blob/master/4.7/slim/Dockerfile
+
+FROM public.ecr.aws/bitnami/node:14.15.5
+
+RUN mkdir -p /website/vets-website
+WORKDIR /website/vets-website
+
+COPY . .
+# setting up vets-website
+RUN yarn install
+RUN yarn build
+
+WORKDIR /website
+
+RUN git clone https://github.com/department-of-veterans-affairs/vagov-content
+RUN git clone https://github.com/department-of-veterans-affairs/content-build
+RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema
+RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+
+WORKDIR /website/content-build
+
+# setting up content-build
+RUN yarn install
+RUN cp .env.example .env
+RUN yarn fetch-drupal-cache
+RUN yarn build
+
+EXPOSE 3002
+EXPOSE 3001
+EXPOSE 3000
+
+CMD ["/bin/bash", "-c", "cd /website/vets-website && yarn watch; cd /website/content-build && yarn watch"]
