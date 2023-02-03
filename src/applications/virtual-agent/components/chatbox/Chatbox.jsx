@@ -84,7 +84,7 @@ export default function Chatbox(props) {
   useEffect(() => {
     window.addEventListener('bot-incoming-activity', event => {
       setTimeoutID(event.data);
-      if (timeoutID !== null) {
+      if (timeoutID) {
         clearTimeout(timeoutID);
       }
     });

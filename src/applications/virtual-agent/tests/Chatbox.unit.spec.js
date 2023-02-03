@@ -959,4 +959,38 @@ describe('App', () => {
       });
     });
   });
+  describe('when receiving a new message event', () => {
+    it('resets timer', async () => {
+      const fakeClearTimeout = sandbox.stub(global, 'clearTimeout');
+      sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
+      const unacknowledgedUserStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: false },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'Steve' } },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+      renderInReduxProvider(
+        <Chatbox {...defaultProps} />,
+        unacknowledgedUserStore,
+      );
+      const incomingActivityEvent1 = new Event('bot-incoming-activity');
+      const testNumber = 7;
+      incomingActivityEvent1.data = testNumber;
+      window.dispatchEvent(incomingActivityEvent1);
+      sandbox.clock.tick(1);
+      expect(fakeClearTimeout.called).to.be.false;
+
+      const incomingActivityEvent2 = new Event('bot-incoming-activity');
+      incomingActivityEvent2.data = 108;
+      window.dispatchEvent(incomingActivityEvent2);
+      sandbox.clock.tick(10);
+      expect(fakeClearTimeout.called).to.be.true;
+      expect(fakeClearTimeout.getCall(0).args[0]).to.equal(testNumber);
+    });
+  });
 });
