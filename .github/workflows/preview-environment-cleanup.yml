@@ -13,6 +13,7 @@ name: Preview Environment Cleanup
 env:
   # DELETED_BRANCH: ${{ github.event.ref }}
   DELETED_BRANCH: pe-deploy-image
+  CURRENT_REPOSITORY: ${{ github.event.repository.name }}
 
 jobs:
   # cleanup-expired-preview-environments:
@@ -62,3 +63,14 @@ jobs:
 
       - name: Scan values files and delete as necessary
         run: node ./script/github-actions/pe-cleanup.js
+
+      - name: Add and Commit change(s)
+        if: ${{ env.FILES_TO_DELETE }} == true
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: va-vsp-bot
+          author_email: devops@va.gov
+          branch: main
+          cwd: manifests/apps/preview-environment/dev/
+          add: 'environment-values'
+          message: 'Remove values file for deleted branch'
