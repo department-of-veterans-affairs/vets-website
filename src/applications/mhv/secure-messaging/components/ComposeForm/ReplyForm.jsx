@@ -13,9 +13,10 @@ import DeleteDraft from '../Draft/DeleteDraft';
 import { sendReply } from '../../actions/messages';
 import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { dateFormat, urlRegex, httpRegex } from '../../util/helpers';
+import { dateFormat } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { draftAutoSaveTimeout } from '../../util/constants';
+import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage } = props;
@@ -40,7 +41,6 @@ const ReplyForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
-  const words = replyMessage?.body.split(/\s/g);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
   const history = useHistory();
@@ -380,16 +380,7 @@ const ReplyForm = props => {
           </section>
 
           <section aria-label="Message body.">
-            <pre>
-              {words.map(word => {
-                return (word.match(urlRegex) || word.match(httpRegex)) &&
-                  words.length >= 1 ? (
-                  <a href={word}>{`${word} `}</a>
-                ) : (
-                  `${word} `
-                );
-              })}
-            </pre>
+            <MessageThreadBody text={replyMessage.body} />
           </section>
 
           {!!replyMessage.attachments &&

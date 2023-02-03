@@ -18,7 +18,7 @@ const MessageThreadBody = props => {
           {words.map(word => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (
-              <a href={word}>{`${word} `}</a>
+              <a href={word} target="_blank" rel="noreferrer">{`${word} `}</a>
             ) : (
               `${word} `
             );
