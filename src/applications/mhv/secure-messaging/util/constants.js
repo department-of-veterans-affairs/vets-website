@@ -70,7 +70,7 @@ export const Errors = {
 export const Links = {
   Link: {
     CANNOT_REPLY: {
-      CLASSNAME: 'vads-c-action-link--blue vads-u-margin-top--1',
+      CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
       TITLE: 'Start a new message',
       TO: '/compose',
     },
