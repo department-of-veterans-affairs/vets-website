@@ -5,7 +5,6 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
-import sinon from 'sinon';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import TravelPage from './index';
 import i18n from '../../../utils/i18n/i18n';
@@ -32,17 +31,6 @@ describe('Check-in experience', () => {
       store = mockStore(initState);
     });
     describe('TravelPage', () => {
-      it('calls createHref', () => {
-        mockRouter.createHref = sinon.spy();
-        render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <TravelPage router={mockRouter} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(mockRouter.createHref.calledOnce).to.be.true;
-      });
       it('renders custom header, body, and helptext', () => {
         const { getByText } = render(
           <Provider store={store}>

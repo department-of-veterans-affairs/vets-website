@@ -6,10 +6,9 @@ describe('Pre check in', () => {
   describe('unit test utils', () => {
     const customFunction = () => {};
     describe('createMockRouter', () => {
-      it('returns an object with push and createHref as a function, location and params as an object', () => {
+      it('returns an object with push as a function, location and params as an object', () => {
         const result = createMockRouter();
         expect(result.push).to.be.a('function');
-        expect(result.createHref).to.be.a('function');
         expect(result.location).to.be.an('object');
         expect(result.params).to.be.an('object');
       });
@@ -17,11 +16,6 @@ describe('Pre check in', () => {
         const push = customFunction;
         const result = createMockRouter({ push });
         expect(result.push).to.equal(customFunction);
-      });
-      it('should return custom createHref function that was passed in', () => {
-        const createHref = customFunction;
-        const result = createMockRouter({ createHref });
-        expect(result.createHref).to.equal(customFunction);
       });
       it('returns location with a pathname that was passed at the currentPage', () => {
         const currentPage = '/test';

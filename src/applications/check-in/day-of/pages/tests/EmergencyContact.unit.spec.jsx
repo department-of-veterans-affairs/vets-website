@@ -67,18 +67,6 @@ describe('check in', () => {
         .exist;
     });
 
-    it('calls createHref', () => {
-      mockRouter.createHref = sinon.spy();
-      render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <EmergencyContact router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-      expect(mockRouter.createHref.calledOnce).to.be.true;
-    });
-
     it('shows emergency contact fields, with message for empty data', () => {
       const updatedStore = {
         checkInData: {

@@ -67,18 +67,6 @@ describe('check in', () => {
       expect(component.getByText('445 Fine Finch Fairway')).to.exist;
       expect(component.queryByText('Not available')).to.be.null;
     });
-    it('calls createHref', () => {
-      mockRouter.createHref = sinon.spy();
-      render(
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <NextOfKin router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-      expect(mockRouter.createHref.calledOnce).to.be.true;
-    });
-
     it('shows "Not available" for unavailable fields', () => {
       const updatedStore = {
         checkInData: {

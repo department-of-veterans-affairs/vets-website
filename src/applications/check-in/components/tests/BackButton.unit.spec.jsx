@@ -44,7 +44,7 @@ describe('check-in', () => {
             <BackButton
               action={goBack}
               router={mockRouterThirdPage}
-              prevUrl="second-page"
+              prevUrl="/second-page"
             />
           </I18nextProvider>
         </Provider>,

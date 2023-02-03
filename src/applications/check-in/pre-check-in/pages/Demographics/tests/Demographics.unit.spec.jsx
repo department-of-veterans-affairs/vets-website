@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { I18nextProvider } from 'react-i18next';
-import sinon from 'sinon';
 
 import i18n from '../../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
@@ -69,17 +68,6 @@ const initState = {
 describe('pre-check-in', () => {
   describe('Demographics sub message', () => {
     const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
-    it('calls createHref', () => {
-      mockRouter.createHref = sinon.spy();
-      render(
-        <Provider store={subStore}>
-          <I18nextProvider i18n={i18n}>
-            <Demographics router={mockRouter} />
-          </I18nextProvider>
-        </Provider>,
-      );
-      expect(mockRouter.createHref.calledOnce).to.be.true;
-    });
     it('renders the sub-message for an in-person appointment', () => {
       const component = render(
         <Provider store={subStore}>
