@@ -1,17 +1,15 @@
 const fs = require('fs');
 
 /* eslint-disable no-console */
-const valuesFiles = fs.readdirSync(
-  './manifests/apps/preview-environment/dev/environment-values/',
-);
+const valuesFiles = fs
+  .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
+  .filter(file => file.includes(process.env.DELETED_BRANCH));
 
-console.log(
-  valuesFiles.filter(file => file.includes(process.env.DELETED_BRANCH)),
-);
+console.log(valuesFiles);
 
 valuesFiles.forEach(file => {
   try {
-    fs.unlink(
+    fs.unlinkSync(
       `./manifests/apps/preview-environment/dev/environment-values/${file}`,
     );
   } catch (error) {
