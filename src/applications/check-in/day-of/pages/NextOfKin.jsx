@@ -67,7 +67,7 @@ const NextOfKin = props => {
       <BackButton
         router={router}
         action={goToPreviousPage}
-        prevUrl={router.createHref(getPreviousPageFromRouter())}
+        prevUrl={getPreviousPageFromRouter()}
       />
       <NextOfKinDisplay
         nextOfKin={nextOfKin}

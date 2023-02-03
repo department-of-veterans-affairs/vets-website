@@ -39,7 +39,7 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
       <BackButton
         router={router}
         action={goToPreviousPage}
-        prevUrl={router.createHref(getPreviousPageFromRouter())}
+        prevUrl={getPreviousPageFromRouter()}
       />
       <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
         {bodyText && (

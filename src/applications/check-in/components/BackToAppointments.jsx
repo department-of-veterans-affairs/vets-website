@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
@@ -31,13 +31,13 @@ const BackToAppointments = ({ router }) => {
         aria-live="polite"
         className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile vads-u-margin-top--2 vads-u-padding-left--0"
       >
-        <a
+        <Link
           onClick={handleClick}
-          href={`${router.location.basename}/${URLS.DETAILS}`}
+          to={URLS.DETAILS}
           data-testid="go-to-appointments-button"
         >
           {t('back-to-todays-appointments')}
-        </a>
+        </Link>
       </nav>
     </>
   );

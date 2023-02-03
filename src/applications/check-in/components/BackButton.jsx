@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router';
 
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -10,7 +11,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 
 const BackButton = props => {
-  const { action, prevUrl = '#back', router, text = null } = props;
+  const { action, prevUrl, router, text = null } = props;
   const {
     getCurrentPageFromRouter,
     getPreviousPageFromRouter,
@@ -44,9 +45,9 @@ const BackButton = props => {
       >
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
-            <a onClick={handleClick} href={prevUrl} data-testid="back-button">
+            <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
               {text || t('back-to-last-screen')}
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

@@ -52,7 +52,7 @@ const EmergencyContact = props => {
       <BackButton
         action={goToPreviousPage}
         router={router}
-        prevUrl={router.createHref(getPreviousPageFromRouter())}
+        prevUrl={getPreviousPageFromRouter()}
       />
       <EmergencyContactDisplay
         emergencyContact={emergencyContact}
