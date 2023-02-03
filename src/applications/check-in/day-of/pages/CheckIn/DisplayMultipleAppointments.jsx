@@ -26,7 +26,6 @@ import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, router, token } = props;
-  const { getPreviousPageFromRouter } = useFormRouting(router);
   const { t } = useTranslation();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
@@ -104,7 +103,8 @@ const DisplayMultipleAppointments = props => {
       <BackButton
         router={router}
         action={goToPreviousPage}
-        prevUrl={router.createHref(getPreviousPageFromRouter())}
+        // @TODO make this a valid url somehow
+        prevUrl="#back"
       />
       <Wrapper
         pageTitle={t('your-appointments')}
