@@ -13,7 +13,6 @@ describe('apiRequest', () => {
     server.listen();
     server.events.on('request:end', async req => {
       expected = { ...expected, request: req };
-      // console.log(req);
     });
     server.events.on('response:mocked', async res => {
       expected = { ...expected, response: res };
