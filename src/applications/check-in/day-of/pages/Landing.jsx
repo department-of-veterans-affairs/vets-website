@@ -105,6 +105,7 @@ const Landing = props => {
       setSession,
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
+      setTravelClaimData,
     ],
   );
   return (

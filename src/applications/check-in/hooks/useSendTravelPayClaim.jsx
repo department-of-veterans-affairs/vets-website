@@ -62,6 +62,7 @@ const useSendTravelPayClaim = appointment => {
     [
       getShouldSendTravelPayClaim,
       isTravelReimbursementEnabled,
+      setTravelClaimData,
       setTravelPayClaimSent,
       travelPayData,
       travelPayEligible,
