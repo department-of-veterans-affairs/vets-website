@@ -108,38 +108,40 @@ export const HasLetters = ({ claimStatus }) => {
 export const NoLetters = () => {
   return (
     <>
-      <FormTitle title="Download your education decision letter" />
+      <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
-        Check this page for your decision letter for Post-9/11 GI Bill benefits.{' '}
+        Check this page for your education decision letter for Post-9/11 GI Bill
+        benefits.{' '}
       </p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 slot="headline">Your decision letter</h2>
         <p className="va-introtext">
-          Your decision letter isn’t available online{' '}
+          Your education decision letter isn’t available{' '}
         </p>
         <div>
           <p>
-            Your letter won’t be here if 1 of these situations is true for you:
+            If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
+            receive an instant decision, your decision letter may not be
+            available here yet. It can take us up to 30 days to make a decision
+            after you submit your application. Check back soon to find out if
+            your decision letter is available.
+          </p>
+          <p>
+            You won’t be able to get your decision letter through this tool if 1
+            of these is true for you:
           </p>
           <ul>
             <li>
               {' '}
-              You did not receive an immediate decision on your most recent
-              Post-9/11 GI Bill benefits application. A decision can take up to
-              30 days after you submitted your application. Please return to
-              this page to check for your decision letter.{' '}
-            </li>
-            <li>
-              {' '}
               We made a decision on your Post-9/11 GI Bill benefits before
-              August 20, 2022
+              August 20, 2022, or{' '}
             </li>
             <li>You’re a family member or a dependent of a Veteran</li>
           </ul>
           <p>
             {' '}
-            You’ll need to contact us through Ask VA to request your decision
-            letter.
+            You can get your decision letter by contacting us online through Ask
+            VA instead.
           </p>
           <p>
             Request your VA education letter through{' '}
