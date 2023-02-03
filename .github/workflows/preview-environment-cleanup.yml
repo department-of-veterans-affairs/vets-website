@@ -25,7 +25,7 @@ jobs:
 
   cleanup-deleted-branch-preview-environment:
     name: Remove Deleted Branch Preview Environment
-    if: ${{ github.event_name }} == 'delete'
+    if: ${{ github.event_name == 'delete' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
