@@ -2128,17 +2128,10 @@ const getAppealDate = appeal => {
  * @returns {string}
  */
 const getClaimDate = claim => {
-  if (claim.type === 'education_benefits_claims') {
-    return claim.attributes.phaseChangeDate;
-  }
-
-  let phaseChangeDate = '0';
-  if (claim.attributes) {
-    phaseChangeDate = claim.attributes.phaseChangeDate;
-  } else {
-    phaseChangeDate = claim.claimPhaseDates.phaseChangeDate;
-  }
-  return phaseChangeDate || '0';
+  // START lighthouse_migration
+  const { claimPhaseDates, phaseChangeDate } = claim.attributes;
+  return phaseChangeDate || claimPhaseDates?.phaseChangeDate || '0';
+  // END lighthouse_migration
 };
 
 /**
@@ -2147,9 +2140,11 @@ const getClaimDate = claim => {
  * @returns {string}
  */
 const getDate = item => {
-  const itemType = item.type || item.claimType;
+  if (!item.attributes) {
+    return '0';
+  }
 
-  return appealTypes.includes(itemType)
+  return appealTypes.includes(item.type)
     ? getAppealDate(item)
     : getClaimDate(item);
 };

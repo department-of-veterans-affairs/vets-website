@@ -23,7 +23,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 // START lighthouse_migration
-import ClaimsListItemV1 from '../components/appeals-v2/ClaimsListItemV2';
+import ClaimsListItemEVSS from '../components/appeals-v2/ClaimsListItemV2';
 import ClaimsListItemLighthouse from '../components/ClaimsListItem';
 // END lighthouse_migration
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
@@ -141,12 +141,10 @@ class YourClaimsPageV2 extends React.Component {
     const { useLighthouse } = this.props;
     const ClaimsListItem = useLighthouse
       ? ClaimsListItemLighthouse
-      : ClaimsListItemV1;
-    // TODO: after the lighthouse migration, this should just be `claim.claimId`
-    const key = claim.claimId || claim.id;
+      : ClaimsListItemEVSS;
     // END lighthouse_migration
 
-    return <ClaimsListItem key={key} claim={claim} />;
+    return <ClaimsListItem key={claim.id} claim={claim} />;
   }
 
   renderErrorMessages() {

@@ -13,6 +13,10 @@ import { getClaimType } from '../utils/helpers';
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
 
+// START lighthouse_migration
+const isEVSSClaim = claim => claim.type === 'evss_claims';
+// END lighthouse_migration
+
 const getRecentlyClosedClaims = claims => {
   return claims
     .filter(isBenefitsClaimOrAppeal)
@@ -39,19 +43,17 @@ const getRecentlyClosedClaims = claims => {
       }
 
       // START lighthouse_migration
-      const isClosed = claim.attributes
-        ? !claim.attributes.open
-        : Boolean(claim.closeDate);
-      const closeDate = claim.attributes
-        ? claim.attributes.phaseChangeDate
-        : claim.closeDate;
+      const { closeDate, open, phaseChangeDate } = claim.attributes;
+
+      const isClosed = isEVSSClaim(claim) ? !open : Boolean(closeDate);
+      const closedDate = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
       // END lighthouse_migration
 
       // If the claim is not an appeal, we want to filter it out
       // if it was closed more than 30 days ago
       return (
         isClosed &&
-        moment(closeDate)
+        moment(closedDate)
           .startOf('day')
           .isAfter(
             moment()
@@ -81,11 +83,19 @@ const getRecentlyClosedClaims = claims => {
     });
 };
 
-const getCloseDate = claim =>
-  claim.attributes ? claim.attributes.phaseChangeDate : claim.closeDate;
+// START ligthouse_migration
+const getCloseDate = claim => {
+  const { closeDate, phaseChangeDate } = claim.attributes;
 
-const getFileDate = claim =>
-  claim.attributes ? claim.attributes.dateFiled : claim.claimDate;
+  return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
+};
+
+const getFileDate = claim => {
+  const { claimDate, dateFiled } = claim.attributes;
+
+  return isEVSSClaim(claim) ? dateFiled : claimDate;
+};
+// END lighthouse_migration
 
 const formatDate = date => moment(date).format('MMMM D, YYYY');
 
@@ -115,10 +125,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
       <div className="usa-alert-body">
         <h4 className="usa-alert-heading">Recently closed:</h4>
         {closedClaims.map(claim => (
-          <p
-            className="usa-alert-text claims-closed-text"
-            key={claim.id || claim.claimId}
-          >
+          <p className="usa-alert-text claims-closed-text" key={claim.id}>
             <Link
               to={
                 appealTypes.includes(claim.type)

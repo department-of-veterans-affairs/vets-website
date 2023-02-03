@@ -3,6 +3,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import { getClaimType } from '../utils/helpers';
+
 const statusMap = {
   CLAIM_RECEIVED: 'Claim received',
   INITIAL_REVIEW: 'Initial review',
@@ -16,20 +18,20 @@ function getStatusDescription(status) {
   return statusMap[status];
 }
 
-const getClaimType = claim => {
-  return (claim?.claimType || 'disability compensation').toLowerCase();
-};
+const formatDate = date => moment(date).format('MMMM D, YYYY');
 
 const getTitle = claim => {
-  const updatedOn = moment(claim.claimPhaseDates.phaseChangeDate).format(
-    'MMMM D, YYYY',
+  const updatedOn = formatDate(
+    claim.attributes.claimPhaseDates.phaseChangeDate,
   );
 
   return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
 };
 
 const isClaimComplete = claim => {
-  return claim.decisionLetterSent || claim.status === 'COMPLETE';
+  const { decisionLetterSent, status } = claim.attributes;
+
+  return decisionLetterSent || status === 'COMPLETE';
 };
 
 const CommunicationsItem = ({ children, icon }) => {
@@ -45,8 +47,15 @@ const CommunicationsItem = ({ children, icon }) => {
 };
 
 export default function ClaimsListItem({ claim }) {
+  const {
+    claimDate,
+    decisionLetterSent,
+    developmentLetterSent,
+    documentsNeeded,
+    status,
+  } = claim.attributes;
   const inProgress = !isClaimComplete(claim);
-  const formattedReceiptDate = moment(claim.claimDate).format('MMMM D, YYYY');
+  const formattedReceiptDate = formatDate(claimDate);
 
   // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
@@ -56,25 +65,25 @@ export default function ClaimsListItem({ claim }) {
       <div className="card-status">
         <div
           className={`status-circle ${
-            claim.status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
+            status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
           }`}
         />
         <p>
-          <strong>Status:</strong> {getStatusDescription(claim.status)}
+          <strong>Status:</strong> {getStatusDescription(status)}
         </p>
       </div>
       <ul className="communications">
-        {inProgress && claim.developmentLetterSent ? (
+        {inProgress && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
             We sent you a development letter
           </CommunicationsItem>
         ) : null}
-        {claim.decisionLetterSent && (
+        {decisionLetterSent && (
           <CommunicationsItem icon="envelope">
             You have a decision letter ready
           </CommunicationsItem>
         )}
-        {inProgress && claim.documentsNeeded ? (
+        {inProgress && documentsNeeded ? (
           <CommunicationsItem icon="exclamation-triangle">
             Items need attention
           </CommunicationsItem>
@@ -88,7 +97,7 @@ export default function ClaimsListItem({ claim }) {
       <Link
         aria-label={`View details of claim received ${formattedReceiptDate}`}
         className="vads-c-action-link--blue"
-        to={`your-claims/${claim.claimId}/status`}
+        to={`your-claims/${claim.id}/status`}
       >
         View details
       </Link>
