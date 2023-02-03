@@ -170,6 +170,17 @@ export const SecondFAQSection = () => {
           the Pilot.
         </va-accordion-item>
         <va-accordion-item
+          header="What information can VA access from the devices that I have connected on VA.gov?"
+          id="dhp-faq-second-section-third-question"
+          aria-controls="dhp-faq-second-section-third-question"
+          data-testid="faq-second-section-third-question"
+        >
+          When you connect a device, such as a Fitbit , you will be able to
+          choose the type of data (for example, heart rate, exercise, sleep,
+          activity, and/or diet data) to share with the VA and your care team as
+          part of the Pilot.
+        </va-accordion-item>
+        <va-accordion-item
           header="Who can access data from the devices I have connected on VA.gov?"
           id="dhp-faq-second-section-fourth-question"
           aria-controls="dhp-faq-second-section-fourth-question"
