@@ -31,7 +31,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
       const clonedResponse = await response.clone();
       const errorResponse =
-        isJson(response) && clonedResponse.status === 403
+        clonedResponse.status === 403
           ? await clonedResponse
               ?.clone()
               ?.json()
@@ -129,19 +129,18 @@ export function apiRequest(resource, optionalSettings, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
-      const responseClone = response.clone();
-      const data = isJson(responseClone)
-        ? responseClone?.json()
+      const data = isJson(response)
+        ? response.json()
         : Promise.resolve(response);
 
       // Get CSRF Token from API header
-      const csrfToken = responseClone.headers.get('X-CSRF-Token');
+      const csrfToken = response.headers.get('X-CSRF-Token');
 
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (responseClone.ok || responseClone.status === 304) {
+      if (response.ok || response.status === 304) {
         return data;
       }
 
@@ -149,7 +148,7 @@ export function apiRequest(resource, optionalSettings, success, error) {
         const { pathname } = window.location;
 
         const shouldRedirectToSessionExpired =
-          responseClone.status === 401 &&
+          response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
