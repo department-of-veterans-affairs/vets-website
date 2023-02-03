@@ -6,7 +6,6 @@ import { getEVData } from '../selectors';
 import { STATUS } from '../constants';
 import { STATUS_PROP_TYPE } from '../helpers';
 import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
-import VerifyYourEnrollments from './VerifyYourEnrollments';
 
 const fetchFailureAlert = (
   <va-alert status="error" visible>
@@ -47,7 +46,6 @@ const warningAlert = (
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
     </p>
-    <VerifyYourEnrollments pluralEnrollments />
   </va-alert>
 );
 
