@@ -13,8 +13,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
   }
 
   // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = fetch;
-  return _fetch(url, settings).then(response => {
+  return fetch(url, settings).then(response => {
     const apiURL = environment.API_URL;
 
     if (response.url.includes(apiURL)) {
