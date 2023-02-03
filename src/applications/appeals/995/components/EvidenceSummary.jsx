@@ -79,7 +79,6 @@ const EvidenceSummary = ({
     },
   };
   const visibleError = evidenceLength === 0;
-  const alertTabindex = visibleError ? '0' : '-1';
   const H = onReviewPage ? 'h5' : 'h3';
 
   const props = {
@@ -107,12 +106,7 @@ const EvidenceSummary = ({
             tabbable when hidden
           - Only render the alert content since the screenreader can still
             target the headers inside */}
-        <va-alert
-          id="no-evidence"
-          status="warning"
-          visible={visibleError}
-          tabindex={alertTabindex}
-        >
+        <va-alert id="no-evidence" status="warning" visible={visibleError}>
           {visibleError && (
             <>
               <H slot="headline">{content.missingEvidenceHeader}</H>

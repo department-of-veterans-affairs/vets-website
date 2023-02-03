@@ -26,7 +26,7 @@ export default function ClaimsListItem({ claim }) {
     'MMMM D, YYYY',
   );
 
-  // lighthouse_migration: Remove `vads-u-border-left--4px` and `vads-u-border-color--primary`
+  // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
   return (
     <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
