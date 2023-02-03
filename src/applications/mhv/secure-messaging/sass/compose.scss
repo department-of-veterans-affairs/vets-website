@@ -38,6 +38,13 @@
     .compose-form-div {
       margin-bottom: 24px;
     }
+    va-text-input#message-subject::part(input) {
+      max-width: 100%;
+    }
+    va-textarea#message-body::part(textarea) {
+      max-width: 100%;
+      resize: vertical;
+    }
     .compose-form-header {
       border-radius: 4px 4px 0 0;
       background-color: $color-gray-lightest;
@@ -99,6 +106,13 @@
     .compose-form-div {
       margin-bottom: 24px;
     }
+    va-text-input#message-subject::part(input) {
+      max-width: 100%;
+      // background-color: $color-gray-dark;
+    }
+    va-textarea#message-body {
+      max-width: 100%;
+    }
 
     .compose-inputs-container {
       border: 2px solid $color-gray-lightest;
@@ -142,7 +156,7 @@
 .file-input {
   .attach-file-button {
     display: block;
-    margin-bottom: 24px;
+    margin: 16px 0 24px 0;
   }
   .attach-file-button::part(button) {
     box-shadow: inset 0 0 0 2px $color-gray-dark;
@@ -161,6 +175,7 @@
 }
 
 .compose-form-actions {
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
 

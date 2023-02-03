@@ -118,6 +118,7 @@ export const Categories = {
   APPOINTMENTS: 'Appointment',
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
+  EDUCATION: 'Education',
 };
 
 export const acceptedFileTypes = {
@@ -133,4 +134,10 @@ export const acceptedFileTypes = {
   txt: 'text/plain',
   xls: 'application/vnd.ms-excel',
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+export const Attachments = {
+  MAX_FILE_COUNT: 4,
+  MAX_FILE_SIZE: 6000000,
+  TOTAL_MAX_FILE_SIZE: 10000000,
 };
