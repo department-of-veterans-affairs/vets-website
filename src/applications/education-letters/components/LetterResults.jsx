@@ -20,9 +20,6 @@ export const HasLetters = ({ claimStatus }) => {
       </p>
       <h2>Your education decision letter is available</h2>
       <div className="vads-u-margin-bottom--4">
-        <h3 className="vads-u-margin-top--2">
-          Your decision letter is available
-        </h3>
         <p>
           This decision letter is for the claim you submitted for Post-9/11 GI
           Bill benefits on the date listed here.
@@ -107,10 +104,10 @@ export const NoLetters = () => {
         benefits.{' '}
       </p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 slot="headline">Your decision letter</h2>
-        <p className="va-introtext">
-          Your education decision letter isn’t available{' '}
-        </p>
+        <h2 slot="headline">Your education decision letter isn’t available</h2>
+        {/* <p className="va-introtext"> */}
+        {/*  Your education decision letter isn’t available{' '} */}
+        {/* </p> */}
         <div>
           <p>
             If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
