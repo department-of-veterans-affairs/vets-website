@@ -126,7 +126,7 @@ src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-se
 
 # VA.gov Product Teams - Forms
 
-src/applications/simple-forms @department-of-veteran-affairs/platform-va-product-forms
+src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms
 
 # Other
 
