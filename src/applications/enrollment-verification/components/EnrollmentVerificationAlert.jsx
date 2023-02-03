@@ -47,7 +47,7 @@ const warningAlert = (
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
     </p>
-    <VerifyYourEnrollments />
+    <VerifyYourEnrollments pluralEnrollments />
   </va-alert>
 );
 
@@ -60,11 +60,10 @@ const pausedAlert = (
       We’ve paused your monthly education payments
     </h1>
     <p>
-      We had to pause your payments because you haven’t verified your
-      enrollment(s) for <strong>two months in a row</strong>. Please review and
-      verify your monthly enrollment(s) to get the payments you’re entitled to.
+      We’ve paused your payments because it’s been more than 2 months since you
+      verified your enrollment. Please review and verify your monthly
+      enrollment(s) to get the payments you’re entitled to.
     </p>
-    <VerifyYourEnrollments />
   </va-alert>
 );
 
