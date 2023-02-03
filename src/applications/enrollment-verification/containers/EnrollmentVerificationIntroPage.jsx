@@ -56,8 +56,7 @@ export function EnrollmentVerificationIntroPage({
 
   const verifyEnrollmentsButton = (
     <a
-      type="button"
-      className="usa-button-primary va-button-primary"
+      className="vads-c-action-link--green"
       href={REVIEW_ENROLLMENTS_URL}
       onClick={onVerifyEnrollmentsClick}
     >

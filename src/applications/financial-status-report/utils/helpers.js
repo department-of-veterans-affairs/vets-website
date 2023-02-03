@@ -289,12 +289,17 @@ export const getTotalAssets = ({
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
+  const formattedREValue = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const realEstate = !enhancedFSRActive
+    ? sumValues(realEstateRecords, 'realEstateAmount')
+    : formattedREValue;
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))
@@ -386,4 +391,19 @@ export const getDebtName = debt => {
 
 export const getCurrentEmploymentHistoryObject = () => {
   return null;
+};
+
+/**
+ * Convert an array into a readable list of items
+ * @param {String[]} list - Array of items. Empty entries are stripped out
+ * @returns {String}
+ * @example
+ * readableList(['1', '2', '3', '4', 'five'])
+ * // => '1, 2, 3, 4 and five'
+ */
+export const readableList = list => {
+  const cleanedList = list.filter(Boolean);
+  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
+    cleanedList.length < 2 ? '' : ' and ',
+  );
 };

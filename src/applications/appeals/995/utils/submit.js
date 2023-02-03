@@ -256,6 +256,12 @@ export const getPhone = formData => {
  * @example [{ "evidenceType": "upload" }]
  */
 /**
+ * @typedef EvidenceSubmission~none - No evidence
+ * @type {Object}
+ * @property {String} evidenceType - enum: 'none'
+ * @example [{ "evidenceType": "none" }]
+ */
+/**
  * @typedef EvidenceSubmission~evidenceDates
  * @type {Array<Object>}
  * @property {string} startDate (YYYY-MM-DD)
@@ -322,6 +328,11 @@ export const getEvidence = formData => {
   // additionalDocuments added in submit-transformer
   if (formData[EVIDENCE_OTHER] && formData.additionalDocuments.length) {
     evidenceSubmission.evidenceType.push('upload');
+  }
+  // Lighthouse wants us pass an evidence type of "none" if we're not submitting
+  // evidence
+  if (evidenceSubmission.evidenceType.length === 0) {
+    evidenceSubmission.evidenceType.push('none');
   }
   return {
     form5103Acknowledged: formData.form5103Acknowledged,

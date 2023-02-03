@@ -116,12 +116,14 @@ export function getAppealsV2() {
   };
 }
 
-function fetchClaimsSuccess(response) {
+// START lighthouse_migration
+function fetchClaimsSuccessEVSS(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims: response.data,
   };
 }
+// END lighthouse_migration
 
 export function pollRequest(options) {
   const {
@@ -179,6 +181,19 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     });
     event['api-latency-ms'] = apiLatencyMs;
   }
+
+  // There is a difference between the way that custom dimensions
+  // and metrics are dealt with in UA (Universal Analytics) vs in
+  // GA4. In UA, we push keys with dashes ('-') but in GA4 the object
+  // keys must be delimited with ('_'). So we should just include
+  // both versions for the applicable keys
+  Object.keys(event).forEach(key => {
+    if (key.includes('-')) {
+      const newKey = key.replace(/-/g, '_');
+      event[newKey] = event[key];
+    }
+  });
+
   recordEvent(event);
   if (event['error-key']) {
     recordEvent({
@@ -208,7 +223,9 @@ export function getClaimsV2(options = {}) {
     if (USE_MOCKS) {
       return mockApi
         .getClaimList()
-        .then(mockClaimsList => dispatch(fetchClaimsSuccess(mockClaimsList)));
+        .then(mockClaimsList =>
+          dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
+        );
     }
 
     return poll({
@@ -245,7 +262,7 @@ export function getClaimsV2(options = {}) {
           startTime: startTimestampMs,
           success: true,
         });
-        dispatch(fetchClaimsSuccess(response));
+        dispatch(fetchClaimsSuccessEVSS(response));
       },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,

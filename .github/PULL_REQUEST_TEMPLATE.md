@@ -6,7 +6,7 @@
 - *(Summarize the changes that have been made to the platform)*
 - *(If bug, how to reproduce)*
 - *(What is the solution, why is this the solution)*
-- *(Which team do you work for, does your team own the maintainence of this component?)*
+- *(Which team do you work for, does your team own the maintenance of this component?)*
 - *(If using a flipper, what is the end date of the flipper being required/success criteria being targeted)*
 
 ## Related issue(s)
@@ -21,6 +21,8 @@
 - *Describe what the old behavior was prior to the change*
 - *Describe the steps required to verify your changes are working as expected*
 - *Describe the tests completed and the results*
+- *Optionally, provide a link to your [test plan](https://depo-platform-documentation.scrollhelp.site/developer-docs/create-a-test-plan-in-testrail) and [test execution records](https://depo-platform-documentation.scrollhelp.site/developer-docs/execute-tests-in-testrail)*
+
 
 ## Screenshots
 _Note: This field is mandatory for component work and UI changes (non-component work should NOT have screenshots)._
@@ -43,6 +45,8 @@ _Note: This field is mandatory for component work and UI changes (non-component 
 - [ ]  Feature/bug has a monitor built into Datadog or Grafana (if applicable)
 - [ ]  If app impacted requires authentication, did you login to a local build and verify all authenticated routes work as expected
 - [ ]  I added a screenshot of the developed feature
+- [ ]  [Accessibility foundational testing](https://depo-platform-documentation.scrollhelp.site/developer-docs/wcag-2-1-success-criteria-and-foundational-testing) has been performed
+
 
 ## Requested Feedback
 

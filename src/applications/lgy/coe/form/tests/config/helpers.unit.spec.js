@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as helpers from 'platform/forms-system/src/js/helpers';
-import { customCOEsubmit } from '../../config/helpers';
+import { customCOEsubmit, getLoanIntent } from '../../config/helpers';
+import { LOAN_INTENT } from '../../constants';
 
 const form = {
   data: {
@@ -54,5 +55,14 @@ describe('customCOEsubmit', () => {
   it('should correctly format the form data', () => {
     sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
     expect(customCOEsubmit({}, form)).to.equal(result);
+  });
+});
+
+describe('getLoanIntent', () => {
+  it('should return the loan intent object based on the value', () => {
+    Object.keys(LOAN_INTENT).forEach(type => {
+      const obj = getLoanIntent(LOAN_INTENT[type].value);
+      expect(obj).to.deep.equal(LOAN_INTENT[type]);
+    });
   });
 });
