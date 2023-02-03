@@ -8,10 +8,10 @@ const createSessionStorageKeys = ({ isPreCheckIn = true }) => {
     SHOULD_SEND_DEMOGRAPHICS_FLAGS: `${namespace}.should.send.demographics.flags`,
     PROGRESS_STATE: `${namespace}.progress`,
     PERMISSIONS: `${namespace}.permissions`,
-    TRAVEL_CLAIM_DATA: `${namespace}.travel.claim.data`,
   };
   if (!isPreCheckIn) {
     sessionStorageKeys.SHOULD_SEND_TRAVEL_PAY_CLAIM = `${namespace}.should.send.travel.pay.claim`;
+    sessionStorageKeys.TRAVEL_CLAIM_DATA = `${namespace}.travel.claim.data`;
   }
   return sessionStorageKeys;
 };

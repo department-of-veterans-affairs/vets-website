@@ -62,36 +62,31 @@ describe('check-in experience', () => {
         app: 'preCheckIn',
       },
     };
-    const phoneState = {
+    const preCheckInState = {
       ...JSON.parse(JSON.stringify(initState)),
       ...scheduledDowntimeState,
     };
-    phoneState.checkInData.form.activeAppointment = 1111;
-    const inPersonState = {
+    const dayOfState = {
       ...JSON.parse(JSON.stringify(initState)),
       ...scheduledDowntimeState,
     };
-    inPersonState.checkInData.form.activeAppointment = 2222;
-    const dayOfEligibleState = {
-      ...JSON.parse(JSON.stringify(initState)),
-      ...scheduledDowntimeState,
-    };
-    dayOfEligibleState.checkInData.form.activeAppointment = 3333;
-    dayOfEligibleState.checkInData.app = 'dayOf';
-    const dayOfIneligibleState = {
-      ...JSON.parse(JSON.stringify(initState)),
-      ...scheduledDowntimeState,
-    };
-    dayOfIneligibleState.checkInData.form.activeAppointment = 4444;
-    dayOfIneligibleState.checkInData.app = 'dayOf';
+    dayOfState.checkInData.app = 'dayOf';
     describe('AppointmentDetails', () => {
       describe('Phone pre-check-in appointment', () => {
-        const phoneStore = mockStore(phoneState);
+        const phoneStore = mockStore(preCheckInState);
+        const mockRouter = {
+          params: {
+            appointmentId: '1111',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
             <Provider store={phoneStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -101,7 +96,7 @@ describe('check-in experience', () => {
           const { getByTestId } = render(
             <Provider store={phoneStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -111,7 +106,7 @@ describe('check-in experience', () => {
           const { getByRole } = render(
             <Provider store={phoneStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -119,12 +114,20 @@ describe('check-in experience', () => {
         });
       });
       describe('In person pre-check-in appointment', () => {
-        const inPersonStore = mockStore(inPersonState);
+        const mockRouter = {
+          params: {
+            appointmentId: '2222',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
+        const inPersonStore = mockStore(preCheckInState);
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
             <Provider store={inPersonStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -134,7 +137,7 @@ describe('check-in experience', () => {
           const { getByTestId } = render(
             <Provider store={inPersonStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -144,7 +147,7 @@ describe('check-in experience', () => {
           const { getByRole } = render(
             <Provider store={inPersonStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -153,12 +156,20 @@ describe('check-in experience', () => {
         });
       });
       describe('All appointments - data exists', () => {
-        const existStore = mockStore(inPersonState);
+        const existStore = mockStore(preCheckInState);
+        const mockRouter = {
+          params: {
+            appointmentId: '2222',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
         it('renders stopcode if exists', () => {
           const { getByTestId } = render(
             <Provider store={existStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -170,7 +181,7 @@ describe('check-in experience', () => {
           const { getByTestId } = render(
             <Provider store={existStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -180,7 +191,7 @@ describe('check-in experience', () => {
           const { getByTestId } = render(
             <Provider store={existStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -192,12 +203,20 @@ describe('check-in experience', () => {
         // });
       });
       describe("All appointments - data doesn't exist", () => {
-        const notExistStore = mockStore(phoneState);
+        const notExistStore = mockStore(preCheckInState);
+        const mockRouter = {
+          params: {
+            appointmentId: '1111',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
         it('renders VA appointment when no stopcode', () => {
           const { getByTestId } = render(
             <Provider store={notExistStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -209,7 +228,7 @@ describe('check-in experience', () => {
           const { queryByTestId } = render(
             <Provider store={notExistStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -219,7 +238,7 @@ describe('check-in experience', () => {
           const { queryByTestId } = render(
             <Provider store={notExistStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -231,12 +250,20 @@ describe('check-in experience', () => {
         // });
       });
       describe('Day-of check-in eligible appointment', () => {
-        const dayofEligibleStore = mockStore(dayOfEligibleState);
+        const dayOfEligibleStore = mockStore(dayOfState);
+        const mockRouter = {
+          params: {
+            appointmentId: '3333',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
         it('Renders the check-in button and no message', () => {
           const { getByTestId, queryByTestId } = render(
-            <Provider store={dayofEligibleStore}>
+            <Provider store={dayOfEligibleStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
@@ -245,12 +272,20 @@ describe('check-in experience', () => {
         });
       });
       describe('Day-of check-in ineligible appointment', () => {
-        const dayofIneligibleStore = mockStore(dayOfIneligibleState);
+        const dayOfIneligibleStore = mockStore(dayOfState);
+        const mockRouter = {
+          params: {
+            appointmentId: '4444',
+          },
+          location: {
+            pathname: '/appointment',
+          },
+        };
         it('Renders the check-in button and no message', () => {
           const { getByTestId, queryByTestId } = render(
-            <Provider store={dayofIneligibleStore}>
+            <Provider store={dayOfIneligibleStore}>
               <I18nextProvider i18n={i18n}>
-                <AppointmentDetails />
+                <AppointmentDetails router={mockRouter} />
               </I18nextProvider>
             </Provider>,
           );
