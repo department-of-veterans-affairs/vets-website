@@ -56,22 +56,24 @@ export default function ClaimsListItem({ claim }) {
   } = claim.attributes;
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = formatDate(claimDate);
-
+  const humanStatus = getStatusDescription(status);
   // lighthouse_migration: Remove `vads-u-border-left--7px` and `vads-u-border-color--primary`
   // CSS classes from `claim-list-item-container` element
   return (
     <div className="claim-list-item-container vads-u-border-left--7px vads-u-border-color--primary">
       <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
-      <div className="card-status">
-        <div
-          className={`status-circle ${
-            status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
-          }`}
-        />
-        <p>
-          <strong>Status:</strong> {getStatusDescription(status)}
-        </p>
-      </div>
+      {humanStatus && (
+        <div className="card-status">
+          <div
+            className={`status-circle ${
+              status === 'COMPLETE' ? 'closed-claim' : 'open-claim'
+            }`}
+          />
+          <p>
+            <strong>Status:</strong> {humanStatus}
+          </p>
+        </div>
+      )}
       <ul className="communications">
         {inProgress && developmentLetterSent ? (
           <CommunicationsItem icon="envelope">
