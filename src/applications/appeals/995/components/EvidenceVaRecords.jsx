@@ -25,6 +25,7 @@ import {
   validateVaFromDate,
   validateVaToDate,
   validateVaUnique,
+  isEmptyVaEntry,
 } from '../validations/evidence';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
@@ -52,7 +53,6 @@ const defaultState = {
 
 const EvidenceVaRecords = ({
   data,
-  onReviewPage,
   goBack,
   goForward,
   goToPath,
@@ -100,6 +100,7 @@ const EvidenceVaRecords = ({
   };
 
   const hasErrors = () => Object.values(errors).filter(Boolean).length;
+
   const focusErrors = () => {
     if (hasErrors()) {
       focusElement('[error]');
@@ -160,6 +161,16 @@ const EvidenceVaRecords = ({
     goToPath(`${VA_PATH}?index=${index}`);
   };
 
+  const addAndGoToPageIndex = index => {
+    const newLocations = [...locations];
+    if (!isEmptyVaEntry(locations[index])) {
+      // only insert a new entry if the existing entry isn't empty
+      newLocations.splice(index, 0, {});
+    }
+    setFormData({ ...data, locations: newLocations });
+    goToPageIndex(index);
+  };
+
   const handlers = {
     onBlur: event => {
       const fieldName = event.target.getAttribute('name');
@@ -202,8 +213,11 @@ const EvidenceVaRecords = ({
         focusElement('[error]');
         return;
       }
-      // clear state and start over for new entry
-      goToPageIndex(locations.length); // add to end
+      // clear state and insert a new entry after the current index (previously
+      // added new entry to the end). This change prevents the situation where
+      // an invalid entry in the middle of the array can get bypassed by adding
+      // a new entry
+      addAndGoToPageIndex(currentIndex + 1);
     },
     onGoForward: event => {
       event.preventDefault();
@@ -318,40 +332,6 @@ const EvidenceVaRecords = ({
       </button>
     ) : null;
 
-  const navButtons = onReviewPage ? (
-    <button type="submit">Review update button</button>
-  ) : (
-    <>
-      {contentBeforeButtons}
-      {testMethodButton}
-      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-        <div className="small-6 medium-5 columns">
-          {goBack && (
-            <ProgressButton
-              onButtonClick={handlers.onGoBack}
-              buttonText="Back"
-              buttonClass="usa-button-secondary"
-              beforeText="«"
-              // This button is described by the current form's header ID
-              ariaDescribedBy="nav-form-header"
-            />
-          )}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          <ProgressButton
-            onButtonClick={handlers.onGoForward}
-            buttonText="Continue"
-            buttonClass="usa-button-primary"
-            afterText="»"
-            // This button is described by the current form's header ID
-            ariaDescribedBy="nav-form-header"
-          />
-        </div>
-      </div>
-      {contentAfterButtons}
-    </>
-  );
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
@@ -385,6 +365,7 @@ const EvidenceVaRecords = ({
           onBlur={handlers.onBlur}
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
+          autocomplete="section-facility name"
         />
         <br />
         <VaCheckboxGroup
@@ -438,7 +419,35 @@ const EvidenceVaRecords = ({
           </Link>
         </div>
 
-        <div className="vads-u-margin-top--4">{navButtons}</div>
+        <div className="vads-u-margin-top--4">
+          {contentBeforeButtons}
+          {testMethodButton}
+          <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+            <div className="small-6 medium-5 columns">
+              {goBack && (
+                <ProgressButton
+                  onButtonClick={handlers.onGoBack}
+                  buttonText="Back"
+                  buttonClass="usa-button-secondary"
+                  beforeText="«"
+                  // This button is described by the current form's header ID
+                  aria-describedby="nav-form-header"
+                />
+              )}
+            </div>
+            <div className="small-6 medium-5 end columns">
+              <ProgressButton
+                onButtonClick={handlers.onGoForward}
+                buttonText="Continue"
+                buttonClass="usa-button-primary"
+                afterText="»"
+                // This button is described by the current form's header ID
+                aria-describedby="nav-form-header"
+              />
+            </div>
+          </div>
+          {contentAfterButtons}
+        </div>
       </fieldset>
     </form>
   );
@@ -454,7 +463,6 @@ EvidenceVaRecords.propTypes = {
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
   testingMethod: PropTypes.string,
-  onReviewPage: PropTypes.bool,
 };
 
 export default EvidenceVaRecords;

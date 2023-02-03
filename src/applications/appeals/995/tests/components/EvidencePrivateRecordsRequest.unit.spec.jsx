@@ -12,11 +12,6 @@ import {
 } from '../../constants';
 import { $, $$ } from '../../utils/ui';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 describe('<EvidencePrivateRecordsRequest>', () => {
   it('should render', () => {
     const { container } = render(
@@ -38,7 +33,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-primary', container), mouseClick);
+    fireEvent.click($('button.usa-button-primary', container));
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
     expect(goSpy.called).to.be.false;
@@ -72,7 +67,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('button.usa-button-secondary', container));
     expect(goSpy.called).to.be.true;
   });
 
@@ -85,7 +80,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
       </div>,
     );
 
-    fireEvent($('button.usa-button-secondary', container), mouseClick);
+    fireEvent.click($('button.usa-button-secondary', container));
     expect(
       goSpy.calledWith(
         `/${EVIDENCE_VA_PATH}?index=${data.locations.length - 1}`,

@@ -53,8 +53,8 @@ class Differ {
         }
       }
 
-      // check if hasUnitTests, hasE2eTests, hasContractTests has changed
-      ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(attribute => {
+      // check if hasUnitTests, hasE2eTests has changed
+      ['hasUnitTests', 'hasE2eTests'].forEach(attribute => {
         const currentValue = product[productDirectoryProps[attribute]];
         const scannedValue = scannedProduct[attribute];
 

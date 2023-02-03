@@ -18,7 +18,9 @@ import {
 import {
   preCheckinExpired,
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   preCheckinAlreadyCompleted,
+  appointmentStartTimePast15,
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
 import { useSessionStorage } from './useSessionStorage';
@@ -108,16 +110,24 @@ const useGetCheckInData = ({
               }
               const { payload } = json;
               setPreCheckInData(payload);
-              if (
-                payload.appointments &&
-                payload.appointments.length > 0 &&
-                preCheckinExpired(payload.appointments)
-              ) {
-                updateError('pre-check-in-expired');
-                return;
+
+              if (payload.appointments?.length > 0) {
+                if (appointmentStartTimePast15(payload.appointments)) {
+                  updateError('pre-check-in-past-appointment');
+                  return;
+                }
+                if (preCheckinExpired(payload.appointments)) {
+                  updateError('pre-check-in-expired');
+                  return;
+                }
               }
 
               if (appointmentWasCanceled(payload.appointments)) {
+                updateError('possible-canceled-appointment');
+                return;
+              }
+
+              if (allAppointmentsCanceled(payload.appointments)) {
                 updateError('appointment-canceled');
                 return;
               }

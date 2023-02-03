@@ -13,11 +13,6 @@ import SubTask, {
 import SubTaskContainer from '../../subtask/SubTaskContainer';
 import pages from '../../subtask/pages';
 
-const mouseClick = new MouseEvent('click', {
-  bubbles: true,
-  cancelable: true,
-});
-
 const mockStore = ({ data = {}, show995 = true, loading = false } = {}) => {
   setStoredSubTask(data);
   return {
@@ -92,11 +87,11 @@ describe('the Supplemental Claims Sub-task', () => {
 
     expect($('form[data-page="start"]', container)).to.exist;
 
-    fireEvent.click($('va-button[continue]', container), mouseClick);
+    fireEvent.click($('va-button[continue]', container));
     expect($('form[data-page="other"]', container)).to.exist;
     expect($('a[download]', container)).to.exist;
 
-    fireEvent.click($('va-button[back]', container), mouseClick);
+    fireEvent.click($('va-button[back]', container));
     expect($('form[data-page="start"]', container)).to.exist;
   });
   it.skip('should show an error when no selection is made', () => {
@@ -111,7 +106,7 @@ describe('the Supplemental Claims Sub-task', () => {
     expect(vaRadio).to.exist;
     expect(vaRadio.error).to.be.null;
 
-    fireEvent.click($('va-button[continue]', container), mouseClick);
+    fireEvent.click($('va-button[continue]', container));
     expect($('form[data-page="start"]', container)).to.exist;
     expect(vaRadio.error).to.contain('choose a claim type');
   });
@@ -127,7 +122,7 @@ describe('the Supplemental Claims Sub-task', () => {
 
     expect($('form[data-page="start"]', container)).to.exist;
 
-    fireEvent.click($('va-button[continue]', container), mouseClick);
+    fireEvent.click($('va-button[continue]', container));
     expect(router.push.args[0][0]).to.include('/introduction');
   });
 });

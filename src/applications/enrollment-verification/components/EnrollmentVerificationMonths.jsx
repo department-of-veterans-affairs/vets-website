@@ -50,6 +50,9 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
     <>
       <h2>Your monthly enrollment verifications</h2>
       <va-additional-info trigger="What if I notice an error with my enrollment information?">
+        <p className="vads-u-padding-bottom--2">
+          <strong>You should:</strong>
+        </p>
         <ul>
           <li>
             Work with your School Certifying Official (SCO) to make sure they
@@ -61,7 +64,7 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
             information.
           </li>
         </ul>
-        <p>
+        <p className="vads-u-padding-top--2">
           If you notice a mistake, it’s best if you reach out to your SCO soon.
           The sooner VA knows about changes to your enrollment, the less likely
           you are to be overpaid and incur a debt.
@@ -75,11 +78,19 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
 
       {months?.slice(minMonth, maxMonth)}
 
-      <Pagination
-        onPageSelect={onPageSelect}
-        page={currentPage}
-        pages={numPages}
-      />
+      {months?.length === 0 && (
+        <p>
+          <strong>You currently have no enrollments.</strong>
+        </p>
+      )}
+
+      {months?.length > 0 && (
+        <Pagination
+          onPageSelect={onPageSelect}
+          page={currentPage}
+          pages={numPages}
+        />
+      )}
     </>
   );
 }

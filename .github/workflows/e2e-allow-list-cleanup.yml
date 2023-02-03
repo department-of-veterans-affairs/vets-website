@@ -1,0 +1,98 @@
+name: E2E Allow List Cleanup
+
+on:
+  schedule:
+    - cron: '0 12 * * 1-5'
+
+jobs:
+  fetch-e2e-allow-list:
+    name: Fetch E2E Allow List
+    runs-on: ubuntu-latest
+    outputs:
+      allow_list: ${{ steps.allow-list-output.outputs.list }}
+      all_specs: ${{ steps.spec-list-output.outputs.specs }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Get list of existing specs in vets-website
+        run: node script/github-actions/export-cypress-spec-list.js
+        # exports spec list and assigns to environmental variable at this step
+
+      - name: Set Spec List Output
+        id: spec-list-output
+        run: echo specs=$ALL_CYPRESS_SPECS >> $GITHUB_OUTPUT
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch E2E allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports allow list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo list=$ALLOW_LIST >> $GITHUB_OUTPUT
+
+  clean-up-allow-list:
+    name: Clean up E2E Allow List
+    runs-on: ubuntu-latest
+    needs: [fetch-e2e-allow-list]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Run cleanup script
+        run: yarn cleanup-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          ALL_SPECS: ${{ needs.fetch-e2e-allow-list.outputs.all_specs }}

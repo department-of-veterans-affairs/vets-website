@@ -13,6 +13,7 @@ import {
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
+  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureAcheronService,
@@ -25,8 +26,6 @@ import {
   getCCEType,
 } from './selectors';
 import {
-  getPreferences,
-  updatePreferences,
   submitRequest,
   submitAppointment,
   sendRequestMessage,
@@ -50,7 +49,6 @@ import {
   FLOW_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
-import { createPreferenceBody } from '../../utils/data';
 import {
   transformFormToVARequest,
   transformFormToCCRequest,
@@ -78,6 +76,7 @@ import {
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
+import { getCommunityCareV2 } from '../../services/vaos/index';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -692,6 +691,7 @@ export function checkCommunityCareEligibility() {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
     const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(state);
+    const useV2 = selectFeatureVAOSServiceCCAppointments(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -717,8 +717,12 @@ export function checkCommunityCareEligibility() {
 
       // Reroute to VA facility page if none of the user's registered systems support community care.
       if (ccEnabledSystems.length) {
-        const response = await getCommunityCare(getCCEType(state));
-
+        let response = null;
+        if (useV2) {
+          response = await getCommunityCareV2(getCCEType(state));
+        } else {
+          response = await getCommunityCare(getCCEType(state));
+        }
         dispatch({
           type: FORM_UPDATE_CC_ELIGIBILITY,
           isEligible: response.eligible,
@@ -743,12 +747,6 @@ export function checkCommunityCareEligibility() {
 
     return false;
   };
-}
-
-async function buildPreferencesDataAndUpdate(email) {
-  const preferenceData = await getPreferences();
-  const preferenceBody = createPreferenceBody(preferenceData, email);
-  return updatePreferences(preferenceBody);
 }
 
 export function submitAppointmentOrRequest(history) {
@@ -792,17 +790,6 @@ export function submitAppointmentOrRequest(history) {
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
-        }
-
-        // BG 3/29/2022: This logic is to resolve issue:
-        // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-        // This will need to be removed once var resources is sunset.
-        try {
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error);
         }
 
         dispatch({
@@ -914,7 +901,6 @@ export function submitAppointmentOrRequest(history) {
             if (requestMessage) {
               await sendRequestMessage(requestData.id, requestMessage);
             }
-            await buildPreferencesDataAndUpdate(data.email);
           } catch (error) {
             // These are ancillary updates, the request went through if the first submit
             // succeeded
@@ -927,17 +913,6 @@ export function submitAppointmentOrRequest(history) {
                 '\n',
               ),
             });
-          }
-        } else {
-          // // BG 3/29/2022: This logic is to resolve issue:
-          // // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-          // // This will need to be removed once var resources is sunset.
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
           }
         }
 

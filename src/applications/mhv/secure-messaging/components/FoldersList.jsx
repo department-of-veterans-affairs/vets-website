@@ -1,19 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { folderPathByFolderId } from '../util/helpers';
+import { DefaultFolders as Folders } from '../util/constants';
 
 const FoldersList = props => {
-  const { folders } = props;
+  const { folders, showUnread } = props;
 
   return (
     <div>
       <ul className="folders-list">
         {!!folders.length &&
-          folders.filter(folder => folder.id > 0).map(folder => (
-            <li key={folder.name} className="folder-link">
-              <Link to={`/folder/${folder.id}`}>
-                <i className="fas fa-folder" aria-hidden="true" />
-                {folder.name}
+          folders.map(folder => (
+            <li
+              key={folder.name}
+              className="folder-link"
+              data-testid={folder.name}
+            >
+              <Link to={folderPathByFolderId(folder.id)}>
+                <i className="fas fa-folder fa-lg" aria-hidden="true" />
+                {folder.id === Folders.DELETED.id
+                  ? Folders.DELETED.header
+                  : folder.name}{' '}
+                {showUnread &&
+                  folder.unreadCount > 0 &&
+                  folder.id !== Folders.DRAFTS.id &&
+                  `(${folder.unreadCount} unread messages)`}
               </Link>
             </li>
           ))}
@@ -25,6 +37,7 @@ const FoldersList = props => {
 FoldersList.propTypes = {
   folders: PropTypes.array,
   highlightId: PropTypes.string,
+  showUnread: PropTypes.bool,
 };
 
 export default FoldersList;

@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllFolders } from '../actions';
-import { deleteMessage } from '../actions/messages';
 import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
 import PrintBtn from './MessageActionButtons/PrintBtn';
-import { navigateToFolderByFolderId } from '../util/helpers';
-import DeleteMessageModal from './Modals/DeleteMessageModal';
 import * as Constants from '../util/constants';
+import ActionButtons from './shared/ActionButtons';
+import ReplyButton from './MessageActionButtons/ReplyButton';
+import TrashButton from './MessageActionButtons/TrashButton';
 
 const MessageActionButtons = props => {
   const { id, hideReplyButton } = props;
   const dispatch = useDispatch();
-  const history = useHistory();
   const folders = useSelector(state => state.sm.folders.folderList);
-  const [isDeleteVisible, setIsDeleteVisible] = useState(false);
   const activeFolder = useSelector(state => state.sm.folders.folder);
 
   useEffect(
@@ -26,33 +23,6 @@ const MessageActionButtons = props => {
     },
     [dispatch],
   );
-
-  const handleDeleteMessageConfirm = () => {
-    setIsDeleteVisible(false);
-    dispatch(deleteMessage(props.id)).then(() => {
-      navigateToFolderByFolderId(
-        activeFolder
-          ? activeFolder.folderId
-          : Constants.DefaultFolders.DELETED.id,
-        history,
-      );
-    });
-  };
-
-  const deleteMessageModal = () => {
-    return (
-      <DeleteMessageModal
-        id={props.id}
-        visible={isDeleteVisible}
-        onClose={() => {
-          setIsDeleteVisible(false);
-        }}
-        onDelete={() => {
-          handleDeleteMessageConfirm();
-        }}
-      />
-    );
-  };
 
   const handlePrint = printOption => {
     if (printOption === 'all messages') {
@@ -66,47 +36,38 @@ const MessageActionButtons = props => {
     }
   };
 
-  return (
-    <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
+  const buttonsArray = [
+    <li key="print">
       <PrintBtn handlePrint={handlePrint} id={id} />
+    </li>,
+    <TrashButton
+      key="trashButton"
+      activeFolder={activeFolder}
+      messageId={id}
+      visible={
+        activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
+        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id
+      }
+    />,
+    <MoveMessageToFolderBtn
+      key="moveMessageToFolderBtn"
+      isVisible={activeFolder?.folderId !== Constants.DefaultFolders.SENT.id}
+      messageId={id}
+      allFolders={folders}
+    />,
+    <ReplyButton
+      key="replyButton"
+      visible={!hideReplyButton}
+      onReply={props.onReply}
+    />,
+  ];
 
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id &&
-        activeFolder?.folderId !== Constants.DefaultFolders.DELETED.id && (
-          <button
-            type="button"
-            className="message-action-button"
-            onClick={() => {
-              setIsDeleteVisible(true);
-            }}
-          >
-            <i className="fas fa-trash-alt" aria-hidden />
-            <span className="message-action-button-text">Trash</span>
-          </button>
-        )}
-
-      {isDeleteVisible && deleteMessageModal()}
-
-      {activeFolder?.folderId !== Constants.DefaultFolders.SENT.id && (
-        <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
-      )}
-
-      {!hideReplyButton && (
-        <button
-          type="button"
-          className="message-action-button"
-          onClick={props.onReply}
-        >
-          <i className="fas fa-reply" aria-hidden="true" />
-          <span className="message-action-button-text">Reply</span>
-        </button>
-      )}
-    </div>
-  );
+  return <ActionButtons buttonsArray={buttonsArray} />;
 };
 
 MessageActionButtons.propTypes = {
   handlePrintThreadStyleClass: PropTypes.func,
-  hideReplyButton: PropTypes.func,
+  hideReplyButton: PropTypes.bool,
   id: PropTypes.number,
   onReply: PropTypes.func,
 };

@@ -101,16 +101,6 @@ describe.skip('daily-product-scan', () => {
           );
         });
       });
-
-      it('successfully compares has_contract_tests values when they are not equal', () => {
-        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
-          expect(
-            originalJsonDirectoryByProductId[product_id].has_contract_tests,
-          ).not.to.equal(
-            updatedJsonDirectoryByProductId[product_id].has_contract_tests,
-          );
-        });
-      });
     });
   });
 
@@ -122,7 +112,6 @@ describe.skip('daily-product-scan', () => {
     beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductJson.returns(octokitResponses.productDirectory);
-      octokit.createPull.returns(octokitResponses.createPull);
       ({ status, message, data } = await main({ octokit }));
     });
 
@@ -202,16 +191,6 @@ describe.skip('daily-product-scan', () => {
           expect(
             originalJsonDirectoryByProductId[product_id].has_e2e_tests,
           ).to.equal(updatedJsonDirectoryByProductId[product_id].has_e2e_tests);
-        });
-      });
-
-      it('successfully compares has_contract_tests values when they are equal', () => {
-        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
-          expect(
-            originalJsonDirectoryByProductId[product_id].has_contract_tests,
-          ).to.equal(
-            updatedJsonDirectoryByProductId[product_id].has_contract_tests,
-          );
         });
       });
     });

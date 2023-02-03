@@ -8,9 +8,44 @@ class PatientComposePage {
       mockDraftMessage,
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
-      .contains('Send')
-      .click();
+      .get('[text="Send"]')
+      .click({ waitforanimations: true });
     cy.wait('@message');
+  };
+
+  enterComposeMessageDetails = category => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('[id="select"]')
+      .select('###PQR TRIAGE_TEAM 747###');
+    cy.get('[data-testid=compose-category-radio-button]')
+      .shadow()
+      .find('label')
+      .contains(category)
+      .click();
+    cy.get('[data-testid="attach-file-input"]').selectFile(
+      'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
+      { force: true },
+    );
+    cy.get('[data-testid="message-subject-field"]')
+      .shadow()
+      .find('[name="message-subject"]')
+      .type('Test Subject');
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .type('Test message body');
+  };
+
+  clickOnSendMessageButton = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('message');
+    cy.get('[data-testid="Send-Button"]')
+      .get('[text="Send"]')
+      .click();
   };
 
   saveDraft = () => {
@@ -25,6 +60,27 @@ class PatientComposePage {
       // cy.log(xhr.responseBody);
       cy.log(xhr.requestBody);
       // expect(xhr.method).to.eq('POST');
+    });
+  };
+
+  verifyAttachmentErrorMessage = errormessage => {
+    cy.get('[data-testid="attach-file-error-modal"] p')
+      .should('have.text', errormessage)
+      .should('be.visible');
+  };
+
+  closeAttachmentErrorPopup = () => {
+    cy.get('[data-testid="attach-file-error-modal"]')
+      .shadow()
+      .find('[type="button"]')
+      .first()
+      .click();
+  };
+
+  attachMessageFromFile = filename => {
+    const filepath = `src/applications/mhv/secure-messaging/tests/e2e/fixtures/${filename}`;
+    cy.get('[data-testid="attach-file-input"]').selectFile(filepath, {
+      force: true,
     });
   };
 }

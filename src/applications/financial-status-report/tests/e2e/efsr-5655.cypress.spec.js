@@ -12,12 +12,17 @@ import copays from './fixtures/mocks/copays.json';
 import EnhancedVeteranEmploymentHistory from './pages/employment/EnhancedVeteranEmploymentHistory';
 import SpouseEmploymentHistory from './pages/employment/SpouseEmploymentHistory';
 
+// Contact Info Mocks
+import mockStatus from './fixtures/mocks/contact-info-mocks/profile-status.json';
+import mockTelephoneUpdate from './fixtures/mocks/contact-info-mocks/telephone-update.json';
+import mockTelephoneUpdateSuccess from './fixtures/mocks/contact-info-mocks/telephone-update-success.json';
+
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['cfsr-maximal'],
+    dataSets: ['efsr-maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -36,12 +41,25 @@ const testConfig = createTestConfig(
           ],
         },
       });
+
+      // Debt and Copay info
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
+
+      // Save in progress info -- testData comes from testForm
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
+
+      // Profile Info
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/maintenance_windows', []);
+
+      // Telephone info
+      cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
+      cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
+
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
         body: {
@@ -101,6 +119,22 @@ const testConfig = createTestConfig(
       'deduction-values': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#State\\ tax0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'household-expenses-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0').check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'household-expenses-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#Rent0')
             .first()
             .shadow()
             .find('input')

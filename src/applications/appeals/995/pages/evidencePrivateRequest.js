@@ -1,7 +1,6 @@
 import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
-  reviewField,
 } from '../content/evidencePrivateRecordsRequest';
 import { EVIDENCE_PRIVATE } from '../constants';
 
@@ -15,9 +14,8 @@ export default {
       'ui:title': privateRecordsRequestTitle,
       'ui:options': {
         forceDivWrapper: true,
-        keepInPageOnReview: false,
+        hideOnReview: true,
       },
-      'ui:reviewField': reviewField,
     },
   },
   schema: {

@@ -132,6 +132,16 @@ describe('efsr-fsr transform helper functions', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
         expenses: {
+          expenseRecords: [
+            {
+              name: 'Rent',
+              amount: '100',
+            },
+            {
+              name: 'Food',
+              amount: '100',
+            },
+          ],
           rentOrMortgage: '100',
           food: '100',
         },
@@ -270,6 +280,7 @@ describe('efsr-fsr transform helper functions', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
         assets: {
+          realEstateValue: '2000',
           otherAssets: [
             {
               amount: '10',
@@ -288,14 +299,6 @@ describe('efsr-fsr transform helper functions', () => {
             },
           ],
         },
-        realEstateRecords: [
-          {
-            realEstateAmount: '1000',
-          },
-          {
-            realEstateAmount: '1000',
-          },
-        ],
       };
       expect(getTotalAssets(totalAssets)).to.equal(2320);
     });
@@ -408,7 +411,7 @@ describe('efsr-fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('personalData');
-      expect(submissionObj.personalData.telephoneNumber).to.equal('4445551212');
+      expect(submissionObj.personalData.telephoneNumber).to.equal('7174244321');
       expect(submissionObj.personalData.dateOfBirth).to.equal('04/05/1933');
       expect(submissionObj.personalData.married).to.equal(true);
       expect(submissionObj.personalData.agesOfOtherDependents[0]).to.equal(
@@ -503,20 +506,24 @@ describe('efsr-fsr transform information', () => {
       it('has valid data', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.personalData.address.addresslineOne).to.equal(
-          '123 Fake Street',
+          '123 main',
         );
-        expect(submissionObj.personalData.address.addresslineTwo).to.equal('');
+        expect(submissionObj.personalData.address.addresslineTwo).to.equal(
+          'Apt 2',
+        );
         expect(submissionObj.personalData.address.addresslineThree).to.equal(
           '',
         );
-        expect(submissionObj.personalData.address.city).to.equal('Tampa');
+        expect(submissionObj.personalData.address.city).to.equal('City');
         expect(submissionObj.personalData.address.stateOrProvince).to.equal(
-          'FL',
+          'AK',
         );
         expect(submissionObj.personalData.address.zipOrPostalCode).to.equal(
-          '33543',
+          '17402',
         );
-        expect(submissionObj.personalData.address.countryName).to.equal('USA');
+        expect(submissionObj.personalData.address.countryName).to.equal(
+          'United States',
+        );
       });
     });
     describe('efsr-employment history', () => {

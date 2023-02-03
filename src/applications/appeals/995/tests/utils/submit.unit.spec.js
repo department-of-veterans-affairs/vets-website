@@ -3,6 +3,7 @@ import {
   PRIMARY_PHONE,
   SELECTED,
   EVIDENCE_VA,
+  EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
 } from '../../constants';
 import { getDate } from '../../utils/dates';
@@ -239,6 +240,7 @@ describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
+      form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
@@ -253,53 +255,92 @@ describe('getEvidence', () => {
       ],
     },
     result: {
-      evidenceType: ['retrieval'],
-      retrieveFrom: [
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 1',
-            evidenceDates: [{ from: '2022-01-01', to: '2022-02-02' }],
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: ['retrieval'],
+        retrieveFrom: [
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 1',
+              evidenceDates: [
+                { startDate: '2022-01-01', endDate: '2022-02-02' },
+              ],
+            },
           },
-        },
-        {
-          type: 'retrievalEvidence',
-          attributes: {
-            locationAndName: 'test 2',
-            evidenceDates: [{ from: '2022-03-03', to: '2022-04-04' }],
+          {
+            type: 'retrievalEvidence',
+            attributes: {
+              locationAndName: 'test 2',
+              evidenceDates: [
+                { startDate: '2022-03-03', endDate: '2022-04-04' },
+              ],
+            },
           },
-        },
-      ],
+        ],
+      },
     },
   });
 
-  it('should skip adding evidence when not selected', () => {
+  it('should include evidenceType of none when no evidence submitted', () => {
     const evidence = getData({ hasVa: false });
-    expect(getEvidence(evidence.data)).to.deep.equal({ evidenceType: [] });
+    expect(getEvidence(evidence.data)).to.deep.equal({
+      form5103Acknowledged: true,
+      evidenceSubmission: {
+        evidenceType: ['none'],
+      },
+    });
   });
   it('should process evidence when available', () => {
     const evidence = getData();
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result);
   });
+  it('should add "upload" to evidence type when available', () => {
+    const { data } = getData();
+    const evidence = {
+      ...data,
+      [EVIDENCE_OTHER]: true,
+      additionalDocuments: [{}],
+    };
+    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
+      ['retrieval', 'upload'],
+    );
+  });
+  it('should only include "upload" when documents were uploaded with no VA evidence', () => {
+    const { data } = getData({ hasVa: false });
+    const evidence = {
+      ...data,
+      [EVIDENCE_OTHER]: true,
+      additionalDocuments: [{}],
+    };
+    expect(getEvidence(evidence).evidenceSubmission.evidenceType).to.deep.equal(
+      ['upload'],
+    );
+  });
 });
 
 describe('getForm4142', () => {
-  const formData = {
+  const getData = wrap => ({
     privacyAgreementAccepted: true,
     limitedConsent: 'testing',
-    providerFacility: [{ test: 'foo' }, { test: 'bar' }],
-  };
+    // Move treatementDateRange entry into an array
+    providerFacility: [
+      { test: 'foo', treatmentDateRange: wrap ? [{ a: true }] : { a: true } },
+      { test: 'bar', treatmentDateRange: wrap ? [{ b: false }] : { b: false } },
+    ],
+  });
+
   it('should return 4142 form data', () => {
     const data = {
       [EVIDENCE_PRIVATE]: true,
-      ...formData,
+      ...getData(),
     };
-    expect(getForm4142(data)).to.deep.equal(formData);
+    expect(getForm4142(data)).to.deep.equal(getData(true));
   });
   it('should return empty object since private evidence not selected', () => {
     const data = {
       [EVIDENCE_PRIVATE]: false,
-      ...formData,
+      ...getData(),
     };
     expect(getForm4142(data)).to.deep.equal({});
   });

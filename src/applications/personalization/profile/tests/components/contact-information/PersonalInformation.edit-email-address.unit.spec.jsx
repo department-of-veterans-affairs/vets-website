@@ -2,6 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import user from '@testing-library/user-event';
+import { beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
@@ -13,9 +14,8 @@ import {
   renderWithProfileReducers,
   wait,
 } from '../../unit-test-helpers';
-import { beforeEach } from 'mocha';
+import { DEFAULT_ERROR_MESSAGE } from '~/platform/user/profile/vap-svc/constants';
 
-const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 const newUserName = 'newemailaddress';
 const newUserNameRegex = new RegExp(newUserName);
 const newEmailAddress = `${newUserName}@domain.com`;
@@ -53,7 +53,7 @@ function editEmailAddress() {
   user.type(emailAddressInput, newEmailAddress);
 
   // save
-  view.getByText('Update', { selector: 'button' }).click();
+  view.getByText('Save', { selector: 'button' }).click();
 
   return { emailAddressInput };
 }
@@ -116,12 +116,12 @@ async function testTransactionCreationFails() {
   editEmailAddress();
 
   // expect an error to be shown
-  const error = await view.findByText(errorText);
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
   expect(error).to.exist;
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByText(errorText)).to.exist;
+  expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }
@@ -133,12 +133,12 @@ async function testQuickFailure() {
   editEmailAddress();
 
   // expect an error to be shown
-  const error = await view.findByText(errorText);
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
   expect(error).to.exist;
 
   // make sure that edit mode is not automatically exited
   await wait(75);
-  expect(view.getByText(errorText)).to.exist;
+  expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
   const editButton = getEditButton();
   expect(editButton).to.not.exist;
 }

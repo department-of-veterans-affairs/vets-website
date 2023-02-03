@@ -1,40 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { EVIDENCE_VA_REQUEST } from '../constants';
+
+const recordActionLinkClick = () => {
+  recordEvent({
+    event: 'cta-action-link-click',
+    'action-link-type': 'primary',
+    'action-link-click-label': 'Add more evidence',
+    'action-link-icon-color': 'green',
+  });
+};
 
 export const content = {
   edit: 'Edit',
+  editLabel: 'Edit evidence summary page',
   remove: 'Remove',
   update: 'Update page',
 
-  vaTitle: 'You’re requesting records from these VA locations:',
-  vaReviewTitle: 'VA medical records',
+  vaTitle: 'We’re requesting records from these VA locations:',
 
-  privateTitle: 'You’re requesting records from these private providers:',
-  privateReviewTitle: 'Private medical records',
+  privateTitle:
+    'We’re requesting records from these private medical providers:',
 
   otherTitle: 'You uploaded these documents:',
-  otherReviewTitle: 'Supporting (lay) statements or other evidence',
 
   addMoreLink: (
     <p>
       <Link
         to={`/${EVIDENCE_VA_REQUEST}`}
         className="vads-c-action-link--green"
+        onClick={recordActionLinkClick}
       >
         Add more evidence
       </Link>
     </p>
   ),
 
-  missingEvidence: (
-    <va-alert id="no-evidence" status="error">
-      <h2 slot="headline">You haven’t added any evidence</h2>
-      You must provide at least one type of evidence to file for a Supplemental
-      Claim
-    </va-alert>
+  missingEvidenceHeader: 'We noticed you didn’t add new evidence',
+  missingEvidenceText: (
+    <>
+      <p>
+        If you have a presumptive condition, you don’t need to submit new
+        evidence with your claim. You can continue through this form.
+      </p>
+      <p>
+        If you’re filing a claim based on new evidence, we encourage you to
+        submit the evidence with your claim. But if you don’t have the evidence
+        now, you can still file your claim. We’ll work with you to get the
+        evidence.
+      </p>
+    </>
   ),
+  missingEvidenceReviewText: 'I didn’t add any evidence',
 
-  reviewPageHeaderText: 'Supporting evidence',
+  reviewPageHeaderText: 'New evidence',
 };

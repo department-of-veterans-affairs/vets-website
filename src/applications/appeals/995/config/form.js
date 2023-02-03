@@ -15,8 +15,11 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import ContactInfo from '../components/ContactInfo';
+import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
+import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
@@ -24,6 +27,9 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import OptIn from '../components/OptIn';
+import Notice5103 from '../components/Notice5103';
+import submissionError from '../content/submissionError';
 
 import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
@@ -31,10 +37,10 @@ import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
-import evidenceUploadOther from '../pages/evidenceUploadOther';
+import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
-import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
+import notice5103 from '../pages/notice5103';
 import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
 
@@ -56,11 +62,15 @@ import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_OTHER_PATH,
+  EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_ADDITIONAL_PATH,
+  EVIDENCE_UPLOAD_PATH,
+  SUBMIT_URL,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 
 import prefillTransformer from './prefill-transformer';
+import submitForm from './submitForm';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
@@ -72,9 +82,8 @@ const blankSchema = { type: 'object', properties: {} };
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: '995-supplemental-claim-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -94,12 +103,13 @@ const formConfig = {
   subTitle: 'VA Form 20-0995',
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
+  submissionError,
   chapters: {
     infoPages: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       pages: {
         veteranInfo: {
-          title: 'Veteran Information',
+          title: 'Veteran information',
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
@@ -107,6 +117,8 @@ const formConfig = {
         confirmContactInformation: {
           title: 'Contact information',
           path: CONTACT_INFO_PATH,
+          CustomPage: ContactInfo,
+          CustomPageReview: ContactInfoReview,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
         },
@@ -152,7 +164,7 @@ const formConfig = {
           // only visible if both the home & mobile phone are populated
           depends: hasHomeAndMobilePhone,
           CustomPage: PrimaryPhone,
-          CustomPageReview: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
         },
@@ -160,10 +172,10 @@ const formConfig = {
     },
 
     issues: {
-      title: 'Issues',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
-          title: ' ',
+          title: 'Issues',
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
@@ -187,9 +199,11 @@ const formConfig = {
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
+          depends: mayHaveLegacyAppeals,
+          CustomPage: OptIn,
+          CustomPageReview: null, // reviewField renders this!
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: mayHaveLegacyAppeals,
           initialData: {
             socOptIn: false,
           },
@@ -198,16 +212,18 @@ const formConfig = {
     },
 
     evidence: {
-      title: 'Supporting Evidence',
+      title: 'New and relevant evidence',
       pages: {
         notice5103: {
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
+          CustomPage: Notice5103,
+          CustomPageReview: null, // reviewField renders this!
+          uiSchema: notice5103.uiSchema,
+          schema: notice5103.schema,
           initialData: {
             form5103Acknowledged: false,
           },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
@@ -253,22 +269,22 @@ const formConfig = {
         },
         evidencePrivateLimitation: {
           title: 'Private medical record limitations',
-          path: 'supporting-evidence/request-record-limitations',
+          path: EVIDENCE_LIMITATION_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
         },
-        evidenceUploadOther: {
-          title: 'Supporting (lay) statements or other evidence',
-          path: EVIDENCE_OTHER_PATH,
-          uiSchema: evidenceUploadOther.uiSchema,
-          schema: evidenceUploadOther.schema,
+        evidenceWillUpload: {
+          title: 'Upload new and relevant evidence',
+          path: EVIDENCE_ADDITIONAL_PATH,
+          uiSchema: evidenceWillUpload.uiSchema,
+          schema: evidenceWillUpload.schema,
         },
         evidenceUpload: {
-          title: 'Lay statements and other evidence',
-          path: 'supporting-evidence/additional-evidence',
+          title: 'Uploaded evidence',
+          path: EVIDENCE_UPLOAD_PATH,
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,

@@ -7,9 +7,7 @@ class PatientReplyPage {
       `/my_health/v1/messaging/messages/${messageId}/reply`,
       mockMessage,
     ).as('replyMessage');
-    cy.get('[data-testid="Send-Button"]')
-      .contains('Send')
-      .click();
+    cy.get('[data-testid="Send-Button"]').click();
     cy.wait('@replyMessage');
   };
 }

@@ -5,20 +5,18 @@ import sinon from 'sinon';
 
 import { PrimaryPhone } from '../../components/PrimaryPhone';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
+import { content } from '../../content/primaryPhone';
 
 import { $, $$ } from '../../utils/ui';
 
 describe('<PrimaryPhone>', () => {
-  const mouseClick = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-  });
   const setup = ({
     data = {},
     goBack = () => {},
     goForward = () => {},
     onReviewPage = false,
     setFormData = () => {},
+    updatePage = () => {},
   } = {}) => {
     return (
       <div>
@@ -28,6 +26,7 @@ describe('<PrimaryPhone>', () => {
           goBack={goBack}
           goForward={goForward}
           onReviewPage={onReviewPage}
+          updatePage={updatePage}
           contentAfterButtons={<div id="before">Before</div>}
           contentBeforeButtons={<div id="after">After</div>}
         />
@@ -51,7 +50,7 @@ describe('<PrimaryPhone>', () => {
       },
     });
     const { container } = render(data);
-    fireEvent.click($('button[type="submit"]', container), mouseClick);
+    fireEvent.click($('button[type="submit"]', container));
 
     expect($('va-radio', container).error).to.contain(
       errorMessages.missingPrimaryPhone,
@@ -73,9 +72,27 @@ describe('<PrimaryPhone>', () => {
       },
     });
     const { container } = render(data);
-    fireEvent.click($('button[type="submit"]', container), mouseClick);
+    fireEvent.click($('button[type="submit"]', container));
 
     expect($('va-radio', container).error).to.be.null;
     expect(goForwardSpy.called).to.be.true;
+  });
+
+  it('should render on review & submit page', () => {
+    const { container } = render(setup({ onReviewPage: true }));
+    expect($$('va-radio-option', container).length).to.eq(2);
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      content.update,
+    );
+  });
+  it('should call updatePage on review & submit page', () => {
+    const updatePageSpy = sinon.spy();
+    const { container } = render(
+      setup({ onReviewPage: true, updatePage: updatePageSpy }),
+    );
+    expect($$('va-radio-option', container).length).to.eq(2);
+    fireEvent.click($('va-button', container));
+
+    expect(updatePageSpy.called).to.be.true;
   });
 });

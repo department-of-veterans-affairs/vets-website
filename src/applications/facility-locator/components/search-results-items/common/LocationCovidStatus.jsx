@@ -10,7 +10,7 @@ const store = createCommonStore({
   FeatureToggleReducer,
 });
 
-const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
+const LocationCovidStatus = ({ supplementalStatus }) => {
   const [showVamcAlert, setShowVamcAlert] = useState(true);
 
   useEffect(() => {
@@ -26,17 +26,9 @@ const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
     });
   }, []);
 
-  if (!staticCovidStatuses) {
-    return <></>;
-  }
-
-  const covidStatus = staticCovidStatuses.find(status => {
-    const activeCovidStatus = supplementalStatus?.find(activeStatus =>
-      activeStatus.id.includes('COVID'),
-    );
-
-    return status.status_id === activeCovidStatus?.id;
-  });
+  const covidStatus = supplementalStatus?.find(activeStatus =>
+    activeStatus.id.includes('COVID'),
+  );
 
   if (!covidStatus || !showVamcAlert) {
     return <></>;
@@ -47,16 +39,15 @@ const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
       background-only
       show-icon
       status="info"
-      data-testid={`${covidStatus.status_id.toLowerCase()}-message`}
+      data-testid={`${covidStatus.id.toLowerCase()}-message`}
       class="vads-u-margin-x--0"
     >
-      <div>{covidStatus.name}</div>
+      <div>{covidStatus.label}</div>
     </va-alert>
   );
 };
 
 LocationCovidStatus.propTypes = {
-  staticCovidStatuses: PropTypes.array,
   supplementalStatus: PropTypes.array,
 };
 

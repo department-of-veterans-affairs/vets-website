@@ -59,17 +59,13 @@ describe('Advanced search form', () => {
 
   it('displays an advanced search button', () => {
     const screen = setup({});
-    const searchButton = screen.getByRole('button', {
-      name: 'Advanced search',
-    });
+    const searchButton = screen.getByTestId('advanced-search-submit');
     expect(searchButton).to.exist;
   });
 
   it('displays error modal when form is submitted if "Date range" is set to "any" and "Message ID", "Sender name", "Subject", and "Category" are blank', () => {
     const screen = setup({});
-    const searchButton = screen.getByRole('button', {
-      name: 'Advanced search',
-    });
+    const searchButton = screen.getByTestId('advanced-search-submit');
     fireEvent.click(searchButton);
     const errorModal = screen.getByText(
       "Please use at least one of the following search fields or choose a date range other than 'any'.",
@@ -79,9 +75,7 @@ describe('Advanced search form', () => {
 
   it('displays error modal when form is submitted if date range is custom but "Start date" and "End date" are blank', () => {
     const screen = setup({ testingDateRange: true });
-    const searchButton = screen.getByRole('button', {
-      name: 'Advanced search',
-    });
+    const searchButton = screen.getByTestId('advanced-search-submit');
     fireEvent.click(searchButton);
     const startDate = screen.getByTestId('date-start');
     const endDate = screen.getByTestId('date-end');
@@ -95,9 +89,7 @@ describe('Advanced search form', () => {
       testingFromDate: '2023-01-01',
       testingToDate: '2022-01-01',
     });
-    const searchButton = screen.getByRole('button', {
-      name: 'Advanced search',
-    });
+    const searchButton = screen.getByTestId('advanced-search-submit');
     fireEvent.click(searchButton);
     const startDate = screen.getByTestId('date-start');
     const endDate = screen.getByTestId('date-end');
@@ -109,9 +101,7 @@ describe('Advanced search form', () => {
 
   it('submits search form when submit button is clicked', () => {
     const screen = setup({ testingSubmit: true });
-    const searchButton = screen.getByRole('button', {
-      name: 'Advanced search',
-    });
+    const searchButton = screen.getByTestId('advanced-search-submit');
     fireEvent.click(searchButton);
     const errorModal = screen.queryByText(
       "Please use at least one of the following search fields or choose a date range other than 'any'.",
