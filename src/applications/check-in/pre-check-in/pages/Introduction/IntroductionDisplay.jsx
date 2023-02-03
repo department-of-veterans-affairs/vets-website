@@ -104,7 +104,7 @@ const IntroductionDisplay = props => {
   const getModalUrl = modalState => {
     const url = new URL(window.location.href);
     url.searchParams.set('modal', modalState);
-    return url;
+    return `${url.pathname}${url.search}`;
   };
 
   return (

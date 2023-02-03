@@ -14,7 +14,7 @@ function LanguagePicker(props) {
   function getUrl(lang) {
     const url = new URL(window.location.href);
     url.searchParams.set('lang', lang);
-    return url;
+    return `${url.pathname}${url.search}`;
   }
 
   function changeLanguage(e) {
