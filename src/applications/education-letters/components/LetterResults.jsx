@@ -85,12 +85,11 @@ export const HasLetters = ({ claimStatus }) => {
       <p>
         This tool has decision letters for decisions we made on or after August
         20, 2022. If we decided your claim before this date or if you want to
-        request a different type of letter, contact us{' '}
-        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-          through Ask VA.
-        </a>
-        .
+        request a different type of letter, contact us through Ask VA. .
       </p>
+      <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+        Contact us online through Ask VA.
+      </a>
     </>
   );
 };
@@ -142,9 +141,8 @@ export const NoLetters = () => {
       <h2 id="letter-isnt-listed">What if I have other questions?</h2>
       <p>You can contact us online through Ask VA</p>
       <p>
-        Contact us online through{' '}
         <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-          Ask VA.
+          Contact us online through Ask VA.
         </a>
       </p>
     </>
