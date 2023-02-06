@@ -29,7 +29,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
 
     landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
-    cy.contains('General:').click();
+    cy.contains('General:').click({ timeout: 5000 });
     cy.get('[data-testid="trash-button-text"]').click({
       waitforanimations: true,
     });

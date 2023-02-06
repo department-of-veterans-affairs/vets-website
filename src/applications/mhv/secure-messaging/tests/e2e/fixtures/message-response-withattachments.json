@@ -17,7 +17,14 @@
         },
         "relationships": {
             "attachments": {
-                "data": []
+                "data": [
+                    {
+                        "body": "Testing Attachment"
+                    },
+                    {
+                        "body": "Demo Test Attachment"
+                    }
+                ]
             }
         },
         "links": {
