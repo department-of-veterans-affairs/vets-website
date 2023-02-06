@@ -24,6 +24,7 @@ describe('check-in experience', () => {
       ...initAppointments[0],
       kind: 'phone',
       appointmentIen: 1111,
+      stationNo: '230',
     };
     initAppointments[1] = {
       ...initAppointments[1],
@@ -31,6 +32,7 @@ describe('check-in experience', () => {
       appointmentIen: 2222,
       clinicStopCodeName: 'stop code test',
       doctorName: 'test doc',
+      stationNo: '230',
     };
     initAppointments[2] = {
       ...initAppointments[2],
@@ -38,12 +40,14 @@ describe('check-in experience', () => {
       appointmentIen: 3333,
       startTime: now,
       checkInWindowEnd: add(now, { minutes: 30 }),
+      stationNo: '230',
     };
     initAppointments[3] = {
       ...initAppointments[3],
       kind: 'clinic',
       appointmentIen: 4444,
       eligibility: 'INELIGIBLE_BAD_STATUS',
+      stationNo: '230',
     };
     delete initAppointments[0].clinicPhoneNumber;
 
@@ -76,7 +80,7 @@ describe('check-in experience', () => {
         const phoneStore = mockStore(preCheckInState);
         const mockRouter = {
           params: {
-            appointmentId: '1111',
+            appointmentId: '1111-230',
           },
           location: {
             pathname: '/appointment',
@@ -116,7 +120,7 @@ describe('check-in experience', () => {
       describe('In person pre-check-in appointment', () => {
         const mockRouter = {
           params: {
-            appointmentId: '2222',
+            appointmentId: '2222-230',
           },
           location: {
             pathname: '/appointment',
@@ -159,7 +163,7 @@ describe('check-in experience', () => {
         const existStore = mockStore(preCheckInState);
         const mockRouter = {
           params: {
-            appointmentId: '2222',
+            appointmentId: '2222-230',
           },
           location: {
             pathname: '/appointment',
@@ -206,7 +210,7 @@ describe('check-in experience', () => {
         const notExistStore = mockStore(preCheckInState);
         const mockRouter = {
           params: {
-            appointmentId: '1111',
+            appointmentId: '1111-230',
           },
           location: {
             pathname: '/appointment',
@@ -253,7 +257,7 @@ describe('check-in experience', () => {
         const dayOfEligibleStore = mockStore(dayOfState);
         const mockRouter = {
           params: {
-            appointmentId: '3333',
+            appointmentId: '3333-230',
           },
           location: {
             pathname: '/appointment',
@@ -275,7 +279,7 @@ describe('check-in experience', () => {
         const dayOfIneligibleStore = mockStore(dayOfState);
         const mockRouter = {
           params: {
-            appointmentId: '4444',
+            appointmentId: '4444-230',
           },
           location: {
             pathname: '/appointment',
