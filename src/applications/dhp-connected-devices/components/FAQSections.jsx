@@ -56,10 +56,10 @@ export const FirstFAQSection = () => {
           A connected device is any device that can connect to the internet so
           that it can communicate with other devices or computers. Examples of
           connected devices include smartphones, wearable fitness trackers (like
-          a Fitbit), or a connected blood pressure cuff. Many connected let you
-          share your data from the device with other people such as your care
-          provider. If your VA care team asked you to connect your device,
-          device, they will be able to access the data you choose to share.
+          a Fitbit), or a connected blood pressure cuff. Many connected devices
+          let you share your data from the device with other people such as your
+          care provider. If your VA care team asked you to connect your device,
+          they will be able to access the data you choose to share.
         </va-accordion-item>
       </va-accordion>
     </>
