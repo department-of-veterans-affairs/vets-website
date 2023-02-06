@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { urlRegex, httpRegex } from '../../util/helpers';
 
 const MessageThreadBody = props => {
-  const words = props.text.split(/\s/g);
+  const words = props.text.split(/[^\S\r\n]+/g);
 
   return (
     <div
