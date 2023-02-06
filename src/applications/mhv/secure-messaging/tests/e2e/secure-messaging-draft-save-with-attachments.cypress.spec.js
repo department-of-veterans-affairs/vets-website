@@ -6,6 +6,10 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
+  // TODO this is a test for a draft with no thread messages
+  // Draft with threads has a different view as a Reply Draft, which needs a separate test
+  const mockThreadResponse = { data: [] };
+
   it('Axe Check Draft Save with Attachments', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
@@ -27,6 +31,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.axeCheck();
     cy.wait('@draftsFolderMetaResponse');
     cy.wait('@draftsResponse');
+
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/messages/7208913',
@@ -40,10 +45,11 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/messages/7208913/thread',
-      mockDraftResponse,
-    ).as('draftwithAttachment');
+      mockThreadResponse,
+    ).as('draftThreadResponse');
 
     cy.contains('test').click();
+    cy.wait('@draftThreadResponse');
 
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
