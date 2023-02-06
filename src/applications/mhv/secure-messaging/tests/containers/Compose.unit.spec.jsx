@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import triageTeams from '../fixtures/recipients.json';
 import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
@@ -25,17 +26,28 @@ describe('Compose container', () => {
   });
 
   it('displays an emergency note with crisis line button', () => {
+    const state = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: { draftMessage, draftMessageHistory: [] },
+      },
+    };
     const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState,
+      state,
       reducers: reducer,
       path: `/compose`,
     });
-    const note = screen.getByText(
-      'If you’re in a mental health crisis or thinking about suicide',
-      { exact: false },
-    );
-    const crisisLineButton = screen.getByRole('link', {
-      name: '988lifeline.org',
+    const note = waitFor(() => {
+      screen.getByText(
+        'If you’re in a mental health crisis or thinking about suicide',
+        { exact: false },
+      );
+    });
+    const crisisLineButton = waitFor(() => {
+      screen.getByRole('link', {
+        name: '988lifeline.org',
+      });
     });
     expect(note).to.exist;
     expect(crisisLineButton).to.exist;
@@ -56,22 +68,30 @@ describe('Compose container', () => {
     expect(loadingIndicator).to.exist;
   });
 
-  it('displays compose heading if path is /compose', async () => {
+  it('displays compose heading if path is /compose', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
       path: `/compose`,
     });
-    const headingText = await screen.getByRole('heading', {
-      name: 'Compose message',
+    const headingText = waitFor(() => {
+      screen.getByRole('heading', {
+        name: 'Compose message',
+      });
     });
 
     expect(headingText).to.exist;
   });
 
   it('displays compose fields if path is /compose', async () => {
+    const state = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+      },
+    };
     const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState,
+      initialState: state,
       reducers: reducer,
       path: `/compose`,
     });
@@ -80,30 +100,39 @@ describe('Compose container', () => {
     const categoryRadioButtons = await screen.getAllByTestId(
       'compose-category-radio-button',
     );
-    const subject = await screen.getByTestId('message-subject-field');
-    const body = await screen.getByTestId('message-body-field');
+
+    const subject = waitFor(() => {
+      screen.getByTestId('message-subject-field');
+    });
+    const body = waitFor(() => {
+      screen.getByTestId('message-body-field');
+    });
 
     expect(recipient).to.exist;
-    expect(categoryRadioButtons.length).to.equal(6);
+    expect(categoryRadioButtons).to.have.length(6);
     expect(subject).to.exist;
     expect(body).to.exist;
   });
 
-  it('displays compose action buttons if path is /compose', async () => {
+  it('displays compose action buttons if path is /compose', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
       path: `/compose`,
     });
 
-    const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const sendButton = waitFor(() => {
+      screen.getByTestId('Send-Button');
+    });
+    const saveDraftButton = waitFor(() => {
+      screen.getByTestId('Save-Draft-Button');
+    });
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
   });
 
-  it('displays draft page if path is /draft/:id', async () => {
+  it('displays draft page if path is /draft/:id', () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
@@ -116,16 +145,22 @@ describe('Compose container', () => {
       reducers: reducer,
       path: `/draft/7171715`,
     });
-    const headingText = await screen.getAllByRole('heading', {
-      name: 'Edit draft',
+    const headingText = waitFor(() => {
+      screen.getAllByRole('heading', {
+        name: 'Edit draft',
+      });
     });
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 3,
+    const draftMessageHeadingText = waitFor(() => {
+      screen.getAllByRole('heading', {
+        name: 'COVID: Covid-Inquiry',
+        level: 3,
+      });
     });
-    const deleteButton = await screen.getAllByRole('button', {
-      name: 'Delete draft',
-      exact: false,
+    const deleteButton = waitFor(() => {
+      screen.getAllByRole('button', {
+        name: 'Delete draft',
+        exact: false,
+      });
     });
     expect(headingText).to.exist;
     expect(draftMessageHeadingText).to.exist;

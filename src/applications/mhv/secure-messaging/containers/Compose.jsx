@@ -74,6 +74,20 @@ const Compose = () => {
   }
 
   const content = () => {
+    if (!isDraftPage && triageTeams) {
+      return (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote />
+          <div>
+            <BeforeMessageAddlInfo />
+          </div>
+          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+        </>
+      );
+    }
     if ((isDraftPage && !draftMessage) || !triageTeams) {
       return (
         <va-loading-indicator
