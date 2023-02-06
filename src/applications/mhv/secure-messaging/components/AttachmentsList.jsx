@@ -4,7 +4,8 @@ import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
   const { attachments, setAttachments, editingEnabled, compose } = props;
-  const inputReference = useRef(null);
+  const attachmentReference = useRef(null);
+
   const getSize = num => {
     if (num > 999999) {
       return `${(num / 1000000).toFixed(1)} MB`;
@@ -15,10 +16,10 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachments?.length > 0 && compose) {
-        inputReference.current?.focus();
+        attachmentReference.current?.focus();
       }
     },
-    [attachments],
+    [attachments, compose],
   );
 
   const removeAttachment = name => {
@@ -37,7 +38,7 @@ const AttachmentsList = props => {
                 <div className="editable-attachment">
                   <span>
                     <i className="fas fa-paperclip" aria-hidden="true" />
-                    <span ref={inputReference} tabIndex={-1}>
+                    <span ref={attachmentReference} tabIndex={-1}>
                       {file.name}{' '}
                     </span>
                     ({getSize(file.size || file.attachmentSize)})
@@ -46,6 +47,7 @@ const AttachmentsList = props => {
                     onClick={() => removeAttachment(file.name)}
                     secondary
                     text="Remove"
+                    aria-label={`remove ${file.name}`}
                     class="remove-attachment-button"
                   />
                 </div>
@@ -66,7 +68,7 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <span ref={inputReference} tabIndex={-1}>
+                    <span ref={attachmentReference} tabIndex={-1}>
                       {file.name}{' '}
                     </span>
                     ({getSize(file.size || file.attachmentSize)})
