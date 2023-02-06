@@ -15,7 +15,7 @@ describe('Compose Reply With Attacments and Errors', () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('BLUE ANCILLARY_TEAM');
+      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     composePage.attachMessageFromFile('test_video.mp4');
     composePage.verifyAttachmentErrorMessage(
@@ -31,11 +31,12 @@ describe('Compose Reply With Attacments and Errors', () => {
     composePage.attachMessageFromFile('sample_docx.docx');
     composePage.attachMessageFromFile('sample_XLS.xls');
     composePage.attachMessageFromFile('test_image.gif');
-    composePage.attachMessageFromFile('test_image.jpg');
-    composePage.verifyAttachmentErrorMessage(
-      'You may only attach up to 4 files',
-    );
-    composePage.closeAttachmentErrorPopup();
+    // logic has changed here. After attaching 4th file, Attach File button becomes hidden
+    cy.get('[data-testid="attach-file-input"]').should('not.exist');
+    // composePage.verifyAttachmentErrorMessage(
+    //   'You may only attach up to 4 files',
+    // );
+    // composePage.closeAttachmentErrorPopup();
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('[name="message-subject"]')

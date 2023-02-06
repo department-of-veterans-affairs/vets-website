@@ -10,7 +10,10 @@ const AttachmentsList = props => {
     if (num > 999999) {
       return `${(num / 1000000).toFixed(1)} MB`;
     }
-    return `${Math.floor(num / 1000)} KB`;
+    if (num > 999) {
+      return `${Math.floor(num / 1000)} KB`;
+    }
+    return `${num} B`;
   };
 
   useEffect(
@@ -22,8 +25,14 @@ const AttachmentsList = props => {
     [attachments, compose],
   );
 
-  const removeAttachment = name => {
-    const newAttArr = attachments.filter(item => item.name !== name);
+
+  const removeAttachment = file => {
+    const newAttArr = attachments.filter(item => {
+      if (item.name !== file.name) {
+        return true;
+      }
+      return item.size !== file.size;
+    });
     setAttachments(newAttArr);
   };
 
@@ -33,7 +42,7 @@ const AttachmentsList = props => {
       <ul className="attachments-list">
         {!!attachments.length &&
           attachments.map(file => (
-            <li key={file.name}>
+            <li key={file.name + file.size}>
               {editingEnabled && (
                 <div className="editable-attachment">
                   <span>
@@ -44,7 +53,7 @@ const AttachmentsList = props => {
                     ({getSize(file.size || file.attachmentSize)})
                   </span>
                   <va-button
-                    onClick={() => removeAttachment(file.name)}
+                    onClick={() => removeAttachment(file)}
                     secondary
                     text="Remove"
                     aria-label={`remove ${file.name}`}

@@ -24,7 +24,7 @@ export default function VerifyYourEnrollments() {
       href={VERIFY_ENROLLMENTS_URL}
       onClick={onVerifyAllEnrollments}
     >
-      Verify all enrollments
+      Verify your enrollment
     </a>
   );
 }
