@@ -161,9 +161,7 @@ export const SecondFAQSection = () => {
           >
             video
           </a>{' '}
-          for detailed instructions on how to disconnect your device.
-          <a href="https://www.youtube.com/watch?v=37aRcEZ3vyo">video</a> for
-          detailed instructions on how to disconnect your device. When you
+          for detailed instructions on how to disconnect your device. When you
           connect a device, such as a Fitbit, you will be able to choose the
           type of data (for example, heart rate, exercise, sleep, activity,
           and/or diet data) to share with the VA and your care team as part of
