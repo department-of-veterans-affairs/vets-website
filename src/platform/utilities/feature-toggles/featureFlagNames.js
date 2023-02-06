@@ -47,8 +47,6 @@ export default Object.freeze({
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
-  facilitiesPpmsSuppressCommunityCare:
-    'facilities_ppms_suppress_community_care',
   facilitiesPpmsSuppressPharmacies: 'facilities_ppms_suppress_pharmacies',
   facilityLocatorLatLongOnly: 'facility_locator_lat_long_only',
   facilityLocatorLighthouseCovidVaccineQuery:
