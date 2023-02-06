@@ -166,4 +166,31 @@ describe('Compose container', () => {
     expect(draftMessageHeadingText).to.exist;
     expect(deleteButton).to.exist;
   });
+
+  it('does not display recipients with preferredTeam:false attribute', () => {
+    const screen = renderWithStoreAndRouter(<Compose />, {
+      initialState,
+      reducers: reducer,
+      path: `/compose`,
+    });
+
+    const recipient = screen.getByTestId('compose-recipient-select');
+
+    const recipientValues = Array.from(
+      recipient.querySelectorAll('option'),
+    ).map(e => parseInt(e.getAttribute('value'), 10));
+    const falseValues = triageTeams
+      .filter(team => team.preferredTeam === false)
+      .map(team => team.id);
+    const trueValues = triageTeams
+      .filter(team => team.preferredTeam === true)
+      .map(team => team.id);
+    waitFor(() => {
+      expect(recipientValues.some(r => falseValues.indexOf(r) >= 0)).to.be
+        .false;
+    });
+    waitFor(() => {
+      expect(recipientValues).to.include.members(trueValues);
+    });
+  });
 });
