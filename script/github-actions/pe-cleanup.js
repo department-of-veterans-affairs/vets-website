@@ -41,10 +41,13 @@ if (
   process.env.TRIGGERING_EVENT === 'schedule' ||
   process.env.TRIGGERING_EVENT === 'push'
 ) {
-  const valuesFiles = fs
-    .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
-    .filter(file => daysSinceUpdate(file.last_updated) >= 7);
-  console.log(valuesFiles);
+  const valuesFiles = fs.readdirSync(
+    './manifests/apps/preview-environment/dev/environment-values/',
+  );
+  // .filter(file => daysSinceUpdate(file.last_updated) >= 7);
+  valuesFiles.forEach(file => {
+    console.log(daysSinceUpdate(file.last_updated));
+  });
   //   deleteFiles(valuesFiles);
   // } else {
   //   core.exportVariable('FILES_TO_DELETE', false);
