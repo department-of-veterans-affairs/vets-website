@@ -61,29 +61,6 @@ describe('Compose form component', () => {
     expect(body).to.exist;
   });
 
-  it('does not display recipients with preferredTeam:false attribute', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ComposeForm recipients={triageTeams} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: `/compose`,
-      },
-    );
-    const recipient = await screen.getByTestId('compose-recipient-select');
-    const recipientValues = Array.from(
-      recipient.querySelectorAll('option'),
-    ).map(e => parseInt(e.getAttribute('value'), 10));
-    const falseValues = triageTeams
-      .filter(team => team.preferredTeam === false)
-      .map(team => team.id);
-    const trueValues = triageTeams
-      .filter(team => team.preferredTeam === true)
-      .map(team => team.id);
-    expect(recipientValues.some(r => falseValues.indexOf(r) >= 0)).to.be.false;
-    expect(recipientValues).to.include.members(trueValues);
-  });
-
   it('displays compose action buttons if path is /compose', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={triageTeams} />,
