@@ -14,6 +14,8 @@ import {
   hasPhoneAppointments,
   appointmentIcon,
   clinicName,
+  getAppointmentId,
+  findAppointment,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -447,6 +449,33 @@ describe('check in', () => {
       it('returns the fallback if friendly name missing', () => {
         const appointment = createAppointment({ clinicFriendlyName: '' });
         expect(clinicName(appointment)).to.equal('LOM ACC CLINIC TEST');
+      });
+    });
+    describe('getAppointmentId', () => {
+      it('returns unique appointment ID of ien and station', () => {
+        const appointment = createAppointment({
+          appointmentIen: 24354,
+          stationNo: '4343',
+        });
+        expect(getAppointmentId(appointment)).to.equal('24354-4343');
+      });
+    });
+    describe('findAppointment', () => {
+      it('finds the appointment in array based on ID', () => {
+        const appointments = [
+          {
+            appointmentIen: 24354,
+            stationNo: '4343',
+          },
+          {
+            appointmentIen: '2222',
+            stationNo: '7780',
+          },
+        ];
+        const appointmentId = '2222-7780';
+        expect(findAppointment(appointmentId, appointments)).to.deep.equal(
+          appointments[1],
+        );
       });
     });
   });

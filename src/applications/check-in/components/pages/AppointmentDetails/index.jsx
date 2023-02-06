@@ -11,7 +11,11 @@ import {
   makeSelectCurrentContext,
 } from '../../../selectors';
 
-import { appointmentIcon, clinicName } from '../../../utils/appointment';
+import {
+  appointmentIcon,
+  clinicName,
+  findAppointment,
+} from '../../../utils/appointment';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
@@ -37,9 +41,9 @@ const AppointmentDetails = props => {
   useEffect(
     () => {
       if (appointmentId) {
-        const activeAppointmentDetails = appointments.find(
-          appointmentItem =>
-            Number(appointmentItem.appointmentIen) === Number(appointmentId),
+        const activeAppointmentDetails = findAppointment(
+          appointmentId,
+          appointments,
         );
         if (activeAppointmentDetails) {
           setAppointment(activeAppointmentDetails);

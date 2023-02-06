@@ -11,6 +11,7 @@ import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
+import { getAppointmentId } from '../utils/appointment';
 
 const AppointmentBlockVaos = props => {
   const { appointments, page, router, token } = props;
@@ -21,12 +22,12 @@ const AppointmentBlockVaos = props => {
 
   const { jumpToPage } = useFormRouting(router);
 
-  const handleDetailClick = (appointmentIen, e) => {
+  const handleDetailClick = (appointment, e) => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),
     });
-    jumpToPage(`appointment-details/${appointmentIen}`);
+    jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
   };
 
   return (

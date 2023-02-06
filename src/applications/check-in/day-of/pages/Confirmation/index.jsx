@@ -8,6 +8,7 @@ import { makeSelectVeteranData } from '../../../selectors';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation';
+import { findAppointment } from '../../../utils/appointment';
 
 const Confirmation = props => {
   const dispatch = useDispatch();
@@ -41,9 +42,9 @@ const Confirmation = props => {
   useEffect(
     () => {
       if (appointmentId) {
-        const activeAppointmentDetails = appointments.find(
-          appointmentItem =>
-            Number(appointmentItem.appointmentIen) === Number(appointmentId),
+        const activeAppointmentDetails = findAppointment(
+          appointmentId,
+          appointments,
         );
         if (activeAppointmentDetails) {
           setAppointment(activeAppointmentDetails);

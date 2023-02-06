@@ -64,7 +64,7 @@ const AppointmentListItemVaos = props => {
             <a
               data-testid="details-link"
               href="#details"
-              onClick={e => goToDetails(appointment.appointmentIen, e)}
+              onClick={e => goToDetails(appointment, e)}
               aria-label={t('click-to-see-details-for-your-time-appointment', {
                 time: appointmentDateTime,
               })}

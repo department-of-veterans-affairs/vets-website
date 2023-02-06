@@ -11,6 +11,7 @@ import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentActionVaos = props => {
   const { appointment, router, token, event } = props;
@@ -33,7 +34,7 @@ const AppointmentActionVaos = props => {
         });
         const { status } = json;
         if (status === 200) {
-          jumpToPage(`complete/${appointment.appointmentIen}`);
+          jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
         }
