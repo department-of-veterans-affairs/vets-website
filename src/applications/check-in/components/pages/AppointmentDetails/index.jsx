@@ -77,6 +77,7 @@ const AppointmentDetails = props => {
           <BackButton
             router={router}
             action={goToPreviousPage}
+            prevUrl="#back"
             text={t('back-to-appointments')}
           />
           <Wrapper classNames="appointment-details-page" withBackButton>
