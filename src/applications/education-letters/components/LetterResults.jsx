@@ -85,7 +85,11 @@ export const HasLetters = ({ claimStatus }) => {
       <p>
         This tool has decision letters for decisions we made on or after August
         20, 2022. If we decided your claim before this date or if you want to
-        request a different type of letter, contact us through Ask VA. .
+        request a different type of letter, contact us through{' '}
+        <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+          Ask VA
+        </a>
+        .
       </p>
       <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
         Contact us online through Ask VA.
@@ -126,20 +130,27 @@ export const NoLetters = () => {
           </ul>
           <p>
             {' '}
-            You can get your decision letter by contacting us online through Ask
-            VA instead.
+            You can get your decision letter by contacting us online through{' '}
+            <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+              Ask VA
+            </a>{' '}
+            instead.
           </p>
           <p>
-            Request your VA education letter through{' '}
             <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-              {' '}
-              Ask VA.
+              Request your VA education letter through Ask VA.
             </a>
           </p>
         </div>
       </va-alert>
       <h2 id="letter-isnt-listed">What if I have other questions?</h2>
-      <p>You can contact us online through Ask VA</p>
+      <p>
+        You can contact us online through{' '}
+        <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+          Ask VA
+        </a>
+        .
+      </p>
       <p>
         <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
           Contact us online through Ask VA.
