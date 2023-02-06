@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import {
@@ -21,8 +19,11 @@ import {
   convertRatingToStars,
 } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
-import RatingsStars from '../../components/RatingsStars';
+import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
 import SchoolClassification from '../../components/SchoolClassification';
+
+// environment variable to keep ratings out of production until ready
+const isProduction = !environment.isProduction();
 
 export function ResultCard({
   compare,
@@ -33,7 +34,6 @@ export function ResultCard({
   institution,
   location = false,
   header = null,
-  gibctSchoolRatings,
   active = false,
   version,
 }) {
@@ -42,8 +42,6 @@ export function ResultCard({
     city,
     state,
     studentCount,
-    ratingAverage,
-    ratingCount,
     accreditationType,
     cautionFlags,
     facilityCode,
@@ -54,6 +52,43 @@ export function ResultCard({
     programCount,
     programLengthInHours,
   } = institution;
+
+  let ratingCount = 0;
+  let ratingAverage = false;
+  let institutionRatingIsNotNull = false;
+  let institutionCountIsNotNull = false;
+  let institutionOverallAvgIsNotNull = false;
+  /** ***CHECK IF INSTITUTION.INSTITUTIONRATING IS NULL**** */
+  if (institution.institutionRating != null) {
+    institutionRatingIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institution.institutionRating.institutionRatingCount != null
+  ) {
+    institutionCountIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institution.institutionRating.overallAvg != null
+  ) {
+    institutionOverallAvgIsNotNull = true;
+  }
+  if (
+    institutionRatingIsNotNull &&
+    institutionCountIsNotNull &&
+    institutionOverallAvgIsNotNull
+  ) {
+    const {
+      institutionRatingCount,
+      overallAvg,
+    } = institution.institutionRating;
+    ratingCount = institutionRatingCount;
+    ratingAverage = overallAvg;
+  }
+  /// /////////////////////////////////////////////////////////
+
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
 
@@ -142,22 +177,29 @@ export function ResultCard({
   );
 
   // toggle for production/staging------------------------------------------------
-  let ratingsInformation = ''; // delete when ready for production, this will be a const
-  if (!environment.isProduction()) {
+  let ratingsInformation = false;
+  if (isProduction) {
     const stars = convertRatingToStars(ratingAverage);
-    const displayStars =
-      gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+    const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
-    ratingsInformation = displayStars ? ( // changed to a const when ready for production
+    ratingsInformation = displayStars ? (
       <div>
-        <div className="vads-u-margin-bottom--2">
-          <RatingsStars rating={ratingAverage} />
-          {location && <br />}
-          <strong>
-            ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount}{' '}
-            Veteran
-            {ratingCount > 1 && 's'}
-          </strong>
+        <div className="vads-l-grid-container search-star-container">
+          <div className="vads-u-margin-bottom--2 vads-l-row">
+            <div className="vads-u-margin-top--0p5 star-icons">
+              <RatingsStars rating={ratingAverage} />
+            </div>
+            <div className="xsmall-screen:vads-l-col--12 medium-screen:vads-l-col--8">
+              <strong>
+                {Math.round(10 * ratingAverage) / 10} out of 4 overall
+              </strong>
+            </div>
+            <div className="vads-l-row">
+              <div className="vads-l-col--12">
+                <strong>{ratingCount} veterans rated this institution</strong>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     ) : (
@@ -346,9 +388,6 @@ export function ResultCard({
 const mapStateToProps = (state, props) => ({
   compare: state.compare,
   estimated: estimatedBenefits(state, props),
-  gibctSchoolRatings: toggleValues(state)[
-    FEATURE_FLAG_NAMES.gibctSchoolRatings
-  ],
 });
 
 const mapDispatchToProps = {
