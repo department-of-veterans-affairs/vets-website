@@ -51,7 +51,9 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
 
 AdditionalIncomeInputList.propTypes = {
   errorSchema: PropTypes.shape({
-    addlIncRecords: PropTypes.array,
+    addlIncRecords: PropTypes.shape({
+      __errors: PropTypes.array,
+    }),
   }),
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,

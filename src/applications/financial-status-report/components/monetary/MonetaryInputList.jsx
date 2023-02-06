@@ -53,7 +53,9 @@ const MonetaryInputList = props => {
 
 MonetaryInputList.propTypes = {
   errorSchema: PropTypes.shape({
-    monetaryAssets: PropTypes.array,
+    monetaryAssets: PropTypes.shape({
+      __errors: PropTypes.array,
+    }),
   }),
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,

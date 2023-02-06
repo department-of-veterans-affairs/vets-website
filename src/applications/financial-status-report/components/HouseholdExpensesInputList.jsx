@@ -48,7 +48,9 @@ const HouseholdExpensesInputList = props => {
 
 HouseholdExpensesInputList.propTypes = {
   errorSchema: PropTypes.shape({
-    expenseRecords: PropTypes.array,
+    expenseRecords: PropTypes.shape({
+      __errors: PropTypes.array,
+    }),
   }),
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,
