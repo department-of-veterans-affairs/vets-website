@@ -23,7 +23,6 @@ import {
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
-  facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
   facilityLocatorLighthouseCovidVaccineQuery,
@@ -429,7 +428,6 @@ const FacilitiesMap = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressPPMS={props.suppressPPMS}
-          suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
@@ -438,11 +436,8 @@ const FacilitiesMap = props => {
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call{' '}
-              <a aria-label="9 1 1" href="tel:911">
-                911
-              </a>{' '}
-              or go to the nearest emergency department right away.
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
             </p>
           </div>
         )}
@@ -666,7 +661,6 @@ const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
-  suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
