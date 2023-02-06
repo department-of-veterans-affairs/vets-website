@@ -11,10 +11,6 @@
         "value": true
       },
       {
-        "name": "facilitiesPpmsSuppressPharmacies",
-        "value": false
-      },
-      {
         "name": "facilitiesPpmsSuppressCommunityCare",
         "value": true
       },
