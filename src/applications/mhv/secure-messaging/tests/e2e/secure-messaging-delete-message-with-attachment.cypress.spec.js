@@ -4,10 +4,10 @@ import mockMessagewithAttachment from './fixtures/message-response-withattachmen
 import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
-
   it('delete message with attachment', () => {
+    const site = new SecureMessagingSite();
+    const landingPage = new PatientInboxPage();
+
     site.login();
     site.loadPage();
 
