@@ -11,7 +11,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import {
   getAppealsV2 as getAppealsV2Action,
   // START lighthouse_migration
-  getClaims,
+  getClaims as getClaimsAction,
   getClaimsV2 as getClaimsV2Action,
   // END lighthouse_migration
   getStemClaims as getStemClaimsAction,
@@ -72,7 +72,7 @@ class YourClaimsPageV2 extends React.Component {
     const {
       appealsLoading,
       canAccessAppeals,
-      canAccessClaims,
+      canAccessClaimsEVSS,
       claimsLoading,
       getAppealsV2,
       // START lighthouse_migration
@@ -86,7 +86,7 @@ class YourClaimsPageV2 extends React.Component {
       // END lighthouse_migration
     } = this.props;
 
-    if (canAccessClaims) {
+    if (canAccessClaimsEVSS) {
       // START lighthouse_migration
       if (useLighthouse) {
         getClaimsLighthouse();
@@ -147,7 +147,7 @@ class YourClaimsPageV2 extends React.Component {
       stemClaimsLoading,
       appealsAvailable,
       canAccessAppeals,
-      canAccessClaims,
+      canAccessClaimsEVSS,
       claimsAvailable,
       // claimsAuthorized
     } = this.props;
@@ -158,14 +158,17 @@ class YourClaimsPageV2 extends React.Component {
 
     if (
       canAccessAppeals &&
-      canAccessClaims &&
+      canAccessClaimsEVSS &&
       claimsAvailable !== claimsAvailability.AVAILABLE &&
       appealsAvailable !== appealsAvailability.AVAILABLE
     ) {
       return <ClaimsAppealsUnavailable />;
     }
 
-    if (canAccessClaims && claimsAvailable !== claimsAvailability.AVAILABLE) {
+    if (
+      canAccessClaimsEVSS &&
+      claimsAvailable !== claimsAvailability.AVAILABLE
+    ) {
       return <ClaimsUnavailable />;
     }
 
@@ -296,7 +299,7 @@ YourClaimsPageV2.propTypes = {
   appealsAvailable: PropTypes.string,
   appealsLoading: PropTypes.bool,
   canAccessAppeals: PropTypes.bool,
-  canAccessClaims: PropTypes.bool,
+  canAccessClaimsEVSS: PropTypes.bool,
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
@@ -326,7 +329,7 @@ function mapStateToProps(state) {
   const canAccessAppeals = profileState.services.includes(
     backendServices.APPEALS_STATUS,
   );
-  const canAccessClaims = profileState.services.includes(
+  const canAccessClaimsEVSS = profileState.services.includes(
     backendServices.EVSS_CLAIMS,
   );
   const stemAutomatedDecision = toggleValues(state)[
@@ -346,7 +349,7 @@ function mapStateToProps(state) {
     appealsAvailable: claimsV2Root.v2Availability,
     appealsLoading: claimsV2Root.appealsLoading,
     canAccessAppeals,
-    canAccessClaims,
+    canAccessClaimsEVSS,
     claimsAvailable: claimsV2Root.claimsAvailability,
     claimsLoading: claimsV2Root.claimsLoading,
     fullName: state.user.profile.userFullName,
@@ -362,7 +365,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   // START lighthouse_migration
-  getClaimsLighthouse: getClaims,
+  getClaimsLighthouse: getClaimsAction,
   getClaimsV2: getClaimsV2Action,
   // END lighthouse_migration
   getStemClaims: getStemClaimsAction,
