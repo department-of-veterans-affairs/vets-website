@@ -15,99 +15,81 @@ export const HasLetters = ({ claimStatus }) => {
     <>
       <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
-        Download your VA education decision letter.
+        Check this page for your education decision letter for Post-9/11 GI Bill
+        benefits.{' '}
       </p>
-      <h2>Letter available for you to download</h2>
-      <div className="edu-certi-eligibility vads-u-margin-bottom--4">
-        <h3 className="vads-u-margin-top--2">Education decision letter</h3>
+      <h2>Your education decision letter is available</h2>
+      <div className="vads-u-margin-bottom--4">
         <p>
-          The letter displayed is based on your most recent claim submission and
-          is proof of your eligibility for VA education benefits. It shows
-          details like which program you’re getting benefits through, the
-          percentage of benefits you’re entitled to, and the time limit for
-          using your benefits.
+          This decision letter is for the claim you submitted for Post-9/11 GI
+          Bill benefits on the date listed here.
         </p>
+        <p>You applied for benefits on {receivedDate()}</p>
         <div>
           <a className="vads-u-flex--1" download href={LETTER_ENDPOINT}>
             <i
               className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
               aria-hidden="true"
             />
-            Download Post-9/11 GI Bill decision letter (PDF)
+            Download your education decision letter (PDF)
           </a>
-          <p>You applied for this on {receivedDate()}</p>
         </div>
+        <p>
+          <strong>Note: </strong>
+          If we asked you for more information and you’ve submitted it, this may
+          not be the most recent decision letter. We’ll send you a new decision
+          letter by mail.
+        </p>
       </div>
-
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          COE Decision Letter Update
-        </h2>
-        <div>
-          <p className="vads-u-margin-y--0">
-            The letter displayed here may not be the most recent decision letter
-            issued. If your claim requires further clarification, a follow-up
-            decision letter will be sent to you by mail. If you have additional
-            questions, you can contact us through{' '}
-            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-              {' '}
-              Ask VA.
-            </a>
-          </p>
-        </div>
-      </va-alert>
-
-      <h2>How do I download and open a letter?</h2>
+      <h2>How do I download and open my education decision letter?</h2>
       <p>
         First, you’ll need to make sure you have the latest version of Adobe
-        Acrobat Reader installed on your computer.{' '}
-        <a href="/">Download the latest version</a>. It’s free to download.
+        Acrobat Reader on your computer. It’s free to download.{' '}
+      </p>
+      <p>
+        <a href="https://get.adobe.com/reader/">Download the latest version</a>{' '}
+        of Adobe Acrobat Reader.
       </p>
       <p>
         <strong>
-          Then, follow these steps to download and open a PDF letter:
+          Then follow these steps to download and open a PDF letter:
         </strong>
       </p>
-      <va-process-list>
-        <li>
-          <h3>
-            Click on the link on this page for the letter you want to download.
-          </h3>
-          <p>
-            The PDF will download to your Downloads folder. You can save it to a
-            different folder if you’d like.
-          </p>
-          <p>
-            <strong>Note: </strong>
-            If the PDF form opens in your browser automatically or if you get a
-            “Please wait” error message, you’ll need to take one more step to
-            download the PDF: Click on the download icon in your browser. Save
-            the PDF to your device.
-          </p>
-        </li>
-        <li>
-          <h3>Open Adobe Acrobat Reader.</h3>
-        </li>
-        <li>
-          <h3>From the File menu, chose Open.</h3>
-        </li>
-        <li>
-          <h3>
-            Go to your Downloads folder or the location on your device where you
-            saved the PDF. Select the PDF and your letter will open.
-          </h3>
-        </li>
-      </va-process-list>
 
-      <h2 id="letter-isnt-listed">What if I my letter isn’t listed here?</h2>
       <p>
-        At this time, we only have letters available here that you received a
-        decision on after August 20, 2022. To request a copy of an older letter,
-        you can contact us through Ask VA.{' '}
-        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-          Request your VA education letter through Ask VA.
-        </a>
+        1. Click on the link on this page for the letter you want to download.
       </p>
+      <p>
+        The PDF will download to your Downloads folder. You can save it to a
+        different folder if you’d like.
+      </p>
+      <p>
+        Note: If the PDF form opens in your browser automatically or if you get
+        a “Please wait” error message, you’ll need to take one more step to
+        download the PDF: Click on the download icon in your browser. Save the
+        PDF to your device.
+      </p>
+
+      <p>2. Open Adobe Acrobat Reader.</p>
+
+      <p>3. Click on the File menu, and click Open.</p>
+
+      <p>
+        4. Go to your Downloads folder or the location on your device where you
+        saved the PDF. Select the PDF and your letter will open.
+      </p>
+
+      <h2 id="letter-isnt-listed">
+        What if my education decision letter isn’t here?
+      </h2>
+      <p>
+        This tool has decision letters for decisions we made on or after August
+        20, 2022. If we decided your claim before this date or if you want to
+        request a different type of letter, contact us through Ask VA. .
+      </p>
+      <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+        Contact us online through Ask VA.
+      </a>
     </>
   );
 };
@@ -115,22 +97,40 @@ export const HasLetters = ({ claimStatus }) => {
 export const NoLetters = () => {
   return (
     <>
-      <FormTitle title="VA education inbox" />
+      <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
-        Download important documents about your education benefits here,
-        including your decision letters.{' '}
+        Check this page for your education decision letter for Post-9/11 GI Bill
+        benefits.{' '}
       </p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3 slot="headline">
-          Your letter is not available to you through this tool
-        </h3>
+        <h2 slot="headline">Your education decision letter isn’t available</h2>
         <div>
           <p>
-            The letter displayed will be based on your most recent claim
-            submission. If your decision was prior to August 20, 2022 – or
-            you’re a family member or dependent – your decision letter will not
-            be listed here. You can contact us through Ask VA to request a copy
-            of your letter. Request your VA education letter through{' '}
+            If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
+            receive an instant decision, your decision letter may not be
+            available here yet. It can take us up to 30 days to make a decision
+            after you submit your application. Check back soon to find out if
+            your decision letter is available.
+          </p>
+          <p>
+            You won’t be able to get your decision letter through this tool if 1
+            of these is true for you:
+          </p>
+          <ul>
+            <li>
+              {' '}
+              We made a decision on your Post-9/11 GI Bill benefits before
+              August 20, 2022, or{' '}
+            </li>
+            <li>You’re a family member or a dependent of a Veteran</li>
+          </ul>
+          <p>
+            {' '}
+            You can get your decision letter by contacting us online through Ask
+            VA instead.
+          </p>
+          <p>
+            Request your VA education letter through{' '}
             <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
               {' '}
               Ask VA.
@@ -138,6 +138,13 @@ export const NoLetters = () => {
           </p>
         </div>
       </va-alert>
+      <h2 id="letter-isnt-listed">What if I have other questions?</h2>
+      <p>You can contact us online through Ask VA</p>
+      <p>
+        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
+          Contact us online through Ask VA.
+        </a>
+      </p>
     </>
   );
 };

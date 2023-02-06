@@ -1,21 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  errorMessages,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-  MAX_LENGTH,
-} from '../../constants';
+import { errorMessages, MAX_LENGTH } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
-  validateEvidence,
   validateVaLocation,
   validateVaIssues,
   validateVaFromDate,
   validateVaToDate,
+  isEmptyVaEntry,
   validateVaUnique,
   validatePrivateName,
   validateCountry,
@@ -26,72 +20,9 @@ import {
   validatePrivateIssues,
   validatePrivateFromDate,
   validatePrivateToDate,
+  isEmptyPrivateEntry,
   validatePrivateUnique,
 } from '../../validations/evidence';
-
-describe('validateEvidence', () => {
-  const getEvidence = ({
-    va = false,
-    locations = [],
-    priv8 = false,
-    facility = [],
-    other = false,
-    docs = [],
-  }) => ({
-    [EVIDENCE_VA]: va,
-    locations,
-    [EVIDENCE_PRIVATE]: priv8,
-    providerFacility: facility,
-    [EVIDENCE_OTHER]: other,
-    additionalDocuments: docs,
-  });
-  it('should show error if missing all evidence', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(errors, getEvidence({}));
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show error choosing all evidence, but it is all missing', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, other: true }),
-    );
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show error not choosing evidence, but the data is there', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(
-      errors,
-      getEvidence({ locations: [1], facility: [2], docs: [3] }),
-    );
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should not show an error if providing evidence', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(errors, getEvidence({ va: true, locations: [1] }));
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(errors, getEvidence({ priv8: true, facility: [2] }));
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(errors, getEvidence({ other: true, docs: [3] }));
-    expect(errors.addError.called).to.be.false;
-
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, locations: [1], priv8: true, other: true }),
-    );
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, facility: [2], other: true }),
-    );
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, other: true, docs: [3] }),
-    );
-    expect(errors.addError.called).to.be.false;
-  });
-});
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {
@@ -202,6 +133,42 @@ describe('VA evidence', () => {
     });
   });
 
+  describe('isEmptyVaEntry', () => {
+    it('should return true for empty entries', () => {
+      expect(isEmptyVaEntry()).to.be.true;
+      expect(isEmptyVaEntry({ locationAndName: null })).to.be.true;
+      expect(isEmptyVaEntry({ locationAndName: '' })).to.be.true;
+      expect(isEmptyVaEntry({ issues: null })).to.be.true;
+      expect(isEmptyVaEntry({ issues: [] })).to.be.true;
+      expect(isEmptyVaEntry({ evidenceDates: null })).to.be.true;
+      expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
+      expect(
+        isEmptyVaEntry({
+          locationAndName: '',
+          issues: [''],
+          evidenceDates: { from: '', to: '' },
+        }),
+      ).to.be.true;
+      // unknown keys are ignored
+      expect(isEmptyVaEntry({ foo: 'bar' })).to.be.true;
+    });
+    it('should return false for filled or partially filled entries', () => {
+      expect(isEmptyVaEntry({ locationAndName: 'bar' })).to.be.false;
+      expect(isEmptyVaEntry({ issues: ['bar'] })).to.be.false;
+      expect(isEmptyVaEntry({ evidenceDates: { from: '2020-01-01' } })).to.be
+        .false;
+      expect(isEmptyVaEntry({ evidenceDates: { to: '2020-01-01' } })).to.be
+        .false;
+      expect(
+        isEmptyVaEntry({
+          locationAndName: 'bar',
+          issues: ['test'],
+          evidenceDates: { from: '2020-01-01', to: '2020-02-02' },
+        }),
+      ).to.be.false;
+    });
+  });
+
   describe('validateVaUnique', () => {
     const getLocations = (name3 = 'location 2') => ({
       locations: [
@@ -232,6 +199,16 @@ describe('VA evidence', () => {
       validateVaUnique(errors, {}, getLocations('LOCATION 1'));
       expect(errors.addError.calledWith(errorMessages.evidence.unique)).to.be
         .true;
+    });
+    it('should not show an error for empty duplicates', () => {
+      const errors = { addError: sinon.spy() };
+      const data = [
+        ...getLocations().locations,
+        {},
+        { issues: [], evidenceData: {} },
+      ];
+      validateVaUnique(errors, {}, data);
+      expect(errors.addError.called).to.be.false;
     });
   });
 });
@@ -409,6 +386,100 @@ describe('Private evidence', () => {
         treatmentDateRange: { to: getDate({ offset: { years: 101 } }) },
       });
       expect(errors.addError.args[0][0]).contains('must enter a year between');
+    });
+  });
+
+  describe('isEmptyPrivateEntry', () => {
+    it('should return true for empty entries', () => {
+      expect(isEmptyPrivateEntry()).to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityName: null })).to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityName: '' })).to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { country: '' } }))
+        .to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { street: '' } }))
+        .to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { street2: '' } }))
+        .to.be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { city: '' } })).to
+        .be.true;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { state: '' } })).to
+        .be.true;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { postalCode: '' } }),
+      ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityAddress: {
+            country: '',
+            street: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+          },
+        }),
+      ).to.be.true;
+      expect(isEmptyPrivateEntry({ issues: null })).to.be.true;
+      expect(isEmptyPrivateEntry({ issues: [] })).to.be.true;
+      expect(isEmptyPrivateEntry({ treatmentDateRange: null })).to.be.true;
+      expect(isEmptyPrivateEntry({ treatmentDateRange: {} })).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityName: '',
+          providerFacilityAddress: {
+            country: '',
+            street: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+          },
+          issues: [''],
+          treatmentDateRange: { from: '', to: '' },
+        }),
+      ).to.be.true;
+    });
+    it('should return false for filled or partially filled entries', () => {
+      expect(isEmptyPrivateEntry({ providerFacilityName: 'bar' })).to.be.false;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'USA' } }),
+      ).to.be.false;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { street: '123' } }),
+      ).to.be.false;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { street2: '456' } }),
+      ).to.be.false;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { city: 'asd' } }))
+        .to.be.false;
+      expect(isEmptyPrivateEntry({ providerFacilityAddress: { state: 'AK' } }))
+        .to.be.false;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityAddress: { postalCode: '12345' },
+        }),
+      ).to.be.false;
+      expect(isEmptyPrivateEntry({ issues: ['bar'] })).to.be.false;
+      expect(
+        isEmptyPrivateEntry({ treatmentDateRange: { from: '2020-01-01' } }),
+      ).to.be.false;
+      expect(isEmptyPrivateEntry({ treatmentDateRange: { to: '2020-01-01' } }))
+        .to.be.false;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityName: 'bar',
+          providerFacilityAddress: {
+            country: 'USA',
+            street: '123',
+            street2: '456',
+            city: 'asd',
+            state: 'AK',
+            postalCode: '12345',
+          },
+          issues: ['test'],
+          treatmentDateRange: { from: '2020-01-01', to: '2020-02-02' },
+        }),
+      ).to.be.false;
     });
   });
 

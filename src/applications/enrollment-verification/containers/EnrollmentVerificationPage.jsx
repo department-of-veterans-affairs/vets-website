@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { fetchPost911GiBillEligibility } from '../actions';
+import { focusElement } from 'platform/utilities/ui';
+
+import {
+  fetchPost911GiBillEligibility,
+  UPDATE_VERIFICATION_STATUS_SUCCESS,
+} from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
@@ -17,10 +22,10 @@ import { getEVData } from '../selectors';
 export const EnrollmentVerificationPage = ({
   enrollmentVerification,
   enrollmentVerificationFetchComplete,
-  // enrollmentVerificationFetchFailure,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   isLoggedIn,
+  submissionResult,
 }) => {
   const history = useHistory();
 
@@ -42,6 +47,15 @@ export const EnrollmentVerificationPage = ({
     [getPost911GiBillEligibility, enrollmentVerification],
   );
 
+  useEffect(
+    () => {
+      if (submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS) {
+        focusElement('va-alert');
+      }
+    },
+    [submissionResult],
+  );
+
   if (!enrollmentVerificationFetchComplete) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
@@ -55,9 +69,8 @@ export const EnrollmentVerificationPage = ({
         If you get a monthly housing allowance (MHA) or kicker payments (or
         both) under the Post-9/11 GI Bill
         <sup>&reg;</sup> (Chapter 33), you’ll need to verify your enrollment
-        each month. If you don’t verify your enrollment for{' '}
-        <strong>two months in a row</strong>, we will pause your monthly
-        education payments.
+        each month. If it’s been more than 2 months since you verified your
+        enrollment, we’ll pause your monthly education payments.
       </p>
 
       {enrollmentVerification?.enrollmentVerifications?.length > 0 && (
@@ -102,6 +115,7 @@ EnrollmentVerificationPage.propTypes = {
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  submissionResult: PropTypes.string,
 };
 
 const mapStateToProps = state => getEVData(state);

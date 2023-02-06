@@ -1,7 +1,7 @@
 import DirectDeposit from '../DirectDeposit';
 import { paymentHistory } from '../../../../mocks/payment-history';
 import { anAccount } from '../../../../mocks/bank-accounts';
-import { user72Success } from '../../../../mocks/user';
+import { loa3User72 } from '../../../../mocks/user';
 import { data } from '../../../../mocks/mhvAccount';
 
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
@@ -12,7 +12,7 @@ describe('Direct Deposit Consistently', () => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
       cy.intercept('GET', '/v0/profile/ch33_bank_accounts', anAccount);
       cy.intercept('GET', '/v0/mhv_account', { data });
-      cy.login(user72Success);
+      cy.login(loa3User72);
     });
 
     it('happy path', () => {
@@ -70,7 +70,7 @@ describe('Direct Deposit Consistently', () => {
       );
       cy.intercept('GET', '/v0/mhv_account', { data });
       cy.intercept('GET', '/v0/profile/ch33_bank_accounts', anAccount);
-      cy.login(user72Success);
+      cy.login(loa3User72);
     });
 
     it('happy path', () => {

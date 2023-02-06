@@ -33,7 +33,7 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
- * Check if any appointment was canceled.
+ * Check if any appointment was canceled but not every.
  *
  * @param {Array<Appointment>} appointments
  *
@@ -43,7 +43,30 @@ const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
-  return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.some(statusIsCanceled) &&
+    !appointments.every(statusIsCanceled)
+  );
+};
+
+/**
+ * Check if every appointment was canceled.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
+ */
+const allAppointmentsCanceled = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.every(statusIsCanceled)
+  );
 };
 
 /**
@@ -225,6 +248,7 @@ const clinicName = appointment => {
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,

@@ -18,6 +18,7 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
+import { draftAutoSaveTimeout } from '../../util/constants';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -46,19 +47,23 @@ const ComposeForm = props => {
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
 
-  const debouncedSubject = useDebounce(subject, 3000);
-  const debouncedMessageBody = useDebounce(messageBody, 3000);
+  const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
+  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
 
   useEffect(
     () => {
+      const filteredRecipients = recipients.filter(
+        team => team.preferredTeam === true,
+      );
       setRecipientsList(prevRecipientsList => [
         ...prevRecipientsList.filter(
-          oldRecip => !recipients.find(newRecip => newRecip.id === oldRecip.id),
+          oldRecip =>
+            !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
         ),
-        ...recipients,
+        ...filteredRecipients,
       ]);
       if (!draft) {
         setSelectedRecipient('');

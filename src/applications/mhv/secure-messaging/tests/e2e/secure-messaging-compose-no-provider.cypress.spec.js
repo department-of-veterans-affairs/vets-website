@@ -1,5 +1,5 @@
 import PatientInboxPage from './pages/PatientInboxPage';
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockDraftMessage from '../fixtures/message-draft-response.json';
 
 describe('Secure Messaging Compose with No Provider', () => {

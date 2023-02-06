@@ -12,7 +12,7 @@ import * as Constants from '../../util/constants';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders } = props;
+  const { messageId, allFolders, isVisible } = props;
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -95,7 +95,7 @@ const MoveMessageToFolderBtn = props => {
                 .map((folder, i) => (
                   <>
                     <VaRadioOption
-                      data-testid="folder-list-radio-button"
+                      data-testid={`radiobutton-${folder.name}`}
                       key={i}
                       id={`radiobutton-${folder.name}`}
                       // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
@@ -134,38 +134,41 @@ const MoveMessageToFolderBtn = props => {
   };
 
   return (
-    <>
-      <button
-        type="button"
-        className="message-action-button middle-right-button usa-button-secondary"
-        onClick={openModal}
-      >
-        <i
-          className="fas fa-folder vads-u-margin-right--0p5"
-          aria-hidden="true"
-        />
-        <span
-          className="message-action-button-text"
-          data-testid="move-button-text"
+    isVisible && (
+      <li>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={openModal}
         >
-          Move
-        </span>
-      </button>
-      {isModalVisible ? moveToFolderModal() : null}
-      {isNewModalVisible && (
-        <CreateFolderModal
-          isModalVisible={isNewModalVisible}
-          setIsModalVisible={setIsNewModalVisible}
-          onConfirm={confirmCreateFolder}
-          folders={folders}
-        />
-      )}
-    </>
+          <i
+            className="fas fa-folder vads-u-margin-right--0p5"
+            aria-hidden="true"
+          />
+          <span
+            className="message-action-button-text"
+            data-testid="move-button-text"
+          >
+            Move
+          </span>
+        </button>
+        {isModalVisible ? moveToFolderModal() : null}
+        {isNewModalVisible && (
+          <CreateFolderModal
+            isModalVisible={isNewModalVisible}
+            setIsModalVisible={setIsNewModalVisible}
+            onConfirm={confirmCreateFolder}
+            folders={folders}
+          />
+        )}
+      </li>
+    )
   );
 };
 
 MoveMessageToFolderBtn.propTypes = {
   allFolders: PropTypes.array,
+  isVisible: PropTypes.bool,
   messageId: PropTypes.number,
 };
 

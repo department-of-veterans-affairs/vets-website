@@ -793,30 +793,6 @@ export function mockFacilitiesPageFetches(
 }
 
 /**
- * Mocks the api call that sets or retrieves preferences in var-resources
- *
- * @export
- * @param {string} emailAddress The email address to return in the mock
- */
-export function mockPreferences(emailAddress) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(`${environment.API_URL}/vaos/v0/preferences`),
-    {
-      data: {
-        id: '3071ca1783954ec19170f3c4bdfd0c95',
-        type: 'preferences',
-        attributes: {
-          notificationFrequency: 'Each new message',
-          emailAllowed: true,
-          emailAddress,
-          textMsgAllowed: false,
-        },
-      },
-    },
-  );
-}
-
-/**
  * Mock the api calls used to set up Express Care windows
  *
  * @export
