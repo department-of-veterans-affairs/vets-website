@@ -58,7 +58,7 @@ export const resolveParamsWithUrl = ({
 
   let facility;
   let service;
-  let url = api.url;
+  let { url } = api;
   let roundRadius;
   const perPage = 10;
   let communityServiceType = false;
@@ -251,14 +251,6 @@ export const facilityTypesOptions = {
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
-  [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETARY]: 'VA cemeteries',
-  [LocationType.VET_CENTER]: 'Vet Centers',
-};
-
-export const nonPPMSfacilityTypeOptions = {
-  [LocationType.NONE]: 'Choose a facility type',
-  [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
   [LocationType.CEMETARY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',

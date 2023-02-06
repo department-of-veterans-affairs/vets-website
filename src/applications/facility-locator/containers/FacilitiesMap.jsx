@@ -22,7 +22,6 @@ import {
   clearGeocodeError,
 } from '../actions';
 import {
-  facilitiesPpmsSuppressAll,
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
@@ -48,7 +47,6 @@ import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
-import Alert from '../components/Alert';
 
 let lastZoom = 3;
 
@@ -415,20 +413,12 @@ const FacilitiesMap = props => {
 
     return (
       <div className={!isMobile ? 'desktop-container' : undefined}>
-        {props.suppressPPMS && (
-          <Alert
-            displayType="warning"
-            title="Some search options aren’t working right now"
-            description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
-          />
-        )}
         <SearchControls
           geolocateUser={props.geolocateUser}
           clearGeocodeError={props.clearGeocodeError}
           currentQuery={currentQuery}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
-          suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           searchCovid19Vaccine={props.searchCovid19Vaccine}
@@ -438,11 +428,8 @@ const FacilitiesMap = props => {
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call{' '}
-              <a aria-label="9 1 1" href="tel:911">
-                911
-              </a>{' '}
-              or go to the nearest emergency department right away.
+              danger, call <va-telephone contact="911" /> or go to the nearest
+              emergency department right away.
             </p>
           </div>
         )}
@@ -664,7 +651,6 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),

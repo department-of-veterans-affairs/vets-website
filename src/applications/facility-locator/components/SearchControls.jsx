@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
-import { LocationType } from '../constants';
+import { focusElement } from 'platform/utilities/ui';
+import classNames from 'classnames';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   healthServices,
   benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
-  nonPPMSfacilityTypeOptions,
 } from '../config';
-import { focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { LocationType } from '../constants';
+import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 
 const SearchControls = props => {
@@ -216,24 +215,21 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies, suppressPPMS } = props;
+    const { suppressCCP, suppressPharmacies } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = suppressPPMS
-      ? nonPPMSfacilityTypeOptions
-      : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
     if (suppressPharmacies) {
-      delete locationOptions.pharmacy;
+      delete facilityTypesOptions.pharmacy;
     }
 
     if (suppressCCP) {
-      delete locationOptions.provider;
+      delete facilityTypesOptions.provider;
     }
 
-    const options = Object.keys(locationOptions).map(facility => (
+    const options = Object.keys(facilityTypesOptions).map(facility => (
       <option key={facility} value={facility}>
-        {locationOptions[facility]}
+        {facilityTypesOptions[facility]}
       </option>
     ));
 
@@ -398,7 +394,7 @@ const SearchControls = props => {
         }
       />
       <form id="facility-search-controls" onSubmit={handleSubmit}>
-        <div className={'columns'}>
+        <div className="columns">
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
