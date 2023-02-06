@@ -16,16 +16,8 @@ env:
   CURRENT_REPOSITORY: ${{ github.event.repository.name }}
 
 jobs:
-  # cleanup-expired-preview-environments:
-  #   name: Cleanup Expired Preview Environments
-  #   if: ${{ github.event_name }} == 'schedule'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  cleanup-deleted-branch-preview-environment:
+  cleanup-preview-environments:
     name: Remove Deleted Branch Preview Environment
-    if: ${{ github.event_name == 'delete' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -63,6 +55,8 @@ jobs:
 
       - name: Scan values files and delete as necessary
         run: node ./script/github-actions/pe-cleanup.js
+        env:
+          TRIGGERING_EVENT: ${{ github.event_name }}a
 
       - name: Add and Commit change(s)
         if: ${{ env.FILES_TO_DELETE == 'true'}}
