@@ -108,7 +108,7 @@ describe('Compose container', () => {
       sm: {
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { draftMessage },
+        draftDetails: { draftMessage, draftMessageHistory: [] },
       },
     };
     const screen = renderWithStoreAndRouter(<Compose />, {
@@ -116,7 +116,6 @@ describe('Compose container', () => {
       reducers: reducer,
       path: `/draft/7171715`,
     });
-
     const headingText = await screen.getAllByRole('heading', {
       name: 'Edit draft',
     });

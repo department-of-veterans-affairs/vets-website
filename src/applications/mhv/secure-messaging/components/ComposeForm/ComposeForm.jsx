@@ -55,16 +55,19 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      const filteredRecipients = recipients.filter(
-        team => team.preferredTeam === true,
-      );
-      setRecipientsList(prevRecipientsList => [
-        ...prevRecipientsList.filter(
-          oldRecip =>
-            !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
-        ),
-        ...filteredRecipients,
-      ]);
+      if (recipients?.length) {
+        const filteredRecipients = recipients.filter(
+          team => team.preferredTeam === true,
+        );
+        setRecipientsList(prevRecipientsList => [
+          ...prevRecipientsList.filter(
+            oldRecip =>
+              !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
+          ),
+          ...filteredRecipients,
+        ]);
+      }
+
       if (!draft) {
         setSelectedRecipient('');
         setSubject('');
@@ -279,16 +282,6 @@ const ComposeForm = props => {
     if (e.target.value) setBodyError('');
     setUnsavedNavigationError();
   };
-
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
 
   return (
     <form className="compose-form">
