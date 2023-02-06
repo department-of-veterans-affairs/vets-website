@@ -15,10 +15,6 @@
         "value": false
       },
       {
-        "name": "facilitiesPpmsSuppressCommunityCare",
-        "value": true
-      },
-      {
         "name": "facilityLocatorFeUseV1",
         "value": true
       },
