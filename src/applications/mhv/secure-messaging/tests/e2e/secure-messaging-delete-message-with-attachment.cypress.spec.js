@@ -21,6 +21,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       '/my_health/v1/messaging/messages/7192838',
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
+
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
     cy.wait('@messagesFolder');
@@ -29,6 +30,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     mockMessagewithAttachment.data.attributes.body = 'attachment';
 
     landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
+
     cy.contains('General:').click({ timeout: 5000 });
     cy.get('[data-testid="trash-button-text"]').click({
       waitforanimations: true,
