@@ -26,6 +26,7 @@ import AppointmentMessageVaos from '../../AppointmentDisplay/AppointmentMessageV
 const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
+  const complete = true;
   const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
@@ -99,7 +100,10 @@ const AppointmentDetails = props => {
                 preCheckInSubTitle
               ) : (
                 <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
-                  <AppointmentMessageVaos appointment={appointment} />
+                  <AppointmentMessageVaos
+                    appointment={appointment}
+                    complete={complete}
+                  />
                 </div>
               )}
               <div data-testid="appointment-details--when">

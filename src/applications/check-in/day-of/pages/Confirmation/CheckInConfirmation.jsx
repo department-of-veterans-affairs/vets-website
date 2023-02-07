@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
+// import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -14,12 +17,16 @@ import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { isTravelReimbursementEnabled } = featureToggles;
+  const {
+    isTravelReimbursementEnabled,
+    isUpdatedApptPresentationEnabled,
+  } = featureToggles;
 
   const { t } = useTranslation();
 
@@ -75,6 +82,14 @@ const CheckInConfirmation = props => {
       pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
+  // const handleDetailClick = (appointmentIen, e) => {
+  //   e.preventDefault();
+  //   recordEvent({
+  //     event: createAnalyticsSlug('details-link-clicked', 'nav'),
+  //   });
+  //   // dispatch(setActiveAppointment(appointmentIen));
+  //   jumpToPage('appointment-details');
+  // };
 
   const renderLoadingMessage = () => {
     return (
@@ -95,7 +110,19 @@ const CheckInConfirmation = props => {
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
-          <AppointmentConfirmationListItem appointment={appointment} key={0} />
+          {isUpdatedApptPresentationEnabled ? (
+            <AppointmentListItemVaos
+              appointment={appointment}
+              key={0}
+              showDetailsLink
+              goToDetails={() => {}}
+            />
+          ) : (
+            <AppointmentConfirmationListItem
+              appointment={appointment}
+              key={0}
+            />
+          )}
         </ol>
 
         <va-alert

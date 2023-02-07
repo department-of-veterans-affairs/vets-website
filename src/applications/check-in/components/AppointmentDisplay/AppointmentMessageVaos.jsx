@@ -6,7 +6,7 @@ import { parseISO } from 'date-fns';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
 
 const AppointmentMessageVaos = props => {
-  const { appointment } = props;
+  const { appointment, complete = false } = props;
   const { t } = useTranslation();
 
   const defaultMessage = t(
@@ -111,6 +111,11 @@ const AppointmentMessageVaos = props => {
       );
     }
   }
+  if (complete) {
+    alertMessage = (
+      <span data-testid="checked-in-message">{t('youre-checked-in')}</span>
+    );
+  }
   return (
     <>
       {alertMessage ? (
@@ -133,6 +138,7 @@ const AppointmentMessageVaos = props => {
 
 AppointmentMessageVaos.propTypes = {
   appointment: PropTypes.object,
+  complete: PropTypes.bool,
 };
 
 export default AppointmentMessageVaos;
