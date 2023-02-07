@@ -41,6 +41,10 @@ import * as recreationalVehicleRecords from './assets/recreationalVehicles/recor
 import * as vehicles from './assets/vehicles';
 import * as vehicleRecords from './assets/vehicles/records';
 import * as otherAssets from './assets/other';
+import {
+  otherAssetsChecklist,
+  otherAssetsValues,
+} from './assets/other/otherAssetsEnhanced';
 import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilities from './expenses/utilities';
@@ -111,6 +115,8 @@ export {
   vehicleRecords,
   otherAssets,
   otherAssetRecords,
+  otherAssetsChecklist,
+  otherAssetsValues,
   expenses,
   utilities,
   utilityRecords,

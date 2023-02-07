@@ -572,14 +572,34 @@ const formConfig = {
           title: 'Other assets',
           uiSchema: pages.otherAssets.uiSchema,
           schema: pages.otherAssets.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         otherAssetRecords: {
           path: 'other-asset-records',
           title: 'Other assets',
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
-          depends: ({ questions }) => questions.hasOtherAssets,
+          depends: formData =>
+            formData.questions.hasOtherAssets &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        // Other Household Assets
+        otherAssetsChecklist: {
+          path: 'other-asset-checklist',
+          title: 'Other asset options',
+          uiSchema: pages.otherAssetsChecklist.uiSchema,
+          schema: pages.otherAssetsChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsValues: {
+          path: 'other-asset-values',
+          title: 'Other asset values',
+          uiSchema: pages.otherAssetsValues.uiSchema,
+          schema: pages.otherAssetsValues.schema,
+          depends: formData =>
+            !!formData.assets?.otherAssetsEnhanced?.length &&
+            formData['view:enhancedFinancialStatusReport'],
         },
       },
     },

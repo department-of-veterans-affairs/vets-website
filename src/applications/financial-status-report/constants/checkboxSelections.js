@@ -44,3 +44,12 @@ export const householdExpensesOptions = [
   `Homeowner's Association (HOA) fees`,
   'Community Development District (CDD) fees',
 ];
+
+export const otherAssetOptions = [
+  'Antiques',
+  'Collectibles, or collection(s)',
+  'Fine art',
+  'Jewelry and gems',
+  'Precious metals and coins',
+  'Specialty equipment or technology',
+];
