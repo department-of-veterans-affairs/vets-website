@@ -54,7 +54,7 @@ if (
         'utf8',
       ),
     );
-    console.log(fileContents);
+    console.log(fileContents.podAnnotations.last_updated);
   });
   //   deleteFiles(valuesFiles);
   // } else {
