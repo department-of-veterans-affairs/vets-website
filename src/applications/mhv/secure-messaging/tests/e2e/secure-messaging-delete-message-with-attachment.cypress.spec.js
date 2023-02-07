@@ -31,12 +31,12 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
 
-    cy.contains('General:').click({ timeout: 5000 });
+    cy.contains('General:').click();
     cy.get('[data-testid="trash-button-text"]').click({
       waitforanimations: true,
     });
 
-    cy.get('[data-testid=delete-message-modal]', { timeout: 8000 })
+    cy.get('[data-testid=delete-message-modal]')
       .shadow()
       .find('button')
       .contains('Confirm')
