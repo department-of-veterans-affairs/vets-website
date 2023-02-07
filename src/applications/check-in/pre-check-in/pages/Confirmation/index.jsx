@@ -19,7 +19,7 @@ import {
 
 const Confirmation = props => {
   const { router } = props;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { getPreCheckinComplete, setPreCheckinComplete } = useSessionStorage();
 
   const { updateError } = useUpdateError();
@@ -38,9 +38,6 @@ const Confirmation = props => {
   useEffect(
     () => {
       async function sendPreCheckInData() {
-        // show loading screen
-        setIsLoading(true);
-
         // Set pre-checkin complete and send demographics flags.
         const preCheckInData = { uuid: token };
 
@@ -72,6 +69,9 @@ const Confirmation = props => {
 
       if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
         sendPreCheckInData();
+      } else {
+        // hide loading screen
+        setIsLoading(false);
       }
 
       focusElement('h1');
