@@ -4,10 +4,10 @@ const yaml = require('js-yaml');
 
 /* eslint-disable no-console */
 
-// const daysSinceUpdate = dateUpdated => {
-//   const diff = new Date(dateUpdated) - new Date();
-//   return diff / (1000 * 60 * 60 * 24);
-// };
+const daysSinceUpdate = dateUpdated => {
+  const diff = new Date(dateUpdated) - new Date();
+  return diff / (1000 * 60 * 60 * 24);
+};
 
 const deleteFiles = valuesFiles => {
   core.exportVariable('FILES_TO_DELETE', true);
@@ -43,10 +43,9 @@ if (
   process.env.TRIGGERING_EVENT === 'schedule' ||
   process.env.TRIGGERING_EVENT === 'push'
 ) {
-  const valuesFiles = fs.readdirSync(
-    './manifests/apps/preview-environment/dev/environment-values/',
-  );
-  // .filter(file => daysSinceUpdate(file.last_updated) >= 7);
+  const valuesFiles = fs
+    .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
+    .filter(file => daysSinceUpdate(file.last_updated) >= 7);
   valuesFiles.forEach(file => {
     const fileContents = yaml.load(
       fs.readFileSync(
