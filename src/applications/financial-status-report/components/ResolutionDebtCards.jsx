@@ -184,8 +184,8 @@ const ResolutionDebtCards = ({
               >
                 {options.map((option, i) => (
                   <VaRadioOption
-                    key={i}
-                    id={`${option.value}-${debt.id}_radio_options`}
+                    key={`${option.value}-${i}`}
+                    id={debt.id}
                     label={option.label}
                     value={option.value}
                     checked={debt.resolution?.resolutionType === option.value}
