@@ -29,11 +29,7 @@ const Repayment = ({ setPageState, state = {} }) => {
       'form-field-label': label,
       'form-field-value': value,
     });
-    setPageState(
-      { selected: value },
-      PAGE_NAMES[value] || { selected: value },
-      PAGE_NAMES.lessThan,
-    );
+    setPageState({ selected: value }, value);
   };
   return (
     <VaRadio
@@ -45,12 +41,12 @@ const Repayment = ({ setPageState, state = {} }) => {
         <VaRadioOption
           key={`${option.value}-${index}`}
           id={`repayment-option-${index}`}
-          name={`repayment-option-${index}-`}
+          name="repayment-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}
           ariaDescribedby={
-            state.selected === option.value ? option.page || option.value : null
+            state.selected === option.value ? option.value : null
           }
           className="vads-u-margin-y--3 vads-u-margin-left--2 "
         />

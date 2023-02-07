@@ -48,16 +48,12 @@ const Recipients = ({ setPageState, state = {} }) => {
       'form-field-label': label,
       'form-field-value': value,
     });
-    setPageState(
-      { selected: value },
-      pages[value] || { selected: value },
-      pages.waivers,
-    );
+    setPageState({ selected: value }, pages[value]);
   };
 
   return (
     <VaRadio
-      class="vads-u-margin-y--2"
+      className="vads-u-margin-y--2"
       label={label}
       onVaValueChange={handleOptionChange}
     >
@@ -65,12 +61,12 @@ const Recipients = ({ setPageState, state = {} }) => {
         <VaRadioOption
           key={`${option.value}-${index}`}
           id={`recipients-option-${index}`}
-          name={`recipients-option-${index}-`}
+          name="recipients-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}
           ariaDescribedby={
-            state.selected === option.value ? option.page || option.value : null
+            state.selected === option.value ? option.value : null
           }
           className="vads-u-margin-y--3 vads-u-margin-left--2 "
         />

@@ -54,11 +54,7 @@ const Start = ({ setPageState, state = {} }) => {
       'form-field-label': label,
       'form-field-value': value,
     });
-    setPageState(
-      { selected: value },
-      pages[value] || { selected: value },
-      pages.request,
-    );
+    setPageState({ selected: value }, pages[value]);
   };
 
   return (
@@ -71,12 +67,12 @@ const Start = ({ setPageState, state = {} }) => {
         <VaRadioOption
           key={option.value + index}
           id={`start-option-${index}`}
-          name={`start-option-${index}-`}
+          name="start-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}
           aria-describedby={
-            state.selected === option.value ? option.page || option.value : null
+            state.selected === option.value ? option.value : null
           }
           className="vads-u-margin-y--3 vads-u-margin-left--2"
         />

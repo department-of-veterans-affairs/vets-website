@@ -52,12 +52,12 @@ const Request = ({ setPageState, state = {} }) => {
         <VaRadioOption
           key={`${option.value}-${index}`}
           id={`request-option-${index}`}
-          name={`request-option-${index}-`}
+          name="request-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}
           ariaDescribedby={
-            state.selected === option.value ? option.page || option.value : null
+            state.selected === option.value ? option.value : null
           }
           className="vads-u-margin-y--3 vads-u-margin-left--2 "
         />
