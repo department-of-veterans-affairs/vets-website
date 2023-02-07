@@ -134,6 +134,20 @@ const useSessionStorage = (isPreCheckIn = true) => {
     [SESSION_STORAGE_KEYS],
   );
 
+  const setTravelClaimData = useCallback(
+    (window, value) => {
+      setSessionKey(window, SESSION_STORAGE_KEYS.TRAVEL_CLAIM_DATA, value);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
+  const getTravelClaimData = useCallback(
+    window => {
+      return getSessionKey(window, SESSION_STORAGE_KEYS.TRAVEL_CLAIM_DATA);
+    },
+    [SESSION_STORAGE_KEYS],
+  );
+
   return {
     clearCurrentSession,
     setCurrentToken,
@@ -148,6 +162,8 @@ const useSessionStorage = (isPreCheckIn = true) => {
     getProgressState,
     setPermissions,
     getPermissions,
+    setTravelClaimData,
+    getTravelClaimData,
   };
 };
 

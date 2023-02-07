@@ -25,6 +25,9 @@
   text-decoration: unset;
 }
 
+.alertbox-link:visited {
+  color: $color-link-default;
+}
 .compose-message-link:visited {
   color: $color-link-default;
   text-decoration: underline;
@@ -271,6 +274,7 @@ pre {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 va-loading-indicator {

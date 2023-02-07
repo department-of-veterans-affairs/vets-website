@@ -38,6 +38,14 @@
     .compose-form-div {
       margin-bottom: 24px;
     }
+    va-text-input#message-subject::part(input) {
+      max-width: 100%;
+    }
+    va-textarea#message-body::part(textarea) {
+      max-width: 100%;
+      resize: vertical;
+      box-sizing: border-box;
+    }
     .compose-form-header {
       border-radius: 4px 4px 0 0;
       background-color: $color-gray-lightest;
@@ -98,6 +106,13 @@
     }
     .compose-form-div {
       margin-bottom: 24px;
+    }
+    va-text-input#message-subject::part(input) {
+      max-width: 100%;
+      // background-color: $color-gray-dark;
+    }
+    va-textarea#message-body {
+      max-width: 100%;
     }
 
     .compose-inputs-container {
