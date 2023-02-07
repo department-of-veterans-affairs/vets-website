@@ -84,7 +84,9 @@ describe('<AddressValidationView/>', () => {
     const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
     expect(component.find('LoadingButton').text()).to.equal('Use this address');
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -128,7 +130,9 @@ describe('<AddressValidationView/>', () => {
     expect(component.find('.usa-button-primary').text()).to.equal(
       'Edit Address',
     );
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -168,7 +172,7 @@ describe('<AddressValidationView/>', () => {
       <AddressValidationView store={newFakeStore} />,
     );
 
-    expect(component.text()).to.not.include('Cancel');
+    expect(component.text()).to.not.include('Go back to edit');
     component.unmount();
   });
 
@@ -268,7 +272,9 @@ describe('<AddressValidationView/>', () => {
     );
 
     expect(component.find('LoadingButton').text()).to.equal('Update');
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
@@ -356,7 +362,9 @@ describe('<AddressValidationView/>', () => {
     expect(component.find('LoadingButton').text()).to.equal(
       'Use suggested address',
     );
-    expect(component.find('.usa-button-secondary').text()).to.equal('Cancel');
+    expect(component.find('.usa-button-secondary').text()).to.equal(
+      'Go back to edit',
+    );
     component.unmount();
   });
 
