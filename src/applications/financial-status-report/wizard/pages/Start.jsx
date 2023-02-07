@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { PAGE_NAMES } from '../constants';
 
@@ -60,12 +63,12 @@ const Start = ({ setPageState, state = {} }) => {
 
   return (
     <VaRadio
-      class="vads-u-margin-y--2"
+      className="vads-u-margin-y--2"
       label={label}
       onVaValueChange={handleOptionChange}
     >
       {options.map((option, index) => (
-        <va-radio-option
+        <VaRadioOption
           key={option.value + index}
           name={`start-option-${index}-`}
           label={option.label}
@@ -74,7 +77,7 @@ const Start = ({ setPageState, state = {} }) => {
           aria-describedby={
             state.selected === option.value ? option.page || option.value : null
           }
-          class="vads-u-margin-y--3 vads-u-margin-left--2"
+          className="vads-u-margin-y--3 vads-u-margin-left--2"
         />
       ))}
     </VaRadio>
