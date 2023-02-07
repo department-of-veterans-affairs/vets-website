@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 
@@ -143,7 +147,14 @@ const App = ({
         <header className="row vads-u-padding-x--1">
           <FormTitle title="Your VA home loan COE" />
         </header>
-        {content}
+        <div className="row">
+          <DowntimeNotification
+            appTitle="Certificate of Eligibility Status Tool"
+            dependencies={[externalServices.coe]}
+          >
+            {content}
+          </DowntimeNotification>
+        </div>
       </RequiredLoginView>
     </>
   );
