@@ -48,7 +48,11 @@ const AlertBox = () => {
         </h2>
         <p>{activeAlert.content}</p>
         <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
-          <Link className="alertbox-link" to={`${activeAlert.link}`}>
+          <Link
+            className="alertbox-link"
+            aria-label={`${activeAlert.title}`}
+            to={`${activeAlert.link}`}
+          >
             <i className={activeAlert.className} />
             {activeAlert.title}
           </Link>
