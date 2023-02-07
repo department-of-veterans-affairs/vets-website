@@ -173,7 +173,6 @@ class AddressValidationView extends React.Component {
 
   renderAddressOption = (address, id = 'userEntered') => {
     const {
-      addressValidationError,
       confirmedSuggestions,
       selectedAddressId,
       validationKey,
@@ -183,9 +182,6 @@ class AddressValidationView extends React.Component {
     const hasConfirmedSuggestions =
       (confirmedSuggestions.length > 0 && validationKey) ||
       confirmedSuggestions.length > 1;
-    const showEditLinkErrorState = addressValidationError && validationKey;
-    const showEditLinkNonErrorState = !addressValidationError;
-    const showEditLink = showEditLinkErrorState || showEditLinkNonErrorState;
     const isFirstOptionOrEnabled =
       (isAddressFromUser && validationKey) || !isAddressFromUser;
 
@@ -215,13 +211,6 @@ class AddressValidationView extends React.Component {
             <span>{street}</span>
             <span>{cityStateZip}</span>
             <span>{country}</span>
-
-            {isAddressFromUser &&
-              showEditLink && (
-                <button className="va-button-link" onClick={this.onEditClick}>
-                  Edit Address
-                </button>
-              )}
           </div>
         </label>
       </div>
@@ -233,18 +222,12 @@ class AddressValidationView extends React.Component {
       addressFromUser,
       addressValidationError,
       confirmedSuggestions,
-      resetAddressValidation,
       suggestedAddresses,
       transaction,
       transactionRequest,
       validationKey,
       isLoading,
     } = this.props;
-
-    const resetDataAndCloseModal = () => {
-      resetAddressValidation();
-      this.props.closeModal();
-    };
 
     const validationMessageKey = getValidationMessageKey(
       suggestedAddresses,
@@ -302,9 +285,9 @@ class AddressValidationView extends React.Component {
             <button
               type="button"
               className="usa-button-secondary"
-              onClick={resetDataAndCloseModal}
+              onClick={this.onEditClick}
             >
-              Cancel
+              Go back to edit
             </button>
           )}
         </form>
