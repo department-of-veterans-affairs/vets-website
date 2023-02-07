@@ -5,7 +5,7 @@ const yaml = require('js-yaml');
 /* eslint-disable no-console */
 
 const daysSinceUpdate = dateUpdated => {
-  const diff = new Date(dateUpdated) - new Date();
+  const diff = new Date() - new Date(dateUpdated);
   return diff / (1000 * 60 * 60 * 24);
 };
 
