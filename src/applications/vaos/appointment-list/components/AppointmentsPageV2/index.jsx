@@ -94,7 +94,7 @@ function renderWarningNotification() {
 export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
-  const [pageTitle, setPageTitle] = useState('VA online scheduling');
+  let [pageTitle] = useState('VA online scheduling');
 
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
