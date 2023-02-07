@@ -7,6 +7,7 @@ import {
   isVAPhoneAppointment,
   isClinicVideoAppointment,
   getAppointmentDate,
+  getLink,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
@@ -64,17 +65,6 @@ VAFacilityName.propTypes = {
   facility: PropTypes.object,
 };
 
-function getIsCommunityCare({ appointment, featureStatusImprovement }) {
-  const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-        appointment.id
-      }`;
-}
-
 function isCanceled(appointment) {
   return appointment.status === APPOINTMENT_STATUS.cancelled;
 }
@@ -103,7 +93,10 @@ export default function AppointmentCard({
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
-  const link = getIsCommunityCare({ appointment, featureStatusImprovement });
+  const link = getLink({
+    featureStatusImprovement,
+    appointment,
+  });
 
   return (
     <>
