@@ -85,3 +85,6 @@ export const selectFeatureAcheronService = state =>
 
 export const selectFeatureRequestFlowUpdate = state =>
   toggleValues(state).vaOnlineSchedulingRequestFlowUpdate;
+
+export const selectFeaturePocTypeOfCare = state =>
+  toggleValues(state).vaOnlineSchedulingPocTypeOfCare;

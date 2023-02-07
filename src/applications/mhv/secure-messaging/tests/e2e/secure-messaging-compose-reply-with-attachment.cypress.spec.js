@@ -24,7 +24,7 @@ describe('Compose Reply With Attacments and Errors', () => {
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('test_image_10mb.jpg');
     composePage.verifyAttachmentErrorMessage(
-      'File size for a single attachment cannot exceed 6MB',
+      'File size for a single attachment cannot exceed 6MB.',
     );
     composePage.closeAttachmentErrorPopup();
     composePage.attachMessageFromFile('sample_pdf.pdf');
