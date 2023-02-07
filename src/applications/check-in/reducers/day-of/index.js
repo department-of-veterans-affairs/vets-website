@@ -1,12 +1,5 @@
 import { removeTimeZone } from '../../utils/appointment';
 
-const appointmentWasCheckedIntoHandler = (state, action) => {
-  return {
-    ...state,
-    context: { ...state.context, appointment: action.payload.appointment },
-  };
-};
-
 const triggerRefreshHandler = (state, action) => {
   return {
     ...state,
@@ -34,7 +27,6 @@ const seeStaffMessageUpdatedHandler = (state, action) => {
 };
 
 export {
-  appointmentWasCheckedIntoHandler,
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
