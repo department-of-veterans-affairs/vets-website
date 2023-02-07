@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
@@ -122,6 +125,21 @@ const ResolutionDebtCards = ({
       }),
     });
   };
+  const radioLabel = 'Which option would you like for this debt?';
+  const options = [
+    {
+      value: 'Waiver',
+      label: 'Waiver',
+    },
+    {
+      value: 'Extended monthly payments',
+      label: 'Extended monthly payments',
+    },
+    {
+      value: 'Compromise',
+      label: 'Compromise',
+    },
+  ];
 
   return (
     <>
@@ -134,7 +152,17 @@ const ResolutionDebtCards = ({
         const compPenWaiver = debt.deductionCode === '30' && type === 'Waiver';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle = currency(debt?.currentAr);
-
+        const radioButtonProps = {
+          name: debt.id,
+          label: radioLabel,
+          value: debt.resolution?.resolutionType,
+          onVaValueChange: e => {
+            if (e.returnValue) {
+              updateDebts(objKey, e.detail.value, debt);
+            }
+          },
+          error: radioError ? 'Please select a debt resolution option' : null,
+        };
         return (
           <div
             key={debt.id}
@@ -149,18 +177,27 @@ const ResolutionDebtCards = ({
               open={type && !compPenWaiver}
               additionalClass="form-expanding-group-active-radio"
             >
-              <RadioButtons
-                id={debt.id}
-                name={debt.id}
-                label="Which option would you like for this debt?"
-                options={['Waiver', 'Extended monthly payments', 'Compromise']}
-                value={{ value: debt.resolution?.resolutionType }}
-                onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-                errorMessage={
-                  radioError && 'Please select a debt resolution option.'
-                }
+              <VaRadio
+                className="vads-u-margin-y--2"
+                {...radioButtonProps}
                 required
-              />
+              >
+                {options.map((option, i) => (
+                  <VaRadioOption
+                    key={i}
+                    id={`${option.value}-${debt.id}_radio_options`}
+                    label={option.label}
+                    value={option.value}
+                    checked={debt.resolution?.resolutionType === option.value}
+                    className="vads-u-margin-y--3"
+                    ariaDescribedby={
+                      debt.resolution?.resolutionType === option.value
+                        ? option.value
+                        : option.label
+                    }
+                  />
+                ))}
+              </VaRadio>
               <ExpandedContent
                 index={index}
                 debt={debt}
