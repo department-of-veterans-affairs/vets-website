@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -18,7 +17,7 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { draftAutoSaveTimeout } from '../../util/constants';
+import { draftAutoSaveTimeout, Categories } from '../../util/constants';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -52,6 +51,15 @@ const ComposeForm = props => {
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
+
+  const {
+    OTHER,
+    COVID,
+    APPOINTMENTS,
+    MEDICATIONS,
+    TEST_RESULTS,
+    EDUCATION,
+  } = Categories;
 
   useEffect(
     () => {
@@ -143,17 +151,26 @@ const ComposeForm = props => {
 
   const setMessageTitle = () => {
     const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
+      category ===
+      (COVID ||
+        OTHER ||
+        APPOINTMENTS ||
+        MEDICATIONS ||
+        TEST_RESULTS ||
+        EDUCATION)
+        ? Categories[category]
+        : 'New message';
+
     if (category && subject) {
-      return `${casedCategory}: ${subject}`;
+      return `${Categories[category]}: ${subject}`;
     }
     if (category && !subject) {
-      return `${casedCategory}:`;
+      return `${Categories[category]}:`;
     }
     if (!category && subject) {
       return subject;
     }
-    return 'New message';
+    return `${casedCategory}`;
   };
 
   const checkMessageValidity = () => {
