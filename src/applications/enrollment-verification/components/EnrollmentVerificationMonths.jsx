@@ -78,8 +78,8 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
 
       {months?.slice(minMonth, maxMonth)}
 
-      {months?.length === 0 && (
-        <p>
+      {!months?.length && (
+        <p className="vads-u-margin-bottom--6">
           <strong>You currently have no enrollments.</strong>
         </p>
       )}

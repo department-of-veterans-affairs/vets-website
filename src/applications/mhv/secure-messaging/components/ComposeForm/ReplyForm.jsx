@@ -16,6 +16,7 @@ import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { draftAutoSaveTimeout } from '../../util/constants';
+import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
   const { draftToEdit, replyMessage } = props;
@@ -297,9 +298,8 @@ const ReplyForm = props => {
                 </strong>{' '}
                 To:{' '}
               </strong>
-              {replyMessage.senderName}
+              {replyMessage.recipientName}
               <br />
-              (Team: {replyMessage.triageGroupName})
             </p>
             <va-textarea
               label="Message"
@@ -378,8 +378,8 @@ const ReplyForm = props => {
             </p>
           </section>
 
-          <section aria-label="Message body.">
-            <pre>{replyMessage.body}</pre>
+          <section aria-label="Message body." className="vads-u-margin-top--1">
+            <MessageThreadBody text={replyMessage.body} />
           </section>
 
           {!!replyMessage.attachments &&
