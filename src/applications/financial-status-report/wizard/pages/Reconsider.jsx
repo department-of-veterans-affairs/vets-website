@@ -42,8 +42,8 @@ const Reconsider = ({ setPageState, state = {} }) => {
       {options.map((option, index) => (
         <VaRadioOption
           key={`${option.value}-${index}`}
-          id={`reconsider-option-${index}`}
-          name="reconsider-option"
+          id={`decision-option-${index}`}
+          name="decision-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}

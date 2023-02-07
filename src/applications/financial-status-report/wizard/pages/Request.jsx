@@ -51,8 +51,8 @@ const Request = ({ setPageState, state = {} }) => {
       {options.map((option, index) => (
         <VaRadioOption
           key={`${option.value}-${index}`}
-          id={`request-option-${index}`}
-          name="request-option"
+          id={`reconsider-option-${index}`}
+          name="reconsider-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}

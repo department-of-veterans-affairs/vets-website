@@ -40,8 +40,8 @@ const Repayment = ({ setPageState, state = {} }) => {
       {options.map((option, index) => (
         <VaRadioOption
           key={`${option.value}-${index}`}
-          id={`repayment-option-${index}`}
-          name="repayment-option"
+          id={`decision-option-${index}`}
+          name="decision-option"
           label={option.label}
           value={option.value}
           checked={state.selected === option.value}
