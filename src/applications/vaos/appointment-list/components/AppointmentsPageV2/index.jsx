@@ -131,7 +131,13 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname, prefix],
+    [
+      subPageTitle,
+      featureStatusImprovement,
+      location.pathname,
+      prefix,
+      pageTitle,
+    ],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
