@@ -1,7 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { EVIDENCE_VA_REQUEST } from '../constants';
+
+const recordActionLinkClick = () => {
+  recordEvent({
+    event: 'cta-action-link-click',
+    'action-link-type': 'primary',
+    'action-link-click-label': 'Add more evidence',
+    'action-link-icon-color': 'green',
+  });
+};
 
 export const content = {
   edit: 'Edit',
@@ -21,6 +32,7 @@ export const content = {
       <Link
         to={`/${EVIDENCE_VA_REQUEST}`}
         className="vads-c-action-link--green"
+        onClick={recordActionLinkClick}
       >
         Add more evidence
       </Link>

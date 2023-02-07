@@ -6,6 +6,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Delete Draft', () => {
   it('Axe Check Delete Draft', () => {
+    const mockThreadResponse = { data: [] };
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -30,15 +31,21 @@ describe('Secure Messaging Delete Draft', () => {
       '/my_health/v1/messaging/messages/7208913',
       mockDraftMessages,
     ).as('deletedDraftResponse');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/7208913/thread',
+      mockThreadResponse,
+    ).as('draftThreadResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
 
     cy.wait('@draftsFolderMetaResponse');
     cy.wait('@draftsResponse');
+
     // cy.get(':nth-child(3) > .message-subject-link').click();
     cy.contains('Appointment:').click();
-
+    cy.wait('@draftThreadResponse');
     cy.get('[data-testid="delete-draft-button"]').click({ force: true });
 
     cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
