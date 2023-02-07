@@ -39,10 +39,7 @@ if (process.env.TRIGGERING_EVENT === 'delete') {
   }
 }
 
-if (
-  process.env.TRIGGERING_EVENT === 'schedule' ||
-  process.env.TRIGGERING_EVENT === 'push'
-) {
+if (process.env.TRIGGERING_EVENT === 'schedule') {
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
     .filter(file => {

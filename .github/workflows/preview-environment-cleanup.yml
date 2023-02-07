@@ -4,15 +4,11 @@ on:
       - '**'
   schedule:
     - cron: 00 00,12 * * *
-  push:
-    branches:
-      - '**'
 
 name: Preview Environment Cleanup
 
 env:
-  # DELETED_BRANCH: ${{ github.event.ref }}
-  DELETED_BRANCH: pe-deploy-image
+  DELETED_BRANCH: ${{ github.event.ref }}
   CURRENT_REPOSITORY: ${{ github.event.repository.name }}
 
 jobs:
@@ -67,4 +63,4 @@ jobs:
           branch: main
           cwd: manifests/apps/preview-environment/dev/
           add: 'environment-values'
-          message: 'Remove values file for deleted branch'
+          message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
