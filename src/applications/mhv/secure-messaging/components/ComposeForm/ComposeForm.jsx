@@ -295,6 +295,7 @@ const ComposeForm = props => {
           onCloseEvent={() => setSaveError(null)}
           primaryButtonText="Continue editing"
           status="warning"
+          data-testid="quit-compose-double-dare"
           visible
         >
           <p>{saveError.p1}</p>
