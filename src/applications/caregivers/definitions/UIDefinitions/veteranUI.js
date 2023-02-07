@@ -8,7 +8,7 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   facilityNameMaxLength,
-} from '../../helpers';
+} from '../../utils/helpers';
 import {
   FacilityInfoDescription,
   LastTreatmentFacilityDescription,
