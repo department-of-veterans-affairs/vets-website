@@ -39,20 +39,21 @@ if (process.env.TRIGGERING_EVENT === 'delete') {
   }
 }
 
-if (process.env.TRIGGERING_EVENT === 'schedule') {
+if (
+  process.env.TRIGGERING_EVENT === 'schedule' ||
+  process.env.TRIGGERING_EVENT === 'push'
+) {
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
-    .filter(
-      file =>
-        daysSinceUpdate(
-          yaml.load(
-            fs.readFileSync(
-              `./manifests/apps/preview-environment/dev/environment-values/${file}`,
-              'utf8',
-            ),
-          ).podAnnotations.last_updated,
-        ) >= 7,
-    );
+    .filter(file => {
+      const fileContents = yaml.load(
+        fs.readFileSync(
+          `./manifests/apps/preview-environment/dev/environment-values/${file}`,
+          'utf8',
+        ),
+      ).podAnnotations.last_updated;
+      return !fileContents || daysSinceUpdate(fileContents) >= 7;
+    });
   if (valuesFiles.length > 0) {
     deleteFiles(valuesFiles);
   } else {
