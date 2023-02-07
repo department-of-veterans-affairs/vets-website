@@ -70,6 +70,7 @@ const Start = ({ setPageState, state = {} }) => {
       {options.map((option, index) => (
         <VaRadioOption
           key={option.value + index}
+          id={`start-option-${index}`}
           name={`start-option-${index}-`}
           label={option.label}
           value={option.value}
