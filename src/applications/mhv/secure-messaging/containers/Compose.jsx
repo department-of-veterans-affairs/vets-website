@@ -21,7 +21,7 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
-  const [replyMessage, setReplyMessage] = useState(null);
+  const [replyMessage, setReplyMessage] = useState(undefined);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -36,20 +36,30 @@ const Compose = () => {
       }
       if (location.pathname === '/compose') {
         dispatch(clearDraft());
+        setReplyMessage(null);
       }
       dispatch(getTriageTeams());
       if (isDraftPage && draftId) {
         dispatch(retrieveMessage(draftId, true));
       }
+      return () => {
+        dispatch(clearDraft());
+      };
     },
     [isDraftPage, draftId, activeFolder, dispatch, history],
   );
 
   useEffect(
     () => {
-      if (messageHistory?.length > 0 && !replyMessage) {
-        // TODO filter history to grab only received messages.
-        setReplyMessage(messageHistory.shift());
+      // wait until messageHistory is retrieved to determine if we should show a ReplyForm
+      // To prevent from Edit Draft Title falshing on screen
+      if (messageHistory !== undefined) {
+        if (messageHistory?.length > 0 && !replyMessage) {
+          // TODO filter history to grab only received messages.
+          setReplyMessage(messageHistory.shift());
+        } else {
+          setReplyMessage(null);
+        }
       }
     },
     [messageHistory],
@@ -64,6 +74,20 @@ const Compose = () => {
   }
 
   const content = () => {
+    if (!isDraftPage && triageTeams) {
+      return (
+        <>
+          <h1 className="page-title" ref={header}>
+            {pageTitle}
+          </h1>
+          <EmergencyNote />
+          <div>
+            <BeforeMessageAddlInfo />
+          </div>
+          <ComposeForm draft={draftMessage} recipients={triageTeams} />
+        </>
+      );
+    }
     if ((isDraftPage && !draftMessage) || !triageTeams) {
       return (
         <va-loading-indicator
@@ -84,34 +108,42 @@ const Compose = () => {
         </va-alert>
       );
     }
-    if (messageHistory) {
+
+    if (replyMessage !== undefined) {
       return (
         <>
-          <ReplyForm draftToEdit={draftMessage} replyMessage={replyMessage} />
-          {replyMessage &&
-            messageHistory?.length > 1 && (
-              <MessageThread messageHistory={messageHistory.slice(1)} />
-            )}
+          {replyMessage === null ? (
+            <>
+              <h1 className="page-title" ref={header}>
+                {pageTitle}
+              </h1>
+              <EmergencyNote />
+              <div>
+                <BeforeMessageAddlInfo />
+              </div>
+              <ComposeForm draft={draftMessage} recipients={triageTeams} />
+            </>
+          ) : (
+            <>
+              <ReplyForm
+                draftToEdit={draftMessage}
+                replyMessage={replyMessage}
+              />
+              {replyMessage &&
+                messageHistory?.length > 1 && (
+                  <MessageThread messageHistory={messageHistory.slice(1)} />
+                )}
+            </>
+          )}
         </>
       );
     }
-    return <ComposeForm draft={draftMessage} recipients={triageTeams} />;
+    return null;
   };
 
   return (
     <div className="vads-l-grid-container compose-container">
       <AlertBackgroundBox closeable />
-      {!replyMessage && (
-        <>
-          <h1 className="page-title" ref={header}>
-            {pageTitle}
-          </h1>
-          <EmergencyNote />
-          <div>
-            <BeforeMessageAddlInfo />
-          </div>
-        </>
-      )}
 
       {content()}
     </div>

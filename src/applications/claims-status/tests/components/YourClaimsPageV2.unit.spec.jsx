@@ -32,7 +32,7 @@ Object.defineProperty(window, 'sessionStorage', {
 
 describe('<YourClaimsPageV2>', () => {
   const defaultProps = {
-    canAccessClaims: true,
+    canAccessClaimsEVSS: true,
     canAccessAppeals: true,
     claimsLoading: false,
     appealsLoading: false,

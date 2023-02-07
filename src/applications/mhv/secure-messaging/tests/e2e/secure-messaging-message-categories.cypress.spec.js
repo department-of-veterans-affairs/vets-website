@@ -1,0 +1,40 @@
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientInboxPage from './pages/PatientInboxPage';
+import PatientComposePage from './pages/PatientComposePage';
+
+describe('Secure Messaging Compose', () => {
+  it('can send message', () => {
+    const landingPage = new PatientInboxPage();
+    const composePage = new PatientComposePage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadPage();
+    landingPage.loadPage(false);
+    cy.get('[data-testid="compose-message-link"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
+    composePage.enterComposeMessageDetails('COVID');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('COVID');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('Appointment');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('Medication');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('Test');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('Education');
+    composePage.sendMessage();
+    landingPage.verifySentSuccessMessage();
+  });
+});
