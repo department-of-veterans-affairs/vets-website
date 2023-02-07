@@ -8,7 +8,9 @@ export default function TestComponent() {
     travelPayClaimSent,
     setTravelPayClaimSent,
     travelPayEligible,
-  } = useTravelPayFlags();
+  } = useTravelPayFlags({
+    startTime: '2022-08-12T15:15:00',
+  });
   return (
     <div>
       <div data-testid="travelPayQuestion">

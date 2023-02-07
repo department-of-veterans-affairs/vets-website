@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+
 import BackButton from '../../components/BackButton';
 import Wrapper from '../../components/layout/Wrapper';
 
@@ -24,7 +25,7 @@ const SeeStaff = props => {
 
   return (
     <>
-      <BackButton router={router} action={goBack} />
+      <BackButton router={router} action={goBack} prevUrl="#back" />
       <Wrapper pageTitle={t('check-in-with-a-staff-member')} withBackButton>
         {message ? (
           <span>{message}</span>
