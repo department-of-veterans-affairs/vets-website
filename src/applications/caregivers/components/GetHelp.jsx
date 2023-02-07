@@ -31,7 +31,7 @@ const GetHelp = () => {
       <p>
         <strong>
           You can call the Enrollment and Eligibility Division of the Health
-          Eligibilty Center
+          Eligibility Center
         </strong>{' '}
         at <va-telephone contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER} /> (
         <va-telephone contact={CONTACTS['711']} tty />
