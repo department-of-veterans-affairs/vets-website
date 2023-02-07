@@ -151,3 +151,7 @@ li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child div.vads-u
 li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
   border-bottom: 1px solid !important
 }
+
+.fa-blank {
+  visibility: hidden !important;
+}
