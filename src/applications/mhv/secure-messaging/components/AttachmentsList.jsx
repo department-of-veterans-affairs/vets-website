@@ -25,7 +25,6 @@ const AttachmentsList = props => {
     [attachments, compose],
   );
 
-
   const removeAttachment = file => {
     const newAttArr = attachments.filter(item => {
       if (item.name !== file.name) {
