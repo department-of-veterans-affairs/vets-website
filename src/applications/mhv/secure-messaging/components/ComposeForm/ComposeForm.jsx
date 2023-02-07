@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -18,7 +17,7 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { draftAutoSaveTimeout } from '../../util/constants';
+import { draftAutoSaveTimeout, Categories } from '../../util/constants';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -53,14 +52,30 @@ const ComposeForm = props => {
     return currentString + item.name;
   }, '');
 
+  const {
+    OTHER,
+    COVID,
+    APPOINTMENTS,
+    MEDICATIONS,
+    TEST_RESULTS,
+    EDUCATION,
+  } = Categories;
+
   useEffect(
     () => {
-      setRecipientsList(prevRecipientsList => [
-        ...prevRecipientsList.filter(
-          oldRecip => !recipients.find(newRecip => newRecip.id === oldRecip.id),
-        ),
-        ...recipients,
-      ]);
+      if (recipients?.length) {
+        const filteredRecipients = recipients.filter(
+          team => team.preferredTeam === true,
+        );
+        setRecipientsList(prevRecipientsList => [
+          ...prevRecipientsList.filter(
+            oldRecip =>
+              !filteredRecipients.find(newRecip => newRecip.id === oldRecip.id),
+          ),
+          ...filteredRecipients,
+        ]);
+      }
+
       if (!draft) {
         setSelectedRecipient('');
         setSubject('');
@@ -85,9 +100,9 @@ const ComposeForm = props => {
           const sendData = new FormData();
           sendData.append('message', JSON.stringify(messageData));
           attachments.map(upload => sendData.append('uploads[]', upload));
-          dispatch(sendMessage(sendData, true)).then(() =>
-            history.push('/inbox'),
-          );
+          dispatch(sendMessage(sendData, true))
+            .then(() => history.push('/inbox'))
+            .catch(setSendMessageFlag(false));
         } else {
           dispatch(sendMessage(JSON.stringify(messageData), false)).then(() =>
             history.push('/inbox'),
@@ -136,17 +151,26 @@ const ComposeForm = props => {
 
   const setMessageTitle = () => {
     const casedCategory =
-      category === 'COVID' ? category : capitalize(category);
+      category ===
+      (COVID ||
+        OTHER ||
+        APPOINTMENTS ||
+        MEDICATIONS ||
+        TEST_RESULTS ||
+        EDUCATION)
+        ? Categories[category]
+        : 'New message';
+
     if (category && subject) {
-      return `${casedCategory}: ${subject}`;
+      return `${Categories[category]}: ${subject}`;
     }
     if (category && !subject) {
-      return `${casedCategory}:`;
+      return `${Categories[category]}:`;
     }
     if (!category && subject) {
       return subject;
     }
-    return 'New message';
+    return `${casedCategory}`;
   };
 
   const checkMessageValidity = () => {
@@ -276,16 +300,6 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      title: "We can't save attachments in a draft message",
-      p1:
-        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
-
   return (
     <form className="compose-form">
       {saveError && (
@@ -295,6 +309,7 @@ const ComposeForm = props => {
           onCloseEvent={() => setSaveError(null)}
           primaryButtonText="Continue editing"
           status="warning"
+          data-testid="quit-compose-double-dare"
           visible
         >
           <p>{saveError.p1}</p>
@@ -383,6 +398,7 @@ const ComposeForm = props => {
           <div className="compose-attachments-heading">Attachments</div>
           <HowToAttachFiles />
           <AttachmentsList
+            compose
             attachments={attachments}
             setAttachments={setAttachments}
             editingEnabled

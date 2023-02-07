@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
-import { isLoggedIn } from 'platform/user/selectors';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import environment from 'platform/utilities/environment';
 
+import MissingEDIPI from '../../form/components/MissingEDIPI';
+import NeedsToVerify from '../../form/components/NeedsToVerify';
 import { generateCoe } from '../../shared/actions';
+import { WIP } from '../../shared/components/WIP';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
+import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
 import {
   Available,
   Denied,
@@ -21,17 +25,17 @@ import {
   Ineligible,
   Pending,
 } from '../components/statuses';
-import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
-import { WIP } from '../../shared/components/WIP';
 
 const App = ({
+  canApply,
   certificateOfEligibility: { coe, generateAutoCoeStatus, profileIsUpdating },
   getCoe,
   getCoeMock,
-  loggedIn,
-  user,
-  showCoe,
   isLoading,
+  isVerified,
+  location,
+  showCoe,
+  user,
 }) => {
   useEffect(
     () => {
@@ -44,13 +48,13 @@ const App = ({
         !coe
       ) {
         if (typeof getCoeMock === 'function' && !environment.isProduction()) {
-          getCoeMock(!loggedIn);
+          getCoeMock(!canApply);
         } else {
-          getCoe(!loggedIn);
+          getCoe(!canApply);
         }
       }
     },
-    [coe, getCoe, getCoeMock, isLoading, loggedIn, profileIsUpdating, showCoe],
+    [coe, getCoe, getCoeMock, isLoading, canApply, profileIsUpdating, showCoe],
   );
 
   // Show WIP alert if the feature flag isn't set - remove once @ 100%
@@ -59,8 +63,21 @@ const App = ({
   }
 
   let content;
+  const pathname = location.basename;
 
-  if (
+  if (!isVerified) {
+    content = (
+      <div className="row vads-u-margin-bottom--4">
+        <NeedsToVerify pathname={pathname} />
+      </div>
+    );
+  } else if (!canApply) {
+    content = (
+      <div className="row vads-u-margin-bottom--4">
+        <MissingEDIPI />
+      </div>
+    );
+  } else if (
     generateAutoCoeStatus === CALLSTATUS.idle ||
     profileIsUpdating ||
     isLoading
@@ -146,7 +163,8 @@ const App = ({
 const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
-  loggedIn: isLoggedIn(state),
+  canApply: isLoggedIn(state) && selectProfile(state).claims?.coe,
+  isVerified: selectProfile(state)?.verified || false,
   isLoading: isLoadingFeatures(state),
   showCoe: showCoeFeature(state),
 });
@@ -156,11 +174,15 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
+  canApply: PropTypes.bool,
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
   getCoeMock: PropTypes.func,
   isLoading: PropTypes.bool,
-  loggedIn: PropTypes.bool,
+  isVerified: PropTypes.bool,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
   showCoe: PropTypes.bool,
   user: PropTypes.object,
 };

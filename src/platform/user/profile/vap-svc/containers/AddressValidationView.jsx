@@ -264,11 +264,6 @@ class AddressValidationView extends React.Component {
 
     return (
       <>
-        {error && (
-          <div className="vads-u-margin-bottom--1" role="alert">
-            <VAPServiceEditModalErrorMessage error={error} />
-          </div>
-        )}
         <div role="alert">
           <AlertBox
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
@@ -294,6 +289,13 @@ class AddressValidationView extends React.Component {
             confirmedSuggestions.map((address, index) =>
               this.renderAddressOption(address, String(index)),
             )}
+
+          {error && (
+            <div className="vads-u-margin-bottom--1" role="alert">
+              <VAPServiceEditModalErrorMessage error={error} />
+            </div>
+          )}
+
           {this.renderPrimaryButton()}
 
           {!isLoading && (

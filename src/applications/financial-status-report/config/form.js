@@ -16,6 +16,13 @@ import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
 import submitForm from './submitForm';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/contact-information/EditContactInfo';
+
+import ContactInformationReview from '../components/contact-information/ContactInformationReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -129,6 +136,42 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'current-contact-information',
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformation.schema,
+          CustomPageReview: ContactInformationReview,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editMobilePhone: {
+          title: 'Edit phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -402,14 +445,35 @@ const formConfig = {
           title: 'Real estate',
           uiSchema: pages.realEstate.uiSchema,
           schema: pages.realEstate.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         realEstateRecords: {
           path: 'real-estate-asset-records',
           title: 'Real estate',
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
-          depends: ({ questions }) => questions.hasRealEstate,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedRealEstate: {
+          path: 'enhanced-real-estate-assets',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstate.uiSchema,
+          schema: pages.enhancedRealEstate.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
+        },
+        enhancedRealEstateRecords: {
+          path: 'enhanced-real-estate-asset-records',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstateRecords.uiSchema,
+          schema: pages.enhancedRealEstateRecords.schema,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
         },
         vehicles: {
           path: 'vehicles',
