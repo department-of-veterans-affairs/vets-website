@@ -50,7 +50,7 @@ if (
   valuesFiles.forEach(file => {
     const fileContents = yaml.load(
       fs.readFileSync(
-        `'./manifests/apps/preview-environment/dev/environment-values/${file}`,
+        `./manifests/apps/preview-environment/dev/environment-values/${file}`,
         'utf8',
       ),
     );
