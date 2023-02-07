@@ -19,6 +19,7 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
+import VARadioButton from '../components/VARadioButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -249,60 +250,75 @@ export function FilterYourResults({
     );
   };
 
-  const specialMissions = () => {
+  const handleInputChange = (event, target, name) => {
+    const { value } = event ? event.target : target.detail;
+    const field = event ? event.target.name : name;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+    updateInstitutionFilters(field, value);
+  };
+
+  const specialMissionsWithRadioButtons = () => {
     const options = [
       {
-        optionValue: 'hbcu',
-        optionLabel: 'Historically Black college or university',
+        value: 'ALL',
+        label: 'All',
       },
       {
-        optionValue: 'menonly',
-        optionLabel: 'Men-only',
+        value: 'hbcu',
+        label: 'Historically Black college or university',
       },
       {
-        optionValue: 'womenonly',
-        optionLabel: 'Women-only',
+        value: 'menonly',
+        label: 'Men-only',
       },
       {
-        optionValue: 'relaffil',
-        optionLabel: 'Religious affiliation',
+        value: 'womenonly',
+        label: 'Women-only',
       },
       {
-        optionValue: 'HSI',
-        optionLabel: 'Hispanic-serving institutions',
+        value: 'relaffil',
+        label: 'Religious affiliation',
       },
       {
-        optionValue: 'NANTI',
-        optionLabel: 'Native American-serving institutions',
+        value: 'HSI',
+        label: 'Hispanic-serving institutions',
       },
       {
-        optionValue: 'ANNHI',
-        optionLabel: 'Alaska Native-serving institutions',
+        value: 'NANTI',
+        label: 'Native American-serving institutions',
       },
       {
-        optionValue: 'AANAPII',
-        optionLabel:
+        value: 'ANNHI',
+        label: 'Alaska Native-serving institutions',
+      },
+      {
+        value: 'AANAPII',
+        label:
           'Asian American Native American Pacific Islander-serving institutions',
       },
       {
-        optionValue: 'PBI',
-        optionLabel: 'Predominantly Black institutions',
+        value: 'PBI',
+        label: 'Predominantly Black institutions',
       },
       {
-        optionValue: 'TRIBAL',
-        optionLabel: 'Tribal college and university',
+        value: 'TRIBAL',
+        label: 'Tribal college and university',
       },
     ];
 
     return (
-      <Dropdown
-        onChange={onChange}
-        value={specialMission}
+      <VARadioButton
+        radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
         name="specialMission"
-        options={addAllOption(options)}
-        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        visible
+        initialValue={specialMission}
+        options={options}
+        onVaValueChange={(target, name) =>
+          handleInputChange(null, target, name)
+        }
       />
     );
   };
@@ -320,6 +336,9 @@ export function FilterYourResults({
           >
             {name}
           </h3>
+          <div className="vads-u-margin-bottom--4">
+            {specialMissionsWithRadioButtons()}
+          </div>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -332,7 +351,6 @@ export function FilterYourResults({
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
-              {specialMissions()}
             </div>
           </ExpandingGroup>
         </div>

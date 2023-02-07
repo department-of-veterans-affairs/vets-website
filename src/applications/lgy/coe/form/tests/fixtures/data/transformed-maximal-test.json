@@ -49,8 +49,7 @@
             "propertyZip": "85274"
           },
           "vaLoanNumber": "123456789012",
-          "propertyOwned": true,
-          "willRefinance": false
+          "propertyOwned": true
         },
         {
           "intent": "REFI",
@@ -66,8 +65,7 @@
             "propertyZip": "85274"
           },
           "vaLoanNumber": "210987654321",
-          "propertyOwned": true,
-          "willRefinance": false
+          "propertyOwned": true
         }
       ],
       "files": [
