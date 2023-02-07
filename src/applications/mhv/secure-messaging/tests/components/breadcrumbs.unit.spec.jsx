@@ -98,12 +98,12 @@ describe('Breadcrumbs', () => {
       }`,
     });
     expect(
-      await screen.findByText('Return to Search messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );
     expect(
-      await screen.findByText('Return to Search messages', {
+      await screen.findByText('Return to Dashboard', {
         exact: true,
       }),
     );

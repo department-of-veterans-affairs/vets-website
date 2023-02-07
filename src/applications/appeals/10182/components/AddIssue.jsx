@@ -157,7 +157,7 @@ const AddIssue = props => {
           onDateBlur={handlers.onDateBlur}
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
-          ariaDescribedby="decision-date-description"
+          aria-describedby="decision-date-description"
         >
           {dateOfDecisionHintText}
         </VaDate>
