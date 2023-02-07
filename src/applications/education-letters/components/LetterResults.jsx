@@ -64,8 +64,8 @@ export const HasLetters = ({ claimStatus }) => {
         different folder if you’d like.
       </p>
       <p>
-        Note: If the PDF form opens in your browser automatically or if you get
-        a “Please wait” error message, you’ll need to take one more step to
+        Note: If the PDF letter opens in your browser automatically or if you
+        get a “Please wait” error message, you’ll need to take one more step to
         download the PDF: Click on the download icon in your browser. Save the
         PDF to your device.
       </p>
