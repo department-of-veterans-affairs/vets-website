@@ -54,7 +54,7 @@ if (
         'utf8',
       ),
     );
-    console.log(fileContents.last_updated);
+    console.log(fileContents);
   });
   //   deleteFiles(valuesFiles);
   // } else {
