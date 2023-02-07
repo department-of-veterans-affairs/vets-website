@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { dateFormat } from '../util/helpers';
+import { getVaccineDetails } from '../actions/vaccine';
 
 const VaccineListItem = props => {
-  const { name, date } = props;
+  const dispatch = useDispatch();
+  const { record } = props;
+  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
 
-  const formattedDate = dateFormat(date, 'MMMM D, YYYY');
+  const showDetailsHandler = () => {
+    dispatch(getVaccineDetails(record.vaccineId));
+  };
 
   return (
     <div
@@ -14,16 +20,20 @@ const VaccineListItem = props => {
       data-testid="record-list-item"
     >
       <div>
-        <strong>{name}</strong>
+        <strong>{record.name}</strong>
       </div>
       <div>{formattedDate}</div>
       {/* <Link className="record-details-link vads-u-margin-y--0p5" to="details">
         View details
       </Link> */}
       <div>
-        <a href="/record" className="record-details-link vads-u-margin-y--0p5">
+        <Link
+          to="/vaccine"
+          className="record-details-link vads-u-margin-y--0p5"
+          onClick={showDetailsHandler}
+        >
           View details
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -32,6 +42,5 @@ const VaccineListItem = props => {
 export default VaccineListItem;
 
 VaccineListItem.propTypes = {
-  date: PropTypes.string,
-  name: PropTypes.string,
+  record: PropTypes.object,
 };

@@ -112,7 +112,6 @@ describe.skip('daily-product-scan', () => {
     beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductJson.returns(octokitResponses.productDirectory);
-      octokit.createPull.returns(octokitResponses.createPull);
       ({ status, message, data } = await main({ octokit }));
     });
 

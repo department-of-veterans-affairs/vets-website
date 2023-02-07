@@ -5,7 +5,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import { statusUrl } from './helpers';
 
 const Denied = ({ origin, referenceNumber, requestDate, testUrl = '' }) => (
-  <va-alert status="info">
+  <va-alert status="info" class="vads-u-margin-bottom--2">
     <h2 slot="headline">We denied your request for a COE</h2>
     <div>
       <p>You requested a COE on: {formatDateLong(requestDate)}</p>
