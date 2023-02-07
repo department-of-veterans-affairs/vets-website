@@ -33,6 +33,9 @@ export const alertsReducer = (state = initialState, action) => {
           : action.payload.alertType[0].toUpperCase() +
             action.payload.alertType.substring(1),
         content: action.payload.content,
+        className: action.payload.className,
+        link: action.payload.link,
+        title: action.payload.title,
         response: action.payload.response,
       };
       return {

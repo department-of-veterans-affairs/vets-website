@@ -309,6 +309,7 @@ const ComposeForm = props => {
           onCloseEvent={() => setSaveError(null)}
           primaryButtonText="Continue editing"
           status="warning"
+          data-testid="quit-compose-double-dare"
           visible
         >
           <p>{saveError.p1}</p>
@@ -397,6 +398,7 @@ const ComposeForm = props => {
           <div className="compose-attachments-heading">Attachments</div>
           <HowToAttachFiles />
           <AttachmentsList
+            compose
             attachments={attachments}
             setAttachments={setAttachments}
             editingEnabled

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 const AttachmentsList = props => {
-  const { attachments, setAttachments, editingEnabled } = props;
+  const { attachments, setAttachments, editingEnabled, compose } = props;
+  const attachmentReference = useRef(null);
 
   const getSize = num => {
     if (num > 999999) {
@@ -14,6 +15,15 @@ const AttachmentsList = props => {
     }
     return `${num} B`;
   };
+
+  useEffect(
+    () => {
+      if (attachments?.length > 0 && compose) {
+        attachmentReference.current?.focus();
+      }
+    },
+    [attachments, compose],
+  );
 
   const removeAttachment = file => {
     const newAttArr = attachments.filter(item => {
@@ -36,12 +46,16 @@ const AttachmentsList = props => {
                 <div className="editable-attachment">
                   <span>
                     <i className="fas fa-paperclip" aria-hidden="true" />
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference} tabIndex={-1}>
+                      {file.name}{' '}
+                    </span>
+                    ({getSize(file.size || file.attachmentSize)})
                   </span>
                   <va-button
                     onClick={() => removeAttachment(file)}
                     secondary
                     text="Remove"
+                    aria-label={`remove ${file.name}`}
                     class="remove-attachment-button"
                   />
                 </div>
@@ -62,7 +76,10 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    {file.name} ({getSize(file.size || file.attachmentSize)})
+                    <span ref={attachmentReference} tabIndex={-1}>
+                      {file.name}{' '}
+                    </span>
+                    ({getSize(file.size || file.attachmentSize)})
                   </a>
                 </>
               )}
@@ -75,6 +92,7 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachments: PropTypes.array,
+  compose: PropTypes.bool,
   editingEnabled: PropTypes.bool,
   setAttachments: PropTypes.func,
 };
