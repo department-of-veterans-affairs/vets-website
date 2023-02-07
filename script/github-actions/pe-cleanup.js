@@ -18,7 +18,6 @@ const deleteFiles = valuesFiles => {
       );
       console.log(`${file} removed`);
     } catch (error) {
-      /* eslint-disable no-console */
       console.log(error);
     }
   });
@@ -40,10 +39,7 @@ if (process.env.TRIGGERING_EVENT === 'delete') {
   }
 }
 
-if (
-  process.env.TRIGGERING_EVENT === 'schedule' ||
-  process.env.TRIGGERING_EVENT === 'push'
-) {
+if (process.env.TRIGGERING_EVENT === 'schedule') {
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
     .filter(
@@ -62,18 +58,4 @@ if (
   } else {
     core.exportVariable('FILES_TO_DELETE', false);
   }
-  // valuesFiles.forEach(file => {
-  //   const fileContents = yaml.load(
-  //     fs.readFileSync(
-  //       `./manifests/apps/preview-environment/dev/environment-values/${file}`,
-  //       'utf8',
-  //     ),
-  //   );
-  //   if (daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7) {
-  //   }
-  // });
-  //   deleteFiles(valuesFiles);
-  // } else {
-  //   core.exportVariable('FILES_TO_DELETE', false);
-  // }
 }

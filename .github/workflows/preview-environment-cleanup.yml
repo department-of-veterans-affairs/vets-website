@@ -17,53 +17,20 @@ env:
 
 jobs:
   cleanup-preview-environments:
-    name: Remove Deleted Branch Preview Environment
+    name: Clean Up Deleted Branch and Expired Preview Environments
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      # - name: Install dependencies
-      #   uses: ./.github/workflows/install
-      #   timeout-minutes: 30
-      #   with:
-      #     key: ${{ hashFiles('yarn.lock') }}
-      #     yarn_cache_folder: .cache/yarn
-      #     path: |
-      #       .cache/yarn
-      #       node_modules
-
-      - name: Get Node version
-        id: get-node-version
-        shell: bash
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Setup Yarn
-        shell: bash
-        run: npm i -g yarn@1.19.1
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v3
-        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
-
-      - name: Install dependencies
-        uses: nick-invision/retry@v2
-        with:
-          command: yarn install --prefer-offline --production=false
-          max_attempts: 3
-          timeout_minutes: 7
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
