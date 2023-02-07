@@ -53,7 +53,7 @@ const PrintBtn = props => {
         <VaModal
           id="print-modal"
           large
-          modalTitle="Print"
+          modalTitle="What do you want to print?"
           onCloseEvent={closeModal}
           onPrimaryButtonClick={handleConfirmPrint}
           onSecondaryButtonClick={closeModal}
@@ -63,26 +63,22 @@ const PrintBtn = props => {
           visible={isModalVisible}
         >
           <div className="modal-body">
-            <p>
-              Would you like to print this one message, or all messages in this
-              conversation?
-            </p>
             <VaRadio
               className="form-radio-buttons"
-              required
               enable-analytics
               // error={ // TODO: add error state}
               onRadioOptionSelected={handleOnChangePrintOption}
             >
               <VaRadioOption
                 data-testid="radio-print-one-message"
-                label="Only print this message"
+                label="Print only this message"
                 name="defaultName"
                 value="this message"
               />
 
               <VaRadioOption
                 data-testid="radio-print-all-messages"
+                style={{ display: 'flex' }}
                 label={`Print all messages in this conversation (${
                   messageThreadCount.current
                 } messages)`}
