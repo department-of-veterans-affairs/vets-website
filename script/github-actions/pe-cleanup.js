@@ -43,19 +43,9 @@ if (
   process.env.TRIGGERING_EVENT === 'schedule' ||
   process.env.TRIGGERING_EVENT === 'push'
 ) {
-  const valuesFiles = fs
-    .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
-    .filter(
-      file =>
-        daysSinceUpdate(
-          yaml.load(
-            fs.readFileSync(
-              `./manifests/apps/preview-environment/dev/environment-values/${file}`,
-              'utf8',
-            ),
-          ).podAnnotations.last_updated,
-        ) >= 7,
-    );
+  const valuesFiles = fs.readdirSync(
+    './manifests/apps/preview-environment/dev/environment-values/',
+  );
   valuesFiles.forEach(file => {
     const fileContents = yaml.load(
       fs.readFileSync(
@@ -63,7 +53,7 @@ if (
         'utf8',
       ),
     );
-    console.log(fileContents.podAnnotations.last_updated);
+    console.log(daysSinceUpdate(fileContents.podAnnotations.last_updated));
   });
   //   deleteFiles(valuesFiles);
   // } else {
