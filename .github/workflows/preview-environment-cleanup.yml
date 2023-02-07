@@ -50,8 +50,10 @@ jobs:
         id: cache-dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ inputs.path }}
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
+          path: |
+            .cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
           # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
       - name: Install dependencies
@@ -61,7 +63,7 @@ jobs:
           max_attempts: 3
           timeout_minutes: 7
         env:
-          YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
+          YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
