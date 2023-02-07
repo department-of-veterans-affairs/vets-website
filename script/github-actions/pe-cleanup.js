@@ -45,7 +45,17 @@ if (
 ) {
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/environment-values/')
-    .filter(file => daysSinceUpdate(file.podAnnotations.last_updated) >= 7);
+    .filter(
+      file =>
+        daysSinceUpdate(
+          yaml.load(
+            fs.readFileSync(
+              `./manifests/apps/preview-environment/dev/environment-values/${file}`,
+              'utf8',
+            ),
+          ).podAnnotations.last_updated,
+        ) >= 7,
+    );
   valuesFiles.forEach(file => {
     const fileContents = yaml.load(
       fs.readFileSync(
