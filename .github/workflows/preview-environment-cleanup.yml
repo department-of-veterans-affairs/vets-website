@@ -32,6 +32,9 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Install js-yaml
+        run: yarn add js-yaml
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

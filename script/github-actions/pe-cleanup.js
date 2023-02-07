@@ -1,5 +1,7 @@
 const fs = require('fs');
 const core = require('@actions/core');
+const yaml = require('js-yaml');
+
 /* eslint-disable no-console */
 
 // const daysSinceUpdate = dateUpdated => {
@@ -46,7 +48,13 @@ if (
   );
   // .filter(file => daysSinceUpdate(file.last_updated) >= 7);
   valuesFiles.forEach(file => {
-    console.log(file.last_updated);
+    const fileContents = yaml.load(
+      fs.readFileSync(
+        `'./manifests/apps/preview-environment/dev/environment-values/${file}`,
+        'utf8',
+      ),
+    );
+    console.log(fileContents.last_updated);
   });
   //   deleteFiles(valuesFiles);
   // } else {
