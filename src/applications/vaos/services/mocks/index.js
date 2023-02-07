@@ -607,6 +607,7 @@ const responses = {
         { name: 'vaOnlineSchedulingAcheronService', value: true },
         { name: 'vaOnlineSchedulingUseDsot', value: true },
         { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
+        { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

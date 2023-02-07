@@ -69,10 +69,6 @@ export const cnpDirectDepositIsBlocked = state => {
   );
 };
 
-export const fullNameLoadError = state => {
-  return state.vaProfile?.hero?.errors;
-};
-
 export const personalInformationLoadError = state => {
   return (
     state.vaProfile?.personalInformation?.errors ||

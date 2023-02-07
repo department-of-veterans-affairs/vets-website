@@ -49,6 +49,7 @@
   margin: 0;
   padding: 0;
   li {
+    overflow-wrap: anywhere;
     padding: 8px 0;
     margin: 0;
     display: flex;
