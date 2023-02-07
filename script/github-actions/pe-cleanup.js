@@ -16,6 +16,7 @@ const deleteFiles = valuesFiles => {
       fs.unlinkSync(
         `./manifests/apps/preview-environment/dev/environment-values/${file}`,
       );
+      console.log(`${file} removed`);
     } catch (error) {
       /* eslint-disable no-console */
       console.log(error);
@@ -56,7 +57,11 @@ if (
           ).podAnnotations.last_updated,
         ) >= 7,
     );
-  console.log(valuesFiles);
+  if (valuesFiles.length > 0) {
+    deleteFiles(valuesFiles);
+  } else {
+    core.exportVariable('FILES_TO_DELETE', false);
+  }
   // valuesFiles.forEach(file => {
   //   const fileContents = yaml.load(
   //     fs.readFileSync(
