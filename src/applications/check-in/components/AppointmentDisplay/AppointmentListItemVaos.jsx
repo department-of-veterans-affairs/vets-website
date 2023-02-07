@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentMessageVaos from './AppointmentMessageVaos';
-import { appointmentIcon, clinicName } from '../../utils/appointment';
+import {
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+} from '../../utils/appointment';
 
 const AppointmentListItemVaos = props => {
   const {
@@ -63,7 +67,7 @@ const AppointmentListItemVaos = props => {
           <div className="vads-u-margin-y--2">
             <a
               data-testid="details-link"
-              href="#details"
+              href={`/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(appointment, e)}
               aria-label={t('click-to-see-details-for-your-time-appointment', {
                 time: appointmentDateTime,
