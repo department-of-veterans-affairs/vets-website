@@ -2,6 +2,7 @@ import manifest from '../manifest.json';
 
 import mockFeatureToggles from '../../form/tests/fixtures/mocks/feature-toggles.json';
 import mockDocuments from '../../form/tests/fixtures/mocks/documents.json';
+import mockUser from '../../form/tests/fixtures/mocks/user.json';
 
 import { COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
@@ -10,7 +11,7 @@ const uploadImgPath =
 
 describe(manifest.appName, () => {
   beforeEach(() => {
-    cy.login();
+    cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('GET', '/v0/coe/documents', mockDocuments);
     cy.intercept('GET', '/v0/coe/status', {
