@@ -15,9 +15,17 @@ import {
   ADDRESS_PROPS,
 } from '../constants';
 
+/**
+ * Get the appropriate validation message key to display to the user.
+ *
+ * @param {Array} suggestedAddresses
+ * @param {string} addressValidationError
+ * @param {Array} confirmedSuggestions
+ *
+ * @returns {string}
+ */
 export const getValidationMessageKey = (
   suggestedAddresses,
-  validationKey,
   addressValidationError,
   confirmedSuggestions,
 ) => {
@@ -41,15 +49,11 @@ export const getValidationMessageKey = (
   }
 
   if (singleSuggestion && containsBadUnitNumber) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.BAD_UNIT;
+    return ADDRESS_VALIDATION_TYPES.BAD_UNIT_OVERRIDE;
   }
 
   if (singleSuggestion && containsMissingUnitNumber) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.MISSING_UNIT;
+    return ADDRESS_VALIDATION_TYPES.MISSING_UNIT_OVERRIDE;
   }
 
   if (
@@ -58,29 +62,20 @@ export const getValidationMessageKey = (
     !containsMissingUnitNumber &&
     !containsBadUnitNumber
   ) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED;
+    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE;
   }
 
   if (
-    confirmedSuggestions.length &&
-    singleSuggestion &&
-    !containsMissingUnitNumber &&
-    !containsBadUnitNumber
+    (confirmedSuggestions.length &&
+      singleSuggestion &&
+      !containsMissingUnitNumber &&
+      !containsBadUnitNumber) ||
+    multipleSuggestions
   ) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
+    return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE;
   }
 
-  if (multipleSuggestions) {
-    return validationKey
-      ? ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_OVERRIDE
-      : ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS;
-  }
-
-  return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS; // defaulting here so the modal will show but not allow override
+  return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_CONFIRMED_OVERRIDE;
 };
 
 // Determines if we need to prompt the user to pick from a list of suggested
@@ -105,7 +100,7 @@ export const showAddressValidationModal = (
     addressMetaData: firstSuggestedAddressMetadata,
   } = firstSuggestedAddress;
 
-  if (
+  const hasValidAddress =
     !userInputAddress.addressLine2 &&
     !userInputAddress.addressLine3 &&
     suggestedAddresses.length === 1 &&
@@ -113,12 +108,10 @@ export const showAddressValidationModal = (
     firstSuggestedAddressMetadata.confidenceScore > 90 &&
     (firstSuggestedAddressMetadata.deliveryPointValidation === CONFIRMED ||
       firstSuggestedAddressMetadata.addressType?.toLowerCase() ===
-        'international')
-  ) {
-    return false;
-  }
+        'international');
 
-  return true;
+  // if we have a valid address, we don't need to show the validation ui
+  return !hasValidAddress;
 };
 
 // Infers the address type from the address supplied and returns the address
