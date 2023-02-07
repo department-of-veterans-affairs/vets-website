@@ -22,15 +22,46 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
+      # - name: Install dependencies
+      #   uses: ./.github/workflows/install
+      #   timeout-minutes: 30
+      #   with:
+      #     key: ${{ hashFiles('yarn.lock') }}
+      #     yarn_cache_folder: .cache/yarn
+      #     path: |
+      #       .cache/yarn
+      #       node_modules
+
+      - name: Get Node version
+        id: get-node-version
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Setup Yarn
+        shell: bash
+        run: npm i -g yarn@1.19.1
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ inputs.path }}
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
+          # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v2
+        with:
+          command: yarn install --prefer-offline --production=false
+          max_attempts: 3
+          timeout_minutes: 7
+        env:
+          YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
