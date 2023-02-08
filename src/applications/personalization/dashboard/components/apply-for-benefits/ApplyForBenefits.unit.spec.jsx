@@ -33,7 +33,7 @@ function oneYearFromNow() {
 }
 
 function noApplicationsInProgressShown(view, shown = true) {
-  const regex = /you have no applications in progress/i;
+  const regex = /you have no benefit application drafts to show/i;
   if (shown) {
     view.getByText(regex);
   } else {
