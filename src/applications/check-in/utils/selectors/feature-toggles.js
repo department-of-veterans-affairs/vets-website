@@ -1,36 +1,34 @@
 import { createSelector } from 'reselect';
 
-// eslint-disable-next-line import/no-unresolved
-import { featureFlagNames } from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-// eslint-disable-next-line import/no-unresolved
-import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 const selectFeatureToggles = createSelector(
   state => ({
     isLoadingFeatureFlags: state?.featureToggles?.loading,
     isCheckInEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceEnabled
+      FEATURE_FLAG_NAMES.checkInExperienceEnabled
     ],
     isPreCheckInEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperiencePreCheckInEnabled
+      FEATURE_FLAG_NAMES.checkInExperiencePreCheckInEnabled
     ],
     isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceTranslationDisclaimerSpanishEnabled
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
     ],
     isTranslationDisclaimerTagalogEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceTranslationDisclaimerTagalogEnabled
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerTagalogEnabled
     ],
     isTravelReimbursementEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceTravelReimbursement
+      FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
     ],
     isBrowserMonitoringEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceBrowserMonitoring
+      FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
     ],
     isUpdatedApptPresentationEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperienceUpdatedApptPresentation
+      FEATURE_FLAG_NAMES.checkInExperienceUpdatedApptPresentation
     ],
     isPreCheckInActionLinkTopPlacementEnabled: toggleValues(state)[
-      featureFlagNames.checkInExperiencePreCheckInActionLinkTopPlacement
+      FEATURE_FLAG_NAMES.checkInExperiencePreCheckInActionLinkTopPlacement
     ],
   }),
   toggles => toggles,
