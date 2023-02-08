@@ -1,1 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.mhv-u-list-style--none {
+  list-style: none;
+}
+
+.mhv-u-grid-gap:not(:last-of-type) {
+  margin-right: units(2);
+}
