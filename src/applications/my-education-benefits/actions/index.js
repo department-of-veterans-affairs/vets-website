@@ -161,23 +161,21 @@ export function fetchEligibility() {
       );
   };
 }
-
-//  Commenting out this code until we update the component to handle astrisks
-// export function fetchDirectDeposit() {
-//   return async dispatch => {
-//     dispatch({ type: FETCH_DIRECT_DEPOSIT });
-//     return apiRequest(DIRECT_DEPOSIT_ENDPOINT)
-//       .then(response => {
-//         dispatch({
-//           type: FETCH_DIRECT_DEPOSIT_SUCCESS,
-//           response,
-//         });
-//       })
-//       .catch(errors => {
-//         dispatch({
-//           type: FETCH_DIRECT_DEPOSIT_FAILED,
-//           errors,
-//         });
-//       });
-//   };
-// }
+export function fetchDirectDeposit() {
+  return async dispatch => {
+    dispatch({ type: FETCH_DIRECT_DEPOSIT });
+    return apiRequest(DIRECT_DEPOSIT_ENDPOINT)
+      .then(response => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_DIRECT_DEPOSIT_FAILED,
+          errors,
+        });
+      });
+  };
+}

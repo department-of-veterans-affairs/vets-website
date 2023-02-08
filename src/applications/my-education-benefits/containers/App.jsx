@@ -109,17 +109,16 @@ export const App = ({
     [formData, setFormData, showMebDgi40Features],
   );
 
-  useEffect(
-    // Remember to add && !fetchedDirectDeposit as extra conditional in this useEffect if block
-    () => {
-      if (showMebDgi40Features && isLoggedIn) {
-        // setFetchedDirectDeposit(true);
-        // getDirectDeposit();
-      }
-    },
-    // Remember to add fetchedDirectDeposit, getDirectDeposit, back in the dependency array
-    [isLoggedIn, showMebDgi40Features],
-  );
+  // Commenting out until Direct Deposit component is updated
+  // useEffect(
+  //   () => {
+  //     if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
+  //       setFetchedDirectDeposit(true);
+  //       getDirectDeposit();
+  //     }
+  //   },
+  //   [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
+  // );
 
   return (
     <>
