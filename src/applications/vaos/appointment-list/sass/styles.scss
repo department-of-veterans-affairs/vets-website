@@ -182,6 +182,9 @@ li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    max-width: 170px;
+  }
+  @include media($medium-screen) {
     max-width: 222px;
   }
 }
