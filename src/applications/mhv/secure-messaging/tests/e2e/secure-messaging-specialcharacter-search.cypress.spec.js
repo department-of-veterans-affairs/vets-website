@@ -26,6 +26,11 @@ describe('Secure Messaging - Search Special Characters', () => {
       '/my_health/v1/messaging/folders/-1/messages?per_page=-1',
       mockMessages,
     ).as('basicSearchRequestSentFolder');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/-1/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('mockSpecialCharmessage');
     cy.get('[data-testid="sent-sidebar"]').click();
 
     basicSearchPage.typeSearchInputFieldText('message%$#*');
