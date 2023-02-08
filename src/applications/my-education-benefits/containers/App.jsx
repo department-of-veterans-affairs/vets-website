@@ -9,7 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
-  fetchDirectDeposit,
+  // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
@@ -22,7 +22,8 @@ export const App = ({
   featureTogglesLoaded,
   firstName,
   formData,
-  getDirectDeposit,
+  // Commenting out until we update the component to handle astrisks
+  // getDirectDeposit,
   getEligibility,
   getPersonalInfo,
   isLOA3,
@@ -33,7 +34,8 @@ export const App = ({
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
-  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  // Commenting out next line until component can handle astrisks (See TOE app)
+  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -108,13 +110,15 @@ export const App = ({
   );
 
   useEffect(
+    // Remember to add && !fetchedDirectDeposit as extra conditional in this useEffect if block
     () => {
-      if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
-        setFetchedDirectDeposit(true);
-        getDirectDeposit();
+      if (showMebDgi40Features && isLoggedIn) {
+        // setFetchedDirectDeposit(true);
+        // getDirectDeposit();
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
+    // Remember to add fetchedDirectDeposit, getDirectDeposit, back in the dependency array
+    [isLoggedIn, showMebDgi40Features],
   );
 
   return (
@@ -140,7 +144,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
-  getDirectDeposit: PropTypes.func,
+  // getDirectDeposit: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -164,7 +168,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getDirectDeposit: fetchDirectDeposit,
+  // getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
