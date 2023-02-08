@@ -1,15 +1,17 @@
-import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
 describe('Secure Messaging validate keyboard search Form Keyboard Nav', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadPage();
+    site.loadPage();
   });
   it('validate keyboard search', () => {
-    cy.get('[data-testid="search-keyword-text-input"]').type('inbox');
+    cy.get('#select-search-folder-dropdown')
+      .shadow()
+      .find('select')
+      .select('Inbox')
+      .should('contain', 'Inbox');
     cy.injectAxe();
     cy.axeCheck();
   });
