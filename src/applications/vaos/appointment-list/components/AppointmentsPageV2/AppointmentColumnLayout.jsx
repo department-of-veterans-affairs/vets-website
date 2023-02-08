@@ -2,9 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
-import { AppointmentModel } from '../../models/AppointmentModel';
+import {
+  selectAppointmentLocality,
+  selectIsCanceled,
+  selectModality,
+  selectModalityIcon,
+  selectStartDate,
+  selectTimeZoneAbbr,
+} from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
   data,
@@ -12,7 +20,15 @@ export default function AppointmentColumnLayout({
   grouped,
   link,
 }) {
-  const model = new AppointmentModel(data);
+  const appointmentLocality = useSelector(() =>
+    selectAppointmentLocality(data),
+  );
+  const isCanceled = useSelector(() => selectIsCanceled(data));
+  const modality = useSelector(() => selectModality(data));
+  const modalityIcon = useSelector(() => selectModalityIcon(data));
+  const startDate = useSelector(() => selectStartDate(data));
+  const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
+  const ariaLabel = '';
 
   return (
     <>
@@ -29,7 +45,7 @@ export default function AppointmentColumnLayout({
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
               <h3 className="vads-u-display--inline-block vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--0">
-                {model.getStartDate().format('D')}
+                {startDate.format('D')}
               </h3>
             </AppointmentColumn>
             <AppointmentColumn
@@ -37,8 +53,8 @@ export default function AppointmentColumnLayout({
               size="1"
               style={{ minWidth: '25px', maxWidth: '25px' }}
             >
-              <span>{model.getStartDate().format('ddd')}</span>
-              <span className="sr-only"> {model.getTimeZoneAbbr()}</span>
+              <span>{startDate.format('ddd')}</span>
+              <span className="sr-only"> {timezoneAbbr}</span>
             </AppointmentColumn>
           </AppointmentRow>
         )}
@@ -60,13 +76,12 @@ export default function AppointmentColumnLayout({
         <AppointmentRow className="small-screen:vads-u-flex-direction--row">
           <AppointmentColumn
             size="1"
-            canceled={model.isCanceled()}
+            canceled={isCanceled}
             style={{ minWidth: '108px', maxWidth: '108px' }}
           >
-            {`${model.getStartDate().format('h:mm')} ${model
-              .getStartDate()
+            {`${startDate.format('h:mm')} ${startDate
               .format('a')
-              .replace(/\./g, '')} ${model.getTimeZoneAbbr()}`}{' '}
+              .replace(/\./g, '')} ${timezoneAbbr}`}{' '}
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
@@ -75,16 +90,16 @@ export default function AppointmentColumnLayout({
                 padding="0"
                 size="1"
                 className="vaos-appts__text--truncate"
-                canceled={model.isCanceled()}
+                canceled={isCanceled}
               >
-                {model.getAppointmentDetails()}
+                {appointmentLocality}
               </AppointmentColumn>
 
               <AppointmentColumn
                 padding="0"
                 size="1"
                 className="vaos-appts__text--truncate small-desktop-screen:vads-u-margin-left--5"
-                canceled={model.isCanceled()}
+                canceled={isCanceled}
               >
                 <>
                   <i
@@ -92,11 +107,11 @@ export default function AppointmentColumnLayout({
                     className={classNames(
                       'fas',
                       'vads-u-margin-right--1',
-                      model.getModalityIcon(),
+                      modalityIcon,
                     )}
                   />
 
-                  {`${model.getModality()}`}
+                  {`${modality}`}
                 </>
               </AppointmentColumn>
             </AppointmentRow>
@@ -111,7 +126,7 @@ export default function AppointmentColumnLayout({
           >
             <Link
               className="vaos-appts__focus--hide-outline"
-              aria-label={model.ariaLabel}
+              aria-label={ariaLabel}
               to={link}
               onClick={e => e.preventDefault()}
             >
