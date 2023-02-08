@@ -17,10 +17,12 @@ import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
+import { getAppointmentId } from '../../../utils/appointment';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh } = props;
+  const { appointments, selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const {
@@ -29,7 +31,7 @@ const CheckInConfirmation = props => {
   } = featureToggles;
 
   const { t } = useTranslation();
-
+  const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
 
@@ -82,14 +84,13 @@ const CheckInConfirmation = props => {
       pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
-  // const handleDetailClick = (appointmentIen, e) => {
-  //   e.preventDefault();
-  //   recordEvent({
-  //     event: createAnalyticsSlug('details-link-clicked', 'nav'),
-  //   });
-  //   // dispatch(setActiveAppointment(appointmentIen));
-  //   jumpToPage('appointment-details');
-  // };
+  const handleDetailClick = (apt, e) => {
+    e.preventDefault();
+    // recordEvent({
+    //   event: createAnalyticsSlug('details-link-clicked', 'nav'),
+    // });
+    jumpToPage(`appointment-details/${getAppointmentId(apt)}`);
+  };
 
   const renderLoadingMessage = () => {
     return (
@@ -115,7 +116,7 @@ const CheckInConfirmation = props => {
               appointment={appointment}
               key={0}
               showDetailsLink
-              goToDetails={() => {}}
+              goToDetails={handleDetailClick}
             />
           ) : (
             <AppointmentConfirmationListItem
@@ -190,6 +191,7 @@ const CheckInConfirmation = props => {
 
 CheckInConfirmation.propTypes = {
   appointments: PropTypes.array,
+  router: PropTypes.object,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
 };
