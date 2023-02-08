@@ -32,6 +32,10 @@
   display: none;
 }
 
+#root_additionalDocuments_add_label {
+  margin-top: 0;
+}
+
 /* Contested issue cards (contested issue page & review/submit page)
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
@@ -156,6 +160,12 @@ ul.evidence-summary,
 @media screen and (min-width: 481px) {
   .va-profile-wrapper button {
     width: auto;
+  }
+}
+
+@media screen and (max-width: $small-screen) {
+  dl.review .review-row > dd {
+    text-align: left;
   }
 }
 

@@ -1,10 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { EVIDENCE_VA_REQUEST } from '../constants';
+
+const recordActionLinkClick = () => {
+  recordEvent({
+    event: 'cta-action-link-click',
+    'action-link-type': 'primary',
+    'action-link-click-label': 'Add more evidence',
+    'action-link-icon-color': 'green',
+  });
+};
 
 export const content = {
   edit: 'Edit',
+  editLabel: 'Edit evidence summary page',
   remove: 'Remove',
   update: 'Update page',
 
@@ -20,15 +32,29 @@ export const content = {
       <Link
         to={`/${EVIDENCE_VA_REQUEST}`}
         className="vads-c-action-link--green"
+        onClick={recordActionLinkClick}
       >
         Add more evidence
       </Link>
     </p>
   ),
 
-  missingEvidenceHeader: 'You haven’t added any evidence',
-  missingEvidenceText:
-    'You must provide at least one type of evidence to file for a Supplemental Claim',
+  missingEvidenceHeader: 'We noticed you didn’t add new evidence',
+  missingEvidenceText: (
+    <>
+      <p>
+        If you have a presumptive condition, you don’t need to submit new
+        evidence with your claim. You can continue through this form.
+      </p>
+      <p>
+        If you’re filing a claim based on new evidence, we encourage you to
+        submit the evidence with your claim. But if you don’t have the evidence
+        now, you can still file your claim. We’ll work with you to get the
+        evidence.
+      </p>
+    </>
+  ),
+  missingEvidenceReviewText: 'I didn’t add any evidence',
 
-  reviewPageHeaderText: 'Supporting evidence',
+  reviewPageHeaderText: 'New evidence',
 };

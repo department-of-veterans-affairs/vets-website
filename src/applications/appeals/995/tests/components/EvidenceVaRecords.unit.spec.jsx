@@ -326,7 +326,7 @@ describe('<EvidenceVaRecords>', () => {
   // *** ADD ANOTHER ***
   it('should navigate from zero index to a new empty location page, of index 1, with valid data', async () => {
     const goSpy = sinon.spy();
-    const data = { ...mockData, locations: [mockLocation] };
+    const data = { ...mockData, locations: [mockLocation, {}, mockLocation2] };
     const index = 0;
     const page = setup({
       index,
@@ -345,7 +345,7 @@ describe('<EvidenceVaRecords>', () => {
     });
   });
 
-  it('should navigate from zero index to last entry + 1 when adding another with valid data', async () => {
+  it('should navigate from zero index, with valid data, to next index when inserting another entry', async () => {
     const goSpy = sinon.spy();
     const locations = [mockLocation, mockLocation2, {}];
     const data = { ...mockData, locations };
@@ -362,8 +362,8 @@ describe('<EvidenceVaRecords>', () => {
 
     await waitFor(() => {
       expect($('va-modal', container).getAttribute('visible')).to.eq('false');
-      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${locations.length}`))
-        .to.be.true;
+      expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to.be
+        .true;
     });
   });
 

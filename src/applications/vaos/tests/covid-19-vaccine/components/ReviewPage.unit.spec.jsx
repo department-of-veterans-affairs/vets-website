@@ -253,7 +253,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
                 postalCode: '82001-5356',
                 city: 'Cheyenne',
                 state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
+                line: ['2360 East Pershing Boulevard', null, 'Suite 10'],
               },
             },
           ],
@@ -298,6 +298,7 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Make sure the information is correct. Then confirm your appointment.',
     );
+    expect(screen.getByText(/2360 East Pershing Boulevard, Suite 10/i)).to.be;
 
     // When the user confirms their appointment
     userEvent.click(screen.getByText(/Confirm appointment/i));

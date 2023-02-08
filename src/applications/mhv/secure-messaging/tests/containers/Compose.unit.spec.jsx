@@ -1,13 +1,14 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
 import triageTeams from '../fixtures/recipients.json';
 import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
 
-describe('Compose message container', () => {
+describe('Compose container', () => {
   const initialState = {
     sm: {
       triageTeams: { triageTeams },
@@ -25,17 +26,28 @@ describe('Compose message container', () => {
   });
 
   it('displays an emergency note with crisis line button', () => {
+    const state = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+        draftDetails: { draftMessage, draftMessageHistory: [] },
+      },
+    };
     const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState,
+      state,
       reducers: reducer,
       path: `/compose`,
     });
-    const note = screen.getByText(
-      'If you’re in a mental health crisis or thinking about suicide',
-      { exact: false },
-    );
-    const crisisLineButton = screen.getByRole('link', {
-      name: '988lifeline.org',
+    const note = waitFor(() => {
+      screen.getByText(
+        'If you’re in a mental health crisis or thinking about suicide',
+        { exact: false },
+      );
+    });
+    const crisisLineButton = waitFor(() => {
+      screen.getByRole('link', {
+        name: '988lifeline.org',
+      });
     });
     expect(note).to.exist;
     expect(crisisLineButton).to.exist;
@@ -56,22 +68,30 @@ describe('Compose message container', () => {
     expect(loadingIndicator).to.exist;
   });
 
-  it('displays compose heading if path is /compose', async () => {
+  it('displays compose heading if path is /compose', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
       path: `/compose`,
     });
-    const headingText = await screen.getByRole('heading', {
-      name: 'Compose message',
+    const headingText = waitFor(() => {
+      screen.getByRole('heading', {
+        name: 'Compose message',
+      });
     });
 
     expect(headingText).to.exist;
   });
 
   it('displays compose fields if path is /compose', async () => {
+    const state = {
+      sm: {
+        triageTeams: { triageTeams },
+        categories: { categories },
+      },
+    };
     const screen = renderWithStoreAndRouter(<Compose />, {
-      initialState,
+      initialState: state,
       reducers: reducer,
       path: `/compose`,
     });
@@ -80,37 +100,44 @@ describe('Compose message container', () => {
     const categoryRadioButtons = await screen.getAllByTestId(
       'compose-category-radio-button',
     );
-    const subject = await screen.getByTestId('message-subject-field');
-    const body = await screen.getByTestId('message-body-field');
+
+    const subject = waitFor(() => {
+      screen.getByTestId('message-subject-field');
+    });
+    const body = waitFor(() => {
+      screen.getByTestId('message-body-field');
+    });
 
     expect(recipient).to.exist;
-    expect(categoryRadioButtons.length).to.equal(6);
+    expect(categoryRadioButtons).to.have.length(6);
     expect(subject).to.exist;
     expect(body).to.exist;
   });
 
-  it('displays compose action buttons if path is /compose', async () => {
+  it('displays compose action buttons if path is /compose', () => {
     const screen = renderWithStoreAndRouter(<Compose />, {
       initialState,
       reducers: reducer,
       path: `/compose`,
     });
 
-    const sendButton = await screen.getAllByRole('button', {
-      name: 'Send',
+    const sendButton = waitFor(() => {
+      screen.getByTestId('Send-Button');
     });
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const saveDraftButton = waitFor(() => {
+      screen.getByTestId('Save-Draft-Button');
+    });
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
   });
 
-  it('displays draft page if path is /draft/:id', async () => {
+  it('displays draft page if path is /draft/:id', () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
         categories: { categories },
-        draftDetails: { draftMessage },
+        draftDetails: { draftMessage, draftMessageHistory: [] },
       },
     };
     const screen = renderWithStoreAndRouter(<Compose />, {
@@ -118,20 +145,52 @@ describe('Compose message container', () => {
       reducers: reducer,
       path: `/draft/7171715`,
     });
-
-    const headingText = await screen.getAllByRole('heading', {
-      name: 'Edit draft',
+    const headingText = waitFor(() => {
+      screen.getAllByRole('heading', {
+        name: 'Edit draft',
+      });
     });
-    const draftMessageHeadingText = await screen.getAllByRole('heading', {
-      name: 'COVID: Covid-Inquiry',
-      level: 3,
+    const draftMessageHeadingText = waitFor(() => {
+      screen.getAllByRole('heading', {
+        name: 'COVID: Covid-Inquiry',
+        level: 3,
+      });
     });
-    const discardButton = await screen.getAllByRole('button', {
-      name: 'Discard draft',
-      exact: false,
+    const deleteButton = waitFor(() => {
+      screen.getAllByRole('button', {
+        name: 'Delete draft',
+        exact: false,
+      });
     });
     expect(headingText).to.exist;
     expect(draftMessageHeadingText).to.exist;
-    expect(discardButton).to.exist;
+    expect(deleteButton).to.exist;
+  });
+
+  it('does not display recipients with preferredTeam:false attribute', () => {
+    const screen = renderWithStoreAndRouter(<Compose />, {
+      initialState,
+      reducers: reducer,
+      path: `/compose`,
+    });
+
+    const recipient = screen.getByTestId('compose-recipient-select');
+
+    const recipientValues = Array.from(
+      recipient.querySelectorAll('option'),
+    ).map(e => parseInt(e.getAttribute('value'), 10));
+    const falseValues = triageTeams
+      .filter(team => team.preferredTeam === false)
+      .map(team => team.id);
+    const trueValues = triageTeams
+      .filter(team => team.preferredTeam === true)
+      .map(team => team.id);
+    waitFor(() => {
+      expect(recipientValues.some(r => falseValues.indexOf(r) >= 0)).to.be
+        .false;
+    });
+    waitFor(() => {
+      expect(recipientValues).to.include.members(trueValues);
+    });
   });
 });

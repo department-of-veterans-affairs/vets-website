@@ -7,7 +7,7 @@
   "answer-a-few-questions-to-find-out-if-you-can-file-your-claim-now": "Answer a few questions to find out if you can file your claim now.",
   "answer-pre-check-in-questions": "Answer pre-check-in questions",
   "answer-questions": "Answer questions",
-  "answer-yes-if-you-traveled-from-the-address": "Answer “Yes” if you traveled from the address listed here and you certify that it’s not a Post Office Box.",
+  "answer-yes-if-you-traveled-from-the-address": "Answer “Yes” if you traveled from the address listed here and you certify that it’s not a Post Office box.",
   "are-you-claiming-only-mileage-and-no-other": "Are you claiming only mileage and no other expenses today?",
   "ask-a-staff-member": "Ask a staff member.",
   "back-to-last-screen": "Back to last screen",
@@ -217,5 +217,8 @@
   "where-to-attend": "Where to attend",
   "reason-for-visit": "Reason for visit",
   "appointment-day": "{{ date, day }}, {{ date, monthDay }} at {{ date, time }}",
-  "back-to-appointments": "Back to appointments"
+  "back-to-appointments": "Back to appointments",
+  "click-to-see-details-for-your-time-appointment": "Click to see the details for your {{ time, time }} appointment",
+  "directions-to-location": "Directions to {{ location }}",
+  "directions": "Directions"
 }

@@ -1,4 +1,4 @@
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 
@@ -16,7 +16,7 @@ describe('Secure Messaging Compose', () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('BLUE ANCILLARY_TEAM');
+      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     cy.get('[name="COVID"]').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',

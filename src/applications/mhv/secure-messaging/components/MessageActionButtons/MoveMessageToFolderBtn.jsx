@@ -12,7 +12,7 @@ import * as Constants from '../../util/constants';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders } = props;
+  const { messageId, allFolders, isVisible } = props;
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -67,65 +67,59 @@ const MoveMessageToFolderBtn = props => {
           data-testid="move-to-modal"
           large
           modalTitle="Move to:"
+          onPrimaryButtonClick={handleConfirmMoveFolderTo}
+          onSecondaryButtonClick={closeModal}
+          primaryButtonText="Confirm"
+          secondaryButtonText="Cancel"
           onCloseEvent={closeModal}
           visible={isModalVisible}
         >
-          <div className="modal-body">
-            <p>
-              This conversation will be moved. Any replies to this message will
-              appear in your inbox
-            </p>
-            <VaRadio
-              className="form-radio-buttons"
-              required
-              enable-analytics
-              error={folderInputError}
-              onRadioOptionSelected={handleOnChangeFolder}
-            >
-              {allFolders &&
-                allFolders
-                  .filter(
-                    folder =>
-                      folder.id !== Constants.DefaultFolders.DRAFTS.id &&
-                      folder.id !== Constants.DefaultFolders.SENT.id,
-                  )
-                  .map((folder, i) => (
-                    <>
-                      <VaRadioOption
-                        data-testid="folder-list-radio-button"
-                        key={i}
-                        id={`radiobutton-${folder.name}`}
-                        // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
-                        label={
-                          folder.id === Constants.DefaultFolders.DELETED.id
-                            ? Constants.DefaultFolders.DELETED.header
-                            : folder.name
-                        }
-                        name="defaultName"
-                        value={folder.id}
-                      />
-                    </>
-                  ))}
-              <>
-                <VaRadioOption
-                  data-testid="folder-list-radio-button"
-                  id="radiobutton-newFolder"
-                  label="Create new folder"
-                  name="defaultName"
-                  value="newFolder"
-                />
-              </>
-            </VaRadio>
-            <div>
-              <va-button text="Confirm" onClick={handleConfirmMoveFolderTo} />
-              <va-button
-                secondary
-                data-testid="hidden-button-close-modal"
-                text="Cancel"
-                onClick={closeModal}
+          <p>
+            This conversation will be moved. Any replies to this message will
+            appear in your inbox
+          </p>
+          <VaRadio
+            className="form-radio-buttons"
+            required
+            enable-analytics
+            error={folderInputError}
+            onRadioOptionSelected={handleOnChangeFolder}
+          >
+            {allFolders &&
+              allFolders
+                .filter(
+                  folder =>
+                    folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+                    folder.id !== Constants.DefaultFolders.SENT.id,
+                )
+                .map((folder, i) => (
+                  <>
+                    <VaRadioOption
+                      data-testid={`radiobutton-${folder.name}`}
+                      key={i}
+                      id={`radiobutton-${folder.name}`}
+                      // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
+                      label={
+                        folder.id === Constants.DefaultFolders.DELETED.id
+                          ? Constants.DefaultFolders.DELETED.header
+                          : folder.name
+                      }
+                      name="defaultName"
+                      value={folder.id}
+                    />
+                  </>
+                ))}
+            <>
+              <VaRadioOption
+                data-testid="folder-list-radio-button"
+                id="radiobutton-newFolder"
+                label="Create new folder"
+                name="defaultName"
+                value="newFolder"
               />
-            </div>
-          </div>
+            </>
+          </VaRadio>
+          <p /> {/* to create extra margin between radio and action buttons */}
         </VaModal>
       </div>
     );
@@ -140,39 +134,41 @@ const MoveMessageToFolderBtn = props => {
   };
 
   return (
-    <>
-      {/* TODO add GA event tracking for move button click */}
-      <button
-        type="button"
-        className="message-action-button middle-right-button usa-button-secondary"
-        onClick={openModal}
-      >
-        <i
-          className="fas fa-folder vads-u-margin-right--0p5"
-          aria-hidden="true"
-        />
-        <span
-          className="message-action-button-text"
-          data-testid="move-button-text"
+    isVisible && (
+      <li>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={openModal}
         >
-          Move
-        </span>
-      </button>
-      {isModalVisible ? moveToFolderModal() : null}
-      {isNewModalVisible && (
-        <CreateFolderModal
-          isModalVisible={isNewModalVisible}
-          setIsModalVisible={setIsNewModalVisible}
-          onConfirm={confirmCreateFolder}
-          folders={folders}
-        />
-      )}
-    </>
+          <i
+            className="fas fa-folder vads-u-margin-right--0p5"
+            aria-hidden="true"
+          />
+          <span
+            className="message-action-button-text"
+            data-testid="move-button-text"
+          >
+            Move
+          </span>
+        </button>
+        {isModalVisible ? moveToFolderModal() : null}
+        {isNewModalVisible && (
+          <CreateFolderModal
+            isModalVisible={isNewModalVisible}
+            setIsModalVisible={setIsNewModalVisible}
+            onConfirm={confirmCreateFolder}
+            folders={folders}
+          />
+        )}
+      </li>
+    )
   );
 };
 
 MoveMessageToFolderBtn.propTypes = {
   allFolders: PropTypes.array,
+  isVisible: PropTypes.bool,
   messageId: PropTypes.number,
 };
 

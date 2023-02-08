@@ -47,7 +47,7 @@ export const PAST_APPOINTMENTS_HIDE_STATUS_SET = new Set([
  */
 
 export function getRealFacilityId(facilityId) {
-  if (!environment.isProduction() && facilityId) {
+  if ((!environment.isProduction() || window.Cypress) && facilityId) {
     return facilityId.replace('983', '442').replace('984', '552');
   }
 

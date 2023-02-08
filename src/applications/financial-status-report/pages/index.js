@@ -29,6 +29,8 @@ import * as monetaryChecklist from './assets/monetary/monetaryChecklist';
 import * as monetaryValues from './assets/monetary/monetaryValues';
 import * as realEstate from './assets/realEstate';
 import * as realEstateRecords from './assets/realEstate/records';
+import * as enhancedRealEstate from './assets/realEstate/enhancedIndex';
+import * as enhancedRealEstateRecords from './assets/realEstate/enhancedRecords';
 import * as recreationalVehicles from './assets/recreationalVehicles';
 import * as recreationalVehicleRecords from './assets/recreationalVehicles/records';
 import * as vehicles from './assets/vehicles';
@@ -48,6 +50,7 @@ import * as resolutionComments from './resolution/comments';
 import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
+import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
 import * as addIssue from './income/employmentEnhanced/addIssue';
 import * as employmentHistory from './income/employmentEnhanced/employmentHistory';
 import * as payrollDeductionChecklist from './income/employmentEnhanced/payrollDeductionChecklist';
@@ -55,6 +58,10 @@ import * as payrollDeductionInputList from './income/employmentEnhanced/payrollD
 import * as grossMonthlyIncome from './income/employmentEnhanced/grossMonthlyIncome';
 import * as enhancedEmploymentRecords from './income/employmentEnhanced/enhancedRecords';
 import * as resolutionExplainer from './resolution/resolutionExplainer';
+import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
+import * as householdExpensesInputList from './expenses/householdExpensesValues';
+import * as expensesExplainer from './expenses/expensesExplainer';
+import * as contactInformation from './veteran/contactInformation';
 
 export {
   veteranInfo,
@@ -87,6 +94,8 @@ export {
   monetaryValues,
   realEstate,
   realEstateRecords,
+  enhancedRealEstate,
+  enhancedRealEstateRecords,
   recreationalVehicles,
   recreationalVehicleRecords,
   vehicles,
@@ -114,4 +123,9 @@ export {
   grossMonthlyIncome,
   enhancedEmploymentRecords,
   resolutionExplainer,
+  householdExpensesChecklist,
+  householdExpensesInputList,
+  expensesExplainer,
+  enhancedBankruptcyHistoryRecords,
+  contactInformation,
 };

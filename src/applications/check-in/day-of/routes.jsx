@@ -15,6 +15,7 @@ import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
 import TravelMileage from './pages/TravelMileage';
+import AppointmentDetails from '../components/pages/AppointmentDetails';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
 import withForm from '../containers/withForm';
@@ -75,7 +76,7 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.COMPLETE,
+    path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
       requiresForm: true,
@@ -140,6 +141,15 @@ const routes = [
   {
     path: URLS.ERROR,
     component: Error,
+  },
+  {
+    path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
   },
 ];
 

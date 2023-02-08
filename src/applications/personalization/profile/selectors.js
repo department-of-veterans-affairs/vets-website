@@ -69,10 +69,6 @@ export const cnpDirectDepositIsBlocked = state => {
   );
 };
 
-export const fullNameLoadError = state => {
-  return state.vaProfile?.hero?.errors;
-};
-
 export const personalInformationLoadError = state => {
   return (
     state.vaProfile?.personalInformation?.errors ||
@@ -124,12 +120,6 @@ export const selectHideDirectDepositCompAndPen = state =>
 export const selectShowPaymentsNotificationSetting = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPaymentsNotificationSetting
-  ];
-
-// select the feature flag from appeals status notification settings
-export const selectShowAppealStatusNotificationSetting = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileShowAppealStatusNotificationSetting
   ];
 
 // toggle used for 47841

@@ -32,6 +32,8 @@ export const uiSchema = {
     'applicantAddress',
     checkboxTitle,
     () => true,
+    {},
+    true,
   ),
 };
 

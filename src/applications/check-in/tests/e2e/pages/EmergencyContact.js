@@ -41,6 +41,13 @@ class EmergencyContact {
       .should('include.text', workPhone);
   };
 
+  validateBackButton = () => {
+    cy.get('a[data-testid="back-button"]')
+      .should('have.text', 'Back to last screen')
+      .should('have.attr', 'href')
+      .and('contain', 'demographics');
+  };
+
   attemptToGoToNextPage = (button = 'yes') => {
     cy.get(`button[data-testid="${button}-button"]`).click({
       waitForAnimations: true,

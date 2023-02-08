@@ -45,7 +45,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
-  const errorVisible = evidenceLength === 0;
+  const noEvidence = evidenceLength === 0;
 
   const handlers = {
     onEditPage: () => {
@@ -58,37 +58,32 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   return (
     <div className="form-review-panel-page">
       <div name="evidenceSummaryScrollElement" />
-      <va-button
+      <button
+        type="button"
         ref={editRef}
-        class="float-right edit-page"
-        secondary
+        className="float-right edit-page usa-button-secondary"
         onClick={handlers.onEditPage}
-        label="Update evidence summary page"
-        text={content.edit}
-        tabindex="0"
-      />
+        aria-label={content.editLabel}
+      >
+        {content.edit}
+      </button>
       <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
         {content.reviewPageHeaderText}
       </h4>
 
-      <va-alert
-        id="no-evidence"
-        status="error"
-        visible={errorVisible}
-        tabindex={errorVisible ? '0' : '-1'}
-      >
-        {errorVisible ? (
-          <>
-            <h5 slot="headline">{content.missingEvidenceHeader}</h5>
-            {content.missingEvidenceText}
-          </>
-        ) : null}
-      </va-alert>
+      {noEvidence ? (
+        <dl className="review">
+          <div className="review-row">
+            <dt>{content.missingEvidenceReviewText}</dt>
+            <dd />
+          </div>
+        </dl>
+      ) : null}
 
       <VaContent list={vaEvidence} reviewMode />
       <PrivateContent
         list={privateEvidence}
-        limit={limitedConsent}
+        limitedConsent={limitedConsent}
         reviewMode
       />
       <UploadContent list={otherEvidence} reviewMode />

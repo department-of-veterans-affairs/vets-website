@@ -1,3 +1,6 @@
+/** time to wait (in ms) after the user stops typing before initiating draft auto-save */
+export const draftAutoSaveTimeout = 15000;
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,
@@ -30,13 +33,16 @@ export const Alerts = {
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
       'Message could not be deleted. Try again later. If this problem persists, contact the help desk.',
+    DRAFT_CANNOT_REPLY_INFO_HEADER:
+      'This conversation is too old for new replies',
+    DRAFT_CANNOT_REPLY_INFO_BODY: `The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.`,
     MOVE_MESSAGE_SUCCESS: 'Message was successfully moved',
     MOVE_MESSAGE_ERROR:
       'Message could not be moved. Try again later. If this problem persists, contact the help desk.',
     NO_MESSAGES: 'There are no messages in this folder.',
-    DELETE_DRAFT_SUCCESS: 'Draft was successfully discarded.',
+    DELETE_DRAFT_SUCCESS: 'Draft was successfully deleted.',
     DELETE_DRAFT_ERROR:
-      'Draft could not be discarded. Try again later. If this problem persists, contact the help desk.',
+      'Draft could not be deleted. Try again later. If this problem persists, contact the help desk.',
     SEND_MESSAGE_SUCCESS: 'Message was successfully sent.',
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
   },
@@ -61,6 +67,16 @@ export const Errors = {
   },
 };
 
+export const Links = {
+  Link: {
+    CANNOT_REPLY: {
+      CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
+      TITLE: 'Start a new message',
+      TO: '/compose',
+    },
+  },
+};
+
 export const Prompts = {
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -69,8 +85,8 @@ export const Prompts = {
       'Messages in the trash folder won’t be permanently deleted.',
   },
   Draft: {
-    DISCARD_DRAFT_CONFIRM: 'Are you sure you want to discard this draft?',
-    DISCARD_DRAFT_CONFIRM_NOTE:
+    DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
+    DELETE_DRAFT_CONFIRM_NOTE:
       "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
   },
 };
@@ -102,6 +118,7 @@ export const Categories = {
   APPOINTMENTS: 'Appointment',
   MEDICATIONS: 'Medication',
   TEST_RESULTS: 'Test',
+  EDUCATION: 'Education',
 };
 
 export const acceptedFileTypes = {
@@ -117,4 +134,10 @@ export const acceptedFileTypes = {
   txt: 'text/plain',
   xls: 'application/vnd.ms-excel',
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+};
+
+export const Attachments = {
+  MAX_FILE_COUNT: 4,
+  MAX_FILE_SIZE: 6000000,
+  TOTAL_MAX_FILE_SIZE: 10000000,
 };

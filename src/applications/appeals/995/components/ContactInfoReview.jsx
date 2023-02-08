@@ -73,18 +73,19 @@ const ContactInfoReview = ({ data, editPage }) => {
     <div className="form-review-panel-page">
       <Element name="confirmContactInformationScrollElement" />
       <div className="form-review-panel-page-header-row">
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
         </h4>
-        <va-button
+        <button
+          type="button"
           ref={editRef}
           id="confirmContactInformationEdit"
-          class="float-right edit-page"
-          secondary
+          className="float-right edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
-          label={content.editLabel}
-          text={content.edit}
-        />
+          aria-label={content.editLabel}
+        >
+          {content.edit}
+        </button>
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>

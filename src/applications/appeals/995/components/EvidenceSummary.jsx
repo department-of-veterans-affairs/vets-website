@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Element } from 'react-scroll';
 
@@ -11,9 +11,6 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
 } from '../utils/helpers';
-
-import { checkValidations } from '../validations';
-import { validateEvidence } from '../validations/evidence';
 
 import { content } from '../content/evidenceSummary';
 
@@ -35,16 +32,22 @@ const EvidenceSummary = ({
   updatePage,
 }) => {
   const { limitedConsent = '' } = data;
-  // Don't show you haven't added any evidence alert before submitting, except
-  // on the review & submit page
-  const [submitted, setSubmitted] = useState(onReviewPage || false);
-
   const vaEvidence = hasVAEvidence(data) ? data.locations : [];
   const privateEvidence = hasPrivateEvidence(data) ? data.providerFacility : [];
   const otherEvidence = hasOtherEvidence(data) ? data.additionalDocuments : [];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
+
+  useEffect(
+    () => {
+      if (evidenceLength === 0) {
+        focusElement('#no-evidence');
+        scrollTo('evidenceSummaryScrollElement');
+      }
+    },
+    [evidenceLength],
+  );
 
   const handlers = {
     removeVaLocation: event => {
@@ -69,28 +72,13 @@ const EvidenceSummary = ({
       setFormData({ ...data, additionalDocuments: otherEvidence });
     },
     onGoForward: () => {
-      checkValidations([validateEvidence], data);
-      if (evidenceLength !== 0) {
-        goForward(data);
-      } else {
-        setSubmitted(true);
-        focusElement('#no-evidence');
-        scrollTo('evidenceSummaryScrollElement');
-      }
+      goForward(data);
     },
     onUpdate: () => {
-      checkValidations([validateEvidence], data);
-      if (evidenceLength !== 0) {
-        setSubmitted(true);
-        updatePage();
-      } else {
-        focusElement('#no-evidence');
-        scrollTo('evidenceSummaryScrollElement');
-      }
+      updatePage();
     },
   };
-  const visibleError = submitted && evidenceLength === 0;
-  const alertTabindex = visibleError ? '0' : '-1';
+  const visibleError = evidenceLength === 0;
   const H = onReviewPage ? 'h5' : 'h3';
 
   const props = {
@@ -107,7 +95,9 @@ const EvidenceSummary = ({
       <div>
         {/* Maintains header levels in edit mode on review & submit page */}
         {onReviewPage && (
-          <h4 className="vads-u-font-size--h5">Supporting evidence</h4>
+          <h4 className="vads-u-font-size--h5">
+            {content.reviewPageHeaderText}
+          </h4>
         )}
 
         {/* We are rendering the va-alert so the focus doesn't need to wait for
@@ -116,12 +106,7 @@ const EvidenceSummary = ({
             tabbable when hidden
           - Only render the alert content since the screenreader can still
             target the headers inside */}
-        <va-alert
-          id="no-evidence"
-          status="error"
-          visible={visibleError}
-          tabindex={alertTabindex}
-        >
+        <va-alert id="no-evidence" status="warning" visible={visibleError}>
           {visibleError && (
             <>
               <H slot="headline">{content.missingEvidenceHeader}</H>
@@ -133,7 +118,7 @@ const EvidenceSummary = ({
         <VaContent list={vaEvidence} {...props} />
         <PrivateContent
           list={privateEvidence}
-          limit={limitedConsent}
+          limitedConsent={limitedConsent}
           {...props}
         />
         <UploadContent list={otherEvidence} {...props} />

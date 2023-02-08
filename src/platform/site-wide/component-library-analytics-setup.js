@@ -240,6 +240,18 @@ const analyticsEvents = {
       prefix: 'number-input',
     },
   ],
+  'va-official-gov-banner': [
+    {
+      action: 'expand',
+      event: 'int-official-gov-banner-expand',
+      prefix: 'official-gov-banner',
+    },
+    {
+      action: 'collapse',
+      event: 'int-official-gov-banner-collapse',
+      prefix: 'official-gov-banner',
+    },
+  ],
   'va-promo-banner': [
     {
       action: 'linkClick',

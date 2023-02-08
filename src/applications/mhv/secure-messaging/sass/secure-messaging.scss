@@ -18,14 +18,16 @@
   }
 }
 
-.breadcrumb-angle
-.desktop-view-crumb {
+.breadcrumb-angle .desktop-view-crumb {
   color: unset;
   pointer-events: auto;
   font-weight: unset;
   text-decoration: unset;
 }
 
+.alertbox-link:visited {
+  color: $color-link-default;
+}
 .compose-message-link:visited {
   color: $color-link-default;
   text-decoration: underline;
@@ -57,16 +59,6 @@ va-alert button {
   padding: 0;
   .send-button-top-text {
     text-decoration: underline;
-  }
-}
-
-.message-action-buttons {
-  margin-top: 20px;
-  .message-action-button {
-    i {
-      width: 20px;
-      height: 20px;
-    }
   }
 }
 
@@ -222,6 +214,7 @@ va-alert button {
       border-top: 1px solid $color-gray-medium;
       display: flex;
       flex-direction: column;
+      width: 100%;
       span {
         margin-top: 16px;
         @media (min-width: $medium-screen) {
@@ -229,7 +222,6 @@ va-alert button {
         }
       }
       @media (min-width: $medium-screen) {
-        width: 100%;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -237,7 +229,6 @@ va-alert button {
     }
   }
   li:last-child {
-    margin: 0 0 16px;
     .editable-attachment {
       border-bottom: 1px solid $color-gray-medium;
     }
@@ -283,6 +274,7 @@ pre {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 va-loading-indicator {

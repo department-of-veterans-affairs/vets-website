@@ -1,9 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import PropTypes from 'prop-types';
+import InputList from './utils/InputList';
 
-const AdditionalIncomeInputList = ({ errorSchema }) => {
+const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   const errorList = errorSchema?.addlIncRecords?.__errors;
+  const { submitted } = formContext;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
@@ -31,28 +34,30 @@ const AdditionalIncomeInputList = ({ errorSchema }) => {
     );
   };
 
+  const title = 'Your other income';
+  const prompt = 'How much is your monthly income for each income source?';
+
   return (
-    <div>
-      <legend className="schemaform-block-title">Your other income</legend>
-      <p>How much is your monthly income for each income source?</p>
-      {addlIncRecords?.map((income, key) => (
-        <div key={income.name + key} className="vads-u-margin-y--2">
-          <va-number-input
-            label={income.name}
-            name={income.name}
-            value={income.amount}
-            id={income.name + key}
-            error={
-              errorList.includes(income.name) ? 'Enter valid dollar amount' : ''
-            }
-            inputmode="decimal"
-            onInput={onChange}
-            required
-          />
-        </div>
-      ))}
-    </div>
+    <InputList
+      errorList={errorList}
+      inputs={addlIncRecords}
+      title={title}
+      prompt={prompt}
+      submitted={submitted}
+      onChange={event => onChange(event)}
+    />
   );
+};
+
+AdditionalIncomeInputList.propTypes = {
+  errorSchema: PropTypes.shape({
+    addlIncRecords: PropTypes.shape({
+      __errors: PropTypes.array,
+    }),
+  }),
+  formContext: PropTypes.shape({
+    submitted: PropTypes.bool,
+  }),
 };
 
 export default AdditionalIncomeInputList;

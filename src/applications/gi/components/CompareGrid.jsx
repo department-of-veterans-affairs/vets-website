@@ -183,7 +183,6 @@ export function CompareGrid({
 
             const displayDiff = showDifferences && !allEqual;
             const columns = [fieldLabel(field, index, displayDiff)];
-
             for (let i = 0; i < institutions.length; i++) {
               columns.push(
                 institutionFieldValue(

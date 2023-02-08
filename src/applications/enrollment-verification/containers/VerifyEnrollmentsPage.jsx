@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 
 import {
   postEnrollmentVerifications,
@@ -29,7 +30,6 @@ import {
 } from '../helpers';
 import { getEVData } from '../selectors';
 
-import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
@@ -192,6 +192,7 @@ export const VerifyEnrollmentsPage = ({
         unverifiedMonths[currentMonth - 1].verificationStatus,
       );
       scrollToTop('h1');
+      focusElement('#react-root h2');
     },
     [
       clearVerificationStatuses,
@@ -266,6 +267,7 @@ export const VerifyEnrollmentsPage = ({
         }),
       });
       scrollToTop('h1');
+      focusElement('#react-root h2');
     },
     [
       continueClicked,
@@ -325,16 +327,15 @@ export const VerifyEnrollmentsPage = ({
         showPrivacyAgreement
         totalProgressBarSegments={unverifiedMonths.length + 1}
       >
-        {informationIncorrectMonth &&
-        currentMonth !== unverifiedMonths.length ? (
-          <ReviewSkippedAheadAlert
-            incorrectMonth={informationIncorrectMonth.verificationMonth}
-          />
-        ) : (
-          <></>
-        )}
         {informationIncorrectMonth ? (
-          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+          <ReviewPausedInfo
+            skippedAheadIncorrectMonth={
+              currentMonth !== unverifiedMonths.length
+                ? informationIncorrectMonth.verificationMonth
+                : null
+            }
+            onFinishVerifyingLater={onFinishVerifyingLater}
+          />
         ) : (
           <></>
         )}
@@ -360,6 +361,7 @@ export const VerifyEnrollmentsPage = ({
       <MonthReviewCard month={month} />
 
       <VaRadio
+        aria-describedby="information-incorrect-warning"
         class="vads-u-margin-y--4"
         error={continueClicked ? 'Please select an option' : ''}
         label="To the best of your knowledge, is this enrollment information correct?"
@@ -367,32 +369,23 @@ export const VerifyEnrollmentsPage = ({
         required
       >
         <va-radio-option
+          aria-describedby="information-incorrect-warning"
+          checked={monthInformationCorrect === VERIFICATION_STATUS_CORRECT}
           class="vads-u-margin-y--2"
           label="Yes, this information is correct"
           name={VERIFICATION_STATUS_CORRECT}
           value={VERIFICATION_STATUS_CORRECT}
         />
         <va-radio-option
+          aria-describedby="information-incorrect-warning"
+          checked={monthInformationCorrect === VERIFICATION_STATUS_INCORRECT}
           class="vads-u-margin-y--2"
+          description="If you select “No, this information isn’t correct” we will pause your monthly payment until your information is updated. Work with your School Certifying Official (SCO) to ensure your enrollment information is updated with VA."
           label="No, this information isn’t correct"
           name={VERIFICATION_STATUS_INCORRECT}
           value={VERIFICATION_STATUS_INCORRECT}
         />
       </VaRadio>
-
-      <va-alert
-        class="vads-u-margin-top--2"
-        close-btn-aria-label="Close notification"
-        status="warning"
-        visible
-      >
-        If you select “<em>No, this information isn’t correct</em>”{' '}
-        <strong>
-          we will pause your monthly payment until your information is updated
-        </strong>
-        . Work with your School Certifying Official (SCO) to ensure your
-        enrollment information is updated with VA.
-      </va-alert>
     </VerifyEnrollments>
   );
 };

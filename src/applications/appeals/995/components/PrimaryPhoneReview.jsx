@@ -10,16 +10,17 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
   return hasHomeAndMobilePhone(data) ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.reviewTitle}
         </h4>
-        <va-button
-          class="edit-page"
-          secondary
+        <button
+          type="button"
+          className="edit-page usa-button-secondary float-right"
           onClick={editPage}
           aria-label={content.editLabel}
-          text={content.edit}
-        />
+        >
+          {content.edit}
+        </button>
       </div>
       <dl className="review">
         <div className="review-row">

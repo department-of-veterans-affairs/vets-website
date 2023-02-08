@@ -15,12 +15,21 @@ import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import submitForm from './submitForm';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/contact-information/EditContactInfo';
+
+import ContactInformationReview from '../components/contact-information/ContactInformationReview';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
+  submit: submitForm,
   submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
@@ -127,6 +136,42 @@ const formConfig = {
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
           schema: pages.contactInfo.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        confirmContactInformation: {
+          title: 'Contact information',
+          path: 'current-contact-information',
+          uiSchema: pages.contactInformation.uiSchema,
+          schema: pages.contactInformation.schema,
+          CustomPageReview: ContactInformationReview,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        editMobilePhone: {
+          title: 'Edit phone number',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -400,14 +445,35 @@ const formConfig = {
           title: 'Real estate',
           uiSchema: pages.realEstate.uiSchema,
           schema: pages.realEstate.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         realEstateRecords: {
           path: 'real-estate-asset-records',
           title: 'Real estate',
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
-          depends: ({ questions }) => questions.hasRealEstate,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedRealEstate: {
+          path: 'enhanced-real-estate-assets',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstate.uiSchema,
+          schema: pages.enhancedRealEstate.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
+        },
+        enhancedRealEstateRecords: {
+          path: 'enhanced-real-estate-asset-records',
+          title: 'Real estate',
+          uiSchema: pages.enhancedRealEstateRecords.uiSchema,
+          schema: pages.enhancedRealEstateRecords.schema,
+          depends: formData =>
+            formData.questions.hasRealEstate &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: false,
         },
         vehicles: {
           path: 'vehicles',
@@ -473,11 +539,35 @@ const formConfig = {
     householdExpensesChapter: {
       title: 'Household expenses',
       pages: {
+        expensesExplainer: {
+          path: 'expenses-explainer',
+          title: 'Household expenses explainer',
+          uiSchema: pages.expensesExplainer.uiSchema,
+          schema: pages.expensesExplainer.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
         expenses: {
           path: 'expenses',
           title: 'Expenses',
           uiSchema: pages.expenses.uiSchema,
           schema: pages.expenses.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesChecklist: {
+          path: 'household-expenses-checklist',
+          title: 'Household expenses checklist',
+          uiSchema: pages.householdExpensesChecklist.uiSchema,
+          schema: pages.householdExpensesChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        householdExpensesInputList: {
+          path: 'household-expenses-values',
+          title: 'Household expenses values',
+          uiSchema: pages.householdExpensesInputList.uiSchema,
+          schema: pages.householdExpensesInputList.schema,
+          depends: formData =>
+            formData.expenses?.expenseRecords?.length > 0 &&
+            formData['view:enhancedFinancialStatusReport'],
         },
         utilities: {
           path: 'utilities',
@@ -590,7 +680,18 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: ({ questions }) => questions.hasBeenAdjudicatedBankrupt,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            !formData['view:enhancedFinancialStatusReport'],
+        },
+        enhancedBankruptcyHistoryRecords: {
+          path: 'enhanced-bankruptcy-history-records',
+          title: 'Bankruptcy history',
+          uiSchema: pages.enhancedBankruptcyHistoryRecords.uiSchema,
+          schema: pages.enhancedBankruptcyHistoryRecords.schema,
+          depends: formData =>
+            formData.questions.hasBeenAdjudicatedBankrupt &&
+            formData['view:enhancedFinancialStatusReport'],
         },
       },
     },

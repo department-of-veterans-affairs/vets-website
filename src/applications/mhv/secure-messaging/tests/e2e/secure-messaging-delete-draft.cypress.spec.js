@@ -2,10 +2,11 @@ import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json'
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
-import SecureMessagingSite from './site/SecureMessagingSite';
+import SecureMessagingSite from './sm_site/SecureMessagingSite';
 
 describe('Secure Messaging Delete Draft', () => {
   it('Axe Check Delete Draft', () => {
+    const mockThreadResponse = { data: [] };
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -30,29 +31,35 @@ describe('Secure Messaging Delete Draft', () => {
       '/my_health/v1/messaging/messages/7208913',
       mockDraftMessages,
     ).as('deletedDraftResponse');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/7208913/thread',
+      mockThreadResponse,
+    ).as('draftThreadResponse');
     cy.get('[data-testid="drafts-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();
 
     cy.wait('@draftsFolderMetaResponse');
     cy.wait('@draftsResponse');
+
     // cy.get(':nth-child(3) > .message-subject-link').click();
     cy.contains('Appointment:').click();
+    cy.wait('@draftThreadResponse');
+    cy.get('[data-testid="delete-draft-button"]').click({ force: true });
 
-    cy.get('[data-testid="discard-draft-button"]').click({ force: true });
-
-    cy.get('[data-testid="discard-draft-modal"] > p').should('be.visible');
-    cy.get('[data-testid="discard-draft-modal"]')
+    cy.get('[data-testid="delete-draft-modal"] > p').should('be.visible');
+    cy.get('[data-testid="delete-draft-modal"]')
       .shadow()
       .find('[type ="button"]', { force: true })
-      .contains('Discard draft')
-      .should('contain', 'Discard')
+      .contains('Delete draft')
+      .should('contain', 'Delete')
       .click({ force: true });
 
     cy.wait('@deletedDraftResponse');
-    cy.contains('successfully discarded').should(
+    cy.contains('successfully deleted').should(
       'have.text',
-      'Draft was successfully discarded.',
+      'Draft was successfully deleted.',
     );
   });
 });

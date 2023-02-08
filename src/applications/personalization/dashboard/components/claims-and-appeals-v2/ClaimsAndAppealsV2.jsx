@@ -16,8 +16,8 @@ import {
   appealsAvailability,
   claimsAvailability,
 } from '../../utils/appeals-v2-helpers';
-import { canAccess } from '../../selectors';
-import API_NAMES from '../../utils/apiNames';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import useHighlightedClaimOrAppealV2 from './hooks/useHighlightedClaimOrAppealV2';
