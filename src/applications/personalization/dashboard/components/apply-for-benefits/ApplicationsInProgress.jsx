@@ -62,7 +62,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3 }) => {
           })}
         </div>
       ) : (
-        <p>You have no applications in progress.</p>
+        <p>You have no benefit application drafts to show.</p>
       )}
     </>
   );
