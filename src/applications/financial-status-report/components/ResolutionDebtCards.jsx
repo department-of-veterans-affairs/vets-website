@@ -153,9 +153,8 @@ const ResolutionDebtCards = ({
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle = currency(debt?.currentAr);
         const radioButtonProps = {
-          name: debt.id,
           label: radioLabel,
-          value: debt.resolution?.resolutionType,
+          initialValue: debt.resolution?.resolutionType,
           onVaValueChange: e => {
             if (e.returnValue) {
               updateDebts(objKey, e.detail.value, debt);
@@ -185,7 +184,7 @@ const ResolutionDebtCards = ({
                 {options.map((option, i) => (
                   <VaRadioOption
                     key={`${option.value}-${i}`}
-                    id={`${option.value}-${i}-${debt.id}`}
+                    id={`${debt.id}-${i}-label`}
                     label={option.label}
                     value={option.value}
                     checked={debt.resolution?.resolutionType === option.value}
