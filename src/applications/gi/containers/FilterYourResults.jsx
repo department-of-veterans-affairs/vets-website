@@ -19,7 +19,7 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
-import VARadioButton from '../components/VARadioButton';
+import VACheckboxButton from '../components/VACheckboxButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -311,7 +311,7 @@ export function FilterYourResults({
     ];
 
     return (
-      <VARadioButton
+      <VACheckboxButton
         radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
         name="specialMission"
         initialValue={specialMission}
