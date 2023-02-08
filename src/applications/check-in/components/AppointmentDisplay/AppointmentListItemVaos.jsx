@@ -16,7 +16,6 @@ const AppointmentListItemVaos = props => {
     AppointmentAction,
     showDetailsLink,
     appointmentMessage,
-    complete,
   } = props;
   const { t } = useTranslation();
 
@@ -79,10 +78,7 @@ const AppointmentListItemVaos = props => {
           </div>
         )}
         {appointmentMessage && (
-          <AppointmentMessageVaos
-            appointment={appointment}
-            complete={complete}
-          />
+          <AppointmentMessageVaos appointment={appointment} />
         )}
         {AppointmentAction}
       </div>
@@ -94,7 +90,6 @@ AppointmentListItemVaos.propTypes = {
   appointment: PropTypes.object.isRequired,
   AppointmentAction: PropTypes.node,
   appointmentMessage: PropTypes.bool,
-  complete: PropTypes.bool,
   goToDetails: PropTypes.func,
   showDetailsLink: PropTypes.bool,
 };
