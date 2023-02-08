@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { beforeEach } from 'mocha';
+import { waitFor } from '@testing-library/react';
 import RecordList from '../../components/RecordList';
 import vaccines from '../fixtures/vaccines.json';
 import reducer from '../../reducers';
@@ -14,26 +16,25 @@ describe('Record list component', () => {
       },
     },
   };
-
-  const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(
+  let screen = null;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
       <RecordList records={vaccines} type="vaccines" />,
       {
-        initialState: state,
+        initialState,
         reducers: reducer,
         path: '/vaccines',
       },
     );
-  };
+  });
 
   it('renders without errors', () => {
-    const screen = setup();
     expect(screen.getByText('Displaying', { exact: false })).to.exist;
   });
 
   it('displays a list of records when records are provided', async () => {
-    const screen = setup();
-    const recordItems = await screen.getAllByTestId('record-list-item');
-    expect(recordItems.length).to.equal(5);
+    await waitFor(() => {
+      expect(screen.getAllByTestId('record-list-item')).to.have.length(5);
+    });
   });
 });

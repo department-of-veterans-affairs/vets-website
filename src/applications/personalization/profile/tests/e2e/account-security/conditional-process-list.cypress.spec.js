@@ -58,7 +58,7 @@ context('when user is LOA3, verified, TOA accepted, but Non 2Fa', () => {
     checkForLegacyLoadingIndicator();
 
     // check that process list component list has rendered
-    cy.get('ol.va-account-security-process-list').should('exist');
+    cy.get('ol.va-conditional-process-list').should('exist');
 
     // check content within the process list
     cy.findByText('We’ve verified your identity.');

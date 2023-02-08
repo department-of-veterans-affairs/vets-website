@@ -1,13 +1,13 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
-import isomorphicFetch from 'isomorphic-fetch';
 import retryFetch from 'fetch-retry';
+import isomorphicFetch from 'isomorphic-fetch';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import {
-  infoTokenExists,
   checkOrSetSessionExpiration,
+  infoTokenExists,
   refresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';

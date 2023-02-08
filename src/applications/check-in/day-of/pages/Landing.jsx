@@ -33,6 +33,7 @@ const Landing = props => {
     setShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
     setCurrentToken,
+    setTravelClaimData,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -73,6 +74,7 @@ const Landing = props => {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);
               setShouldSendTravelPayClaim(window, true);
+              setTravelClaimData(window, null);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -103,6 +105,7 @@ const Landing = props => {
       setSession,
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
+      setTravelClaimData,
     ],
   );
   return (

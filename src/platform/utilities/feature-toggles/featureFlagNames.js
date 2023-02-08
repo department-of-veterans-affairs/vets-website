@@ -168,6 +168,7 @@ export default Object.freeze({
   vaOnlineSchedulingClinicFilter: 'va_online_scheduling_clinic_filter',
   vaOnlineSchedulingAcheronService: 'va_online_scheduling_acheron_service',
   vaOnlineSchedulingRequestFlowUpdate: 'va_online_scheduling_request_flow_update',
+  vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

@@ -83,6 +83,52 @@ class PatientComposePage {
       force: true,
     });
   };
-}
 
+  selectSideBarMenuOption = menuOption => {
+    if (menuOption === 'Inbox') {
+      cy.get('[data-testid=inbox-sidebar]').click();
+    }
+    if (menuOption === 'Drafts') {
+      cy.get('[data-testid=drafts-sidebar]').click();
+    }
+    if (menuOption === 'Sent') {
+      cy.get('[data-testid=sent-sidebar]').click();
+    }
+    if (menuOption === 'Trash') {
+      cy.get('[data-testid=trash-sidebar]').click();
+    }
+    if (menuOption === 'My folders') {
+      cy.get('[data-testid=my-folders-sidebar]').click();
+    }
+  };
+
+  clickOnDeleteDraftButton = () => {
+    cy.get('[primary-button-text="Continue editing"]')
+      .shadow()
+      .find('button')
+      .contains('Delete draft')
+      .click();
+  };
+
+  clickOnContinueEditingButton = () => {
+    cy.get('[primary-button-text="Continue editing"]')
+      .shadow()
+      .find('button')
+      .contains('Continue editing')
+      .click();
+  };
+
+  verifyExpectedPageOpened = menuOption => {
+    cy.get('[data-testid*=folder-header]')
+      .contains(menuOption)
+      .should('be.visible');
+  };
+
+  verifyComosePageValuesRetainedAfterContinueEditing = () => {
+    cy.get('[data-testid=compose-category-radio-button]')
+      .should('have.value', 'OTHER')
+      .and('have.attr', 'checked');
+    cy.get('[id="message-body"]').should('have.value', 'Test message body');
+  };
+}
 export default PatientComposePage;
