@@ -43,7 +43,7 @@ const retryOn = async (attempt, error, response) => {
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
   // use regular fetch if stubbed by sinon or cypress
-  if (fetch.isSinonProxy || window.Cypress) {
+  if (fetch.isSinonProxy) {
     return fetch(url, settings);
   }
 
