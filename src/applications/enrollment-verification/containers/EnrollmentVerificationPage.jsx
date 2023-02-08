@@ -69,9 +69,8 @@ export const EnrollmentVerificationPage = ({
         If you get a monthly housing allowance (MHA) or kicker payments (or
         both) under the Post-9/11 GI Bill
         <sup>&reg;</sup> (Chapter 33), you’ll need to verify your enrollment
-        each month. If you don’t verify your enrollment for{' '}
-        <strong>two months in a row</strong>, we will pause your monthly
-        education payments.
+        each month. If it’s been more than 2 months since you verified your
+        enrollment, we’ll pause your monthly education payments.
       </p>
 
       {enrollmentVerification?.enrollmentVerifications?.length > 0 && (

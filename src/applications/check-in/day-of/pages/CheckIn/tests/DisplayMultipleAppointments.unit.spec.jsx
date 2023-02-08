@@ -10,6 +10,7 @@ import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import i18n from '../../../../utils/i18n/i18n';
 
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
 
 describe('check-in', () => {
   describe('DisplayMultipleAppointments component', () => {
@@ -30,15 +31,8 @@ describe('check-in', () => {
       };
       store = mockStore(initState);
     });
-    const mockRouter = {
-      params: {
-        token: 'token-123',
-      },
-      location: {
-        pathname: '/third-page',
-      },
-    };
-    it('show appointment details progress', () => {
+    const mockRouter = createMockRouter();
+    it('shows appointment details progress', () => {
       const token = 'token-123';
       const appointments = [
         {

@@ -47,25 +47,14 @@ describe('check in', () => {
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
-    const routerObject = {
-      params: {
-        token: 'token-123',
-      },
-      location: {
-        pathname: '/first-page',
-      },
-    };
+
+    const mockRouter = createMockRouter();
 
     beforeEach(() => {
       store = mockStore(initState);
     });
 
     it('renders', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -78,12 +67,7 @@ describe('check in', () => {
         .exist;
     });
 
-    it('shows emergency contact felids, with message for empty data', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+    it('shows emergency contact fields, with message for empty data', () => {
       const updatedStore = {
         checkInData: {
           context: {
@@ -122,11 +106,7 @@ describe('check in', () => {
     });
 
     it('has a clickable no button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -136,15 +116,11 @@ describe('check in', () => {
       );
 
       component.getByTestId('no-button').click();
-      expect(push.calledOnce).to.be.true;
+      expect(mockRouter.push.calledOnce).to.be.true;
     });
 
     it('has a clickable yes button', () => {
-      const push = sinon.spy();
-      const mockRouter = createMockRouter({
-        push,
-        routerObject,
-      });
+      mockRouter.push = sinon.spy();
       const component = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
@@ -154,7 +130,7 @@ describe('check in', () => {
       );
 
       component.getByTestId('yes-button').click();
-      expect(push.calledOnce).to.be.true;
+      expect(mockRouter.push.calledOnce).to.be.true;
     });
   });
 });

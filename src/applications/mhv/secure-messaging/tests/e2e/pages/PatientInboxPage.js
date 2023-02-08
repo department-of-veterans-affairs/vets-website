@@ -7,6 +7,8 @@ import mockMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
+import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
+import mockThreadwithAttachment from '../fixtures/thread-attachment-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -194,6 +196,20 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
+  loadMessagewithAttachments = mockMessagewithAttach => {
+    cy.log('loading message with attachments');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}`,
+      mockMessagewithAttachment,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}/thread`,
+      mockThreadwithAttachment,
+    ).as('thread');
+  };
+
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
@@ -274,6 +290,10 @@ class PatientInboxPage {
 
   verifySentSuccessMessage = () => {
     cy.contains('Message was successfully sent.').should('be.visible');
+  };
+
+  loadComposeMessagePage = () => {
+    cy.get('[data-testid="compose-message-link"]').click();
   };
 }
 

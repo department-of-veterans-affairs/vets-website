@@ -1,5 +1,5 @@
 import React from 'react';
-import { convertRatingToStars } from '../utils/helpers';
+import { convertRatingToStars } from '../../../utils/helpers';
 
 export const RatingsStars = ({ rating }) => {
   const starData = convertRatingToStars(rating);
@@ -13,7 +13,7 @@ export const RatingsStars = ({ rating }) => {
     stars.push(
       <i
         key={stars.length}
-        className="fas fa-star vads-u-color--gold-darker"
+        className="fas fa-star vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
@@ -22,7 +22,7 @@ export const RatingsStars = ({ rating }) => {
     stars.push(
       <i
         key={stars.length}
-        className="fas fa-star-half-alt vads-u-color--gold-darker"
+        className="fas fa-star-half-alt vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
@@ -31,14 +31,12 @@ export const RatingsStars = ({ rating }) => {
     stars.push(
       <i
         key={stars.length}
-        className="far fa-star vads-u-color--gold-darker"
+        className="far fa-star vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
 
-  return (
-    <div className="rating-stars vads-u-display--inline-block">{stars}</div>
-  );
+  return <div className="vads-u-display--inline-block">{stars}</div>;
 };
 
 export default RatingsStars;

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Application for Comprehensive Assistance for Family Caregivers Program (10-10CG)",
+  "title": "Apply for Specially Adapted Housing Grant (26-4555)",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -161,7 +161,6 @@
             },
             "postalCode": {
               "type": "string",
-              "ui:title": "Postal Code",
               "maxLength": 10
             }
           }
@@ -192,7 +191,6 @@
           "maxLength": 50
         },
         "street2": {
-          "ui:title": "Street Two",
           "type": "string",
           "minLength": 1,
           "maxLength": 50
@@ -203,6 +201,137 @@
           "maxLength": 51
         }
       }
+    },
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "maxLength": 256,
+      "format": "email"
+    },
+    "fullName": {
+      "type": "object",
+      "properties": {
+        "first": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "middle": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30
+        },
+        "suffix": {
+          "type": "string",
+          "enum": ["Jr.", "Sr.", "II", "III", "IV"]
+        }
+      },
+      "required": ["first", "last"]
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 10
+    },
+    "ssn": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$"
+    },
+    "vaFileNumber": {
+      "type": "string",
+      "pattern": "^[cC]{0,1}\\d{7,9}$"
+    }
+  },
+  "properties": {
+    "formNumber": {
+      "type": "string"
+    },
+    "veteran": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": ["fullName", "ssn", "address", "homePhone"],
+        "fullName": {
+          "$ref": "#/definitions/fullName"
+        },
+        "dateOfBirth": {
+          "$ref": "#/definitions/date"
+        },
+        "ssn": {
+          "$ref": "#/definitions/ssn"
+        },
+        "vaFileNumber": {
+          "$ref": "#/definitions/vaFileNumber"
+        },
+        "address": {
+          "$ref": "#/definitions/address"
+        },
+        "homePhone": {
+          "$ref": "#/definitions/phone"
+        },
+        "mobilePhone": {
+          "$ref": "#/definitions/phone"
+        },
+        "email": {
+          "$ref": "#/definitions/email"
+        }
+      }
+    },
+    "previousSahApplication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hasPreviousSahApplication"],
+      "properties": {
+        "hasPreviousSahApplication": {
+          "type": "boolean "
+        },
+        "previousSahApplicationDate": {
+          "$ref": "#/definitions/date "
+        },
+        "previousSahApplicationAddress": {
+          "$ref": "#/definitions/address"
+        }
+      }
+    },
+    "previousHiApplication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hasPreviousHiApplication"],
+      "properties": {
+        "hasPreviousHiApplication": {
+          "type": "boolean"
+        },
+        "previousHiApplicationDate": {
+          "$ref": "#/definitions/date "
+        },
+        "previousHiApplicationAddress": {
+          "$ref": "#/definitions/address"
+        }
+      }
+    },
+    "livingSituation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["isInCareFacility"],
+      "properties": {
+        "isInCareFacility": {
+          "type": "boolean"
+        },
+        "careFacilityName": {
+          "type": "string"
+        },
+        "careFacilityAddress": {
+          "$ref": "#/definitions/address"
+        }
+      }
+    },
+    "remarks": {
+      "type": "string"
     }
   }
 }
