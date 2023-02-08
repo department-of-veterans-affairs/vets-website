@@ -1,15 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
-import isomorphicFetch from 'isomorphic-fetch';
-import retryFetch from 'fetch-retry';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
-import {
-  infoTokenExists,
-  checkOrSetSessionExpiration,
-  refresh,
-} from '../oauth/utilities';
+import { checkOrSetSessionExpiration } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
@@ -18,31 +12,8 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     return fetch(url, settings);
   }
 
-  const originalFetch = isomorphicFetch;
-  const mergedSettings = {
-    ...settings,
-    async retryOn(attempt, error, response) {
-      if (error) return false;
-      const atError = await response.clone().json();
-
-      if (
-        atError.errors === 'Access token has expired' &&
-        infoTokenExists() &&
-        attempt < 1
-      ) {
-        await refresh({
-          type: sessionStorage.getItem('serviceName'),
-        });
-
-        return true;
-      }
-      return false;
-    },
-  };
-
   // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = retryFetch(originalFetch);
-  return _fetch(url, mergedSettings).then(response => {
+  return fetch(url, settings).then(response => {
     const apiURL = environment.API_URL;
 
     if (response.url.includes(apiURL)) {

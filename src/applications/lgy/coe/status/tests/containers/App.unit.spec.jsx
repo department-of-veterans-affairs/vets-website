@@ -16,11 +16,18 @@ const getData = ({
   generateAutoCoeStatus = '',
   profileIsUpdating = false,
   showCOE = true,
+  isVerified = true,
+  canApply = true,
 } = {}) => ({
   props: {
     getCoe: () => {},
     getCoeMock,
     loggedIn,
+    isVerified,
+    canApply,
+    location: {
+      basename: '/foo',
+    },
   },
   mockStore: {
     getState: () => ({
@@ -28,7 +35,12 @@ const getData = ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile: {},
+        profile: {
+          verified: isVerified,
+          claims: {
+            coe: canApply,
+          },
+        },
       },
       form: {
         loadedStatus: 'success',
@@ -46,6 +58,15 @@ const getData = ({
         loading: false,
         // eslint-disable-next-line camelcase
         coe_access: showCOE,
+      },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: {
+          get() {},
+        },
+        dismissedDowntimeWarnings: [],
       },
     }),
     subscribe: () => {},
@@ -116,10 +137,45 @@ describe('App', () => {
     );
 
     expect(getCoeMock.called).to.be.true;
+    // we are skipping generateCoe action
+    expect(getCoeMock.args[0][0]).to.be.true;
+  });
+  it('should not call API if vet is not verified', () => {
+    const getCoeMock = sinon.spy();
+    const { props, mockStore } = getData({
+      getCoeMock,
+      loggedIn: true,
+      isVerified: false,
+      canApply: false,
+    });
+    render(
+      <Provider store={mockStore}>
+        <App {...props} />,
+      </Provider>,
+    );
+
+    expect(getCoeMock.called).to.be.true;
     // we are skippingt generateCoe action
     expect(getCoeMock.args[0][0]).to.be.true;
   });
+  it('should not call API if vet does not have an EDIPI', () => {
+    const getCoeMock = sinon.spy();
+    const { props, mockStore } = getData({
+      getCoeMock,
+      loggedIn: true,
+      isVerified: true,
+      canApply: false,
+    });
+    render(
+      <Provider store={mockStore}>
+        <App {...props} />,
+      </Provider>,
+    );
 
+    expect(getCoeMock.called).to.be.true;
+    // we are skippingt generateCoe action
+    expect(getCoeMock.args[0][0]).to.be.true;
+  });
   it('should render available content', () => {
     const { props, mockStore } = getData({
       coe: COE_ELIGIBILITY_STATUS.available,

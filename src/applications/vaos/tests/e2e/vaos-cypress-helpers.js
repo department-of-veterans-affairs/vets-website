@@ -24,6 +24,7 @@ import schedulingConfigurations from '../../services/mocks/v2/scheduling_configu
 import clinicsV2 from '../../services/mocks/v2/clinics.json';
 import confirmedV2 from '../../services/mocks/v2/confirmed.json';
 import requestsV2 from '../../services/mocks/v2/requests.json';
+import { getRealFacilityId } from '../../utils/appointment';
 
 const mockUser = {
   data: {
@@ -463,6 +464,7 @@ export function mockCCProvidersApi() {
 }
 
 export function mockAppointmentsApi({
+  data,
   status = APPOINTMENT_STATUS.booked,
   apiVersion = 2,
 } = {}) {
@@ -474,11 +476,11 @@ export function mockAppointmentsApi({
         query: { start_date: '*', end_date: '*', type: 'va' },
       },
       req => {
-        const data = updateConfirmedVADates(confirmedVA).data.concat(
+        const appointments = updateConfirmedVADates(confirmedVA).data.concat(
           createPastVAAppointments().data,
         );
         req.reply({
-          data,
+          data: appointments,
         });
       },
     ).as('v0:get:appointments:va');
@@ -526,7 +528,9 @@ export function mockAppointmentsApi({
         },
       },
       req => {
-        if (status === APPOINTMENT_STATUS.booked) {
+        if (data) {
+          req.reply({ data });
+        } else if (status === APPOINTMENT_STATUS.booked) {
           req.reply({
             data: confirmedV2.data,
           });
@@ -688,7 +692,7 @@ export function mockFacilityApi({ id, apiVersion = 1 } = {}) {
   }
 }
 
-export function mockFacilitiesApi({ count, apiVersion = 0 }) {
+export function mockFacilitiesApi({ count, data, apiVersion = 0 }) {
   if (apiVersion === 0) {
     cy.intercept(
       {
@@ -714,7 +718,7 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
       },
       req => {
         const tokens = req.query.ids.split(',');
-        let data = tokens.map(token => {
+        let filteredFacilities = tokens.map(token => {
           // NOTE: Convert test facility ids to real ids
           return facilityData.data.find(f => {
             return f.id === token.replace('983', '442').replace('984', '552');
@@ -722,13 +726,13 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
         });
 
         // Remove 'falsey' values
-        data = data.filter(Boolean);
+        filteredFacilities = filteredFacilities.filter(Boolean);
         // TODO: remove the harded coded id.
         // req.reply({
         //   data: facilityData.data.filter(f => f.id === 'vha_442GC'),
         // });
         // const f = facilities.data.slice(0);
-        req.reply({ data });
+        req.reply({ data: filteredFacilities });
       },
     ).as(`v1:get:facilities`);
   } else if (apiVersion === 2) {
@@ -742,7 +746,11 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
         },
       },
       req => {
-        req.reply(facilitiesV2);
+        if (data) {
+          req.reply({ data });
+        } else {
+          req.reply(facilitiesV2);
+        }
       },
     ).as('v2:get:facilities');
   }
@@ -764,7 +772,11 @@ export function mockSchedulingConfigurationApi({
 
       if (facilityIds && typeOfCareId) {
         data = schedulingConfigurations.data
-          .filter(facility => facilityIds.some(id => id === facility.id))
+          .filter(facility =>
+            facilityIds.some(id => {
+              return id === getRealFacilityId(facility.id);
+            }),
+          )
           .map(facility => {
             const services = facility.attributes.services
               .map(
@@ -782,8 +794,10 @@ export function mockSchedulingConfigurationApi({
 
             return {
               ...facility,
+              id: getRealFacilityId(facility.id),
               attributes: {
                 ...facility.attributes,
+                facililtyId: getRealFacilityId(facility.id),
                 services,
               },
             };
@@ -998,13 +1012,9 @@ export function mockDirectScheduleSlotsApi({
   }
 }
 
-export function mockLoginApi({
-  cernerFacilityId,
-  withoutAddress = false,
-} = {}) {
-  if (cernerFacilityId) {
-    cy.log('Cerner enabled');
-    const mockCernerUser = {
+export function mockLoginApi({ facilityId, withoutAddress = false } = {}) {
+  if (facilityId) {
+    const user = {
       ...mockUser,
       data: {
         ...mockUser.data,
@@ -1014,13 +1024,13 @@ export function mockLoginApi({
             ...mockUser.data.attributes.vaProfile,
             facilities: [
               ...mockUser.data.attributes.vaProfile.facilities,
-              { facilityId: cernerFacilityId, isCerner: true },
+              { facilityId },
             ],
           },
         },
       },
     };
-    cy.login(mockCernerUser);
+    cy.login(user);
   } else if (withoutAddress) {
     const mockUserWithoutAddress = unset(
       'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
