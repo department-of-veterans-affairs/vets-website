@@ -133,7 +133,6 @@ const AppointmentMessageVaos = props => {
 
 AppointmentMessageVaos.propTypes = {
   appointment: PropTypes.object,
-  complete: PropTypes.bool,
 };
 
 export default AppointmentMessageVaos;

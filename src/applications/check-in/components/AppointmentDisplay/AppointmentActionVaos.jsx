@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
@@ -8,17 +9,20 @@ import { api } from '../../api';
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
+import { completeAppointment } from '../../actions/day-of';
 
 import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentActionVaos = props => {
-  const { appointment, router, token, event } = props;
+  const { appointment, appointments, router, token, event } = props;
+  const dispatch = useDispatch();
 
   const { updateError } = useUpdateError();
 
   const { jumpToPage } = useFormRouting(router);
+  const appointmentId = getAppointmentId(appointment);
   const onClick = useCallback(
     async () => {
       if (event) {
@@ -34,7 +38,8 @@ const AppointmentActionVaos = props => {
         });
         const { status } = json;
         if (status === 200) {
-          jumpToPage(`complete/${getAppointmentId(appointment)}`);
+          dispatch(completeAppointment(appointmentId, appointments));
+          jumpToPage(`complete/${appointmentId}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -42,7 +47,16 @@ const AppointmentActionVaos = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      token,
+      event,
+      appointmentId,
+      appointments,
+      dispatch,
+    ],
   );
   if (
     appointment.eligibility &&
@@ -64,6 +78,7 @@ const AppointmentActionVaos = props => {
 
 AppointmentActionVaos.propTypes = {
   appointment: PropTypes.object,
+  appointments: PropTypes.array,
   event: PropTypes.string,
   router: PropTypes.object,
   token: PropTypes.string,
