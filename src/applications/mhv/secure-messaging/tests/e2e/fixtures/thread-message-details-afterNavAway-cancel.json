@@ -3,7 +3,8 @@
         "category": "OTHER",
         "subject": "Test Subject",
         "recipientId": "6832726",
-        "body": "Test message body"
+        "body": "Test message body",
+        "proxySenderName": "MHVTESTONEA,MIRANDA"
     },
     "relationships": {
         "attachments": {
