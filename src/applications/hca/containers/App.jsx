@@ -43,10 +43,6 @@ const App = props => {
    * Set default view fields within the form data
    *
    * NOTE: we have included veteranFullName in the dependency list to reset view fields when starting a new application from save-in-progress.
-   *
-   * NOTE (2): to account for users with a form already in-progress at the time the short form is released, we need to check for that form
-   * using the "hasSavedForm" prop. The users will get their current in-progress form, instead of the short form option, to avoid any validation
-   * errors. This can be removed 90 days after hcaShortFormEnabled flipper toggle is fully enabled for all users.
    */
   useEffect(
     () => {
@@ -58,24 +54,16 @@ const App = props => {
         'view:totalDisabilityRating': totalDisabilityRating || 0,
       };
 
-      if (hasSavedForm || typeof hasSavedForm === 'undefined') {
+      if (isLoggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
           'view:userDob': user.dob,
-        });
-      } else if (isLoggedIn) {
-        setFormData({
-          ...formData,
-          ...defaultViewFields,
-          'view:userDob': user.dob,
-          'view:isShortFormEnabled': isShortFormEnabled,
         });
       } else {
         setFormData({
           ...formData,
           ...defaultViewFields,
-          'view:isShortFormEnabled': isShortFormEnabled,
         });
       }
     },
