@@ -6,7 +6,7 @@ describe('Secure Messaging validate keyboard search Form Keyboard Nav', () => {
     site.login();
     site.loadPage();
   });
-  it('validate keyboard search', () => {
+  it('validate keywoard search', () => {
     cy.get('#select-search-folder-dropdown')
       .shadow()
       .find('select')

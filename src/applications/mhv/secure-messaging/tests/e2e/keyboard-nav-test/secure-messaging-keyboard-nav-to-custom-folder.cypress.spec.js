@@ -1,15 +1,38 @@
-import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
 describe('Secure Messaging access custom folder Keyboard Nav', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadPage();
+    site.loadPage();
   });
-  it('tab to custom folder', () => {
-    cy.get('.is-active > span').click();
+  it('tab to inbox custom folder', () => {
+    cy.get('[data-testid="Inbox"] > a').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('tab to drafts custom folder', () => {
+    cy.get('[data-testid="Drafts"] > a').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('tab to sent custom folder', () => {
+    cy.get('[data-testid="Sent"] > a').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('tab to trash custom folder', () => {
+    cy.get('[data-testid="Deleted"]').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('tab to test2 custom folder', () => {
+    cy.get('[data-testid="TEST2"] > a').click();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('tab to testagain custom folder', () => {
+    cy.get('[data-testid="TESTAGAIN"] > a').click();
     cy.injectAxe();
     cy.axeCheck();
   });

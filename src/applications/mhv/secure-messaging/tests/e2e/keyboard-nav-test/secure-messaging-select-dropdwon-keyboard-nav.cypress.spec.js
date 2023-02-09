@@ -1,12 +1,12 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
-describe('Secure Messaging validate keyboard search Form Keyboard Nav', () => {
+describe('Secure Messaging validate select dropdown Form Keyboard Nav', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
     site.loadPage();
   });
-  it('validate keyboard search', () => {
+  it('validate select dropdown', () => {
     cy.get('#select-search-folder-dropdown')
       .shadow()
       .find('select')
