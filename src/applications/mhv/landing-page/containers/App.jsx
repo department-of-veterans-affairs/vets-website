@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NavCard = ({ title, links }) => {
+const NavCard = ({ icon = null, title, links }) => {
   const listItems = links.map(l => (
-    <li key={l.href}>
+    <li className="mhv-c-navlistitem" key={l.href}>
       <a className="mhv-c-navlink" href={l.href}>
         {l.text}
         <i aria-hidden="true" />
@@ -12,7 +12,10 @@ const NavCard = ({ title, links }) => {
   ));
   return (
     <div className="vads-u-height--full vads-u-padding-x--3 vads-u-padding-y--2 vads-u-background-color--gray-lightest">
-      <h2 className="vads-u-margin-top--1">{title}</h2>
+      <h2 className="vads-u-margin-top--1">
+        {icon && <i className={`fas fa-${icon} vads-u-margin-right--1`} />}{' '}
+        {title}
+      </h2>
       <nav className="mhv-u-list-style--none">{listItems}</nav>
     </div>
   );
@@ -56,19 +59,24 @@ const App = () => {
           </div>
           <div className="vads-l-row vads-u-justify-content--space-between vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2">
             <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
-              <NavCard title="A Section" links={demoLinks} />
+              <NavCard title="Appointments" icon="calendar" links={demoLinks} />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
-              <NavCard title="Another Section" links={demoLinks2} />
+              <NavCard title="Messages" icon="comments" links={demoLinks2} />
             </div>
           </div>
           <div className="vads-l-row vads-u-justify-content--space-between vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2">
             <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
-              <NavCard title="A third Section" links={demoLinks2} />
+              <NavCard
+                title="Medications"
+                icon="prescription-bottle"
+                links={demoLinks2}
+              />
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
               <NavCard
-                title="The Fourth Section that has a long title"
+                title="Health Records"
+                icon="file-medical"
                 links={demoLinks}
               />
             </div>
@@ -80,6 +88,12 @@ const App = () => {
 };
 
 NavCard.propTypes = {
+  icon: PropTypes.oneOf([
+    'calendar',
+    'comments',
+    'file-medical',
+    'prescription-bottle',
+  ]),
   links: PropTypes.arrayOf(
     PropTypes.shape({ text: PropTypes.string, href: PropTypes.string }),
   ),

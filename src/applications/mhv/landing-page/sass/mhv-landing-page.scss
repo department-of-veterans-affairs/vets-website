@@ -4,6 +4,14 @@
   list-style: none;
 }
 
+.mhv-c-navlistitem {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  &:not(:last-of-type) {
+    border-bottom: 1px solid $color-base;
+  }
+}
+
 .mhv-u-grid-gap:not(:last-of-type) {
   margin-right: units(2);
 }
