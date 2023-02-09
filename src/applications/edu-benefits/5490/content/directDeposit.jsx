@@ -29,7 +29,7 @@ const bankInfoHelpText = (
       <p>
         Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
         subject to section 208.4, “all Federal payments made by an agency shall
-        be made by electronic funds transfer” (EFT)
+        be made by electronic funds transfer” (EFT).
       </p>
     </span>
   </va-additional-info>
