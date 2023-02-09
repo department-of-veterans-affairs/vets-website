@@ -3,6 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -20,10 +21,14 @@ import {
   resetUploads,
   updateField,
   cancelUpload,
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaim as getClaimAction,
+  getClaimEVSS as getClaimEVSSAction,
+  // END lighthouse_migration
   setFieldsDirty,
   clearNotification,
 } from '../actions';
+import { cstUseLighthouse } from '../selectors';
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
@@ -73,7 +78,13 @@ class DocumentRequestPage extends React.Component {
   }
 
   goToFilesPage() {
-    this.props.getClaimDetail(this.props.claim.id);
+    // START lighthouse_migration
+    if (this.props.useLighthouse) {
+      this.props.getClaimLighthouse(this.props.claim.id);
+    } else {
+      this.props.getClaimEVSS(this.props.claim.id);
+    }
+    // END lighthouse_migration
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
 
@@ -199,6 +210,7 @@ function mapStateToProps(state, ownProps) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
+    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -208,7 +220,10 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
+  // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
   clearNotification,
@@ -220,5 +235,30 @@ export default withRouter(
     mapDispatchToProps,
   )(DocumentRequestPage),
 );
+
+DocumentRequestPage.propTypes = {
+  addFile: PropTypes.func,
+  cancelUpload: PropTypes.func,
+  claim: PropTypes.object,
+  clearNotification: PropTypes.func,
+  files: PropTypes.array,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
+  loading: PropTypes.bool,
+  message: PropTypes.object,
+  params: PropTypes.object,
+  removeFile: PropTypes.func,
+  resetUploads: PropTypes.func,
+  setFieldsDirty: PropTypes.func,
+  submitFiles: PropTypes.func,
+  trackedItem: PropTypes.object,
+  updateField: PropTypes.func,
+  uploading: PropTypes.bool,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
+};
 
 export { DocumentRequestPage };
