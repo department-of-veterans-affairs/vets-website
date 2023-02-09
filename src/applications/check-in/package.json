@@ -2,12 +2,14 @@
     "name": "@department-of-veterans-affairs/applications-check-in",
     "version": "1.0.0",
     "scripts": {
-        "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+        "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES",
+        "cy:open:vrt": "cypress open visual regression testing"
     },
     "licence": "MIT",
     "dependencies": {
         "@datadog/browser-rum": "^4.22.0",
         "@sentry/browser": "^6.13.2",
+        "cypress-image-snapshot": "^4.0.1",
         "date-fns": "^2.24.0",
         "date-fns-tz": "^1.1.1",
         "i18next": "^21.6.14",
