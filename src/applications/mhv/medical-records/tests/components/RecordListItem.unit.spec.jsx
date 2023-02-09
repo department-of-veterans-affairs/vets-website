@@ -39,7 +39,7 @@ describe('Record list item component', () => {
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'View details',
+      name: 'Details',
     });
     expect(recordDetailsLink).to.exist;
   });
