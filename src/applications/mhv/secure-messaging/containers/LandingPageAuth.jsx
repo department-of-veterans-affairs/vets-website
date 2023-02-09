@@ -21,7 +21,7 @@ import { getMessages } from '../actions/messages';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 // import DashboardSearch from '../components/Dashboard/DashboardSearch';
-import DashboardFolders from '../components/Dashboard/DashboardFolders';
+// import DashboardFolders from '../components/Dashboard/DashboardFolders';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import { foldersList } from '../selectors';
 import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
@@ -55,7 +55,7 @@ const LandingPageAuth = () => {
       <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />
       {/* <DashboardSearch /> */}
-      <DashboardFolders />
+      {/* <DashboardFolders /> */}
       <FrequentlyAskedQuestions state={fullState} />
     </div>
   );

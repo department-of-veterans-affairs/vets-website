@@ -66,7 +66,7 @@ describe('Landing dashboard', () => {
     ).to.exist;
   }); */
 
-  it('displays a Folders List component', () => {
+  /* it('displays a Folders List component', () => {
     expect(
       screen.getByText(`Folders`, {
         exact: true,
@@ -78,7 +78,7 @@ describe('Landing dashboard', () => {
         selector: 'a',
       }),
     ).to.exist;
-  });
+  }); */
 
   it('displays a FAQ component', () => {
     expect(screen.getByText(`Questions about using messages`)).to.exist;
