@@ -105,7 +105,9 @@ const CheckInConfirmation = props => {
           class="vads-u-margin-bottom--2"
         >
           <div>
-            {t('well-get-you-from-waiting-room-when-time-for-your-appointment')}
+            {`${t(
+              'well-get-you-from-waiting-room-when-time-for-your-appointment',
+            )} `}
             {t('if-you-wait-more-than')}
           </div>
         </va-alert>
