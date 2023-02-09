@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
 import retryFetch from 'fetch-retry';
-import isomorphicFetch from 'isomorphic-fetch';
 
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
@@ -20,24 +19,21 @@ const isJson = response => {
 const retryOn = async (attempt, error, response) => {
   if (error) return false;
 
-  const clonedResponse = await response.clone();
-  const errorResponse =
-    clonedResponse.status === 403
-      ? await clonedResponse
-          ?.clone()
-          ?.json()
-          .catch(() => clonedResponse.text())
-      : clonedResponse?.clone();
+  if (response.status === 403) {
+    const errorResponse = await response.json();
 
-  if (
-    errorResponse?.errors === 'Access token has expired' &&
-    infoTokenExists() &&
-    attempt < 1
-  ) {
-    await refresh({ type: sessionStorage.getItem('serviceName') });
+    if (
+      errorResponse?.errors === 'Access token has expired' &&
+      infoTokenExists() &&
+      attempt < 1
+    ) {
+      await refresh({ type: sessionStorage.getItem('serviceName') });
 
-    return true;
+      return true;
+    }
+    return false;
   }
+
   return false;
 };
 
@@ -47,13 +43,15 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
     return fetch(url, settings);
   }
 
-  const shouldReleaseToLowers = process.env.BUILDTYPE !== 'production';
-
+  const originalFetch = fetch;
   // Only replace with custom fetch if not stubbed for unit testing
-  const _fetch = shouldReleaseToLowers ? retryFetch(isomorphicFetch) : fetch;
+  const _fetch = !environment.isProduction()
+    ? retryFetch(originalFetch)
+    : fetch;
+
   const mergedSettings = {
     ...settings,
-    ...(shouldReleaseToLowers && {
+    ...(!environment.isProduction() && {
       retryOn,
     }),
   };
