@@ -121,7 +121,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
       const isTrackingUtterances = await sessionStorage.getItem(
         IS_TRACKING_UTTERANCES,
       );
-      const authEvent = spyDispatchEvent.firstCall.args[0];
+      const authEvent = spyDispatchEvent.secondCall.args[0];
       expect(sessionStorage.length).to.equal(1);
       expect(isTrackingUtterances).to.equal('false');
       expect(spyDispatchEvent.callCount).to.equal(2);
