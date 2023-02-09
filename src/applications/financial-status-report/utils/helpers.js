@@ -289,17 +289,12 @@ export const getTotalAssets = ({
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
-  const formattedREValue = Number(
-    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = !enhancedFSRActive
-    ? sumValues(realEstateRecords, 'realEstateAmount')
-    : formattedREValue;
+  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))
