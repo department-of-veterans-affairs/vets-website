@@ -445,12 +445,7 @@ export function submitFiles(claimId, trackedItem, files) {
           callbacks: {
             onAllComplete: () => {
               if (USE_MOCKS) {
-                recordEvent({
-                  event: 'claims-upload-success',
-                });
-                dispatch({
-                  type: DONE_UPLOADING,
-                });
+                dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
                     title: 'We have your evidence',
