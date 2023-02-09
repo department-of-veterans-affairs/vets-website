@@ -10,8 +10,10 @@ import {
   selectIsCanceled,
   selectModality,
   selectModalityIcon,
+  selectPreferredDate,
   selectStartDate,
   selectTimeZoneAbbr,
+  selectTypeOfCareName,
 } from '../../redux/selectors';
 
 export default function AppointmentColumnLayout({
@@ -26,9 +28,14 @@ export default function AppointmentColumnLayout({
   const isCanceled = useSelector(() => selectIsCanceled(data));
   const modality = useSelector(() => selectModality(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
+  const preferredDate = selectPreferredDate(data).format('MMMM D, YYYY');
   const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
-  const ariaLabel = '';
+  const typeOfCareName = useSelector(() => selectTypeOfCareName(data));
+
+  const detailAriaLabel = `Details for ${
+    isCanceled ? 'canceled ' : ''
+  }${typeOfCareName} request for ${preferredDate}`;
 
   return (
     <>
@@ -126,7 +133,7 @@ export default function AppointmentColumnLayout({
           >
             <Link
               className="vaos-appts__focus--hide-outline"
-              aria-label={ariaLabel}
+              aria-label={detailAriaLabel}
               to={link}
               onClick={e => e.preventDefault()}
             >

@@ -19,7 +19,7 @@ import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { selectFeatureAppointmentList } from '../../redux/selectors';
-import RequestListItemGroup from './AppointmentsPageV2/RequestListItemGroup';
+import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -107,7 +107,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
       </div>
       <>
         <p className="vaos-hide-for-print">
-          Your appointment requests that haven’t been scheduled yet.
+          These appointment requests haven’t been scheduled yet.
         </p>
 
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
@@ -127,7 +127,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
 
         {appointmentsByStatus.map(statusBucket => {
           return (
-            <div key={statusBucket[0]}>
+            <React.Fragment key={statusBucket[0]}>
               {statusBucket[0] === APPOINTMENT_STATUS.cancelled && (
                 <>
                   <h2>Canceled requests</h2>
@@ -136,16 +136,18 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               )}
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul
-                className="vads-u-padding-left--0"
+                className="vads-u-margin-top--4 vads-u-padding-left--0"
                 data-cy="requested-appointment-list"
               >
-                {featureAppointmentList && (
-                  <RequestListItemGroup
-                    key={1}
-                    data={statusBucket[1]}
-                    facilityData={facilityData}
-                  />
-                )}
+                {featureAppointmentList &&
+                  statusBucket[1].map((appt, index) => {
+                    return (
+                      <RequestAppointmentLayout
+                        key={index}
+                        appointment={appt}
+                      />
+                    );
+                  })}
 
                 {!featureAppointmentList &&
                   statusBucket[1].map((appt, index) => {
@@ -160,7 +162,7 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                     );
                   })}
               </ul>
-            </div>
+            </React.Fragment>
           );
         })}
       </>

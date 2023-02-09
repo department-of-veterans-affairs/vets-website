@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import moment from 'moment/moment';
+import moment from 'moment';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -419,4 +419,8 @@ export function selectModalityIcon(appointment) {
 export function selectTimeZoneAbbr(appointment) {
   const { abbreviation } = getAppointmentTimezone(appointment);
   return abbreviation;
+}
+
+export function selectPreferredDate(appointment) {
+  return moment(appointment.requestedPeriod[0].start);
 }
