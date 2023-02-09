@@ -1,6 +1,7 @@
 import React from 'react';
 import OtherAssetsChecklist from '../../../components/otherAssets/OtherAssetsChecklist';
 import OtherAssetsInputList from '../../../components/otherAssets/OtherAssetsInputList';
+import OtherAssetsSummary from '../../../components/otherAssets/OtherAssetsSummary';
 import { validateCurrencyArray } from '../../../utils/validations';
 
 export const otherAssetsChecklist = {
@@ -9,7 +10,8 @@ export const otherAssetsChecklist = {
     otherAssetsEnhanced: {
       'ui:title': (
         <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-          Select any of these financial assets you have:
+          Select any other items of value (called assets) you own, not including
+          items passed down in your family for generations:
         </span>
       ),
       'ui:widget': OtherAssetsChecklist,
@@ -64,6 +66,52 @@ export const otherAssetsValues = {
             },
           },
         },
+      },
+    },
+  },
+};
+
+export const otherAssetsSummary = {
+  uiSchema: {
+    'ui:title': 'You have added these assets',
+    otherAssetsEnhanced: {
+      'ui:title': ' ',
+      'ui:widget': OtherAssetsSummary,
+      'ui:options': {
+        hideOnReview: true,
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      otherAssetsEnhanced: {
+        type: 'boolean',
+      },
+    },
+  },
+};
+
+export const otherAssetsEdit = {
+  uiSchema: {
+    'ui:title': 'Your other assets',
+    otherAssetsEnhanced: {
+      'ui:title': (
+        <span className="vads-u-font-size--h4 vads-u-font-family--sans">
+          Select any of these financial assets you have:
+        </span>
+      ),
+      'ui:widget': OtherAssetsChecklist,
+      'ui:options': {
+        hideOnReview: true,
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      otherAssetsEnhanced: {
+        type: 'boolean',
       },
     },
   },

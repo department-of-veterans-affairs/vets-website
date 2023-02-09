@@ -586,17 +586,26 @@ const formConfig = {
         },
         // Other Household Assets
         otherAssetsChecklist: {
-          path: 'other-asset-checklist',
-          title: 'Other asset options',
-          uiSchema: pages.otherAssetsChecklist.uiSchema,
-          schema: pages.otherAssetsChecklist.schema,
+          path: 'other-assets-checklist',
+          title: 'Other assets options',
+          uiSchema: pages.otherAssetPages.otherAssetsChecklist.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsChecklist.schema,
           depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         otherAssetsValues: {
-          path: 'other-asset-values',
-          title: 'Other asset values',
-          uiSchema: pages.otherAssetsValues.uiSchema,
-          schema: pages.otherAssetsValues.schema,
+          path: 'other-assets-values',
+          title: 'Other assets values',
+          uiSchema: pages.otherAssetPages.otherAssetsValues.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsValues.schema,
+          depends: formData =>
+            !!formData.assets?.otherAssetsEnhanced?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsSummary: {
+          path: 'other-assets-summary',
+          title: 'Other assets summary',
+          uiSchema: pages.otherAssetPages.otherAssetsSummary.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsSummary.schema,
           depends: formData =>
             !!formData.assets?.otherAssetsEnhanced?.length &&
             formData['view:enhancedFinancialStatusReport'],

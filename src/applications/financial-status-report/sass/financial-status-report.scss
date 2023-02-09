@@ -328,3 +328,16 @@
   border-left: 4px solid var(--color-secondary-dark);
   position: relative;
 }
+
+.delete-button {
+  color: $color-secondary-dark;
+  background-color: transparent;
+  &:hover {
+    color: $color-secondary-dark;
+    background-color: $color-secondary-lightest;
+  }
+  &:active {
+    color: $color-secondary-darkest;
+    background-color: $color-secondary-lightest;
+  }
+}
