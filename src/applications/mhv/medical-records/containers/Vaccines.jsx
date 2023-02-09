@@ -10,6 +10,19 @@ const Vaccines = () => {
     dispatch(getVaccineList());
   });
 
+  const content = () => {
+    if (vaccines?.length) {
+      return <RecordList records={vaccines} type="vaccine" />;
+    }
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  };
+
   return (
     <div className="vaccines">
       <h1>VA vaccines</h1>
@@ -21,7 +34,7 @@ const Vaccines = () => {
         onClick={() => {}}
         data-testid="print-records-button"
       />
-      <RecordList records={vaccines} type="vaccine" />
+      {content()}
     </div>
   );
 };

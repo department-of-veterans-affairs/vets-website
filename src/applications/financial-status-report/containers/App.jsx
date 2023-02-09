@@ -6,7 +6,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { connect, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { selectProfile } from '@department-of-veterans-affairs/platform-user/selectors';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
@@ -36,7 +35,6 @@ const App = ({
   isStartingOver,
   location,
   pending,
-  profile,
   router,
   setFormData,
   showFSR,
@@ -107,42 +105,6 @@ const App = ({
     [dispatch, showCombinedFSR],
   );
 
-  // Update profile data changes in the form data dynamically
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
-
-  useEffect(
-    () => {
-      if (isLoggedIn && showEnhancedFSR) {
-        const { personalData = {} } = formData || {};
-        if (
-          email?.emailAddress !== personalData.emailAddress ||
-          mobilePhone?.updatedAt !== personalData.telephoneNumber?.updatedAt ||
-          mailingAddress?.updatedAt !== personalData.address?.updatedAt
-        ) {
-          setFormData({
-            ...formData,
-            personalData: {
-              ...personalData,
-              emailAddress: email?.emailAddress,
-              telephoneNumber: mobilePhone,
-              address: mailingAddress,
-            },
-          });
-        }
-      }
-    },
-    [
-      email,
-      formData,
-      isLoggedIn,
-      mailingAddress,
-      mobilePhone,
-      setFormData,
-      showEnhancedFSR,
-    ],
-  );
-
   if (pending) {
     return (
       <va-loading-indicator
@@ -210,9 +172,6 @@ App.propTypes = {
   isStartingOver: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({}),
-  }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showCombinedFSR: PropTypes.bool,
@@ -228,7 +187,6 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
-  profile: selectProfile(state),
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
