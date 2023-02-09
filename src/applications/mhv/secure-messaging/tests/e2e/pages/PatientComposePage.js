@@ -137,5 +137,17 @@ class PatientComposePage {
       .and('have.attr', 'checked');
     cy.get('[id="message-body"]').should('have.value', 'Test message body');
   };
+
+  verifyRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('select')
+      .select(recipient)
+      .should('contain', 'PQR TRIAGE');
+  };
+
+  verifySubjectField = subject => {
+    cy.get('[id = "message-subject"]').should('have.value', subject);
+  };
 }
 export default PatientComposePage;
