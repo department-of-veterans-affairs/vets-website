@@ -17,7 +17,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
   const shouldUseApp = canUseApp && !featureFlagsLoading;
 
-  if (canUseApp && featureFlagsLoading) {
+  if (!shouldUseApp) {
     return (
       <div className="vads-u-margin-y--5">
         <va-loading-indicator message="Loading your information..." />
