@@ -13,6 +13,7 @@ import {
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
+import environment from 'platform/utilities/environment';
 import formConfig from '../config/form';
 import { fetchDebts, fetchFormStatus } from '../actions';
 import { getStatements } from '../actions/copays';
@@ -25,6 +26,7 @@ import {
   combinedFSRFeatureToggle,
   enhancedFSRFeatureToggle,
 } from '../utils/helpers';
+import localMockUser from '../tests/e2e/fixtures/mocks/mockUser.json';
 
 const App = ({
   children,
@@ -107,9 +109,13 @@ const App = ({
     [dispatch, showCombinedFSR],
   );
 
+  // vapContactInfo is an empty object locally, so mock it
+  const contactData = environment.isLocalhost()
+    ? localMockUser.data.attributes.vet360ContactInformation
+    : profile?.vapContactInfo || {};
+
   // Update profile data changes in the form data dynamically
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  const { email = {}, mobilePhone = {}, mailingAddress = {} } = contactData;
 
   useEffect(
     () => {

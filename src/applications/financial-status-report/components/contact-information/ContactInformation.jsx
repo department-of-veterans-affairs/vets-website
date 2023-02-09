@@ -9,23 +9,26 @@ import { selectProfile } from 'platform/user/selectors';
 
 import { readableList } from '../../utils/helpers';
 
-export const ContactInfoDescription = ({ formContext, profile }) => {
+export const ContactInfoDescription = ({ formContext, formData }) => {
   const [hadError, setHadError] = useState(false);
-  const { email = {}, mobilePhone = {}, mailingAddress = {} } =
-    profile?.vapContactInfo || {};
+  const {
+    emailAddress = '',
+    telephoneNumber = {},
+    address = {},
+  } = formData.personalData;
   const { submitted } = formContext || {};
 
   const missingInfo = [
-    email?.emailAddress ? '' : 'email',
-    mobilePhone?.phoneNumber ? '' : 'phone',
-    mailingAddress?.addressLine1 ? '' : 'address',
+    emailAddress ? '' : 'email',
+    telephoneNumber?.phoneNumber ? '' : 'phone',
+    address?.addressLine1 ? '' : 'address',
   ].filter(Boolean);
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;
-  const phoneNumber = `${mobilePhone?.areaCode ||
-    ''}${mobilePhone?.phoneNumber || ''}`;
-  const phoneExt = mobilePhone?.extension;
+  const phoneNumber = `${telephoneNumber?.areaCode ||
+    ''}${telephoneNumber?.phoneNumber || ''}`;
+  const phoneExt = telephoneNumber?.extension;
 
   const handler = {
     onSubmit: event => {
@@ -56,14 +59,14 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Email address</h4>
-      <span>{email?.emailAddress || ''}</span>
+      <span>{emailAddress || ''}</span>
       <p>
         <Link to="/edit-email-address" aria-label="Edit email address">
           Edit
         </Link>
       </p>
       <h4 className="vads-u-font-size--h3">Mailing address</h4>
-      <AddressView data={mailingAddress} />
+      <AddressView data={address} />
       <p>
         <Link to="/edit-mailing-address" aria-label="Edit mailing address">
           Edit
@@ -131,12 +134,10 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
 };
 
 ContactInfoDescription.propTypes = {
-  profile: PropTypes.shape({
-    vapContactInfo: PropTypes.shape({
-      email: PropTypes.shape({
-        emailAddress: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
+  formData: PropTypes.shape({
+    personalData: PropTypes.shape({
+      emailAddress: PropTypes.string,
+      telephoneNumber: PropTypes.shape({
         countryCode: PropTypes.string,
         areaCode: PropTypes.string,
         phoneNumber: PropTypes.string,
