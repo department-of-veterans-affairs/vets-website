@@ -319,6 +319,13 @@ export function selectCommunityCareDetailsInfo(state, id) {
 }
 
 export function selectStartDate(appointment) {
+  if (
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+  ) {
+    return moment(appointment.requestedPeriod[0].start);
+  }
+
   return moment(appointment.start);
 }
 
@@ -419,8 +426,4 @@ export function selectModalityIcon(appointment) {
 export function selectTimeZoneAbbr(appointment) {
   const { abbreviation } = getAppointmentTimezone(appointment);
   return abbreviation;
-}
-
-export function selectPreferredDate(appointment) {
-  return moment(appointment.requestedPeriod[0].start);
 }

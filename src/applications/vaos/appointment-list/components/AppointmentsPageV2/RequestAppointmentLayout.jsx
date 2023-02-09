@@ -13,7 +13,7 @@ import {
   selectIsCanceled,
   selectModality,
   selectModalityIcon,
-  selectPreferredDate,
+  selectStartDate,
   selectTypeOfCareName,
 } from '../../redux/selectors';
 
@@ -28,12 +28,12 @@ export default function RequestAppointmentLayout({ appointment }) {
   const link = `requests/${appointment.id}`;
   const modality = useSelector(() => selectModality(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
-  const preferredDate = selectPreferredDate(appointment).format('MMMM D, YYYY');
+  const preferredDate = useSelector(() => selectStartDate(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
   const detailAriaLabel = `Details for ${
     isCanceled ? 'canceled ' : ''
-  }${typeOfCareName} request for ${preferredDate}`;
+  }${typeOfCareName} request for ${preferredDate.format('MMMM D, YYYY')}`;
 
   return (
     <ListItem appointment={appointment} borderTop status="pending">
