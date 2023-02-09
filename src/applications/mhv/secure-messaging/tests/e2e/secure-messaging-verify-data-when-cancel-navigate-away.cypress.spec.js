@@ -1,7 +1,6 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientComposePage from './pages/PatientComposePage';
-// import mockMessageDetails from './fixtures/thread-message-details-afterNavAway-cancel.json';
 import mockMessageDetails from './fixtures/thread-message-details-afterNavAway-cancel.json';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
@@ -25,14 +24,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     composePage.verifyAlertModal();
     composePage.clickOnContinueEditingButton();
     composePage.verifyComosePageValuesRetainedAfterContinueEditing();
-    // cy.get('@ComposeMessageDetails')
-    //   .its('request.body')
-    //   .should('include', {
-    //     recipientId: '6832726',
-    //     category: 'OTHER',
-    //     subject: 'Test Subject',
-    //     body: 'Test message body',
-    //   });
+
     composePage.verifyRecipient('6832726');
     composePage.verifySubjectField('Test Subject');
   });
