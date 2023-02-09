@@ -234,7 +234,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
-  profile: selectProfile(state),
+  profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
