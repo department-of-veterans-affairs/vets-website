@@ -34,6 +34,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     cy.get('[visible=""] > p');
     cy.injectAxe();
     cy.axeCheck();
+    cy.realPress(['Enter']);
     // For edit button
     // cy.get('.left-button')
     //     .click({ force: true });
