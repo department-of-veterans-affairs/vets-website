@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { fetchTotalDisabilityRating } from '../utils/actions';
@@ -17,12 +16,10 @@ const App = props => {
     children,
     setFormData,
     formData,
-    hasSavedForm,
     isAiqEnabled = false,
     isFacilitiesApiEnabled = false,
     isLoading = true,
     isLoggedIn,
-    isShortFormEnabled = false,
     isSigiEnabled = false,
     getTotalDisabilityRating,
     totalDisabilityRating,
@@ -71,10 +68,8 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       formData.veteranFullName,
-      hasSavedForm,
       isAiqEnabled,
       isLoggedIn,
-      isShortFormEnabled,
       isSigiEnabled,
       isFacilitiesApiEnabled,
       totalDisabilityRating,
@@ -121,12 +116,10 @@ App.propTypes = {
   ]),
   formData: PropTypes.object,
   getTotalDisabilityRating: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
   isAiqEnabled: PropTypes.bool,
   isFacilitiesApiEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
-  isShortFormEnabled: PropTypes.bool,
   isSigiEnabled: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -136,14 +129,10 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  hasSavedForm: state.user.profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_10_10EZ,
-  ),
   isAiqEnabled: state.featureToggles.hcaAmericanIndianEnabled,
   isFacilitiesApiEnabled: state.featureToggles.hcaUseFacilitiesApi,
   isLoading: state.featureToggles.loading,
   isLoggedIn: state.user.login.currentlyLoggedIn,
-  isShortFormEnabled: state.featureToggles.hcaShortFormEnabled,
   isSigiEnabled: state.featureToggles.caregiverSigiEnabled,
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
   user: state.user.profile,
