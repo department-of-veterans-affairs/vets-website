@@ -20,7 +20,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   if (canUseApp && featureFlagsLoading) {
     return (
       <div className="vads-u-margin-y--5">
-        <va-loading-indicator message="Loading your information" />
+        <va-loading-indicator message="Loading your information..." />
       </div>
     );
   }
