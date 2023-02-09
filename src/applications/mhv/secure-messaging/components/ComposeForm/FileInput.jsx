@@ -31,7 +31,7 @@ const FileInput = ({ attachments, setAttachments }) => {
       setError({
         title: 'File is empty',
         message:
-          'The file you are attempting to attach is empty. Please select a non-empty file',
+          'The file you are attempting to attach is empty. Please select a non-empty file.',
       });
       fileInputRef.current.value = null;
       return;
@@ -63,7 +63,7 @@ const FileInput = ({ attachments, setAttachments }) => {
       setError('You have already attached the maximum number of files.');
       setError({
         title: 'Maximum number of files exceeded',
-        message: 'You may only attach up to 4 files',
+        message: 'You may only attach up to 4 files.',
       });
       fileInputRef.current.value = null;
       return;
@@ -71,7 +71,7 @@ const FileInput = ({ attachments, setAttachments }) => {
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
       setError({
         title: 'File is too large',
-        message: 'File size for a single attachment cannot exceed 6MB',
+        message: 'File size for a single attachment cannot exceed 6MB.',
       });
       fileInputRef.current.value = null;
       return;
@@ -82,7 +82,7 @@ const FileInput = ({ attachments, setAttachments }) => {
     ) {
       setError({
         title: 'Total size of files is too large',
-        message: 'The total size of all attachments cannot exceed 10MB',
+        message: 'The total size of all attachments cannot exceed 10MB.',
       });
       fileInputRef.current.value = null;
       return;

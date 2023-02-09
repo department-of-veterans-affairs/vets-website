@@ -64,8 +64,8 @@ export const HasLetters = ({ claimStatus }) => {
         different folder if you’d like.
       </p>
       <p>
-        Note: If the PDF form opens in your browser automatically or if you get
-        a “Please wait” error message, you’ll need to take one more step to
+        Note: If the PDF letter opens in your browser automatically or if you
+        get a “Please wait” error message, you’ll need to take one more step to
         download the PDF: Click on the download icon in your browser. Save the
         PDF to your device.
       </p>
@@ -91,9 +91,6 @@ export const HasLetters = ({ claimStatus }) => {
         </a>
         .
       </p>
-      <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-        Contact us online through Ask VA.
-      </a>
     </>
   );
 };
@@ -108,41 +105,36 @@ export const NoLetters = () => {
       </p>
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 slot="headline">Your education decision letter isn’t available</h2>
-        <div>
-          <p>
-            If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
-            receive an instant decision, your decision letter may not be
-            available here yet. It can take us up to 30 days to make a decision
-            after you submit your application. Check back soon to find out if
-            your decision letter is available.
-          </p>
-          <p>
-            You won’t be able to get your decision letter through this tool if 1
-            of these is true for you:
-          </p>
-          <ul>
-            <li>
-              {' '}
-              We made a decision on your Post-9/11 GI Bill benefits before
-              August 20, 2022, or{' '}
-            </li>
-            <li>You’re a family member or a dependent of a Veteran</li>
-          </ul>
-          <p>
-            {' '}
-            You can get your decision letter by contacting us online through{' '}
-            <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
-              Ask VA
-            </a>{' '}
-            instead.
-          </p>
-          <p>
-            <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-              Request your VA education letter through Ask VA.
-            </a>
-          </p>
-        </div>
       </va-alert>
+      <div>
+        <p>
+          If you applied for Post-9/11 GI Bill benefits on VA.gov but didn’t
+          receive an instant decision, your decision letter may not be available
+          here yet. It can take us up to 30 days to make a decision after you
+          submit your application. Check back soon to find out if your decision
+          letter is available.
+        </p>
+        <p>
+          You won’t be able to get your decision letter through this tool if 1
+          of these is true for you:
+        </p>
+        <ul>
+          <li>
+            {' '}
+            We made a decision on your Post-9/11 GI Bill benefits before August
+            20, 2022, or{' '}
+          </li>
+          <li>You’re a family member or a dependent of a Veteran</li>
+        </ul>
+        <p>
+          {' '}
+          You can get your decision letter by contacting us online through{' '}
+          <a href="https://ask.va.gov/" target="_blank" rel="noreferrer">
+            Ask VA
+          </a>{' '}
+          instead.
+        </p>
+      </div>
       <h2 id="letter-isnt-listed">What if I have other questions?</h2>
       <p>
         You can contact us online through{' '}
@@ -151,11 +143,7 @@ export const NoLetters = () => {
         </a>
         .
       </p>
-      <p>
-        <a target="_blank" href="https://ask.va.gov/" rel="noreferrer">
-          Contact us online through Ask VA.
-        </a>
-      </p>
+      <p />
     </>
   );
 };

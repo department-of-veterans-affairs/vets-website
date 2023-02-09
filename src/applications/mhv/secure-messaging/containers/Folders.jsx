@@ -65,7 +65,9 @@ const Folders = () => {
     }
     return (
       <>
-        <h1 className="vads-u-margin-bottom--2">My folders</h1>
+        <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
+          My folders
+        </h1>
         <AlertBackgroundBox closeable />
         <va-button
           onClick={() => {

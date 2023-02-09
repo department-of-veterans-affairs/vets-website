@@ -1,5 +1,4 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
-import vapService from '@@vap-svc/reducers';
 import formConfig from '../config/form';
 import {
   FSR_API_CALL_INITIATED,
@@ -73,5 +72,4 @@ const fsrApi = (state = initialState, action) => {
 export default {
   form: createSaveInProgressFormReducer(formConfig),
   fsr: fsrApi,
-  vapService,
 };

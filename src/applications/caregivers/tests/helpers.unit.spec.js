@@ -10,7 +10,7 @@ import {
   submitTransform,
   isSSNUnique,
   arrayToSentenceString,
-} from '../helpers';
+} from '../utils/helpers';
 
 // data
 import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
