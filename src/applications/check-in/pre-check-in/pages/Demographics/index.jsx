@@ -13,7 +13,11 @@ import { makeSelectVeteranData } from '../../../selectors';
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
   const { t } = useTranslation();
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -46,7 +50,11 @@ const Demographics = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} router={router} />
+      <BackButton
+        action={goToPreviousPage}
+        router={router}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <DemographicsDisplay
         yesAction={yesClick}
         noAction={noClick}

@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { states } from 'platform/forms/address';
-import { medicalCentersByState } from '../../../helpers';
+import { medicalCentersByState } from '../../../utils/helpers';
 import { veteranFields } from '../../../definitions/constants';
 import {
   previousTreatmentFacilityUI,

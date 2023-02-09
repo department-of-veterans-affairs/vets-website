@@ -53,14 +53,16 @@ export const mockGETEndpoints = (
   });
 };
 
-export const mockFeatureToggles = () => {
+export const mockFeatureToggles = (featureToggleGenerator = null) => {
   cy.intercept('GET', '/v0/feature_toggles*', {
     statusCode: 200,
-    body: {
-      data: {
-        features: [{}],
-      },
-    },
+    body: featureToggleGenerator
+      ? featureToggleGenerator()
+      : {
+          data: {
+            features: [{}],
+          },
+        },
   });
 };
 

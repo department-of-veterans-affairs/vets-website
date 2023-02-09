@@ -42,6 +42,15 @@ const getData = ({
         // eslint-disable-next-line camelcase
         coe_access: showCOE,
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: {
+          get() {},
+        },
+        dismissedDowntimeWarnings: [],
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
