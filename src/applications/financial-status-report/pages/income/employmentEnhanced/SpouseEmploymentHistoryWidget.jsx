@@ -11,7 +11,7 @@ const SpouseEmploymentHistoryWidget = props => {
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
-    formData.personalData.employmentHistory.veteran.employmentRecords || [];
+    formData.personalData.employmentHistory.spouse.employmentRecords || [];
 
   useEffect(() => {
     clearJobIndex();
@@ -50,7 +50,7 @@ const SpouseEmploymentHistoryWidget = props => {
       </div>
       <VaRadio
         class="vads-u-margin-y--2"
-        label="Have you had another job in the last 2 years?"
+        label="Has your spouse had another job in the last 2 years?"
         onVaValueChange={handlers.onSelection}
         required
       >

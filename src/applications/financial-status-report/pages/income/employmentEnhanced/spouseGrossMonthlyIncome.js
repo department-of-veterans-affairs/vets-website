@@ -1,5 +1,5 @@
 import React from 'react';
-import GrossMonthlyIncomeInput from '../../../components/GrossMonthlyIncomeInput';
+import SpouseGrossMonthlyIncomeInput from '../../../components/SpouseGrossMonthlyIncomeInput';
 
 export const uiSchema = {
   grossMonthlyIncome: {
@@ -14,7 +14,7 @@ export const uiSchema = {
         taxes and deductions.
       </p>
     ),
-    'ui:widget': GrossMonthlyIncomeInput,
+    'ui:widget': SpouseGrossMonthlyIncomeInput,
     'ui:options': {
       hideOnReview: true,
     },

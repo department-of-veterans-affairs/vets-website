@@ -182,7 +182,7 @@ const EmploymentRecord = props => {
         <VaDate
           monthYearOnly
           value={`${fromYear}-${fromMonth}`}
-          label="Date you started work at this job?"
+          label="Date your spouse started work at this job?"
           name="from"
           onDateChange={e => handleDateChange('from', e.target.value)}
           onDateBlur={e =>
@@ -200,7 +200,7 @@ const EmploymentRecord = props => {
         <VaDate
           monthYearOnly
           value={`${toYear}-${toMonth}`}
-          label="Date you stopped work at this job?"
+          label="Date your spouse stopped work at this job?"
           name="to"
           onDateChange={e => handleDateChange('to', e.target.value)}
           // onDateBlur={e =>
@@ -212,7 +212,7 @@ const EmploymentRecord = props => {
       </div>
       <Checkbox
         name="current-employment"
-        label="I currently work here"
+        label="My spouse currently works here"
         checked={employmentRecord.isCurrent || false}
         onValueChange={value => handleCheckboxChange('isCurrent', value)}
       />

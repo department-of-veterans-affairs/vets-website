@@ -112,11 +112,12 @@ const GrossMonthlyIncomeInput = props => {
       });
     }
 
-    if (employmentRecord.isCurrent) {
-      goToPath(`/deduction-checklist`);
-    } else {
-      goToPath(`/employment-history`);
-    }
+    // if (employmentRecord.isCurrent) {
+    //   goToPath(`/deduction-checklist`);
+    // } else {
+    //   goToPath(`/spouse-employment-history`);
+    // }
+    goToPath(`/spouse-employment-history`);
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -126,15 +127,15 @@ const GrossMonthlyIncomeInput = props => {
     <form onSubmit={updateFormData}>
       <div>
         <h3 className="vads-u-margin-top--neg1p5">
-          Your job at {employerName}
+          Your spouse’s job at {employerName}
         </h3>{' '}
       </div>
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your gross monthly income at this job?
+        What’s your spouse’s gross monthly income at this job?
       </span>
       <p className="formfield-subtitle">
-        You’ll find this in your paycheck. It’s the amount of your pay before
-        taxes and deductions.
+        You’ll find this in your spouse’s paycheck. It’s the amount of your
+        spouse’s pay before taxes and deductions.
       </p>
       <div className="input">
         <va-number-input
