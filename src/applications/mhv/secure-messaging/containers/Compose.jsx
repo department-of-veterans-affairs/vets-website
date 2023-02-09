@@ -66,7 +66,7 @@ const Compose = () => {
   useEffect(
     () => {
       return () => {
-        if (location.pathname) {
+        if (isDraftPage) {
           dispatch(closeAlert());
         }
       };

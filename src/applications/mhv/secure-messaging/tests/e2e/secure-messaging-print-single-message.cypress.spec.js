@@ -18,18 +18,17 @@ describe('Secure Messaging - Print Functionality', () => {
     cy.get('[data-testid=radio-print-one-message]')
       .shadow()
       .find('label')
-      .should('have.text', 'Only print this message')
+      .should('have.text', 'Print only this message')
       .should('be.visible');
     cy.get('[data-testid=radio-print-all-messages]')
       .shadow()
       .find('label')
       .should('contain.text', 'Print all messages in this conversation')
       .should('be.visible');
-    cy.get('[data-testid=print-modal-popup] p')
-      .should(
-        'have.text',
-        'Would you like to print this one message, or all messages in this conversation?',
-      )
+    cy.get('[data-testid=print-modal-popup]')
+      .shadow()
+      .find('h1')
+      .should('have.text', 'What do you want to print?')
       .should('be.visible');
     cy.get('[data-testid=radio-print-all-messages]').click();
     cy.window().then(win => {
