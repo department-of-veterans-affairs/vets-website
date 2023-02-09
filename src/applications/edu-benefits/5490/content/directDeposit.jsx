@@ -9,18 +9,6 @@ const gaBankInfoHelpText = () => {
   });
 };
 
-const bankInfoNote = (
-  <div className="vads-u-margin-top--4">
-    <p>
-      <strong>Note: </strong>
-      Any updates you make here to your bank account information will apply to
-      your other Veteran benefits, including compensation, pension, and
-      education. Updates here won’t change accounts on file for your VA health
-      benefits.
-    </p>
-  </div>
-);
-
 const bankInfoHelpText = (
   <va-additional-info
     trigger="What if I don’t have a bank account?"
@@ -29,7 +17,7 @@ const bankInfoHelpText = (
     <span>
       <p>
         The{' '}
-        <a href="https://www.usdirectexpress.com/">
+        <a href="https://veteransbenefitsbanking.org/">
           Veterans Benefits Banking Program (VBBP)
         </a>{' '}
         provides a list of Veteran-friendly banks and credit unions. They’ll
@@ -38,7 +26,11 @@ const bankInfoHelpText = (
         participating banks or credit unions listed on the VBBP website. Be sure
         to mention the Veterans Benefits Banking Program.
       </p>
-      <p>add text here</p>
+      <p>
+        Note: Federal regulation, found in 31 C.F.R. § 208.3 provides that,
+        subject to section 208.4, “all Federal payments made by an agency shall
+        be made by electronic funds transfer” (EFT)
+      </p>
     </span>
   </va-additional-info>
 );
@@ -46,9 +38,9 @@ const bankInfoHelpText = (
 const directDepositDescription = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
     <p>
-      We make payments only through direct deposit, also called electronic funds
-      transfer (EFT). Please provide your direct deposit information below.
-      We’ll send your housing payment to this account.
+      Direct deposit information is not mandatory at this time. However,
+      benefits cannot be awarded without this information per U.S. Treasury
+      regulation 31 C.F.R. § 208.3.
     </p>
     <img
       src="/img/direct-deposit-check-guide.svg"
@@ -69,12 +61,6 @@ function validateRoutingNumber(
   }
 }
 
-const usingDirectDeposit = formData => {
-  const isDeclining = formData?.bankAccount?.declineDirectDeposit;
-  if (isDeclining === undefined || isDeclining === null) return true;
-  return !isDeclining;
-};
-
 export default function createDirectDepositPage() {
   const bankAccountProperties = {
     type: 'object',
@@ -89,14 +75,6 @@ export default function createDirectDepositPage() {
       },
       accountNumber: {
         type: 'string',
-      },
-      declineDirectDeposit: {
-        type: 'boolean',
-        properties: {},
-      },
-      'view:bankInfoNote': {
-        type: 'object',
-        properties: {},
       },
       'view:bankInfoHelpText': {
         type: 'object',
@@ -123,39 +101,17 @@ export default function createDirectDepositPage() {
                 checking: 'Checking',
                 savings: 'Savings',
               },
-              hideIf: formData => !usingDirectDeposit(formData),
+              //   hideIf: formData => !usingDirectDeposit(formData),
             },
-            'ui:required': formData => usingDirectDeposit(formData),
           },
           accountNumber: {
             'ui:title': 'Bank account number',
-            'ui:required': formData => usingDirectDeposit(formData),
-            'ui:options': {
-              hideIf: formData => !usingDirectDeposit(formData),
-            },
           },
           routingNumber: {
             'ui:title': "Bank's 9-digit routing number",
             'ui:validations': [validateRoutingNumber],
             'ui:errorMessages': {
               pattern: 'Please enter a valid 9 digit routing number',
-            },
-            'ui:required': formData => usingDirectDeposit(formData),
-            'ui:options': {
-              hideIf: formData => !usingDirectDeposit(formData),
-            },
-          },
-          declineDirectDeposit: {
-            'ui:title': 'I don’t want to use direct deposit',
-            'ui:options': {
-              hideOnReviewIfFalse: true,
-              widgetClassNames: 'vads-u-margin-top--4',
-            },
-          },
-          'view:bankInfoNote': {
-            'ui:description': bankInfoNote,
-            'ui:options': {
-              hideOnReview: true,
             },
           },
           'view:bankInfoHelpText': {
