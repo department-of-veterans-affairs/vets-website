@@ -16,6 +16,7 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
  * @property {Date} checkInWindowStart,
  * @property {Date} checkInWindowEnd,
  * @property {string} checkedInTime,
+ * @property {string} appointmentId,
  */
 
 /**
@@ -245,6 +246,35 @@ const clinicName = appointment => {
     : appointment.clinicName;
 };
 
+/**
+ * Return a unique ID of ien and station.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const getAppointmentId = appointment => {
+  return `${appointment.appointmentIen}-${appointment.stationNo}`;
+};
+
+/**
+ * Find appointment by ID.
+ *
+ * @param {appointmentId} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+
+const findAppointment = (appointmentId, appointments) => {
+  const appointmentIdParts = appointmentId.split('-');
+  return appointments.find(
+    appointmentItem =>
+      String(appointmentItem.appointmentIen) ===
+        String(appointmentIdParts[0]) &&
+      String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
+  );
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -260,4 +290,6 @@ export {
   hasPhoneAppointments,
   appointmentIcon,
   clinicName,
+  getAppointmentId,
+  findAppointment,
 };

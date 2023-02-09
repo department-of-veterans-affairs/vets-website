@@ -45,14 +45,14 @@ const EducationAndTraining = () => {
             }
           />
           <IconCTALink
-            text="Check your GI Bill Statement of Benefits"
+            text="Check your Post-9/11 GI Bill benefits"
             icon="dollar-sign"
             href="/education/gi-bill/post-9-11/ch-33-benefit/"
             testId="check-gi-bill-benefits-from-cta"
             onClick={() =>
               recordEvent({
                 event: 'nav-linkslist',
-                'links-list-header': 'Check your GI Bill Statement of Benefits',
+                'links-list-header': 'Check your Post-9/11 GI Bill benefits',
                 'links-list-section-header': 'Education and training',
               })
             }
