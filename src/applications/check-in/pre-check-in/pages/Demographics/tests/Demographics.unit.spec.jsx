@@ -14,6 +14,7 @@ import { createMockRouter } from '../../../../tests/unit/mocks/router';
 
 const middleware = [];
 const mockStore = configureStore(middleware);
+const mockRouter = createMockRouter();
 const initState = {
   checkInData: {
     appointments: multipleAppointments,
@@ -67,12 +68,11 @@ const initState = {
 describe('pre-check-in', () => {
   describe('Demographics sub message', () => {
     const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
-
     it('renders the sub-message for an in-person appointment', () => {
       const component = render(
         <Provider store={subStore}>
           <I18nextProvider i18n={i18n}>
-            <Demographics router={createMockRouter()} />
+            <Demographics router={mockRouter} />
           </I18nextProvider>
         </Provider>,
       );
@@ -92,7 +92,7 @@ describe('pre-check-in', () => {
       const component = render(
         <Provider store={phoneSubStore}>
           <I18nextProvider i18n={i18n}>
-            <Demographics router={createMockRouter()} />
+            <Demographics router={mockRouter} />
           </I18nextProvider>
         </Provider>,
       );

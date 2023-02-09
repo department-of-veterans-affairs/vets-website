@@ -115,7 +115,7 @@ describe('Check In Experience', () => {
       Appointments.attemptCheckIn();
       Confirmation.validatePageLoaded();
       cy.reload();
-      Appointments.validatePageLoaded();
+      Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
   });

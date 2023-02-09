@@ -33,12 +33,3 @@ export const setForm = form => {
     payload: { form },
   };
 };
-
-export const SET_ACTIVE_APPOINTMENT = 'SET_ACTIVE_APPOINTMENT';
-
-export const setActiveAppointment = appointmentIen => {
-  return {
-    type: SET_ACTIVE_APPOINTMENT,
-    payload: appointmentIen,
-  };
-};

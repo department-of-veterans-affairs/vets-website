@@ -16,7 +16,12 @@ import Wrapper from '../../layout/Wrapper';
 const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    jumpToPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
   const onClick = event => {
     const answer = event.target.value;
     recordEvent({
@@ -31,7 +36,11 @@ const TravelPage = ({ header, bodyText, helpText, pageType, router }) => {
   };
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
         {bodyText && (
           <div

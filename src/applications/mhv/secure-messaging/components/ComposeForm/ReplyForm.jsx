@@ -19,7 +19,7 @@ import { draftAutoSaveTimeout } from '../../util/constants';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage } = props;
+  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -298,9 +298,8 @@ const ReplyForm = props => {
                 </strong>{' '}
                 To:{' '}
               </strong>
-              {replyMessage.senderName}
+              {replyMessage.recipientName}
               <br />
-              (Team: {replyMessage.triageGroupName})
             </p>
             <va-textarea
               label="Message"
@@ -328,14 +327,16 @@ const ReplyForm = props => {
               />
             </section>
             <div className="compose-form-actions vads-u-display--flex">
-              <button
-                type="button"
-                className="vads-u-flex--1"
-                data-testid="Send-Button"
-                onClick={sendMessageHandler}
-              >
-                Send
-              </button>
+              {!cannotReplyAlert && (
+                <button
+                  type="button"
+                  className="vads-u-flex--1"
+                  data-testid="Send-Button"
+                  onClick={sendMessageHandler}
+                >
+                  Send
+                </button>
+              )}
               <button
                 type="button"
                 className="usa-button-secondary vads-u-flex--1"
@@ -403,6 +404,7 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
+  cannotReplyAlert: PropTypes.bool,
   draftToEdit: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,
