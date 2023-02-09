@@ -25,6 +25,24 @@ class Introduction {
     );
   };
 
+  validateStartButtonBottomPlacement = () => {
+    cy.get('div[data-testid="start-button"]')
+      .contains('Answer questions')
+      .parent()
+      .prev()
+      .contains('Start here')
+      .prev()
+      .contains('Your appointments are on');
+  };
+
+  validateStartButtonTopPlacement = () => {
+    cy.get('div[data-testid="start-button"]')
+      .contains('Answer questions')
+      .parent()
+      .prev()
+      .contains('Your answers will');
+  };
+
   countAppointmentList = expectedLength => {
     cy.get('ol[data-testid="appointment-list"] li').should(
       'have.length',
