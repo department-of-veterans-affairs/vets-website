@@ -12,5 +12,5 @@ const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
 
-console.log(`::set-output name=JSFILES::${filteredJSFiles}`);
-console.log(`::set-output name=SCSSFILES::${filteredSCSSFiles}`);
+console.log(`JSFILES=${filteredJSFiles} >> $GITHUB_OUTPUT`);
+console.log(`SCSSFILES=${filteredSCSSFiles} >> $GITHUB_OUTPUT`);
