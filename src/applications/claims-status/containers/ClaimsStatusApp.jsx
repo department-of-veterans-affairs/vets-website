@@ -15,9 +15,9 @@ import { isLoadingFeatures } from '../selectors';
 function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   const canUseApp =
     isDataAvailable === true || typeof isDataAvailable === 'undefined';
-  const shouldUseApp = canUseApp && !featureFlagsLoading;
+  const isAppReady = canUseApp && !featureFlagsLoading;
 
-  if (!shouldUseApp) {
+  if (!isAppReady) {
     return (
       <div className="vads-u-margin-y--5">
         <va-loading-indicator message="Loading your information..." />
@@ -28,7 +28,7 @@ function AppContent({ children, featureFlagsLoading, isDataAvailable }) {
   return (
     <div className="claims-status-content">
       {!canUseApp && <ClaimsAppealsUnavailable />}
-      {shouldUseApp && <>{children}</>}
+      {isAppReady && <>{children}</>}
     </div>
   );
 }
