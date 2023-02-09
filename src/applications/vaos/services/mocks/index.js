@@ -590,7 +590,6 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
