@@ -28,9 +28,10 @@ const IntroductionDisplay = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
   const { appointments } = useSelector(selectVeteranData);
-  const { isUpdatedApptPresentationEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  const {
+    isUpdatedApptPresentationEnabled,
+    isPreCheckInActionLinkTopPlacementEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
 
@@ -115,14 +116,20 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
+      {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
       {isUpdatedApptPresentationEnabled ? (
         <AppointmentBlockVaos appointments={appointments} page="intro" />
       ) : (
         <AppointmentBlock appointments={appointments} page="intro" />
       )}
 
-      <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
-      <StartButton />
+      {!isPreCheckInActionLinkTopPlacementEnabled && (
+        <>
+          <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
+          <StartButton />
+        </>
+      )}
+
       {accordionContent && accordionContent.length ? (
         <va-accordion
           bordered
