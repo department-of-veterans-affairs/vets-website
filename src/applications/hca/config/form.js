@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // platform imports
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';

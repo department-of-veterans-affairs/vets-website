@@ -334,8 +334,8 @@ export function createLiteralMap(arrayToMap) {
  * that percentage
  */
 export function isShortFormEligible(formData) {
-  return (
-    formData['view:totalDisabilityRating'] >= HIGH_DISABILITY_MINIMUM ||
-    formData.vaCompensationType === 'highDisability'
-  );
+  const hasHighRating =
+    formData['view:totalDisabilityRating'] >= HIGH_DISABILITY_MINIMUM;
+  const hasHighCompensation = formData.vaCompensationType === 'highDisability';
+  return hasHighRating || hasHighCompensation;
 }
