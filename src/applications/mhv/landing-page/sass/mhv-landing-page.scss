@@ -7,3 +7,43 @@
 .mhv-u-grid-gap:not(:last-of-type) {
   margin-right: units(2);
 }
+
+// Copied and adapted from va-link
+.mhv-c-navlink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  i::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 900;
+    line-height: 1;
+    margin-right: 0.8rem;
+    text-rendering: auto;
+  }
+
+  i::before {
+    content: "\f105"; /* fa-angle-right */
+    margin-left: 0.8rem;
+    margin-right: 0;
+    vertical-align: middle;
+  }
+}
+
+@media (max-width: $medium-screen) {
+  .mhv-c-navlink {
+    justify-content: space-between;
+
+    i::before {
+      margin-left: 4rem;
+    }
+  }
+}

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 const NavCard = ({ title, links }) => {
   const listItems = links.map(l => (
     <li key={l.href}>
-      <va-link active href={l.href} text={l.text} />
+      <a className="mhv-c-navlink" href={l.href}>
+        {l.text}
+        <i aria-hidden="true" />
+      </a>
     </li>
   ));
   return (
