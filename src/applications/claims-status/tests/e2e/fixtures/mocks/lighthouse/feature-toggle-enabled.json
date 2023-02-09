@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "cst_use_lighthouse",
+        "value": true
+      }
+    ]
+  }
+}

@@ -83,6 +83,16 @@
           "date": "2021-09-22"
         },
         {
+          "trackedItemId": 50,
+          "fileType": "Correspondence",
+          "documentType": "L023",
+          "filename": "Large_BDD_STR_Test_part_2_of_3.pdf",
+          "uploadDate": "2021-09-22",
+          "status": "NEEDED",
+          "type": "still_need_from_you_list",
+          "date": "2021-09-22"
+        },
+        {
           "trackedItemId": null,
           "fileType": "Correspondence",
           "documentType": "L023",
