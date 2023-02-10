@@ -14,12 +14,8 @@ const pageFields = [
 
 const previousHiApplication2 = {
   uiSchema: {
-    [previousHiApplicationFields.previousHiApplicationDate]: {
-      'ui:title': 'Date of previous application',
-      'ui:widget': 'date',
-    },
-    // can't use ('...', true) here to turn on line 3
-    // check if usAddress or profileAddress definitions work better for that
+    ...pick(properties, pageFields),
+    // check if usAddress or profileAddress definitions works better for that
     [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
       'Address connected to your past application',
       false,
@@ -29,10 +25,9 @@ const previousHiApplication2 = {
   schema: {
     type: 'object',
     required: intersection(required, pageFields),
-    // can't use pick(properties, pageFields) here
-    // address definitions appear to be implemented differently
     properties: {
       ...pick(properties, pageFields),
+      // address definitions appear to be implemented differently
       [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
         fullSchema,
         true,

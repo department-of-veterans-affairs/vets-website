@@ -28,10 +28,9 @@ const previousSahApplication2 = {
   schema: {
     type: 'object',
     required: intersection(required, pageFields),
-    // can't use pick(properties, pageFields) here
-    // address definitions appear to be implemented differently
     properties: {
       ...pick(properties, pageFields),
+      // address definitions appear to be implemented differently
       [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
         fullSchema,
         true,
