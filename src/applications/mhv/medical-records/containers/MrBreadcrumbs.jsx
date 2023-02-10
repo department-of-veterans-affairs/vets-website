@@ -15,8 +15,8 @@ const MrBreadcrumbs = () => {
   ];
 
   const currentPath = paths.filter(path => path.url === location.pathname)[0];
-  if (currentPath.parent) {
-    crumbs = paths.filter(path => path.url === currentPath.parent)[0];
+  if (currentPath?.parent) {
+    [crumbs] = paths.filter(path => path.url === currentPath.parent);
   } else {
     crumbs = { url: '/', label: 'Dashboard' };
   }

@@ -166,27 +166,14 @@ describe('Check In Experience', () => {
 
       Appointments.validatePageLoaded();
 
+      cy.wait('@demographicsPatchFailureAlias');
+      cy.get('@demographicsPatchFailureAlias')
+        .its('response.statusCode')
+        .should('equal', 400);
+
       Appointments.attemptCheckIn(1);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-
-      cy.wait('@demographicsPatchFailureAlias');
-      cy.get('@demographicsPatchFailureAlias')
-        .its('response.statusCode')
-        .should('equal', 400);
-
-      Confirmation.attemptGoBackToAppointments();
-      Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-
-      Appointments.attemptCheckIn(3);
-      Confirmation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-
-      cy.wait('@demographicsPatchFailureAlias');
-      cy.get('@demographicsPatchFailureAlias')
-        .its('response.statusCode')
-        .should('equal', 400);
     });
   });
   describe('All confirmation pages skipped', () => {

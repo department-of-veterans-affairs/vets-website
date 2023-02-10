@@ -25,6 +25,9 @@
   text-decoration: unset;
 }
 
+.alertbox-link:visited {
+  color: $color-link-default;
+}
 .compose-message-link:visited {
   color: $color-link-default;
   text-decoration: underline;

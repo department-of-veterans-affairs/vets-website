@@ -100,7 +100,12 @@ const DisplayMultipleAppointments = props => {
     </div>
   ) : (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        // @TODO make this a valid url somehow
+        prevUrl="#back"
+      />
       <Wrapper
         pageTitle={t('your-appointments')}
         classNames="appointment-check-in"
