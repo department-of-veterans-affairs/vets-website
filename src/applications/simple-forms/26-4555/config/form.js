@@ -28,8 +28,15 @@ import livingSituation1 from '../pages/livingSituation1';
 import livingSituation2 from '../pages/livingSituation2';
 import remarks from '../pages/remarks';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
-
+const {
+  fullName,
+  date,
+  ssn,
+  vaFileNumber,
+  address,
+  phone,
+  email,
+} = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -58,10 +65,12 @@ const formConfig = {
     'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
   defaultDefinitions: {
     fullName,
-    ssn,
     date,
-    dateRange,
-    usaPhone,
+    ssn,
+    vaFileNumber,
+    address,
+    phone,
+    email,
   },
   chapters: {
     personalInformationChapter: {

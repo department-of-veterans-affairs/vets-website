@@ -1,26 +1,30 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-import fullNameUI from 'platform/forms-system/src/js/definitions//fullName';
+import { intersection, pick } from 'lodash';
 
-const { fullName } = commonDefinitions;
+import fullNameUI from 'platform/forms-system/src/js/definitions//fullName';
+import fullSchema from '../26-4555-schema.json';
+import { veteranFields } from '../definitions/constants';
+
+// TODO: import fullSchema from vets-json-schema once that's available
+
+const { required, properties } = fullSchema.properties[
+  veteranFields.parentObject
+];
+const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 const personalInformation1 = {
   uiSchema: {
-    fullName: fullNameUI,
-    dateOfBirth: {
+    [veteranFields.fullName]: fullNameUI,
+    [veteranFields.dateOfBirth]: {
       'ui:title': 'Your date of birth',
       'ui:widget': 'date',
+      'ui:errorMessages': {
+        pattern: 'Please select Month, Day, and input a 4-digit Year.',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['fullName'],
-    properties: {
-      fullName,
-      dateOfBirth: {
-        pattern:
-          '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-        type: 'string',
-      },
-    },
+    required: intersection(required, pageFields),
+    properties: pick(properties, pageFields),
   },
 };
 
