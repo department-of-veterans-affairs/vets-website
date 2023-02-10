@@ -75,10 +75,93 @@ const App = () => {
             </div>
             <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
               <NavCard
-                title="Health Records"
+                title="Health records"
                 icon="file-medical"
                 links={demoLinks}
               />
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-justify-content--space-between vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2">
+            <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
+              <NavCard title="Payments" icon="dollar-sign" links={demoLinks2} />
+            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
+              <NavCard
+                title="Medical supplies and equipment"
+                icon="deaf"
+                links={demoLinks}
+              />
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-bottom--3">
+            <div className="vads-l-col--12 medium-screen:vads-l-col">
+              <h2>heading 01</h2>
+              <ul className="hub-page-link-list">
+                <li>
+                  <a href="link001">Link 001</a>
+                </li>
+                <li>
+                  <a href="link002">Link 002</a>
+                </li>
+                <li>
+                  <a href="link003">Link 003</a>
+                </li>
+                <li>
+                  <a href="link004">Link 004</a>
+                </li>
+                <li>
+                  <a href="link005">Link 005</a>
+                </li>
+                <li>
+                  <a href="link006">Link 006</a>
+                </li>
+              </ul>
+            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col">
+              <h2>heading 02</h2>
+              <ul className="hub-page-link-list">
+                <li>
+                  <a href="link001">Link 001</a>
+                </li>
+                <li>
+                  <a href="link002">Link 002</a>
+                </li>
+                <li>
+                  <a href="link003">Link 003</a>
+                </li>
+                <li>
+                  <a href="link004">Link 004</a>
+                </li>
+                <li>
+                  <a href="link005">Link 005</a>
+                </li>
+                <li>
+                  <a href="link006">Link 006</a>
+                </li>
+              </ul>
+            </div>
+            <div className="vads-l-col--12 medium-screen:vads-l-col">
+              <h2>heading 03</h2>
+              <ul className="hub-page-link-list">
+                <li>
+                  <a href="link001">Link 001</a>
+                </li>
+                <li>
+                  <a href="link002">Link 002</a>
+                </li>
+                <li>
+                  <a href="link003">Link 003</a>
+                </li>
+                <li>
+                  <a href="link004">Link 004</a>
+                </li>
+                <li>
+                  <a href="link005">Link 005</a>
+                </li>
+                <li>
+                  <a href="link006">Link 006</a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -91,6 +174,8 @@ NavCard.propTypes = {
   icon: PropTypes.oneOf([
     'calendar',
     'comments',
+    'deaf',
+    'dollar-sign',
     'file-medical',
     'prescription-bottle',
   ]),
