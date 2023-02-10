@@ -15,6 +15,8 @@ const contactInformation1 = {
   schema: {
     type: 'object',
     required: intersection(required, pageFields),
+    // can't use pick(properties, pageFields) here
+    // address definitions appear to be implemented differently
     properties: {
       [veteranFields.address]: address.schema(fullSchema, true),
     },

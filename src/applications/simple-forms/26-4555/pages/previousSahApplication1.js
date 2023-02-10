@@ -1,6 +1,15 @@
+import { intersection, pick } from 'lodash';
+
+import { previousSahApplicationFields } from '../definitions/constants';
+import fullSchema from '../26-4555-schema.json';
+
+const { required, properties } = fullSchema.properties[
+  previousSahApplicationFields.parentObject
+];
+const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 const previousSahApplication1 = {
   uiSchema: {
-    hasPreviousSahApplication: {
+    [previousSahApplicationFields.hasPreviousSahApplication]: {
       'ui:title':
         'Have you previously applied for specially adapted housing or special home adaptation grant?',
       'ui:widget': 'yesNo',
@@ -8,12 +17,8 @@ const previousSahApplication1 = {
   },
   schema: {
     type: 'object',
-    required: ['hasPreviousSahApplication'],
-    properties: {
-      hasPreviousSahApplication: {
-        type: 'boolean',
-      },
-    },
+    required: intersection(required, pageFields),
+    properties: pick(properties, pageFields),
   },
 };
 

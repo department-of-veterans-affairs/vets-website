@@ -9,3 +9,17 @@ export const veteranFields = {
   mobilePhone: 'mobilePhone',
   email: 'email',
 };
+
+export const previousSahApplicationFields = {
+  parentObject: 'previousSahApplication',
+  hasPreviousSahApplication: 'hasPreviousSahApplication',
+  previousSahApplicationDate: 'previousSahApplicationDate',
+  previousSahApplicationAddress: 'previousSahApplicationAddress',
+};
+
+export const previousHiApplicationFields = {
+  parentObject: 'previousHiApplication',
+  hasPreviousHiApplication: 'hasPreviousHiApplication',
+  previousHiApplicationDate: 'previousHiApplicationDate',
+  previousHiApplicationAddress: 'previousHiApplicationAddress',
+};
