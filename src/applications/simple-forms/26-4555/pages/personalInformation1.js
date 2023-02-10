@@ -1,6 +1,6 @@
 import { intersection, pick } from 'lodash';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions//fullName';
+import customFullNameUI from '../definitions/customFullNameUI';
 import fullSchema from '../26-4555-schema.json';
 import { veteranFields } from '../definitions/constants';
 
@@ -12,7 +12,12 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 const personalInformation1 = {
   uiSchema: {
-    [veteranFields.fullName]: fullNameUI,
+    // we're importing our own fullName ui-schema to diplay custom labels
+    [veteranFields.fullName]: customFullNameUI({
+      firstNameLabel: 'Your first name',
+      lastNameLabel: 'Your last name',
+      middleNameLabel: 'Your middle name',
+    }),
     [veteranFields.dateOfBirth]: {
       'ui:title': 'Your date of birth',
       'ui:widget': 'date',
