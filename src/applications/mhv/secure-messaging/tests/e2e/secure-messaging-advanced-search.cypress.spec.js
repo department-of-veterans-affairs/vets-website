@@ -4,12 +4,8 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import mockMessages from './fixtures/drafts-search-results.json';
 import mockDraftsFolder from './fixtures/folder-drafts-metadata.json';
 
-beforeEach(() => {
-  window.dataLayer = [];
-});
-
 describe.skip(manifest.appName, () => {
-  it('Advanced Search Axe Check', () => {
+  it.skip('Advanced Search Axe Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     const landingPage = new PatientInboxPage();
