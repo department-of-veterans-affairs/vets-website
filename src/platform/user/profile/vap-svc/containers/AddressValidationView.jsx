@@ -96,7 +96,7 @@ class AddressValidationView extends React.Component {
           : 'no',
       });
     }
-    sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
+
     if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
@@ -225,16 +225,14 @@ class AddressValidationView extends React.Component {
       suggestedAddresses,
       transaction,
       transactionRequest,
-      validationKey,
       isLoading,
     } = this.props;
 
-    const validationMessageKey = getValidationMessageKey(
+    const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
-      validationKey,
       addressValidationError,
       confirmedSuggestions,
-    );
+    });
 
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
@@ -337,9 +335,16 @@ const mapDispatchToProps = {
 };
 
 AddressValidationView.propTypes = {
-  analyticsSectionName: PropTypes.string,
+  addressFromUser: PropTypes.object.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
+  addressValidationType: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
+  updateSelectedAddress: PropTypes.func.isRequired,
+  updateValidationKeyAndSave: PropTypes.func.isRequired,
+  analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({
       addressLine1: PropTypes.string.isRequired,
@@ -355,17 +360,10 @@ AddressValidationView.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
-  addressValidationType: PropTypes.string.isRequired,
-  validationKey: PropTypes.number,
-  addressFromUser: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  createTransaction: PropTypes.func.isRequired,
-  updateSelectedAddress: PropTypes.func.isRequired,
-  updateValidationKeyAndSave: PropTypes.func.isRequired,
   userHasBadAddress: PropTypes.bool,
+  validationKey: PropTypes.number,
 };
 
 export default connect(

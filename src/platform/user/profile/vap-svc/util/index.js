@@ -16,26 +16,32 @@ import {
 } from '../constants';
 
 /**
- * Get the appropriate validation message key to display to the user.
- *
- * @param {Array} suggestedAddresses
- * @param {string} addressValidationError
- * @param {Array} confirmedSuggestions
- *
- * @returns {string}
+ * An address validation object based on data from the address validation api response
+ * @typedef {Object} AddressValidationObject
+ * @property {Array} suggestedAddresses suggested addresses sorted by confidence score
+ * @property {boolean} addressValidationError if address validation endpoint request encounted an error
+ * @property {Array} confirmedSuggestions addresses that have deliveryPointValidation === CONFIRMED or international as their type. See validateAddress in transactions.js actions
  */
-export const getValidationMessageKey = (
+
+/**
+ * Get the appropriate validation message key for ADDRESS_VALIDATION_MESSAGES
+ *
+ * @param {AddressValidationObject} addressValidationObject
+ *
+ * @returns {string} key for accessing ADDRESS_VALIDATION_MESSAGES[key]
+ */
+export const getValidationMessageKey = ({
   suggestedAddresses,
   addressValidationError,
-  confirmedSuggestions,
-) => {
-  const singleSuggestion = suggestedAddresses.length === 1;
-  const multipleSuggestions = suggestedAddresses.length > 1;
+  confirmedSuggestions = [],
+}) => {
+  const singleSuggestion = suggestedAddresses?.length === 1;
+  const multipleSuggestions = suggestedAddresses?.length > 1;
   const containsBadUnitNumber =
-    suggestedAddresses.filter(
+    suggestedAddresses?.filter(
       address =>
         address.addressMetaData?.deliveryPointValidation === BAD_UNIT_NUMBER,
-    ).length > 0;
+    )?.length > 0;
 
   const containsMissingUnitNumber =
     suggestedAddresses.filter(

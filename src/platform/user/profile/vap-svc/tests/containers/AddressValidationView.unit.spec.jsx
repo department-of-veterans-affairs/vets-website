@@ -24,8 +24,7 @@ describe('<AddressValidationView/>', () => {
             zipCode: '12346',
           },
           isAddressValidationModalVisible: true,
-          addressValidationError: false,
-
+          addressValidationError: '',
           addressValidationType: 'mailingAddress',
           userEnteredAddress: {},
           validationKey: 1234,
@@ -459,9 +458,7 @@ describe('<AddressValidationView/>', () => {
         .find('h4')
         .at(0)
         .text(),
-    ).to.equal(
-      'We can’t confirm the address you entered with the U.S. Postal Service.',
-    );
+    ).to.equal(`We couldn’t verify your address`);
     component.unmount();
   });
 });
