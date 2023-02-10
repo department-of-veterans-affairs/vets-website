@@ -19,6 +19,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -609,6 +610,15 @@ const formConfig = {
           depends: formData =>
             !!formData.assets?.otherAssetsEnhanced?.length &&
             formData['view:enhancedFinancialStatusReport'],
+        },
+        addOtherAsset: {
+          path: 'add-other-asset',
+          title: 'Add your additional assets',
+          CustomPage: AddAsset,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from otherAssetsSummary
         },
       },
     },

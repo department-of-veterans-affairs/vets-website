@@ -91,28 +91,3 @@ export const otherAssetsSummary = {
     },
   },
 };
-
-export const otherAssetsEdit = {
-  uiSchema: {
-    'ui:title': 'Your other assets',
-    otherAssetsEnhanced: {
-      'ui:title': (
-        <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-          Select any of these financial assets you have:
-        </span>
-      ),
-      'ui:widget': OtherAssetsChecklist,
-      'ui:options': {
-        hideOnReview: true,
-      },
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      otherAssetsEnhanced: {
-        type: 'boolean',
-      },
-    },
-  },
-};

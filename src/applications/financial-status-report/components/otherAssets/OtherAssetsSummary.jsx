@@ -1,36 +1,54 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-// import { setData } from 'platform/forms-system/src/js/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { Link } from 'react-router';
 import MiniSummaryCard from '../utils/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherAssetsSummary = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
   const { assets } = formData;
   const { otherAssetsEnhanced = [] } = assets;
 
-  // Need to get an id for the asset to edit
-  const onEdit = () => {};
-
-  // Need to get an id for the asset to delete
-  const onDelete = () => {};
+  const onDelete = deleteIndex => {
+    dispatch(
+      setData({
+        ...formData,
+        assets: {
+          ...assets,
+          otherAssetsEnhanced: otherAssetsEnhanced.filter(
+            (source, index) => index !== deleteIndex,
+          ),
+        },
+      }),
+    );
+  };
 
   return (
     <>
-      {otherAssetsEnhanced.map(asset => (
+      {otherAssetsEnhanced.map((asset, index) => (
         <MiniSummaryCard
+          editDesination={{
+            pathname: '/add-other-asset',
+            search: `?index=${index}`,
+          }}
           heading={asset.name}
-          key={asset.name}
-          onDelete={event => onDelete(event)}
-          onEdit={event => onEdit(event)}
+          key={asset.name + asset.amount}
+          onDelete={() => onDelete(index)}
           subheading={`Value: ${currencyFormatter(asset.amount)}`}
         />
       ))}
-      {/* <a className="vads-c-action-link--green" href="#">
+      <Link
+        className="vads-c-action-link--green"
+        to={{
+          pathname: '/add-other-asset',
+          search: `?index=${otherAssetsEnhanced.length}`,
+        }}
+      >
         Add additional assets
-      </a> */}
+      </Link>
       <va-additional-info
         class="vads-u-margin-top--4"
         trigger="Why do I need to provide this information?"
