@@ -9,7 +9,7 @@ const pageFields = [veteranFields.address];
 const contactInformation1 = {
   uiSchema: {
     // can't use ('Mailing address', true) here to turn on line 3
-    // check if usAddress or profileAddress definitions work better for that
+    // check if usAddress or profileAddress definitions works better for that
     [veteranFields.address]: address.uiSchema('Mailing address'),
   },
   schema: {

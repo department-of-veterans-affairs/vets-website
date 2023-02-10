@@ -23,3 +23,10 @@ export const previousHiApplicationFields = {
   previousHiApplicationDate: 'previousHiApplicationDate',
   previousHiApplicationAddress: 'previousHiApplicationAddress',
 };
+
+export const livingSituationFields = {
+  parentObject: 'livingSituation',
+  isInCareFacility: 'isInCareFacility',
+  careFacilityName: 'careFacilityName',
+  careFacilityAddress: 'careFacilityAddress',
+};
