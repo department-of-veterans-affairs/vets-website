@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,19 @@ const IntroductionDisplay = props => {
   } = useSelector(selectFeatureToggles);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
+
+  useEffect(
+    () => {
+      const position = isPreCheckInActionLinkTopPlacementEnabled
+        ? 'top'
+        : 'bottom';
+      const slug = `pre-check-in-viewed-introduction-${position}-position`;
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+    },
+    [isPreCheckInActionLinkTopPlacementEnabled],
+  );
 
   const accordionContent = [
     {
