@@ -1,7 +1,3 @@
-// import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
-// import mockDraftMessages from './fixtures/drafts-response.json';
-// import mockDraftResponse from './fixtures/message-draft-response.json';
-
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';

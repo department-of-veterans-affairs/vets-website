@@ -1,9 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-// import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
-// import mockDraftMessages from './fixtures/drafts-response.json';
-// import mockDraftResponse from './fixtures/message-draft-response.json';
+
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
