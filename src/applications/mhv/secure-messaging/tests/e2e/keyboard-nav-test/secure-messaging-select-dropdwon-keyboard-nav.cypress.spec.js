@@ -13,12 +13,11 @@ describe('Secure Messaging validate select dropdown Form Keyboard Nav', () => {
       .shadow()
       .find('select')
       .select('Inbox')
-      .should('contain');
+      .should('Inbox');
     cy.injectAxe();
     cy.axeCheck();
-    cy.as('[#=select-search-folder-dropdown"validate select dropdown"]').should(
-      'exist',
-    );
-    cy.intercept;
+    cy.get(
+      '[#select-search-folder-dropdown="validate select dropdown"]',
+    ).click();
   });
 });
