@@ -82,8 +82,11 @@ class PatientKeywordSearchPage {
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
 
-  verifyHighlightedText = text => {
-    cy.get('[data-testid="highlighted-text"]').should('contain', text);
+  verifySelectedFolder = () => {
+    cy.get('#select-search-folder-dropdown')
+      .shadow()
+      .find('select')
+      .should('be.selected');
   };
   // This method selects the folder from the drop down menu.
 

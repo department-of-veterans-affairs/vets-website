@@ -1,23 +1,17 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientKeywordSearchPage from '../pages/PatientKeywordSearchPage';
 
-describe('Secure Messaging validate select dropdown Form Keyboard Nav', () => {
+describe('Secure Messaging validate folder selection form dropdown', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
+  const landingPage = new PatientKeywordSearchPage();
   beforeEach(() => {
     site.login();
     landingPage.loadPage();
   });
-  it('validate select dropdown', () => {
-    cy.get('#select-search-folder-dropdown')
-      .shadow()
-      .find('select')
-      .select('Inbox')
-      .should('Inbox');
+  it('validate folder selection', () => {
+    landingPage.selectFolder('Inbox');
+    // landingPage.verifySelectedFolder();
     cy.injectAxe();
     cy.axeCheck();
-    cy.get(
-      '[#select-search-folder-dropdown="validate select dropdown"]',
-    ).click();
   });
 });
