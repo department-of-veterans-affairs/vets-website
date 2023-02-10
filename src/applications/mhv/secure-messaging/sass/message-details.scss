@@ -105,9 +105,10 @@
 
 @media print {
   body {
-    a {
-      text-decoration: none;
-      color: inherit;
+    a,
+    a:visited {
+      text-decoration: none !important;
+      color: inherit !important;
     }
     va-alert {
       display: none;

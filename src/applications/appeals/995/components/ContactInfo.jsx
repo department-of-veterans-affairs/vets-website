@@ -76,11 +76,9 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = [
-    'vads-u-font-size--h3',
-    'vads-u-width--auto',
-    'vads-u-display--inline-block',
-  ].join(' ');
+  const headerClassNames = ['vads-u-font-size--h3', 'vads-u-width--auto'].join(
+    ' ',
+  );
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus managements on the review & submit page
@@ -89,6 +87,7 @@ const ContactInfo = ({
       <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
         Home phone number
       </Headers>
+      <span>{getFormattedPhone(homePhone)}</span>
       <Link
         id="edit-home-phone"
         to="/edit-home-phone"
@@ -97,9 +96,9 @@ const ContactInfo = ({
       >
         edit
       </Link>
-      <div>{getFormattedPhone(homePhone)}</div>
 
       <Headers className={headerClassNames}>Mobile phone number</Headers>
+      <span>{getFormattedPhone(mobilePhone)}</span>
       <Link
         id="edit-mobile-phone"
         to="/edit-mobile-phone"
@@ -108,9 +107,9 @@ const ContactInfo = ({
       >
         edit
       </Link>
-      <div>{getFormattedPhone(mobilePhone)}</div>
 
       <Headers className={headerClassNames}>Email address</Headers>
+      <span>{email || ''}</span>
       <Link
         id="edit-email"
         to="/edit-email-address"
@@ -119,19 +118,18 @@ const ContactInfo = ({
       >
         edit
       </Link>
-      <div>{email || ''}</div>
 
       <Headers className={headerClassNames}>Mailing address</Headers>
-      <Link
-        id="edit-address"
-        to="/edit-mailing-address"
-        aria-label="Edit mailing address"
-        className="vads-u-margin-left--2"
-      >
-        edit
-      </Link>
-      <div>
+      <div className="vads-u-display--flex">
         <AddressView data={address} />
+        <Link
+          id="edit-address"
+          to="/edit-mailing-address"
+          aria-label="Edit mailing address"
+          className="vads-u-margin-left--2"
+        >
+          edit
+        </Link>
       </div>
     </>
   );

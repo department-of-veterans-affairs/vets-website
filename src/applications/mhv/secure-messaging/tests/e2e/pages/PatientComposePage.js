@@ -110,6 +110,13 @@ class PatientComposePage {
       .click();
   };
 
+  verifyAlertModal = () => {
+    cy.get(`[modaltitle="We can't save this message yet"]`)
+      .shadow()
+      .find('[class="va-modal-inner va-modal-alert"]')
+      .should('contain', "We can't save this message yet");
+  };
+
   clickOnContinueEditingButton = () => {
     cy.get('[primary-button-text="Continue editing"]')
       .shadow()
@@ -129,6 +136,18 @@ class PatientComposePage {
       .should('have.value', 'OTHER')
       .and('have.attr', 'checked');
     cy.get('[id="message-body"]').should('have.value', 'Test message body');
+  };
+
+  verifyRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('select')
+      .select(recipient)
+      .should('contain', 'PQR TRIAGE');
+  };
+
+  verifySubjectField = subject => {
+    cy.get('[id = "message-subject"]').should('have.value', subject);
   };
 }
 export default PatientComposePage;
