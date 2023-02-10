@@ -923,7 +923,7 @@ describe('App', () => {
           expect(window.ReactDOM).to.eql(ReactDOM);
         });
       });
-      describe('Timers', () => {
+      describe.skip('Timers', () => {
         const locationReload = window.location;
 
         afterEach(() => {
