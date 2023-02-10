@@ -1,5 +1,7 @@
 import TextareaWidget from '../widgets/TextareaWidget';
 
+// we're not using constants-fullSchema imports and related patterns here
+// remarks is a top-level field in the schema -- no required or properties keys
 const remarks = {
   uiSchema: {
     remarks: {
@@ -13,6 +15,7 @@ const remarks = {
   },
   schema: {
     type: 'object',
+    required: [],
     properties: {
       remarks: {
         type: 'string',
