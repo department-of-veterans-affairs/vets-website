@@ -16,25 +16,23 @@ const VaccineListItem = props => {
 
   return (
     <div
-      className="record-list-item vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <div>
-        <strong>{record.name}</strong>
-      </div>
+      <h4>{record.name}</h4>
+      <div>{record.facility}</div>
       <div>{formattedDate}</div>
-      {/* <Link className="record-details-link vads-u-margin-y--0p5" to="details">
-        View details
-      </Link> */}
-      <div>
-        <Link
-          to="/vaccine"
-          className="record-details-link vads-u-margin-y--0p5"
-          onClick={showDetailsHandler}
-        >
-          View details
-        </Link>
-      </div>
+      <Link
+        to="/vaccine"
+        className="vads-u-margin-y--0p5"
+        onClick={showDetailsHandler}
+      >
+        Details
+        <i
+          className="fas fa-angle-right details-link-icon"
+          aria-hidden="true"
+        />
+      </Link>
     </div>
   );
 };

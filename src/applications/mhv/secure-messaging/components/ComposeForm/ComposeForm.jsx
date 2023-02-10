@@ -18,6 +18,8 @@ import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { draftAutoSaveTimeout, Categories } from '../../util/constants';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ComposeForm = props => {
   const { draft, recipients } = props;
@@ -43,8 +45,10 @@ const ComposeForm = props => {
   const [userSaved, setUserSaved] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
+  const [editListModal, setEditListModal] = useState(false);
 
   const isSaving = useSelector(state => state.sm.draftDetails.isSaving);
+  const fullState = useSelector(state => state);
 
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
@@ -353,7 +357,37 @@ const ComposeForm = props => {
                 </option>
               ))}
             </VaSelect>
-            <button type="button" className="link-button edit-input-button">
+
+            <VaModal
+              id="edit-list"
+              modalTitle="You'll need to edit your list of recipients on My HealtheVet"
+              name="edit-list"
+              visible={editListModal}
+              onPrimaryButtonClick={() => {
+                const editListURL = mhvUrl(
+                  isAuthenticatedWithSSOe(fullState),
+                  'preferences',
+                );
+                window.open(editListURL, '_blank');
+              }}
+              onSecondaryButtonClick={() => setEditListModal(false)}
+              onCloseEvent={() => setEditListModal(false)}
+              primaryButtonText="Continue"
+              secondaryButtonText="Cancel"
+              status="warning"
+            >
+              <p>
+                You’ll be asked to sign in to My HealtheVet in another tab.
+                After you edit your list, you can refresh this page to see your
+                changes.
+              </p>
+            </VaModal>
+
+            <button
+              type="button"
+              className="link-button edit-input-button"
+              onClick={() => setEditListModal(true)}
+            >
               Edit List
             </button>
           </>

@@ -269,9 +269,9 @@ const findAppointment = (appointmentId, appointments) => {
   const appointmentIdParts = appointmentId.split('-');
   return appointments.find(
     appointmentItem =>
-      Number(appointmentItem.appointmentIen) ===
-        Number(appointmentIdParts[0]) &&
-      Number(appointmentItem.stationNo) === Number(appointmentIdParts[1]),
+      String(appointmentItem.appointmentIen) ===
+        String(appointmentIdParts[0]) &&
+      String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
   );
 };
 
