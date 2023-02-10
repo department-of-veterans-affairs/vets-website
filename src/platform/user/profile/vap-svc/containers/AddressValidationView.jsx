@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -12,7 +12,8 @@ import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import * as VAP_SERVICE from '../constants';
 import {
   openModal,
@@ -26,6 +27,11 @@ import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
 
 class AddressValidationView extends React.Component {
+  componentDidMount() {
+    // scroll on the alert since the web component doesn't have a focus/suto-scroll method built in like the React component
+    scrollAndFocus($('va-alert'));
+  }
+
   componentDidUpdate(prevProps) {
     // if the transaction just became pending, start calling the
     // refreshTransaction() on an interval
@@ -153,7 +159,11 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button className="usa-button-primary" onClick={this.onEditClick}>
+        <button
+          type="button"
+          className="usa-button-primary"
+          onClick={this.onEditClick}
+        >
           Edit Address
         </button>
       );
@@ -246,17 +256,16 @@ class AddressValidationView extends React.Component {
     return (
       <>
         <div role="alert">
-          <AlertBox
+          <VaAlert
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-            level={4}
             status="warning"
-            headline={addressValidationMessage.headline}
-            scrollOnShow
+            visible
           >
+            <h4 slot="headline">{addressValidationMessage.headline}</h4>
             <addressValidationMessage.ModalText
               editFunction={this.onEditClick}
             />
-          </AlertBox>
+          </VaAlert>
         </div>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>

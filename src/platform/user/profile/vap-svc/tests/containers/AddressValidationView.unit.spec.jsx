@@ -75,7 +75,7 @@ describe('<AddressValidationView/>', () => {
   it('renders alert box', () => {
     const component = enzyme.mount(<AddressValidationView store={fakeStore} />);
 
-    expect(component.exists('AlertBox')).to.equal(true);
+    expect(component.exists('VaAlert')).to.equal(true);
     component.unmount();
   });
 
@@ -458,7 +458,9 @@ describe('<AddressValidationView/>', () => {
         .find('h4')
         .at(0)
         .text(),
-    ).to.equal(`We couldn’t verify your address`);
+    ).to.equal(
+      `We can’t confirm the address you entered with the U.S. Postal Service.`,
+    );
     component.unmount();
   });
 });
