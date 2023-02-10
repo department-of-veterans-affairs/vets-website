@@ -87,16 +87,15 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
+      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
+      if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
-        event: createAnalyticsSlug(
-          `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`,
-          'nav',
-        ),
+        event: createAnalyticsSlug(slug, 'nav'),
       });
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, goToNextPage],
+    [isPhone, isPreCheckInActionLinkTopPlacementEnabled, goToNextPage],
   );
 
   const StartButton = () => (
