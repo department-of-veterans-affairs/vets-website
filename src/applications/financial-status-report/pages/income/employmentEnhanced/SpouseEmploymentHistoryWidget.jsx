@@ -45,6 +45,7 @@ const SpouseEmploymentHistoryWidget = props => {
             key={`${index}-${job.employername}`}
             job={job}
             index={index}
+            isSpouse
           />
         ))}
       </div>

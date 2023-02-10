@@ -99,9 +99,11 @@ const SpousePayrollDeductionInputList = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
+      <h3 className="vads-u-margin-top--neg1p5">
+        Your spouse’s job at {employerName}
+      </h3>{' '}
       <br />
-      <p>How much do you pay for each of your payroll deductions?</p>
+      <p>How much does your spouse pay for each of their payroll deductions?</p>
       {selectedDeductions?.map((deduction, key) => (
         <div key={deduction.name + key} className="vads-u-margin-y--2">
           <va-number-input

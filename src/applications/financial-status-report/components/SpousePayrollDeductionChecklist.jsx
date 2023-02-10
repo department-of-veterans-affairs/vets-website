@@ -102,7 +102,9 @@ const SpousePayrollDeductionChecklist = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
+      <h3 className="vads-u-margin-top--neg1p5">
+        Your spouse’s job at {employerName}
+      </h3>{' '}
       <br />
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
         Which of these payroll deductions does your spouse pay for?
