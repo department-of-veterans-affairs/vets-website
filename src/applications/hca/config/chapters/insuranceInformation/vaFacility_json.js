@@ -28,7 +28,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: formData => isShortFormEligible(formData),
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:vaFacilityTitle': {
