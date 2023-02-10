@@ -18,7 +18,10 @@ import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureAppointmentList } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentList,
+  selectFeatureStatusImprovement,
+} from '../../redux/selectors';
 import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
@@ -33,6 +36,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
   const featureAppointmentList = useSelector(state =>
     selectFeatureAppointmentList(state),
+  );
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
   );
 
   const dispatch = useDispatch();
@@ -100,15 +106,22 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     return 0;
   });
 
+  let paragraphText =
+    'Below is your list of appointment requests that haven’t been scheduled yet.';
+  if (featureAppointmentList) {
+    paragraphText = 'These appointment requests haven’t been scheduled yet.';
+  } else if (featureStatusImprovement) {
+    paragraphText =
+      'Your appointment requests that haven’t been scheduled yet.';
+  }
+
   return (
     <>
       <div aria-live="polite" className="sr-only">
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       <>
-        <p className="vaos-hide-for-print">
-          These appointment requests haven’t been scheduled yet.
-        </p>
+        <p className="vaos-hide-for-print">{paragraphText}</p>
 
         {!appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
           <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">

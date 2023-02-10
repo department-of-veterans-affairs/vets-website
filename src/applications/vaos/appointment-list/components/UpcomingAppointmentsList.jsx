@@ -112,6 +112,7 @@ export default function UpcomingAppointmentsList() {
   }
 
   const keys = Object.keys(appointmentsByMonth);
+  const Heading = featureAppointmentList ? 'h2' : 'h3';
 
   return (
     <>
@@ -129,7 +130,7 @@ export default function UpcomingAppointmentsList() {
 
         return (
           <React.Fragment key={key}>
-            <h2
+            <Heading
               className={classNames('vads-u-font-size--h3', {
                 'vads-u-margin-top--0': index === 0,
               })}
@@ -138,7 +139,7 @@ export default function UpcomingAppointmentsList() {
             >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
-            </h2>
+            </Heading>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
               aria-labelledby={`appointment_list_${monthDate.format(
