@@ -1,30 +1,32 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { intersection, pick } from 'lodash';
+
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
-const { ssn } = commonDefinitions;
+import { veteranFields } from '../definitions/constants';
+import fullSchema from '../26-4555-schema.json';
+
+const { required, properties } = fullSchema.properties[
+  veteranFields.parentObject
+];
+const pageFields = [veteranFields.ssn, veteranFields.vaFileNumber];
 const personalInformation2 = {
   uiSchema: {
-    ssn: {
+    [veteranFields.ssn]: {
       ...ssnUI,
       'ui:title': 'Your social security number',
     },
-    vaFileNumber: {
+    [veteranFields.vaFileNumber]: {
       'ui:title': 'Your VA file number',
       'ui:errorMessages': {
-        pattern: 'Sorry, number must be 7 to 9 digits.',
+        pattern:
+          'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['ssn'],
-    properties: {
-      ssn,
-      vaFileNumber: {
-        type: 'number',
-        pattern: '^[0-9]{7,9}$',
-      },
-    },
+    required: intersection(required, pageFields),
+    properties: pick(properties, pageFields),
   },
 };
 
