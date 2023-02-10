@@ -65,7 +65,7 @@ export function getICSTokens(buffer) {
   //   ),
   // );
   tokens = tokens.reduce((acc, token) => {
-    const foo = [
+    const results = [
       'BEGIN',
       'VERSION',
       'PRODID',
@@ -88,7 +88,7 @@ export function getICSTokens(buffer) {
         return match ? [key, match[2]] : null;
       })
       .filter(Boolean);
-    return acc.concat(foo);
+    return acc.concat(results);
   }, []);
 
   tokens.forEach(token => {
