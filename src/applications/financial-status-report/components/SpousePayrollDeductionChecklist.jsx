@@ -1,62 +1,47 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { payrollDeductionOptions } from '../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
+import Checklist from './utils/CheckList';
 
-const SpouseGrossMonthlyIncomeInput = props => {
+const SpousePayrollDeductionChecklist = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
 
   const editIndex = getJobIndex();
 
   const isEditing = editIndex && !Number.isNaN(editIndex);
 
-  const index = isEditing ? Number(editIndex) : 0;
-
   const userType = 'spouse';
+
+  const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
   const employmentRecord =
     formData.personalData.employmentHistory.spouse.employmentRecords[index];
 
-  const {
-    employerName = '',
-    grossMonthlyIncome: currentGrossMonthlyIncome = '',
-  } = employmentRecord;
+  const { employerName } = employmentRecord;
 
-  const [incomeError, setIncomeError] = useState(false);
-  const [grossMonthlyIncome, setGrossMonthlyIncome] = useState({
-    value: currentGrossMonthlyIncome,
-    dirty: false,
-  });
+  const { deductions = [] } = employmentRecord ?? {};
 
-  const setNewGrossMonthlyIncome = event => {
-    setGrossMonthlyIncome({ value: event.target.value, dirty: true });
+  const [selectedDeductions, setSelectedDeductions] = useState(deductions);
+
+  const isBoxChecked = option => {
+    return selectedDeductions.some(incomeValue => incomeValue.name === option);
   };
 
-  const validateGrossMonthlyIncome = useCallback(
-    () => {
-      const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
+  const onChange = ({ target }) => {
+    const { name, checked } = target;
 
-      if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
-      ) {
-        setIncomeError(true);
-      } else {
-        setIncomeError(false);
-      }
-    },
-    [grossMonthlyIncome],
-  );
-
-  useEffect(
-    () => {
-      validateGrossMonthlyIncome();
-    },
-    [incomeError, grossMonthlyIncome, validateGrossMonthlyIncome],
-  );
+    if (checked) {
+      setSelectedDeductions([...selectedDeductions, { name }]);
+    } else {
+      setSelectedDeductions(
+        selectedDeductions.filter(incomeValue => incomeValue.name !== name),
+      );
+    }
+  };
 
   const updateFormData = e => {
     e.preventDefault();
@@ -67,11 +52,12 @@ const SpouseGrossMonthlyIncomeInput = props => {
           return arrayIndex === index
             ? {
                 ...employmentRecord,
-                grossMonthlyIncome: grossMonthlyIncome.value,
+                deductions: selectedDeductions,
               }
             : item;
         },
       );
+      // deductions: deductions.filter(source => source.name !== value)
       // update form data
       setFormData({
         ...formData,
@@ -88,10 +74,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
       });
     } else {
       const records = [
-        {
-          ...employmentRecord,
-          grossMonthlyIncome: grossMonthlyIncome.value,
-        },
+        { ...employmentRecord, deductions: selectedDeductions },
         ...formData.personalData.employmentHistory.spouse.employmentRecords.slice(
           1,
         ),
@@ -111,12 +94,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
         },
       });
     }
-
-    if (employmentRecord.isCurrent) {
-      goToPath(`/spouse-deduction-checklist`);
-    } else {
-      goToPath(`/spouse-employment-history`);
-    }
+    goToPath(`/spouse-deduction-values`);
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -124,36 +102,16 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <div>
-        <h3 className="vads-u-margin-top--neg1p5">
-          Your spouse’s job at {employerName}
-        </h3>{' '}
-      </div>
+      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
+      <br />
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your spouse’s gross monthly income at this job?
+        Which of these payroll deductions does your spouse pay for?
       </span>
-      <p className="formfield-subtitle">
-        You’ll find this in your spouse’s paycheck. It’s the amount of your
-        spouse’s pay before taxes and deductions.
-      </p>
-      <div className="input">
-        <va-number-input
-          inputmode="numeric"
-          id="gross-monthly-income"
-          data-testid="gross-monthly-income"
-          name="gross-monthly-income"
-          onInput={setNewGrossMonthlyIncome}
-          type="text"
-          value={grossMonthlyIncome.value}
-          required
-          error={
-            incomeError && grossMonthlyIncome.dirty
-              ? `Please enter a valid number.`
-              : ''
-          }
-        />
-      </div>
-
+      <Checklist
+        options={payrollDeductionOptions}
+        onChange={event => onChange(event)}
+        isBoxChecked={isBoxChecked}
+      />
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
@@ -173,4 +131,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SpouseGrossMonthlyIncomeInput);
+)(SpousePayrollDeductionChecklist);

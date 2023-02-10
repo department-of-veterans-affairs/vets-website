@@ -14,6 +14,8 @@ import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
+import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
+import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductionInputList';
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
@@ -408,6 +410,29 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: SpouseGrossMonthlyIncomeInput,
+        },
+        spousePayrollDeductionChecklist: {
+          path: 'spouse-deduction-checklist',
+          title: 'Payroll deductions',
+          uiSchema: pages.spousePayrollDeductionChecklist.uiSchema,
+          schema: pages.spousePayrollDeductionChecklist.schema,
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: SpousePayrollDeductionChecklist,
+        },
+        spousePayrollDeductionInputList: {
+          title: 'Spouse deduction amounts',
+          path: 'spouse-deduction-values',
+          // listOfIssues defined in next section
+          uiSchema: pages.spousePayrollDeductionInputList.uiSchema,
+          schema: pages.spousePayrollDeductionInputList.schema,
+          // needed to bypass bug on review & submit page
+          depends: formData =>
+            formData.questions.spouseIsEmployed &&
+            formData['view:enhancedFinancialStatusReport'],
+          CustomPage: SpousePayrollDeductionInputList,
         },
         spouseEmploymentHistory: {
           path: 'spouse-employment-history',

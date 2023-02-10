@@ -1,62 +1,45 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { getJobIndex } from '../utils/session';
 
-const SpouseGrossMonthlyIncomeInput = props => {
+const SpousePayrollDeductionInputList = props => {
   const { goToPath, goBack, onReviewPage, setFormData } = props;
 
   const editIndex = getJobIndex();
 
   const isEditing = editIndex && !Number.isNaN(editIndex);
 
-  const index = isEditing ? Number(editIndex) : 0;
-
   const userType = 'spouse';
+
+  const index = isEditing ? Number(editIndex) : 0;
 
   const formData = useSelector(state => state.form.data);
   const employmentRecord =
     formData.personalData.employmentHistory.spouse.employmentRecords[index];
 
-  const {
-    employerName = '',
-    grossMonthlyIncome: currentGrossMonthlyIncome = '',
-  } = employmentRecord;
+  const { employerName, deductions } = employmentRecord;
 
-  const [incomeError, setIncomeError] = useState(false);
-  const [grossMonthlyIncome, setGrossMonthlyIncome] = useState({
-    value: currentGrossMonthlyIncome,
-    dirty: false,
-  });
+  const [selectedDeductions, setSelectedDeductions] = useState(deductions);
 
-  const setNewGrossMonthlyIncome = event => {
-    setGrossMonthlyIncome({ value: event.target.value, dirty: true });
+  const mapDeductions = target => {
+    return selectedDeductions.map(deduction => {
+      if (deduction.name === target.name) {
+        return {
+          ...deduction,
+          amount: target.value,
+        };
+      }
+      return deduction;
+    });
   };
 
-  const validateGrossMonthlyIncome = useCallback(
-    () => {
-      const regex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)?(\.\d{1,2})?$/;
-
-      if (
-        grossMonthlyIncome.value &&
-        (!regex.test(grossMonthlyIncome.value) ||
-          Number(grossMonthlyIncome.value) < 0)
-      ) {
-        setIncomeError(true);
-      } else {
-        setIncomeError(false);
-      }
-    },
-    [grossMonthlyIncome],
-  );
-
-  useEffect(
-    () => {
-      validateGrossMonthlyIncome();
-    },
-    [incomeError, grossMonthlyIncome, validateGrossMonthlyIncome],
-  );
+  const onChange = event => {
+    const { target } = event;
+    const updatedDeductions = mapDeductions(target);
+    setSelectedDeductions(updatedDeductions);
+  };
 
   const updateFormData = e => {
     e.preventDefault();
@@ -67,7 +50,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
           return arrayIndex === index
             ? {
                 ...employmentRecord,
-                grossMonthlyIncome: grossMonthlyIncome.value,
+                deductions: selectedDeductions,
               }
             : item;
         },
@@ -88,10 +71,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
       });
     } else {
       const records = [
-        {
-          ...employmentRecord,
-          grossMonthlyIncome: grossMonthlyIncome.value,
-        },
+        { ...employmentRecord, deductions: selectedDeductions },
         ...formData.personalData.employmentHistory.spouse.employmentRecords.slice(
           1,
         ),
@@ -111,12 +91,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
         },
       });
     }
-
-    if (employmentRecord.isCurrent) {
-      goToPath(`/spouse-deduction-checklist`);
-    } else {
-      goToPath(`/spouse-employment-history`);
-    }
+    goToPath(`/spouse-employment-history`);
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
@@ -124,36 +99,22 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   return (
     <form onSubmit={updateFormData}>
-      <div>
-        <h3 className="vads-u-margin-top--neg1p5">
-          Your spouse’s job at {employerName}
-        </h3>{' '}
-      </div>
-      <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        What’s your spouse’s gross monthly income at this job?
-      </span>
-      <p className="formfield-subtitle">
-        You’ll find this in your spouse’s paycheck. It’s the amount of your
-        spouse’s pay before taxes and deductions.
-      </p>
-      <div className="input">
-        <va-number-input
-          inputmode="numeric"
-          id="gross-monthly-income"
-          data-testid="gross-monthly-income"
-          name="gross-monthly-income"
-          onInput={setNewGrossMonthlyIncome}
-          type="text"
-          value={grossMonthlyIncome.value}
-          required
-          error={
-            incomeError && grossMonthlyIncome.dirty
-              ? `Please enter a valid number.`
-              : ''
-          }
-        />
-      </div>
-
+      <h3 className="vads-u-margin-top--neg1p5">Your job at {employerName}</h3>{' '}
+      <br />
+      <p>How much do you pay for each of your payroll deductions?</p>
+      {selectedDeductions?.map((deduction, key) => (
+        <div key={deduction.name + key} className="vads-u-margin-y--2">
+          <va-number-input
+            label={deduction.name}
+            name={deduction.name}
+            value={deduction.amount}
+            id={deduction.name + key}
+            inputmode="decimal"
+            onInput={onChange}
+            required
+          />
+        </div>
+      ))}
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
@@ -173,4 +134,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SpouseGrossMonthlyIncomeInput);
+)(SpousePayrollDeductionInputList);
