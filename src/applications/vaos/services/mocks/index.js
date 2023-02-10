@@ -159,7 +159,6 @@ const responses = {
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
   'GET /vaos/v0/direct_booking_eligibility_criteria': directBookingEligibilityCriteria,
-  'GET /vaos/v0/preferences': { data: { attributes: { emailAllowed: true } } },
   'PUT /vaos/v0/appointments/cancel': {},
   'POST /vaos/v0/appointment_requests': {
     data: {
@@ -189,7 +188,6 @@ const responses = {
       attributes: {},
     },
   },
-  'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
     const submittedAppt = {
       id: `mock${currentMockId}`,
@@ -607,6 +605,8 @@ const responses = {
         { name: 'vaOnlineSchedulingClinicFilter', value: true },
         { name: 'vaOnlineSchedulingAcheronService', value: true },
         { name: 'vaOnlineSchedulingUseDsot', value: true },
+        { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
+        { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

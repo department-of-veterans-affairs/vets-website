@@ -13,7 +13,7 @@ const featureToggles = require('./mocks/v2/feature-toggles/index');
 let hasBeenValidated = false;
 const mockUser = Object.freeze({
   lastName: 'Smith',
-  dob: '1989-03-15',
+  dob: '1935-04-07',
 });
 
 const responses = {

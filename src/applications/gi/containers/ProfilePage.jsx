@@ -5,14 +5,12 @@ import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { isSmallScreen, useQueryParams } from '../utils/helpers';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const { Element: ScrollElement } = Scroll;
 
@@ -135,12 +133,6 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
-    gibctEybBottomSheet: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctEybBottomSheet
-    ],
-    gibctSchoolRatings: toggleValues(state)[
-      FEATURE_FLAG_NAMES.gibctSchoolRatings
-    ],
   };
 };
 

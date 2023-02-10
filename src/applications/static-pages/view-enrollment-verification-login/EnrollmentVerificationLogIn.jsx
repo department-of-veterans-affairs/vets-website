@@ -4,14 +4,23 @@ import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
+export const BASE_URL = '/education/verify-school-enrollment/';
+export const REVIEW_ENROLLMENTS_URL_SEGMENT = 'enrollment-verifications';
+export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
+export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
+
 export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   const onSignInClicked = useCallback(() => toggleLoginModal(true), [
     toggleLoginModal,
   ]);
 
-  const redirectToEnrollmentVerification = () => {
-    window.location.href = '/education/verify-school-enrollment/';
-  };
+  const onVerifyEnrollmentsClick = useCallback(
+    event => {
+      event.preventDefault();
+      history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+    },
+    [history],
+  );
 
   const visitorUI = (
     <va-alert status="continue" visible>
@@ -55,13 +64,13 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
   );
 
   const loggedInUserUI = (
-    <button
-      className="va-button-primary"
-      type="button"
-      onClick={redirectToEnrollmentVerification}
+    <a
+      className="vads-c-action-link--green"
+      href={REVIEW_ENROLLMENTS_URL}
+      onClick={onVerifyEnrollmentsClick}
     >
       Verify your enrollments for Post-9/11 GI Bill
-    </button>
+    </a>
   );
 
   const spinner = (

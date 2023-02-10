@@ -280,6 +280,7 @@ describe('efsr-fsr transform helper functions', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
         assets: {
+          realEstateValue: '2000',
           otherAssets: [
             {
               amount: '10',
@@ -298,14 +299,6 @@ describe('efsr-fsr transform helper functions', () => {
             },
           ],
         },
-        realEstateRecords: [
-          {
-            realEstateAmount: '1000',
-          },
-          {
-            realEstateAmount: '1000',
-          },
-        ],
       };
       expect(getTotalAssets(totalAssets)).to.equal(2320);
     });
