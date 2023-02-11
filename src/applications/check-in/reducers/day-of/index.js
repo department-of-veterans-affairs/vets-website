@@ -26,17 +26,9 @@ const seeStaffMessageUpdatedHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-const completeAppointmentHandler = (state, action) => {
-  return {
-    ...state,
-    appointments: action.payload,
-  };
-};
-
 export {
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
   seeStaffMessageUpdatedHandler,
-  completeAppointmentHandler,
 };

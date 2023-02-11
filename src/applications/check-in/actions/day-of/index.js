@@ -1,5 +1,4 @@
 import { updateForm } from '../../utils/navigation/day-of';
-import { findAppointment } from '../../utils/appointment';
 
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
@@ -60,24 +59,5 @@ export const updateFormAction = ({
     payload: {
       pages,
     },
-  };
-};
-
-export const COMPLETE_APPOINTMENT = 'COMPLETE_APPOINTMENT';
-
-export const completeAppointment = (appointmentId, appointments) => {
-  const completedAppointment = findAppointment(appointmentId, appointments);
-  completedAppointment.eligibility = 'INELIGIBLE_ALREADY_CHECKED_IN';
-  const appointmentIdParts = appointmentId.split('-');
-  const updatedAppointments = appointments.filter(appt => {
-    return (
-      String(appt.appointmentIen) !== appointmentIdParts[0] &&
-      String(appt.staionNo) !== appointmentIdParts[1]
-    );
-  });
-  updatedAppointments.push(completedAppointment);
-  return {
-    type: COMPLETE_APPOINTMENT,
-    payload: updatedAppointments,
   };
 };

@@ -25,7 +25,6 @@ import {
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   UPDATE_DAY_OF_CHECK_IN_FORM,
-  COMPLETE_APPOINTMENT,
 } from '../actions/day-of';
 
 import {
@@ -33,7 +32,6 @@ import {
   receivedDemographicsDataHandler,
   triggerRefreshHandler,
   seeStaffMessageUpdatedHandler,
-  completeAppointmentHandler,
 } from './day-of';
 
 import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
@@ -67,7 +65,6 @@ const handler = Object.freeze({
   [SET_APP]: setAppHandler,
   [SET_ERROR]: setErrorHandler,
   [SET_FORM]: setFormHandler,
-  [COMPLETE_APPOINTMENT]: completeAppointmentHandler,
 
   default: state => {
     return { ...state };
