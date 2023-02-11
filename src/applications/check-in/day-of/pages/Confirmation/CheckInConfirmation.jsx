@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-// import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-
-// import { createAnalyticsSlug } from '../../../utils/analytics';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -20,6 +20,8 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
 import { getAppointmentId } from '../../../utils/appointment';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh, router } = props;
@@ -29,7 +31,17 @@ const CheckInConfirmation = props => {
     isTravelReimbursementEnabled,
     isUpdatedApptPresentationEnabled,
   } = featureToggles;
-
+  const {
+    isLoading: isCheckInDataLoading,
+    checkInDataError,
+    refreshCheckInData,
+    isComplete,
+  } = useGetCheckInData({
+    refreshNeeded: false,
+    appointmentsOnly: true,
+    isPreCheckIn: false,
+  });
+  const { updateError } = useUpdateError();
   const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
@@ -84,13 +96,31 @@ const CheckInConfirmation = props => {
       pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
-  const handleDetailClick = (apt, e) => {
+  const handleDetailClick = (appt, e) => {
     e.preventDefault();
-    // recordEvent({
-    //   event: createAnalyticsSlug('details-link-clicked', 'nav'),
-    // });
-    jumpToPage(`appointment-details/${getAppointmentId(apt)}`);
+    recordEvent({
+      event: createAnalyticsSlug('details-link-clicked', 'nav'),
+    });
+
+    refreshCheckInData();
   };
+
+  useEffect(
+    () => {
+      if (isComplete) {
+        jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+      }
+    },
+    [isComplete, jumpToPage, appointment],
+  );
+  useEffect(
+    () => {
+      if (checkInDataError) {
+        updateError('refresh-on-details');
+      }
+    },
+    [checkInDataError, updateError],
+  );
 
   const renderLoadingMessage = () => {
     return (
@@ -178,10 +208,11 @@ const CheckInConfirmation = props => {
   };
 
   if (
-    !isTravelReimbursementEnabled ||
-    !travelPayEligible ||
-    (travelPayClaimRequested === false || travelPayClaimSent) ||
-    !getShouldSendTravelPayClaim(window)
+    !isCheckInDataLoading &&
+    (!isTravelReimbursementEnabled ||
+      !travelPayEligible ||
+      (travelPayClaimRequested === false || travelPayClaimSent) ||
+      !getShouldSendTravelPayClaim(window))
   ) {
     return renderConfirmationMessage();
   }
