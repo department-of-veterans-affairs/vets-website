@@ -22,7 +22,7 @@ const AppointmentBlockVaos = props => {
 
   const { jumpToPage } = useFormRouting(router);
 
-  const handleDetailClick = (appointment, e) => {
+  const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),

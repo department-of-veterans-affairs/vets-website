@@ -96,7 +96,7 @@ const CheckInConfirmation = props => {
       pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
-  const handleDetailClick = (appt, e) => {
+  const handleDetailClick = e => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),
