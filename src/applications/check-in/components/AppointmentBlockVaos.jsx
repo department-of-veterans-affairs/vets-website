@@ -63,7 +63,6 @@ const AppointmentBlockVaos = props => {
                 app === APP_NAMES.CHECK_IN && (
                   <AppointmentActionVaos
                     appointment={appointment}
-                    appointments={appointments}
                     router={router}
                     token={token}
                   />

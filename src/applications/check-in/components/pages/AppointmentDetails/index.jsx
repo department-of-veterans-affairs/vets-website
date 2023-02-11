@@ -168,7 +168,6 @@ const AppointmentDetails = props => {
                 <div className="vads-u-margin-top--2">
                   <AppointmentActionVaos
                     appointment={appointment}
-                    appointments={appointments}
                     router={router}
                     token={token}
                     event="check-in-from-details"

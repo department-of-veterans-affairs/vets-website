@@ -19,7 +19,6 @@ const AppointmentActionVaos = props => {
   const { updateError } = useUpdateError();
 
   const { jumpToPage } = useFormRouting(router);
-  const appointmentId = getAppointmentId(appointment);
   const onClick = useCallback(
     async () => {
       if (event) {
@@ -35,7 +34,7 @@ const AppointmentActionVaos = props => {
         });
         const { status } = json;
         if (status === 200) {
-          jumpToPage(`complete/${appointmentId}`);
+          jumpToPage(`complete/${getAppointmentId(appointment)}`);
         } else {
           updateError('check-in-post-error');
         }
@@ -43,7 +42,7 @@ const AppointmentActionVaos = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event, appointmentId],
+    [appointment, updateError, jumpToPage, token, event],
   );
   if (
     appointment.eligibility &&
