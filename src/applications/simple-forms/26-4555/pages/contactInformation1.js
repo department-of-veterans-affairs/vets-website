@@ -6,11 +6,16 @@ import fullSchema from '../26-4555-schema.json';
 
 const { required } = fullSchema.properties[veteranFields.parentObject];
 const pageFields = [veteranFields.address];
+const addressUiSchema = {
+  ...address.uiSchema('Mailing address'),
+  'ui:description':
+    "We'll send any updates about your application to this address.",
+};
 const contactInformation1 = {
   uiSchema: {
     // can't use ('Mailing address', true) here to turn on line 3
     // check if usAddress or profileAddress definitions works better for that
-    [veteranFields.address]: address.uiSchema('Mailing address'),
+    [veteranFields.address]: addressUiSchema,
   },
   schema: {
     type: 'object',
