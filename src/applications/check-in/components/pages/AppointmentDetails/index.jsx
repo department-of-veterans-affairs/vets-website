@@ -79,7 +79,7 @@ const AppointmentDetails = props => {
             router={router}
             action={goToPreviousPage}
             prevUrl="#back"
-            text={t('back-to-appointments')}
+            text={t('back-to-last-screen')}
           />
           <Wrapper classNames="appointment-details-page" withBackButton>
             <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
