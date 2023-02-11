@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
 
-describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
+describe('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -200,14 +200,14 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
       });
     });
 
-    describe('initiate reload after 30 minutes', () => {
+    describe.skip('initiate reload after 30 minutes', () => {
       const locationReload = window.location;
 
       afterEach(() => {
         window.location = locationReload;
       });
 
-      it.skip('Forces a page reload after 30 min when a message is received', async () => {
+      it('Forces a page reload after 30 min when a message is received', async () => {
         // setup
         const activity = {
           type: 'message',
@@ -220,7 +220,7 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
         };
 
         window.location = { reload: sinon.stub() };
-        sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
+        const clock = sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
         // fire/execute
         await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           'csrfToken',
@@ -232,9 +232,9 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
         )(store)(fakeNext)(aboutToSignInActivity);
         // tests
         const thirtyMinutes = 30 * 60 * 1000;
-        sandbox.clock.tick(thirtyMinutes - 1);
+        clock.tick(thirtyMinutes - 1);
         expect(window.location.reload.called).to.be.false;
-        sandbox.clock.tick(1);
+        clock.tick(1);
         expect(window.location.reload.called).to.be.true;
       });
 
