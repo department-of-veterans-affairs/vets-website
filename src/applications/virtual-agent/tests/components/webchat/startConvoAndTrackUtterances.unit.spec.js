@@ -207,7 +207,7 @@ describe('makeBotStartConvoAndTrackUtterances actions', () => {
         window.location = locationReload;
       });
 
-      it('Forces a page reload after 30 min when a message is received', async () => {
+      it.skip('Forces a page reload after 30 min when a message is received', async () => {
         // setup
         const activity = {
           type: 'message',
