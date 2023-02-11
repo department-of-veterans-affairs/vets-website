@@ -55,14 +55,14 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for adapted housing.',
     noAuth:
       'Please sign in again to continue your application for adapted housing.',
   },
-  title:
-    'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
+  title: 'Apply for a Specially Adapted Housing Grant Grant',
+  subtitle: 'VA Form 26-4555',
   defaultDefinitions: {
     fullName,
     date,
