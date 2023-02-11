@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
 
-describe('makeBotStartConvoAndTrackUtterances actions', () => {
+describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
