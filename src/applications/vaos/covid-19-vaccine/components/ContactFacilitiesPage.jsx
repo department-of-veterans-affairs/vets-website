@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
@@ -150,7 +149,7 @@ export default function ContactFacilitiesPage() {
             get the COVID-19 vaccine. You don't need an appointment, but be sure
             to check the facility's walk-in hours before you go.
           </p>
-          <VaLink
+          <va-link
             href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
             onClick={() => {
               recordEvent({

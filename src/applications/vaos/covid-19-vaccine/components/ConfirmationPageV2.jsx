@@ -3,7 +3,6 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from '../../lib/moment-tz';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
@@ -68,7 +67,7 @@ function ConfirmationPageV2({
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <VaLink
+          <va-link
             href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() => {
               recordEvent({
@@ -80,7 +79,7 @@ function ConfirmationPageV2({
           />
         </div>
         <div>
-          <VaLink
+          <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch)}

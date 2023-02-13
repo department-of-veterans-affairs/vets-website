@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event.js';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -36,7 +35,7 @@ export default function ConfirmationPage() {
         <br />
       </div>
       <div className="vads-u-margin-y--2">
-        <VaLink
+        <va-link
           href="/health-care/schedule-view-va-appointments/appointments/"
           text="Review your appointments"
           className="usa-button vads-u-padding-right--2"
