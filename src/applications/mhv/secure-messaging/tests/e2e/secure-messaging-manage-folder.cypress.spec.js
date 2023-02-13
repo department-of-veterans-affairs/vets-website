@@ -8,6 +8,10 @@ describe('Secure Messaging Manage Folder AXE check', () => {
     site.login();
     landingPage.loadPage();
     cy.get('[data-testid="my-folders-sidebar"]').click();
+    cy.get('[text="Create new folder"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
     cy.injectAxe();
     cy.axeCheck();
   });
