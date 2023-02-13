@@ -39,7 +39,12 @@ const App = props => {
   /**
    * Set default view fields within the form data
    *
-   * NOTE: we have included veteranFullName in the dependency list to reset view fields when starting a new application from save-in-progress.
+   * NOTE: we have included veteranFullName in the dependency list to reset view fields when
+   * starting a new application from save-in-progress.
+   *
+   * NOTE 2: We also included the DOB value from profile for authenticated users to fix a bug
+   * where some profiles did not contain a DOB value. In this case we need to ask the user for
+   * that data for proper submission.
    */
   useEffect(
     () => {
@@ -48,7 +53,7 @@ const App = props => {
         'view:isSigiEnabled': isSigiEnabled,
         'view:isAiqEnabled': isAiqEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
-        'view:totalDisabilityRating': totalDisabilityRating || 0,
+        'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
       };
 
       if (isLoggedIn) {

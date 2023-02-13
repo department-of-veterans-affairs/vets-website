@@ -328,10 +328,10 @@ export function createLiteralMap(arrayToMap) {
 /**
  * Helper that determines if the user data contains values that allow them
  * to fill out the form using the short form flow
- * @param {Object} formData - an array of arrays that defines the keys/values to map
+ * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the total disability rating is greater than or equal
- * to the minimum percetage OR the user self-declares they have a rating higher than
- * that percentage
+ * to the minimum percetage OR the user self-declares they receive compensation equal to
+ * that of a high-disability-rated Veteran.
  */
 export function isShortFormEligible(formData) {
   const hasHighRating =
