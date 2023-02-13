@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { dateFormat } from '../util/helpers';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
-  const formattedDate = dateFormat(vaccineDetails.date, 'MMMM D, YYYY');
+  const formattedDate = dateFormat(vaccineDetails?.date, 'MMMM D, YYYY');
+  const history = useHistory();
+
+  useEffect(
+    () => {
+      if (!vaccineDetails) {
+        history.push('/vaccines');
+      }
+    },
+    [vaccineDetails, history],
+  );
 
   const typeAndDose = () => {
     if (vaccineDetails.type && vaccineDetails.dosage) {
@@ -59,16 +71,22 @@ const VaccineDetails = () => {
     return 'No comments at this time';
   };
 
-  return (
-    <div className="vads-l-grid-container">
-      <div className="vads-u-display--flex vads-u-justify-content--space-between">
-        <p className="vads-l-col--3">{formattedDate}</p>
-        <button className="vads-l-col--3" type="button">
-          Print
+  return vaccineDetails ? (
+    <div className="vads-l-grid-container vads-u-padding-x--0">
+      <h1 className="vaccine-header">{vaccineDetails.name}</h1>
+      <div className="vads-u-display--flex vads-u-margin-y--3">
+        <button className="link-button vads-u-margin-right--3" type="button">
+          <i className="fas fa-print vads-u-margin-right--1" />
+          Print page
+        </button>
+        <button className="link-button" type="button">
+          <i className="fas fa-download vads-u-margin-right--1" />
+          Download page
         </button>
       </div>
-      <h1 className="vads-u-margin-bottom--1p5">{vaccineDetails.name}</h1>
       <div className="detail-block">
+        <h2 className="vads-u-margin-top--0">Date received</h2>
+        <p>{formattedDate}</p>
         <h2>Type and dosage</h2>
         {typeAndDose()}
         <h2>Series</h2>
@@ -79,12 +97,14 @@ const VaccineDetails = () => {
         {vaccineDetails.facility
           ? vaccineDetails.facility
           : 'There is no facility reported at this time'}
-        <h2>Reaction</h2>
+        <h2>Reactions recorded by provider</h2>
         {reactions()}
-        <h2>Comments</h2>
+        <h2>Provider comments</h2>
         {comments()}
       </div>
     </div>
+  ) : (
+    <div />
   );
 };
 
