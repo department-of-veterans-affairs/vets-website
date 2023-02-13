@@ -21,6 +21,7 @@ export default Object.freeze({
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
+  checkInExperiencePreCheckInActionLinkTopPlacement: 'check_in_experience_pre_check_in_action_link_top_placement',
   checkInExperienceTravelReimbursement: 'check_in_experience_travel_reimbursement',
   checkInExperienceBrowserMonitoring: 'check_in_experience_browser_monitoring',
   checkInExperienceUpdatedApptPresentation: 'check_in_experience_updated_appt_presentation',
