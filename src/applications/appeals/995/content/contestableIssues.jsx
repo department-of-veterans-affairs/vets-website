@@ -22,6 +22,8 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
       'vads-u-font-family--serif',
       `vads-u-margin-top--${inReviewMode ? '2' : '0'}`,
     );
+  } else {
+    wrapClassNames.push('vads-u-margin-top--0');
   }
   return (
     <>
