@@ -57,9 +57,7 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      // cy.log(xhr.responseBody);
       cy.log(xhr.requestBody);
-      // expect(xhr.method).to.eq('POST');
     });
     cy.get('@draft_message')
       .its('request.body')
