@@ -127,13 +127,15 @@ const AppointmentDetails = props => {
                 <h2 className="vads-u-font-size--sm">
                   {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
                 </h2>
-                {/* TODO add address for in person appointments */}
+                {!isPhoneAppointment && (
+                  <div data-testid="appointment-details--facility-value">
+                    {appointment.facility}
+                  </div>
+                )}
                 <div data-testid="appointment-details--clinic-value">
-                  {isPhoneAppointment ? '' : `${t('clinic')}:`} {clinic}
+                  {!isPhoneAppointment && `${t('clinic')}:`} {clinic}
                 </div>
-                {isPhoneAppointment ? (
-                  ''
-                ) : (
+                {!isPhoneAppointment && (
                   <div data-testid="appointment-details--location-value">
                     {`${t('location')}: ${appointment.clinicLocation}`}
                   </div>
