@@ -147,7 +147,7 @@ const AddIssue = props => {
           className="vads-u-font-family--serif"
           name="addIssue"
         >
-          {content.title[addOrEdit]}
+          <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
         <VaTextInput
           id="add-sc-issue"
