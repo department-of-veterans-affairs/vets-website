@@ -2,7 +2,7 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import set from 'platform/utilities/data/set';
 
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { NotHighDisability } from '../../../utils/helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { mothersMaidenName } = fullSchemaHca.properties;
@@ -12,7 +12,7 @@ export default {
     'view:maidenNameShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisability,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     mothersMaidenName: {
