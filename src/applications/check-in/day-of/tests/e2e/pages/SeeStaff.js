@@ -29,7 +29,10 @@ class SeeStaff {
     );
     cy.get('div[data-testid="btsss-link"] a:first')
       .invoke('attr', 'href')
-      .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+      .should(
+        'contain',
+        '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
+      );
   };
 
   selectBackButton = () => {

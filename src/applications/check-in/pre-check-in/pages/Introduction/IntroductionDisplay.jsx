@@ -100,6 +100,13 @@ const IntroductionDisplay = props => {
       </a>
     </div>
   );
+
+  const getModalUrl = modalState => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('modal', modalState);
+    return `${url.pathname}${url.search}`;
+  };
+
   return (
     <Wrapper
       testID="intro-wrapper"
@@ -139,10 +146,11 @@ const IntroductionDisplay = props => {
       )}
       <div className="vads-u-margin-top--4">
         <a
-          href="#privacy-modal"
+          href="/health-care/appointment-pre-check-in/introduction?modal=open"
           onClick={useCallback(
             e => {
               e.preventDefault();
+              window.history.replaceState(null, null, getModalUrl('open'));
               setPrivacyActModalOpen(true);
             },
             [setPrivacyActModalOpen],
@@ -153,9 +161,13 @@ const IntroductionDisplay = props => {
       </div>
       <VaModal
         modalTitle={t('privacy-act-statement')}
-        onCloseEvent={useCallback(() => setPrivacyActModalOpen(false), [
-          setPrivacyActModalOpen,
-        ])}
+        onCloseEvent={useCallback(
+          () => {
+            setPrivacyActModalOpen(false);
+            window.history.replaceState(null, null, getModalUrl('closed'));
+          },
+          [setPrivacyActModalOpen],
+        )}
         visible={privacyActModalOpen}
         initialFocusSelector="button"
       >

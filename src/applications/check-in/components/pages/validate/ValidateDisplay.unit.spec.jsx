@@ -123,14 +123,14 @@ describe('check-in experience', () => {
               <I18nextProvider i18n={i18n}>
                 <ValidateDisplay
                   dobInput={{
-                    dob: '1989-03-15',
+                    dob: '1935-04-07',
                   }}
                 />
               </I18nextProvider>
             </Provider>,
           );
           const date = getByTestId('dob-input').childNodes[0].value;
-          expect(date).to.equal('1989-03-15');
+          expect(date).to.equal('1935-04-07');
         });
       });
       describe('validate Error message', () => {
