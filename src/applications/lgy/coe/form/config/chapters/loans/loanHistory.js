@@ -8,7 +8,7 @@ import {
 import monthYearRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { states } from 'platform/forms/address';
 
-// import { loanHistory } from '../../schemaImports';
+import { loanHistory } from '../../schemaImports';
 import LoanReviewField from '../../../components/LoanReviewField';
 import text from '../../../content/loanHistory';
 import {
@@ -73,21 +73,9 @@ export const schema = {
       minItems: 1,
       items: {
         type: 'object',
-        properties: {
-          dateRange: {
-            $ref: '#/definitions/dateRange',
-          },
-          propertyAddress: {
-            $ref: '#/definitions/loanAddress',
-          },
-          vaLoanNumber: {
-            $ref: '#/definitions/loanNumber',
-          },
-          propertyOwned: {
-            type: 'boolean',
-          },
+        properties: Object.assign(loanHistory.properties.items.properties, {
           intent: LOAN_INTENT_SCHEMA,
-        },
+        }),
       },
     },
   },
