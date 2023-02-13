@@ -17,6 +17,12 @@ import AppointmentDate from '../../new-appointment/components/ReviewPage/Appoint
 
 const pageTitle = 'Review your appointment details';
 
+function handleClick(history) {
+  return () => {
+    history.push(flow.contactInfo.url);
+  };
+}
+
 export default function ReviewPage() {
   const {
     data,
@@ -95,7 +101,7 @@ export default function ReviewPage() {
             </div>
           </div>
           <va-link
-            href={flow.contactInfo.url}
+            onClick={handleClick(history)}
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
