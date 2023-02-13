@@ -10,8 +10,8 @@ describe('Secure Messaging validate folder selection form dropdown', () => {
   });
   it('validate folder selection', () => {
     landingPage.selectFolder('Inbox');
-    // landingPage.verifySelectedFolder();
     cy.injectAxe();
     cy.axeCheck();
+    cy.tabToElement('[data-testid="Inbox"] > a').should('exist');
   });
 });

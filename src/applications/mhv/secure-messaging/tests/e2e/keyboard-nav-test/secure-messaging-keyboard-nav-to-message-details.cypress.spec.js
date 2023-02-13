@@ -16,6 +16,8 @@ describe('Secure Messaging Keyboard Nav to Message Details', () => {
     landingPage.loadPage();
     const message = landingPage.getLoadedMessages().data.at(1);
     landingPage.loadMessageDetailsByTabbingAndEnterKey(message);
+    cy.get('[data-testid="print-button"]').realClick();
+    cy.get('[data-testid="radio-print-one-message"]').realClick();
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -72,12 +72,14 @@ class PatientKeywordSearchPage {
     cy.get('[data-testid="search-keyword-text-input"]')
       .shadow()
       .find('[id="inputField"]')
-      .type(text, { waitforanimations: false });
+      .focus()
+      .realType(text);
+    //   .should('have.value', text);
   };
 
   // This method clicks the Search button.
   submitSearch = () => {
-    cy.get('.search-button > .fas').click();
+    cy.get('.search-button > .fas').realClick();
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
@@ -94,6 +96,8 @@ class PatientKeywordSearchPage {
     cy.get('#select-search-folder-dropdown')
       .shadow()
       .find('select')
+      .focus()
+      //   .chooseSelectOptionByTyping(name, { force: true });
       .select(`${name}`, { force: true });
   };
 }
