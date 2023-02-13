@@ -5,9 +5,6 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
-  // TODO this is a test for a draft with no thread messages
-  // Draft with threads has a different view as a Reply Draft, which needs a separate test
-
   it('Axe Check Draft Save with Attachments', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
@@ -26,8 +23,6 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'ststASertTesting Save Drafts with Attachments',
     );
 
-    // Assertion of network response including attachment:false.
-    // This verifies we are using correct mock data
     cy.get('@draft_message')
       .its('response')
       .then(res => {
