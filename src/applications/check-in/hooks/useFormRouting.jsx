@@ -23,7 +23,8 @@ const useFormRouting = (router = {}) => {
 
   const jumpToPage = useCallback(
     (page, options = {}) => {
-      if (Object.values(URLS).includes(page)) {
+      const pagePart = page.split('/');
+      if (Object.values(URLS).includes(pagePart[0])) {
         const nextPage = page;
         // check for params
         const query = {

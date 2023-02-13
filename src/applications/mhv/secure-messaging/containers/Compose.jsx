@@ -10,6 +10,8 @@ import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
+import AlertBox from '../components/shared/AlertBox';
+import { closeAlert } from '../actions/alerts';
 import { DefaultFolders } from '../util/constants';
 
 const Compose = () => {
@@ -21,6 +23,8 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
+  const alert = useSelector(state => state.sm.alerts.alert);
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
   const [replyMessage, setReplyMessage] = useState(undefined);
   const location = useLocation();
   const history = useHistory();
@@ -46,7 +50,28 @@ const Compose = () => {
         dispatch(clearDraft());
       };
     },
-    [isDraftPage, draftId, activeFolder, dispatch, history],
+    [isDraftPage, draftId, activeFolder, dispatch, history, location.pathname],
+  );
+
+  // Waiting for additional response data
+  useEffect(
+    () => {
+      if (alert?.header !== null) {
+        setcannotReplyAlert(cannotReplyAlert);
+      }
+    },
+    [alert?.header, cannotReplyAlert, dispatch, draftId, location.pathname],
+  );
+
+  useEffect(
+    () => {
+      return () => {
+        if (isDraftPage) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
   );
 
   useEffect(
@@ -62,7 +87,7 @@ const Compose = () => {
         }
       }
     },
-    [messageHistory],
+    [messageHistory, replyMessage],
   );
 
   let pageTitle;
@@ -128,6 +153,7 @@ const Compose = () => {
               <ReplyForm
                 draftToEdit={draftMessage}
                 replyMessage={replyMessage}
+                cannotReplyAlert={cannotReplyAlert}
               />
               {replyMessage &&
                 messageHistory?.length > 1 && (
@@ -143,7 +169,7 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
-      <AlertBackgroundBox closeable />
+      {cannotReplyAlert ? <AlertBox /> : <AlertBackgroundBox closeable />}
 
       {content()}
     </div>

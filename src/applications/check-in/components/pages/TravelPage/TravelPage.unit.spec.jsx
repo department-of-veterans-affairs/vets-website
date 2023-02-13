@@ -8,12 +8,14 @@ import { I18nextProvider } from 'react-i18next';
 import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import TravelPage from './index';
 import i18n from '../../../utils/i18n/i18n';
+import { createMockRouter } from '../../../tests/unit/mocks/router';
 
 describe('Check-in experience', () => {
   describe('shared components', () => {
     let store;
     const middleware = [];
     const mockStore = configureStore(middleware);
+    const mockRouter = createMockRouter();
     const initState = {
       checkInData: {
         context: {
@@ -37,7 +39,7 @@ describe('Check-in experience', () => {
                 header="test header"
                 bodyText="test body"
                 helpText="test help text"
-                router={{}}
+                router={mockRouter}
               />
             </I18nextProvider>
           </Provider>,
@@ -50,7 +52,7 @@ describe('Check-in experience', () => {
         const { getByTestId } = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
-              <TravelPage header="test header" router={{}} />
+              <TravelPage header="test header" router={mockRouter} />
             </I18nextProvider>
           </Provider>,
         );

@@ -62,6 +62,7 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
 import createShiftedVetsBanner from './shifted-vets-banner';
+import createSupplementalClaim from './supplemental-claim';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -201,7 +202,7 @@ createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
-
+createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
   store,
   widgetTypes.VIEW_ENROLLMENT_VERIFICATION_LOGIN,
