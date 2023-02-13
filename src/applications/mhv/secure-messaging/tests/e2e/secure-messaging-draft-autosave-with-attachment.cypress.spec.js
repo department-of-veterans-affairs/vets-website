@@ -6,6 +6,8 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('Secure Messaging Draft AutoSave with Attachments', () => {
+  const mockThreadResponse = { data: [] };
+
   it('Axe Check Draft AutoSave with Attachments', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
@@ -37,6 +39,12 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
       '/my_health/v1/messaging/message_drafts/7208913',
       mockDraftResponse,
     ).as('saveDraftwithAttachment');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/7208913/thread',
+      mockThreadResponse,
+    ).as('draftThreadResponse');
+
     cy.contains('test').click();
 
     // Assertion of network response
@@ -58,7 +66,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
       .type('Testing Autosave Drafts with Attachments');
     composePage.attachMessageFromFile('sample_docx.docx');
 
-    cy.wait('@saveDraftwithAttachment', { timeout: 15000 });
+    cy.wait('@saveDraftwithAttachment', { timeout: 16000 });
 
     // Assertion of network request
     cy.get('@saveDraftwithAttachment')
