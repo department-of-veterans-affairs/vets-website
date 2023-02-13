@@ -120,7 +120,7 @@ const DisplayMultipleAppointments = props => {
           />
         ) : (
           <>
-            <p data-testid="date-text">
+            <p className="vads-u-font-family--serif" data-testid="date-text">
               {t('here-are-your-appointments-for-today', { date: new Date() })}
             </p>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
