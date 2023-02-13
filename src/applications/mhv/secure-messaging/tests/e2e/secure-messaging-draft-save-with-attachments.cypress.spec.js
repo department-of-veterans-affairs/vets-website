@@ -7,7 +7,6 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 describe('Secure Messaging Draft Save with Attachments', () => {
   // TODO this is a test for a draft with no thread messages
   // Draft with threads has a different view as a Reply Draft, which needs a separate test
-  // const mockThreadResponse = { data: [] };
 
   it('Axe Check Draft Save with Attachments', () => {
     const landingPage = new PatientInboxPage();
