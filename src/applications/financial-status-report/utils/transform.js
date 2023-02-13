@@ -30,7 +30,15 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle = '',
         last: spouseLast = '',
       },
-      address,
+      address: {
+        street,
+        street2 = '',
+        street3 = '',
+        city,
+        state,
+        postalCode,
+        country,
+      },
       telephoneNumber,
       dateOfBirth,
       dependents,
@@ -60,30 +68,6 @@ export const transform = (formConfig, form) => {
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
-
-  // Contact information conversion from profile format
-  const submitTelephoneNumber = enhancedFSRActive
-    ? `${telephoneNumber?.areaCode || ''}${telephoneNumber?.phoneNumber || ''}`
-    : telephoneNumber;
-  const submitAddress = enhancedFSRActive
-    ? {
-        addresslineOne: address.addressLine1,
-        addresslineTwo: address.addressLine2 || '',
-        addresslineThree: address.addressLine3 || '',
-        city: address.city,
-        stateOrProvince: address.stateCode,
-        zipOrPostalCode: address.zipCode,
-        countryName: address.countryName,
-      }
-    : {
-        addresslineOne: address.street,
-        addresslineTwo: address.street2 || '',
-        addresslineThree: address.street3 || '',
-        city: address.city,
-        stateOrProvince: address.state,
-        zipOrPostalCode: address.postalCode,
-        countryName: address.country,
-      };
 
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
@@ -198,8 +182,16 @@ export const transform = (formConfig, form) => {
         middle: vetMiddle,
         last: vetLast,
       },
-      address: submitAddress,
-      telephoneNumber: submitTelephoneNumber,
+      address: {
+        addresslineOne: street,
+        addresslineTwo: street2,
+        addresslineThree: street3,
+        city,
+        stateOrProvince: state,
+        zipOrPostalCode: postalCode,
+        countryName: country,
+      },
+      telephoneNumber,
       dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
@@ -283,7 +275,9 @@ export const transform = (formConfig, form) => {
       stocksAndOtherBonds: enhancedFSRActive
         ? calculatedStocksAndOther
         : assets.stocksAndOtherBonds,
-      realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
+      realEstateOwned: !enhancedFSRActive
+        ? sumValues(realEstateRecords, 'realEstateAmount')
+        : Number(assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       otherAssets: assets.otherAssets,
       totalAssets,
     },

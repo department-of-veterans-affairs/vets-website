@@ -10,11 +10,21 @@ const Vaccines = () => {
     dispatch(getVaccineList());
   });
 
+  const content = () => {
+    if (vaccines?.length) {
+      return <RecordList records={vaccines} type="vaccine" />;
+    }
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  };
+
   return (
     <div className="vaccines">
-      <div className="breadcrumb-placeholder">
-        &#8249; <span>Health history</span>
-      </div>
       <h1>VA vaccines</h1>
       <div className="text-placeholder text-placeholder-medium" />
       <div className="text-placeholder text-placeholder-large" />
@@ -24,7 +34,7 @@ const Vaccines = () => {
         onClick={() => {}}
         data-testid="print-records-button"
       />
-      <RecordList records={vaccines} type="vaccine" />
+      {content()}
     </div>
   );
 };

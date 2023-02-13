@@ -8,6 +8,17 @@ class Introduction {
       .and('have.text', 'Answer pre-check-in questions');
   };
 
+  validateStartLinkStyling = () => {
+    cy.get('[data-testid="start-button"] a').then($elements => {
+      // Cypress can't access pseudo-elements, so we need get the window
+      // object and assert against the element that way.
+      const window = $elements[0].ownerDocument.defaultView;
+      const before = window.getComputedStyle($elements[0], 'before');
+      const elementColor = before.getPropertyValue('color');
+      expect(elementColor).to.eq('rgb(46, 133, 64)');
+    });
+  };
+
   validateMultipleAppointmentIntroText = (
     appointmentDate = new Date().setDate(new Date().getDate() + 1),
   ) => {

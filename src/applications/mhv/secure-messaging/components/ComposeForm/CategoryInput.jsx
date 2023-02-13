@@ -49,6 +49,7 @@ const CategoryInput = props => {
           {categories?.map((item, i) => (
             <VaRadioOption
               data-testid="compose-category-radio-button"
+              style={{ display: 'flex' }}
               key={i}
               label={
                 RadioCategories[item]

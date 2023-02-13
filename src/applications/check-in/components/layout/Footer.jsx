@@ -84,7 +84,10 @@ const Footer = ({ router, isPreCheckIn }) => {
               />
             </p>
             <p>
-              <ExternalLink href="/find-locations/" hrefLang="en">
+              <ExternalLink
+                href="/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
+                hrefLang="en"
+              >
                 {t('find-the-travel-contact-for-your-facility')}
               </ExternalLink>
             </p>
