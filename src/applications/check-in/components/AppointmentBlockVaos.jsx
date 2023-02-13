@@ -68,7 +68,7 @@ const AppointmentBlockVaos = props => {
                   />
                 )
               }
-              appointmentMessage
+              appointmentMessage={app === APP_NAMES.CHECK_IN}
             />
           );
         })}
