@@ -45,14 +45,14 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <div className="vads-u-padding-y--2 vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+      <div className="vads-u-padding-y--2 vads-u-margin-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
         {displayNums[1]} of {totalEntries} {type} records
       </div>
       {currentRecords?.length > 0 &&
         currentRecords.map((record, idx) => (
-          <RecordListItem key={idx} name={record.name} date={record.date} />
+          <RecordListItem key={idx} record={record} />
         ))}
       {currentPage === paginatedRecords.current.length && (
         <p className="vads-u-margin-y--3 vads-u-color--gray-medium">

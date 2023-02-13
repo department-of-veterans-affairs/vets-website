@@ -6,7 +6,6 @@ import { getEVData } from '../selectors';
 import { STATUS } from '../constants';
 import { STATUS_PROP_TYPE } from '../helpers';
 import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
-import VerifyYourEnrollments from './VerifyYourEnrollments';
 
 const fetchFailureAlert = (
   <va-alert status="error" visible>
@@ -18,8 +17,17 @@ const fetchFailureAlert = (
 );
 
 const successAlert = submissionResult => (
-  <va-alert status="success" visible>
-    {submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+  <va-alert
+    aria-live={
+      submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
+        ? 'assertive'
+        : 'off'
+    }
+    role="alert"
+    status="success"
+    visible
+  >
+    {submissionResult !== UPDATE_VERIFICATION_STATUS_SUCCESS
       ? 'Congratulations, you’re'
       : 'You’re'}{' '}
     up-to-date with your monthly enrollment verification. You’ll be able to
@@ -38,7 +46,6 @@ const warningAlert = (
       You’ll need to verify your monthly enrollments to get your scheduled
       payments.
     </p>
-    <VerifyYourEnrollments />
   </va-alert>
 );
 
@@ -51,11 +58,10 @@ const pausedAlert = (
       We’ve paused your monthly education payments
     </h1>
     <p>
-      We had to pause your payments because you haven’t verified your
-      enrollment(s) for <strong>two months in a row</strong>. Please review and
-      verify your monthly enrollment(s) to get the payments you’re entitled to.
+      We’ve paused your payments because it’s been more than 2 months since you
+      verified your enrollment. Please review and verify your monthly
+      enrollment(s) to get the payments you’re entitled to.
     </p>
-    <VerifyYourEnrollments />
   </va-alert>
 );
 

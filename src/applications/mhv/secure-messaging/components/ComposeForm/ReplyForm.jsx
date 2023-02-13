@@ -15,9 +15,11 @@ import EmergencyNote from '../EmergencyNote';
 import HowToAttachFiles from '../HowToAttachFiles';
 import { dateFormat } from '../../util/helpers';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
+import { draftAutoSaveTimeout } from '../../util/constants';
+import MessageThreadBody from '../MessageThread/MessageThreadBody';
 
 const ReplyForm = props => {
-  const { draftToEdit, replyMessage } = props;
+  const { draftToEdit, replyMessage, cannotReplyAlert } = props;
   const dispatch = useDispatch();
 
   const defaultRecipientsList = [{ id: 0, name: ' ' }];
@@ -44,8 +46,8 @@ const ReplyForm = props => {
   const history = useHistory();
   let draft;
 
-  const debouncedSubject = useDebounce(subject, 3000);
-  const debouncedMessageBody = useDebounce(messageBody, 3000);
+  const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
+  const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const attachmentNames = attachments.reduce((currentString, item) => {
     return currentString + item.name;
   }, '');
@@ -296,9 +298,8 @@ const ReplyForm = props => {
                 </strong>{' '}
                 To:{' '}
               </strong>
-              {replyMessage.senderName}
+              {replyMessage.recipientName}
               <br />
-              (Team: {replyMessage.triageGroupName})
             </p>
             <va-textarea
               label="Message"
@@ -326,14 +327,16 @@ const ReplyForm = props => {
               />
             </section>
             <div className="compose-form-actions vads-u-display--flex">
-              <button
-                type="button"
-                className="vads-u-flex--1"
-                data-testid="Send-Button"
-                onClick={sendMessageHandler}
-              >
-                Send
-              </button>
+              {!cannotReplyAlert && (
+                <button
+                  type="button"
+                  className="vads-u-flex--1"
+                  data-testid="Send-Button"
+                  onClick={sendMessageHandler}
+                >
+                  Send
+                </button>
+              )}
               <button
                 type="button"
                 className="usa-button-secondary vads-u-flex--1"
@@ -377,8 +380,8 @@ const ReplyForm = props => {
             </p>
           </section>
 
-          <section aria-label="Message body.">
-            <pre>{replyMessage.body}</pre>
+          <section aria-label="Message body." className="vads-u-margin-top--1">
+            <MessageThreadBody text={replyMessage.body} />
           </section>
 
           {!!replyMessage.attachments &&
@@ -401,6 +404,7 @@ const ReplyForm = props => {
 };
 
 ReplyForm.propTypes = {
+  cannotReplyAlert: PropTypes.bool,
   draftToEdit: PropTypes.object,
   recipients: PropTypes.array,
   replyMessage: PropTypes.object,

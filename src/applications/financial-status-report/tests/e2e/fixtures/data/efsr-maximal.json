@@ -24,6 +24,7 @@
     "food": "4000.38"
   },
   "assets": {
+    "realEstateValue": "800000.81",
     "otherAssets": [
       {
         "name": "Bitcoin",
@@ -88,16 +89,6 @@
       }
     ]
   },
-  "realEstateRecords": [
-    {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": "350000.47"
-    },
-    {
-      "realEstateType": "Single-family home",
-      "realEstateAmount": "450000.34"
-    }
-  ],
   "additionalIncome": {
     "spouse": {
       "spAddlIncome": [
@@ -136,7 +127,7 @@
   },
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2004-10-XX",
+      "dateDischarged": "2004-10-22",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
     },

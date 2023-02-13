@@ -1,30 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { dateFormat } from '../util/helpers';
+import { getVaccineDetails } from '../actions/vaccine';
 
 const VaccineListItem = props => {
-  const { name, date } = props;
+  const dispatch = useDispatch();
+  const { record } = props;
+  const formattedDate = dateFormat(record.date, 'MMMM D, YYYY');
 
-  const formattedDate = dateFormat(date, 'MMMM D, YYYY');
+  const showDetailsHandler = () => {
+    dispatch(getVaccineDetails(record.vaccineId));
+  };
 
   return (
     <div
-      className="record-list-item vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light"
+      className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
       data-testid="record-list-item"
     >
-      <div>
-        <strong>{name}</strong>
-      </div>
+      <h4>{record.name}</h4>
+      <div>{record.facility}</div>
       <div>{formattedDate}</div>
-      {/* <Link className="record-details-link vads-u-margin-y--0p5" to="details">
-        View details
-      </Link> */}
-      <div>
-        <a href="/record" className="record-details-link vads-u-margin-y--0p5">
-          View details
-        </a>
-      </div>
+      <Link
+        to="/vaccine"
+        className="vads-u-margin-y--0p5"
+        onClick={showDetailsHandler}
+      >
+        Details
+        <i
+          className="fas fa-angle-right details-link-icon"
+          aria-hidden="true"
+        />
+      </Link>
     </div>
   );
 };
@@ -32,6 +40,5 @@ const VaccineListItem = props => {
 export default VaccineListItem;
 
 VaccineListItem.propTypes = {
-  date: PropTypes.string,
-  name: PropTypes.string,
+  record: PropTypes.object,
 };

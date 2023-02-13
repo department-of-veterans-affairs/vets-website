@@ -46,6 +46,9 @@ export const navigateToFoldersPage = history => {
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
  * @returns {String} fromatted timestamp
  */
+
+export const today = new Date();
+
 export const dateFormat = (timestamp, format = null) => {
   const timeZone = moment.tz.guess();
   return moment

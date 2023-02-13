@@ -16,7 +16,7 @@ const DashboardUnreadMessages = props => {
     [folders],
   );
   return (
-    <div className="unread-messages">
+    <div className="unread-messages" data-testid="total-unread-messages">
       {folders === null && <p>Unable to retrieve messages at this moment</p>}
 
       {folders !== undefined &&
