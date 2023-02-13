@@ -154,16 +154,6 @@ const AppointmentDetails = props => {
                   </div>
                 </div>
               )}
-              {appointment.reasonForVisit && (
-                <div data-testid="appointment-details--reason">
-                  <h2 className="vads-u-font-size--sm">
-                    {t('reason-for-visit')}
-                  </h2>
-                  <div data-testid="appointment-details--reason-value">
-                    {appointment.reasonForVisit}
-                  </div>
-                </div>
-              )}
               {app === APP_NAMES.CHECK_IN && (
                 <div className="vads-u-margin-top--2">
                   <AppointmentActionVaos
