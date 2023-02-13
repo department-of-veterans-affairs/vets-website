@@ -14,6 +14,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     landingPage.loadPage(false);
     draftsPage.loadDrafts();
     draftsPage.loadDraftMessageDetails();
+
     composePage.attachMessageFromFile('sample_docx.docx');
 
     composePage.saveDraft(
