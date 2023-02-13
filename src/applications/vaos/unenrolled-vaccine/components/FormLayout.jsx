@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -13,7 +13,7 @@ export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <va-link href={match.url} text="COVID-19 vaccine" />
+        <Link to={match.url}>COVID-19 vaccine</Link>
       </Breadcrumbs>
       {location.pathname.endsWith(match.url) && (
         <DowntimeNotification
