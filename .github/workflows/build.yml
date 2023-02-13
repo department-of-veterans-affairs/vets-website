@@ -2,13 +2,13 @@ name: Build and Push Docker Image to ECR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "new-docker" ]
     
 jobs:
 
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
 
@@ -33,5 +33,5 @@ jobs:
         ECR_REPOSITORY: dsva/preview-environment/vets-website
         IMAGE_TAG: front-end-latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -f Dockerfile1 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
