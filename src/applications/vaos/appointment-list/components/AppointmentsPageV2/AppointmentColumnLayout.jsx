@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
@@ -128,14 +127,14 @@ export default function AppointmentColumnLayout({
             padding="0"
             size="1"
           >
-            <Link
+            <va-link
               className="vaos-appts__focus--hide-outline"
               aria-label={detailAriaLabel}
-              to={link}
+              href={link}
               onClick={e => e.preventDefault()}
-            >
-              Details
-            </Link>
+              text="Details"
+              role="link"
+            />
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>
