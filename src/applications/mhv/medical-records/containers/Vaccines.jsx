@@ -25,15 +25,20 @@ const Vaccines = () => {
 
   return (
     <div className="vaccines">
-      <h1>VA vaccines</h1>
-      <div className="text-placeholder text-placeholder-medium" />
-      <div className="text-placeholder text-placeholder-large" />
-      <div className="text-placeholder text-placeholder-small" />
-      <va-button
-        text="Print"
-        onClick={() => {}}
-        data-testid="print-records-button"
-      />
+      <h1>Vaccines</h1>
+      <p>
+        This is a complete list of vaccines that the VA has on file for you.
+      </p>
+      <div className="vads-u-display--flex vads-u-margin-y--3">
+        <button className="link-button vads-u-margin-right--3" type="button">
+          <i className="fas fa-print vads-u-margin-right--1" />
+          Print page
+        </button>
+        <button className="link-button" type="button">
+          <i className="fas fa-download vads-u-margin-right--1" />
+          Download page
+        </button>
+      </div>
       {content()}
     </div>
   );
