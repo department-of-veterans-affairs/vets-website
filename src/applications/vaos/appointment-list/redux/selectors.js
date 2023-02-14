@@ -391,10 +391,15 @@ export function selectAppointmentLocality(appointment) {
     return practitioner
       ? `VA appointment with ${practitioner}`
       : 'VA appointment';
-  if (isInPerson)
+  if (isInPerson) {
+    const { name: facilityName } = appointment.vaos.facilityData || {};
+
+    if (facilityName) return `In-person at ${facilityName}`;
+
     return typeOfCareName && practitioner
       ? `${typeOfCareName} with ${practitioner}`
       : 'VA appointment';
+  }
 
   return '';
 }
