@@ -200,7 +200,7 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
       });
     });
 
-    describe.skip('initiate reload after 30 minutes', () => {
+    describe('initiate reload after 30 minutes', () => {
       const locationReload = window.location;
 
       afterEach(() => {
@@ -220,7 +220,7 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
         };
 
         window.location = { reload: sinon.stub() };
-        const clock = sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
+        sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
         // fire/execute
         await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
           'csrfToken',
@@ -232,9 +232,9 @@ describe.skip('makeBotStartConvoAndTrackUtterances actions', () => {
         )(store)(fakeNext)(aboutToSignInActivity);
         // tests
         const thirtyMinutes = 30 * 60 * 1000;
-        clock.tick(thirtyMinutes - 1);
+        sandbox.clock.tick(thirtyMinutes - 1);
         expect(window.location.reload.called).to.be.false;
-        clock.tick(1);
+        sandbox.clock.tick(1);
         expect(window.location.reload.called).to.be.true;
       });
 
