@@ -18,7 +18,7 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
-import { mockAppointmentSubmit, mockPreferences } from '../../../mocks/helpers';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
@@ -170,7 +170,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({});
-    mockPreferences('test@va.gov');
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,

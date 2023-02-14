@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 
 dt{
   font-weight: bold;
@@ -79,7 +80,7 @@ va-text-input[error]:not([error=""])::part(span)  {
 .appointment-details--icon {
   height: 40px;
   width: 40px;
-  background: $color-gray-dark;
+  background: $color-primary-darkest;
   border-radius: 20px;
   display: flex;
   align-items: center;

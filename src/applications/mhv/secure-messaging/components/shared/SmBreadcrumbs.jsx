@@ -35,6 +35,7 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
+      const arr = [{ path: '/', label: 'Dashboard' }];
       let paths = [
         { path: `/message`, label: messageDetails?.subject },
         { path: '/reply', label: messageDetails?.subject },
@@ -45,31 +46,36 @@ const SmBreadcrumbs = () => {
         Constants.Breadcrumbs.FOLDERS,
         Constants.Breadcrumbs.SENT,
         Constants.Breadcrumbs.TRASH,
-        {
-          ...Constants.Breadcrumbs.SEARCH,
-          children: [
-            Constants.Breadcrumbs.SEARCH_ADVANCED,
-            Constants.Breadcrumbs.SEARCH_RESULTS,
-          ],
-        },
         Constants.Breadcrumbs.FAQ,
       ];
 
-      if (activeFolder?.folderId) {
-        paths = [
-          ...paths,
-          {
-            path: `/folder`,
-            label: 'My folders',
-            children: [
-              { path: `/${activeFolder?.folderId}`, label: activeFolder?.name },
-            ],
-          },
-        ];
+      // Displays folder path with child path
+      if (activeFolder?.folderId > 0) {
+        const foldersParent = paths.find(({ path }) => path === '/folders');
+        const foldersChild = {
+          children: [
+            {
+              path: `/folder/${activeFolder?.folderId}`,
+              label: activeFolder?.name,
+            },
+          ],
+        };
+        const childPath = foldersChild.children.find(({ path }) => path);
+        paths = [...paths];
+        Object.assign(foldersParent, foldersChild);
+
+        if (childPath.path !== location.pathname) {
+          delete foldersParent.children;
+        }
+        if (childPath.path === location.pathname) {
+          arr.push(foldersParent);
+          if (childPath) {
+            arr.push(childPath);
+          }
+        }
       }
 
-      function handleBreadCrumbs() {
-        const arr = [];
+      const handleBreadCrumbs = () => {
         // arr.push({
         //   path: replaceWithStagingDomain('https://www.va.gov'),
         //   label: 'VA.gov home',
@@ -78,7 +84,6 @@ const SmBreadcrumbs = () => {
         //   path: replaceWithStagingDomain('https://www.va.gov/health-care/'),
         //   label: 'My Health',
         // });
-        arr.push({ path: '/', label: 'Dashboard' });
 
         paths.forEach(path => {
           const [
@@ -86,6 +91,7 @@ const SmBreadcrumbs = () => {
             locationBasePath,
             locationChildPath,
           ] = location.pathname.split('/');
+
           if (path.path.substring(1) === locationBasePath) {
             arr.push(path);
             if (locationChildPath && path.children) {
@@ -96,13 +102,21 @@ const SmBreadcrumbs = () => {
                 arr.push(child);
               }
             }
+          } else if (locationBasePath === 'search') {
+            arr.push({ path: '/', label: 'Dashboard' });
           }
         });
         dispatch(setBreadcrumbs(arr, location));
-      }
+      };
       handleBreadCrumbs();
     },
-    [location, dispatch, messageDetails, activeFolder],
+    [
+      activeFolder?.folderId,
+      activeFolder?.name,
+      dispatch,
+      location,
+      messageDetails?.subject,
+    ],
   );
 
   return (
