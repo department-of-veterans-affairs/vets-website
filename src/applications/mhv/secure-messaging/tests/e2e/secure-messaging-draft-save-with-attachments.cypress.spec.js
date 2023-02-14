@@ -1,7 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
