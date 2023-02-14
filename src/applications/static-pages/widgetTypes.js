@@ -53,6 +53,7 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   SHIFTED_VETS_BANNER: 'shifted-vets-banner',
   SIDE_NAV: 'side-nav',
+  SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VET_CENTER_HOURS: 'vet-center-hours',
   VET_CENTER_HOURS_SATELLITE_LOCATIONS: 'vet-center-hours-satellite-locations',
@@ -60,5 +61,6 @@ export default {
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
+  VIEW_ENROLLMENT_VERIFICATION_LOGIN: 'view-enrollment-verification-login',
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
 };

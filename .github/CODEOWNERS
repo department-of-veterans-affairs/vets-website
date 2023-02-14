@@ -43,10 +43,8 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-sta
 
 # Authenticated Experience
 
-src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/personalization @department-of-veterans-affairs/benefits-team-1-frontend
-src/platform/user/profile/vap-svc @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
+src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Claims & appeals (Benefits Team 1)
 
@@ -125,6 +123,10 @@ src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 src/applications/mhv/medical-records @department-of-veterans-affairs/vfs-mhv-medical-records
 src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
+
+# VA.gov Product Teams - Forms
+
+src/applications/simple-forms @department-of-veterans-affairs/platform-va-product-forms
 
 # Other
 

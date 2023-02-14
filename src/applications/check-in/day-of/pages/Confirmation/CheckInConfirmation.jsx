@@ -13,15 +13,18 @@ import AppointmentConfirmationListItem from '../../../components/AppointmentDisp
 import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
-
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
 
   const { t } = useTranslation();
+
+  const appointment = selectedAppointment;
+  const appointmentDateTime = new Date(appointment.startTime);
 
   const {
     isLoading,
@@ -31,10 +34,7 @@ const CheckInConfirmation = props => {
     travelPayClaimData,
     travelPayClaimRequested,
     travelPayClaimSent,
-  } = useSendTravelPayClaim();
-
-  const appointment = selectedAppointment;
-  const appointmentDateTime = new Date(appointment.startTime);
+  } = useSendTravelPayClaim(appointment);
 
   useEffect(
     () => {
@@ -42,6 +42,18 @@ const CheckInConfirmation = props => {
       triggerRefresh();
     },
     [triggerRefresh],
+  );
+
+  const {
+    setShouldSendTravelPayClaim,
+    getShouldSendTravelPayClaim,
+  } = useSessionStorage(false);
+
+  useEffect(
+    () => {
+      if (travelPayClaimSent) setShouldSendTravelPayClaim(window, false);
+    },
+    [travelPayClaimSent, setShouldSendTravelPayClaim],
   );
 
   let pageTitle = t('youre-checked-in', {
@@ -78,7 +90,7 @@ const CheckInConfirmation = props => {
   const renderConfirmationMessage = () => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
-        <p>{t('your-appointment')}</p>
+        <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
@@ -93,7 +105,9 @@ const CheckInConfirmation = props => {
           class="vads-u-margin-bottom--2"
         >
           <div>
-            {t('well-get-you-from-waiting-room-when-time-for-your-appointment')}
+            {`${t(
+              'well-get-you-from-waiting-room-when-time-for-your-appointment',
+            )} `}
             {t('if-you-wait-more-than')}
           </div>
         </va-alert>
@@ -138,7 +152,8 @@ const CheckInConfirmation = props => {
   if (
     !isTravelReimbursementEnabled ||
     !travelPayEligible ||
-    (travelPayClaimRequested === false || travelPayClaimSent)
+    (travelPayClaimRequested === false || travelPayClaimSent) ||
+    !getShouldSendTravelPayClaim(window)
   ) {
     return renderConfirmationMessage();
   }

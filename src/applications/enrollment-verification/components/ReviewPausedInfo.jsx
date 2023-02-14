@@ -2,17 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FinishVerifyingLater from './FinishVerifyingLater';
 
-export default function ReviewPausedInfo({ onFinishVerifyingLater }) {
+export default function ReviewPausedInfo({
+  skippedAheadIncorrectMonth,
+  onFinishVerifyingLater,
+}) {
   return (
-    <va-alert
-      background-only
+    <va-alert-expandable
       class="vads-u-margin-bottom--2"
-      close-btn-aria-label="Close notification"
-      show-icon
       status="warning"
-      visible
+      trigger="If you submit this verification, we’ll pause your monthly education payments"
     >
-      <va-additional-info trigger="If you submit this verification, we'll pause your monthly education payments">
+      <div>
+        {skippedAheadIncorrectMonth && (
+          <p>
+            We skipped you ahead to the review step because you selected “No,
+            this information isn’t correct” for {skippedAheadIncorrectMonth}.
+          </p>
+        )}
         <p>
           If you submit this verification, we will pause your monthly payments
           until your enrollment information is corrected.
@@ -35,11 +41,12 @@ export default function ReviewPausedInfo({ onFinishVerifyingLater }) {
           </li>
         </ul>
         <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
-      </va-additional-info>
-    </va-alert>
+      </div>
+    </va-alert-expandable>
   );
 }
 
 ReviewPausedInfo.propTypes = {
   onFinishVerifyingLater: PropTypes.func.isRequired,
+  skippedAheadIncorrectMonth: PropTypes.string,
 };

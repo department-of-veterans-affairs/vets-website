@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { get } from 'lodash';
 import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
@@ -54,7 +55,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, ''));
+      : parseFloat(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   return formatter.format(value);
 };
 
@@ -77,7 +78,8 @@ export const filterReduceByName = (deductions, filters) => {
   return deductions
     .filter(({ name = '' }) => filters.includes(name))
     .reduce(
-      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
 };
@@ -95,7 +97,8 @@ export const otherDeductionsAmt = (deductions, filters) => {
   return deductions
     .filter(({ name = '' }) => name && !filters.includes(name))
     .reduce(
-      (acc, curr) => acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '')),
+      (acc, curr) =>
+        acc + Number(curr.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
 };
@@ -145,7 +148,8 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '')),
+            acc +
+            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
           0,
         )
     : debts
@@ -153,7 +157,9 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .reduce(
           (acc, debt) =>
             acc +
-            Number(debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '')),
+            Number(
+              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+            ),
           0,
         );
 };
@@ -258,24 +264,26 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
+  const food = Number(get(expenses, 'food', 0));
+  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
 
   let totalExp = 0;
 
   if (expenses.expenseRecords && expenses.expenseRecords.length > 0) {
     totalExp = expenses.expenseRecords.reduce(
       (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '')),
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
   } else {
     totalExp = expVals.reduce(
       (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '')),
+        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
       0,
     );
   }
 
-  return utilities + installments + otherExp + totalExp;
+  return utilities + installments + otherExp + totalExp + food + rentOrMortgage;
 };
 
 export const getTotalAssets = ({
@@ -284,17 +292,23 @@ export const getTotalAssets = ({
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
+  const formattedREValue = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, ''));
+    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const realEstate = !enhancedFSRActive
+    ? sumValues(realEstateRecords, 'realEstateAmount')
+    : formattedREValue;
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))
         .reduce(
-          (acc, amount) => acc + Number(amount?.replaceAll(/[^0-9.-]/g, '')),
+          (acc, amount) =>
+            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
           0,
         )
     : sumValues(assets.monetaryAssets, 'amount');

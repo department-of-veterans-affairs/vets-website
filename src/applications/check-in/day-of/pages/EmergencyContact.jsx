@@ -19,7 +19,12 @@ const EmergencyContact = props => {
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
 
-  const { goToNextPage, jumpToPage, goToPreviousPage } = useFormRouting(router);
+  const {
+    goToNextPage,
+    jumpToPage,
+    goToPreviousPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
   const { setShouldSendDemographicsFlags } = useSessionStorage(false);
 
   const seeStaffMessage = t(
@@ -60,7 +65,11 @@ const EmergencyContact = props => {
 
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <EmergencyContactDisplay
         emergencyContact={emergencyContact}
         yesAction={yesClick}

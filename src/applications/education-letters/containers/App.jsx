@@ -3,13 +3,7 @@ import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
-
-const EVLoginPlaceholder = (
-  <div
-    data-widget-type="view-education-letters-login"
-    id="education-letters-login-widget"
-  />
-);
+import LoginWidget from '../components/LoginWidget';
 
 const App = ({ user }) => {
   function renderUI() {
@@ -24,11 +18,7 @@ const App = ({ user }) => {
         </div>
       );
     }
-    if (user?.login?.currentlyLoggedIn) {
-      window.location.href = '/education/download-letters/letters';
-    }
-
-    return EVLoginPlaceholder;
+    return <LoginWidget />;
   }
 
   return (

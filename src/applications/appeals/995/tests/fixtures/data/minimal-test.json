@@ -74,9 +74,6 @@
       }
     ],
     "limitedConsent": "Pizza addiction",
-    "view:uploadPrivateRecordsChoice": {
-      "view:hasPrivateRecordsToUpload": false
-    },
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },

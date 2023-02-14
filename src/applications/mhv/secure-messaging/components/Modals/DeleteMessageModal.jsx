@@ -15,8 +15,12 @@ const DeleteMessageModal = props => {
       secondaryButtonText="Cancel"
       visible={props.visible}
       status="warning"
+      data-testid="delete-message-modal"
     >
-      <div className="modal-body vads-u-padding-bottom--1p5">
+      <div
+        className="modal-body vads-u-padding-bottom--1p5"
+        data-testid="delete-message-confirm-note"
+      >
         <p>{Prompts.Message.DELETE_MESSAGE_CONFIRM_NOTE}</p>
       </div>
     </VaModal>

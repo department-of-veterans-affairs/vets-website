@@ -7,6 +7,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
 import { EVIDENCE_PRIVATE, EVIDENCE_VA, EVIDENCE_OTHER } from '../../constants';
+import { content } from '../../content/evidenceSummary';
 
 const providerFacilityAddress = {
   country: 'USA',
@@ -101,7 +102,6 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="false"]', container)).to.exist;
     expect($$('h4', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
@@ -114,11 +114,11 @@ describe('<EvidenceSummaryReview>', () => {
       other: false,
     });
 
-    expect($('va-alert[status="error"][visible="true"]', container)).to.exist;
     expect($$('h3', container).length).to.eq(0);
     expect($$('ul', container).length).to.eq(0);
     expect($$('a', container).length).to.eq(0);
     expect($('a.vads-c-action-link--green', container)).to.not.exist;
+    expect(container.innerHTML).to.contain(content.missingEvidenceReviewText);
   });
 
   it('should call editPage callback', () => {

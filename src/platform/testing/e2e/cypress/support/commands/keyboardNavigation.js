@@ -11,6 +11,10 @@ const removeLeadingHash = name => name.replace(leadingHashRegex, '');
 /**
  * This command is used by other commands to select form values. You can call this yourself if you want to move focus to a specific radio value while the radio field is focused. The value is the value of the input/option.
  */
+// NOTE: This method does not work within <select> elements.
+// See https://github.com/dmtrKovalenko/cypress-real-events/issues/25
+// See https://github.com/department-of-veterans-affairs/va.gov-team/issues/16413#issuecomment-1093123322
+// Use chooseSelectOptionUsingValue or chooseSelectOptionByTyping instead.
 Cypress.Commands.add('findOption', value => {
   cy.get(':focus').then($el => {
     if ($el.val() !== value) {
@@ -119,6 +123,15 @@ Cypress.Commands.add(
   },
 );
 
+// Tab to element and press the space bar.
+Cypress.Commands.add(
+  'tabToElementAndPressSpace',
+  (selector, forward = true) => {
+    cy.tabToElement(selector, forward);
+    cy.realPress('Space');
+  },
+);
+
 // Target & use the "Start" form button on the Introduction page
 Cypress.Commands.add('tabToStartForm', () => {
   // Same button selector as tabToSubmitForm, or action link
@@ -131,6 +144,12 @@ Cypress.Commands.add('tabToStartForm', () => {
 // Target & use the "Continue" button on a form page
 Cypress.Commands.add('tabToContinueForm', () => {
   cy.tabToElement('button[type="submit"]');
+  cy.realPress('Space');
+});
+
+// Target & use the "Back" form button on a form page
+Cypress.Commands.add('tabToGoBack', (forward = true) => {
+  cy.tabToElement('#1-continueButton', forward);
   cy.realPress('Space');
 });
 
@@ -150,6 +169,8 @@ Cypress.Commands.add('tabToSubmitForm', () => {
  * @param {String} name - Name of the new command
  * @param {tabToInputWithLabel} callbackFunction - The callback finds the label text and then focuses on the associated input
  */
+// TODO: This doesn't actually mimic the actions of a keyboard user. Need to
+// update this method or deprecate it.
 Cypress.Commands.add('tabToInputWithLabel', text => {
   cy.contains('label', text)
     .invoke('attr', 'for')

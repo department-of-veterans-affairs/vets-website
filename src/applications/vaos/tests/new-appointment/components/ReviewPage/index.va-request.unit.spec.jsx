@@ -20,11 +20,7 @@ import {
   onCalendarChange,
   startRequestAppointmentFlow,
 } from '../../../../new-appointment/redux/actions';
-import {
-  mockMessagesFetch,
-  mockPreferences,
-  mockRequestSubmit,
-} from '../../../mocks/helpers';
+import { mockMessagesFetch, mockRequestSubmit } from '../../../mocks/helpers';
 import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
@@ -150,7 +146,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
-    const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
+    const editLinks = screen.getAllByTestId('edit-new-appointment');
     const uniqueLinks = new Set();
     editLinks.forEach(link => {
       expect(link).to.have.attribute('aria-label');
@@ -249,7 +245,6 @@ describe('VAOS <ReviewPage> VA request', () => {
     mockRequestSubmit('va', {
       id: 'fake_id',
     });
-    mockPreferences(null);
     mockMessagesFetch('fake_id', {});
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
@@ -465,7 +460,6 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
         reasonCode: {},
       },
     });
-    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,

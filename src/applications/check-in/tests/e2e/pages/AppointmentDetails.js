@@ -69,6 +69,35 @@ class AppointmentDetails {
     );
   };
 
+  validateAppointmentMessage = () => {
+    cy.get('div[data-testid="appointment-message"]').should('be.visible');
+  };
+
+  validateNoAppointmentMessage = () => {
+    cy.get('div[data-testid="appointment-message"]').should('not.exist');
+  };
+
+  validateCheckInButton = () => {
+    cy.get('button[data-testid="check-in-button"]').should('be.visible');
+  };
+
+  validateNoCheckInButton = () => {
+    cy.get('button[data-testid="check-in-button"]').should('not.exist');
+  };
+
+  validateReturnToAppointmentsPageButton = () => {
+    cy.get('a[data-testid="back-button"]')
+      .should('be.visible')
+      .should('have.attr', 'href')
+      .and('include', '#back');
+  };
+
+  clickCheckInButton = () => {
+    cy.get('button[data-testid="check-in-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   returnToAppointmentsPage = () => {
     cy.get('button[data-testid="back-button"]').click({
       waitForAnimations: true,

@@ -33,10 +33,11 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
     ''}`;
 
   if (claimStatus?.receivedDate) {
-    newReceivedDate = format(
-      new Date(claimStatus?.receivedDate),
-      'MMMM d, yyyy',
+    const receivedDate = new Date(claimStatus.receivedDate);
+    const receivedDateWithOffset = new Date(
+      receivedDate.valueOf() + receivedDate.getTimezoneOffset() * 60 * 1000,
     );
+    newReceivedDate = format(new Date(receivedDateWithOffset), 'MMMM d, yyyy');
   }
 
   switch (claimStatus?.claimStatus) {
@@ -57,6 +58,7 @@ function ConfirmationPage({ getClaimStatus, claimStatus, user }) {
       );
     }
     case 'INPROGRESS':
+    case 'SUBMITTED':
     case 'ERROR': {
       return (
         <UnderReviewConfirmation

@@ -1,7 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 
-describe('Secure Messaging Compose', () => {
+describe('Secure Messaging Compose Form Keyboard Nav', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {

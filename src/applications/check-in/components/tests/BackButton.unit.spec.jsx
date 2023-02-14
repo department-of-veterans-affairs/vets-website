@@ -45,7 +45,6 @@ describe('check-in', () => {
           </I18nextProvider>
         </Provider>,
       );
-
       expect(screen.getByTestId('back-button')).to.exist;
       expect(screen.getByTestId('back-button')).to.have.text(
         'Back to last screen',

@@ -62,6 +62,7 @@ import createPost911GiBillStatusWidget, {
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
 import createShiftedVetsBanner from './shifted-vets-banner';
+import createSupplementalClaim from './supplemental-claim';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -75,6 +76,8 @@ import {
 import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
 import createHomepageSearch from './homepage/createHomepageSearch';
 import create1095BDownloadCTA from './download-1095b';
+
+import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 
 // Set the app name header when using the apiRequest helper
@@ -197,9 +200,13 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
+createShiftedVetsBanner(store);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
-
+createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
+createEnrollmentVerificationLoginWidget(
+  store,
+  widgetTypes.VIEW_ENROLLMENT_VERIFICATION_LOGIN,
+);
 createEducationLettersLoginWidget(
   store,
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,

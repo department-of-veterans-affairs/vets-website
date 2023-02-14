@@ -45,7 +45,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
-  const errorVisible = evidenceLength === 0;
+  const noEvidence = evidenceLength === 0;
 
   const handlers = {
     onEditPage: () => {
@@ -64,7 +64,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         className="float-right edit-page usa-button-secondary"
         onClick={handlers.onEditPage}
         aria-label={content.editLabel}
-        tabIndex="0"
       >
         {content.edit}
       </button>
@@ -72,19 +71,14 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         {content.reviewPageHeaderText}
       </h4>
 
-      <va-alert
-        id="no-evidence"
-        status="error"
-        visible={errorVisible}
-        tabindex={errorVisible ? '0' : '-1'}
-      >
-        {errorVisible ? (
-          <>
-            <h5 slot="headline">{content.missingEvidenceHeader}</h5>
-            {content.missingEvidenceText}
-          </>
-        ) : null}
-      </va-alert>
+      {noEvidence ? (
+        <dl className="review">
+          <div className="review-row">
+            <dt>{content.missingEvidenceReviewText}</dt>
+            <dd />
+          </div>
+        </dl>
+      ) : null}
 
       <VaContent list={vaEvidence} reviewMode />
       <PrivateContent
