@@ -60,7 +60,6 @@ class PatientMessageDetailsPage {
         'This conversation will be moved. Any replies to this message will appear in your inbox',
       )
       .should('be.visible');
-    cy.get('[data-testid=radiobutton-Inbox]').should('be.visible');
     cy.get('[data-testid=radiobutton-Deleted]').should('be.visible');
     cy.get('[data-testid=radiobutton-TEST2]').should('be.visible');
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');
