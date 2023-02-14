@@ -1,3 +1,7 @@
+// declare the minimum percentage value to be considered high disability
+export const HIGH_DISABILITY_MINIMUM = 50;
+
+// declare enrollment status strings
 export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   activeDuty: 'activeduty',
   canceledDeclined: 'canceled_declined',
@@ -37,20 +41,11 @@ export const DASHBOARD_ALERT_TYPES = Object.freeze({
   update: 'update', // Gold, exclamation
 });
 
-export const IS_LOGGED_IN = 'isVeteranLoggedIn';
-export const USER_DOB = 'veteranDOB';
-export const IS_GTE_HIGH_DISABILITY =
-  'isVetetanDisabilityRatingGreaterThanOrEqualToHighDisability';
-export const IS_COMPENSATION_TYPE_HIGH =
-  'isCompensationTypeHighDisabilitySelected';
-export const IS_VETERAN_IN_MVI = 'isVeteranDataInMPI';
-export const IS_SHORT_FORM_ENABLED = 'isShortFormFeatureToggleEnabled';
-
 // declare states without medical care serivces
-export const statesWithoutService = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
+export const STATES_WITHOUT_MEDICAL = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
 
 // declare labels for discharge type select box
-export const dischargeTypeLabels = {
+export const DISCHARGE_TYPE_LABELS = {
   honorable: 'Honorable',
   general: 'General',
   other: 'Other Than Honorable',
@@ -60,7 +55,7 @@ export const dischargeTypeLabels = {
 };
 
 // declare labels for last service branch select box
-export const lastServiceBranchLabels = {
+export const SERVICE_BRANCH_LABELS = {
   'air force': 'Air Force',
   army: 'Army',
   'coast guard': 'Coast Guard',

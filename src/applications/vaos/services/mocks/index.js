@@ -34,6 +34,7 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const confirmedV2 = require('./v2/confirmed.json');
+const meta = require('./v2/meta.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
@@ -196,7 +197,7 @@ const responses = {
         start: req.body.slot ? req.body.slot.start : null,
       },
     };
-    currentMockId++;
+    currentMockId += 1;
     mockAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
@@ -266,7 +267,7 @@ const responses = {
         return false;
       });
     });
-    return res.json({ data: filteredAppointments });
+    return res.json({ data: filteredAppointments, meta });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -590,7 +591,6 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
