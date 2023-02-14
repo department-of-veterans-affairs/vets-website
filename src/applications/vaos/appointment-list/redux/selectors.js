@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
+import moment from 'moment';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -18,6 +19,7 @@ import {
   isUpcomingAppointment,
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
+  getAppointmentTimezone,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -27,6 +29,7 @@ import {
   selectFeatureAppointmentList,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 export function getCancelInfo(state) {
   const {
@@ -320,4 +323,114 @@ export function selectBackendServiceFailuresInfo(state) {
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
+}
+
+export function selectStartDate(appointment) {
+  if (
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+  ) {
+    return moment(appointment.requestedPeriod[0].start);
+  }
+
+  return moment(appointment.start);
+}
+
+export function selectIsCanceled(appointment) {
+  return appointment.status === APPOINTMENT_STATUS.cancelled;
+}
+
+export function selectIsCommunityCare(appointment) {
+  return appointment.vaos.isCommunityCare;
+}
+
+export function selectIsPhone(appointment) {
+  return appointment.vaos.isPhoneAppointment;
+}
+
+export function selectIsVideo(appointment) {
+  return appointment.vaos.isVideo;
+}
+
+export function selectTypeOfCareName(appointment) {
+  const { name } =
+    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
+  return name;
+}
+
+export function selectIsInPerson(appointment) {
+  return (
+    !selectIsVideo(appointment) &&
+    !selectIsCommunityCare(appointment) &&
+    !selectIsPhone(appointment)
+  );
+}
+
+export function selectPractitionerName(appointment) {
+  const { practitioners } = appointment;
+
+  if (!practitioners?.length) return null;
+
+  const practitioner = practitioners[0];
+  const { name } = practitioner;
+
+  return `${name?.given.toString().replaceAll(',', ' ')} ${name?.family}`;
+}
+
+export function selectAppointmentLocality(appointment) {
+  const practitioner = selectPractitionerName(appointment);
+  const typeOfCareName = selectTypeOfCareName(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+
+  if (isCommunityCare) return 'Community care';
+  if (isPhone) return 'VA Appointment';
+  if (isVideo)
+    return practitioner
+      ? `VA Appointment with ${practitioner}`
+      : 'VA Appointment';
+  if (isInPerson)
+    return typeOfCareName && practitioner
+      ? `${typeOfCareName} with ${practitioner}`
+      : 'VA Appointment';
+
+  return '';
+}
+
+export function selectModality(appointment) {
+  const isPhone = selectIsPhone(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+
+  let modaility = 'person';
+
+  if (isPhone) modaility = 'Phone call';
+  if (isCommunityCare) modaility = 'Community care';
+  if (isVideo) modaility = 'Video appointment';
+  if (isInPerson) modaility = 'In person';
+
+  return modaility;
+}
+
+export function selectModalityIcon(appointment) {
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+
+  let icon = 'fa-building';
+
+  if (isPhone) icon = 'fa-phone-alt';
+  if (isVideo) icon = 'fa-video';
+  if (isInPerson || isCommunityCare) icon = 'fa-building';
+
+  return icon;
+}
+
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
 }

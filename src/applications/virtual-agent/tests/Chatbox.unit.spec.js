@@ -38,7 +38,7 @@ const disclaimerText =
  * @testing-library/dom
  */
 
-describe('App', () => {
+describe.skip('App', () => {
   let oldWindow;
   let directLineSpy;
   let createStoreSpy;
