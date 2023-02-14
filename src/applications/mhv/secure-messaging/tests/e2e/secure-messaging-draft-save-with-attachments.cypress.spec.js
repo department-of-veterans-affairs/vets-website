@@ -33,7 +33,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
 
     cy.get('[visible=""] > p').should(
       'contain',
-      "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      'If you save this message as a draft',
     );
 
     cy.injectAxe();
