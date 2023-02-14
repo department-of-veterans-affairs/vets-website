@@ -253,11 +253,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaGlobalDowntimeNotification',
-          value: false,
-        },
-
-        {
           name: 'vaOnlineSchedulingVAOSServiceRequests',
           value: true,
         },
