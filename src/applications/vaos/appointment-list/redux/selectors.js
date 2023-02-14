@@ -421,11 +421,13 @@ export function selectModalityIcon(appointment) {
   const isInPerson = selectIsInPerson(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
 
-  let icon = 'fa-building';
+  // Pseudo style used to maintain spacing by hiding the assigned icon.
+  let icon = 'fa-blank';
 
   if (isPhone) icon = 'fa-phone-alt';
   if (isVideo) icon = 'fa-video';
-  if (isInPerson || isCommunityCare) icon = 'fa-building';
+  if (isCommunityCare) icon = 'fa-building fa-blank';
+  if (isInPerson) icon = 'fa-building';
 
   return icon;
 }
