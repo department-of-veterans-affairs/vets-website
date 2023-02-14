@@ -30,7 +30,11 @@ const Vaccines = () => {
         This is a complete list of vaccines that the VA has on file for you.
       </p>
       <div className="vads-u-display--flex vads-u-margin-y--3">
-        <button className="link-button vads-u-margin-right--3" type="button">
+        <button
+          className="link-button vads-u-margin-right--3"
+          type="button"
+          data-testid="print-records-button"
+        >
           <i className="fas fa-print vads-u-margin-right--1" />
           Print page
         </button>
