@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const fakeLinks = [
-  { href: '#link01', text: 'Link One' },
-  { href: '#link02', text: 'Link Two' },
+  { href: '#link01', text: 'Goodly link One' },
+  { href: '#link02', text: 'Link Two, which is quietly wrapping flying flies' },
   { href: '#link03', text: 'Link Three' },
   { href: '#link04', text: 'Link Four' },
 ];
@@ -11,14 +11,16 @@ const fakeLinks = [
 const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
     <li key={`${l.href}--${index}`}>
-      <a href={l.href}>{l.text}</a>
+      <a className="mhv-c-link" href={l.href}>
+        {l.text}
+      </a>
     </li>
   ));
   return (
     <>
       <h2>{title}</h2>
       <nav>
-        <ul className="hub-page-link-list">{listItems}</ul>
+        <ul className="mhv-c-link-list">{listItems}</ul>
       </nav>
     </>
   );

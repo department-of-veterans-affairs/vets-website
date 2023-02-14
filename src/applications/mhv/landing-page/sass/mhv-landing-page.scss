@@ -1,5 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+$anchor-font-size: 1.9rem;
+
 .mhv-u-list-style--none {
   list-style: none;
 }
@@ -16,14 +18,35 @@
   margin-right: units(2);
 }
 
+.mhv-c-link-list {
+  list-style-type: none;
+  padding: 0;
+  > li {
+    margin: 0 0 1.6rem 0;
+  }
+}
+
+.mhv-c-link {
+  display: inline-block;
+  font-size: $anchor-font-size;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
 // Copied and adapted from va-link
 .mhv-c-navlink {
+  font-size: $anchor-font-size;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 1.9rem;
   font-weight: 700;
   text-decoration: none;
+
+  &:active,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
 
   i::before {
     -moz-osx-font-smoothing: grayscale;
@@ -31,8 +54,8 @@
     display: inline-block;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
+    font-size: 2.4rem;
     font-variant: normal;
-    font-weight: 900;
     line-height: 1;
     margin-right: 0.8rem;
     text-rendering: auto;
