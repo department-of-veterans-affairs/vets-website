@@ -105,6 +105,8 @@ const EvidencePrivateRecords = ({
 
   const availableIssues = getSelected(data).map(getIssueName);
 
+  const addOrEdit = isEmptyPrivateEntry(currentData) ? 'add' : 'edit';
+
   // *** validations ***
   const errors = {
     unique: checkValidations(
@@ -385,7 +387,7 @@ const EvidencePrivateRecords = ({
           className="vads-u-font-family--serif"
         >
           <h3 name="topPageElement" className="vads-u-margin--0">
-            {content.title}
+            {content.title(addOrEdit, currentIndex + 1)}
           </h3>
         </legend>
         <p>{content.description}</p>

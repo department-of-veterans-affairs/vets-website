@@ -39,6 +39,7 @@ import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import contactInformationPage from '../../pages/contactInformation';
+import createDirectDepositPage5490 from '../content/directDeposit';
 import createDirectDepositPage from '../../pages/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import applicantServicePage from '../../pages/applicantService';
@@ -804,7 +805,9 @@ const formConfig = {
             },
           },
         },
-        directDeposit: createDirectDepositPage(fullSchema5490),
+        directDeposit: !environment.isProduction()
+          ? createDirectDepositPage5490()
+          : createDirectDepositPage(fullSchema5490),
       },
     },
   },
