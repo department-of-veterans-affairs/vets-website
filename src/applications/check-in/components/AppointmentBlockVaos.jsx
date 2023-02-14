@@ -69,6 +69,7 @@ const AppointmentBlockVaos = props => {
                 )
               }
               appointmentMessage={app === APP_NAMES.CHECK_IN}
+              router={router}
             />
           );
         })}

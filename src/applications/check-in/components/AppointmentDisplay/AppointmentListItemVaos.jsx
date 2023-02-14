@@ -16,6 +16,7 @@ const AppointmentListItemVaos = props => {
     AppointmentAction,
     showDetailsLink,
     appointmentMessage,
+    router,
   } = props;
   const { t } = useTranslation();
 
@@ -67,7 +68,9 @@ const AppointmentListItemVaos = props => {
           <div className="vads-u-margin-y--2">
             <a
               data-testid="details-link"
-              href={`/appointment-details/${getAppointmentId(appointment)}`}
+              href={`${
+                router.location.basename
+              }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
               aria-label={t('click-to-see-details-for-your-time-appointment', {
                 time: appointmentDateTime,
@@ -91,6 +94,7 @@ AppointmentListItemVaos.propTypes = {
   AppointmentAction: PropTypes.node,
   appointmentMessage: PropTypes.bool,
   goToDetails: PropTypes.func,
+  router: PropTypes.object,
   showDetailsLink: PropTypes.bool,
 };
 
