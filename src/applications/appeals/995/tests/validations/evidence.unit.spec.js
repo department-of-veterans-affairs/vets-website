@@ -396,6 +396,9 @@ describe('Private evidence', () => {
       expect(isEmptyPrivateEntry({ providerFacilityName: '' })).to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { country: '' } }))
         .to.be.true;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'USA' } }),
+      ).to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { street: '' } }))
         .to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { street2: '' } }))
@@ -438,11 +441,26 @@ describe('Private evidence', () => {
           treatmentDateRange: { from: '', to: '' },
         }),
       ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityName: '',
+          providerFacilityAddress: {
+            country: 'USA',
+            street: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+          },
+          issues: [''],
+          treatmentDateRange: { from: '', to: '' },
+        }),
+      ).to.be.true;
     });
     it('should return false for filled or partially filled entries', () => {
       expect(isEmptyPrivateEntry({ providerFacilityName: 'bar' })).to.be.false;
       expect(
-        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'USA' } }),
+        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'Fiji' } }),
       ).to.be.false;
       expect(
         isEmptyPrivateEntry({ providerFacilityAddress: { street: '123' } }),
