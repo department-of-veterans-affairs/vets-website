@@ -32,7 +32,7 @@ const App = () => {
             </div>
             <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--6">
               <img
-                src="/img/my-health/logo/logo.png"
+                src="/img/mhv-logo.png"
                 className="vagov-logo vads-u-max-width--100 vads-u-margin-bottom--4"
                 alt="My HealtheVet Logo"
               />
