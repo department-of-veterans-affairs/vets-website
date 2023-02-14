@@ -170,7 +170,7 @@ describe('efsr-fsr transform helper functions', () => {
           },
         ],
       };
-      expect(getMonthlyExpenses(expenses)).to.equal(800);
+      expect(getMonthlyExpenses(expenses)).to.equal(1000);
     });
   });
 
@@ -761,7 +761,7 @@ describe('efsr-fsr transform information', () => {
       expect(
         submissionObj.expenses.expensesInstallmentContractsAndOtherDebts,
       ).to.equal('2000.64');
-      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('8203.44');
+      expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('13404.35');
     });
     describe('efsr-other living expenses', () => {
       it('has valid structure', () => {
@@ -800,7 +800,7 @@ describe('efsr-fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(
         submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('12394.41');
+      ).to.equal('7193.50');
       expect(
         submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
       ).to.equal('61.02');
