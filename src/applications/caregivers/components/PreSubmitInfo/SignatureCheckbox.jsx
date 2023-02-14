@@ -23,7 +23,7 @@ const SignatureCheckbox = ({
     : undefined;
   const ariaDescribedbyMessage = isRepresentative
     ? `on behalf of ${fullName.first} ${fullName.middle} ${fullName.last}`
-    : '';
+    : undefined;
 
   useEffect(
     () => {
