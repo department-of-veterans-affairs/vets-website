@@ -386,15 +386,15 @@ export function selectAppointmentLocality(appointment) {
   const isInPerson = selectIsInPerson(appointment);
 
   if (isCommunityCare) return 'Community care';
-  if (isPhone) return 'VA Appointment';
+  if (isPhone) return 'VA appointment';
   if (isVideo)
     return practitioner
-      ? `VA Appointment with ${practitioner}`
-      : 'VA Appointment';
+      ? `VA appointment with ${practitioner}`
+      : 'VA appointment';
   if (isInPerson)
     return typeOfCareName && practitioner
       ? `${typeOfCareName} with ${practitioner}`
-      : 'VA Appointment';
+      : 'VA appointment';
 
   return '';
 }
