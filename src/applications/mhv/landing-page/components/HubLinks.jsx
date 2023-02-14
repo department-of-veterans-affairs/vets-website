@@ -17,7 +17,9 @@ const HubSection = ({ title, links }) => {
   return (
     <>
       <h2>{title}</h2>
-      <ul className="hub-page-link-list">{listItems}</ul>
+      <nav>
+        <ul className="hub-page-link-list">{listItems}</ul>
+      </nav>
     </>
   );
 };
@@ -26,14 +28,14 @@ const HubLinks = () => {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-bottom--3">
-        <div className="vads-l-col--12 medium-screen:vads-l-col">
-          <HubSection title="Heading 01" links={fakeLinks} />
+        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
+          <HubSection title="My VA health benefits" links={fakeLinks} />
         </div>
-        <div className="vads-l-col--12 medium-screen:vads-l-col">
-          <HubSection title="Heading 02" links={fakeLinks} />
+        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
+          <HubSection title="More resources and support" links={fakeLinks} />
         </div>
-        <div className="vads-l-col--12 medium-screen:vads-l-col">
-          <HubSection title="Heading 03" links={fakeLinks} />
+        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
+          <HubSection title="In the Spotlight" links={fakeLinks} />
         </div>
       </div>
     </div>
