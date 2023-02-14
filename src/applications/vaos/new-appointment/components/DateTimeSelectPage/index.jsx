@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import PropTypes from 'prop-types';
 import InfoAlert from '../../../components/InfoAlert';
 
 import {
