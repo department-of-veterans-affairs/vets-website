@@ -207,7 +207,10 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle,
         last: spouseLast,
       },
-      agesOfOtherDependents: dependents?.map(dep => dep.dependentAge) ?? [],
+      agesOfOtherDependents:
+        questions?.hasDependents > 0 || questions?.hasDependents
+          ? dependents?.map(dep => dep.dependentAge)
+          : [],
       employmentHistory,
     },
     income: [

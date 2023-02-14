@@ -450,13 +450,33 @@ const formConfig = {
           title: 'Dependents',
           uiSchema: pages.dependents.uiSchema,
           schema: pages.dependents.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        dependentCount: {
+          path: 'dependents-count',
+          title: 'Dependents',
+          uiSchema: pages.dependents.uiSchemaEnhanced,
+          schema: pages.dependents.schemaEnhanced,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         dependentRecords: {
           path: 'dependent-records',
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: ({ questions }) => questions.hasDependents,
+          depends: formData =>
+            !formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents,
+          editModeOnReviewPage: true,
+        },
+        dependentAges: {
+          path: 'dependent-ages',
+          title: 'Dependents',
+          uiSchema: pages.dependentRecords.uiSchemaEnhanced,
+          schema: pages.dependentRecords.schemaEnhanced,
+          depends: formData =>
+            formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents > 0,
           editModeOnReviewPage: true,
         },
       },
