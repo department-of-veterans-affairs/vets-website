@@ -16,7 +16,9 @@ const NavCard = ({ icon = null, title, links }) => {
         {icon && <i className={`fas fa-${icon} vads-u-margin-right--1`} />}{' '}
         {title}
       </h2>
-      <nav className="mhv-u-list-style--none">{listItems}</nav>
+      <nav>
+        <ul className="mhv-u-list-style--none">{listItems}</ul>
+      </nav>
     </div>
   );
 };
