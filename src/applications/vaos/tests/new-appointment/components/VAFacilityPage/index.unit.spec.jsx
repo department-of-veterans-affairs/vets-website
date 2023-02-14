@@ -710,7 +710,7 @@ describe('VAOS <VAFacilityPage>', () => {
         .to.be.null;
     });
 
-    it.skip('should display correct facilities after changing type of care', async () => {
+    it('should display correct facilities after changing type of care', async () => {
       const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
