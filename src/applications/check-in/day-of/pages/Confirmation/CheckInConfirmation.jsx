@@ -90,7 +90,7 @@ const CheckInConfirmation = props => {
   const renderConfirmationMessage = () => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
-        <p>{t('your-appointment')}</p>
+        <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
@@ -105,7 +105,9 @@ const CheckInConfirmation = props => {
           class="vads-u-margin-bottom--2"
         >
           <div>
-            {t('well-get-you-from-waiting-room-when-time-for-your-appointment')}
+            {`${t(
+              'well-get-you-from-waiting-room-when-time-for-your-appointment',
+            )} `}
             {t('if-you-wait-more-than')}
           </div>
         </va-alert>
