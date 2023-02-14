@@ -477,7 +477,7 @@ describe('VAOS <VAFacilityPage>', () => {
         .exist;
     });
 
-    // Temporarily disabling test to troubleshoot
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it.skip('should show additional info link if there are unsupported facilities within 100 miles', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -592,7 +592,7 @@ describe('VAOS <VAFacilityPage>', () => {
       ).to.have.attribute('href', '/find-locations');
     });
 
-    // Temporarily skipping to troubleshoot
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it.skip('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [
@@ -781,6 +781,7 @@ describe('VAOS <VAFacilityPage>', () => {
       expect(await screen.findAllByRole('radio')).to.have.length(2);
     });
 
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it.skip('should display Cerner sites in the facility list ', async () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(parentSiteIds, [

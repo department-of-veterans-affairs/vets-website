@@ -1,19 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function AppointmentListItem({
-  appointment,
-  children,
-  className,
-}) {
-  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-
+export default function AppointmentListItem({ children, className, id }) {
   return (
     <>
       <li
-        id={idClickable}
+        id={`id-${id.replace('.', '\\.')}`}
         className={className}
-        data-request-id={appointment.id}
+        data-request-id={id}
         data-cy="appointment-list-item"
       >
         {children}
@@ -23,7 +17,7 @@ export default function AppointmentListItem({
 }
 
 AppointmentListItem.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  children: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  children: PropTypes.node,
   className: PropTypes.string,
 };
