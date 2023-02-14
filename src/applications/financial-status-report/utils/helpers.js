@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { get } from 'lodash';
 import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
@@ -263,6 +264,8 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
+  const food = Number(get(expenses, 'food', 0));
+  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
 
   let totalExp = 0;
 
@@ -280,7 +283,7 @@ export const getMonthlyExpenses = ({
     );
   }
 
-  return utilities + installments + otherExp + totalExp;
+  return utilities + installments + otherExp + totalExp + food + rentOrMortgage;
 };
 
 export const getTotalAssets = ({
@@ -391,19 +394,4 @@ export const getDebtName = debt => {
 
 export const getCurrentEmploymentHistoryObject = () => {
   return null;
-};
-
-/**
- * Convert an array into a readable list of items
- * @param {String[]} list - Array of items. Empty entries are stripped out
- * @returns {String}
- * @example
- * readableList(['1', '2', '3', '4', 'five'])
- * // => '1, 2, 3, 4 and five'
- */
-export const readableList = list => {
-  const cleanedList = list.filter(Boolean);
-  return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
-    cleanedList.length < 2 ? '' : ' and ',
-  );
 };

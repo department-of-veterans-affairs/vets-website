@@ -6,17 +6,17 @@ import { groupAppointmentByDay } from '../../../services/appointment';
 import AppointmentListItemGroup from './AppointmentListItemGroup';
 
 export default function AppointmentListGroup({ data }) {
-  const groupedBy = groupAppointmentByDay(data);
+  const keys = Object.keys(data);
 
   return (
     <>
-      {groupedBy.map((group, monthIndex) => {
-        const key = Object.keys(group);
-        const appointments = Object.values(group);
-        const date = moment(key, 'YYYY-MM-DD');
+      {keys.map((key, i) => {
+        const date = moment(key, 'YYYY-MM');
+        const hashTable = groupAppointmentByDay(data[key]);
+        const dayKeys = Object.keys(hashTable);
 
         return (
-          <React.Fragment key={monthIndex}>
+          <React.Fragment key={i}>
             <h2
               id={`appointment_list_${date.format('YYYY-MM')}`}
               data-cy="upcoming-appointment-list-header"
@@ -34,20 +34,26 @@ export default function AppointmentListGroup({ data }) {
               data-cy="upcoming-appointment-list"
               role="list"
             >
-              {appointments.map((collection, index) => {
-                if (collection.length > 1) {
+              {dayKeys.map((dayKey, index) => {
+                if (dayKeys.length > 1) {
                   return (
                     <ul
                       key={index}
                       className="vads-u-padding-left--0 vads-u-border-bottom--1px"
                       style={{ margin: 0 }}
                     >
-                      <AppointmentListItemGroup key={index} data={collection} />
+                      <AppointmentListItemGroup
+                        key={index}
+                        data={hashTable[dayKey]}
+                      />
                     </ul>
                   );
                 }
                 return (
-                  <AppointmentListItemGroup key={index} data={collection} />
+                  <AppointmentListItemGroup
+                    key={index}
+                    data={hashTable[dayKey]}
+                  />
                 );
               })}
             </ul>

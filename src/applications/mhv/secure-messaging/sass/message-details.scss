@@ -64,7 +64,7 @@
     margin: 0px;
     padding: 0px;
     @media (max-width: $small-screen) {
-      li{
+      li {
         width: 100%;
       }
     }
@@ -87,10 +87,10 @@
         width: 102%;
       }
     }
-    :first-child button{
+    :first-child button {
       border-radius: 5px 0 0 5px;
     }
-    :last-child button{
+    :last-child button {
       border-radius: 0 5px 5px 0;
     }
   }
@@ -105,6 +105,14 @@
 
 @media print {
   body {
+    a,
+    a:visited {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    va-alert {
+      display: none;
+    }
     .secure-messaging-navigation {
       display: none;
     }

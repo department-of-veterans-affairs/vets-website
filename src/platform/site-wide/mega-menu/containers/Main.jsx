@@ -67,7 +67,6 @@ export class Main extends Component {
     ).isRequired,
     display: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired,
-    isMegaMenuMobileV2Enabled: PropTypes.bool,
   };
 
   toggleDropDown = currentDropdown => {
@@ -179,6 +178,11 @@ const mapStateToProps = (state, ownProps) => {
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
+
+  // If user is not logged in, open login modal on current page with a redirect param to my-va
+  if (!loggedIn) {
+    MY_VA_LINK.href = `${window.location.href.split('?')[0]}?next=%2Fmy-va%2F`;
+  }
 
   defaultLinks.push(MY_VA_LINK);
 
