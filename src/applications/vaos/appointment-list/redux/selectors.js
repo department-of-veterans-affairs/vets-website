@@ -314,3 +314,10 @@ export function selectCommunityCareDetailsInfo(state, id) {
     useV2: featureVAOSServiceCCAppointments,
   };
 }
+export function selectBackendServiceFailuresInfo(state) {
+  const { backendServiceFailures } = state.appointments;
+  return {
+    futureStatus: selectFutureStatus(state),
+    backendServiceFailures,
+  };
+}

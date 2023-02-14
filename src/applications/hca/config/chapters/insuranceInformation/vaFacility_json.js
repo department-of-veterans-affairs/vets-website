@@ -11,7 +11,7 @@ import {
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import {
   medicalCentersByState,
-  NotHighDisabilityOrNotCompensationTypeHigh,
+  isShortFormEligible,
 } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
@@ -28,7 +28,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:vaFacilityTitle': {
