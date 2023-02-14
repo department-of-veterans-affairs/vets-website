@@ -83,9 +83,9 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '108px', maxWidth: '108px' }}
           >
-            {`${startDate.format('h:mm')} ${startDate
-              .format('a')
-              .replace(/\./g, '')} ${timezoneAbbr}`}{' '}
+            {`${startDate.format('h:mm')} ${startDate.format(
+              'a',
+            )} ${timezoneAbbr}`}{' '}
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
