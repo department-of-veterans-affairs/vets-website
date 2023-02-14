@@ -13,14 +13,13 @@ import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
+import VistaSchedulingServiceAlert from '../VistaSchedulingServiceAlert';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
-
-let pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -95,9 +94,12 @@ function renderWarningNotification() {
 export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
+  let [pageTitle] = useState('VA online scheduling');
+
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
+
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
   );
@@ -129,7 +131,13 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname, prefix],
+    [
+      subPageTitle,
+      featureStatusImprovement,
+      location.pathname,
+      prefix,
+      pageTitle,
+    ],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
@@ -185,6 +193,7 @@ export default function AppointmentsPageV2() {
       />
       <ScheduleNewAppointment />
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
+      <VistaSchedulingServiceAlert />
       {!featureStatusImprovement && (
         <>
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
