@@ -46,7 +46,7 @@ const TravelPayAlert = props => {
                 {t('check-travel-claim-status')}
               </p>
               <ExternalLink
-                href="/health-care/get-reimbursed-for-travel-pay/"
+                href="/accessva-travel-claim/"
                 hrefLang="en"
                 eventId="clicked-go-to-accessva-from-success"
                 eventPrefix="nav"
@@ -76,7 +76,7 @@ const TravelPayAlert = props => {
             />
           </p>
           <ExternalLink
-            href="/health-care/get-reimbursed-for-travel-pay/"
+            href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
             hrefLang="en"
             eventId="clicked-how-to-file-link-from-ineligible"
             eventPrefix="nav"
@@ -101,7 +101,7 @@ const TravelPayAlert = props => {
               {errorMsg}
             </p>
             <ExternalLink
-              href="/health-care/get-reimbursed-for-travel-pay/"
+              href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
               hrefLang="en"
               eventId={errorLinkEventId}
               eventPrefix="nav"

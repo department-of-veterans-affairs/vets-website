@@ -108,7 +108,8 @@ describe('<EvidenceSummary>', () => {
   it('should render', () => {
     const { container } = setupSummary();
 
-    expect($$('h3', container).length).to.eq(3);
+    expect($$('h3', container).length).to.eq(1);
+    expect($$('h4', container).length).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
     expect($('a.vads-c-action-link--green', container)).to.exist;
     expect($$('.form-nav-buttons button', container).length).to.eq(2);
