@@ -35,7 +35,6 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       'contain',
       'If you save this message as a draft',
     );
-
     cy.injectAxe();
     cy.axeCheck();
     cy.realPress(['Enter']);
