@@ -38,7 +38,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Community Care/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/cc');
       cy.get('[data-cy=community-care-appointment-details-header]')
@@ -64,9 +64,8 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
-
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
@@ -91,7 +90,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
@@ -120,7 +119,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at a VA Location/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-video-appointment-details-header]')
@@ -146,7 +145,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at an ATLAS Location/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-video-appointment-details-header]')
@@ -172,7 +171,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at home/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-video-appointment-details-header]')
@@ -198,7 +197,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
         .parent()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.findByText(/Appointment detail/i).should('exist');
       cy.findByText(/Cancel appointment/i).click();
@@ -249,7 +248,7 @@ describe('VAOS appointment list', () => {
     it('should navigate to upcoming appointment details', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
-        .find('va-link')
+        .findByText(/Details/i)
         .click();
       cy.findByText(/Appointment detail/i).should('exist');
       cy.axeCheckBestPractice();
@@ -301,15 +300,15 @@ describe('VAOS appointment list', () => {
       cy.axeCheckBestPractice();
     });
 
-    // Skipping for now
-    it.skip('should navigate to requested appointment details', () => {
-      cy.get('[data-cy=requested-appointment-list-item]')
+    it('should navigate to requested appointment details', () => {
+      cy.get('[data-testid="appointment-detail-link"]')
         .first()
-        .find('va-link')
-        .click({ waitForAnimations: true });
+        .shadow()
+        .find('a')
+        .click();
 
       cy.findByText(/Request detail/i).should('exist');
-
+      cy.injectAxe();
       cy.axeCheckBestPractice();
     });
   });
@@ -358,7 +357,8 @@ describe('VAOS appointment list', () => {
     it('should navigate to past appointment details', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
-        .find('va-link')
+        .findByText(/Details/i)
+        .focus()
         .click({ waitForAnimations: true });
       cy.findByText(/Appointment detail/i).should('exist');
 
@@ -436,7 +436,8 @@ describe('VAOS appointment list', () => {
 
       cy.get('[data-cy=appointment-list-item]')
         .first()
-        .find('va-link')
+        .findByText(/Details/i)
+        .focus()
         .click({ waitForAnimations: true });
       cy.findByText(/Appointment detail/i).should('exist');
 
