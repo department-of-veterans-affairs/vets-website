@@ -124,15 +124,44 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'spouse-employment-records': ({ afterHook }) => {
+      'enhanced-spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
           SpouseEmploymentHistory.fillEmployerInfo();
+        });
+      },
+      'spouse-gross-monthly-income': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#gross-monthly-income')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse-deduction-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          SpouseEmploymentHistory.goBackAndValidateInput(
+            '[data-testid="gross-monthly-income"]',
+            '1000',
+          );
+
+          // continuing to deduction checklist
+          SpouseEmploymentHistory.attemptNextPage();
+
+          cy.get(`input[name="State tax"]`)
+            .first()
+            .check();
           SpouseEmploymentHistory.attemptNextPage();
         });
       },
-      'spouse/income/0': ({ afterHook }) => {
+      'spouse-deduction-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`#root_spouseGrossSalary`).type('3500');
+          cy.get('#State\\ tax0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('123');
           cy.get('.usa-button-primary').click();
         });
       },

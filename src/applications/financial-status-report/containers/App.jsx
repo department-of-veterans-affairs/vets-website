@@ -97,12 +97,12 @@ const App = ({
   const dispatch = useDispatch();
   useEffect(
     () => {
-      if (showCombinedFSR) {
+      if (isLoggedIn && showCombinedFSR) {
         fetchDebts(dispatch);
         getStatements(dispatch);
       }
     },
-    [dispatch, showCombinedFSR],
+    [dispatch, isLoggedIn, showCombinedFSR],
   );
 
   if (pending) {
@@ -120,6 +120,7 @@ const App = ({
   }
 
   if (
+    !isError &&
     isLoggedIn &&
     showCombinedFSR &&
     !debts.length &&

@@ -29,14 +29,16 @@ const IssueSummary = ({ formData }) => {
   return (
     <fieldset>
       <legend className={legendClassNames}>
-        These are the issues you’re asking to receive a Supplemental Claim.
+        <h3 className="vads-u-margin-y--0">
+          Confirm the issues you’re asking to receive a Supplemental Claim for.
+        </h3>
       </legend>
       <ul className="issues-summary">
         {issues.map((issue, index) => (
           <li key={index} className={listClassNames}>
-            <h3 className="capitalize vads-u-margin-top--0 vads-u-font-size--h4">
+            <h4 className="capitalize vads-u-margin-top--0">
               {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
-            </h3>
+            </h4>
             <div>
               Decision date:{' '}
               {getDate({
