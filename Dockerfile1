@@ -24,7 +24,7 @@ WORKDIR /website/content-build
 # setting up content-build
 RUN yarn install
 RUN cp .env.example .env
-#RUN yarn fetch-drupal-cache
+RUN yarn fetch-drupal-cache
 RUN yarn build --no-drupal-cache
 
 EXPOSE 3002
