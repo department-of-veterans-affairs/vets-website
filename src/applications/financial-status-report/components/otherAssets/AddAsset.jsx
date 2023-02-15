@@ -164,7 +164,9 @@ const AddAsset = props => {
               className="vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
-              Update or Add (depends on index?)
+              {`${
+                otherAssetsEnhanced.length === index ? 'Add' : 'Update'
+              } asset`}
             </button>
           </p>
         </fieldset>
