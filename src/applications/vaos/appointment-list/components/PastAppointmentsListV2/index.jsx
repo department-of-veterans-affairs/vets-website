@@ -30,7 +30,6 @@ import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
 } from '../../../redux/selectors';
-// import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
 
