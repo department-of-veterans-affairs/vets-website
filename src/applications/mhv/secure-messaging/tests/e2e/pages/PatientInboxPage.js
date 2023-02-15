@@ -38,13 +38,11 @@ class PatientInboxPage {
       mockCategories,
     ).as('categories');
     if (getFoldersStatus === 200) {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/messaging/folders?page*',
-        mockFolders,
-      ).as('folders');
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
     } else {
-      cy.intercept('GET', '/my_health/v1/messaging/folders?page*', {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
         statusCode: 400,
         body: {
           alertType: 'error',
