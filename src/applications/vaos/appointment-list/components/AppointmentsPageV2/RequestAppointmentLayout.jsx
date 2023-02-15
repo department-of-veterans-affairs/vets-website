@@ -9,7 +9,7 @@ import AppointmentColumn from './AppointmentColumn';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModality,
+  selectModalityText,
   selectModalityIcon,
   selectStartDate,
   selectTypeOfCareName,
@@ -24,7 +24,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const link = `requests/${appointment.id}`;
-  const modality = useSelector(() => selectModality(appointment));
+  const modality = useSelector(() => selectModalityText(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const preferredDate = useSelector(() => selectStartDate(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));

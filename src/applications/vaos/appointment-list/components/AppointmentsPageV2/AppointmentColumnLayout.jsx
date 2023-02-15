@@ -7,7 +7,7 @@ import AppointmentRow from './AppointmentRow';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModality,
+  selectModalityText,
   selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
@@ -24,7 +24,7 @@ export default function AppointmentColumnLayout({
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
-  const modality = useSelector(() => selectModality(data));
+  const modality = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
@@ -92,7 +92,7 @@ export default function AppointmentColumnLayout({
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vaos-appts__text--truncate"
+                className="vads-u-font-weight--bold vaos-appts__text--truncate"
                 canceled={isCanceled}
               >
                 {appointmentLocality}
