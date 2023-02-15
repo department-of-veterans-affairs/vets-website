@@ -1,8 +1,8 @@
 import { intersection, pick } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { previousSahApplicationFields } from '../definitions/constants';
-import fullSchema from '../26-4555-schema.json';
 
 const { required, properties } = fullSchema.properties[
   previousSahApplicationFields.parentObject
@@ -17,8 +17,6 @@ const previousSahApplication2 = {
       'ui:title': 'Date of previous application',
       'ui:widget': 'date',
     },
-    // can't use ('...', true) here to turn on line 3
-    // check if usAddress or profileAddress definitions work better for that
     [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
       'Address connected to your past application',
       false,

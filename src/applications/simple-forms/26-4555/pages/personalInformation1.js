@@ -1,10 +1,8 @@
 import { intersection, pick } from 'lodash';
 
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import customFullNameUI from '../definitions/customFullNameUI';
-import fullSchema from '../26-4555-schema.json';
 import { veteranFields } from '../definitions/constants';
-
-// TODO: import fullSchema from vets-json-schema once that's available
 
 const { required, properties } = fullSchema.properties[
   veteranFields.parentObject

@@ -1,8 +1,8 @@
 import { intersection, pick } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { previousHiApplicationFields } from '../definitions/constants';
-import fullSchema from '../26-4555-schema.json';
 
 const { required, properties } = fullSchema.properties[
   previousHiApplicationFields.parentObject

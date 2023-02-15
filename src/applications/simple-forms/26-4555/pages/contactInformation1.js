@@ -1,8 +1,8 @@
 import { intersection } from 'lodash';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { veteranFields } from '../definitions/constants';
-import fullSchema from '../26-4555-schema.json';
 
 const { required } = fullSchema.properties[veteranFields.parentObject];
 const pageFields = [veteranFields.address];
