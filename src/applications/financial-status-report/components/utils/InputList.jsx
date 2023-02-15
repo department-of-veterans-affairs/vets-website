@@ -14,20 +14,20 @@ const InputList = ({
       <legend className="schemaform-block-title">{title}</legend>
       <p>{prompt}</p>
       {inputs?.map((input, key) => (
-        <div key={input.id} className="vads-u-margin-y--2">
+        <div key={input.name + key} className="vads-u-margin-y--2">
           <va-number-input
-            label={input.name}
-            name={input.name}
-            value={input.amount}
-            id={input.name + key}
             error={
               submitted && errorList.includes(input.name)
                 ? 'Enter valid dollar amount'
                 : ''
             }
+            id={input.name + key}
             inputmode="decimal"
+            label={input.name}
+            name={input.name}
             onInput={onChange}
             required
+            value={input.amount}
           />
         </div>
       ))}
