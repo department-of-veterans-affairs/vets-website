@@ -37,6 +37,7 @@ export const INITIAL_STATE = Object.freeze({
   specialMissionAANAPII: false,
   specialMissionPBI: false,
   specialMissionTRIBAL: false,
+  specialMission: 'ALL',
 });
 
 export default function(state = INITIAL_STATE, action) {
