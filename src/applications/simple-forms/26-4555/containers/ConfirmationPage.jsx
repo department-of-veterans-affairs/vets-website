@@ -19,6 +19,9 @@ export class ConfirmationPage extends React.Component {
     const { submission, formId, data } = form;
 
     const { fullName } = data;
+    // TODO: once submission functionality's done,
+    // remove placeholder submitDate below.
+    const submitDate = new Date(); // just mocking this for 2/17 demo
 
     return (
       <div>
