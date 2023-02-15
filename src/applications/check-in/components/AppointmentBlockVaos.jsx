@@ -22,7 +22,7 @@ const AppointmentBlockVaos = props => {
 
   const { jumpToPage } = useFormRouting(router);
 
-  const handleDetailClick = (appointment, e) => {
+  const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),
@@ -43,7 +43,7 @@ const AppointmentBlockVaos = props => {
           })}
         </p>
       ) : (
-        <p data-testid="date-text">
+        <p className="vads-u-font-family--serif" data-testid="date-text">
           {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
       )}
@@ -68,7 +68,8 @@ const AppointmentBlockVaos = props => {
                   />
                 )
               }
-              appointmentMessage
+              appointmentMessage={app === APP_NAMES.CHECK_IN}
+              router={router}
             />
           );
         })}

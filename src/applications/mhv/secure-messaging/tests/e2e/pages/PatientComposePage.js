@@ -48,7 +48,7 @@ class PatientComposePage {
       .click();
   };
 
-  saveDraft = () => {
+  saveDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'PUT',
       '/my_health/v1/messaging/message_drafts/*',
@@ -57,10 +57,16 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      // cy.log(xhr.responseBody);
       cy.log(xhr.requestBody);
-      // expect(xhr.method).to.eq('POST');
     });
+    cy.get('@draft_message')
+      .its('request.body')
+      .should('deep.equal', {
+        recipientId: testId,
+        category: testCategory,
+        subject: testSubject,
+        body: testBody,
+      });
   };
 
   verifyAttachmentErrorMessage = errormessage => {
@@ -110,6 +116,13 @@ class PatientComposePage {
       .click();
   };
 
+  verifyAlertModal = () => {
+    cy.get(`[modaltitle="We can't save this message yet"]`)
+      .shadow()
+      .find('[class="va-modal-inner va-modal-alert"]')
+      .should('contain', "We can't save this message yet");
+  };
+
   clickOnContinueEditingButton = () => {
     cy.get('[primary-button-text="Continue editing"]')
       .shadow()
@@ -129,6 +142,18 @@ class PatientComposePage {
       .should('have.value', 'OTHER')
       .and('have.attr', 'checked');
     cy.get('[id="message-body"]').should('have.value', 'Test message body');
+  };
+
+  verifyRecipient = recipient => {
+    cy.get('[data-testid="compose-recipient-select"]')
+      .shadow()
+      .find('select')
+      .select(recipient)
+      .should('contain', 'PQR TRIAGE');
+  };
+
+  verifySubjectField = subject => {
+    cy.get('[id = "message-subject"]').should('have.value', subject);
   };
 }
 export default PatientComposePage;

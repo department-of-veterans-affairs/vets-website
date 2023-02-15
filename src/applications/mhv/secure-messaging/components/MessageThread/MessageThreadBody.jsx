@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { urlRegex, httpRegex } from '../../util/helpers';
 
 const MessageThreadBody = props => {
-  const words = props.text.split(/[^\S\r\n]+/g);
+  const words = props.text?.split(/[^\S\r\n]+/g);
 
   return (
     <div
@@ -15,7 +15,7 @@ const MessageThreadBody = props => {
     >
       <>
         <pre className="vads-u-margin-y--0">
-          {words.map(word => {
+          {words?.map(word => {
             return (word.match(urlRegex) || word.match(httpRegex)) &&
               words.length >= 1 ? (
               <a href={word} target="_blank" rel="noreferrer">{`${word} `}</a>

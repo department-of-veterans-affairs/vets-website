@@ -9,6 +9,7 @@ const mhvToEauthRoutes = {
   'web/myhealthevet/refill-prescriptions':
     'eauth?deeplinking=prescription_refill',
   'secure-messaging': 'eauth?deeplinking=secure_messaging',
+  preferences: 'eauth?deeplinking=preferences',
   appointments: 'eauth?deeplinking=appointments',
   home: 'eauth',
   'labs-tests': 'eauth?deeplinking=labs-tests',

@@ -30,12 +30,21 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle = '',
         last: spouseLast = '',
       },
-      address,
+      address: {
+        street,
+        street2 = '',
+        street3 = '',
+        city,
+        state,
+        postalCode,
+        country,
+      },
       telephoneNumber,
       dateOfBirth,
       dependents,
       employmentHistory: {
         veteran: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
     expenses,
@@ -60,30 +69,6 @@ export const transform = (formConfig, form) => {
 
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
-
-  // Contact information conversion from profile format
-  const submitTelephoneNumber = enhancedFSRActive
-    ? `${telephoneNumber?.areaCode || ''}${telephoneNumber?.phoneNumber || ''}`
-    : telephoneNumber;
-  const submitAddress = enhancedFSRActive
-    ? {
-        addresslineOne: address.addressLine1,
-        addresslineTwo: address.addressLine2 || '',
-        addresslineThree: address.addressLine3 || '',
-        city: address.city,
-        stateOrProvince: address.stateCode,
-        zipOrPostalCode: address.zipCode,
-        countryName: address.countryName,
-      }
-    : {
-        addresslineOne: address.street,
-        addresslineTwo: address.street2 || '',
-        addresslineThree: address.street3 || '',
-        city: address.city,
-        stateOrProvince: address.state,
-        zipOrPostalCode: address.postalCode,
-        countryName: address.country,
-      };
 
   // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
@@ -117,7 +102,9 @@ export const transform = (formConfig, form) => {
   const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
   // spouse
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spGrossSalary = enhancedFSRActive
+    ? sumValues(spEmploymentRecords, 'spouseGrossSalary')
+    : sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
     ? Number(
@@ -131,7 +118,12 @@ export const transform = (formConfig, form) => {
     benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
-  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = enhancedFSRActive
+    ? spEmploymentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterReduceByName(spDeductions, taxFilters);
   const spRetirement = filterReduceByName(spDeductions, retirementFilters);
   const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
@@ -198,8 +190,16 @@ export const transform = (formConfig, form) => {
         middle: vetMiddle,
         last: vetLast,
       },
-      address: submitAddress,
-      telephoneNumber: submitTelephoneNumber,
+      address: {
+        addresslineOne: street,
+        addresslineTwo: street2,
+        addresslineThree: street3,
+        city,
+        stateOrProvince: state,
+        zipOrPostalCode: postalCode,
+        countryName: country,
+      },
+      telephoneNumber,
       dateOfBirth: moment(dateOfBirth, 'YYYY-MM-DD').format('MM/DD/YYYY'),
       married: questions.isMarried,
       spouseFullName: {
