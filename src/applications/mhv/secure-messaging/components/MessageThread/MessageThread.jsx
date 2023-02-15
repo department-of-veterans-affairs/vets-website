@@ -7,7 +7,7 @@ import { clearMessageHistory } from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const message = useSelector(state => state.sm.messageDetails.message);
+  // const message = useSelector(state => state.sm.messageDetails.message);
   const { messageHistory } = props;
   const [viewCount, setViewCount] = useState(5);
 
@@ -17,7 +17,7 @@ const MessageThread = props => {
         dispatch(clearMessageHistory());
       };
     },
-    [message, dispatch],
+    [dispatch],
   );
 
   const handleLoadMoreMessages = () => {
