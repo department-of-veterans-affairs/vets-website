@@ -226,7 +226,7 @@ const appointmentIcon = (appointment, listMode = false) => {
       aria-label="Appointment type"
       className={`${
         listMode && appointment?.kind === 'clinic' ? 'far' : 'fas'
-      } ${appointment?.kind === 'phone' ? 'fa-phone-alt' : 'fa-building'}`}
+      } ${appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'}`}
       aria-hidden="true"
       data-testid="appointment-icon"
     />
