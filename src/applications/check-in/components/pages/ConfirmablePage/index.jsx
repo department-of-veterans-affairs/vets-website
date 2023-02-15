@@ -17,6 +17,7 @@ const ConfirmablePage = ({
   data = {},
   yesAction = () => {},
   noAction = () => {},
+  withBackButton = false,
   pageType,
 }) => {
   const { t } = useTranslation();
@@ -35,7 +36,11 @@ const ConfirmablePage = ({
     noAction();
   };
   return (
-    <Wrapper pageTitle={header} classNames="confirmable-page" withBackButton>
+    <Wrapper
+      pageTitle={header}
+      classNames="confirmable-page"
+      withBackButton={withBackButton}
+    >
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">
           {subtitle}
@@ -106,5 +111,6 @@ ConfirmablePage.propTypes = {
   yesAction: PropTypes.func.isRequired,
   pageType: PropTypes.string,
   subtitle: PropTypes.string,
+  withBackButton: PropTypes.bool,
 };
 export default ConfirmablePage;

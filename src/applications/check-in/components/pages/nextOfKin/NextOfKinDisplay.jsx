@@ -57,6 +57,7 @@ export default function NextOfKinDisplay({
         yesAction={yesAction}
         noAction={noAction}
         loadingMessageOverride={loadingMessage}
+        withBackButton
         pageType="next-of-kin"
       />
     </>

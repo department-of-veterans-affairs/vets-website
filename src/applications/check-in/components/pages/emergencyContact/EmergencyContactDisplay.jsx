@@ -39,6 +39,7 @@ export default function EmergencyContactDisplay({
         data={emergencyContact}
         yesAction={yesAction}
         noAction={noAction}
+        withBackButton
         pageType="emergency-contact"
       />
     </>
