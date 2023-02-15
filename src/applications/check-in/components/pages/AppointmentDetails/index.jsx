@@ -147,7 +147,7 @@ const AppointmentDetails = props => {
                   <div data-testid="appointment-details--phone-value">
                     <i
                       aria-label="phone"
-                      className="fas fa-phone-alt vads-u-color--link-default vads-u-margin-right--1"
+                      className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
                       aria-hidden="true"
                     />
                     <va-telephone contact={appointment.clinicPhoneNumber}>

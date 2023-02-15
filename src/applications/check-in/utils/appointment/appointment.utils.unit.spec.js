@@ -436,9 +436,7 @@ describe('check in', () => {
         const appointment = createAppointment({ kind: 'phone' });
         const icon = render(appointmentIcon(appointment));
 
-        expect(icon.getByTestId('appointment-icon')).to.have.class(
-          'fa-phone-alt',
-        );
+        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
       });
     });
     describe('clinicName', () => {
