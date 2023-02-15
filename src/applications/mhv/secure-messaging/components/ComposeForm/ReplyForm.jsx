@@ -257,7 +257,11 @@ const ReplyForm = props => {
     return (
       <>
         <h1 className="page-title">{setMessageTitle()}</h1>
-        <form className="reply-form" onSubmit={sendMessageHandler}>
+        <form
+          className="reply-form"
+          data-testid="reply-form"
+          onSubmit={sendMessageHandler}
+        >
           {saveError && (
             <VaModal
               modalTitle={saveError.title}
@@ -360,7 +364,7 @@ const ReplyForm = props => {
             </p>
           </div>
         </form>
-        <main className="vads-u-margin--0">
+        <main className="vads-u-margin--0" data-testid="message-replied-to">
           <section aria-label="message details.">
             <p className="vads-u-margin--0">
               <strong>From: </strong>

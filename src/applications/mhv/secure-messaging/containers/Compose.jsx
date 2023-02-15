@@ -11,8 +11,10 @@ import MessageThread from '../components/MessageThread/MessageThread';
 import EmergencyNote from '../components/EmergencyNote';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
-import { closeAlert } from '../actions/alerts';
+import { addAlert, closeAlert } from '../actions/alerts';
 import { DefaultFolders } from '../util/constants';
+import { isOlderThan } from '../util/helpers';
+import * as Constants from '../util/constants';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -23,8 +25,7 @@ const Compose = () => {
   const messageHistory = useSelector(
     state => state.sm.draftDetails.draftMessageHistory,
   );
-  const alert = useSelector(state => state.sm.alerts.alert);
-  const [cannotReplyAlert, setcannotReplyAlert] = useState(true);
+  const [cannotReplyAlert, setcannotReplyAlert] = useState(false);
   const [replyMessage, setReplyMessage] = useState(undefined);
   const location = useLocation();
   const history = useHistory();
@@ -53,16 +54,6 @@ const Compose = () => {
     [isDraftPage, draftId, activeFolder, dispatch, history, location.pathname],
   );
 
-  // Waiting for additional response data
-  useEffect(
-    () => {
-      if (alert?.header !== null) {
-        setcannotReplyAlert(cannotReplyAlert);
-      }
-    },
-    [alert?.header, cannotReplyAlert, dispatch, draftId, location.pathname],
-  );
-
   useEffect(
     () => {
       return () => {
@@ -71,7 +62,7 @@ const Compose = () => {
         }
       };
     },
-    [location.pathname, dispatch],
+    [isDraftPage, dispatch],
   );
 
   useEffect(
@@ -79,15 +70,34 @@ const Compose = () => {
       // wait until messageHistory is retrieved to determine if we should show a ReplyForm
       // To prevent from Edit Draft Title falshing on screen
       if (messageHistory !== undefined) {
-        if (messageHistory?.length > 0 && !replyMessage) {
+        if (messageHistory?.length > 0) {
           // TODO filter history to grab only received messages.
-          setReplyMessage(messageHistory.shift());
+          setReplyMessage(messageHistory[0]);
         } else {
           setReplyMessage(null);
         }
       }
     },
-    [messageHistory, replyMessage],
+    [messageHistory],
+  );
+
+  useEffect(
+    () => {
+      if (replyMessage && isOlderThan(replyMessage.sentDate, 45)) {
+        dispatch(
+          addAlert(
+            Constants.ALERT_TYPE_INFO,
+            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
+            Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
+            Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+            Constants.Links.Link.CANNOT_REPLY.TO,
+            Constants.Links.Link.CANNOT_REPLY.TITLE,
+          ),
+        );
+        setcannotReplyAlert(true);
+      }
+    },
+    [replyMessage],
   );
 
   let pageTitle;

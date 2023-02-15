@@ -1,4 +1,3 @@
-import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   getMessageList,
@@ -11,7 +10,7 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { today } from '../util/helpers';
+import { isOlderThan } from '../util/helpers';
 
 /**
  * @param {Long} folderId
@@ -56,10 +55,8 @@ export const retrieveMessageHistory = (
 
     // Info handling for old messages
     // Update to use new response.data in draftsDetails later
-    const { attributes } = response.data[0];
-    const lastSentDate = format(new Date(attributes.sentDate), 'MM-dd-yyyy');
-    const draftCannotReplyDate = addDays(new Date(lastSentDate), 45);
-    if (isDraft && today > draftCannotReplyDate) {
+    const { attributes } = response.data?.length > 0 && response.data[0];
+    if (attributes && isOlderThan(attributes.sentDate, 45)) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_INFO,
@@ -106,14 +103,15 @@ export const retrieveMessage = (
 
   // Info handling for old messages
   const { sentDate } = response.data.attributes;
-  const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const cannotReplyDate = addDays(new Date(messageSentDate), 45);
-  if (!isDraft && today > cannotReplyDate) {
+  if (!isDraft && isOlderThan(sentDate, 45)) {
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_INFO,
         Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
         Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
       ),
     );
   }
