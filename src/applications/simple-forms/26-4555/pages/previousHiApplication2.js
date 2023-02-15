@@ -14,8 +14,10 @@ const pageFields = [
 
 const previousHiApplication2 = {
   uiSchema: {
-    ...pick(properties, pageFields),
-    // check if usAddress or profileAddress definitions works better for that
+    [previousHiApplicationFields.previousHiApplicationDate]: {
+      'ui:title': 'Date of previous application',
+      'ui:widget': 'date',
+    },
     [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
       'Address connected to your past application',
       false,
