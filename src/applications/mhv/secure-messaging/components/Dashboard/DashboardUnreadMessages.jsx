@@ -17,10 +17,16 @@ const DashboardUnreadMessages = props => {
   );
   return (
     <div className="unread-messages" data-testid="total-unread-messages">
-      {folders === null && <p>Unable to retrieve messages at this moment</p>}
+      {folders === undefined && (
+        <h2 className="vads-u-font-size--h3">
+          Unable to retrieve messages at this moment
+        </h2>
+      )}
 
       {folders !== undefined &&
-        unreadCount > 0 && <h2>{`You have ${unreadCount} unread messages`}</h2>}
+        unreadCount > 0 && (
+          <h2 className="vads-u-font-size--h3">{`You have ${unreadCount} unread messages`}</h2>
+        )}
 
       <Link
         className="vads-c-action-link--blue vads-u-margin-top--1"
