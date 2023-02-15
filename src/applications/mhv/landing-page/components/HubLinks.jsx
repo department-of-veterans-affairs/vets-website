@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const fakeLinks = [
-  { href: '#link01', text: 'Goodly link One' },
-  { href: '#link02', text: 'Link Two, which is quietly wrapping flying flies' },
-  { href: '#link03', text: 'Link Three' },
-  { href: '#link04', text: 'Link Four' },
-];
+// TODO: Gather real links
+import demodata from '../demodata.json';
 
 const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
@@ -31,13 +26,16 @@ const HubLinks = () => {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-bottom--3">
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title="My VA health benefits" links={fakeLinks} />
+          <HubSection title="My VA health benefits" links={demodata.links} />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title="More resources and support" links={fakeLinks} />
+          <HubSection
+            title="More resources and support"
+            links={demodata.links}
+          />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title="In the Spotlight" links={fakeLinks} />
+          <HubSection title="In the Spotlight" links={demodata.links} />
         </div>
       </div>
     </div>
