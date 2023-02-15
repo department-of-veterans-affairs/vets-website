@@ -1,5 +1,10 @@
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
+
 export const content = {
-  title: 'Where did you receive treatment?',
+  title: (addOrEdit, index) =>
+    `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
+      index,
+    )} provider where you received treatment`,
   description:
     'We’ll request your private medical records from this provider or hospital.',
   nameLabel: 'Name of private provider or hospital',

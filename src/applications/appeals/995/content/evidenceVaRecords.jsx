@@ -1,9 +1,12 @@
 // import React from 'react';
 
-// import { formatDateRange } from '../utils/dates';
+import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 
 export const content = {
-  title: 'Which VA facility treated you?',
+  title: (addOrEdit, index) =>
+    `${addOrEdit === 'add' ? 'Add' : 'Edit'} the ${numberToWords(
+      index,
+    )} VA facility that treated you`,
   description: 'We’ll request your VA medical records from this facility',
   locationAndName:
     'Name of VA medical center, VA treatment facility, or Federal department or agency',

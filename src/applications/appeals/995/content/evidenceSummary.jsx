@@ -20,6 +20,8 @@ export const content = {
   remove: 'Remove',
   update: 'Update page',
 
+  summaryTitle: 'Confirm or edit your evidence',
+
   vaTitle: 'We’re requesting records from these VA locations:',
 
   privateTitle:
@@ -55,6 +57,4 @@ export const content = {
     </>
   ),
   missingEvidenceReviewText: 'I didn’t add any evidence',
-
-  reviewPageHeaderText: 'New evidence',
 };
