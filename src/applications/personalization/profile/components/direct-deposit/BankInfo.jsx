@@ -45,6 +45,7 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+import { ProfileInfoCard } from '../ProfileInfoCard';
 
 export const BankInfo = ({
   isLOA3,
@@ -400,6 +401,13 @@ export const BankInfo = ({
         </button>
       </VaModal>
       <ProfileInfoTable
+        className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
+        title={sectionTitle}
+        data={directDepositData()}
+        namedAnchor={sectionTitleId}
+        level={2}
+      />
+      <ProfileInfoCard
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
         data={directDepositData()}
