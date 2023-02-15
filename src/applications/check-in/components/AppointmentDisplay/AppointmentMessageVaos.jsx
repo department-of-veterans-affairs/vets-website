@@ -84,7 +84,7 @@ const AppointmentMessageVaos = props => {
         if (Number.isNaN(appointmentDateTime.getTime())) {
           alertMessage = (
             <span data-testid="already-checked-in-no-time-message">
-              {t('you-are-already-checked-in')}
+              {t('youre-checked-in')}
             </span>
           );
         } else {
@@ -97,7 +97,7 @@ const AppointmentMessageVaos = props => {
       } else {
         alertMessage = (
           <span data-testid="already-checked-in-no-time-message">
-            {t('you-are-already-checked-in')}
+            {t('youre-checked-in')}
           </span>
         );
       }
