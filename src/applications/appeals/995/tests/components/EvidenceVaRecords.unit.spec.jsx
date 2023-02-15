@@ -96,6 +96,7 @@ describe('<EvidenceVaRecords>', () => {
 
   it('should render', () => {
     const { container } = render(setup());
+    expect($('h3', container)).to.exist;
     expect($('va-modal', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
     expect($('va-checkbox-group', container)).to.exist;

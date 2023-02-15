@@ -12,7 +12,7 @@ import { MAX_LENGTH } from '../constants';
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
 export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
-  let Wrap = 'h2';
+  let Wrap = 'h3';
   const wrapClassNames = ['vads-u-font-size--h3'];
   if (onReviewPage) {
     // Using a div in review mode, see
@@ -22,6 +22,8 @@ export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
       'vads-u-font-family--serif',
       `vads-u-margin-top--${inReviewMode ? '2' : '0'}`,
     );
+  } else {
+    wrapClassNames.push('vads-u-margin-top--0');
   }
   return (
     <>

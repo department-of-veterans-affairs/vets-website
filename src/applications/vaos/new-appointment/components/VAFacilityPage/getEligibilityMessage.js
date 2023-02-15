@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
 import NewTabAnchor from '../../../components/NewTabAnchor';
@@ -95,9 +94,15 @@ export default function getEligibilityMessage({
         <p>
           Call this facility to schedule or cancel an open appointment request.
           You can also cancel a request from{' '}
-          <Link to={featureStatusImprovement ? '/pending' : '/requested'}>
-            your appointment list
-          </Link>
+          <va-link
+            href={
+              featureStatusImprovement
+                ? '/health-care/schedule-view-va-appointments/appointments/pending'
+                : '/health-care/schedule-view-va-appointments/appointments/requested'
+            }
+            text="your appointment list"
+            data-testid="appointment-list-link"
+          />
           .
         </p>
         {facilityDetails &&

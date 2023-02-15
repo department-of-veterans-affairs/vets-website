@@ -1,11 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 
 import { LANGUAGES } from '../../../utils/constants';
 import State from '../../../components/State';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.ccPreferences.url);
+  };
+}
+
 export default function PreferredProviderSection(props) {
+  const history = useHistory();
+
   return (
     <>
       {props.data.hasCommunityCareProvider && (
@@ -42,12 +51,12 @@ export default function PreferredProviderSection(props) {
               </span>
             </div>
             <div>
-              <Link
-                to={newAppointmentFlow.ccPreferences.url}
+              <va-link
+                onClick={handleClick(history)}
                 aria-label="Edit provider preference"
-              >
-                Edit
-              </Link>
+                text="Edit"
+                data-testid="edit-new-appointment"
+              />
             </div>
           </div>
         </div>
@@ -75,12 +84,12 @@ export default function PreferredProviderSection(props) {
                 </span>
               </div>
               <div>
-                <Link
-                  to={newAppointmentFlow.ccPreferences.url}
+                <va-link
+                  href={newAppointmentFlow.ccPreferences.url}
                   aria-label="Edit provider preference"
-                >
-                  Edit
-                </Link>{' '}
+                  text="Edit"
+                  data-testid="edit-new-appointment"
+                />{' '}
               </div>
             </div>
           </div>
@@ -89,3 +98,7 @@ export default function PreferredProviderSection(props) {
     </>
   );
 }
+
+PreferredProviderSection.propTypes = {
+  props: PropTypes.object.isRequired,
+};

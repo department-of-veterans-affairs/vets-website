@@ -68,7 +68,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         {content.edit}
       </button>
       <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
-        {content.reviewPageHeaderText}
+        {content.summaryTitle}
       </h4>
 
       {noEvidence ? (

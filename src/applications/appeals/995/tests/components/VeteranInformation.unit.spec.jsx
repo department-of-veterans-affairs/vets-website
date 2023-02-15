@@ -29,6 +29,7 @@ describe('<VeteranInformation>', () => {
     };
     const { container } = render(<VeteranInformation {...data} />);
 
+    expect($('h3')).to.exist;
     expect($('.name', container).textContent).to.equal('uno dos tres');
     expect($('.ssn', container).textContent).to.contain('5678');
     expect($('.vafn', container).textContent).to.contain('8765');
