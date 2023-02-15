@@ -59,6 +59,10 @@ export const Alerts = {
     FOLDER_NAME_TAKEN:
       'That folder name is already in use. Please use another name.',
   },
+  Thread: {
+    DELETE_THREAD_SUCCESS: 'Thread was successfully deleted',
+    MOVE_THREAD_SUCCESS: 'Thread was successfully moved ',
+  },
 };
 
 export const Errors = {

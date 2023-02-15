@@ -313,6 +313,22 @@ export const moveMessage = (messageId, toFolderId) => {
   );
 };
 
+export const moveThread = (threadId, toFolderId) => {
+  return apiRequest(
+    `${apiBasePath}/messaging/threads/${threadId}/move?folder_id=${toFolderId}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+};
+
+export const deleteThread = () => {
+  return null;
+};
+
 /**
  * Get a list of triage teams.
  * @returns
