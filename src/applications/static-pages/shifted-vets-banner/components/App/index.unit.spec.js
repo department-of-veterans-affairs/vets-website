@@ -6,18 +6,7 @@ import { shallow } from 'enzyme';
 import { App } from '.';
 
 describe('Shifted Veteran Banner <App>', () => {
-  it('does not render when feature toggle disabled', () => {
-    // Set up.
-    const wrapper = shallow(<App />);
-
-    // Assertions.
-    expect(wrapper.type()).to.equal(null);
-
-    // Clean up.
-    wrapper.unmount();
-  });
-
-  it('renders what we expect with feature toggle enabled', () => {
+  it('renders the new banner', () => {
     // Set up.
     const wrapper = shallow(<App show />);
 

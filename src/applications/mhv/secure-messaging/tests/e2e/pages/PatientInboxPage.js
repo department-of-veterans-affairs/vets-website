@@ -7,13 +7,15 @@ import mockMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
+import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
+import mockThreadwithAttachment from '../fixtures/thread-attachment-response.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
 
   loadedMessagesData = undefined;
 
-  loadPage = (doAxeCheck = false) => {
+  loadPage = (doAxeCheck = false, getFoldersStatus = 200) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     mockMessages.data.at(
@@ -35,11 +37,24 @@ class PatientInboxPage {
       '/my_health/v1/messaging/messages/categories',
       mockCategories,
     ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
+    if (getFoldersStatus === 200) {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
+    } else {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+        statusCode: 400,
+        body: {
+          alertType: 'error',
+          header: 'err.title',
+          content: 'err.detail',
+          response: {
+            header: 'err.title',
+            content: 'err.detail',
+          },
+        },
+      }).as('folders');
+    }
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
@@ -194,6 +209,20 @@ class PatientInboxPage {
     cy.wait('@full-thread');
   };
 
+  loadMessagewithAttachments = mockMessagewithAttach => {
+    cy.log('loading message with attachments');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}`,
+      mockMessagewithAttachment,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `my_health/v1/messaging/messages/${mockMessagewithAttach.data.id}/thread`,
+      mockThreadwithAttachment,
+    ).as('thread');
+  };
+
   getNewMessage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
@@ -274,6 +303,10 @@ class PatientInboxPage {
 
   verifySentSuccessMessage = () => {
     cy.contains('Message was successfully sent.').should('be.visible');
+  };
+
+  loadComposeMessagePage = () => {
+    cy.get('[data-testid="compose-message-link"]').click();
   };
 }
 

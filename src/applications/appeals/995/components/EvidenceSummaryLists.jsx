@@ -40,7 +40,7 @@ const formatDateRange = ({ from, to }) => {
  * header (h4) disappears, so we match the other page header levels
  */
 const getHeaderLevel = ({ onReviewPage, reviewMode }) =>
-  onReviewPage || reviewMode ? 'h5' : 'h3';
+  onReviewPage || reviewMode ? 'h5' : 'h4';
 
 /**
  * Build VA evidence list

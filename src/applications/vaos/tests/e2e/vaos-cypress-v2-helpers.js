@@ -253,11 +253,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaGlobalDowntimeNotification',
-          value: false,
-        },
-
-        {
           name: 'vaOnlineSchedulingVAOSServiceRequests',
           value: true,
         },
@@ -481,6 +476,48 @@ export function mockGetClinics(locations = []) {
       },
     ).as(`clinic-${id}`);
   });
+}
+
+export function mockVamcEhr({ isCerner = false } = {}) {
+  const fieldVamcEhrSystem = isCerner ? 'cerner' : 'vista';
+
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/data/cms/vamc-ehr.json',
+    },
+    req => {
+      req.reply({
+        data: {
+          nodeQuery: {
+            count: 2,
+            entities: [
+              {
+                fieldFacilityLocatorApiId: 'vha_442',
+                title: 'Cheyenne VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Cheyenne health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+              {
+                fieldFacilityLocatorApiId: 'vha_552',
+                title: 'Dayton VA Medical Center',
+                fieldRegionPage: {
+                  entity: {
+                    title: 'VA Dayton health care',
+                    fieldVamcEhrSystem,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+    },
+  ).as('drupal-source-of-truth');
 }
 
 export function mockVAOSAppointmentsApi() {

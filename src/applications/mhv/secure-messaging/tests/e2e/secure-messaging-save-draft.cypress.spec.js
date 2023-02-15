@@ -7,6 +7,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
+    const mockThreadResponse = { data: [] };
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
@@ -32,8 +33,13 @@ describe('Secure Messaging Save Draft', () => {
       '/my_health/v1/messaging/messages/7208913',
       mockDraftResponse,
     ).as('draftMessageResponse');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/messages/7208913/thread',
+      mockThreadResponse,
+    ).as('draftThreadResponse');
     cy.contains('test').click();
-    // cy.wait('@draftMessageResponse');
+    cy.wait('@draftThreadResponse');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="message-subject-field"]')
@@ -44,6 +50,11 @@ describe('Secure Messaging Save Draft', () => {
       .shadow()
       .find('[name="message-body"]')
       .type('Test message body');
-    composePage.saveDraft();
+    composePage.saveDraft(
+      6978854,
+      'OTHER',
+      'testmessage Test',
+      'ststASertTest message body',
+    );
   });
 });

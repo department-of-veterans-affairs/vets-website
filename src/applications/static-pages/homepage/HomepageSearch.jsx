@@ -81,7 +81,7 @@ const HomepageSearch = () => {
       'search-query': e.target.value,
       'search-results-total-count': null,
       'search-results-total-pages': null,
-      'search-selection': 'All VA.gov',
+      'search-selection': 'All VA.gov - In page search',
       'search-typeahead-enabled': false,
       'search-location': 'Homepage Search',
       'sitewide-search-app-used': false,

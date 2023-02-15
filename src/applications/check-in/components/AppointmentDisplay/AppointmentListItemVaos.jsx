@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentMessageVaos from './AppointmentMessageVaos';
-import { appointmentIcon, clinicName } from '../../utils/appointment';
+import {
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+} from '../../utils/appointment';
 
 const AppointmentListItemVaos = props => {
   const {
@@ -12,6 +16,7 @@ const AppointmentListItemVaos = props => {
     AppointmentAction,
     showDetailsLink,
     appointmentMessage,
+    router,
   } = props;
   const { t } = useTranslation();
 
@@ -43,7 +48,7 @@ const AppointmentListItemVaos = props => {
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
           >
-            {appointmentIcon(appointment)}
+            {appointmentIcon(appointment, true)}
           </div>
           <div
             data-testid="appointment-kind-and-location"
@@ -63,8 +68,10 @@ const AppointmentListItemVaos = props => {
           <div className="vads-u-margin-y--2">
             <a
               data-testid="details-link"
-              href="#details"
-              onClick={e => goToDetails(appointment.appointmentIen, e)}
+              href={`${
+                router.location.basename
+              }/appointment-details/${getAppointmentId(appointment)}`}
+              onClick={e => goToDetails(e, appointment)}
               aria-label={t('click-to-see-details-for-your-time-appointment', {
                 time: appointmentDateTime,
               })}
@@ -87,6 +94,7 @@ AppointmentListItemVaos.propTypes = {
   AppointmentAction: PropTypes.node,
   appointmentMessage: PropTypes.bool,
   goToDetails: PropTypes.func,
+  router: PropTypes.object,
   showDetailsLink: PropTypes.bool,
 };
 

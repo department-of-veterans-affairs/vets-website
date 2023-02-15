@@ -6,13 +6,16 @@ import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
-  makeSelectActiveAppointment,
   makeSelectVeteranData,
   makeSelectApp,
   makeSelectCurrentContext,
 } from '../../../selectors';
 
-import { appointmentIcon, clinicName } from '../../../utils/appointment';
+import {
+  appointmentIcon,
+  clinicName,
+  findAppointment,
+} from '../../../utils/appointment';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
@@ -25,9 +28,7 @@ const AppointmentDetails = props => {
   const { t } = useTranslation();
   const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const selectActiveAppointment = useMemo(makeSelectActiveAppointment, []);
   const { appointments } = useSelector(selectVeteranData);
-  const { activeAppointment } = useSelector(selectActiveAppointment);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const selectContext = useMemo(makeSelectCurrentContext, []);
@@ -36,13 +37,13 @@ const AppointmentDetails = props => {
 
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
-
+  const { appointmentId } = router.params;
   useEffect(
     () => {
-      if (activeAppointment) {
-        const activeAppointmentDetails = appointments.find(
-          appointmentItem =>
-            appointmentItem.appointmentIen === activeAppointment,
+      if (appointmentId) {
+        const activeAppointmentDetails = findAppointment(
+          appointmentId,
+          appointments,
         );
         if (activeAppointmentDetails) {
           setAppointment(activeAppointmentDetails);
@@ -52,7 +53,7 @@ const AppointmentDetails = props => {
       // Go back to complete page if no activeAppointment or not in list.
       jumpToPage('complete');
     },
-    [activeAppointment, appointments, jumpToPage],
+    [appointmentId, appointments, jumpToPage],
   );
 
   const clinic = appointment && clinicName(appointment);
@@ -77,7 +78,8 @@ const AppointmentDetails = props => {
           <BackButton
             router={router}
             action={goToPreviousPage}
-            text={t('back-to-appointments')}
+            prevUrl="#back"
+            text={t('back-to-last-screen')}
           />
           <Wrapper classNames="appointment-details-page" withBackButton>
             <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
@@ -125,13 +127,15 @@ const AppointmentDetails = props => {
                 <h2 className="vads-u-font-size--sm">
                   {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
                 </h2>
-                {/* TODO add address for in person appointments */}
+                {!isPhoneAppointment && (
+                  <div data-testid="appointment-details--facility-value">
+                    {appointment.facility}
+                  </div>
+                )}
                 <div data-testid="appointment-details--clinic-value">
-                  {isPhoneAppointment ? '' : `${t('clinic')}:`} {clinic}
+                  {!isPhoneAppointment && `${t('clinic')}:`} {clinic}
                 </div>
-                {isPhoneAppointment ? (
-                  ''
-                ) : (
+                {!isPhoneAppointment && (
                   <div data-testid="appointment-details--location-value">
                     {`${t('location')}: ${appointment.clinicLocation}`}
                   </div>
@@ -149,16 +153,6 @@ const AppointmentDetails = props => {
                     <va-telephone contact={appointment.clinicPhoneNumber}>
                       {appointment.clinicPhoneNumber}
                     </va-telephone>
-                  </div>
-                </div>
-              )}
-              {appointment.reasonForVisit && (
-                <div data-testid="appointment-details--reason">
-                  <h2 className="vads-u-font-size--sm">
-                    {t('reason-for-visit')}
-                  </h2>
-                  <div data-testid="appointment-details--reason-value">
-                    {appointment.reasonForVisit}
                   </div>
                 </div>
               )}

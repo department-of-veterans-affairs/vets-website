@@ -20,8 +20,8 @@ import { DefaultFolders as Folder } from '../util/constants';
 import { getMessages } from '../actions/messages';
 import DashboardUnreadMessages from '../components/Dashboard/DashboardUnreadMessages';
 import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
-import DashboardSearch from '../components/Dashboard/DashboardSearch';
-import DashboardFolders from '../components/Dashboard/DashboardFolders';
+// import DashboardSearch from '../components/Dashboard/DashboardSearch';
+// import DashboardFolders from '../components/Dashboard/DashboardFolders';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import { foldersList } from '../selectors';
 import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
@@ -29,6 +29,7 @@ import ComposeMessageButton from '../components/MessageActionButtons/ComposeMess
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
   const folders = useSelector(foldersList);
+  const fullState = useSelector(state => state);
 
   // fire api call to retreive messages
 
@@ -53,9 +54,9 @@ const LandingPageAuth = () => {
       <ComposeMessageButton />
       <DashboardUnreadMessages folders={folders} />
       <WelcomeMessage />
-      <DashboardSearch />
-      <DashboardFolders />
-      <FrequentlyAskedQuestions />
+      {/* <DashboardSearch /> */}
+      {/* <DashboardFolders /> */}
+      <FrequentlyAskedQuestions state={fullState} />
     </div>
   );
 };

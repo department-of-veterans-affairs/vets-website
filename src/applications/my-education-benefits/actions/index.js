@@ -161,7 +161,6 @@ export function fetchEligibility() {
       );
   };
 }
-
 export function fetchDirectDeposit() {
   return async dispatch => {
     dispatch({ type: FETCH_DIRECT_DEPOSIT });

@@ -14,17 +14,21 @@ const ClaimsDecision = ({ completedDate, showClaimLettersLink }) => (
       <h3 className="claims-alert-header vads-u-font-size--h4" slot="headline">
         {completedDate && headerText(completedDate)}
       </h3>
+      {showClaimLettersLink ? (
+        <p>
+          You can download your decision letter online now. You can also get
+          other letters related to your claims.
+        </p>
+      ) : (
+        <p>We finished reviewing your claim and a decision has been made.</p>
+      )}
+
       <p>
-        We finished reviewing your claim and a decision has been made.{' '}
-        {showClaimLettersLink && (
-          <>You can find your decision letter in the claim letters page.</>
-        )}
+        We’ll also send you a copy of your decision letter by mail. It should
+        arrive within 10 days after the date we closed your claim, but it may
+        take longer.
       </p>
-      <p>
-        A decision packet will also be mailed to you. Typically, decision
-        notices are received within 10 days, but this is dependent upon U.S.
-        Postal Service timeframes.
-      </p>
+
       {showClaimLettersLink && (
         <p>
           <Link className="vads-c-action-link--blue" to="your-claim-letters">

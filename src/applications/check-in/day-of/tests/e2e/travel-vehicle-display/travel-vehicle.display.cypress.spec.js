@@ -51,6 +51,7 @@ describe('Check In Experience', () => {
     it('renders the travel vehicle page with content', () => {
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.validateContent('vehicle');
+      TravelPages.validateBackButton('vehicle');
       cy.injectAxeThenAxeCheck();
     });
   });

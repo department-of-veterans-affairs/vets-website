@@ -220,6 +220,7 @@ export default function addressUiSchema(
   checkBoxTitle = 'I live on a United States military base outside of the U.S.',
   uiRequiredCallback = () => false,
   newSchemaKeys = {},
+  onlyAllowUSAddresses = false,
 ) {
   /**
    * getPath
@@ -259,7 +260,7 @@ export default function addressUiSchema(
           const addressFormData = get(formDataPath, formData) ?? {};
           const isMilitary = addressFormData[schemaKeys.isMilitary];
           // if isMilitary === true, auto select United States and disable the field
-          if (isMilitary) {
+          if (isMilitary || onlyAllowUSAddresses) {
             countryUI['ui:disabled'] = true;
             addressFormData[schemaKeys.country] = USA.value;
             return {
