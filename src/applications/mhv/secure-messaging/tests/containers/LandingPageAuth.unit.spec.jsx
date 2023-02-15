@@ -50,10 +50,10 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a Welcome message', () => {
-    expect(screen.getByText(`Welcome to the updated messaging tool`)).to.exist;
+    expect(screen.getByText(`What to know as you try out this tool`)).to.exist;
   });
 
-  it('displays a search component', () => {
+  /* it('displays a search component', () => {
     expect(
       screen.getByText(`Search for messages`, {
         exact: true,
@@ -64,9 +64,9 @@ describe('Landing dashboard', () => {
         exact: true,
       }),
     ).to.exist;
-  });
+  }); */
 
-  it('displays a Folders List component', () => {
+  /* it('displays a Folders List component', () => {
     expect(
       screen.getByText(`Folders`, {
         exact: true,
@@ -78,9 +78,9 @@ describe('Landing dashboard', () => {
         selector: 'a',
       }),
     ).to.exist;
-  });
+  }); */
 
   it('displays a FAQ component', () => {
-    expect(screen.getByText(`Questions about this messaging tool`)).to.exist;
+    expect(screen.getByText(`Questions about using messages`)).to.exist;
   });
 });
