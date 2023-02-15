@@ -9,7 +9,7 @@ class PatientComposePage {
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
       .get('[text="Send"]')
-      .click({ waitforanimations: true });
+      .click({ force: true });
     cy.wait('@message');
   };
 
@@ -17,12 +17,13 @@ class PatientComposePage {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('###PQR TRIAGE_TEAM 747###');
-    cy.get('[data-testid=compose-category-radio-button]')
+      .select('###PQR TRIAGE_TEAM 747###', { force: true })
+      .should('have.value', 6832726);
+    cy.get('[data-testid="compose-category-radio-button"]')
       .shadow()
       .find('label')
       .contains(category)
-      .click();
+      .click({ force: true });
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },

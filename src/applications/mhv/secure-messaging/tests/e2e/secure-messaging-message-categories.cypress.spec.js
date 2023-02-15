@@ -1,39 +1,61 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
+import mockMessages from './fixtures/messages-response.json';
 
 describe('Secure Messaging Compose', () => {
-  it('can send message', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const composePage = new PatientComposePage();
+  beforeEach(() => {
     site.login();
-    landingPage.loadPage();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
+      mockMessages,
+    ).as('messagesFolder');
     landingPage.loadPage(false);
-    cy.get('[data-testid="compose-message-link"]').click();
+
     cy.injectAxe();
     cy.axeCheck();
-    composePage.enterComposeMessageDetails('COVID');
-    composePage.sendMessage();
-    landingPage.verifySentSuccessMessage();
+  });
+
+  it('can send message for category General', () => {
+    cy.get('[data-testid="compose-message-link"]').click();
+    composePage.enterComposeMessageDetails('General');
+    // composePage.sendMessage();
+    // landingPage.verifySentSuccessMessage();
+  });
+
+  it('can send message for category covid', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     composePage.enterComposeMessageDetails('COVID');
-    composePage.sendMessage();
-    landingPage.verifySentSuccessMessage();
-    cy.get('[data-testid="compose-message-link"]').click();
+  });
+
+  it('can send message for category Appointment', () => {
+    cy.get('[data-testid="compose-message-link"]').click({
+      waitforanimations: true,
+    });
     composePage.enterComposeMessageDetails('Appointment');
-    composePage.sendMessage();
-    landingPage.verifySentSuccessMessage();
-    cy.get('[data-testid="compose-message-link"]').click();
+  });
+  it('can send message for category Medication', () => {
+    cy.get('[data-testid="compose-message-link"]').click({
+      waitforanimations: true,
+    });
     composePage.enterComposeMessageDetails('Medication');
-    composePage.sendMessage();
-    landingPage.verifySentSuccessMessage();
-    cy.get('[data-testid="compose-message-link"]').click();
+  });
+  it('can send message for category Test', () => {
+    cy.get('[data-testid="compose-message-link"]').click({
+      waitforanimations: true,
+    });
     composePage.enterComposeMessageDetails('Test');
-    composePage.sendMessage();
-    landingPage.verifySentSuccessMessage();
+  });
+
+  it('can send message for category Education', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     composePage.enterComposeMessageDetails('Education');
+  });
+  afterEach(() => {
     composePage.sendMessage();
     landingPage.verifySentSuccessMessage();
   });
