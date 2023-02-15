@@ -1,3 +1,7 @@
+// START lighthouse_migration
+import featureToggleDisabled from '../fixtures/mocks/lighthouse/feature-toggle-disabled.json';
+// END lighthouse_migration
+
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
@@ -15,6 +19,11 @@ class TrackClaimsPage {
     }
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
+
+    // START lighthouse_migration
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+    // END lighthouse_migration
+
     cy.visit('/track-claims');
     cy.title().should(
       'eq',

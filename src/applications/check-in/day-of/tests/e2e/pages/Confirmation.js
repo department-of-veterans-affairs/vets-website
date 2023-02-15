@@ -105,6 +105,10 @@ class Confirmation {
   attemptGoBackToAppointments = () => {
     cy.get('[data-testid=go-to-appointments-button]').click();
   };
+
+  clickDetails = () => {
+    cy.get('[data-testid=details-link]').click();
+  };
 }
 
 export default new Confirmation();
