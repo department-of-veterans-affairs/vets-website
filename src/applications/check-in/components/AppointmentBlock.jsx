@@ -50,7 +50,9 @@ const AppointmentBlock = props => {
                   <i
                     aria-label="Appointment type"
                     className={`fas ${
-                      appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
+                      appointment?.kind === 'phone'
+                        ? 'fa-phone-alt'
+                        : 'fa-building'
                     }`}
                     aria-hidden="true"
                   />
