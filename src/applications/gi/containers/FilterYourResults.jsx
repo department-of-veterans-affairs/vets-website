@@ -45,8 +45,8 @@ export function FilterYourResults({
     country,
     state,
     specialMissionHbcu,
-    specialMissionMenOnly,
-    specialMissionWomenOnly,
+    specialMissionMenonly,
+    specialMissionWomenonly,
     specialMissionRelaffil,
     specialMissionHSI,
     specialMissionNANTI,
@@ -265,13 +265,13 @@ export function FilterYourResults({
         optionLabel: 'Historically Black college or university',
       },
       {
-        name: 'specialMissionMenOnly',
-        checked: specialMissionMenOnly,
+        name: 'specialMissionMenonly',
+        checked: specialMissionMenonly,
         optionLabel: 'Men-only',
       },
       {
-        name: 'specialMissionWomenOnly',
-        checked: specialMissionWomenOnly,
+        name: 'specialMissionWomenonly',
+        checked: specialMissionWomenonly,
         optionLabel: 'Women-only',
       },
       {
@@ -314,6 +314,7 @@ export function FilterYourResults({
 
     return (
       <CheckboxGroup
+        class="vads-u-margin-y--4"
         label={
           <div className="vads-u-margin-left--neg0p25">
             Specialized mission (i.e., Single-gender, Religious affiliation,
