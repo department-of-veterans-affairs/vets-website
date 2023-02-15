@@ -1,5 +1,7 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
+
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -22,7 +24,8 @@ class IntroductionPage extends React.Component {
         />
         <SaveInProgressIntro
           headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
+          // TODO: set prefillEnabled value to {formConfig.prefillEnabled} once prefill's implemented
+          prefillEnabled
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
@@ -74,19 +77,20 @@ class IntroductionPage extends React.Component {
           </li>
         </va-process-list>
         */}
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
         <p />
         <OMBInfo resBurden={10} ombNumber="2900-0132" expDate="6/20/2024" />
       </article>
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+};
 
 export default IntroductionPage;
