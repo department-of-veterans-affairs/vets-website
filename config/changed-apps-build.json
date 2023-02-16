@@ -80,6 +80,11 @@
     {
       "rootFolder": "claims-status",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "mhv/landing-page",
+      "slackGroup": "<@C04GDQSHD1R>",
+      "continuousDeployment": true
     }
   ]
 }
