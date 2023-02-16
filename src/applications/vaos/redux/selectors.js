@@ -38,9 +38,6 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureFacilitySelectionV22 = state =>
-  toggleValues(state).vaOnlineFacilitySelectionV22;
-
 export const selectFeatureUnenrolledVaccine = state =>
   toggleValues(state).vaOnlineSchedulingUnenrolledVaccine;
 
