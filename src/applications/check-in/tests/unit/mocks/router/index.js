@@ -1,5 +1,6 @@
 const createMockRouter = ({
   push = () => {},
+  createHref = () => {},
   currentPage = '',
   params = {},
 } = {}) => {
@@ -9,6 +10,7 @@ const createMockRouter = ({
       : currentPage;
   return {
     push,
+    createHref,
     location: {
       pathname,
     },

@@ -183,8 +183,8 @@ class EducationWizard extends React.Component {
         value: 'no',
       },
       {
-        label: `Applying to extend my Post-9/11 or Fry Scholarship benefits using
-            the Edith Nourse Rogers STEM Scholarship`,
+        label: `Applying for the Edith Nourse Rogers STEM Scholarship after using
+            Post-9/11 GI Bill or Fry Scholarship benefits`,
         value: 'extend',
       },
     ];

@@ -100,7 +100,12 @@ const DisplayMultipleAppointments = props => {
     </div>
   ) : (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        // @TODO make this a valid url somehow
+        prevUrl="#back"
+      />
       <Wrapper
         pageTitle={t('your-appointments')}
         classNames="appointment-check-in"
@@ -115,7 +120,7 @@ const DisplayMultipleAppointments = props => {
           />
         ) : (
           <>
-            <p data-testid="date-text">
+            <p className="vads-u-font-family--serif" data-testid="date-text">
               {t('here-are-your-appointments-for-today', { date: new Date() })}
             </p>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

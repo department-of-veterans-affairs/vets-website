@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { APPOINTMENT_TYPES, SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
-import Grid from './Grid';
+import AppointmentFlexGrid from './AppointmentFlexGrid';
 import {
   getAppointmentDate,
   getAppointmentTimezone,
@@ -141,7 +141,7 @@ export default function AppointmentListItemGroup({ data }) {
         borderBottom={!isBorderBottom}
         status="upcoming"
       >
-        <Grid
+        <AppointmentFlexGrid
           key={index}
           index={index}
           appointment={appointment}
@@ -240,16 +240,16 @@ export default function AppointmentListItemGroup({ data }) {
               },
             )}
           >
-            <Link
+            <va-link
               className="vaos-appts__focus--hide-outline"
               aria-label={label}
-              to={link}
+              href={link}
               onClick={e => e.preventDefault()}
-            >
-              Details
-            </Link>
+              text="Details"
+              role="link"
+            />
           </div>
-        </Grid>
+        </AppointmentFlexGrid>
       </ListItem>
     );
   });

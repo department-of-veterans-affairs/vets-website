@@ -4,13 +4,14 @@ import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockUser from '../fixtures/user.json';
+import mockNonSMUser from '../fixtures/non_sm_user.json';
 import mockStatus from '../fixtures/profile-status.json';
 import mockMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 
 class SecureMessagingSite {
-  login = (loginUser = true) => {
-    if (loginUser) {
+  login = (isSMUser = true) => {
+    if (isSMUser) {
       cy.login();
       window.localStorage.setItem('isLoggedIn', true);
       cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
@@ -26,7 +27,28 @@ class SecureMessagingSite {
           ],
         },
       }).as('featureToggle');
+    } else {
+      cy.login();
+      window.localStorage.setItem('isLoggedIn', true);
+      cy.intercept('GET', '/v0/user', mockNonSMUser).as('mockUser');
+      cy.intercept('GET', '/v0/profile/status', mockStatus);
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'mhv_secure_messaging_to_va_gov_release',
+              value: false,
+            },
+          ],
+        },
+      }).as('featureToggle');
     }
+  };
+
+  loadPageUnauthenticated = () => {
+    cy.visit('my-health/secure-messages/');
+    cy.wait('@mockUser');
   };
 
   loadPage = (doAxeCheck = false) => {

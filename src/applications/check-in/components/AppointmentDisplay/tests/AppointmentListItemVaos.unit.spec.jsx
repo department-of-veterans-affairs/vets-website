@@ -30,13 +30,21 @@ const appointments = [
     kind: 'phone',
   },
 ];
+const mockRouter = {
+  location: {
+    basename: '/health-care/appointment-check-in',
+  },
+};
 describe('AppointmentListItemVaos', () => {
   describe('pre-check-in and day-of', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItemVaos appointment={appointments[0]} />
+            <AppointmentListItemVaos
+              appointment={appointments[0]}
+              router={mockRouter}
+            />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -56,7 +64,10 @@ describe('AppointmentListItemVaos', () => {
       it('Renders appointment details', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItemVaos appointment={appointments[1]} />
+            <AppointmentListItemVaos
+              appointment={appointments[1]}
+              router={mockRouter}
+            />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -78,6 +89,7 @@ describe('AppointmentListItemVaos', () => {
               appointment={appointments[0]}
               showDetailsLink={false}
               goToDetails={() => {}}
+              router={mockRouter}
             />
           </I18nextProvider>,
         );
@@ -90,6 +102,7 @@ describe('AppointmentListItemVaos', () => {
               appointment={appointments[0]}
               goToDetails={() => {}}
               showDetailsLink
+              router={mockRouter}
             />
           </I18nextProvider>,
         );
@@ -103,6 +116,7 @@ describe('AppointmentListItemVaos', () => {
               appointment={appointments[0]}
               goToDetails={goToDetails}
               showDetailsLink
+              router={mockRouter}
             />
           </I18nextProvider>,
         );

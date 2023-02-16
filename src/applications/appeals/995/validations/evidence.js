@@ -131,13 +131,16 @@ export const validatePrivateToDate = (errors, data) => {
   }
 };
 
-export const isEmptyPrivateEntry = (checkData = {}) =>
-  [
+export const isEmptyPrivateEntry = (checkData = {}) => {
+  const result = [
     checkData.providerFacilityName || '',
     ...Object.values(checkData.providerFacilityAddress || {}),
     ...(checkData.issues || []),
     ...Object.values(checkData.treatmentDateRange || {}),
-  ].join('') === '';
+  ].join('');
+  // country defaults to 'USA' when adding a new entry
+  return result === '' || result === 'USA';
+};
 
 export const validatePrivateUnique = (
   errors,

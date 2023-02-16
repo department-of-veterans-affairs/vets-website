@@ -37,6 +37,7 @@ describe('<IssueCard>', () => {
     const props = getProps();
     const issue = getContestableIssue('10');
     const wrapper = mount(<IssueCard {...props} item={issue} />);
+    expect(wrapper.find('h4').length).to.eq(1);
     expect(wrapper.find('input[type="checkbox"]').length).to.equal(1);
     expect(wrapper.find('.widget-title').text()).to.eq('issue-10');
     expect(wrapper.find('.widget-content').text()).to.contain('blah');

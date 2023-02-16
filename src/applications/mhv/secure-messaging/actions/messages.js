@@ -1,4 +1,3 @@
-import { format, addDays } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   getMessageList,
@@ -11,6 +10,7 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { isOlderThan } from '../util/helpers';
 
 /**
  * @param {Long} folderId
@@ -52,6 +52,22 @@ export const retrieveMessageHistory = (
       type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
       response,
     });
+
+    // Info handling for old messages
+    // Update to use new response.data in draftsDetails later
+    const { attributes } = response.data?.length > 0 && response.data[0];
+    if (attributes && isOlderThan(attributes.sentDate, 45)) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_INFO,
+          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_HEADER,
+          Constants.Alerts.Message.DRAFT_CANNOT_REPLY_INFO_BODY,
+          Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+          Constants.Links.Link.CANNOT_REPLY.TO,
+          Constants.Links.Link.CANNOT_REPLY.TITLE,
+        ),
+      );
+    }
   }
 };
 
@@ -85,17 +101,17 @@ export const retrieveMessage = (
     });
   }
 
-  // Error handling for old messages
+  // Info handling for old messages
   const { sentDate } = response.data.attributes;
-  const today = new Date();
-  const messageSentDate = format(new Date(sentDate), 'MM-dd-yyyy');
-  const cannotReplyDate = addDays(new Date(messageSentDate), 45);
-  if (!isDraft && today > cannotReplyDate) {
+  if (!isDraft && isOlderThan(sentDate, 45)) {
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_INFO,
         Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
         Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
       ),
     );
   }

@@ -1,6 +1,6 @@
-import claimLetters from './fixtures/mocks/claim-letters.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import featureToggleDisabled from './fixtures/mocks/feature-toggle-disabled.json';
+import claimLetters from './fixtures/mocks/claim-letters/list.json';
+import featureToggleEnabled from './fixtures/mocks/claim-letters/feature-toggle-enabled.json';
+import featureToggleDisabled from './fixtures/mocks/claim-letters/feature-toggle-disabled.json';
 
 const generateErrorContent = (title, code) => {
   return {
@@ -12,7 +12,7 @@ describe('Claim Letters Page', () => {
   context('feature toggle enabled', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled);
 
       cy.login();
       cy.visit('track-claims/your-claim-letters');
