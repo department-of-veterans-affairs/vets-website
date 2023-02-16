@@ -19,7 +19,8 @@ const AppointmentListItemVaos = props => {
   const clinic = clinicName(appointment);
 
   const showDetailsLink =
-    (page === 'details' || page === 'complete') && goToDetails;
+    (page === 'details' || page === 'complete' || page === 'confirmation') &&
+    goToDetails;
 
   return (
     <li
