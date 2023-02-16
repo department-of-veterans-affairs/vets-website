@@ -69,6 +69,17 @@ describe('App', () => {
     );
   }
 
+  async function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  function dispatchAndWait(eventToDispatch, timeToWaitInMS = 100) {
+    window.dispatchEvent(eventToDispatch);
+    return wait(timeToWaitInMS);
+  }
+
   beforeEach(() => {
     createStoreSpy = sandbox.spy();
     directLineSpy = sandbox.spy();
@@ -86,23 +97,17 @@ describe('App', () => {
     sandbox.restore();
   });
 
-  async function wait(timeout) {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
-    });
-  }
-
   describe('Reload after intervals', () => {
     const locationReload = window.location;
-
+    beforeEach(() => {
+      sandbox.stub(Date, 'now');
+      Date.now.returns(1);
+    });
     afterEach(() => {
       window.location = locationReload;
     });
 
     it('Will reload the page after 60 minutes of first render', async () => {
-      sandbox.stub(Date, 'now');
-      Date.now.returns(1);
-
       const unacknowledgedUserStore = {
         initialState: {
           featureToggles: { loading: false },
@@ -123,23 +128,16 @@ describe('App', () => {
       );
 
       const outgoingActivityEvent = new Event('bot-outgoing-activity');
-      window.dispatchEvent(outgoingActivityEvent);
-      await wait(100);
 
+      await dispatchAndWait(outgoingActivityEvent);
       expect(window.location.reload.called).to.be.false;
 
       Date.now.returns(60 * 60 * 1000 + 2);
-
-      window.dispatchEvent(outgoingActivityEvent);
-      await wait(100);
-
+      await dispatchAndWait(outgoingActivityEvent);
       expect(window.location.reload.called).to.be.true;
     });
 
     it('Will reload the page after 30 minutes between messages', async () => {
-      sandbox.stub(Date, 'now');
-      Date.now.returns(1);
-
       const unacknowledgedUserStore = {
         initialState: {
           featureToggles: { loading: false },
@@ -158,24 +156,17 @@ describe('App', () => {
         <Chatbox {...defaultProps} />,
         unacknowledgedUserStore,
       );
-      const outgoingActivityEvent = new Event('bot-outgoing-activity');
-      window.dispatchEvent(outgoingActivityEvent);
-      await wait(100);
 
+      const outgoingActivityEvent = new Event('bot-outgoing-activity');
+      await dispatchAndWait(outgoingActivityEvent);
       expect(window.location.reload.called).to.be.false;
 
       Date.now.returns(15 * 60 * 1000 + Date.now());
-
-      window.dispatchEvent(outgoingActivityEvent);
-      await wait(100);
-
+      await dispatchAndWait(outgoingActivityEvent);
       expect(window.location.reload.called).to.be.false;
 
       Date.now.returns(30 * 60 * 1000 + Date.now() + 1);
-
-      window.dispatchEvent(outgoingActivityEvent);
-      await wait(100);
-
+      await dispatchAndWait(outgoingActivityEvent);
       expect(window.location.reload.called).to.be.true;
     });
   });
