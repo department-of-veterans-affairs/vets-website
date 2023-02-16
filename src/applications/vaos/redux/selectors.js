@@ -59,9 +59,6 @@ export const selectFeatureStatusImprovement = state =>
 export const selectFeatureStatusImprovementCanceled = state =>
   toggleValues(state).vaOnlineSchedulingStatusImprovementCanceled;
 
-export const selectFeatureFilter36Vats = state =>
-  toggleValues(state).vaOnlineFilter36Vats;
-
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
