@@ -18,6 +18,9 @@ const AppointmentListItemVaos = props => {
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
+  const showDetailsLink =
+    (page === 'details' || page === 'complete') && goToDetails;
+
   return (
     <li
       className="vads-u-border-bottom--1px check-in--appointment-item"
@@ -60,26 +63,22 @@ const AppointmentListItemVaos = props => {
             )}
           </div>
         </div>
-        {page === 'confirmation' ||
-          (page === 'details' && (
-            <div className="vads-u-margin-y--2">
-              <a
-                data-testid="details-link"
-                href={`${
-                  router.location.basename
-                }/appointment-details/${getAppointmentId(appointment)}`}
-                onClick={e => goToDetails(e, appointment)}
-                aria-label={t(
-                  'click-to-see-details-for-your-time-appointment',
-                  {
-                    time: appointmentDateTime,
-                  },
-                )}
-              >
-                Details
-              </a>
-            </div>
-          ))}
+        {showDetailsLink && (
+          <div className="vads-u-margin-y--2">
+            <a
+              data-testid="details-link"
+              href={`${
+                router.location.basename
+              }/appointment-details/${getAppointmentId(appointment)}`}
+              onClick={e => goToDetails(e, appointment)}
+              aria-label={t('click-to-see-details-for-your-time-appointment', {
+                time: appointmentDateTime,
+              })}
+            >
+              Details
+            </a>
+          </div>
+        )}
         {app === APP_NAMES.CHECK_IN &&
           page !== 'confirmation' && (
             <>
