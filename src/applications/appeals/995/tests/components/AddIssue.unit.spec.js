@@ -58,16 +58,16 @@ describe('<AddIssue>', () => {
     const { container } = render(setup());
     expect($('h3', container)).to.exist;
     expect($('va-text-input', container)).to.exist;
-    expect($('va-date', container)).to.exist;
+    expect($('va-memorable-date', container)).to.exist;
   });
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
     $('button#submit', container).click();
-    const elems = $$('va-text-input, va-date', container);
+    const elems = $$('va-text-input, va-memorable-date', container);
 
     expect(elems[0].error).to.contain(errorMessages.missingIssue);
-    expect(elems[1].error).to.contain(errorMessages.invalidDate);
+    expect(elems[1].error).to.contain(errorMessages.decisions.missingDate);
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {
@@ -101,7 +101,7 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const date = $('va-date', container);
+    const date = $('va-memorable-date', container);
     expect(date.error).to.contain(
       // partial match
       errorMessages.invalidDateRange('xxxx', '').split('xxxx')[0],
@@ -117,7 +117,7 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const date = $('va-date', container);
+    const date = $('va-memorable-date', container);
     expect(date.error).to.contain(errorMessages.decisions.pastDate);
   });
   it('should show an error when the issue date is > 100 years in the past', () => {
@@ -130,7 +130,7 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const date = $('va-date', container);
+    const date = $('va-memorable-date', container);
     expect(date.error).to.contain(errorMessages.decisions.newerDate);
   });
 
@@ -165,7 +165,7 @@ describe('<AddIssue>', () => {
     $('button#submit', container).click();
 
     expect($('va-text-input', container).error).to.be.null;
-    expect($('va-date', container).error).to.be.null;
+    expect($('va-memorable-date', container).error).to.be.null;
     expect(goToPathSpy.called).to.be.true;
   });
 });
