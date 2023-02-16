@@ -23,12 +23,12 @@ describe('Secure Messaging Compose', () => {
   it('can send message for category General', () => {
     cy.get('[data-testid="compose-message-link"]').click();
     composePage.enterComposeMessageDetails('General');
-    // composePage.sendMessage();
-    // landingPage.verifySentSuccessMessage();
   });
 
-  it('can send message for category covid', () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+  it('can send message for category Covid', () => {
+    cy.get('[data-testid="compose-message-link"]').click({
+      waitforanimations: true,
+    });
     composePage.enterComposeMessageDetails('COVID');
   });
 
@@ -52,7 +52,9 @@ describe('Secure Messaging Compose', () => {
   });
 
   it('can send message for category Education', () => {
-    cy.get('[data-testid="compose-message-link"]').click();
+    cy.get('[data-testid="compose-message-link"]').click({
+      waitforanimations: true,
+    });
     composePage.enterComposeMessageDetails('Education');
   });
   afterEach(() => {
