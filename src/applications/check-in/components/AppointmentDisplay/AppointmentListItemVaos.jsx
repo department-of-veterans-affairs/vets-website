@@ -3,25 +3,21 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentMessageVaos from './AppointmentMessageVaos';
+import AppointmentActionVaos from './AppointmentActionVaos';
 import {
   appointmentIcon,
   clinicName,
   getAppointmentId,
 } from '../../utils/appointment';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const AppointmentListItemVaos = props => {
-  const {
-    appointment,
-    goToDetails,
-    AppointmentAction,
-    showDetailsLink,
-    appointmentMessage,
-    router,
-  } = props;
+  const { appointment, goToDetails, router, app, page } = props;
   const { t } = useTranslation();
 
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
+
   return (
     <li
       className="vads-u-border-bottom--1px check-in--appointment-item"
@@ -64,38 +60,48 @@ const AppointmentListItemVaos = props => {
             )}
           </div>
         </div>
-        {showDetailsLink && (
-          <div className="vads-u-margin-y--2">
-            <a
-              data-testid="details-link"
-              href={`${
-                router.location.basename
-              }/appointment-details/${getAppointmentId(appointment)}`}
-              onClick={e => goToDetails(e, appointment)}
-              aria-label={t('click-to-see-details-for-your-time-appointment', {
-                time: appointmentDateTime,
-              })}
-            >
-              Details
-            </a>
-          </div>
-        )}
-        {appointmentMessage && (
-          <AppointmentMessageVaos appointment={appointment} />
-        )}
-        {AppointmentAction}
+        {page === 'confirmation' ||
+          (page === 'details' && (
+            <div className="vads-u-margin-y--2">
+              <a
+                data-testid="details-link"
+                href={`${
+                  router.location.basename
+                }/appointment-details/${getAppointmentId(appointment)}`}
+                onClick={e => goToDetails(e, appointment)}
+                aria-label={t(
+                  'click-to-see-details-for-your-time-appointment',
+                  {
+                    time: appointmentDateTime,
+                  },
+                )}
+              >
+                Details
+              </a>
+            </div>
+          ))}
+        {app === APP_NAMES.CHECK_IN &&
+          page !==
+            'confirmation'(
+              <>
+                <AppointmentMessageVaos appointment={appointment} />
+                <AppointmentActionVaos
+                  appointment={appointment}
+                  router={router}
+                />
+              </>,
+            )}
       </div>
     </li>
   );
 };
 
 AppointmentListItemVaos.propTypes = {
+  app: PropTypes.string.isRequired,
   appointment: PropTypes.object.isRequired,
-  AppointmentAction: PropTypes.node,
-  appointmentMessage: PropTypes.bool,
+  page: PropTypes.string.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
-  showDetailsLink: PropTypes.bool,
 };
 
 export default AppointmentListItemVaos;

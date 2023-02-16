@@ -7,14 +7,13 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
-import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
 import { getAppointmentId } from '../utils/appointment';
 
 const AppointmentBlockVaos = props => {
-  const { appointments, page, router, token } = props;
+  const { appointments, page, router } = props;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
@@ -57,18 +56,9 @@ const AppointmentBlockVaos = props => {
             <AppointmentListItemVaos
               key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
-              showDetailsLink={page === 'confirmation' || page === 'details'}
+              page={page}
               goToDetails={handleDetailClick}
-              AppointmentAction={
-                app === APP_NAMES.CHECK_IN && (
-                  <AppointmentActionVaos
-                    appointment={appointment}
-                    router={router}
-                    token={token}
-                  />
-                )
-              }
-              appointmentMessage={app === APP_NAMES.CHECK_IN}
+              app={app}
               router={router}
             />
           );
