@@ -49,7 +49,11 @@ export function focusElement(selectorOrElement, options, root) {
  *  shadowRoot
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
-export function waitForRenderThenFocus(selector, root = document) {
+export function waitForRenderThenFocus(
+  selector,
+  root = document,
+  timeInterval = 250,
+) {
   const maxIterations = 6; // 1.5 seconds
   let count = 0;
   const interval = setInterval(() => {
@@ -61,7 +65,7 @@ export function waitForRenderThenFocus(selector, root = document) {
       focusElement(defaultFocusSelector); // fallback to breadcrumbs
     }
     count += 1;
-  }, 250);
+  }, timeInterval);
 }
 
 /**
@@ -69,19 +73,21 @@ export function waitForRenderThenFocus(selector, root = document) {
  * using focusElement('h3, h2') will always focus on the h2 (higher on the page)
  * @param {String|Array} selectors - selectors in the desired order; if the
  *  first selector has no target, it'll move to the second, etc.
+ * @param {Element} root - starting element of the querySelector; may be a
+ *  shadowRoot
  * @example focusByOrder('#main h3, .nav-header > h2');
  * @example focusByOrder(['#main h3', '.nav-header > h2']);
  */
-export function focusByOrder(selectors) {
+export function focusByOrder(selectors, root) {
   let list = selectors || '';
   if (typeof selectors === 'string') {
     list = selectors.split(',');
   }
   if (Array.isArray(list)) {
     list.some(selector => {
-      const el = document.querySelector((selector || '').trim());
+      const el = (root || document).querySelector((selector || '').trim());
       if (el) {
-        focusElement(el);
+        focusElement(el, {}, root);
         return true;
       }
       return false;

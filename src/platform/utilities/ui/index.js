@@ -88,12 +88,13 @@ export function formatSSN(ssnString = '') {
  * function to allow for custom focus management, e.g. returning to a page after
  * editing a value to ensure focus is returned to the edit link
  * @param {String|Function} scrollAndFocusTarget - Custom focus target
+ * @param {Number} pageIndex - index inside of a page array loop
  */
-export function customScrollAndFocus(scrollAndFocusTarget) {
+export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
   if (typeof scrollAndFocusTarget === 'string') {
     scrollAndFocus(document.querySelector(scrollAndFocusTarget));
   } else if (typeof scrollAndFocusTarget === 'function') {
-    scrollAndFocusTarget();
+    scrollAndFocusTarget(pageIndex);
   } else {
     scrollToTop('topScrollElement', getScrollOptions());
     // h3 should be a unique header on the page
