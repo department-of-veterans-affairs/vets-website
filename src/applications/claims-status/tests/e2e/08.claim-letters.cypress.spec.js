@@ -112,7 +112,7 @@ describe('Claim Letters Page', () => {
         body: generateErrorContent('Forbidden', '403'),
       });
 
-      cy.findByText(/We can’t load this page/i).should('exist');
+      cy.contains(/We can’t load this page/i).should('exist');
       cy.findByText(/Please double check the URL/i).should('exist');
 
       cy.axeCheck();
@@ -138,10 +138,11 @@ describe('Claim Letters Page', () => {
       cy.intercept('GET', '/v0/claim_letters/**', {
         statusCode: 200,
         headers: {
-          'Content-disposition': 'attachment; filename=ClaimLetter.txt',
+          'Content-disposition':
+            'attachment; filename=ClaimLetter-2022-9-22.txt',
         },
         fixture:
-          'applications/claims-status/tests/e2e/fixtures/mocks/ClaimLetter.txt',
+          'applications/claims-status/tests/e2e/fixtures/mocks/ClaimLetter-2022-9-22.txt',
       }).as('downloadFile');
 
       cy.get('va-link')
@@ -153,7 +154,7 @@ describe('Claim Letters Page', () => {
         .should('eq', 200);
 
       cy.readFile(
-        `${Cypress.config('downloadsFolder')}/ClaimLetter.txt`,
+        `${Cypress.config('downloadsFolder')}/ClaimLetter-2022-9-22.txt`,
       ).should('contain', 'Test claim letter');
 
       cy.axeCheck();
