@@ -18,9 +18,8 @@ const AppointmentListItemVaos = props => {
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
-  const showDetailsLink =
-    (page === 'details' || page === 'complete' || page === 'confirmation') &&
-    goToDetails;
+  const pagesToShowDetails = ['details', 'complete', 'confirmation'];
+  const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
 
   return (
     <li
