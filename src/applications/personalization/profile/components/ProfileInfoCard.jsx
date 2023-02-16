@@ -1,82 +1,161 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { numberBetween } from '../../common/proptypeValidators';
 
-const titleClassesBase = prefixUtilityClasses([
-  'background-color--gray-lightest',
-  'border--1px',
-  'border-color--gray-lighter',
-  'color--gray-darkest',
-  'margin--0',
-  'padding-x--2',
-  'padding-y--1p5',
-  'font-size--h3',
+const sectionTitle = classNames([
+  'heading',
+  'vads-u-background-color--gray-lightest',
+  'vads-u-border-color--gray-lighter',
+  'vads-u-color--gray-darkest',
+  'vads-u-border-top--1px',
+  'vads-u-border-left--1px',
+  'vads-u-border-right--1px',
+  'vads-u-margin--0',
+  'vads-u-padding-x--2',
+  'vads-u-padding-y--1p5',
+  'vads-u-font-size--h3',
+  'medium-screen:vads-u-padding-x--4',
+  'medium-screen:vads-u-padding-y--2',
 ]);
 
-const titleClassesMedium = prefixUtilityClasses(
-  ['padding-x--4', 'padding-y--2'],
-  'medium',
-);
-
-const rowClasses = prefixUtilityClasses([
-  'border-color--gray-lighter',
-  'color-gray-dark',
-  'display--flex',
-  'flex-direction--column',
-  'padding-x--2',
-  'padding-y--1p5',
+const row = classNames([
+  'row',
+  'vads-u-border-color--gray-lighter',
+  'vads-u-color-gray-dark',
+  'vads-u-display--flex',
+  'vads-u-flex-direction--column',
+  'vads-u-padding-x--2',
+  'vads-u-padding-y--1p5',
+  'medium-screen:vads-u-padding--4',
 ]);
 
-const rowClassesMedium = prefixUtilityClasses(['padding--4'], 'medium');
+const firstRow = classNames([row, 'vads-u-border--1px']);
 
-const rowTitleClasses = prefixUtilityClasses([
-  'font-family--sans',
-  'font-size--base',
-  'font-weight--bold',
-  'line-height--4',
-  'margin--0',
-  'margin-bottom--1',
-  'width--auto',
+const secondaryRow = classNames([
+  row,
+  'vads-u-border-top--0px',
+  'vads-u-border-left--1px',
+  'vads-u-border-right--1px',
+  'vads-u-border-bottom--1px',
 ]);
 
-const rowTitleDescriptionClasses = prefixUtilityClasses([
-  'color--gray-medium',
-  'display--block',
-  'font-weight--normal',
+const rowTitle = classNames([
+  'vads-u-font-family--sans',
+  'vads-u-font-size--base',
+  'vads-u-font-weight--bold',
+  'vads-u-line-height--4',
+  'vads-u-margin--0',
+  'vads-u-margin-bottom--1',
+  'vads-u-width--auto',
 ]);
 
-const rowValueClasses = prefixUtilityClasses(['margin--0', 'width--full']);
+const rowTitleDescription = classNames([
+  'vads-u-color--gray-medium',
+  'vads-u-display--block',
+  'vads-u-font-weight--normal',
+  'vads-u-margin--0',
+  'vads-u-width--full',
+]);
 
-export const profileInfoCardBaseClasses = {
-  sectionTitle: [...titleClassesBase, ...titleClassesMedium, 'heading'].join(
-    ' ',
-  ),
-  row: ['row', ...rowClasses, ...rowClassesMedium].join(' '),
-  title: rowTitleClasses.join(' '),
-  titleDescription: [...rowValueClasses, ...rowTitleDescriptionClasses].join(
-    ' ',
-  ),
-  rowValue: rowValueClasses.join(' '),
+const rowValue = classNames(['vads-u-margin--0', 'vads-u-width--full']);
+
+export const classes = {
+  sectionTitle,
+  firstRow,
+  secondaryRow,
+  row,
+  rowTitle,
+  rowTitleDescription,
+  rowValue,
 };
 
-export const CardTitle = ({ namedAnchor, children, level }) => {
+export const HeadingLevel = ({ namedAnchor, children, level, className }) => {
   const Header = `h${level}`;
   return children ? (
-    <Header
-      className={profileInfoCardBaseClasses.sectionTitle}
-      id={namedAnchor}
-    >
+    <Header className={className} id={namedAnchor}>
       {children}
     </Header>
   ) : null;
 };
 
-CardTitle.propTypes = {
+HeadingLevel.propTypes = {
   children: PropTypes.node,
   level: numberBetween(1, 6),
   namedAnchor: PropTypes.string,
+};
+
+export const List = ({ rows }) => {
+  return (
+    <>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
+        {rows.map((rowData, index) => (
+          // eslint-disable-next-line jsx-a11y/no-redundant-roles
+          <li
+            key={index}
+            className={index === 0 ? classes.firstRow : classes.secondaryRow}
+            role="listitem"
+            id={rowData.id}
+          >
+            {rowData.title && (
+              <dfn className={classes.rowTitle}>
+                {rowData.title}
+                {rowData.description && (
+                  <span className={classes.rowTitleDescription}>
+                    {rowData.description}
+                  </span>
+                )}
+                {rowData.alertMessage && <>{rowData.alertMessage}</>}
+              </dfn>
+            )}
+
+            <span className={classes.rowValue}>{rowData.value}</span>
+          </li>
+        ))}
+      </ol>
+    </>
+  );
+};
+
+List.propTypes = {
+  rows: PropTypes.array.isRequired,
+};
+
+const Sections = ({ rows, level }) => {
+  return (
+    <>
+      {rows.map((rowData, index) => (
+        <div
+          key={index}
+          className={index === 0 ? classes.firstRow : classes.secondaryRow}
+          id={rowData.id}
+        >
+          {rowData.title && (
+            <HeadingLevel className={classes.rowTitle} level={level}>
+              {rowData.title}
+              {rowData.description && (
+                <span className={classes.rowTitleDescription}>
+                  {rowData.description}
+                </span>
+              )}
+              {rowData.alertMessage && <>{rowData.alertMessage}</>}
+            </HeadingLevel>
+          )}
+
+          {rowData?.value && (
+            <span className={classes.rowValue}>{rowData.value}</span>
+          )}
+        </div>
+      ))}
+    </>
+  );
+};
+
+Sections.propTypes = {
+  ...List.propTypes,
+  level: numberBetween(1, 6),
 };
 
 // need to render a single item, list of items, or a series of unrelated items as sections of each card
@@ -95,38 +174,33 @@ export const ProfileInfoCard = ({
   namedAnchor,
   level = 3,
   data,
+  asList = false,
 }) => {
-  const classes = {
-    card: ['profile-info-card', className].join(' '),
-    ...profileInfoCardBaseClasses,
-  };
+  const secondaryLevel = level + 1;
+
   return (
-    <section className={classes.card}>
-      <CardTitle level={level} namedAnchor={namedAnchor}>
+    <section className={classNames(['profile-info-card', className])}>
+      <HeadingLevel
+        level={level}
+        namedAnchor={namedAnchor}
+        className={classes.sectionTitle}
+      >
         {title}
-      </CardTitle>
-
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-      <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
-        {data.map((row, index) => (
-          // eslint-disable-next-line jsx-a11y/no-redundant-roles
-          <li key={index} className={classes.row} role="listitem" id={row.id}>
-            {row.title && (
-              <dfn className={classes.title}>
-                {row.title}
-                {row.description && (
-                  <span className={classes.titleDescription}>
-                    {row.description}
-                  </span>
-                )}
-                {row.alertMessage && <>{row.alertMessage}</>}
-              </dfn>
-            )}
-
-            <span className={classes.rowValue}>{row.value}</span>
-          </li>
-        ))}
-      </ol>
+      </HeadingLevel>
+      {asList ? (
+        <List rows={data} />
+      ) : (
+        <Sections rows={data} level={secondaryLevel} />
+      )}
     </section>
   );
+};
+
+ProfileInfoCard.propTypes = {
+  data: PropTypes.array.isRequired,
+  asList: PropTypes.bool,
+  className: PropTypes.string,
+  level: numberBetween(1, 5),
+  namedAnchor: PropTypes.string,
+  title: PropTypes.string,
 };
