@@ -173,7 +173,7 @@ export const IssueCard = ({
 
   // Issues h4 disappears in edit mode, so we need to match the page header
   // level
-  const Header = onReviewPage ? 'h5' : 'h3';
+  const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
     <div

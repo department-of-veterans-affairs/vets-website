@@ -15,7 +15,7 @@ class PatientInboxPage {
 
   loadedMessagesData = undefined;
 
-  loadPage = (doAxeCheck = false) => {
+  loadPage = (doAxeCheck = false, getFoldersStatus = 200) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     mockMessages.data.at(
@@ -37,11 +37,24 @@ class PatientInboxPage {
       '/my_health/v1/messaging/messages/categories',
       mockCategories,
     ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
+    if (getFoldersStatus === 200) {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
+    } else {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+        statusCode: 400,
+        body: {
+          alertType: 'error',
+          header: 'err.title',
+          content: 'err.detail',
+          response: {
+            header: 'err.title',
+            content: 'err.detail',
+          },
+        },
+      }).as('folders');
+    }
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
