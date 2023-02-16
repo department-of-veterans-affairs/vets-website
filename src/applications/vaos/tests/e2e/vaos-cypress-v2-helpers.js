@@ -269,10 +269,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaOnlineSchedulingVariantTesting',
-          value: false,
-        },
-        {
           name: 'vaOnlineSchedulingStatusImprovement',
           value: true,
         },

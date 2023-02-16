@@ -595,7 +595,6 @@ const responses = {
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-        { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
         { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
         { name: 'vaOnlineFilter36Vats', value: true },
