@@ -296,6 +296,20 @@ export const getMessageHistory = messageId => {
 };
 
 /**
+ * Get message thread.
+ * @param {Long} threadId
+ * @returns
+ */
+export const getMessageThread = threadId => {
+  return apiRequest(`${apiBasePath}/messaging/messages/${threadId}/thread`, {
+    method: 'OPTIONS',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
+/**
  * Move a message.
  * @param {Long} messageId
  * @param {Long} toFolderId

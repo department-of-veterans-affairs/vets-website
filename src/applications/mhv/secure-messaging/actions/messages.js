@@ -11,6 +11,7 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { isOlderThan } from '../util/helpers';
+import thread from '../tests/fixtures/message-thread-response.json';
 
 /**
  * @param {Long} folderId
@@ -114,6 +115,35 @@ export const retrieveMessage = (
         Constants.Links.Link.CANNOT_REPLY.TITLE,
       ),
     );
+  }
+};
+
+/**
+ * @param {Long} threadId
+ * @param {Boolean} isDraft true if the message is a draft, otherwise false
+ * @returns
+ */
+export const retrieveMessageThread = (
+  threadId,
+  isDraft = false,
+) => async dispatch => {
+  dispatch(clearMessage());
+  const response = thread.data;
+  // const response = await getMessageThread(threadId);
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    const message = response.shift();
+    dispatch({
+      type: Actions.Message.GET,
+      response: { data: message },
+    });
+    if (response.length > 0) {
+      dispatch({
+        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
+        response: { data: response },
+      });
+    }
   }
 };
 
