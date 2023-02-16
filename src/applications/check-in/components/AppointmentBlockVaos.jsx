@@ -72,7 +72,6 @@ AppointmentBlockVaos.propTypes = {
   appointments: PropTypes.array.isRequired,
   page: PropTypes.string.isRequired,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentBlockVaos;
