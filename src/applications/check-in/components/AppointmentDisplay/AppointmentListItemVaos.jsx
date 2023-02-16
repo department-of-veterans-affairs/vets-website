@@ -37,7 +37,9 @@ const AppointmentListItemVaos = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {appointment.clinicStopCodeName ?? t('VA-appointment')}
+          {appointment.clinicStopCodeName
+            ? appointment.clinicStopCodeName
+            : t('VA-appointment')}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}

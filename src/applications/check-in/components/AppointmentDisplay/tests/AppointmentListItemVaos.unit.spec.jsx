@@ -25,8 +25,8 @@ const appointments = [
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen: 'some-ien',
     startTime: '2021-11-16T21:39:36',
-    doctorName: 'Dr. Green',
-    clinicStopCodeName: 'Primary care',
+    doctorName: '',
+    clinicStopCodeName: '',
     kind: 'phone',
   },
 ];
@@ -64,7 +64,7 @@ describe('AppointmentListItemVaos', () => {
       });
     });
     describe('Phone appointment context', () => {
-      it('Renders appointment details', () => {
+      it('Renders appointment details with no stopCodeName or provider', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentListItemVaos
@@ -80,7 +80,7 @@ describe('AppointmentListItemVaos', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('Primary care with Dr. Green');
+        ).to.have.text('VA Appointment');
         expect(
           screen.getByTestId('appointment-kind-and-location'),
         ).to.have.text('Phone');
