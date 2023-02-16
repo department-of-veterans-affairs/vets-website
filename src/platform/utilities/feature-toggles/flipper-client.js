@@ -57,6 +57,7 @@ function FlipperClient({
   };
 
   const setDisableCacheSession = disableCacheTime => {
+    if (window.Cypress) return true;
     if (disableCacheTime === '0') {
       localStorage.removeItem('disableCacheTime');
     } else if (['8', '16', '24'].indexOf(disableCacheTime) > -1) {
