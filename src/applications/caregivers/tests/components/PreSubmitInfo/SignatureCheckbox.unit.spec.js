@@ -22,7 +22,7 @@ const getData = ({ isRepresentative = false, label } = {}) => ({
 
 describe('10-10CG', () => {
   describe('SignatureCheckbox', () => {
-    it('should render aria-describedby attribute when "isRepresentative" is true', () => {
+    it('should render message-aria-describedby attribute when "isRepresentative" is true', () => {
       const label = 'test-label';
       const { mockProps } = getData({
         isRepresentative: true,
@@ -32,12 +32,12 @@ describe('10-10CG', () => {
       const inputComponent = view.container.querySelector('.signature-input');
 
       expect(inputComponent).to.have.attribute(
-        'ariadescribedbymessage',
+        'message-aria-describedby',
         'on behalf of John William Smith',
       );
     });
 
-    it('should not render aria-describedby attribute when "isRepresentative" is false', () => {
+    it('should not render message-aria-describedby attribute when "isRepresentative" is false', () => {
       const label = 'test-label';
       const { mockProps } = getData({
         isRepresentative: false,
@@ -46,7 +46,7 @@ describe('10-10CG', () => {
       const view = render(<SignatureCheckbox {...mockProps} />);
       const inputComponent = view.container.querySelector('.signature-input');
 
-      expect(inputComponent).to.not.have.attribute('ariadescribedbymessage');
+      expect(inputComponent).to.not.have.attribute('message-aria-describedby');
     });
   });
 });
