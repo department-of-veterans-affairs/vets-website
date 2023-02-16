@@ -11,7 +11,7 @@ const previousSahApplication1 = {
   uiSchema: {
     [previousSahApplicationFields.hasPreviousSahApplication]: {
       'ui:title':
-        'Have you previously applied for specially adapted housing or special home adaptation grant?',
+        'Have you previously applied for specially adapted housing (SAH) grant?',
       'ui:widget': 'yesNo',
     },
   },

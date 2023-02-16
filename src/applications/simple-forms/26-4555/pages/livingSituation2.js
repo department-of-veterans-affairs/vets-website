@@ -14,6 +14,7 @@ const pageFields = [
 
 const livingSituation2 = {
   uiSchema: {
+    'ui:title': 'Details about your current living situation',
     [livingSituationFields.careFacilityName]: {
       'ui:title':
         'What is the name of the nursing home or medical care facility?',

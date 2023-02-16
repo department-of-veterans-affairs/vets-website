@@ -6,7 +6,7 @@ const remarks = {
   uiSchema: {
     remarks: {
       'ui:title':
-        'Is there any other medical information that you could tell us that would help you qualify for the grant?',
+        'Please describe any service-connected conditions you may have due to your military service. If you have a VA Decision Rating, please include that as well.',
       'ui:widget': TextareaWidget,
       'ui:options': {
         rows: 8,

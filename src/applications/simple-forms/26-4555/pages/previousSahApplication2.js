@@ -13,6 +13,8 @@ const pageFields = [
 ];
 const previousSahApplication2 = {
   uiSchema: {
+    'ui:title':
+      'Details about your previous application for a specially adapted housing grant',
     [previousSahApplicationFields.previousSahApplicationDate]: {
       'ui:title': 'Date of previous application',
       'ui:widget': 'date',

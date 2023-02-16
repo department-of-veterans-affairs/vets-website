@@ -14,6 +14,8 @@ const pageFields = [
 
 const previousHiApplication2 = {
   uiSchema: {
+    'ui:title':
+      'Details about your past application for a special home adaptation grant',
     [previousHiApplicationFields.previousHiApplicationDate]: {
       'ui:title': 'Date of previous application',
       'ui:widget': 'date',

@@ -155,7 +155,7 @@ const formConfig = {
       title: 'Additional information',
       pages: {
         remarks: {
-          path: 'remarks',
+          path: 'additional-information',
           title: 'Additional information',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,

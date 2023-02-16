@@ -11,7 +11,7 @@ const previousHiApplication1 = {
   uiSchema: {
     [previousHiApplicationFields.hasPreviousHiApplication]: {
       'ui:title':
-        'Have you previously applied for a home improvement or structural alteration grant?',
+        'Have you previously applied for a special home adaptation (SHA) grant?',
       'ui:widget': 'yesNo',
     },
   },

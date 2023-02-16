@@ -1,8 +1,8 @@
 import { intersection } from 'lodash';
 
 import constants from 'vets-json-schema/dist/constants.json';
-import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import addressUiSchema from '../definitions/customProfileAddress';
 import { veteranFields } from '../definitions/constants';
 
 const { required } = fullSchema.properties[veteranFields.parentObject];
@@ -13,10 +13,10 @@ const PATTERNS = {
 };
 const contactInformation1 = {
   uiSchema: {
+    'ui:title': 'Mailing address',
+    'ui:description':
+      "We'll send any updates about your application to this address.",
     [veteranFields.address]: {
-      'ui:title': 'Mailing address',
-      'ui:description':
-        "We'll send any updates about your application to this address.",
       ...addressUiSchema(
         'address',
         'I live on a United States military base outside of the U.S.',

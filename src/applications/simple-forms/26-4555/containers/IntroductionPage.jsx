@@ -19,9 +19,18 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant"
-          subtitle="Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)"
+          title="Apply for a Specially Adapted Housing Grant"
+          subtitle=""
         />
+        <p className="vads-u-font-size--h3">
+          Equal to Application in Acquiring Specially Adapted Housing or Special
+          Home Adaptation Grant (VA Form 26-4555)
+        </p>
+        <h2>Here&rsquo;s how to apply online</h2>
+        <p>
+          Complete this form. After you submit the form, you&rsquo;ll get a
+          confirmation message. You can print this page for your records.
+        </p>
         <SaveInProgressIntro
           headingLevel={2}
           // TODO: set prefillEnabled value to {formConfig.prefillEnabled} once prefill's implemented
