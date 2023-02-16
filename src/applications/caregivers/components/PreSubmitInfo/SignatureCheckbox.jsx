@@ -21,6 +21,9 @@ const SignatureCheckbox = ({
   const representativeLabelId = isRepresentative
     ? `${label}-signature-label`
     : undefined;
+  const ariaDescribedbyMessage = isRepresentative
+    ? `on behalf of ${fullName.first} ${fullName.middle} ${fullName.last}`
+    : undefined;
 
   useEffect(
     () => {
@@ -39,7 +42,7 @@ const SignatureCheckbox = ({
       {!!children && <>{children}</>}
 
       <SignatureInput
-        ariaDescribedBy={representativeLabelId}
+        ariaDescribedBy={ariaDescribedbyMessage}
         label={label}
         fullName={fullName}
         required={isRequired}
