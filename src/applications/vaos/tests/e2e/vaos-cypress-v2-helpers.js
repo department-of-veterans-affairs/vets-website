@@ -273,10 +273,6 @@ export function mockFeatureToggles() {
           value: false,
         },
         {
-          name: 'vaOnlineSchedulingPocHealthApt',
-          value: true,
-        },
-        {
           name: 'vaOnlineSchedulingStatusImprovement',
           value: true,
         },
