@@ -9,10 +9,6 @@ describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
     landingPage.loadPage();
     cy.injectAxe();
     cy.axeCheck();
-  });
-
-  it('tab to inbox folder', () => {
-    cy.get('[data-testid="inbox-sidebar"]').realClick();
     cy.tabToElement('[data-testid="keyword-search-input"]').should('exist');
   });
 });
