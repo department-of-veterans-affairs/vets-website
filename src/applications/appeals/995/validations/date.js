@@ -11,20 +11,28 @@ export const minDate = moment()
 
 const maxDate = moment().startOf('day');
 
-export const validateDate = (errors, dateString = '', fullData) => {
-  const { day, month, year } = parseISODate(dateString);
-  const date = moment(dateString, FORMAT_YMD);
+export const validateDate = (errors, rawString = '', fullData) => {
+  const { day, month, year } = parseISODate(rawString);
+  const date = moment(rawString, FORMAT_YMD);
   const dateType = fullData?.dateType || 'decisions';
+  const dateString = `${year}-${month.padStart(2, '0')}-${(day || '').padStart(
+    2,
+    '0',
+  )})`;
 
   if (
-    dateString === 'XXXX-XX-XX' ||
-    dateString === '' ||
+    !year ||
+    year === '' ||
+    !day ||
+    day === '0' ||
+    !month ||
+    month === '0' ||
     dateString?.length < FORMAT_YMD.length
   ) {
-    // The va-date component currently overrides the error message when the
-    // value is blank
+    // The va-memorable-date component currently overrides the error message
+    // when the value is blank
     errors.addError(errorMessages[dateType].missingDate);
-  } else if (!day || day === 'XX' || !month || month === 'XX') {
+  } else if (!date.isValid()) {
     errors.addError(errorMessages.invalidDate);
   } else if (year?.length >= 4 && !isValidYear(year)) {
     errors.addError(
