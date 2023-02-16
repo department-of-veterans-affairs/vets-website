@@ -70,7 +70,6 @@ export const transform = (formConfig, form) => {
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
-  // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
   const retirementFilters = ['401K', 'IRA', 'Pension'];
   const socialSecFilters = ['FICA (Social Security and Medicare)'];
@@ -177,6 +176,12 @@ export const transform = (formConfig, form) => {
     combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
     combinedFSRActive,
   );
+  // handle dependents
+  const enhancedDependent =
+    enhancedFSRActive && questions?.hasDependents > 0
+      ? dependents?.map(dep => dep.dependentAge)
+      : [];
+  const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
   const submissionObj = {
     personalIdentification: {
@@ -207,10 +212,9 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle,
         last: spouseLast,
       },
-      agesOfOtherDependents:
-        questions?.hasDependents > 0 || questions?.hasDependents
-          ? dependents?.map(dep => dep.dependentAge)
-          : [],
+      agesOfOtherDependents: enhancedFSRActive
+        ? enhancedDependent
+        : standardDependents,
       employmentHistory,
     },
     income: [

@@ -4,6 +4,11 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
 
+export const isNumber = value => {
+  const pattern = /^[0-9]+$/;
+  return pattern.test(value);
+};
+
 const DependentAges = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
@@ -13,6 +18,9 @@ const DependentAges = () => {
   } = formData;
 
   const [stateDependents, setStateDependents] = useState(dependents);
+  const [errors, setErrors] = useState(
+    Array(stateDependents.length).fill(null),
+  );
 
   useEffect(
     () => {
@@ -26,6 +34,7 @@ const DependentAges = () => {
           (_, i) => stateDependents[i] || { dependentAge: '' },
         );
         setStateDependents(addDependents);
+        setErrors(Array(addDependents.length).fill(null));
         dispatch(
           setData({
             ...formData,
@@ -59,21 +68,39 @@ const DependentAges = () => {
     [stateDependents, dispatch, formData],
   );
 
+  const handleBlur = useCallback(
+    (event, i) => {
+      const { value } = event.target;
+      const newErrors = [...errors];
+      if (!value) {
+        newErrors[i] = 'Please enter your dependent(s) age.';
+      } else if (!isNumber(value)) {
+        newErrors[i] = 'Please enter only numerical values';
+      } else {
+        newErrors[i] = null;
+      }
+      setErrors(newErrors);
+    },
+    [errors],
+  );
+
   const dependentAgeInputs = useMemo(
     () =>
       stateDependents.map((dependent, i) => (
         <div key={`dependentAge-${i}`} className="vads-u-margin-bottom--2">
           <VaTextInput
-            label={DEPENDENT_AGE_LABELS[i + 1] || `${i + 1}th Dependent's age`}
+            label={DEPENDENT_AGE_LABELS[i + 1] || `Age of dependent ${i + 1} `}
             name={`dependentAge-${i}`}
             onInput={({ target }) => updateDependents(target, i)}
             value={dependent.dependentAge}
             className="input-size-6"
+            onBlur={event => handleBlur(event, i)}
+            error={errors[i]}
             required
           />
         </div>
       )),
-    [stateDependents, updateDependents],
+    [stateDependents, handleBlur, errors, updateDependents],
   );
   return <>{dependentAgeInputs}</>;
 };
