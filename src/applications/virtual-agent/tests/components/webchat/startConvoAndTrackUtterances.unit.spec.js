@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
 
-describe.only('makeBotStartConvoAndTrackUtterances actions', () => {
+describe('makeBotStartConvoAndTrackUtterances actions', () => {
   // mock store
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
@@ -20,9 +20,15 @@ describe.only('makeBotStartConvoAndTrackUtterances actions', () => {
     payload: { activity: 'some activity' },
   };
 
+  const sandbox = sinon.createSandbox();
+
   beforeEach(() => {
     fakeNext = sinon.stub();
     store = mockStore({});
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" startConversationActivity dispatch', async () => {
@@ -69,13 +75,11 @@ describe.only('makeBotStartConvoAndTrackUtterances actions', () => {
     const IS_TRACKING_UTTERANCES = 'va-bot.isTrackingUtterances';
     const IN_AUTH_EXP = 'va-bot.inAuthExperience';
     const RECENT_UTTERANCES = 'va-bot.recentUtterances';
-    const sandbox = sinon.createSandbox();
     beforeEach(() => {
       sessionStorage.clear();
     });
     afterEach(() => {
       sessionStorage.clear();
-      sandbox.restore();
     });
     it("should correctly begin tracking utterances if it hasn't yet", async () => {
       // setup
@@ -292,5 +296,22 @@ describe.only('makeBotStartConvoAndTrackUtterances actions', () => {
     expect(fakeNext.firstCall.args[0].payload).to.own.include({
       text: '****',
     });
+  });
+
+  it('should dispatch an event "WEB_CHAT/SEND_MESSAGE"', async () => {
+    const stubDispatchEvent = sandbox.stub(window, 'dispatchEvent');
+
+    await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
+      'csrfToken',
+      'apiSession',
+      'apiURL',
+      'baseURL',
+      'userFirstName',
+      'userUuid',
+    )(store)(fakeNext)(connectSendMessage);
+
+    expect(stubDispatchEvent.firstCall.args[0].type).to.equal(
+      'bot-outgoing-activity',
+    );
   });
 });

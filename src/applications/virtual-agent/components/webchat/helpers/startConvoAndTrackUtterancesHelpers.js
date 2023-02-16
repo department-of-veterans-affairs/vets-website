@@ -38,6 +38,8 @@ export const processActionConnectFulfilled = ({
 
 export const processSendMessageActivity = ({ action }) => () => {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });
+  const outgoingActivityEvent = new Event('bot-outgoing-activity');
+  window.dispatchEvent(outgoingActivityEvent);
 };
 
 export const processIncomingActivity = ({ action, dispatch }) => () => {
@@ -66,9 +68,6 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
   }
 
   if (dataIsMessageWithTextFromBot) {
-    const outgoingActivityEvent = new Event('bot-outgoing-activity');
-    window.dispatchEvent(outgoingActivityEvent);
-
     const botWantsToSignInUser = data.text.includes(
       'Alright. Sending you to the sign in page...',
     );

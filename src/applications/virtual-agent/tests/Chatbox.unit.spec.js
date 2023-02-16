@@ -38,7 +38,7 @@ const disclaimerText =
  * @testing-library/dom
  */
 
-describe.only('App', () => {
+describe('App', () => {
   let oldWindow;
   let directLineSpy;
   let createStoreSpy;
@@ -91,6 +91,94 @@ describe.only('App', () => {
       setTimeout(resolve, timeout);
     });
   }
+
+  describe('Reload after intervals', () => {
+    const locationReload = window.location;
+
+    afterEach(() => {
+      window.location = locationReload;
+    });
+
+    it('Will reload the page after 60 minutes of first render', async () => {
+      sandbox.stub(Date, 'now');
+      Date.now.returns(1);
+
+      const unacknowledgedUserStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: false },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'Steve' } },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+
+      window.location = { reload: sinon.stub() };
+
+      renderInReduxProvider(
+        <Chatbox {...defaultProps} />,
+        unacknowledgedUserStore,
+      );
+
+      const outgoingActivityEvent = new Event('bot-outgoing-activity');
+      window.dispatchEvent(outgoingActivityEvent);
+      await wait(100);
+
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(60 * 60 * 1000 + 2);
+
+      window.dispatchEvent(outgoingActivityEvent);
+      await wait(100);
+
+      expect(window.location.reload.called).to.be.true;
+    });
+
+    it('Will reload the page after 30 minutes between messages', async () => {
+      sandbox.stub(Date, 'now');
+      Date.now.returns(1);
+
+      const unacknowledgedUserStore = {
+        initialState: {
+          featureToggles: { loading: false },
+          virtualAgentData: { termsAccepted: false },
+          user: {
+            login: { currentlyLoggedIn: true },
+            profile: { userFullName: { first: 'Steve' } },
+          },
+        },
+        reducers: virtualAgentReducer,
+      };
+
+      window.location = { reload: sinon.stub() };
+
+      renderInReduxProvider(
+        <Chatbox {...defaultProps} />,
+        unacknowledgedUserStore,
+      );
+      const outgoingActivityEvent = new Event('bot-outgoing-activity');
+      window.dispatchEvent(outgoingActivityEvent);
+      await wait(100);
+
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(15 * 60 * 1000 + Date.now());
+
+      window.dispatchEvent(outgoingActivityEvent);
+      await wait(100);
+
+      expect(window.location.reload.called).to.be.false;
+
+      Date.now.returns(30 * 60 * 1000 + Date.now() + 1);
+
+      window.dispatchEvent(outgoingActivityEvent);
+      await wait(100);
+
+      expect(window.location.reload.called).to.be.true;
+    });
+  });
 
   describe('user lands on chatbot page (default behaviors)', () => {
     const providerObject = {
@@ -363,7 +451,6 @@ describe.only('App', () => {
           });
 
           const messageActivityHandlerSpy = sinon.spy();
-          // console.log('--- ', messageActivityHandlerSpy);
           window.addEventListener(
             'webchat-message-activity',
             messageActivityHandlerSpy,
@@ -923,74 +1010,6 @@ describe.only('App', () => {
           expect(window.ReactDOM).to.eql(ReactDOM);
         });
       });
-      // describe('Timers', () => {
-      //   const locationReload = window.location;
-
-      //   afterEach(() => {
-      //     window.location = locationReload;
-      //   });
-      //   it('Will reload the page after 60 minutes of first render', () => {
-      //     sandbox.useFakeTimers({
-      //       now: 0,
-      //       toFake: ['setTimeout'],
-      //     });
-      //     const unacknowledgedUserStore = {
-      //       initialState: {
-      //         featureToggles: { loading: false },
-      //         virtualAgentData: { termsAccepted: false },
-      //         user: {
-      //           login: { currentlyLoggedIn: true },
-      //           profile: { userFullName: { first: 'Steve' } },
-      //         },
-      //       },
-      //       reducers: virtualAgentReducer,
-      //     };
-      //     renderInReduxProvider(
-      //       <Chatbox {...defaultProps} />,
-      //       unacknowledgedUserStore,
-      //     );
-      //     window.location = { reload: sinon.stub() };
-
-      //     sandbox.clock.tick(60 * 60 * 1000 - 1);
-      //     expect(window.location.reload.called).to.be.false;
-      //     sandbox.clock.tick(1);
-      //     expect(window.location.reload.called).to.be.true;
-      //   });
-      // });
     });
   });
-  // describe('when receiving a new message event', () => {
-  //   it('resets timer', async () => {
-  //     const fakeClearTimeout = sandbox.stub(global, 'clearTimeout');
-  //     sandbox.useFakeTimers({ now: 0, toFake: ['setTimeout'] });
-  //     const unacknowledgedUserStore = {
-  //       initialState: {
-  //         featureToggles: { loading: false },
-  //         virtualAgentData: { termsAccepted: false },
-  //         user: {
-  //           login: { currentlyLoggedIn: true },
-  //           profile: { userFullName: { first: 'Steve' } },
-  //         },
-  //       },
-  //       reducers: virtualAgentReducer,
-  //     };
-  //     renderInReduxProvider(
-  //       <Chatbox {...defaultProps} />,
-  //       unacknowledgedUserStore,
-  //     );
-  //     const incomingActivityEvent1 = new Event('bot-incoming-activity');
-  //     const testNumber = 7;
-  //     incomingActivityEvent1.data = testNumber;
-  //     window.dispatchEvent(incomingActivityEvent1);
-  //     sandbox.clock.tick(1);
-  //     expect(fakeClearTimeout.called).to.be.false;
-
-  //     const incomingActivityEvent2 = new Event('bot-incoming-activity');
-  //     incomingActivityEvent2.data = 108;
-  //     window.dispatchEvent(incomingActivityEvent2);
-  //     sandbox.clock.tick(10);
-  //     expect(fakeClearTimeout.called).to.be.true;
-  //     expect(fakeClearTimeout.getCall(0).args[0]).to.equal(testNumber);
-  //   });
-  // });
 });
