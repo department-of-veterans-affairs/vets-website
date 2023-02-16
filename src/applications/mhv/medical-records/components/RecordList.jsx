@@ -54,11 +54,6 @@ const RecordList = props => {
         currentRecords.map((record, idx) => (
           <RecordListItem key={idx} record={record} />
         ))}
-      {currentPage === paginatedRecords.current.length && (
-        <p className="vads-u-margin-bottom--3 vads-u-margin-top--0 vads-u-color--gray-medium">
-          End of records
-        </p>
-      )}
       {currentRecords &&
         paginatedRecords.current.length > 1 && (
           <div className="vads-u-margin-bottom--2">

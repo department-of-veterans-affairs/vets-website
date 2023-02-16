@@ -62,6 +62,7 @@ const HealthHistory = () => {
         data-testid="section-link"
       />
       <p>[description of section]</p>
+      <div className="vads-u-margin-top--0 vads-u-margin-bottom--5" />
     </>
   );
 };

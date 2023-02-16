@@ -72,7 +72,7 @@ const VaccineDetails = () => {
   };
 
   return vaccineDetails ? (
-    <div className="vads-l-grid-container vads-u-padding-x--0">
+    <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <h1 className="vaccine-header">{vaccineDetails.name}</h1>
       <div className="vads-u-display--flex vads-u-margin-y--3">
         <button className="link-button vads-u-margin-right--3" type="button">
