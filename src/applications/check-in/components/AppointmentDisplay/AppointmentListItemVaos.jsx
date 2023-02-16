@@ -81,16 +81,15 @@ const AppointmentListItemVaos = props => {
             </div>
           ))}
         {app === APP_NAMES.CHECK_IN &&
-          page !==
-            'confirmation'(
-              <>
-                <AppointmentMessageVaos appointment={appointment} />
-                <AppointmentActionVaos
-                  appointment={appointment}
-                  router={router}
-                />
-              </>,
-            )}
+          page !== 'confirmation' && (
+            <>
+              <AppointmentMessageVaos appointment={appointment} />
+              <AppointmentActionVaos
+                appointment={appointment}
+                router={router}
+              />
+            </>
+          )}
       </div>
     </li>
   );

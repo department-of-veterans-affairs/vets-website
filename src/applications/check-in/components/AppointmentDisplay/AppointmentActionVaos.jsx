@@ -71,7 +71,6 @@ AppointmentActionVaos.propTypes = {
   appointment: PropTypes.object,
   event: PropTypes.string,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentActionVaos;
