@@ -2,23 +2,28 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageDetailsKeyboardPage from '../pages/PatientMessageDetailsKeyboardPage';
 
-describe('Secure Messaging Message Details keyboard Check', () => {
-  it('Message Details Keyboard', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    const messageDetailsKeyboard = new PatientMessageDetailsKeyboardPage();
+describe('Secure Messaging Message Details keyboard Page', () => {
+  const landingPage = new PatientInboxPage();
+  const site = new SecureMessagingSite();
+  const messageDetailsKeyboard = new PatientMessageDetailsKeyboardPage();
+  beforeEach(() => {
     site.login();
     landingPage.loadPage();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('Message Details Keyboard Page', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
+
     messageDetailsKeyboard.verifyPrint();
     messageDetailsKeyboard.verifyTrash();
     messageDetailsKeyboard.verifyMoveTo();
-    cy.injectAxe();
-    cy.axeCheck();
-    // cy.tabToElement('[data-testid=move-button-text]').should('exist');
+    messageDetailsKeyboard.verifyReply();
+    cy.tabToElement('[data-testid=message-body-field]').should('exist');
   });
 });

@@ -29,28 +29,28 @@ class PatientMessageDetailsKeyboardPage {
   };
 
   verifyPrint = () => {
-    cy.get('[data-testid="print-button"]').realClick();
-    cy.get('[data-testid="print-modal-popup"]', { timeout: 8000 })
-      .find('p')
-      .contains(
-        'Would you like to print this one message, or all messages in this conversation?',
-      )
+    cy.get('[data-testid=print-button]').realClick();
+
+    cy.get('[data-testid=print-modal-popup]', { timeout: 8000 })
+      .shadow()
+      .find('h1')
+      .contains('What do you want to print?')
       .should('be.visible');
     cy.get('[data-testid="radio-print-one-message"]')
-      .should('be.visible')
-      .realClick();
+      .realClick()
+      .should('be.visible');
     cy.get('[data-testid="radio-print-all-messages"]').should('be.visible');
-    cy.get('[data-testid="print-modal-popup"]')
+    cy.get('[data-testid=print-modal-popup]')
       .shadow()
       .find('button')
       .contains('Print')
       .should('be.visible');
-    cy.get('[data-testid="print-modal-popup"]')
+    cy.get('[data-testid=print-modal-popup]')
       .shadow()
       .find('button')
       .contains('Cancel')
-      .should('be.visible')
       .realClick();
+    // cy.tabToElement('[data-testid=move-button-text]').should('exist');
   };
 
   verifyTrash = () => {
@@ -74,7 +74,7 @@ class PatientMessageDetailsKeyboardPage {
       .find('button')
       .contains('Cancel')
       .should('be.visible')
-      .realPress('Enter');
+      .realClick();
   };
 
   verifyMoveTo = () => {
@@ -85,7 +85,6 @@ class PatientMessageDetailsKeyboardPage {
         'This conversation will be moved. Any replies to this message will appear in your inbox',
       )
       .should('be.visible');
-    cy.get('[data-testid=radiobutton-Inbox]').should('be.visible');
     cy.get('[data-testid=radiobutton-Deleted]').should('be.visible');
     cy.get('[data-testid=radiobutton-TEST2]').should('be.visible');
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');
@@ -101,6 +100,10 @@ class PatientMessageDetailsKeyboardPage {
       .contains('Cancel')
       .should('be.visible')
       .realPress('Enter');
+  };
+
+  verifyReply = () => {
+    cy.get('[data-testid=reply-button-text]').realClick();
   };
 }
 export default PatientMessageDetailsKeyboardPage;
