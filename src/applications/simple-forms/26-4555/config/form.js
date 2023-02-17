@@ -151,7 +151,7 @@ const formConfig = {
         },
       },
     },
-    remarksChapter: {
+    additionalInformationChapter: {
       title: 'Additional information',
       pages: {
         remarks: {
