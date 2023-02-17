@@ -8,7 +8,11 @@ const remarks = {
     remarks: {
       'ui:title':
         'Please describe any service-connected conditions you may have due to your military service. If you have a VA Decision Rating, please include that as well.',
-      'ui:description': AdditionalInfoDescription,
+      'ui:description': AdditionalInfoDescription({
+        customClass: 'additional-info-description-wrapper',
+        id: 'additionalInfoDescriptionWrapper',
+        testId: 'additionalInfoDescriptionWrapper',
+      }),
       'ui:widget': TextareaWidget,
       'ui:options': {
         rows: 8,
