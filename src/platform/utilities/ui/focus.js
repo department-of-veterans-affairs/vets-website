@@ -44,6 +44,7 @@ export function focusElement(selectorOrElement, options, root) {
  * Web components may not have their shadow DOM rendered right away, so we need
  * to wait & check before setting focus on the selector; if not found after max
  * iterations, then fall back to the default selector (step _ of _ h2)
+ * Discussion: https://dsva.slack.com/archives/CBU0KDSB1/p1676479946812439
  * @param {String} selector - focus target selector
  * @param {Element} root - starting element of the querySelector; may be a
  *  shadowRoot
