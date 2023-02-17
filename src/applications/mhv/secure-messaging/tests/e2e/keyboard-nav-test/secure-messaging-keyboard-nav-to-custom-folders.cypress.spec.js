@@ -15,4 +15,10 @@ describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
     cy.axeCheck();
     cy.tabToElement('[data-testid="keyword-search-input"]').should('exist');
   });
+  it('tab to draft folder', () => {
+    cy.get('[data-testid="drafts-sidebar"]').realClick();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[data-testid="drafts-sidebar"]').should('exist');
+  });
 });
