@@ -480,6 +480,75 @@ class ApiInitializer {
         },
       );
     },
+    withSuccessAndUpdate: ({
+      extraValidation = null,
+      appointments = null,
+      token = sharedData.get.defaultUUID,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      timezone = 'browser',
+    } = {}) => {
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointments(
+          token,
+          demographicsNeedsUpdate,
+          demographicsConfirmedAt,
+          nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
+          emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
+          timezone,
+        );
+        if (appointments && appointments.length) {
+          const customAppointments = [];
+          appointments.forEach(appointment => {
+            const createdAppointment = sharedData.get.createAppointment({
+              eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+            });
+            customAppointments.push(
+              Object.assign(createdAppointment, appointment),
+            );
+          });
+          rv.payload.appointments = customAppointments;
+        }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      }).as('reloadOnDetails');
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, { times: 1 }, req => {
+        const rv = sharedData.get.createAppointments(
+          token,
+          demographicsNeedsUpdate,
+          demographicsConfirmedAt,
+          nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
+          emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
+          timezone,
+        );
+        if (appointments && appointments.length) {
+          const customAppointments = [];
+          appointments.forEach(appointment => {
+            const createdAppointment = sharedData.get.createAppointment({
+              eligibility: 'ELIGIBLE',
+            });
+            customAppointments.push(
+              Object.assign(createdAppointment, appointment),
+            );
+          });
+          rv.payload.appointments = customAppointments;
+        }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      }).as('completeCheckIn');
+    },
   };
 
   initializeCheckInDataPost = {

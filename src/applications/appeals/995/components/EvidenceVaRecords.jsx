@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
   VaCheckboxGroup,
-  VaDate,
+  VaMemorableDate,
   VaModal,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -391,7 +391,7 @@ const EvidenceVaRecords = ({
           })}
         </VaCheckboxGroup>
 
-        <VaDate
+        <VaMemorableDate
           id="location-from-date"
           name="from"
           label={content.dateStart}
@@ -401,7 +401,7 @@ const EvidenceVaRecords = ({
           value={currentData.evidenceDates?.from}
           error={showError('from')}
         />
-        <VaDate
+        <VaMemorableDate
           id="location-to-date"
           name="to"
           label={content.dateEnd}

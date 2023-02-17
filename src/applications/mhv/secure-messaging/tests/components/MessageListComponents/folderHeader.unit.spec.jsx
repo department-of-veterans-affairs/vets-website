@@ -46,7 +46,7 @@ describe('FolderHeader component in Inbox', () => {
   });
   it('must display Compose message link', () => {
     const screen = setup(folders.inbox);
-    expect(screen.getByText('Compose message')).to.exist;
+    expect(screen.getByText('Start a new message')).to.exist;
   });
 });
 
