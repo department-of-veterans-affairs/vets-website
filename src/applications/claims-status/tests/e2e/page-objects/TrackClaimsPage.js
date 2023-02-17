@@ -25,10 +25,6 @@ class TrackClaimsPage {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
 
-    // START lighthouse_migration
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    // END lighthouse_migration
-
     cy.visit('/track-claims');
     cy.title().should(
       'eq',
