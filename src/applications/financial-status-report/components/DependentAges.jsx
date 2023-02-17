@@ -3,11 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
-
-export const isNumber = value => {
-  const pattern = /^[0-9]+$/;
-  return pattern.test(value);
-};
+import { validateIsNumber } from '../utils/validations';
 
 const DependentAges = () => {
   const dispatch = useDispatch();
@@ -74,7 +70,7 @@ const DependentAges = () => {
       const newErrors = [...errors];
       if (!value) {
         newErrors[i] = 'Please enter your dependent(s) age.';
-      } else if (!isNumber(value)) {
+      } else if (!validateIsNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
       } else {
         newErrors[i] = null;

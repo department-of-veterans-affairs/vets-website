@@ -179,7 +179,9 @@ export const transform = (formConfig, form) => {
   // handle dependents
   const enhancedDependent =
     enhancedFSRActive && questions?.hasDependents > 0
-      ? dependents?.map(dep => dep.dependentAge)
+      ? dependents
+          ?.slice(0, parseInt(questions.hasDependents, 10))
+          .map(dep => dep.dependentAge)
       : [];
   const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
