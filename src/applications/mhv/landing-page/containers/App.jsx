@@ -13,11 +13,11 @@ const App = () => {
   );
 
   if (featureToggles.loading || user.profile.loading)
-    return <va-loading-indicator />;
+    return <va-loading-indicator data-testid="loading-indicator" />;
   if (!appEnabled) {
     const url = mhvUrl(true, 'home');
     window.location.replace(url);
-    return `redirecting to ${url}...`;
+    return <></>;
   }
   return <LandingPage />;
 };
