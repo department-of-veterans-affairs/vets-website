@@ -225,7 +225,6 @@ export const UploadContent = ({
   return list?.length ? (
     <>
       <Header>{content.otherTitle}</Header>
-      <p>We’ll submit the below supporting evidence you uploaded:</p>
       <ul className="evidence-summary">
         {list.map((upload, index) => (
           <li key={upload.name + index} className={listClassNames}>
