@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
   FETCH_STATUS,
@@ -30,7 +31,6 @@ import {
   selectFeatureAppointmentList,
   selectFeatureStatusImprovement,
 } from '../../../redux/selectors';
-// import AppointmentListGroup from '../AppointmentsPageV2/AppointmentListGroup';
 import AppointmentCard from '../AppointmentsPageV2/AppointmentCard';
 import UpcomingAppointmentLayout from '../AppointmentsPageV2/UpcomingAppointmentLayout';
 
@@ -267,7 +267,11 @@ export default function PastAppointmentsListNew() {
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}
-              className="usa-unstyled-list vads-u-padding-left--0 vads-u-border-bottom--1px"
+              className={classNames(
+                'usa-unstyled-list',
+                'vads-u-padding-left--0',
+                { 'vads-u-border-bottom--1px': featureAppointmentList },
+              )}
               data-cy="past-appointment-list"
               role="list"
             >
@@ -320,9 +324,7 @@ export default function PastAppointmentsListNew() {
         );
       })}
 
-      {((!featureAppointmentList && !pastAppointmentsByMonth?.length) ||
-        (featureAppointmentList &&
-          Object.keys(pastAppointmentsByMonth).length === 0)) && (
+      {!keys.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="past appointments"

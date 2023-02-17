@@ -82,8 +82,8 @@ function getGridData(appointment) {
           ? `${typeOfCareName} with ${getPractitionerName(appointment)}`
           : 'VA Appointment',
       appointmentType: facilityName
-        ? `In person at ${facilityName}`
-        : 'In person appointment',
+        ? `In-person at ${facilityName}`
+        : 'In-person appointment',
       icon: '',
     };
   }
@@ -188,9 +188,9 @@ export default function AppointmentListItemGroup({ data }) {
                 ...styles.canceled,
               }}
             >
-              {`${appointmentDate.format('h:mm')} ${appointmentDate
-                .format('a')
-                .replace(/\./g, '')} ${abbreviation}`}{' '}
+              {`${appointmentDate.format('h:mm')} ${appointmentDate.format(
+                'a',
+              )} ${abbreviation}`}{' '}
             </div>
           </div>
           <div
@@ -221,6 +221,7 @@ export default function AppointmentListItemGroup({ data }) {
                   'fa-phone': isVAPhoneAppointment(appointment),
                   'fa-video': isVideo,
                   'fa-building': isInPersonVAAppointment() || isCommunityCare,
+                  'fa-blank': isCommunityCare,
                 })}
               />
 

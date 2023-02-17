@@ -45,6 +45,18 @@ const mocks = {
         ],
       };
     },
+    createMockMissingUuidErrorResponse: () => {
+      return {
+        errors: [
+          {
+            title: 'Not Found',
+            detail: 'Not Found',
+            code: 'CHIP-API_404',
+            status: '404',
+          },
+        ],
+      };
+    },
     createMockMaxValidateErrorResponse: () => {
       return {
         errors: [
