@@ -5,11 +5,7 @@ import isValid from 'date-fns/isValid';
 import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import {
-  makeSelectVeteranData,
-  makeSelectApp,
-  makeSelectCurrentContext,
-} from '../../../selectors';
+import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
 import {
   appointmentIcon,
@@ -31,8 +27,6 @@ const AppointmentDetails = props => {
   const { appointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const selectContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectContext);
   const [appointment, setAppointment] = useState({});
 
   const appointmentDay = new Date(appointment?.startTime);
@@ -79,7 +73,7 @@ const AppointmentDetails = props => {
             router={router}
             action={goToPreviousPage}
             prevUrl="#back"
-            text={t('back-to-appointments')}
+            text={t('back-to-last-screen')}
           />
           <Wrapper classNames="appointment-details-page" withBackButton>
             <div className="appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray vads-u-padding-x--2 vads-u-padding-top--4 vads-u-padding-bottom--2">
@@ -112,7 +106,9 @@ const AppointmentDetails = props => {
               <div data-testid="appointment-details--what">
                 <h2 className="vads-u-font-size--sm">{t('what')}</h2>
                 <div data-testid="appointment-details--appointment-value">
-                  {appointment.clinicStopCodeName ?? t('VA-appointment')}
+                  {appointment.clinicStopCodeName
+                    ? appointment.clinicStopCodeName
+                    : t('VA-appointment')}
                 </div>
               </div>
               {appointment.doctorName && (
@@ -127,13 +123,15 @@ const AppointmentDetails = props => {
                 <h2 className="vads-u-font-size--sm">
                   {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
                 </h2>
-                {/* TODO add address for in person appointments */}
+                {!isPhoneAppointment && (
+                  <div data-testid="appointment-details--facility-value">
+                    {appointment.facility}
+                  </div>
+                )}
                 <div data-testid="appointment-details--clinic-value">
-                  {isPhoneAppointment ? '' : `${t('clinic')}:`} {clinic}
+                  {!isPhoneAppointment && `${t('clinic')}:`} {clinic}
                 </div>
-                {isPhoneAppointment ? (
-                  ''
-                ) : (
+                {!isPhoneAppointment && (
                   <div data-testid="appointment-details--location-value">
                     {`${t('location')}: ${appointment.clinicLocation}`}
                   </div>
@@ -154,22 +152,11 @@ const AppointmentDetails = props => {
                   </div>
                 </div>
               )}
-              {appointment.reasonForVisit && (
-                <div data-testid="appointment-details--reason">
-                  <h2 className="vads-u-font-size--sm">
-                    {t('reason-for-visit')}
-                  </h2>
-                  <div data-testid="appointment-details--reason-value">
-                    {appointment.reasonForVisit}
-                  </div>
-                </div>
-              )}
               {app === APP_NAMES.CHECK_IN && (
                 <div className="vads-u-margin-top--2">
                   <AppointmentActionVaos
                     appointment={appointment}
                     router={router}
-                    token={token}
                     event="check-in-from-details"
                   />
                 </div>

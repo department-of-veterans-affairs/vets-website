@@ -1,9 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
+import { makeSelectCurrentContext } from '../../selectors';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -14,7 +16,10 @@ import { useUpdateError } from '../../hooks/useUpdateError';
 import { getAppointmentId } from '../../utils/appointment';
 
 const AppointmentActionVaos = props => {
-  const { appointment, router, token, event } = props;
+  const { appointment, router, event } = props;
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
 
   const { updateError } = useUpdateError();
 
@@ -66,7 +71,6 @@ AppointmentActionVaos.propTypes = {
   appointment: PropTypes.object,
   event: PropTypes.string,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentActionVaos;

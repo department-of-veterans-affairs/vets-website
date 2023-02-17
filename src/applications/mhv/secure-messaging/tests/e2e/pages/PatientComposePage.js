@@ -48,7 +48,7 @@ class PatientComposePage {
       .click();
   };
 
-  saveDraft = () => {
+  saveDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'PUT',
       '/my_health/v1/messaging/message_drafts/*',
@@ -57,10 +57,16 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      // cy.log(xhr.responseBody);
       cy.log(xhr.requestBody);
-      // expect(xhr.method).to.eq('POST');
     });
+    cy.get('@draft_message')
+      .its('request.body')
+      .should('deep.equal', {
+        recipientId: testId,
+        category: testCategory,
+        subject: testSubject,
+        body: testBody,
+      });
   };
 
   verifyAttachmentErrorMessage = errormessage => {
