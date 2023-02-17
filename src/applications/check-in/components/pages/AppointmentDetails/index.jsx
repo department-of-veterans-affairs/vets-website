@@ -5,11 +5,7 @@ import isValid from 'date-fns/isValid';
 import PropTypes from 'prop-types';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import {
-  makeSelectVeteranData,
-  makeSelectApp,
-  makeSelectCurrentContext,
-} from '../../../selectors';
+import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
 import {
   appointmentIcon,
@@ -31,8 +27,6 @@ const AppointmentDetails = props => {
   const { appointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const selectContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectContext);
   const [appointment, setAppointment] = useState({});
 
   const appointmentDay = new Date(appointment?.startTime);
@@ -112,7 +106,9 @@ const AppointmentDetails = props => {
               <div data-testid="appointment-details--what">
                 <h2 className="vads-u-font-size--sm">{t('what')}</h2>
                 <div data-testid="appointment-details--appointment-value">
-                  {appointment.clinicStopCodeName ?? t('VA-appointment')}
+                  {appointment.clinicStopCodeName
+                    ? appointment.clinicStopCodeName
+                    : t('VA-appointment')}
                 </div>
               </div>
               {appointment.doctorName && (
@@ -161,7 +157,6 @@ const AppointmentDetails = props => {
                   <AppointmentActionVaos
                     appointment={appointment}
                     router={router}
-                    token={token}
                     event="check-in-from-details"
                   />
                 </div>
