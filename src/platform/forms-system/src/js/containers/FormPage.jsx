@@ -33,7 +33,7 @@ function focusForm(route, index) {
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      focusForm(this.props.route, this.props.params.index);
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
@@ -43,7 +43,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      focusForm(this.props.route, this.props.params.index);
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 

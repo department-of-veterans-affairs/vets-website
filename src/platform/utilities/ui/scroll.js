@@ -1,6 +1,6 @@
 import Scroll from 'react-scroll';
 
-import { focusElement } from './index';
+import { focusElement } from './focus';
 
 const { scroller } = Scroll;
 
