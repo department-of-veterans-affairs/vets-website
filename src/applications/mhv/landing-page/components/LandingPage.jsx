@@ -6,7 +6,7 @@ import demodata from '../demodata.json';
 
 const LandingPage = () => {
   return (
-    <div className="vads-u-margin-y--5">
+    <div className="vads-u-margin-y--5" data-testid="landing-page-container">
       <main>
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <HeaderLayout />
