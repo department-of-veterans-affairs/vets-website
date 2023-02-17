@@ -116,7 +116,6 @@ const DisplayMultipleAppointments = props => {
             router={router}
             appointments={appointments}
             page="details"
-            token={token}
           />
         ) : (
           <>

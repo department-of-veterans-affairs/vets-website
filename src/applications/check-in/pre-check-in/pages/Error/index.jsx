@@ -148,6 +148,13 @@ const Error = () => {
       accordion = appointmentAccordion(appointments);
       showHowToLink = true;
       break;
+    case 'uuid-not-found':
+      // Shown when POST sessions returns 404.
+      alertType = 'info';
+      header = t('were-sorry-this-link-has-expired');
+      messageText = mixedPhoneAndInPersonMessage;
+      showHowToLink = false;
+      break;
     case 'session-error':
     case 'bad-token':
     case 'no-token':

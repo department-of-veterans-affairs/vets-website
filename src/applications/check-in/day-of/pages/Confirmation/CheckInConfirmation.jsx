@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+// eslint-disable-next-line import/no-unresolved
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -14,15 +17,33 @@ import useSendTravelPayClaim from '../../../hooks/useSendTravelPayClaim';
 import ExternalLink from '../../../components/ExternalLink';
 import TravelPayAlert from './TravelPayAlert';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import AppointmentListItemVaos from '../../../components/AppointmentDisplay/AppointmentListItemVaos';
+import { getAppointmentId } from '../../../utils/appointment';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh } = props;
+  const { appointments, selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { isTravelReimbursementEnabled } = featureToggles;
-
+  const {
+    isTravelReimbursementEnabled,
+    isUpdatedApptPresentationEnabled,
+  } = featureToggles;
+  const {
+    isLoading: isCheckInDataLoading,
+    checkInDataError,
+    refreshCheckInData,
+    isComplete,
+  } = useGetCheckInData({
+    refreshNeeded: false,
+    appointmentsOnly: true,
+    isPreCheckIn: false,
+  });
+  const { updateError } = useUpdateError();
   const { t } = useTranslation();
-
+  const { jumpToPage } = useFormRouting(router);
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
 
@@ -75,6 +96,31 @@ const CheckInConfirmation = props => {
       pageTitle += t('we-couldnt-file-reimbursement');
     }
   }
+  const handleDetailClick = e => {
+    e.preventDefault();
+    recordEvent({
+      event: createAnalyticsSlug('details-link-clicked', 'nav'),
+    });
+
+    refreshCheckInData();
+  };
+
+  useEffect(
+    () => {
+      if (isComplete) {
+        jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+      }
+    },
+    [isComplete, jumpToPage, appointment],
+  );
+  useEffect(
+    () => {
+      if (checkInDataError) {
+        updateError('refresh-on-details');
+      }
+    },
+    [checkInDataError, updateError],
+  );
 
   const renderLoadingMessage = () => {
     return (
@@ -95,7 +141,21 @@ const CheckInConfirmation = props => {
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
-          <AppointmentConfirmationListItem appointment={appointment} key={0} />
+          {isUpdatedApptPresentationEnabled ? (
+            <AppointmentListItemVaos
+              appointment={appointment}
+              key={0}
+              showDetailsLink
+              goToDetails={handleDetailClick}
+              router={router}
+              page="confirmation"
+            />
+          ) : (
+            <AppointmentConfirmationListItem
+              appointment={appointment}
+              key={0}
+            />
+          )}
         </ol>
 
         <va-alert
@@ -150,10 +210,11 @@ const CheckInConfirmation = props => {
   };
 
   if (
-    !isTravelReimbursementEnabled ||
-    !travelPayEligible ||
-    (travelPayClaimRequested === false || travelPayClaimSent) ||
-    !getShouldSendTravelPayClaim(window)
+    !isCheckInDataLoading &&
+    (!isTravelReimbursementEnabled ||
+      !travelPayEligible ||
+      (travelPayClaimRequested === false || travelPayClaimSent) ||
+      !getShouldSendTravelPayClaim(window))
   ) {
     return renderConfirmationMessage();
   }
@@ -163,6 +224,7 @@ const CheckInConfirmation = props => {
 
 CheckInConfirmation.propTypes = {
   appointments: PropTypes.array,
+  router: PropTypes.object,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
 };

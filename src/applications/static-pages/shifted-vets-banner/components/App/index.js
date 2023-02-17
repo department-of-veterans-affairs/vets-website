@@ -1,18 +1,10 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // Relative imports.
-import { hideDefaultBanner, showDefaultBanner } from '../../helpers';
+import { hideDefaultBanner } from '../../helpers';
 
-export const App = ({ show }) => {
-  // If the feature toggle is disabled, do not render.
-  if (!show) {
-    // Ensure the default banner is rendered & escape early.
-    showDefaultBanner();
-    return null;
-  }
-
+export const App = () => {
   // Hide the default location banner image.
   hideDefaultBanner();
 
@@ -41,16 +33,4 @@ export const App = ({ show }) => {
   );
 };
 
-App.propTypes = {
-  // From mapStateToProps.
-  show: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  show: state?.featureToggles?.shiftVetsBanner,
-});
-
-export default connect(
-  mapStateToProps,
-  null,
-)(App);
+export default connect()(App);

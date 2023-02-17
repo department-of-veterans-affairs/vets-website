@@ -20,7 +20,6 @@ const features = {
       { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: false },
       { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
       { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
-      { name: 'vaGlobalDowntimeNotification', value: false },
       { name: 'edu_section_103', value: true },
       { name: 'vaViewDependentsAccess', value: false },
       { name: 'gibctEybBottomSheet', value: true },
