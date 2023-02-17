@@ -436,7 +436,14 @@ export function selectModalityText(appointment) {
   const isVideoVADevice = selectIsGFEVideo(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {};
 
-  if (isInPerson || isVideoAtlas || isVideoClinic) {
+  // NOTE: Did confirm that you can't create an Atlas appointment without a
+  // facility but we will check anyway.
+  //
+  // TODO: What default should be displayed if the data is corrupt an there is
+  // no facility name?
+  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+
+  if (isInPerson || isVideoClinic) {
     return facilityName ? `At ${facilityName}` : 'At VA facility';
   }
 
@@ -448,18 +455,21 @@ export function selectModalityText(appointment) {
 }
 
 export function selectModalityIcon(appointment) {
-  const isPhone = selectIsPhone(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const isInPerson = selectIsInPerson(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideoAtlas = selectIsAtlasVideo(appointment);
+  const isVideoClinic = selectIsClinicVideo(appointment);
+  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoVADevice = selectIsGFEVideo(appointment);
 
-  // Pseudo style used to maintain spacing by hiding the assigned icon.
   let icon = 'fa-blank';
 
+  if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'fa-building';
+  if (isVideoHome || isVideoVADevice) icon = 'fa-video';
+
   if (isPhone) icon = 'fa-phone-alt';
-  if (isVideo) icon = 'fa-video';
-  if (isCommunityCare) icon = 'fa-building fa-blank';
-  if (isInPerson) icon = 'fa-building';
+  if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
 }
