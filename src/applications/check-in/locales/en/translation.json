@@ -221,5 +221,6 @@
   "click-to-see-details-for-your-time-appointment": "Click to see the details for your {{ time, time }} appointment",
   "directions-to-location": "Directions to {{ location }}",
   "directions": "Directions",
-  "were-sorry-this-link-has-expired": "We’re sorry. This link has expired."
+  "were-sorry-this-link-has-expired": "We’re sorry. This link has expired.",
+  "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>."
 }
