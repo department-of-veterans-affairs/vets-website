@@ -61,7 +61,7 @@ export const VaContent = ({
   const Header = getHeaderLevel({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header className="vads-u-font-size--h3">{content.vaTitle}</Header>
+      <Header>{content.vaTitle}</Header>
       <ul className="evidence-summary">
         {list.map((location, index) => {
           const { locationAndName, issues, evidenceDates = {} } =
@@ -130,7 +130,7 @@ export const PrivateContent = ({
   const Header = getHeaderLevel({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header className="vads-u-font-size--h3">{content.privateTitle}</Header>
+      <Header>{content.privateTitle}</Header>
       <ul className="evidence-summary">
         {list.map((facility, index) => {
           const { providerFacilityName, issues, treatmentDateRange = {} } =
@@ -224,7 +224,7 @@ export const UploadContent = ({
   const Header = getHeaderLevel({ onReviewPage, reviewMode });
   return list?.length ? (
     <>
-      <Header className="vads-u-font-size--h3">{content.otherTitle}</Header>
+      <Header>{content.otherTitle}</Header>
       <p>We’ll submit the below supporting evidence you uploaded:</p>
       <ul className="evidence-summary">
         {list.map((upload, index) => (
