@@ -35,11 +35,17 @@ const Vaccines = () => {
           type="button"
           data-testid="print-records-button"
         >
-          <i className="fas fa-print vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-print vads-u-margin-right--1"
+          />
           Print page
         </button>
         <button className="link-button" type="button">
-          <i className="fas fa-download vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-download vads-u-margin-right--1"
+          />
           Download page
         </button>
       </div>

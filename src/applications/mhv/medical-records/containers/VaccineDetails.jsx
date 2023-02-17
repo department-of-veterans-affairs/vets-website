@@ -76,11 +76,17 @@ const VaccineDetails = () => {
       <h1 className="vaccine-header">{vaccineDetails.name}</h1>
       <div className="vads-u-display--flex vads-u-margin-y--3">
         <button className="link-button vads-u-margin-right--3" type="button">
-          <i className="fas fa-print vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-print vads-u-margin-right--1"
+          />
           Print page
         </button>
         <button className="link-button" type="button">
-          <i className="fas fa-download vads-u-margin-right--1" />
+          <i
+            aria-hidden="true"
+            className="fas fa-download vads-u-margin-right--1"
+          />
           Download page
         </button>
       </div>
