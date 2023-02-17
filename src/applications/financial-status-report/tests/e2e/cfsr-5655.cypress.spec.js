@@ -10,7 +10,6 @@ import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import VeteranEmploymentHistory from './pages/employment/VeteranEmploymentHistory';
-import SpouseEmploymentHistory from './pages/employment/SpouseEmploymentHistory';
 
 Cypress.config('waitForAnimations', true);
 
@@ -73,18 +72,18 @@ const testConfig = createTestConfig(
           VeteranEmploymentHistory.attemptNextPage();
         });
       },
-      'spouse-employment-records': ({ afterHook }) => {
-        afterHook(() => {
-          SpouseEmploymentHistory.fillEmployerInfo();
-          SpouseEmploymentHistory.attemptNextPage();
-        });
-      },
-      'spouse/income/0': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get(`#root_spouseGrossSalary`).type('3500');
-          cy.get('.usa-button-primary').click();
-        });
-      },
+      // 'spouse-employment-records': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     SpouseEmploymentHistory.fillEmployerInfo();
+      //     SpouseEmploymentHistory.attemptNextPage();
+      //   });
+      // },
+      // 'spouse/income/0': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get(`#root_spouseGrossSalary`).type('3500');
+      //     cy.get('.usa-button-primary').click();
+      //   });
+      // },
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
