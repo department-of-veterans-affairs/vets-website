@@ -19,4 +19,9 @@ export const DEPENDENT_AGE_LABELS = {
   18: `Eighteenth dependent's age`,
   19: `Nineteenth dependent's age`,
   20: `Twentieth dependent's age`,
+  21: `Twenty-first dependent's age`,
+  22: `Twenty-second dependent's age`,
+  23: `Twenty-third dependent's age`,
+  24: `Twenty-fourth dependent's age`,
+  25: `Twenty-fifth dependent's age`,
 };
