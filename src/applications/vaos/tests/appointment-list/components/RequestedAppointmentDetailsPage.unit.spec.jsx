@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 
 import {
   mockMessagesFetch,
@@ -191,6 +192,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should go back to requests page when clicking top link', async () => {
+    const url = '/requests/8a4886886e4c8e22016e6613216d001g';
+
     const appointment = getVARequestMock();
 
     appointment.attributes = {
@@ -208,9 +211,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
 
-    fireEvent.click(detailLinks[0]);
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
+    userEvent.click(detailLink);
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
@@ -220,6 +228,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   it('should render CC request details', async () => {
+    const url = '/requests/8a4886886e4c8e22016e6613216d001g';
+
     const ccAppointmentRequest = getCCRequestMock();
     ccAppointmentRequest.attributes = {
       ...ccAppointmentRequest.attributes,
@@ -240,7 +250,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       typeOfCareId: 'CCAUDHEAR',
     };
 
-    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.id = '8a4886886e4c8e22016e6613216d001g';
 
     mockAppointmentInfo({
       requests: [ccAppointmentRequest],
@@ -258,9 +268,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
 
-    fireEvent.click(detailLinks[0]);
+    const detailLink = detailLinks.find(a => a.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
+    userEvent.click(detailLink);
 
     // Verify page content...
     await waitFor(() => {
@@ -345,7 +360,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
 
     fireEvent.click(detailLinks[0]);
 
@@ -508,7 +525,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     });
   });
 
-  it('should display new appointment confirmation alert for VA request', async () => {
+  it('should display new appointment confirmation alert for VA appointment request', async () => {
     const appointment = getVARequestMock();
 
     appointment.id = '1234';
@@ -520,6 +537,15 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
         .format('MM/DD/YYYY'),
       optionTime1: 'AM',
     };
+
+    //     const ccAppointmentRequest = getCCRequestMock();
+    //
+    //     ccAppointmentRequest.id = '1234';
+    //     ccAppointmentRequest.attributes = {
+    //       ...ccAppointmentRequest.attributes,
+    //       appointmentType: 'Audiology (hearing aid support)',
+    //       typeOfCareId: 'CCAUDHEAR',
+    //     };
 
     // Verify VA pending
     mockSingleRequestFetch({
@@ -542,22 +568,47 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
 
-    expect(screen.queryByTestId('view-appointments-link')).to.exist;
-    expect(screen.queryByTestId('new-appointment-link')).to.exist;
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
+
+    // // Verify CC pending appointment
+    // mockSingleRequestFetch({
+    //   request: ccAppointmentRequest,
+    //   type: 'cc',
+    // });
+    //
+    //     renderWithStoreAndRouter(<AppointmentList />, {
+    //       initialState,
+    //       path: `/requests/${appointment.id}?confirmMsg=true`,
+    //     });
+    //
+    //     await waitFor(() => {
+    //       expect(global.document.title).to.equal(
+    //         `Pending Community care hearing aid support appointment`,
+    //       );
+    //     });
+    //     expect(screen.baseElement).to.contain('.usa-alert-success');
+    //     expect(screen.baseElement).to.contain.text(
+    //       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    //     );
+    //     expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    //     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
   });
 
-  it('should display new appointment confirmation alert for CC request', async () => {
+  it('should display new appointment confirmation alert for CC appointment request', async () => {
     const appointment = getCCRequestMock();
 
     appointment.id = '1234';
     appointment.attributes = {
-      typeOfCareId: 'CCAUDHEAR',
+      ...appointment.attributes,
       appointmentType: 'Audiology (hearing aid support)',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
+      typeOfCareId: 'CCAUDHEAR',
     };
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
 
     // Verify CC pending appointment
     mockSingleRequestFetch({
@@ -565,7 +616,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       type: 'cc',
     });
 
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+    renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/requests/${appointment.id}?confirmMsg=true`,
     });
@@ -579,8 +630,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
     );
-    expect(screen.queryByTestId('view-appointments-link')).to.exist;
-    expect(screen.queryByTestId('new-appointment-link')).to.exist;
+    expect(screen.queryByTestId('review-appointments-link')).to.exist;
+    expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
   });
 
   it('should handle error when cancelling', async () => {
@@ -603,7 +654,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       path: '/requested',
     });
 
-    const detailLinks = await screen.findAllByTestId('appointment-detail-link');
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
 
     fireEvent.click(detailLinks[0]);
 
