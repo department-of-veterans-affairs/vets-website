@@ -1,12 +1,12 @@
 import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
-class PatientMessageDetailsPage {
+class PatientMessageDetailsKeyboardPage {
   loadReplyPage = (messageId, messageTitle, messageDate) => {
     mockMessage.data.attributes.sentDate = messageDate;
     mockMessage.data.attributes.messageTitle = messageTitle;
     mockMessage.data.attributes.messageId = messageId;
-    cy.get('[data-testid="reply-button-top"]').click();
+    cy.get('[data-testid="reply-button-top"]').realPress('Enter');
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
 
@@ -28,8 +28,33 @@ class PatientMessageDetailsPage {
     ).as('replyDraftSave');
   };
 
-  verifyTrashButtonModal = () => {
-    cy.get('[data-testid=trash-button-text]').click();
+  verifyPrint = () => {
+    cy.get('[data-testid=print-button]').realClick();
+
+    cy.get('[data-testid=print-modal-popup]', { timeout: 8000 })
+      .shadow()
+      .find('h1')
+      .contains('What do you want to print?')
+      .should('be.visible');
+    cy.get('[data-testid="radio-print-one-message"]')
+      .realClick()
+      .should('be.visible');
+    cy.get('[data-testid="radio-print-all-messages"]').should('be.visible');
+    cy.get('[data-testid=print-modal-popup]')
+      .shadow()
+      .find('button')
+      .contains('Print')
+      .should('be.visible');
+    cy.get('[data-testid=print-modal-popup]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realClick();
+    // cy.tabToElement('[data-testid=move-button-text]').should('exist');
+  };
+
+  verifyTrash = () => {
+    cy.get('[data-testid=trash-button-text]').realClick();
 
     cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
       .contains('Messages in the trash folder')
@@ -49,11 +74,11 @@ class PatientMessageDetailsPage {
       .find('button')
       .contains('Cancel')
       .should('be.visible')
-      .click();
+      .realClick();
   };
 
-  verifyMoveToButtonModal = () => {
-    cy.get('[data-testid=move-button-text]').click();
+  verifyMoveTo = () => {
+    cy.get('[data-testid=move-button-text]').realClick();
     cy.get('[data-testid=move-to-modal]', { timeout: 8000 })
       .find('p')
       .contains(
@@ -74,15 +99,11 @@ class PatientMessageDetailsPage {
       .find('button')
       .contains('Cancel')
       .should('be.visible')
-      .click();
+      .realPress('Enter');
   };
 
-  ActiverifyReplyButtonon = () => {
-    cy.get('[data-testid=reply-button-text]').click();
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .should('be.visible');
+  verifyReply = () => {
+    cy.get('[data-testid=reply-button-text]').realClick();
   };
 }
-export default PatientMessageDetailsPage;
+export default PatientMessageDetailsKeyboardPage;
