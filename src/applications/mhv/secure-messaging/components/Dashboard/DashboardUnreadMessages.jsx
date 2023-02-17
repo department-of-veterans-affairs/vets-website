@@ -25,12 +25,12 @@ const DashboardUnreadMessages = props => {
 
       {folders !== undefined &&
         unreadCount > 0 && (
-          <h2 className="vads-u-font-size--h3">{`You have ${unreadCount} unread messages`}</h2>
+          <h2 className="vads-u-font-size--h3">{`You have ${unreadCount} unread messages in your inbox`}</h2>
         )}
 
       <Link
         className="vads-c-action-link--blue vads-u-margin-top--1"
-        text="View Inbox"
+        text="Go to your inbox"
         to="/inbox"
       >
         View Inbox
