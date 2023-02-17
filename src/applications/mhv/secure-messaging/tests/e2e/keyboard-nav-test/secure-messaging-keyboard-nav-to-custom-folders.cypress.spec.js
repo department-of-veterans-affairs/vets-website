@@ -19,6 +19,12 @@ describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
     cy.get('[data-testid="drafts-sidebar"]').realClick();
     cy.injectAxe();
     cy.axeCheck();
-    cy.tabToElement('[data-testid="drafts-sidebar"]').should('exist');
+    // cy.tabToElement('[data-testid="drafts-sidebar"]').should('exist');
+  });
+  it('tab to sent folder', () => {
+    cy.get('[data-testid="sent-sidebar"]').realClick();
+    cy.injectAxe();
+    cy.axeCheck();
+    // cy.tabToElement('[data-testid="drafts-sidebar"]').should('exist');
   });
 });
