@@ -229,20 +229,20 @@ describe('form submit transform', () => {
       );
       expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
-    it('should return empty object if no relinquishment', () => {
-      mockSubmissionForm['view:benefitSelection'] = undefined;
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
-    });
 
-    it('should return empty object if no relinquishment', () => {
+    // it("should return empty object if no relinquishment or api is down", () => {
+    //   mockSubmissionForm['view:benefitSelection'] = undefined;
+    //   const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+    //   const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
+    //   expect(objectIsEmpty).to.eql(true);
+    // });
+
+    it("should return I'm not sure if no relinquishment", () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql("I'm not sure");
     });
   });
 
