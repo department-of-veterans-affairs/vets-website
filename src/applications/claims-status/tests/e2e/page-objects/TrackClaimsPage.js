@@ -18,10 +18,7 @@ class TrackClaimsPage {
       );
     }
 
-    // START lighthouse_migration
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
-    // END lighthouse_migration
-
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
 
