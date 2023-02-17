@@ -2,6 +2,7 @@
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -37,6 +38,7 @@ const formConfig = {
   trackingPrefix: 'adapted-housing-4555-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: 'vba-26-4555',
   saveInProgress: {
     // messages: {
