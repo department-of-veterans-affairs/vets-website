@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Grid from './Grid';
 import { SPACE_BAR } from '../../../utils/constants';
 import {
@@ -171,14 +171,13 @@ export default function RequestListItemGroup({ data, facilityData }) {
               'vads-u-text-align--right',
             )}
           >
-            <Link
+            <va-link
               className="vaos-appts__focus--hide-outline"
               aria-label={label}
-              to={link}
+              href={link}
               onClick={e => e.preventDefault()}
-            >
-              Details
-            </Link>
+              text="Details"
+            />
           </div>
         </Grid>
       </ListItem>

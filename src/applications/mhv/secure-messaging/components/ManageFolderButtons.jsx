@@ -99,6 +99,7 @@ const ManageFolderButtons = () => {
           <button
             type="button"
             className="left-button usa-button-secondary"
+            data-testid="edit-folder-button"
             onClick={openRenameModal}
           >
             Edit folder name
@@ -106,6 +107,7 @@ const ManageFolderButtons = () => {
           <button
             type="button"
             className="right-button usa-button-secondary"
+            data-testid="remove-folder-button"
             onClick={openDelModal}
           >
             Remove folder

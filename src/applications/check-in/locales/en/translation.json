@@ -166,7 +166,7 @@
   "your-answers-will-help-us-better-prepare-for-your-needs": "Your answers will help us better prepare for your needs.",
   "your-appointment-started-more-than-15-minutes-ago-ask-for-help": "Your appointment started more than 15 minutes ago. We can’t check you in online. Ask a staff member for help.",
   "your-appointment": "Your appointment:",
-  "your-appointments": "Your appointments:",
+  "your-appointments": "Your appointments",
   "your-appointments-on-day_one": "Your appointment is on {{day, long}}.",
   "your-appointments-on-day_other": "Your appointments are on {{day, long}}.",
   "your-appointments-on-day-facility_one": "Your appointment is on {{day, long}} at {{facility}}.",
@@ -220,5 +220,6 @@
   "back-to-appointments": "Back to appointments",
   "click-to-see-details-for-your-time-appointment": "Click to see the details for your {{ time, time }} appointment",
   "directions-to-location": "Directions to {{ location }}",
-  "directions": "Directions"
+  "directions": "Directions",
+  "were-sorry-this-link-has-expired": "We’re sorry. This link has expired."
 }
