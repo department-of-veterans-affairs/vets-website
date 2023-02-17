@@ -11,10 +11,13 @@ const App = () => {
     featureToggles,
     user?.profile?.signIn?.serviceName,
   );
-  if (featureToggles.loading) return <va-loading-indicator />;
+
+  if (featureToggles.loading || user.profile.loading)
+    return <va-loading-indicator />;
   if (!appEnabled) {
     const url = mhvUrl(true, 'home');
     window.location.replace(url);
+    return `redirecting to ${url}...`;
   }
   return <LandingPage />;
 };
