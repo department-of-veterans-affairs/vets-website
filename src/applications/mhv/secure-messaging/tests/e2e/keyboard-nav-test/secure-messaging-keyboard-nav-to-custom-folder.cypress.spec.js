@@ -1,14 +1,16 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import PatientInboxPage from '../pages/PatientInboxPage';
 
-describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
+describe('Secure Messaging Keyboard Nav To Compose', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   beforeEach(() => {
     site.login();
-    landingPage.loadPage();
+    site.loadPage();
+  });
+  it('Keyboard Nav from Welcome Page to Compose', () => {
+    cy.tabToElement('[data-testid="compose-message-link"]');
+    cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck();
-    cy.tabToElement('[data-testid="keyword-search-input"]').should('exist');
+    cy.tabToElement('[data-testid="message-body-field"] ');
   });
 });
