@@ -350,8 +350,9 @@ export function createRelinquishedBenefit(submissionForm) {
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-
-  return {};
+  return {
+    relinquishedBenefit: "I'm not sure",
+  };
 }
 
 function setAdditionalConsideration(consideration) {
