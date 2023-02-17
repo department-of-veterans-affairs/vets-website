@@ -40,7 +40,6 @@ describe('ProfileInfoTable', () => {
     expect(dataTransformerSpy.callCount).to.equal(props.data.length);
   });
   it("renders each data object's title and value in a `li.table-row`", () => {
-    // console.log(wrapper.debug());
     const tableRows = wrapper.find('ol > li.row');
     expect(tableRows.length).to.equal(props.data.length);
     tableRows.forEach((row, index) => {

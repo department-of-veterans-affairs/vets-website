@@ -82,6 +82,7 @@ export const HeadingLevel = ({ namedAnchor, children, level, className }) => {
 
 HeadingLevel.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   level: numberBetween(1, 6),
   namedAnchor: PropTypes.string,
 };
@@ -158,6 +159,15 @@ Sections.propTypes = {
   level: numberBetween(1, 6),
 };
 
+const ContentRepeater = ({ data, asList, level }) => {
+  return asList ? <List rows={data} /> : <Sections rows={data} level={level} />;
+};
+
+ContentRepeater.propTypes = {
+  ...List.propTypes,
+  ...Sections.propTypes,
+};
+
 // need to render a single item, list of items, or a series of unrelated items as sections of each card
 // dynamically chooose layout based on data type and length
 // a prop for 'asList' will render as a list instead of series of unrelated items
@@ -178,6 +188,12 @@ export const ProfileInfoCard = ({
 }) => {
   const secondaryLevel = level + 1;
 
+  const content = Array.isArray(data) ? (
+    <ContentRepeater data={data} asList={asList} level={secondaryLevel} />
+  ) : (
+    <>{data}</>
+  );
+
   return (
     <section className={classNames(['profile-info-card', className])}>
       <HeadingLevel
@@ -187,17 +203,14 @@ export const ProfileInfoCard = ({
       >
         {title}
       </HeadingLevel>
-      {asList ? (
-        <List rows={data} />
-      ) : (
-        <Sections rows={data} level={secondaryLevel} />
-      )}
+      {content}
     </section>
   );
 };
 
 ProfileInfoCard.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.node])
+    .isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
   level: numberBetween(1, 5),
