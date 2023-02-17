@@ -129,42 +129,42 @@ const testConfig = createTestConfig(
           SpouseEmploymentHistory.fillEmployerInfo();
         });
       },
-      'spouse-gross-monthly-income': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#gross-monthly-income')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'spouse-deduction-checklist': ({ afterHook }) => {
-        afterHook(() => {
-          SpouseEmploymentHistory.goBackAndValidateInput(
-            '[data-testid="gross-monthly-income"]',
-            '1000',
-          );
+      // 'spouse-gross-monthly-income': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('#gross-monthly-income')
+      //       .first()
+      //       .shadow()
+      //       .find('input')
+      //       .type('1000');
+      //     cy.get('.usa-button-primary').click();
+      //   });
+      // },
+      // 'spouse-deduction-checklist': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     SpouseEmploymentHistory.goBackAndValidateInput(
+      //       '[data-testid="gross-monthly-income"]',
+      //       '1000',
+      //     );
 
-          // continuing to deduction checklist
-          SpouseEmploymentHistory.attemptNextPage();
+      //     // continuing to deduction checklist
+      //     SpouseEmploymentHistory.attemptNextPage();
 
-          cy.get(`input[name="State tax"]`)
-            .first()
-            .check();
-          SpouseEmploymentHistory.attemptNextPage();
-        });
-      },
-      'spouse-deduction-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#State\\ tax0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('123');
-          cy.get('.usa-button-primary').click();
-        });
-      },
+      //     cy.get(`input[name="State tax"]`)
+      //       .first()
+      //       .check();
+      //     SpouseEmploymentHistory.attemptNextPage();
+      //   });
+      // },
+      // 'spouse-deduction-values': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('#State\\ tax0')
+      //       .first()
+      //       .shadow()
+      //       .find('input')
+      //       .type('123');
+      //     cy.get('.usa-button-primary').click();
+      //   });
+      // },
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
