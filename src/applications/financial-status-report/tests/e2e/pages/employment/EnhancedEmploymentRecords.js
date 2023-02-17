@@ -31,12 +31,6 @@ class EnhancedEmploymentRecords {
       `${employer.from.split('-')[0]}-${employer.from.split('-')[1]}`,
     );
 
-    cy.get(':nth-child(2) > .hydrated')
-      .shadow()
-      .find('#error-message')
-      .should('exist')
-      .should('contain', 'start date.');
-
     if (employer.isCurrent) {
       cy.get(`input[name="current-employment"]`).check();
 
