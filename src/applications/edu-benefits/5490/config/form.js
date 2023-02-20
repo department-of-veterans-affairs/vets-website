@@ -46,7 +46,6 @@ import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -133,9 +132,6 @@ const formConfig = {
       pages: {
         applicantInformation: applicantInformationUpdate(fullSchema5490, {
           labels: { relationship: relationshipLabels },
-        }),
-        additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
         }),
         applicantService: applicantServicePage(fullSchema5490),
       },
