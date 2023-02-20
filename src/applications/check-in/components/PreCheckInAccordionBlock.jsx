@@ -69,13 +69,10 @@ const PreCheckInAccordionBlock = ({
                 i18nKey="or-you-can-call"
                 components={[
                   <va-telephone
-                    key="or-you-can-call"
+                    key={phoneNumbers.mainInfo}
                     contact={phoneNumbers.mainInfo}
-                  >
-                    link
-                  </va-telephone>,
+                  />,
                 ]}
-                values={{ link: phoneNumbers.mainInfoHumanReadable }}
               />
             </p>
           </>
@@ -104,11 +101,11 @@ const PreCheckInAccordionBlock = ({
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact={phoneNumbers.mainInfo}>
-                  link
-                </va-telephone>,
+                <va-telephone
+                  key={phoneNumbers.mainInfo}
+                  contact={phoneNumbers.mainInfo}
+                />,
               ]}
-              values={{ link: phoneNumbers.mainInfoHumanReadable }}
             />
           )}
         </p>
@@ -141,17 +138,14 @@ const PreCheckInAccordionBlock = ({
                     i18nKey="facility-name-at-phone"
                     components={[
                       <va-telephone
-                        key="facility-name-at-phone"
+                        key={appointment.clinicPhoneNumber}
                         contact={appointment.clinicPhoneNumber}
-                      >
-                        phone
-                      </va-telephone>,
+                      />,
                     ]}
                     values={{
                       facility:
                         appointment.clinicFriendlyName ||
                         appointment.clinicName,
-                      phone: appointment.clinicPhoneNumber,
                     }}
                   />
                 </p>
