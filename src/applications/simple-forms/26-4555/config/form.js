@@ -39,7 +39,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
-  formId: 'vba-26-4555',
+  formId: '26-4555',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your adapted housing application (26-4555) is in progress.',
@@ -56,7 +56,7 @@ const formConfig = {
       'Please sign in again to continue your application for adapted housing.',
   },
   title: 'Apply for a Specially Adapted Housing Grant Grant',
-  subtitle: 'VA Form 26-4555',
+  subTitle: 'VA Form 26-4555',
   defaultDefinitions: {
     fullName,
     date,
