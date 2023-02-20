@@ -49,7 +49,7 @@ const formConfig = {
   },
   version: 0.1,
   prefillEnabled: false,
-  disableSave: false,
+  // disableSave: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for adapted housing.',
     noAuth:
