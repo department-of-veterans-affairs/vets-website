@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import ExternalLink from '../ExternalLink';
 import BackToHome from '../BackToHome';
+import { phoneNumbers } from '../../utils/appConstants';
 
 const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ const Footer = ({ router, isPreCheckIn }) => {
               {t('for-questions-or-help-with-pre-check-in')}
             </span>{' '}
             {t('please-call-our-myva411-main-information-line-at')}{' '}
-            <va-telephone contact="8006982411" />{' '}
+            <va-telephone contact={phoneNumbers.mainInfo} />{' '}
             {t('and-select-0-were-here-24-7')}
           </p>
           <p>

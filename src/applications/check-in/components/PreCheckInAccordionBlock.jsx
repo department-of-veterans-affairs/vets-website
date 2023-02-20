@@ -3,6 +3,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import ExternalLink from './ExternalLink';
+import { phoneNumbers } from '../utils/appConstants';
 
 const PreCheckInAccordionBlock = ({
   demographicsUpToDate = 'no',
@@ -67,11 +68,14 @@ const PreCheckInAccordionBlock = ({
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
-                  <va-telephone key="or-you-can-call" contact="8006982411">
+                  <va-telephone
+                    key="or-you-can-call"
+                    contact={phoneNumbers.mainInfo}
+                  >
                     link
                   </va-telephone>,
                 ]}
-                values={{ link: '800-698-2411' }}
+                values={{ link: phoneNumbers.mainInfoHumanReadable }}
               />
             </p>
           </>
@@ -100,11 +104,11 @@ const PreCheckInAccordionBlock = ({
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact="8006982411">
+                <va-telephone key="please call" contact={phoneNumbers.mainInfo}>
                   link
                 </va-telephone>,
               ]}
-              values={{ link: '800-698-2411' }}
+              values={{ link: phoneNumbers.mainInfoHumanReadable }}
             />
           )}
         </p>

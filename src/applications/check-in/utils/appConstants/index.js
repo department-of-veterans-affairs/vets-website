@@ -236,6 +236,8 @@ const travelAllowList = ['0001', '500', '530'];
 
 const phoneNumbers = {
   textCheckIn: '53079',
+  mainInfo: '8006982411',
+  mainInfoHumanReadable: '800-698-2411',
 };
 
 export {
