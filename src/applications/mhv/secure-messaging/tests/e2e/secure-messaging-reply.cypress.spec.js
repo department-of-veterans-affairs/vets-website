@@ -14,11 +14,15 @@ describe('Secure Messaging Reply', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().attributes.recipientId,
     );
     messageDetailsPage.loadReplyPage(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
       landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
       landingPage.getNewMessage().attributes.recipientId,

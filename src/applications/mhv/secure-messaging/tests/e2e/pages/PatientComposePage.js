@@ -57,14 +57,14 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      cy.log(xhr.requestBody);
+      cy.log(JSON.stringify(xhr.response.body));
     });
     cy.get('@draft_message')
       .its('request.body')
       .then(message => {
-        expect(message.data.attributes.category).to.eq(testCategory);
-        expect(message.data.attributes.subject).to.eq(testSubject);
-        expect(message.data.attributes.body).to.eq(testBody);
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
       });
   };
 

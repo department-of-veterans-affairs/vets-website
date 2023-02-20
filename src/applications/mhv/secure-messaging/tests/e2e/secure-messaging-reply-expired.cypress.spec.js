@@ -11,7 +11,10 @@ describe('Secure Messaging Reply to Expired Mesage', () => {
     landingPage.loadMessageDetails(
       landingPage.getExpired46DayOldMessage().attributes.messageId,
       landingPage.getExpired46DayOldMessage().attributes.subject,
+      landingPage.getExpired46DayOldMessage().attributes.body,
+      landingPage.getExpired46DayOldMessage().attributes.category,
       landingPage.getExpired46DayOldMessage().attributes.sentDate,
+      landingPage.getExpired46DayOldMessage().attributes.recipientId,
     );
 
     cy.get('[data-testid=expired-alert-message]').should(

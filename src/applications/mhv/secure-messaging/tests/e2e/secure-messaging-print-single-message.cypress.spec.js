@@ -10,7 +10,10 @@ describe('Secure Messaging - Print Functionality', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().attributes.recipientId,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -46,7 +49,7 @@ describe('Secure Messaging - Print Functionality', () => {
         landingPage.getNewMessage().attributes.body,
         landingPage.getNewMessage().attributes.category,
         landingPage.getNewMessage().attributes.sentDate,
-        landingPage.getNewMessage().recipientId,
+        landingPage.getNewMessage().attributes.recipientId,
       );
       cy.get('[data-testid=print-button]').click();
       cy.get('[data-testid=radio-print-one-message]').click();
