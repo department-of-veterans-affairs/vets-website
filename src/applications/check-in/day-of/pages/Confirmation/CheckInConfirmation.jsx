@@ -148,6 +148,7 @@ const CheckInConfirmation = props => {
               showDetailsLink
               goToDetails={handleDetailClick}
               router={router}
+              page="confirmation"
             />
           ) : (
             <AppointmentConfirmationListItem
