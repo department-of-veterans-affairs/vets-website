@@ -107,28 +107,29 @@ const formConfig = {
       pages: {
         previousSahApplication1: {
           path: 'previous-sah-application-1',
-          title: 'Have you applied for specially adapted housing?',
+          title:
+            'Have you previously applied for a specially adapted housing (SAH) grant?',
           uiSchema: previousSahApplication1.uiSchema,
           schema: previousSahApplication1.schema,
         },
         previousSahApplication2: {
           path: 'previous-sah-application-2',
           title:
-            'Details about your past application for specially adapted housing or special home adaptation grant',
+            'Details about your past application for a specially adapted housing grant',
           depends: form => form.hasPreviousSahApplication,
           uiSchema: previousSahApplication2.uiSchema,
           schema: previousSahApplication2.schema,
         },
-        previousHiApplication1: {
-          path: 'previous-hi-application-1',
-          title: 'Have you applied for home improvement?',
+        previousShaApplication1: {
+          path: 'previous-sha-application-1',
+          title: 'Have you applied for a special home adaptation (SHA) grant?',
           uiSchema: previousHiApplication1.uiSchema,
           schema: previousHiApplication1.schema,
         },
-        previousHiApplication2: {
-          path: 'previous-hi-application-2',
+        previousShaApplication2: {
+          path: 'previous-sha-application-2',
           title:
-            'Details about your past application for home improvement or structural alteration grant',
+            'Details about your past application for a special home adaptation grant',
           depends: form => form.hasPreviousHiApplication,
           uiSchema: previousHiApplication2.uiSchema,
           schema: previousHiApplication2.schema,
