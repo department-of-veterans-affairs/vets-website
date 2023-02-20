@@ -77,7 +77,7 @@ describe('ui/index', () => {
 
   // Not testing the scroll part of this function
   describe('customScrollAndFocus', () => {
-    it('should focus om h3 when no param is passed', () => {
+    it('should focus on h3 when no param is passed', () => {
       const { container } = render(
         <>
           <div id="main">
