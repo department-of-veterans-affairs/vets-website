@@ -96,7 +96,10 @@ const Footer = ({ router, isPreCheckIn }) => {
               <Trans
                 i18nKey="or-call-our-BTSSS-toll-free-call-center"
                 components={[
-                  <va-telephone contact="8555747292" key="8555747292" />,
+                  <va-telephone
+                    contact={phoneNumbers.btsssCallCenter}
+                    key={phoneNumbers.btsssCallCenter}
+                  />,
                   <va-telephone contact="711" tty key="711" />,
                 ]}
               />
