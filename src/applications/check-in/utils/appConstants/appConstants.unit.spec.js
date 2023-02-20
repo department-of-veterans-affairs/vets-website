@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getLabelForEditField } from './index';
+import { getLabelForEditField, isInAllowList } from './index';
 
 describe('check in utils', () => {
   describe('getLabelForEditField', () => {
@@ -46,6 +46,49 @@ describe('check in utils', () => {
           capitalizeFirstLetter: true,
         }),
       ).to.equal(expected);
+    });
+  });
+
+  describe('isInAllowList', () => {
+    it('should return false if station not in list', () => {
+      const appointment = {
+        stationNo: '0002',
+        facility: 'LOMA LINDA VA CLINIC',
+        clinicName: 'LOM ACC CLINIC TEST',
+      };
+      expect(isInAllowList(appointment)).to.be.false;
+    });
+    it('should return false if facility not in list', () => {
+      const appointment = {
+        stationNo: '0001',
+        facility: 'facility',
+        clinicName: 'LOM ACC CLINIC TEST',
+      };
+      expect(isInAllowList(appointment)).to.be.false;
+    });
+    it('should return false if clinic not in list', () => {
+      const appointment = {
+        stationNo: '0001',
+        facility: 'LOMA LINDA VA CLINIC',
+        clinicName: 'clinic',
+      };
+      expect(isInAllowList(appointment)).to.be.false;
+    });
+    it('should return true clinic, facility, and station match', () => {
+      const appointment = {
+        stationNo: '0001',
+        facility: 'LOMA LINDA VA CLINIC',
+        clinicName: 'LOM ACC CLINIC TEST',
+      };
+      expect(isInAllowList(appointment)).to.be.true;
+    });
+    it('should return true only station listed', () => {
+      const appointment = {
+        stationNo: '500',
+        facility: null,
+        clinicName: null,
+      };
+      expect(isInAllowList(appointment)).to.be.true;
     });
   });
 });
