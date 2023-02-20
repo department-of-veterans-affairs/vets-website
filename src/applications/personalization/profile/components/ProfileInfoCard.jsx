@@ -87,12 +87,12 @@ HeadingLevel.propTypes = {
   namedAnchor: PropTypes.string,
 };
 
-export const List = ({ rows }) => {
+export const List = ({ data }) => {
   return (
     <>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
-        {rows.map((rowData, index) => (
+        {data.map((rowData, index) => (
           // eslint-disable-next-line jsx-a11y/no-redundant-roles
           <li
             key={index}
@@ -121,13 +121,13 @@ export const List = ({ rows }) => {
 };
 
 List.propTypes = {
-  rows: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
-const Sections = ({ rows, level }) => {
+const Sections = ({ data, level }) => {
   return (
     <>
-      {rows.map((rowData, index) => (
+      {data.map((rowData, index) => (
         <div
           key={index}
           className={index === 0 ? classes.firstRow : classes.secondaryRow}
@@ -159,25 +159,20 @@ Sections.propTypes = {
   level: numberBetween(1, 6),
 };
 
-const ContentRepeater = ({ data, asList, level }) => {
-  return asList ? <List rows={data} /> : <Sections rows={data} level={level} />;
+const ListOrSections = ({ data, asList, level }) => {
+  return asList ? <List data={data} /> : <Sections data={data} level={level} />;
 };
 
-ContentRepeater.propTypes = {
+ListOrSections.propTypes = {
   ...List.propTypes,
   ...Sections.propTypes,
 };
 
-// need to render a single item, list of items, or a series of unrelated items as sections of each card
-// dynamically chooose layout based on data type and length
-// a prop for 'asList' will render as a list instead of series of unrelated items
-// if a series of unrelated items, render as sections of each card
-// if object, render single item
-
-// experiment with setting heading level based on previous heading level in the DOM
-
-// This is will replace the current ProfileInfoTable component and its main purpose is to
-// provide a container for more dynamic layout of the profile information.
+// render a list of items, sections of items, or a single item
+// 'asList' as true, will render as an ordered list instead of series of sections (legacy behavior)
+// if single item is passed as data, it will be rendered as is (passing single node)
+// This component will replace the current ProfileInfoTable component and its main purpose is
+// to provide an accessible container for each part of profile pages
 export const ProfileInfoCard = ({
   className,
   title,
@@ -188,12 +183,6 @@ export const ProfileInfoCard = ({
 }) => {
   const secondaryLevel = level + 1;
 
-  const content = Array.isArray(data) ? (
-    <ContentRepeater data={data} asList={asList} level={secondaryLevel} />
-  ) : (
-    <>{data}</>
-  );
-
   return (
     <section className={classNames(['profile-info-card', className])}>
       <HeadingLevel
@@ -203,7 +192,12 @@ export const ProfileInfoCard = ({
       >
         {title}
       </HeadingLevel>
-      {content}
+
+      {Array.isArray(data) ? (
+        <ListOrSections data={data} asList={asList} level={secondaryLevel} />
+      ) : (
+        <>{data}</>
+      )}
     </section>
   );
 };
