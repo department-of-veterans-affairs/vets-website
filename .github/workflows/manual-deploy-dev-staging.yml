@@ -43,11 +43,11 @@ jobs:
         id: set-output
         run: |
           if [[ ${{ github.event.inputs.deploy_environment }} == 'dev' ]]; then
-            echo ::set-output name=environment::{\"include\":[${{env.dev}}]}
+            echo environment={\"include\":[${{env.dev}}]} >> $GITHUB_OUTPUT
           elif [[ ${{ github.event.inputs.deploy_environment }} == 'staging' ]]; then
-            echo ::set-output name=environment::{\"include\":[${{env.staging}}]}
+            echo environment={\"include\":[${{env.staging}}]} >> $GITHUB_OUTPUT
           else
-            echo ::set-output name=environment::{\"include\":[${{env.dev}},${{env.staging}}]}
+            echo environment={\"include\":[${{env.dev}},${{env.staging}}]} >> $GITHUB_OUTPUT
           fi
 
   build:

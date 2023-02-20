@@ -220,13 +220,13 @@ const hasPhoneAppointments = appointments => {
  * @returns {Node}
  */
 
-const appointmentIcon = appointment => {
+const appointmentIcon = (appointment, listMode = false) => {
   return (
     <i
       aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
+      className={`${
+        listMode && appointment?.kind === 'clinic' ? 'far' : 'fas'
+      } ${appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'}`}
       aria-hidden="true"
       data-testid="appointment-icon"
     />
@@ -269,9 +269,9 @@ const findAppointment = (appointmentId, appointments) => {
   const appointmentIdParts = appointmentId.split('-');
   return appointments.find(
     appointmentItem =>
-      Number(appointmentItem.appointmentIen) ===
-        Number(appointmentIdParts[0]) &&
-      Number(appointmentItem.stationNo) === Number(appointmentIdParts[1]),
+      String(appointmentItem.appointmentIen) ===
+        String(appointmentIdParts[0]) &&
+      String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
   );
 };
 

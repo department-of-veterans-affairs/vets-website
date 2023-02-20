@@ -25,18 +25,29 @@ const appointments = [
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen: 'some-ien',
     startTime: '2021-11-16T21:39:36',
-    doctorName: 'Dr. Green',
-    clinicStopCodeName: 'Primary care',
+    doctorName: '',
+    clinicStopCodeName: '',
     kind: 'phone',
   },
 ];
+const mockRouter = {
+  location: {
+    basename: '/health-care/appointment-check-in',
+  },
+};
+
 describe('AppointmentListItemVaos', () => {
   describe('pre-check-in and day-of', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItemVaos appointment={appointments[0]} />
+            <AppointmentListItemVaos
+              app="preCheckIn"
+              appointment={appointments[0]}
+              router={mockRouter}
+              page="intro"
+            />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -53,10 +64,15 @@ describe('AppointmentListItemVaos', () => {
       });
     });
     describe('Phone appointment context', () => {
-      it('Renders appointment details', () => {
+      it('Renders appointment details with no stopCodeName or provider', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
-            <AppointmentListItemVaos appointment={appointments[1]} />
+            <AppointmentListItemVaos
+              app="preCheckIn"
+              appointment={appointments[1]}
+              router={mockRouter}
+              page="intro"
+            />
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-time')).to.have.text(
@@ -64,32 +80,36 @@ describe('AppointmentListItemVaos', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('Primary care with Dr. Green');
+        ).to.have.text('VA Appointment');
         expect(
           screen.getByTestId('appointment-kind-and-location'),
         ).to.have.text('Phone');
       });
     });
     describe('Details link', () => {
-      it("Doesn't show if false", () => {
+      it("Doesn't show if not on correct page", () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentListItemVaos
+              app="preCheckIn"
               appointment={appointments[0]}
-              showDetailsLink={false}
               goToDetails={() => {}}
+              router={mockRouter}
+              page="intro"
             />
           </I18nextProvider>,
         );
         expect(screen.queryByTestId('details-link')).to.not.exist;
       });
-      it('Does show if true', () => {
+      it('Does show if on a correct page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentListItemVaos
+              app="preCheckIn"
               appointment={appointments[0]}
               goToDetails={() => {}}
-              showDetailsLink
+              router={mockRouter}
+              page="details"
             />
           </I18nextProvider>,
         );
@@ -100,9 +120,11 @@ describe('AppointmentListItemVaos', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentListItemVaos
+              app="preCheckIn"
               appointment={appointments[0]}
               goToDetails={goToDetails}
-              showDetailsLink
+              router={mockRouter}
+              page="details"
             />
           </I18nextProvider>,
         );

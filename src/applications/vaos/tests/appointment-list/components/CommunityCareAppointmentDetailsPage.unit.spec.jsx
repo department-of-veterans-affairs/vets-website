@@ -86,6 +86,8 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
     // Select an appointment details link...
     let detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+
+    // And the user select the appointment to display the appointment details page
     userEvent.click(detailLink);
 
     // Verify page content...
@@ -145,7 +147,12 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
       name: /VA online scheduling/,
     });
     userEvent.click(VAOSHomepageLink);
-    expect(await screen.findAllByText(/Detail/)).to.be.ok;
+
+    expect(
+      await screen.findAllByRole('link', {
+        name: /Detail/i,
+      }),
+    ).to.be.ok;
   });
 
   it('should show cc info when directly opening page', async () => {
