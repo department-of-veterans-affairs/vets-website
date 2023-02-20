@@ -10,25 +10,44 @@ describe('Secure Messaging Reply', () => {
     const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
+    landingPage.setDynamicMessage(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
+      landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().recipientId,
+    );
     landingPage.loadPage();
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().recipientId,
     );
     messageDetailsPage.loadReplyPage(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().attributes.recipientId,
     );
+    const testMessageBody = 'Test message body';
     cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="message-body"]')
-      .type('Test message body');
+      .type(testMessageBody);
     cy.injectAxe();
     cy.axeCheck();
-    replyPage.sendReplyMessage(
+    replyPage.saveReplyDraft(
       landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.senderId,
+      landingPage.getNewMessage().attributes.category,
+      landingPage.getNewMessage().attributes.subject,
+      testMessageBody,
     );
   });
 });

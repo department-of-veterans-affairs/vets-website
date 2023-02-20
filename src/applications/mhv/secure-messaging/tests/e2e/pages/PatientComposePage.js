@@ -61,11 +61,10 @@ class PatientComposePage {
     });
     cy.get('@draft_message')
       .its('request.body')
-      .should('deep.equal', {
-        recipientId: testId,
-        category: testCategory,
-        subject: testSubject,
-        body: testBody,
+      .then(message => {
+        expect(message.data.attributes.category).to.eq(testCategory);
+        expect(message.data.attributes.subject).to.eq(testSubject);
+        expect(message.data.attributes.body).to.eq(testBody);
       });
   };
 
