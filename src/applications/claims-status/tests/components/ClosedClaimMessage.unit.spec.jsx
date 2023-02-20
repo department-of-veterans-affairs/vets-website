@@ -10,6 +10,7 @@ describe('<ClosedClaimMessage>', () => {
     const claims = [
       {
         id: 1,
+        type: 'evss_claims',
         attributes: {
           dateFiled: '2023-01-01',
           open: false,
@@ -27,6 +28,7 @@ describe('<ClosedClaimMessage>', () => {
     const claims = [
       {
         id: 1,
+        type: 'evss_claims',
         attributes: {
           dateFiled: '2023-01-01',
           open: false,
@@ -44,6 +46,7 @@ describe('<ClosedClaimMessage>', () => {
     const claims = [
       {
         id: 1,
+        type: 'evss_claims',
         attributes: {
           dateFiled: '2023-01-01',
           open: true,
