@@ -47,7 +47,8 @@ const formConfig = {
     //   saved: 'Your adapted housing application has been saved.',
     // },
   },
-  version: 0.1,
+  version: 0,
+  migrations: [],
   prefillEnabled: false,
   // disableSave: false,
   savedFormMessages: {
