@@ -65,7 +65,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         <button
           type="button"
           ref={editRef}
-          className="edit-btn primary-outline"
+          className="edit-page usa-button-secondary"
           onClick={handlers.onEditPage}
           aria-label={content.editLabel}
         >
