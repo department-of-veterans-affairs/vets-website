@@ -44,7 +44,6 @@ export const transform = (formConfig, form) => {
       dependents,
       employmentHistory: {
         veteran: { employmentRecords = [] },
-        spouse: { spEmploymentRecords = [] },
       },
     },
     expenses,
@@ -102,9 +101,7 @@ export const transform = (formConfig, form) => {
   const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
   // spouse
-  const spGrossSalary = enhancedFSRActive
-    ? sumValues(spEmploymentRecords, 'spouseGrossSalary')
-    : sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
     ? Number(
@@ -118,12 +115,7 @@ export const transform = (formConfig, form) => {
     benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
-  const spDeductions = enhancedFSRActive
-    ? spEmploymentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterReduceByName(spDeductions, taxFilters);
   const spRetirement = filterReduceByName(spDeductions, retirementFilters);
   const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
