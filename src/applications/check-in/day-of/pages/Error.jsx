@@ -4,6 +4,7 @@ import { useTranslation, Trans } from 'react-i18next';
 
 import { makeSelectError } from '../../selectors';
 import Wrapper from '../../components/layout/Wrapper';
+import { phoneNumbers } from '../../utils/appConstants';
 
 const Error = () => {
   const { t } = useTranslation();
@@ -32,9 +33,9 @@ const Error = () => {
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
             <va-telephone
-              key="53079"
+              key={phoneNumbers.textCheckIn}
               data-testid="error-message-sms"
-              contact="53079"
+              contact={phoneNumbers.textCheckIn}
               sms
             />,
           ]}

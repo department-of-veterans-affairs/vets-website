@@ -234,6 +234,10 @@ const addressFormFields = Object.freeze({
 // Station numbers of stations where travel pay is enabled.
 const travelAllowList = ['0001', '500', '530'];
 
+const phoneNumbers = {
+  textCheckIn: '53079',
+};
+
 export {
   APP_NAMES,
   VISTA_CHECK_IN_STATUS_IENS,
@@ -241,4 +245,5 @@ export {
   addressFormFields,
   baseCities,
   travelAllowList,
+  phoneNumbers,
 };
