@@ -350,7 +350,9 @@ export function createRelinquishedBenefit(submissionForm) {
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-  return submissionForm?.showMebDgi40Features
+  const FEATURE_FLAG = !!submissionForm?.showMebDgi40Features;
+
+  return FEATURE_FLAG
     ? {
         relinquishedBenefit: "I'm not sure",
       }
