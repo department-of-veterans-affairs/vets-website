@@ -34,7 +34,7 @@ jobs:
       run: ls /etc/ssl/certs
     - name: Set PEM file content as environment variable
       env:
-        PEM_CONTENTS: $(cat /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem)
+       PEM_CONTENTS: $(cat /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem)
       
     #- name: Copy PEM file to Docker build context
      # run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem ${{ github.workspace }}/docker-build-context
