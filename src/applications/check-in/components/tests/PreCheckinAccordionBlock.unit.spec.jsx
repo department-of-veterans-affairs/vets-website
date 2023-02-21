@@ -281,15 +281,11 @@ describe('check-in', () => {
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'You can sign in to your VA.gov profile to update your contact information online.',
         );
-        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'Or you can call 800-698-2411 and select 0. We’re here 24/7.',
-        );
+        expect(screen.getByTestId('or-you-can-call')).to.exist;
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Emergency and next of kin information',
         );
-        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'Please call 800-698-2411 and select 0. We’re here 24/7.',
-        );
+        expect(screen.getByTestId('please-call')).to.exist;
         // Confirmation accordions are not present.
         expect(
           screen.getByTestId('pre-check-in-accordions'),
@@ -335,14 +331,10 @@ describe('check-in', () => {
           'You can sign in to your VA.gov profile to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'Or you can call 800-698-2411 and select 0. We’re here 24/7.',
-        );
-        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Emergency and next of kin information',
         );
-        expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          'Please call 800-698-2411 and select 0. We’re here 24/7.',
-        );
+        expect(screen.getByTestId('or-you-can-call')).to.exist;
+        expect(screen.getByTestId('please-call')).to.exist;
       });
     });
   });

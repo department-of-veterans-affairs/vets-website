@@ -64,7 +64,7 @@ const PreCheckInAccordionBlock = ({
                 values={{ link: t('sign-in') }}
               />
             </p>
-            <p>
+            <p data-testid="or-you-can-call">
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
@@ -94,10 +94,12 @@ const PreCheckInAccordionBlock = ({
       <>
         {updateBody}
         <strong>{title}</strong>
-        <p>
-          {appointmentType === 'clinic' ? (
+        {appointmentType === 'clinic' ? (
+          <p>
             t('a-staff-member-will-help-you-on-the-day-of-your-appointment')
-          ) : (
+          </p>
+        ) : (
+          <p data-testid="please-call">
             <Trans
               i18nKey="please-call"
               components={[
@@ -107,8 +109,8 @@ const PreCheckInAccordionBlock = ({
                 />,
               ]}
             />
-          )}
-        </p>
+          </p>
+        )}
       </>
     );
   }
