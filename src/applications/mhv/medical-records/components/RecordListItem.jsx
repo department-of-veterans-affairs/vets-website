@@ -20,8 +20,10 @@ const VaccineListItem = props => {
       data-testid="record-list-item"
     >
       <h4>{record.name}</h4>
-      <div>{record.facility}</div>
-      <div>{formattedDate}</div>
+      <div>Date received: {formattedDate}</div>
+      <div className="location-collapsed vads-u-line-height--3">
+        Location: {record.facility}
+      </div>
       <Link
         to="/vaccine"
         className="vads-u-margin-y--0p5"
