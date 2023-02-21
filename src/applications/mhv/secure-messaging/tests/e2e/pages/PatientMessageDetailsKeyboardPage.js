@@ -50,7 +50,7 @@ class PatientMessageDetailsKeyboardPage {
       .find('button')
       .contains('Cancel')
       .realClick();
-    // cy.tabToElement('[data-testid=move-button-text]').should('exist');
+    cy.tabToElement('[data-testid=move-button-text]').should('exist');
   };
 
   verifyTrash = () => {
