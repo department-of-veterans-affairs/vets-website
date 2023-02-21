@@ -1,8 +1,8 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import startCase from 'lodash/startCase';
 import toLower from 'lodash/toLower';
+import toUpper from 'lodash/toUpper';
 import startsWith from 'lodash/startsWith';
 // Relative imports.
 import { capitalize } from '../../helpers';
@@ -14,7 +14,7 @@ export const deriveNameLabel = school => {
   }
 
   // Show the nameOfInstitution.
-  return startCase(toLower(school?.nameOfInstitution));
+  return toUpper(school?.nameOfInstitution);
 };
 
 export const deriveLocationLabel = (school = {}) => {
