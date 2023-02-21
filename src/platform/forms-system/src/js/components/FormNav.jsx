@@ -91,10 +91,15 @@ export default function FormNav(props) {
       }
 
       return () => {
-        // Check main toggle to enable custom focus
+        // Check main toggle to enable custom focus; the unmounting of the page
+        // before the review & submit page may cause the customScrollAndFocus
+        // function to be called inadvertently
         if (
           formConfig.useCustomScrollAndFocus &&
-          page.chapterKey !== 'review'
+          !(
+            page.chapterKey === 'review' ||
+            window.location.pathname.endsWith('review-and-submit')
+          )
         ) {
           customScrollAndFocus(page?.scrollAndFocusTarget, index);
         } else {
