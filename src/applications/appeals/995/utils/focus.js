@@ -16,3 +16,10 @@ export const focusRadioH3 = () => {
     focusElement(defaultFocusSelector);
   }
 };
+
+export const focusAlertH3 = () => {
+  scrollToTop();
+  // va-alert header is not in the shadow DOM, but still the content doesn't
+  // immediately render
+  waitForRenderThenFocus('h3');
+};
