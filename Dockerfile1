@@ -12,11 +12,6 @@ COPY . .
 # setting up vets-website
 RUN yarn config set "strict-ssl" false
 RUN npm config set strict-ssl false
-# Create a directory for the Chromium cache
-RUN mkdir -p /root/.cache/puppeteer/chrome && \
-  chown -R nobody:nogroup /root/.cache/puppeteer
-# Set the user to the non-root user "node"
-USER nobody
 RUN export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN export PUPPETEER_EXECUTABLE_PATH=`which chromium` 
 RUN yarn install
