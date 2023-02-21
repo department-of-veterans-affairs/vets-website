@@ -1,7 +1,7 @@
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-import customFullNameUI from '../definitions/customFullNameUI';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { veteranFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
@@ -10,14 +10,9 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 const personalInformation1 = {
   uiSchema: {
-    // we're importing our own fullName ui-schema to diplay custom labels
-    [veteranFields.fullName]: customFullNameUI({
-      firstNameLabel: 'Your first name',
-      lastNameLabel: 'Your last name',
-      middleNameLabel: 'Your middle name',
-    }),
+    [veteranFields.fullName]: fullNameUI,
     [veteranFields.dateOfBirth]: {
-      'ui:title': 'Your date of birth',
+      'ui:title': 'Date of birth',
       'ui:widget': 'date',
       'ui:errorMessages': {
         pattern: 'Please select Month, Day, and input a 4-digit Year.',
