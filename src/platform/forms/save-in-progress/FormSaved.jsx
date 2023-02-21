@@ -55,7 +55,7 @@ class FormSaved extends React.Component {
       <div>
         <div className="usa-alert usa-alert-info">
           <div className="usa-alert-body">
-            <h2 className="vads-u-margin-y--0">
+            <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
               {savedMessage(this.props.route.formConfig)}
             </h2>
             <br />
