@@ -246,7 +246,6 @@ const travelAllowList = {
 
 const isInAllowList = appointment => {
   const { clinicName, facility, stationNo } = appointment;
-  const stations = Object.keys(travelAllowList);
   const passesClinic = () => {
     const hasClinic =
       'clinics' in travelAllowList[stationNo].facilities[facility];
@@ -254,6 +253,7 @@ const isInAllowList = appointment => {
       return true;
     }
     const clinicsList = travelAllowList[stationNo].facilities[facility].clinics;
+
     return clinicsList.includes(clinicName);
   };
   const passesFacilityAndClinic = () => {
@@ -262,16 +262,12 @@ const isInAllowList = appointment => {
       return true;
     }
     const facilitiesList = Object.keys(travelAllowList[stationNo].facilities);
-    if (facilitiesList.includes(facility)) {
-      return passesClinic();
-    }
-    return false;
-  };
 
-  if (stations.includes(stationNo)) {
-    return passesFacilityAndClinic();
-  }
-  return false;
+    return facilitiesList.includes(facility) && passesClinic();
+  };
+  const stations = Object.keys(travelAllowList);
+
+  return stations.includes(stationNo) && passesFacilityAndClinic();
 };
 
 export {
