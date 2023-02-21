@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadMeta from './MessageThreadMeta';
 import MessageThreadBody from './MessageThreadBody';
 import MessageThreadAttachments from './MessageThreadAttachments';
+import {
+  markMessageAsRead,
+  retrieveMessageThread,
+} from '../../actions/messages';
 
 const MessageThreadItem = props => {
+  const dispatch = useDispatch();
+  const { threadId } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const { message } = props;
   const isRead = message.readReceipt === 'READ';
@@ -26,6 +33,15 @@ const MessageThreadItem = props => {
     if (!e.shiftKey && e.key !== 'Tab') {
       // prevent from expanding/collapsing on Tab key press for accessibility
       setIsExpanded(!isExpanded);
+    }
+    if (!isRead && !isExpanded) {
+      dispatch(markMessageAsRead(message.messageId)).then(() => {
+        if (threadId) {
+          dispatch(
+            retrieveMessageThread({ threadId, isDraft: false, refresh: true }),
+          );
+        }
+      });
     }
   };
 
@@ -110,6 +126,7 @@ const MessageThreadItem = props => {
 MessageThreadItem.propTypes = {
   message: PropTypes.object,
   printView: PropTypes.bool,
+  threadId: PropTypes.number,
 };
 
 export default MessageThreadItem;

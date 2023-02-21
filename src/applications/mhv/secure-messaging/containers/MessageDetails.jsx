@@ -117,7 +117,10 @@ const MessageDetail = () => {
           <>
             {/* <NavigationLinks messageId={messageId} /> */}
             <MessageDetailBlock message={message} />
-            <MessageThread messageHistory={messageHistory} />
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+            />
           </>
         )}
     </div>

@@ -119,6 +119,17 @@ export const retrieveMessage = (
 };
 
 /**
+ * @param {Long} messageId
+ * @returns
+ */
+export const markMessageAsRead = messageId => async () => {
+  const response = await getMessage(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  }
+};
+
+/**
  * @param {Long} threadId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
  * @returns
@@ -126,14 +137,23 @@ export const retrieveMessage = (
 export const retrieveMessageThread = (
   threadId,
   isDraft = false,
+  refresh = false,
 ) => async dispatch => {
-  dispatch(clearMessage());
-  const response = thread.data;
+  if (refresh) {
+    dispatch(clearMessage());
+  }
+  // const response = thread.data;
+  const response = await new Promise(resolve => {
+    setTimeout(() => {
+      resolve(thread.data);
+    }, 1500);
+  });
   // const response = await getMessageThread(threadId);
   if (response.errors) {
     // TODO Add error handling
   } else {
-    const message = response.shift();
+    // const message = response;
+    const message = response[0];
     dispatch({
       type: Actions.Message.GET,
       response: { data: message },
@@ -141,7 +161,7 @@ export const retrieveMessageThread = (
     if (response.length > 0) {
       dispatch({
         type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-        response: { data: response },
+        response: { data: response.slice(1, response.length) },
       });
     }
   }

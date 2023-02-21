@@ -1,10 +1,10 @@
 {
   "data": [
     {
-      "id": "2602185",
+      "id": "2602184",
       "type": "messages",
       "attributes": {
-        "messageId": 2602185,
+        "messageId": 2602184,
         "category": "OTHER",
         "subject": "MELVIN: ATTACHMENT (image types)",
         "body": "MESSAGE A  @@@ 3:34\n\nHTTPS://WWW.VA.GOV\n\n\nMelvin Freeman\nUSMC Veteran",
@@ -23,10 +23,10 @@
       }
     },
     {
-      "id": "2602185",
+      "id": "7177164",
       "type": "messages",
       "attributes": {
-        "messageId": 2602185,
+        "messageId": 7177164,
         "category": "OTHER",
         "subject": "MELVIN: ATTACHMENT (image types)",
         "body": "MESSAGE A  @@@ 3:34\n\nHTTPS://WWW.VA.GOV\n\n\nMelvin Freeman\nUSMC Veteran",
@@ -36,7 +36,7 @@
         "senderName": "FREEMAN, MELVIN  V",
         "recipientId": 1930436,
         "recipientName": "EXTRA_LONG_CHARACTER_TRIAGE_GROUP_369258@#%_DAYT29",
-        "readReceipt": "READ",
+        "readReceipt": false,
         "triageGroupName": null,
         "proxySenderName": null
       },
@@ -45,10 +45,10 @@
       }
     },
     {
-      "id": "2602185",
+      "id": "2602186",
       "type": "messages",
       "attributes": {
-        "messageId": 2602185,
+        "messageId": 2602186,
         "category": "OTHER",
         "subject": "MELVIN: ATTACHMENT (image types)",
         "body": "MESSAGE A  @@@ 3:34\n\nHTTPS://WWW.VA.GOV\n\n\nMelvin Freeman\nUSMC Veteran",

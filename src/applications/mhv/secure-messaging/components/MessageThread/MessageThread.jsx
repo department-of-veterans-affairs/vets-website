@@ -7,7 +7,7 @@ import { clearMessageHistory } from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const { messageHistory } = props;
+  const { messageHistory, threadId } = props;
   const [viewCount, setViewCount] = useState(5);
 
   useEffect(
@@ -38,7 +38,11 @@ const MessageThread = props => {
             <HorizontalRule />
 
             {messageHistory.map((m, i) => {
-              return i < viewCount && <MessageThreadItem key={i} message={m} />;
+              return (
+                i < viewCount && (
+                  <MessageThreadItem key={i} message={m} threadId={threadId} />
+                )
+              );
             })}
 
             {viewCount < messageHistory?.length && (
@@ -58,6 +62,7 @@ const MessageThread = props => {
 
 MessageThread.propTypes = {
   messageHistory: PropType.array,
+  threadId: PropType.number,
 };
 
 export default MessageThread;
