@@ -247,24 +247,29 @@ const travelAllowList = {
 const isInAllowList = appointment => {
   const { clinicName, facility, stationNo } = appointment;
   const stations = Object.keys(travelAllowList);
-  if (stations.includes(stationNo)) {
+  const passesClinic = () => {
+    const hasClinic =
+      'clinics' in travelAllowList[stationNo].facilities[facility];
+    if (!hasClinic) {
+      return true;
+    }
+    const clinicsList = travelAllowList[stationNo].facilities[facility].clinics;
+    return clinicsList.includes(clinicName);
+  };
+  const passesFacilityAndClinic = () => {
     const hasFacility = 'facilities' in travelAllowList[stationNo];
     if (!hasFacility) {
       return true;
     }
     const facilitiesList = Object.keys(travelAllowList[stationNo].facilities);
-    const facilityMatch = facilitiesList.includes(facility);
-    const hasClinic = facilityMatch
-      ? 'clinics' in travelAllowList[stationNo].facilities[facility]
-      : false;
-    if (facilityMatch && !hasClinic) {
-      return true;
+    if (facilitiesList.includes(facility)) {
+      return passesClinic();
     }
-    if (facilityMatch && hasClinic) {
-      const clinicsList =
-        travelAllowList[stationNo].facilities[facility].clinics;
-      return clinicsList.includes(clinicName);
-    }
+    return false;
+  };
+
+  if (stations.includes(stationNo)) {
+    return passesFacilityAndClinic();
   }
   return false;
 };
