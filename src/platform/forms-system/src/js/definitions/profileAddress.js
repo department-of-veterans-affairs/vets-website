@@ -114,10 +114,14 @@ const USA = {
 };
 
 const MilitaryBaseInfo = () => (
-  <p className="vads-u-margin-top--3">
-    U.S. military bases are considered a domestic address and a part of the
-    United States.
-  </p>
+  <div className="vads-u-padding-x--2p5">
+    <va-additional-info trigger="Learn more about military base addresses">
+      <span>
+        The United States is automatically chosen as your country if you live on
+        a military base outside of the country.
+      </span>
+    </va-additional-info>
+  </div>
 );
 
 /**
@@ -236,6 +240,17 @@ export default function addressUiSchema(
   const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
 
   return {
+    'ui:order': [
+      schemaKeys.isMilitary,
+      schemaKeys['view:militaryBaseDescription'],
+      schemaKeys.country,
+      schemaKeys.street,
+      schemaKeys.street2,
+      schemaKeys.street3,
+      schemaKeys.city,
+      schemaKeys.state,
+      schemaKeys.postalCode,
+    ],
     [schemaKeys.isMilitary]: {
       'ui:title': checkBoxTitle,
       'ui:options': {
