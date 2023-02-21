@@ -76,11 +76,8 @@ export default function RatingsAccordion({
   }, []);
 
   return (
-    <div
-      aria-label={`${title} with a rating of ${categoryRating} out of 4.`}
-      className="vads-u-padding--1"
-    >
-      <div className="star-heading">
+    <div className="vads-u-padding--1">
+      <div aria-hidden className="star-heading">
         <RatingsStars rating={categoryRating} />
         <span className="vads-u-margin-left--1">{categoryRating}</span>
       </div>
@@ -97,7 +94,9 @@ export default function RatingsAccordion({
 
         {!subHeader && (
           <va-accordion-item id={title}>
-            <h6 slot="headline">{title}</h6>
+            <h6 aria-labelledby="test" slot="headline">
+              {title}
+            </h6>
             <div>{getQuestions()}</div>
           </va-accordion-item>
         )}
