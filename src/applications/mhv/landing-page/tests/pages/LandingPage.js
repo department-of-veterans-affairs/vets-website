@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import Timeouts from 'platform/testing/e2e/timeouts';
 
@@ -18,8 +19,8 @@ class LandingPage {
     cy.url().should('not.match', /my-health/);
   };
 
-  visitPage = () => {
-    cy.login(MockUser.defaultUser);
+  visitPage = ({ serviceProvider = 'idme' } = {}) => {
+    cy.login(MockUser.generateUserWithServiceProvider({ serviceProvider }));
     cy.visit('/my-health');
   };
 }

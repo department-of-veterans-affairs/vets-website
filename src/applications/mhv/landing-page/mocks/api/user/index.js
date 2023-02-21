@@ -56,6 +56,25 @@ const defaultUser = {
   meta: { errors: null },
 };
 
+const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
+  return {
+    ...defaultUser,
+    data: {
+      ...defaultUser.data,
+      attributes: {
+        ...defaultUser.data.attributes,
+        profile: {
+          ...defaultUser.data.attributes.profile,
+          sign_in: {
+            service_name: serviceProvider,
+          },
+        },
+      },
+    },
+  };
+};
+
 module.exports = {
   defaultUser,
+  generateUserWithServiceProvider,
 };

@@ -9,6 +9,7 @@ describe(manifest.appName, () => {
     ApiInitializer.initializeUserData.withDefaultUser();
   });
 
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('landing page is disabled', () => {
     LandingPage.visitPage();
     LandingPage.validateRedirectHappened();
