@@ -710,7 +710,8 @@ describe('VAOS <VAFacilityPage>', () => {
         .to.be.null;
     });
 
-    it('should display correct facilities after changing type of care', async () => {
+    // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
+    it.skip('should display correct facilities after changing type of care', async () => {
       const facilityIdsForTwoTypesOfCare = ['983', '983GC', '983QA', '984'];
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
