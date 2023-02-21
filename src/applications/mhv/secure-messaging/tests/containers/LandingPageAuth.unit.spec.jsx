@@ -40,8 +40,11 @@ describe('Landing dashboard', () => {
   it('displays a number of unread messsages', async () => {
     const unreadCount = unreadCountAllFolders(folderList);
     await waitFor(() => {
-      expect(screen.getByText(`You have ${unreadCount} unread messages`)).to
-        .exist;
+      expect(
+        screen.getByText(
+          `You have ${unreadCount} unread messages in your inbox`,
+        ),
+      ).to.exist;
     });
   });
 
