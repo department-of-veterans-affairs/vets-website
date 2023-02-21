@@ -30,4 +30,9 @@ describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+  it('tab to trash folder', () => {
+    cy.get('[data-testid="my-folders-sidebar"]').realClick();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });
