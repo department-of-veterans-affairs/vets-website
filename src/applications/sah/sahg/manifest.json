@@ -1,0 +1,7 @@
+{
+  "appName": "Apply for Specially Adapted Housing Grant",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "sahg",
+  "rootUrl": "/specially-adapted-housing-grant",
+  "productId": "d15ac5c5-deaf-475a-b175-760768d45f91"
+}
