@@ -66,7 +66,7 @@ describe('<YourClaimsPageV2>', () => {
     ],
     pages: 1,
     page: 1,
-    getClaimsV2: sinon.spy(),
+    getClaimsEVSS: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
   };
