@@ -123,7 +123,7 @@ const formConfig = {
           schema: contactInfo.schema,
         },
         editHomePhone: {
-          title: 'Edit phone number',
+          title: 'Edit home phone number',
           path: 'edit-home-phone',
           CustomPage: EditHomePhone,
           CustomPageReview: EditHomePhone,
@@ -132,7 +132,7 @@ const formConfig = {
           schema: blankSchema,
         },
         editMobilePhone: {
-          title: 'Edit phone number',
+          title: 'Edit mobile phone number',
           path: 'edit-mobile-phone',
           CustomPage: EditMobilePhone,
           CustomPageReview: EditMobilePhone,
