@@ -2,6 +2,10 @@
 
 FROM public.ecr.aws/bitnami/node:14.15.5
 
+RUN mkdir -p /etc/ssl/certs
+WORKDIR /etc/ssl/certs
+ADD /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem .
+
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y
 
