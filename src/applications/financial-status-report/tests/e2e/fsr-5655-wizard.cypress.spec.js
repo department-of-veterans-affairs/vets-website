@@ -31,9 +31,9 @@ describe('Financial Status Report (Wizard)', () => {
     cy.url().should('include', manifest.rootUrl);
     cy.get('h1').should('have.text', title);
     cy.get('.wizard-heading').should('have.text', heading);
-    cy.get('[type="radio"][value="request"]').click();
-    cy.get('[type="radio"][value="recipients"]').click();
-    cy.get('[type="radio"][value="veteran"]').click();
+    cy.get('va-radio-option[value="request"]').click();
+    cy.get('va-radio-option[value="recipients"]').click();
+    cy.get('va-radio-option[value="veteran"]').click();
     cy.get('.usa-button-primary').click();
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.axeCheck();

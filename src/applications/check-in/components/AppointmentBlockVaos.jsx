@@ -7,14 +7,13 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItemVaos from './AppointmentDisplay/AppointmentListItemVaos';
-import AppointmentActionVaos from './AppointmentDisplay/AppointmentActionVaos';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
 import { getAppointmentId } from '../utils/appointment';
 
 const AppointmentBlockVaos = props => {
-  const { appointments, page, router, token } = props;
+  const { appointments, page, router } = props;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
@@ -22,7 +21,7 @@ const AppointmentBlockVaos = props => {
 
   const { jumpToPage } = useFormRouting(router);
 
-  const handleDetailClick = (appointment, e) => {
+  const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav'),
@@ -43,7 +42,7 @@ const AppointmentBlockVaos = props => {
           })}
         </p>
       ) : (
-        <p data-testid="date-text">
+        <p className="vads-u-font-family--serif" data-testid="date-text">
           {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
       )}
@@ -57,18 +56,10 @@ const AppointmentBlockVaos = props => {
             <AppointmentListItemVaos
               key={`${appointment.appointmentIen}-${appointment.stationNo}`}
               appointment={appointment}
-              showDetailsLink={page === 'confirmation' || page === 'details'}
+              page={page}
               goToDetails={handleDetailClick}
-              AppointmentAction={
-                app === APP_NAMES.CHECK_IN && (
-                  <AppointmentActionVaos
-                    appointment={appointment}
-                    router={router}
-                    token={token}
-                  />
-                )
-              }
-              appointmentMessage
+              app={app}
+              router={router}
             />
           );
         })}
@@ -81,7 +72,6 @@ AppointmentBlockVaos.propTypes = {
   appointments: PropTypes.array.isRequired,
   page: PropTypes.string.isRequired,
   router: PropTypes.object,
-  token: PropTypes.string,
 };
 
 export default AppointmentBlockVaos;

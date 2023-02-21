@@ -2,10 +2,26 @@ import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
 class PatientMessageDetailsPage {
-  loadReplyPage = (messageId, messageTitle, messageDate) => {
+  loadReplyPage = (
+    messageId,
+    messageCategory,
+    messageTitle,
+    messageBody,
+    messageDate,
+    messageRecipientId,
+  ) => {
     mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.messageTitle = messageTitle;
+    mockMessage.data.attributes.subject = messageTitle;
+    mockMessage.data.attributes.body = messageBody;
+    mockMessage.data.attributes.category = messageCategory;
     mockMessage.data.attributes.messageId = messageId;
+    mockMessage.data.attributes.recipientId = messageRecipientId;
+    mockThread.data.at(0).attributes.sentDate = messageDate;
+    mockThread.data.at(0).attributes.messageId = messageId;
+    mockThread.data.at(0).attributes.subject = messageTitle;
+    mockThread.data.at(0).attributes.body = messageBody;
+    mockThread.data.at(0).attributes.category = messageCategory;
+    mockThread.data.at(0).attributes.messageRecipient = messageRecipientId;
     cy.get('[data-testid="reply-button-top"]').click();
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
@@ -20,7 +36,9 @@ class PatientMessageDetailsPage {
       `/my_health/v1/messaging/messages/${messageId}/thread`,
       mockThread,
     ).as('full-thread');
-    cy.wait('@message');
+    cy.wait('@message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
     cy.wait('@full-thread');
     cy.intercept(
       'POST',
@@ -60,7 +78,6 @@ class PatientMessageDetailsPage {
         'This conversation will be moved. Any replies to this message will appear in your inbox',
       )
       .should('be.visible');
-    cy.get('[data-testid=radiobutton-Inbox]').should('be.visible');
     cy.get('[data-testid=radiobutton-Deleted]').should('be.visible');
     cy.get('[data-testid=radiobutton-TEST2]').should('be.visible');
     cy.get('[data-testid=radiobutton-TESTAGAIN]').should('be.visible');

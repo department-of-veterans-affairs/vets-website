@@ -50,6 +50,11 @@ describe('Secure Messaging Save Draft', () => {
       .shadow()
       .find('[name="message-body"]')
       .type('Test message body');
-    composePage.saveDraft();
+    composePage.saveDraft(
+      6978854,
+      'OTHER',
+      'testmessage Test',
+      'ststASertTest message body',
+    );
   });
 });

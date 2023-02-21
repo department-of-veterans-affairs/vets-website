@@ -27,7 +27,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
-      .find('[id=error-message]')
+      .find('[id=input-error-message]')
       .should('be.visible');
 
     cy.reload();

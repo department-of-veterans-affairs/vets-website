@@ -15,6 +15,7 @@ const mockUser = Object.freeze({
   lastName: 'Smith',
   dob: '1935-04-07',
 });
+const missingUUID = 'a5895713-ca42-4244-9f38-f8b5db020d04';
 
 const responses = {
   ...commonResponses,
@@ -28,6 +29,11 @@ const responses = {
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { lastName, dob } = req.body?.session || {};
+    if (req.body?.session.uuid === missingUUID) {
+      return res
+        .status(404)
+        .json(sessions.post.createMockMissingUuidErrorResponse());
+    }
     if (!lastName) {
       return res.status(400).json(sessions.post.createMockFailedResponse());
     }
