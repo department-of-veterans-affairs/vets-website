@@ -14,6 +14,10 @@ class LandingPage {
     cy.url().should('match', /my-health/);
   };
 
+  validateRedirectHappened = () => {
+    cy.url().should('not.match', /my-health/);
+  };
+
   visitPage = () => {
     cy.login(MockUser.defaultUser);
     cy.visit('/my-health');

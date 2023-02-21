@@ -1,5 +1,7 @@
 import manifest from '../../manifest.json';
+
 import ApiInitializer from '../utilities/ApiInitializer';
+import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
@@ -7,7 +9,8 @@ describe(manifest.appName, () => {
     ApiInitializer.initializeUserData.withDefaultUser();
   });
 
-  it('landing page is diasbled', () => {
-    // TODO: fill in test
+  it('landing page is disabled', () => {
+    LandingPage.visitPage();
+    LandingPage.validateRedirectHappened();
   });
 });
