@@ -1,5 +1,7 @@
 import manifest from '../../manifest.json';
+
 import ApiInitializer from '../utilities/ApiInitializer';
+import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
@@ -8,6 +10,9 @@ describe(manifest.appName, () => {
   });
 
   it('landing page is enabled', () => {
-    // TODO: fill in test
+    LandingPage.visitPage();
+    LandingPage.validatePageLoaded();
+    LandingPage.validateURL();
+    cy.injectAxeThenAxeCheck();
   });
 });
