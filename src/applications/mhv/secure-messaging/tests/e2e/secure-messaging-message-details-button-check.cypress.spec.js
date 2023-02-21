@@ -12,7 +12,10 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.body,
+      landingPage.getNewMessage().attributes.category,
       landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().recipientId,
     );
     messageDetailsPage.verifyTrashButtonModal();
     messageDetailsPage.verifyMoveToButtonModal();
