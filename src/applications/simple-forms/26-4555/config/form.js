@@ -1,6 +1,4 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import manifest from '../manifest.json';
@@ -20,15 +18,6 @@ import livingSituation1 from '../pages/livingSituation1';
 import livingSituation2 from '../pages/livingSituation2';
 import remarks from '../pages/remarks';
 
-const {
-  fullName,
-  date,
-  ssn,
-  vaFileNumber,
-  address,
-  phone,
-  email,
-} = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -58,15 +47,7 @@ const formConfig = {
   },
   title: 'Apply for a Specially Adapted Housing Grant Grant',
   subTitle: 'VA Form 26-4555',
-  defaultDefinitions: {
-    fullName,
-    date,
-    ssn,
-    vaFileNumber,
-    address,
-    phone,
-    email,
-  },
+  defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
