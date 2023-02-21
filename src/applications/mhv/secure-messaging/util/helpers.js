@@ -31,9 +31,9 @@ export const navigateToFolderByFolderId = (folderId, history) => {
   history.push(folderPathByFolderId(folderId));
 };
 
-export const unreadCountAllFolders = folders => {
+export const unreadCountInbox = folders => {
   return folders
-    .filter(folder => folder.id !== Folders.DRAFTS.id)
+    .filter(folder => folder.id === Folders.INBOX.id)
     .reduce((a, b) => a + b.unreadCount, 0);
 };
 
