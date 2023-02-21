@@ -2,6 +2,9 @@
 
 FROM public.ecr.aws/bitnami/node:14.15.5
 
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y
+
 RUN mkdir -p /website/vets-website
 WORKDIR /website/vets-website
 
@@ -9,6 +12,12 @@ COPY . .
 # setting up vets-website
 RUN yarn config set "strict-ssl" false
 RUN npm config set strict-ssl false
+# Create a directory for the Chromium cache
+RUN mkdir -p /root/.cache/puppeteer/chrome && \
+  chown -R node:node /root/.cache/puppeteer
+
+# Set the user to the non-root user "node"
+USER node
 RUN export PUPPETEER_SKIP_DOWNLOAD='true'
 RUN npm i puppeteer 
 RUN yarn install
