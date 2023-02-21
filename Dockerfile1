@@ -9,6 +9,8 @@ COPY . .
 # setting up vets-website
 RUN yarn config set "strict-ssl" false
 RUN npm config set strict-ssl false
+RUN export PUPPETEER_SKIP_DOWNLOAD='true'
+RUN npm i puppeteer 
 RUN yarn install
 RUN yarn build
 
