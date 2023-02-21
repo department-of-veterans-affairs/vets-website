@@ -81,7 +81,6 @@ export default Object.freeze({
   mhvSecureMessagingToVaGovRelease: 'mhv_secure_messaging_to_va_gov_release',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
-  myvaCernerFromDrupal: 'myva_cerner_from_drupal',
   omniChannelLink: 'omni_channel_link',
   pdfWarningBanner: 'pdf_warning_banner',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
