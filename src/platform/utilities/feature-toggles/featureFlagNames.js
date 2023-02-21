@@ -73,7 +73,7 @@ export default Object.freeze({
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaBrowserMonitoringEnabled: 'hca_browser_monitoring_enabled',
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
-  hcaShortFormEnabled: 'hca_short_form_enabled',
+  hcaHouseholdV2Enabled: 'hca_household_v2_enabled',
   hcaUseFacilitiesApi: 'hca_use_facilities_API',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
