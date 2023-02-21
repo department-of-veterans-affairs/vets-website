@@ -53,40 +53,28 @@ describe('check in utils', () => {
     it('should return false if station not in list', () => {
       const appointment = {
         stationNo: '0002',
-        facility: 'LOMA LINDA VA CLINIC',
-        clinicName: 'LOM ACC CLINIC TEST',
-      };
-      expect(isInAllowList(appointment)).to.be.false;
-    });
-    it('should return false if facility not in list', () => {
-      const appointment = {
-        stationNo: '0001',
-        facility: 'facility',
-        clinicName: 'LOM ACC CLINIC TEST',
+        clinicIen: '0001',
       };
       expect(isInAllowList(appointment)).to.be.false;
     });
     it('should return false if clinic not in list', () => {
       const appointment = {
         stationNo: '0001',
-        facility: 'LOMA LINDA VA CLINIC',
-        clinicName: 'clinic',
+        clinicIen: '0002',
       };
       expect(isInAllowList(appointment)).to.be.false;
     });
-    it('should return true clinic, facility, and station match', () => {
+    it('should return true if clinic, and station match', () => {
       const appointment = {
         stationNo: '0001',
-        facility: 'LOMA LINDA VA CLINIC',
-        clinicName: 'LOM ACC CLINIC TEST',
+        clinicIen: '0001',
       };
       expect(isInAllowList(appointment)).to.be.true;
     });
     it('should return true only station listed', () => {
       const appointment = {
         stationNo: '500',
-        facility: null,
-        clinicName: null,
+        clinicIen: null,
       };
       expect(isInAllowList(appointment)).to.be.true;
     });

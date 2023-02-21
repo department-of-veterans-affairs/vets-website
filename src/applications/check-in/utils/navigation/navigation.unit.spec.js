@@ -43,8 +43,7 @@ describe('Global check in', () => {
         const appointments = [
           {
             stationNo: '0001',
-            facility: 'LOMA LINDA VA CLINIC',
-            clinicName: 'LOM ACC CLINIC TEST',
+            clinicIen: '0001',
           },
         ];
         const form = updateFormPages(
@@ -199,8 +198,7 @@ describe('Global check in', () => {
         const appointments = [
           {
             stationNo: '0001',
-            facility: 'LOMA LINDA VA CLINIC',
-            clinicName: 'LOM ACC CLINIC TEST',
+            clinicIen: '0001',
           },
         ];
         expect(appointments).to.have.lengthOf(1);

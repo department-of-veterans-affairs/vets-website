@@ -234,40 +234,26 @@ const addressFormFields = Object.freeze({
 // Station numbers of stations where travel pay is enabled.
 const travelAllowList = {
   '0001': {
-    facilities: {
-      'LOMA LINDA VA CLINIC': {
-        clinics: ['LOM ACC CLINIC TEST'],
-      },
-    },
+    clinics: ['0001'],
   },
   '500': {},
   '530': {},
 };
 
 const isInAllowList = appointment => {
-  const { clinicName, facility, stationNo } = appointment;
+  const { clinicIen, stationNo } = appointment;
   const passesClinic = () => {
-    const hasClinic =
-      'clinics' in travelAllowList[stationNo].facilities[facility];
+    const hasClinic = 'clinics' in travelAllowList[stationNo];
     if (!hasClinic) {
       return true;
     }
-    const clinicsList = travelAllowList[stationNo].facilities[facility].clinics;
+    const clinicsList = travelAllowList[stationNo].clinics;
 
-    return clinicsList.includes(clinicName);
-  };
-  const passesFacilityAndClinic = () => {
-    const hasFacility = 'facilities' in travelAllowList[stationNo];
-    if (!hasFacility) {
-      return true;
-    }
-    const facilitiesList = Object.keys(travelAllowList[stationNo].facilities);
-
-    return facilitiesList.includes(facility) && passesClinic();
+    return clinicsList.includes(clinicIen);
   };
   const stations = Object.keys(travelAllowList);
 
-  return stations.includes(stationNo) && passesFacilityAndClinic();
+  return stations.includes(stationNo) && passesClinic();
 };
 
 export {
