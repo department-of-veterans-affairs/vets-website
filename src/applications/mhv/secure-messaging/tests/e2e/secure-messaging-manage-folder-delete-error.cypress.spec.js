@@ -29,11 +29,18 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.get('[class="modal hydrated"]')
       .shadow()
-      .find('[class="va-modal-inner"]');
+      .find('[class="va-modal-inner va-modal-alert"]');
 
     cy.get('[visible=""] > p');
     cy.injectAxe();
     cy.axeCheck();
     cy.realPress(['Enter']);
+    // For edit button
+    // cy.get('.left-button')
+    //     .click({ force: true });
+    // cy.get('[name="new-folder-name"]')
+    //     .shadow()
+    //     .find('[id="inputField"]')
+    //     .type('Testing');
   });
 });
