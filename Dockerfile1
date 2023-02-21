@@ -17,7 +17,7 @@ RUN mkdir -p /root/.cache/puppeteer/chrome && \
   chown -R nobody:nogroup /root/.cache/puppeteer
 # Set the user to the non-root user "node"
 USER nobody
-RUN export PUPPETEER_SKIP_DOWNLOAD='true'
+RUN npm config set puppeteer_download_host=https://npm.taobao.org/mirrors
 RUN npm i puppeteer 
 RUN yarn install
 RUN yarn build
