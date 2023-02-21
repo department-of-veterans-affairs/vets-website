@@ -5,13 +5,13 @@ import EmploymentHistorySummaryCard from '../../../components/EmploymentHistoryS
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
 
-const EmploymentHistoryWidget = props => {
+const SpouseEmploymentHistoryWidget = props => {
   const { goToPath, goBack, onReviewPage } = props;
   const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState('false');
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
-    formData.personalData.employmentHistory.veteran.employmentRecords || [];
+    formData.personalData.employmentHistory.spouse.employmentRecords || [];
 
   useEffect(() => {
     clearJobIndex();
@@ -21,9 +21,9 @@ const EmploymentHistoryWidget = props => {
     onSubmit: event => {
       event.preventDefault();
       if (hasAdditionalJobToAdd === 'true') {
-        goToPath(`/enhanced-employment-records`);
+        goToPath(`/enhanced-spouse-employment-records`);
       } else {
-        goToPath(`/benefits`);
+        goToPath(`/dependents`);
       }
     },
     onSelection: event => {
@@ -45,13 +45,13 @@ const EmploymentHistoryWidget = props => {
             key={`${index}-${job.employername}`}
             job={job}
             index={index}
-            isSpouse={false}
+            isSpouse
           />
         ))}
       </div>
       <VaRadio
         class="vads-u-margin-y--2"
-        label="Have you had another job in the last 2 years?"
+        label="Has your spouse had another job in the last 2 years?"
         onVaValueChange={handlers.onSelection}
         required
       >
@@ -81,4 +81,4 @@ const mapStateToProps = ({ form }) => {
   };
 };
 
-export default connect(mapStateToProps)(EmploymentHistoryWidget);
+export default connect(mapStateToProps)(SpouseEmploymentHistoryWidget);
