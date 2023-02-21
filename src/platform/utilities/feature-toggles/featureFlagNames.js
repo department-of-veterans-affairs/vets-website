@@ -117,6 +117,7 @@ export default Object.freeze({
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
+  showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
   showMebDgi40Features: 'show_meb_dgi40_features',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
@@ -137,7 +138,6 @@ export default Object.freeze({
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaHomePreviewModal:
     'va_home_preview_modal',
-  vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
   vaOnlineSchedulingCheetah: 'va_online_scheduling_cheetah',
@@ -156,8 +156,6 @@ export default Object.freeze({
     'va_online_scheduling_vaos_service_va_appointments',
   vaOnlineSchedulingFacilitiesServiceV2:
     'va_online_scheduling_facilities_service_v2',
-  vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
-  vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingStatusImprovementCanceled: 'va_online_scheduling_status_improvement_canceled',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
@@ -167,7 +165,6 @@ export default Object.freeze({
   vaOnlineSchedulingAcheronService: 'va_online_scheduling_acheron_service',
   vaOnlineSchedulingRequestFlowUpdate: 'va_online_scheduling_request_flow_update',
   vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',
-  vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

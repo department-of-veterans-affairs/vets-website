@@ -115,7 +115,7 @@ describe('995 contact info loop', () => {
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
-    cy.contains('Edit phone number').should('be.visible');
+    cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should('eq', `${BASE_URL}/edit-mobile-phone`);
 
     cy.findByLabelText(/mobile phone/i)
