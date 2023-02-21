@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { unreadCountAllFolders } from '../../util/helpers';
+import { unreadCountInbox } from '../../util/helpers';
 
 const DashboardUnreadMessages = props => {
   const { folders } = props;
@@ -10,7 +10,7 @@ const DashboardUnreadMessages = props => {
   useEffect(
     () => {
       if (folders?.length > 0) {
-        setUnreadCount(unreadCountAllFolders(folders));
+        setUnreadCount(unreadCountInbox(folders));
       }
     },
     [folders],
