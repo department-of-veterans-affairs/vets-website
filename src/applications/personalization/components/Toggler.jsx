@@ -1,9 +1,7 @@
 import React, { useContext, createContext } from 'react';
-
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { toggleValues as toggleValuesSelector } from '~/platform/site-wide/feature-toggles/selectors';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { useFeatureToggle } from '../hooks/useFeatureToggle';
 
 const ToggleContext = createContext();
 ToggleContext.displayName = 'ToggleContext';
@@ -13,8 +11,8 @@ const useToggle = () => {
 };
 
 export const Toggler = ({ toggleName, children }) => {
-  const toggleValues = useSelector(state => toggleValuesSelector(state));
-  const toggleValue = toggleValues?.[toggleName];
+  const { useToggleValue } = useFeatureToggle();
+  const toggleValue = useToggleValue(toggleName);
   return (
     <ToggleContext.Provider
       value={toggleValue === undefined ? false : toggleValue}
