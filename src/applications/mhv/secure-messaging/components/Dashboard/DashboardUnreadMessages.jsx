@@ -33,7 +33,7 @@ const DashboardUnreadMessages = props => {
         text="Go to your inbox"
         to="/inbox"
       >
-        View Inbox
+        Go to your inbox
       </Link>
     </div>
   );

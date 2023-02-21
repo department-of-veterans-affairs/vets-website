@@ -49,7 +49,7 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a View Inbox button', () => {
-    expect(screen.getByText(`View Inbox`)).to.exist;
+    expect(screen.getByText(`Go to your inbox`)).to.exist;
   });
 
   it('displays a Welcome message', () => {
