@@ -157,16 +157,16 @@ describe('<AdditionalEvidencePage>', () => {
       claim,
       files: [],
       params,
-      useLighthouse: true,
-      uploadField: { value: null, dirty: false },
-      resetUploads: sinon.spy(),
+      resetUploads: () => {},
       router: getRouter(),
+      uploadField: { value: null, dirty: false },
     };
 
     it('calls getClaimLighthouse when enabled', () => {
-      // Reset sinon spies
+      // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = true;
 
       const { rerender } = render(<AdditionalEvidencePage {...props} />);
 
@@ -179,20 +179,19 @@ describe('<AdditionalEvidencePage>', () => {
     });
 
     it('calls getClaimEVSS when disabled', () => {
-      const newProps = {
-        ...props,
-        getClaimEVSS: sinon.spy(),
-        getClaimLighthouse: sinon.spy(),
-        useLighthouse: false,
-      };
-      const { rerender } = render(<AdditionalEvidencePage {...newProps} />);
+      // Reset sinon spies / set up props
+      props.getClaimEVSS = sinon.spy();
+      props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = false;
+
+      const { rerender } = render(<AdditionalEvidencePage {...props} />);
 
       // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
       // which requires rerendering
-      rerender(<AdditionalEvidencePage {...newProps} uploadComplete />);
+      rerender(<AdditionalEvidencePage {...props} uploadComplete />);
 
-      expect(newProps.getClaimEVSS.called).to.be.true;
-      expect(newProps.getClaimLighthouse.called).to.be.false;
+      expect(props.getClaimEVSS.called).to.be.true;
+      expect(props.getClaimLighthouse.called).to.be.false;
     });
   });
   // END lighthouse_migration

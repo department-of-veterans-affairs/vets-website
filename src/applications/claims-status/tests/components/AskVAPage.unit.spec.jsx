@@ -111,13 +111,13 @@ describe('<AskVAPage>', () => {
     const props = {
       params,
       router: getRouter(),
-      useLighthouse: false,
     };
 
     it('calls getClaimLighthouse when enabled', () => {
-      props.useLighthouse = true;
+      // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = true;
 
       const { rerender } = render(
         <Provider store={store}>
@@ -138,9 +138,10 @@ describe('<AskVAPage>', () => {
     });
 
     it('calls getClaimEVSS when disabled', () => {
-      props.useLighthouse = false;
+      // Reset sinon spies / set up props
       props.getClaimEVSS = sinon.spy();
       props.getClaimLighthouse = sinon.spy();
+      props.useLighthouse = false;
 
       const { rerender } = render(
         <Provider store={store}>
