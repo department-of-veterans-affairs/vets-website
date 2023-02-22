@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import URLSearchParams from 'url-search-params';
-import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
@@ -367,24 +366,11 @@ export class CallToActionWidget extends Component {
 
     const { accountLevel } = this.props.mhvAccount;
 
-    const redirectToTermsAndConditions = () => {
-      const redirectQuery = { tc_redirect: window.location.pathname }; // eslint-disable-line camelcase
-      const termsConditionsUrl = appendQuery(
-        '/health-care/medical-information-terms-conditions/',
-        redirectQuery,
-      );
-      window.location = termsConditionsUrl;
-    };
-
     if (!accountLevel) {
       return (
         <NoMHVAccount
           serviceDescription={this._serviceDescription}
-          primaryButtonHandler={
-            accountState === 'needs_terms_acceptance'
-              ? redirectToTermsAndConditions
-              : this.props.createAndUpgradeMHVAccount
-          }
+          primaryButtonHandler={this.props.createAndUpgradeMHVAccount}
           secondaryButtonHandler={this.signOut}
         />
       );
@@ -393,11 +379,7 @@ export class CallToActionWidget extends Component {
     return (
       <UpgradeAccount
         serviceDescription={this._serviceDescription}
-        primaryButtonHandler={
-          accountState === 'needs_terms_acceptance'
-            ? redirectToTermsAndConditions
-            : this.props.upgradeMHVAccount
-        }
+        primaryButtonHandler={this.props.upgradeMHVAccount}
       />
     );
   };
