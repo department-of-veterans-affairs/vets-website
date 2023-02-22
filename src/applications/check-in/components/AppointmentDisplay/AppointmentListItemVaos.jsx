@@ -24,11 +24,23 @@ const AppointmentListItemVaos = props => {
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       if (page === 'confirmation') {
-        return t('your-provider-will-call-you-at-your-appointment-time');
+        return (
+          <span data-testid="phone-msg-confirmation">
+            {t('your-provider-will-call-you-at-your-appointment-time')}
+          </span>
+        );
       }
-      return t('your-provider-will-call-you');
+      return (
+        <span data-testid="phone-msg-intro">
+          {t('your-provider-will-call-you')}
+        </span>
+      );
     }
-    return t('please-bring-your-insurance-cards-with-you-to-your-appointment');
+    return (
+      <span data-testid="in-person-msg-confirmation">
+        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+      </span>
+    );
   };
 
   return (
