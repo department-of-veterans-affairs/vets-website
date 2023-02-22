@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
 
@@ -8,11 +9,11 @@ describe('Toggler', () => {
   it('renders Toggler.Enabled with value set to True', () => {
     const initialState = {
       featureToggles: {
-        testToggle: true,
+        profile_use_info_card: true,
       },
     };
     const ui = (
-      <Toggler toggleName="testToggle">
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
           <div>Enabled</div>
         </Toggler.Enabled>
@@ -34,11 +35,11 @@ describe('Toggler', () => {
   it('renders Toggler.Disabled with value set to False', () => {
     const initialState = {
       featureToggles: {
-        testToggle: false,
+        profile_use_info_card: false,
       },
     };
     const ui = (
-      <Toggler toggleName="testToggle">
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
           <div>Enabled</div>
         </Toggler.Enabled>
@@ -62,7 +63,7 @@ describe('Toggler', () => {
       featureToggles: {},
     };
     const ui = (
-      <Toggler toggleName="testToggle">
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseInfoCard}>
         <Toggler.Enabled>
           <div>Enabled</div>
         </Toggler.Enabled>
