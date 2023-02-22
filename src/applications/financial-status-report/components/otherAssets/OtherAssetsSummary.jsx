@@ -2,7 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { Link } from 'react-router';
-import MiniSummaryCard from '../utils/MiniSummaryCard';
+import {
+  EmptyMiniSummaryCard,
+  MiniSummaryCard,
+} from '../utils/MiniSummaryCard';
 import { currency as currencyFormatter } from '../../utils/helpers';
 
 const OtherAssetsSummary = () => {
@@ -25,21 +28,26 @@ const OtherAssetsSummary = () => {
       }),
     );
   };
+  const emptyPrompt = `Select the ‘add additional assets’ link to add another asset. Select the continue button to move on to the next question.`;
 
   return (
     <>
-      {otherAssetsEnhanced.map((asset, index) => (
-        <MiniSummaryCard
-          editDesination={{
-            pathname: '/add-other-asset',
-            search: `?index=${index}`,
-          }}
-          heading={asset.name}
-          key={asset.name + asset.amount}
-          onDelete={() => onDelete(index)}
-          subheading={`Value: ${currencyFormatter(asset.amount)}`}
-        />
-      ))}
+      {!otherAssetsEnhanced.length ? (
+        <EmptyMiniSummaryCard content={emptyPrompt} />
+      ) : (
+        otherAssetsEnhanced.map((asset, index) => (
+          <MiniSummaryCard
+            editDesination={{
+              pathname: '/add-other-asset',
+              search: `?index=${index}`,
+            }}
+            heading={asset.name}
+            key={asset.name + asset.amount}
+            onDelete={() => onDelete(index)}
+            subheading={`Value: ${currencyFormatter(asset.amount)}`}
+          />
+        ))
+      )}
       <Link
         className="vads-c-action-link--green"
         to={{

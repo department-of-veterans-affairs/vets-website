@@ -607,9 +607,7 @@ const formConfig = {
           title: 'Other assets summary',
           uiSchema: pages.otherAssetPages.otherAssetsSummary.uiSchema,
           schema: pages.otherAssetPages.otherAssetsSummary.schema,
-          depends: formData =>
-            !!formData.assets?.otherAssetsEnhanced?.length &&
-            formData['view:enhancedFinancialStatusReport'],
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         addOtherAsset: {
           path: 'add-other-asset',

@@ -25,14 +25,18 @@
   },
   "assets": {
     "realEstateValue": "800000.81",
-    "otherAssets": [
+    "otherAssetsEnhanced": [
       {
-        "name": "Bitcoin",
-        "amount": "50000.57"
+        "name": "Collectibles, or collection(s)",
+        "amount": "12344"
       },
       {
-        "name": "Gambling earning",
-        "amount": "16000.34"
+        "name": "Antiques",
+        "amount": "44"
+      },
+      {
+        "name": "Fine art",
+        "amount": "122"
       }
     ],
     "cashInBank": "3000.45",
