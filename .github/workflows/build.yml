@@ -25,10 +25,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-gov-west-1
 
-
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+  
+    - name: Copy the ssl cert in the current build directory
+      run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem .
+    
+    - name: List the files in the current directory
+      run: ls
       
     - name: Build, tag, and push image to Amazon ECR
       env:
