@@ -29,7 +29,7 @@ class FormSaved extends React.Component {
       this.props.router.replace(this.props.route.pageList[0].path);
     } else {
       this.scrollToTop();
-      focusElement('.usa-alert');
+      focusElement('.usa-alert h2');
     }
   }
 
