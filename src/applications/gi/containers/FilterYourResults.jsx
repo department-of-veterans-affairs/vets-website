@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SearchAccordion from '../components/SearchAccordion';
@@ -40,12 +41,22 @@ export function FilterYourResults({
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    specialMission,
     employers,
     vettec,
     preferredProvider,
     country,
     state,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
+    specialMission,
   } = filters;
 
   const facets =
@@ -323,6 +334,83 @@ export function FilterYourResults({
     );
   };
 
+  const specializedMissionAttributes = () => {
+    const options = [
+      {
+        name: 'specialMissionHbcu',
+        checked: specialMissionHbcu,
+        optionLabel: 'Historically Black college or university',
+      },
+      {
+        name: 'specialMissionMenonly',
+        checked: specialMissionMenonly,
+        optionLabel: 'Men-only',
+      },
+      {
+        name: 'specialMissionWomenonly',
+        checked: specialMissionWomenonly,
+        optionLabel: 'Women-only',
+      },
+      {
+        name: 'specialMissionRelaffil',
+        checked: specialMissionRelaffil,
+        optionLabel: 'Religious affiliation',
+      },
+      {
+        name: 'specialMissionHSI',
+        checked: specialMissionHSI,
+        optionLabel: 'Hispanic-serving institutions',
+      },
+      {
+        name: 'specialMissionNANTI',
+        checked: specialMissionNANTI,
+        optionLabel: 'Native American-serving institutions',
+      },
+      {
+        name: 'specialMissionANNHI',
+        checked: specialMissionANNHI,
+        optionLabel: 'Alaska Native-serving institutions',
+      },
+      {
+        name: 'specialMissionAANAPII',
+        checked: specialMissionAANAPII,
+        optionLabel:
+          'Asian American Native American Pacific Islander-serving institutions',
+      },
+      {
+        name: 'specialMissionPBI',
+        checked: specialMissionPBI,
+        optionLabel: 'Predominantly Black institutions',
+      },
+      {
+        name: 'specialMissionTRIBAL',
+        checked: specialMissionTRIBAL,
+        optionLabel: 'Tribal college and university',
+      },
+    ];
+
+    return (
+      <CheckboxGroup
+        class="vads-u-margin-y--4"
+        label={
+          <div className="vads-u-margin-left--neg0p25">
+            Specialized mission (i.e., Single-gender, Religious affiliation,
+            HBCU)
+          </div>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
+      />
+    );
+  };
+
+  const testSpecializedMissionFilter = () => {
+    if (environment.isProduction()) {
+      return specialMissionsWithRadioButtons();
+    }
+    return specializedMissionAttributes();
+  };
+
   const typeOfInstitution = () => {
     const name = 'Type of institution';
     const legendId = `${createId(name)}-legend`;
@@ -337,7 +425,7 @@ export function FilterYourResults({
             {name}
           </h3>
           <div className="vads-u-margin-bottom--4">
-            {specialMissionsWithRadioButtons()}
+            {testSpecializedMissionFilter()}
           </div>
           <ExpandingGroup open={schools}>
             <Checkbox
