@@ -74,7 +74,7 @@ describe('check in utils', () => {
     it('should return true only station listed', () => {
       const appointment = {
         stationNo: '500',
-        clinicIen: null,
+        clinicIen: '3003',
       };
       expect(isInAllowList(appointment)).to.be.true;
     });
