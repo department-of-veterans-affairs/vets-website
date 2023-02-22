@@ -53,7 +53,7 @@ const PreCheckinConfirmation = props => {
         {isUpdatedApptPresentationEnabled ? (
           <AppointmentBlockVaos
             appointments={appointments}
-            page="complete"
+            page="confirmation"
             router={router}
           />
         ) : (
