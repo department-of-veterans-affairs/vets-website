@@ -25,9 +25,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
-
     landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
-
     cy.contains('General:').click();
     cy.get('[data-testid="move-button-text"]').click({ force: true });
     cy.get('[data-testid="move-to-modal"]')
