@@ -56,24 +56,24 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             Here’s how to get help for urgent needs:
             <ul>
               <li>
-                <strong>If you think your life or health is in danger, </strong>{' '}
-                call <va-telephone contact="911" /> or go to the nearest
-                emergency room.
-              </li>
-              <li>
                 <strong>
                   If you’re in crisis or having thoughts of suicide,{' '}
                 </strong>{' '}
                 our Veterans Crisis Line offers confidential support anytime day
                 or night.
                 <br />
-                <a
-                  href="https://988lifeline.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Connect with the Veterans Crisis Line
-                </a>
+                <va-button
+                  secondary="true"
+                  text="Connect with the Veterans Crisis Line"
+                  onClick={() => {
+                    window.open('https://988lifeline.org/', '_blank');
+                  }}
+                />
+              </li>
+              <li>
+                <strong>If you think your life or health is in danger, </strong>{' '}
+                call <va-telephone contact="911" /> or go to the nearest
+                emergency room.
               </li>
             </ul>
           </p>
