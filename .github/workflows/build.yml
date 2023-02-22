@@ -33,8 +33,6 @@ jobs:
     - name: find ssl certs
       run: ls /etc/ssl/certs
     - name: Set PEM file content as environment variable
-      env:
-       PEM_CONTENTS: $(cat /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem)
       
     #- name: Copy PEM file to Docker build context
      # run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem ${{ github.workspace }}/docker-build-context
@@ -45,5 +43,5 @@ jobs:
         ECR_REPOSITORY: dsva/preview-environment/vets-website
         IMAGE_TAG: front-end-latest
       run: |
-        docker build -f Dockerfile1 --build-arg PEM_CONTENTS="$PEM_CONTENTS" -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -f Dockerfile1 --build-arg PEM_CONTENTS="$NODE_EXTRA_CA_CERTS" -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
