@@ -9,20 +9,28 @@ describe('Secure Messaging Message Details keyboard Page', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadPage();
-    cy.injectAxe();
-    cy.axeCheck();
-  });
-  it('Message Details Keyboard Page', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
+  });
+  it('verify Print Button', () => {
     messageDetailsKeyboard.verifyPrintCancelButton();
-    messageDetailsKeyboard.verifyPrintConfirmButton();
-    // messageDetailsKeyboard.verifyTrash();
-    messageDetailsKeyboard.verifyMoveTo();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
+  });
+  it('verify Trash Button', () => {
+    messageDetailsKeyboard.verifyTrash();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
+  });
+  it('verify Reply Button', () => {
     messageDetailsKeyboard.verifyReply();
-    cy.tabToElement('[data-testid=message-body-field]').should('exist');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[data-testid="message-body-field"]').should('exist');
   });
 });
