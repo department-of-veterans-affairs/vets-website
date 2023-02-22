@@ -13,28 +13,35 @@ const pageFields = [
 ];
 const previousSahApplication2 = {
   uiSchema: {
-    'ui:title':
-      'Details about your previous application for a specially adapted housing grant',
-    [previousSahApplicationFields.previousSahApplicationDate]: {
-      'ui:title': 'Date of previous application',
-      'ui:widget': 'date',
+    [previousSahApplicationFields.parentObject]: {
+      'ui:title':
+        'Details about your previous application for a specially adapted housing grant',
+      [previousSahApplicationFields.previousSahApplicationDate]: {
+        'ui:title': 'Date of previous application',
+        'ui:widget': 'date',
+      },
+      [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
+        'Address connected to your past application',
+        false,
+        formData => formData.hasPreviousSahApplication,
+      ),
     },
-    [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
-      'Address connected to your past application',
-      false,
-      formData => formData.hasPreviousSahApplication,
-    ),
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
     properties: {
-      ...pick(properties, pageFields),
-      // address definitions appear to be implemented differently
-      [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
-        fullSchema,
-        true,
-      ),
+      [previousSahApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: {
+          ...pick(properties, pageFields),
+          // address definitions appear to be implemented differently
+          [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
+            fullSchema,
+            true,
+          ),
+        },
+      },
     },
   },
 };

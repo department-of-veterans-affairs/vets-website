@@ -14,27 +14,34 @@ const pageFields = [
 
 const livingSituation2 = {
   uiSchema: {
-    'ui:title': 'Details about your current living situation',
-    [livingSituationFields.careFacilityName]: {
-      'ui:title':
-        'What is the name of the nursing home or medical care facility?',
+    [livingSituationFields.parentObject]: {
+      'ui:title': 'Details about your current living situation',
+      [livingSituationFields.careFacilityName]: {
+        'ui:title':
+          'What is the name of the nursing home or medical care facility?',
+      },
+      [livingSituationFields.careFacilityAddress]: address.uiSchema(
+        'What is the address of the nursing home or medical care facility you are living in?',
+        false,
+        formData => formData.isInCareFacility,
+      ),
     },
-    [livingSituationFields.careFacilityAddress]: address.uiSchema(
-      'What is the address of the nursing home or medical care facility you are living in?',
-      false,
-      formData => formData.isInCareFacility,
-    ),
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
     properties: {
-      ...pick(properties, pageFields),
-      // address definitions appear to be implemented differently
-      [livingSituationFields.careFacilityAddress]: address.schema(
-        fullSchema,
-        true,
-      ),
+      [livingSituationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: {
+          ...pick(properties, pageFields),
+          // address definitions appear to be implemented differently
+          [livingSituationFields.careFacilityAddress]: address.schema(
+            fullSchema,
+            true,
+          ),
+        },
+      },
     },
   },
 };

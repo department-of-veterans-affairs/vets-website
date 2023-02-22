@@ -11,22 +11,29 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [veteranFields.ssn, veteranFields.vaFileNumber];
 const personalInformation2 = {
   uiSchema: {
-    [veteranFields.ssn]: {
-      ...ssnUI,
-      'ui:title': 'Your social security number',
-    },
-    [veteranFields.vaFileNumber]: {
-      'ui:title': 'Your VA file number',
-      'ui:errorMessages': {
-        pattern:
-          'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
+    [veteranFields.parentObject]: {
+      [veteranFields.ssn]: {
+        ...ssnUI,
+        'ui:title': 'Your social security number',
+      },
+      [veteranFields.vaFileNumber]: {
+        'ui:title': 'Your VA file number',
+        'ui:errorMessages': {
+          pattern:
+            'Please input a valid VA file number: 7 to 9 numeric digits, & may start with a letter "C" or "c".',
+        },
       },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [veteranFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 

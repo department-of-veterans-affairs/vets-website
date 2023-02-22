@@ -14,19 +14,26 @@ const pageFields = [
 ];
 const contactInformation2 = {
   uiSchema: {
-    'ui:title': 'Additional contact information',
-    'ui:description':
-      'Please enter your contact information so we can get in touch with you if we have questions about your application.',
-    [veteranFields.homePhone]: phoneUI('Home phone number'),
-    [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
-    [veteranFields.email]: {
-      'ui:title': 'Email address',
+    [veteranFields.parentObject]: {
+      'ui:title': 'Additional contact information',
+      'ui:description':
+        'Please enter your contact information so we can get in touch with you if we have questions about your application.',
+      [veteranFields.homePhone]: phoneUI('Home phone number'),
+      [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
+      [veteranFields.email]: {
+        'ui:title': 'Email address',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [veteranFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 

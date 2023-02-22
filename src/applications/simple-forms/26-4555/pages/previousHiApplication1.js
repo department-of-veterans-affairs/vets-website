@@ -9,16 +9,23 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
 const previousHiApplication1 = {
   uiSchema: {
-    [previousHiApplicationFields.hasPreviousHiApplication]: {
-      'ui:title':
-        'Have you previously applied for a special home adaptation (SHA) grant?',
-      'ui:widget': 'yesNo',
+    [previousHiApplicationFields.parentObject]: {
+      [previousHiApplicationFields.hasPreviousHiApplication]: {
+        'ui:title':
+          'Have you previously applied for a special home adaptation (SHA) grant?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [previousHiApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 

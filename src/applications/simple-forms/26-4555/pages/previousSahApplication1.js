@@ -9,16 +9,23 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 const previousSahApplication1 = {
   uiSchema: {
-    [previousSahApplicationFields.hasPreviousSahApplication]: {
-      'ui:title':
-        'Have you previously applied for specially adapted housing (SAH) grant?',
-      'ui:widget': 'yesNo',
+    [previousSahApplicationFields.parentObject]: {
+      [previousSahApplicationFields.hasPreviousSahApplication]: {
+        'ui:title':
+          'Have you previously applied for specially adapted housing (SAH) grant?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [previousSahApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 

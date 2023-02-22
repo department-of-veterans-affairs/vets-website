@@ -14,28 +14,35 @@ const pageFields = [
 
 const previousHiApplication2 = {
   uiSchema: {
-    'ui:title':
-      'Details about your past application for a special home adaptation grant',
-    [previousHiApplicationFields.previousHiApplicationDate]: {
-      'ui:title': 'Date of previous application',
-      'ui:widget': 'date',
+    [previousHiApplicationFields.hasPreviousHiApplication]: {
+      'ui:title':
+        'Details about your past application for a special home adaptation grant',
+      [previousHiApplicationFields.previousHiApplicationDate]: {
+        'ui:title': 'Date of previous application',
+        'ui:widget': 'date',
+      },
+      [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
+        'Address connected to your past application',
+        false,
+        formData => formData.hasPreviousHiApplication,
+      ),
     },
-    [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
-      'Address connected to your past application',
-      false,
-      formData => formData.hasPreviousHiApplication,
-    ),
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
     properties: {
-      ...pick(properties, pageFields),
-      // address definitions appear to be implemented differently
-      [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
-        fullSchema,
-        true,
-      ),
+      [previousHiApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: {
+          ...pick(properties, pageFields),
+          // address definitions appear to be implemented differently
+          [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
+            fullSchema,
+            true,
+          ),
+        },
+      },
     },
   },
 };

@@ -10,16 +10,23 @@ const pageFields = [livingSituationFields.isInCareFacility];
 
 const livingSituation1 = {
   uiSchema: {
-    [livingSituationFields.isInCareFacility]: {
-      'ui:title':
-        'Are you currently living in a nursing home or medical care facility?',
-      'ui:widget': 'yesNo',
+    [livingSituationFields.parentObject]: {
+      [livingSituationFields.isInCareFacility]: {
+        'ui:title':
+          'Are you currently living in a nursing home or medical care facility?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [livingSituationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 

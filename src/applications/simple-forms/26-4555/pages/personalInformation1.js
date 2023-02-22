@@ -10,19 +10,26 @@ const { required, properties } = fullSchema.properties[
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
 const personalInformation1 = {
   uiSchema: {
-    [veteranFields.fullName]: fullNameUI,
-    [veteranFields.dateOfBirth]: {
-      'ui:title': 'Date of birth',
-      'ui:widget': 'date',
-      'ui:errorMessages': {
-        pattern: 'Please select Month, Day, and input a 4-digit Year.',
+    [veteranFields.parentObject]: {
+      [veteranFields.fullName]: fullNameUI,
+      [veteranFields.dateOfBirth]: {
+        'ui:title': 'Date of birth',
+        'ui:widget': 'date',
+        'ui:errorMessages': {
+          pattern: 'Please select Month, Day, and input a 4-digit Year.',
+        },
       },
     },
   },
   schema: {
     type: 'object',
-    required: intersection(required, pageFields),
-    properties: pick(properties, pageFields),
+    properties: {
+      [veteranFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
+    },
   },
 };
 
