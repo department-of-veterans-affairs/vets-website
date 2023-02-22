@@ -28,48 +28,69 @@ class PatientMessageDetailsKeyboardPage {
     ).as('replyDraftSave');
   };
 
-  verifyPrint = () => {
-    cy.get('[data-testid=print-button]').realClick();
+  verifyPrintCancelButton = () => {
+    cy.tabToElement('[data-testid="print-button"]');
+    cy.realPress(['Enter']);
 
-    cy.get('[data-testid=print-modal-popup]', { timeout: 8000 })
+    cy.get('[data-testid=print-modal-popup"]', { timeout: 8000 })
       .shadow()
       .find('h1')
       .contains('What do you want to print?')
       .should('be.visible');
-    cy.get('[data-testid="radio-print-one-message"]')
-      .realClick()
-      .should('be.visible');
+    cy.get('[data-testid="radio-print-one-message"]');
+    cy.tabToElement('[data-testid="radio-print-one-message"]');
+    cy.realPress(['Enter']);
     cy.get('[data-testid="radio-print-all-messages"]').should('be.visible');
-    cy.get('[data-testid=print-modal-popup]')
+    cy.get('[data-testid="print-modal-popup"]')
       .shadow()
       .find('button')
       .contains('Print')
       .should('be.visible');
-    cy.get('[data-testid=print-modal-popup]')
+    cy.get('[data-testid="print-modal-popup"]')
       .shadow()
       .find('button')
       .contains('Cancel')
       .realClick();
-    cy.tabToElement('[data-testid=move-button-text]').should('exist');
+    cy.tabToElement('[data-testid="print-button"]').should('exist');
+  };
+
+  verifyPrintConfirmButton = () => {
+    cy.tabToElement('[data-testid="print-button"]');
+    cy.realPress(['Enter']);
+
+    cy.get('[data-testid="print-modal-popup"]', { timeout: 8000 })
+      .shadow()
+      .find('h1')
+      .contains('What do you want to print?')
+      .should('be.visible');
+    cy.tabToElement('[data-testid="radio-print-one-message"]');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="radio-print-all-messages"]').should('be.visible');
+    cy.get('[data-testid="print-modal-popup"]')
+      .shadow()
+      .find('button')
+      .contains('Print')
+      .realClick();
+    cy.tabToElement('[data-testid="move-button-text"]').should('exist');
   };
 
   verifyTrash = () => {
-    cy.get('[data-testid=trash-button-text]').realClick();
+    cy.get('[data-testid="trash-button-text"]').realClick();
 
-    cy.get('[data-testid=delete-message-confirm-note] p', { timeout: 8000 })
+    cy.get('[data-testid="delete-message-confirm-note"] p', { timeout: 8000 })
       .contains('Messages in the trash folder')
       .should('be.visible');
-    cy.get('[data-testid=delete-message-modal]')
+    cy.get('[data-testid="delete-message-moda"l]')
       .shadow()
       .find('h1')
       .contains('Are you sure you want to move this message to the trash?')
       .should('be.visible');
-    cy.get('[data-testid=delete-message-modal]')
+    cy.get('[data-testid="delete-message-modal"]')
       .shadow()
       .find('button')
       .contains('Confirm')
       .should('be.visible');
-    cy.get('[data-testid=delete-message-modal]')
+    cy.get('[data-testid="delete-message-modal"]')
       .shadow()
       .find('button')
       .contains('Cancel')
@@ -94,16 +115,21 @@ class PatientMessageDetailsKeyboardPage {
       .find('button')
       .contains('Confirm')
       .should('be.visible');
-    cy.get('[data-testid=move-to-modal]')
+    cy.get('[data-testid="move-to-modal"]')
       .shadow()
       .find('button')
       .contains('Cancel')
       .should('be.visible')
-      .realPress('Enter');
+      .realPress(['Enter']);
   };
 
   verifyReply = () => {
-    cy.get('[data-testid=reply-button-text]').realClick();
+    cy.get('[data-testid="reply-button-text"]').click();
+    cy.get('[data-testid="message-body-field"]')
+      .shadow()
+      .find('[name="message-body"]')
+      .should('be.visible');
+    cy.tabToElement('[data-testid="message-body-field"]').should('exist');
   };
 }
 export default PatientMessageDetailsKeyboardPage;

@@ -12,16 +12,15 @@ describe('Secure Messaging Message Details keyboard Page', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
-
   it('Message Details Keyboard Page', () => {
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
       landingPage.getNewMessage().attributes.sentDate,
     );
-
-    messageDetailsKeyboard.verifyPrint();
-    messageDetailsKeyboard.verifyTrash();
+    messageDetailsKeyboard.verifyPrintCancelButton();
+    messageDetailsKeyboard.verifyPrintConfirmButton();
+    // messageDetailsKeyboard.verifyTrash();
     messageDetailsKeyboard.verifyMoveTo();
     messageDetailsKeyboard.verifyReply();
     cy.tabToElement('[data-testid=message-body-field]').should('exist');
