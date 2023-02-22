@@ -9,9 +9,7 @@ import { render } from '@testing-library/react';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
 import { AdditionalEvidencePage } from '../../containers/AdditionalEvidencePage';
 
-const getRouter = () => ({
-  push: sinon.spy(),
-});
+const getRouter = () => ({ push: sinon.spy() });
 
 const params = { id: 1 };
 
@@ -153,6 +151,7 @@ describe('<AdditionalEvidencePage>', () => {
     expect(router.push.calledWith('your-claims/1/files')).to.be.true;
   });
 
+  // START lighthouse_migration
   context('cst_use_lighthouse feature toggle', () => {
     const props = {
       claim,
@@ -196,4 +195,5 @@ describe('<AdditionalEvidencePage>', () => {
       expect(newProps.getClaimLighthouse.called).to.be.false;
     });
   });
+  // END lighthouse_migration
 });
