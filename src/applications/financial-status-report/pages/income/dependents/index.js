@@ -35,7 +35,7 @@ export const uiSchemaEnhanced = {
   questions: {
     hasDependents: {
       'ui:title':
-        'Do you have any dependents who rely on you for financial support?',
+        'How many dependents do you have who rely on you for financial support?',
       'ui:widget': 'TextWidget',
       'ui:required': () => true,
       'ui:options': {
