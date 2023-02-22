@@ -376,6 +376,11 @@ class PatientInboxPage {
     cy.contains('Message was successfully sent.').should('be.visible');
   };
 
+  verifyMoveMessagewithAttachmentSuccessMessage = () => {
+    cy.get('[data-testid="expired-alert-message"]').contains('Success');
+    cy.get('p').contains('Message was successfully moved');
+  };
+
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
   };
