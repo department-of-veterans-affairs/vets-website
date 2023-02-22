@@ -30,13 +30,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
       
-    - name: find ssl certs
-      run: ls /etc/ssl/certs
-    - name: Set PEM file content as environment variable
-      
-    - name: Copy PEM file to Docker build context
-      run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem ${{ github.workspace }}/docker-build-context
-
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
