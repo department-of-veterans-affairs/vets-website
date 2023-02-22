@@ -45,7 +45,7 @@ const RecordList = props => {
 
   return (
     <div className="record-list vads-l-row vads-u-flex-direction--column">
-      <div className="vads-u-padding-y--2 vads-u-margin-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+      <div className="vads-u-padding-y--1 vads-u-margin-bottom--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]}
         &#8211;
         {displayNums[1]} of {totalEntries} {type} records
@@ -54,20 +54,17 @@ const RecordList = props => {
         currentRecords.map((record, idx) => (
           <RecordListItem key={idx} record={record} />
         ))}
-      {currentPage === paginatedRecords.current.length && (
-        <p className="vads-u-margin-y--3 vads-u-color--gray-medium">
-          End of records
-        </p>
-      )}
       {currentRecords &&
         paginatedRecords.current.length > 1 && (
-          <VaPagination
-            onPageSelect={e => onPageChange(e.detail.page)}
-            page={currentPage}
-            pages={paginatedRecords.current.length}
-            maxPageListLength={MAX_PAGE_LIST_LENGTH}
-            showLastPage
-          />
+          <div className="vads-u-margin-bottom--2">
+            <VaPagination
+              onPageSelect={e => onPageChange(e.detail.page)}
+              page={currentPage}
+              pages={paginatedRecords.current.length}
+              maxPageListLength={MAX_PAGE_LIST_LENGTH}
+              showLastPage
+            />
+          </div>
         )}
     </div>
   );

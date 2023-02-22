@@ -1,8 +1,6 @@
 import React from 'react';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-const FrequentlyAskedQuestions = state => {
+const FrequentlyAskedQuestions = ({ prefLink }) => {
   return (
     <div className="secure-messaging-faq vads-u-padding-bottom--9">
       <h2 className="vads-u-margin-top--1">Questions about using messages</h2>
@@ -120,11 +118,7 @@ const FrequentlyAskedQuestions = state => {
             changes.
           </p>
           <p>
-            <a
-              href={mhvUrl(isAuthenticatedWithSSOe(state), 'preferences')}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={prefLink} target="_blank" rel="noreferrer">
               Go to the My HealtheVet website
             </a>
           </p>
