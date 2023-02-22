@@ -7,14 +7,14 @@ describe('Secure Messaging validate keyboard search form Keyboard Nav', () => {
   beforeEach(() => {
     site.login();
     landingPage.loadPage();
-    cy.injectAxe();
-    cy.axeCheck();
   });
   it('validate keywoard search', () => {
     landingPage.selectFolder('Inbox');
     landingPage.typeSearchInputFieldText('test');
     landingPage.submitSearch();
     cy.realPress('Tab');
-    cy.get('[data-testid="keyword-search-input"]').should('exist');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[data-testid="keyword-search-input"]').should('exist');
   });
 });

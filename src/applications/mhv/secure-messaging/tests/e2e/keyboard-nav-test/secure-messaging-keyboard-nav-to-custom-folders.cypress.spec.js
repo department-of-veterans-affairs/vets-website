@@ -1,11 +1,9 @@
-import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 
-describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
-  const site = new SecureMessagingSite();
+describe(' Access custom folder ', () => {
   const landingPage = new PatientInboxPage();
   beforeEach(() => {
-    site.login();
+    landingPage.login();
     landingPage.loadPage();
   });
 
@@ -30,7 +28,7 @@ describe('Secure Messaging access folder on landing page Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
-  it('tab to trash folder', () => {
+  it('tab to my folder', () => {
     cy.get('[data-testid="my-folders-sidebar"]').realClick();
     cy.injectAxe();
     cy.axeCheck();
