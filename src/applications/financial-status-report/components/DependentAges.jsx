@@ -85,6 +85,7 @@ const DependentAges = () => {
       stateDependents.map((dependent, i) => (
         <div key={`dependentAge-${i}`} className="vads-u-margin-bottom--2">
           <VaTextInput
+            id={`dependentAge-${i}`}
             label={DEPENDENT_AGE_LABELS[i + 1]}
             name={`dependentAge-${i}`}
             onInput={({ target }) => updateDependents(target, i)}
