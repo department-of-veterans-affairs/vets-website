@@ -7,7 +7,7 @@ import {
   submitRequest,
   // START ligthouse_migration
   getClaim as getClaimAction,
-  getClaimEVSS as getClaimEVSSAction,
+  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
 } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';

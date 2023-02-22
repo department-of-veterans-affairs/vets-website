@@ -23,7 +23,7 @@ import {
   cancelUpload,
   // START lighthouse_migration
   getClaim as getClaimAction,
-  getClaimEVSS as getClaimEVSSAction,
+  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
   setFieldsDirty,
   clearNotification,

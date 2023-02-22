@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // START lighthouse_migration
 import {
   getClaim as getClaimAction,
-  getClaimEVSS as getClaimEVSSAction,
+  getClaimDetail as getClaimEVSSAction,
 } from '../actions';
 import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
@@ -69,3 +69,5 @@ ClaimPage.propTypes = {
   useLighthouse: PropTypes.bool,
   // END lighthouse_migration
 };
+
+export { ClaimPage };

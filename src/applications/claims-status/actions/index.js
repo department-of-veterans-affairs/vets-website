@@ -277,7 +277,7 @@ export const getClaims = getClaimsV2;
 // END lighthouse_migration
 
 // START lighthouse_migration
-export function getClaimEVSS(id, router, poll = pollRequest) {
+export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
     dispatch({
       type: GET_CLAIM_DETAIL,
@@ -315,7 +315,7 @@ export function getClaimEVSS(id, router, poll = pollRequest) {
   };
 }
 
-export const getClaim = getClaimEVSS;
+export const getClaim = getClaimDetail;
 // END lighthouse_migration
 
 export function submitRequest(id) {
