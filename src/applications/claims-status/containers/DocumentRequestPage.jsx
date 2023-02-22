@@ -28,7 +28,9 @@ import {
   setFieldsDirty,
   clearNotification,
 } from '../actions';
+// START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
 
 const scrollToError = () => {
   const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
@@ -210,7 +212,9 @@ function mapStateToProps(state, ownProps) {
     uploadField: claimsState.uploads.uploadField,
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
+    // START lighthouse_migration
     useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 

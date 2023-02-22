@@ -12,7 +12,9 @@ import {
 } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+// START lighthouse_migration
 import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
 import { setUpPage } from '../utils/page';
 
 class AskVAPage extends React.Component {
@@ -176,7 +178,9 @@ AskVAPage.propTypes = {
   params: PropTypes.object,
   router: PropTypes.object,
   submitRequest: PropTypes.func,
+  // START lighthouse_migration
   useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 export { AskVAPage };
