@@ -11,6 +11,7 @@ const router = {
 };
 
 describe('<ClaimPage>', () => {
+  // START lighthouse_migration
   context('cst_use_lighthouse feature toggle', () => {
     const props = {
       params,
@@ -49,4 +50,5 @@ describe('<ClaimPage>', () => {
       expect(props.getClaimLighthouse.called).to.be.false;
     });
   });
+  // END lighthouse_migration
 });
