@@ -48,7 +48,9 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     cy.get('@moveMessagewithAttachment')
       .its('response')
       .then(response => {
+        cy.log(JSON.stringify(response));
         expect(response.body.data.id).to.include('7192838');
+        expect(response.statusCode).to.eq(200);
       });
   });
 });
