@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../constants/dependentLabels';
 import { validateIsNumber } from '../utils/validations';
@@ -84,7 +84,7 @@ const DependentAges = () => {
     () =>
       stateDependents.map((dependent, i) => (
         <div key={`dependentAge-${i}`} className="vads-u-margin-bottom--2">
-          <VaTextInput
+          <VaNumberInput
             id={`dependentAge-${i}`}
             label={DEPENDENT_AGE_LABELS[i + 1]}
             name={`dependentAge-${i}`}
