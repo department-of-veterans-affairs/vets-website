@@ -1,3 +1,4 @@
+import { mhvBaseUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // The cards structure represents rows and columns of cards as a multidimensonal array
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 
@@ -229,12 +230,21 @@ const data = {
   ],
 };
 
-// const normalizeLinks = data => {
-//   data.cards.forEach(row => {
-//     row.map(card => {
-//       // TODO: Process unmigrated card links
-//     });
-//   });
-// };
+const normalizeLinks = d => {
+  const nCards = d.cards.map(row => {
+    return row.map(card => {
+      // TODO: Process unmigrated card links
+      const newLinks = card.links.map(link => {
+        const updatedLink = { ...link };
+        if (link?.migrated === false && !link.href.startsWith('http')) {
+          updatedLink.href = `${mhvBaseUrl()}${link.href}`;
+        }
+        return updatedLink;
+      });
+      return { ...card, links: newLinks };
+    });
+  });
+  return { ...d, cards: nCards };
+};
 
-export default data;
+export default normalizeLinks(data);
