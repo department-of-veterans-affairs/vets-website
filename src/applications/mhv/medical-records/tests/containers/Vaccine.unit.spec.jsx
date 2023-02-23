@@ -23,7 +23,7 @@ describe('Vaccine container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('VA vaccines', { exact: true })).to.exist;
+    expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
   it('displays a print button', () => {

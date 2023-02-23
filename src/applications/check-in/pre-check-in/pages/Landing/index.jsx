@@ -92,10 +92,14 @@ const Index = props => {
                 }
               }
             })
-            .catch(() => {
+            .catch(e => {
               // @TODO move clear current session to hook or HOC
               clearCurrentSession(window);
-              updateError('session-error');
+              if (e?.errors[0]?.status === '404') {
+                updateError('uuid-not-found');
+              } else {
+                updateError('session-error');
+              }
             });
         }
       }

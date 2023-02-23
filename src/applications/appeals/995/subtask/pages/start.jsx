@@ -70,11 +70,21 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           You have new and relevant evidence to submit, <strong>or</strong>
         </li>
         <li>
-          You have a condition that we now consider presumptive (such as under
-          the <a href="/pact">PACT Act</a>
+          You would like VA to review your claim based on a new law (such as the{' '}
+          <a href="/pact">PACT Act</a>
           ).
         </li>
       </ul>
+      <va-additional-info trigger="What are other decision review options?">
+        <p className="vads-u-padding-bottom--1">
+          If you don’t think this is the right form for you, find out about
+          other decision review options.
+        </p>
+        <a href="/resources/choosing-a-decision-review-option/">
+          Learn about choosing a decision review option
+        </a>
+      </va-additional-info>
+
       <p>Answer this question to get started:</p>
       <VaRadio
         label={content.groupLabel}
