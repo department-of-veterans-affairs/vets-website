@@ -2537,10 +2537,10 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.6.1.tgz#fc3b9b481ad2b18f4bc034b55ac62dd8915ec64c"
-  integrity sha512-B2YRGjdjdw7xZ99/zs03GaLBk7ae+5dl59YXcjydKlMBpPtucecM9ZJVFI5JCGpjF57vTjBXYhv80EujOvwOow==
+"@department-of-veterans-affairs/eslint-plugin@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.8.0.tgz#c651893e079d9cece85b78b087bd5a8a32c2e955"
+  integrity sha512-Qt8rW2IyI2Zo/iZUzQ/WxJjNTJGLquu94aMn2UNYqpppo55qPJLIz7n5c+c3a8WcOIQaakmb8poR0aKqeMXzQw==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -19055,9 +19055,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecbc43bccdc8789d629597a4fb515c79a2be7bc0":
-  version "20.25.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecbc43bccdc8789d629597a4fb515c79a2be7bc0"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7f1b69f9b20f1b5dcd7ed92e0e8fc95af715ae82":
+  version "20.25.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7f1b69f9b20f1b5dcd7ed92e0e8fc95af715ae82"
 
 vfile-message@^2.0.0:
   version "2.0.4"

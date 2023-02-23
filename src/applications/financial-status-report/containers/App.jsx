@@ -193,7 +193,7 @@ const mapStateToProps = state => ({
   showCombinedFSR: combinedFSRFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
   isStartingOver: state.form.isStartingOver,
-  statments: state.fsr.statments,
+  statements: state.fsr.statements,
 });
 
 const mapDispatchToProps = dispatch => ({

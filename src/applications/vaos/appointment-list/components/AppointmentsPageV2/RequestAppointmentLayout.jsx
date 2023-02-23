@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import ListItem from './ListItem';
-// import { AppointmentModel } from '../../models/AppointmentModel';
 import AppointmentRow from './AppointmentRow';
 import AppointmentColumn from './AppointmentColumn';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModality,
+  selectModalityText,
   selectModalityIcon,
   selectStartDate,
   selectTypeOfCareName,
@@ -26,7 +24,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const link = `requests/${appointment.id}`;
-  const modality = useSelector(() => selectModality(appointment));
+  const modality = useSelector(() => selectModalityText(appointment));
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const preferredDate = useSelector(() => selectStartDate(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
@@ -91,14 +89,14 @@ export default function RequestAppointmentLayout({ appointment }) {
               padding="0"
               size="1"
             >
-              <Link
+              <va-link
                 className="vaos-appts__focus--hide-outline"
                 aria-label={detailAriaLabel}
-                to={link}
+                href={link}
                 onClick={e => e.preventDefault()}
-              >
-                Details
-              </Link>
+                text="Details"
+                role="link"
+              />
             </AppointmentColumn>
           </AppointmentRow>
         </AppointmentColumn>{' '}

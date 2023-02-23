@@ -76,7 +76,7 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = ['vads-u-font-size--h3', 'vads-u-width--auto'].join(
+  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
     ' ',
   );
 

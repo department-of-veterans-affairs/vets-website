@@ -17,9 +17,7 @@ export const vaccineReducer = (state = initialState, action) => {
     case Actions.Vaccines.GET: {
       return {
         ...state,
-        vaccineDetails: state.vaccineList.filter(
-          vaccine => vaccine.vaccineId === action.vaccineId,
-        )[0],
+        vaccineDetails: action.response,
       };
     }
     case Actions.Vaccines.GET_LIST: {

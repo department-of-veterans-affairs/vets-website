@@ -21,14 +21,18 @@ class SpouseEmploymentHistory {
   fillEmployerInfo = () => {
     // Employer One - Current Employment
     EmploymentRecords.employerFill(this.employers[0]);
-    // Add job link
-    EmploymentRecords.addEmployer();
-    // Employer Two - Previous Employment
-    EmploymentRecords.employerFill(this.employers[1]);
   };
 
   attemptNextPage = () => {
     cy.get('.usa-button-primary').click();
+  };
+
+  goBackAndValidateInput = (selector, value) => {
+    cy.get('#\\32 3-continueButton').click();
+    cy.get(`${selector}`)
+      .shadow()
+      .find('input')
+      .should('have.value', value);
   };
 }
 
