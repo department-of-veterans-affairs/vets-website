@@ -19,7 +19,7 @@ RUN yarn config set "strict-ssl" false
 #RUN export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 #RUN export PUPPETEER_EXECUTABLE_PATH=`which chromium` 
 RUN yarn install
-RUN yarn build
+#RUN yarn build
 
 WORKDIR /website
 
