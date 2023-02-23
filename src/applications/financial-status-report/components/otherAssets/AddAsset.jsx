@@ -28,18 +28,22 @@ const AddAsset = props => {
   const currentAsset = otherAssetsEnhanced[index] || {};
 
   // Asset name data/flags
-  const [assetName, setAssetName] = useState(currentAsset.name || '');
-  const [nameError, setNameError] = useState(true);
+  const [assetName, setAssetName] = useState(currentAsset.name || null);
+  const nameError = !assetName ? 'Enter valid text' : null;
 
   // Asset amount data/flags
-  const [assetAmount, setAssetAmount] = useState(currentAsset.amount || '');
-  const [amountError, setAmountError] = useState(true);
+  const [assetAmount, setAssetAmount] = useState(currentAsset.amount || null);
+  const amountError = !isValidCurrency(assetAmount)
+    ? 'Enter valid amount'
+    : null;
 
   // shared fun
   const [submitted, setSubmitted] = useState(false);
 
   // submit issue with validation
   const addOrUpdateAsset = () => {
+    setSubmitted(true);
+
     // Check for errors
     if (!nameError && !amountError) {
       // Update form data
@@ -67,11 +71,9 @@ const AddAsset = props => {
     onSubmit: event => event.preventDefault(),
     onAssetNameChange: ({ target }) => {
       setAssetName(target.value);
-      setNameError(!target.value);
     },
     onAssetAmountChange: event => {
       setAssetAmount(event.target.value);
-      setAmountError(!isValidCurrency(event.target.value));
     },
     onCancel: event => {
       event.preventDefault();
@@ -79,7 +81,6 @@ const AddAsset = props => {
     },
     onUpdate: event => {
       event.preventDefault();
-      setSubmitted(true);
       addOrUpdateAsset();
     },
   };
@@ -97,7 +98,7 @@ const AddAsset = props => {
           </legend>
           <VaTextInput
             className="input-size-6"
-            error={(submitted && nameError && 'Enter valid text') || null}
+            error={(submitted && nameError) || null}
             id="add-other-asset-name"
             label="What is the asset?"
             maxlength={MAX_ASSET_NAME_LENGTH}
@@ -105,11 +106,11 @@ const AddAsset = props => {
             onInput={handlers.onAssetNameChange}
             required
             type="text"
-            value={assetName}
+            value={assetName || ''}
           />
           <VaNumberInput
             className="input-size-6"
-            error={(submitted && amountError && 'Enter valid number') || null}
+            error={(submitted && amountError) || null}
             id="add-other-asset-amount"
             inputmode="decimal"
             label="How much is your asset worth?"
@@ -118,7 +119,7 @@ const AddAsset = props => {
             onInput={handlers.onAssetAmountChange}
             required
             type="text"
-            value={assetAmount}
+            value={assetAmount || ''}
           />
           <br />
           <va-additional-info
