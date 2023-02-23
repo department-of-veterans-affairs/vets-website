@@ -7,6 +7,7 @@ import {
   VaNumberInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
+import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 
 const AddAsset = props => {
   const { data, goToPath } = props;
@@ -99,6 +100,7 @@ const AddAsset = props => {
             error={(submitted && nameError && 'Enter valid text') || null}
             id="add-other-asset-name"
             label="What is the asset?"
+            maxlength={MAX_ASSET_NAME_LENGTH}
             name="add-other-asset-name"
             onInput={handlers.onAssetNameChange}
             required

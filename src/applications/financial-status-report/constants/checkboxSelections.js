@@ -45,6 +45,7 @@ export const householdExpensesOptions = [
   'Community Development District (CDD) fees',
 ];
 
+export const MAX_ASSET_NAME_LENGTH = 32;
 export const otherAssetOptions = [
   'Antiques',
   'Collectibles, or collection(s)',
