@@ -45,7 +45,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo();
+        getPersonalInfo(showMebDgi40Features);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -62,6 +62,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebDgi40Features,
     ],
   );
 
