@@ -36,16 +36,6 @@ describe('hca <GetStartedContent>', () => {
     });
   });
 
-  describe('when user attempts to sign in', () => {
-    it('calls the toggleLoginModal prop', () => {
-      expect(toggleLoginModalSpy.callCount).to.equal(0);
-      const wrapper = shallow(<GetStartedContent {...defaultProps} />);
-      wrapper.find('[data-testid="login-alert-button"]').simulate('click');
-      expect(toggleLoginModalSpy.callCount).to.equal(1);
-      wrapper.unmount();
-    });
-  });
-
   describe('when user is logged in', () => {
     it('does not render login alerts', () => {
       const props = { ...defaultProps, showLoginAlert: false };

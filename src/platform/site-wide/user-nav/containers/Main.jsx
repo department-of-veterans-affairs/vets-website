@@ -42,7 +42,6 @@ import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/const
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
-import LoginModalButton from '../../../user/authentication/components/LoginModalButton';
 
 export class Main extends Component {
   componentDidMount() {
@@ -274,10 +273,6 @@ export class Main extends Component {
           serviceName={this.props.signInServiceName}
         />
         <AutoSSO />
-        <LoginModalButton
-          className="usa-button-primary"
-          message="Sign In to VA.gov"
-        />
       </div>
     );
   }

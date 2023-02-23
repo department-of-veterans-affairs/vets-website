@@ -1,155 +1,110 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import LoginModalButton from '../../../authentication/components/LoginModalButton';
 
-describe('LoginModal Button', () => {
+import * as ToggleUtils from 'platform/site-wide/user-nav/actions';
+import * as StatusUtils from 'platform/monitoring/external-services/actions';
+
+import {
+  onClickHandler,
+  LoginModalButton,
+} from '../../../authentication/components/LoginModalButton';
+
+const initState = {
+  useSignInService: false,
+  getBackendStatuses: sinon.spy(),
+  toggleFormSignInModal: sinon.spy(),
+  inModal: sinon.spy(),
+  'data-testId': 'test-id',
+};
+
+const generateState = ({
+  context = '',
+  shouldConfirmLeavingForm = true,
+  analyticsEvent = '',
+  message = 'Sign in or create an account',
+  className = 'usa-button',
+  props = initState,
+}) => ({
+  context,
+  shouldConfirmLeavingForm,
+  analyticsEvent,
+  message,
+  className,
+  props,
+});
+
+describe('LoginModalButton', () => {
   let props;
-  const fakeStore = {
-    getState: () => ({
-      context: '',
-      shouldConfirmLeavingForm: true,
-      analyticsEvent: '',
-      message: 'Sign in or create an account',
-      className: 'usa-button',
-      storeProps: {
-        useSignInService: false,
-        getBackendStatuses: sinon.spy(),
-        toggleFormSignInModal: sinon.spy(),
-        toggleLoginModal: sinon.spy(),
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-  const generateProps = ({
-    context,
-    shouldConfirmLeavingForm = true,
-    analyticsEvent,
-    message = 'Sign in or create an account',
-    className,
-    storeProps = {
-      useSignInService: false,
-      getBackendStatuses: sinon.spy(),
-      toggleFormSignInModal: sinon.spy(),
-      toggleLoginModal: sinon.spy(),
-    },
-  }) => ({
-    context,
-    shouldConfirmLeavingForm,
-    analyticsEvent,
-    message,
-    className,
-    storeProps,
-  });
-
-  it(`should render with default text`, () => {
-    props = generateProps({});
-    const screen = mount(
-      <Provider store={fakeStore}>
-        <LoginModalButton {...props} />
-      </Provider>,
-    );
-
-    const defaultLoginButton = screen.find('button');
-    expect(defaultLoginButton.length).to.equal(1);
-    expect(defaultLoginButton.text()).to.equal('Sign in or create an account');
-
-    screen.unmount();
-  });
-  it(`should render button with appropriate customization`, () => {
-    props = generateProps({
-      context: 'main',
-      message: 'new button message',
-      className: 'usa-button',
+  it(`should render a button correctly`, () => {
+    props = generateState({
+      context: 'test',
     });
-    const screen = mount(
-      <Provider store={fakeStore}>
-        <LoginModalButton {...props} />
-      </Provider>,
-    );
-    const updatedLoginButton = screen.find('button');
 
-    expect(updatedLoginButton.text()).to.equal('new button message');
-    expect(updatedLoginButton.props().className).to.equal('usa-button');
-    expect(screen.children().props().context).to.equal('main');
-    screen.unmount();
-  });
+    const screen = render(<LoginModalButton {...props} />);
 
-  it(`should call the function on click`, () => {
-    props = generateProps({
-      context: 'main',
-      // message: 'new button message',
-      className: 'usa-button',
+    const verifyButton = screen.getByRole('button', {
+      name: `Sign in or create an account`,
     });
-    // console.log(props);
-    const screen = shallow(
-      <Provider store={fakeStore}>
-        <LoginModalButton {...props} />
-      </Provider>,
-    );
 
-    const loginModalButton = screen.find('Connect(LoginModalButton)');
-
-    loginModalButton.simulate('click');
-    // console.log(props.storeProps.getBackendStatuses);
-    // mockGetBackendStatuses.reset();
-    // console.log(fakeStore);
-    // fireEvent.click(screen.find('LoginModalButton'));
-
-    // console.log(loginModalButton.props('storeProps').getBackendStatuses);
-    expect(
-      loginModalButton.props('storeProps').shouldConfirmLeavingForm.calledOnce,
-    ).to.be.true;
-    // expect(props.storeProps.toggleLoginModal.calledOnce).to.be.true;
-
-    // handleSignInSignUpSpy.reset();
-    screen.unmount();
+    expect(verifyButton).to.have.class(`usa-button`);
   });
 
-  // const mockOAuthUpdateStateAndVerifier = sinon.spy(
-  //   OAuthUtils,
-  //   'updateStateAndVerifier',
-  // );
-  // const mockAuthVerify = sinon.stub(AuthUtils, 'verify');
-  // const verifyHandlerSpy = sinon.spy(verifyHandler);
+  it(`should call the 'onClickHandler' function on click`, () => {
+    const onClickHandlerSpy = sinon.spy(onClickHandler);
+    const screen = render(
+      <LoginModalButton {...props} onClick={onClickHandlerSpy} />,
+    );
 
-  // beforeEach(() => {
-  //   mockOAuthUpdateStateAndVerifier.reset();
-  //   mockAuthVerify.reset();
-  //   verifyHandlerSpy.reset();
-  //   localStorage.clear();
-  // });
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: `Sign in or create an account`,
+      }),
+    );
+    expect(onClickHandlerSpy.called).to.be.true;
+    onClickHandlerSpy.reset();
+    screen.unmount();
+  });
+});
 
-  // it('should not call updateStateAndVerifier if useOAuth is false', () => {
-  //   verifyHandlerSpy({ useOAuth: false, policy: 'logingov' });
-  //   expect(verifyHandlerSpy.called).to.be.true;
-  //   expect(mockOAuthUpdateStateAndVerifier.called).to.be.false;
-  // });
+describe('onClickHandler', () => {
+  const onClickHandlerSpy = sinon.spy(onClickHandler);
+  const backendStatusesSpy = sinon.spy(StatusUtils, 'getBackendStatuses');
+  const toggleFormSignInSpy = sinon.spy(ToggleUtils, 'toggleFormSignInModal');
 
-  // it('should call updateStateAndVerifier if useOAuth is present', () => {
-  //   verifyHandlerSpy({ useOAuth: true, policy: 'logingov' });
-  //   expect(verifyHandlerSpy.called).to.be.true;
-  //   expect(mockOAuthUpdateStateAndVerifier.called).to.be.true;
-  //   expect(mockOAuthUpdateStateAndVerifier.calledWith('logingov')).to.be.true;
-  // });
+  afterEach(() => {
+    onClickHandlerSpy.reset();
+    backendStatusesSpy.reset();
+    toggleFormSignInSpy.reset();
+  });
 
-  // it('should call verify when verifyHandler is called', () => {
-  //   verifyHandlerSpy({
-  //     policy: 'logingov',
-  //     useOAuth: true,
-  //   });
+  it('should call toggleFormSignInModal if shouldConfirmLeavingForm is true', () => {
+    onClickHandlerSpy(
+      generateState({
+        context: 'test',
+        shouldConfirmLeavingForm: true,
+        analyticsEvent: 'cta',
+        message: 'Sign in or create an account',
+        className: 'usa-button',
+      }),
+    );
+    expect(onClickHandlerSpy.called).to.be.true;
+    expect(toggleFormSignInSpy.calledWith(true)).to.be.true;
+    expect(backendStatusesSpy.called).to.be.false;
+  });
 
-  //   expect(verifyHandlerSpy.called).to.be.true;
-  //   expect(mockAuthVerify.called).to.be.true;
-  //   expect(
-  //     mockAuthVerify.calledWith({
-  //       policy: 'logingov',
-  //       useOAuth: true,
-  //       acr: defaultWebOAuthOptions.acrVerify.logingov,
-  //     }),
-  //   ).to.be.true;
-  // });
+  it('should call getBackendStatuses if shouldConfirmLeavingForm is false', async () => {
+    await onClickHandlerSpy(
+      generateState({
+        context: 'test',
+        shouldConfirmLeavingForm: false,
+        analyticsEvent: 'cta',
+        message: 'Sign in or create an account',
+        className: 'usa-button',
+      }),
+    );
+    expect(onClickHandlerSpy.called).to.be.true;
+    expect(backendStatusesSpy.called).to.be.true;
+  });
 });

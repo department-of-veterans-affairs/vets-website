@@ -12,16 +12,12 @@ import {
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import recordEvent from '../../../monitoring/record-event';
 
-export const LoginModalButton = (
-  {
-    context,
-    shouldConfirmLeavingForm,
-    analyticsEvent,
-    message = 'Sign in or create an account',
-    className,
-  },
-  props,
-) => {
+export const onClickHandler = ({
+  context,
+  useSignInService,
+  analyticsEvent,
+  shouldConfirmLeavingForm,
+}) => {
   const getNextParameter = () => {
     return new URLSearchParams(window.location.search).get('next');
   };
@@ -30,29 +26,28 @@ export const LoginModalButton = (
     url = 'loginModal',
     useSiS = true,
   } = {}) => {
-    const { useSignInService } = props;
-
     if (url === 'loginModal' && getNextParameter()) {
       toggleLoginModal(true);
     }
 
     const location = window.location.toString();
-    const nextQuery = {
-      next: url,
-      oauth: useSignInService || useSiS,
-    };
+    const nextQuery = { next: url, oauth: useSignInService || useSiS };
     const path = useSiS ? location : location.replace('&oauth=true', '');
     const nextPath = appendQuery(path, nextQuery);
     window.location.assign(nextPath);
 
     return nextQuery;
   };
-  const handleSignInSignUp = e => {
-    e.preventDefault();
-    if (analyticsEvent) {
-      recordEvent({ analyticsEvent });
+
+  const handleSignInSignUp = ({
+    signInContext,
+    googleAnalyticsEvent,
+    confirmLeavingForm,
+  }) => {
+    if (googleAnalyticsEvent) {
+      recordEvent({ googleAnalyticsEvent });
     }
-    if (shouldConfirmLeavingForm) {
+    if (confirmLeavingForm) {
       toggleFormSignInModal(true);
     } else {
       // Make only one upfront request to get all backend statuses to prevent
@@ -60,18 +55,42 @@ export const LoginModalButton = (
       // requests when the sign-in modal renders.
       getBackendStatuses();
       appendOrRemoveParameter({});
-      if (context) {
+      if (signInContext) {
         toggleLoginModal(true, context);
       }
       toggleLoginModal(true);
     }
   };
+
+  return handleSignInSignUp({
+    context,
+    analyticsEvent,
+    shouldConfirmLeavingForm,
+  });
+};
+
+export const LoginModalButton = ({
+  context,
+  shouldConfirmLeavingForm,
+  analyticsEvent,
+  message = 'Sign in or create an account',
+  className,
+  onClick = onClickHandler,
+  ...props
+}) => {
+  const { useSignInService } = props;
   return (
     <button
       type="button"
-      onClick={handleSignInSignUp}
+      onClick={() =>
+        onClick({
+          context,
+          useSignInService,
+          analyticsEvent,
+          shouldConfirmLeavingForm,
+        })
+      }
       className={className}
-      {...props}
     >
       {message}
     </button>
@@ -120,4 +139,5 @@ LoginModalButton.propTypes = {
   shouldConfirmLeavingForm: PropTypes.bool,
   useSiS: PropTypes.bool,
   useSignInService: PropTypes.bool,
+  onClick: PropTypes.func,
 };
