@@ -2,7 +2,7 @@ import React from 'react';
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
-import demodata from '../demodata.json';
+import data from '../utilities/data';
 
 const LandingPage = () => {
   return (
@@ -10,7 +10,7 @@ const LandingPage = () => {
       <main>
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <HeaderLayout />
-          <CardLayout data={demodata.cards} />
+          <CardLayout data={data.cards} />
         </div>
       </main>
       <HubLinks />

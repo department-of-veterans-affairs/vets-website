@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// TODO: Gather real links
-import demodata from '../demodata.json';
+import data from '../utilities/data';
 
 const HubSection = ({ title, links }) => {
   const listItems = links.map((l, index) => (
@@ -26,16 +25,13 @@ const HubLinks = () => {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-bottom--3">
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title="My VA health benefits" links={demodata.links} />
+          <HubSection title={data.hub[0].title} links={data.hub[0].links} />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection
-            title="More resources and support"
-            links={demodata.links}
-          />
+          <HubSection title={data.hub[1].title} links={data.hub[1].links} />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title="In the Spotlight" links={demodata.links} />
+          <HubSection title={data.hub[2].title} links={data.hub[2].links} />
         </div>
       </div>
     </div>
