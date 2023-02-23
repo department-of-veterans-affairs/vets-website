@@ -18,6 +18,13 @@ import livingSituation1 from '../pages/livingSituation1';
 import livingSituation2 from '../pages/livingSituation2';
 import remarks from '../pages/remarks';
 
+// constants
+import {
+  previousSahApplicationFields,
+  previousHiApplicationFields,
+  livingSituationFields,
+} from '../definitions/constants';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -97,7 +104,10 @@ const formConfig = {
           path: 'previous-sah-application-2',
           title:
             'Details about your past application for a specially adapted housing grant',
-          depends: form => form.hasPreviousSahApplication,
+          depends: formData =>
+            formData[previousSahApplicationFields.parentObject][
+              previousSahApplicationFields.hasPreviousSahApplication
+            ],
           uiSchema: previousSahApplication2.uiSchema,
           schema: previousSahApplication2.schema,
         },
@@ -111,7 +121,10 @@ const formConfig = {
           path: 'previous-sha-application-2',
           title:
             'Details about your past application for a special home adaptation grant',
-          depends: form => form.hasPreviousHiApplication,
+          depends: formData =>
+            formData[previousHiApplicationFields.parentObject][
+              previousHiApplicationFields.hasPreviousHiApplication
+            ],
           uiSchema: previousHiApplication2.uiSchema,
           schema: previousHiApplication2.schema,
         },
@@ -130,7 +143,10 @@ const formConfig = {
         livingSituation2: {
           path: 'living-situation-2',
           title: 'Details about your current living situation',
-          depends: form => form.isInCareFacility,
+          depends: formData =>
+            formData[livingSituationFields.parentObject][
+              livingSituationFields.isInCareFacility
+            ],
           uiSchema: livingSituation2.uiSchema,
           schema: livingSituation2.schema,
         },
