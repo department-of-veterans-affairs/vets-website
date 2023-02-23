@@ -91,7 +91,6 @@ export default Object.freeze({
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseInfoCard: 'profile_use_info_card',
-  profileUseSecurityProcessList: 'profile_use_security_process_list',
   profileUseVaosV2Api: 'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaUseSlo: 'pw_ehr_cta_use_slo',
