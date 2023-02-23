@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-// import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import recordEvent from 'platform/monitoring/record-event';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaTextInput,
+  VaNumberInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 
 const AddAsset = props => {
@@ -27,19 +28,17 @@ const AddAsset = props => {
 
   // Asset name data/flags
   const [assetName, setAssetName] = useState(currentAsset.name || '');
-  const [nameError, setNameError] = useState(false);
+  const [nameError, setNameError] = useState(true);
 
   // Asset amount data/flags
   const [assetAmount, setAssetAmount] = useState(currentAsset.amount || '');
-  const [amountError, setAmountError] = useState(false);
+  const [amountError, setAmountError] = useState(true);
 
   // shared fun
   const [submitted, setSubmitted] = useState(false);
 
   // submit issue with validation
   const addOrUpdateAsset = () => {
-    setSubmitted(true);
-
     // Check for errors
     if (!nameError && !amountError) {
       // Update form data
@@ -65,9 +64,9 @@ const AddAsset = props => {
 
   const handlers = {
     onSubmit: event => event.preventDefault(),
-    onAssetNameChange: event => {
-      setAssetName(event.target.value);
-      setNameError(!event.target.value);
+    onAssetNameChange: ({ target }) => {
+      setAssetName(target.value);
+      setNameError(!target.value);
     },
     onAssetAmountChange: event => {
       setAssetAmount(event.target.value);
@@ -75,22 +74,11 @@ const AddAsset = props => {
     },
     onCancel: event => {
       event.preventDefault();
-      // recordEvent({
-      //   event: 'cta-button-click',
-      //   'button-type': 'secondary',
-      //   'button-click-label': 'Cancel',
-      //   'button-background-color': 'white',
-      // });
       goToPath(RETURN_PATH);
     },
     onUpdate: event => {
       event.preventDefault();
-      // recordEvent({
-      //   event: 'cta-button-click',
-      //   'button-type': 'primary',
-      //   'button-click-label': 'Add issue',
-      //   'button-background-color': 'blue',
-      // });
+      setSubmitted(true);
       addOrUpdateAsset();
     },
   };
@@ -107,24 +95,28 @@ const AddAsset = props => {
             Add your additional assets
           </legend>
           <VaTextInput
+            className="input-size-6"
+            error={(submitted && nameError && 'Enter valid text') || null}
             id="add-other-asset-name"
-            name="add-other-asset-name"
-            type="text"
             label="What is the asset?"
-            required
-            value={assetName}
+            name="add-other-asset-name"
             onInput={handlers.onAssetNameChange}
-            error={submitted && nameError ? 'Enter valid text' : ''}
-          />
-          <VaTextInput
-            id="add-other-asset-amount"
-            name="add-other-asset-amount"
-            type="text"
-            label="How much is your asset worth?"
             required
-            value={assetAmount}
-            onInput={handlers.onAssetAmountChange}
+            type="text"
+            value={assetName}
+          />
+          <VaNumberInput
+            className="input-size-6"
             error={(submitted && amountError && 'Enter valid number') || null}
+            id="add-other-asset-amount"
+            inputmode="decimal"
+            label="How much is your asset worth?"
+            min={0}
+            name="add-other-asset-amount"
+            onInput={handlers.onAssetAmountChange}
+            required
+            type="text"
+            value={assetAmount}
           />
           <br />
           <va-additional-info
