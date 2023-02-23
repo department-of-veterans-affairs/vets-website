@@ -90,7 +90,7 @@ const DependentAges = () => {
             name={`dependentAge-${i}`}
             onInput={({ target }) => updateDependents(target, i)}
             value={dependent.dependentAge}
-            className="input-size-6"
+            className="no-wrap input-size-1"
             onBlur={event => handleBlur(event, i)}
             error={errors[i]}
             required
