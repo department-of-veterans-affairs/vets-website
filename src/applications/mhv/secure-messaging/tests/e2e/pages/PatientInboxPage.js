@@ -13,14 +13,61 @@ import mockThreadwithAttachment from '../fixtures/thread-attachment-response.jso
 class PatientInboxPage {
   newMessageIndex = 0;
 
-  loadedMessagesData = undefined;
+  dynamicMessageId = undefined;
 
-  loadPage = (doAxeCheck = false) => {
+  dynamicMessageBody = undefined;
+
+  dynamicMessageTitle = undefined;
+
+  dynamicMessageCategory = undefined;
+
+  dynamicMessageDate = undefined;
+
+  dynamicMessageRecipient = undefined;
+
+  useDynamicData = false;
+
+  setDynamicMessage = (
+    messageId,
+    messageTitle,
+    messageBody,
+    messageCategory,
+    messageDate,
+    messageRecipient,
+  ) => {
+    this.useDynamicData = true;
+    this.dynamicMessageId = messageId;
+    this.dynamicMessageBody = messageBody;
+    this.dynamicMessageTitle = messageTitle;
+    this.dynamicMessageCategory = messageCategory;
+    this.dynamicMessageDate = messageDate;
+    this.dynamicMessageRecipient = messageRecipient;
+    cy.log(`dynameic message Title = ${this.dynamicMessageTitle}`);
+  };
+
+  loadPage = (doAxeCheck = false, getFoldersStatus = 200) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    if (this.useDynamicData) {
+      mockMessages.data.at(
+        this.newMessageIndex,
+      ).attributes.messageId = this.dynamicMessageId;
+      mockMessages.data.at(
+        this.newMessageIndex,
+      ).attributes.messageBody = this.dynamicMessageBody;
+      mockMessages.data.at(
+        this.newMessageIndex,
+      ).attributes.messageTitle = this.dynamicMessageTitle;
+      mockMessages.data.at(
+        this.newMessageIndex,
+      ).attributes.messageCategory = this.dynamicMessageCategory;
+      mockMessages.data.at(
+        this.newMessageIndex,
+      ).attributes.messageRecipient = this.dynamicMessageRecipient;
+    }
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -37,11 +84,27 @@ class PatientInboxPage {
       '/my_health/v1/messaging/messages/categories',
       mockCategories,
     ).as('categories');
-    cy.intercept(
-      'GET',
-      '/my_health/v1/messaging/folders?page*',
-      mockFolders,
-    ).as('folders');
+    if (getFoldersStatus === 200) {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', mockFolders).as(
+        'folders',
+      );
+    } else {
+      cy.intercept('GET', '/my_health/v1/messaging/folders*', {
+        statusCode: 400,
+        body: {
+          alertType: 'error',
+          header: 'err.title',
+          content: 'err.detail',
+          response: {
+            header: 'err.title',
+            content: 'err.detail',
+          },
+        },
+      }).as('folders');
+    }
+    cy.log(
+      `message title = ${mockMessages.data.at(0).attributes.messageTitle}`,
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
@@ -70,7 +133,9 @@ class PatientInboxPage {
     cy.wait('@folders');
     cy.wait('@featureToggle');
     cy.wait('@mockUser');
-    cy.wait('@inboxMessages');
+    cy.wait('@inboxMessages').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
     if (doAxeCheck) {
       cy.axeCheck();
     }
@@ -132,12 +197,29 @@ class PatientInboxPage {
     }
   };
 
-  loadMessageDetails = (messageId, messageTitle, messageDate) => {
+  loadMessageDetails = (
+    messageId,
+    messageTitle,
+    messageBody,
+    messageCategory,
+    messageDate,
+    messageRecipient,
+  ) => {
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
     mockMessage.data.attributes.sentDate = messageDate;
     mockMessage.data.attributes.messageId = messageId;
-    mockMessage.data.attributes.messageTitle = messageTitle;
+    mockMessage.data.attributes.subject = messageTitle;
+    mockMessage.data.attributes.body = messageBody;
+    mockMessage.data.attributes.category = messageCategory;
+    mockMessage.data.attributes.messageRecipient = messageRecipient;
+
+    mockThread.data.at(0).attributes.sentDate = messageDate;
+    mockThread.data.at(0).attributes.messageId = messageId;
+    mockThread.data.at(0).attributes.subject = messageTitle;
+    mockThread.data.at(0).attributes.body = messageBody;
+    mockThread.data.at(0).attributes.category = messageCategory;
+    mockThread.data.at(0).attributes.messageRecipient = messageRecipient;
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${messageId}`,
@@ -149,7 +231,9 @@ class PatientInboxPage {
       mockThread,
     ).as('full-thread');
     cy.contains(messageTitle).click();
-    cy.wait('@message');
+    cy.wait('@message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
     cy.wait('@full-thread');
   };
 
@@ -290,6 +374,11 @@ class PatientInboxPage {
 
   verifySentSuccessMessage = () => {
     cy.contains('Message was successfully sent.').should('be.visible');
+  };
+
+  verifyMoveMessagewithAttachmentSuccessMessage = () => {
+    cy.get('[data-testid="expired-alert-message"]').contains('Success');
+    cy.get('p').contains('Message was successfully moved');
   };
 
   loadComposeMessagePage = () => {

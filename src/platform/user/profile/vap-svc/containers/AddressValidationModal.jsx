@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import {
+  VaAlert,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -132,7 +134,11 @@ class AddressValidationModal extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button className="usa-button-primary" onClick={this.onEditClick}>
+        <button
+          type="button"
+          className="usa-button-primary"
+          onClick={this.onEditClick}
+        >
           Edit Address
         </button>
       );
@@ -192,7 +198,11 @@ class AddressValidationModal extends React.Component {
 
             {isAddressFromUser &&
               showEditLink && (
-                <button className="va-button-link" onClick={this.onEditClick}>
+                <button
+                  type="button"
+                  className="va-button-link"
+                  onClick={this.onEditClick}
+                >
                   Edit Address
                 </button>
               )}
@@ -207,7 +217,6 @@ class AddressValidationModal extends React.Component {
       addressValidationType,
       suggestedAddresses,
       addressFromUser,
-      validationKey,
       addressValidationError,
       resetAddressValidation,
       confirmedSuggestions,
@@ -220,12 +229,11 @@ class AddressValidationModal extends React.Component {
       this.props.closeModal();
     };
 
-    const validationMessageKey = getValidationMessageKey(
+    const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
-      validationKey,
       addressValidationError,
       confirmedSuggestions,
-    );
+    });
 
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
@@ -237,14 +245,14 @@ class AddressValidationModal extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     return (
-      <Modal
-        title={
+      <VaModal
+        modalTitle={
           addressValidationType.includes('mailing')
             ? 'Edit mailing address'
             : 'Edit home address'
         }
         id="address-validation-warning"
-        onClose={resetDataAndCloseModal}
+        onCloseEvent={resetDataAndCloseModal}
         visible
       >
         {error && (
@@ -252,13 +260,13 @@ class AddressValidationModal extends React.Component {
             <VAPServiceEditModalErrorMessage error={error} />
           </div>
         )}
-        <AlertBox
+        <VaAlert
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
-        </AlertBox>
+        </VaAlert>
         <form onSubmit={this.onSubmit}>
           <span className="vads-u-font-weight--bold">You entered:</span>
           {this.renderAddressOption(addressFromUser)}
@@ -280,7 +288,7 @@ class AddressValidationModal extends React.Component {
             Cancel
           </button>
         </form>
-      </Modal>
+      </VaModal>
     );
   }
 }
@@ -325,9 +333,18 @@ const mapDispatchToProps = dispatch => ({
 });
 
 AddressValidationModal.propTypes = {
-  analyticsSectionName: PropTypes.string,
+  addressFromUser: PropTypes.object.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
+  addressValidationType: PropTypes.string.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  openModal: PropTypes.func.isRequired,
+  resetAddressValidation: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
+  updateSelectedAddress: PropTypes.func.isRequired,
+  updateValidationKeyAndSave: PropTypes.func.isRequired,
+  analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
     PropTypes.shape({
       addressLine1: PropTypes.string.isRequired,
@@ -343,17 +360,12 @@ AddressValidationModal.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
-  addressValidationType: PropTypes.string.isRequired,
-  validationKey: PropTypes.number,
-  addressFromUser: PropTypes.object.isRequired,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  createTransaction: PropTypes.func.isRequired,
-  updateSelectedAddress: PropTypes.func.isRequired,
-  updateValidationKeyAndSave: PropTypes.func.isRequired,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
+  validationKey: PropTypes.number,
 };
 
 export default connect(

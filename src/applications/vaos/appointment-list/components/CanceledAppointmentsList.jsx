@@ -165,7 +165,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
           </React.Fragment>
         );
       })}
-      {!appointmentsByMonth?.length && (
+      {!keys?.length && (
         <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="canceled appointments"

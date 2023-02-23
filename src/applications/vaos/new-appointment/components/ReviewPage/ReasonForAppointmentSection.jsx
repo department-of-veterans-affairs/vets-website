@@ -1,10 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
+function handleClick(history) {
+  return () => {
+    history.push(newAppointmentFlow.reasonForAppointment.url);
+  };
+}
+
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
+  const history = useHistory();
 
   if (!reasonForAppointment && !reasonAdditionalInfo) {
     return null;
@@ -25,15 +33,19 @@ export default function ReasonForAppointmentSection({ data }) {
             </span>
           </div>
           <div>
-            <Link
-              to={newAppointmentFlow.reasonForAppointment.url}
+            <va-link
               aria-label="Edit purpose of appointment"
-            >
-              Edit
-            </Link>
+              text="Edit"
+              data-testid="edit-new-appointment"
+              onClick={handleClick(history)}
+            />
           </div>
         </div>
       </div>
     </>
   );
 }
+
+ReasonForAppointmentSection.propTypes = {
+  data: PropTypes.object.isRequired,
+};

@@ -58,18 +58,20 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   return (
     <div className="form-review-panel-page">
       <div name="evidenceSummaryScrollElement" />
-      <button
-        type="button"
-        ref={editRef}
-        className="float-right edit-page usa-button-secondary"
-        onClick={handlers.onEditPage}
-        aria-label={content.editLabel}
-      >
-        {content.edit}
-      </button>
-      <h4 className="vads-u-font-size--h5 vads-u-display--inline-block">
-        {content.reviewPageHeaderText}
-      </h4>
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {content.summaryTitle}
+        </h4>
+        <button
+          type="button"
+          ref={editRef}
+          className="edit-page usa-button-secondary"
+          onClick={handlers.onEditPage}
+          aria-label={content.editLabel}
+        >
+          {content.edit}
+        </button>
+      </div>
 
       {noEvidence ? (
         <dl className="review">

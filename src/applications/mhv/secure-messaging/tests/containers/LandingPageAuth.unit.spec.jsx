@@ -5,7 +5,7 @@ import { waitFor } from '@testing-library/dom';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import reducer from '../../reducers';
 import folderList from '../fixtures/folder-response.json';
-import { unreadCountAllFolders } from '../../util/helpers';
+import { unreadCountInbox } from '../../util/helpers';
 
 describe('Landing dashboard', () => {
   const initialState = {
@@ -38,10 +38,13 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a number of unread messsages', async () => {
-    const unreadCount = unreadCountAllFolders(folderList);
+    const unreadCount = unreadCountInbox(folderList);
     await waitFor(() => {
-      expect(screen.getByText(`You have ${unreadCount} unread messages`)).to
-        .exist;
+      expect(
+        screen.getByText(
+          `You have ${unreadCount} unread messages in your inbox`,
+        ),
+      ).to.exist;
     });
   });
 
@@ -50,10 +53,10 @@ describe('Landing dashboard', () => {
   });
 
   it('displays a Welcome message', () => {
-    expect(screen.getByText(`Welcome to the updated messaging tool`)).to.exist;
+    expect(screen.getByText(`What to know as you try out this tool`)).to.exist;
   });
 
-  it('displays a search component', () => {
+  /* it('displays a search component', () => {
     expect(
       screen.getByText(`Search for messages`, {
         exact: true,
@@ -64,9 +67,9 @@ describe('Landing dashboard', () => {
         exact: true,
       }),
     ).to.exist;
-  });
+  }); */
 
-  it('displays a Folders List component', () => {
+  /* it('displays a Folders List component', () => {
     expect(
       screen.getByText(`Folders`, {
         exact: true,
@@ -78,9 +81,9 @@ describe('Landing dashboard', () => {
         selector: 'a',
       }),
     ).to.exist;
-  });
+  }); */
 
   it('displays a FAQ component', () => {
-    expect(screen.getByText(`Questions about this messaging tool`)).to.exist;
+    expect(screen.getByText(`Questions about using messages`)).to.exist;
   });
 });
