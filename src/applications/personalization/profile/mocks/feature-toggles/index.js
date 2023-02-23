@@ -3,8 +3,6 @@ const generateFeatureToggles = (toggles = {}) => {
     profileDoNotRequireInternationalZipCode = true,
     profileEnhancements = true,
     profileNotificationSettings = true,
-    profileSchemaForms = true,
-    profileShowAddressChangeModal = true,
     profileShowDemographics = false,
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
@@ -12,7 +10,6 @@ const generateFeatureToggles = (toggles = {}) => {
     profileUseVAFSC = false,
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
-    profileBlockForFiduciaryDeceasedOrIncompetent = false,
     profileUseSecurityProcessList = true,
     profileUseInfoCard = true,
   } = toggles;
@@ -29,11 +26,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_notification_settings',
           value: profileNotificationSettings,
-        },
-        { name: 'profile_schema_forms', value: profileSchemaForms },
-        {
-          name: 'profile_show_address_change_modal',
-          value: profileShowAddressChangeModal,
         },
         { name: 'profile_show_demographics', value: profileShowDemographics },
 
@@ -57,10 +49,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_payments_notification_setting',
           value: profileShowPaymentsNotificationSetting,
-        },
-        {
-          name: 'profile_block_for_fiduciary_deceased_or_incompetent',
-          value: profileBlockForFiduciaryDeceasedOrIncompetent,
         },
         {
           name: 'profile_use_security_process_list',

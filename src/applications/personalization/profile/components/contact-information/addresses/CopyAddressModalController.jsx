@@ -15,7 +15,6 @@ import {
 import { isPendingTransaction } from '@@vap-svc/util/transactions';
 
 // profile deps
-import { profileShowAddressChangeModal } from '@@profile/selectors';
 import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFieldAttributes';
 
 // platform deps
@@ -25,11 +24,17 @@ import CopyAddressModalPrompt from './CopyAddressModalPrompt';
 import CopyAddressModalSuccess from './CopyAddressModalSuccess';
 import CopyAddressModalFailure from './CopyAddressModalFailure';
 
+const ComponentsFromStatus = {
+  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT]: CopyAddressModalPrompt,
+  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING]: CopyAddressModalPrompt,
+  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS]: CopyAddressModalSuccess,
+  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE]: CopyAddressModalFailure,
+};
+
 const CopyAddressModal = props => {
   const {
     mailingAddress = null,
     homeAddress,
-    shouldProfileShowAddressChangeModal,
     transaction,
     transactionRequest,
     copyAddressModal,
@@ -107,36 +112,17 @@ const CopyAddressModal = props => {
     },
   };
 
+  const Component = ComponentsFromStatus[copyAddressModal];
+
   return (
-    <>
-      {(copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING) &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalPrompt
-            isLoading={isLoading}
-            homeAddress={homeAddress}
-            mailingAddress={mailingAddress}
-            onClose={handlers.onCloseModal}
-            onYes={handlers.onYes}
-            visible
-          />
-        )}
-      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalSuccess
-            address={homeAddress}
-            onClose={handlers.onCloseSuccessModal}
-            visible
-          />
-        )}
-      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE &&
-        shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalFailure
-            onClose={handlers.onCloseFailureModal}
-            visible
-          />
-        )}
-    </>
+    <Component
+      isLoading={isLoading}
+      homeAddress={homeAddress}
+      mailingAddress={mailingAddress}
+      onClose={handlers.onCloseModal}
+      onYes={handlers.onYes}
+      visible
+    />
   );
 };
 
@@ -183,7 +169,6 @@ export const mapStateToProps = state => {
       state,
       VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS,
     ),
-    shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
     copyAddressModal: selectCopyAddressModal(state),
     transaction,
     transactionRequest,
