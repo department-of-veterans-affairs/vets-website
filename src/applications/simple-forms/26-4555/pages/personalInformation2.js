@@ -1,7 +1,6 @@
 import { intersection, pick } from 'lodash';
 
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { veteranFields } from '../definitions/constants';
 

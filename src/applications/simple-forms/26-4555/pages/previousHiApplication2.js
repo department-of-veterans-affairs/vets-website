@@ -1,5 +1,6 @@
 import { intersection, pick } from 'lodash';
 
+import dateUI from 'platform/forms-system/src/js/definitions/date';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { previousHiApplicationFields } from '../definitions/constants';
@@ -17,10 +18,9 @@ export default {
     [previousHiApplicationFields.hasPreviousHiApplication]: {
       'ui:title':
         'Details about your past application for a special home adaptation grant',
-      [previousHiApplicationFields.previousHiApplicationDate]: {
-        'ui:title': 'Date of previous application',
-        'ui:widget': 'date',
-      },
+      [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
+        'Date of previous application',
+      ),
       [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
         'Address connected to your past application',
         false,

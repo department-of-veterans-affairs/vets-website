@@ -1,6 +1,7 @@
 import { intersection, pick } from 'lodash';
 
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 import { veteranFields } from '../definitions/constants';
 
@@ -21,9 +22,7 @@ export default {
         'Please enter your contact information so we can get in touch with you if we have questions about your application.',
       [veteranFields.homePhone]: phoneUI('Home phone number'),
       [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
-      [veteranFields.email]: {
-        'ui:title': 'Email address',
-      },
+      [veteranFields.email]: emailUI(),
     },
   },
   schema: {
