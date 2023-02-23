@@ -383,24 +383,22 @@ export function selectAppointmentLocality(appointment) {
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
 
-  if (
-    typeOfCareName &&
-    practitioner &&
-    (isInPerson || isVideo || isPhone || isCommunityCare)
-  ) {
-    return `${typeOfCareName} with ${practitioner}`;
-  }
-
   if (isInPerson || isVideo || isPhone || isCommunityCare) {
+    if (typeOfCareName && practitioner) {
+      return `${typeOfCareName} with ${practitioner}`;
+    }
+
+    if (typeOfCareName) {
+      return typeOfCareName;
+    }
+
     if (practitioner)
       return `${
         isCommunityCare ? 'Community care' : 'VA'
       } appointment with ${practitioner}`;
-
-    return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
   }
 
-  return '';
+  return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
 export function selectIsClinicVideo(appointment) {
