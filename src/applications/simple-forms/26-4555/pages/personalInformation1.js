@@ -8,7 +8,8 @@ const { required, properties } = fullSchema.properties[
   veteranFields.parentObject
 ];
 const pageFields = [veteranFields.fullName, veteranFields.dateOfBirth];
-const personalInformation1 = {
+
+export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       [veteranFields.fullName]: fullNameUI,
@@ -32,5 +33,3 @@ const personalInformation1 = {
     },
   },
 };
-
-export default personalInformation1;

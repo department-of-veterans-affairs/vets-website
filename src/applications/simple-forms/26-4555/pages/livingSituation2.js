@@ -12,7 +12,7 @@ const pageFields = [
   livingSituationFields.careFacilityAddress,
 ];
 
-const livingSituation2 = {
+export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
       'ui:title': 'Details about your current living situation',
@@ -48,5 +48,3 @@ const livingSituation2 = {
     },
   },
 };
-
-export default livingSituation2;

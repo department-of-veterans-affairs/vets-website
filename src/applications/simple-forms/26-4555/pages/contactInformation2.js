@@ -12,7 +12,8 @@ const pageFields = [
   veteranFields.mobilePhone,
   veteranFields.email,
 ];
-const contactInformation2 = {
+
+export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       'ui:title': 'Additional contact information',
@@ -36,5 +37,3 @@ const contactInformation2 = {
     },
   },
 };
-
-export default contactInformation2;

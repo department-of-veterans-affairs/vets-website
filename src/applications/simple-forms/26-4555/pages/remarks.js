@@ -3,7 +3,7 @@ import TextareaWidget from '../widgets/TextareaWidget';
 
 // we're not using constants-fullSchema imports and related patterns here
 // remarks is a top-level field in the schema -- no required or properties keys
-const remarks = {
+export default {
   uiSchema: {
     remarks: {
       'ui:title':
@@ -29,5 +29,3 @@ const remarks = {
     },
   },
 };
-
-export default remarks;

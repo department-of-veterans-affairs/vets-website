@@ -12,7 +12,7 @@ const pageFields = [
   previousSahApplicationFields.previousSahApplicationAddress,
 ];
 
-const previousSahApplication2 = {
+export default {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {
       'ui:title':
@@ -49,5 +49,3 @@ const previousSahApplication2 = {
     },
   },
 };
-
-export default previousSahApplication2;

@@ -8,7 +8,7 @@ const { required, properties } = fullSchema.properties[
 ];
 const pageFields = [livingSituationFields.isInCareFacility];
 
-const livingSituation1 = {
+export default {
   uiSchema: {
     [livingSituationFields.parentObject]: {
       [livingSituationFields.isInCareFacility]: {
@@ -29,5 +29,3 @@ const livingSituation1 = {
     },
   },
 };
-
-export default livingSituation1;

@@ -12,7 +12,7 @@ const pageFields = [
   previousHiApplicationFields.previousHiApplicationAddress,
 ];
 
-const previousHiApplication2 = {
+export default {
   uiSchema: {
     [previousHiApplicationFields.hasPreviousHiApplication]: {
       'ui:title':
@@ -49,5 +49,3 @@ const previousHiApplication2 = {
     },
   },
 };
-
-export default previousHiApplication2;

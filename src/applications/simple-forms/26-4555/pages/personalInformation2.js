@@ -9,7 +9,8 @@ const { required, properties } = fullSchema.properties[
   veteranFields.parentObject
 ];
 const pageFields = [veteranFields.ssn, veteranFields.vaFileNumber];
-const personalInformation2 = {
+
+export default {
   uiSchema: {
     [veteranFields.parentObject]: {
       [veteranFields.ssn]: {
@@ -36,5 +37,3 @@ const personalInformation2 = {
     },
   },
 };
-
-export default personalInformation2;

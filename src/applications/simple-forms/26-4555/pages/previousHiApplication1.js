@@ -7,7 +7,8 @@ const { required, properties } = fullSchema.properties[
   previousHiApplicationFields.parentObject
 ];
 const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
-const previousHiApplication1 = {
+
+export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {
       [previousHiApplicationFields.hasPreviousHiApplication]: {
@@ -28,5 +29,3 @@ const previousHiApplication1 = {
     },
   },
 };
-
-export default previousHiApplication1;
