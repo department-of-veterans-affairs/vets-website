@@ -369,10 +369,25 @@ export function selectIsInPerson(appointment) {
 }
 
 export function selectPractitionerName(appointment) {
-  const { providerName, practiceName, name } =
-    appointment.communityCareProvider || {};
+  if (selectIsCommunityCare(appointment)) {
+    const { providerName, name } = appointment.communityCareProvider || {};
+    return providerName || name || null;
+  }
 
-  return providerName || practiceName || name || null;
+  // TODO: Refactor!!! This logic is a rewrite of the function 'getPractitionerName'
+  // located at vaos/services/appointments/index.js which is in the domain layer.
+  // It should be in the UI layer as a selector. The refactor is to remove the
+  // 'getPractitionerName' function and move all other similar functions to this
+  // layer. See the following link for details.
+  //
+  // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
+  let { practitioners = [] } = appointment || {};
+  practitioners = practitioners.map(practitioner => {
+    const { name } = practitioner;
+    return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
+  });
+
+  return practitioners.length > 0 ? practitioners[0] : null;
 }
 
 export function selectAppointmentLocality(appointment) {
