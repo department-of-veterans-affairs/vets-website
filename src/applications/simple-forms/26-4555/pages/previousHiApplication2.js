@@ -24,7 +24,10 @@ const previousHiApplication2 = {
       [previousHiApplicationFields.previousHiApplicationAddress]: address.uiSchema(
         'Address connected to your past application',
         false,
-        formData => formData.hasPreviousHiApplication,
+        formData =>
+          formData[previousHiApplicationFields.parentObject][
+            previousHiApplicationFields.hasPreviousHiApplication
+          ],
       ),
     },
   },

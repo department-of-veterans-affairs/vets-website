@@ -11,6 +11,7 @@ const pageFields = [
   previousSahApplicationFields.previousSahApplicationDate,
   previousSahApplicationFields.previousSahApplicationAddress,
 ];
+
 const previousSahApplication2 = {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {
@@ -23,7 +24,10 @@ const previousSahApplication2 = {
       [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
         'Address connected to your past application',
         false,
-        formData => formData.hasPreviousSahApplication,
+        formData =>
+          formData[previousSahApplicationFields.parentObject][
+            previousSahApplicationFields.hasPreviousSahApplication
+          ],
       ),
     },
   },

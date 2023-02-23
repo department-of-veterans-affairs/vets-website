@@ -23,7 +23,10 @@ const livingSituation2 = {
       [livingSituationFields.careFacilityAddress]: address.uiSchema(
         'What is the address of the nursing home or medical care facility you are living in?',
         false,
-        formData => formData.isInCareFacility,
+        formData =>
+          formData[livingSituationFields.parentObject][
+            livingSituationFields.isInCareFacility
+          ],
       ),
     },
   },
