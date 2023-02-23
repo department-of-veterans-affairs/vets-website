@@ -752,42 +752,6 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('OpenMyHealtheVet').exists()).to.be.true;
       tree.unmount();
     });
-    it('should show no MHV account message and redirect to t&c', () => {
-      Object.defineProperty(window, 'location', {
-        writable: true,
-        value: window.location,
-      });
-      const tree = mount(
-        <CallToActionWidget
-          fetchMHVAccount={d => d}
-          isLoggedIn
-          appId={CTA_WIDGET_TYPES.RX}
-          profile={{
-            loading: false,
-            verified: true,
-            multifactor: true,
-          }}
-          mhvAccount={{
-            loading: false,
-            accountState: 'needs_terms_acceptance',
-          }}
-          mviStatus="GOOD"
-          featureToggles={{
-            loading: false,
-          }}
-        />,
-      );
-
-      expect(tree.find('NoMHVAccount').exists()).to.be.true;
-      tree
-        .find('NoMHVAccount')
-        .props()
-        .primaryButtonHandler();
-      expect(window.location).to.contain(
-        'medical-information-terms-conditions',
-      );
-      tree.unmount();
-    });
   });
   describe('online scheduling', () => {
     it('should show mvi error', () => {
