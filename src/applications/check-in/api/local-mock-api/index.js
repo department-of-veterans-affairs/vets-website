@@ -25,6 +25,12 @@ const responses = {
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
+    const { uuid } = req.params;
+    if (uuid === missingUUID) {
+      return res
+        .status(404)
+        .json(sessions.post.createMockMissingUuidErrorResponse());
+    }
     return res.json(sessions.get.createMockSuccessResponse(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
