@@ -300,9 +300,9 @@ export const getMessageHistory = messageId => {
  * @param {Long} threadId
  * @returns
  */
-export const getMessageThread = threadId => {
-  return apiRequest(`${apiBasePath}/messaging/messages/${threadId}/thread`, {
-    method: 'OPTIONS',
+export const getMessageThread = messageId => {
+  return apiRequest(`${apiBasePath}/messaging/messages/${messageId}/thread`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },

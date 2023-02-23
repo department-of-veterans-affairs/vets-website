@@ -7,11 +7,11 @@ import {
   moveMessage as moveMessageCall,
   createMessage,
   createReplyToMessage,
+  getMessageThread,
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { isOlderThan } from '../util/helpers';
-import thread from '../tests/fixtures/message-thread-response.json';
 
 /**
  * @param {Long} folderId
@@ -130,39 +130,40 @@ export const markMessageAsRead = messageId => async () => {
 };
 
 /**
- * @param {Long} threadId
+ * Retrieves a message thread, and sends getMessage call to fill the most recent messasge in the thread with more context
+ * such as full body text, attachments, etc.
+ * @param {Long} messageId
  * @param {Boolean} isDraft true if the message is a draft, otherwise false
+ * @param {Boolean} refresh true if the refreshing a thread on a current view, to avoid clearing redux state and triggering spinning circle
  * @returns
  */
 export const retrieveMessageThread = (
-  threadId,
+  messageId,
   isDraft = false,
   refresh = false,
 ) => async dispatch => {
   if (refresh) {
     dispatch(clearMessage());
   }
-  // const response = thread.data;
-  const response = await new Promise(resolve => {
-    setTimeout(() => {
-      resolve(thread.data);
-    }, 1500);
-  });
-  // const response = await getMessageThread(threadId);
+
+  const response = await getMessageThread(messageId);
   if (response.errors) {
     // TODO Add error handling
   } else {
-    // const message = response;
-    const message = response[0];
-    dispatch({
-      type: Actions.Message.GET,
-      response: { data: message },
-    });
-    if (response.length > 0) {
+    const msgResponse = await getMessage(response.data[0].attributes.messageId);
+    if (!msgResponse.errors) {
       dispatch({
-        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
-        response: { data: response.slice(1, response.length) },
+        type: Actions.Message.GET,
+        response: msgResponse,
       });
+      if (response.data?.length > 1) {
+        dispatch({
+          type: isDraft
+            ? Actions.Draft.GET_HISTORY
+            : Actions.Message.GET_HISTORY,
+          response: { data: response.data.slice(1, response.data.length) },
+        });
+      }
     }
   }
 };
