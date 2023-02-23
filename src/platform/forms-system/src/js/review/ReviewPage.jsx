@@ -7,14 +7,16 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import DowntimeMessage from 'platform/monitoring/DowntimeNotification/components/Down';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from '../utilities/ui';
-import ReviewChapters from '../review/ReviewChapters';
-import SubmitController from '../review/SubmitController';
 import { getScrollOptions } from 'platform/utilities/ui';
+import { focusElement } from '../utilities/ui';
+import ReviewChapters from './ReviewChapters';
+import SubmitController from './SubmitController';
 
 class ReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop('topScrollElement', getScrollOptions());
+    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
+    // containing multiple pages, so the h2 won't be unique between pages
     focusElement('h2');
   }
 
