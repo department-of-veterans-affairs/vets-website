@@ -15,7 +15,7 @@ const pageFields = [
 
 export default {
   uiSchema: {
-    [previousHiApplicationFields.hasPreviousHiApplication]: {
+    [previousHiApplicationFields.parentObject]: {
       'ui:title':
         'Details about your past application for a special home adaptation grant',
       [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
@@ -42,7 +42,10 @@ export default {
           // address definitions appear to be implemented differently
           [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
             fullSchema,
-            true,
+            formData =>
+              formData[previousHiApplicationFields.parentObject][
+                previousHiApplicationFields.hasPreviousHiApplication
+              ],
           ),
         },
       },

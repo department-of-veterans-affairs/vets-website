@@ -42,7 +42,10 @@ export default {
           // address definitions appear to be implemented differently
           [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
             fullSchema,
-            true,
+            formData =>
+              formData[previousSahApplicationFields.parentObject][
+                previousSahApplicationFields.hasPreviousSahApplication
+              ],
           ),
         },
       },

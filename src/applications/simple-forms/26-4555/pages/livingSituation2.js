@@ -41,7 +41,10 @@ export default {
           // address definitions appear to be implemented differently
           [livingSituationFields.careFacilityAddress]: address.schema(
             fullSchema,
-            true,
+            formData =>
+              formData[livingSituationFields.parentObject][
+                livingSituationFields.isInCareFacility
+              ],
           ),
         },
       },
