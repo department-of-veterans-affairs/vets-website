@@ -40,17 +40,31 @@ const DraftSavedInfo = props => {
   if (lastSaveTime) {
     return (
       <>
-        <va-alert
-          background-only
-          class="last-save-time"
-          full-width="false"
-          show-icon
-          status="success"
-          visible={userSaved}
-        >
-          <p className="vads-u-margin-y--0">{content()}</p>
-        </va-alert>
-        {userSaved === false && <p>{content()}</p>}
+        {
+          <va-alert
+            background-only
+            class="last-save-time"
+            full-width="false"
+            show-icon
+            status="success"
+            visible={userSaved}
+            aria-describedby="save-draft-button"
+          >
+            <p className="vads-u-margin-y--0">{content()}</p>
+          </va-alert>
+        }
+        {userSaved === false && (
+          <va-alert
+            background-only
+            class="last-save-time"
+            full-width="false"
+            show-icon
+            status="success"
+            visible
+          >
+            <p className="vads-u-margin-y--0">{content()}</p>
+          </va-alert>
+        )}
       </>
     );
   }
