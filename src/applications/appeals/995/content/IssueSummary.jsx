@@ -28,7 +28,7 @@ const IssueSummary = ({ formData }) => {
           Confirm the issues you’re asking to receive a Supplemental Claim for.
         </h3>
       </legend>
-      <ul className="issues-summary">
+      <ul className="issues-summary vads-u-margin-bottom--0">
         {issues.map((issue, index) => (
           <li key={index} className={listClassNames}>
             <h4 className="capitalize vads-u-margin-top--0">
