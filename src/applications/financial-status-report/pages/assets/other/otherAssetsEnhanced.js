@@ -7,7 +7,7 @@ import { validateCurrencyArray } from '../../../utils/validations';
 export const otherAssetsChecklist = {
   uiSchema: {
     'ui:title': 'Your other assets',
-    otherAssetsEnhanced: {
+    otherAssets: {
       'ui:title': (
         <span className="vads-u-font-size--h4 vads-u-font-family--sans">
           Select any other items of value (called assets) you own, not including
@@ -23,7 +23,7 @@ export const otherAssetsChecklist = {
   schema: {
     type: 'object',
     properties: {
-      otherAssetsEnhanced: {
+      otherAssets: {
         type: 'boolean',
       },
     },
@@ -38,8 +38,8 @@ export const otherAssetsValues = {
       'ui:options': {
         hideOnReview: true,
       },
-      otherAssetsEnhanced: {
-        'ui:title': 'otherAssetsEnhancedValues',
+      otherAssets: {
+        'ui:title': 'otherAssetsValues',
         'ui:validations': [validateCurrencyArray],
         items: {
           name: {
@@ -58,7 +58,7 @@ export const otherAssetsValues = {
       assets: {
         type: 'object',
         properties: {
-          otherAssetsEnhanced: {
+          otherAssets: {
             type: 'array',
             items: {
               type: 'object',
@@ -74,7 +74,7 @@ export const otherAssetsValues = {
 export const otherAssetsSummary = {
   uiSchema: {
     'ui:title': 'You have added these assets',
-    otherAssetsEnhanced: {
+    otherAssets: {
       'ui:title': ' ',
       'ui:widget': OtherAssetsSummary,
       'ui:options': {
@@ -85,7 +85,7 @@ export const otherAssetsSummary = {
   schema: {
     type: 'object',
     properties: {
-      otherAssetsEnhanced: {
+      otherAssets: {
         type: 'boolean',
       },
     },

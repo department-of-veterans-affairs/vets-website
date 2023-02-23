@@ -6,13 +6,13 @@ import InputList from '../utils/InputList';
 
 const OtherAssetsInputList = props => {
   const { errorSchema, formContext } = props;
-  const errorList = errorSchema?.otherAssetsEnhanced?.__errors;
+  const errorList = errorSchema?.otherAssets?.__errors;
   const { submitted } = formContext;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
   const {
-    assets: { otherAssetsEnhanced = [] },
+    assets: { otherAssets = [] },
   } = data;
 
   const onChange = ({ target }) => {
@@ -21,7 +21,7 @@ const OtherAssetsInputList = props => {
         ...data,
         assets: {
           ...data.assets,
-          otherAssetsEnhanced: otherAssetsEnhanced.map(asset => {
+          otherAssets: otherAssets.map(asset => {
             if (asset.name === target.name) {
               return {
                 ...asset,
@@ -42,7 +42,7 @@ const OtherAssetsInputList = props => {
     <>
       <InputList
         errorList={errorList}
-        inputs={otherAssetsEnhanced}
+        inputs={otherAssets}
         title={title}
         prompt={prompt}
         submitted={submitted}
@@ -76,7 +76,7 @@ const OtherAssetsInputList = props => {
 
 OtherAssetsInputList.propTypes = {
   errorSchema: PropTypes.shape({
-    otherAssetsEnhanced: PropTypes.shape({
+    otherAssets: PropTypes.shape({
       __errors: PropTypes.array,
     }),
   }),

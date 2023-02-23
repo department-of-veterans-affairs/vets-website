@@ -9,19 +9,17 @@ const OtherAssetsChecklist = () => {
   const formData = useSelector(state => state.form.data);
 
   const { assets } = formData;
-  const { otherAssetsEnhanced = [] } = assets;
+  const { otherAssets = [] } = assets;
 
   const onChange = ({ target }) => {
     const { value } = target;
-    return otherAssetsEnhanced.some(source => source.name === value)
+    return otherAssets.some(source => source.name === value)
       ? dispatch(
           setData({
             ...formData,
             assets: {
               ...assets,
-              otherAssetsEnhanced: otherAssetsEnhanced.filter(
-                source => source.name !== value,
-              ),
+              otherAssets: otherAssets.filter(source => source.name !== value),
             },
           }),
         )
@@ -30,17 +28,14 @@ const OtherAssetsChecklist = () => {
             ...formData,
             assets: {
               ...assets,
-              otherAssetsEnhanced: [
-                ...otherAssetsEnhanced,
-                { name: value, amount: '' },
-              ],
+              otherAssets: [...otherAssets, { name: value, amount: '' }],
             },
           }),
         );
   };
 
   const isBoxChecked = option => {
-    return otherAssetsEnhanced.some(asset => asset.name === option);
+    return otherAssets.some(asset => asset.name === option);
   };
 
   return (

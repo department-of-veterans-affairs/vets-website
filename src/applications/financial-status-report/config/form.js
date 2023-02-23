@@ -599,7 +599,7 @@ const formConfig = {
           uiSchema: pages.otherAssetPages.otherAssetsValues.uiSchema,
           schema: pages.otherAssetPages.otherAssetsValues.schema,
           depends: formData =>
-            !!formData.assets?.otherAssetsEnhanced?.length &&
+            !!formData.assets?.otherAssets?.length &&
             formData['view:enhancedFinancialStatusReport'],
         },
         otherAssetsSummary: {

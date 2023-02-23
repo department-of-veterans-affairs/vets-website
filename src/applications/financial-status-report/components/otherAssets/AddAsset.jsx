@@ -12,7 +12,7 @@ import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 const AddAsset = props => {
   const { data, goToPath } = props;
   const { assets } = data;
-  const { otherAssetsEnhanced = [] } = assets;
+  const { otherAssets = [] } = assets;
   const dispatch = useDispatch();
 
   const RETURN_PATH = '/other-assets-summary';
@@ -22,10 +22,10 @@ const AddAsset = props => {
   const searchIndex = new URLSearchParams(window.location.search);
   let index = parseInt(searchIndex.get('index'), 10);
   if (Number.isNaN(index)) {
-    index = otherAssetsEnhanced.length;
+    index = otherAssets.length;
   }
 
-  const currentAsset = otherAssetsEnhanced[index] || {};
+  const currentAsset = otherAssets[index] || {};
 
   // Asset name data/flags
   const [assetName, setAssetName] = useState(currentAsset.name || null);
@@ -47,7 +47,7 @@ const AddAsset = props => {
     // Check for errors
     if (!nameError && !amountError) {
       // Update form data
-      const newAssets = [...otherAssetsEnhanced];
+      const newAssets = [...otherAssets];
       // update new or existing index
       newAssets[index] = {
         name: assetName,
@@ -59,7 +59,7 @@ const AddAsset = props => {
           ...data,
           assets: {
             ...assets,
-            otherAssetsEnhanced: newAssets,
+            otherAssets: newAssets,
           },
         }),
       );
@@ -159,9 +159,7 @@ const AddAsset = props => {
               className="vads-u-width--auto"
               onClick={handlers.onUpdate}
             >
-              {`${
-                otherAssetsEnhanced.length === index ? 'Add' : 'Update'
-              } asset`}
+              {`${otherAssets.length === index ? 'Add' : 'Update'} asset`}
             </button>
           </p>
         </fieldset>
@@ -173,7 +171,7 @@ const AddAsset = props => {
 AddAsset.propTypes = {
   data: PropTypes.shape({
     assets: PropTypes.shape({
-      otherAssetsEnhanced: PropTypes.arrayOf(
+      otherAssets: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string,
           amount: PropTypes.string,

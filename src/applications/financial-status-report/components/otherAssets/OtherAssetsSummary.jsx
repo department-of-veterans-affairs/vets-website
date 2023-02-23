@@ -13,7 +13,7 @@ const OtherAssetsSummary = () => {
   const formData = useSelector(state => state.form.data);
 
   const { assets } = formData;
-  const { otherAssetsEnhanced = [] } = assets;
+  const { otherAssets = [] } = assets;
 
   const onDelete = deleteIndex => {
     dispatch(
@@ -21,7 +21,7 @@ const OtherAssetsSummary = () => {
         ...formData,
         assets: {
           ...assets,
-          otherAssetsEnhanced: otherAssetsEnhanced.filter(
+          otherAssets: otherAssets.filter(
             (source, index) => index !== deleteIndex,
           ),
         },
@@ -32,10 +32,10 @@ const OtherAssetsSummary = () => {
 
   return (
     <>
-      {!otherAssetsEnhanced.length ? (
+      {!otherAssets.length ? (
         <EmptyMiniSummaryCard content={emptyPrompt} />
       ) : (
-        otherAssetsEnhanced.map((asset, index) => (
+        otherAssets.map((asset, index) => (
           <MiniSummaryCard
             editDesination={{
               pathname: '/add-other-asset',
@@ -52,7 +52,7 @@ const OtherAssetsSummary = () => {
         className="vads-c-action-link--green"
         to={{
           pathname: '/add-other-asset',
-          search: `?index=${otherAssetsEnhanced.length}`,
+          search: `?index=${otherAssets.length}`,
         }}
       >
         Add additional assets
