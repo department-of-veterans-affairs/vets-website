@@ -23,7 +23,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
-  <va-alert status="info" background-only>
+  <va-additional-info trigger="Why do we need your contact information?">
     <p>
       We may contact you by phone if we need more information about your
       application.
@@ -32,7 +32,7 @@ export const contactInfoDescription = (
       You can also provide your email address to receive updates about new
       openings in VA national cemeteries or other burial benefits.
     </p>
-  </va-alert>
+  </va-additional-info>
 );
 
 export const authorizedAgentDescription = (

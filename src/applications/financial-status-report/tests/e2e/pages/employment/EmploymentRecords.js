@@ -14,7 +14,7 @@ class EmploymentRecords {
       );
     }
     cy.get(`input[name="employerName"]`).type(employer.employerName);
-    cy.findAllByText(/Save/i, { selector: 'button' })
+    cy.findAllByText(/Continue/i, { selector: 'button' })
       .first()
       .click();
   };

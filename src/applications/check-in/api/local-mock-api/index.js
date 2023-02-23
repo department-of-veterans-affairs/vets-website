@@ -13,8 +13,9 @@ const featureToggles = require('./mocks/v2/feature-toggles/index');
 let hasBeenValidated = false;
 const mockUser = Object.freeze({
   lastName: 'Smith',
-  dob: '1989-03-15',
+  dob: '1935-04-07',
 });
+const missingUUID = 'a5895713-ca42-4244-9f38-f8b5db020d04';
 
 const responses = {
   ...commonResponses,
@@ -24,10 +25,21 @@ const responses = {
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
+    const { uuid } = req.params;
+    if (uuid === missingUUID) {
+      return res
+        .status(404)
+        .json(sessions.post.createMockMissingUuidErrorResponse());
+    }
     return res.json(sessions.get.createMockSuccessResponse(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { lastName, dob } = req.body?.session || {};
+    if (req.body?.session.uuid === missingUUID) {
+      return res
+        .status(404)
+        .json(sessions.post.createMockMissingUuidErrorResponse());
+    }
     if (!lastName) {
       return res.status(400).json(sessions.post.createMockFailedResponse());
     }

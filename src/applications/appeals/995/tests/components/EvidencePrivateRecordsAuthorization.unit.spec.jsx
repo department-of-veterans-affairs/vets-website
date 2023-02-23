@@ -19,9 +19,7 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     const checkbox = $('va-checkbox', container);
     expect(alert).to.exist;
     expect(alert.getAttribute('visible')).to.eq('false');
-    expect(alert.getAttribute('tabindex')).to.eq('-1');
     expect(checkbox).to.exist;
-    expect(checkbox.getAttribute('tabindex')).to.eq('0');
   });
 
   it('should not submit page & show alert error when unchecked', () => {
@@ -35,7 +33,6 @@ describe('<EvidencePrivateRecordsAuthorization>', () => {
     fireEvent.click($('button.usa-button-primary', container));
     const alert = $('va-alert[visible="true"]', container);
     expect(alert).to.exist;
-    expect(alert.getAttribute('tabindex')).to.eq('0');
     expect(goSpy.called).to.be.false;
   });
 

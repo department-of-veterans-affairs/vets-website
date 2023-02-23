@@ -40,7 +40,12 @@ const CreateFolderModal = props => {
       modalTitle="Create new folder"
       onCloseEvent={closeNewModal}
     >
-      <p className="vads-u-margin--0">Please enter your folder name</p>
+      <p
+        className="vads-u-margin--0"
+        data-testid="folder-enter-name-message-text"
+      >
+        Please enter your folder name
+      </p>
       <p className="vads-u-color--gray-medium vads-u-margin--0">
         (50 characters maximum)
       </p>

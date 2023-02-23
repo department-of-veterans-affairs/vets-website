@@ -79,7 +79,6 @@ const EvidenceSummary = ({
     },
   };
   const visibleError = evidenceLength === 0;
-  const alertTabindex = visibleError ? '0' : '-1';
   const H = onReviewPage ? 'h5' : 'h3';
 
   const props = {
@@ -88,6 +87,8 @@ const EvidenceSummary = ({
     testing: contentBeforeButtons === 'testing',
   };
 
+  const Header = onReviewPage ? 'h4' : 'h3';
+
   return (
     <div className={onReviewPage ? 'form-review-panel-page' : ''}>
       {/* <Element> is outside of div wrapper because of how the first element
@@ -95,11 +96,9 @@ const EvidenceSummary = ({
       <Element name="evidenceSummaryScrollElement" />
       <div>
         {/* Maintains header levels in edit mode on review & submit page */}
-        {onReviewPage && (
-          <h4 className="vads-u-font-size--h5">
-            {content.reviewPageHeaderText}
-          </h4>
-        )}
+        <Header className="vads-u-font-size--h3 vads-u-margin--0">
+          {content.summaryTitle}
+        </Header>
 
         {/* We are rendering the va-alert so the focus doesn't need to wait for
           render. Problems that show up include:
@@ -107,12 +106,7 @@ const EvidenceSummary = ({
             tabbable when hidden
           - Only render the alert content since the screenreader can still
             target the headers inside */}
-        <va-alert
-          id="no-evidence"
-          status="warning"
-          visible={visibleError}
-          tabindex={alertTabindex}
-        >
+        <va-alert id="no-evidence" status="warning" visible={visibleError}>
           {visibleError && (
             <>
               <H slot="headline">{content.missingEvidenceHeader}</H>

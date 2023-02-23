@@ -48,6 +48,7 @@
     position: relative;
     top: 2em;
   }
+
   @include media-maxwidth($medium-screen - 1) {
     .ratings-heading {
       padding-left: 1rem;
@@ -55,19 +56,25 @@
     }
   }
 
-  #school-ratings-accordion-content {
-    @include media-maxwidth($medium-screen - 1) {
-      padding-left: 0rem;
-      padding-right: 0rem;
+  .star-heading{
+    position: relative;
+    top: 35px;
+    pointer-events: none;
+    left: 190px;
+    @include media-maxwidth($medium-screen){
+      top: 60px;
+      left: 20px;
     }
+}
+
+  .ratings-star-block{
+    max-width: 8rem;
+    min-width: 8rem;
   }
 
-  .main-rating {
-    width: 160px;
-
-    @include media-maxwidth($small-screen) {
-      width: 100%;
-    }
+  .main-rating{
+    margin-left: 0% !important;
+    padding-left: 0% !important;
   }
 
   @include media-maxwidth($medium-screen - 1) {
@@ -79,7 +86,6 @@
 
   .category-rating {
     .rating {
-      max-width: 320px;
       @include media-maxwidth($medium-screen - 1) {
         max-width: none;
       }
@@ -91,16 +97,15 @@
     }
 
     .bar-outer {
-      width: 120px;
-      position: absolute;
+      width: 120px !important;
+      position: relative;
       top: 5px;
-      @include media-maxwidth($small-screen - 1) {
-        width: 100px;
-      }
+      border-radius: 10px;
     }
 
     .bar {
-      height: 16px;
+      height: 16px !important;
+      border-radius: 10px;
     }
 
     button {
@@ -109,7 +114,7 @@
       padding-left: 0;
       padding-right: 0rem;
       background-position: right 1rem center;
-      width: 18.7em;
+      width: 100%;
 
       @include media-maxwidth($medium-screen - 1) {
         background-position: right 1rem center;

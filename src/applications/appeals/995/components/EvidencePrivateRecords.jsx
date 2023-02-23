@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
   VaCheckboxGroup,
-  VaDate,
+  VaMemorableDate,
   VaModal,
   VaTextInput,
   VaSelect,
@@ -105,6 +105,8 @@ const EvidencePrivateRecords = ({
 
   const availableIssues = getSelected(data).map(getIssueName);
 
+  const addOrEdit = isEmptyPrivateEntry(currentData) ? 'add' : 'edit';
+
   // *** validations ***
   const errors = {
     unique: checkValidations(
@@ -136,7 +138,7 @@ const EvidencePrivateRecords = ({
     () => {
       setCurrentData(providerFacility?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement('#add-facility-name');
+      focusElement(hasErrors() ? '[error]' : 'h3');
       scrollTo('topPageElement');
       setForceReload(false);
     },
@@ -385,7 +387,7 @@ const EvidencePrivateRecords = ({
           className="vads-u-font-family--serif"
         >
           <h3 name="topPageElement" className="vads-u-margin--0">
-            {content.title}
+            {content.title(addOrEdit, currentIndex + 1)}
           </h3>
         </legend>
         <p>{content.description}</p>
@@ -533,7 +535,7 @@ const EvidencePrivateRecords = ({
           ))}
         </VaCheckboxGroup>
 
-        <VaDate
+        <VaMemorableDate
           id="facility-from-date"
           name="from"
           label={content.fromLabel}
@@ -543,7 +545,7 @@ const EvidencePrivateRecords = ({
           value={currentData.treatmentDateRange?.from}
           error={showError('from')}
         />
-        <VaDate
+        <VaMemorableDate
           id="facility-to-date"
           name="to"
           label={content.toLabel}
