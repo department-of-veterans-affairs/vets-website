@@ -14,7 +14,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowPaymentsNotificationSetting = false,
     profileBlockForFiduciaryDeceasedOrIncompetent = false,
     profileUseSecurityProcessList = true,
-    profileUseInfoCard = false,
+    profileUseInfoCard = true,
   } = toggles;
 
   return {
