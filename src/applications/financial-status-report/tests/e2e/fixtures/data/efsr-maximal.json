@@ -142,7 +142,7 @@
     "hasRecreationalVehicle": true,
     "hasVehicle": true,
     "hasRealEstate": true,
-    "hasDependents": "2",
+    "hasDependents": true,
     "spouseHasAdditionalIncome": true,
     "spouseHasSocialSecurity": true,
     "spouseHasBenefits": true,
