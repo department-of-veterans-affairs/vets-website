@@ -92,7 +92,7 @@ const MessageListItem = props => {
           to={`/${
             activeFolder?.folderId === DefaultFolders.DRAFTS.id
               ? 'draft'
-              : 'message'
+              : 'thread'
           }/${messageId}`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
