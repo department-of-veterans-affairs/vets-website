@@ -121,6 +121,7 @@ export default Object.freeze({
   showMbsPreneedChangeVa4010007: 'show_mbs_preneed_change_va_4010007',
   showMebDgi40Features: 'show_meb_dgi40_features',
   showMebDgi42Features: 'show_meb_dgi42_features',
+  showMebCh33SelfForm: 'show_meb_ch33_self_form',
   showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',

@@ -32,6 +32,7 @@ export const App = ({
   setFormData,
   showMebDgi40Features,
   showMebDgi42Features,
+  showMebCh33SelfForm,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -46,7 +47,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo();
+        getPersonalInfo(showMebCh33SelfForm);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -63,6 +64,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebCh33SelfForm,
     ],
   );
 
@@ -122,6 +124,18 @@ export const App = ({
     [formData, setFormData, showMebDgi42Features],
   );
 
+  useEffect(
+    () => {
+      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+        setFormData({
+          ...formData,
+          showMebCh33SelfForm,
+        });
+      }
+    },
+    [formData, setFormData, showMebCh33SelfForm],
+  );
+
   // Commenting out until Direct Deposit component is updated
   // useEffect(
   //   () => {
@@ -164,6 +178,8 @@ App.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
+  showMebCh33SelfForm: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
