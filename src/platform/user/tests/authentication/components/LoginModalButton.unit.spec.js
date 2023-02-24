@@ -16,7 +16,6 @@ const initState = {
   getBackendStatuses: sinon.spy(),
   toggleFormSignInModal: sinon.spy(),
   inModal: sinon.spy(),
-  'data-testId': 'test-id',
 };
 
 const generateState = ({
@@ -89,6 +88,7 @@ describe('onClickHandler', () => {
         className: 'usa-button',
       }),
     );
+
     expect(onClickHandlerSpy.called).to.be.true;
     expect(toggleFormSignInSpy.calledWith(true)).to.be.true;
     expect(backendStatusesSpy.called).to.be.false;

@@ -121,7 +121,7 @@ const IDPage = props => {
           <LoginModalButton
             className="va-button-link"
             message=" Sign in to start your application."
-            data-testid="idform-login-button"
+            dataTestId="idform-login-button"
           />
           <div className="vads-u-margin-top--2p5">
             <SchemaForm

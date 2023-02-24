@@ -40,9 +40,9 @@ export const onClickHandler = ({
   };
 
   const handleSignInSignUp = ({
-    signInContext,
-    googleAnalyticsEvent,
-    confirmLeavingForm,
+    signInContext = context,
+    googleAnalyticsEvent = analyticsEvent,
+    confirmLeavingForm = shouldConfirmLeavingForm,
   }) => {
     if (googleAnalyticsEvent) {
       recordEvent({ googleAnalyticsEvent });
@@ -53,6 +53,7 @@ export const onClickHandler = ({
       // Make only one upfront request to get all backend statuses to prevent
       // each identity dependency's warning banner from making duplicate
       // requests when the sign-in modal renders.
+
       getBackendStatuses();
       appendOrRemoveParameter({});
       if (signInContext) {
@@ -75,6 +76,7 @@ export const LoginModalButton = ({
   analyticsEvent,
   message = 'Sign in or create an account',
   className,
+  dataTestId,
   onClick = onClickHandler,
   ...props
 }) => {
@@ -91,6 +93,7 @@ export const LoginModalButton = ({
         })
       }
       className={className}
+      data-testId={dataTestId}
     >
       {message}
     </button>
@@ -137,6 +140,7 @@ LoginModalButton.propTypes = {
   context: PropTypes.string,
   message: PropTypes.string,
   shouldConfirmLeavingForm: PropTypes.bool,
+  testId: PropTypes.string,
   useSiS: PropTypes.bool,
   useSignInService: PropTypes.bool,
   onClick: PropTypes.func,
