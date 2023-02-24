@@ -102,14 +102,14 @@ const paymentsLinks = [
 
 const medicalSuppliesLinks = [
   {
-    href: '#fixme-hearing-aids',
-    // oldHref: mhvUrl(true, ''),
+    href: '/health-care/order-hearing-aid-batteries-and-accessories',
+    oldHref: null,
     text: 'Order hearing aid batteries and accessories',
     toggle: null,
   },
   {
-    href: '#fixme-prosthetic-socks',
-    // oldHref: mhvUrl(true, ''),
+    href: '/health-care/order-prosthetic-socks/',
+    oldHref: null,
     text: 'Order prosthetic socks',
     toggle: null,
   },
@@ -117,7 +117,7 @@ const medicalSuppliesLinks = [
 
 const myVaHealthBenefitsLinks = [
   {
-    href: '',
+    href: '/manage-va-debt/summary/copay-balances/',
     text: 'Current veteran copay rates',
   },
   {
