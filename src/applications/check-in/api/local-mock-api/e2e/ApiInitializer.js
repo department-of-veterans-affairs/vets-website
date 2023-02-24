@@ -423,6 +423,15 @@ class ApiInitializer {
         req.reply(errorCode, checkInData.get.createMockFailedResponse());
       });
     },
+    withUuidNotFoundReload: () => {
+      cy.intercept(
+        'GET',
+        `/check_in/v2/patient_check_ins/*?reload=true`,
+        req => {
+          req.reply(404, checkInData.get.createMockNotFoundResponse());
+        },
+      );
+    },
     withBadReload: ({
       extraValidation = null,
       appointments = null,

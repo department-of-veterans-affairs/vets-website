@@ -138,7 +138,7 @@ const useGetCheckInData = ({
               }
             })
             .catch(e => {
-              if (e?.errors[0]?.status === '404') {
+              if (e.errors && e?.errors[0]?.status === '404') {
                 updateError('uuid-not-found');
               } else {
                 setCheckInDataError(true);
@@ -156,7 +156,7 @@ const useGetCheckInData = ({
               setDayOfData(json.payload);
             })
             .catch(e => {
-              if (e?.errors[0]?.status === '404') {
+              if (e.errors && e.errors[0]?.status === '404') {
                 updateError('uuid-not-found');
               } else {
                 setCheckInDataError(true);
