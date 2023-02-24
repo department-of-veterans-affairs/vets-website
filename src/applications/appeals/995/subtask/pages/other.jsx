@@ -40,6 +40,13 @@ const DecisionReviewPage = () => {
       <p className="vads-u-margin-bottom--0">
         <DownloadLink content="Download VA Form 20-0995" />
       </p>
+      <p>
+        If you don’t think this is the right form for you, find out about other
+        decision review options.
+      </p>
+      <a href="/resources/choosing-a-decision-review-option/">
+        Learn about choosing a decision review option
+      </a>
     </div>
   );
 };

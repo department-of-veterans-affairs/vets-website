@@ -113,7 +113,7 @@ const EvidenceVaRecords = ({
     () => {
       setCurrentData(locations?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement(hasErrors() ? '[error]' : 'va-text-input');
+      focusElement(hasErrors() ? '[error]' : 'h3');
       scrollTo('topPageElement');
       setForceReload(false);
     },

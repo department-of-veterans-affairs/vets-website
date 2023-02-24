@@ -92,3 +92,12 @@ export const isOlderThan = (timestamp, days) => {
   const then = moment(timestamp);
   return now.diff(then, 'days') > days;
 };
+
+// Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header (or footer on mobile) to connect to the crisis line)
+export const openCrisisModal = () => {
+  const modal = document.querySelector('#modal-crisisline');
+  modal.setAttribute(
+    'class',
+    `${modal.getAttribute('class')} va-overlay--open`,
+  );
+};
