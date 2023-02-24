@@ -16,7 +16,7 @@ describe(manifest.appName, () => {
     cy.get('[data-e2e-id="my-health-4"]').should(
       'have.attr',
       'href',
-      '/my-health',
+      '/my-health/',
     );
   });
   it('shows the old link when disabled', () => {
@@ -31,7 +31,7 @@ describe(manifest.appName, () => {
     cy.get('[data-e2e-id="my-health-4"]').should(
       'have.attr',
       'href',
-      '/my-health',
+      'https://pint.eauth.va.gov/mhv-portal-web/eauth',
     );
   });
 });
