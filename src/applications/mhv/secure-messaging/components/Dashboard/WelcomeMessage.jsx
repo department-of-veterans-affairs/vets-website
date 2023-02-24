@@ -1,4 +1,5 @@
 import React from 'react';
+import FeedbackEmail from '../shared/FeedbackEmail';
 
 const WelcomeMessage = () => {
   return (
@@ -14,9 +15,8 @@ const WelcomeMessage = () => {
         and all Veterans.
       </p>
       <p>
-        Email us at <a href="mailto: mhvfeedback@va.gov">mhvfeedback@va.gov</a>{' '}
-        to tell us what you think. We can also answer questions about how to use
-        the tool.
+        Email us at <FeedbackEmail /> to tell us what you think. We can also
+        answer questions about how to use the tool.
       </p>
     </div>
   );

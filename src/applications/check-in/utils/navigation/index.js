@@ -1,5 +1,5 @@
 import { differenceInCalendarDays } from 'date-fns';
-import { travelAllowList } from '../appConstants';
+import { isInAllowList } from '../appConstants';
 
 const isWithInDays = (days, pageLastUpdated) => {
   const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
@@ -65,7 +65,7 @@ const updateFormPages = (
   if (
     !isTravelReimbursementEnabled ||
     appointments.length > 1 ||
-    !travelAllowList.includes(appointments[0].stationNo)
+    !isInAllowList(appointments[0])
   ) {
     skippedPages.push(...travelPayPages);
   }

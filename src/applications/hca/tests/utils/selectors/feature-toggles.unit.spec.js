@@ -9,6 +9,7 @@ describe('HCA Selectors', () => {
       hca_american_indian_enabled: true,
       hca_browser_monitoring_enabled: true,
       hca_enrollment_status_override_enabled: false,
+      hca_household_v2_enabled: false,
       hca_use_facilities_API: false,
       loading: false,
     },
@@ -23,6 +24,7 @@ describe('HCA Selectors', () => {
         isBrowserMonitoringEnabled: true,
         isESOverrideEnabled: false,
         isFacilitiesApiEnabled: false,
+        isHouseholdV2Enabled: false,
         isSigiEnabled: false,
       });
     });

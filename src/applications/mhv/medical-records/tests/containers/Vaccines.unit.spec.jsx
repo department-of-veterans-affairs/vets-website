@@ -4,7 +4,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import Vaccines from '../../containers/Vaccines';
 import reducer from '../../reducers';
 
-describe('Vaccine container', () => {
+describe('Vaccines list container', () => {
   const initialState = {
     mr: {
       vaccines: {
@@ -23,12 +23,18 @@ describe('Vaccine container', () => {
 
   it('renders without errors', () => {
     const screen = setup();
-    expect(screen.getByText('VA vaccines', { exact: true })).to.exist;
+    expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
   it('displays a print button', () => {
     const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
+    expect(printButton).to.exist;
+  });
+
+  it('contains an iframe for printing content', () => {
+    const screen = setup();
+    const printButton = screen.getByTitle('contentsToPrint');
     expect(printButton).to.exist;
   });
 });

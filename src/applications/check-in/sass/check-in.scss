@@ -11,11 +11,8 @@ dt{
   a {
     display: inline-block;
     padding: 0.5em 0.5em 0.5em .25em;
-
-    &::before {
-      content: " \2039 ";
-      display: inline-block;
-      padding: 0 0.15em;
+    i {
+      font-size: 10px;
     }
   }
 }

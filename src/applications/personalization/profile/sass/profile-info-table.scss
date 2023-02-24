@@ -1,6 +1,6 @@
 $corner-size: 4px;
 
-.profile-info-table {
+.profile-info-table, .profile-info-card {
   .heading {
     border-top-left-radius: $corner-size;
     border-top-right-radius: $corner-size;
@@ -10,7 +10,7 @@ $corner-size: 4px;
   // top-border override using the utility classes. And applying three utility
   // classes - one each for left, right, and bottom - felt like the wrong kind
   // of hack.
-  li.table-row {
+  li.row {
     border: 1px solid;
     border-top: 0;
     margin: 0;
@@ -24,14 +24,14 @@ $corner-size: 4px;
   }
 
   ol:first-child {
-    li.table-row:first-child {
+    li.row:first-child {
       border: 1px solid;
       border-top-left-radius: $corner-size;
       border-top-right-radius: $corner-size;
     }
   }
 
-  li.table-row:last-child {
+  li.row:last-child {
     border-bottom-left-radius: $corner-size;
     border-bottom-right-radius: $corner-size;
   }
