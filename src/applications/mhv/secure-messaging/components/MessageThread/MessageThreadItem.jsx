@@ -37,9 +37,7 @@ const MessageThreadItem = props => {
     if (!isRead && !isExpanded) {
       dispatch(markMessageAsRead(message.messageId)).then(() => {
         if (threadId) {
-          dispatch(
-            retrieveMessageThread({ threadId, isDraft: false, refresh: true }),
-          );
+          dispatch(retrieveMessageThread(threadId, false, true));
         }
       });
     }
@@ -126,7 +124,7 @@ const MessageThreadItem = props => {
 MessageThreadItem.propTypes = {
   message: PropTypes.object,
   printView: PropTypes.bool,
-  threadId: PropTypes.number,
+  threadId: PropTypes.string,
 };
 
 export default MessageThreadItem;

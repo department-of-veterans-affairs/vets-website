@@ -142,7 +142,7 @@ export const retrieveMessageThread = (
   isDraft = false,
   refresh = false,
 ) => async dispatch => {
-  if (refresh) {
+  if (!refresh) {
     dispatch(clearMessage());
   }
 
@@ -156,14 +156,11 @@ export const retrieveMessageThread = (
         type: Actions.Message.GET,
         response: msgResponse,
       });
-      if (response.data?.length > 1) {
-        dispatch({
-          type: isDraft
-            ? Actions.Draft.GET_HISTORY
-            : Actions.Message.GET_HISTORY,
-          response: { data: response.data.slice(1, response.data.length) },
-        });
-      }
+
+      dispatch({
+        type: isDraft ? Actions.Draft.GET_HISTORY : Actions.Message.GET_HISTORY,
+        response: { data: response.data.slice(1, response.data.length) },
+      });
     }
   }
 };

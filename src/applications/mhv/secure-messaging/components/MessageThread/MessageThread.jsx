@@ -40,7 +40,11 @@ const MessageThread = props => {
             {messageHistory.map((m, i) => {
               return (
                 i < viewCount && (
-                  <MessageThreadItem key={i} message={m} threadId={threadId} />
+                  <MessageThreadItem
+                    key={m.messageId}
+                    message={m}
+                    threadId={threadId}
+                  />
                 )
               );
             })}
@@ -62,7 +66,7 @@ const MessageThread = props => {
 
 MessageThread.propTypes = {
   messageHistory: PropType.array,
-  threadId: PropType.number,
+  threadId: PropType.string,
 };
 
 export default MessageThread;
