@@ -31,6 +31,7 @@ export const App = ({
   location,
   setFormData,
   showMebDgi40Features,
+  showMebDgi42Features,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -107,6 +108,18 @@ export const App = ({
       }
     },
     [formData, setFormData, showMebDgi40Features],
+  );
+
+  useEffect(
+    () => {
+      if (showMebDgi42Features !== formData.showMebDgi42Features) {
+        setFormData({
+          ...formData,
+          showMebDgi42Features,
+        });
+      }
+    },
+    [formData, setFormData, showMebDgi42Features],
   );
 
   // Commenting out until Direct Deposit component is updated
