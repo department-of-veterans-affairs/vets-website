@@ -10,7 +10,7 @@ $anchor-font-size: 1.9rem;
   margin-bottom: 0.5em;
   padding-bottom: 0.5em;
   &:not(:last-of-type) {
-    border-bottom: 1px solid $color-base;
+    border-bottom: 1px solid $color-gray-light;
   }
 }
 
