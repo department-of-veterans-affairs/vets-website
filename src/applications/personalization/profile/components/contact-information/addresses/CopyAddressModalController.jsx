@@ -114,7 +114,7 @@ const CopyAddressModal = props => {
 
   const Component = ComponentsFromStatus[copyAddressModal];
 
-  return (
+  return copyAddressModal && Component ? (
     <Component
       isLoading={isLoading}
       homeAddress={homeAddress}
@@ -123,7 +123,7 @@ const CopyAddressModal = props => {
       onYes={handlers.onYes}
       visible
     />
-  );
+  ) : null;
 };
 
 CopyAddressModal.propTypes = {
