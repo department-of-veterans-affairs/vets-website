@@ -31,6 +31,31 @@ export const messageDetailsReducer = (state = initialState, action) => {
         },
       };
     }
+    case Actions.Message.GET_IN_THREAD: {
+      const { data, included } = action.response;
+      const updatedMessage = data.attributes;
+      let updatedThread = state.messageHistory;
+      updatedThread = updatedThread.map(message => {
+        if (message.messageId === updatedMessage.messageId) {
+          const msgAttachments =
+            included &&
+            included.map(item => ({
+              id: item.id,
+              link: item.links.download,
+              ...item.attributes,
+            }));
+          return {
+            ...updatedMessage,
+            attachments: msgAttachments,
+          };
+        }
+        return message;
+      });
+      return {
+        ...state,
+        messageHistory: updatedThread,
+      };
+    }
     case Actions.Message.CLEAR:
       return {
         ...initialState,

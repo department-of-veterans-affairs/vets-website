@@ -130,6 +130,22 @@ export const markMessageAsRead = messageId => async () => {
 };
 
 /**
+ * @param {Long} messageId
+ * @returns
+ */
+export const markMessageAsReadInThread = messageId => async dispatch => {
+  const response = await getMessage(messageId);
+  if (response.errors) {
+    // TODO Add error handling
+  } else {
+    dispatch({
+      type: Actions.Message.GET_IN_THREAD,
+      response,
+    });
+  }
+};
+
+/**
  * Retrieves a message thread, and sends getMessage call to fill the most recent messasge in the thread with more context
  * such as full body text, attachments, etc.
  * @param {Long} messageId

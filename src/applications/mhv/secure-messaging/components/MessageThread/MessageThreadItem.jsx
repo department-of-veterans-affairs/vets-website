@@ -5,14 +5,10 @@ import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadMeta from './MessageThreadMeta';
 import MessageThreadBody from './MessageThreadBody';
 import MessageThreadAttachments from './MessageThreadAttachments';
-import {
-  markMessageAsRead,
-  retrieveMessageThread,
-} from '../../actions/messages';
+import { markMessageAsReadInThread } from '../../actions/messages';
 
 const MessageThreadItem = props => {
   const dispatch = useDispatch();
-  const { threadId } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const { message } = props;
   // TODO currently setting isRead to true due to a bug in the backend. This will need to be reverted once the backend is fixed.
@@ -36,12 +32,10 @@ const MessageThreadItem = props => {
       // prevent from expanding/collapsing on Tab key press for accessibility
       setIsExpanded(!isExpanded);
     }
-    if (!isRead && !isExpanded) {
-      dispatch(markMessageAsRead(message.messageId)).then(() => {
-        if (threadId) {
-          dispatch(retrieveMessageThread(threadId, false, true));
-        }
-      });
+    if (!isExpanded) {
+      // TODO replace line above with a line below once readReceipt is fixed in the backend
+      // if (!isRead && !isExpanded) {
+      dispatch(markMessageAsReadInThread(message.messageId));
     }
   };
 
