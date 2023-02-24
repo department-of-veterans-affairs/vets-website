@@ -9,6 +9,7 @@ const titles = {
   uuidNotFound: {
     en: 'We’re sorry. This link has expired.',
     es: '',
+    tl: '',
   },
 };
 
@@ -31,8 +32,8 @@ const errorMessages = {
   },
   uuidNotFound: {
     en: 'Trying to check in for an appointment? Text check in to .',
-    es: 'Lo sentimos',
-    tl: 'Paumanhin.',
+    es: '',
+    tl: '',
   },
 };
 class Error {
