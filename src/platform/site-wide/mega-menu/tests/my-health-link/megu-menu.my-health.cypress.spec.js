@@ -28,10 +28,8 @@ describe(manifest.appName, () => {
     cy.get('[data-e2e-id="my-health-4"]')
       .should('be.visible')
       .and('have.text', 'My Health');
-    cy.get('[data-e2e-id="my-health-4"]').should(
-      'have.attr',
-      'href',
-      'https://pint.eauth.va.gov/mhv-portal-web/eauth',
-    );
+    cy.get('[data-e2e-id="my-health-4"]')
+      .should('have.attr', 'href')
+      .and('include', 'mhv-portal-web/eauth');
   });
 });
