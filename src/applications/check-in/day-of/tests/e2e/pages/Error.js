@@ -40,7 +40,7 @@ class Error {
     let messageText = '';
     let titleText = '';
     switch (errorType) {
-      case 'max-valdation':
+      case 'max-validation':
         titleText = titles.default[language];
         messageText = errorMessages.maxValidation[language];
         break;
