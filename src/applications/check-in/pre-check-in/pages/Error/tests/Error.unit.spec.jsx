@@ -54,6 +54,42 @@ describe('check-in', () => {
         );
       });
     });
+    describe('uuid-not-found error', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          checkInData: {
+            appointments: [],
+            veteranData: {},
+            form: {
+              pages: [],
+            },
+            error: 'uuid-not-found',
+          },
+        };
+        store = mockStore({ ...initState, ...scheduledDowntimeState });
+      });
+      it('renders correct message', () => {
+        const component = render(
+          <Provider store={store}>
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
+          </Provider>,
+        );
+        expect(component.getByText('We’re sorry. This link has expired.')).to
+          .exist;
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'You can still check-in with your phone on the day of your appointment.',
+          ),
+        ).to.exist;
+      });
+    });
     describe('redux store with appointments but error-completing-pre-check-in', () => {
       let store;
       beforeEach(() => {

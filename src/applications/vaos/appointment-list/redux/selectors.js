@@ -6,6 +6,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -20,6 +21,7 @@ import {
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
+  isClinicVideoAppointment,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -367,14 +369,25 @@ export function selectIsInPerson(appointment) {
 }
 
 export function selectPractitionerName(appointment) {
-  const { practitioners } = appointment;
+  if (selectIsCommunityCare(appointment)) {
+    const { providerName, name } = appointment.communityCareProvider || {};
+    return providerName || name || null;
+  }
 
-  if (!practitioners?.length) return null;
+  // TODO: Refactor!!! This logic is a rewrite of the function 'getPractitionerName'
+  // located at vaos/services/appointments/index.js which is in the domain layer.
+  // It should be in the UI layer as a selector. The refactor is to remove the
+  // 'getPractitionerName' function and move all other similar functions to this
+  // layer. See the following link for details.
+  //
+  // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
+  let { practitioners = [] } = appointment || {};
+  practitioners = practitioners.map(practitioner => {
+    const { name } = practitioner;
+    return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
+  });
 
-  const practitioner = practitioners[0];
-  const { name } = practitioner;
-
-  return `${name?.given.toString().replaceAll(',', ' ')} ${name?.family}`;
+  return practitioners.length > 0 ? practitioners[0] : null;
 }
 
 export function selectAppointmentLocality(appointment) {
@@ -385,47 +398,91 @@ export function selectAppointmentLocality(appointment) {
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
 
+  if (isInPerson || isVideo || isPhone || isCommunityCare) {
+    if (typeOfCareName && practitioner) {
+      return `${typeOfCareName} with ${practitioner}`;
+    }
+
+    if (typeOfCareName) {
+      return typeOfCareName;
+    }
+
+    if (practitioner)
+      return `${
+        isCommunityCare ? 'Community care' : 'VA'
+      } appointment with ${practitioner}`;
+  }
+
+  return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
+}
+
+export function selectIsClinicVideo(appointment) {
+  return isClinicVideoAppointment(appointment);
+}
+
+export function selectIsAtlasVideo(appointment) {
+  const { isAtlas } = appointment?.videoData || {};
+  return isAtlas;
+}
+
+export function selectIsGFEVideo(appointment) {
+  const { kind } = appointment?.videoData || {};
+  return kind === VIDEO_TYPES.gfe;
+}
+
+export function selectIsHomeVideo(appointment) {
+  return (
+    selectIsVideo(appointment) &&
+    (!selectIsClinicVideo(appointment) &&
+      !selectIsAtlasVideo(appointment) &&
+      !selectIsGFEVideo(appointment))
+  );
+}
+
+export function selectModalityText(appointment) {
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideoAtlas = selectIsAtlasVideo(appointment);
+  const isVideoClinic = selectIsClinicVideo(appointment);
+  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoVADevice = selectIsGFEVideo(appointment);
+  const { name: facilityName } = appointment.vaos.facilityData || {};
+
+  // NOTE: Did confirm that you can't create an Atlas appointment without a
+  // facility but we will check anyway.
+  //
+  // TODO: What default should be displayed if the data is corrupt an there is
+  // no facility name?
+  if (facilityName && isVideoAtlas) return `At ${facilityName}`;
+
+  if (isInPerson || isVideoClinic) {
+    return facilityName ? `At ${facilityName}` : 'At VA facility';
+  }
+
+  if (isPhone) return 'Phone';
   if (isCommunityCare) return 'Community care';
-  if (isPhone) return 'VA Appointment';
-  if (isVideo)
-    return practitioner
-      ? `VA Appointment with ${practitioner}`
-      : 'VA Appointment';
-  if (isInPerson)
-    return typeOfCareName && practitioner
-      ? `${typeOfCareName} with ${practitioner}`
-      : 'VA Appointment';
+  if (isVideoHome || isVideoVADevice) return 'Video';
 
   return '';
 }
 
-export function selectModality(appointment) {
-  const isPhone = selectIsPhone(appointment);
-  const isCommunityCare = selectIsCommunityCare(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const isInPerson = selectIsInPerson(appointment);
-
-  let modaility = 'person';
-
-  if (isPhone) modaility = 'Phone call';
-  if (isCommunityCare) modaility = 'Community care';
-  if (isVideo) modaility = 'Video appointment';
-  if (isInPerson) modaility = 'In person';
-
-  return modaility;
-}
-
 export function selectModalityIcon(appointment) {
-  const isPhone = selectIsPhone(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const isInPerson = selectIsInPerson(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
+  const isInPerson = selectIsInPerson(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideoAtlas = selectIsAtlasVideo(appointment);
+  const isVideoClinic = selectIsClinicVideo(appointment);
+  const isVideoHome = selectIsHomeVideo(appointment);
+  const isVideoVADevice = selectIsGFEVideo(appointment);
 
-  let icon = 'fa-building';
+  let icon = 'fa-blank';
+
+  if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'fa-building';
+  if (isVideoHome || isVideoVADevice) icon = 'fa-video';
 
   if (isPhone) icon = 'fa-phone-alt';
-  if (isVideo) icon = 'fa-video';
-  if (isInPerson || isCommunityCare) icon = 'fa-building';
+  if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
 }

@@ -38,7 +38,7 @@ describe('check-in', () => {
       );
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
-      expect(heading).to.contain.text('Need Help?');
+      expect(heading).to.contain.text('Need help?');
       expect(component.getByTestId('day-of-check-in-message')).to.exist;
       expect(component.queryByTestId('pre-check-in-message')).to.not.exist;
       expect(component.queryByTestId('day-of-travel-extra-message')).to.not
@@ -74,7 +74,7 @@ describe('check-in', () => {
       );
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
-      expect(heading).to.contain.text('Need Help?');
+      expect(heading).to.contain.text('Need help?');
       expect(component.queryByTestId('day-of-check-in-message')).to.not.exist;
       expect(component.queryByTestId('intro-extra-message')).to.not.exist;
       expect(component.getByTestId('pre-check-in-message')).to.exist;
