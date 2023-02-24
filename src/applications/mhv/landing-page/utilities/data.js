@@ -1,22 +1,23 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
+// TODO: Confirm if deeplinking param needs to start with `mhv-portal-web`, per <https://dsva.slack.com/archives/C04DRS3L9NV/p1677263626661019?thread_ts=1677262716.609699&cid=C04DRS3L9NV>
 
 const appointmentLinks = [
   {
     href: null,
-    oldHref: mhvUrl(true, 'appointments'),
+    oldHref: mhvUrl(true, '/schedule-or-cancel-a-va-appointment-online'),
     text: 'Schedule and manage appointments',
     toggle: null,
   },
   {
-    href: '/mhv-portal-web/appointments',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, 'appointments'),
     text: 'Your VA appointments',
     toggle: null,
   },
   {
     href: '/find-locations',
-    // oldHref: mhvUrl(true, ''),
+    oldHref: null,
     text: 'Find VA locations',
     toggle: null,
   },
@@ -24,20 +25,20 @@ const appointmentLinks = [
 
 const messagesLinks = [
   {
-    href: '/mhv-portal-web/compose-message',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/mhv-portal-web/compose-message'),
     text: 'Compose message',
     toggle: null,
   },
   {
-    href: '/mhv-portal-web/inbox',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/mhv-portal-web/inbox'),
     text: 'Inbox',
     toggle: null,
   },
   {
-    href: '/mhv-portal-web/manage-folders',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/mhv-portal-web/manage-folders'),
     text: 'Manage folders',
     toggle: null,
   },
@@ -45,20 +46,20 @@ const messagesLinks = [
 
 const medicationsLinks = [
   {
-    href: '/refill-prescriptions',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, 'prescription_refill'),
     text: 'Refill VA prescriptions',
     toggle: null,
   },
   {
-    href: '/prescription-tracking',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/prescription-tracking'),
     text: 'Track prescription delivery',
     toggle: null,
   },
   {
-    href: '/my-complete-medications-list',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/my-complete-medications-list'),
     text: 'My medications and allergies',
     toggle: null,
   },
@@ -66,20 +67,20 @@ const medicationsLinks = [
 
 const healthRecordsLinks = [
   {
-    href: '/download-my-data',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/download-my-data'),
     text: 'Download my medical record (Blue Button)',
     toggle: null,
   },
   {
-    href: '/labs-tests',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/labs-tests'),
     text: 'Lab and test results',
     toggle: null,
   },
   {
-    href: '/mhv-portal-web/health-history',
-    // oldHref: mhvUrl(true, ''),
+    href: null,
+    oldHref: mhvUrl(true, '/mhv-portal-web/health-history'),
     text: 'Health history',
     toggle: null,
   },
@@ -88,13 +89,13 @@ const healthRecordsLinks = [
 const paymentsLinks = [
   {
     href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-    // oldHref: mhvUrl(true, ''),
+    oldHref: null,
     text: 'File a claim for travel reimbursement',
     toggle: null,
   },
   {
     href: 'https://pay.gov/public/form/start/25987221',
-    // oldHref: mhvUrl(true, ''),
+    oldHref: null,
     text: 'Pay your copay bill',
     toggle: null,
   },
