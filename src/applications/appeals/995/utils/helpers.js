@@ -6,6 +6,7 @@ import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
+  FORMAT_YMD,
 } from '../constants';
 
 /**
@@ -45,17 +46,16 @@ import {
  * @returns
  */
 /** Filter out ineligible contestable issues:
- * - remove issues more than one year past their decision date
+ * - remove issues with an invalid decision date
  * - remove issues that are deferred
  * @prop {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
  * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
-  const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
-      approxDecisionDate = '',
+      approxDecisionDate,
       ratingIssueSubjectText = '',
       description = '',
     } = issue?.attributes || {};
@@ -63,11 +63,12 @@ export const getEligibleContestableIssues = issues => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
-      return false;
-    }
-    return date.add(1, 'years').isAfter(today);
+    return (
+      !isDeferred &&
+      ratingIssueSubjectText &&
+      approxDecisionDate &&
+      moment(approxDecisionDate, FORMAT_YMD).isValid()
+    );
   });
 };
 

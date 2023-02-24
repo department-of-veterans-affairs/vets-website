@@ -21,6 +21,21 @@ const AppointmentListItemVaos = props => {
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
 
+  const infoBlockMessage = () => {
+    if (appointment?.kind === 'phone') {
+      return (
+        <span data-testid="phone-msg-confirmation">
+          {t('your-provider-will-call-you-at-your-appointment-time')}
+        </span>
+      );
+    }
+    return (
+      <span data-testid="in-person-msg-confirmation">
+        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+      </span>
+    );
+  };
+
   return (
     <li
       className="vads-u-border-bottom--1px check-in--appointment-item"
@@ -92,6 +107,17 @@ const AppointmentListItemVaos = props => {
             </>
           )}
       </div>
+      {app === APP_NAMES.PRE_CHECK_IN &&
+        page === 'confirmation' && (
+          <va-alert
+            background-only
+            show-icon
+            data-testid="appointment-message"
+            class="vads-u-margin-bottom--2"
+          >
+            <div>{infoBlockMessage()}</div>
+          </va-alert>
+        )}
     </li>
   );
 };

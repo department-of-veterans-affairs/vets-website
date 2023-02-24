@@ -44,6 +44,10 @@ const BackButton = props => {
         className="row check-in-back-button columns"
       >
         <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
+          <i
+            aria-hidden="true"
+            className="fas fa-angle-left vads-u-margin-right--0p25"
+          />
           {text || t('back-to-last-screen')}
         </Link>
       </nav>
