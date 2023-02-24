@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
 const IdentityNotVerified = ({
-  // additionalInfoClickHandler = null,
   headline = 'Verify your identity to view your complete profile',
 }) => {
   return (
@@ -38,15 +37,10 @@ const IdentityNotVerified = ({
       </va-alert>
 
       <p className="vads-u-margin-y--4">
-        {/* <a
-          onClick={additionalInfoClickHandler}
-          href="/resources/verifying-your-identity-on-vagov/"
-        >
-          Learn how to verify your identity on VA.gov
-        </a> */}
         <va-link
           href="/resources/verifying-your-identity-on-vagov/"
           text="Learn how to verify your identity on VA.gov"
+          data-testid="verify-identity-link"
         />
       </p>
     </>
