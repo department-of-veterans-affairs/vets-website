@@ -108,24 +108,12 @@ export const App = ({
           showMebDgi40Features,
         });
       }
-    },
-    [formData, setFormData, showMebDgi40Features],
-  );
-
-  useEffect(
-    () => {
       if (showMebDgi42Features !== formData.showMebDgi42Features) {
         setFormData({
           ...formData,
           showMebDgi42Features,
         });
       }
-    },
-    [formData, setFormData, showMebDgi42Features],
-  );
-
-  useEffect(
-    () => {
       if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
         setFormData({
           ...formData,
@@ -133,7 +121,13 @@ export const App = ({
         });
       }
     },
-    [formData, setFormData, showMebCh33SelfForm],
+    [
+      formData,
+      setFormData,
+      showMebDgi40Features,
+      showMebDgi42Features,
+      showMebCh33SelfForm,
+    ],
   );
 
   // Commenting out until Direct Deposit component is updated
