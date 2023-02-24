@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import RecordListItem from '../../components/RecordListItem';
+import RecordListItem from '../../components/RecordList/RecordListItem';
 import reducer from '../../reducers';
 import vaccines from '../fixtures/vaccines.json';
 
@@ -39,7 +39,7 @@ describe('Record list item component', () => {
   it('should contain a link to view record details', () => {
     const screen = setup();
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'View details',
+      name: 'Details',
     });
     expect(recordDetailsLink).to.exist;
   });

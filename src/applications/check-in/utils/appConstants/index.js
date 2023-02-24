@@ -232,7 +232,29 @@ const addressFormFields = Object.freeze({
   ],
 });
 // Station numbers of stations where travel pay is enabled.
-const travelAllowList = ['0001', '500', '530'];
+const travelAllowList = {
+  '0001': {
+    clinics: ['0001'],
+  },
+  '500': {},
+  '530': {},
+};
+
+const isInAllowList = appointment => {
+  const { clinicIen, stationNo } = appointment;
+  const passesClinic = () => {
+    const hasClinic = 'clinics' in travelAllowList[stationNo];
+    if (!hasClinic) {
+      return true;
+    }
+    const clinicsList = travelAllowList[stationNo].clinics;
+
+    return clinicsList.includes(clinicIen);
+  };
+  const stations = Object.keys(travelAllowList);
+
+  return stations.includes(stationNo) && passesClinic();
+};
 
 export {
   APP_NAMES,
@@ -240,5 +262,5 @@ export {
   getLabelForEditField,
   addressFormFields,
   baseCities,
-  travelAllowList,
+  isInAllowList,
 };

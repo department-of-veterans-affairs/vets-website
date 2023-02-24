@@ -10,7 +10,7 @@ const ComposeMessageButton = () => {
         data-testid="compose-message-link"
       >
         <i className="fas fa-edit vads-u-margin-right--1" aria-hidden />
-        Compose message
+        Start a new message
       </Link>
     </div>
   );

@@ -22,6 +22,12 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage).to.equal('');
     expect(isValidDate(date)).to.be.true;
   });
+  it('should allow valid dates without a leading zero', () => {
+    const date = '2020-1-1';
+    validateDate(errors, date);
+    expect(errorMessage).to.equal('');
+    expect(isValidDate(date)).to.be.true;
+  });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
     expect(errorMessage).to.eq(errorMessages.decisions.missingDate);

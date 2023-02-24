@@ -22,29 +22,18 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
     ).as('customFolder');
 
     cy.get('[data-testid="my-folders-sidebar"]').click();
-
-    // cy.wait('@customFolder');
-    // cy.wait('@test2Folder');
     cy.contains('TEST2').click();
-
-    // cy.injectAxe();
-    // cy.axeCheck();
     cy.wait('@customFolder');
     cy.wait('@test2Folder');
     cy.get('.right-button').click({ force: true });
 
     cy.get('[class="modal hydrated"]')
       .shadow()
-      .find('[class="va-modal-inner va-modal-alert"]');
+      .find('[class="va-modal-inner"]');
 
     cy.get('[visible=""] > p');
-
-    // For edit button
-    // cy.get('.left-button')
-    //     .click({ force: true });
-    // cy.get('[name="new-folder-name"]')
-    //     .shadow()
-    //     .find('[id="inputField"]')
-    //     .type('Testing');
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.realPress(['Enter']);
   });
 });
