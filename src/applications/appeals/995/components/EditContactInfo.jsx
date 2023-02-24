@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 
+import { focusElement } from 'platform/utilities/ui';
 import { CONTACT_INFO_PATH } from '../constants';
+import { setReturnState } from '../utils/contactInfo';
 
-const buildPage = ({ title, field, goToPath }) => {
+const BuildPage = ({ title, field, id, goToPath }) => {
+  const headerRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
+
   const onReviewPage = window.sessionStorage.getItem('onReviewPage') === 'true';
   const returnPath = onReviewPage
     ? '/review-and-submit'
@@ -19,9 +32,11 @@ const buildPage = ({ title, field, goToPath }) => {
       event.stopPropagation();
     },
     cancel: () => {
+      setReturnState(id, 'canceled');
       goToPath(returnPath);
     },
     success: () => {
+      setReturnState(id, 'updated');
       goToPath(returnPath);
     },
   };
@@ -29,7 +44,7 @@ const buildPage = ({ title, field, goToPath }) => {
   return (
     <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <InitializeVAPServiceID>
-        <h3>{title}</h3>
+        <h3 ref={headerRef}>{title}</h3>
         <ProfileInformationFieldController
           forceEditView
           fieldName={FIELD_NAMES[field]}
@@ -42,14 +57,18 @@ const buildPage = ({ title, field, goToPath }) => {
   );
 };
 
-export const EditHomePhone = ({ title, goToPath }) =>
-  buildPage({ title, goToPath, field: 'HOME_PHONE' });
+export const EditHomePhone = props => (
+  <BuildPage {...props} field="HOME_PHONE" id="home-phone" />
+);
 
-export const EditMobilePhone = ({ title, goToPath }) =>
-  buildPage({ title, goToPath, field: 'MOBILE_PHONE' });
+export const EditMobilePhone = props => (
+  <BuildPage {...props} field="MOBILE_PHONE" id="mobile-phone" />
+);
 
-export const EditEmail = ({ title, goToPath }) =>
-  buildPage({ title, goToPath, field: 'EMAIL' });
+export const EditEmail = props => (
+  <BuildPage {...props} field="EMAIL" id="email" />
+);
 
-export const EditAddress = ({ title, goToPath }) =>
-  buildPage({ title, goToPath, field: 'MAILING_ADDRESS' });
+export const EditAddress = props => (
+  <BuildPage {...props} field="MAILING_ADDRESS" id="address" />
+);

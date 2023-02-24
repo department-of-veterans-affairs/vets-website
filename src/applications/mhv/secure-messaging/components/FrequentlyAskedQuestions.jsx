@@ -1,4 +1,6 @@
 import React from 'react';
+import FeedbackEmail from './shared/FeedbackEmail';
+import { openCrisisModal } from '../util/helpers';
 
 const FrequentlyAskedQuestions = ({ prefLink }) => {
   return (
@@ -52,31 +54,27 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             Only use messages for non-urgent needs. After you send a message, it
             can take up to 3 business days to get a reply.
           </p>
-          <p>
-            Here’s how to get help for urgent needs:
-            <ul>
-              <li>
-                <strong>If you think your life or health is in danger, </strong>{' '}
-                call <va-telephone contact="911" /> or go to the nearest
-                emergency room.
-              </li>
-              <li>
-                <strong>
-                  If you’re in crisis or having thoughts of suicide,{' '}
-                </strong>{' '}
-                our Veterans Crisis Line offers confidential support anytime day
-                or night.
-                <br />
-                <a
-                  href="https://988lifeline.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Connect with the Veterans Crisis Line
-                </a>
-              </li>
-            </ul>
-          </p>
+          <p>Here’s how to get help for urgent needs:</p>
+          <ul>
+            <li>
+              <strong>
+                If you’re in crisis or having thoughts of suicide,{' '}
+              </strong>{' '}
+              our Veterans Crisis Line offers confidential support anytime day
+              or night.
+              <br />
+              <va-button
+                secondary="true"
+                text="Connect with the Veterans Crisis Line"
+                onClick={openCrisisModal}
+              />
+            </li>
+            <li>
+              <strong>If you think your life or health is in danger, </strong>{' '}
+              call <va-telephone contact="911" /> or go to the nearest emergency
+              room.
+            </li>
+          </ul>
         </va-accordion-item>
 
         <va-accordion-item>
@@ -127,8 +125,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             you have questions about your settings, you can send us an email.
           </p>
           <p>
-            Email us at{' '}
-            <a href="mailto: mhvfeedback@va.gov">mhvfeedback@va.gov</a>
+            Email us at <FeedbackEmail />
           </p>
         </va-accordion-item>
       </va-accordion>
