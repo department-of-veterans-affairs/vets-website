@@ -1,4 +1,5 @@
 import React from 'react';
+import FeedbackEmail from './shared/FeedbackEmail';
 import { openCrisisModal } from '../util/helpers';
 
 const FrequentlyAskedQuestions = ({ prefLink }) => {
@@ -124,8 +125,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             you have questions about your settings, you can send us an email.
           </p>
           <p>
-            Email us at{' '}
-            <a href="mailto: mhvfeedback@va.gov">mhvfeedback@va.gov</a>
+            Email us at <FeedbackEmail />
           </p>
         </va-accordion-item>
       </va-accordion>
