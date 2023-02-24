@@ -1,250 +1,267 @@
-import { mhvBaseUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
-// The cards structure represents rows and columns of cards as a multidimensonal array
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 
+const appointmentLinks = [
+  {
+    href: null,
+    oldHref: mhvUrl(true, 'appointments'),
+    text: 'Schedule and manage appointments',
+    toggle: null,
+  },
+  {
+    href: '/mhv-portal-web/appointments',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Your VA appointments',
+    toggle: null,
+  },
+  {
+    href: '/find-locations',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Find VA locations',
+    toggle: null,
+  },
+];
+
+const messagesLinks = [
+  {
+    href: '/mhv-portal-web/compose-message',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Compose message',
+    toggle: null,
+  },
+  {
+    href: '/mhv-portal-web/inbox',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Inbox',
+    toggle: null,
+  },
+  {
+    href: '/mhv-portal-web/manage-folders',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Manage folders',
+    toggle: null,
+  },
+];
+
+const medicationsLinks = [
+  {
+    href: '/refill-prescriptions',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Refill VA prescriptions',
+    toggle: null,
+  },
+  {
+    href: '/prescription-tracking',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Track prescription delivery',
+    toggle: null,
+  },
+  {
+    href: '/my-complete-medications-list',
+    // oldHref: mhvUrl(true, ''),
+    text: 'My medications and allergies',
+    toggle: null,
+  },
+];
+
+const healthRecordsLinks = [
+  {
+    href: '/download-my-data',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Download my medical record (Blue Button)',
+    toggle: null,
+  },
+  {
+    href: '/labs-tests',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Lab and test results',
+    toggle: null,
+  },
+  {
+    href: '/mhv-portal-web/health-history',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Health history',
+    toggle: null,
+  },
+];
+
+const paymentsLinks = [
+  {
+    href: 'https://dvagov-btsss.dynamics365portals.us/signin',
+    // oldHref: mhvUrl(true, ''),
+    text: 'File a claim for travel reimbursement',
+    toggle: null,
+  },
+  {
+    href: 'https://pay.gov/public/form/start/25987221',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Pay your copay bill',
+    toggle: null,
+  },
+];
+
+const medicalSuppliesLinks = [
+  {
+    href: '#fixme-hearing-aids',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Order hearing aid batteries and accessories',
+    toggle: null,
+  },
+  {
+    href: '#fixme-prosthetic-socks',
+    // oldHref: mhvUrl(true, ''),
+    text: 'Order prosthetic socks',
+    toggle: null,
+  },
+];
+
+const myVaHealthBenefitsLinks = [
+  {
+    href: '',
+    text: 'Current veteran copay rates',
+  },
+  {
+    href: '',
+    text: 'Mental health services',
+  },
+  {
+    href: '',
+    text: 'Dental care',
+  },
+  {
+    href: '',
+    text: 'Community Care',
+  },
+  {
+    href: '',
+    text: 'Update my health benefits info (10-10EZR)',
+  },
+  {
+    href: '',
+    text: 'My health information card',
+  },
+  {
+    href: '',
+    text: 'Download my IRS 1095-B form',
+  },
+];
+
+const moreResourcesLinks = [
+  {
+    href: '',
+    text: 'The PAC Act and your benefits',
+  },
+  {
+    href: '',
+    text: 'Check your mental health',
+  },
+  {
+    href: '',
+    text: 'Veterans Health Library',
+  },
+  {
+    href: '',
+    text: 'Healthy Living Centers',
+  },
+  {
+    href: '',
+    text: 'The My HealtheVet community',
+  },
+  {
+    href: '',
+    text: "VA's Whole Health living",
+  },
+  {
+    href: '',
+    text: 'How to use VA Video Connect',
+  },
+];
+
+const spotlightLinks = [
+  {
+    href: '',
+    text: 'Five Exercises for Balance',
+  },
+  {
+    href: '',
+    text: 'Recognizing a Heart Attack',
+  },
+  {
+    href: '',
+    text: 'Get the New Toxic Exposure Screening',
+  },
+  {
+    href: '',
+    text: 'Need Internet or a Tablet for Appointments?',
+  },
+  {
+    href: '',
+    text: 'Top Five Health Threats to Men',
+  },
+  {
+    href: '',
+    text: '',
+  },
+  {
+    href: '',
+    text: '',
+  },
+];
+
+// The cards structure represents rows and columns of cards as a multidimensonal array
 const data = {
   cards: [
     [
       {
         title: 'Appoinments',
         icon: 'calendar',
-        links: [
-          {
-            href: '/schedule-or-cancel-a-va-appointment-online',
-            text: 'Schedule and manage appointments',
-            migrated: false,
-          },
-          {
-            href: '/mhv-portal-web/appointments',
-            text: 'Your VA appointments',
-            migrated: false,
-          },
-          {
-            href: '/find-locations',
-            text: 'Find VA locations',
-            migrated: true,
-          },
-        ],
+        links: appointmentLinks,
       },
       {
         title: 'Messages',
         icon: 'comments',
-        links: [
-          {
-            href: '/mhv-portal-web/compose-message',
-            text: 'Compose message',
-            migrated: false,
-          },
-          {
-            href: '/mhv-portal-web/inbox',
-            text: 'Inbox',
-            migrated: false,
-          },
-          {
-            href: '/mhv-portal-web/manage-folders',
-            text: 'Manage folders',
-            migrated: false,
-          },
-        ],
+        links: messagesLinks,
       },
     ],
     [
       {
         title: 'Medications',
         icon: 'prescription-bottle',
-        links: [
-          {
-            href: '/refill-prescriptions',
-            text: 'Refill VA prescriptions',
-            migrated: false,
-          },
-          {
-            href: '/prescription-tracking',
-            text: 'Track prescription delivery',
-            migrated: false,
-          },
-          {
-            href: '/my-complete-medications-list',
-            text: 'My medications and allergies',
-            migrated: false,
-          },
-        ],
+        links: medicationsLinks,
       },
       {
         title: 'Health records',
         icon: 'file-medical',
-        links: [
-          {
-            href: '/download-my-data',
-            text: 'Download my medical record (Blue Button)',
-            migrated: false,
-          },
-          {
-            href: '/labs-tests',
-            text: 'Lab and test results',
-            migrated: false,
-          },
-          {
-            href: '/mhv-portal-web/health-history',
-            text: 'Health history',
-            migrated: false,
-          },
-        ],
+        links: healthRecordsLinks,
       },
     ],
     [
       {
         title: 'Payments',
         icon: 'dollar-sign',
-        links: [
-          {
-            href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-            text: 'File a claim for travel reimbursement',
-            migrated: false,
-          },
-          {
-            href: 'https://pay.gov/public/form/start/25987221',
-            text: 'Pay your copay bill',
-            migrated: false,
-          },
-        ],
+        links: paymentsLinks,
       },
       {
         title: 'Medical supplies and equipment',
         icon: 'deaf',
-        links: [
-          {
-            href: '#fixme-hearing-aids',
-            text: 'Order hearing aid batteries and accessories',
-            migrated: false,
-          },
-          {
-            href: '#fixme-prosthetic-socks',
-            text: 'Order prosthetic socks',
-            migrated: false,
-          },
-        ],
+        links: medicalSuppliesLinks,
       },
     ],
   ],
   hub: [
     {
       title: 'My VA health benefits',
-      links: [
-        {
-          href: '',
-          text: 'Current veteran copay rates',
-        },
-        {
-          href: '',
-          text: 'Mental health services',
-        },
-        {
-          href: '',
-          text: 'Dental care',
-        },
-        {
-          href: '',
-          text: 'Community Care',
-        },
-        {
-          href: '',
-          text: 'Update my health benefits info (10-10EZR)',
-        },
-        {
-          href: '',
-          text: 'My health information card',
-        },
-        {
-          href: '',
-          text: 'Download my IRS 1095-B form',
-        },
-      ],
+      links: myVaHealthBenefitsLinks,
     },
     {
       title: 'More resources and support',
-      links: [
-        {
-          href: '',
-          text: 'The PAC Act and your benefits',
-        },
-        {
-          href: '',
-          text: 'Check your mental health',
-        },
-        {
-          href: '',
-          text: 'Veterans Health Library',
-        },
-        {
-          href: '',
-          text: 'Healthy Living Centers',
-        },
-        {
-          href: '',
-          text: 'The My HealtheVet community',
-        },
-        {
-          href: '',
-          text: "VA's Whole Health living",
-        },
-        {
-          href: '',
-          text: 'How to use VA Video Connect',
-        },
-      ],
+      links: moreResourcesLinks,
     },
     {
       title: 'In the Spotlight',
-      links: [
-        {
-          href: '',
-          text: 'Five Exercises for Balance',
-        },
-        {
-          href: '',
-          text: 'Recognizing a Heart Attack',
-        },
-        {
-          href: '',
-          text: 'Get the New Toxic Exposure Screening',
-        },
-        {
-          href: '',
-          text: 'Need Internet or a Tablet for Appointments?',
-        },
-        {
-          href: '',
-          text: 'Top Five Health Threats to Men',
-        },
-        {
-          href: '',
-          text: '',
-        },
-        {
-          href: '',
-          text: '',
-        },
-      ],
+      links: spotlightLinks,
     },
   ],
 };
 
-const normalizeLinks = d => {
-  const nCards = d.cards.map(row => {
-    return row.map(card => {
-      // TODO: Process unmigrated card links
-      const newLinks = card.links.map(link => {
-        const updatedLink = { ...link };
-        if (link?.migrated === false && !link.href.startsWith('http')) {
-          updatedLink.href = `${mhvBaseUrl()}${link.href}`;
-        }
-        return updatedLink;
-      });
-      return { ...card, links: newLinks };
-    });
-  });
-  return { ...d, cards: nCards };
-};
-
-export default normalizeLinks(data);
+export default data;
