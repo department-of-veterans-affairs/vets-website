@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import debounce from '../../utilities/data/debounce';
 
 import ReviewChapters from 'platform/forms-system/src/js/review/ReviewChapters';
 import SubmitController from 'platform/forms-system/src/js/review/SubmitController';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '../../monitoring/DowntimeNotification';
 import get from '../../utilities/data/get';
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import debounce from '../../utilities/data/debounce';
 import { toggleLoginModal } from '../../site-wide/user-nav/actions';
 import SaveStatus from './SaveStatus';
 import { autoSaveForm } from './actions';
@@ -27,13 +27,15 @@ class RoutedSavableReviewPage extends React.Component {
 
   componentDidMount() {
     scrollToTop('topScrollElement', getScrollOptions());
+    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
+    // containing multiple pages, so the h2 won't be unique between pages
     focusElement('h2');
   }
 
   autoSave = () => {
     const { form, user } = this.props;
     if (user.login.currentlyLoggedIn) {
-      const data = form.data;
+      const { data } = form;
       const { formId, version, submission } = form;
       const returnUrl = this.props.location.pathname;
 
@@ -88,7 +90,7 @@ class RoutedSavableReviewPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const route = ownProps.route;
+  const { route } = ownProps;
   const { formConfig, pageList, path } = route;
 
   const { form, user } = state;
