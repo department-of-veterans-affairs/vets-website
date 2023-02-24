@@ -1,4 +1,4 @@
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
 
 export default [
   {
