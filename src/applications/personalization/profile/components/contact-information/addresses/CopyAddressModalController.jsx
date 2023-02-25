@@ -24,13 +24,6 @@ import CopyAddressModalPrompt from './CopyAddressModalPrompt';
 import CopyAddressModalSuccess from './CopyAddressModalSuccess';
 import CopyAddressModalFailure from './CopyAddressModalFailure';
 
-const ComponentsFromStatus = {
-  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT]: CopyAddressModalPrompt,
-  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING]: CopyAddressModalPrompt,
-  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS]: CopyAddressModalSuccess,
-  [VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE]: CopyAddressModalFailure,
-};
-
 const CopyAddressModal = props => {
   const {
     mailingAddress = null,
@@ -112,18 +105,35 @@ const CopyAddressModal = props => {
     },
   };
 
-  const Component = ComponentsFromStatus[copyAddressModal];
-
-  return copyAddressModal && Component ? (
-    <Component
-      isLoading={isLoading}
-      homeAddress={homeAddress}
-      mailingAddress={mailingAddress}
-      onClose={handlers.onCloseModal}
-      onYes={handlers.onYes}
-      visible
-    />
-  ) : null;
+  // TODO: make this logic for showing the modal more straightforward
+  return (
+    <>
+      {(copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
+        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING) && (
+        <CopyAddressModalPrompt
+          isLoading={isLoading}
+          homeAddress={homeAddress}
+          mailingAddress={mailingAddress}
+          onClose={handlers.onCloseModal}
+          onYes={handlers.onYes}
+          visible
+        />
+      )}
+      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS && (
+        <CopyAddressModalSuccess
+          address={homeAddress}
+          onClose={handlers.onCloseSuccessModal}
+          visible
+        />
+      )}
+      {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE && (
+        <CopyAddressModalFailure
+          onClose={handlers.onCloseFailureModal}
+          visible
+        />
+      )}
+    </>
+  );
 };
 
 CopyAddressModal.propTypes = {
@@ -135,7 +145,6 @@ CopyAddressModal.propTypes = {
   updateCopyAddressModalAction: PropTypes.func.isRequired,
   copyAddressModal: PropTypes.string,
   mailingAddress: PropTypes.object,
-  shouldProfileShowAddressChangeModal: PropTypes.bool,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
 };
