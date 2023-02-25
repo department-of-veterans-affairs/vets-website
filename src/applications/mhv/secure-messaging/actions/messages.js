@@ -13,6 +13,21 @@ import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { isOlderThan } from '../util/helpers';
 
+const oldMessageAlert = (sentDate, isDraft = false) => dispatch => {
+  if (!isDraft && isOlderThan(sentDate, 45)) {
+    dispatch(
+      addAlert(
+        Constants.ALERT_TYPE_INFO,
+        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
+        Constants.Alerts.Message.CANNOT_REPLY_BODY,
+        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
+        Constants.Links.Link.CANNOT_REPLY.TO,
+        Constants.Links.Link.CANNOT_REPLY.TITLE,
+      ),
+    );
+  }
+};
+
 /**
  * @param {Long} folderId
  * @param {Boolean} update true if using auto-refresh to prevent messageList redux
@@ -104,18 +119,7 @@ export const retrieveMessage = (
 
   // Info handling for old messages
   const { sentDate } = response.data.attributes;
-  if (!isDraft && isOlderThan(sentDate, 45)) {
-    dispatch(
-      addAlert(
-        Constants.ALERT_TYPE_INFO,
-        Constants.Alerts.Message.CANNOT_REPLY_INFO_HEADER,
-        Constants.Alerts.Message.CANNOT_REPLY_BODY,
-        Constants.Links.Link.CANNOT_REPLY.CLASSNAME,
-        Constants.Links.Link.CANNOT_REPLY.TO,
-        Constants.Links.Link.CANNOT_REPLY.TITLE,
-      ),
-    );
-  }
+  dispatch(oldMessageAlert(sentDate, isDraft));
 };
 
 /**
@@ -168,6 +172,8 @@ export const retrieveMessageThread = (
   } else {
     const msgResponse = await getMessage(response.data[0].attributes.messageId);
     if (!msgResponse.errors) {
+      const { sentDate } = msgResponse.data.attributes;
+      dispatch(oldMessageAlert(sentDate, isDraft));
       dispatch({
         type: Actions.Message.GET,
         response: msgResponse,
