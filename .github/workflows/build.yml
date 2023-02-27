@@ -29,8 +29,8 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
   
-    - name: Copy the ssl cert in the current build directory
-      run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem .
+    #- name: Copy the ssl cert in the current build directory
+      #run: cp /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem .
     
     - name: List the files in the current directory
       run: ls
