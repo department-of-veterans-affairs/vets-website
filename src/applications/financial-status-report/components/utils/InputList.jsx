@@ -16,6 +16,7 @@ const InputList = ({
       {inputs?.map((input, key) => (
         <div key={input.name + key} className="vads-u-margin-y--2">
           <va-number-input
+            className="no-wrap input-size-3"
             error={
               submitted && errorList.includes(input.name)
                 ? 'Enter valid dollar amount'

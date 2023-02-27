@@ -97,7 +97,7 @@ const AddAsset = props => {
             Add your additional assets
           </legend>
           <VaTextInput
-            className="input-size-6"
+            className="no-wrap input-size-3"
             error={(submitted && nameError) || null}
             id="add-other-asset-name"
             label="What is the asset?"
@@ -109,7 +109,7 @@ const AddAsset = props => {
             value={assetName || ''}
           />
           <VaNumberInput
-            className="input-size-6"
+            className="no-wrap input-size-3"
             error={(submitted && amountError) || null}
             id="add-other-asset-amount"
             inputmode="decimal"
