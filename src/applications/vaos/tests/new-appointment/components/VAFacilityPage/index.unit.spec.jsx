@@ -39,7 +39,6 @@ describe('VAOS <VAFacilityPage>', () => {
     const initialState = {
       featureToggles: {
         vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingStatusImprovement: false,
       },
       user: {
         profile: {
