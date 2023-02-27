@@ -4,7 +4,7 @@ FROM public.ecr.aws/bitnami/node:14.15.5
 
 RUN mkdir -p /etc/ssl/certs
 WORKDIR /etc/ssl/certs
-COPY VA-Internal-S2-RCA1-v1.cer.pem .
+#COPY VA-Internal-S2-RCA1-v1.cer.pem .
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y
@@ -24,10 +24,10 @@ RUN export NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 WORKDIR /website
 
-#RUN git clone https://github.com/department-of-veterans-affairs/vagov-content
-#RUN git clone https://github.com/department-of-veterans-affairs/content-build
-#RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema
-#RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+RUN git clone https://github.com/department-of-veterans-affairs/vagov-content
+RUN git clone https://github.com/department-of-veterans-affairs/content-build
+RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema
+RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
 
 WORKDIR /website/vets-website
 
