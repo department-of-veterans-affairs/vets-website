@@ -1,6 +1,21 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 
+const hasOwn = (object, prop) =>
+  Object.prototype.hasOwnProperty.call(object, prop);
+
+const resolveToggleLink = (link, featureToggles) => {
+  const { text, oldHref, href: newHref, toggle } = link;
+  let href = newHref || oldHref;
+  // If the link's toggle matches a feature toggle
+  // check if the toggle is on. If so, show new href. Otherwise show old href
+  if (hasOwn(featureToggles, toggle)) {
+    const showNewHref = featureToggles[toggle] === true;
+    href = showNewHref ? newHref : oldHref;
+  }
+  return { href, text, key: toggle };
+};
+
 const appointmentLinks = [
   {
     href: null,
@@ -203,42 +218,36 @@ const spotlightLinks = [
 // The cards structure represents rows and columns of cards as a multidimensonal array
 const data = {
   cards: [
-    [
-      {
-        title: 'Appoinments',
-        icon: 'calendar',
-        links: appointmentLinks,
-      },
-      {
-        title: 'Messages',
-        icon: 'comments',
-        links: messagesLinks,
-      },
-    ],
-    [
-      {
-        title: 'Medications',
-        icon: 'prescription-bottle',
-        links: medicationsLinks,
-      },
-      {
-        title: 'Health records',
-        icon: 'file-medical',
-        links: healthRecordsLinks,
-      },
-    ],
-    [
-      {
-        title: 'Payments',
-        icon: 'dollar-sign',
-        links: paymentsLinks,
-      },
-      {
-        title: 'Medical supplies and equipment',
-        icon: 'deaf',
-        links: medicalSuppliesLinks,
-      },
-    ],
+    {
+      title: 'Appoinments',
+      icon: 'calendar',
+      links: appointmentLinks,
+    },
+    {
+      title: 'Messages',
+      icon: 'comments',
+      links: messagesLinks,
+    },
+    {
+      title: 'Medications',
+      icon: 'prescription-bottle',
+      links: medicationsLinks,
+    },
+    {
+      title: 'Health records',
+      icon: 'file-medical',
+      links: healthRecordsLinks,
+    },
+    {
+      title: 'Payments',
+      icon: 'dollar-sign',
+      links: paymentsLinks,
+    },
+    {
+      title: 'Medical supplies and equipment',
+      icon: 'deaf',
+      links: medicalSuppliesLinks,
+    },
   ],
   hub: [
     {
@@ -256,4 +265,4 @@ const data = {
   ],
 };
 
-export default data;
+export { data as default, resolveToggleLink };
