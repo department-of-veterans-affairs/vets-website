@@ -10,16 +10,16 @@ COPY VA-Internal-S2-RCA1-v1.cer.pem .
 RUN apt-get update && apt-get install -y
 
 RUN mkdir -p /website/vets-website
-WORKDIR /website/vets-website
+#WORKDIR /website/vets-website
 
-COPY . .
+COPY . /website/vets-website
 # setting up vets-website
 RUN yarn config set "strict-ssl" false
 #RUN npm config set strict-ssl false
 RUN export NODE_TLS_REJECT_UNAUTHORIZED='0'
 #RUN export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 #RUN export PUPPETEER_EXECUTABLE_PATH=`which chromium` 
-RUN yarn install
+#RUN yarn install
 #RUN yarn build
 
 WORKDIR /website
@@ -29,16 +29,21 @@ RUN git clone https://github.com/department-of-veterans-affairs/content-build
 RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema
 RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
 
-WORKDIR /website/content-build
+WORKDIR /website/vets-website
+
+RUN yarn install
+RUN yarn build
+
+#WORKDIR /website/content-build
 
 # setting up content-build
-RUN yarn install
-RUN cp .env.example .env
-RUN yarn fetch-drupal-cache
+#RUN yarn install
+#RUN cp .env.example .env
+#RUN yarn fetch-drupal-cache
 #RUN yarn build 
 
 EXPOSE 3002
 EXPOSE 3001
 EXPOSE 3000
 
-CMD ["/bin/bash", "-c", "cd /website/vets-website && yarn watch; cd /website/content-build && yarn watch"]
+CMD ["/bin/bash", "-c", "cd /website/vets-website && yarn watch"]
