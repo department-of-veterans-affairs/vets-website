@@ -164,7 +164,7 @@ const myVaHealthBenefitsLinks = [
 const moreResourcesLinks = [
   {
     href: '#FIXME-need-link',
-    text: 'The PAC Act and your benefits',
+    text: 'The PACT Act and your benefits',
   },
   {
     href: '#FIXME-need-link',
