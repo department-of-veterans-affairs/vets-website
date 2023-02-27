@@ -121,90 +121,82 @@ const myVaHealthBenefitsLinks = [
     text: 'Current veteran copay rates',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Mental health services',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Dental care',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Community Care',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Update my health benefits info (10-10EZR)',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'My health information card',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Download my IRS 1095-B form',
   },
 ];
 
 const moreResourcesLinks = [
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'The PAC Act and your benefits',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Check your mental health',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Veterans Health Library',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Healthy Living Centers',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'The My HealtheVet community',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: "VA's Whole Health living",
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'How to use VA Video Connect',
   },
 ];
 
 const spotlightLinks = [
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Five Exercises for Balance',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Recognizing a Heart Attack',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Get the New Toxic Exposure Screening',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Need Internet or a Tablet for Appointments?',
   },
   {
-    href: '',
+    href: '#FIXME-need-link',
     text: 'Top Five Health Threats to Men',
-  },
-  {
-    href: '',
-    text: '',
-  },
-  {
-    href: '',
-    text: '',
   },
 ];
 
