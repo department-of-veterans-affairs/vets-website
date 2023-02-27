@@ -3,7 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/react';
-import RecordList from '../../components/RecordList';
+import RecordList from '../../components/RecordList/RecordList';
 import vaccines from '../fixtures/vaccines.json';
 import reducer from '../../reducers';
 

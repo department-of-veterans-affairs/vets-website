@@ -29,18 +29,18 @@ describe('ProfileInfoTable', () => {
     expect(wrapper.type()).to.equal('section');
   });
   it('renders the title prop in the DOM', () => {
-    const tableTitle = wrapper.find('TableTitle');
+    const tableTitle = wrapper.find('HeadingLevel');
     expect(tableTitle.dive().text()).to.equal(props.title);
   });
   it('renders a table row li for each entry in the data prop', () => {
-    const tableRows = wrapper.find('ol > li.table-row');
+    const tableRows = wrapper.find('ol > li.row');
     expect(tableRows.length).to.equal(props.data.length);
   });
   it('calls the dataTransformer once for each row of data', () => {
     expect(dataTransformerSpy.callCount).to.equal(props.data.length);
   });
   it("renders each data object's title and value in a `li.table-row`", () => {
-    const tableRows = wrapper.find('ol > li.table-row');
+    const tableRows = wrapper.find('ol > li.row');
     expect(tableRows.length).to.equal(props.data.length);
     tableRows.forEach((row, index) => {
       const { title, value } = props.data[index];

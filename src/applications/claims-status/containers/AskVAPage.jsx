@@ -3,10 +3,19 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { submitRequest, getClaimDetail } from '../actions';
-import { setUpPage } from '../utils/page';
+import {
+  submitRequest,
+  // START ligthouse_migration
+  getClaim as getClaimAction,
+  getClaimDetail as getClaimEVSSAction,
+  // END lighthouse_migration
+} from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+// START lighthouse_migration
+import { cstUseLighthouse } from '../selectors';
+// END lighthouse_migration
+import { setUpPage } from '../utils/page';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -24,7 +33,13 @@ class AskVAPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.decisionRequested) {
-      props.getClaimDetail(this.props.params.id);
+      // START lighthouse_migration
+      if (this.props.useLighthouse) {
+        props.getClaimLighthouse(this.props.params.id);
+      } else {
+        props.getClaimEVSS(this.props.params.id);
+      }
+      // END lighthouse_migration
       this.goToStatusPage();
     }
   }
@@ -131,12 +146,18 @@ function mapStateToProps(state) {
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
+    // START lighthouse_migration
+    useLighthouse: cstUseLighthouse(state),
+    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
   submitRequest,
-  getClaimDetail,
+  // START lighthouse_migration
+  getClaimEVSS: getClaimEVSSAction,
+  getClaimLighthouse: getClaimAction,
+  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -149,11 +170,17 @@ export default withRouter(
 AskVAPage.propTypes = {
   decisionRequestError: PropTypes.string,
   decisionRequested: PropTypes.bool,
-  getClaimDetail: PropTypes.func,
+  // START lighthouse_migration
+  getClaimEVSS: PropTypes.func,
+  getClaimLighthouse: PropTypes.func,
+  // END lighthouse_migration
   loadingDecisionRequest: PropTypes.bool,
   params: PropTypes.object,
   router: PropTypes.object,
   submitRequest: PropTypes.func,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
 };
 
 export { AskVAPage };

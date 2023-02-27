@@ -8,7 +8,11 @@ import {
   getActiveExpandedPages,
 } from '../helpers';
 
-import { focusElement } from '../utilities/ui';
+import {
+  focusByOrder,
+  customScrollAndFocus,
+  defaultFocusSelector,
+} from '../../../../utilities/ui';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -87,7 +91,21 @@ export default function FormNav(props) {
       }
 
       return () => {
-        focusElement('.nav-header > h2');
+        // Check main toggle to enable custom focus; the unmounting of the page
+        // before the review & submit page may cause the customScrollAndFocus
+        // function to be called inadvertently
+        if (
+          formConfig.useCustomScrollAndFocus &&
+          !(
+            page.chapterKey === 'review' ||
+            window.location.pathname.endsWith('review-and-submit')
+          )
+        ) {
+          customScrollAndFocus(page?.scrollAndFocusTarget, index);
+        } else {
+          // h2 fallback for confirmation page
+          focusByOrder([defaultFocusSelector, 'h2']);
+        }
       };
     },
     [current, index],
@@ -117,11 +135,6 @@ export default function FormNav(props) {
 }
 
 FormNav.defaultProps = {
-  formConfig: {
-    customText: {
-      reviewPageTitle: '',
-    },
-  },
   currentPath: '',
   formData: {},
   isLoggedIn: false,
@@ -130,10 +143,15 @@ FormNav.defaultProps = {
 
 FormNav.propTypes = {
   formConfig: PropTypes.shape({
+    chapters: PropTypes.shape({}),
     customText: PropTypes.shape({
       reviewPageTitle: PropTypes.string,
     }),
+    urlPrefix: PropTypes.string,
+    useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
+  currentPath: PropTypes.string,
+  formData: PropTypes.shape({}),
   inProgressFormId: PropTypes.number,
   isLoggedIn: PropTypes.bool,
 };

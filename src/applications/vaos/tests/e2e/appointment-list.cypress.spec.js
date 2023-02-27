@@ -293,11 +293,14 @@ describe('VAOS appointment list', () => {
     });
 
     it('should navigate to requested appointment details', () => {
-      cy.get('[data-cy=requested-appointment-list-item]')
+      cy.get('[data-testid="appointment-detail-link"]')
         .first()
-        .click({ waitForAnimations: true });
-      cy.findByText(/Request detail/i).should('exist');
+        .shadow()
+        .find('a')
+        .click();
 
+      cy.findByText(/Request detail/i).should('exist');
+      cy.injectAxe();
       cy.axeCheckBestPractice();
     });
   });

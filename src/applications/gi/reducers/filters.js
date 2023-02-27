@@ -22,12 +22,22 @@ export const INITIAL_STATE = Object.freeze({
   accredited: false,
   studentVeteran: false,
   yellowRibbonScholarship: false,
-  specialMission: 'ALL',
   employers: true,
   vettec: true,
   preferredProvider: false,
   country: 'ALL',
   state: 'ALL',
+  specialMissionHbcu: false,
+  specialMissionMenonly: false,
+  specialMissionWomenonly: false,
+  specialMissionRelaffil: false,
+  specialMissionHSI: false,
+  specialMissionNANTI: false,
+  specialMissionANNHI: false,
+  specialMissionAANAPII: false,
+  specialMissionPBI: false,
+  specialMissionTRIBAL: false,
+  specialMission: 'ALL',
 });
 
 export default function(state = INITIAL_STATE, action) {

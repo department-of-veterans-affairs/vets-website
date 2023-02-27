@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RecordList from '../components/RecordList';
+import RecordList from '../components/RecordList/RecordList';
 import { getVaccineList } from '../actions/vaccine';
+import { printContent } from '../util/helpers';
 
 const Vaccines = () => {
   const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
@@ -12,7 +13,9 @@ const Vaccines = () => {
 
   const content = () => {
     if (vaccines?.length) {
-      return <RecordList records={vaccines} type="vaccine" />;
+      return (
+        <RecordList records={vaccines} type="vaccine" print={printContent} />
+      );
     }
     return (
       <va-loading-indicator
@@ -24,16 +27,22 @@ const Vaccines = () => {
   };
 
   return (
-    <div className="vaccines">
+    <div className="vaccines" id="vaccines">
       <h1>Vaccines</h1>
       <p>
         This is a complete list of vaccines that the VA has on file for you.
       </p>
-      <div className="vads-u-display--flex vads-u-margin-y--3">
+      <p className="print-only">
+        Your VA Vaccines list may not be complete. If you have any questions
+        about your information, visit the FAQs or contact your VA Health care
+        team.
+      </p>
+      <div className="vads-u-display--flex vads-u-margin-y--3 no-print">
         <button
           className="link-button vads-u-margin-right--3"
           type="button"
           data-testid="print-records-button"
+          onClick={() => printContent('vaccines')}
         >
           <i
             aria-hidden="true"
@@ -49,7 +58,19 @@ const Vaccines = () => {
           Download page
         </button>
       </div>
+
       {content()}
+
+      <iframe
+        title="contentsToPrint"
+        id="contentsToPrint"
+        style={{
+          height: '0px',
+          width: '0px',
+          position: 'absolute',
+          border: 'none',
+        }}
+      />
     </div>
   );
 };
