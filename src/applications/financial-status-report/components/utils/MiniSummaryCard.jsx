@@ -17,7 +17,10 @@ export const MiniSummaryCard = ({
   onDelete,
 }) => {
   return (
-    <div className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0 vads-l-grid-container">
+    <div
+      className="vads-u-border--1px vads-u-margin-y--2 vads-u-padding--0 vads-l-grid-container"
+      data-testid="mini-summary-card"
+    >
       <div className="vads-l-row">
         <div className="vads-u-padding--2 vads-l-col--9">
           <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{heading}</h4>
