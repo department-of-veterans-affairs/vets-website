@@ -91,7 +91,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         error={error ? content.errorMessage : null}
         onVaValueChange={handlers.setBenefitType}
         required
-        label-header-level="3"
+        label-header-level="2"
       >
         {options.map(({ value, label }) => (
           <VaRadioOption
