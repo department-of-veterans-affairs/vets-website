@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**
  * The text input and checkbox which make up the form signature. It's
@@ -29,6 +28,7 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 export const FormSignature = ({
   signatureLabel,
   checkboxLabel,
+  checkboxDescription,
   formData,
   setFormData,
   signaturePath,
@@ -114,12 +114,15 @@ export const FormSignature = ({
         required={required}
         errorMessage={(showError || signature.dirty) && signatureError}
       />
-      <Checkbox
+      <va-checkbox
         label={checkboxLabel}
+        description={null}
         required={required}
-        onValueChange={setChecked}
-        errorMessage={showError && checkboxError}
-      />
+        vaChange={setChecked}
+        error={showError && checkboxError}
+      >
+        <p slot="description">{checkboxDescription}</p>
+      </va-checkbox>
     </>
   );
 };
@@ -147,7 +150,15 @@ FormSignature.propTypes = {
   /**
    * The label for the checkbox input
    */
-  checkboxLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  checkboxLabel: PropTypes.string,
+
+  /**
+   * The description for the checkbox input
+   */
+  checkboxDescription: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
 
   /**
    * An array of validator functions. Each function returns a string for the

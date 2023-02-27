@@ -50,6 +50,11 @@ const getFormConfig = (options = {}) => ({
     field: 'privacyAgreementAccepted',
     notice: '<div>Notice</div>',
     label: 'I accept the privacy agreement',
+    description: (
+      <a href="/" id="description-link">
+        Privacy policy
+      </a>
+    ),
     error: 'You must accept the privacy agreement',
   },
   chapters: {
@@ -86,18 +91,20 @@ describe('Review PreSubmitSection component', () => {
     const store = createStore();
     store.injectReducer('form', formReducer);
 
-    const tree = render(
+    const { container } = render(
       <Provider store={store}>
         <PreSubmitSection formConfig={formConfig} />
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
-    // disabled for now due to dynamic input id's
-    // expect(tree.container.innerHTML).to.matchSnapshot();
-
-    tree.unmount();
+    expect(
+      container.querySelector('va-checkbox').getAttribute('label'),
+    ).to.equal('I accept the privacy agreement');
+    expect(container.querySelector('#description-link').innerHTML).to.equal(
+      'Privacy policy',
+    );
   });
+
   it('should render save link', () => {
     const form = createForm();
     const formConfig = getFormConfig();
@@ -206,16 +213,14 @@ describe('Review PreSubmitSection component', () => {
     const store = createStore();
     store.injectReducer('form', formReducer);
 
-    const tree = render(
+    const { container } = render(
       <Provider store={store}>
         <PreSubmitSection formConfig={formConfig} showPreSubmitError />
       </Provider>,
     );
 
-    expect(tree.getByText('Error')).to.not.be.null;
-    // disabled for now due to dynamic input id's
-    // expect(tree.container.innerHTML).to.matchSnapshot();
-
-    tree.unmount();
+    expect(
+      container.querySelector('va-checkbox').getAttribute('error'),
+    ).to.equal('You must accept the privacy agreement');
   });
 });

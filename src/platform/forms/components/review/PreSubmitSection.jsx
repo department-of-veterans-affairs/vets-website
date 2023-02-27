@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-// formation
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
 
@@ -64,18 +61,21 @@ export function PreSubmitSection(props) {
         <div>
           {preSubmit.notice}
           {preSubmit.required && (
-            <Checkbox
+            <va-checkbox
               required
               checked={checked}
-              onValueChange={value => setPreSubmit(preSubmit?.field, value)}
+              vaChange={value => setPreSubmit(preSubmit?.field, value)}
               name={preSubmit.field}
-              errorMessage={
+              error={
                 showPreSubmitError && !checked
                   ? preSubmit.error || 'Please accept'
                   : undefined
               }
               label={preSubmit.label}
-            />
+              description={null}
+            >
+              <p slot="description">{preSubmit.description}</p>
+            </va-checkbox>
           )}
         </div>
       )}
