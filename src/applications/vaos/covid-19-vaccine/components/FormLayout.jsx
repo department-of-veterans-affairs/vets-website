@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -13,7 +14,13 @@ export default function FormLayout({ children }) {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
       <Breadcrumbs>
-        <Link to={match.url}>New COVID-19 vaccine appointment</Link>
+        <a
+          href={`/health-care/schedule-view-va-appointments/appointments/${
+            match.url
+          }`}
+        >
+          New COVID-19 vaccine appointment
+        </a>
       </Breadcrumbs>
       {location.pathname.endsWith(match.url) && (
         <DowntimeNotification
@@ -36,3 +43,6 @@ export default function FormLayout({ children }) {
     </div>
   );
 }
+FormLayout.propTypes = {
+  children: PropTypes.array,
+};
