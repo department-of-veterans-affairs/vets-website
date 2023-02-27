@@ -63,13 +63,34 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       <h1 className="vads-u-margin-bottom--0">Is this the form I need?</h1>
       <p>
         Use this Supplemental Claim form (VA 20-0995) if you disagree with our
-        decision on your claim and have new and relevant evidence to submit.
+        decision on your claim and you meet at least 1 of these requirements:
       </p>
+      <ul>
+        <li>
+          You have new and relevant evidence to submit, <strong>or</strong>
+        </li>
+        <li>
+          You would like VA to review your claim based on a new law (such as the{' '}
+          <a href="/pact">PACT Act</a>
+          ).
+        </li>
+      </ul>
+      <va-additional-info trigger="What are other decision review options?">
+        <p className="vads-u-padding-bottom--1">
+          If you don’t think this is the right form for you, find out about
+          other decision review options.
+        </p>
+        <a href="/resources/choosing-a-decision-review-option/">
+          Learn about choosing a decision review option
+        </a>
+      </va-additional-info>
+
       <p>Answer this question to get started:</p>
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}
         onVaValueChange={handlers.setBenefitType}
+        required
       >
         {options.map(({ value, label }) => (
           <VaRadioOption

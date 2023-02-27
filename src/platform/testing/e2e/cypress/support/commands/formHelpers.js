@@ -37,12 +37,18 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
     });
   }
 });
+/**
+ * Works with Date widget. And va-date and va-memorable-date web components
+ */
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   // Split the date & remove leading zeros
   const date = dateString
     .split('-')
     .map(number => parseInt(number, 10).toString());
   cy.document().then(doc => {
+    const vaMemorableDate = doc.querySelector(
+      `va-memorable-date[name="${fieldName}"]`,
+    );
     const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
     const monthYearOnly = doc.querySelector(
       `va-date[name="${fieldName}"][monthyearonly]`,
@@ -62,6 +68,26 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
               .shadow()
               .find('select')
               .select(date[2]);
+          cy.wrap(el)
+            .find('va-text-input.input-year')
+            .shadow()
+            .find('input')
+            .type(date[0]);
+        });
+    } else if (vaMemorableDate) {
+      cy.wrap(vaMemorableDate)
+        .shadow()
+        .then(el => {
+          cy.wrap(el)
+            .find('va-text-input.input-month')
+            .shadow()
+            .find('input')
+            .type(date[1]);
+          cy.wrap(el)
+            .find('va-text-input.input-day')
+            .shadow()
+            .find('input')
+            .type(date[2]);
           cy.wrap(el)
             .find('va-text-input.input-year')
             .shadow()

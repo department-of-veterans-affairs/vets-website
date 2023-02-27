@@ -23,7 +23,7 @@ describe('check-in', () => {
       const initState = {
         checkInData: {
           context: {
-            token: '',
+            token: 'test-token',
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],

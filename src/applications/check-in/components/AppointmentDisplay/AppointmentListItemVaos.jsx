@@ -3,20 +3,39 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import AppointmentMessageVaos from './AppointmentMessageVaos';
-import { appointmentIcon, clinicName } from '../../utils/appointment';
+import AppointmentActionVaos from './AppointmentActionVaos';
+import {
+  appointmentIcon,
+  clinicName,
+  getAppointmentId,
+} from '../../utils/appointment';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const AppointmentListItemVaos = props => {
-  const {
-    appointment,
-    goToDetails,
-    AppointmentAction,
-    showDetailsLink,
-    appointmentMessage,
-  } = props;
+  const { appointment, goToDetails, router, app, page } = props;
   const { t } = useTranslation();
 
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
+
+  const pagesToShowDetails = ['details', 'complete', 'confirmation'];
+  const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
+
+  const infoBlockMessage = () => {
+    if (appointment?.kind === 'phone') {
+      return (
+        <span data-testid="phone-msg-confirmation">
+          {t('your-provider-will-call-you-at-your-appointment-time')}
+        </span>
+      );
+    }
+    return (
+      <span data-testid="in-person-msg-confirmation">
+        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+      </span>
+    );
+  };
+
   return (
     <li
       className="vads-u-border-bottom--1px check-in--appointment-item"
@@ -33,7 +52,9 @@ const AppointmentListItemVaos = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {appointment.clinicStopCodeName ?? t('VA-appointment')}
+          {appointment.clinicStopCodeName
+            ? appointment.clinicStopCodeName
+            : t('VA-appointment')}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
@@ -43,7 +64,7 @@ const AppointmentListItemVaos = props => {
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
           >
-            {appointmentIcon(appointment)}
+            {appointmentIcon(appointment, true)}
           </div>
           <div
             data-testid="appointment-kind-and-location"
@@ -63,8 +84,10 @@ const AppointmentListItemVaos = props => {
           <div className="vads-u-margin-y--2">
             <a
               data-testid="details-link"
-              href="#details"
-              onClick={e => goToDetails(appointment.appointmentIen, e)}
+              href={`${
+                router.location.basename
+              }/appointment-details/${getAppointmentId(appointment)}`}
+              onClick={e => goToDetails(e, appointment)}
               aria-label={t('click-to-see-details-for-your-time-appointment', {
                 time: appointmentDateTime,
               })}
@@ -73,21 +96,38 @@ const AppointmentListItemVaos = props => {
             </a>
           </div>
         )}
-        {appointmentMessage && (
-          <AppointmentMessageVaos appointment={appointment} />
-        )}
-        {AppointmentAction}
+        {app === APP_NAMES.CHECK_IN &&
+          page !== 'confirmation' && (
+            <>
+              <AppointmentMessageVaos appointment={appointment} />
+              <AppointmentActionVaos
+                appointment={appointment}
+                router={router}
+              />
+            </>
+          )}
       </div>
+      {app === APP_NAMES.PRE_CHECK_IN &&
+        page === 'confirmation' && (
+          <va-alert
+            background-only
+            show-icon
+            data-testid="appointment-message"
+            class="vads-u-margin-bottom--2"
+          >
+            <div>{infoBlockMessage()}</div>
+          </va-alert>
+        )}
     </li>
   );
 };
 
 AppointmentListItemVaos.propTypes = {
+  app: PropTypes.string.isRequired,
   appointment: PropTypes.object.isRequired,
-  AppointmentAction: PropTypes.node,
-  appointmentMessage: PropTypes.bool,
+  page: PropTypes.string.isRequired,
   goToDetails: PropTypes.func,
-  showDetailsLink: PropTypes.bool,
+  router: PropTypes.object,
 };
 
 export default AppointmentListItemVaos;

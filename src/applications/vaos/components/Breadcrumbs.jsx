@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 
@@ -34,8 +33,10 @@ export default function VAOSBreadcrumbs({ children }) {
     [location, breadcrumbsRef],
   );
 
+  // The va-breadcrumbs component only allows for either Link components or anchor links,
+  // it will not work with the va-link component currently
   return (
-    <VaBreadcrumbs
+    <va-breadcrumbs
       role="navigation"
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
@@ -54,34 +55,46 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
+        <a
+          href="/health-care/schedule-view-va-appointments/appointments"
+          key="vaos-home"
+        >
           VA online scheduling
-        </Link>
+        </a>
       )}
       {featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
+        <a
+          href="/health-care/schedule-view-va-appointments/appointments"
+          key="vaos-home"
+        >
           Your appointments
-        </Link>
+        </a>
       )}
 
       {isPast && (
         <li className="va-breadcrumbs-li">
-          <Link to="/past" key="past">
+          <a
+            href="/health-care/schedule-view-va-appointments/appointments/past"
+            key="past"
+          >
             Past
-          </Link>
+          </a>
         </li>
       )}
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <Link to="/pending" key="pending">
+          <a
+            href="/health-care/schedule-view-va-appointments/appointments/pending"
+            key="pending"
+          >
             Pending
-          </Link>
+          </a>
         </li>
       )}
 
       {children}
-    </VaBreadcrumbs>
+    </va-breadcrumbs>
   );
 }
 

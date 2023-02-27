@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -167,7 +166,11 @@ const IntroductionPage = ({ route, formId }) => {
         />
       </div>
       <div className="omb-info--container">
-        <OMBInfo resBurden={60} ombNumber="2900-0862" expDate="02/28/2022" />
+        <va-omb-info
+          res-burden={60}
+          omb-number="2900-0165"
+          exp-date="10/31/2023"
+        />
       </div>
     </div>
   );

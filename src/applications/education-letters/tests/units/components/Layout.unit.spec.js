@@ -1,22 +1,24 @@
 import { expect } from 'chai';
 import React from 'react';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
+import { shallow } from 'enzyme';
 import Layout from '../../../components/Layout';
 
 describe('Render layout breadcrumbs', () => {
-  const mockStore = configureMockStore();
-
   it('Layout should contain breadcrumbs', async () => {
-    const store = mockStore({});
-    const wrapper = mount(
-      <Provider store={store}>
-        <Layout />
-      </Provider>,
-    );
+    const initialState = {
+      children: <p>This is a test</p>,
+      clsName: 'test string',
+      breadCrumbs: {
+        href: '/education/download-letters/letters',
+        text: 'Your VA education letter',
+      },
+    };
+
+    const wrapper = shallow(<Layout {...initialState} />);
 
     expect(wrapper.text()).to.include('Education and training');
+    expect(wrapper.text()).to.include('Your VA education letter');
+    expect(wrapper.text()).to.include('This is a test');
     wrapper.unmount();
   });
 });

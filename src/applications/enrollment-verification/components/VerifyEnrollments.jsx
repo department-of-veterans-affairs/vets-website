@@ -65,7 +65,10 @@ function VerifyEnrollments({
         </>
       )}
 
-      <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
+      <FinishVerifyingLater
+        className="vads-u-margin-top--4"
+        onFinishVerifyingLater={onFinishVerifyingLater}
+      />
 
       <div className="ev-actions vads-u-margin-top--2p5">
         <button

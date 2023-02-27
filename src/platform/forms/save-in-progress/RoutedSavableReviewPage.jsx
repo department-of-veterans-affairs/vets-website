@@ -27,6 +27,8 @@ class RoutedSavableReviewPage extends React.Component {
 
   componentDidMount() {
     scrollToTop('topScrollElement', getScrollOptions());
+    // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
+    // containing multiple pages, so the h2 won't be unique between pages
     focusElement('h2');
   }
 

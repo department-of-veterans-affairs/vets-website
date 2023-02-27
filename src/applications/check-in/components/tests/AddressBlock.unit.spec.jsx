@@ -101,5 +101,51 @@ describe('check-in', () => {
       const component = render(<AddressBlock address={addressMissingZip} />);
       expect(component.getByText('Not available')).to.exist;
     });
+    it('Does not display directions link when false', () => {
+      const component = render(
+        <AddressBlock
+          address={oneLineAddress}
+          showDirections={false}
+          placeName="test place"
+        />,
+      );
+      expect(component.queryByTestId('directions-link')).to.not.exist;
+    });
+    it('Displays directions link when true', () => {
+      const component = render(
+        <AddressBlock
+          address={oneLineAddress}
+          showDirections
+          placeName="test place"
+        />,
+      );
+      expect(component.getByTestId('directions-link')).to.exist;
+    });
+    it('Builds the link with all address parts', () => {
+      const component = render(
+        <AddressBlock
+          address={fullAddress}
+          showDirections
+          placeName="test place"
+        />,
+      );
+      expect(component.getByTestId('directions-link')).to.have.attribute(
+        'href',
+        'https://maps.google.com?addr=Current+Location&daddr=line 1, line 2, line 3, city, state, 000001234',
+      );
+    });
+    it('Builds the link with some missing address parts', () => {
+      const component = render(
+        <AddressBlock
+          address={oneLineAddress}
+          showDirections
+          placeName="test place"
+        />,
+      );
+      expect(component.getByTestId('directions-link')).to.have.attribute(
+        'href',
+        'https://maps.google.com?addr=Current+Location&daddr=line 1, city, state, 00000',
+      );
+    });
   });
 });

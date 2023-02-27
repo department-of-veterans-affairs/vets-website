@@ -39,12 +39,21 @@ export function FilterYourResults({
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    specialMission,
     employers,
     vettec,
     preferredProvider,
     country,
     state,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
   } = filters;
 
   const facets =
@@ -249,60 +258,72 @@ export function FilterYourResults({
     );
   };
 
-  const specialMissions = () => {
+  const specializedMissionAttributes = () => {
     const options = [
       {
-        optionValue: 'hbcu',
+        name: 'specialMissionHbcu',
+        checked: specialMissionHbcu,
         optionLabel: 'Historically Black college or university',
       },
       {
-        optionValue: 'menonly',
+        name: 'specialMissionMenonly',
+        checked: specialMissionMenonly,
         optionLabel: 'Men-only',
       },
       {
-        optionValue: 'womenonly',
+        name: 'specialMissionWomenonly',
+        checked: specialMissionWomenonly,
         optionLabel: 'Women-only',
       },
       {
-        optionValue: 'relaffil',
+        name: 'specialMissionRelaffil',
+        checked: specialMissionRelaffil,
         optionLabel: 'Religious affiliation',
       },
       {
-        optionValue: 'HSI',
+        name: 'specialMissionHSI',
+        checked: specialMissionHSI,
         optionLabel: 'Hispanic-serving institutions',
       },
       {
-        optionValue: 'NANTI',
+        name: 'specialMissionNANTI',
+        checked: specialMissionNANTI,
         optionLabel: 'Native American-serving institutions',
       },
       {
-        optionValue: 'ANNHI',
+        name: 'specialMissionANNHI',
+        checked: specialMissionANNHI,
         optionLabel: 'Alaska Native-serving institutions',
       },
       {
-        optionValue: 'AANAPII',
+        name: 'specialMissionAANAPII',
+        checked: specialMissionAANAPII,
         optionLabel:
           'Asian American Native American Pacific Islander-serving institutions',
       },
       {
-        optionValue: 'PBI',
+        name: 'specialMissionPBI',
+        checked: specialMissionPBI,
         optionLabel: 'Predominantly Black institutions',
       },
       {
-        optionValue: 'TRIBAL',
+        name: 'specialMissionTRIBAL',
+        checked: specialMissionTRIBAL,
         optionLabel: 'Tribal college and university',
       },
     ];
 
     return (
-      <Dropdown
-        onChange={onChange}
-        value={specialMission}
-        name="specialMission"
-        options={addAllOption(options)}
-        alt="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        label="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        visible
+      <CheckboxGroup
+        class="vads-u-margin-y--4"
+        label={
+          <div className="vads-u-margin-left--neg0p25">
+            Specialized mission (i.e., Single-gender, Religious affiliation,
+            HBCU)
+          </div>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
       />
     );
   };
@@ -320,6 +341,9 @@ export function FilterYourResults({
           >
             {name}
           </h3>
+          <div className="vads-u-margin-bottom--4">
+            {specializedMissionAttributes()}
+          </div>
           <ExpandingGroup open={schools}>
             <Checkbox
               checked={schools}
@@ -332,7 +356,6 @@ export function FilterYourResults({
             <div className="school-types expanding-group-children">
               {excludedSchoolTypesGroup()}
               {schoolAttributes()}
-              {specialMissions()}
             </div>
           </ExpandingGroup>
         </div>

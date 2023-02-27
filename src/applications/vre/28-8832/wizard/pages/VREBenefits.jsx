@@ -1,6 +1,7 @@
 import React from 'react';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { pageNames } from './pageList';
 
 const options = [
@@ -15,7 +16,8 @@ const options = [
 ];
 
 const VREBenefits = ({ setPageState, state = {} }) => {
-  const handleValueChange = ({ value }) => {
+  const handleValueChange = ({ detail } = {}) => {
+    const { value } = detail;
     recordEvent({
       event: `howToWizard-formChange`,
       'form-field-type': 'form-radio-buttons',
@@ -26,14 +28,25 @@ const VREBenefits = ({ setPageState, state = {} }) => {
     setPageState({ selected: value }, value);
   };
   return (
-    <RadioButtons
-      name="vre-benefits"
+    <VaRadio
+      id="VREBenefits"
+      class="vads-u-margin-y--2"
       label="Are you receiving Chapter 31 Veteran Readiness and Employment (VR&E) benefits?"
-      options={options}
-      id="vre-benefits"
-      onValueChange={value => handleValueChange(value)}
-      value={{ value: state.selected }}
-    />
+      onVaValueChange={handleValueChange}
+    >
+      {options.map(option => (
+        <va-radio-option
+          key={option.value}
+          name="vre-benefits"
+          label={option.label}
+          value={option.value}
+          checked={state.selected === option.value}
+          aria-describedby={
+            state.selected === option.value ? option.value : null
+          }
+        />
+      ))}
+    </VaRadio>
   );
 };
 

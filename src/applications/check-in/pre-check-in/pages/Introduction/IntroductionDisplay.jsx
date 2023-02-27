@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -28,11 +28,25 @@ const IntroductionDisplay = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
   const { appointments } = useSelector(selectVeteranData);
-  const { isUpdatedApptPresentationEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  const {
+    isUpdatedApptPresentationEnabled,
+    isPreCheckInActionLinkTopPlacementEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
+
+  useEffect(
+    () => {
+      const position = isPreCheckInActionLinkTopPlacementEnabled
+        ? 'top'
+        : 'bottom';
+      const slug = `pre-check-in-viewed-introduction-${position}-position`;
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+    },
+    [isPreCheckInActionLinkTopPlacementEnabled],
+  );
 
   const accordionContent = [
     {
@@ -73,16 +87,15 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
+      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
+      if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
-        event: createAnalyticsSlug(
-          `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`,
-          'nav',
-        ),
+        event: createAnalyticsSlug(slug, 'nav'),
       });
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, goToNextPage],
+    [isPhone, isPreCheckInActionLinkTopPlacementEnabled, goToNextPage],
   );
 
   const StartButton = () => (
@@ -100,6 +113,13 @@ const IntroductionDisplay = props => {
       </a>
     </div>
   );
+
+  const getModalUrl = modalState => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('modal', modalState);
+    return `${url.pathname}${url.search}`;
+  };
+
   return (
     <Wrapper
       testID="intro-wrapper"
@@ -108,14 +128,20 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
+      {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
       {isUpdatedApptPresentationEnabled ? (
         <AppointmentBlockVaos appointments={appointments} page="intro" />
       ) : (
         <AppointmentBlock appointments={appointments} page="intro" />
       )}
 
-      <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
-      <StartButton />
+      {!isPreCheckInActionLinkTopPlacementEnabled && (
+        <>
+          <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
+          <StartButton />
+        </>
+      )}
+
       {accordionContent && accordionContent.length ? (
         <va-accordion
           bordered
@@ -139,10 +165,11 @@ const IntroductionDisplay = props => {
       )}
       <div className="vads-u-margin-top--4">
         <a
-          href="#privacy-modal"
+          href="/health-care/appointment-pre-check-in/introduction?modal=open"
           onClick={useCallback(
             e => {
               e.preventDefault();
+              window.history.replaceState(null, null, getModalUrl('open'));
               setPrivacyActModalOpen(true);
             },
             [setPrivacyActModalOpen],
@@ -153,9 +180,13 @@ const IntroductionDisplay = props => {
       </div>
       <VaModal
         modalTitle={t('privacy-act-statement')}
-        onCloseEvent={useCallback(() => setPrivacyActModalOpen(false), [
-          setPrivacyActModalOpen,
-        ])}
+        onCloseEvent={useCallback(
+          () => {
+            setPrivacyActModalOpen(false);
+            window.history.replaceState(null, null, getModalUrl('closed'));
+          },
+          [setPrivacyActModalOpen],
+        )}
         visible={privacyActModalOpen}
         initialFocusSelector="button"
       >

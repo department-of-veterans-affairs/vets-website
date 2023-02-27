@@ -2,5 +2,27 @@
 @import "./vaccines";
 @import "./record-list";
 @import "./vaccine-details";
+@import "./breadcrumbs";
+@import "./health-history";
 
 // Your custom sass
+va-loading-indicator {
+  margin: 200px auto;
+}
+
+.link-button,
+.link-button:hover,
+.link-button:active {
+  background-color: transparent;
+  color: $color-link-default;
+  font-weight: normal;
+  text-decoration: underline;
+  border: none;
+  border-radius: 0;
+  transition-duration: 0.3s;
+  padding: 0;
+  width: fit-content;
+}
+.link-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}

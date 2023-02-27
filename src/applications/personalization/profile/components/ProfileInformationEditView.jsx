@@ -254,6 +254,10 @@ export class ProfileInformationEditView extends Component {
   }
 
   focusOnFirstFormElement() {
+    if (this.props.forceEditView) {
+      // Showing the edit view on its own page, so let the app handle focus
+      return;
+    }
     const focusableElement = this.editForm?.querySelector(
       'button, input, select, a, textarea',
     );
@@ -388,6 +392,7 @@ ProfileInformationEditView.propTypes = {
     formSchema: PropTypes.object,
     uiSchema: PropTypes.object,
   }),
+  forceEditView: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,

@@ -5,7 +5,11 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
+import {
+  FIELD_TITLES,
+  FIELD_NAMES,
+  DEFAULT_ERROR_MESSAGE,
+} from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
@@ -23,7 +27,6 @@ const ui = (
 );
 let view;
 let server;
-const errorText = `We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please check back later.`;
 
 function getEditButton(addressName) {
   let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
@@ -136,7 +139,7 @@ async function testAddressValidation500(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(errorText);
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -153,7 +156,7 @@ async function testTransactionCreationFails(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(errorText);
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);
@@ -170,7 +173,7 @@ async function testQuickFailure(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.contain.text(errorText);
+  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
 
   // make sure that edit mode is not automatically exited
   await wait(75);

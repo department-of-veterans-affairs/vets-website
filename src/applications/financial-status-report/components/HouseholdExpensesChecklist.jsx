@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { householdExpensesOptions } from '../constants/checkboxSelections';
+import Checklist from './utils/CheckList';
 
 const HouseholdExpensesChecklist = () => {
   const dispatch = useDispatch();
@@ -40,23 +41,11 @@ const HouseholdExpensesChecklist = () => {
   };
 
   return (
-    <div className="checkbox-list">
-      {householdExpensesOptions?.map((option, key) => (
-        <div key={option + key} className="checkbox-list-item">
-          <input
-            type="checkbox"
-            id={option + key}
-            name={option}
-            value={option}
-            checked={isBoxChecked(option)}
-            onChange={onChange}
-          />
-          <label className="vads-u-margin-y--2" htmlFor={option + key}>
-            {option}
-          </label>
-        </div>
-      ))}
-    </div>
+    <Checklist
+      options={householdExpensesOptions}
+      onChange={event => onChange(event)}
+      isBoxChecked={isBoxChecked}
+    />
   );
 };
 

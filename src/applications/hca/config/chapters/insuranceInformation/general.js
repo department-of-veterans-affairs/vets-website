@@ -14,7 +14,7 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { isShortFormEligible } from '../../../utils/helpers';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { provider } = fullSchemaHca.definitions;
@@ -31,7 +31,7 @@ export default {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
+        hideIf: formData => !isShortFormEligible(formData),
       },
     },
     'view:healthInsuranceDescription': {
