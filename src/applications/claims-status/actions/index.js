@@ -116,12 +116,14 @@ export function getAppealsV2() {
   };
 }
 
-function fetchClaimsSuccess(response) {
+// START lighthouse_migration
+function fetchClaimsSuccessEVSS(response) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims: response.data,
   };
 }
+// END lighthouse_migration
 
 export function pollRequest(options) {
   const {
@@ -179,6 +181,19 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     });
     event['api-latency-ms'] = apiLatencyMs;
   }
+
+  // There is a difference between the way that custom dimensions
+  // and metrics are dealt with in UA (Universal Analytics) vs in
+  // GA4. In UA, we push keys with dashes ('-') but in GA4 the object
+  // keys must be delimited with ('_'). So we should just include
+  // both versions for the applicable keys
+  Object.keys(event).forEach(key => {
+    if (key.includes('-')) {
+      const newKey = key.replace(/-/g, '_');
+      event[newKey] = event[key];
+    }
+  });
+
   recordEvent(event);
   if (event['error-key']) {
     recordEvent({
@@ -208,7 +223,9 @@ export function getClaimsV2(options = {}) {
     if (USE_MOCKS) {
       return mockApi
         .getClaimList()
-        .then(mockClaimsList => dispatch(fetchClaimsSuccess(mockClaimsList)));
+        .then(mockClaimsList =>
+          dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
+        );
     }
 
     return poll({
@@ -245,7 +262,7 @@ export function getClaimsV2(options = {}) {
           startTime: startTimestampMs,
           success: true,
         });
-        dispatch(fetchClaimsSuccess(response));
+        dispatch(fetchClaimsSuccessEVSS(response));
       },
       pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
@@ -259,6 +276,7 @@ export function getClaimsV2(options = {}) {
 export const getClaims = getClaimsV2;
 // END lighthouse_migration
 
+// START lighthouse_migration
 export function getClaimDetail(id, router, poll = pollRequest) {
   return dispatch => {
     dispatch({
@@ -297,11 +315,27 @@ export function getClaimDetail(id, router, poll = pollRequest) {
   };
 }
 
+export const getClaim = getClaimDetail;
+// END lighthouse_migration
+
 export function submitRequest(id) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
+
+    if (USE_MOCKS) {
+      dispatch({ type: SET_DECISION_REQUESTED });
+      dispatch(
+        setNotification({
+          title: 'Request received',
+          body:
+            'Thank you. We have your claim request and will make a decision.',
+        }),
+      );
+      return;
+    }
+
     makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
@@ -410,6 +444,32 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
+              if (USE_MOCKS) {
+                dispatch({ type: DONE_UPLOADING });
+                dispatch(
+                  setNotification({
+                    title: 'We have your evidence',
+                    body: (
+                      <span>
+                        Thank you for sending us{' '}
+                        {trackedItem
+                          ? trackedItem.displayName
+                          : 'additional evidence'}
+                        . We will associate it with your record in a matter of
+                        days. If the submitted evidence impacts the status of
+                        your claim, then you will see that change within 30 days
+                        of submission.
+                        <br />
+                        Note: It may take a few minutes for your uploaded file
+                        to show here. If you don’t see your file, please try
+                        refreshing the page.
+                      </span>
+                    ),
+                  }),
+                );
+                return;
+              }
+
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',

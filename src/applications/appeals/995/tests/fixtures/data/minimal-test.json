@@ -27,6 +27,7 @@
       },
       "email": "user@example.com"
     },
+    "view:primaryPhone": "home",
     "benefitType": "compensation",
     "contestedIssues": [
       {
@@ -74,9 +75,6 @@
       }
     ],
     "limitedConsent": "Pizza addiction",
-    "view:uploadPrivateRecordsChoice": {
-      "view:hasPrivateRecordsToUpload": false
-    },
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },

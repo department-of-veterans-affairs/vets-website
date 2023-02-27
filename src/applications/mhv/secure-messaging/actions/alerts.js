@@ -10,6 +10,9 @@ export const addAlert = (
   alertType,
   header,
   content,
+  className,
+  link,
+  title,
   response,
 ) => async dispatch => {
   dispatch({
@@ -18,6 +21,9 @@ export const addAlert = (
       alertType,
       header,
       content,
+      className,
+      link,
+      title,
       response,
     },
   });

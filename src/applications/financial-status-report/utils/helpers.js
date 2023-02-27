@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { get } from 'lodash';
 import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
@@ -263,6 +264,8 @@ export const getMonthlyExpenses = ({
   const installments = sumValues(installmentContracts, 'amountDueMonthly');
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
+  const food = Number(get(expenses, 'food', 0));
+  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
 
   let totalExp = 0;
 
@@ -280,7 +283,7 @@ export const getMonthlyExpenses = ({
     );
   }
 
-  return utilities + installments + otherExp + totalExp;
+  return utilities + installments + otherExp + totalExp + food + rentOrMortgage;
 };
 
 export const getTotalAssets = ({
@@ -289,12 +292,17 @@ export const getTotalAssets = ({
   'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
+  const formattedREValue = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
   const totRecVehicles = !combinedFSRActive
     ? sumValues(assets.recVehicles, 'recVehicleAmount')
     : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
   const totVehicles = sumValues(assets.automobiles, 'resaleValue');
-  const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
+  const realEstate = !enhancedFSRActive
+    ? sumValues(realEstateRecords, 'realEstateAmount')
+    : formattedREValue;
   const totAssets = !enhancedFSRActive
     ? Object.values(assets)
         .filter(item => item && !Array.isArray(item))

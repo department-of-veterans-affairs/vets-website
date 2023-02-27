@@ -44,9 +44,7 @@ const Footer = ({ router, isPreCheckIn }) => {
             {t('and-select-0-were-here-24-7')}
           </p>
           <p>
-            {t('if-you-have-hearing-loss-call')}{' '}
-            {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
-            <va-telephone contact="711" />
+            {t('if-you-have-hearing-loss-call')} <va-telephone contact="711" />.
           </p>
         </div>
       ) : (
@@ -84,7 +82,10 @@ const Footer = ({ router, isPreCheckIn }) => {
               />
             </p>
             <p>
-              <ExternalLink href="/find-locations/" hrefLang="en">
+              <ExternalLink
+                href="/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp"
+                hrefLang="en"
+              >
                 {t('find-the-travel-contact-for-your-facility')}
               </ExternalLink>
             </p>

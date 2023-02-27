@@ -209,7 +209,7 @@
   "your-appointment": "Su cita:",
   "your-appointment-at-on-is-cancelled": "Se ha cancelado su cita en esta fecha y hora: {{time, time}} {{day, long}} ",
   "your-appointment-started-more-than-15-minutes-ago-ask-for-help": "Su cita comenzó hace más de 15 minutos. No podemos completar el registro en línea. Pídale asistencia a un miembro del personal.",
-  "your-appointments": "Sus citas:",
+  "your-appointments": "Sus citas",
   "your-appointments-on-day_one": "Su cita es en esta fecha: {{day, long}}.",
   "your-appointments-on-day_other": "Sus citas son en esta fecha: {{day, long}}.",
   "your-appointments-on-day-facility_one": "Su cita es en esta fecha: {{day, long}} y en: {{facility}}.",

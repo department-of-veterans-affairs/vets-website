@@ -22,7 +22,12 @@ const NextOfKin = props => {
 
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const {
+    goToNextPage,
+    goToPreviousPage,
+    jumpToPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
 
   const buttonClick = useCallback(
     async answer => {
@@ -51,7 +56,11 @@ const NextOfKin = props => {
 
   return (
     <>
-      <BackButton action={goToPreviousPage} router={router} />
+      <BackButton
+        action={goToPreviousPage}
+        router={router}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <NextOfKinDisplay
         header={header}
         subtitle={subtitle}

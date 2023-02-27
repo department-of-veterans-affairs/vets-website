@@ -1,17 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import {
-  errorMessages,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-  MAX_LENGTH,
-} from '../../constants';
+import { errorMessages, MAX_LENGTH } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 import {
-  validateEvidence,
   validateVaLocation,
   validateVaIssues,
   validateVaFromDate,
@@ -30,70 +23,6 @@ import {
   isEmptyPrivateEntry,
   validatePrivateUnique,
 } from '../../validations/evidence';
-
-describe('validateEvidence', () => {
-  const getEvidence = ({
-    va = false,
-    locations = [],
-    priv8 = false,
-    facility = [],
-    other = false,
-    docs = [],
-  }) => ({
-    [EVIDENCE_VA]: va,
-    locations,
-    [EVIDENCE_PRIVATE]: priv8,
-    providerFacility: facility,
-    [EVIDENCE_OTHER]: other,
-    additionalDocuments: docs,
-  });
-  it('should show error if missing all evidence', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(errors, getEvidence({}));
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show error choosing all evidence, but it is all missing', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, other: true }),
-    );
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should show error not choosing evidence, but the data is there', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(
-      errors,
-      getEvidence({ locations: [1], facility: [2], docs: [3] }),
-    );
-    expect(errors.addError.called).to.be.true;
-  });
-  it('should not show an error if providing evidence', () => {
-    const errors = { addError: sinon.spy() };
-    validateEvidence(errors, getEvidence({ va: true, locations: [1] }));
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(errors, getEvidence({ priv8: true, facility: [2] }));
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(errors, getEvidence({ other: true, docs: [3] }));
-    expect(errors.addError.called).to.be.false;
-
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, locations: [1], priv8: true, other: true }),
-    );
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, facility: [2], other: true }),
-    );
-    expect(errors.addError.called).to.be.false;
-    validateEvidence(
-      errors,
-      getEvidence({ va: true, priv8: true, other: true, docs: [3] }),
-    );
-    expect(errors.addError.called).to.be.false;
-  });
-});
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {
@@ -467,6 +396,9 @@ describe('Private evidence', () => {
       expect(isEmptyPrivateEntry({ providerFacilityName: '' })).to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { country: '' } }))
         .to.be.true;
+      expect(
+        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'USA' } }),
+      ).to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { street: '' } }))
         .to.be.true;
       expect(isEmptyPrivateEntry({ providerFacilityAddress: { street2: '' } }))
@@ -509,11 +441,26 @@ describe('Private evidence', () => {
           treatmentDateRange: { from: '', to: '' },
         }),
       ).to.be.true;
+      expect(
+        isEmptyPrivateEntry({
+          providerFacilityName: '',
+          providerFacilityAddress: {
+            country: 'USA',
+            street: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+          },
+          issues: [''],
+          treatmentDateRange: { from: '', to: '' },
+        }),
+      ).to.be.true;
     });
     it('should return false for filled or partially filled entries', () => {
       expect(isEmptyPrivateEntry({ providerFacilityName: 'bar' })).to.be.false;
       expect(
-        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'USA' } }),
+        isEmptyPrivateEntry({ providerFacilityAddress: { country: 'Fiji' } }),
       ).to.be.false;
       expect(
         isEmptyPrivateEntry({ providerFacilityAddress: { street: '123' } }),

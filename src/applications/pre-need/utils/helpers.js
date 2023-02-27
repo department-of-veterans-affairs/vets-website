@@ -23,7 +23,7 @@ import ServicePeriodView from '../components/ServicePeriodView';
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const contactInfoDescription = (
-  <va-alert status="info" background-only>
+  <va-additional-info trigger="Why do we need your contact information?">
     <p>
       We may contact you by phone if we need more information about your
       application.
@@ -32,7 +32,7 @@ export const contactInfoDescription = (
       You can also provide your email address to receive updates about new
       openings in VA national cemeteries or other burial benefits.
     </p>
-  </va-alert>
+  </va-additional-info>
 );
 
 export const authorizedAgentDescription = (
@@ -55,7 +55,12 @@ export const authorizedAgentDescription = (
 );
 
 export const veteranRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert
+    status="info"
+    background-only
+    role="status"
+    id="veteran-relationship"
+  >
     You’re applying as the <strong>service member or Veteran</strong>. We’ll ask
     you questions about your military status and history to determine if you
     qualify for burial in a VA national cemetery.
@@ -63,7 +68,12 @@ export const veteranRelationshipDescription = (
 );
 
 export const spouseRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert
+    status="info"
+    background-only
+    role="status"
+    id="spouse-relationship"
+  >
     You’re applying as the{' '}
     <strong>legally married spouse or surviving spouse</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
@@ -73,7 +83,7 @@ export const spouseRelationshipDescription = (
 );
 
 export const childRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert status="info" background-only role="status" id="child-relationship">
     You’re applying as the <strong>unmarried adult child</strong> of the service
     member or Veteran who’s your sponsor. We’ll ask you questions about your
     sponsor’s military status and history to determine if you qualify for burial
@@ -83,7 +93,7 @@ export const childRelationshipDescription = (
 );
 
 export const otherRelationshipDescription = (
-  <va-alert status="info" background-only>
+  <va-alert status="info" background-only role="status" id="other-relationship">
     You’re applying on <strong>behalf</strong> of the service member or Veteran
     who’s your sponsor. We’ll ask you questions about your sponsor’s military
     status and history to determine if they qualify for burial in a VA national

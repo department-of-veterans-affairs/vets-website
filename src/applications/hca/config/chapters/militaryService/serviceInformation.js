@@ -4,8 +4,8 @@ import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
-  dischargeTypeLabels,
-  lastServiceBranchLabels,
+  DISCHARGE_TYPE_LABELS,
+  SERVICE_BRANCH_LABELS,
 } from '../../../utils/constants';
 import { validateServiceDates } from '../../../utils/validation';
 
@@ -22,7 +22,7 @@ export default {
     lastServiceBranch: {
       'ui:title': 'Last branch of service',
       'ui:options': {
-        labels: lastServiceBranchLabels,
+        labels: SERVICE_BRANCH_LABELS,
       },
     },
     // TODO: this should really be a dateRange, but that requires a backend schema change. For now
@@ -32,7 +32,7 @@ export default {
     dischargeType: {
       'ui:title': 'Character of service',
       'ui:options': {
-        labels: dischargeTypeLabels,
+        labels: DISCHARGE_TYPE_LABELS,
       },
     },
     'ui:validations': [validateServiceDates],

@@ -3,8 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { isReactComponent, getScrollOptions } from 'platform/utilities/ui';
+import {
+  isReactComponent,
+  focusElement,
+  customScrollAndFocus,
+  defaultFocusSelector,
+} from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -16,17 +20,20 @@ import {
   getPreviousPagePath,
   checkValidPagePath,
 } from '../routing';
-import { focusElement } from '../utilities/ui';
 
-function focusForm() {
-  focusElement('.nav-header > h2');
+function focusForm(route, index) {
+  // Check main toggle to enable custom focus
+  if (route.formConfig?.useCustomScrollAndFocus) {
+    customScrollAndFocus(route.pageConfig?.scrollAndFocusTarget, index);
+  } else {
+    focusElement(defaultFocusSelector);
+  }
 }
 
 class FormPage extends React.Component {
   componentDidMount() {
     if (!this.props.blockScrollOnMount) {
-      scrollToTop('topScrollElement', getScrollOptions());
-      focusForm();
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
@@ -36,8 +43,7 @@ class FormPage extends React.Component {
         this.props.route.pageConfig.pageKey ||
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
-      scrollToTop('topScrollElement', getScrollOptions());
-      focusForm();
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
@@ -254,6 +260,10 @@ FormPage.propTypes = {
       pageClass: PropTypes.string,
       pageKey: PropTypes.string.isRequired,
       schema: PropTypes.object.isRequired,
+      scrollAndFocusTarget: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+      ]),
       showPagePerItem: PropTypes.bool,
       title: PropTypes.string,
       uiSchema: PropTypes.object.isRequired,

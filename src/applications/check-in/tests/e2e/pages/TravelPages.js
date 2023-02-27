@@ -27,6 +27,33 @@ class TravelPages {
     });
   };
 
+  validateBackButton = page => {
+    cy.get('a[data-testid="back-button').should(
+      'have.text',
+      'Back to last screen',
+    );
+    if (page === 'travel-pay') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'next-of-kin');
+    }
+    if (page === 'vehicle') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-pay');
+    }
+    if (page === 'address') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-vehicle');
+    }
+    if (page === 'mileage') {
+      cy.get('a[data-testid="back-button"]')
+        .should('have.attr', 'href')
+        .and('contain', 'travel-address');
+    }
+  };
+
   validateContent = page => {
     let body = true;
     const helpText = true;

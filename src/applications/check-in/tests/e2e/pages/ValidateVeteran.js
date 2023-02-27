@@ -31,9 +31,9 @@ class ValidateVeteran {
 
   validateVeteran = (
     lastName = 'Smith',
-    year = '1989',
-    month = '03',
-    day = '15',
+    year = '1935',
+    month = '04',
+    day = '07',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
@@ -131,15 +131,15 @@ class ValidateVeteran {
     this.getLastNameInput().type(lastName);
   };
 
-  typeYear = (year = '1989') => {
+  typeYear = (year = '1935') => {
     this.getYearInput().type(year);
   };
 
-  typeMonth = (month = '03') => {
+  typeMonth = (month = '04') => {
     this.getMonthInput().type(month);
   };
 
-  typeDay = (day = '15') => {
+  typeDay = (day = '07') => {
     this.getDayInput().type(day);
   };
 
@@ -176,7 +176,7 @@ class ValidateVeteran {
   getLastNameError = () => {
     cy.get('[label="Your last name"]')
       .shadow()
-      .find('#error-message')
+      .find('#input-error-message')
       .contains('Please enter your last name.');
   };
 

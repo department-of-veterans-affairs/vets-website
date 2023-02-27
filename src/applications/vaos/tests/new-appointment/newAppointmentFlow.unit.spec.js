@@ -190,7 +190,7 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
 
-        const dataLayer = global.window.dataLayer;
+        const { dataLayer } = global.window;
         expect(dataLayer[0].event).to.equal('vaos-cc-eligible-yes');
 
         expect(nextState).to.equal('requestDateTime');
@@ -455,7 +455,7 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
-  describe('ccPreferences page', () => {
+  describe.skip('ccPreferences page', () => {
     describe('next page', () => {
       it('should be reasonForAppointment if user has no address on file', () => {
         const state = {

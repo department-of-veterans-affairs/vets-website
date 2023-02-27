@@ -16,6 +16,7 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
  * @property {Date} checkInWindowStart,
  * @property {Date} checkInWindowEnd,
  * @property {string} checkedInTime,
+ * @property {string} appointmentId,
  */
 
 /**
@@ -33,7 +34,7 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
- * Check if any appointment was canceled.
+ * Check if any appointment was canceled but not every.
  *
  * @param {Array<Appointment>} appointments
  *
@@ -43,7 +44,30 @@ const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
-  return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.some(statusIsCanceled) &&
+    !appointments.every(statusIsCanceled)
+  );
+};
+
+/**
+ * Check if every appointment was canceled.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
+ */
+const allAppointmentsCanceled = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.every(statusIsCanceled)
+  );
 };
 
 /**
@@ -196,13 +220,13 @@ const hasPhoneAppointments = appointments => {
  * @returns {Node}
  */
 
-const appointmentIcon = appointment => {
+const appointmentIcon = (appointment, listMode = false) => {
   return (
     <i
       aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
+      className={`${
+        listMode && appointment?.kind === 'clinic' ? 'far' : 'fas'
+      } ${appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'}`}
       aria-hidden="true"
       data-testid="appointment-icon"
     />
@@ -222,9 +246,39 @@ const clinicName = appointment => {
     : appointment.clinicName;
 };
 
+/**
+ * Return a unique ID of ien and station.
+ *
+ * @param {Appointment} appointment
+ * @returns {string}
+ */
+
+const getAppointmentId = appointment => {
+  return `${appointment.appointmentIen}-${appointment.stationNo}`;
+};
+
+/**
+ * Find appointment by ID.
+ *
+ * @param {appointmentId} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+
+const findAppointment = (appointmentId, appointments) => {
+  const appointmentIdParts = appointmentId.split('-');
+  return appointments.find(
+    appointmentItem =>
+      String(appointmentItem.appointmentIen) ===
+        String(appointmentIdParts[0]) &&
+      String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
+  );
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
+  allAppointmentsCanceled,
   getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
@@ -236,4 +290,6 @@ export {
   hasPhoneAppointments,
   appointmentIcon,
   clinicName,
+  getAppointmentId,
+  findAppointment,
 };

@@ -15,7 +15,7 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
-import ContactInfo from '../components/ContactInfo';
+import ContactInfo, { customContactFocus } from '../components/ContactInfo';
 import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
@@ -27,6 +27,8 @@ import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
+import OptIn from '../components/OptIn';
+import Notice5103 from '../components/Notice5103';
 import submissionError from '../content/submissionError';
 
 import contactInfo from '../pages/contactInformation';
@@ -38,7 +40,7 @@ import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import issueSummary from '../pages/issueSummary';
-import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
+import notice5103 from '../pages/notice5103';
 import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
 
@@ -73,6 +75,8 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
+import { focusRadioH3, focusAlertH3 } from '../utils/focus';
+
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
 const blankSchema = { type: 'object', properties: {} };
@@ -102,6 +106,9 @@ const formConfig = {
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
+  // when true, initial focus on page to H3s by default, and enable page
+  // scrollAndFocusTarget (selector string or function to scroll & focus)
+  useCustomScrollAndFocus: true,
   chapters: {
     infoPages: {
       title: 'Veteran information',
@@ -119,9 +126,11 @@ const formConfig = {
           CustomPageReview: ContactInfoReview,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: customContactFocus,
         },
         editHomePhone: {
-          title: 'Edit phone number',
+          title: 'Edit home phone number',
           path: 'edit-home-phone',
           CustomPage: EditHomePhone,
           CustomPageReview: EditHomePhone,
@@ -130,7 +139,7 @@ const formConfig = {
           schema: blankSchema,
         },
         editMobilePhone: {
-          title: 'Edit phone number',
+          title: 'Edit mobile phone number',
           path: 'edit-mobile-phone',
           CustomPage: EditMobilePhone,
           CustomPageReview: EditMobilePhone,
@@ -165,6 +174,8 @@ const formConfig = {
           CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },
@@ -197,9 +208,11 @@ const formConfig = {
         optIn: {
           title: 'Opt in',
           path: 'opt-in',
+          depends: mayHaveLegacyAppeals,
+          CustomPage: OptIn,
+          CustomPageReview: null, // reviewField renders this!
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: mayHaveLegacyAppeals,
           initialData: {
             socOptIn: false,
           },
@@ -211,13 +224,17 @@ const formConfig = {
       title: 'New and relevant evidence',
       pages: {
         notice5103: {
+          title: 'Notice of evidence needed',
+          path: 'notice-of-evidence-needed',
+          CustomPage: Notice5103,
+          CustomPageReview: null, // reviewField renders this!
+          uiSchema: notice5103.uiSchema,
+          schema: notice5103.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: focusAlertH3,
           initialData: {
             form5103Acknowledged: false,
           },
-          title: 'Notice of Acknowledgement',
-          path: 'notice-of-acknowledgement',
-          uiSchema: noticeOfAcknowledgement.uiSchema,
-          schema: noticeOfAcknowledgement.schema,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
@@ -242,6 +259,8 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
           schema: evidencePrivateRequest.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecordsAuthorization: {
           title: 'Private medical record authorization',

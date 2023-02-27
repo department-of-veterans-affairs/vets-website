@@ -777,14 +777,20 @@
             "sourceSystem": "SM",
             "dateTime": "2022-02-22T13:35:00Z",
             "duration": 20,
-            "status": { "description": "F", "code": "FUTURE" },
+            "status": {
+              "description": "F",
+              "code": "FUTURE"
+            },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
             "type": "REGULAR",
             "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
             "instructionsOther": false,
             "patients": [
               {
-                "name": { "firstName": "JUDY", "lastName": "MORRISON" },
+                "name": {
+                  "firstName": "JUDY",
+                  "lastName": "MORRISON"
+                },
                 "contactInformation": {
                   "mobile": "7036520000",
                   "preferredEmail": "samatha.girla@va.gov"
@@ -807,7 +813,10 @@
             ],
             "providers": [
               {
-                "name": { "firstName": "Vilasini", "lastName": "Reddy" },
+                "name": {
+                  "firstName": "Vilasini",
+                  "lastName": "Reddy"
+                },
                 "contactInformation": {
                   "mobile": "6767676767",
                   "preferredEmail": "vilasini.reddy@va.gov",
@@ -850,14 +859,20 @@
             "sourceSystem": "SM",
             "dateTime": "2019-11-22T13:35:00Z",
             "duration": 20,
-            "status": { "description": "F", "code": "FUTURE" },
+            "status": {
+              "description": "F",
+              "code": "FUTURE"
+            },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
             "type": "REGULAR",
             "bookingNotes": "Follow-up/Routine: asfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasfasfdasdfasdfasf",
             "instructionsOther": false,
             "patients": [
               {
-                "name": { "firstName": "JUDY", "lastName": "MORRISON" },
+                "name": {
+                  "firstName": "JUDY",
+                  "lastName": "MORRISON"
+                },
                 "contactInformation": {
                   "mobile": "7036520000",
                   "preferredEmail": "samatha.girla@va.gov"
@@ -880,7 +895,10 @@
             ],
             "providers": [
               {
-                "name": { "firstName": "Vilasini", "lastName": "Reddy" },
+                "name": {
+                  "firstName": "Vilasini",
+                  "lastName": "Reddy"
+                },
                 "contactInformation": {
                   "mobile": "6767676767",
                   "preferredEmail": "vilasini.reddy@va.gov",
@@ -922,7 +940,10 @@
             "sourceSystem": "SM",
             "dateTime": "2022-01-25T15:17:00Z",
             "duration": 20,
-            "status": { "description": "F", "code": "FUTURE" },
+            "status": {
+              "description": "F",
+              "code": "FUTURE"
+            },
             "schedulingRequestType": "NEXT_AVAILABLE_APPT",
             "type": "REGULAR",
             "bookingNotes": "T+90 Testing",
@@ -930,7 +951,10 @@
             "instructionsTitle": "Video Visit Preparation",
             "patients": [
               {
-                "name": { "firstName": "JUDY", "lastName": "MORRISON" },
+                "name": {
+                  "firstName": "JUDY",
+                  "lastName": "MORRISON"
+                },
                 "contactInformation": {
                   "mobile": "7036520000",
                   "preferredEmail": "marcy.nadeau@va.gov"
@@ -953,7 +977,10 @@
             ],
             "providers": [
               {
-                "name": { "firstName": "Meg", "lastName": "Smith" },
+                "name": {
+                  "firstName": "Meg",
+                  "lastName": "Smith"
+                },
                 "contactInformation": {
                   "mobile": "8888888888",
                   "preferredEmail": "marcy.nadeau@va.gov",

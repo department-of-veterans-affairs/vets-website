@@ -8,19 +8,20 @@ import { I18nextProvider } from 'react-i18next';
 
 import i18n from '../../../../utils/i18n/i18n';
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
+import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import CheckIn from '../index';
 
 describe('check-in', () => {
   describe('CheckIn component', () => {
     let store;
-    const mockRouter = {
+    const mockRouter = createMockRouter({
       params: {
         token: 'token-123',
       },
       location: {
         pathname: '/third-page',
       },
-    };
+    });
     beforeEach(() => {
       const middleware = [];
       const mockStore = configureStore(middleware);
