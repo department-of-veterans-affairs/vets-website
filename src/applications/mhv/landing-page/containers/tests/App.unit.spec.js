@@ -15,6 +15,7 @@ const generateInitState = ({
   mhvLandingPageEnabled = true,
   serviceName = 'idme',
   profileLoading = false,
+  currentlyLoggedIn = true,
 }) => {
   return {
     featureToggles: {
@@ -23,6 +24,9 @@ const generateInitState = ({
       mhv_landing_page_enabled: mhvLandingPageEnabled,
     },
     user: {
+      login: {
+        currentlyLoggedIn,
+      },
       profile: {
         loading: profileLoading,
         signIn: {
@@ -85,25 +89,6 @@ describe('MHV landing page', () => {
       expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
       expect(replace.called).to.be.true;
     });
-    it('user is authenticated withMHV and feature enabled -- should not show the landing page', () => {
-      const middleware = [];
-      const mockStore = configureStore(middleware);
-      const initState = generateInitState({
-        loading: false,
-        mhvLandingPageEnabled: true,
-        serviceName: CSP_IDS.MHV,
-      });
-      const store = mockStore(initState);
-      const replace = sinon.spy();
-      global.window.location = { ...global.window.location, replace };
-      const wrapper = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
-      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
-      expect(replace.called).to.be.true;
-    });
     it('user is authenticated with login gov and feature enabled -- should renders landing page', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
@@ -135,6 +120,44 @@ describe('MHV landing page', () => {
         </Provider>,
       );
       expect(getByTestId('landing-page-container')).to.exist;
+    });
+    it('user is authenticated withMHV and feature enabled -- should not show the landing page', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = generateInitState({
+        loading: false,
+        mhvLandingPageEnabled: true,
+        serviceName: CSP_IDS.MHV,
+      });
+      const store = mockStore(initState);
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const wrapper = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
+      expect(replace.called).to.be.true;
+    });
+    it('user is not authenticated and feature enabled -- should not show the landing page', () => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = generateInitState({
+        loading: false,
+        mhvLandingPageEnabled: true,
+        currentlyLoggedIn: false,
+      });
+      const store = mockStore(initState);
+      const replace = sinon.spy();
+      global.window.location = { ...global.window.location, replace };
+      const wrapper = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
+      expect(replace.called).to.be.true;
     });
   });
 });
