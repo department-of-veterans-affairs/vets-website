@@ -12,7 +12,7 @@ const SpouseEmploymentHistoryWidget = props => {
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.spouse.employmentRecords || [];
-
+  const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
   useEffect(() => {
     clearJobIndex();
   }, []);
@@ -20,8 +20,10 @@ const SpouseEmploymentHistoryWidget = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasAdditionalJobToAdd === 'true') {
+      if (hasAdditionalJobToAdd === 'true' && efsrFeatureFlag) {
         goToPath(`/enhanced-spouse-employment-records`);
+      } else if (hasAdditionalJobToAdd === 'false' && efsrFeatureFlag) {
+        goToPath(`/dependents-count`);
       } else {
         goToPath(`/dependents`);
       }
@@ -56,16 +58,15 @@ const SpouseEmploymentHistoryWidget = props => {
         required
       >
         <va-radio-option
-          id="home-phone"
+          id="has-additional-job"
           label="Yes"
           value="true"
           checked={hasAdditionalJobToAdd === 'true'}
         />
         <va-radio-option
-          id="mobile-phone"
+          id="has-no-additional-job"
           label="No"
           value="false"
-          name="primary"
           checked={hasAdditionalJobToAdd === 'false'}
         />
       </VaRadio>

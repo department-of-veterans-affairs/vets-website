@@ -141,17 +141,7 @@ const testConfig = createTestConfig(
       },
       'spouse-deduction-checklist': ({ afterHook }) => {
         afterHook(() => {
-          SpouseEmploymentHistory.goBackAndValidateInput(
-            '[data-testid="gross-monthly-income"]',
-            '1000',
-          );
-
-          // continuing to deduction checklist
-          SpouseEmploymentHistory.attemptNextPage();
-
-          cy.get(`input[name="State tax"]`)
-            .first()
-            .check();
+          cy.get('[type="checkbox"][value="State tax"]').click();
           SpouseEmploymentHistory.attemptNextPage();
         });
       },
@@ -162,7 +152,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('123');
-          cy.get('.usa-button-primary').click();
+          SpouseEmploymentHistory.attemptNextPage();
         });
       },
       'dependent-ages': ({ afterHook }) => {
