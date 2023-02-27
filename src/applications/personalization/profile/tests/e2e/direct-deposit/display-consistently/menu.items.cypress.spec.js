@@ -27,7 +27,8 @@ describe('Direct Deposit Consistently', () => {
     cy.injectAxeThenAxeCheck();
     DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
   });
-  it('should show the menu for deceased veteran', () => {
+
+  it('should hide the menu for deceased veteran and display blocked alert', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
@@ -37,9 +38,11 @@ describe('Direct Deposit Consistently', () => {
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
-    DirectDeposit.confirmDirectDepositIsAvailable({ visitPage: false });
+    DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
+    DirectDeposit.confirmRedirectToAccountSecurity();
+    DirectDeposit.confirmProfileIsBlocked();
   });
-  it('should show the menu for an is not competent veteran', () => {
+  it('should hide the menu for is not competent veteran and display blocked alert', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
@@ -49,9 +52,11 @@ describe('Direct Deposit Consistently', () => {
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
-    DirectDeposit.confirmDirectDepositIsAvailable({ visitPage: false });
+    DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
+    DirectDeposit.confirmRedirectToAccountSecurity();
+    DirectDeposit.confirmProfileIsBlocked();
   });
-  it('should show the menu for a has fiduciary veteran', () => {
+  it('should hide the menu for has fiduciary veteran and display blocked alert', () => {
     cy.login(loa3User72);
     cy.intercept(
       'GET',
@@ -61,6 +66,8 @@ describe('Direct Deposit Consistently', () => {
 
     DirectDeposit.visitPage();
     cy.injectAxeThenAxeCheck();
-    DirectDeposit.confirmDirectDepositIsAvailable({ visitPage: false });
+    DirectDeposit.confirmDirectDepositIsNotAvailableInNav();
+    DirectDeposit.confirmRedirectToAccountSecurity();
+    DirectDeposit.confirmProfileIsBlocked();
   });
 });
