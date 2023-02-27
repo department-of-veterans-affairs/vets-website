@@ -7,7 +7,7 @@ import { clearJobIndex } from '../../../utils/session';
 
 const SpouseEmploymentHistoryWidget = props => {
   const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState('false');
+  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState(false);
 
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
@@ -18,21 +18,23 @@ const SpouseEmploymentHistoryWidget = props => {
   }, []);
 
   const handlers = {
-    onSubmit: event => {
-      event.preventDefault();
-      if (hasAdditionalJobToAdd === 'true' && efsrFeatureFlag) {
-        goToPath(`/enhanced-spouse-employment-records`);
-      } else if (hasAdditionalJobToAdd === 'false' && efsrFeatureFlag) {
-        goToPath(`/dependents-count`);
-      } else {
-        goToPath(`/dependents`);
+    onSelection: event => {
+      const value = event?.detail?.value;
+      if (value) {
+        setHasAdditionalJobToAdd(true);
       }
     },
-    onSelection: event => {
-      const { value } = event?.detail || {};
-      if (value) {
-        setHasAdditionalJobToAdd(value);
+    onSubmit: event => {
+      event.preventDefault();
+      let path = '/dependents';
+      if (efsrFeatureFlag && hasAdditionalJobToAdd) {
+        path = '/enhanced-spouse-employment-records';
+      } else if (hasAdditionalJobToAdd) {
+        path = '/spouse-employment-records';
+      } else if (efsrFeatureFlag && !hasAdditionalJobToAdd) {
+        path = '/dependents-count';
       }
+      goToPath(path);
     },
   };
 
@@ -60,14 +62,14 @@ const SpouseEmploymentHistoryWidget = props => {
         <va-radio-option
           id="has-additional-job"
           label="Yes"
-          value="true"
-          checked={hasAdditionalJobToAdd === 'true'}
+          value
+          checked={hasAdditionalJobToAdd}
         />
         <va-radio-option
           id="has-no-additional-job"
           label="No"
-          value="false"
-          checked={hasAdditionalJobToAdd === 'false'}
+          value={false}
+          checked={!hasAdditionalJobToAdd}
         />
       </VaRadio>
       {onReviewPage ? updateButton : navButtons}
