@@ -452,7 +452,6 @@ const formConfig = {
           schema: pages.spouseAdditionalIncomeChecklist.schema,
           depends: formData =>
             formData.questions.isMarried &&
-            formData.questions.spouseHasAdditionalIncome &&
             formData['view:enhancedFinancialStatusReport'],
         },
         spouseAdditionalIncomeValues: {
@@ -462,7 +461,6 @@ const formConfig = {
           schema: pages.spouseAdditionalIncomeValues.schema,
           depends: formData =>
             formData.questions.isMarried &&
-            formData.questions.spouseHasAdditionalIncome &&
             formData['view:enhancedFinancialStatusReport'],
         },
         dependents: {

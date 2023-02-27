@@ -1,15 +1,18 @@
-import AdditionalIncomeInputList from '../../../../components/AdditionalIncomeInputList';
+import SpouseAdditionalIncomeInputList from '../../../../components/SpouseAdditionalIncomeInputList';
 import { validateAddlIncomeValues } from '../../../../utils/validations';
 
 export const uiSchema = {
   'ui:title': '',
   additionalIncome: {
     'ui:title': "Your spouse's other income",
-    'ui:field': AdditionalIncomeInputList,
+    'ui:field': SpouseAdditionalIncomeInputList,
     'ui:options': {
       hideOnReview: true,
     },
-    addlIncRecords: {
+    spouse: {
+      'ui:title': '',
+    },
+    spAddlIncome: {
       'ui:title': 'addlIncRecords',
       'ui:validations': [validateAddlIncomeValues],
       items: {
@@ -30,11 +33,16 @@ export const schema = {
     additionalIncome: {
       type: 'object',
       properties: {
-        addlIncRecords: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {},
+        spouse: {
+          type: 'object',
+          properties: {
+            spAddlIncome: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {},
+              },
+            },
           },
         },
       },

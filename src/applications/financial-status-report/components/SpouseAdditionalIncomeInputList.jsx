@@ -4,15 +4,13 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from './utils/InputList';
 
-const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
+const SpouseAdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   const errorList = errorSchema?.addlIncRecords?.__errors;
   const { submitted } = formContext;
 
   const dispatch = useDispatch();
   const data = useSelector(state => state.form.data);
-  const {
-    additionalIncome: { addlIncRecords },
-  } = data;
+  const { spAddlIncome = [] } = data.additionalIncome.spouse;
 
   const onChange = ({ target }) => {
     return dispatch(
@@ -22,7 +20,7 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
           spouse: {
             spAddlIncome: {
               ...data.additionalIncome.spouse.spAddlIncome,
-              addlIncRecords: addlIncRecords.map(income => {
+              spAddlIncome: spAddlIncome.map(income => {
                 if (income.name === target.name) {
                   return {
                     ...income,
@@ -45,7 +43,7 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   return (
     <InputList
       errorList={errorList}
-      inputs={addlIncRecords}
+      inputs={spAddlIncome}
       title={title}
       prompt={prompt}
       submitted={submitted}
@@ -54,7 +52,7 @@ const AdditionalIncomeInputList = ({ errorSchema, formContext }) => {
   );
 };
 
-AdditionalIncomeInputList.propTypes = {
+SpouseAdditionalIncomeInputList.propTypes = {
   errorSchema: PropTypes.shape({
     addlIncRecords: PropTypes.shape({
       __errors: PropTypes.array,
@@ -65,4 +63,4 @@ AdditionalIncomeInputList.propTypes = {
   }),
 };
 
-export default AdditionalIncomeInputList;
+export default SpouseAdditionalIncomeInputList;

@@ -1,5 +1,5 @@
 import React from 'react';
-import AdditionalIncomeCheckList from '../../../../components/AdditionalIncomeCheckList';
+import SpouseAdditionalIncomeCheckList from '../../../../components/SpouseAdditionalIncomeCheckList';
 
 export const uiSchema = {
   'ui:title': "Your spouse's other income",
@@ -9,7 +9,7 @@ export const uiSchema = {
         Select any additional income your spouse receives:
       </span>
     ),
-    'ui:widget': AdditionalIncomeCheckList,
+    'ui:widget': SpouseAdditionalIncomeCheckList,
     'ui:options': {
       hideOnReview: true,
     },
