@@ -15,7 +15,7 @@ const App = () => {
     user?.profile?.signIn?.serviceName,
   );
   if (featureToggles.loading || user.profile.loading)
-    return <va-loading-indicator data-testid="loading-indicator" />;
+    return <va-loading-indicator />;
   if (!appEnabled && user?.login?.currentlyLoggedIn) {
     const url = mhvUrl(true, 'home');
     window.location.replace(url);

@@ -49,12 +49,12 @@ describe('MHV landing page', () => {
         loading: true,
       });
       const store = mockStore(initState);
-      const { getByTestId } = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(getByTestId('loading-indicator')).to.exist;
+      expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
     it('user is not loaded -- should loading indicator', () => {
       const middleware = [];
@@ -64,12 +64,12 @@ describe('MHV landing page', () => {
         profileLoading: true,
       });
       const store = mockStore(initState);
-      const { getByTestId } = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(getByTestId('loading-indicator')).to.exist;
+      expect(container.querySelector('va-loading-indicator ')).to.exist;
     });
     it('user is authenticated, but feature is disabled -- should not show the landing page', () => {
       const middleware = [];
@@ -81,12 +81,12 @@ describe('MHV landing page', () => {
       const store = mockStore(initState);
       const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
-      const wrapper = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
+      expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
     it('user is authenticated with login gov and feature enabled -- should renders landing page', () => {
@@ -98,12 +98,13 @@ describe('MHV landing page', () => {
         serviceName: CSP_IDS.LOGIN_GOV,
       });
       const store = mockStore(initState);
-      const { getByTestId } = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(getByTestId('landing-page-container')).to.exist;
+      expect(container.querySelector('h1')).to.exist;
+      expect(container.querySelector('h1')).to.have.text('My Health');
     });
     it('user is authenticated with idme and feature enable -- should renders landing page', () => {
       const middleware = [];
@@ -114,12 +115,13 @@ describe('MHV landing page', () => {
         serviceName: CSP_IDS.ID_ME,
       });
       const store = mockStore(initState);
-      const { getByTestId } = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(getByTestId('landing-page-container')).to.exist;
+      expect(container.querySelector('h1')).to.exist;
+      expect(container.querySelector('h1')).to.have.text('My Health');
     });
     it('user is authenticated withMHV and feature enabled -- should not show the landing page', () => {
       const middleware = [];
@@ -132,12 +134,12 @@ describe('MHV landing page', () => {
       const store = mockStore(initState);
       const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
-      const wrapper = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
+      expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
     it('user is not authenticated and feature enabled -- should not show the landing page', () => {
@@ -151,12 +153,12 @@ describe('MHV landing page', () => {
       const store = mockStore(initState);
       const replace = sinon.spy();
       global.window.location = { ...global.window.location, replace };
-      const wrapper = render(
+      const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect(wrapper.queryByTestId('landing-page-container')).to.not.exist;
+      expect(container.querySelector('h1')).to.not.exist;
       expect(replace.called).to.be.true;
     });
   });
