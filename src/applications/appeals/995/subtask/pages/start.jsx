@@ -85,7 +85,6 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         </a>
       </va-additional-info>
 
-      <p>Answer this question to get started:</p>
       <VaRadio
         label={content.groupLabel}
         error={error ? content.errorMessage : null}
