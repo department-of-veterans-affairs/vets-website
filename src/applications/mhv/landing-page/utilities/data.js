@@ -1,6 +1,5 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
-// TODO: Confirm if deeplinking param needs to start with `mhv-portal-web`, per <https://dsva.slack.com/archives/C04DRS3L9NV/p1677263626661019?thread_ts=1677262716.609699&cid=C04DRS3L9NV>
 
 const appointmentLinks = [
   {
@@ -26,19 +25,19 @@ const appointmentLinks = [
 const messagesLinks = [
   {
     href: null,
-    oldHref: mhvUrl(true, '/mhv-portal-web/compose-message'),
+    oldHref: mhvUrl(true, 'compose-message'),
     text: 'Compose message',
     toggle: null,
   },
   {
     href: null,
-    oldHref: mhvUrl(true, '/mhv-portal-web/inbox'),
+    oldHref: mhvUrl(true, '/inbox'),
     text: 'Inbox',
     toggle: null,
   },
   {
     href: null,
-    oldHref: mhvUrl(true, '/mhv-portal-web/manage-folders'),
+    oldHref: mhvUrl(true, '/manage-folders'),
     text: 'Manage folders',
     toggle: null,
   },
@@ -80,7 +79,7 @@ const healthRecordsLinks = [
   },
   {
     href: null,
-    oldHref: mhvUrl(true, '/mhv-portal-web/health-history'),
+    oldHref: mhvUrl(true, '/health-history'),
     text: 'Health history',
     toggle: null,
   },
