@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * The text input and checkbox which make up the form signature. It's
@@ -105,13 +106,6 @@ export const FormSignature = ({
     [checked, signatureError, sectionComplete, onSectionComplete],
   );
 
-  useEffect(() => {
-    const element = document.querySelector(`va-checkbox`);
-    element.addEventListener('vaChange', event => {
-      setChecked(event.target.checked);
-    });
-  });
-
   return (
     <>
       <TextInput
@@ -121,14 +115,15 @@ export const FormSignature = ({
         required={required}
         errorMessage={(showError || signature.dirty) && signatureError}
       />
-      <va-checkbox
+      <VaCheckbox
         label={checkboxLabel}
         description={null}
         required={required}
         error={showError && checkboxError}
+        onVaChange={event => setChecked(event.target.checked)}
       >
         <p slot="description">{checkboxDescription}</p>
-      </va-checkbox>
+      </VaCheckbox>
     </>
   );
 };

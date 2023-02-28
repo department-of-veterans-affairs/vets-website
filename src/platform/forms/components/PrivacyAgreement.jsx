@@ -1,18 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function PrivacyAgreement({ onChange, checked, showError }) {
-  useEffect(() => {
-    const selector = 'va-checkbox[name="privacyAgreement"]';
-    const element = document.querySelector(selector);
-    element.addEventListener('vaChange', event => {
-      onChange(event.target.checked);
-    });
-  });
-
   return (
     <div>
-      <va-checkbox
+      <VaCheckbox
         required
         checked={checked}
         name="privacyAgreement"
@@ -23,13 +16,14 @@ export default function PrivacyAgreement({ onChange, checked, showError }) {
         }
         label="I have read and accept the privacy policy"
         description={null}
+        onVaChange={event => onChange(event.target.checked)}
       >
         <span slot="description">
           <a target="_blank" href="/privacy-policy/">
             View privacy policy
           </a>
         </span>
-      </va-checkbox>
+      </VaCheckbox>
     </div>
   );
 }

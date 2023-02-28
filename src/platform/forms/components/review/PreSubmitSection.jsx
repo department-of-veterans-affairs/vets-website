@@ -1,8 +1,9 @@
 // libs
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 // platform - forms - selectors
 import { preSubmitSelector } from 'platform/forms/selectors/review';
@@ -48,16 +49,6 @@ export function PreSubmitSection(props) {
     formConfig?.customText?.finishAppLaterMessage ||
     FINISH_APP_LATER_DEFAULT_MESSAGE;
 
-  useEffect(() => {
-    if (!CustomComponent && preSubmit?.required) {
-      const selector = `va-checkbox[name="${preSubmit.field}"]`;
-      const element = document.querySelector(selector);
-      element.addEventListener('vaChange', event => {
-        setPreSubmit(preSubmit?.field, event.target.checked);
-      });
-    }
-  });
-
   return (
     <>
       {CustomComponent ? (
@@ -71,7 +62,7 @@ export function PreSubmitSection(props) {
         <div>
           {preSubmit.notice}
           {preSubmit.required && (
-            <va-checkbox
+            <VaCheckbox
               required
               checked={checked}
               name={preSubmit.field}
@@ -82,9 +73,12 @@ export function PreSubmitSection(props) {
               }
               label={preSubmit.label}
               description={null}
+              onVaChange={event =>
+                setPreSubmit(preSubmit?.field, event.target.checked)
+              }
             >
               <p slot="description">{preSubmit.description}</p>
-            </va-checkbox>
+            </VaCheckbox>
           )}
         </div>
       )}
