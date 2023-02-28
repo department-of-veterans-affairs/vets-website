@@ -243,13 +243,7 @@ export default function addressUiSchema(
     'ui:order': [
       schemaKeys.isMilitary,
       schemaKeys['view:militaryBaseDescription'],
-      schemaKeys.country,
-      schemaKeys.street,
-      schemaKeys.street2,
-      schemaKeys.street3,
-      schemaKeys.city,
-      schemaKeys.state,
-      schemaKeys.postalCode,
+      '*',
     ],
     [schemaKeys.isMilitary]: {
       'ui:title': checkBoxTitle,
