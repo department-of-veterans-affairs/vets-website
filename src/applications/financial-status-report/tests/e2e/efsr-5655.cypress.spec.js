@@ -172,9 +172,55 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,
-          )
-            .type('2500')
-            .type('{downarrow}{enter}');
+          ).type('2500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-checklist': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 6);
+          cy.get('@checklist')
+            .eq(0)
+            .click();
+          cy.get('@checklist')
+            .eq(1)
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-values': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Antiques0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Collectibles, or collection(s)1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[data-testid="mini-summary-card"]')
+            .as('cards')
+            .should('have.length', 2);
+          cy.get('@cards')
+            .eq(0)
+            .should('contain', 'Antiques')
+            .and('contain', '$1,000.00');
+          cy.get('@cards')
+            .eq(1)
+            .should('contain', 'Collectibles')
+            .and('contain', '$1,500.00');
           cy.get('.usa-button-primary').click();
         });
       },
