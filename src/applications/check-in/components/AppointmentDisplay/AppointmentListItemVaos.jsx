@@ -23,16 +23,9 @@ const AppointmentListItemVaos = props => {
 
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
-      if (page === 'confirmation') {
-        return (
-          <span data-testid="phone-msg-confirmation">
-            {t('your-provider-will-call-you-at-your-appointment-time')}
-          </span>
-        );
-      }
       return (
-        <span data-testid="phone-msg-intro">
-          {t('your-provider-will-call-you')}
+        <span data-testid="phone-msg-confirmation">
+          {t('your-provider-will-call-you-at-your-appointment-time')}
         </span>
       );
     }
@@ -115,7 +108,7 @@ const AppointmentListItemVaos = props => {
           )}
       </div>
       {app === APP_NAMES.PRE_CHECK_IN &&
-        (page === 'confirmation' || appointment?.kind === 'phone') && (
+        page === 'confirmation' && (
           <va-alert
             background-only
             show-icon

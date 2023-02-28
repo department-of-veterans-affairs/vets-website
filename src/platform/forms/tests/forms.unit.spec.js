@@ -65,6 +65,7 @@ const formConfigKeys = [
   'wizardStorageKey',
   'showReviewErrors',
   'reviewErrors',
+  'useCustomScrollAndFocus',
 ];
 
 const validProperty = (

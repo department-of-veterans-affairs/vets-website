@@ -7,7 +7,11 @@ import {
   hasHomePhone,
   hasMobilePhone,
   hasHomeAndMobilePhone,
+  setReturnState,
+  getReturnState,
+  clearReturnState,
 } from '../../utils/contactInfo';
+import { CONTACT_EDIT } from '../../constants';
 
 const getPhone = ({
   country = '1',
@@ -135,5 +139,31 @@ describe('hasHomeAndMobilePhone', () => {
   it('should return true for valid mobile phone', () => {
     const data = getVeteran({ homePhone: getPhone(), mobilePhone: getPhone() });
     expect(hasHomeAndMobilePhone(data)).to.be.true;
+  });
+});
+
+describe('contact editing state', () => {
+  describe('setReturnState', () => {
+    it('should combine the key and state into a comma separated string', () => {
+      setReturnState();
+      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq(',');
+      setReturnState('key', 'state');
+      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq('key,state');
+    });
+  });
+  describe('getReturnState', () => {
+    it('should get the key and state comma separated string', () => {
+      window.sessionStorage.removeItem(CONTACT_EDIT);
+      expect(getReturnState()).to.eq('');
+      window.sessionStorage.setItem(CONTACT_EDIT, 'foo,bar');
+      expect(getReturnState()).to.eq('foo,bar');
+    });
+  });
+  describe('clearReturnState', () => {
+    it('should clear storage state', () => {
+      window.sessionStorage.setItem(CONTACT_EDIT, 'foo,bar');
+      clearReturnState();
+      expect(window.sessionStorage.getItem(CONTACT_EDIT)).to.eq(null);
+    });
   });
 });
