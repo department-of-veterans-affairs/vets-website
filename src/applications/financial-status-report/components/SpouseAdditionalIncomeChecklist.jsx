@@ -4,7 +4,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { otherIncome } from '../constants/checkboxSelections';
 import Checklist from './utils/CheckList';
 
-const AdditionalIncomeCheckList = () => {
+const SpouseAdditionalIncomeCheckList = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
@@ -53,4 +53,4 @@ const AdditionalIncomeCheckList = () => {
   );
 };
 
-export default AdditionalIncomeCheckList;
+export default SpouseAdditionalIncomeCheckList;
