@@ -94,9 +94,7 @@ export default function RatingsAccordion({
 
         {!subHeader && (
           <va-accordion-item id={title}>
-            <h6 aria-labelledby="test" slot="headline">
-              {title}
-            </h6>
+            <h6 slot="headline">{title}</h6>
             <div>{getQuestions()}</div>
           </va-accordion-item>
         )}

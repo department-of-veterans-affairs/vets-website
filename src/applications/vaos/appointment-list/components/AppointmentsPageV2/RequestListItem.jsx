@@ -36,7 +36,7 @@ export default function RequestListItem({ appointment, facility }) {
   const preferredDate = moment(appointment.requestedPeriod[0].start).format(
     'MMMM D, YYYY',
   );
-  const link = `/requests/${appointment.id}`;
+  const link = `requests/${appointment.id}`;
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
@@ -87,7 +87,7 @@ export default function RequestListItem({ appointment, facility }) {
             }${typeOfCareText}request for ${preferredDate}`}
             href={link}
             text="Details"
-            role="link"
+            data-testid="appointment-detail-link"
           />
           <i
             aria-hidden="true"
