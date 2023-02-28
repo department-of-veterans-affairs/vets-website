@@ -1,5 +1,5 @@
 // libs
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -48,6 +48,16 @@ export function PreSubmitSection(props) {
     formConfig?.customText?.finishAppLaterMessage ||
     FINISH_APP_LATER_DEFAULT_MESSAGE;
 
+  useEffect(() => {
+    if (!CustomComponent) {
+      const selector = `va-checkbox[name="${preSubmit.field}"]`;
+      const element = document.querySelector(selector);
+      element.addEventListener('vaChange', event => {
+        setPreSubmit(preSubmit?.field, event.target.checked);
+      });
+    }
+  });
+
   return (
     <>
       {CustomComponent ? (
@@ -64,7 +74,6 @@ export function PreSubmitSection(props) {
             <va-checkbox
               required
               checked={checked}
-              vaChange={value => setPreSubmit(preSubmit?.field, value)}
               name={preSubmit.field}
               error={
                 showPreSubmitError && !checked

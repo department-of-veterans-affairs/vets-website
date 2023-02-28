@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function PrivacyAgreement({ onChange, checked, showError }) {
+  useEffect(() => {
+    const selector = 'va-checkbox[name="privacyAgreement"]';
+    const element = document.querySelector(selector);
+    element.addEventListener('vaChange', event => {
+      onChange(event.target.checked);
+    });
+  });
+
   return (
     <div>
       <va-checkbox
         required
         checked={checked}
-        vaChange={onChange}
         name="privacyAgreement"
         error={
           showError && !checked

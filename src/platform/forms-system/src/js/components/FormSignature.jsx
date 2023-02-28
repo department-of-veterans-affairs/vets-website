@@ -105,6 +105,13 @@ export const FormSignature = ({
     [checked, signatureError, sectionComplete, onSectionComplete],
   );
 
+  useEffect(() => {
+    const element = document.querySelector(`va-checkbox`);
+    element.addEventListener('vaChange', event => {
+      setChecked(event.target.checked);
+    });
+  });
+
   return (
     <>
       <TextInput
@@ -118,7 +125,6 @@ export const FormSignature = ({
         label={checkboxLabel}
         description={null}
         required={required}
-        vaChange={setChecked}
         error={showError && checkboxError}
       >
         <p slot="description">{checkboxDescription}</p>
