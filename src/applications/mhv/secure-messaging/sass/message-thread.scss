@@ -28,7 +28,7 @@
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    white-space: normal;
+    white-space: pre-line;
   }
   .fa-lg {
     font-size: 1.33333em !important;
@@ -45,7 +45,6 @@
     }
     .message-date {
       color: $color-gray-medium !important;
-      font-style: italic;
       i {
         color: $color-gray-medium !important;
       }

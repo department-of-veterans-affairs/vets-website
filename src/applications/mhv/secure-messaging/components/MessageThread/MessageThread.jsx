@@ -38,14 +38,18 @@ const MessageThread = props => {
             <HorizontalRule />
 
             {messageHistory.map((m, i) => {
-              return i < viewCount && <MessageThreadItem key={i} message={m} />;
+              return (
+                i < viewCount && (
+                  <MessageThreadItem key={m.messageId} message={m} />
+                )
+              );
             })}
 
             {viewCount < messageHistory?.length && (
-              <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--center">
-                <va-button
+              <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--flex-start">
+                <va-link
                   secondary
-                  text="Load more messages"
+                  text="+ 5 more messages"
                   onClick={handleLoadMoreMessages}
                 />
               </div>
