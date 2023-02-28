@@ -15,7 +15,6 @@ import {
 import {
   mockSingleVAOSRequestFetch,
   mockAppointmentCancelFetch,
-  mockNpiProviderFetch,
 } from '../../mocks/helpers.v2';
 
 import { AppointmentList } from '../../../appointment-list';
@@ -531,7 +530,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       initialState,
       path: `/requests/${appointment.id}?confirmMsg=true`,
     });
-
     await waitFor(() => {
       expect(global.document.title).to.equal(
         `Pending VA primary care appointment`,
@@ -920,6 +918,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ identifier: [{ value: '1801312053' }] }],
       preferredTimesForPhoneCall: ['Morning'],
+      preferredProviderName: 'AJADI, ADEDIWURA',
       reasonCode: {
         coding: [{ code: 'New Problem' }],
         text: 'A message from the patient',
@@ -942,7 +941,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     };
 
     mockSingleVAOSRequestFetch({ request: ccAppointmentRequest });
-    mockNpiProviderFetch({ id: '1801312053' });
     const facility = {
       ...createMockFacilityByVersion({ version: 0 }),
       id: 'vha_442GC',
@@ -964,7 +962,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       expect(store.getState().appointments.appointmentDetailsStatus).to.equal(
         'succeeded',
       );
-      expect(store.getState().appointments.providerData).not.to.be.null;
       // expect(document.activeElement).to.have.tagName('h1');
     });
 
