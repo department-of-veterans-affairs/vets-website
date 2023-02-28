@@ -18,18 +18,15 @@ const SpouseAdditionalIncomeInputList = ({ errorSchema, formContext }) => {
         ...data,
         additionalIncome: {
           spouse: {
-            spAddlIncome: {
-              ...data.additionalIncome.spouse.spAddlIncome,
-              spAddlIncome: spAddlIncome.map(income => {
-                if (income.name === target.name) {
-                  return {
-                    ...income,
-                    amount: target.value,
-                  };
-                }
-                return income;
-              }),
-            },
+            spAddlIncome: spAddlIncome.map(income => {
+              if (income.name === target.name) {
+                return {
+                  ...income,
+                  amount: target.value,
+                };
+              }
+              return income;
+            }),
           },
         },
       }),

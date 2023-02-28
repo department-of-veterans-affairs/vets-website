@@ -461,6 +461,7 @@ const formConfig = {
           schema: pages.spouseAdditionalIncomeValues.schema,
           depends: formData =>
             formData.questions.isMarried &&
+            formData.additionalIncome?.spouse?.spAddlIncome?.length > 0 &&
             formData['view:enhancedFinancialStatusReport'],
         },
         dependents: {
