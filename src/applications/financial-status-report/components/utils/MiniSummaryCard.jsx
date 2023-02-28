@@ -47,7 +47,10 @@ export const MiniSummaryCard = ({
             className="usa-button summary-card-delete-button vads-u-margin--1"
             onClick={onDelete}
           >
-            <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
+            <i
+              aria-hidden="true"
+              className="fas fa-trash-alt vads-u-padding-right--0p5"
+            />
             <span>DELETE</span>
           </button>
         </div>
