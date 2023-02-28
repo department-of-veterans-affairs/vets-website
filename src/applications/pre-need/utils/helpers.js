@@ -16,6 +16,7 @@ import {
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -36,7 +37,8 @@ export const contactInfoDescription = (
 );
 
 export const authorizedAgentDescription = (
-  <va-alert status="info" background-only>
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="Who can a preparer sign for?">
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
       <li>
@@ -47,13 +49,8 @@ export const authorizedAgentDescription = (
       </li>
       <li>Is physically unable to sign the application</li>
     </ul>
-    <p>
-      If you’re the preparer of this application, please provide your contact
-      information.
-    </p>
-  </va-alert>
+  </va-additional-info>
 );
-
 export const veteranRelationshipDescription = (
   <va-alert
     status="info"
@@ -115,6 +112,25 @@ export const desiredCemeteryNoteDescription = (
     your preferred cemetery. We’ll try to fulfill your wishes, but will assign a
     gravesite in a cemetery with available space at the time of need.
   </va-alert>
+);
+
+export const isSomebodyElseSigning = () => (
+  <AdditionalInfo triggerText="When may a preparer sign for an individual?">
+    <p>A preparer may sign for an individual who’s:</p>
+    <ul>
+      <li>
+        Under 18 years of age, <strong>or</strong>
+      </li>
+      <li>
+        Is mentally incompetent, <strong>or</strong>
+      </li>
+      <li>Is physically unable to sign the application</li>
+    </ul>
+    <p>
+      If you’re the preparer of this application, please provide your contact
+      information.
+    </p>
+  </AdditionalInfo>
 );
 
 export function isVeteran(item) {
