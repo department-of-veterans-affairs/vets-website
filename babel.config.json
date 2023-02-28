@@ -190,6 +190,7 @@
           "@department-of-veterans-affairs/platform-site-wide/main": "./src/platform/site-wide/index.js",
           "@department-of-veterans-affairs/platform-site-wide/moment-setup": "./src/platform/site-wide/moment-setup.js",
           "@department-of-veterans-affairs/platform-site-wide/wc-loader": "./src/platform/site-wide/wc-loader.js",
+          "@department-of-veterans-affairs/platform-site-wide/mhv/utilities": "./src/platform/site-wide/mhv/utilities.js",
 
           "@department-of-veterans-affairs/platform-forms/exports": "./src/platform/forms/exportsFile.js",
           "@department-of-veterans-affairs/platform-forms/labels": "./src/platform/forms/address/data/labels.js",
