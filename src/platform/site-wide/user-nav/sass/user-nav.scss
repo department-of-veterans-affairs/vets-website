@@ -67,6 +67,10 @@ span.sidelines {
         margin: 1em 0;
       }
     }
+
+    [href^="tel"] {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -199,7 +203,8 @@ span.sidelines {
   }
 }
 
-.login, .verify {
+.login,
+.verify {
   background: $color-white;
 
   hr {

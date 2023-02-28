@@ -13,35 +13,33 @@ describe(manifest.appName, () => {
         ],
       },
     };
+    const backendStatuses = {
+      data: {
+        type: 'pagerduty_external_services_responses',
+        attributes: { statuses: [] },
+      },
+    };
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('GET', '/v0/backend_statuses', backendStatuses);
     cy.visit(manifest.rootUrl);
     cy.injectAxe();
   });
 
-  it('is accessible', () => {
-    cy.axeCheck();
-
+  it("displays login modal after clicking 'Sign in or create an account' for veteran NOT logged in", () => {
+    cy.axeCheck(); // checks page a11y
     cy.url().should(
       'eq',
       'http://localhost:3001/health-care/connected-devices/',
     );
-  });
 
-  it("displays login modal after clicking 'Sign in or create an account' for veteran NOT logged in", () => {
-    cy.get('#login-button')
-      .find('.usa-button')
-      .click({
-        multiple: true,
-        force: true,
-        waitForAnimations: true,
-      });
+    cy.findAllByText('Sign in or create an account').click({
+      waitForAnimations: true,
+    });
     // Tests that login modal appears after clicking
     cy.get('#signin-signup-modal').should('be.visible');
-    cy.axeCheck();
+    cy.axeCheck(); // checks sign in modal a11y
 
-    cy.get('.va-modal-close').click({
-      multiple: true,
-      force: true,
+    cy.get('#signin-signup-modal .va-modal-close').click({
       waitForAnimations: true,
     });
     cy.get('#signin-signup-modal').should('not.exist');
