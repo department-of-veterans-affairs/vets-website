@@ -185,7 +185,7 @@ function getPatientContact(appt) {
     };
   }
   return {
-    telecom: getAppointmentInfoFromComments(appt.reasonCode.text, 'contact'),
+    telecom: getAppointmentInfoFromComments(appt.reasonCode?.text, 'contact'),
   };
 }
 
