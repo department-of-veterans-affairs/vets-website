@@ -60,9 +60,6 @@ MonetaryInputList.propTypes = {
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,
   }),
-  formContext: PropTypes.shape({
-    submitted: PropTypes.bool,
-  }),
 };
 
 export default MonetaryInputList;
