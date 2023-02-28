@@ -26,14 +26,6 @@ class SpouseEmploymentHistory {
   attemptNextPage = () => {
     cy.get('.usa-button-primary').click();
   };
-
-  goBackAndValidateInput = (selector, value) => {
-    cy.get('#\\32 3-continueButton').click();
-    cy.get(`${selector}`)
-      .shadow()
-      .find('input')
-      .should('have.value', value);
-  };
 }
 
 export default new SpouseEmploymentHistory();

@@ -149,3 +149,8 @@ export const validateCurrencyArray = (errors, fieldData) => {
     });
   }
 };
+
+export const validateIsNumber = value => {
+  const pattern = /^[0-9]+$/;
+  return pattern.test(value);
+};

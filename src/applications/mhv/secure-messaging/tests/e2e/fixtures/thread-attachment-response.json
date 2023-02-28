@@ -4,17 +4,26 @@
             "id": "7192838",
             "type": "messages",
             "attributes": {
-                "messageId": 7192828,
+                "messageId": 7192838,
                 "category": "OTHER",
                 "subject": "PT2CL: JPEG/JFIF/PNG/JPG",
                 "body": "attachment",
                 "attachment": true,
-                "sentDate": "2022-10-05T20:54:15.000Z",
+                "sentDate": "2022-09-12T14:34:28.000Z",
                 "senderId": 20029,
-                "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+                "senderName": "ISLAM, MOHAMMAD RAFIQ",
                 "recipientId": 6820911,
                 "recipientName": "ECSTEN, THOMAS ",
-                "readReceipt": "READ"
+                "readReceipt": null,
+                "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+                "proxySenderName": null,
+                "threadId": 7176615,
+                "folderId": -3,
+                "messageBody": "REPLY\r\nFROM ESCALATED FOLDER\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false
+
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7192838"
@@ -28,13 +37,21 @@
                 "category": "MEDICATIONS",
                 "subject": "Medication-Inquiry",
                 "body": "DRAFT\r\n\r\n\r\n\r\nMohammad R Islam\r\nSenior Software Test Engineer",
-                "attachment": false,
-                "sentDate": "2022-09-12T15:06:07.000Z",
-                "senderId": 20029,
-                "senderName": "ISLAM, MOHAMMAD  RAFIQ",
+                "attachment": null,
+                "sentDate": "2022-09-07T15:04:37.000Z",
+                "senderId": 6177,
+                "senderName": "MANIVASAGAM, RAJESH ",
                 "recipientId": 6820911,
                 "recipientName": "ECSTEN, THOMAS ",
-                "readReceipt": "READ"
+                "readReceipt": null,
+                "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+                "proxySenderName": null,
+                "threadId": 7176615,
+                "folderId": 0,
+                "messageBody": "Draft2",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false        
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7179963"
@@ -48,13 +65,21 @@
                 "category": "MEDICATIONS",
                 "subject": "Medication-Inquiry",
                 "body": "Send message Api testing 27",
-                "attachment": false,
-                "sentDate": "2022-07-26T16:18:28.000Z",
-                "senderId": 6820911,
-                "senderName": "ECSTEN, THOMAS ",
-                "recipientId": 6910405,
-                "recipientName": "***Jeasmitha-Cardio-Clinic***",
-                "readReceipt": "READ"
+                "attachment": null,
+                "sentDate": "2022-09-06T20:06:15.000Z",
+                "senderId": 6177,
+                "senderName": "MANIVASAGAM, RAJESH ",
+                "recipientId": 6820911,
+                "recipientName": "ECSTEN, THOMAS ",
+                "readReceipt": null,
+                "triageGroupName": "***Jeasmitha-Cardio-Clinic***",
+                "proxySenderName": null,
+                "threadId": 7176615,
+                "folderId": 0,
+                "messageBody": "replying",
+                "draftDate": null,
+                "toDate": null,
+                "hasAttachments": false        
             },
             "links": {
                 "self": "http://127.0.0.1:3000/my_health/v1/messaging/messages/7161879"

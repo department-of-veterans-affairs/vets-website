@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
-import maximal from './efsr-unit-maximal.json';
+import maximal from './cfsr-unit-maximal.json';
 
 import submitForm, { buildEventData } from '../../config/submitForm';
 

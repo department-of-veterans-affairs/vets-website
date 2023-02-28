@@ -28,7 +28,6 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
-const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -39,6 +38,25 @@ const meta = require('./v2/meta.json');
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
+
+// key: NPI, value: Provider Name
+const providerMock = {
+  1801312053: 'AJADI, ADEDIWURA',
+  1952935777: 'OH, JANICE',
+  1992228522: 'SMAWLEY, DONNA C',
+  1053355479: 'LYONS, KRISTYN',
+  1396153797: 'STEWART, DARRYL',
+  1154867018: 'GUILD, MICHAELA',
+  1205346533: 'FREEMAN, SHARON',
+  1548796501: 'CHAIB, EMBARKA',
+  1780016782: 'Lawton, Amanda',
+  1558874636: 'MELTON, JOY C',
+  1982005708: 'OLUBUNMI, ABOLANLE A',
+  1649609736: 'REISER, KATRINA',
+  1770999294: 'TUCKER JONES, MICHELLE A',
+  1255962510: 'OYEKAN, ADETOLA O',
+  1770904021: 'Jones, Tillie',
+};
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
@@ -190,11 +208,13 @@ const responses = {
     },
   },
   'POST /vaos/v2/appointments': (req, res) => {
+    const providerNpi = req.body.practitioners[0]?.identifier?.[0].value;
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
+        preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
     currentMockId += 1;
@@ -296,11 +316,6 @@ const responses = {
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
-    });
-  },
-  'GET /vaos/v2/providers/:id': (req, res) => {
-    return res.json({
-      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {

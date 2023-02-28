@@ -31,6 +31,7 @@ export const App = ({
   location,
   setFormData,
   showMebDgi40Features,
+  showMebDgi42Features,
   showMebCh33SelfForm,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
@@ -107,12 +108,12 @@ export const App = ({
           showMebDgi40Features,
         });
       }
-    },
-    [formData, setFormData, showMebDgi40Features],
-  );
-
-  useEffect(
-    () => {
+      if (showMebDgi42Features !== formData.showMebDgi42Features) {
+        setFormData({
+          ...formData,
+          showMebDgi42Features,
+        });
+      }
       if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
         setFormData({
           ...formData,
@@ -120,7 +121,13 @@ export const App = ({
         });
       }
     },
-    [formData, setFormData, showMebCh33SelfForm],
+    [
+      formData,
+      setFormData,
+      showMebDgi40Features,
+      showMebDgi42Features,
+      showMebCh33SelfForm,
+    ],
   );
 
   // Commenting out until Direct Deposit component is updated
@@ -165,6 +172,7 @@ App.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
   showMebCh33SelfForm: PropTypes.bool,
 };
 

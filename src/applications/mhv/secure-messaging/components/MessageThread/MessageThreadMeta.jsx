@@ -27,7 +27,9 @@ const MessageThreadMeta = props => {
         </>
       )}
       <p className="message-date">
-        {message.attachment === true && (
+        {(message.attachment ||
+          message.hasAttachments ||
+          message.attachments?.length) && (
           <i
             className="fas fa-paperclip vads-u-padding-right--0p5"
             label="paperclip"
@@ -35,7 +37,7 @@ const MessageThreadMeta = props => {
             role="img"
           />
         )}
-        {dateFormat(message.sentDate, 'MMM D, YYYY [at] h:mm a z')}
+        {dateFormat(message.sentDate, 'MMMM D, YYYY [at] h:mm a z')}
       </p>
     </div>
   );
