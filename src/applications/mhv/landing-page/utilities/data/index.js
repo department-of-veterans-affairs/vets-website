@@ -18,14 +18,12 @@ const resolveToggleLink = (link, featureToggles) => {
 
 const appointmentLinks = [
   {
-    href: null,
-    oldHref: mhvUrl(true, '/schedule-or-cancel-a-va-appointment-online'),
+    href: '/health-care/schedule-view-va-appointments/',
     text: 'Schedule and manage appointments',
     toggle: null,
   },
   {
-    href: null,
-    oldHref: mhvUrl(true, 'appointments'),
+    href: '/health-care/schedule-view-va-appointments/appointments',
     text: 'Your VA appointments',
     toggle: null,
   },
@@ -46,13 +44,13 @@ const messagesLinks = [
   },
   {
     href: null,
-    oldHref: mhvUrl(true, '/inbox'),
+    oldHref: mhvUrl(true, 'secure-messaging'),
     text: 'Inbox',
     toggle: null,
   },
   {
     href: null,
-    oldHref: mhvUrl(true, '/manage-folders'),
+    oldHref: mhvUrl(true, 'manage-folders'),
     text: 'Manage folders',
     toggle: null,
   },
@@ -136,58 +134,60 @@ const myVaHealthBenefitsLinks = [
     text: 'Current veteran copay rates',
   },
   {
-    href: '#FIXME-need-link',
+    href: '/health-care/health-needs-conditions/mental-health',
     text: 'Mental health services',
   },
   {
-    href: '#FIXME-need-link',
+    href: '/health-care/about-va-health-benefits/dental-care/',
     text: 'Dental care',
   },
   {
-    href: '#FIXME-need-link',
+    href: '/COMMUNITYCARE/programs/veterans/index.asp',
     text: 'Community Care',
   },
   {
-    href: '#FIXME-need-link',
+    href: '/health-care/update-health-information/',
     text: 'Update my health benefits info (10-10EZR)',
   },
   {
-    href: '#FIXME-need-link',
+    href: null,
+    oldHref: mhvUrl(true, 'health-information-card'),
     text: 'My health information card',
+    toggle: null,
   },
-  {
-    href: '#FIXME-need-link',
-    text: 'Download my IRS 1095-B form',
-  },
+  // {
+  //   href: '#FIXME-need-link',
+  //   text: 'Download my IRS 1095-B form',
+  // },
 ];
 
 const moreResourcesLinks = [
   {
-    href: '#FIXME-need-link',
+    href: '/resources/the-pact-act-and-your-va-benefits/',
     text: 'The PACT Act and your benefits',
   },
   {
-    href: '#FIXME-need-link',
+    oldHref: mhvUrl(true, 'check-your-mental-health'),
     text: 'Check your mental health',
   },
   {
-    href: '#FIXME-need-link',
+    href: 'https://www.veteranshealthlibrary.va.gov/',
     text: 'Veterans Health Library',
   },
   {
-    href: '#FIXME-need-link',
+    href: 'https://www.myhealth.va.gov/healthy-living-centers',
     text: 'Healthy Living Centers',
   },
   {
-    href: '#FIXME-need-link',
+    href: 'https://www.myhealth.va.gov/mhv-community',
     text: 'The My HealtheVet community',
   },
   {
-    href: '#FIXME-need-link',
+    href: '/wholehealth/',
     text: "VA's Whole Health living",
   },
   {
-    href: '#FIXME-need-link',
+    href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
     text: 'How to use VA Video Connect',
   },
 ];
