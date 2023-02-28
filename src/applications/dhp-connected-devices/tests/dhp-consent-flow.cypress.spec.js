@@ -28,11 +28,13 @@ describe(manifest.appName, () => {
   });
 
   it("displays login modal after clicking 'Sign in or create an account' for veteran NOT logged in", () => {
-    cy.findAllByText('Sign in or create an account').click({
-      multiple: true,
-      force: true,
-      waitForAnimations: true,
-    });
+    cy.get('#login-button')
+      .find('.usa-button')
+      .click({
+        multiple: true,
+        force: true,
+        waitForAnimations: true,
+      });
     // Tests that login modal appears after clicking
     cy.get('#signin-signup-modal').should('be.visible');
     cy.axeCheck();

@@ -17,10 +17,12 @@ export const UnauthenticatedPageContent = () => {
           account now.
         </div>
         <p />
-        <LoginModalButton
-          className="usa-button"
-          message="Sign in or create an account"
-        />
+        <span id="login-button">
+          <LoginModalButton
+            className="usa-button"
+            message="Sign in or create an account"
+          />
+        </span>
       </va-alert>
     </>
   );

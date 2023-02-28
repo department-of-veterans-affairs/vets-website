@@ -93,7 +93,7 @@ export const LoginModalButton = ({
         })
       }
       className={className}
-      data-testId={dataTestId}
+      data-testid={dataTestId}
     >
       {message}
     </button>
