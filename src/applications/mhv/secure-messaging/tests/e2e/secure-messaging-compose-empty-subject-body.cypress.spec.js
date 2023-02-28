@@ -3,10 +3,10 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging Compose with No Subject or Body', () => {
-  it('empty subject and empty message body error', () => {
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
+  const landingPage = new PatientInboxPage();
+  const composePage = new PatientComposePage();
+  const site = new SecureMessagingSite();
+  beforeEach(() => {
     site.login();
     landingPage.loadPage();
     landingPage.loadPage(false);
@@ -14,12 +14,14 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('BLUE ANCILLARY_TEAM');
+      .select('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
     cy.get('[name="COVID"]').click();
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },
     );
+  });
+  it('empty message subject error', () => {
     cy.get('[data-testid="message-body-field"]')
       .shadow()
       .find('[name="message-body"]')
@@ -27,10 +29,12 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     composePage.clickOnSendMessageButton();
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
-      .find('[id=error-message]')
+      .find('[id=input-error-message]')
       .should('be.visible');
-
-    cy.reload();
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+  it('empty message body error', () => {
     cy.get('[data-testid="message-subject-field"]')
       .shadow()
       .find('[name="message-subject"]')

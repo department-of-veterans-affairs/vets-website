@@ -1,13 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { EVIDENCE_VA_REQUEST } from '../constants';
+
+const recordActionLinkClick = () => {
+  recordEvent({
+    event: 'cta-action-link-click',
+    'action-link-type': 'primary',
+    'action-link-click-label': 'Add more evidence',
+    'action-link-icon-color': 'green',
+  });
+};
 
 export const content = {
   edit: 'Edit',
   editLabel: 'Edit evidence summary page',
   remove: 'Remove',
   update: 'Update page',
+
+  summaryTitle: 'Confirm or edit your evidence',
 
   vaTitle: 'We’re requesting records from these VA locations:',
 
@@ -21,6 +34,7 @@ export const content = {
       <Link
         to={`/${EVIDENCE_VA_REQUEST}`}
         className="vads-c-action-link--green"
+        onClick={recordActionLinkClick}
       >
         Add more evidence
       </Link>
@@ -43,6 +57,4 @@ export const content = {
     </>
   ),
   missingEvidenceReviewText: 'I didn’t add any evidence',
-
-  reviewPageHeaderText: 'New evidence',
 };

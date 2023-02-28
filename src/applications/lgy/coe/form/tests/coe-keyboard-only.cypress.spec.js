@@ -171,8 +171,6 @@ describe('Certificate of Eligibility keyboard only navigation', () => {
         cy.tabToElement(`[name="${root}intent"]`);
         cy.chooseRadio(firstLoan.intent);
       }
-      cy.tabToElement(`[name="${root}willRefinance"]`);
-      cy.chooseRadio(firstLoan.willRefinance ? 'Y' : 'N');
     }
 
     cy.tabToContinueForm();

@@ -18,5 +18,11 @@ export const getAppData = state => ({
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
   ],
+  showMebCh33SelfForm: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebCh33SelfForm
+  ],
+  showMebDgi42Features: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMebDgi42Features
+  ],
   user: state.user || {},
 });

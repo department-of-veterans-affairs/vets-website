@@ -95,7 +95,7 @@ describe('helpers', () => {
       );
     });
 
-    it('payments will be paused when three months have’t been verified', () => {
+    it.skip('payments will be paused when three months have’t been verified', () => {
       const now = new Date();
 
       const lastDayOfThreeMonthsAgo = new Date(

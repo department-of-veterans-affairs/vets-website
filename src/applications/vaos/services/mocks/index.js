@@ -33,6 +33,7 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const confirmedV2 = require('./v2/confirmed.json');
+const meta = require('./v2/meta.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
@@ -177,7 +178,6 @@ const responses = {
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
   'GET /vaos/v0/direct_booking_eligibility_criteria': directBookingEligibilityCriteria,
-  'GET /vaos/v0/preferences': { data: { attributes: { emailAllowed: true } } },
   'PUT /vaos/v0/appointments/cancel': {},
   'POST /vaos/v0/appointment_requests': {
     data: {
@@ -207,7 +207,6 @@ const responses = {
       attributes: {},
     },
   },
-  'PUT /vaos/v0/preferences': { data: { attributes: {} } },
   'POST /vaos/v2/appointments': (req, res) => {
     const providerNpi = req.body.practitioners[0]?.identifier?.[0].value;
     const submittedAppt = {
@@ -218,7 +217,7 @@ const responses = {
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
       },
     };
-    currentMockId++;
+    currentMockId += 1;
     mockAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
@@ -288,7 +287,7 @@ const responses = {
         return false;
       });
     });
-    return res.json({ data: filteredAppointments });
+    return res.json({ data: filteredAppointments, meta });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -607,21 +606,19 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCare', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-        { name: 'vaOnlineSchedulingVariantTesting', value: false },
-        { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
         { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
-        { name: 'vaOnlineFilter36Vats', value: true },
         { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
         { name: 'vaOnlineSchedulingAppointmentList', value: true },
         { name: 'vaOnlineSchedulingClinicFilter', value: true },
         { name: 'vaOnlineSchedulingAcheronService', value: true },
         { name: 'vaOnlineSchedulingUseDsot', value: true },
+        { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
+        { name: 'selectFeaturePocTypeOfCare', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

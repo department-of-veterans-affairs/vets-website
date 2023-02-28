@@ -80,6 +80,9 @@ function hasPartialResults(response) {
   );
 }
 
+function hasBackendSystemFailure(response) {
+  return response.backendSystemFailures?.length > 0;
+}
 // Sort the requested appointments, latest appointments appear at the top of the list.
 function apptRequestSort(a, b) {
   return new Date(b.created).getTime() - new Date(a.created).getTime();
@@ -113,7 +116,7 @@ export async function fetchAppointments({
         useAcheron,
       );
 
-      const filteredAppointments = allAppointments.filter(appt => {
+      const filteredAppointments = allAppointments.data.filter(appt => {
         if (
           (!useV2VA && appt.kind !== 'cc') ||
           (!useV2CC && appt.kind === 'cc')
@@ -122,7 +125,13 @@ export async function fetchAppointments({
         }
         return !appt.requestedPeriods;
       });
+
       appointments.push(...transformVAOSAppointments(filteredAppointments));
+      if (hasBackendSystemFailure(allAppointments)) {
+        appointments.push(...transformVAOSAppointments(filteredAppointments), {
+          meta: allAppointments.backendSystemFailures,
+        });
+      }
 
       if (useV2VA && useV2CC) {
         return appointments;
@@ -221,7 +230,7 @@ export async function getAppointmentRequests({
         useAcheron,
       );
 
-      const requestsWithoutAppointments = appointments.filter(
+      const requestsWithoutAppointments = appointments.data.filter(
         appt => !!appt.requestedPeriods,
       );
 
@@ -655,35 +664,26 @@ export function getPreferredCommunityCareProviderName(appointment) {
 }
 
 /**
- * Groups appointments into an array of arrays by month
+ * Groups appointments by month into an array of objects with appointment start
+ * date as the key.
  * Assumes appointments are already sorted
  *
  * @export
  * @param {Appointment[]} appointments List of FHIR appointments
- * @returns {Array} An array of arrays by month
+ * @returns {Array} An array of objects grouped by month
  */
 export function groupAppointmentsByMonth(appointments) {
   if (appointments.length === 0) {
     return [];
   }
 
-  const appointmentsByMonth = [[]];
-  let currentIndex = 0;
-  appointments.forEach(appt => {
-    if (
-      !appointmentsByMonth[currentIndex].length ||
-      moment(appt.start).format('YYYY-MM') ===
-        moment(appointmentsByMonth[currentIndex][0].start).format('YYYY-MM')
-    ) {
-      appointmentsByMonth[currentIndex].push(appt);
-    } else {
-      appointmentsByMonth.push([appt]);
-      // eslint-disable-next-line no-plusplus
-      currentIndex++;
-    }
-  });
-
-  return appointmentsByMonth;
+  return appointments.reduce((previous, current) => {
+    const key = moment(current.start).format('YYYY-MM');
+    // eslint-disable-next-line no-param-reassign
+    previous[key] = previous[key] || [];
+    previous[key].push(current);
+    return previous;
+  }, {});
 }
 
 /**
@@ -1131,28 +1131,22 @@ export function getAppointmentDate(appointment) {
 }
 
 export function groupAppointmentByDay(appointments) {
-  if (appointments.length === 0) {
-    return [];
-  }
-
-  return appointments.map(group => {
-    return group.reduce((previous, current) => {
-      const key = moment(current.start).format('YYYY-MM-DD');
-      // eslint-disable-next-line no-param-reassign
-      previous[key] = previous[key] || [];
-      previous[key].push(current);
-      return previous;
-    }, {});
-  });
+  return appointments.reduce((previous, current) => {
+    const key = moment(current.start).format('YYYY-MM-DD');
+    // eslint-disable-next-line no-param-reassign
+    previous[key] = previous[key] || [];
+    previous[key].push(current);
+    return previous;
+  }, {});
 }
 
 export function getLink({ featureStatusImprovement, appointment }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
   return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
         appointment.id
       }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
         appointment.id
       }`;
 }

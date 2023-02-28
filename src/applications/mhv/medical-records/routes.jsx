@@ -1,9 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import MrBreadcrumbs from './containers/MrBreadcrumbs';
 import App from './containers/App';
 import Vaccines from './containers/Vaccines';
 import VaccineDetails from './containers/VaccineDetails';
+import HealthHistory from './containers/HealthHistory';
+import MrBreadcrumbs from './components/MrBreadcrumbs';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -12,10 +13,13 @@ const routes = (
       <Route exact path="/" key="App">
         <App />
       </Route>
+      <Route exact path="/health-history" key="Health History">
+        <HealthHistory />
+      </Route>
       <Route exact path="/vaccines" key="Vaccines">
         <Vaccines />
       </Route>
-      <Route exact path="/vaccine" key="Vaccine">
+      <Route exact path="/vaccine/:vaccineId" key="Vaccine">
         <VaccineDetails />
       </Route>
     </Switch>

@@ -96,11 +96,18 @@ class Confirmation {
     );
     cy.get('div[data-testid="btsss-link"] a:first')
       .invoke('attr', 'href')
-      .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
+      .should(
+        'contain',
+        '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
+      );
   };
 
   attemptGoBackToAppointments = () => {
     cy.get('[data-testid=go-to-appointments-button]').click();
+  };
+
+  clickDetails = () => {
+    cy.get('[data-testid=details-link]').click();
   };
 }
 

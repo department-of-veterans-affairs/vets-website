@@ -26,6 +26,7 @@ describe('check in', () => {
             'health.care.check-in.should.send.travel.pay.claim',
           PERMISSIONS: 'health.care.check-in.permissions',
           PROGRESS_STATE: 'health.care.check-in.progress',
+          TRAVEL_CLAIM_DATA: 'health.care.check-in.travel.claim.data',
         });
       });
     });

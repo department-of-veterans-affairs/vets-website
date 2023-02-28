@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -61,9 +61,12 @@ export default function RequestedAppointmentDetailsPage() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  useEffect(() => {
-    dispatch(fetchRequestDetails(id));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(fetchRequestDetails(id));
+    },
+    [dispatch, id],
+  );
   useEffect(
     () => {
       if (appointment) {
@@ -80,7 +83,7 @@ export default function RequestedAppointmentDetailsPage() {
       }
       scrollAndFocus();
     },
-    [appointment],
+    [appointment, dispatch],
   );
 
   useEffect(
@@ -92,7 +95,8 @@ export default function RequestedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDetailsStatus],
+
+    [appointmentDetailsStatus, appointment],
   );
 
   if (
@@ -132,7 +136,11 @@ export default function RequestedAppointmentDetailsPage() {
   return (
     <PageLayout>
       <Breadcrumbs>
-        <Link to={`/requests/${id}`}>Request detail</Link>
+        <a
+          href={`/health-care/schedule-view-va-appointments/appointments/requests/${id}`}
+        >
+          Request detail
+        </a>
       </Breadcrumbs>
 
       <h1>

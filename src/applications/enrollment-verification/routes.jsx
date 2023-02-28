@@ -5,16 +5,12 @@ import {
   VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
   VERIFY_ENROLLMENTS_RELATIVE_URL,
 } from './constants';
-import EnrollmentVerificationIntroPage from './containers/EnrollmentVerificationIntroPage';
 import EnrollmentVerificationPage from './containers/EnrollmentVerificationPage';
 import VerifyEnrollmentsPage from './containers/VerifyEnrollmentsPage';
 import VerifyEnrollmentsErrorPage from './containers/VerifyEnrollmentsErrorPage';
 
 const routes = (
   <Switch>
-    <Route exact path="/" key="EnrollmentVerificationIntroPage">
-      <EnrollmentVerificationIntroPage />
-    </Route>
     <Route
       exact
       key="EnrollmentVerificationPage"

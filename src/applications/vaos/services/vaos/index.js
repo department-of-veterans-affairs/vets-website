@@ -1,6 +1,11 @@
 import appendQuery from 'append-query';
 import { getTestFacilityId } from '../../utils/appointment';
-import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
+import {
+  apiRequestWithUrl,
+  parseApiListWithErrors,
+  parseApiList,
+  parseApiObject,
+} from '../utils';
 
 const acheronHeader = {
   headers: { ACHERON_REQUESTS: 'true' },
@@ -54,7 +59,7 @@ export function getAppointments(start, end, statuses = [], useAcheron) {
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     !useAcheron ? options : { ...options, ...acheronHeader },
-  ).then(parseApiList);
+  ).then(parseApiListWithErrors);
 }
 
 export function getAppointment(id, useAcheron) {
