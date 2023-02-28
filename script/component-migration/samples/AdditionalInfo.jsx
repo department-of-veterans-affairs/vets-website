@@ -17,19 +17,19 @@ export const Sample = () => (
   </AdditionalInfo>
 );
 
-export const SampleOther = () => (
-  <AdditionalInfo
-    triggerText="Learn more about military base addresses"
-    onClick={null}
-    disableAnalytics
-    status="info"
-  >
-    <span onClick={null}>
-      The United States is automatically chosen as your country if you live on a
-      military base outside of the country.
-    </span>
-  </AdditionalInfo>
-);
+// export const SampleOther = () => (
+//   <AdditionalInfo
+//     triggerText="Learn more about military base addresses"
+//     onClick={null}
+//     disableAnalytics
+//     status="info"
+//   >
+//     <span onClick={null}>
+//       The United States is automatically chosen as your country if you live on a
+//       military base outside of the country.
+//     </span>
+//   </AdditionalInfo>
+// );
 
 export const Sample3 = ({ className = 'sample' }) => (
   <div className={className}>
@@ -71,9 +71,7 @@ export const Sample3 = ({ className = 'sample' }) => (
 
 export const Sample4 = () => (
   <div className="vads-u-margin-y--3 available-connected-apps">
-    <AdditionalInfo
-      triggerText={`What other third-party apps can I connect to my profile?`}
-    >
+    <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
       To find out what other third-party apps are available to connect to your
       profile,{' '}
       <a href="/resources/find-apps-you-can-use" onClick={null}>
@@ -115,6 +113,25 @@ export const Sample5 = () => (
       to call the Department of the Treasury at ? Ask to talk with a
       representative who handles waiver requests. They can answer any questions
       or concerns you may have.
+    </p>
+  </AdditionalInfo>
+);
+
+export const SampleAuthorizedAgent = () => (
+  <AdditionalInfo>
+    <p>A preparer may sign for an individual who’s:</p>
+    <ul>
+      <li>
+        Under 18 years of age, <strong>or</strong>
+      </li>
+      <li>
+        Is mentally incompetent, <strong>or</strong>
+      </li>
+      <li>Is physically unable to sign the application</li>
+    </ul>
+    <p>
+      If you’re the preparer of this application, please provide your contact
+      information.
     </p>
   </AdditionalInfo>
 );

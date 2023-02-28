@@ -45,7 +45,6 @@ import {
   militaryNameUI,
   getCemeteries,
   contactInfoDescription,
-  authorizedAgentDescription,
   veteranRelationshipDescription,
   spouseRelationshipDescription,
   childRelationshipDescription,
@@ -54,6 +53,7 @@ import {
   desiredCemeteryNoteDescription,
   nonRequiredFullNameUI,
 } from '../utils/helpers';
+import { SampleAuthorizedAgent } from '../../../../script/component-migration/samples/AdditionalInfo';
 
 const {
   claimant,
@@ -789,7 +789,7 @@ const formConfig = {
                       };
                     },
                     nestedContent: {
-                      'Authorized Agent/Rep': authorizedAgentDescription,
+                      'Authorized Agent/Rep': SampleAuthorizedAgent,
                     },
                   },
                 },
