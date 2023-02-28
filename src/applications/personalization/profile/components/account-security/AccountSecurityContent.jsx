@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
@@ -30,33 +29,12 @@ export const AccountSecurityContent = ({
   signInServiceName,
   isBlocked,
 }) => {
-  const handlers = {
-    learnMoreIdentity: () => {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': 'view-link',
-        'additional-info': 'learn-more-identity',
-      });
-    },
-    vetsFAQ: () => {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': 'view-link',
-        'profile-section': 'vets-faqs',
-      });
-    },
-  };
-
   return (
     <>
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && (
-        <IdentityNotVerified
-          additionalInfoClickHandler={handlers.learnMoreIdentity}
-        />
-      )}
+      {!isIdentityVerified && <IdentityNotVerified />}
       {showMPIConnectionError && (
         <MPIConnectionError
           level={2}
