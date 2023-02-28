@@ -12,7 +12,7 @@ describe(manifest.appName, () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[data-e2e-id="my-health-4"]')
       .should('be.visible')
-      .and('have.text', 'My Health');
+      .and('have.text', 'My HealtheVet');
     cy.get('[data-e2e-id="my-health-4"]').should(
       'have.attr',
       'href',
@@ -27,7 +27,7 @@ describe(manifest.appName, () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[data-e2e-id="my-health-4"]')
       .should('be.visible')
-      .and('have.text', 'My Health');
+      .and('have.text', 'My HealtheVet');
     cy.get('[data-e2e-id="my-health-4"]')
       .should('have.attr', 'href')
       .and('include', 'mhv-portal-web/eauth');
