@@ -5,13 +5,16 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import data, { resolveToggleLink } from '../utilities/data';
 
+const resolveLinkCollection = (c, featureToggles) => {
+  const { links, ...rest } = c;
+  const resolvedLinks = links.map(l => resolveToggleLink(l, featureToggles));
+  return { links: resolvedLinks, ...rest };
+};
+
 const LandingPage = () => {
   const { featureToggles } = useSelector(state => state);
-  const cards = data.cards.map(c => {
-    const { links, ...rest } = c;
-    const resolvedLinks = links.map(l => resolveToggleLink(l, featureToggles));
-    return { links: resolvedLinks, ...rest };
-  });
+  const cards = data.cards.map(c => resolveLinkCollection(c, featureToggles));
+  const hubs = data.hub.map(h => resolveLinkCollection(h, featureToggles));
 
   return (
     <div className="vads-u-margin-y--5" data-testid="landing-page-container">
@@ -21,7 +24,7 @@ const LandingPage = () => {
           <CardLayout data={cards} />
         </div>
       </main>
-      <HubLinks />
+      <HubLinks hubs={hubs} />
     </div>
   );
 };
