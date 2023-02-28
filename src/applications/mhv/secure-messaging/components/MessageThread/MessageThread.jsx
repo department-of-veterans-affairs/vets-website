@@ -7,7 +7,7 @@ import { clearMessageHistory } from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const { messageHistory, threadId } = props;
+  const { messageHistory } = props;
   const [viewCount, setViewCount] = useState(5);
 
   useEffect(
@@ -40,11 +40,7 @@ const MessageThread = props => {
             {messageHistory.map((m, i) => {
               return (
                 i < viewCount && (
-                  <MessageThreadItem
-                    key={m.messageId}
-                    message={m}
-                    threadId={threadId}
-                  />
+                  <MessageThreadItem key={m.messageId} message={m} />
                 )
               );
             })}
@@ -66,7 +62,6 @@ const MessageThread = props => {
 
 MessageThread.propTypes = {
   messageHistory: PropType.array,
-  threadId: PropType.string,
 };
 
 export default MessageThread;

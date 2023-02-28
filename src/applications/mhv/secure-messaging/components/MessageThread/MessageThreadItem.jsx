@@ -76,13 +76,14 @@ const MessageThreadItem = props => {
               <MessageThreadBody expanded={isExpanded} text={message.body} />
             </div>
 
-            {message?.attachments && (
-              <MessageThreadAttachments
-                expanded={isExpanded}
-                // TODO check how backend can return attachments list
-                attachments={message.attachments}
-              />
-            )}
+            {isExpanded &&
+              message.attachments?.length > 0 && (
+                <MessageThreadAttachments
+                  expanded={isExpanded}
+                  // TODO check how backend can return attachments list
+                  attachments={message.attachments}
+                />
+              )}
           </div>
 
           <div className="vads-u-flex--auto">
@@ -120,7 +121,6 @@ const MessageThreadItem = props => {
 MessageThreadItem.propTypes = {
   message: PropTypes.object,
   printView: PropTypes.bool,
-  threadId: PropTypes.string,
 };
 
 export default MessageThreadItem;
