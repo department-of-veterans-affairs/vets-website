@@ -84,6 +84,19 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'dependent-ages': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#dependentAge-0')
+            .shadow()
+            .find('input')
+            .type('12');
+          cy.get('#dependentAge-1')
+            .shadow()
+            .find('input')
+            .type('17');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(

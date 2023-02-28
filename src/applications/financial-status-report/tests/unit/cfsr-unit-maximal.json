@@ -1,7 +1,7 @@
 {
   "data": {
     "view:combinedFinancialStatusReport": true,
-    "view:enhancedFinancialStatusReport": true,
+    "view:enhancedFinancialStatusReport": false,
     "otherExpenses": [
       {
         "name": "Pool service",
@@ -21,28 +21,25 @@
       "view:vaBenefitsOnFile": {}
     },
     "expenses": {
-      "expenseRecords": [
-        {
-          "name": "Rent",
-          "amount": "1200.53"
-        },
-        {
-          "name": "Food",
-          "amount": "4000.38"
-        }
-      ],
       "rentOrMortgage": "1200.53",
       "food": "4000.38"
     },
     "assets": {
-      "realEstateValue": "800000.81",
       "otherAssets": [
+        {
+          "name": "Bitcoin",
+          "amount": "50000.57"
+        },
         {
           "name": "Gambling earning",
           "amount": "16000.34"
         }
       ],
+      "cashInBank": "3000.45",
+      "cashOnHand": "10000.67",
       "recVehicleAmount": "15000.23",
+      "usSavingsBonds": "25000.65",
+      "stocksAndOtherBonds": "50000.84",
       "automobiles": [
         {
           "make": "Dodge",
@@ -60,69 +57,77 @@
       "monetaryAssets": [
         {
           "name": "Cash",
-          "amount": "10000.67"
+          "amount": "100"
         },
         {
           "name": "Checking accounts",
-          "amount": "1000.40"
+          "amount": "100"
         },
         {
           "name": "Savings accounts",
-          "amount": "2000.05"
+          "amount": "100"
         },
         {
           "name": "U.S. Savings Bonds",
-          "amount": "25000.65"
+          "amount": "100"
         },
         {
           "name": "Retirement accounts (401k, IRAs, 403b, TSP)",
-          "amount": "10000.04"
+          "amount": "100"
         },
         {
           "name": "Other stocks and bonds (not in your retirement accounts)",
-          "amount": "20000.10"
+          "amount": "100"
         },
         {
           "name": "Pension",
-          "amount": "15000.25"
+          "amount": "100"
         },
         {
           "name": "Cryptocurrency",
-          "amount": "5000.45"
+          "amount": "100"
         }
       ]
     },
+    "realEstateRecords": [
+      {
+        "realEstateType": "Vacation property",
+        "realEstateAmount": "350000.47"
+      },
+      {
+        "realEstateType": "Single-family home",
+        "realEstateAmount": "450000.34"
+      }
+    ],
     "additionalIncome": {
       "spouse": {
         "spAddlIncome": [
           {
-            "name": "Child support",
+            "name": "Child care income",
             "amount": "800.54"
           },
           {
-            "name": "Alimony",
+            "name": "Alimony payment",
             "amount": "1000.23"
-          },
-          {
-            "name": "Social Security",
-            "amount": "1400.45"
           }
         ]
       },
       "addlIncRecords": [
         {
           "name": "Social Security",
-          "amount": "1200.65"
-        },
-        {
-          "name": "Employment bonus",
-          "amount": "1500.67"
+          "amount": "150.67"
         },
         {
           "name": "Alimony",
-          "amount": "1000.43"
+          "amount": "210.43"
         }
       ]
+    },
+    "socialSecurity": {
+      "spouse": {
+        "socialSecAmt": "1400.45"
+      },
+      "socialSecAmt": "1200.65"
     },
     "benefits": {
       "spouseBenefits": {
@@ -147,12 +152,14 @@
       "hasRecreationalVehicle": true,
       "hasVehicle": true,
       "hasRealEstate": true,
-      "hasDependents": "2",
+      "hasDependents": true,
       "spouseHasAdditionalIncome": true,
+      "spouseHasSocialSecurity": true,
       "spouseHasBenefits": true,
       "spouseIsEmployed": true,
       "isMarried": true,
       "hasAdditionalIncome": true,
+      "hasSocialSecurity": true,
       "vetIsEmployed": true
     },
     "installmentContracts": [
@@ -225,54 +232,21 @@
               "to": "",
               "isCurrent": true,
               "employerName": "Veteran Current One",
-              "grossMonthlyIncome": "5000.54",
-              "deductions": [
-                {
-                  "name": "Federal tax",
-                  "amount": "350.56"
-                },
-                {
-                  "name": "State tax",
-                  "amount": "230.45"
-                },
-                {
-                  "name": "Pension",
-                  "amount": "100"
-                },
-                {
-                  "name": "Health insurance",
-                  "amount": "254.45"
-                }
-              ]
+              "grossMonthlyIncome": "5000.45"
             },
             {
               "type": "Part time",
               "from": "2019-7-XX",
               "to": "",
               "isCurrent": true,
-              "employerName": "Veteran Current Two",
-              "grossMonthlyIncome": "2000.56",
-              "deductions": [
-                {
-                  "name": "Federal tax",
-                  "amount": "200.02"
-                },
-                {
-                  "name": "Allotment",
-                  "amount": "134.56"
-                },
-                {
-                  "name": "FICA (Social Security and Medicare)",
-                  "amount": "122.4"
-                }
-              ]
+              "employerName": "Veteran Current Two"
             },
             {
               "type": "Full time",
-              "from": "2021-01-XX",
-              "to": "2021-12-XX",
-              "isCurrent": false,
-              "employerName": "I quit"
+              "from": "2016-3-XX",
+              "to": "2017-3-XX",
+              "employerName": "Veteran Previous",
+              "isCurrent": false
             }
           ]
         }
@@ -302,6 +276,83 @@
       "ssn": "1234",
       "fileNumber": "5678"
     },
+    "selectedDebts": [
+      {
+        "fileNumber": "796121200",
+        "payeeNumber": "00",
+        "personEntitled": "AJHONS",
+        "deductionCode": "30",
+        "benefitType": "Comp & Pen",
+        "diaryCode": "080",
+        "diaryCodeDescription": "Referred to the Department of the Treasury",
+        "amountOverpaid": 0,
+        "amountWithheld": 0,
+        "originalAr": 136.24,
+        "currentAr": 100,
+        "debtHistory": [
+          {
+            "date": "02/25/2009",
+            "letterCode": "914",
+            "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+          },
+          {
+            "date": "02/07/2009",
+            "letterCode": "905",
+            "description": "Administrative Write Off"
+          },
+          {
+            "date": "12/03/2008",
+            "letterCode": "487",
+            "description": "Death Case Pending Action"
+          }
+        ],
+        "id": 0,
+        "resolution": {
+          "resolutionType": "Waiver",
+          "agreeToWaiver": true
+        }
+      },
+      {
+        "fileNumber": "796121200",
+        "payeeNumber": "00",
+        "personEntitled": "AJOHNS",
+        "deductionCode": "74",
+        "benefitType": "CH33 Student Tuition EDU",
+        "diaryCode": "117",
+        "diaryCodeDescription": "Pending payment",
+        "amountOverpaid": 0,
+        "amountWithheld": 475,
+        "originalAr": 2210.9,
+        "currentAr": 1000,
+        "debtHistory": [
+          {
+            "date": "04/01/2017",
+            "letterCode": 608,
+            "description": "Full C&P Benefit Offset Notifi"
+          },
+          {
+            "date": "11/18/2015",
+            "letterCode": 130,
+            "description": "Debt Increase - Due P"
+          },
+          {
+            "date": "04/08/2015",
+            "letterCode": 608,
+            "description": "Full C&P Benefit Offset Notifi"
+          },
+          {
+            "date": "03/26/2015",
+            "letterCode": 100,
+            "description": "First Demand Letter - Inactive Benefits - Due Process"
+          }
+        ],
+        "id": 3,
+        "resolution": {
+          "resolutionType": "Compromise",
+          "offerToPay": "700.43"
+        }
+      }
+    ],
     "selectedDebtsAndCopays": [
       {
         "fileNumber": "796121200",
@@ -1208,6 +1259,56 @@
       "deductionCode": "",
       "originalAr": 0
     },
+    "currEmployment": [
+      {
+        "veteranGrossSalary": "5000.54",
+        "deductions": [
+          {
+            "name": "Federal tax",
+            "amount": "350.56"
+          },
+          {
+            "name": "State tax",
+            "amount": "230.45"
+          },
+          {
+            "name": "Pension",
+            "amount": "100"
+          },
+          {
+            "name": "Health insurance",
+            "amount": "254.45"
+          }
+        ],
+        "type": "Full time",
+        "from": "2017-1-XX",
+        "to": "",
+        "isCurrent": true,
+        "employerName": "Veteran Current One"
+      },
+      {
+        "veteranGrossSalary": "2000.56",
+        "deductions": [
+          {
+            "name": "Federal tax",
+            "amount": "200.02"
+          },
+          {
+            "name": "Allotment",
+            "amount": "134.56"
+          },
+          {
+            "name": "FICA (Social Security and Medicare)",
+            "amount": "122.4"
+          }
+        ],
+        "type": "Part time",
+        "from": "2019-7-XX",
+        "to": "",
+        "isCurrent": true,
+        "employerName": "Veteran Current Two"
+      }
+    ],
     "spCurrEmployment": [
       {
         "spouseGrossSalary": "4000.45",
@@ -1242,5 +1343,4 @@
       }
     ]
   }
-  
 }
