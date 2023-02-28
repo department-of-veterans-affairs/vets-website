@@ -20,19 +20,17 @@ const HubSection = ({ title, links }) => {
 };
 
 const HubLinks = ({ hubs }) => {
+  const hubLayout = hubs.map(h => (
+    <div
+      key={h.title}
+      className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap"
+    >
+      <HubSection title={h.title} links={h.links} />
+    </div>
+  ));
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row vads-u-margin-bottom--3">
-        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title={hubs[0].title} links={hubs[0].links} />
-        </div>
-        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title={hubs[1].title} links={hubs[1].links} />
-        </div>
-        <div className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap">
-          <HubSection title={hubs[2].title} links={hubs[2].links} />
-        </div>
-      </div>
+      <div className="vads-l-row vads-u-margin-bottom--3">{hubLayout}</div>
     </div>
   );
 };
