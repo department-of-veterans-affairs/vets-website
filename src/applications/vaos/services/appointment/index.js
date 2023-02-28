@@ -391,18 +391,6 @@ export function getVAAppointmentLocationId(appointment) {
 
   return appointment?.location.stationId;
 }
-
-/**
- * Returns the NPI of a CC Provider
- *
- * @export
- * @param {Appointment} appointment A FHIR appointment resource
- * @returns {string} The NPI of the CC Provider
- */
-export function getPreferredCCProviderNPI(appointment) {
-  return appointment?.practitioners[0]?.identifier[0]?.value || null;
-}
-
 /**
  * Returns the patient telecom info in a VA appointment
  *

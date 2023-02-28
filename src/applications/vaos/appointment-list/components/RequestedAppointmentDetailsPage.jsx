@@ -182,9 +182,7 @@ export default function RequestedAppointmentDetailsPage() {
           {!!provider && (
             <span>
               {provider.name ||
-                (provider.providerName ||
-                  provider.practiceName ||
-                  provider.providerName)}
+                (provider.providerName || provider.practiceName)}
             </span>
           )}
           {!provider && <span>No provider selected</span>}
