@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 
-import recordEvent from '~/platform/monitoring/record-event';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
@@ -40,23 +39,6 @@ export const AccountSecurityContent = ({
   isBlocked,
   profileUseSecurityProcessList,
 }) => {
-  const handlers = {
-    learnMoreIdentity: () => {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': 'view-link',
-        'additional-info': 'learn-more-identity',
-      });
-    },
-    vetsFAQ: () => {
-      recordEvent({
-        event: 'profile-navigation',
-        'profile-action': 'view-link',
-        'profile-section': 'vets-faqs',
-      });
-    },
-  };
-
   const securitySections = [
     {
       title: '2-factor authentication',
@@ -95,11 +77,7 @@ export const AccountSecurityContent = ({
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && (
-        <IdentityNotVerified
-          additionalInfoClickHandler={handlers.learnMoreIdentity}
-        />
-      )}
+      {!isIdentityVerified && <IdentityNotVerified />}
       {showMPIConnectionError && (
         <MPIConnectionError
           level={2}
