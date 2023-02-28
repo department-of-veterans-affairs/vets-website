@@ -45,6 +45,12 @@ export const messageDetailsReducer = (state = initialState, action) => {
               ...item.attributes,
             }));
           return {
+            // some fields in the thread object are not returned in the /read message response
+            // so we need to preserve them for the thread
+            threadId: message.threadId,
+            folderId: message.folderId,
+            draftDate: message.draftDate,
+            toDate: message.toDate,
             ...updatedMessage,
             attachments: msgAttachments,
           };
