@@ -137,7 +137,9 @@ describe('Schemaform review: <ValidationError />', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
+    expect(
+      tree.container.querySelector('va-checkbox').getAttribute('label'),
+    ).to.equal('I accept the privacy agreement');
 
     tree.unmount();
   });
@@ -200,7 +202,7 @@ describe('Schemaform review: <ValidationError />', () => {
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
-          testId={'12345'}
+          testId="12345"
         />
       </Provider>,
     );
@@ -238,7 +240,7 @@ describe('Schemaform review: <ValidationError />', () => {
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
-          testId={'12345'}
+          testId="12345"
         />
       </Provider>,
     );

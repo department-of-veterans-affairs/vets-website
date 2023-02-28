@@ -135,7 +135,9 @@ describe('Schemaform review: <ThrottledError />', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
+    expect(
+      tree.container.querySelector('va-checkbox').getAttribute('label'),
+    ).to.equal('I accept the privacy agreement');
 
     tree.unmount();
   });
@@ -196,7 +198,7 @@ describe('Schemaform review: <ThrottledError />', () => {
           formConfig={formConfig}
           onBack={onBack}
           onSubmit={onSubmit}
-          testId={'12345'}
+          testId="12345"
         />
       </Provider>,
     );

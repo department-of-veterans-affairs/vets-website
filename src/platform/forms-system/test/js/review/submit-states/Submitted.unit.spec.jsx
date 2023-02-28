@@ -100,7 +100,9 @@ describe('Schemaform review: <Submitted />', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
+    expect(
+      tree.container.querySelector('va-checkbox').getAttribute('label'),
+    ).to.equal('I accept the privacy agreement');
 
     tree.unmount();
   });

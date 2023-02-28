@@ -49,7 +49,7 @@ export function PreSubmitSection(props) {
     FINISH_APP_LATER_DEFAULT_MESSAGE;
 
   useEffect(() => {
-    if (!CustomComponent) {
+    if (!CustomComponent && preSubmit?.required) {
       const selector = `va-checkbox[name="${preSubmit.field}"]`;
       const element = document.querySelector(selector);
       element.addEventListener('vaChange', event => {
