@@ -48,6 +48,19 @@ const DisplayMultipleAppointments = props => {
 
   useEffect(
     () => {
+      const vaosOn = isUpdatedApptPresentationEnabled
+        ? 'VAOS-design'
+        : 'non-VAOS-design';
+      const slug = `check-in-viewed-appointment-list-${vaosOn}`;
+      recordEvent({
+        event: createAnalyticsSlug(slug, 'nav'),
+      });
+    },
+    [isUpdatedApptPresentationEnabled],
+  );
+
+  useEffect(
+    () => {
       const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
         appointments,
       );
