@@ -213,28 +213,28 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     featureToggles,
   );
 
-  const spotlightLinks = [
-    {
-      href: '#FIXME-need-link',
-      text: 'Five Exercises for Balance',
-    },
-    {
-      href: '#FIXME-need-link',
-      text: 'Recognizing a Heart Attack',
-    },
-    {
-      href: '#FIXME-need-link',
-      text: 'Get the New Toxic Exposure Screening',
-    },
-    {
-      href: '#FIXME-need-link',
-      text: 'Need Internet or a Tablet for Appointments?',
-    },
-    {
-      href: '#FIXME-need-link',
-      text: 'Top Five Health Threats to Men',
-    },
-  ];
+  // const spotlightLinks = [
+  //   {
+  //     href: '#FIXME-need-link',
+  //     text: 'Five Exercises for Balance',
+  //   },
+  //   {
+  //     href: '#FIXME-need-link',
+  //     text: 'Recognizing a Heart Attack',
+  //   },
+  //   {
+  //     href: '#FIXME-need-link',
+  //     text: 'Get the New Toxic Exposure Screening',
+  //   },
+  //   {
+  //     href: '#FIXME-need-link',
+  //     text: 'Need Internet or a Tablet for Appointments?',
+  //   },
+  //   {
+  //     href: '#FIXME-need-link',
+  //     text: 'Top Five Health Threats to Men',
+  //   },
+  // ];
 
   const cards = [
     {
@@ -277,10 +277,10 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       title: 'More resources and support',
       links: moreResourcesLinks,
     },
-    {
-      title: 'In the Spotlight',
-      links: spotlightLinks,
-    },
+    // {
+    //   title: 'In the Spotlight',
+    //   links: spotlightLinks,
+    // },
   ];
 
   return { cards, hubs };
