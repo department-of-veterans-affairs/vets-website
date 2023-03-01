@@ -8,12 +8,10 @@ const LandingPage = ({ data = null }) => {
 
   return (
     <div className="vads-u-margin-y--5" data-testid="landing-page-container">
-      <main>
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <HeaderLayout />
-          <CardLayout data={cards} />
-        </div>
-      </main>
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <HeaderLayout />
+        <CardLayout data={cards} />
+      </div>
       <HubLinks hubs={hubs} />
     </div>
   );
