@@ -12,9 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Setup Environment
-      #   run: echo "VETS_WEBSITE_USER_ID=$(id -u)" >> $GITHUB_ENV
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -23,4 +20,4 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Run Docker Build
-        run: docker build -f src/platform/utilities/preview-environment/Dockerfile . -t frontend:latet
+        run: docker build -e AWS_ACCESS_KEY_ID=${{ env.aws-access-key-id }} -e AWS_SECRET_ACCESS_KEY=${{ env.aws-secret-access-key }} -f src/platform/utilities/preview-environment/Dockerfile . -t frontend:latet
