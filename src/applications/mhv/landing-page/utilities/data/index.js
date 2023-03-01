@@ -16,208 +16,226 @@ const resolveToggleLink = (link, featureToggles) => {
   return { href, text, key: toggle };
 };
 
-const appointmentLinks = [
-  {
-    href: '/health-care/schedule-view-va-appointments/',
-    text: 'Schedule and manage appointments',
-    toggle: null,
-  },
-  {
-    href: '/health-care/schedule-view-va-appointments/appointments',
-    text: 'Your VA appointments',
-    toggle: null,
-  },
-  {
-    href: '/find-locations',
-    oldHref: null,
-    text: 'Find VA locations',
-    toggle: null,
-  },
-];
+const resolveLinkCollection = (links, featureToggles) =>
+  links.map(l => resolveToggleLink(l, featureToggles));
 
-const messagesLinks = [
-  {
-    href: null,
-    oldHref: mhvUrl(true, 'compose-message'),
-    text: 'Compose message',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, 'secure-messaging'),
-    text: 'Inbox',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, 'manage-folders'),
-    text: 'Manage folders',
-    toggle: null,
-  },
-];
+const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
+  // Appointments section points to VAOS on va.gov
+  const appointmentLinks = resolveLinkCollection(
+    [
+      {
+        href: '/health-care/schedule-view-va-appointments/',
+        text: 'Schedule and manage appointments',
+        toggle: null,
+      },
+      {
+        href: '/health-care/schedule-view-va-appointments/appointments',
+        text: 'Your VA appointments',
+        toggle: null,
+      },
+      {
+        href: '/find-locations',
+        oldHref: null,
+        text: 'Find VA locations',
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
-const medicationsLinks = [
-  {
-    href: null,
-    oldHref: mhvUrl(true, 'prescription_refill'),
-    text: 'Refill VA prescriptions',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, '/prescription-tracking'),
-    text: 'Track prescription delivery',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, '/my-complete-medications-list'),
-    text: 'My medications and allergies',
-    toggle: null,
-  },
-];
+  const messagesLinks = resolveLinkCollection(
+    [
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
+        text: 'Compose message',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
+        text: 'Inbox',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'manage-folders'),
+        text: 'Manage folders',
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
-const healthRecordsLinks = [
-  {
-    href: null,
-    oldHref: mhvUrl(true, '/download-my-data'),
-    text: 'Download my medical record (Blue Button)',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, '/labs-tests'),
-    text: 'Lab and test results',
-    toggle: null,
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, '/health-history'),
-    text: 'Health history',
-    toggle: null,
-  },
-];
+  const medicationsLinks = resolveLinkCollection(
+    [
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
+        text: 'Refill VA prescriptions',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, '/prescription-tracking'),
+        text: 'Track prescription delivery',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
+        text: 'My medications and allergies',
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
-const paymentsLinks = [
-  {
-    href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-    oldHref: null,
-    text: 'File a claim for travel reimbursement',
-    toggle: null,
-  },
-  {
-    href: 'https://pay.gov/public/form/start/25987221',
-    oldHref: null,
-    text: 'Pay your copay bill',
-    toggle: null,
-  },
-];
+  const healthRecordsLinks = resolveLinkCollection(
+    [
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
+        text: 'Download my medical record (Blue Button)',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, '/labs-tests'),
+        text: 'Lab and test results',
+        toggle: null,
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, '/health-history'),
+        text: 'Health history',
+        toggle: null,
+      },
+    ],
+    featureToggles,
+  );
 
-const medicalSuppliesLinks = [
-  {
-    href: '/health-care/order-hearing-aid-batteries-and-accessories',
-    oldHref: null,
-    text: 'Order hearing aid batteries and accessories',
-    toggle: null,
-  },
-  {
-    href: '/health-care/order-prosthetic-socks/',
-    oldHref: null,
-    text: 'Order prosthetic socks',
-    toggle: null,
-  },
-];
+  const paymentsLinks = [
+    {
+      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
+      oldHref: null,
+      text: 'File a claim for travel reimbursement',
+      toggle: null,
+    },
+    {
+      href: 'https://pay.gov/public/form/start/25987221',
+      oldHref: null,
+      text: 'Pay your copay bill',
+      toggle: null,
+    },
+  ];
 
-const myVaHealthBenefitsLinks = [
-  {
-    href: '/manage-va-debt/summary/copay-balances/',
-    text: 'Current veteran copay rates',
-  },
-  {
-    href: '/health-care/health-needs-conditions/mental-health',
-    text: 'Mental health services',
-  },
-  {
-    href: '/health-care/about-va-health-benefits/dental-care/',
-    text: 'Dental care',
-  },
-  {
-    href: '/COMMUNITYCARE/programs/veterans/index.asp',
-    text: 'Community Care',
-  },
-  {
-    href: '/health-care/update-health-information/',
-    text: 'Update my health benefits info (10-10EZR)',
-  },
-  {
-    href: null,
-    oldHref: mhvUrl(true, 'health-information-card'),
-    text: 'My health information card',
-    toggle: null,
-  },
-  // {
-  //   href: '#FIXME-need-link',
-  //   text: 'Download my IRS 1095-B form',
-  // },
-];
+  const medicalSuppliesLinks = [
+    {
+      href: '/health-care/order-hearing-aid-batteries-and-accessories',
+      oldHref: null,
+      text: 'Order hearing aid batteries and accessories',
+      toggle: null,
+    },
+    {
+      href: '/health-care/order-prosthetic-socks/',
+      oldHref: null,
+      text: 'Order prosthetic socks',
+      toggle: null,
+    },
+  ];
 
-const moreResourcesLinks = [
-  {
-    href: '/resources/the-pact-act-and-your-va-benefits/',
-    text: 'The PACT Act and your benefits',
-  },
-  {
-    oldHref: mhvUrl(true, 'check-your-mental-health'),
-    text: 'Check your mental health',
-  },
-  {
-    href: 'https://www.veteranshealthlibrary.va.gov/',
-    text: 'Veterans Health Library',
-  },
-  {
-    href: 'https://www.myhealth.va.gov/healthy-living-centers',
-    text: 'Healthy Living Centers',
-  },
-  {
-    href: 'https://www.myhealth.va.gov/mhv-community',
-    text: 'The My HealtheVet community',
-  },
-  {
-    href: '/wholehealth/',
-    text: "VA's Whole Health living",
-  },
-  {
-    href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
-    text: 'How to use VA Video Connect',
-  },
-];
+  const myVaHealthBenefitsLinks = resolveLinkCollection(
+    [
+      {
+        href: '/manage-va-debt/summary/copay-balances/',
+        text: 'Current veteran copay rates',
+      },
+      {
+        href: '/health-care/health-needs-conditions/mental-health',
+        text: 'Mental health services',
+      },
+      {
+        href: '/health-care/about-va-health-benefits/dental-care/',
+        text: 'Dental care',
+      },
+      {
+        href: '/COMMUNITYCARE/programs/veterans/index.asp',
+        text: 'Community Care',
+      },
+      {
+        href: '/health-care/update-health-information/',
+        text: 'Update my health benefits info (10-10EZR)',
+      },
+      {
+        href: null,
+        oldHref: mhvUrl(authdWithSSOe, 'health-information-card'),
+        text: 'My health information card',
+        toggle: null,
+      },
+      // {
+      //   href: '#FIXME-need-link',
+      //   text: 'Download my IRS 1095-B form',
+      // },
+    ],
+    featureToggles,
+  );
 
-const spotlightLinks = [
-  {
-    href: '#FIXME-need-link',
-    text: 'Five Exercises for Balance',
-  },
-  {
-    href: '#FIXME-need-link',
-    text: 'Recognizing a Heart Attack',
-  },
-  {
-    href: '#FIXME-need-link',
-    text: 'Get the New Toxic Exposure Screening',
-  },
-  {
-    href: '#FIXME-need-link',
-    text: 'Need Internet or a Tablet for Appointments?',
-  },
-  {
-    href: '#FIXME-need-link',
-    text: 'Top Five Health Threats to Men',
-  },
-];
+  const moreResourcesLinks = [
+    {
+      href: '/resources/the-pact-act-and-your-va-benefits/',
+      text: 'The PACT Act and your benefits',
+    },
+    {
+      oldHref: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
+      text: 'Check your mental health',
+    },
+    {
+      href: 'https://www.veteranshealthlibrary.va.gov/',
+      text: 'Veterans Health Library',
+    },
+    {
+      href: 'https://www.myhealth.va.gov/healthy-living-centers',
+      text: 'Healthy Living Centers',
+    },
+    {
+      href: 'https://www.myhealth.va.gov/mhv-community',
+      text: 'The My HealtheVet community',
+    },
+    {
+      href: '/wholehealth/',
+      text: "VA's Whole Health living",
+    },
+    {
+      href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
+      text: 'How to use VA Video Connect',
+    },
+  ];
 
-// The cards structure represents rows and columns of cards as a multidimensonal array
-const data = {
-  cards: [
+  const spotlightLinks = [
+    {
+      href: '#FIXME-need-link',
+      text: 'Five Exercises for Balance',
+    },
+    {
+      href: '#FIXME-need-link',
+      text: 'Recognizing a Heart Attack',
+    },
+    {
+      href: '#FIXME-need-link',
+      text: 'Get the New Toxic Exposure Screening',
+    },
+    {
+      href: '#FIXME-need-link',
+      text: 'Need Internet or a Tablet for Appointments?',
+    },
+    {
+      href: '#FIXME-need-link',
+      text: 'Top Five Health Threats to Men',
+    },
+  ];
+
+  const cards = [
     {
       title: 'Appoinments',
       icon: 'calendar',
@@ -248,8 +266,8 @@ const data = {
       icon: 'deaf',
       links: medicalSuppliesLinks,
     },
-  ],
-  hub: [
+  ];
+  const hubs = [
     {
       title: 'My VA health benefits',
       links: myVaHealthBenefitsLinks,
@@ -262,7 +280,9 @@ const data = {
       title: 'In the Spotlight',
       links: spotlightLinks,
     },
-  ],
+  ];
+
+  return { cards, hubs };
 };
 
-export { data as default, resolveToggleLink };
+export { resolveLandingPageLinks, resolveToggleLink };
