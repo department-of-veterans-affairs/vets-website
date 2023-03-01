@@ -412,11 +412,11 @@ const formConfig = {
           editModeOnReviewPage: true,
           CustomPage: SpouseGrossMonthlyIncomeInput,
         },
-        spousePayrollDeductionChecklist: {
+        spousePayrollDeductionCheckList: {
           path: 'spouse-deduction-checklist',
           title: 'Payroll deductions',
-          uiSchema: pages.spousePayrollDeductionChecklist.uiSchema,
-          schema: pages.spousePayrollDeductionChecklist.schema,
+          uiSchema: pages.spousePayrollDeductionCheckList.uiSchema,
+          schema: pages.spousePayrollDeductionCheckList.schema,
           depends: formData =>
             formData.questions.spouseIsEmployed &&
             formData['view:enhancedFinancialStatusReport'],
