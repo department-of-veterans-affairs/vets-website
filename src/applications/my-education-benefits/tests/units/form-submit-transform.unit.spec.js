@@ -240,13 +240,15 @@ describe('form submit transform', () => {
       expect(objectIsEmpty).to.eql(true);
     });
 
-    it("should return I'm not sure if no relinquishment AND feature flag is true", () => {
+    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
       mockSubmissionForm.showMebDgi42Features = true;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql("I'm not sure");
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
+        'CannotRelinquish',
+      );
     });
   });
 
