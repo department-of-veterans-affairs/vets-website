@@ -31,20 +31,20 @@ button.webchat__suggested-actions__button:active {
   right: 0;
   width: 400px;
   margin: 1%;
-  background-color: green;
-  border: 2px solid #4caf50;
+  // background-color: green;
+  // border: 2px solid #4caf50;
   z-index: 1;
 }
 
 .chatbot-icon {
   position: fixed;
-  width: 64px;
+  width: 140px;
   bottom: 0;
   right: 0;
   margin: 1%;
-  background-color: #4caf50;
-  border: 2px solid #4caf50;
-  border-radius: 50%;
+  // background-color: #4caf50;
+  // border: 2px solid #4caf50;
+  // border-radius: 50%;
   z-index: 1;
 }
 
@@ -62,5 +62,5 @@ button.webchat__suggested-actions__button:active {
   right: 20px;
   top: 20px;
   margin: 3px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
 }

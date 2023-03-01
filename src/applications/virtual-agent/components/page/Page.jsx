@@ -23,7 +23,7 @@ export default function Page() {
           }}
         >
           <a href="#">
-            <img src="/img/va-chat.svg" alt="openchatbot" />
+            <img src="/img/va-chat.png" alt="openchatbot" />
           </a>
         </div>
         <div id="corner-bot" className="fixed-header-chatbot hide">
