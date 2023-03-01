@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
@@ -17,11 +14,6 @@ import { signInServiceName as signInServiceNameSelector } from '~/platform/user/
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
-import ProfileInfoTable from '../ProfileInfoTable';
-import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
-import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
-import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
-import Verified from './Verified';
 import { AccountSecurityTables } from './AccountSecurityTables';
 import { selectIsBlocked } from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
@@ -32,46 +24,11 @@ export const AccountSecurityContent = ({
   isMultifactorEnabled,
   mhvAccount,
   showMHVTermsAndConditions,
-  showWeHaveVerifiedYourID,
   showMPIConnectionError,
   showNotInMPIError,
   signInServiceName,
   isBlocked,
-  profileUseSecurityProcessList,
 }) => {
-  const securitySections = [
-    {
-      title: '2-factor authentication',
-      verified: isMultifactorEnabled,
-      value: (
-        <TwoFactorAuthorizationStatus
-          isMultifactorEnabled={isMultifactorEnabled}
-        />
-      ),
-    },
-  ];
-
-  if (showWeHaveVerifiedYourID) {
-    securitySections.unshift({
-      title: 'Identity verification',
-      verified: true,
-      value: <Verified>We’ve verified your identity.</Verified>,
-    });
-  }
-
-  if (showMHVTermsAndConditions) {
-    securitySections.push({
-      title: 'Terms and conditions',
-      verified: mhvAccount.termsAndConditionsAccepted,
-      value: <MHVTermsAndConditionsStatus mhvAccount={mhvAccount} />,
-    });
-  }
-
-  securitySections.push({
-    title: 'Sign-in email address',
-    value: <EmailAddressNotification signInServiceName={signInServiceName} />,
-  });
-
   return (
     <>
       {isBlocked && (
@@ -87,22 +44,13 @@ export const AccountSecurityContent = ({
       {showNotInMPIError && (
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
-
-      {profileUseSecurityProcessList ? (
-        <AccountSecurityTables
-          signInServiceName={signInServiceName}
-          isIdentityVerified={isIdentityVerified}
-          isMultifactorEnabled={isMultifactorEnabled}
-          showMHVTermsAndConditions={showMHVTermsAndConditions}
-          mhvAccount={mhvAccount}
-        />
-      ) : (
-        <ProfileInfoTable
-          data={securitySections}
-          fieldName="accountSecurity"
-          level={3}
-        />
-      )}
+      <AccountSecurityTables
+        signInServiceName={signInServiceName}
+        isIdentityVerified={isIdentityVerified}
+        isMultifactorEnabled={isMultifactorEnabled}
+        showMHVTermsAndConditions={showMHVTermsAndConditions}
+        mhvAccount={mhvAccount}
+      />
     </>
   );
 };
@@ -111,7 +59,6 @@ AccountSecurityContent.propTypes = {
   isBlocked: PropTypes.bool.isRequired,
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  profileUseSecurityProcessList: PropTypes.bool.isRequired,
   showMHVTermsAndConditions: PropTypes.bool.isRequired,
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
@@ -131,7 +78,9 @@ export const mapStateToProps = state => {
   const profile = selectProfile(state);
   const { verified, mhvAccount } = profile;
   const showMHVTermsAndConditions =
-    verified && MHVTermsAndConditionsStatus.willRenderContent(mhvAccount);
+    verified &&
+    (mhvAccount.termsAndConditionsAccepted ||
+      mhvAccount.accountState === 'needs_terms_acceptance');
   const isInMPI = isInMPISelector(state);
   const isIdentityVerified = isLOA3Selector(state);
   const hasMPIConnectionError = hasMPIConnectionErrorSelector(state);
@@ -151,9 +100,6 @@ export const mapStateToProps = state => {
     showMHVTermsAndConditions,
     signInServiceName: signInServiceNameSelector(state),
     isBlocked,
-    profileUseSecurityProcessList:
-      toggleValues(state)?.[TOGGLE_NAMES.profileUseSecurityProcessList] ||
-      false,
   };
 };
 
