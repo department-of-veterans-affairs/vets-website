@@ -1,25 +1,38 @@
-import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientMessageDetailKeyboardPage from '../pages/PatientMessageDetailKeyboardPage';
 
-describe('Secure Messaging Keyboard Nav to Message Details', () => {
-  const site = new SecureMessagingSite();
+describe('Navigate to Message Details ', () => {
+  const navButton = new PatientMessageDetailKeyboardPage();
+  const landingPage = new PatientInboxPage();
   beforeEach(() => {
-    site.login();
-    site.loadPage();
-  });
-  it('Keyboard Nav from Welcome Page to Message Details', () => {
-    const landingPage = new PatientInboxPage();
-    cy.realPress(['Tab']);
-    cy.tabToElement('a[href*="/my-health/secure-messages/inbox"]');
-    cy.realPress(['Enter']);
+    landingPage.login();
     landingPage.loadPage();
-    const message = landingPage.getLoadedMessages().data.at(1);
-    landingPage.loadMessageDetailsByTabbingAndEnterKey(message);
-    cy.tabToElement('[class="usa-button-secondary"]');
-    cy.get('[data-testid="print-button"]').contains('Print');
-    cy.get('[data-testid="trash-button-text"]').contains('Trash');
-    cy.get('[data-testid="move-button-text"]');
+    landingPage.loadMessageDetails(
+      landingPage.getNewMessage().attributes.messageId,
+      landingPage.getNewMessage().attributes.subject,
+      landingPage.getNewMessage().attributes.sentDate,
+      landingPage.getNewMessage().attributes.recipientId,
+      landingPage.getNewMessage().attributes.category,
+      landingPage.getNewMessage().attributes.senderId,
+    );
+  });
+  it('navigate Print Button', () => {
+    navButton.navigatePrintButton();
     cy.injectAxe();
     cy.axeCheck();
+    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
+  });
+  it('navigate Trash Button', () => {
+    navButton.navigateTrashButton();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
+  });
+
+  it('navigate move button', () => {
+    navButton.navigateMoveToButton();
+    cy.injectAxe();
+    cy.axeCheck();
+    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
   });
 });
