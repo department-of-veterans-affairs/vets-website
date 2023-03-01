@@ -9,9 +9,6 @@ import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
 import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 import mockThreadwithAttachment from '../fixtures/thread-attachment-response.json';
-import mockUser from '../fixtures/user.json';
-import mockStatus from '../fixtures/profile-status.json';
-import mockNonSMUser from '../fixtures/non_sm_user.json';
 
 class PatientInboxPage {
   newMessageIndex = 0;
@@ -46,42 +43,6 @@ class PatientInboxPage {
     this.dynamicMessageDate = messageDate;
     this.dynamicMessageRecipient = messageRecipient;
     cy.log(`dynameic message Title = ${this.dynamicMessageTitle}`);
-  };
-
-  login = (isSMUser = true) => {
-    if (isSMUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'mhv_secure_messaging_to_va_gov_release',
-              value: true,
-            },
-          ],
-        },
-      }).as('featureToggle');
-    } else {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockNonSMUser).as('mockUser');
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'mhv_secure_messaging_to_va_gov_release',
-              value: false,
-            },
-          ],
-        },
-      }).as('featureToggle');
-    }
   };
 
   loadPage = (doAxeCheck = false, getFoldersStatus = 200) => {

@@ -55,4 +55,3 @@ script/cypress-testrail-helper/my-config.json
 
 # Ignore mochawesome report directory
 mochawesome-report/
-src/applications/mhv/secure-messaging/tests/e2e/keyboard-nav-test/secure-messaging-keyboard-nav-to-select-dropdown-nav-cypress.spec.js
