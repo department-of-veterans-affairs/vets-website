@@ -42,6 +42,7 @@ export default class AuthMetrics {
       case CSP_IDS.DS_LOGON:
       case CSP_IDS.ID_ME:
       case CSP_IDS.LOGIN_GOV:
+      case CSP_IDS.VAMOCK:
         recordEvent({ event: `login-success-${this.serviceName}` });
         this.compareLoginPolicy();
         break;

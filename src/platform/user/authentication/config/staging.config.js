@@ -5,12 +5,21 @@ import {
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
+  VAMockProvider,
 } from './constants';
+
+const { defaultMockSignIn, defaultMockSignUp } = VAMockProvider;
 
 export default {
   default: {
-    allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    allowedSignInProviders: {
+      vamock: defaultMockSignIn,
+      ...defaultSignInProviders,
+    },
+    allowedSignUpProviders: {
+      vamock: defaultMockSignUp,
+      ...defaultSignUpProviders,
+    },
     isMobile: false,
     queryParams: {
       allowOAuth: true,

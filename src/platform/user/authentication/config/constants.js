@@ -1,14 +1,21 @@
 /* eslint-disable camelcase */
+export const VAMockProvider = {
+  defaultMockSignUp: true,
+  defaultMockSignIn: true,
+};
+
 export const defaultSignInProviders = {
   logingov: true,
   idme: true,
   dslogon: true,
   mhv: true,
+  // vamock: VAMockProvider.defaultSignIn,
 };
 
 export const defaultSignUpProviders = {
   logingov: true,
   idme: true,
+  // vamock: VAMockProvider.defaultSignUp,
 };
 
 export const defaultMobileQueryParams = {

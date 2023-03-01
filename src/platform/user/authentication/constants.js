@@ -38,6 +38,7 @@ export const CSP_IDS = {
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+  VAMOCK: 'vamock',
 };
 
 export const SERVICE_PROVIDERS = {
@@ -68,6 +69,13 @@ export const SERVICE_PROVIDERS = {
     image: <>My HealtheVet</>,
     policy: 'mhv',
     className: 'mhv-button',
+  },
+  [CSP_IDS.VAMOCK]: {
+    label: 'My VA Mock',
+    link: 'https://www.va.gov',
+    image: <> VA Mock</>,
+    policy: 'vamock',
+    className: 'vamock-button',
   },
 };
 
