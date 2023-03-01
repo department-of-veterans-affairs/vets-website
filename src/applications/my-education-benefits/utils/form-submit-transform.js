@@ -353,7 +353,7 @@ export function createRelinquishedBenefit(submissionForm) {
 
   return submissionForm?.showMebDgi42Features
     ? {
-        relinquishedBenefit: "I'm not sure",
+        relinquishedBenefit: 'CannotRelinquish',
       }
     : {};
 }
