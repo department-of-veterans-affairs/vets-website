@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import mockMessage from './fixtures/message-response-specialchars.json';
 
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
@@ -7,7 +8,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPage();
-    landingPage.loadMessageDetailsWithData(landingPage.getNewMessage());
+    landingPage.loadMessageDetailsWithData(mockMessage);
     cy.injectAxe();
     cy.axeCheck();
   });

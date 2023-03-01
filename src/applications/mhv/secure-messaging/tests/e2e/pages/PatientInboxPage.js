@@ -264,24 +264,49 @@ class PatientInboxPage {
 
   loadMessageDetailsWithData = inputMockMessage => {
     cy.log('loading message details.');
-    cy.log(JSON.stringify(inputMockMessage));
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    // inputMockMessage.attributes.sentDate = date.toISOString();
+    cy.log(`First input mock message --${JSON.stringify(inputMockMessage)}`);
+    cy.log(
+      `First input mock message sent Date--${JSON.stringify(
+        inputMockMessage.data.attributes.sentDate,
+      )}`,
+    );
+    cy.log(
+      `First mock thread log new${JSON.stringify(
+        mockThread.data.at(0).attributes.sentDate,
+      )}`,
+    );
 
+    mockThread.data.at(0).attributes.sentDate =
+      inputMockMessage.data.attributes.sentDate;
+    mockThread.data.at(0).attributes.messageId = inputMockMessage.id;
+    mockThread.data.at(0).attributes.subject =
+      inputMockMessage.data.attributes.subject;
+    mockThread.data.at(0).attributes.body =
+      inputMockMessage.data.attributes.body;
+    mockThread.data.at(0).attributes.category =
+      inputMockMessage.data.attributes.category;
+    mockThread.data.at(0).attributes.recipientId =
+      inputMockMessage.data.attributes.recipientId;
+    cy.log(`messageId = ${inputMockMessage.id}`);
+    cy.log(JSON.stringify(mockThread.data.at(0)));
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        inputMockMessage.data.attributes.messageId
-      }`,
+      `/my_health/v1/messaging/messages/${inputMockMessage.id}`,
       inputMockMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${
-        inputMockMessage.data.attributes.messageId
-      }/thread`,
+      `/my_health/v1/messaging/messages/${inputMockMessage.id}/thread`,
       mockThread,
     ).as('full-thread');
+    cy.log(`-subject-- ${inputMockMessage.data.attributes.subject}`);
     cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message');
+    cy.wait('@message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
     cy.wait('@full-thread');
   };
 
@@ -305,6 +330,7 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    cy.log('--get New Message--');
     cy.log(JSON.stringify(mockMessages.data.at(this.newMessageIndex)));
     return mockMessages.data.at(this.newMessageIndex);
   };

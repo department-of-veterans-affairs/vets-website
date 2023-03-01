@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import mockMessage from './fixtures/message-response-specialchars.json';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
@@ -10,15 +11,9 @@ describe('Secure Messaging Reply', () => {
     const replyPage = new PatientReplyPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.setDynamicMessage(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.body,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().recipientId,
-    );
+
     landingPage.loadPage();
+    /*
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
@@ -27,6 +22,8 @@ describe('Secure Messaging Reply', () => {
       landingPage.getNewMessage().attributes.sentDate,
       landingPage.getNewMessage().recipientId,
     );
+    */
+    landingPage.loadMessageDetailsWithData(mockMessage);
     messageDetailsPage.loadReplyPage(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
