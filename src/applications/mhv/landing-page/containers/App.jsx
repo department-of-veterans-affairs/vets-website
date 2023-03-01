@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import LandingPage from '../components/LandingPage';
 
 import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
+import { resolveLandingPageLinks } from '../utilities/data';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const App = () => {
-  const { featureToggles, user } = useSelector(state => state);
+  const fullState = useSelector(state => state);
+  const { featureToggles, user } = fullState;
   const appEnabled = isLandingPageEnabledForUser(
     featureToggles,
     user?.profile?.signIn?.serviceName,
+  );
+  const data = useMemo(
+    () => {
+      const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
+      return resolveLandingPageLinks(authdWithSSOe, featureToggles);
+    },
+    [featureToggles, user?.profile?.session?.ssoe],
   );
 
   if (featureToggles.loading || user.profile.loading)
@@ -19,7 +29,7 @@ const App = () => {
     window.location.replace(url);
     return <></>;
   }
-  return <LandingPage />;
+  return <LandingPage data={data} />;
 };
 
 export default App;

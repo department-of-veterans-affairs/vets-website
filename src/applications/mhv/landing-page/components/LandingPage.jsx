@@ -1,38 +1,24 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
-import { resolveLandingPageLinks } from '../utilities/data';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
-const LandingPage = () => {
-  const fullState = useSelector(state => state);
+const LandingPage = ({ data = null }) => {
+  const { cards = null, hubs } = data;
 
-  const data = useMemo(
-    () => {
-      const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
-      return resolveLandingPageLinks(authdWithSSOe, fullState.featureToggles);
-    },
-    [fullState.featureToggles, fullState?.user?.profile?.session?.ssoe],
+  return (
+    <div className="vads-u-margin-y--5" data-testid="landing-page-container">
+      <main>
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <HeaderLayout />
+          <CardLayout data={cards} />
+        </div>
+      </main>
+      <HubLinks hubs={hubs} />
+    </div>
   );
-
-  if (data) {
-    const { cards = null, hubs } = data;
-
-    return (
-      <div className="vads-u-margin-y--5" data-testid="landing-page-container">
-        <main>
-          <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-            <HeaderLayout />
-            <CardLayout data={cards} />
-          </div>
-        </main>
-        <HubLinks hubs={hubs} />
-      </div>
-    );
-  }
-  return <></>;
 };
+
+// LandingPage.
 
 export default LandingPage;
