@@ -1,5 +1,7 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
+// Link objects with an `oldHref` need to be resolved via resolveToggleLink or resolveLinkCollection
+// Links with only an href should be links to Va.gov pages and shouldn't need resolving
 
 const hasOwn = (object, prop) =>
   Object.prototype.hasOwnProperty.call(object, prop);
@@ -21,27 +23,23 @@ const resolveLinkCollection = (links, featureToggles) =>
 
 const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
   // Appointments section points to VAOS on va.gov
-  const appointmentLinks = resolveLinkCollection(
-    [
-      {
-        href: '/health-care/schedule-view-va-appointments/',
-        text: 'Schedule and manage appointments',
-        toggle: null,
-      },
-      {
-        href: '/health-care/schedule-view-va-appointments/appointments',
-        text: 'Your VA appointments',
-        toggle: null,
-      },
-      {
-        href: '/find-locations',
-        oldHref: null,
-        text: 'Find VA locations',
-        toggle: null,
-      },
-    ],
-    featureToggles,
-  );
+  const appointmentLinks = [
+    {
+      href: '/health-care/schedule-view-va-appointments/',
+      text: 'Schedule and manage appointments',
+      toggle: null,
+    },
+    {
+      href: '/health-care/schedule-view-va-appointments/appointments',
+      text: 'Your VA appointments',
+      toggle: null,
+    },
+    {
+      href: '/find-locations',
+      text: 'Find VA locations',
+      toggle: null,
+    },
+  ];
 
   const messagesLinks = resolveLinkCollection(
     [
@@ -181,36 +179,39 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
     featureToggles,
   );
 
-  const moreResourcesLinks = [
-    {
-      href: '/resources/the-pact-act-and-your-va-benefits/',
-      text: 'The PACT Act and your benefits',
-    },
-    {
-      oldHref: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
-      text: 'Check your mental health',
-    },
-    {
-      href: 'https://www.veteranshealthlibrary.va.gov/',
-      text: 'Veterans Health Library',
-    },
-    {
-      href: 'https://www.myhealth.va.gov/healthy-living-centers',
-      text: 'Healthy Living Centers',
-    },
-    {
-      href: 'https://www.myhealth.va.gov/mhv-community',
-      text: 'The My HealtheVet community',
-    },
-    {
-      href: '/wholehealth/',
-      text: "VA's Whole Health living",
-    },
-    {
-      href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
-      text: 'How to use VA Video Connect',
-    },
-  ];
+  const moreResourcesLinks = resolveLinkCollection(
+    [
+      {
+        href: '/resources/the-pact-act-and-your-va-benefits/',
+        text: 'The PACT Act and your benefits',
+      },
+      {
+        oldHref: mhvUrl(authdWithSSOe, 'check-your-mental-health'),
+        text: 'Check your mental health',
+      },
+      {
+        href: 'https://www.veteranshealthlibrary.va.gov/',
+        text: 'Veterans Health Library',
+      },
+      {
+        href: 'https://www.myhealth.va.gov/healthy-living-centers',
+        text: 'Healthy Living Centers',
+      },
+      {
+        href: 'https://www.myhealth.va.gov/mhv-community',
+        text: 'The My HealtheVet community',
+      },
+      {
+        href: '/wholehealth/',
+        text: "VA's Whole Health living",
+      },
+      {
+        href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
+        text: 'How to use VA Video Connect',
+      },
+    ],
+    featureToggles,
+  );
 
   const spotlightLinks = [
     {
