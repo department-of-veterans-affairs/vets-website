@@ -7,11 +7,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.sentDate,
-    );
+    landingPage.loadMessageDetailsWithData(landingPage.getNewMessage());
     cy.injectAxe();
     cy.axeCheck();
   });

@@ -241,20 +241,20 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        inputMockMessage.attributes.messageId
+        inputMockMessage.data.attributes.messageId
       }`,
       mockMessage,
     ).as('message');
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        inputMockMessage.attributes.messageId
+        inputMockMessage.data.attributes.messageId
       }/thread`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
       `a[href*="/my-health/secure-messages/message/${
-        inputMockMessage.attributes.messageId
+        inputMockMessage.data.attributes.messageId
       }"]`,
     );
     cy.realPress(['Enter']);
@@ -264,15 +264,20 @@ class PatientInboxPage {
 
   loadMessageDetailsWithData = inputMockMessage => {
     cy.log('loading message details.');
+    cy.log(JSON.stringify(inputMockMessage));
 
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
-      mockMessage,
+      `/my_health/v1/messaging/messages/${
+        inputMockMessage.data.attributes.messageId
+      }`,
+      inputMockMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
+      `/my_health/v1/messaging/messages/${
+        inputMockMessage.data.attributes.messageId
+      }/thread`,
       mockThread,
     ).as('full-thread');
     cy.contains(inputMockMessage.data.attributes.subject).click();
@@ -300,6 +305,7 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
+    cy.log(JSON.stringify(mockMessages.data.at(this.newMessageIndex)));
     return mockMessages.data.at(this.newMessageIndex);
   };
 
