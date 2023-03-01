@@ -21,3 +21,6 @@ jobs:
 
       - name: Run Docker Build
         run: docker build -e AWS_ACCESS_KEY_ID=${{ env.aws-access-key-id }} -e AWS_SECRET_ACCESS_KEY=${{ env.aws-secret-access-key }} -f src/platform/utilities/preview-environment/Dockerfile . -t frontend:latet
+
+      - name: Run dockerfile
+        run: docker run --platform linux/arm64 -p 3001:3001 frontend
