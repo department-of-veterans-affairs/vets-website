@@ -1,38 +1,31 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
-import PatientMessageDetailKeyboardPage from '../pages/PatientMessageDetailKeyboardPage';
+
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import mockMessagewithAttachment from '../fixtures/message-response-withattachments.json';
 
 describe('Navigate to Message Details ', () => {
-  const navButton = new PatientMessageDetailKeyboardPage();
-  const landingPage = new PatientInboxPage();
-  beforeEach(() => {
-    landingPage.login();
-    landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().attributes.recipientId,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.senderId,
-    );
-  });
-  it('navigate Print Button', () => {
-    navButton.navigatePrintButton();
+  it('Keyboard Navigation to Print Button', () => {
+    const landingPage = new PatientInboxPage();
+    const site = new SecureMessagingSite();
+    site.login();
+    landingPage.loadPage(false);
     cy.injectAxe();
     cy.axeCheck();
-    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
-  });
-  it('navigate Trash Button', () => {
-    navButton.navigateTrashButton();
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
-  });
+    mockMessagewithAttachment.data.id = '7192838';
+    mockMessagewithAttachment.data.attributes.attachment = true;
+    mockMessagewithAttachment.data.attributes.body = 'attachment';
 
-  it('navigate move button', () => {
-    navButton.navigateMoveToButton();
-    cy.injectAxe();
-    cy.axeCheck();
-    cy.tabToElement('[class="usa-button-secondary"]').should('exist');
+    landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
+    cy.contains('General:').click({ waitforanimations: true });
+
+    cy.tabToElement('[class="usa-button-secondary"]').should(
+      'contain',
+      'Print',
+    );
+    cy.tabToElement('[class="usa-button-secondary"]').should(
+      'contain',
+      'Trash',
+    );
+    cy.tabToElement('[class="usa-button-secondary"]').should('contain', 'Move');
   });
 });
