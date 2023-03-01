@@ -15,7 +15,7 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
-import ContactInfo from '../components/ContactInfo';
+import ContactInfo, { customContactFocus } from '../components/ContactInfo';
 import ContactInfoReview from '../components/ContactInfoReview';
 import AddIssue from '../components/AddIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
@@ -126,6 +126,8 @@ const formConfig = {
           CustomPageReview: ContactInfoReview,
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          // needs useCustomScrollAndFocus: true to work
+          scrollAndFocusTarget: customContactFocus,
         },
         editHomePhone: {
           title: 'Edit home phone number',

@@ -1,20 +1,13 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     profileDoNotRequireInternationalZipCode = true,
-    profileEnhancements = true,
     profileNotificationSettings = true,
-    profileSchemaForms = true,
-    profileShowAddressChangeModal = true,
-    profileShowDemographics = false,
-    profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
     profileUseVAFSC = false,
     profileHideDirectDepositCompAndPen = false,
     profileShowPaymentsNotificationSetting = false,
-    profileBlockForFiduciaryDeceasedOrIncompetent = false,
-    profileUseSecurityProcessList = true,
-    profileUseInfoCard = false,
+    profileUseInfoCard = true,
   } = toggles;
 
   return {
@@ -25,19 +18,10 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'profile_do_not_require_international_zip_code',
           value: profileDoNotRequireInternationalZipCode,
         },
-        { name: 'profile_enhancements', value: profileEnhancements },
         {
           name: 'profile_notification_settings',
           value: profileNotificationSettings,
         },
-        { name: 'profile_schema_forms', value: profileSchemaForms },
-        {
-          name: 'profile_show_address_change_modal',
-          value: profileShowAddressChangeModal,
-        },
-        { name: 'profile_show_demographics', value: profileShowDemographics },
-
-        { name: 'profile_show_profile_2.0', value: profileShowProfile2 },
         {
           name: 'profile_show_pronouns_and_sexual_orientation',
           value: profileShowPronounsAndSexualOrientation,
@@ -57,14 +41,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_payments_notification_setting',
           value: profileShowPaymentsNotificationSetting,
-        },
-        {
-          name: 'profile_block_for_fiduciary_deceased_or_incompetent',
-          value: profileBlockForFiduciaryDeceasedOrIncompetent,
-        },
-        {
-          name: 'profile_use_security_process_list',
-          value: profileUseSecurityProcessList,
         },
         {
           name: 'profile_use_info_card',

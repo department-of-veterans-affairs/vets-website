@@ -113,20 +113,6 @@ describe('AppointmentListItemVaos', () => {
           screen.getByTestId('appointment-kind-and-location'),
         ).to.have.text('Phone');
       });
-      it('Displays appointment instructions for pre-check-in phone appointment intro page', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentListItemVaos
-              app="preCheckIn"
-              appointment={appointments[1]}
-              router={mockRouter}
-              page="intro"
-            />
-          </I18nextProvider>,
-        );
-        expect(screen.queryByTestId('appointment-message')).to.exist;
-        expect(screen.queryByTestId('phone-msg-intro')).to.exist;
-      });
       it('Displays appointment instructions for pre-check-in phone appointment confirmation page', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>

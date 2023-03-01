@@ -1,20 +1,31 @@
-const previousHiApplication1 = {
+import { intersection, pick } from 'lodash';
+
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import { previousHiApplicationFields } from '../definitions/constants';
+
+const { required, properties } = fullSchema.properties[
+  previousHiApplicationFields.parentObject
+];
+const pageFields = [previousHiApplicationFields.hasPreviousHiApplication];
+
+export default {
   uiSchema: {
-    hasPreviousHiApplication: {
-      'ui:title':
-        'Have you previously applied for a home improvement or structural alteration grant?',
-      'ui:widget': 'yesNo',
+    [previousHiApplicationFields.parentObject]: {
+      [previousHiApplicationFields.hasPreviousHiApplication]: {
+        'ui:title':
+          'Have you previously applied for a special home adaptation (SHA) grant?',
+        'ui:widget': 'yesNo',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['hasPreviousHiApplication'],
     properties: {
-      hasPreviousHiApplication: {
-        type: 'boolean',
+      [previousHiApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
       },
     },
   },
 };
-
-export default previousHiApplication1;
