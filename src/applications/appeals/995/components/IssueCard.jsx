@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link } from 'react-router';
 
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { scrollToFirstError, focusElement } from 'platform/utilities/ui';
 
 import { SELECTED, FORMAT_READABLE, LAST_SC_ITEM } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
@@ -108,7 +109,8 @@ export const IssueCard = ({
   useEffect(
     () => {
       if (scrollId === wrapRef?.current.id) {
-        scrollAndFocus(wrapRef.current);
+        scrollToFirstError(wrapRef.current);
+        focusElement('input', {}, $('va-checkbox').shadowRoot);
         window.sessionStorage.removeItem(LAST_SC_ITEM);
       }
     },
