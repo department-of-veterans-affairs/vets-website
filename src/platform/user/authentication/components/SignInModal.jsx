@@ -1,34 +1,50 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { LoginContainer } from 'platform/user/authentication/components';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-export default class SignInModal extends React.Component {
-  componentDidUpdate(prevProps) {
-    const isOAuthEvent = this.props.useSiS ? '-oauth' : '';
-    if (!prevProps.visible && this.props.visible) {
-      recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
-    } else if (prevProps.visible && !this.props.visible) {
-      recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
-    }
-  }
+export default function SignInModal({ onClose, visible }) {
+  const useSiS = useSelector(signInServiceEnabled);
 
-  render() {
-    return (
-      <Modal
-        cssClass="va-modal-large new-modal-design"
-        visible={this.props.visible}
-        focusSelector="button"
-        onClose={this.props.onClose}
-        id="signin-signup-modal"
-      >
-        <LoginContainer />
-      </Modal>
-    );
-  }
+  useEffect(
+    () => {
+      const isOAuthEvent = useSiS ? '-oauth' : '';
+      const url = new URL(window.location);
+      if (visible) {
+        recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
+
+        if (useSiS) {
+          url.searchParams.set('oauth', useSiS);
+        }
+
+        if (!url.searchParams.get('next')) {
+          url.searchParams.set('next', 'loginModal');
+        }
+      }
+      window.history.pushState({}, '', url);
+
+      return () => {
+        recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
+      };
+    },
+    [visible, useSiS],
+  );
+  return (
+    <Modal
+      cssClass="va-modal-large new-modal-design"
+      visible={visible}
+      focusSelector="button"
+      onClose={onClose}
+      id="signin-signup-modal"
+    >
+      <LoginContainer />
+    </Modal>
+  );
 }
 
 SignInModal.propTypes = {

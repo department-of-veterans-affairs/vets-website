@@ -21,15 +21,17 @@ export function toggleAccountTransitionSuccessModal(isOpen) {
 }
 
 export function toggleLoginModal(isOpen, context) {
-  if (isOpen) {
-    const event = context
-      ? `login-link-clicked-${context}`
-      : `login-link-clicked-cta`;
+  return async dispatch => {
+    if (isOpen) {
+      const event = context
+        ? `login-link-clicked-${context}`
+        : `login-link-clicked-cta`;
 
-    recordEvent({ event });
-  }
+      recordEvent({ event });
+    }
 
-  return { type: TOGGLE_LOGIN_MODAL, isOpen };
+    return dispatch({ type: TOGGLE_LOGIN_MODAL, isOpen });
+  };
 }
 
 export function toggleSearchHelpUserMenu(menu, isOpen) {

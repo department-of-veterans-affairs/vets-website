@@ -91,40 +91,39 @@ export class Main extends Component {
     this.unbindNavbarLinks();
   }
 
-  getNextParameter() {
+  getNextParameter = () => {
     return new URLSearchParams(window.location.search).get('next');
-  }
+  };
 
-  formatNextParameter() {
+  formatNextParameter = () => {
     const nextParam = this.getNextParameter();
     if (nextParam && nextParam !== 'loginModal') {
       return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
 
     return null;
-  }
+  };
 
-  appendOrRemoveParameter({
-    url = 'loginModal',
-    pageTitle = '',
-    useSiS = true,
-  } = {}) {
-    if (url === 'loginModal' && this.getNextParameter()) {
-      return null;
-    }
-    const location = window.location.toString();
-    const nextQuery = {
-      next: url,
-      ...(useSiS && this.props.useSignInService && { oauth: true }),
-    };
-    const path = useSiS ? location : location.replace('&oauth=true', '');
-    const nextPath = appendQuery(path, nextQuery);
-    history.pushState({}, pageTitle, nextPath);
+  // appendOrRemoveParameter({ url = 'loginModal', pageTitle = '' } = {}) {
+  //   if (url === 'loginModal' && this.getNextParameter()) {
+  //     return null;
+  //   }
+  //   const location = window.location.toString();
+  //   console.log(this.props.showLoginModal);
+  //   const nextQuery = this.props.showLoginModal
+  //     ? {
+  //         next: url,
+  //         ...(this.props.useSignInService && { oauth: true }),
+  //       }
+  //     : { next: null, oauth: null };
+  //   // const path = useSiS ? location : location.replace('&oauth=true', '');
+  //   const nextPath = appendQuery(location, nextQuery, { removeNull: true });
+  //   history.pushState({}, pageTitle, nextPath);
 
-    return nextQuery;
-  }
+  //   return nextQuery;
+  // }
 
-  executeRedirect() {
+  executeRedirect = () => {
     const redirectUrl = this.formatNextParameter();
     const shouldRedirect =
       redirectUrl && !window.location.pathname.includes('verify');
@@ -132,14 +131,16 @@ export class Main extends Component {
     if (shouldRedirect) {
       window.location.replace(appendQuery(redirectUrl, 'postLogin=true'));
     }
-  }
+  };
 
   checkLoggedInStatus = () => {
     if (hasSession()) {
       this.props.initializeProfile();
     } else {
       this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) this.openLoginModal();
+      if (this.getNextParameter()) {
+        this.props.toggleLoginModal(true);
+      }
     }
   };
 
@@ -164,9 +165,9 @@ export class Main extends Component {
       el.addEventListener('click', e => {
         if (!this.props.currentlyLoggedIn) {
           e.preventDefault();
-          const linkHref = el.getAttribute('href');
-          const pageTitle = el.textContent;
-          this.appendOrRemoveParameter({ linkHref, pageTitle });
+          // const linkHref = el.getAttribute('href');
+          // const pageTitle = el.textContent;
+          // this.appendOrRemoveParameter({ linkHref, pageTitle });
           this.openLoginModal();
         }
       });
@@ -183,9 +184,17 @@ export class Main extends Component {
     this.props.toggleFormSignInModal(false);
   };
 
-  closeLoginModal = () => {
+  closeLoginModal = async () => {
     this.props.toggleLoginModal(false);
-    this.appendOrRemoveParameter({ useSiS: false });
+    window.history.pushState(
+      {},
+      '',
+      appendQuery(
+        window.location.toString(),
+        { oauth: null },
+        { removeNull: true },
+      ),
+    );
   };
 
   closeAccountTransitionModal = () => {
@@ -199,12 +208,11 @@ export class Main extends Component {
 
   closeModals = () => {
     if (this.props.showFormSignInModal) this.closeFormSignInModal();
-    if (this.props.showLoginModal) this.closeLoginModal();
+    // if (this.props.showLoginModal) this.closeLoginModal();
   };
 
-  openLoginModal = () => {
-    this.props.toggleLoginModal(true);
-    this.appendOrRemoveParameter({});
+  openLoginModal = async () => {
+    await this.props.toggleLoginModal(true);
   };
 
   signInSignUp = () => {
@@ -216,7 +224,7 @@ export class Main extends Component {
       // requests when the sign-in modal renders.
       this.props.getBackendStatuses();
       this.props.toggleLoginModal(true, 'header');
-      this.appendOrRemoveParameter({});
+      // this.appendOrRemoveParameter({});
     }
   };
 
