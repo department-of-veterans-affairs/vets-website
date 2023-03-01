@@ -157,7 +157,7 @@ const AppointmentDetails = props => {
                   <AppointmentActionVaos
                     appointment={appointment}
                     router={router}
-                    event="check-in-from-details"
+                    event="check-in-clicked-VAOS-design"
                   />
                 </div>
               )}

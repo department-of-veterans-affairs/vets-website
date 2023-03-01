@@ -103,6 +103,7 @@ const AppointmentListItemVaos = props => {
               <AppointmentActionVaos
                 appointment={appointment}
                 router={router}
+                event="check-in-clicked-VAOS-design"
               />
             </>
           )}
