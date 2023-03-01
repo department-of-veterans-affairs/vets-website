@@ -12,4 +12,4 @@ RUN aws --version # Verify AWS CLI installation.
 EXPOSE 3001
 EXPOSE 3000
 
-CMD cd vets-website; yarn install;ls; yarn watch --port=3001 --host=0.0.0.0; aws s3 cp s3://vetsgov-website-builds-s3-upload/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2 ./content-build
+CMD cd vets-website; yarn install;ls; yarn watch --port=3001 --host=0.0.0.0; aws s3 cp s3://vetsgov-website-builds-s3-upload/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2 ./content-build; ls -a
