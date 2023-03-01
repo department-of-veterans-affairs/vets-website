@@ -95,7 +95,7 @@ class PatientMessageDetailsPage {
       .click();
   };
 
-  ActiverifyReplyButtonon = () => {
+  verifyReplyButtonAction = () => {
     cy.get('[data-testid=reply-button-text]').click();
     cy.get('[data-testid="message-body-field"]')
       .shadow()
