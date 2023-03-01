@@ -355,6 +355,10 @@ export function transformVAOSAppointment(appt) {
               providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
+    preferredProviderName:
+      isCC && isRequest && appt.preferredProviderName
+        ? { providerName: appt.preferredProviderName }
+        : null,
     practitioners: appt.practitioners,
     ...requestFields,
     vaos: {
@@ -375,20 +379,4 @@ export function transformVAOSAppointment(appt) {
 
 export function transformVAOSAppointments(appts) {
   return appts.map(appt => transformVAOSAppointment(appt));
-}
-
-/**
- * Transforms a provider object from the providers endpoint into our
- * VAOS format
- *
- * @export
- * @param {provider} provider A provider from the providers endpoint
- * @returns {Provider} A Provider resource
- */
-export function transformPreferredProviderV2(provider) {
-  return {
-    resourceType: 'Provider',
-    id: provider.providerIdentifier,
-    name: provider.name,
-  };
 }
