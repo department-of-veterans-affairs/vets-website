@@ -20,11 +20,7 @@ export const content = {
   },
   date: {
     label: 'Date of decision',
-    hint: (
-      <p className="vads-u-font-weight--normal label-description">
-        Enter the date on your decision notice (the letter you received in the
-        mail from us).
-      </p>
-    ),
+    hint:
+      'Enter the date on your decision notice (the letter you received in the mail from us).',
   },
 };
