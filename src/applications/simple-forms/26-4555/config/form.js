@@ -37,23 +37,27 @@ const formConfig = {
   preSubmitInfo,
   formId: '26-4555',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your adapted housing application (26-4555) is in progress.',
-    //   expired: 'Your saved adapted housing application (26-4555) has expired. If you want to apply for adapted housing, please start a new application.',
-    //   saved: 'Your adapted housing application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your specially adapted housing grant (26-4555) application is in progress.',
+      expired:
+        'Your saved specially adapted housing grant (26-4555) application has expired.',
+      saved:
+        'Your specially adapted housing grant (26-4555) application has been saved.',
+    },
+  },
+  savedFormMessages: {
+    notFound:
+      'Please start over to fill out the specially adapted housing grant (26-4555) application.',
+    noAuth:
+      'Please sign in again to continue your specially adapted housing grant (26-4555) application.',
   },
   version: 0,
   migrations: [],
-  prefillEnabled: false,
-  // disableSave: false,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for adapted housing.',
-    noAuth:
-      'Please sign in again to continue your application for adapted housing.',
-  },
+  prefillEnabled: true,
   title: 'Apply for a Specially Adapted Housing Grant Grant',
-  subTitle: 'VA Form 26-4555',
+  subTitle:
+    'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {
