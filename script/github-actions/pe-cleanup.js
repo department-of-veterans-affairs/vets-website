@@ -55,7 +55,9 @@ if (
       './manifests/apps/preview-environment/dev/argocd-apps/values.yaml',
     ),
   );
-  console.log(envFileContents);
+  envFileContents.environments.forEach((environment, index) => {
+    console.log(environment.name, index);
+  });
   // const valuesFiles = fs
   //   .readdirSync('./manifests/apps/preview-environment/dev/pe-env/')
   //   .filter(file => {
