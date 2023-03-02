@@ -5,7 +5,11 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import {
+  scrollAndFocus,
+  scrollToTop,
+  focusElement,
+} from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
@@ -42,6 +46,11 @@ const EvidencePrivateRecordsAuthorization = ({
     [hasError],
   );
 
+  const focusOnAlert = () => {
+    scrollToTop();
+    focusElement('h3', {}, $('va-alert'));
+  };
+
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -56,7 +65,7 @@ const EvidencePrivateRecordsAuthorization = ({
       setFormData({ ...data, privacyAgreementAccepted: checked });
       setHasError(!checked);
       if (!checked) {
-        scrollAndFocus($('va-alert'));
+        focusOnAlert();
       }
     },
     onGoForward: () => {
@@ -66,7 +75,7 @@ const EvidencePrivateRecordsAuthorization = ({
         goForward(data);
       } else {
         setHasError(true);
-        scrollAndFocus($('va-alert'));
+        focusOnAlert();
       }
     },
   };
