@@ -4,6 +4,9 @@ on:
       - '**'
   schedule:
     - cron: 00 00,12 * * *
+  push:
+    branches:
+      - '**'
 
 name: Preview Environment Cleanup
 
