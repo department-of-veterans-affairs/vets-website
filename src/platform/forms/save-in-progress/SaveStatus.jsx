@@ -84,7 +84,7 @@ function SaveStatus({
                   showLoginModal={showLoginModal}
                   toggleLoginModal={toggleLoginModal}
                 >
-                  Sign in to save your {appType} in progress
+                  {`Sign in to save your ${appType} in progress`}
                 </SignInLink>
                 .
               </span>

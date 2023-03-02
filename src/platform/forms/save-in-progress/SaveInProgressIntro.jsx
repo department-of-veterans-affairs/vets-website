@@ -119,19 +119,18 @@ class SaveInProgressIntro extends React.Component {
             <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">
                 <H className="usa-alert-heading vads-u-font-size--h3">
-                  {inProgressMessage} {savedAt && 'and was last saved on '}
-                  {lastSavedDateTime}
+                  {`${inProgressMessage} ${savedAt &&
+                    'and was last saved on '} ${lastSavedDateTime}`}
                 </H>
               </div>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
-                  You can continue {appAction} now
-                  {appContinuing && ` ${appContinuing}`}, or come back later to
-                  finish your {appType}.
+                  {`You can continue ${appAction} now ${appContinuing &&
+                    ` ${appContinuing}`}, or come back later to finish your ${appType}.`}
                   <p>
-                    Your {appType}{' '}
+                    {`Your ${appType} `}
                     <span className="expires">
-                      will expire on {expirationDate}.
+                      {`will expire on ${expirationDate}.`}
                     </span>
                   </p>
                 </div>
@@ -145,7 +144,7 @@ class SaveInProgressIntro extends React.Component {
             <div>
               <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} has expired</strong>
+                  <strong>{`Your ${appType} has expired`}</strong>
                 </div>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
@@ -163,10 +162,8 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                <strong>Note:</strong> Since you’re signed in to your account,
-                we can prefill part of your {appType} based on your account
-                details. You can also save your {appType} in progress and come
-                back later to finish filling it out.
+                <strong>Note: </strong>
+                {`Since you’re signed in to your account, we can prefill part of your ${appType} based on your account details. You can also save your ${appType} in progress and come back later to finish filling it out.`}
               </div>
             </div>
             <br />
@@ -179,8 +176,7 @@ class SaveInProgressIntro extends React.Component {
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
               <div className="usa-alert-body">
-                You can save this {appType} in progress, and come back later to
-                finish filling it out.
+                {`You can save this ${appType} in progress, and come back later to finish filling it out.`}
               </div>
             </div>
             <br />
@@ -224,28 +220,21 @@ class SaveInProgressIntro extends React.Component {
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
             <H className="usa-alert-heading">
-              Save time—and save your work in progress—by signing in before
-              starting your {appType}
+              {`Save time—and save your work in progress—by signing in before starting your ${appType}`}
             </H>
             <div className="usa-alert-text">
               <p>When you’re signed in to your VA.gov account:</p>
               <ul>
                 <li>
-                  We can prefill part of your {appType} based on your account
-                  details.
+                  {`We can prefill part of your ${appType} based on your account details.`}
                 </li>
                 <li>
-                  You can save your {appType} in progress, and come back later
-                  to finish filling it out. You’ll have {retentionPeriod} from
-                  the date you start or update your {appType} to submit it.
-                  After {retentionPeriod}, we’ll delete the {appType} and you’ll
-                  need to start over.
+                  {`You can save your ${appType} in progress, and come back later to finish filling it out. You’ll have ${retentionPeriod} from the date you start or update your ${appType} to submit it. After ${retentionPeriod}, we’ll delete the ${appType} and you’ll need to start over.`}
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong> If you sign in after you’ve started your{' '}
-                {appType}, you won’t be able to save the information you’ve
-                already filled in.
+                <strong>Note:</strong>
+                {` If you sign in after you’ve started your ${appType}, you won’t be able to save the information you’ve already filled in.`}
               </p>
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
@@ -257,7 +246,7 @@ class SaveInProgressIntro extends React.Component {
                     aria-label={ariaLabel}
                     aria-describedby={ariaDescribedby}
                   >
-                    Start your {appType} without signing in
+                    {`Start your ${appType} without signing in`}
                   </Link>
                 </p>
               )}
@@ -272,8 +261,7 @@ class SaveInProgressIntro extends React.Component {
         <div>
           <div className="usa-alert usa-alert-info schemaform-sip-alert">
             <div className="usa-alert-body">
-              You can save this {appType} in progress, and come back later to
-              finish filling it out.
+              {`You can save this ${appType} in progress, and come back later to finish filling it out.`}
               <br />
               <button
                 className="va-button-link"

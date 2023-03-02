@@ -139,20 +139,21 @@ export class ApplicationStatus extends React.Component {
 
         return (
           <div className="usa-alert usa-alert-info background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
-            <h5 className="form-title saved">Your {appType} is in progress</h5>
+            <h5 className="form-title saved">
+              {`Your ${appType} is in progress`}
+            </h5>
             <span className="saved-form-item-metadata">
-              Your {formDescriptions[formId]} is in progress.
+              {`Your ${formDescriptions[formId]} is in progress.`}
             </span>
             <br />
             {lastSavedDateTime && (
               <span className="saved-form-item-metadata">
-                Your {appType} was last saved on {lastSavedDateTime}
+                {`Your ${appType} was last saved on ${lastSavedDateTime}`}
               </span>
             )}
             <br />
             <div className="expires-container">
-              You can continue {appAction} now, or come back later to finish
-              your {appType}. Your {appType}{' '}
+              {`You can continue ${appAction} now, or come back later to finish your ${appType}. Your ${appType} `}
               <span className="expires">
                 will expire on {format(expirationDate, 'MMMM d, yyyy')}.
               </span>
@@ -166,6 +167,7 @@ export class ApplicationStatus extends React.Component {
                 {continueAppButtonText}
               </a>
               <button
+                type="button"
                 className="usa-button-secondary"
                 onClick={this.toggleModal}
               >
@@ -174,9 +176,9 @@ export class ApplicationStatus extends React.Component {
             </p>
             {multipleForms && (
               <p className="no-bottom-margin">
-                You have more than one in-progress {formType} {appType}.{' '}
+                {`You have more than one in-progress ${formType} ${appType}. `}
                 <a href="/my-va">
-                  View and manage your {appType}s on your Account page
+                  {`View and manage your ${appType}s on your Account page`}
                 </a>
                 .
               </p>
@@ -205,10 +207,13 @@ export class ApplicationStatus extends React.Component {
       }
       return (
         <div className="usa-alert usa-alert-warning background-color-only sip-application-status vads-u-margin-bottom--2 vads-u-margin-top--0">
-          <h5 className="form-title saved">Your {appType} has expired</h5>
+          <h5 className="form-title saved">{`Your ${appType} has expired`}</h5>
           <span className="saved-form-item-metadata">
-            Your saved {formDescriptions[formId]} has expired. If you want to
-            apply for {formBenefits[formId]}, please start a new {appType}.
+            {`Your saved ${
+              formDescriptions[formId]
+            } has expired. If you want to apply for ${
+              formBenefits[formId]
+            }, please start a new ${appType}.`}
           </span>
           <br />
           <p>
@@ -218,7 +223,7 @@ export class ApplicationStatus extends React.Component {
           </p>
           {multipleForms && (
             <p className="no-bottom-margin">
-              You have more than one in-progress {formType} {appType}.{' '}
+              {`You have more than one in-progress ${formType} ${appType}. `}
               <a href="/my-va">
                 View and manage your {appType}s on your Account page
               </a>
