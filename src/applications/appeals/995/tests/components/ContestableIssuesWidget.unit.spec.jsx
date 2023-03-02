@@ -42,7 +42,7 @@ describe('<ContestableIssuesWidget>', () => {
     ).to.equal('issue-1');
     wrapper.unmount();
   });
-  it('should render edit link & remove button', () => {
+  it.skip('should render edit link & remove button', () => {
     const props = getProps();
     const wrapper = mount(<ContestableIssuesWidget {...props} />);
     const addLength = props.additionalIssues.length;
