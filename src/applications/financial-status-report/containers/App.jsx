@@ -97,12 +97,12 @@ const App = ({
   const dispatch = useDispatch();
   useEffect(
     () => {
-      if (showCombinedFSR) {
+      if (isLoggedIn && showCombinedFSR) {
         fetchDebts(dispatch);
         getStatements(dispatch);
       }
     },
-    [dispatch, showCombinedFSR],
+    [dispatch, isLoggedIn, showCombinedFSR],
   );
 
   if (pending) {
@@ -120,6 +120,7 @@ const App = ({
   }
 
   if (
+    !isError &&
     isLoggedIn &&
     showCombinedFSR &&
     !debts.length &&
@@ -192,7 +193,7 @@ const mapStateToProps = state => ({
   showCombinedFSR: combinedFSRFeatureToggle(state),
   showEnhancedFSR: enhancedFSRFeatureToggle(state),
   isStartingOver: state.form.isStartingOver,
-  statments: state.fsr.statments,
+  statements: state.fsr.statements,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,20 +5,20 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { moveMessage } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
 import * as Constants from '../../util/constants';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 
 const MoveMessageToFolderBtn = props => {
-  const { messageId, allFolders, isVisible } = props;
+  const { messageId, allFolders, isVisible, activeFolder } = props;
   const dispatch = useDispatch();
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNewModalVisible, setIsNewModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
-  const folders = useSelector(state => state.sm.folders.folderList);
+  const [updatedFoldersList, setUpdatedFolderList] = useState([]);
 
   useEffect(
     () => {
@@ -56,6 +56,20 @@ const MoveMessageToFolderBtn = props => {
     }
   };
 
+  useEffect(
+    () => {
+      setUpdatedFolderList(
+        allFolders.filter(
+          folder =>
+            folder.id !== activeFolder?.folderId &&
+            folder.id !== Constants.DefaultFolders.DRAFTS.id &&
+            folder.id !== Constants.DefaultFolders.SENT.id,
+        ),
+      );
+    },
+    [allFolders, activeFolder],
+  );
+
   const moveToFolderModal = () => {
     return (
       <div
@@ -85,30 +99,24 @@ const MoveMessageToFolderBtn = props => {
             error={folderInputError}
             onRadioOptionSelected={handleOnChangeFolder}
           >
-            {allFolders &&
-              allFolders
-                .filter(
-                  folder =>
-                    folder.id !== Constants.DefaultFolders.DRAFTS.id &&
-                    folder.id !== Constants.DefaultFolders.SENT.id,
-                )
-                .map((folder, i) => (
-                  <>
-                    <VaRadioOption
-                      data-testid={`radiobutton-${folder.name}`}
-                      key={i}
-                      id={`radiobutton-${folder.name}`}
-                      // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
-                      label={
-                        folder.id === Constants.DefaultFolders.DELETED.id
-                          ? Constants.DefaultFolders.DELETED.header
-                          : folder.name
-                      }
-                      name="defaultName"
-                      value={folder.id}
-                    />
-                  </>
-                ))}
+            {updatedFoldersList &&
+              updatedFoldersList.map((folder, i) => (
+                <>
+                  <VaRadioOption
+                    data-testid={`radiobutton-${folder.name}`}
+                    key={i}
+                    id={`radiobutton-${folder.name}`}
+                    // checking if the folder is the trash folder, as the name on the backend is 'Deleted' instead of 'Trash'
+                    label={
+                      folder.id === Constants.DefaultFolders.DELETED.id
+                        ? Constants.DefaultFolders.DELETED.header
+                        : folder.name
+                    }
+                    name="defaultName"
+                    value={folder.id}
+                  />
+                </>
+              ))}
             <>
               <VaRadioOption
                 data-testid="folder-list-radio-button"
@@ -158,7 +166,7 @@ const MoveMessageToFolderBtn = props => {
             isModalVisible={isNewModalVisible}
             setIsModalVisible={setIsNewModalVisible}
             onConfirm={confirmCreateFolder}
-            folders={folders}
+            folders={updatedFoldersList}
           />
         )}
       </li>
@@ -167,6 +175,7 @@ const MoveMessageToFolderBtn = props => {
 };
 
 MoveMessageToFolderBtn.propTypes = {
+  activeFolder: PropTypes.object,
   allFolders: PropTypes.array,
   isVisible: PropTypes.bool,
   messageId: PropTypes.number,

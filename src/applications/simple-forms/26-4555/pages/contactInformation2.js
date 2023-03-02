@@ -1,25 +1,38 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { intersection, pick } from 'lodash';
+
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import { veteranFields } from '../definitions/constants';
 
-const { email, phone } = commonDefinitions;
+const { required, properties } = fullSchema.properties[
+  veteranFields.parentObject
+];
+const pageFields = [
+  veteranFields.homePhone,
+  veteranFields.mobilePhone,
+  veteranFields.email,
+];
 
-const contactInformation2 = {
+export default {
   uiSchema: {
-    homePhone: phoneUI('Home phone number'),
-    mobilePhone: phoneUI('Cell phone number'),
-    email: {
-      'ui:title': 'Email address',
+    [veteranFields.parentObject]: {
+      'ui:title': 'Additional contact information',
+      'ui:description':
+        'Please enter your contact information so we can get in touch with you if we have questions about your application.',
+      [veteranFields.homePhone]: phoneUI('Home phone number'),
+      [veteranFields.mobilePhone]: phoneUI('Mobile phone number'),
+      [veteranFields.email]: emailUI(),
     },
   },
   schema: {
     type: 'object',
-    required: ['homePhone'],
     properties: {
-      homePhone: phone,
-      mobilePhone: phone,
-      email,
+      [veteranFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: pick(properties, pageFields),
+      },
     },
   },
 };
-
-export default contactInformation2;

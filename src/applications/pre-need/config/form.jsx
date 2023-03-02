@@ -157,6 +157,12 @@ const formConfig = {
                       3: 'Unmarried adult child',
                       4: 'Other',
                     },
+                    widgetProps: {
+                      1: { 'aria-describedby': 'veteran-relationship' },
+                      2: { 'aria-describedby': 'spouse-relationship' },
+                      3: { 'aria-describedby': 'child-relationship' },
+                      4: { 'aria-describedby': 'other-relationship' },
+                    },
                     nestedContent: {
                       1: veteranRelationshipDescription,
                       2: spouseRelationshipDescription,

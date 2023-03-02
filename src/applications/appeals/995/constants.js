@@ -61,7 +61,11 @@ export const MAX_LENGTH = {
   PHONE_AREA_CODE: 4,
   PHONE_NUMBER: 14,
   PHONE_NUMBER_EXT: 10,
-  COUNTRY: 2,
+  ADDRESS_COUNTRY: 2,
+  ADDRESS_LINE1: 60,
+  ADDRESS_LINE2: 30,
+  ADDRESS_LINE3: 10,
+  CITY: 60,
   ZIP_CODE5: 5,
   POSTAL_CODE: 16,
   CLAIMANT_OTHER: 25,
@@ -127,6 +131,7 @@ export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
 
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
+export const CONTACT_EDIT = 'edit-contact-info'; // contact info focusing
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
 
+const { set } = require('lodash');
 const user = require('./user');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
@@ -85,6 +86,18 @@ const responses = {
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // return res.status(401).json(require('../tests/fixtures/401.json'));
+
+    // to test the update that comes from the 'yes' action on the address change modal prompt,
+    // we can create a success response with a transactionId that is unique using date timestamp
+    if (req.body.addressPou === 'CORRESPONDENCE') {
+      return res.json(
+        set(
+          { ...address.mailingAddressUpdateReceived.response },
+          'data.attributes.transactionId',
+          `mailingUpdateId-${new Date().getTime()}`,
+        ),
+      );
+    }
 
     // simulate a initial request returning a transactionId that is
     // subsequently used for triggereing error from GET v0/profile/status

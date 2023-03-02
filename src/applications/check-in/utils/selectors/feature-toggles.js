@@ -27,6 +27,9 @@ const selectFeatureToggles = createSelector(
     isUpdatedApptPresentationEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUpdatedApptPresentation
     ],
+    isPreCheckInActionLinkTopPlacementEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperiencePreCheckInActionLinkTopPlacement
+    ],
   }),
   toggles => toggles,
 );

@@ -253,11 +253,6 @@ export function mockFeatureToggles() {
           value: true,
         },
         {
-          name: 'vaGlobalDowntimeNotification',
-          value: false,
-        },
-
-        {
           name: 'vaOnlineSchedulingVAOSServiceRequests',
           value: true,
         },
@@ -271,14 +266,6 @@ export function mockFeatureToggles() {
         },
         {
           name: 'vaOnlineSchedulingVAOSServiceCCAppointments',
-          value: true,
-        },
-        {
-          name: 'vaOnlineSchedulingVariantTesting',
-          value: false,
-        },
-        {
-          name: 'vaOnlineSchedulingPocHealthApt',
           value: true,
         },
         {

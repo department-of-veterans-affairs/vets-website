@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadMeta from './MessageThreadMeta';
 import MessageThreadBody from './MessageThreadBody';
 import MessageThreadAttachments from './MessageThreadAttachments';
+import { markMessageAsReadInThread } from '../../actions/messages';
 
 const MessageThreadItem = props => {
+  const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(false);
   const { message } = props;
-  const isRead = message.readReceipt === 'READ';
+  // TODO currently setting isRead to true due to a bug in the backend. This will need to be reverted once the backend is fixed.
+  const isRead = true;
+  // const isRead = message.readReceipt === 'READ';
 
   useEffect(
     () => {
@@ -26,6 +31,11 @@ const MessageThreadItem = props => {
     if (!e.shiftKey && e.key !== 'Tab') {
       // prevent from expanding/collapsing on Tab key press for accessibility
       setIsExpanded(!isExpanded);
+    }
+    if (!isExpanded) {
+      // TODO replace line above with a line below once readReceipt is fixed in the backend
+      // if (!isRead && !isExpanded) {
+      dispatch(markMessageAsReadInThread(message.messageId));
     }
   };
 
@@ -66,13 +76,14 @@ const MessageThreadItem = props => {
               <MessageThreadBody expanded={isExpanded} text={message.body} />
             </div>
 
-            {message?.attachments && (
-              <MessageThreadAttachments
-                expanded={isExpanded}
-                // TODO check how backend can return attachments list
-                attachments={message.attachments}
-              />
-            )}
+            {isExpanded &&
+              message.attachments?.length > 0 && (
+                <MessageThreadAttachments
+                  expanded={isExpanded}
+                  // TODO check how backend can return attachments list
+                  attachments={message.attachments}
+                />
+              )}
           </div>
 
           <div className="vads-u-flex--auto">

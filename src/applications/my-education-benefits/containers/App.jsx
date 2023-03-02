@@ -9,7 +9,7 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
-  fetchDirectDeposit,
+  // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
 } from '../actions';
 import { formFields } from '../constants';
 import { prefillTransformer } from '../helpers';
@@ -22,7 +22,8 @@ export const App = ({
   featureTogglesLoaded,
   firstName,
   formData,
-  getDirectDeposit,
+  // Commenting out until we update the component to handle astrisks
+  // getDirectDeposit,
   getEligibility,
   getPersonalInfo,
   isLOA3,
@@ -30,10 +31,13 @@ export const App = ({
   location,
   setFormData,
   showMebDgi40Features,
+  showMebDgi42Features,
+  showMebCh33SelfForm,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
-  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  // Commenting out next line until component can handle astrisks (See TOE app)
+  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -43,7 +47,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo();
+        getPersonalInfo(showMebCh33SelfForm);
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -60,6 +64,7 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
+      showMebCh33SelfForm,
     ],
   );
 
@@ -103,19 +108,38 @@ export const App = ({
           showMebDgi40Features,
         });
       }
-    },
-    [formData, setFormData, showMebDgi40Features],
-  );
-
-  useEffect(
-    () => {
-      if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
-        setFetchedDirectDeposit(true);
-        getDirectDeposit();
+      if (showMebDgi42Features !== formData.showMebDgi42Features) {
+        setFormData({
+          ...formData,
+          showMebDgi42Features,
+        });
+      }
+      if (showMebCh33SelfForm !== formData.showMebCh33SelfForm) {
+        setFormData({
+          ...formData,
+          showMebCh33SelfForm,
+        });
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
+    [
+      formData,
+      setFormData,
+      showMebDgi40Features,
+      showMebDgi42Features,
+      showMebCh33SelfForm,
+    ],
   );
+
+  // Commenting out until Direct Deposit component is updated
+  // useEffect(
+  //   () => {
+  //     if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
+  //       setFetchedDirectDeposit(true);
+  //       getDirectDeposit();
+  //     }
+  //   },
+  //   [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
+  // );
 
   return (
     <>
@@ -140,7 +164,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
-  getDirectDeposit: PropTypes.func,
+  // getDirectDeposit: PropTypes.func,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
@@ -148,6 +172,8 @@ App.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMebDgi40Features: PropTypes.bool,
+  showMebDgi42Features: PropTypes.bool,
+  showMebCh33SelfForm: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -164,7 +190,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getDirectDeposit: fetchDirectDeposit,
+  // getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,

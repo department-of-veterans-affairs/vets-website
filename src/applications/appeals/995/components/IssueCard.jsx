@@ -155,10 +155,10 @@ export const IssueCard = ({
             pathname: '/add-issue',
             search: `?index=${index}`,
           }}
-          className="change-issue-link"
-          aria-label={`Change ${issueName}`}
+          className="edit-issue-link"
+          aria-label={`Edit ${issueName}`}
         >
-          Change
+          Edit
         </Link>
         <button
           type="button"
@@ -173,7 +173,7 @@ export const IssueCard = ({
 
   // Issues h4 disappears in edit mode, so we need to match the page header
   // level
-  const Header = onReviewPage ? 'h5' : 'h3';
+  const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
     <div

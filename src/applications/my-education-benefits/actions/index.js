@@ -48,20 +48,19 @@ const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + 60000);
 };
 
-export function fetchPersonalInformation() {
+export function fetchPersonalInformation(showMebCh33SelfForm) {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
       .then(response => {
-        if (!response?.data?.attributes?.claimant) {
+        if (!showMebCh33SelfForm || !response?.data?.attributes?.claimant) {
           window.location.href =
             '/education/apply-for-education-benefits/application/1990/';
-        } else {
-          dispatch({
-            type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-            response,
-          });
         }
+        dispatch({
+          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+          response,
+        });
       })
       .catch(errors => {
         dispatch({
@@ -161,7 +160,6 @@ export function fetchEligibility() {
       );
   };
 }
-
 export function fetchDirectDeposit() {
   return async dispatch => {
     dispatch({ type: FETCH_DIRECT_DEPOSIT });

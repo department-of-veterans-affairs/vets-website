@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  VaDate,
+  VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -26,13 +26,7 @@ import {
   maxNameLength,
 } from '../validations/issues';
 import { validateDate } from '../validations/date';
-import {
-  addIssueTitle,
-  issueNameLabel,
-  issueNameHintText,
-  dateOfDecisionLabel,
-  dateOfDecisionHintText,
-} from '../content/addIssue';
+import { content } from '../content/addIssue';
 
 const ISSUES_PAGE = `/${CONTESTABLE_ISSUES_PATH}`;
 const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -51,6 +45,8 @@ const AddIssue = props => {
   }
   const offsetIndex = calculateIndexOffset(index, contestedIssues.length);
   const currentData = allIssues[index] || {};
+
+  const addOrEdit = currentData.issue ? 'edit' : 'add';
 
   // set session storage of edited item. This enables focusing on the item
   // upon return to the eligible issues page (a11y)
@@ -151,25 +147,26 @@ const AddIssue = props => {
           className="vads-u-font-family--serif"
           name="addIssue"
         >
-          {addIssueTitle}
+          <h3 className="vads-u-margin--0">{content.title[addOrEdit]}</h3>
         </legend>
         <VaTextInput
           id="add-sc-issue"
           name="add-sc-issue"
           type="text"
-          label={issueNameLabel}
+          label={content.name.label}
           required
           value={issueName}
           onInput={handlers.onIssueNameChange}
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showError) || null}
         >
-          {issueNameHintText}
+          {content.name.hint}
         </VaTextInput>
         <br />
-        <VaDate
+        <VaMemorableDate
           name="decision-date"
-          label={dateOfDecisionLabel}
+          label={content.date.label}
+          hint={content.date.hint}
           class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
@@ -177,9 +174,7 @@ const AddIssue = props => {
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
           aria-describedby="decision-date-description"
-        >
-          {dateOfDecisionHintText}
-        </VaDate>
+        />
         <p>
           <button
             type="button"
@@ -187,7 +182,7 @@ const AddIssue = props => {
             className="usa-button-secondary vads-u-width--auto"
             onClick={handlers.onCancel}
           >
-            Cancel
+            {content.button.cancel}
           </button>
           <button
             type="button"
@@ -195,7 +190,7 @@ const AddIssue = props => {
             className="vads-u-width--auto"
             onClick={handlers.onUpdate}
           >
-            {`${currentData.issue ? 'Update' : 'Add'} issue`}
+            {content.button[addOrEdit]}
           </button>
         </p>
       </fieldset>

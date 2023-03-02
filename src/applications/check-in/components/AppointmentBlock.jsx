@@ -86,7 +86,9 @@ const AppointmentBlock = props => {
                   {t('type-of-care')}:
                 </div>
                 <div className="check-in--value" data-testid="type-of-care">
-                  {appointment.clinicStopCodeName ?? t('VA-appointment')}
+                  {appointment.clinicStopCodeName
+                    ? appointment.clinicStopCodeName
+                    : t('VA-appointment')}
                 </div>
                 {appointment.doctorName && (
                   <>

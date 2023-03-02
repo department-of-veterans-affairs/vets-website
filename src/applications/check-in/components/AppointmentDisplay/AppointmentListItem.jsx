@@ -24,7 +24,9 @@ const AppointmentListItem = props => {
             {t('type-of-care')}:{' '}
           </span>
           <span className="item-value" data-testid="type-of-care">
-            {appointment.clinicStopCodeName ?? t('VA-appointment')}
+            {appointment.clinicStopCodeName
+              ? appointment.clinicStopCodeName
+              : t('VA-appointment')}
           </span>
           {appointment.doctorName && (
             <>
