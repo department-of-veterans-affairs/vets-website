@@ -2,6 +2,24 @@ import mockMessage from '../fixtures/message-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
 class PatientMessageDetailsPage {
+  loadMessageDetailsWithData = (inputMockMessage, inputMockThread) => {
+    cy.log('loading message details.');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      mockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
+      inputMockThread,
+    ).as('full-thread');
+    cy.contains(inputMockMessage.data.attributes.subject).click();
+    cy.wait('@message');
+    cy.wait('@full-thread');
+  };
+
   loadReplyPage = (
     messageId,
     messageCategory,
