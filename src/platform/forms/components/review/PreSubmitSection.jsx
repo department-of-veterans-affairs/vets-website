@@ -77,7 +77,9 @@ export function PreSubmitSection(props) {
                 setPreSubmit(preSubmit?.field, event.target.checked)
               }
             >
-              <p slot="description">{preSubmit.description}</p>
+              {preSubmit.description && (
+                <p slot="description">{preSubmit.description}</p>
+              )}
             </VaCheckbox>
           )}
         </div>
