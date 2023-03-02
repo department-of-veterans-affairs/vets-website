@@ -28,7 +28,7 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded('max-validation');
       cy.createScreenshots('Day-of-check-in--validation-error');
     });
   });

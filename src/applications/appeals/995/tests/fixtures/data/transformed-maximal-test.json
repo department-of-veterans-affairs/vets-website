@@ -8,7 +8,7 @@
         "address": {
           "addressLine1": "123 Main St",
           "addressLine2": "Suite #1200",
-          "addressLine3": "Box 4567890",
+          "addressLine3": "Box 456789",
           "city": "New York",
           "countryCodeISO2": "US",
           "stateCode": "NY",

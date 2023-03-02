@@ -88,9 +88,13 @@ const Landing = props => {
               }
             }
           })
-          .catch(() => {
+          .catch(e => {
             clearCurrentSession(window);
-            updateError('error-fromlocation-landing');
+            if (e.errors && e.errors[0]?.status === '404') {
+              updateError('uuid-not-found');
+            } else {
+              updateError('error-fromlocation-landing');
+            }
           });
       }
     },
