@@ -43,6 +43,6 @@ export default function FormLayout({ children, isReviewPage }) {
 }
 
 FormLayout.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
   isReviewPage: PropTypes.bool,
 };
