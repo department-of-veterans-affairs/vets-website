@@ -1,31 +1,64 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { makeSelectError } from '../../selectors';
 import Wrapper from '../../components/layout/Wrapper';
+import { phoneNumbers } from '../../utils/appConstants';
 
 const Error = () => {
   const { t } = useTranslation();
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
 
-  const message =
-    error === 'max-validation'
-      ? t('were-sorry-we-couldnt-match-your-information-please-ask-for-help')
-      : t(
-          'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
-        );
+  let messageText = '';
+  let alertType = '';
+  let header = '';
+
+  switch (error) {
+    case 'max-validation':
+      alertType = 'error';
+      header = t('we-couldnt-check-you-in');
+      messageText = t(
+        'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
+      );
+      break;
+    case 'uuid-not-found':
+      // Shown when POST sessions returns 404.
+      alertType = 'info';
+      header = t('were-sorry-this-link-has-expired');
+      messageText = (
+        <Trans
+          i18nKey="trying-to-check-in-for-an-appointment--info-message"
+          components={[
+            <span key="bold" className="vads-u-font-weight--bold" />,
+            <va-telephone
+              key={phoneNumbers.textCheckIn}
+              data-testid="error-message-sms"
+              contact={phoneNumbers.textCheckIn}
+              sms
+            />,
+          ]}
+        />
+      );
+      break;
+    default:
+      alertType = 'info';
+      header = t('we-couldnt-check-you-in');
+      messageText = t(
+        'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
+      );
+  }
 
   return (
-    <Wrapper pageTitle={t('we-couldnt-check-you-in')}>
+    <Wrapper pageTitle={header}>
       <va-alert
         background-only
         show-icon
-        status={error === 'max-validation' ? 'error' : 'info'}
+        status={alertType}
         data-testid="error-message"
       >
-        <div>{message}</div>
+        <div>{messageText}</div>
       </va-alert>
     </Wrapper>
   );

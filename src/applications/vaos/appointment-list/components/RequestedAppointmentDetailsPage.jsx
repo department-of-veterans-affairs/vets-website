@@ -24,11 +24,7 @@ import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
-import {
-  startAppointmentCancel,
-  fetchRequestDetails,
-  getProviderInfoV2,
-} from '../redux/actions';
+import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 import { getTypeOfCareById } from '../../utils/appointment';
 
@@ -61,7 +57,6 @@ export default function RequestedAppointmentDetailsPage() {
     appointment,
     message,
     useV2,
-    providerData,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -85,8 +80,6 @@ export default function RequestedAppointmentDetailsPage() {
         } ${typeOfCareText} appointment`;
 
         document.title = title;
-
-        dispatch(getProviderInfoV2(appointment));
       }
       scrollAndFocus();
     },
@@ -102,6 +95,7 @@ export default function RequestedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
+
     [appointmentDetailsStatus, appointment],
   );
 
@@ -115,13 +109,7 @@ export default function RequestedAppointmentDetailsPage() {
       </FullWidthLayout>
     );
   }
-
-  const hasProviderData = useV2 && appointment?.practitioners?.length > 0;
-  if (
-    !appointment ||
-    appointmentDetailsStatus === FETCH_STATUS.loading ||
-    (hasProviderData && !providerData)
-  ) {
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
@@ -141,7 +129,7 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = useV2
-    ? providerData
+    ? appointment.preferredProviderName
     : appointment.preferredCommunityCareProviders?.[0];
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 

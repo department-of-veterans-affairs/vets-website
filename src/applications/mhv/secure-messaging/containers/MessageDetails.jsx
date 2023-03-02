@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui/index';
 import MessageThread from '../components/MessageThread/MessageThread';
-import { retrieveMessage } from '../actions/messages';
+import { retrieveMessage, retrieveMessageThread } from '../actions/messages';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import AlertBox from '../components/shared/AlertBox';
@@ -11,7 +11,7 @@ import { closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
 
 const MessageDetail = () => {
-  const { messageId } = useParams();
+  const { messageId, threadId } = useParams();
   const dispatch = useDispatch();
   const alert = useSelector(state => state.sm.alerts.alert);
   const message = useSelector(state => state.sm.messageDetails.message);
@@ -36,8 +36,13 @@ const MessageDetail = () => {
         dispatch(closeAlert()); // to clear out any past alerts before landing this page
         dispatch(retrieveMessage(messageId));
       }
+
+      if (threadId) {
+        dispatch(closeAlert());
+        dispatch(retrieveMessageThread(threadId));
+      }
     },
-    [dispatch, location, messageId, activeFolder, history],
+    [dispatch, location, messageId, activeFolder, history, threadId],
   );
 
   useEffect(
@@ -108,11 +113,14 @@ const MessageDetail = () => {
         ))}
 
       {message &&
-        messageId && (
+        (messageId || threadId) && (
           <>
             {/* <NavigationLinks messageId={messageId} /> */}
             <MessageDetailBlock message={message} />
-            <MessageThread messageHistory={messageHistory} />
+            <MessageThread
+              messageHistory={messageHistory}
+              threadId={threadId}
+            />
           </>
         )}
     </div>

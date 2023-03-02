@@ -384,6 +384,35 @@ class PatientInboxPage {
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
   };
+
+  navigatePrintCancelButton = () => {
+    cy.tabToElement('[class="usa-button-secondary"]');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="radio-print-one-message"]').should('be.visible');
+    cy.get('[data-testid="print-modal-popup"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateTrash = () => {
+    cy.tabToElement(':nth-child(2) > .usa-button-secondary');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="delete-message-confirm-note"] p')
+      .contains('Messages in the trash folder')
+      .should('be.visible');
+    cy.get('[data-testid="delete-message-modal"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateReply = () => {
+    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.realPress(['Enter']);
+  };
 }
 
 export default PatientInboxPage;
