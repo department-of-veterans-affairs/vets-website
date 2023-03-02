@@ -53,7 +53,8 @@ const formConfig = {
       'Please sign in again to continue your application for adapted housing.',
   },
   title: 'Apply for a Specially Adapted Housing Grant Grant',
-  subTitle: 'VA Form 26-4555',
+  subTitle:
+    'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
   defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {

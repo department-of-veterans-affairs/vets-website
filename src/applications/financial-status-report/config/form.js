@@ -19,6 +19,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
 
@@ -450,13 +451,33 @@ const formConfig = {
           title: 'Dependents',
           uiSchema: pages.dependents.uiSchema,
           schema: pages.dependents.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
+        },
+        dependentCount: {
+          path: 'dependents-count',
+          title: 'Dependents',
+          uiSchema: pages.dependents.uiSchemaEnhanced,
+          schema: pages.dependents.schemaEnhanced,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
         },
         dependentRecords: {
           path: 'dependent-records',
           title: 'Dependents',
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
-          depends: ({ questions }) => questions.hasDependents,
+          depends: formData =>
+            !formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents,
+          editModeOnReviewPage: true,
+        },
+        dependentAges: {
+          path: 'dependent-ages',
+          title: 'Dependents',
+          uiSchema: pages.dependentRecords.uiSchemaEnhanced,
+          schema: pages.dependentRecords.schemaEnhanced,
+          depends: formData =>
+            formData['view:enhancedFinancialStatusReport'] &&
+            formData.questions?.hasDependents > 0,
           editModeOnReviewPage: true,
         },
       },
@@ -572,14 +593,50 @@ const formConfig = {
           title: 'Other assets',
           uiSchema: pages.otherAssets.uiSchema,
           schema: pages.otherAssets.schema,
+          depends: formData => !formData['view:enhancedFinancialStatusReport'],
         },
         otherAssetRecords: {
           path: 'other-asset-records',
           title: 'Other assets',
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
-          depends: ({ questions }) => questions.hasOtherAssets,
+          depends: formData =>
+            formData.questions.hasOtherAssets &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        // Other Household Assets
+        otherAssetsChecklist: {
+          path: 'other-assets-checklist',
+          title: 'Other assets options',
+          uiSchema: pages.otherAssetPages.otherAssetsChecklist.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsChecklist.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsValues: {
+          path: 'other-assets-values',
+          title: 'Other assets values',
+          uiSchema: pages.otherAssetPages.otherAssetsValues.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsValues.schema,
+          depends: formData =>
+            !!formData.assets?.otherAssets?.length &&
+            formData['view:enhancedFinancialStatusReport'],
+        },
+        otherAssetsSummary: {
+          path: 'other-assets-summary',
+          title: 'Other assets summary',
+          uiSchema: pages.otherAssetPages.otherAssetsSummary.uiSchema,
+          schema: pages.otherAssetPages.otherAssetsSummary.schema,
+          depends: formData => formData['view:enhancedFinancialStatusReport'],
+        },
+        addOtherAsset: {
+          path: 'add-other-asset',
+          title: 'Add your additional assets',
+          CustomPage: AddAsset,
+          CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+          depends: () => false, // accessed from otherAssetsSummary
         },
       },
     },
