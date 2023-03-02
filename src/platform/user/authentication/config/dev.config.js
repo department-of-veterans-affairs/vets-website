@@ -8,16 +8,15 @@ import {
   VAMockProvider,
 } from './constants';
 
-const { defaultMockSignIn, defaultMockSignUp } = VAMockProvider;
+const { defaultMockSignIn } = VAMockProvider;
 
 export default {
   default: {
     allowedSignInProviders: {
-      vamock: defaultMockSignIn,
       ...defaultSignInProviders,
+      vamock: defaultMockSignIn,
     },
     allowedSignUpProviders: {
-      vamock: defaultMockSignUp,
       ...defaultSignUpProviders,
     },
     isMobile: false,
