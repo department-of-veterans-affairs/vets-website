@@ -44,8 +44,7 @@ $anchor-font-size: 1.9rem;
 // Copied and adapted from va-link
 .mhv-c-navlink {
   font-size: $anchor-font-size;
-  display: flex;
-  justify-content: flex-start;
+  display: inline-block;
   align-items: center;
   font-weight: 700;
   text-decoration: none;
@@ -59,7 +58,7 @@ $anchor-font-size: 1.9rem;
   i::before {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    display: inline-block;
+    display: inline;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-size: 2.4rem;
@@ -79,6 +78,7 @@ $anchor-font-size: 1.9rem;
 
 @media (max-width: $medium-screen) {
   .mhv-c-navlink {
+    display: flex;
     justify-content: space-between;
 
     i::before {
