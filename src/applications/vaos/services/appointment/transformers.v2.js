@@ -28,7 +28,7 @@ export function getAppointmentInfoFromComments(comments, key) {
   if (key === 'modality') {
     const preferredModality = appointmentInfo
       ? appointmentInfo
-          .filter(item => item.includes('preferred modality:'))
+          .filter(item => item.includes('preferred modality:'))[0]
           ?.split(':')[1]
           ?.trim()
       : null;
@@ -42,13 +42,13 @@ export function getAppointmentInfoFromComments(comments, key) {
   if (key === 'contact') {
     const phone = appointmentInfo
       ? appointmentInfo
-          .filter(item => item.includes('phone number:'))
+          .filter(item => item.includes('phone number:'))[0]
           ?.split(':')[1]
           ?.trim()
       : null;
     const email = appointmentInfo
       ? appointmentInfo
-          .filter(item => item.includes('email:'))
+          .filter(item => item.includes('email:'))[0]
           ?.split(':')[1]
           ?.trim()
       : null;
@@ -62,7 +62,10 @@ export function getAppointmentInfoFromComments(comments, key) {
 
   if (key === 'preferredDate') {
     const preferredDates = appointmentInfo
-      ? appointmentInfo[4]?.split(':')[1]?.split(',')
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
+          ?.split(',')
       : null;
     preferredDates?.map(date => {
       const preferredDatePeriod = date?.split(' ');
@@ -92,7 +95,9 @@ export function getAppointmentInfoFromComments(comments, key) {
   }
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
-      ? appointmentInfo[5]?.split(':')[1]
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
       : null;
     const transformedReasonCode = { code: reasonCode };
     if (reasonCode) {
