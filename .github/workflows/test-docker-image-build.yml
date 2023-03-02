@@ -19,6 +19,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
+      - name: Copy file to runner
+        run: aws s3 cp s3://vetsgov-website-builds-s3-upload/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2 ./content-build
+
       - name: Run Docker Build
         run: docker build  -f src/platform/utilities/preview-environment/Dockerfile . -t frontend:latest
 
