@@ -38,14 +38,19 @@ const formConfig = {
   formId: '26-4555',
   saveInProgress: {
     messages: {
-      inProgress: 'Your 26-4555 application is in progress.',
-      expired: 'Your saved 26-4555 application has expired.',
-      saved: 'Your 26-4555 application has been saved.',
+      inProgress:
+        'Your specially adapted housing grant (26-4555) application is in progress.',
+      expired:
+        'Your saved specially adapted housing grant (26-4555) application has expired.',
+      saved:
+        'Your specially adapted housing grant (26-4555) application has been saved.',
     },
   },
   savedFormMessages: {
-    notFound: 'Please start over to fill out the 26-4555 application.',
-    noAuth: 'Please sign in again to continue your 26-4555 application.',
+    notFound:
+      'Please start over to fill out the specially adapted housing grant (26-4555) application.',
+    noAuth:
+      'Please sign in again to continue your specially adapted housing grant (26-4555) application.',
   },
   version: 0,
   migrations: [],
