@@ -29,7 +29,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.get('[class="modal hydrated"]')
       .shadow()
-      .find('[class="va-modal-inner"]');
+      .find('button');
 
     cy.get('[visible=""] > p');
     cy.injectAxe();
