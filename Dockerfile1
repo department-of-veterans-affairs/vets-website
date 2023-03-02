@@ -1,0 +1,26 @@
+FROM public.ecr.aws/bitnami/node:14.15.5
+WORKDIR /vets-website
+
+# Copy files into Docker image
+COPY . .
+
+# Install dependencies
+RUN yarn install
+
+# Clone vagov-content
+RUN git clone https://github.com/department-of-veterans-affairs/vagov-content
+
+# Clone vets-gov-json schema
+RUN git clone https://github.com/department-of-veterans-affairs/vets-json-schema.git
+
+# Clone veteran-facing-services-tools
+RUN git clone https://github.com/department-of-veterans-affairs/veteran-facing-services-tools
+COPY start.sh .
+RUN chmod +x start.sh
+# Expose ports
+EXPOSE 3002
+EXPOSE 3001
+EXPOSE 3000
+
+# Configure image to execute a script on startup with ENTRYPOINT/CMD
+CMD ["./start.sh"]
