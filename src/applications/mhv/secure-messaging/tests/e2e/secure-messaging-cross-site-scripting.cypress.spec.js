@@ -9,7 +9,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
 
   it('search for script', () => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="compose-message-link"]').click();

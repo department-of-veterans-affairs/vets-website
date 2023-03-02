@@ -9,7 +9,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     const landingPage = new PatientInboxPage();
 
     site.login();
-    site.loadPage();
+    landingPage.loadInboxMessages();
 
     cy.intercept(
       'GET',

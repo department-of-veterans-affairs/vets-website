@@ -19,7 +19,7 @@ describe('Secure Messaging Manage Folder Errors check', () => {
   });
 
   it('Axe Check Delete Folder Network Error', () => {
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="my-folders-sidebar"]').click();
     const folderName = MockFoldersResponse.data.at(4).attributes.name;
     const folderID = MockFoldersResponse.data.at(4).attributes.folderId;
