@@ -24,9 +24,13 @@ import {
 export function getAppointmentInfoFromComments(comments, key) {
   const data = [];
   const appointmentInfo = comments?.split('|');
+
   if (key === 'modality') {
     const preferredModality = appointmentInfo
-      ? appointmentInfo[1]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('preferred modality:'))
+          ?.split(':')[1]
+          ?.trim()
       : null;
 
     if (appointmentInfo) {
