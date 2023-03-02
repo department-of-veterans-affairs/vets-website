@@ -1,7 +1,20 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
-const messages = {
-  messageText: {
+const titles = {
+  default: {
+    en: 'We couldn’t check you in',
+    es: 'No pudimos completar el registro.',
+    tl: 'Hindi ka namin mai-check in',
+  },
+  uuidNotFound: {
+    en: 'We’re sorry. This link has expired.',
+    es: '',
+    tl: '',
+  },
+};
+
+const errorMessages = {
+  default: {
     en:
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
     es:
@@ -9,7 +22,7 @@ const messages = {
     tl:
       'Paumanhin. May nangyaring mali sa aming panig. Mag-check in sa isang staff member.',
   },
-  messageTextLastValidateAttempt: {
+  maxValidation: {
     en:
       'We’re sorry. We couldn’t match your information to our records. Please ask a staff member for help.',
     es:
@@ -17,20 +30,33 @@ const messages = {
     tl:
       'Paumanhin. Hindi namin maitugma ang iyong impormasyon sa aming mga rekord. Mangyaring humingi ng tulong sa isang staff member.',
   },
-  couldntCheckIn: {
-    en: 'We couldn’t check you in',
-    es: 'No pudimos completar el registro.',
-    tl: 'Hindi ka namin mai-check in',
+  uuidNotFound: {
+    en: 'Trying to check in for an appointment? Text check in to .',
+    es: '',
+    tl: '',
   },
 };
 class Error {
-  validatePageLoaded = (lastValidateAttempt = false, language = 'en') => {
-    const messageText = lastValidateAttempt
-      ? messages.messageTextLastValidateAttempt[language]
-      : messages.messageText[language];
+  validatePageLoaded = (errorType = false, language = 'en') => {
+    let messageText = '';
+    let titleText = '';
+    switch (errorType) {
+      case 'max-validation':
+        titleText = titles.default[language];
+        messageText = errorMessages.maxValidation[language];
+        break;
+      case 'uuid-not-found':
+        titleText = titles.uuidNotFound[language];
+        messageText = errorMessages.uuidNotFound[language];
+        break;
+      default:
+        titleText = titles.default[language];
+        messageText = errorMessages.default[language];
+        break;
+    }
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', messages.couldntCheckIn[language]);
+      .and('have.text', titleText);
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', messageText);

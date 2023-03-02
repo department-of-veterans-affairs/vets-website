@@ -34,20 +34,31 @@ const IntroductionDisplay = props => {
   } = useSelector(selectFeatureToggles);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
-
+  // Save this useEffect for when we go back to testing action link.
+  // useEffect(
+  //   () => {
+  //     const position = isPreCheckInActionLinkTopPlacementEnabled
+  //       ? 'top'
+  //       : 'bottom';
+  //     const slug = `pre-check-in-viewed-introduction-${position}-position`;
+  //     recordEvent({
+  //       event: createAnalyticsSlug(slug, 'nav'),
+  //     });
+  //   },
+  //   [isPreCheckInActionLinkTopPlacementEnabled],
+  // );
   useEffect(
     () => {
-      const position = isPreCheckInActionLinkTopPlacementEnabled
-        ? 'top'
-        : 'bottom';
-      const slug = `pre-check-in-viewed-introduction-${position}-position`;
+      const vaosOn = isUpdatedApptPresentationEnabled
+        ? 'VAOS-design'
+        : 'non-VAOS-design';
+      const slug = `pre-check-in-viewed-introduction-${vaosOn}`;
       recordEvent({
         event: createAnalyticsSlug(slug, 'nav'),
       });
     },
-    [isPreCheckInActionLinkTopPlacementEnabled],
+    [isUpdatedApptPresentationEnabled],
   );
-
   const accordionContent = [
     {
       header: t('will-va-protect-my-personal-health-information'),
@@ -88,14 +99,16 @@ const IntroductionDisplay = props => {
         return;
       }
       let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
-      if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
+      if (isUpdatedApptPresentationEnabled) slug += '-VAOS-design';
+      // Save this for when we go back to testing action link.
+      // if (isPreCheckInActionLinkTopPlacementEnabled) slug += '-top-position';
       recordEvent({
         event: createAnalyticsSlug(slug, 'nav'),
       });
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, isPreCheckInActionLinkTopPlacementEnabled, goToNextPage],
+    [isPhone, isUpdatedApptPresentationEnabled, goToNextPage],
   );
 
   const StartButton = () => (
