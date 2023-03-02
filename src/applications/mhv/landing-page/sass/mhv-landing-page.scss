@@ -2,6 +2,14 @@
 
 $anchor-font-size: 1.9rem;
 
+body {
+  h1,
+  h2,
+  h3 {
+    font-weight: 500;
+  }
+}
+
 .mhv-u-list-style--none {
   list-style: none;
 }
