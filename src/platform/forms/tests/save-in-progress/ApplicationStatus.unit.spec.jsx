@@ -5,11 +5,11 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 
 import { ApplicationStatus } from '../../save-in-progress/ApplicationStatus';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 describe('schemaform <ApplicationStatus>', () => {
   let formConfigDefaultData;
@@ -230,6 +230,7 @@ describe('schemaform <ApplicationStatus>', () => {
         }}
         showApplyButton
         applyText="Apply for benefit"
+        formType="application"
         profile={{
           loading: false,
           savedForms: [
