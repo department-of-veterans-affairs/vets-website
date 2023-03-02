@@ -12,10 +12,16 @@ const NavCard = ({ icon = null, title, links }) => {
   ));
   return (
     <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
-      <h2 className="vads-u-margin-top--1">
-        {icon && <i className={`fas fa-${icon} vads-u-margin-right--1`} />}{' '}
-        {title}
-      </h2>
+      <div className="vads-u-display--flex vads-u-align-items--start">
+        {icon && (
+          <div className="vads-u-flex--auto vads-u-margin-right--1p5 vads-u-margin-top--0p5">
+            <div role="img" className={`fas fa-${icon} vads-u-font-size--h2`} />
+          </div>
+        )}
+        <div className="vads-u-flex--fill">
+          <h2 className="vads-u-margin--0">{title}</h2>
+        </div>
+      </div>
       <nav>
         <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
           {listItems}
