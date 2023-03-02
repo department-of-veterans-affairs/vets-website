@@ -166,5 +166,6 @@ export default Object.freeze({
   vaOnlineSchedulingRequestFlowUpdate: 'va_online_scheduling_request_flow_update',
   vaOnlineSchedulingPocTypeOfCare: 'va_online_scheduling_poc_type_of_care',
   vaViewDependentsAccess: 'va_view_dependents_access',
+  virtualAgentShowFloatingChatbot: 'virtual_agent_show_floating_chatbot',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
