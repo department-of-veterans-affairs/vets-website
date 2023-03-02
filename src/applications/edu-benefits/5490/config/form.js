@@ -46,6 +46,7 @@ import applicantServicePage from '../../pages/applicantService';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
+import additionalBenefitsPage from '../../pages/additionalBenefits';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -81,6 +82,27 @@ const {
 } = fullSchema5490.definitions;
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
+
+const removeAdditionalBenefit = () => {
+  if (environment.isProduction()) {
+    return {
+      applicantInformation: applicantInformationUpdate(fullSchema5490, {
+        labels: { relationship: relationshipLabels },
+      }),
+      additionalBenefits: additionalBenefitsPage(fullSchema5490, {
+        fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
+      }),
+      applicantService: applicantServicePage(fullSchema5490),
+    };
+  }
+
+  return {
+    applicantInformation: applicantInformationUpdate(fullSchema5490, {
+      labels: { relationship: relationshipLabels },
+    }),
+    applicantService: applicantServicePage(fullSchema5490),
+  };
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -129,12 +151,7 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
-      pages: {
-        applicantInformation: applicantInformationUpdate(fullSchema5490, {
-          labels: { relationship: relationshipLabels },
-        }),
-        applicantService: applicantServicePage(fullSchema5490),
-      },
+      pages: removeAdditionalBenefit(),
     },
     benefitSelection: {
       title: 'Benefits eligibility',
