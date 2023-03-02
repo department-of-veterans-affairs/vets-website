@@ -11,13 +11,13 @@ const NavCard = ({ icon = null, title, links }) => {
     </li>
   ));
   return (
-    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-y--3 vads-u-background-color--gray-lightest">
+    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--3 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
       <h2 className="vads-u-margin-top--1">
         {icon && <i className={`fas fa-${icon} vads-u-margin-right--1`} />}{' '}
         {title}
       </h2>
       <nav>
-        <ul className="mhv-u-list-style--none vads-u-padding-left--0">
+        <ul className="mhv-u-list-style--none vads-u-padding-left--0 vads-u-margin-top--2 vads-u-margin-bottom--0">
           {listItems}
         </ul>
       </nav>
