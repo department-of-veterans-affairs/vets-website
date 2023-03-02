@@ -41,10 +41,16 @@ export function getAppointmentInfoFromComments(comments, key) {
 
   if (key === 'contact') {
     const phone = appointmentInfo
-      ? appointmentInfo[2]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('phone number:'))
+          ?.split(':')[1]
+          ?.trim()
       : null;
     const email = appointmentInfo
-      ? appointmentInfo[3]?.split(':')[1]?.trim()
+      ? appointmentInfo
+          .filter(item => item.includes('email:'))
+          ?.split(':')[1]
+          ?.trim()
       : null;
 
     const transformedPhone = { system: 'phone', value: phone };
