@@ -32,6 +32,7 @@ import {
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
 export function getCancelInfo(state) {
   const {
@@ -434,6 +435,36 @@ export function selectIsHomeVideo(appointment) {
   );
 }
 
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
+}
+
+export function selectApptDetailAriaText(appointment) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  const typeOfCareName = selectTypeOfCareName(appointment);
+
+  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
+  const fillin2 = typeOfCareName
+    ? `${typeOfCareName} appointment on`
+    : 'appointment on';
+  const fillin3 = appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  );
+
+  let modality = 'in-person';
+  if (isCommunityCare) modality = 'community care';
+  if (isPhone) modality = 'phone';
+  if (isVideo) modality = 'video';
+
+  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
+}
+
 export function selectModalityText(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
@@ -480,9 +511,4 @@ export function selectModalityIcon(appointment) {
   if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
-}
-
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
-  return abbreviation;
 }
