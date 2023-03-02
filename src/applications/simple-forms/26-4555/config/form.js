@@ -1,6 +1,10 @@
+import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import transformForSubmit from '../../shared/config/submit-transformer';
+import prefillTransformer from './prefill-transformer';
+
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -28,10 +32,9 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/forms_api/v1/submit`,
   trackingPrefix: 'adapted-housing-4555-',
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
@@ -55,6 +58,7 @@ const formConfig = {
   version: 0,
   migrations: [],
   prefillEnabled: true,
+  prefillTransformer,
   title: 'Apply for a Specially Adapted Housing Grant Grant',
   subTitle:
     'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
