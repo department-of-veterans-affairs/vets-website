@@ -6,7 +6,7 @@ describe('Secure Messaging Reply to Expired Mesage', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     landingPage.loadMessageDetails(
       landingPage.getExpired46DayOldMessage().attributes.messageId,
       landingPage.getExpired46DayOldMessage().attributes.subject,

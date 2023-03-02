@@ -94,6 +94,7 @@ class PatientInboxPage {
     cy.log(
       `message id = ${this.mockInboxMessages.data.at(0).attributes.messageId}`,
     );
+    cy.log(`all inbox messages ---${JSON.stringify(this.mockInboxMessages)}`);
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
@@ -126,7 +127,8 @@ class PatientInboxPage {
   setInboxTestMessageDetails = mockMessage => {
     this.mockInboxMessages.data.at(0).attributes.sentDate =
       mockMessage.data.attributes.sentDate;
-    this.mockInboxMessages.data.at(0).attributes.messageId = mockMessage.id;
+    this.mockInboxMessages.data.at(0).attributes.messageId =
+      mockMessage.data.attributes.messageId;
     this.mockInboxMessages.data.at(0).attributes.subject =
       mockMessage.data.attributes.subject;
     this.mockInboxMessages.data.at(0).attributes.body =

@@ -15,7 +15,7 @@ describe('Secure Messaging Message Details AXE Check', () => {
     // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();
     date.setDate(date.getDate() - 2);
-    // messageDetails.data.attributes.sentDate = date.toISOString();
+    messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(messageDetails, defaultMockThread);

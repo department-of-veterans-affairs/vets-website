@@ -12,7 +12,7 @@ describe('Secure Messaging Reply', () => {
     const site = new SecureMessagingSite();
     site.login();
 
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     /*
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,

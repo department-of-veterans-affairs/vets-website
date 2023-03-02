@@ -6,7 +6,7 @@ describe('Secure Messaging - Print Functionality', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     landingPage.loadMessageDetails(
       landingPage.getNewMessage().attributes.messageId,
       landingPage.getNewMessage().attributes.subject,
@@ -42,7 +42,7 @@ describe('Secure Messaging - Print Functionality', () => {
     });
     it('print single message', () => {
       site.login();
-      landingPage.loadPage(false);
+      landingPage.loadInboxMessages();
       landingPage.loadMessageDetails(
         landingPage.getNewMessage().attributes.messageId,
         landingPage.getNewMessage().attributes.subject,
