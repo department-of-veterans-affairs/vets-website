@@ -5,11 +5,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import {
-  scrollAndFocus,
-  scrollToTop,
-  focusElement,
-} from 'platform/utilities/ui';
+import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import {
@@ -47,8 +43,8 @@ const EvidencePrivateRecordsAuthorization = ({
   );
 
   const focusOnAlert = () => {
-    scrollToTop();
-    focusElement('h3', {}, $('va-alert'));
+    scrollTo('topScrollElement');
+    waitForRenderThenFocus('va-alert h3');
   };
 
   const handlers = {
@@ -58,7 +54,9 @@ const EvidencePrivateRecordsAuthorization = ({
       event.stopPropagation();
     },
     onAnchorClick: () => {
-      scrollAndFocus($('va-checkbox'));
+      const checkbox = $('va-checkbox');
+      scrollTo(checkbox);
+      waitForRenderThenFocus('input', checkbox.shadowRoot);
     },
     onChange: event => {
       const { checked } = event.target;
