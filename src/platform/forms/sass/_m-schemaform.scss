@@ -340,6 +340,8 @@ fieldset.schemaform-field-template {
 .schemaform-file-list {
   list-style: none;
   padding-left: 0;
+  overflow-wrap: break-word;
+  word-break: break-all;
   > li {
     list-style: none;
   }
