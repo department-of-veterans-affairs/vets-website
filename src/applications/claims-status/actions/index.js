@@ -286,13 +286,13 @@ export function getClaims() {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     return apiRequest('/benefits_claims')
-      .then(claims => {
+      .then(res => {
         recordClaimsAPIEvent({
           startTime: startTimeMillis,
           success: true,
         });
 
-        dispatch(fetchClaimsSuccess(claims));
+        dispatch(fetchClaimsSuccess(res.data));
       })
       .catch(error => {
         const errorCode = getErrorStatus(error);
