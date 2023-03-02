@@ -7,10 +7,15 @@ $anchor-font-size: 1.9rem;
 }
 
 .mhv-c-navlistitem {
-  margin-bottom: 0.5em;
-  padding-bottom: 0.5em;
+  margin: 0;
+
   &:not(:last-of-type) {
     border-bottom: 1px solid $color-gray-light;
+  }
+
+  > a {
+    padding-bottom: units(2);
+    padding-top: units(2);
   }
 }
 
