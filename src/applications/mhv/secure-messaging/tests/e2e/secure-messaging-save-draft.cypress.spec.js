@@ -56,5 +56,11 @@ describe('Secure Messaging Save Draft', () => {
       'testmessage Test',
       'ststASertTest message body',
     );
+    composePage.sendDraft(
+      6978854,
+      'OTHER',
+      'testmessage Test',
+      'ststASertTest message body',
+    );
   });
 });
