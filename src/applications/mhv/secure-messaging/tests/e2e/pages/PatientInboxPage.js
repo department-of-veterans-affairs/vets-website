@@ -3,7 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockInboxFolder from '../fixtures/folder-inbox-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockMessage from '../fixtures/message-response-specialchars.json';
+import mockSpecialCharsMessage from '../fixtures/message-response-specialchars.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import mockInboxNoMessages from '../fixtures/empty-thread-response.json';
@@ -29,6 +29,8 @@ class PatientInboxPage {
 
   mockInboxMessages = mockMessages;
 
+  mockDetailedMessage = mockSpecialCharsMessage;
+
   setDynamicMessage = (
     messageId,
     messageTitle,
@@ -47,13 +49,13 @@ class PatientInboxPage {
     cy.log(`dynameic message Title = ${this.dynamicMessageTitle}`);
   };
 
-  loadInboxPage = (inboxMessages, getFoldersStatus = 200) => {
+  loadInboxMessages = (
+    inboxMessages,
+    detailedMessage,
+    getFoldersStatus = 200,
+  ) => {
     this.mockInboxMessages = inboxMessages;
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    this.inboxMessages.data.at(
-      this.newMessageIndex,
-    ).attributes.sentDate = date.toISOString();
+    this.setInboxTestMessageDetails(detailedMessage);
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -89,14 +91,12 @@ class PatientInboxPage {
       }).as('folders');
     }
     cy.log(
-      `message title = ${
-        this.mockInboxMessages.data.at(0).attributes.messageTitle
-      }`,
+      `message id = ${this.mockInboxMessages.data.at(0).attributes.messageId}`,
     );
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0/messages*',
-      this.mockMessages,
+      this.mockInboxMessages,
     ).as('inboxMessages');
     cy.intercept(
       'GET',
@@ -122,29 +122,34 @@ class PatientInboxPage {
     });
   };
 
+  setInboxTestMessageDetails = mockMessage => {
+    this.mockInboxMessages.data.at(0).attributes.sentDate =
+      mockMessage.data.attributes.sentDate;
+    this.mockInboxMessages.data.at(0).attributes.messageId = mockMessage.id;
+    this.mockInboxMessages.data.at(0).attributes.subject =
+      mockMessage.data.attributes.subject;
+    this.mockInboxMessages.data.at(0).attributes.body =
+      mockMessage.data.attributes.body;
+    this.mockInboxMessages.data.at(0).attributes.category =
+      mockMessage.data.attributes.category;
+    mockThread.data.at(0).attributes.recipientId =
+      mockMessage.data.attributes.recipientId;
+
+    this.mockDetailedMessage = mockMessage;
+  };
+
+  getInboxTestMessageDetails = () => {
+    return this.mockDetailedMessage;
+  };
+
   loadPage = (doAxeCheck = false, getFoldersStatus = 200) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
+    this.loadedMessagesData = mockMessages;
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
-    if (this.useDynamicData) {
-      mockMessages.data.at(
-        this.newMessageIndex,
-      ).attributes.messageId = this.dynamicMessageId;
-      mockMessages.data.at(
-        this.newMessageIndex,
-      ).attributes.messageBody = this.dynamicMessageBody;
-      mockMessages.data.at(
-        this.newMessageIndex,
-      ).attributes.messageTitle = this.dynamicMessageTitle;
-      mockMessages.data.at(
-        this.newMessageIndex,
-      ).attributes.messageCategory = this.dynamicMessageCategory;
-      mockMessages.data.at(
-        this.newMessageIndex,
-      ).attributes.messageRecipient = this.dynamicMessageRecipient;
-    }
+
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -187,7 +192,6 @@ class PatientInboxPage {
       '/my_health/v1/messaging/folders/0/messages*',
       mockMessages,
     ).as('inboxMessages');
-    this.loadedMessagesData = mockMessages;
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/0*',
@@ -284,12 +288,12 @@ class PatientInboxPage {
   ) => {
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
-    mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.messageId = messageId;
-    mockMessage.data.attributes.subject = messageTitle;
-    mockMessage.data.attributes.body = messageBody;
-    mockMessage.data.attributes.category = messageCategory;
-    mockMessage.data.attributes.messageRecipient = messageRecipient;
+    mockSpecialCharsMessage.data.attributes.sentDate = messageDate;
+    mockSpecialCharsMessage.data.attributes.messageId = messageId;
+    mockSpecialCharsMessage.data.attributes.subject = messageTitle;
+    mockSpecialCharsMessage.data.attributes.body = messageBody;
+    mockSpecialCharsMessage.data.attributes.category = messageCategory;
+    mockSpecialCharsMessage.data.attributes.messageRecipient = messageRecipient;
 
     mockThread.data.at(0).attributes.sentDate = messageDate;
     mockThread.data.at(0).attributes.messageId = messageId;
@@ -300,7 +304,7 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${messageId}`,
-      mockMessage,
+      mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
@@ -318,20 +322,20 @@ class PatientInboxPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        inputMockMessage.data.attributes.messageId
+        inputMockMessage.attributes.messageId
       }`,
-      mockMessage,
+      mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        inputMockMessage.data.attributes.messageId
+        inputMockMessage.attributes.messageId
       }/thread`,
       mockThread,
     ).as('full-thread');
     cy.tabToElement(
       `a[href*="/my-health/secure-messages/message/${
-        inputMockMessage.data.attributes.messageId
+        inputMockMessage.attributes.messageId
       }"]`,
     );
     cy.realPress(['Enter']);
@@ -341,49 +345,19 @@ class PatientInboxPage {
 
   loadMessageDetailsWithData = inputMockMessage => {
     cy.log('loading message details.');
-    const date = new Date();
-    date.setDate(date.getDate() - 1);
-    // inputMockMessage.attributes.sentDate = date.toISOString();
-    cy.log(`First input mock message --${JSON.stringify(inputMockMessage)}`);
-    cy.log(
-      `First input mock message sent Date--${JSON.stringify(
-        inputMockMessage.data.attributes.sentDate,
-      )}`,
-    );
-    cy.log(
-      `First mock thread log new${JSON.stringify(
-        mockThread.data.at(0).attributes.sentDate,
-      )}`,
-    );
 
-    mockThread.data.at(0).attributes.sentDate =
-      inputMockMessage.data.attributes.sentDate;
-    mockThread.data.at(0).attributes.messageId = inputMockMessage.id;
-    mockThread.data.at(0).attributes.subject =
-      inputMockMessage.data.attributes.subject;
-    mockThread.data.at(0).attributes.body =
-      inputMockMessage.data.attributes.body;
-    mockThread.data.at(0).attributes.category =
-      inputMockMessage.data.attributes.category;
-    mockThread.data.at(0).attributes.recipientId =
-      inputMockMessage.data.attributes.recipientId;
-    cy.log(`messageId = ${inputMockMessage.id}`);
-    cy.log(JSON.stringify(mockThread.data.at(0)));
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.id}`,
-      inputMockMessage,
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
+      mockSpecialCharsMessage,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.id}/thread`,
+      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
       mockThread,
     ).as('full-thread');
-    cy.log(`-subject-- ${inputMockMessage.data.attributes.subject}`);
     cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
+    cy.wait('@message');
     cy.wait('@full-thread');
   };
 
@@ -407,8 +381,6 @@ class PatientInboxPage {
     mockMessages.data.at(
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
-    cy.log('--get New Message--');
-    cy.log(JSON.stringify(mockMessages.data.at(this.newMessageIndex)));
     return mockMessages.data.at(this.newMessageIndex);
   };
 
@@ -492,6 +464,35 @@ class PatientInboxPage {
 
   loadComposeMessagePage = () => {
     cy.get('[data-testid="compose-message-link"]').click();
+  };
+
+  navigatePrintCancelButton = () => {
+    cy.tabToElement('[class="usa-button-secondary"]');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="radio-print-one-message"]').should('be.visible');
+    cy.get('[data-testid="print-modal-popup"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateTrash = () => {
+    cy.tabToElement(':nth-child(2) > .usa-button-secondary');
+    cy.realPress(['Enter']);
+    cy.get('[data-testid="delete-message-confirm-note"] p')
+      .contains('Messages in the trash folder')
+      .should('be.visible');
+    cy.get('[data-testid="delete-message-modal"]')
+      .shadow()
+      .find('button')
+      .contains('Cancel')
+      .realPress(['Enter']);
+  };
+
+  navigateReply = () => {
+    cy.tabToElement('[data-testid="reply-button-top"]');
+    cy.realPress(['Enter']);
   };
 }
 

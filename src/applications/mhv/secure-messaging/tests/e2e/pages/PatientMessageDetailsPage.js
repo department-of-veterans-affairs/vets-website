@@ -1,22 +1,51 @@
 import mockMessage from '../fixtures/message-response.json';
-import mockThread from '../fixtures/thread-response.json';
+import defaultMockThread from '../fixtures/thread-response.json';
 
 class PatientMessageDetailsPage {
-  loadMessageDetailsWithData = (inputMockMessage, inputMockThread) => {
-    cy.log('loading message details.');
+  currentThread = defaultMockThread;
 
+  loadMessageDetails = (mockMessageDetails, mockThread) => {
+    cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
+    cy.log(
+      `mock Message Details--------${JSON.stringify(
+        mockMessageDetails.data.attributes.messageId,
+      )}`,
+    );
+    this.currentThread = mockThread;
+    cy.log('loading message details.');
+    this.currentThread.data.at(0).attributes.sentDate =
+      mockMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(0).id =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.messageId =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.subject =
+      mockMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(0).attributes.body =
+      mockMessageDetails.data.attributes.body;
+    this.currentThread.data.at(0).attributes.category =
+      mockMessageDetails.data.attributes.category;
+    this.currentThread.data.at(0).attributes.recipientId =
+      mockMessageDetails.data.attributes.recipientId;
+    cy.log(JSON.stringify(this.currentThread.data.at(0)));
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}`,
-      mockMessage,
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
+      mockMessageDetails,
     ).as('message');
     cy.intercept(
       'GET',
-      `/my_health/v1/messaging/messages/${inputMockMessage.data.id}/thread`,
-      inputMockThread,
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }/thread`,
+      this.currentThread,
     ).as('full-thread');
-    cy.contains(inputMockMessage.data.attributes.subject).click();
-    cy.wait('@message');
+    cy.contains(mockMessageDetails.data.attributes.subject).click();
+    cy.wait('@message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
     cy.wait('@full-thread');
   };
 
@@ -34,12 +63,14 @@ class PatientMessageDetailsPage {
     mockMessage.data.attributes.category = messageCategory;
     mockMessage.data.attributes.messageId = messageId;
     mockMessage.data.attributes.recipientId = messageRecipientId;
-    mockThread.data.at(0).attributes.sentDate = messageDate;
-    mockThread.data.at(0).attributes.messageId = messageId;
-    mockThread.data.at(0).attributes.subject = messageTitle;
-    mockThread.data.at(0).attributes.body = messageBody;
-    mockThread.data.at(0).attributes.category = messageCategory;
-    mockThread.data.at(0).attributes.messageRecipient = messageRecipientId;
+    defaultMockThread.data.at(0).attributes.sentDate = messageDate;
+    defaultMockThread.data.at(0).attributes.messageId = messageId;
+    defaultMockThread.data.at(0).attributes.subject = messageTitle;
+    defaultMockThread.data.at(0).attributes.body = messageBody;
+    defaultMockThread.data.at(0).attributes.category = messageCategory;
+    defaultMockThread.data.at(
+      0,
+    ).attributes.messageRecipient = messageRecipientId;
     cy.get('[data-testid="reply-button-top"]').click();
     cy.log('loading message details.');
     cy.log(`Sent date: ${messageDate}`);
@@ -52,7 +83,7 @@ class PatientMessageDetailsPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${messageId}/thread`,
-      mockThread,
+      defaultMockThread,
     ).as('full-thread');
     cy.wait('@message').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
