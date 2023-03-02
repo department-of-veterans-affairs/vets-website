@@ -84,7 +84,7 @@ export const formLinks = {
   [VA_FORM_IDS.FORM_22_5490]: `${getAppUrl('5490-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_22_5495]: `${getAppUrl('5495-edu-benefits')}/`,
   [VA_FORM_IDS.FORM_22_10203]: `${getAppUrl('10203-edu-benefits')}/`,
-  [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}`,
+  [VA_FORM_IDS.FORM_26_4555]: `${getAppUrl('4555-adapted-housing')}/`,
   [VA_FORM_IDS.FORM_40_10007]: `${getAppUrl('pre-need')}/`,
   [VA_FORM_IDS.FORM_5655]: `${getAppUrl('request-debt-help-form-5655')}/`,
   [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrl('order-form-2346')}/`,
