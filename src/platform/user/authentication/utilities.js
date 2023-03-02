@@ -285,6 +285,21 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
+export async function mockLogin({
+  version = API_VERSION,
+  queryParams = {},
+  clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
+}) {
+  const policy = 'vamock';
+
+  const url = await sessionTypeUrl({ type: policy, version, queryParams });
+
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
+  return redirect(url, clickedEvent);
+}
+
 export async function login({
   policy,
   version = API_VERSION,
@@ -296,7 +311,6 @@ export async function login({
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-
   return redirect(url, clickedEvent);
 }
 
