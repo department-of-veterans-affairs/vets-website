@@ -1,6 +1,4 @@
-import { generateFeatureToggles } from '~/applications/personalization/profile/mocks/feature-toggles';
 import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
-import { mockFeatureToggles } from '../helpers';
 
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -28,31 +26,8 @@ context('when user is LOA3, verified, TOA accepted, but Non 2Fa', () => {
 
     cy.login(userNon2Fa);
   });
-  it('should show legacy status table data when use `profileUseSecurityProcessList` toggle is false', () => {
-    mockFeatureToggles(() =>
-      generateFeatureToggles({ profileUseSecurityProcessList: false }),
-    );
 
-    cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
-
-    checkForLegacyLoadingIndicator();
-
-    cy.findByText('We’ve verified your identity.');
-
-    cy.findByRole('button', { name: 'Set up 2-factor authentication' });
-
-    cy.findByText(
-      'You’ve accepted the terms and conditions for using VA.gov health tools.',
-    );
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should show conditional process list section when use `profileUseSecurityProcessList` toggle is true', () => {
-    mockFeatureToggles(() =>
-      generateFeatureToggles({ profileUseSecurityProcessList: true }),
-    );
-
+  it('should show conditional process list section', () => {
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 
     checkForLegacyLoadingIndicator();

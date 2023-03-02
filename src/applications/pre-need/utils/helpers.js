@@ -36,7 +36,8 @@ export const contactInfoDescription = (
 );
 
 export const authorizedAgentDescription = (
-  <va-alert status="info" background-only>
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="Who can a preparer sign for?">
     <p>A preparer may sign for an individual who’s:</p>
     <ul>
       <li>
@@ -48,12 +49,11 @@ export const authorizedAgentDescription = (
       <li>Is physically unable to sign the application</li>
     </ul>
     <p>
-      If you’re the preparer of this application, please provide your contact
-      information.
+      If you’re the preparer of this application, you’ll need to provide your
+      contact information.
     </p>
-  </va-alert>
+  </va-additional-info>
 );
-
 export const veteranRelationshipDescription = (
   <va-alert
     status="info"
