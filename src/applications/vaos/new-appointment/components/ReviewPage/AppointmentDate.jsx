@@ -35,8 +35,8 @@ export default function AppointmentDate({
 }
 
 AppointmentDate.propTypes = {
-  classes: PropTypes.string.isRequired,
   dates: PropTypes.array.isRequired,
   facilityId: PropTypes.string.isRequired,
+  classes: PropTypes.string,
   level: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
 };
