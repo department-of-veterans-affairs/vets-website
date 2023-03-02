@@ -19,15 +19,18 @@ $anchor-font-size: 1.9rem;
   }
 }
 
-.mhv-u-grid-gap:not(:last-of-type) {
-  margin-right: units(2);
+.mhv-u-grid-gap {
+  &:not(:last-of-type) {
+    margin-right: units(2);
+  }
 }
 
 .mhv-c-link-list {
   list-style-type: none;
   padding: 0;
+
   > li {
-    margin: 0 0 1.6rem 0;
+    margin: 0 0 units(2);
   }
 }
 
