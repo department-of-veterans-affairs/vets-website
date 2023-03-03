@@ -5,15 +5,22 @@ const defaultUser = {
       profile: {
         sign_in: {
           service_name: 'idme',
+          auth_broker: 'iam',
+          ssoe: true,
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        first_name: 'Jane',
+        first_name: 'Gina',
         middle_name: '',
         last_name: 'Doe',
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
+      },
+      session: {
+        auth_broker: 'iam',
+        ssoe: true,
+        transactionid: 'sf8mUOpuAoxkx8uWxI6yrBAS/t0yrsjDKqktFz255P0=',
       },
       veteran_status: {
         status: 'OK',
