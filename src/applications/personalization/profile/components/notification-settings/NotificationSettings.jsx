@@ -18,9 +18,10 @@ import {
   hasVAPServiceConnectionError,
   // TODO: uncomment when email is a supported communication channel
   // selectVAPEmailAddress,
-  selectPatientFacilities,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
+
+import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
 import { LOADING_STATES } from '../../../common/constants';
 
@@ -56,6 +57,7 @@ const NotificationSettings = ({
 
     focusElement('[data-focus-target]');
     document.title = `Notification Settings | Veterans Affairs`;
+    // connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
 
   React.useEffect(
