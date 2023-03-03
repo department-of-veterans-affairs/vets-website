@@ -137,6 +137,12 @@ const CheckInConfirmation = props => {
   const renderConfirmationMessage = () => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+        <p>
+          {`${t(
+            'well-get-you-from-waiting-room-when-time-for-your-appointment',
+          )} `}
+          {t('if-you-wait-more-than')}
+        </p>
         <p className="vads-u-font-family--serif">{t('your-appointment')}</p>
         <ol
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
@@ -159,20 +165,6 @@ const CheckInConfirmation = props => {
             />
           )}
         </ol>
-
-        <va-alert
-          background-only
-          show-icon
-          data-testid="confirmation-alert"
-          class="vads-u-margin-bottom--2"
-        >
-          <div>
-            {`${t(
-              'well-get-you-from-waiting-room-when-time-for-your-appointment',
-            )} `}
-            {t('if-you-wait-more-than')}
-          </div>
-        </va-alert>
 
         {doTravelPay && (
           <TravelPayAlert
