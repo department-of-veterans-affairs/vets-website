@@ -49,52 +49,6 @@ class PatientMessageDetailsPage {
     cy.wait('@full-thread');
   };
 
-  loadReplyPage = (
-    messageId,
-    messageCategory,
-    messageTitle,
-    messageBody,
-    messageDate,
-    messageRecipientId,
-  ) => {
-    mockMessage.data.attributes.sentDate = messageDate;
-    mockMessage.data.attributes.subject = messageTitle;
-    mockMessage.data.attributes.body = messageBody;
-    mockMessage.data.attributes.category = messageCategory;
-    mockMessage.data.attributes.messageId = messageId;
-    mockMessage.data.attributes.recipientId = messageRecipientId;
-    defaultMockThread.data.at(0).attributes.sentDate = messageDate;
-    defaultMockThread.data.at(0).attributes.messageId = messageId;
-    defaultMockThread.data.at(0).attributes.subject = messageTitle;
-    defaultMockThread.data.at(0).attributes.body = messageBody;
-    defaultMockThread.data.at(0).attributes.category = messageCategory;
-    defaultMockThread.data.at(
-      0,
-    ).attributes.messageRecipient = messageRecipientId;
-    cy.get('[data-testid="reply-button-top"]').click();
-    cy.log('loading message details.');
-    cy.log(`Sent date: ${messageDate}`);
-
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${messageId}`,
-      mockMessage,
-    ).as('message');
-    cy.intercept(
-      'GET',
-      `/my_health/v1/messaging/messages/${messageId}/thread`,
-      defaultMockThread,
-    ).as('full-thread');
-    cy.wait('@message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
-    cy.wait('@full-thread');
-    cy.intercept(
-      'POST',
-      `/my_health/v1/messaging/message_drafts/${messageId}/replydraft`,
-    ).as('replyDraftSave');
-  };
-
   loadReplyPageDetails = (
     mockMessageDetails,
     mockThread = defaultMockThread,
