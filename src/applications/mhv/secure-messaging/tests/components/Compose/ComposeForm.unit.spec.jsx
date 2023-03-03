@@ -84,7 +84,7 @@ describe('Compose form component', () => {
     const modalContent = await screen.getByText(
       Prompts.Compose.EDIT_LIST_CONTENT,
     );
-    screen.debug();
+
     expect(
       document.querySelector('#edit-list').getAttribute('visible'),
     ).to.equal('true');
