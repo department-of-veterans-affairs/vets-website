@@ -35,6 +35,9 @@ const errorMessages = {
     es: '',
     tl: '',
   },
+  checkInPostError: {
+    en: '',
+  },
 };
 class Error {
   validatePageLoaded = (errorType = false, language = 'en') => {
@@ -47,6 +50,11 @@ class Error {
         break;
       case 'uuid-not-found':
         titleText = titles.uuidNotFound[language];
+        messageText = errorMessages.uuidNotFound[language];
+        break;
+      case 'check-in-post-error':
+      case 'error-completing-check-in':
+        titleText = titles.default[language];
         messageText = errorMessages.uuidNotFound[language];
         break;
       default:
