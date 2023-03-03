@@ -2,11 +2,13 @@
 
 $anchor-font-size: 1.9rem;
 
-body {
-  h1,
-  h2,
-  h3 {
-    font-weight: 500;
+// Font smoothing adjustment for macOS users
+// https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+  screen and (min-resolution: 2dppx) {
+  body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
