@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginInfo from 'platform/user/authentication/components/LoginInfo';
 import MockAuthButton from '../components/MockAuthButton';
 
 export default function MockAuth() {
@@ -21,6 +22,7 @@ export default function MockAuth() {
               <MockAuthButton />
             </div>
           </div>
+          <LoginInfo />
         </div>
       </div>
     </section>
