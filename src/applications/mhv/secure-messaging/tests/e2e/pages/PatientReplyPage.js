@@ -12,6 +12,18 @@ class PatientReplyPage {
     cy.wait('@replyMessage');
   };
 
+  sendReplyMessageDetails = mockReplyMessage => {
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/messages/${
+        mockMessage.data.attributes.messageId
+      }/reply`,
+      mockReplyMessage,
+    ).as('replyMessage');
+    cy.get('[data-testid="Send-Button"]').click();
+    cy.wait('@replyMessage');
+  };
+
   saveReplyDraft = (
     messageId,
     testRecipientId,

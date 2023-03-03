@@ -95,6 +95,61 @@ class PatientMessageDetailsPage {
     ).as('replyDraftSave');
   };
 
+  loadReplyPageDetails = (
+    mockMessageDetails,
+    mockThread = defaultMockThread,
+  ) => {
+    cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
+    cy.log(
+      `mock Message Details--------${JSON.stringify(
+        mockMessageDetails.data.attributes.messageId,
+      )}`,
+    );
+    this.currentThread = mockThread;
+    cy.log('loading message details.');
+    this.currentThread.data.at(0).attributes.sentDate =
+      mockMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(0).id =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.messageId =
+      mockMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.subject =
+      mockMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(0).attributes.body =
+      mockMessageDetails.data.attributes.body;
+    this.currentThread.data.at(0).attributes.category =
+      mockMessageDetails.data.attributes.category;
+    this.currentThread.data.at(0).attributes.recipientId =
+      mockMessageDetails.data.attributes.recipientId;
+    cy.get('[data-testid="reply-button-top"]').click();
+    cy.log('loading message reply details.');
+
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
+      mockMessage,
+    ).as('message');
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }/thread`,
+      mockThread,
+    ).as('full-thread');
+    cy.wait('@message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.wait('@full-thread');
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/message_drafts/${
+        mockMessageDetails.data.attributes.messageId
+      }/replydraft`,
+    ).as('replyDraftSave');
+  };
+
   verifyTrashButtonModal = () => {
     cy.get('[data-testid=trash-button-text]').click();
 
