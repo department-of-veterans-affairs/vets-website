@@ -17,15 +17,18 @@ const deleteFiles = valuesFiles => {
     fs.readFileSync(
       './manifests/apps/preview-environment/dev/argocd-apps/values.yaml',
     ),
-  ).environments;
+  );
   valuesFiles.forEach(file => {
-    const envFileMatch = envFileContents.filter(
+    const envFileMatch = envFileContents.environments.filter(
       environment => environment.name === file.replace(/\.[^/.]+$/, ''),
     );
-    if (file !== 'template-values.yaml') {
+    if (file !== 'template-values.yaml' && file !== 'Chart.yaml') {
       try {
         if (envFileMatch.length > 0) {
-          envFileContents.splice(0, envFileContents.indexOf(envFileMatch[0]));
+          envFileContents.environments.splice(
+            0,
+            envFileContents.indexOf(envFileMatch[0]),
+          );
         }
         fs.unlinkSync(
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
@@ -40,6 +43,7 @@ const deleteFiles = valuesFiles => {
           './manifests/apps/preview-environment/dev/argocd-apps/values.yaml',
           newEnvYaml,
         );
+        console.log(newEnvYaml);
       } catch (error) {
         console.log(error);
       }
