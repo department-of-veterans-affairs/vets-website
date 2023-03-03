@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const core = require('@actions/core');
 const yaml = require('js-yaml');
 
@@ -69,7 +70,6 @@ if (
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
-      console.log(file);
       const fileContents = yaml.load(
         fs.readFileSync(
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
@@ -77,10 +77,12 @@ if (
         ),
       );
       return (
-        !fileContents.podAnnotations ||
-        !fileContents.podAnnotations.last_updated ||
-        (fileContents.podAnnotations.last_updated &&
-          daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7)
+        /* eslint-disable-next-line eqeqeq */
+        path.extname(file) == '*.yaml' &&
+        (!fileContents.podAnnotations ||
+          !fileContents.podAnnotations.last_updated ||
+          (fileContents.podAnnotations.last_updated &&
+            daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7))
       );
     });
   if (valuesFiles.length > 0) {
