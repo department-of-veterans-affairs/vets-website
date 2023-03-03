@@ -17,12 +17,15 @@ const initializeDatadogRum = () => {
       service: 'mhv-on-va.gov',
       env: environment.vspEnvironment(),
       sampleRate: 100,
-      sessionReplaySampleRate: 0,
+      sessionSampleRate: 100,
+      sessionReplaySampleRate: 100,
       trackInteractions: true,
+      trackUserInteractions: true,
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
     });
+    datadogRum.startSessionReplayRecording();
   }
 };
 
