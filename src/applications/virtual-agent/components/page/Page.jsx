@@ -1,8 +1,14 @@
 import React from 'react';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import Disclaimer from './Disclaimer';
 import Chatbox from '../chatbox/Chatbox';
 
 export default function Page() {
+  const canShowFloatingChatbot = useSelector(
+    state =>
+      toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentFloatingChatbot],
+  );
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4">
