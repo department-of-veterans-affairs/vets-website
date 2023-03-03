@@ -443,6 +443,7 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
+        <DraftSavedInfo userSaved={userSaved} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
@@ -451,6 +452,7 @@ const ComposeForm = props => {
             onClick={sendMessageHandler}
           />
           <va-button
+            id="save-draft-button"
             text="Save draft"
             secondary
             class="vads-u-flex--1 save-draft-button"
@@ -462,7 +464,6 @@ const ComposeForm = props => {
           </div>
         </div>
       </div>
-      <DraftSavedInfo userSaved={userSaved} />
     </form>
   );
 };
