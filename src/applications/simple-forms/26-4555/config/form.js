@@ -32,13 +32,13 @@ import {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/forms_api/v1/submit`,
+  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   trackingPrefix: 'adapted-housing-4555-',
   transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
-  formId: '26-4555',
+  formId: 'vba_26_4555',
   saveInProgress: {
     messages: {
       inProgress:
