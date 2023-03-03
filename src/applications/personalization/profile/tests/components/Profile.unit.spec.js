@@ -20,6 +20,7 @@ describe('Profile', () => {
   let fetchCNPPaymentInfoSpy;
   let fetchPersonalInfoSpy;
   let fetchTotalDisabilityRatingSpy;
+  let connectDrupalSourceOfTruthCernerSpy;
 
   beforeEach(() => {
     fetchFullNameSpy = sinon.spy();
@@ -28,8 +29,10 @@ describe('Profile', () => {
     fetchCNPPaymentInfoSpy = sinon.spy();
     fetchPersonalInfoSpy = sinon.spy();
     fetchTotalDisabilityRatingSpy = sinon.spy();
+    connectDrupalSourceOfTruthCernerSpy = sinon.spy();
 
     defaultProps = {
+      connectDrupalSourceOfTruthCerner: connectDrupalSourceOfTruthCernerSpy,
       fetchFullName: fetchFullNameSpy,
       fetchMHVAccount: fetchMHVAccountSpy,
       fetchMilitaryInformation: fetchMilitaryInfoSpy,
