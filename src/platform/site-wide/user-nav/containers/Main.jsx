@@ -39,11 +39,89 @@ import {
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import * as authUtilities from 'platform/user/authentication/utilities';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
 
+const CreateLoginGovAccountModal = ({ visible = false, onClose }) => {
+  let logingovSingUp;
+  async function generateURL() {
+    const url = await authUtilities.signupOrVerify({
+      policy: 'logingov',
+      isLink: true,
+      allowVerification: false,
+      useOAuth: true,
+    });
+    // console.log(url)
+    logingovSingUp = url;
+  }
+  generateURL();
+
+  return (
+    <VaModal
+      id="loginGovExperimentModal"
+      modalTitle="Use one account and password for secure, private access to government agencies"
+      large
+      visible={visible}
+      click-to-close
+      closeEvent={onClose}
+      onCloseEvent={onClose}
+      onPrimaryButtonClick={() => {
+        location.href = logingovSingUp;
+      }}
+      onSecondaryButtonClick={() => {
+        location.href =
+          'https://www.va.gov/resources/signing-in-to-vagov/#should-i-create-a-logingov-or-';
+      }}
+      primaryButtonText="Get Login.gov now"
+      secondaryButtonText="Learn more"
+      data-testid="copy-address-success"
+    >
+      <div className="modal-content" data-testid="modal-content">
+        <p>
+          As part of VA’s continued effort to make it easier and safer for you
+          to access and manage the benefits you’ve earned, we recommend
+          Login.gov as the best option for Veterans to use when signing into VA
+          digital tools and products online.
+        </p>
+        <p>
+          Login.gov is an easy-to-use, secure sign in service used by the public
+          to sign in to participating government websites. It is built on the
+          most modern security standards to protect your data and you can use
+          the same username and password to sign in to any website that partners
+          with Login.gov. Partners include—USAJOBS, TSA pre-check, Small
+          Business Administration, and more.
+        </p>
+        <p>
+          <b>Estimated time to complete:</b> 20 mins
+        </p>
+        <p>
+          <b>What you will need:</b>
+        </p>
+        <ul>
+          <li>State issued I.D.</li>
+          <li>Social Security Number</li>
+          <li>A phone number where you can be reached</li>
+        </ul>
+      </div>
+    </VaModal>
+  );
+};
+
 export class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isLoginGovExperimentModalVisible: true };
+  }
+
+  closeLoginGovExperimentModal = () => {
+    this.setState({
+      isLoginGovExperimentModalVisible: false,
+    });
+  };
+
   componentDidMount() {
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
@@ -211,7 +289,7 @@ export class Main extends Component {
   };
 
   render() {
-    const { mhvTransition, mhvTransitionModal } = this.props;
+    const { mhvTransition, mhvTransitionModal, currentlyLoggedIn } = this.props;
 
     // Check if displaying login is disabled.
     if (
@@ -221,8 +299,15 @@ export class Main extends Component {
       return null;
     }
 
+    const shouldShowLoginGovExperiment =
+      this.state.isLoginGovExperimentModalVisible && currentlyLoggedIn;
+
     return (
       <div className="profile-nav-container">
+        <CreateLoginGovAccountModal
+          visible={shouldShowLoginGovExperiment}
+          onClose={this.closeLoginGovExperimentModal}
+        />
         <SearchHelpSignIn
           isHeaderV2={this.props.isHeaderV2}
           isLOA3={this.props.isLOA3}
