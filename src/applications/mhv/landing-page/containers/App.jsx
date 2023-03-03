@@ -10,13 +10,12 @@ import { isLandingPageEnabledForUser } from '../utilities/feature-toggles';
 import { resolveLandingPageLinks } from '../utilities/data';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
+import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+
 const App = () => {
   const fullState = useSelector(state => state);
   const { featureToggles, user } = fullState;
-  const appEnabled = isLandingPageEnabledForUser(
-    featureToggles,
-    user?.profile?.signIn?.serviceName,
-  );
+
   const data = useMemo(
     () => {
       const authdWithSSOe = isAuthenticatedWithSSOe(fullState) || false;
@@ -24,10 +23,30 @@ const App = () => {
     },
     [featureToggles, user?.profile?.session?.ssoe],
   );
+  const isCernerPatient = selectIsCernerPatient(fullState || {});
+
+  const appEnabled = useMemo(
+    () => {
+      return (
+        isLandingPageEnabledForUser(
+          featureToggles,
+          user?.profile?.signIn?.serviceName,
+        ) &&
+        user?.login?.currentlyLoggedIn &&
+        !isCernerPatient
+      );
+    },
+    [
+      featureToggles,
+      isCernerPatient,
+      user?.login?.currentlyLoggedIn,
+      user?.profile?.signIn?.serviceName,
+    ],
+  );
 
   if (featureToggles.loading || user.profile.loading)
     return <va-loading-indicator />;
-  if (!appEnabled && user?.login?.currentlyLoggedIn) {
+  if (!appEnabled) {
     const url = mhvUrl(true, 'home');
     window.location.replace(url);
     return <></>;
