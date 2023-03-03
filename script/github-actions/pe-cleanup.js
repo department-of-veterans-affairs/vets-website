@@ -70,20 +70,22 @@ if (
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
-      const fileContents = yaml.load(
-        fs.readFileSync(
-          `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
-          'utf8',
-        ),
-      );
-      return (
-        /* eslint-disable-next-line eqeqeq */
-        path.extname(file) == '*.yaml' &&
-        (!fileContents.podAnnotations ||
+      /* eslint-disable-next-line eqeqeq */
+      if (path.extname(file) == '*.yaml') {
+        const fileContents = yaml.load(
+          fs.readFileSync(
+            `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
+            'utf8',
+          ),
+        );
+        return (
+          !fileContents.podAnnotations ||
           !fileContents.podAnnotations.last_updated ||
           (fileContents.podAnnotations.last_updated &&
-            daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7))
-      );
+            daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7)
+        );
+      }
+      return false;
     });
   if (valuesFiles.length > 0) {
     deleteFiles(valuesFiles);
