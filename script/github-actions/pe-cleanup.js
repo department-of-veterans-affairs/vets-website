@@ -28,7 +28,7 @@ const deleteFiles = valuesFiles => {
           envFileContents.splice(0, envFileContents.indexOf(envFileMatch[0]));
         }
         fs.unlinkSync(
-          `./manifests/apps/preview-environment/dev/environment-values/${file}`,
+          `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
         );
         console.log(`${file} removed`);
         const newEnvYaml = yaml.dump(envFileContents, {
@@ -71,7 +71,7 @@ if (
     .filter(file => {
       const fileContents = yaml.load(
         fs.readFileSync(
-          `./manifests/apps/preview-environment/dev/environment-values/${file}`,
+          `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
           'utf8',
         ),
       ).podAnnotations.last_updated;
