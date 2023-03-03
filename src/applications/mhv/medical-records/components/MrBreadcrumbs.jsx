@@ -10,11 +10,32 @@ const MrBreadcrumbs = () => {
 
   const paths = [
     { url: `/health-history`, label: `Health History` },
+
+    // Vaccines
     { url: `/vaccines`, label: `VA Vaccines`, parent: `/health-history` },
-    { url: `/vaccine`, label: `Vaccine Details`, parent: `/vaccines` },
+    { url: `/vaccine-details`, label: `Vaccine Details`, parent: `/vaccines` },
+
+    // Clinical Notes
+    { url: `/notes`, label: `Clinical notes`, parent: `/health-history` },
+
+    // Allergies
+    { url: `/allergies`, label: `Allergies`, parent: `/health-history` },
+
+    // Health conditions
+    {
+      url: `/health-conditions`,
+      label: `Health conditions`,
+      parent: `/health-history`,
+    },
+
+    // Vitals
+    { url: `/vitals`, label: `Vitals`, parent: `/health-history` },
   ];
 
-  const currentPath = paths.filter(path => path.url === location.pathname)[0];
+  // Takes away any ids or other variable from the end of the url
+  const currentUrl = `/${location.pathname.split('/')[1]}`;
+
+  const currentPath = paths.filter(path => path.url === currentUrl)[0];
   if (currentPath?.parent) {
     [crumbs] = paths.filter(path => path.url === currentPath.parent);
   } else {
