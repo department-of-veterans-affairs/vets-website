@@ -10,7 +10,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     draftsPage.loadDrafts();
     draftsPage.loadDraftMessageDetails();
 
