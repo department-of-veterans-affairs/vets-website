@@ -275,7 +275,7 @@ const formConfig = {
                 }),
                 militaryServiceNumber: {
                   'ui:title':
-                    'Military Service number (if you have one that’s different than your Social Security number)',
+                    'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
                   'ui:errorMessages': {
                     pattern:
                       'Sponsor’s Military Service number must be between 4 to 10 characters',
