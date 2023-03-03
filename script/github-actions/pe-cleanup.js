@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const core = require('@actions/core');
 const yaml = require('js-yaml');
 
@@ -70,8 +69,7 @@ if (
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
-      /* eslint-disable-next-line eqeqeq */
-      if (path.extname(file) == '*.yaml') {
+      if (file.split('.').pop() === 'yaml') {
         const fileContents = yaml.load(
           fs.readFileSync(
             `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
