@@ -38,7 +38,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo,
-  formId: 'vba_26_4555',
+  formId: '26-4555',
   saveInProgress: {
     messages: {
       inProgress:
