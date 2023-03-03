@@ -125,7 +125,7 @@ class SaveInProgressIntro extends React.Component {
               </div>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
-                  {`You can continue ${appAction} now ${appContinuing &&
+                  {`You can continue ${appAction} now${appContinuing &&
                     ` ${appContinuing}`}, or come back later to finish your ${appType}.`}
                   <p>
                     {`Your ${appType} `}
