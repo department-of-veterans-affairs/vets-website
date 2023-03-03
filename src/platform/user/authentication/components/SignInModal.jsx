@@ -18,17 +18,19 @@ export default function SignInModal({ onClose, visible }) {
       if (visible) {
         recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
 
-        if (useSiS) {
-          url.searchParams.set('oauth', useSiS);
-        }
-
         if (!url.searchParams.get('next')) {
           url.searchParams.set('next', 'loginModal');
+        }
+
+        if (useSiS) {
+          url.searchParams.set('oauth', useSiS);
         }
       }
       window.history.pushState({}, '', url);
 
       return () => {
+        url.searchParams.delete('oauth');
+        window.history.pushState({}, '', url);
         recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
       };
     },
