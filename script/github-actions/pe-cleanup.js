@@ -69,6 +69,7 @@ if (
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
+      console.log(file);
       const fileContents = yaml.load(
         fs.readFileSync(
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
