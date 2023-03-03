@@ -20,7 +20,7 @@ const deleteFiles = valuesFiles => {
   );
   valuesFiles.forEach(file => {
     const envFileMatch = envFileContents.environments.filter(
-      environment => environment.name === file.replace(/\.[^/.]+$/, ''),
+      environment => environment.name === file.split('.')[0],
     );
     if (file !== 'template-values.yaml' && file !== 'Chart.yaml') {
       try {
