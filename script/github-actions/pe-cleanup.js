@@ -67,7 +67,7 @@ if (
   process.env.TRIGGERING_EVENT === 'push'
 ) {
   const valuesFiles = fs
-    .readdirSync('./manifests/apps/preview-environment/dev/pe-env/')
+    .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
       const fileContents = yaml.load(
         fs.readFileSync(
