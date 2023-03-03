@@ -14,14 +14,14 @@ const csps = Object.values(SERVICE_PROVIDERS);
 
 describe('MockAuthButton', () => {
   const env = process.env.BUILDTYPE;
-  const { window } = global;
+  const oldWindow = global.window;
   beforeEach(() => {
     process.env.BUILDTYPE = env;
-    global.window = window;
+    global.window = oldWindow;
   });
   afterEach(() => {
     process.env.BUILDTYPE = env;
-    global.window = window;
+    global.window = oldWindow;
   });
 
   Object.values(environments).forEach(currentEnvironment => {
