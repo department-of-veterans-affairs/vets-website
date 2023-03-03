@@ -32,7 +32,7 @@ describe('MockAuthButton', () => {
         ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE].API_URL
       }/v0/sign_in/authorize?client_id=vamock`;
       const mockLocation = { replace: sinon.spy() };
-      Object.defineProperty(window, 'location', {
+      Object.defineProperty(global.window, 'location', {
         value: mockLocation,
         writable: true,
       });
