@@ -66,6 +66,7 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Review your appointments"
             data-testid="review-appointments-link"
+            href="/health-care/schedule-view-va-appointments/appointments/"
             onClick={() =>
               recordEvent({
                 event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
@@ -89,5 +90,5 @@ export default function StatusAlert({ appointment, facility }) {
 
 StatusAlert.propTypes = {
   appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };

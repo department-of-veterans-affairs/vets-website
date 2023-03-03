@@ -155,10 +155,10 @@ export const IssueCard = ({
             pathname: '/add-issue',
             search: `?index=${index}`,
           }}
-          className="change-issue-link"
-          aria-label={`Change ${issueName}`}
+          className="edit-issue-link"
+          aria-label={`Edit ${issueName}`}
         >
-          Change
+          Edit
         </Link>
         <button
           type="button"

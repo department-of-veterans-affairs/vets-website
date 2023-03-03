@@ -7,7 +7,7 @@ describe.skip('Secure Messaging Patient Message Count', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid=message-list-item]').should('have.length', 10);

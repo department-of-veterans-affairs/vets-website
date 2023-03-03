@@ -8,8 +8,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()

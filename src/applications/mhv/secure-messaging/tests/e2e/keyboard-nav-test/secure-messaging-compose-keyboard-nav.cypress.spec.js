@@ -6,7 +6,7 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
   });
   it('Tab to Message Body', () => {
     cy.get('[data-testid="compose-message-link"]').click();
