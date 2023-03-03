@@ -13,12 +13,15 @@ import MockAuthButton from '../../components/MockAuthButton';
 const csps = Object.values(SERVICE_PROVIDERS);
 
 describe('MockAuthButton', () => {
-  let env;
+  const env = process.env.BUILDTYPE;
+  const { window } = global;
   beforeEach(() => {
-    env = process.env.BUILDTYPE;
+    process.env.BUILDTYPE = env;
+    global.window = window;
   });
   afterEach(() => {
     process.env.BUILDTYPE = env;
+    global.window = window;
   });
 
   Object.values(environments).forEach(currentEnvironment => {
