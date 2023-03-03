@@ -6,8 +6,10 @@ import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
+import { Edit } from './components/edit/Edit';
 
-const getRoutes = () => {
+const getRoutes = ({ excludedRoutePaths }) => {
+  const paths = excludedRoutePaths || [];
   return [
     {
       component: PersonalInformation,
@@ -58,7 +60,14 @@ const getRoutes = () => {
       requiresLOA3: true,
       requiresMVI: true,
     },
-  ];
+    {
+      component: Edit,
+      name: PROFILE_PATH_NAMES.EDIT,
+      path: PROFILE_PATHS.EDIT,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+  ].filter(route => !paths.includes(route.path));
 };
 
 export default getRoutes;
