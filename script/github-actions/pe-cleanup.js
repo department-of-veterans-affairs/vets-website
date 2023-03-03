@@ -74,8 +74,13 @@ if (
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
           'utf8',
         ),
-      ).podAnnotations.last_updated;
-      return !fileContents || daysSinceUpdate(fileContents) >= 7;
+      );
+      return (
+        !fileContents.podAnnotations ||
+        !fileContents.podAnnotations.last_updated ||
+        (fileContents.podAnnotations.last_updated &&
+          daysSinceUpdate(fileContents.podAnnotations.last_updated) >= 7)
+      );
     });
   if (valuesFiles.length > 0) {
     deleteFiles(valuesFiles);
