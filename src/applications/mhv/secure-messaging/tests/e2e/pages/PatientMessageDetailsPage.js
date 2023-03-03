@@ -4,7 +4,7 @@ import defaultMockThread from '../fixtures/thread-response.json';
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
 
-  loadMessageDetails = (mockMessageDetails, mockThread) => {
+  loadMessageDetails = (mockMessageDetails, mockThread = defaultMockThread) => {
     cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
     cy.log(
       `mock Message Details--------${JSON.stringify(

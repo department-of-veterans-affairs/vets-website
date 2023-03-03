@@ -26,12 +26,10 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
 
     cy.get('[data-testid="inbox-sidebar"] > a').click();
 
-    // landingPage.loadMessagewithAttachments(mockMessagewithAttachment);
     detailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    // cy.contains(mockMessagewithAttachment.data.attributes.subject).click();
     cy.get('[data-testid="trash-button-text"]').click({
       waitforanimations: true,
     });

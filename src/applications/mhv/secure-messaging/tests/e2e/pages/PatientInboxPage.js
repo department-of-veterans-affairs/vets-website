@@ -91,9 +91,6 @@ class PatientInboxPage {
         },
       }).as('folders');
     }
-    cy.log(
-      `message id = ${this.mockInboxMessages.data.at(0).attributes.messageId}`,
-    );
     cy.log(`all inbox messages ---${JSON.stringify(this.mockInboxMessages)}`);
     cy.intercept(
       'GET',
@@ -125,20 +122,22 @@ class PatientInboxPage {
   };
 
   setInboxTestMessageDetails = mockMessage => {
-    this.mockInboxMessages.data.at(0).attributes.sentDate =
-      mockMessage.data.attributes.sentDate;
-    this.mockInboxMessages.data.at(0).attributes.messageId =
-      mockMessage.data.attributes.messageId;
-    this.mockInboxMessages.data.at(0).attributes.subject =
-      mockMessage.data.attributes.subject;
-    this.mockInboxMessages.data.at(0).attributes.body =
-      mockMessage.data.attributes.body;
-    this.mockInboxMessages.data.at(0).attributes.category =
-      mockMessage.data.attributes.category;
-    mockThread.data.at(0).attributes.recipientId =
-      mockMessage.data.attributes.recipientId;
-
-    this.mockDetailedMessage = mockMessage;
+    if (this.mockInboxMessages.data.length > 0) {
+      cy.log(`mockInboxMessages size ${this.mockInboxMessages.data.length}`);
+      this.mockInboxMessages.data.at(0).attributes.sentDate =
+        mockMessage.data.attributes.sentDate;
+      this.mockInboxMessages.data.at(0).attributes.messageId =
+        mockMessage.data.attributes.messageId;
+      this.mockInboxMessages.data.at(0).attributes.subject =
+        mockMessage.data.attributes.subject;
+      this.mockInboxMessages.data.at(0).attributes.body =
+        mockMessage.data.attributes.body;
+      this.mockInboxMessages.data.at(0).attributes.category =
+        mockMessage.data.attributes.category;
+      mockThread.data.at(0).attributes.recipientId =
+        mockMessage.data.attributes.recipientId;
+      this.mockDetailedMessage = mockMessage;
+    }
   };
 
   getInboxTestMessageDetails = () => {
@@ -410,6 +409,14 @@ class PatientInboxPage {
       this.newMessageIndex,
     ).attributes.sentDate = date.toISOString();
     return mockMessages.data.at(this.newMessageIndex);
+  };
+
+  getExpired46DayOldMessageDetails = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 46);
+    const newMessage = mockMessageDetails;
+    newMessage.data.attributes.sentDate = date.toISOString();
+    return newMessage;
   };
 
   loadPageForNoProvider = (doAxeCheck = false) => {
