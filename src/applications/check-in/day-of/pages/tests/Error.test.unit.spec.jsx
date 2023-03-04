@@ -42,4 +42,32 @@ describe('check-in', () => {
       );
     });
   });
+  it('renders the correct error', () => {
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const initState = {
+      checkInData: {
+        appointments: [],
+        veteranData: {},
+        form: {
+          pages: [],
+        },
+        error: 'uuid-not-found',
+      },
+      ...scheduledDowntimeState,
+    };
+    const store = mockStore(initState);
+    const component = render(
+      <Provider store={store}>
+        <I18nextProvider i18n={i18n}>
+          <Error />
+        </I18nextProvider>
+      </Provider>,
+    );
+    expect(component.getByTestId('error-message')).to.exist;
+    expect(component.getByTestId('error-message')).to.have.text(
+      'Trying to check in for an appointment? Text check in to .',
+    );
+    expect(component.getByTestId('error-message-sms')).to.exist;
+  });
 });

@@ -42,11 +42,11 @@ describe('<ContestableIssuesWidget>', () => {
     ).to.equal('issue-1');
     wrapper.unmount();
   });
-  it('should render change link & remove button', () => {
+  it('should render edit link & remove button', () => {
     const props = getProps();
     const wrapper = mount(<ContestableIssuesWidget {...props} />);
     const addLength = props.additionalIssues.length;
-    const link = wrapper.find('a.change-issue-link');
+    const link = wrapper.find('a.edit-issue-link');
     expect(link.length).to.equal(addLength);
     expect(wrapper.find('button.remove-issue').length).to.equal(
       props.additionalIssues.length,

@@ -1,6 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import inboxMessages from './fixtures/messages-response.json';
+import mockMessageDetails from './fixtures/message-response.json';
+import defaultMockThread from './fixtures/thread-response.json';
 
 describe('Secure Messaging Message Details Buttons Check', () => {
   it('Message Details Buttons Check', () => {
@@ -8,15 +11,12 @@ describe('Secure Messaging Message Details Buttons Check', () => {
     const site = new SecureMessagingSite();
     const messageDetailsPage = new PatientMessageDetailsPage();
     site.login();
-    landingPage.loadPage();
-    landingPage.loadMessageDetails(
-      landingPage.getNewMessage().attributes.messageId,
-      landingPage.getNewMessage().attributes.subject,
-      landingPage.getNewMessage().attributes.body,
-      landingPage.getNewMessage().attributes.category,
-      landingPage.getNewMessage().attributes.sentDate,
-      landingPage.getNewMessage().recipientId,
+    const messageDetails = landingPage.setMessageDateToYesterday(
+      mockMessageDetails,
     );
+    cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
+    landingPage.loadInboxMessages(inboxMessages, messageDetails);
+    messageDetailsPage.loadMessageDetails(messageDetails, defaultMockThread);
     messageDetailsPage.verifyTrashButtonModal();
     messageDetailsPage.verifyMoveToButtonModal();
     messageDetailsPage.verifyReplyButtonAction();

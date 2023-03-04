@@ -1,10 +1,12 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
 
 describe('Secure Messaging Keyboard Nav To Compose', () => {
   const site = new SecureMessagingSite();
+  const patientInboxPage = new PatientInboxPage();
   beforeEach(() => {
     site.login();
-    site.loadPage();
+    patientInboxPage.loadInboxMessages();
   });
   it('Keyboard Nav from Welcome Page to Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');

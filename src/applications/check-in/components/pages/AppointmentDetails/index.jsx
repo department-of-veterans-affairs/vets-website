@@ -146,9 +146,7 @@ const AppointmentDetails = props => {
                       className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
                       aria-hidden="true"
                     />
-                    <va-telephone contact={appointment.clinicPhoneNumber}>
-                      {appointment.clinicPhoneNumber}
-                    </va-telephone>
+                    <va-telephone contact={appointment.clinicPhoneNumber} />
                   </div>
                 </div>
               )}
@@ -157,7 +155,7 @@ const AppointmentDetails = props => {
                   <AppointmentActionVaos
                     appointment={appointment}
                     router={router}
-                    event="check-in-from-details"
+                    event="check-in-clicked-VAOS-design"
                   />
                 </div>
               )}

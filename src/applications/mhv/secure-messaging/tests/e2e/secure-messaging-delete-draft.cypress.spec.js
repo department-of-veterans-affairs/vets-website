@@ -10,7 +10,7 @@ describe('Secure Messaging Delete Draft', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
