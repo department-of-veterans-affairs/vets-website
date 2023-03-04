@@ -12,6 +12,43 @@ class PatientReplyPage {
     cy.wait('@replyMessage');
   };
 
+  sendReplyDraft = (
+    messageId,
+    testRecipientId,
+    testCategory,
+    testSubject,
+    testBody,
+  ) => {
+    mockMessage.data.attributes.recipientId = testRecipientId;
+    mockMessage.data.attributes.category = testCategory;
+    mockMessage.data.attributes.subject = testSubject;
+    mockMessage.data.attributes.body = testBody;
+    cy.log(`messageId = ${messageId}`);
+    cy.log(`messageSubjectParameter = ${testSubject}`);
+    cy.log(
+      `messageSubjectMockMessage = ${mockMessage.data.attributes.subject}`,
+    );
+    cy.intercept(
+      'POST',
+      `/my_health/v1/messaging/messages/${messageId}/replydraft`,
+      mockMessage,
+    ).as('replyDraftMessage');
+    cy.get('[data-testid="Send-Reply-Button"]').click();
+    cy.wait('@replyDraftMessage').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+
+    cy.get('@replyDraftMessage')
+      .its('request.body')
+      .then(message => {
+        cy.log(JSON.stringify(message));
+        expect(message.recipientId).to.eq(testRecipientId);
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
+      });
+  };
+
   saveReplyDraft = (
     messageId,
     testRecipientId,
