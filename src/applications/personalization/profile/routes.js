@@ -8,7 +8,9 @@ import NotificationSettings from './components/notification-settings/Notificatio
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
 
-const getRoutes = ({ useFieldEditingPage = false }) => {
+const getRoutes = (
+  { useFieldEditingPage } = { useFieldEditingPage: false },
+) => {
   return [
     {
       component: PersonalInformation,

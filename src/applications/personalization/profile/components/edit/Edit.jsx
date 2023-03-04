@@ -39,15 +39,16 @@ export const Edit = () => {
             )}
           </pre>
 
-          <Link to={returnPath}>Return to {returnPathName}</Link>
+          <Link to={returnPath}>{`Return to ${returnPathName}`}</Link>
         </div>
       </Toggler.Enabled>
 
       <Toggler.Disabled>
-        <div>
-          Sorry, this page is unavailable, please return to the profile{' '}
+        <>
+          <h2>Sorry, this page is unavailable</h2>
+
           <Link to="/profile">Return to Profile</Link>
-        </div>
+        </>
       </Toggler.Disabled>
     </Toggler>
   );
