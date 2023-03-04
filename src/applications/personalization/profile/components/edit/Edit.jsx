@@ -1,5 +1,54 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Toggler } from 'applications/personalization/components/Toggler';
+import { Link, useLocation } from 'react-router-dom';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+
+const useQuery = () => {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+};
+
+const getPathName = path => {
+  const pathKey = Object.entries(PROFILE_PATHS).find(
+    ([_, value]) => value === path,
+  )?.[0];
+  return pathKey
+    ? PROFILE_PATH_NAMES[pathKey]
+    : PROFILE_PATH_NAMES.PERSONAL_INFORMATION;
+};
 
 export const Edit = () => {
-  return <div>Edit A Field Here!</div>;
+  const query = useQuery();
+  const returnPath = query.get('returnPath');
+  const fieldName = query.get('fieldName');
+  const returnPathName = getPathName(returnPath);
+  return (
+    <Toggler toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
+      <Toggler.Enabled>
+        <div className="vads-u-display--block medium-screen:vads-u-display--block">
+          <h2>Welcome to the new field editing page!</h2>
+
+          <pre>
+            {JSON.stringify(
+              {
+                fieldName,
+                returnPath,
+              },
+              null,
+              2,
+            )}
+          </pre>
+
+          <Link to={returnPath}>Return to {returnPathName}</Link>
+        </div>
+      </Toggler.Enabled>
+
+      <Toggler.Disabled>
+        <div>
+          Sorry, this page is unavailable, please return to the profile{' '}
+          <Link to="/profile">Return to Profile</Link>
+        </div>
+      </Toggler.Disabled>
+    </Toggler>
+  );
 };

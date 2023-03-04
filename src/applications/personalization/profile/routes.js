@@ -8,8 +8,7 @@ import NotificationSettings from './components/notification-settings/Notificatio
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import { Edit } from './components/edit/Edit';
 
-const getRoutes = ({ excludedRoutePaths }) => {
-  const paths = excludedRoutePaths || [];
+const getRoutes = ({ useFieldEditingPage = false }) => {
   return [
     {
       component: PersonalInformation,
@@ -60,14 +59,18 @@ const getRoutes = ({ excludedRoutePaths }) => {
       requiresLOA3: true,
       requiresMVI: true,
     },
-    {
-      component: Edit,
-      name: PROFILE_PATH_NAMES.EDIT,
-      path: PROFILE_PATHS.EDIT,
-      requiresLOA3: true,
-      requiresMVI: true,
-    },
-  ].filter(route => !paths.includes(route.path));
+    ...(useFieldEditingPage
+      ? [
+          {
+            component: Edit,
+            name: PROFILE_PATH_NAMES.EDIT,
+            path: PROFILE_PATHS.EDIT,
+            requiresLOA3: true,
+            requiresMVI: true,
+          },
+        ]
+      : []),
+  ];
 };
 
 export default getRoutes;

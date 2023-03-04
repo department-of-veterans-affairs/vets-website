@@ -36,7 +36,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
   ACCOUNT_SECURITY: 'Account security',
-  EDIT: fieldname => `Edit ${fieldname}`,
+  EDIT: 'Edit your information',
 });
 
 export const ACCOUNT_TYPES_OPTIONS = {

@@ -4,9 +4,8 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
-
 import { MISSING_CONTACT_INFO } from '@@vap-svc/constants';
+import MissingContactInfoAlertLink from './MissingContactInfoAlertLink';
 
 const missingEmailAddressContent = (
   <>
@@ -53,13 +52,14 @@ const MissingContactInfoAlert = ({
         return missingMobilePhoneContent;
         // TODO: uncomment when email is a supported communication channel
         // return missingAllContactInfoContent;
-      } else if (missingEmailAddress) {
-        return missingEmailAddressContent;
-      } else if (missingMobilePhone) {
-        return missingMobilePhoneContent;
-      } else {
-        return null;
       }
+      if (missingEmailAddress) {
+        return missingEmailAddressContent;
+      }
+      if (missingMobilePhone) {
+        return missingMobilePhoneContent;
+      }
+      return null;
     },
     [missingEmailAddress, missingMobilePhone],
   );
@@ -70,13 +70,14 @@ const MissingContactInfoAlert = ({
         return 'We don’t have your mobile phone number';
         // TODO: uncomment when email is a supported communication channel
         // return 'We don’t have your contact information';
-      } else if (missingEmailAddress) {
-        return 'We don’t have your email address';
-      } else if (missingMobilePhone) {
-        return 'We don’t have your mobile phone number';
-      } else {
-        return null;
       }
+      if (missingEmailAddress) {
+        return 'We don’t have your email address';
+      }
+      if (missingMobilePhone) {
+        return 'We don’t have your mobile phone number';
+      }
+      return null;
     },
     [missingEmailAddress, missingMobilePhone],
   );

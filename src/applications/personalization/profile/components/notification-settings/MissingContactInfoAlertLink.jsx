@@ -17,32 +17,38 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
       const linkMap = {
         [MISSING_CONTACT_INFO.ALL]: {
           linkText: 'Update your contact information',
-          linkTarget: getContactInfoDeepLinkURL(
+          linkTarget: `${getContactInfoDeepLinkURL(
             'phoneNumbers',
             false,
             useEditingPage,
-          ),
+          )}&returnPath=${
+            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+          }`,
         },
         [MISSING_CONTACT_INFO.EMAIL]: {
           linkText: 'Add an email address to your profile',
-          linkTarget: getContactInfoDeepLinkURL(
+          linkTarget: `${getContactInfoDeepLinkURL(
             FIELD_NAMES.EMAIL,
             true,
             useEditingPage,
-          ),
+          )}&returnPath=${
+            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+          }`,
         },
         [MISSING_CONTACT_INFO.MOBILE]: {
           linkText: 'Add a mobile phone number to your profile',
-          linkTarget: getContactInfoDeepLinkURL(
+          linkTarget: `${getContactInfoDeepLinkURL(
             FIELD_NAMES.MOBILE_PHONE,
             true,
             useEditingPage,
-          ),
+          )}&returnPath=${
+            useEditingPage ? encodeURIComponent('/profile/notifications') : ''
+          }`,
         },
       };
       return linkMap[missingInfo];
     },
-    [missingInfo],
+    [missingInfo, useEditingPage],
   );
   return (
     <Link to={linkInfo.linkTarget} data-testid="add-contact-info-link">

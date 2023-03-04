@@ -65,7 +65,7 @@ export const getContactInfoDeepLinkURL = (
   const targetId = FIELD_IDS[fieldName];
   const fragment = focusOnEditButton ? `edit-${targetId}` : targetId;
   if (useUniqueEditPageURL) {
-    return `${PROFILE_PATHS.EDIT}?fieldname=${fieldName}`;
+    return `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
   }
   return `${PROFILE_PATHS.CONTACT_INFORMATION}#${fragment}`;
 };

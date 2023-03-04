@@ -35,7 +35,7 @@ const AddContactInfoLink = ({ missingInfo }) => {
 
       return linkMap[missingInfo];
     },
-    [missingInfo],
+    [missingInfo, useEditingPage],
   );
   return <Link to={linkInfo.linkTarget}>{linkInfo.linkText}</Link>;
 };
