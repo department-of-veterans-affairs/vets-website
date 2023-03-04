@@ -104,6 +104,45 @@ class PatientMessageDetailsPage {
     ).as('replyDraftSave');
   };
 
+  expandThreadMessageDetails = (mockThread, index = 1) => {
+    const threadMessageDetails = mockMessage;
+    cy.log('loading message details.');
+    threadMessageDetails.data.attributes.sentDate = mockThread.data.at(
+      index,
+    ).attributes.sentDate;
+    threadMessageDetails.data.id = mockThread.data.at(index).id;
+    threadMessageDetails.data.attributes.messageId = mockThread.data.at(
+      index,
+    ).attributes.messageId;
+    threadMessageDetails.data.attributes.subject = mockThread.data.at(
+      index,
+    ).attributes.subject;
+    threadMessageDetails.data.attributes.body = mockThread.data.at(
+      index,
+    ).attributes.body;
+    threadMessageDetails.data.attributes.category = mockThread.data.at(
+      index,
+    ).attributes.category;
+    threadMessageDetails.data.attributes.recipientId = mockThread.data.at(
+      index,
+    ).attributes.recipientId;
+    cy.log(
+      `thread message detail id = ${
+        threadMessageDetails.data.attributes.messageId
+      }`,
+    );
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        threadMessageDetails.data.attributes.messageId
+      }`,
+      threadMessageDetails,
+    ).as('messageDetails');
+    cy.get('[aria-label="Expand message"]')
+      .eq(index - 1)
+      .click();
+  };
+
   verifyTrashButtonModal = () => {
     cy.get('[data-testid=trash-button-text]').click();
 
