@@ -9,24 +9,28 @@ import { hasTotalDisabilityServerError } from '~/applications/personalization/ra
 import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
-import { useFeatureToggle } from '../../hooks/useFeatureToggle';
 import { PROFILE_PATHS } from '../constants';
-import { EditWrapper } from './edit/EditWrapper';
+import { EditContainer } from './edit/EditContainer';
 
-const getLayoutAndRoutes = (routes, useEditingPage, currentPathname) => {
-  const filteredRoutes = [...routes].filter(
-    route => route.path !== PROFILE_PATHS.EDIT,
-  );
-  if (useEditingPage && currentPathname === PROFILE_PATHS.EDIT) {
-    return {
-      routes: filteredRoutes,
-      layout: 'edit',
-    };
-  }
-  return {
-    routes: filteredRoutes,
-    layout: 'default',
-  };
+// default layout includes the subnavs
+// edit layout is a full-width layout
+const LAYOUTS = {
+  DEFAULT: 'default',
+  EDIT: 'edit',
+};
+
+// we want to remove the edit route from the subnavs if we're using the new
+// editing page so that we don't have edit links in the subnavs
+const filterRoutesForSubNavs = routes =>
+  [...routes].filter(route => route.path !== PROFILE_PATHS.EDIT);
+
+// we want to use a different layout for the edit page
+// since the profile wrapper is getting passed in the router as children
+// we can really scope a layout to just the edit page in a more 'react router' way
+const getLayout = currentPathname => {
+  return currentPathname === PROFILE_PATHS.EDIT
+    ? LAYOUTS.EDIT
+    : LAYOUTS.DEFAULT;
 };
 
 const ProfileWrapper = ({
@@ -39,18 +43,8 @@ const ProfileWrapper = ({
   showNameTag,
 }) => {
   const location = useLocation();
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const useEditingPage = useToggleValue(
-    TOGGLE_NAMES.profileUseFieldEditingPage,
-  );
-
-  const { routes: routesForNavs, layout } = getLayoutAndRoutes(
-    routes,
-    useEditingPage,
-    location.pathname,
-  );
+  const layout = getLayout(location.pathname);
+  const routesForNavs = filterRoutesForSubNavs(routes);
 
   return (
     <>
@@ -61,7 +55,7 @@ const ProfileWrapper = ({
         />
       )}
 
-      {layout === 'default' && (
+      {layout === LAYOUTS.DEFAULT && (
         <>
           <div className="medium-screen:vads-u-display--none">
             <ProfileMobileSubNav
@@ -89,7 +83,7 @@ const ProfileWrapper = ({
         </>
       )}
 
-      {layout === 'edit' && <EditWrapper>{children}</EditWrapper>}
+      {layout === LAYOUTS.EDIT && <EditContainer>{children}</EditContainer>}
     </>
   );
 };
