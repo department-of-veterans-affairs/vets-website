@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropType from 'prop-types';
 import HorizontalRule from '../shared/HorizontalRule';
 import MessageThreadItem from './MessageThreadItem';
@@ -7,7 +7,6 @@ import { clearMessageHistory } from '../../actions/messages';
 
 const MessageThread = props => {
   const dispatch = useDispatch();
-  const message = useSelector(state => state.sm.messageDetails.message);
   const { messageHistory } = props;
   const [viewCount, setViewCount] = useState(5);
 
@@ -17,7 +16,7 @@ const MessageThread = props => {
         dispatch(clearMessageHistory());
       };
     },
-    [message, dispatch],
+    [dispatch],
   );
 
   const handleLoadMoreMessages = () => {
@@ -39,14 +38,18 @@ const MessageThread = props => {
             <HorizontalRule />
 
             {messageHistory.map((m, i) => {
-              return i < viewCount && <MessageThreadItem key={i} message={m} />;
+              return (
+                i < viewCount && (
+                  <MessageThreadItem key={m.messageId} message={m} />
+                )
+              );
             })}
 
             {viewCount < messageHistory?.length && (
-              <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--center">
-                <va-button
+              <div className="vads-u-margin-top--1 vads-l-row vads-u-justify-content--flex-start">
+                <va-link
                   secondary
-                  text="Load more messages"
+                  text="+ 5 more messages"
                   onClick={handleLoadMoreMessages}
                 />
               </div>

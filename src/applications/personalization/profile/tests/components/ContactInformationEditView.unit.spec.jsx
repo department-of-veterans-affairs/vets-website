@@ -43,6 +43,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
       data: null,
       editViewData: null,
       fieldName: 'email',
+      forceEditView: false,
       formSchema: {},
       getInitialFormValues() {},
       field: {

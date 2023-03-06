@@ -43,6 +43,7 @@ dl.review {
   /* v2 cards */
   .widget-wrapper-v2 {
     display: flex;
+    flex-direction: row;
 
     dt.widget-checkbox-wrap {
       margin: 0;
@@ -94,7 +95,7 @@ dl.review {
         align-self: center;
       }
     }
-    .change-issue-link:visited {
+    .edit-issue-link:visited {
       color: inherit;
     }
   }
@@ -184,6 +185,7 @@ article[data-location="issue-summary"] {
   font-weight: 400;
 }
 
+article[data-location="start"],
 article[data-location="review-and-submit"],
 article[data-location="primary-phone-number"],
 article[data-location$="request-va-medical-records"],

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentRow from './AppointmentRow';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModality,
+  selectModalityText,
   selectModalityIcon,
   selectStartDate,
   selectTimeZoneAbbr,
@@ -25,7 +24,7 @@ export default function AppointmentColumnLayout({
     selectAppointmentLocality(data),
   );
   const isCanceled = useSelector(() => selectIsCanceled(data));
-  const modality = useSelector(() => selectModality(data));
+  const modality = useSelector(() => selectModalityText(data));
   const modalityIcon = useSelector(() => selectModalityIcon(data));
   const startDate = useSelector(() => selectStartDate(data));
   const timezoneAbbr = useSelector(() => selectTimeZoneAbbr(data));
@@ -83,9 +82,9 @@ export default function AppointmentColumnLayout({
             canceled={isCanceled}
             style={{ minWidth: '108px', maxWidth: '108px' }}
           >
-            {`${startDate.format('h:mm')} ${startDate
-              .format('a')
-              .replace(/\./g, '')} ${timezoneAbbr}`}{' '}
+            {`${startDate.format('h:mm')} ${startDate.format(
+              'a',
+            )} ${timezoneAbbr}`}{' '}
           </AppointmentColumn>
 
           <AppointmentColumn size="1" className="vads-u-flex--4">
@@ -93,7 +92,7 @@ export default function AppointmentColumnLayout({
               <AppointmentColumn
                 padding="0"
                 size="1"
-                className="vaos-appts__text--truncate"
+                className="vads-u-font-weight--bold vaos-appts__text--truncate"
                 canceled={isCanceled}
               >
                 {appointmentLocality}
@@ -127,15 +126,16 @@ export default function AppointmentColumnLayout({
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
+            aria-label={detailAriaLabel}
           >
-            <Link
+            <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-label={detailAriaLabel}
-              to={link}
+              aria-describedby="vaos-appts__detail"
+              href={link}
               onClick={e => e.preventDefault()}
-            >
-              Details
-            </Link>
+              text="Details"
+              role="link"
+            />
           </AppointmentColumn>
         </AppointmentRow>
       </AppointmentColumn>

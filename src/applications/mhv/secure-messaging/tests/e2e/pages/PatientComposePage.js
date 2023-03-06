@@ -9,7 +9,7 @@ class PatientComposePage {
     ).as('message');
     cy.get('[data-testid="Send-Button"]')
       .get('[text="Send"]')
-      .click({ waitforanimations: true });
+      .click({ force: true });
     cy.wait('@message');
   };
 
@@ -17,12 +17,13 @@ class PatientComposePage {
     cy.get('[data-testid="compose-recipient-select"]')
       .shadow()
       .find('[id="select"]')
-      .select('###PQR TRIAGE_TEAM 747###');
-    cy.get('[data-testid=compose-category-radio-button]')
+      .select('###PQR TRIAGE_TEAM 747###', { force: true })
+      .should('have.value', 6832726);
+    cy.get('[data-testid="compose-category-radio-button"]')
       .shadow()
       .find('label')
       .contains(category)
-      .click();
+      .click({ force: true });
     cy.get('[data-testid="attach-file-input"]').selectFile(
       'src/applications/mhv/secure-messaging/tests/e2e/fixtures/test_image.jpg',
       { force: true },
@@ -48,7 +49,26 @@ class PatientComposePage {
       .click();
   };
 
-  saveDraft = () => {
+  sendDraft = (testId, testCategory, testSubject, testBody) => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('draft_message');
+    cy.get('[data-testid="Send-Button"]').click();
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
+      });
+  };
+
+  saveDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'PUT',
       '/my_health/v1/messaging/message_drafts/*',
@@ -57,10 +77,15 @@ class PatientComposePage {
 
     cy.get('[data-testid="Save-Draft-Button"]').click();
     cy.wait('@draft_message').then(xhr => {
-      // cy.log(xhr.responseBody);
-      cy.log(xhr.requestBody);
-      // expect(xhr.method).to.eq('POST');
+      cy.log(JSON.stringify(xhr.response.body));
     });
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
+      });
   };
 
   verifyAttachmentErrorMessage = errormessage => {

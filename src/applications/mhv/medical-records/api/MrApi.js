@@ -11,3 +11,12 @@ export const mockGetVaccineList = () => {
     }, 1500);
   });
 };
+
+export const mockGetVaccine = id => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const vaccine = vaccines.find(vac => +vac.id === +id);
+      resolve(vaccine);
+    }, 1500);
+  });
+};

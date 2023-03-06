@@ -30,6 +30,7 @@ export const Actions = {
   },
   Message: {
     GET: 'SM_MESSAGE_GET',
+    GET_IN_THREAD: 'SM_MESSAGE_GET_IN_THREAD',
     CLEAR: 'SM_MESSAGE_CLEAR',
     GET_LIST: 'SM_MESSAGE_GET_LIST',
     CLEAR_LIST: 'SM_MESSAGE_CLEAR_LIST',

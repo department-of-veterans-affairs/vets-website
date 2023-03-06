@@ -286,6 +286,45 @@ class ApiInitializer {
         req.reply(errorCode, preCheckInData.get.createMockFailedResponse());
       });
     },
+    withUuidNotFoundReload: ({
+      extraValidation = null,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      uuid = sharedData.get.defaultUUID,
+    } = {}) => {
+      cy.intercept('GET', `/check_in/v2/pre_check_ins/*&reload=true`, req => {
+        req.reply(404, preCheckInData.get.createMockNotFoundResponse());
+      });
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*&reload=false', req => {
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(
+          preCheckInData.get.createMockSuccessResponse(
+            uuid,
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+          ),
+        );
+      });
+      return preCheckInData.get.createMockSuccessResponse(
+        uuid,
+        demographicsNeedsUpdate,
+        demographicsConfirmedAt,
+        nextOfKinNeedsUpdate,
+        nextOfKinConfirmedAt,
+        emergencyContactNeedsUpdate,
+        emergencyContactConfirmedAt,
+      );
+    },
     withBadReload: ({
       extraValidation = null,
       demographicsNeedsUpdate = true,
@@ -423,6 +462,68 @@ class ApiInitializer {
         req.reply(errorCode, checkInData.get.createMockFailedResponse());
       });
     },
+    withUuidNotFound: () => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(404, checkInData.get.createMockNotFoundResponse());
+      });
+    },
+    withUuidNotFoundReload: ({
+      extraValidation = null,
+      appointments = null,
+      token = sharedData.get.defaultUUID,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      timezone = 'browser',
+    } = {}) => {
+      cy.intercept(
+        'GET',
+        `/check_in/v2/patient_check_ins/*?reload=true`,
+        req => {
+          req.reply(404, checkInData.get.createMockNotFoundResponse());
+        },
+      );
+      cy.intercept(
+        'GET',
+        `/check_in/v2/patient_check_ins/*?reload=false`,
+        req => {
+          const rv = sharedData.get.createAppointments(
+            token,
+            demographicsNeedsUpdate,
+            demographicsConfirmedAt,
+            nextOfKinNeedsUpdate,
+            nextOfKinConfirmedAt,
+            emergencyContactNeedsUpdate,
+            emergencyContactConfirmedAt,
+          );
+          if (appointments && appointments.length) {
+            const customAppointments = [];
+            appointments.forEach((appointment, index) => {
+              const createdAppointment = sharedData.get.createAppointment(
+                'ELIGIBLE',
+                'some-facility',
+                `000${index}`,
+                'TEST CLINIC',
+                false,
+                '',
+                timezone,
+              );
+              customAppointments.push(
+                Object.assign(createdAppointment, appointment),
+              );
+            });
+            rv.payload.appointments = customAppointments;
+          }
+          if (extraValidation) {
+            extraValidation(req);
+          }
+          req.reply(rv);
+        },
+      );
+    },
     withBadReload: ({
       extraValidation = null,
       appointments = null,
@@ -479,6 +580,75 @@ class ApiInitializer {
           req.reply(rv);
         },
       );
+    },
+    withSuccessAndUpdate: ({
+      extraValidation = null,
+      appointments = null,
+      token = sharedData.get.defaultUUID,
+      demographicsNeedsUpdate = true,
+      demographicsConfirmedAt = null,
+      nextOfKinNeedsUpdate = true,
+      nextOfKinConfirmedAt = null,
+      emergencyContactNeedsUpdate = true,
+      emergencyContactConfirmedAt = null,
+      timezone = 'browser',
+    } = {}) => {
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointments(
+          token,
+          demographicsNeedsUpdate,
+          demographicsConfirmedAt,
+          nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
+          emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
+          timezone,
+        );
+        if (appointments && appointments.length) {
+          const customAppointments = [];
+          appointments.forEach(appointment => {
+            const createdAppointment = sharedData.get.createAppointment({
+              eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+            });
+            customAppointments.push(
+              Object.assign(createdAppointment, appointment),
+            );
+          });
+          rv.payload.appointments = customAppointments;
+        }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      }).as('reloadOnDetails');
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, { times: 1 }, req => {
+        const rv = sharedData.get.createAppointments(
+          token,
+          demographicsNeedsUpdate,
+          demographicsConfirmedAt,
+          nextOfKinNeedsUpdate,
+          nextOfKinConfirmedAt,
+          emergencyContactNeedsUpdate,
+          emergencyContactConfirmedAt,
+          timezone,
+        );
+        if (appointments && appointments.length) {
+          const customAppointments = [];
+          appointments.forEach(appointment => {
+            const createdAppointment = sharedData.get.createAppointment({
+              eligibility: 'ELIGIBLE',
+            });
+            customAppointments.push(
+              Object.assign(createdAppointment, appointment),
+            );
+          });
+          rv.payload.appointments = customAppointments;
+        }
+        if (extraValidation) {
+          extraValidation(req);
+        }
+        req.reply(rv);
+      }).as('completeCheckIn');
     },
   };
 

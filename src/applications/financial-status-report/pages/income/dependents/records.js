@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import DependentAges from '../../../components/DependentAges';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -38,6 +39,45 @@ export const uiSchema = {
 };
 
 export const schema = {
+  type: 'object',
+  properties: {
+    personalData: {
+      type: 'object',
+      properties: {
+        dependents: {
+          type: 'array',
+          items: {
+            type: 'object',
+            required: ['dependentAge'],
+            properties: {
+              dependentAge: {
+                type: 'string',
+                pattern: '^\\d+$',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+export const uiSchemaEnhanced = {
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your dependents</legend>
+      <p className="vads-u-padding-top--2">
+        Enter each dependent’s age separately.
+      </p>
+    </>
+  ),
+  personalData: {
+    dependents: {
+      'ui:field': DependentAges,
+    },
+  },
+};
+
+export const schemaEnhanced = {
   type: 'object',
   properties: {
     personalData: {

@@ -18,7 +18,7 @@ describe('Yellow Ribbon <SearchResult>', () => {
         institutionId: 3454830,
         insturl: 'www.someurl.com',
         numberOfStudents: 212,
-        nameOfInstitution: 'Abraham Lincoln University',
+        nameOfInstitution: 'ABRAHAM LINCOLN UNIVERSITY',
         state: 'CA',
         streetAddress: '3530 Wilshire Boulevard, Suite 1430',
         zip: '90010',

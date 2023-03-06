@@ -452,7 +452,7 @@ const ComposeForm = props => {
             onClick={sendMessageHandler}
           />
           <va-button
-            id="Save-Draft-Button"
+            id="save-draft-button"
             text="Save draft"
             secondary
             class="vads-u-flex--1 save-draft-button"

@@ -7,10 +7,15 @@ import folderResponse from '../../fixtures/folder-response.json';
 import folderInboxResponse from '../../fixtures/folder-inbox-response.json';
 import reducers from '~/applications/mhv/secure-messaging/reducers';
 import MoveMessageToFolderBtn from '../../../components/MessageActionButtons/MoveMessageToFolderBtn';
+import { DefaultFolders } from '../../../util/constants';
 
 describe('Move button', () => {
   let container;
   const folderName = folderInboxResponse.inbox.name || 'Inbox';
+  const activeFolder = {
+    folderId: folderResponse[folderResponse.length - 1].id,
+    ...folderResponse[folderResponse.length - 1],
+  };
 
   beforeEach(() => {
     const id = 7155731;
@@ -31,6 +36,7 @@ describe('Move button', () => {
 
     container = renderInReduxProvider(
       <MoveMessageToFolderBtn
+        activeFolder={activeFolder}
         key="moveMessageToFolderBtn"
         isVisible
         messageId={id}
@@ -70,14 +76,19 @@ describe('Move button', () => {
     expect(container.getByTestId('move-to-modal')).to.exist;
 
     const listOfFolders = container.queryAllByTestId(/radiobutton-*/);
+
     // Test should print 4 folders (inbox is not included in dropdown list)
-    expect(
-      listOfFolders.filter(folder => folder.id !== -1 && folder.id !== -2)
-        .length,
-    ).to.be.below(
-      folderResponse.filter(folder => folder.id !== -1 && folder.id !== -2)
-        .length,
-    );
+    const renderedFolders = listOfFolders.map(el => el.value);
+    const expectedFolders = folderResponse
+      .filter(
+        folder =>
+          folder.id !== activeFolder.folderId &&
+          folder.id !== DefaultFolders.DRAFTS.id &&
+          folder.id !== DefaultFolders.SENT.id,
+      )
+      .map(folder => folder.id);
+
+    expect(renderedFolders).to.deep.equal(expectedFolders);
   });
   // This test uses a button that is hidden. The reason for this is because I am not able to access the shadow dom to select the cancel button on the web component to test the closing modal functionality.
   // This may be a test case that will have to be taken care of using cypress instead, will revisit issue.

@@ -14,7 +14,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
       '/my_health/v1/messaging/folders/7038175',
       customFolder,
     ).as('test2Folder');
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175/messages?per_page=-1&useCache=false',
@@ -29,18 +29,11 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
 
     cy.get('[class="modal hydrated"]')
       .shadow()
-      .find('[class="va-modal-inner va-modal-alert"]');
+      .find('button');
 
     cy.get('[visible=""] > p');
     cy.injectAxe();
     cy.axeCheck();
     cy.realPress(['Enter']);
-    // For edit button
-    // cy.get('.left-button')
-    //     .click({ force: true });
-    // cy.get('[name="new-folder-name"]')
-    //     .shadow()
-    //     .find('[id="inputField"]')
-    //     .type('Testing');
   });
 });

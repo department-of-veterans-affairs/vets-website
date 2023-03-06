@@ -12,7 +12,7 @@ describe('Secure Messaging Save Draft', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -50,6 +50,17 @@ describe('Secure Messaging Save Draft', () => {
       .shadow()
       .find('[name="message-body"]')
       .type('Test message body');
-    composePage.saveDraft();
+    composePage.saveDraft(
+      6978854,
+      'OTHER',
+      'testmessage Test',
+      'ststASertTest message body',
+    );
+    composePage.sendDraft(
+      6978854,
+      'OTHER',
+      'testmessage Test',
+      'ststASertTest message body',
+    );
   });
 });

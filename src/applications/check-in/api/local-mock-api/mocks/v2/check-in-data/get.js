@@ -55,7 +55,18 @@ const createMockFailedResponse = _data => {
   };
 };
 
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
+};
+
 module.exports = {
   createMockSuccessResponse,
   createMockFailedResponse,
+  createMockNotFoundResponse,
 };

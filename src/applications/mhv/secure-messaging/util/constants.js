@@ -1,5 +1,4 @@
-/** time to wait (in ms) after the user stops typing before initiating draft auto-save
- * (set at 5 sec.) */
+/** time to wait (in ms) after the user stops typing before initiating draft auto-save */
 export const draftAutoSaveTimeout = 5000;
 
 export const DefaultFolders = {
@@ -27,9 +26,9 @@ export const Alerts = {
   Message: {
     BLOCKED_MESSAGE_ERROR:
       'You are blocked from sending messages to this recipient.',
-    CANNOT_REPLY_BODY: "Please select 'Compose' to create a new message.",
-    CANNOT_REPLY_INFO_HEADER:
-      'You cannot reply to a message that is older than 45 days.',
+    CANNOT_REPLY_BODY:
+      "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
+    CANNOT_REPLY_INFO_HEADER: 'This conversation is too old for new replies',
     GET_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     DELETE_MESSAGE_SUCCESS: 'Message was successfully moved to Trash.',
     DELETE_MESSAGE_ERROR:
