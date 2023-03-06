@@ -9,13 +9,11 @@ export const defaultSignInProviders = {
   idme: true,
   dslogon: true,
   mhv: true,
-  // vamock: VAMockProvider.defaultSignIn,
 };
 
 export const defaultSignUpProviders = {
   logingov: true,
   idme: true,
-  // vamock: VAMockProvider.defaultSignUp,
 };
 
 export const defaultMobileQueryParams = {
