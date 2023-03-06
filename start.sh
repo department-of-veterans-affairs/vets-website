@@ -1,26 +1,23 @@
 #!/bin/sh
 
-# Clone content-build
-git clone https://github.com/department-of-veterans-affairs/content-build
+echo "Download dev content-build to website dir"
+cd ..
+curl -LO https://vetsgov-website-builds-s3-upload.s3-us-gov-west-1.amazonaws.com/content-build/0008051ce15e731cc01289933dfb060d6f0d4df6/vagovdev.tar.bz2
 
-# Install dependencies
+echo "Setup content-build and extract pre-built content into content-build/build/localhost"
+echo "make the build folder"
+mkdir -p content-build/build/localhost
+echo "untar the build into content-build/build/localhost/"
+tar -xf vagovdev.tar.bz2 -C content-build/build/localhost/
+
+# Serve the content-build
+echo "Install and serve content-build"
 cd content-build
 yarn install
+yarn serve &
 
-# Fetch Drupal cache
-yarn fetch-drupal-cache
-
-# Build content
-yarn build
-
-# Navigate to vets-website
+# Watch vets-website
+echo "Install and watch vets-website"
 cd ../vets-website
-
-# Build vets-website
-yarn build
-
-# Start watch mode
-yarn watch &
-
-# Start http-server
-npx http-server . -p 3002 --host=0.0.0.0
+yarn install
+yarn watch --env host=0.0.0.0
