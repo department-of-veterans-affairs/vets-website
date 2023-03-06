@@ -8,7 +8,7 @@ class LandingPage {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'My Health');
+      .and('have.text', 'My HealtheVet');
   };
 
   validateURL = () => {
