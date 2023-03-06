@@ -128,6 +128,7 @@ export default function AppointmentColumnLayout({
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
+              aria-describedby="vaos-appts__detail"
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"

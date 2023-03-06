@@ -2,13 +2,13 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 
-describe('Compose Reply With Attacments and Errors', () => {
-  it('compose reply with attachment', () => {
+describe('Compose message With Attacments and Errors', () => {
+  it('compose message with attachment', () => {
     const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();
