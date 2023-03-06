@@ -47,7 +47,20 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('shows the correct error message for generic api error.', () => {
+    it('shows the correct error message for check in failed no to travel claim', () => {
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Error.validatePageLoaded('check-in-failed-find-out');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--check-in-error--no-travel',
+      );
+    });
+    it('shows the correct error message for check in failed no to travel vehicle', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -57,11 +70,72 @@ describe('Check In Experience', () => {
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
-      Error.validatePageLoaded('check-in-post-error');
+      Error.validatePageLoaded('check-in-failed-cant-file');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(
         'Day-of-check-in--travel-pay--check-in-error--no-vehicle',
       );
+    });
+    it('shows the correct error message for check in failed no to travel address', () => {
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Error.validatePageLoaded('check-in-failed-cant-file');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--check-in-error--no-address',
+      );
+    });
+    it('shows the correct error message for check in failed no to travel mileage', () => {
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Error.validatePageLoaded('check-in-failed-cant-file');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots(
+        'Day-of-check-in--travel-pay--check-in-error--no-mileage',
+      );
+    });
+    it('shows the correct error message for check in failed yes to all travel', () => {
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      Appointments.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Appointments.attemptCheckIn(1);
+      Error.validatePageLoaded('check-in-failed-file-later');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--check-in-error');
     });
   });
 });

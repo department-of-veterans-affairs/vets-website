@@ -22,7 +22,9 @@ const Error = () => {
     if (form.data['travel-question'] === 'no') {
       return (
         <>
-          <p>{t('travel-pay-reimbursement--info-message')}</p>
+          <p className="vads-u-margin-top--0">
+            {t('travel-pay-reimbursement--info-message')}
+          </p>
           <ExternalLink
             href="/health-care/get-reimbursed-for-travel-pay/"
             hrefLang="en"
@@ -36,8 +38,8 @@ const Error = () => {
     }
     if (
       form.data['travel-vehicle'] === 'no' ||
-      form.data.travelAddress === 'no' ||
-      form.data.travelMileage === 'no'
+      form.data['travel-address'] === 'no' ||
+      form.data['travel-mileage'] === 'no'
     ) {
       return (
         <>
@@ -63,7 +65,27 @@ const Error = () => {
         </>
       );
     }
-    return '';
+    // Answered yes to everything
+    return (
+      <>
+        <p className="vads-u-margin-top--0">
+          <Trans
+            i18nKey="were-sorry-cant-file-travel-file-later--info-message"
+            components={[
+              <span key="bold" className="vads-u-font-weight--bold" />,
+            ]}
+          />
+        </p>
+        <ExternalLink
+          href="/resources/how-to-file-a-va-travel-reimbursement-claim-online/"
+          hrefLang="en"
+          eventId="clicked-how-to-file-link-from-ineligible"
+          eventPrefix="nav"
+        >
+          {t('find-out-how-to-file--link')}
+        </ExternalLink>
+      </>
+    );
   };
 
   switch (error) {
@@ -112,7 +134,7 @@ const Error = () => {
           ),
         },
         {
-          type: 'warning',
+          type: form.data['travel-question'] === 'no' ? 'info' : 'warning',
           message: getTravelMessage(),
         },
       ];
