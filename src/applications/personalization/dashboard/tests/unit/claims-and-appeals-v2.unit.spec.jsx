@@ -1,9 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { daysAgo } from '@@profile/tests/helpers';
-// import { wait } from '@@profile/tests/unit-test-helpers';
-// import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
@@ -98,7 +95,7 @@ function loadingErrorAlertExists(view) {
   ).to.exist;
   expect(
     view.getByText(
-      /We’re sorry. Something went wrong on our end. If you have any claims or appeals, you won’t be able to access your claims or appeals information right now. Please refresh or try again later.$/i,
+      'We’re sorry. Something went wrong on our end. If you have any claims and appeals, you won’t be able to access your claims and appeals information right now. Please refresh or try again later.',
     ),
   ).to.exist;
 }
@@ -207,7 +204,7 @@ describe('ClaimsAndAppealsV2 component', () => {
       });
     });
     context(
-      'when the user has 3 claims that were all updated in the past 30 days',
+      'when the user has 3 claims that were all updated in the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -218,11 +215,11 @@ describe('ClaimsAndAppealsV2 component', () => {
               appeals: [],
               claims: [
                 // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(7), phase: 3 }),
+                makeClaimObject({ updateDate: daysAgo(34), phase: 3 }),
                 // claim with most recent activity
                 makeClaimObject({ updateDate: daysAgo(1), phase: 7 }),
                 // claim with recent activity
-                makeClaimObject({ updateDate: daysAgo(5), phase: 1 }),
+                makeClaimObject({ updateDate: daysAgo(15), phase: 1 }),
               ],
             },
           };
@@ -238,20 +235,13 @@ describe('ClaimsAndAppealsV2 component', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
             .to.exist;
-          expect(
-            view.getByRole('link', {
-              name: /check your claim or appeal status/i,
-            }),
-          ).to.exist;
-        });
-        it('shows details about the most recently updated claim or appeal', () => {
-          expect(view.getByRole('link', { name: /^view claim received/i })).to
+          expect(view.getByRole('link', { name: /^review claim received/i })).to
             .exist;
         });
       },
     );
     context(
-      'when the user has 2 claims (1 closed) and 2 appeals (1 closed) that were all updated in the past 30 days',
+      'when the user has 2 claims (1 closed) and 2 appeals (1 closed) that were all updated in the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -268,8 +258,8 @@ describe('ClaimsAndAppealsV2 component', () => {
               claims: [
                 // closed claim updated 5 days ago
                 makeClaimObject({ updateDate: daysAgo(5), phase: 8 }),
-                // open claim updated 10 days ago
-                makeClaimObject({ updateDate: daysAgo(10), phase: 7 }),
+                // open claim updated 40 days ago
+                makeClaimObject({ updateDate: daysAgo(40), phase: 7 }),
               ],
             },
           };
@@ -285,15 +275,7 @@ describe('ClaimsAndAppealsV2 component', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims and appeals$/i }))
             .to.exist;
-          expect(
-            view.getByRole('link', {
-              name: /check your claim or appeal status/i,
-            }),
-          ).to.exist;
-        });
-        it('shows details about the most recently updated claim or appeal', () => {
-          expect(view.getByRole('link', { name: /^view details of/i })).to
-            .exist;
+          expect(view.getByRole('link', { name: /^review details/i })).to.exist;
         });
       },
     );
@@ -314,7 +296,7 @@ describe('ClaimsAndAppealsV2 component', () => {
                 // open claim updated 29 days ago
                 makeClaimObject({ updateDate: daysAgo(29), phase: 7 }),
                 // closed claim without recent activity
-                makeClaimObject({ updateDate: daysAgo(31), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
                 // open claim without recent activity
                 makeClaimObject({ updateDate: daysAgo(100), phase: 1 }),
               ],
@@ -334,18 +316,18 @@ describe('ClaimsAndAppealsV2 component', () => {
             .to.exist;
           expect(
             view.getByRole('link', {
-              name: /check your claim or appeal status/i,
+              name: /review claim/i,
             }),
           ).to.exist;
         });
         it('shows details for the most recently updated claim', () => {
-          expect(view.getByRole('link', { name: /^view claim received/i })).to
+          expect(view.getByRole('link', { name: /^review claim received/i })).to
             .exist;
         });
       },
     );
     context(
-      'when the user has no open claims or appeals, but does have an appeal that closed within the past thirty days',
+      'when the user has no open claims or appeals, but does have an appeal that closed within the past 60 days',
       () => {
         beforeEach(() => {
           initialState = {
@@ -373,22 +355,20 @@ describe('ClaimsAndAppealsV2 component', () => {
             },
           );
         });
-        // it('shows the CTA', () => {
-        //   expect(
-        //     view.getByRole('link', {
-        //       name: /check your claim or appeal status/i,
-        //     }),
-        //   ).to.exist;
-        // });
+        it('shows the CTA', () => {
+          expect(
+            view.getByRole('link', {
+              name: /review details/i,
+            }),
+          ).to.exist;
+        });
         it('shows details about the recently closed appeal', () => {
           expect(view.getByRole('heading', { name: /updated on/i })).to.exist;
-          expect(view.getByRole('link', { name: /^view details of/i })).to
-            .exist;
         });
       },
     );
     context(
-      'the user has one open appeal that was updated over thirty days ago',
+      'the user has one open appeal that was updated over 60 days ago',
       () => {
         beforeEach(() => {
           initialState = {
@@ -396,7 +376,7 @@ describe('ClaimsAndAppealsV2 component', () => {
             claims: {
               appealsLoading: false,
               claimsLoading: false,
-              appeals: [makeAppealObject({ updateDate: daysAgo(31) })],
+              appeals: [makeAppealObject({ updateDate: daysAgo(61) })],
               claims: [],
             },
           };
@@ -413,7 +393,7 @@ describe('ClaimsAndAppealsV2 component', () => {
             .to.exist;
           expect(
             view.getByRole('link', {
-              name: /check your claim or appeal status/i,
+              name: /review details/i,
             }),
           ).to.exist;
         });
@@ -421,17 +401,10 @@ describe('ClaimsAndAppealsV2 component', () => {
           expect(view.queryByRole('link', { name: /^view details of/i })).to.not
             .exist;
         });
-        // it('displays text about no recent activity', () => {
-        //   expect(
-        //     view.getByText(
-        //       /You have no claims or appeals updates in the last 30 days/i,
-        //     ),
-        //   ).to.exist;
-        // });
       },
     );
     context(
-      'the user only has claims and appeals that closed over thirty days ago',
+      'the user only has claims and appeals that closed over 60 days ago',
       () => {
         beforeEach(() => {
           initialState = {
@@ -447,8 +420,8 @@ describe('ClaimsAndAppealsV2 component', () => {
               ],
               claims: [
                 makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
               ],
             },
           };
@@ -460,15 +433,10 @@ describe('ClaimsAndAppealsV2 component', () => {
             },
           );
         });
-        it('does not render anything, even a headline', () => {
-          expect(view.queryByRole('progressbar')).to.not.exist;
-          expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
-            .to.not.exist;
-        });
       },
     );
     context(
-      'the user has claims that closed over thirty days ago and got a 404 from the appeals endpoint because they have no appeals on file',
+      'the user has claims that closed over 60 days ago and got a 404 from the appeals endpoint because they have no appeals on file',
       () => {
         beforeEach(() => {
           initialState = {
@@ -480,8 +448,8 @@ describe('ClaimsAndAppealsV2 component', () => {
               v2Availability: 'RECORD_NOT_FOUND_ERROR',
               claims: [
                 makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
-                makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(85), phase: 8 }),
+                makeClaimObject({ updateDate: daysAgo(61), phase: 8 }),
               ],
             },
           };
