@@ -8,8 +8,8 @@ const SpouseAdditionalIncomeCheckList = () => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
 
-  const { additionalIncome } = formData;
-  const { spAddlIncome = [] } = additionalIncome.spouse;
+  const { additionalIncome } = formData ?? {};
+  const { spAddlIncome = [] } = additionalIncome?.spouse ?? {};
 
   const onChange = ({ target }) => {
     const { value } = target;
