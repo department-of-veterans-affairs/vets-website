@@ -32,6 +32,24 @@ import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { selectShowPaymentsNotificationSetting } from '../../selectors';
 
+const filterNotificationGroupIds = ({
+  ids,
+  profileShowPaymentsNotificationSetting,
+  profileShowMhvNotificaionSettings,
+}) => {
+  return ids.filter(group => {
+    if (group.id === NOTIFICATION_GROUPS.PAYMENTS) {
+      return profileShowPaymentsNotificationSetting;
+    }
+
+    if (group.id === NOTIFICATION_GROUPS.GENERAL) {
+      return profileShowMhvNotificaionSettings;
+    }
+
+    return true;
+  });
+};
+
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
@@ -89,6 +107,15 @@ const NotificationSettings = ({
     [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
+  const filteredGroups = React.useMemo(
+    () =>
+      filterNotificationGroupIds({
+        ids: notificationGroups.ids,
+        profileShowPaymentsNotificationSetting: shouldShowPaymentsNotificationSetting,
+        profileShowMhvNotificaionSettings: false, // TODO: fix with toggle value from state
+      }),
+    [notificationGroups.ids, shouldShowPaymentsNotificationSetting],
+  );
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -111,14 +138,7 @@ const NotificationSettings = ({
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
           />
-          {notificationGroups.ids.map(groupId => {
-            if (
-              groupId === NOTIFICATION_GROUPS.PAYMENTS &&
-              !shouldShowPaymentsNotificationSetting
-            ) {
-              return null;
-            }
-
+          {filteredGroups.map(groupId => {
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (

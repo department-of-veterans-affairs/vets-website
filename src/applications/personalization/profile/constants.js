@@ -94,4 +94,5 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   APPLICATIONS: 'group1',
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
+  GENERAL: 'group5', // TODO: This is not a group in the API at this time, but is a placeholder for future work ??? (need to get this from va profile team)
 });
