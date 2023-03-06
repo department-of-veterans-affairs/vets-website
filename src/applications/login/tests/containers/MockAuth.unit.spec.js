@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import environments from 'site/constants/environments';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import sinon from 'sinon';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import LoginButton from 'platform/user/authentication/components/LoginButton';
 import MockAuth from '../../containers/MockAuth';
@@ -31,15 +30,9 @@ describe('MockAuthButton', () => {
       const correctLink = `${
         ENVIRONMENT_CONFIGURATIONS[process.env.BUILDTYPE].API_URL
       }/v0/sign_in/authorize?client_id=vamock`;
-      const mockLocation = { replace: sinon.spy() };
-      Object.defineProperty(global.window, 'location', {
-        value: mockLocation,
-        writable: true,
-      });
-      fireEvent.click($('.mauth-button', container));
-      expect(mockLocation.replace.calledOnce).to.be.true;
-      expect(mockLocation.replace.calledWith(sinon.match(correctLink))).to.be
-        .true;
+      const button = $('.mauth-button', container);
+      fireEvent.click(button);
+      expect(window.location).to.equal(correctLink);
     });
   });
 
