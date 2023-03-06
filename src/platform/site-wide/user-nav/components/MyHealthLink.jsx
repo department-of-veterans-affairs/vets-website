@@ -13,13 +13,19 @@ const MyHealthLink = ({ isSSOe, onClick }) => {
   if (newLandingPageEnabled) {
     return (
       <li>
-        <a href={MY_HEALTH_LINK.href}>{MY_HEALTH_LINK.title}</a>
+        <a className="my-health-link" href={MY_HEALTH_LINK.href}>
+          {MY_HEALTH_LINK.title}
+        </a>
       </li>
     );
   }
   return (
     <li>
-      <a href={mhvUrl(isSSOe, 'home')} onClick={onClick}>
+      <a
+        className="my-health-link"
+        href={mhvUrl(isSSOe, 'home')}
+        onClick={onClick}
+      >
         My Health
       </a>
     </li>

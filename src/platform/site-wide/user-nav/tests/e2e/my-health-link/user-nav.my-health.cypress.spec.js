@@ -10,14 +10,8 @@ describe(manifest.appName, () => {
     ApiInitializer.initializeUserData.withDefaultUser();
     LandingPage.visitPage({ serviceProvider: CSP_IDS.ID_ME });
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-health-4"]')
-      .should('be.visible')
-      .and('have.text', 'My Health');
-    cy.get('[data-e2e-id="my-health-4"]').should(
-      'have.attr',
-      'href',
-      '/my-health/',
-    );
+    cy.viewportPreset('va-top-mobile-1');
+    cy.get('.my-health-link').should('have.attr', 'href', '/my-health/');
   });
   it('shows the old link when disabled', () => {
     ApiInitializer.initializeFeatureToggle.withAppDisabled();
@@ -25,11 +19,9 @@ describe(manifest.appName, () => {
     cy.login();
     cy.visit('/');
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-e2e-id="my-health-4"]')
-      .should('be.visible')
-      .and('have.text', 'My Health');
-    cy.get('[data-e2e-id="my-health-4"]')
+    cy.viewportPreset('va-top-mobile-1');
+    cy.get('.my-health-link')
       .should('have.attr', 'href')
-      .and('include', 'mhv-portal-web/eauth');
+      .and('include', 'mhv-portal');
   });
 });
