@@ -49,6 +49,25 @@ class PatientComposePage {
       .click();
   };
 
+  sendDraft = (testId, testCategory, testSubject, testBody) => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/messages',
+      mockDraftMessage,
+    ).as('draft_message');
+    cy.get('[data-testid="Send-Button"]').click();
+    cy.wait('@draft_message').then(xhr => {
+      cy.log(JSON.stringify(xhr.response.body));
+    });
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(testCategory);
+        expect(message.subject).to.eq(testSubject);
+        expect(message.body).to.eq(testBody);
+      });
+  };
+
   saveDraft = (testId, testCategory, testSubject, testBody) => {
     cy.intercept(
       'PUT',

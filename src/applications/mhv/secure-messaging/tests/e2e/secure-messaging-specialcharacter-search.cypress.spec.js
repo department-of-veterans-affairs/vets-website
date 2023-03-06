@@ -13,7 +13,7 @@ describe('Secure Messaging - Search Special Characters', () => {
 
   it('search for special characters', () => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
     cy.intercept(
