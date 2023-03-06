@@ -16,6 +16,7 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
+  MOCK_LOGIN_URL,
   EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
@@ -285,18 +286,8 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({
-  version = API_VERSION,
-  queryParams = {},
-  clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
-}) {
-  const policy = 'vamock';
-
-  const url = await sessionTypeUrl({ type: policy, version, queryParams });
-
-  if (!isExternalRedirect()) {
-    setLoginAttempted();
-  }
+export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
+  const url = `${MOCK_LOGIN_URL}`;
   return redirect(url, clickedEvent);
 }
 
@@ -307,7 +298,6 @@ export async function login({
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
-
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }

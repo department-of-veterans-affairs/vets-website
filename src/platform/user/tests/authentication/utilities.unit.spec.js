@@ -16,6 +16,7 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
+  MOCK_LOGIN_URL,
   SIGNUP_TYPES,
   GA,
   EBENEFITS_DEFAULT_PATH,
@@ -432,6 +433,16 @@ describe('Authentication Utilities', () => {
       expect(
         String(global.window.location).includes(`client_id=${mockGAClientId}`),
       ).to.be.true;
+    });
+  });
+
+  describe('mockLogin', () => {
+    it('should redirect to  on USiP authenticating externally', async () => {
+      setup({ path: usipPath });
+      await authUtilities.mockLogin({});
+      expect(global.window.location).to.equal(MOCK_LOGIN_URL);
+
+      setup({});
     });
   });
 
