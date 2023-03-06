@@ -238,7 +238,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
 
   const cards = [
     {
-      title: 'Appoinments',
+      title: 'Appointments',
       icon: 'calendar',
       links: appointmentLinks,
     },
