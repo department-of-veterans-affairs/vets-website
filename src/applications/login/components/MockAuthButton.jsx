@@ -13,11 +13,9 @@ export default function MockAuthButton() {
           typeof process !== 'undefined'
             ? process.env.BUILDTYPE
             : environment.BUILDTYPE;
-        window.location.replace(
-          `${
-            ENVIRONMENT_CONFIGURATIONS[environ].API_URL
-          }/v0/sign_in/authorize?client_id=vamock`,
-        );
+        window.location = `${
+          ENVIRONMENT_CONFIGURATIONS[environ].API_URL
+        }/v0/sign_in/authorize?client_id=vamock`;
       }}
     >
       Mock Authentication
