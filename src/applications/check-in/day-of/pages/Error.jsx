@@ -94,7 +94,7 @@ const Error = () => {
       alerts = [
         {
           alertType: 'error',
-          messageText: t(
+          message: t(
             'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
           ),
         },
