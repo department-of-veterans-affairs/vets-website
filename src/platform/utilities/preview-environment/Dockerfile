@@ -23,7 +23,7 @@ WORKDIR /website/vets-website
 COPY . .
 
 # Copy startup script into place
-COPY start.sh .
+COPY src/platform/utilities/preview-environment/start.sh .
 RUN chmod +x start.sh
 
 # Expose ports
