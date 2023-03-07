@@ -11,11 +11,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 const alreadyReceivingCarePath =
   '/health-care/covid-19-vaccine/stay-informed/form';
 const newlyEligiblePath = `/eligibility`;
-const receivingCareLabelText = (
-  <strong>
-    Are you a Veteran who is enrolled in VA health care or receiving care at VA?
-  </strong>
-);
 
 class LocationPage extends React.Component {
   constructor(props) {
@@ -74,10 +69,11 @@ class LocationPage extends React.Component {
         >
           <p>
             <VaRadio
+              className="vads-u-margin-y--5"
               id="introductionRadios"
               error={this.state.errorMessage}
               onVaValueChange={val => this.setSelected(val)}
-              label={receivingCareLabelText}
+              label="Are you a Veteran who is enrolled in VA health care or receiving care at VA?"
               value={this.state.currentSelection}
               required
             >
