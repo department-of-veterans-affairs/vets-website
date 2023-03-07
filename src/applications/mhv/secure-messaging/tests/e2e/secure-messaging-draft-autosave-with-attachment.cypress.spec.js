@@ -4,7 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import SecureMessagingWelcomePage from './pages/SecureMessagingWelcomePage';
+import PatientInboxPage from './pages/PatientInboxPage';
 
 describe('Secure Messaging Draft AutoSave with Attachments', () => {
   const mockThreadResponse = { data: [] };
@@ -12,9 +12,9 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
   it('Axe Check Draft AutoSave with Attachments', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
-    const welcomePage = new SecureMessagingWelcomePage();
+    const inboxPage = new PatientInboxPage();
     site.login();
-    welcomePage.loadPage(false);
+    inboxPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
