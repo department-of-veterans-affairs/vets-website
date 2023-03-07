@@ -48,7 +48,6 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
 
     cy.contains('test').click();
 
-    // Assertion of network response
     cy.get('@draftsFolderMetaResponse')
       .its('response')
       .then(res => {
@@ -69,7 +68,6 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
 
     cy.wait('@saveDraftwithAttachment', { timeout: 6000 });
 
-    // Assertion of network request
     cy.get('@saveDraftwithAttachment')
       .its('request.body')
       .should('deep.equal', {
