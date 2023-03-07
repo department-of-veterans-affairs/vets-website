@@ -82,7 +82,7 @@ class PatientReplyPage {
     );
     cy.intercept(
       'POST',
-      `/my_health/v1/messaging/messages/${messageId}/replydraft`,
+      `/my_health/v1/messaging/messages/7179970/reply`,
       mockMessage,
     ).as('replyDraftMessage');
 
@@ -94,7 +94,7 @@ class PatientReplyPage {
       .its('request.body')
       .then(message => {
         cy.log(JSON.stringify(message));
-        expect(message.recipientId).to.eq(testRecipientId);
+        expect(message.recipient_id).to.eq(testRecipientId);
         expect(message.category).to.eq(testCategory);
         expect(message.subject).to.eq(testSubject);
         expect(message.body).to.eq(testBody);
