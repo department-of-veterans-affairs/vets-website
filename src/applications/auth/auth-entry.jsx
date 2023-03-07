@@ -1,4 +1,4 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/auth.scss';
 
 import startApp from 'platform/startup';

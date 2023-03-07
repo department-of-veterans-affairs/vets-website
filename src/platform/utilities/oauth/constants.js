@@ -1,5 +1,5 @@
-import environment from 'platform/utilities/environment';
-import { AUTH_ERRORS } from 'platform/user/authentication/errors';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { AUTH_ERRORS } from '@department-of-veterans-affairs/platform-user/authentication/errors';
 
 export const ALL_STATE_AND_VERIFIERS = [
   'state',

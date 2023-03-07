@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import LoginContainer from 'platform/user/authentication/components/LoginContainer';
-import { isLoggedIn } from 'platform/user/selectors';
-import { signInServiceEnabled } from 'platform/user/authentication/selectors';
-import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-import { OAuthEnabledApplications } from 'platform/user/authentication/config/constants';
+import AutoSSO from '@department-of-veterans-affairs/platform-site-wide/AutoSSO';
+import LoginContainer from '@department-of-veterans-affairs/platform-user/LoginContainer';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { signInServiceEnabled } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import {
+  externalApplicationsConfig,
+  OAuthEnabledApplications,
+} from '@department-of-veterans-affairs/platform-user/exports';
 
 export function UnifiedSigninPage({ router, location }) {
   const isAuthenticated = useSelector(state => isLoggedIn(state));

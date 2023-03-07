@@ -89,6 +89,9 @@
           "@department-of-veterans-affairs/platform-utilities/ui" : "./src/platform/utilities/ui/index.js",
           "@department-of-veterans-affairs/platform-utilities/scrollTo" : "./src/platform/utilities/ui/scrollTo.js",
           "@department-of-veterans-affairs/platform-utilities/scrollToTop" : "./src/platform/utilities/ui/scrollToTop.js",
+          "@department-of-veterans-affairs/platform-utilities/oauth/utilities" : "./src/platform/utilities/oauth/utilities.js",
+          "@department-of-veterans-affairs/platform-utilities/oauth/constants" : "./src/platform/utilities/oauth/constants.js",
+          "@department-of-veterans-affairs/platform-utilities/data" : "./src/platform/utilities/data/index.js",
 
           "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
@@ -141,6 +144,8 @@
           "@department-of-veterans-affairs/platform-user/profile/utilities": "./src/platform/user/profile/utilities/index.js",
           "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
           "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js",
+          "@department-of-veterans-affairs/platform-user/authentication/errors": "./src/platform/user/authentication/errors.js",
+          "@department-of-veterans-affairs/platform-user/authentication/usip-config": "./src/platform/user/authentication/usip-config.js",
           
           "@department-of-veterans-affairs/platform-testing/exports" : "./src/platform/testing/exportsFile.js",
           "@department-of-veterans-affairs/platform-testing/contract": "./src/platform/testing/contract/index.js",
@@ -183,6 +188,7 @@
           "@department-of-veterans-affairs/platform-site-wide/user-nav": "./src/platform/site-wide/user-nav/index.js",
           "@department-of-veterans-affairs/platform-site-wide/sass/user-nav": "./src/platform/site-wide/user-nav/sass/user-nav.scss",
           "@department-of-veterans-affairs/virtual-agent/sass/virtual-agent":"./src/applications/virtual-agent/sass/virtual-agent.scss",
+          "@department-of-veterans-affairs/platform-site-wide/user-nav/actions": "./src/platform/site-wide/user-nav/actions/index.js",
           "@department-of-veterans-affairs/platform-site-wide/user-nav/reducers": "./src/platform/site-wide/user-nav/reducers/index.js",
           "@department-of-veterans-affairs/platform-site-wide/va-footer": "./src/platform/site-wide/va-footer/index.js",
           "@department-of-veterans-affairs/platform-site-wide/wizard": "./src/platform/site-wide/wizard/index.js",
