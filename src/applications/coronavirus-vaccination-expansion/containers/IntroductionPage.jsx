@@ -88,9 +88,13 @@ class IntroductionPage extends React.Component {
               value={this.state.currentSelection}
               required
             >
-              <va-radio-option value="Yes" label="Yes" />
-              <va-radio-option value="No" label="No" />
-              <va-radio-option value="I'm not sure" label="I'm not sure" />
+              <va-radio-option name="yes1" value="Yes" label="Yes" />
+              <va-radio-option name="no1" value="No" label="No" />
+              <va-radio-option
+                name="unsure1"
+                value="I'm not sure"
+                label="I'm not sure"
+              />
             </VaRadio>
           </p>
           <ProgressButton
