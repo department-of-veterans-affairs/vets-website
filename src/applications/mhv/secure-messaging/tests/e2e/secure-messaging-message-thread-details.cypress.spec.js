@@ -4,7 +4,6 @@ import inboxMessages from './fixtures/messages-response.json';
 import mockMessageDetails from './fixtures/message-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import { dateFormat } from '../../util/helpers';
 
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
@@ -27,22 +26,9 @@ describe('Secure Messaging Message Details AXE Check', () => {
     );
 
     detailsPage.verifyExpandedMessageToDisplay(messageDetails);
-
-    cy.get('[data-testid="message-id"]')
-      .eq(0)
-      .should(
-        'have.text',
-        `Message ID: ${messageDetails.data.attributes.messageId}`,
-      );
-    cy.get('[data-testid="message-date"]')
-      .eq(0)
-      .should(
-        'have.text',
-        dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        ),
-      );
+    detailsPage.verifyExpandedMessageFromDisplay(messageDetails);
+    detailsPage.verifyExpandedMessageIDDisplay(messageDetails);
+    detailsPage.verifyExpandedMessageDateDisplay(messageDetails);
 
     // verify To: Displayed
     // verify Message Displayed
