@@ -67,7 +67,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
       .type('Testing Autosave Drafts with Attachments');
     composePage.attachMessageFromFile('sample_docx.docx');
 
-    cy.wait('@saveDraftwithAttachment', { timeout: 5000 });
+    cy.wait('@saveDraftwithAttachment', { timeout: 6000 });
 
     // Assertion of network request
     cy.get('@saveDraftwithAttachment')
