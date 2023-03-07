@@ -4,7 +4,7 @@ import { openCrisisModal } from '../util/helpers';
 
 const FrequentlyAskedQuestions = ({ prefLink }) => {
   return (
-    <div className="secure-messaging-faq vads-u-padding-bottom--9">
+    <div className="secure-messaging-faq">
       <h2 className="vads-u-margin-top--1">Questions about using messages</h2>
 
       <va-accordion open-single>
