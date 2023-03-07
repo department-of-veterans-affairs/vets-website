@@ -1,8 +1,18 @@
 import React from 'react';
 import NavCard from './NavCard';
 
-const CardLayout = ({ data }) =>
-  data.map((row, x) => {
+const layoutData = data => {
+  const offset = 2;
+  const rows = [];
+  for (let i = 0; i < data.length; i += offset) {
+    rows.push(data.slice(i, i + offset));
+  }
+  return rows;
+};
+
+const CardLayout = ({ data }) => {
+  const rowCols = layoutData(data);
+  return rowCols.map((row, x) => {
     return (
       <div
         key={`row-${x}`}
@@ -19,5 +29,6 @@ const CardLayout = ({ data }) =>
       </div>
     );
   });
+};
 
 export default CardLayout;

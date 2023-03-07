@@ -1,5 +1,5 @@
 /** time to wait (in ms) after the user stops typing before initiating draft auto-save */
-export const draftAutoSaveTimeout = 15000;
+export const draftAutoSaveTimeout = 5000;
 
 export const DefaultFolders = {
   INBOX: {
@@ -78,6 +78,11 @@ export const Links = {
 };
 
 export const Prompts = {
+  Compose: {
+    EDIT_LIST_TITLE: 'Edit your contact list',
+    EDIT_LIST_CONTENT:
+      'You can edit your contact list on the My HealtheVet website. Then refresh this page to review your updated list.',
+  },
   Message: {
     DELETE_MESSAGE_CONFIRM:
       'Are you sure you want to move this message to the trash?',

@@ -14,7 +14,7 @@ describe('Secure Messaging Compose Categories', () => {
       '/my_health/v1/messaging/folders/0/messages?per_page=-1&useCache=false',
       mockMessages,
     ).as('messagesFolder');
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
 
     cy.injectAxe();
     cy.axeCheck();
