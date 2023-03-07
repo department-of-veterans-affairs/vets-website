@@ -4,7 +4,7 @@ import App from './containers/App';
 import Vaccines from './containers/Vaccines';
 import VaccineDetails from './containers/VaccineDetails';
 import HealthHistory from './containers/HealthHistory';
-import MrBreadcrumbs from './components/MrBreadcrumbs';
+import MrBreadcrumbs from './containers/MrBreadcrumbs';
 
 const routes = (
   <div className="vads-l-grid-container">
