@@ -1,19 +1,20 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
+
 import PatientComposePage from './pages/PatientComposePage';
 import mockDraftFolderMetaResponse from './fixtures/folder-drafts-metadata.json';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
+import SecureMessagingWelcomePage from './pages/SecureMessagingWelcomePage';
 
 describe('Secure Messaging Draft AutoSave with Attachments', () => {
   const mockThreadResponse = { data: [] };
 
   it('Axe Check Draft AutoSave with Attachments', () => {
-    const landingPage = new PatientInboxPage();
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
+    const welcomePage = new SecureMessagingWelcomePage();
     site.login();
-    landingPage.loadPage(false);
+    welcomePage.loadPage(false);
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/-2',
@@ -66,7 +67,7 @@ describe('Secure Messaging Draft AutoSave with Attachments', () => {
       .type('Testing Autosave Drafts with Attachments');
     composePage.attachMessageFromFile('sample_docx.docx');
 
-    cy.wait('@saveDraftwithAttachment', { timeout: 16000 });
+    cy.wait('@saveDraftwithAttachment', { timeout: 5000 });
 
     // Assertion of network request
     cy.get('@saveDraftwithAttachment')
