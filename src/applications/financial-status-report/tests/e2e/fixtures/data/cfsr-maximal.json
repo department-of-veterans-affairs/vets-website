@@ -1,5 +1,4 @@
 {
-  "view:combinedFinancialStatusReport": true,
   "view:enhancedFinancialStatusReport": false,
   "otherExpenses": [
     {

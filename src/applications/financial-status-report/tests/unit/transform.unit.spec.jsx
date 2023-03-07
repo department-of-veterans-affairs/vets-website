@@ -29,11 +29,11 @@ describe('fsr transform helper functions', () => {
   describe('getFsrReason helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const debts = [
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 1' } },
-        { resolution: { resolutionType: 'Resolution 3' } },
+        { resolutionOption: 'waiver' },
+        { resolutionOption: 'waiver' },
+        { resolutionOption: 'compromise' },
       ];
-      expect(getFsrReason(debts)).to.equal('Resolution 1, Resolution 3');
+      expect(getFsrReason(debts)).to.equal('Waiver, Compromise');
     });
   });
 
@@ -272,48 +272,6 @@ describe('fsr transform helper functions', () => {
       const returnVal = getEmploymentHistory(history);
       expect(returnVal).to.be.an('array');
       expect(returnVal.length).to.equal(0);
-    });
-  });
-
-  describe('getTotalAssets helper', () => {
-    it('should return total value of assets', () => {
-      const totalAssets = {
-        questions: {
-          hasVehicle: true,
-        },
-        assets: {
-          otherAssets: [
-            {
-              amount: '10',
-            },
-            {
-              amount: '10',
-            },
-          ],
-          recVehicles: [
-            {
-              recVehicleAmount: '100',
-            },
-          ],
-          automobiles: [
-            {
-              resaleValue: '100',
-            },
-            {
-              resaleValue: '100',
-            },
-          ],
-        },
-        realEstateRecords: [
-          {
-            realEstateAmount: '1000',
-          },
-          {
-            realEstateAmount: '1000',
-          },
-        ],
-      };
-      expect(getTotalAssets(totalAssets)).to.equal(2320);
     });
   });
 
@@ -797,28 +755,6 @@ describe('fsr transform information', () => {
       });
     });
   });
-  describe('discretionaryIncome', () => {
-    it('has valid structure', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(submissionObj).haveOwnProperty('discretionaryIncome');
-      expect(submissionObj.discretionaryIncome).to.be.an('object');
-      expect(submissionObj.discretionaryIncome).haveOwnProperty(
-        'netMonthlyIncomeLessExpenses',
-      );
-      expect(submissionObj.discretionaryIncome).haveOwnProperty(
-        'amountCanBePaidTowardDebt',
-      );
-    });
-    it('has valid data', () => {
-      const submissionObj = JSON.parse(transform(null, inputObject));
-      expect(
-        submissionObj.discretionaryIncome.netMonthlyIncomeLessExpenses,
-      ).to.equal('7193.50');
-      expect(
-        submissionObj.discretionaryIncome.amountCanBePaidTowardDebt,
-      ).to.equal('800.97');
-    });
-  });
   describe('assets', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
@@ -844,7 +780,7 @@ describe('fsr transform information', () => {
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
-      expect(submissionObj.assets.totalAssets).to.equal('1099005.78');
+      expect(submissionObj.assets.totalAssets).to.equal('1084005.55');
     });
     describe('automobiles', () => {
       it('has valid structure', () => {
@@ -1116,7 +1052,7 @@ describe('fsr transform information', () => {
   });
   describe('combined FSR', () => {
     const cfsrInputObject = {
-      data: { ...inputObject.data, 'view:combinedFinancialStatusReport': true },
+      data: { ...inputObject.data },
     };
     describe('cFSR - discretionaryIncome', () => {
       it('has valid structure', () => {
@@ -1140,8 +1076,8 @@ describe('fsr transform information', () => {
         ).to.equal('61.02');
       });
     });
-    describe('cFSR - getTotalAssets helper', () => {
-      it('should return total value of assets excluding vehicles', () => {
+    describe('getTotalAssets helper', () => {
+      it('should return total value of assets', () => {
         const totalAssets = {
           questions: {
             hasVehicle: false,

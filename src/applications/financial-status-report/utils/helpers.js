@@ -1,6 +1,6 @@
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
 import { get } from 'lodash';
 import { deductionCodes } from '../constants/deduction-codes';
@@ -13,10 +13,6 @@ export const fsrWizardFeatureToggle = state => {
 
 export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
-};
-
-export const combinedFSRFeatureToggle = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
 };
 
 export const enhancedFSRFeatureToggle = state => {
@@ -133,35 +129,23 @@ export const fsrReasonDisplay = resolutionOption => {
   }
 };
 
-export const getFsrReason = (debts, combinedFSR) => {
-  const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
-    : debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolutionOption }) =>
+    fsrReasonDisplay(resolutionOption),
+  );
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
 };
 
-export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
-  return combinedFSR
-    ? debts
-        .filter(item => item.resolutionComment !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : debts
-        .filter(item => item.resolution.offerToPay !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(
-              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-            ),
-          0,
-        );
+export const getAmountCanBePaidTowardDebt = debts => {
+  return debts
+    .filter(item => item.resolutionComment !== undefined)
+    .reduce(
+      (acc, debt) =>
+        acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
@@ -304,32 +288,29 @@ export const getMonthlyExpenses = ({
 export const getTotalAssets = ({
   assets,
   realEstateRecords,
-  questions,
-  'view:combinedFinancialStatusReport': combinedFSRActive,
   'view:enhancedFinancialStatusReport': enhancedFSRActive,
 }) => {
   const formattedREValue = Number(
     assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = !combinedFSRActive
-    ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
-  const totVehicles = questions?.hasVehicle
-    ? sumValues(assets.automobiles, 'resaleValue')
+  // Setting to zero if enhanced is false since value will be calculated with totAssets
+  const totRecVehicles = enhancedFSRActive
+    ? Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0)
     : 0;
-  const realEstate = !enhancedFSRActive
-    ? sumValues(realEstateRecords, 'realEstateAmount')
-    : formattedREValue;
-  const totAssets = !enhancedFSRActive
-    ? Object.values(assets)
+  const totVehicles = sumValues(assets.automobiles, 'resaleValue');
+  const realEstate = enhancedFSRActive
+    ? formattedREValue
+    : sumValues(realEstateRecords, 'realEstateAmount');
+  const totAssets = enhancedFSRActive
+    ? sumValues(assets.monetaryAssets, 'amount')
+    : Object.values(assets)
         .filter(item => item && !Array.isArray(item))
         .reduce(
           (acc, amount) =>
             acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
           0,
-        )
-    : sumValues(assets.monetaryAssets, 'amount');
+        );
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
