@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ProgressButton from '@department-of-veterans-affairs/component-library/ProgressButton';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -28,6 +28,7 @@ class IntroductionPage extends React.Component {
       showPrivacyModal: false,
     };
   }
+
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
@@ -38,6 +39,7 @@ class IntroductionPage extends React.Component {
       errorMessage: null,
     });
   }
+
   loadNextPage() {
     if (this.state.currentSelection === '') {
       this.setState({ errorMessage: 'Please select an option' });
@@ -60,9 +62,11 @@ class IntroductionPage extends React.Component {
       this.props.router.push(newlyEligiblePath);
     }
   }
+
   togglePrivacyModal() {
     this.setState({ showPrivacyModal: !this.state.showPrivacyModal });
   }
+
   render() {
     return (
       <div className="schemaform-intro">
@@ -80,17 +84,18 @@ class IntroductionPage extends React.Component {
           }}
         >
           <p>
-            <RadioButtons
+            <VaRadio
               id="introductionRadios"
-              errorMessage={this.state.errorMessage}
-              onKeyDown={function noRefCheck() {}}
-              onMouseDown={function noRefCheck() {}}
-              onValueChange={val => this.setSelected(val)}
-              options={['Yes', 'No', "I'm not sure"]}
-              value={this.state.currentSelection}
+              error={this.state.errorMessage}
+              onVaValueChange={val => this.setSelected(val)}
               label={receivingCareLabelText}
+              value={this.state.currentSelection}
               required
-            />
+            >
+              <va-radio-option value="Yes" label="Yes" />
+              <va-radio-option value="No" label="No" />
+              <va-radio-option value="I'm not sure" label="I'm not sure" />
+            </VaRadio>
           </p>
           <ProgressButton
             id="continueButton"
