@@ -442,32 +442,6 @@ export function selectTimeZoneAbbr(appointment) {
   return abbreviation;
 }
 
-export function selectApptDetailAriaText(appointment) {
-  const appointmentDate = selectStartDate(appointment);
-  const isCanceled = selectIsCanceled(appointment);
-  const isCommunityCare = selectIsCommunityCare(appointment);
-  const isPhone = selectIsPhone(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  const typeOfCareName = selectTypeOfCareName(appointment);
-
-  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
-  const fillin2 =
-    typeOfCareName && typeof typeOfCareName !== 'undefined'
-      ? `${typeOfCareName} appointment on`
-      : 'appointment on';
-  const fillin3 = appointmentDate.format(
-    `dddd, MMMM D h:mm a, [${timezoneName}]`,
-  );
-
-  let modality = 'in-person';
-  if (isCommunityCare) modality = 'community care';
-  if (isPhone) modality = 'phone';
-  if (isVideo) modality = 'video';
-
-  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
-}
-
 export function selectModalityText(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
@@ -494,6 +468,45 @@ export function selectModalityText(appointment) {
   if (isVideoHome || isVideoVADevice) return 'Video';
 
   return '';
+}
+
+export function selectApptDetailAriaText(appointment) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  const typeOfCareName = selectTypeOfCareName(appointment);
+  const modalityText = selectModalityText(appointment);
+  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
+  let fillin2 =
+    typeOfCareName && typeof typeOfCareName !== 'undefined'
+      ? `${typeOfCareName} appointment on`
+      : 'appointment on';
+  const fillin3 = appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  );
+
+  // Override fillin2 text for canceled or pending appointments
+  if (isPendingOrCancelledRequest(appointment)) {
+    fillin2 = '';
+    if (typeOfCareName && typeof typeOfCareName !== 'undefined') {
+      fillin2 = `${typeOfCareName}`;
+    }
+
+    return `${fillin1} request for a ${fillin2} ${modalityText.replace(
+      /^at /i,
+      '',
+    )} appointment`;
+  }
+
+  let modality = 'in-person';
+  if (isCommunityCare) modality = 'community care';
+  if (isPhone) modality = 'phone';
+  if (isVideo) modality = 'video';
+
+  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
 }
 
 export function selectModalityIcon(appointment) {
