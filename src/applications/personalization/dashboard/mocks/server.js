@@ -9,7 +9,7 @@ const { createHealthCareStatusSuccess } = require('./health-care');
 const { has3Copays } = require('./medical-copays');
 const { v0, v2 } = require('./appointments');
 
-// set to true to simulate a user with debts
+// set to true to simulate a user with debts for /v0/debts endpoint
 const hasDebts = false;
 
 /* eslint-disable camelcase */
