@@ -123,11 +123,22 @@ const createMockFailedResponse = _data => {
   };
 };
 
+const createMockNotFoundResponse = () => {
+  return {
+    errors: [
+      {
+        status: '404',
+      },
+    ],
+  };
+};
+
 module.exports = {
   alreadyPreCheckedInUUID,
   canceledAppointmentUUID,
   createMockSuccessResponse,
   createMockFailedResponse,
+  createMockNotFoundResponse,
   defaultUUID,
   expiredUUID,
   past15MinuteUUID,

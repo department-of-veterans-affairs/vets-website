@@ -166,6 +166,7 @@ const AddIssue = props => {
         <VaMemorableDate
           name="decision-date"
           label={content.date.label}
+          hint={content.date.hint}
           class="vads-u-margin-top--0"
           required
           onDateChange={handlers.onDateChange}
@@ -173,9 +174,7 @@ const AddIssue = props => {
           value={issueDate}
           error={((submitted || dateDirty) && dateErrorMessage[0]) || null}
           aria-describedby="decision-date-description"
-        >
-          {content.date.hint}
-        </VaMemorableDate>
+        />
         <p>
           <button
             type="button"

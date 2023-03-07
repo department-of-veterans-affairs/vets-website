@@ -376,7 +376,9 @@ export function selectPractitionerName(appointment) {
   // layer. See the following link for details.
   //
   // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners = [] } = appointment || {};
+  let { practitioners } = appointment || {};
+  if (practitioners === null || typeof practitioners === 'undefined')
+    practitioners = [];
   practitioners = practitioners.map(practitioner => {
     const { name } = practitioner;
     return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;

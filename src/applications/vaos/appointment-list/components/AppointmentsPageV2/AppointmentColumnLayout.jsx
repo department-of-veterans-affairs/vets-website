@@ -126,10 +126,11 @@ export default function AppointmentColumnLayout({
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
             size="1"
+            aria-label={detailAriaLabel}
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-label={detailAriaLabel}
+              aria-describedby="vaos-appts__detail"
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"
