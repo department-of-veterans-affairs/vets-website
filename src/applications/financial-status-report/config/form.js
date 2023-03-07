@@ -573,8 +573,21 @@ const formConfig = {
           title: 'Vehicles',
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
-          depends: ({ questions }) => questions.hasVehicle,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            !formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
+        },
+        enhancedVehicleRecords: {
+          path: 'enhanced-vehicle-records',
+          title: 'Vehicles',
+          uiSchema: pages.enhancedVehicleRecords.uiSchema,
+          schema: pages.enhancedVehicleRecords.schema,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: EnhancedEmploymentRecord,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
