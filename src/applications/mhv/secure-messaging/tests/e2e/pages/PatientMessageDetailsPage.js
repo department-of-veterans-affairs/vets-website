@@ -1,6 +1,6 @@
-import moment from 'moment-timezone';
 import mockMessage from '../fixtures/message-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
+import { dateFormat } from '../../../util/helpers';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -233,10 +233,12 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageToDisplay = messageDetails => {
-    cy.get('[data-testid="to"]').should(
-      'have.text',
-      messageDetails.data.attributes.recipientName,
-    );
+    cy.get('[data-testid="to"]')
+      .eq(0)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
   };
 
   verifyExpandedMessageIDDisplay = messageDetails => {
@@ -251,14 +253,14 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDateDisplay = messageDetails => {
-    const timeZone = moment.tz.guess();
     cy.get('[data-testid="message-date"]')
       .eq(0)
       .should(
         'have.text',
-        moment
-          .tz(messageDetails.data.attributes.sentDate, timeZone)
-          .format('MMMM D, YYYY [at] h:mm a z'),
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
       );
   };
 }

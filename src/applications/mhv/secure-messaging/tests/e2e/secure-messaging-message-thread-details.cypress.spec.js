@@ -26,22 +26,8 @@ describe('Secure Messaging Message Details AXE Check', () => {
       messageDetails.data.attributes.recipientName,
     );
 
-    cy.get('[data-testid="from"]')
-      .eq(1)
-      .then($value => {
-        const textValue = $value.text();
-        cy.wrap(textValue).as('wrapValue');
-        cy.log('===== Print Value Uisng Wrap Command ==== ', textValue);
-      });
+    detailsPage.verifyExpandedMessageToDisplay(messageDetails);
 
-    cy.get('[data-testid="from"]')
-      .eq(0)
-      .should(
-        'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
-      );
     const timeZone = moment.tz.guess();
     cy.get('[data-testid="message-id"]')
       .eq(0)
