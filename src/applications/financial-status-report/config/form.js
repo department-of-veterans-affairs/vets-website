@@ -12,6 +12,7 @@ import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 import EnhancedEmploymentRecord from '../components/EnhancedEmploymentRecord';
 import EnhancedSpouseEmploymentRecord from '../components/EnhancedSpouseEmploymentRecord';
+import EnhancedVehicleRecord from '../components/EnhancedVehicleRecord';
 import GrossMonthlyIncomeInput from '../components/GrossMonthlyIncomeInput';
 import SpouseGrossMonthlyIncomeInput from '../components/SpouseGrossMonthlyIncomeInput';
 import SpousePayrollDeductionChecklist from '../components/SpousePayrollDeductionChecklist';
@@ -587,7 +588,7 @@ const formConfig = {
             formData.questions.hasVehicle &&
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
-          CustomPage: EnhancedEmploymentRecord,
+          CustomPage: EnhancedVehicleRecord,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',

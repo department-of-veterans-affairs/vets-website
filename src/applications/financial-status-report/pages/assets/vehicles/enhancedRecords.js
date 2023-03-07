@@ -4,11 +4,11 @@ import EnhancedVehicleRecord from '../../../components/EnhancedVehicleRecord';
 export const uiSchema = {
   'ui:title': () => (
     <>
-      <legend className="schemaform-block-title">Your work history</legend>
+      <legend className="schemaform-block-title">
+        Your car or other vehicle
+      </legend>
       <p className="vads-u-padding-top--2">
-        Tell us about the jobs you’ve had in the past 2 years that you received
-        paychecks for. You’ll need to provide your income information for any
-        current job.
+        Enter your vehicle’s information below.
       </p>
     </>
   ),
