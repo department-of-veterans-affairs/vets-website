@@ -14,7 +14,7 @@ describe('Secure Messaging Custom Folder Delete Error Message Validation', () =>
       '/my_health/v1/messaging/folders/7038175',
       customFolder,
     ).as('test2Folder');
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.intercept(
       'GET',
       '/my_health/v1/messaging/folders/7038175/messages?per_page=-1&useCache=false',

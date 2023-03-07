@@ -27,6 +27,8 @@ import * as spouseEmploymentHistory from './income/employmentEnhanced/spouseEmpl
 import * as spouseGrossMonthlyIncome from './income/employmentEnhanced/spouseGrossMonthlyIncome';
 import * as spousePayrollDeductionChecklist from './income/employmentEnhanced/spousePayrollDeductionChecklist';
 import * as spousePayrollDeductionInputList from './income/employmentEnhanced/spousePayrollDeductionInputList';
+import * as spouseAdditionalIncomeCheckList from './income/spouse/additionalIncome/enhancedIndex';
+import * as spouseAdditionalIncomeValues from './income/spouse/additionalIncome/enhancedRecords';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
 import * as monetary from './assets/monetary';
@@ -97,6 +99,8 @@ export {
   spouseGrossMonthlyIncome,
   spousePayrollDeductionChecklist,
   spousePayrollDeductionInputList,
+  spouseAdditionalIncomeCheckList,
+  spouseAdditionalIncomeValues,
   dependents,
   dependentRecords,
   monetary,

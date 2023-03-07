@@ -17,7 +17,11 @@ import { sortRecipients } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import HowToAttachFiles from '../HowToAttachFiles';
-import { draftAutoSaveTimeout, Categories } from '../../util/constants';
+import {
+  draftAutoSaveTimeout,
+  Categories,
+  Prompts,
+} from '../../util/constants';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
@@ -360,27 +364,24 @@ const ComposeForm = props => {
 
             <VaModal
               id="edit-list"
-              modalTitle="You'll need to edit your list of recipients on My HealtheVet"
+              modalTitle={Prompts.Compose.EDIT_LIST_TITLE}
               name="edit-list"
               visible={editListModal}
-              onPrimaryButtonClick={() => {
-                const editListURL = mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'preferences',
-                );
-                window.open(editListURL, '_blank');
-              }}
-              onSecondaryButtonClick={() => setEditListModal(false)}
               onCloseEvent={() => setEditListModal(false)}
-              primaryButtonText="Continue"
-              secondaryButtonText="Cancel"
               status="warning"
             >
-              <p>
-                You’ll be asked to sign in to My HealtheVet in another tab.
-                After you edit your list, you can refresh this page to see your
-                changes.
-              </p>
+              <p>{Prompts.Compose.EDIT_LIST_CONTENT}</p>
+              <a
+                className="vads-c-action-link--green"
+                href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences')}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => {
+                  setEditListModal(false);
+                }}
+              >
+                Edit your contact list on the My HealtheVet website
+              </a>
             </VaModal>
 
             <button
@@ -443,6 +444,7 @@ const ComposeForm = props => {
             setAttachments={setAttachments}
           />
         </section>
+        <DraftSavedInfo userSaved={userSaved} />
         <div className="compose-form-actions vads-u-display--flex">
           <va-button
             text="Send"
@@ -451,6 +453,7 @@ const ComposeForm = props => {
             onClick={sendMessageHandler}
           />
           <va-button
+            id="save-draft-button"
             text="Save draft"
             secondary
             class="vads-u-flex--1 save-draft-button"
@@ -462,7 +465,6 @@ const ComposeForm = props => {
           </div>
         </div>
       </div>
-      <DraftSavedInfo userSaved={userSaved} />
     </form>
   );
 };
