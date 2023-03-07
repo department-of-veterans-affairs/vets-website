@@ -9,12 +9,8 @@ import {
 
 export default {
   default: {
-    allowedSignInProviders: {
-      ...defaultSignInProviders,
-    },
-    allowedSignUpProviders: {
-      ...defaultSignUpProviders,
-    },
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
       allowOAuth: true,
