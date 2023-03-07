@@ -16,17 +16,17 @@ const MessageThreadMeta = props => {
       </p>
       {props.expanded && (
         <>
-          <p>
+          <p data-testid="to">
             <strong>To: </strong>
             {message.recipientName}
           </p>
-          <p>
+          <p data-testid="message-id">
             <strong>Message ID: </strong>
             {message.messageId}
           </p>
         </>
       )}
-      <p className="message-date">
+      <p className="message-date" data-testid="message-date">
         {(message.attachment ||
           message.hasAttachments ||
           message.attachments?.length) && (
