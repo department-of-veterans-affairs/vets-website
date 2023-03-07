@@ -284,7 +284,7 @@ const formConfig = {
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
                   'ui:errorMessages': {
-                    pattern: 'Your VA claim number must be 8 or 9 digits',
+                    pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
                   },
                 },
                 ssn: {
@@ -299,6 +299,10 @@ const formConfig = {
                 gender: {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
+                },
+                race: {
+                  'ui:title':
+                    'Which categories best describe your sponsor? (You may check more than one)',
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',

@@ -1,14 +1,15 @@
 import React from 'react';
-import PayrollDeductionCheckList from '../../../components/PayrollDeductionChecklist';
+import SpouseAdditionalIncomeCheckList from '../../../../components/SpouseAdditionalIncomeCheckList';
 
 export const uiSchema = {
-  spousePayrollDeductionChecklist: {
+  'ui:title': "Your spouse's other income",
+  additionalIncomeChecklist: {
     'ui:title': (
       <span className="vads-u-font-size--h4 vads-u-font-family--sans">
-        Which of the following payroll deductions does your spouse pay?
+        Select any additional income your spouse receives:
       </span>
     ),
-    'ui:widget': PayrollDeductionCheckList,
+    'ui:widget': SpouseAdditionalIncomeCheckList,
     'ui:options': {
       hideOnReview: true,
     },
@@ -18,7 +19,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    spousePayrollDeductionChecklist: {
+    additionalIncomeChecklist: {
       type: 'boolean',
     },
   },
