@@ -1,10 +1,10 @@
-import moment from 'moment-timezone';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import inboxMessages from './fixtures/messages-response.json';
 import mockMessageDetails from './fixtures/message-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
+import { dateFormat } from '../../util/helpers';
 
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
@@ -28,7 +28,6 @@ describe('Secure Messaging Message Details AXE Check', () => {
 
     detailsPage.verifyExpandedMessageToDisplay(messageDetails);
 
-    const timeZone = moment.tz.guess();
     cy.get('[data-testid="message-id"]')
       .eq(0)
       .should(
@@ -39,9 +38,10 @@ describe('Secure Messaging Message Details AXE Check', () => {
       .eq(0)
       .should(
         'have.text',
-        moment
-          .tz(messageDetails.data.attributes.sentDate, timeZone)
-          .format('MMMM D, YYYY [at] h:mm a z'),
+        dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        ),
       );
 
     // verify To: Displayed
