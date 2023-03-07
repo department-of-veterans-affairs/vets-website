@@ -102,7 +102,7 @@ const FolderListView = props => {
           <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
             Displaying 0 of 0 messages
           </div>
-          <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
+          <div className="vads-u-margin-top--3">
             <va-alert
               background-only="true"
               status="info"
