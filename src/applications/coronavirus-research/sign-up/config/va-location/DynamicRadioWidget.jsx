@@ -76,7 +76,8 @@ export function DynamicRadioWidget(props) {
         {locations.map((location, index) => (
           <VaRadioOption
             key={`${location.value}-${index}`}
-            label={`${location.attributes.name} ${location.attributes.city} ${
+            label={`${location.attributes.name}`}
+            description={`${location.attributes.city} ${
               location.attributes.state
             }`}
             value={`${location.attributes.name}|${location.id}`}
