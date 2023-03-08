@@ -166,6 +166,7 @@ function FlipperClient({
     startPollingToggleValues,
     stopPollingToggleValues,
     setDisableCacheSession,
+    isSignOutTriggered,
   };
 }
 
