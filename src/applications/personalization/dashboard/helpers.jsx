@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
-import { format } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -254,4 +254,23 @@ export const sortStatementsByDate = statements => {
       format(new Date(b.pSStatementDateOutput), dateFormat) -
       format(new Date(a.pSStatementDateOutput), dateFormat),
   );
+};
+
+export const getLatestCopay = statements => {
+  return statements
+    ? statements.reduce((acc, currentCopay) => {
+        if (currentCopay.pSStatementDateOutput) {
+          if (!acc) {
+            return currentCopay;
+          }
+          return isAfter(
+            new Date(acc.pSStatementDateOutput),
+            new Date(currentCopay.pSStatementDateOutput),
+          )
+            ? acc
+            : currentCopay;
+        }
+        return acc;
+      }, null)
+    : null;
 };
