@@ -6,15 +6,17 @@ import { Link } from 'react-router';
  * MiniSummaryCard
  * @param {String} editDesination - Object for react-router Link component { pathname: '/path-desination', search: `?index=${index-value}`
  * @param {String} heading - h4 styled as h3 heading for component
- * @param {String} subheading - paragraph styled as gray text for component
+ * @param {String} body - paragraph styled as gray text for component
  * @param {String} onDelete - callback for delete button
+ * @param {Boolean} showDelete - boolean to show delete button
  * @return {React Component}
  */
 export const MiniSummaryCard = ({
   editDesination,
   heading,
-  subheading,
+  body,
   onDelete,
+  showDelete = false,
 }) => {
   return (
     <div
@@ -24,7 +26,7 @@ export const MiniSummaryCard = ({
       <div className="vads-l-row">
         <div className="vads-u-padding--2 vads-l-col--9">
           <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{heading}</h4>
-          <p className="vads-u-margin-y--2 vads-u-color--gray">{subheading}</p>
+          {body}
         </div>
         <div className="medium-screen:vads-l-row small-desktop-screen:vads-l-col--3 summary-card-button-container">
           <Link
@@ -41,18 +43,20 @@ export const MiniSummaryCard = ({
               />
             </span>
           </Link>
-          <button
-            type="button"
-            aria-label={`Delete ${heading}`}
-            className="usa-button summary-card-delete-button vads-u-margin--1"
-            onClick={onDelete}
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-trash-alt vads-u-padding-right--0p5"
-            />
-            <span>DELETE</span>
-          </button>
+          {showDelete && (
+            <button
+              type="button"
+              aria-label={`Delete ${heading}`}
+              className="usa-button summary-card-delete-button vads-u-margin--1"
+              onClick={onDelete}
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-trash-alt vads-u-padding-right--0p5"
+              />
+              <span>DELETE</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -60,13 +64,14 @@ export const MiniSummaryCard = ({
 };
 
 MiniSummaryCard.propTypes = {
+  body: Proptypes.string.isRequired,
   editDesination: Proptypes.shape({
     pathname: Proptypes.string.isRequired,
     search: Proptypes.string.isRequired,
   }).isRequired,
   heading: Proptypes.string.isRequired,
-  subheading: Proptypes.string.isRequired,
-  onDelete: Proptypes.func.isRequired,
+  showDelete: Proptypes.bool,
+  onDelete: Proptypes.func,
 };
 
 /**
