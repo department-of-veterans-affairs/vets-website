@@ -31,7 +31,7 @@ describe('Vaccines details container', () => {
     return renderWithStoreAndRouter(<VaccineDetails />, {
       initialState: state,
       reducers: reducer,
-      path: '/vaccine/123',
+      path: '/vaccine-details/123',
     });
   };
 

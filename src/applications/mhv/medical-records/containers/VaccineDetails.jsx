@@ -5,11 +5,13 @@ import { useParams } from 'react-router-dom';
 import { dateFormat, printContent, typeAndDose } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { getVaccineDetails } from '../actions/vaccine';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const VaccineDetails = () => {
   const vaccineDetails = useSelector(state => state.mr.vaccines.vaccineDetails);
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (vaccineId) dispatch(getVaccineDetails(vaccineId));
@@ -17,6 +19,31 @@ const VaccineDetails = () => {
     [vaccineId, dispatch],
   );
   const formattedDate = dateFormat(vaccineDetails?.date, 'MMMM D, YYYY');
+
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [
+            { url: '/my-health/medical-records/', label: 'Dashboard' },
+            {
+              url: '/my-health/medical-records/health-history',
+              label: 'Health history',
+            },
+            {
+              url: '/my-health/medical-records/vaccines',
+              label: 'VA vaccines',
+            },
+          ],
+          {
+            url: `/my-health/medical-records/vaccine-details/${vaccineId}`,
+            label: vaccineDetails?.name,
+          },
+        ),
+      );
+    },
+    [vaccineDetails, dispatch],
+  );
 
   const content = () => {
     if (vaccineDetails) {
