@@ -22,7 +22,7 @@ describe('Secure Messaging Navigate Away From Compose Message', () => {
 
     composePage.selectSideBarMenuOption('Inbox');
     composePage.clickOnDeleteDraftButton();
-    composePage.verifyExpectedPageOpened('Messages');
+    composePage.verifyExpectedPageOpened('Inbox');
     cy.get('[data-testid="compose-message-link"]').should('be.visible');
   });
 

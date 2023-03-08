@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccineList } from '../actions/vaccine';
 import { printContent } from '../util/helpers';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const Vaccines = () => {
   const vaccines = useSelector(state => state.mr.vaccines.vaccineList);
@@ -10,6 +11,24 @@ const Vaccines = () => {
   useEffect(() => {
     dispatch(getVaccineList());
   });
+
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [
+            { url: '/my-health/medical-records/', label: 'Dashboard' },
+            {
+              url: '/my-health/medical-records/health-history',
+              label: 'Health history',
+            },
+          ],
+          { url: '/my-health/medical-records/vaccines', label: 'VA vaccines' },
+        ),
+      );
+    },
+    [dispatch],
+  );
 
   const content = () => {
     if (vaccines?.length) {
