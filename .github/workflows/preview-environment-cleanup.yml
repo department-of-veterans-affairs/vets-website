@@ -63,7 +63,7 @@ jobs:
         with:
           author_name: va-vsp-bot
           author_email: devops@va.gov
-          branch: test-cleanup
+          branch: main
           cwd: manifests/apps/preview-environment/dev/
           add: 'pe-envs'
           message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
@@ -74,7 +74,7 @@ jobs:
         with:
           author_name: va-vsp-bot
           author_email: devops@va.gov
-          branch: test-cleanup
+          branch: main
           cwd: manifests/apps/preview-environment/dev/
           add: 'argocd-apps'
           message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
