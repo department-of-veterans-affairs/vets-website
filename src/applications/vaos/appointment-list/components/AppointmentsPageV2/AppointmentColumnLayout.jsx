@@ -119,7 +119,7 @@ export default function AppointmentColumnLayout({
           </AppointmentColumn>
 
           <AppointmentColumn
-            id={`vaos-appts__detail-${data.id}`}
+            id="vaos-appts__detail"
             className="vaos-hide-for-print"
             // className="vads-u-display--flex vads-u-flex--auto vads-u-justify-content--right vads-u-align-items--center vads-u-text-align--right vaos-hide-for-print"
             padding="0"
@@ -128,7 +128,7 @@ export default function AppointmentColumnLayout({
           >
             <va-link
               className="vaos-appts__focus--hide-outline"
-              aria-describedby={`vaos-appts__detail-${data.id}`}
+              aria-describedby="vaos-appts__detail"
               href={link}
               onClick={e => e.preventDefault()}
               text="Details"
