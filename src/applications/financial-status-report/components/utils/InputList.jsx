@@ -16,18 +16,19 @@ const InputList = ({
       {inputs?.map((input, key) => (
         <div key={input.name + key} className="vads-u-margin-y--2">
           <va-number-input
-            label={input.name}
-            name={input.name}
-            value={input.amount}
-            id={input.name + key}
+            className="no-wrap input-size-3"
             error={
               submitted && errorList.includes(input.name)
                 ? 'Enter valid dollar amount'
                 : ''
             }
+            id={input.name + key}
             inputmode="decimal"
+            label={input.name}
+            name={input.name}
             onInput={onChange}
             required
+            value={input.amount}
           />
         </div>
       ))}
@@ -38,7 +39,11 @@ const InputList = ({
 InputList.propTypes = {
   errorList: PropTypes.arrayOf(PropTypes.string),
   inputs: PropTypes.arrayOf(
-    PropTypes.shape({ name: PropTypes.string, amount: PropTypes.string }),
+    PropTypes.shape({
+      name: PropTypes.string,
+      amount: PropTypes.string,
+      id: PropTypes.string,
+    }),
   ),
   prompt: PropTypes.string,
   submitted: PropTypes.bool,

@@ -9,7 +9,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
   const composePage = new PatientComposePage();
   it('Verify Data When Cancel Navigate Away', () => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     landingPage.loadComposeMessagePage();
     cy.injectAxe();
     cy.axeCheck();

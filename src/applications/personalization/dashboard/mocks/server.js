@@ -12,7 +12,6 @@ const { v0, v2 } = require('./appointments');
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles({
     profileUseVaosV2Api: true,
-    myvaCernerFromDrupal: true,
     showMyVADashboardV2: true,
   }),
   'GET /v0/user': user.cernerUser,

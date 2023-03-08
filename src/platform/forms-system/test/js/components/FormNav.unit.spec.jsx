@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 import FormNav from '../../../src/js/components/FormNav';
 
@@ -111,5 +111,31 @@ describe('Schemaform FormNav', () => {
     expect(
       tree.getByText('Step 3 of 3: Custom Review Page Title', { exact: true }),
     ).to.not.be.null;
+  });
+
+  // Can't get this test to work... useEffect callback is calling the focus
+  // function; but the page includes an empty div when focusElement is called
+  it.skip('should focus on navigation H3', async () => {
+    const currentPath = 'testing';
+    const formConfigDefaultData = {
+      ...getDefaultData(),
+      useCustomScrollAndFocus: false,
+    };
+    const App = () => (
+      <>
+        <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />
+        <div id="main">
+          <h3>H3</h3>
+        </div>
+      </>
+    );
+
+    const { unmount, rerender } = render(<App />);
+    unmount();
+    rerender(<App />);
+
+    await waitFor(() => {
+      expect(document.activeElement.tagName).to.eq('H3');
+    });
   });
 });

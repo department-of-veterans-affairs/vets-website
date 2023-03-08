@@ -88,10 +88,11 @@ export default function RequestAppointmentLayout({ appointment }) {
               className="vaos-hide-for-print"
               padding="0"
               size="1"
+              aria-label={detailAriaLabel}
             >
               <va-link
                 className="vaos-appts__focus--hide-outline"
-                aria-label={detailAriaLabel}
+                aria-describedby="vaos-appts__detail"
                 href={link}
                 onClick={e => e.preventDefault()}
                 text="Details"

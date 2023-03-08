@@ -1,19 +1,13 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import environment from 'platform/utilities/environment';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import transformForSubmit from '../../shared/config/submit-transformer';
+import prefillTransformer from './prefill-transformer';
 
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 // pages
 import personalInformation1 from '../pages/personalInformation1';
@@ -28,41 +22,47 @@ import livingSituation1 from '../pages/livingSituation1';
 import livingSituation2 from '../pages/livingSituation2';
 import remarks from '../pages/remarks';
 
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+// constants
+import {
+  previousSahApplicationFields,
+  previousHiApplicationFields,
+  livingSituationFields,
+} from '../definitions/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/forms_api/v1/simple_forms`,
   trackingPrefix: 'adapted-housing-4555-',
+  transformForSubmit,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo,
   formId: '26-4555',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your adapted housing application (26-4555) is in progress.',
-    //   expired: 'Your saved adapted housing application (26-4555) has expired. If you want to apply for adapted housing, please start a new application.',
-    //   saved: 'Your adapted housing application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your specially adapted housing grant (26-4555) application is in progress.',
+      expired:
+        'Your saved specially adapted housing grant (26-4555) application has expired.',
+      saved:
+        'Your specially adapted housing grant (26-4555) application has been saved.',
+    },
+  },
+  savedFormMessages: {
+    notFound:
+      'Please start over to fill out the specially adapted housing grant (26-4555) application.',
+    noAuth:
+      'Please sign in again to continue your specially adapted housing grant (26-4555) application.',
   },
   version: 0,
+  migrations: [],
   prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Please start over to apply for adapted housing.',
-    noAuth:
-      'Please sign in again to continue your application for adapted housing.',
-  },
-  title:
-    'Apply for a Specially Adapted Housing Grant or Special Home Adaptation Grant',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  prefillTransformer,
+  title: 'Apply for a Specially Adapted Housing Grant Grant',
+  subTitle:
+    'Equal to Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant (VA Form 26-4555)',
+  defaultDefinitions: fullSchema.definitions,
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
@@ -103,29 +103,36 @@ const formConfig = {
       pages: {
         previousSahApplication1: {
           path: 'previous-sah-application-1',
-          title: 'Have you applied for specially adapted housing?',
+          title:
+            'Have you previously applied for a specially adapted housing (SAH) grant?',
           uiSchema: previousSahApplication1.uiSchema,
           schema: previousSahApplication1.schema,
         },
         previousSahApplication2: {
           path: 'previous-sah-application-2',
           title:
-            'Details about your past application for specially adapted housing or special home adaptation grant',
-          depends: form => form.hasPreviousSahApplication,
+            'Details about your past application for a specially adapted housing grant',
+          depends: formData =>
+            formData[previousSahApplicationFields.parentObject][
+              previousSahApplicationFields.hasPreviousSahApplication
+            ],
           uiSchema: previousSahApplication2.uiSchema,
           schema: previousSahApplication2.schema,
         },
-        previousHiApplication1: {
-          path: 'previous-hi-application-1',
-          title: 'Have you applied for home improvement?',
+        previousShaApplication1: {
+          path: 'previous-sha-application-1',
+          title: 'Have you applied for a special home adaptation (SHA) grant?',
           uiSchema: previousHiApplication1.uiSchema,
           schema: previousHiApplication1.schema,
         },
-        previousHiApplication2: {
-          path: 'previous-hi-application-2',
+        previousShaApplication2: {
+          path: 'previous-sha-application-2',
           title:
-            'Details about your past application for home improvement or structural alteration grant',
-          depends: form => form.hasPreviousHiApplication,
+            'Details about your past application for a special home adaptation grant',
+          depends: formData =>
+            formData[previousHiApplicationFields.parentObject][
+              previousHiApplicationFields.hasPreviousHiApplication
+            ],
           uiSchema: previousHiApplication2.uiSchema,
           schema: previousHiApplication2.schema,
         },
@@ -144,17 +151,20 @@ const formConfig = {
         livingSituation2: {
           path: 'living-situation-2',
           title: 'Details about your current living situation',
-          depends: form => form.isInCareFacility,
+          depends: formData =>
+            formData[livingSituationFields.parentObject][
+              livingSituationFields.isInCareFacility
+            ],
           uiSchema: livingSituation2.uiSchema,
           schema: livingSituation2.schema,
         },
       },
     },
-    remarksChapter: {
+    additionalInformationChapter: {
       title: 'Additional information',
       pages: {
         remarks: {
-          path: 'remarks',
+          path: 'additional-information',
           title: 'Additional information',
           uiSchema: remarks.uiSchema,
           schema: remarks.schema,

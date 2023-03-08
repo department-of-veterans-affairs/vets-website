@@ -38,7 +38,7 @@ const FolderHeader = props => {
         text = Folders.DELETED.desc;
         break;
       default:
-        text = ``;
+        text = `This is a folder you created. You can add conversations to this folder by moving them from your inbox or other folders.`;
         break;
     }
     return (

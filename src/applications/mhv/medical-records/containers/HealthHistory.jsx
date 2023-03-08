@@ -1,35 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const HealthHistory = () => {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Dashboard' }],
+          {
+            url: '/my-health/medical-records/health-history',
+            label: 'Health history',
+          },
+        ),
+      );
+    },
+    [dispatch],
+  );
+
   return (
     <>
       <h1>Health history</h1>
-
-      <p>
-        Please select the option that most matches the Health Records you would
-        like to view, print, or download.
-      </p>
-      <h2 className="vads-u-margin-bottom--1">Labs and test results</h2>
-      <va-link
-        className="section-link"
-        active
-        href="/my-health/medical-records/labs"
-        text="View my labs and test results"
-        data-testid="section-link"
-      />
-      <p>
-        Your results may be available thirty-six (36) hours after laboratory
-        analysis is finalized. Your VA provider may need additional time to
-        review the results. Note: COVID-19 results are available immediately
-        after receipt by VA.
-      </p>
+      <p>Review, print, and download your personal health history.</p>
 
       <h2 className="vads-u-margin-bottom--1">Vaccines</h2>
       <va-link
         className="section-link"
         active
         href="/my-health/medical-records/vaccines"
-        text="View my vaccines"
+        text="Review your vaccines"
         data-testid="section-link"
       />
       <p>
@@ -42,7 +43,7 @@ const HealthHistory = () => {
         className="section-link"
         active
         href="/my-health/medical-records/notes"
-        text="View my clinical notes"
+        text="Review your clinical notes"
         data-testid="section-link"
       />
       <p>
@@ -50,6 +51,37 @@ const HealthHistory = () => {
         hours after they have been completed (except C&P Notes) and signed by
         all required members of your VA health care team.
       </p>
+
+      <h2 className="vads-u-margin-bottom--1">Allergies</h2>
+      <va-link
+        className="section-link"
+        active
+        href="/my-health/medical-records/allergies"
+        text="Review your allergies"
+        data-testid="section-link"
+      />
+      <p>[description of section]</p>
+
+      <h2 className="vads-u-margin-bottom--1">Health conditions</h2>
+      <va-link
+        className="section-link"
+        active
+        href="/my-health/medical-records/health-conditions"
+        text="Review your health conditions"
+        data-testid="section-link"
+      />
+      <p>[description of section]</p>
+
+      <h2 className="vads-u-margin-bottom--1">Vitals</h2>
+      <va-link
+        className="section-link"
+        active
+        href="/my-health/medical-records/vitals"
+        text="Review your vitals"
+        data-testid="section-link"
+      />
+      <p>[description of section]</p>
+      <div className="vads-u-margin-top--0 vads-u-margin-bottom--5" />
     </>
   );
 };

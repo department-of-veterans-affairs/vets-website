@@ -6,11 +6,22 @@ import { Element } from 'react-scroll';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { focusElement, scrollTo, scrollAndFocus } from 'platform/utilities/ui';
 
 import { readableList } from '../utils/helpers';
-import { getFormattedPhone } from '../utils/contactInfo';
+import {
+  getFormattedPhone,
+  getReturnState,
+  clearReturnState,
+} from '../utils/contactInfo';
 import { content } from '../content/contactInfo';
+
+// Used by form config to not focus on the H3 the contact info was edited
+export const customContactFocus = () => {
+  if (!getReturnState()) {
+    focusElement('#main h3');
+  }
+};
 
 const ContactInfo = ({
   data,
@@ -25,6 +36,7 @@ const ContactInfo = ({
   const [submitted, setSubmitted] = useState(false);
   const wrapRef = useRef(null);
   window.sessionStorage.setItem('onReviewPage', onReviewPage || false);
+  const [editState] = useState(getReturnState());
 
   const { email = '', homePhone = {}, mobilePhone = {}, address = {} } =
     data?.veteran || {};
@@ -46,6 +58,10 @@ const ContactInfo = ({
       // outer form and causing a page advance
       event.stopPropagation();
     },
+    onGoBack: () => {
+      clearReturnState();
+      goBack();
+    },
     onGoForward: () => {
       setSubmitted(true);
       if (missingInfo.length) {
@@ -59,10 +75,28 @@ const ContactInfo = ({
       if (missingInfo.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         updatePage();
       }
     },
   };
+
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        setTimeout(() => {
+          const target =
+            returnState === 'canceled'
+              ? `#edit-${lastEdited}`
+              : `#updated-${lastEdited}`;
+          scrollTo('topScrollElement');
+          focusElement(target);
+        });
+      }
+    },
+    [editState],
+  );
 
   useEffect(
     () => {
@@ -76,9 +110,26 @@ const ContactInfo = ({
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = onReviewPage ? 'h5' : 'h4';
-  const headerClassNames = ['vads-u-font-size--h3', 'vads-u-width--auto'].join(
+  const headerClassNames = ['vads-u-font-size--h4', 'vads-u-width--auto'].join(
     ' ',
   );
+
+  const showSuccessAlert = (id, text) => {
+    // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
+    // delay to move focus away from the h3
+    const isHidden =
+      editState === `${id},updated` ? '' : 'vads-u-display--none';
+    return (
+      <va-alert
+        id={`updated-${id}`}
+        class={`vads-u-margin-y--1 ${isHidden}`}
+        status="success"
+        background-only
+      >
+        {`${text} updated`}
+      </va-alert>
+    );
+  };
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus managements on the review & submit page
@@ -87,6 +138,7 @@ const ContactInfo = ({
       <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
         Home phone number
       </Headers>
+      {showSuccessAlert('home-phone', 'Home phone number')}
       <span>{getFormattedPhone(homePhone)}</span>
       <Link
         id="edit-home-phone"
@@ -98,6 +150,7 @@ const ContactInfo = ({
       </Link>
 
       <Headers className={headerClassNames}>Mobile phone number</Headers>
+      {showSuccessAlert('mobile-phone', 'Mobile phone number')}
       <span>{getFormattedPhone(mobilePhone)}</span>
       <Link
         id="edit-mobile-phone"
@@ -109,6 +162,7 @@ const ContactInfo = ({
       </Link>
 
       <Headers className={headerClassNames}>Email address</Headers>
+      {showSuccessAlert('email', 'Email')}
       <span>{email || ''}</span>
       <Link
         id="edit-email"
@@ -120,16 +174,19 @@ const ContactInfo = ({
       </Link>
 
       <Headers className={headerClassNames}>Mailing address</Headers>
+      {showSuccessAlert('address', 'Mailing address')}
       <div className="vads-u-display--flex">
         <AddressView data={address} />
-        <Link
-          id="edit-address"
-          to="/edit-mailing-address"
-          aria-label="Edit mailing address"
-          className="vads-u-margin-left--2"
-        >
-          edit
-        </Link>
+        <div>
+          <Link
+            id="edit-address"
+            to="/edit-mailing-address"
+            aria-label="Edit mailing address"
+            className="vads-u-margin-left--2"
+          >
+            edit
+          </Link>
+        </div>
       </div>
     </>
   );
@@ -139,14 +196,17 @@ const ContactInfo = ({
   ) : (
     <>
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
+      <FormNavButtons
+        goBack={handlers.onGoBack}
+        goForward={handlers.onGoForward}
+      />
       {contentAfterButtons}
     </>
   );
 
   return (
     <div className="vads-u-margin-y--2">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name="topScrollElement" />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
           id="confirmContactInformationHeader"

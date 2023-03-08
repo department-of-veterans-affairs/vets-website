@@ -157,6 +157,12 @@ const formConfig = {
                       3: 'Unmarried adult child',
                       4: 'Other',
                     },
+                    widgetProps: {
+                      1: { 'aria-describedby': 'veteran-relationship' },
+                      2: { 'aria-describedby': 'spouse-relationship' },
+                      3: { 'aria-describedby': 'child-relationship' },
+                      4: { 'aria-describedby': 'other-relationship' },
+                    },
                     nestedContent: {
                       1: veteranRelationshipDescription,
                       2: spouseRelationshipDescription,
@@ -272,7 +278,7 @@ const formConfig = {
                 vaClaimNumber: {
                   'ui:title': 'Sponsor’s VA claim number (if known)',
                   'ui:errorMessages': {
-                    pattern: 'Your VA claim number must be 8 or 9 digits',
+                    pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
                   },
                 },
                 ssn: {
@@ -287,6 +293,10 @@ const formConfig = {
                 gender: {
                   'ui:title':
                     "Sponsor's sex (information will be used for statistical purposes only)",
+                },
+                race: {
+                  'ui:title':
+                    'Which categories best describe your sponsor? (You may check more than one)',
                 },
                 maritalStatus: {
                   'ui:title': 'Sponsor’s marital status',

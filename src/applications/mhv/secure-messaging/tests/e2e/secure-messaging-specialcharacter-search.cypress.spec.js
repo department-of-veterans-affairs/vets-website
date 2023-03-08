@@ -13,7 +13,7 @@ describe('Secure Messaging - Search Special Characters', () => {
 
   it('search for special characters', () => {
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck();
     cy.intercept(
@@ -41,7 +41,7 @@ describe('Secure Messaging - Search Special Characters', () => {
     mockSpeciaCharMessage.data.attributes.messageId = '2585370';
     mockSpeciaCharMessage.data.attributes.body = 'special %$#';
     landingPage.loadMessageDetailsWithData(mockSpeciaCharMessage);
-    cy.get('pre').should('contain', 'special %$#');
+    cy.get('span').should('contain', 'special %$#');
     cy.injectAxe();
     cy.axeCheck();
   });
