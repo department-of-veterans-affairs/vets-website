@@ -19,7 +19,6 @@ import { showModal, filterChange } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
-import VARadioButton from '../components/VARadioButton';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -40,12 +39,21 @@ export function FilterYourResults({
     accredited,
     studentVeteran,
     yellowRibbonScholarship,
-    specialMission,
     employers,
     vettec,
     preferredProvider,
     country,
     state,
+    specialMissionHbcu,
+    specialMissionMenonly,
+    specialMissionWomenonly,
+    specialMissionRelaffil,
+    specialMissionHSI,
+    specialMissionNANTI,
+    specialMissionANNHI,
+    specialMissionAANAPII,
+    specialMissionPBI,
+    specialMissionTRIBAL,
   } = filters;
 
   const facets =
@@ -250,75 +258,72 @@ export function FilterYourResults({
     );
   };
 
-  const handleInputChange = (event, target, name) => {
-    const { value } = event ? event.target : target.detail;
-    const field = event ? event.target.name : name;
-    recordEvent({
-      event: 'gibct-form-change',
-      'gibct-form-field': field,
-      'gibct-form-value': value,
-    });
-    updateInstitutionFilters(field, value);
-  };
-
-  const specialMissionsWithRadioButtons = () => {
+  const specializedMissionAttributes = () => {
     const options = [
       {
-        value: 'ALL',
-        label: 'All',
+        name: 'specialMissionHbcu',
+        checked: specialMissionHbcu,
+        optionLabel: 'Historically Black college or university',
       },
       {
-        value: 'hbcu',
-        label: 'Historically Black college or university',
+        name: 'specialMissionMenonly',
+        checked: specialMissionMenonly,
+        optionLabel: 'Men-only',
       },
       {
-        value: 'menonly',
-        label: 'Men-only',
+        name: 'specialMissionWomenonly',
+        checked: specialMissionWomenonly,
+        optionLabel: 'Women-only',
       },
       {
-        value: 'womenonly',
-        label: 'Women-only',
+        name: 'specialMissionRelaffil',
+        checked: specialMissionRelaffil,
+        optionLabel: 'Religious affiliation',
       },
       {
-        value: 'relaffil',
-        label: 'Religious affiliation',
+        name: 'specialMissionHSI',
+        checked: specialMissionHSI,
+        optionLabel: 'Hispanic-serving institutions',
       },
       {
-        value: 'HSI',
-        label: 'Hispanic-serving institutions',
+        name: 'specialMissionNANTI',
+        checked: specialMissionNANTI,
+        optionLabel: 'Native American-serving institutions',
       },
       {
-        value: 'NANTI',
-        label: 'Native American-serving institutions',
+        name: 'specialMissionANNHI',
+        checked: specialMissionANNHI,
+        optionLabel: 'Alaska Native-serving institutions',
       },
       {
-        value: 'ANNHI',
-        label: 'Alaska Native-serving institutions',
-      },
-      {
-        value: 'AANAPII',
-        label:
+        name: 'specialMissionAANAPII',
+        checked: specialMissionAANAPII,
+        optionLabel:
           'Asian American Native American Pacific Islander-serving institutions',
       },
       {
-        value: 'PBI',
-        label: 'Predominantly Black institutions',
+        name: 'specialMissionPBI',
+        checked: specialMissionPBI,
+        optionLabel: 'Predominantly Black institutions',
       },
       {
-        value: 'TRIBAL',
-        label: 'Tribal college and university',
+        name: 'specialMissionTRIBAL',
+        checked: specialMissionTRIBAL,
+        optionLabel: 'Tribal college and university',
       },
     ];
 
     return (
-      <VARadioButton
-        radioLabel="Specialized mission (i.e., Single-gender, Religious affiliation, HBCU)"
-        name="specialMission"
-        initialValue={specialMission}
-        options={options}
-        onVaValueChange={(target, name) =>
-          handleInputChange(null, target, name)
+      <CheckboxGroup
+        class="vads-u-margin-y--4"
+        label={
+          <div className="vads-u-margin-left--neg0p25">
+            Specialized mission (i.e., Single-gender, Religious affiliation,
+            HBCU)
+          </div>
         }
+        onChange={onChangeCheckbox}
+        options={options}
       />
     );
   };
@@ -337,7 +342,7 @@ export function FilterYourResults({
             {name}
           </h3>
           <div className="vads-u-margin-bottom--4">
-            {specialMissionsWithRadioButtons()}
+            {specializedMissionAttributes()}
           </div>
           <ExpandingGroup open={schools}>
             <Checkbox

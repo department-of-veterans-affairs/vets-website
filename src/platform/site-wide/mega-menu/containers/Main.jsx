@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Relative imports.
+import { isLandingPageEnabledForUser } from 'applications/mhv/landing-page/utilities/feature-toggles';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
+import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
@@ -186,10 +188,17 @@ const mapStateToProps = (state, ownProps) => {
 
   defaultLinks.push(MY_VA_LINK);
 
-  const data = flagCurrentPageInTopLevelLinks(
-    getAuthorizedLinkData(loggedIn, defaultLinks),
+  const isLandingPageEnabled = isLandingPageEnabledForUser(
+    state.featureToggles,
+    state.user?.profile?.signIn?.serviceName,
   );
+  const authenticatedLinks = isLandingPageEnabled
+    ? [{ ...MY_HEALTH_LINK }]
+    : undefined;
 
+  const data = flagCurrentPageInTopLevelLinks(
+    getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
+  );
   return {
     currentDropdown: state.megaMenu?.currentDropdown,
     currentSection: state.megaMenu?.currentSection,

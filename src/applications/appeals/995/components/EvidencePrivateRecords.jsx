@@ -138,7 +138,7 @@ const EvidencePrivateRecords = ({
     () => {
       setCurrentData(providerFacility?.[currentIndex] || defaultData);
       setCurrentState(defaultState);
-      focusElement('#add-facility-name');
+      focusElement(hasErrors() ? '[error]' : 'h3');
       scrollTo('topPageElement');
       setForceReload(false);
     },

@@ -1,27 +1,54 @@
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../26-4555-schema.json';
+import { intersection, pick } from 'lodash';
 
-const previousSahApplication2 = {
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import { previousSahApplicationFields } from '../definitions/constants';
+
+const { required, properties } = fullSchema.properties[
+  previousSahApplicationFields.parentObject
+];
+const pageFields = [
+  previousSahApplicationFields.previousSahApplicationDate,
+  previousSahApplicationFields.previousSahApplicationAddress,
+];
+
+export default {
   uiSchema: {
-    previousSahApplicationDate: {
-      'ui:title': 'Date of application',
-      'ui:widget': 'date',
+    [previousSahApplicationFields.parentObject]: {
+      'ui:title':
+        'Details about your previous application for a specially adapted housing grant',
+      [previousSahApplicationFields.previousSahApplicationDate]: dateUI(
+        'Date of previous application',
+      ),
+      [previousSahApplicationFields.previousSahApplicationAddress]: address.uiSchema(
+        'Address connected to your past application',
+        false,
+        formData =>
+          formData[previousSahApplicationFields.parentObject][
+            previousSahApplicationFields.hasPreviousSahApplication
+          ],
+      ),
     },
-    previousSahApplicationAddress: address.uiSchema(
-      'Address connected to your past application',
-    ),
   },
   schema: {
     type: 'object',
     properties: {
-      previousSahApplicationDate: {
-        pattern:
-          '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
-        type: 'string',
+      [previousSahApplicationFields.parentObject]: {
+        type: 'object',
+        required: intersection(required, pageFields),
+        properties: {
+          ...pick(properties, pageFields),
+          // address definitions appear to be implemented differently
+          [previousSahApplicationFields.previousSahApplicationAddress]: address.schema(
+            fullSchema,
+            formData =>
+              formData[previousSahApplicationFields.parentObject][
+                previousSahApplicationFields.hasPreviousSahApplication
+              ],
+          ),
+        },
       },
-      previousSahApplicationAddress: address.schema(fullSchema, true),
     },
   },
 };
-
-export default previousSahApplication2;

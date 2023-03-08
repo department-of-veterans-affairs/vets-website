@@ -22,6 +22,7 @@ import AppointmentListItemVaos from '../../../components/AppointmentDisplay/Appo
 import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh, router } = props;
@@ -149,6 +150,7 @@ const CheckInConfirmation = props => {
               goToDetails={handleDetailClick}
               router={router}
               page="confirmation"
+              app={APP_NAMES.CHECK_IN}
             />
           ) : (
             <AppointmentConfirmationListItem

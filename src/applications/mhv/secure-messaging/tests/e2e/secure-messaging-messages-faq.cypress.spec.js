@@ -6,7 +6,7 @@ describe('Secure Messaging Messages FAQ AXE check', () => {
     const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="messages-faq-sidebar"]').click();
     cy.injectAxe();
     cy.axeCheck();

@@ -171,7 +171,3 @@ export const getThread = () => async dispatch => {
     dispatch({ type: THREAD_RETRIEVE_SUCCEEDED, response: response.data });
   }
 };
-
-export const loadingComplete = () => async dispatch => {
-  dispatch({ type: LOADING_COMPLETE });
-};

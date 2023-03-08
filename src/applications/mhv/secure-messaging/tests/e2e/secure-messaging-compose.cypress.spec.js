@@ -8,8 +8,7 @@ describe('Secure Messaging Compose', () => {
     const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadPage();
-    landingPage.loadPage(false);
+    landingPage.loadInboxMessages();
     cy.get('[data-testid="compose-message-link"]').click();
     cy.injectAxe();
     cy.axeCheck();

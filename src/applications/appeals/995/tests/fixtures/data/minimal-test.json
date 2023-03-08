@@ -27,6 +27,7 @@
       },
       "email": "user@example.com"
     },
+    "view:primaryPhone": "home",
     "benefitType": "compensation",
     "contestedIssues": [
       {

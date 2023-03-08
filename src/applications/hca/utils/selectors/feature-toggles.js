@@ -17,6 +17,9 @@ const selectFeatureToggles = createSelector(
     isFacilitiesApiEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.hcaUseFacilitiesApi
     ],
+    isHouseholdV2Enabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.hcaHouseholdV2Enabled
+    ],
     isSigiEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.caregiverSigiEnabled],
   }),
   toggles => toggles,

@@ -44,6 +44,7 @@ export const transform = (formConfig, form) => {
       dependents,
       employmentHistory: {
         veteran: { employmentRecords = [] },
+        spouse: { spEmploymentRecords = [] },
       },
     },
     expenses,
@@ -69,7 +70,6 @@ export const transform = (formConfig, form) => {
   // enhanced fsr flag
   const enhancedFSRActive = form.data['view:enhancedFinancialStatusReport'];
 
-  // deduction filters
   const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
   const retirementFilters = ['401K', 'IRA', 'Pension'];
   const socialSecFilters = ['FICA (Social Security and Medicare)'];
@@ -101,7 +101,9 @@ export const transform = (formConfig, form) => {
   const vetNetIncome = vetGrossSalary - vetTotDeductions;
 
   // spouse
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
+  const spGrossSalary = enhancedFSRActive
+    ? sumValues(spEmploymentRecords, 'spouseGrossSalary')
+    : sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = !enhancedFSRActive
     ? Number(
@@ -115,7 +117,12 @@ export const transform = (formConfig, form) => {
     benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
-  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
+  const spDeductions = enhancedFSRActive
+    ? spEmploymentRecords
+        ?.filter(emp => emp.isCurrent)
+        .map(emp => emp.deductions)
+        .flat() ?? 0
+    : spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterReduceByName(spDeductions, taxFilters);
   const spRetirement = filterReduceByName(spDeductions, retirementFilters);
   const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
@@ -169,6 +176,14 @@ export const transform = (formConfig, form) => {
     combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
     combinedFSRActive,
   );
+  // handle dependents
+  const enhancedDependent =
+    enhancedFSRActive && questions?.hasDependents > 0
+      ? dependents
+          ?.slice(0, parseInt(questions.hasDependents, 10))
+          .map(dep => dep.dependentAge)
+      : [];
+  const standardDependents = dependents?.map(dep => dep.dependentAge) ?? [];
 
   const submissionObj = {
     personalIdentification: {
@@ -199,7 +214,9 @@ export const transform = (formConfig, form) => {
         middle: spouseMiddle,
         last: spouseLast,
       },
-      agesOfOtherDependents: dependents?.map(dep => dep.dependentAge) ?? [],
+      agesOfOtherDependents: enhancedFSRActive
+        ? enhancedDependent
+        : standardDependents,
       employmentHistory,
     },
     income: [
