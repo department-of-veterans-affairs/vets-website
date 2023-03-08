@@ -847,17 +847,18 @@ const formConfig = {
           schema: pages.resolutionExplainer.schema,
         },
         // New resolution radio options
-        resolutionOption: {
+        resolutionOptions: {
+          path: 'resolution-options/:index',
           title: 'Resolution Option',
           depends: formData => formData.selectedDebtsAndCopays?.length > 0,
-          path: 'resolution-option/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
-          uiSchema: pages.resolutionOption.uiSchema,
-          schema: pages.resolutionOption.schema,
+          uiSchema: pages.resolutionOptions.uiSchema,
+          schema: pages.resolutionOptions.schema,
         },
         // New text field
         resolutionComment: {
+          path: 'resolution-comment/:index',
           title: 'Resolution Amount',
           depends: (formData, index) => {
             return (
@@ -866,7 +867,6 @@ const formConfig = {
                 'waiver'
             );
           },
-          path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,

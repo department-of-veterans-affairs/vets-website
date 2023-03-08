@@ -15,7 +15,7 @@ export const uiSchema = {
       'ui:title': CurrentDebtTitle,
       'ui:description': CurrentDebtDescription,
       'ui:validations': [validateResolutionOption, validateWaiverCheckbox],
-      resolutionOption: {
+      resolutionOptions: {
         'ui:title': ' ',
         'ui:reviewField': CustomResolutionOptionReview,
         'ui:widget': ResolutionOptions,
@@ -32,7 +32,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          resolutionOption: {
+          resolutionOptions: {
             type: 'string',
           },
         },

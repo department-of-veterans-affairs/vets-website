@@ -316,7 +316,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'resolution-option/1': ({ afterHook }) => {
+      'resolution-options/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="waiver"]').click();
           cy.get('[type="checkbox"]').click();
