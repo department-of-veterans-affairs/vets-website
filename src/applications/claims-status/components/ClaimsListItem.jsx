@@ -22,7 +22,7 @@ const formatDate = date => moment(date).format('MMMM D, YYYY');
 
 const getTitle = claim => {
   const updatedOn = formatDate(
-    claim.attributes.claimPhaseDates.phaseChangeDate,
+    claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
   return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
