@@ -56,24 +56,25 @@ jobs:
         run: node ./script/github-actions/pe-cleanup.js
         env:
           TRIGGERING_EVENT: ${{ github.event_name }}
-      # - name: Add and Commit change(s)
-      #   if: ${{ env.FILES_TO_DELETE == 'true'}}
-      #   uses: EndBug/add-and-commit@v7
-      #   with:
-      #     author_name: va-vsp-bot
-      #     author_email: devops@va.gov
-      #     branch: main
-      #     cwd: manifests/apps/preview-environment/dev/
-      #     add: 'pe-envs'
-      #     message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
 
-      # - name: Add and Commit change(s)
-      #   if: ${{ env.FILES_TO_DELETE == 'true'}}
-      #   uses: EndBug/add-and-commit@v7
-      #   with:
-      #     author_name: va-vsp-bot
-      #     author_email: devops@va.gov
-      #     branch: main
-      #     cwd: manifests/apps/preview-environment/dev/
-      #     add: 'argocd-apps'
-      #     message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
+      - name: Add and Commit change(s)
+        if: ${{ env.FILES_TO_DELETE == 'true'}}
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: va-vsp-bot
+          author_email: devops@va.gov
+          branch: test-cleanup
+          cwd: manifests/apps/preview-environment/dev/
+          add: 'pe-envs'
+          message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
+
+      - name: Add and Commit change(s)
+        if: ${{ env.FILES_TO_DELETE == 'true'}}
+        uses: EndBug/add-and-commit@v7
+        with:
+          author_name: va-vsp-bot
+          author_email: devops@va.gov
+          branch: test-cleanup
+          cwd: manifests/apps/preview-environment/dev/
+          add: 'argocd-apps'
+          message: 'Remove values file(s) in accordance with Preview Environment cleanup policies'
