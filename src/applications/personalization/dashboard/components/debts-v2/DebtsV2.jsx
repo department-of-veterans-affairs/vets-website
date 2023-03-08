@@ -73,13 +73,16 @@ const SingleColumnInfo = ({
   const SingleColumnInfoWithoutWrapper = () => {
     return (
       <>
-        {(hasDebtError || hasCopayError) && (
-          <>
-            <OutstandingDebtsError />
-            {((hasDebtError && copaysCount < 1) ||
-              (hasCopayError && debtsCount < 1)) && <PopularActionsForDebts />}
-          </>
-        )}
+        {(hasDebtError || hasCopayError) &&
+          copaysCount < 1 && (
+            <>
+              <OutstandingDebtsError />
+              {((hasDebtError && copaysCount < 1) ||
+                (hasCopayError && debtsCount < 1)) && (
+                <PopularActionsForDebts />
+              )}
+            </>
+          )}
         {!hasDebtError &&
           !hasCopayError &&
           debtsCount < 1 &&
@@ -166,33 +169,35 @@ const BenefitPaymentsAndDebtV2 = ({
               </DashboardWidgetWrapper>
             )}
             {copaysCount > 0 && (
-              <DashboardWidgetWrapper>
-                <CopaysCardV2 copays={copays} />
-              </DashboardWidgetWrapper>
+              <>
+                <DashboardWidgetWrapper>
+                  {hasDebtError && <OutstandingDebtsError />}
+                  <CopaysCardV2 copays={copays} />
+                </DashboardWidgetWrapper>
+                <DashboardWidgetWrapper>
+                  <PopularActionsForDebts />
+                </DashboardWidgetWrapper>
+              </>
             )}
           </div>
         </>
       )}
       {!shouldShowV2Dashboard && (
-        <DashboardWidgetWrapper>
-          <SingleColumnInfo
-            debtsCount={debtsCount}
-            copaysCount={copaysCount}
-            hasCopayError={hasCopayError}
-            hasDebtError={hasDebtError}
-          />
-          {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
-          {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
-        </DashboardWidgetWrapper>
-      )}
-      {((hasDebtError && !hasCopayError && copaysCount > 0) ||
-        (!hasDebtError &&
-          !hasCopayError &&
-          debtsCount < 1 &&
-          copaysCount > 0)) && (
-        <DashboardWidgetWrapper>
-          <PopularActionsForDebts />
-        </DashboardWidgetWrapper>
+        <div className="vads-l-row">
+          <DashboardWidgetWrapper>
+            <SingleColumnInfo
+              debtsCount={debtsCount}
+              copaysCount={copaysCount}
+              hasCopayError={hasCopayError}
+              hasDebtError={hasDebtError}
+            />
+            {debtsCount > 0 && <DebtsCardV2 debts={debts} />}
+            {copaysCount > 0 && <CopaysCardV2 copays={copays} />}
+          </DashboardWidgetWrapper>
+          <DashboardWidgetWrapper>
+            <PopularActionsForDebts />
+          </DashboardWidgetWrapper>
+        </div>
       )}
     </div>
   );
