@@ -342,7 +342,7 @@ function mapStateToProps(state) {
   const canAccessClaimsEVSS = services.includes(backendServices.EVSS_CLAIMS);
   // END lighthouse_migration
   const canAccessClaimsLighthouse = services.includes(
-    backendServices.LIGHTHOUSE_CLAIMS,
+    backendServices.LIGHTHOUSE,
   );
   const stemAutomatedDecision = toggleValues(state)[
     FEATURE_FLAG_NAMES.stemAutomatedDecision
