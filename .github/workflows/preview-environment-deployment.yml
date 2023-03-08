@@ -63,10 +63,10 @@ jobs:
           context: .
           file: src/platform/utilities/preview-environment/Dockerfile
           # target: production
-          push: false
+          push: true
           # Update tags and ECR Repository
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/${{ env.SOURCE_REPO }}:${{ env.SOURCE_REF_SANITIZED }}
+            ${{ steps.login-ecr.outputs.registry }}/dsva/preview-environment/${{ env.SOURCE_REPO }}-${{ env.SOURCE_REF_SANITIZED }}:latest
           # cache-from: type=registry,ref=$ECR_REGISTRY/$ECR_REPOSITORY
           # cache-to: type=inline
 
