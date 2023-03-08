@@ -16,14 +16,15 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
 
 const isLandingPageEnabledForUser = (state = {}) => {
   const { featureToggles, user } = state;
-  const { serviceName } = user?.profile?.signIn;
+  if (!featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled]) {
+    return false;
+  }
   const { currentlyLoggedIn } = user?.login;
+  if (!currentlyLoggedIn) {
+    return false;
+  }
+  const { serviceName } = user?.profile?.signIn;
   const isCernerPatient = selectIsCernerPatient(state);
-  return (
-    featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled] &&
-    currentlyLoggedIn &&
-    ENABLED_LOGIN_PROVIDERS.includes(serviceName) &&
-    !isCernerPatient
-  );
+  return ENABLED_LOGIN_PROVIDERS.includes(serviceName) && !isCernerPatient;
 };
 export { isLandingPageEnabledForUser };
