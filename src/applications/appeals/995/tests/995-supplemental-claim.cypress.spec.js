@@ -9,6 +9,8 @@ import manifest from '../manifest.json';
 import {
   mockContestableIssues,
   mockContestableIssuesWithLegacyAppeals,
+  getPastItf,
+  fetchItf,
 } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -52,6 +54,10 @@ const testConfig = createTestConfig(
             .first()
             .click();
         });
+      },
+      'veteran-information': () => {
+        getPastItf(cy);
+        cy.findByText('Continue', { selector: 'button' }).click();
       },
       'primary-phone-number': ({ afterHook }) => {
         afterHook(() => {
@@ -264,6 +270,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/profile/status', mockStatus);
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
+      cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
       // Include legacy appeals to mock data for maximal test
       const dataSet = Cypress.currentTest.titlePath[1];

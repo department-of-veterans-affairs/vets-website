@@ -148,7 +148,7 @@ export const App = ({
         loggedIn={loggedIn}
         pathname={location.pathname}
         title={formConfig.title}
-        benefitType={formData.benefitType}
+        benefitType={subTaskBenefitType}
       >
         {children}
       </ITFWrapper>

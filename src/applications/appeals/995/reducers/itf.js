@@ -2,7 +2,7 @@ import set from 'platform/utilities/data/set';
 import { requestStates } from 'platform/utilities/constants';
 
 import { ITF_STATUSES } from '../constants';
-import { isNotExpired } from '../utils/dates';
+import { isNotExpired } from '../utils/itf';
 import {
   ITF_FETCH_INITIATED,
   ITF_FETCH_SUCCEEDED,

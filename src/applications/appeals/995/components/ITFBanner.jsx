@@ -58,7 +58,7 @@ const ITFBanner = props => {
   }, 100);
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
+    <div className="itf-inner vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         {message}
         {props.status === 'error' ? (
