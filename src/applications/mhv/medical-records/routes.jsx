@@ -5,6 +5,7 @@ import Vaccines from './containers/Vaccines';
 import VaccineDetails from './containers/VaccineDetails';
 import HealthHistory from './containers/HealthHistory';
 import MrBreadcrumbs from './containers/MrBreadcrumbs';
+import Vitals from './containers/Vitals';
 
 const routes = (
   <div className="vads-l-grid-container">
@@ -21,6 +22,9 @@ const routes = (
       </Route>
       <Route exact path="/vaccine-details/:vaccineId" key="Vaccine">
         <VaccineDetails />
+      </Route>
+      <Route exact path="/vitals" key="Vitals">
+        <Vitals />
       </Route>
     </Switch>
   </div>
