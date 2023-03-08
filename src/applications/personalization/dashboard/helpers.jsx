@@ -2,9 +2,9 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 import { format, isAfter } from 'date-fns';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import recordEvent from 'platform/monitoring/record-event';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
+import recordEvent from '~/platform/monitoring/record-event';
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
 
 export const formBenefits = {
   [VA_FORM_IDS.FORM_21_526EZ]: 'disability compensation',
