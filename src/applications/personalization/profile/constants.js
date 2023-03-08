@@ -96,3 +96,24 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   PAYMENTS: 'group4',
   GENERAL: 'group5', // TODO: This is not a group in the API at this time, but is a placeholder for future work ??? (need to get this from va profile team)
 });
+
+/**
+ * These notification item IDs are not currently supported by the VA Profile
+ * they are blocked via feature toggle 'profile_show_mhv_notification_settings'
+ *
+ * 7 - RX refill shipment notification
+ * 8 - VA Appointment reminders
+ * 9 - Securing messaging alert
+ * 10 - Medical images and reports available
+ * 11 - Biweekly MHV newsletter
+ *
+ * These are email notifications and will be added once support for that notification type is added
+ *
+ */
+export const BLOCKED_NOTIFICATION_IDS = [
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+];

@@ -120,6 +120,90 @@ const createNotificationSuccess = () => {
                   },
                 ],
               },
+              // new communication items https://github.com/department-of-veterans-affairs/va.gov-team/issues/53616
+              {
+                id: 7,
+                name: 'RX refill shipment notification',
+                communicationChannels: [
+                  {
+                    id: 2,
+                    name: 'Email',
+                    description: 'Email Notification',
+                    communicationPermission: {
+                      id: 8362,
+                      allowed: true,
+                    },
+                  },
+                ],
+              },
+              {
+                id: 8,
+                name: 'VA Appointment reminders',
+                communicationChannels: [
+                  {
+                    id: 2,
+                    name: 'Email',
+                    description: 'Email Notification',
+                    communicationPermission: {
+                      id: 8362,
+                      allowed: true,
+                    },
+                  },
+                ],
+              },
+              {
+                id: 9,
+                name: 'Secure messaging alert',
+                communicationChannels: [
+                  {
+                    id: 2,
+                    name: 'Email',
+                    description: 'Email Notification',
+                    communicationPermission: {
+                      id: 8362,
+                      allowed: true,
+                    },
+                  },
+                ],
+              },
+              {
+                id: 10,
+                name: 'Medical images and reports available',
+                communicationChannels: [
+                  {
+                    id: 2,
+                    name: 'Email',
+                    description: 'Email Notification',
+                    communicationPermission: {
+                      id: 8362,
+                      allowed: true,
+                    },
+                  },
+                ],
+              },
+              // end new communication items 53616
+            ],
+          },
+          {
+            id: 5,
+            name: 'General VA Updates and Information',
+            description: null,
+            communicationItems: [
+              {
+                id: 11,
+                name: 'Biweekly MHV newsletter',
+                communicationChannels: [
+                  {
+                    id: 2,
+                    name: 'Email',
+                    description: 'Email Notification',
+                    communicationPermission: {
+                      id: 8362,
+                      allowed: true,
+                    },
+                  },
+                ],
+              },
             ],
           },
         ],

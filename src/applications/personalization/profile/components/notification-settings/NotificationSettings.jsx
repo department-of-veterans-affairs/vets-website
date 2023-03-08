@@ -30,32 +30,12 @@ import Headline from '../ProfileSectionHeadline';
 import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
-import { selectShowPaymentsNotificationSetting } from '../../selectors';
-
-const filterNotificationGroupIds = ({
-  ids,
-  profileShowPaymentsNotificationSetting,
-  profileShowMhvNotificaionSettings,
-}) => {
-  return ids.filter(group => {
-    if (group.id === NOTIFICATION_GROUPS.PAYMENTS) {
-      return profileShowPaymentsNotificationSetting;
-    }
-
-    if (group.id === NOTIFICATION_GROUPS.GENERAL) {
-      return profileShowMhvNotificaionSettings;
-    }
-
-    return true;
-  });
-};
 
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
-  shouldShowPaymentsNotificationSetting,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
@@ -107,15 +87,6 @@ const NotificationSettings = ({
     [noContactInfoOnFile, shouldShowAPIError, shouldShowLoadingIndicator],
   );
 
-  const filteredGroups = React.useMemo(
-    () =>
-      filterNotificationGroupIds({
-        ids: notificationGroups.ids,
-        profileShowPaymentsNotificationSetting: shouldShowPaymentsNotificationSetting,
-        profileShowMhvNotificaionSettings: false, // TODO: fix with toggle value from state
-      }),
-    [notificationGroups.ids, shouldShowPaymentsNotificationSetting],
-  );
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -138,7 +109,7 @@ const NotificationSettings = ({
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
           />
-          {filteredGroups.map(groupId => {
+          {notificationGroups.ids.map(groupId => {
             // we handle the health care group a little differently
             if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (
@@ -164,7 +135,6 @@ NotificationSettings.propTypes = {
   fetchNotificationSettings: PropTypes.func.isRequired,
   noContactInfoOnFile: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  shouldShowPaymentsNotificationSetting: PropTypes.bool.isRequired,
   allContactInfoOnFile: PropTypes.object,
   emailAddress: PropTypes.string,
   facilities: PropTypes.arrayOf(
@@ -186,9 +156,6 @@ const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
-  const shouldShowPaymentsNotificationSetting = selectShowPaymentsNotificationSetting(
-    state,
-  );
 
   // TODO: uncomment when email is a supported notification channel
   // const emailAddress = selectVAPEmailAddress(state);
@@ -213,7 +180,6 @@ const mapStateToProps = state => {
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
-    shouldShowPaymentsNotificationSetting,
   };
 };
 
