@@ -6,9 +6,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 const initializeDatadogRum = () => {
   if (
     // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
+    !environment.isLocalhost() &&
     // Prevent re-initializing the SDK.
-    !window.DD_RUM?.getInitConfiguration()
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
   ) {
     datadogRum.init({
       applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
