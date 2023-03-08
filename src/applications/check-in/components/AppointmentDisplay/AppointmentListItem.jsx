@@ -66,6 +66,7 @@ const AppointmentListItem = props => {
         appointment={appointment}
         router={router}
         token={token}
+        event="check-in-clicked-non-VAOS-design"
       />
     </li>
   );
