@@ -98,35 +98,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'your-vehicle-records': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-number-input')
-            .as('numberInputs')
-            .should('have.length', 2);
-          cy.get('#add-make-name')
-            .first()
-            .shadow()
-            .find('input')
-            .type('Make');
-          cy.get('#add-model-name')
-            .first()
-            .shadow()
-            .find('input')
-            .type('Model');
-          cy.get('#year')
-            .first()
-            .shadow()
-            .find('input')
-            .type('2000');
-          cy.get('#estValue')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'cfsr-recreational-vehicle-records': ({ afterHook }) => {
+      'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
           cy.findByLabelText(
             /What is the estimated value of all of your trailers, campers, and boats?/,

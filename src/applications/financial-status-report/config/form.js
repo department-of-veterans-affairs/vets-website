@@ -620,14 +620,10 @@ const formConfig = {
           schema: pages.recreationalVehicles.schema,
         },
         recreationalVehicleRecords: {
-          path: 'cfsr-recreational-vehicle-records',
+          path: 'recreational-vehicle-records',
           title: 'Recreational vehicles',
-          uiSchema:
-            pages.recreationalVehicleRecords
-              .combinedFSRRecreationalUIVehicleSchema,
-          schema:
-            pages.recreationalVehicleRecords
-              .combinedFSRRecreationalVehicleSchema,
+          uiSchema: pages.recreationalVehicleRecords.uiSchema,
+          schema: pages.recreationalVehicleRecords.schema,
           depends: formData => formData.questions.hasRecreationalVehicle,
           editModeOnReviewPage: true,
         },
