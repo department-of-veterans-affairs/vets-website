@@ -20,16 +20,12 @@ describe('Secure Messaging Message Details AXE Check', () => {
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(messageDetails, defaultMockThread);
 
-    detailsPage.expandThreadMessageDetails(defaultMockThread, 1);
-    cy.get('[data-testid="to"]').contains(
-      messageDetails.data.attributes.recipientName,
-    );
-
     detailsPage.verifyExpandedMessageToDisplay(messageDetails);
     detailsPage.verifyExpandedMessageFromDisplay(messageDetails);
     detailsPage.verifyExpandedMessageIDDisplay(messageDetails);
     detailsPage.verifyExpandedMessageDateDisplay(messageDetails);
 
+    detailsPage.verifyUnexpandedMessageAttachment(1);
     // verify To: Displayed
     // verify Message Displayed
     // Verify Body is complete

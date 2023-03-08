@@ -10,12 +10,6 @@ class PatientMessageDetailsPage {
     mockThread = defaultMockThread,
     threadIndex = 1,
   ) => {
-    cy.log(`mock Message Details--------${JSON.stringify(mockMessageDetails)}`);
-    cy.log(
-      `mock Message Details--------${JSON.stringify(
-        mockMessageDetails.data.attributes.messageId,
-      )}`,
-    );
     this.currentThread = mockThread;
     cy.log('loading message details.');
     this.currentThread.data.at(threadIndex).attributes.sentDate =
@@ -221,40 +215,55 @@ class PatientMessageDetailsPage {
       .should('be.visible');
   };
 
-  verifyExpandedMessageFromDisplay = messageDetails => {
+  verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
+    cy.log(
+      `message has attachments = ${
+        this.currentThread.data.at(messageIndex).attributes.hasAttachments
+      }`,
+    );
+    if (
+      this.currentThread.data.at(messageIndex + 1).attributes.hasAttachments
+    ) {
+      cy.log('message has attachment... checking for image');
+      cy.get('[data-testid="message-attachment-img')
+        .eq(messageIndex)
+        .should('be.visible');
+    }
+    cy.log('message does not have attachment');
+  };
+
+  verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="from"]')
-      .eq(0)
+      .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
+        `From: ${messageDetails.data.attributes.senderName} (***${
           messageDetails.data.attributes.triageGroupName
-        })`,
+        }***)`,
       );
   };
 
-  verifyExpandedMessageToDisplay = messageDetails => {
+  verifyExpandedMessageToDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="to"]')
-      .eq(0)
+      .eq(messageIndex)
       .should(
         'have.text',
         `To: ${messageDetails.data.attributes.recipientName}`,
       );
   };
 
-  verifyExpandedMessageIDDisplay = messageDetails => {
-    cy.get('[data-testid="from"]')
-      .eq(0)
+  verifyExpandedMessageIDDisplay = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-id"]')
+      .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `Message ID: ${messageDetails.data.attributes.messageId}`,
       );
   };
 
-  verifyExpandedMessageDateDisplay = messageDetails => {
+  verifyExpandedMessageDateDisplay = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="message-date"]')
-      .eq(0)
+      .eq(messageIndex)
       .should(
         'have.text',
         dateFormat(

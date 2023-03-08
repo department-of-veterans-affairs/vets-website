@@ -35,6 +35,7 @@ const MessageThreadMeta = props => {
             label="paperclip"
             aria-label="Has attachment"
             role="img"
+            data-testid="message-attachment-img"
           />
         )}
         {dateFormat(message.sentDate, 'MMMM D, YYYY [at] h:mm a z')}
