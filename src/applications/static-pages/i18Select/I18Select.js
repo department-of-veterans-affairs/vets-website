@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { setOnThisPageText } from './utilities/helpers';
 import { connect } from 'react-redux';
+import { setOnThisPageText } from './utilities/helpers';
 import { ALL_LANGUAGES } from './utilities/constants';
 
 const I18Select = ({ baseUrls, languageCode }) => {
@@ -39,7 +39,7 @@ const I18Select = ({ baseUrls, languageCode }) => {
               >
                 {languageConfig.label}{' '}
               </a>
-              {i !== ALL_LANGUAGES.length - 1 && (
+              {i !== Object.keys(baseUrls).length - 1 && (
                 <span
                   className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
                     vads-u-height--20"
