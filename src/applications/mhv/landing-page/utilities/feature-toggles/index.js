@@ -7,13 +7,6 @@ const ENABLED_LOGIN_PROVIDERS = Object.freeze([
   CSP_IDS.LOGIN_GOV,
 ]);
 
-// const isLandingPageEnabledForUser = (featureToggles, serviceName) => {
-//   return (
-//     featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled] &&
-//     ENABLED_LOGIN_PROVIDERS.includes(serviceName)
-//   );
-// };
-
 const isLandingPageEnabledForUser = (state = {}) => {
   const { featureToggles, user } = state;
   if (!featureToggles[FEATURE_FLAG_NAMES.mvhLandingPageEnabled]) {
