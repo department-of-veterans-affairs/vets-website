@@ -83,8 +83,8 @@ class Confirmation {
     }
   };
 
-  validateConfirmationAlert = () => {
-    cy.get('[data-testid="confirmation-alert"]')
+  validateConfirmationMessage = () => {
+    cy.get('[data-testid="confirmation-message"]')
       .invoke('text')
       .should('have.length.gt', 0);
   };

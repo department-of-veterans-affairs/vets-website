@@ -137,7 +137,7 @@ const CheckInConfirmation = props => {
   const renderConfirmationMessage = () => {
     return (
       <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
-        <p>
+        <p data-testid="confirmation-message">
           {`${t(
             'well-get-you-from-waiting-room-when-time-for-your-appointment',
           )} `}
