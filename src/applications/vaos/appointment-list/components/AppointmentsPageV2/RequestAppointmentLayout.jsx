@@ -29,7 +29,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
   const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(appointment),
+    selectApptDetailAriaText(appointment, true),
   );
 
   return (

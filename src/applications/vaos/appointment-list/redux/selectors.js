@@ -470,7 +470,7 @@ export function selectModalityText(appointment) {
   return '';
 }
 
-export function selectApptDetailAriaText(appointment) {
+export function selectApptDetailAriaText(appointment, isRequest = false) {
   const appointmentDate = selectStartDate(appointment);
   const isCanceled = selectIsCanceled(appointment);
   const isCommunityCare = selectIsCommunityCare(appointment);
@@ -489,7 +489,7 @@ export function selectApptDetailAriaText(appointment) {
   );
 
   // Override fillin2 text for canceled or pending appointments
-  if (isPendingOrCancelledRequest(appointment)) {
+  if (isRequest && isPendingOrCancelledRequest(appointment)) {
     fillin2 = '';
     if (typeOfCareName && typeof typeOfCareName !== 'undefined') {
       fillin2 = `${typeOfCareName}`;
