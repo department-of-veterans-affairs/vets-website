@@ -1,0 +1,7 @@
+{
+  "appName": "Authorize the release of medical information to the VA",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21-4142-medical-release",
+  "rootUrl": "/health-care/medical-release-form",
+  "productId": "56438c7b-e586-490d-a7f6-7e3c92136564"
+}
