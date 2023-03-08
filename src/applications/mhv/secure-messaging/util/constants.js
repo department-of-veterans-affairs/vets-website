@@ -4,21 +4,19 @@ export const draftAutoSaveTimeout = 5000;
 export const DefaultFolders = {
   INBOX: {
     id: 0,
-    header: 'Messages',
-    desc:
-      'When you send a message to your care team, it can take up to 3 business days to get a response.',
+    header: 'Inbox',
+    desc: '',
   },
   SENT: {
     id: -1,
     header: 'Sent messages',
-    desc:
-      'When you send a message to your care team, it can take up to 3 business days to get a response.',
+    desc: '',
   },
   DRAFTS: { id: -2, header: 'Drafts', desc: '' },
   DELETED: {
     id: -3,
     header: 'Trash',
-    desc: `Here are the messages you deleted from other folders. You can't permanently delete messages.`,
+    desc: `These are the messages you moved to the trash from your inbox or folders. We won't permanently delete any messages.`,
   },
 };
 
@@ -78,6 +76,11 @@ export const Links = {
 };
 
 export const Prompts = {
+  Compose: {
+    EDIT_LIST_TITLE: 'Edit your contact list',
+    EDIT_LIST_CONTENT:
+      'You can edit your contact list on the My HealtheVet website. Then refresh this page to review your updated list.',
+  },
   Message: {
     DELETE_MESSAGE_CONFIRM:
       'Are you sure you want to move this message to the trash?',
