@@ -177,9 +177,31 @@ const EnhancedVehicleRecord = props => {
           label="Estimated value"
           name="estValue"
           onInput={({ value }) => handleVehicleEstValueChange(value)}
-          value={vehicleRecord.year}
+          value={vehicleRecord.resaleValue}
         />
       </div>
+
+      <va-additional-info
+        class="vads-u-margin-top--4"
+        trigger="Why do I need to provide this information?"
+      >
+        We ask for vehicle details such as type, make, model, year, and
+        estimated value because this allows us to make a more informed decision
+        regarding your request.
+        <br />
+        We won’t take collection action against your cars or other vehicles in
+        order to resolve your debt.
+      </va-additional-info>
+      <va-additional-info trigger="What if I don’t know the estimated value of car or other vehicle?">
+        Include the amount of money you think you would get if you sold the
+        vehicle in your local community. To get an idea of prices, you can check
+        these places:
+        <ul>
+          <li>Online forums for your community</li>
+          <li>Classified ads in local newspapers</li>
+          <li>Websites or forums that appraise the value of vehicles</li>
+        </ul>
+      </va-additional-info>
 
       {onReviewPage ? updateButton : navButtons}
     </form>

@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import EmploymentHistorySummaryCard from '../../../components/EmploymentHistorySummaryCard';
+import { useSelector, connect, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { Link } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { clearJobIndex } from '../../../utils/session';
+import {
+  EmptyMiniSummaryCard,
+  MiniSummaryCard,
+} from '../../../components/utils/MiniSummaryCard';
+import { currency as currencyFormatter } from '../../../utils/helpers';
 
 const EmploymentHistoryWidget = props => {
+  const dispatch = useDispatch();
+
   const { goToPath, goBack, onReviewPage } = props;
-  const [hasAdditionalJobToAdd, setHasAdditionalJobToAdd] = useState('false');
+  const [hasAdditionalVehicleToAdd, setHasAdditionalVehicleoAdd] = useState(
+    'false',
+  );
 
   const formData = useSelector(state => state.form.data);
-  const automobiles = formData.assets.automobiles || [];
+  const { assets } = formData;
+  const { automobiles } = assets || [];
 
   useEffect(() => {
     clearJobIndex();
@@ -19,7 +29,7 @@ const EmploymentHistoryWidget = props => {
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (hasAdditionalJobToAdd === 'true') {
+      if (hasAdditionalVehicleToAdd === 'true') {
         goToPath(`/enhanced-vehicle-records`);
       } else {
         goToPath(`/recreational-vehicles`);
@@ -28,10 +38,25 @@ const EmploymentHistoryWidget = props => {
     onSelection: event => {
       const { value } = event?.detail || {};
       if (value) {
-        setHasAdditionalJobToAdd(value);
+        setHasAdditionalVehicleoAdd(value);
       }
     },
   };
+
+  const onDelete = deleteIndex => {
+    dispatch(
+      setData({
+        ...formData,
+        assets: {
+          ...assets,
+          automobiles: automobiles.filter(
+            (source, index) => index !== deleteIndex,
+          ),
+        },
+      }),
+    );
+  };
+  const emptyPrompt = `Select the 'add additional vehicle' link to add another vehicle. Select the continue button to move on to the next question.`;
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
@@ -39,35 +64,32 @@ const EmploymentHistoryWidget = props => {
   return (
     <form onSubmit={handlers.onSubmit}>
       <div className="vads-u-margin-top--3" data-testid="debt-list">
-        {automobiles.map((car, index) => (
-          <EmploymentHistorySummaryCard
-            key={`${index}-${car.make}-${car.model}`}
-            job={car}
-            index={index}
-            isSpouse={false}
-          />
-        ))}
+        {!automobiles.length ? (
+          <EmptyMiniSummaryCard content={emptyPrompt} />
+        ) : (
+          automobiles.map((vehicle, index) => (
+            <MiniSummaryCard
+              editDesination={{
+                pathname: '/enhanced-vehicle-records',
+                search: `?index=${index}`,
+              }}
+              heading={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+              key={vehicle.make + vehicle.model + vehicle.year}
+              onDelete={() => onDelete(index)}
+              subheading={`Value: ${currencyFormatter(vehicle.resaleValue)}`}
+            />
+          ))
+        )}
       </div>
-      <VaRadio
-        class="vads-u-margin-y--2"
-        label="Have you had another job in the last 2 years?"
-        onVaValueChange={handlers.onSelection}
-        required
+      <Link
+        className="vads-c-action-link--green"
+        to={{
+          pathname: '/enhanced-vehicle-records',
+          search: `?index=${automobiles.length}`,
+        }}
       >
-        <va-radio-option
-          id="home-phone"
-          label="Yes"
-          value="true"
-          checked={hasAdditionalJobToAdd === 'true'}
-        />
-        <va-radio-option
-          id="mobile-phone"
-          label="No"
-          value="false"
-          name="primary"
-          checked={hasAdditionalJobToAdd === 'false'}
-        />
-      </VaRadio>
+        Add additional vehicle
+      </Link>
       {onReviewPage ? updateButton : navButtons}
     </form>
   );
