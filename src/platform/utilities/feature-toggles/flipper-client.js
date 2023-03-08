@@ -1,6 +1,7 @@
 /* This file is must run in both NodeJS and browser environments */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { addHours, isBefore, addMinutes } from 'date-fns';
 import { getFlipperId } from './helpers';
 
 const FLIPPER_ID = getFlipperId();
@@ -58,26 +59,22 @@ function FlipperClient({
 
   const setDisableCacheSession = disableCacheTime => {
     if (window.Cypress) return true;
+
+    const now = new Date();
     if (disableCacheTime === '0') {
       localStorage.removeItem('disableCacheTime');
     } else if (['8', '16', '24'].indexOf(disableCacheTime) > -1) {
-      const now = new Date();
-      const expiresAt = new Date(
-        now.getTime() + 60000 * 60 * Number(disableCacheTime),
-      );
-
       localStorage.setItem(
         'disableCacheTime',
-        JSON.stringify({ expiresAt: expiresAt.toISOString() }),
+        JSON.stringify({ expiresAt: addHours(now, disableCacheTime) }),
       );
       return true;
     } else {
-      const disableCacheExpireTime = JSON.parse(
-        localStorage.getItem('disableCacheTime'),
-      );
-      return disableCacheExpireTime
-        ? Date.now() < new Date(disableCacheExpireTime.expiresAt).getTime()
-        : false;
+      let disableCacheTimeValue = localStorage.getItem('disableCacheTime');
+      if (disableCacheTimeValue) {
+        disableCacheTimeValue = JSON.parse(disableCacheTimeValue);
+      } else return false;
+      return isBefore(now, new Date(disableCacheTimeValue.expiresAt));
     }
     return false;
   };
@@ -108,7 +105,10 @@ function FlipperClient({
       JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
     const isSessionDataValid =
       featureToggleSessionData &&
-      Date.now() < new Date(featureToggleSessionData.expiresAt).getTime();
+      isBefore(
+        Date.now(),
+        new Date(featureToggleSessionData.expiresAt).getTime(),
+      );
 
     if (
       !isToggleCacheDisabled &&
@@ -121,9 +121,7 @@ function FlipperClient({
       const response = await _fetchToggleValues();
       data = response.data;
       const now = new Date();
-      const expiresAt = new Date(
-        now.getTime() + 60000 * TOGGLE_STORAGE_EXPIRATION_MINUTES,
-      );
+      const expiresAt = addMinutes(now, TOGGLE_STORAGE_EXPIRATION_MINUTES);
       sessionStorage.setItem(
         TOGGLE_STORAGE_KEY,
         JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
@@ -167,6 +165,7 @@ function FlipperClient({
     removeSubscriberCallback,
     startPollingToggleValues,
     stopPollingToggleValues,
+    setDisableCacheSession,
   };
 }
 
