@@ -20,6 +20,7 @@ import SpousePayrollDeductionInputList from '../components/SpousePayrollDeductio
 import PayrollDeductionChecklist from '../components/PayrollDeductionChecklist';
 import PayrollDeductionInputList from '../components/PayrollDeductionInputList';
 import EmploymentHistoryWidget from '../pages/income/employmentEnhanced/EmploymentHistoryWidget';
+import VehicleSummaryWidget from '../pages/assets/vehicles/VehicleSummaryWidget';
 import AddAsset from '../components/otherAssets/AddAsset';
 import submitForm from './submitForm';
 import SpouseEmploymentHistoryWidget from '../pages/income/employmentEnhanced/SpouseEmploymentHistoryWidget';
@@ -589,6 +590,17 @@ const formConfig = {
             formData['view:enhancedFinancialStatusReport'],
           editModeOnReviewPage: true,
           CustomPage: EnhancedVehicleRecord,
+        },
+        vehiclesSummary: {
+          path: 'vehicles-summary',
+          title: 'Your car or other vehicle',
+          uiSchema: pages.vehicleSummary.uiSchema,
+          schema: pages.vehicleSummary.schema,
+          depends: formData =>
+            formData.questions.hasVehicle &&
+            formData['view:enhancedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+          CustomPage: VehicleSummaryWidget,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',

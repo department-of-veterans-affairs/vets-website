@@ -56,6 +56,16 @@ const EnhancedVehicleRecord = props => {
     setVehicleModelIsDirty(true);
   };
 
+  const handleVehicleYearChange = value => {
+    handleChange('year', value);
+    setVehicleModelIsDirty(true);
+  };
+
+  const handleVehicleEstValueChange = value => {
+    handleChange('resaleValue', value);
+    setVehicleModelIsDirty(true);
+  };
+
   const updateFormData = e => {
     e.preventDefault();
     if (isEditing) {
@@ -85,11 +95,7 @@ const EnhancedVehicleRecord = props => {
         },
       });
     }
-    if (vehicleRecord.isCurrent) {
-      goToPath(`/gross-monthly-income`);
-    } else {
-      goToPath(`/employment-history`);
-    }
+    goToPath('/vehicles-summary');
   };
 
   // const validateYear = (monthYear, errorSetter, requiredMessage) => {
@@ -152,6 +158,29 @@ const EnhancedVehicleRecord = props => {
           }
         />
       </div>
+
+      <div className="input-size-1">
+        <va-number-input
+          hint={null}
+          inputmode="numeric"
+          label="Vehicle year"
+          name="year"
+          onInput={({ value }) => handleVehicleYearChange(value)}
+          value={vehicleRecord.year}
+        />
+      </div>
+
+      <div className="input-size-5">
+        <va-number-input
+          hint={null}
+          inputmode="numeric"
+          label="Estimated value"
+          name="estValue"
+          onInput={({ value }) => handleVehicleEstValueChange(value)}
+          value={vehicleRecord.year}
+        />
+      </div>
+
       {onReviewPage ? updateButton : navButtons}
     </form>
   );

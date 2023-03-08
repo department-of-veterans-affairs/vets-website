@@ -43,6 +43,7 @@ import * as recreationalVehicleRecords from './assets/recreationalVehicles/recor
 import * as vehicles from './assets/vehicles';
 import * as vehicleRecords from './assets/vehicles/records';
 import * as enhancedVehicleRecords from './assets/vehicles/enhancedRecords';
+import * as vehicleSummary from './assets/vehicles/vehicleSummary';
 import * as otherAssets from './assets/other';
 import * as otherAssetPages from './assets/other/otherAssetsEnhanced';
 import * as otherAssetRecords from './assets/other/records';
@@ -116,6 +117,7 @@ export {
   vehicles,
   vehicleRecords,
   enhancedVehicleRecords,
+  vehicleSummary,
   otherAssets,
   otherAssetRecords,
   otherAssetPages,
