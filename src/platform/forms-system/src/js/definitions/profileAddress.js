@@ -240,11 +240,6 @@ export default function addressUiSchema(
   const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
 
   return {
-    'ui:order': [
-      schemaKeys.isMilitary,
-      schemaKeys['view:militaryBaseDescription'],
-      '*',
-    ],
     [schemaKeys.isMilitary]: {
       'ui:title': checkBoxTitle,
       'ui:options': {
