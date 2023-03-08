@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const HealthHistory = () => {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records/', label: 'Dashboard' }],
+          {
+            url: '/my-health/medical-records/health-history',
+            label: 'Health history',
+          },
+        ),
+      );
+    },
+    [dispatch],
+  );
+
   return (
     <>
       <h1>Health history</h1>

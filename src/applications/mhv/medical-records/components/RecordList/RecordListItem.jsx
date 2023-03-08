@@ -34,7 +34,7 @@ const RecordListItem = props => {
         />
       </div>
       <Link
-        to={`/vaccine/${record.id}`}
+        to={`/vaccine-details/${record.id}`}
         className="vads-u-margin-y--0p5 no-print"
       >
         Details

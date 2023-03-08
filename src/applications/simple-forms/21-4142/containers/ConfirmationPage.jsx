@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
@@ -15,11 +13,20 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const { fullName } = data.veteran;
-    const submitDate = submission.timestamp;
+    // const { form } = this.props;
+    // const { submission, formId, data } = form;
+    // const { fullName } = data;
+    // TODO: use backend data instead of placeholders
+    const fullName = {
+      first: 'John',
+      middle: '',
+      last: 'Doe',
+      suffix: '',
+    };
+    // TODO: use backend data instead of placeholders
     const confirmationNumber = '---';
+    // TODO: use backend data instead of placeholders
+    const submitDate = new Date();
 
     return (
       <div>
@@ -30,6 +37,10 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
+        <p className="vads-u-font-size--h3">
+          Equal to Authorization to disclose information to the Department of
+          Veterans Affairs (VA) (VA Form 21-4142 & 4142a)
+        </p>
         <va-alert
           close-btn-aria-label="Close notification"
           status="success"
@@ -109,5 +120,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(ConfirmationPage);
-/* eslint-enable no-undef */
-/* eslint-enable no-unused-vars */

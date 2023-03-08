@@ -32,6 +32,7 @@ import {
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
+import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
 export function getCancelInfo(state) {
   const {
@@ -436,6 +437,11 @@ export function selectIsHomeVideo(appointment) {
   );
 }
 
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
+}
+
 export function selectModalityText(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
@@ -464,6 +470,45 @@ export function selectModalityText(appointment) {
   return '';
 }
 
+export function selectApptDetailAriaText(appointment, isRequest = false) {
+  const appointmentDate = selectStartDate(appointment);
+  const isCanceled = selectIsCanceled(appointment);
+  const isCommunityCare = selectIsCommunityCare(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const isVideo = selectIsVideo(appointment);
+  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
+  const typeOfCareName = selectTypeOfCareName(appointment);
+  const modalityText = selectModalityText(appointment);
+  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
+  let fillin2 =
+    typeOfCareName && typeof typeOfCareName !== 'undefined'
+      ? `${typeOfCareName} appointment on`
+      : 'appointment on';
+  const fillin3 = appointmentDate.format(
+    `dddd, MMMM D h:mm a, [${timezoneName}]`,
+  );
+
+  // Override fillin2 text for canceled or pending appointments
+  if (isRequest && isPendingOrCancelledRequest(appointment)) {
+    fillin2 = '';
+    if (typeOfCareName && typeof typeOfCareName !== 'undefined') {
+      fillin2 = `${typeOfCareName}`;
+    }
+
+    return `${fillin1} request for a ${fillin2} ${modalityText.replace(
+      /^at /i,
+      '',
+    )} appointment`;
+  }
+
+  let modality = 'in-person';
+  if (isCommunityCare) modality = 'community care';
+  if (isPhone) modality = 'phone';
+  if (isVideo) modality = 'video';
+
+  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
+}
+
 export function selectModalityIcon(appointment) {
   const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
@@ -482,9 +527,4 @@ export function selectModalityIcon(appointment) {
   if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
-}
-
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
-  return abbreviation;
 }
