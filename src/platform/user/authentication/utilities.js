@@ -16,7 +16,6 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  MOCK_LOGIN_URL,
   EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
@@ -168,8 +167,9 @@ export function sessionTypeUrl({
   allowVerification = false,
   useOauth = false,
   acr = null,
+  mock,
 }) {
-  if (!type) {
+  if (!type && !mock) {
     return null;
   }
 
@@ -181,6 +181,8 @@ export function sessionTypeUrl({
     codeChallengeMethod,
     clientId,
   } = getQueryParams();
+
+  const clientID = mock ? 'vamock' : clientId;
 
   const externalRedirect = isExternalRedirect();
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
@@ -217,6 +219,24 @@ export function sessionTypeUrl({
         }
       : {};
 
+  if (useOAuth && mock) {
+    return createOAuthRequest({
+      acr,
+      application,
+      clientId: clientID,
+      type,
+      config,
+      passedQueryParams: {
+        codeChallenge,
+        codeChallengeMethod,
+        ...(gaClientId && { gaClientId }),
+      },
+      passedOptions: {
+        isSignup,
+      },
+    });
+  }
+
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
       acr,
@@ -234,7 +254,6 @@ export function sessionTypeUrl({
       },
     });
   }
-
   return appendQuery(
     API_SESSION_URL({
       version,
@@ -286,8 +305,21 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
   window.location = redirectUrl;
 }
 
-export async function mockLogin({ clickedEvent = AUTH_EVENTS.MOCK_LOGIN }) {
-  const url = `${MOCK_LOGIN_URL}`;
+export async function mockLogin({
+  isOAuth,
+  clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
+}) {
+  const url = await sessionTypeUrl({
+    type: '',
+    version: 'v0',
+    queryParams: {},
+    useOauth: isOAuth,
+    mock: true,
+  });
+
+  if (!isExternalRedirect()) {
+    setLoginAttempted();
+  }
   return redirect(url, clickedEvent);
 }
 
