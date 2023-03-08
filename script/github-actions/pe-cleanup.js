@@ -24,29 +24,28 @@ const deleteFiles = valuesFiles => {
     );
     if (file !== 'template-values.yaml' && file !== 'Chart.yaml') {
       try {
-        console.log('matches:', envFileMatch);
         if (envFileMatch.length > 0) {
           envFileMatch.forEach(match => {
             envFileContents.environments.splice(
-              0,
               envFileContents.indexOf(match),
+              1,
             );
+            console.log(`${match} deleted from environment list`);
           });
         }
         fs.unlinkSync(
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
         );
-        console.log(`${file} removed`);
+        console.log(`${file} values file removed`);
         const newEnvYaml = yaml.dump(envFileContents, {
           skipInvalid: true,
           lineWidth: -1,
           indent: 0,
         });
-        // fs.writeFileSync(
-        //   './manifests/apps/preview-environment/dev/argocd-apps/values.yaml',
-        //   newEnvYaml,
-        // );
-        console.log(newEnvYaml);
+        fs.writeFileSync(
+          './manifests/apps/preview-environment/dev/argocd-apps/values.yaml',
+          newEnvYaml,
+        );
       } catch (error) {
         console.log(error);
       }
