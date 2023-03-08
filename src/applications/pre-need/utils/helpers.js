@@ -353,7 +353,6 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    'ui:required': () => !environment.isProduction(),
     'ui:validations': [
       (errors, fields) => {
         if (
