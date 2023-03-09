@@ -125,6 +125,7 @@ const ContactInfo = ({
         class={`vads-u-margin-y--1 ${isHidden}`}
         status="success"
         background-only
+        role="alert"
       >
         {`${text} updated`}
       </va-alert>
