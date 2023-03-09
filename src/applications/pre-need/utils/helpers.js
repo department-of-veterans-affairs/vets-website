@@ -354,22 +354,7 @@ export const veteranUI = {
       'ui:title': 'White',
     },
     'ui:validations': [
-      (errors, fields) => {
-        if (
-          !environment.isProduction() &&
-          !(
-            fields.isSpanishHispanicLatino ||
-            fields.isAmericanIndianOrAlaskanNative ||
-            fields.isBlackOrAfricanAmerican ||
-            fields.isNativeHawaiianOrOtherPacificIslander ||
-            fields.notSpanishHispanicLatino ||
-            fields.isAsian ||
-            fields.isWhite
-          )
-        ) {
-          errors.addError('Choose at least one category');
-        }
-      },
+      /* (errors, fields) => {} */
     ],
     'ui:options': {
       showFieldLabel: true,
