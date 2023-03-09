@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { getLatestCopay } from '../../helpers';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
 export const CopaysV2 = ({ copays }) => {
-  const lastCopay =
-    copays?.sort(
-      (a, b) =>
-        new Date(b.pSStatementDateOutput) - new Date(a.pSStatementDateOutput),
-    )[0] ?? null;
+  const latestCopay = getLatestCopay(copays) ?? null;
   const copaysCount = copays?.length || 0;
   if (copaysCount < 1) {
     return (
@@ -34,7 +31,7 @@ export const CopaysV2 = ({ copays }) => {
         </h3>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
           Updated on{' '}
-          {format(new Date(lastCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
+          {format(new Date(latestCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
         </p>
         <CTALink
           text="Manage your VA bills"
