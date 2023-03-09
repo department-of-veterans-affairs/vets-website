@@ -57,7 +57,6 @@ const NotificationSettings = ({
 
     focusElement('[data-focus-target]');
     document.title = `Notification Settings | Veterans Affairs`;
-    // connectDrupalSourceOfTruthCerner(dispatch);
   }, []);
 
   React.useEffect(
