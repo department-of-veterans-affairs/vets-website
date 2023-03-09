@@ -64,7 +64,7 @@ const ITFBanner = props => {
         {props.status === 'error' ? (
           <p>
             <Link to={BASE_URL} className="vads-u-margin-top--2">
-              Finish this application later
+              Back
             </Link>
           </p>
         ) : (
