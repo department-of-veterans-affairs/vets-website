@@ -26,6 +26,15 @@ describe('Vaccines list container', () => {
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
+  it('displays CONFIDENTIAL header for print view', () => {
+    const screen = setup();
+    const printHeading = screen.getByRole('heading', {
+      name: 'CONFIDENTIAL',
+      level: 4,
+    });
+    expect(printHeading).to.exist;
+  });
+
   it('displays a print button', () => {
     const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
