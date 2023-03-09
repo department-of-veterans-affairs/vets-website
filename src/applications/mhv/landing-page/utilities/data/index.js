@@ -225,14 +225,6 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         toggle: null,
       },
       {
-        text: 'Ease Your Headaches and Neck Pain',
-        href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20230301-ease-your-headaches-and-neck-pain',
-        ),
-      },
-      {
         text: 'Get the New Toxic Exposure Screening',
         href: null,
         oldHref: mhvUrl(
@@ -249,14 +241,6 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
           'ss20161101-five-exercises-for-people-over-50',
         ),
         toggle: null,
-      },
-      {
-        text: 'Breakfast for Busy Mornings',
-        href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20230301-breakfast-for-busy-mornings',
-        ),
       },
     ],
     featureToggles,
