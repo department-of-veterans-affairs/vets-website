@@ -3,9 +3,9 @@ name: Preview Environment Deployment
 on:
   repository_dispatch:
     types: [deploy_review_instance]
-  # push:
-  #   branches:
-  #     - '**'
+  push:
+    branches:
+      - '**'
 
 jobs:
   deploy-preview-environment:
