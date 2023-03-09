@@ -49,7 +49,6 @@ const ITFWrapper = ({
       ) {
         setIsFetching(true);
         fetchITF()(mockDispatch || dispatch);
-        // fetchITF();
       } else if (
         allowITF &&
         !isCreating &&

@@ -62,9 +62,11 @@ const ITFBanner = props => {
       <div className="usa-content">
         {message}
         {props.status === 'error' ? (
-          <Link to={BASE_URL} className="vads-u-margin-top--2">
-            Back
-          </Link>
+          <p>
+            <Link to={BASE_URL} className="vads-u-margin-top--2">
+              Finish this application later
+            </Link>
+          </p>
         ) : (
           <button
             type="button"
