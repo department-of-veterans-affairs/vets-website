@@ -17,7 +17,7 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
   externalServiceStatus,
@@ -44,6 +44,7 @@ import {
 } from '~/platform/user/selectors';
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { fetchMHVAccount as fetchMHVAccountAction } from '~/platform/user/profile/actions';
+import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
@@ -67,8 +68,10 @@ class Profile extends Component {
       shouldFetchCNPDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
+      connectDrupalSourceOfTruthCerner,
     } = this.props;
     fetchMHVAccount();
+    connectDrupalSourceOfTruthCerner();
     if (isLOA3 && isInMVI) {
       fetchFullName();
       fetchPersonalInformation();
@@ -245,6 +248,7 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+  connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
@@ -361,6 +365,8 @@ const mapDispatchToProps = {
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
+  connectDrupalSourceOfTruthCerner: () =>
+    dispatchConnectDrupalSourceOfTruthCerner,
 };
 
 export { Profile as ProfileUnconnected, mapStateToProps };
