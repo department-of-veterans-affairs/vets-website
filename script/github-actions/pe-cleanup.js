@@ -23,6 +23,7 @@ const deleteFiles = valuesFiles => {
     if (file !== 'template-values.yaml' && file !== 'Chart.yaml') {
       try {
         if (envFileMatch.length > 0) {
+          core.exportVariable('ENVS_TO_DELETE', true);
           envFileMatch.forEach(match => {
             envFileContents.environments.splice(
               envFileContents.indexOf(match),
@@ -30,6 +31,8 @@ const deleteFiles = valuesFiles => {
             );
             console.log(`${match} deleted from environment list`);
           });
+        } else {
+          core.exportVariable('ENVS_TO_DELETE', false);
         }
         fs.unlinkSync(
           `./manifests/apps/preview-environment/dev/pe-envs/${file}`,
@@ -90,5 +93,6 @@ if (process.env.TRIGGERING_EVENT === 'schedule') {
     deleteFiles(valuesFiles);
   } else {
     core.exportVariable('FILES_TO_DELETE', false);
+    core.exportVariable('ENVS_TO_DELETE', false);
   }
 }
