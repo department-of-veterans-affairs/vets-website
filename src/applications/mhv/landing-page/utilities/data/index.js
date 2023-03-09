@@ -206,29 +206,27 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
         text: "VA's Whole Health living",
       },
       {
-        href: 'https://www.myhealth.va.gov/ss20200320-va-video-connect',
+        href: mhvUrl(false, 'ss20200320-va-video-connect'),
         text: 'How to use VA Video Connect',
       },
     ],
     featureToggles,
   );
 
+  // Spotlight links are non-authed, so we always pass `false` to mhvUrl
   const spotlightLinks = resolveLinkCollection(
     [
       {
         text: 'Track Your Cholesterol in My HealtheVet',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20220106-track-cholesterol-in-myhealthevet',
-        ),
+        oldHref: mhvUrl(false, 'ss20220106-track-cholesterol-in-myhealthevet'),
         toggle: null,
       },
       {
         text: 'Get the New Toxic Exposure Screening',
         href: null,
         oldHref: mhvUrl(
-          authdWithSSOe,
+          false,
           'ss20221110-get-the-new-toxic-exposure-screening',
         ),
         toggle: null,
@@ -236,10 +234,7 @@ const resolveLandingPageLinks = (authdWithSSOe = false, featureToggles) => {
       {
         text: 'Five Exercises for People Over 50',
         href: null,
-        oldHref: mhvUrl(
-          authdWithSSOe,
-          'ss20161101-five-exercises-for-people-over-50',
-        ),
+        oldHref: mhvUrl(false, 'ss20161101-five-exercises-for-people-over-50'),
         toggle: null,
       },
     ],
