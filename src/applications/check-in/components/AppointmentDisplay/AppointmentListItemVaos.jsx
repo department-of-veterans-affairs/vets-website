@@ -64,7 +64,7 @@ const AppointmentListItemVaos = props => {
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"
           >
-            {appointmentIcon(appointment, true)}
+            {appointmentIcon(appointment)}
           </div>
           <div
             data-testid="appointment-kind-and-location"
