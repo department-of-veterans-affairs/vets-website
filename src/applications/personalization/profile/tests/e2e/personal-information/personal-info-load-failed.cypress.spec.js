@@ -1,5 +1,5 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
-import { userPersonalInfoFailure } from '../../../mocks/personal-information';
+import { userPersonalInfoFailure } from 'applications/personalization/profile/mocks/endpoints/personal-information';
 import error403 from '../../fixtures/403.json';
 
 describe('Loading errors present when viewing personal information page', () => {

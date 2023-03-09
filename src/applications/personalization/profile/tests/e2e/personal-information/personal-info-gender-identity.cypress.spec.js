@@ -3,7 +3,7 @@ import {
   putBadRequestFailure,
   createPutGenderIdentitySuccess,
   unsetUserPersonalInfo,
-} from '@@profile/mocks/personal-information';
+} from '@@profile/mocks/endpoints/personal-information';
 
 describe('Gender identity field tests on the personal information page', () => {
   it('when api data is available, should render gender identity field and alert when cancel is attempted with unsaved edits', () => {
