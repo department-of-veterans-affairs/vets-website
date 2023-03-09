@@ -48,7 +48,10 @@ export default function RequestAppointmentLayout({ appointment }) {
         >
           <AppointmentRow className="small-screen:vads-u-flex-direction--row">
             <AppointmentColumn size="1" className="vads-u-flex--4">
-              <AppointmentRow className="medium-screen:vads-u-flex-direction--column small-desktop-screen:vads-u-flex-direction--row">
+              <AppointmentRow className="xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentColumn padding="0" size="1" canceled={isCanceled}>
+                  {typeOfCareName}
+                </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"
                   size="1"
@@ -67,9 +70,6 @@ export default function RequestAppointmentLayout({ appointment }) {
 
                     {`${modality}`}
                   </>
-                </AppointmentColumn>
-                <AppointmentColumn padding="0" size="1" canceled={isCanceled}>
-                  {typeOfCareName}
                 </AppointmentColumn>
                 <AppointmentColumn
                   padding="0"

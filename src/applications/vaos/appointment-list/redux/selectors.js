@@ -388,6 +388,13 @@ export function selectPractitionerName(appointment) {
   return practitioners.length > 0 ? practitioners[0] : null;
 }
 
+export function selectIsPending(appointment) {
+  return (
+    appointment.status === APPOINTMENT_STATUS.proposed ||
+    appointment.status === APPOINTMENT_STATUS.pending
+  );
+}
+
 export function selectAppointmentLocality(appointment) {
   const practitioner = selectPractitionerName(appointment);
   const typeOfCareName = selectTypeOfCareName(appointment);
@@ -395,6 +402,12 @@ export function selectAppointmentLocality(appointment) {
   const isPhone = selectIsPhone(appointment);
   const isVideo = selectIsVideo(appointment);
   const isInPerson = selectIsInPerson(appointment);
+
+  if (selectIsPending(appointment) && isCommunityCare) {
+    return practitioner && typeof practitioner !== 'undefined'
+      ? practitioner
+      : '';
+  }
 
   if (isInPerson || isVideo || isPhone || isCommunityCare) {
     if (typeOfCareName && practitioner) {
