@@ -66,6 +66,7 @@ if (process.env.TRIGGERING_EVENT === 'delete') {
     deleteFiles(valuesFiles);
   } else {
     core.exportVariable('FILES_TO_DELETE', false);
+    core.exportVariable('ENVS_TO_DELETE', false);
   }
 }
 
