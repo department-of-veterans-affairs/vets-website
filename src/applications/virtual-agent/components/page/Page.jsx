@@ -1,13 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import Disclaimer from './Disclaimer';
 import ChatBox from '../chatbox/Chatbox';
 import FloatingChatBox from '../floating-chatbox/FloatingChatBox';
-
-const virtualAgentShowFloatingChatbot = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot];
 
 const showBot = botPosition => {
   if (botPosition === 'corner') {
@@ -23,25 +21,27 @@ const showBot = botPosition => {
   }
 };
 
-function Page() {
-  // useEffect(() => {
-  //   // initiate the event handler
-  //   document
-  //     .getElementById('chatbot-icon')
-  //     .addEventListener('click', () => showBot('bottom'));
-
-  //   document
-  //     .getElementById('corner-bot')
-  //     .addEventListener('click', () => showBot('corner'));
-  // });
-
+const renderChatBox = () => {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      {FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot && (
-        <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
-          <a href="#chatbot">Go to Chatbot</a>
+      <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4">
+        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 small-desktop-screen:vads-l-col--7">
+          <Disclaimer />
         </div>
-      )}
+        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7 small-desktop-screen:vads-l-col--5">
+          <ChatBox />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const renderStickyBot = () => {
+  return (
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
+        <a href="#chatbot">Go to Chatbot</a>
+      </div>
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7">
           <Disclaimer />
@@ -51,10 +51,7 @@ function Page() {
           id="chatbot"
           className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 vads-u-display--block medium-screen:vads-u-display--none"
         >
-          {FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot && (
-            <FloatingChatBox />
-          )}
-          {!FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot && <ChatBox />}
+          <ChatBox />
         </div>
 
         <div
@@ -83,18 +80,31 @@ function Page() {
               <img src="/img/va-x.svg" alt="escape-chatbot" />
             </a>
           </div>
-          {FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot && (
-            <FloatingChatBox />
-          )}
-          {!FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot && <ChatBox />}
+          <ChatBox />
         </div>
       </div>
     </div>
   );
+};
+
+function Page({ virtualAgentShowFloatingChatbot = false }) {
+  let chosenBot = '';
+  if (virtualAgentShowFloatingChatbot) {
+    chosenBot = renderStickyBot();
+  } else {
+    chosenBot = renderChatBox();
+  }
+  return chosenBot;
 }
 
+Page.propTypes = {
+  virtualAgentShowFloatingChatbot: PropTypes.bool,
+};
+
 const mapStateToProps = state => ({
-  virtualAgentShowFloatingChatbot: virtualAgentShowFloatingChatbot(state),
+  virtualAgentShowFloatingChatbot: toggleValues(state)[
+    FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot
+  ],
 });
 
 export default connect(mapStateToProps)(Page);
