@@ -222,5 +222,6 @@
   "directions-to-location": "Directions to {{ location }}",
   "directions": "Directions",
   "were-sorry-this-link-has-expired": "We’re sorry. This link has expired.",
-  "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>."
+  "trying-to-check-in-for-an-appointment--info-message": "Trying to check in for an appointment? Text <0>check in</0> to <1></1>.",
+  "were-sorry-cant-file-travel-file-later--info-message": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment."
 }
