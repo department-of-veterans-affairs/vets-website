@@ -30,7 +30,7 @@ const EmploymentHistoryWidget = props => {
     onSubmit: event => {
       event.preventDefault();
       if (hasAdditionalVehicleToAdd === 'true') {
-        goToPath(`/enhanced-vehicle-records`);
+        goToPath(`/your-vehicle-records`);
       } else {
         goToPath(`/recreational-vehicles`);
       }
@@ -70,7 +70,7 @@ const EmploymentHistoryWidget = props => {
           automobiles.map((vehicle, index) => (
             <MiniSummaryCard
               editDesination={{
-                pathname: '/enhanced-vehicle-records',
+                pathname: '/your-vehicle-records',
                 search: `?index=${index}`,
               }}
               heading={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
@@ -84,7 +84,7 @@ const EmploymentHistoryWidget = props => {
       <Link
         className="vads-c-action-link--green"
         to={{
-          pathname: '/enhanced-vehicle-records',
+          pathname: '/your-vehicle-records',
           search: `?index=${automobiles.length}`,
         }}
       >

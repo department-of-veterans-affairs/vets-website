@@ -581,7 +581,7 @@ const formConfig = {
           editModeOnReviewPage: true,
         },
         enhancedVehicleRecords: {
-          path: 'enhanced-vehicle-records',
+          path: 'your-vehicle-records',
           title: 'Vehicles',
           uiSchema: pages.enhancedVehicleRecords.uiSchema,
           schema: pages.enhancedVehicleRecords.schema,
