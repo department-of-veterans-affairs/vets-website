@@ -17,18 +17,9 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { form } = this.props;
     const { submission, formId, data } = form;
-
-    // const { fullName } = data;
-    // TODO: once submission functionality's done,
-    // remove placeholders fullName, confirmationNumber, & submitDate below.
-    const fullName = {
-      first: 'John',
-      middle: '',
-      last: 'Doe',
-      suffix: '',
-    };
+    const { fullName } = data.veteran;
+    const submitDate = submission.timestamp;
     const confirmationNumber = '---';
-    const submitDate = new Date(); // just mocking this for 2/17 demo
 
     return (
       <div>
@@ -39,10 +30,6 @@ export class ConfirmationPage extends React.Component {
             width="300"
           />
         </div>
-        <p className="vads-u-font-size--h3">
-          Equal to Application in Acquiring Specially Adapted Housing or Special
-          Home Adaptation Grant (VA Form 26-4555)
-        </p>
         <va-alert
           close-btn-aria-label="Close notification"
           status="success"
