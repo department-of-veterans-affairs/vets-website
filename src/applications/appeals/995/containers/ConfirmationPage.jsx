@@ -9,6 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
+import GetFormHelp from '../content/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -105,6 +106,9 @@ export class ConfirmationPage extends React.Component {
         <a href="/track-claims/your-claims" className="usa-button">
           Track the status of your claim
         </a>
+        <p />
+        <h3 className="help-heading">Need help?</h3>
+        <GetFormHelp />
       </div>
     );
   }
