@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { getJobIndex } from '../utils/session';
 
 const defaultRecord = [
   {
-    type: '',
-    from: '',
-    to: '',
-    isCurrent: false,
-    employerName: '',
+    make: '',
+    model: '',
+    year: '',
+    resaleValue: '',
   },
 ];
+
+const MAX_VEHICLE_MAKE_LENGTH = 32;
 
 const EnhancedVehicleRecord = props => {
   const { data, goToPath, goBack, onReviewPage, setFormData } = props;
 
-  const editIndex = getJobIndex();
+  const { assets } = data;
+  const { automobiles = [] } = assets;
 
-  const isEditing = editIndex && !Number.isNaN(editIndex);
+  const searchIndex = new URLSearchParams(window.location.search);
+  let editIndex = parseInt(searchIndex.get('index'), 10);
+  if (Number.isNaN(editIndex)) {
+    editIndex = automobiles?.length ?? 0;
+  }
+  const isEditing = editIndex >= 0 && !Number.isNaN(editIndex);
 
   const index = isEditing ? Number(editIndex) : 0;
 
-  // if we have vehicles and plan to edit, we need to get it from the employmentRecords
-  const specificRecord = data.assets.automobiles
-    ? data.assets.automobiles[index]
-    : defaultRecord[0];
+  // if we have vehicles and plan to edit, we need to get it from the automobiles
+  const specificRecord = automobiles ? automobiles[index] : defaultRecord[0];
 
   const [vehicleRecord, setVehicleRecord] = useState({
     ...(isEditing ? specificRecord : defaultRecord[0]),
@@ -38,6 +42,11 @@ const EnhancedVehicleRecord = props => {
   const [makeIsDirty, setVehicleMakeIsDirty] = useState(false);
   const [modelIsDirty, setVehicleModelIsDirty] = useState(false);
 
+  const makeError = !vehicleRecord.make ? 'Please enter a vehicle make' : null;
+  const modelError = !vehicleRecord.model
+    ? 'Please enter a vehicle model'
+    : null;
+
   const handleChange = (key, value) => {
     setVehicleRecord({
       ...vehicleRecord,
@@ -46,77 +55,42 @@ const EnhancedVehicleRecord = props => {
     setVehicleRecordIsDirty(true);
   };
 
-  const handleVehicleMakeChange = value => {
-    handleChange('make', value);
+  const handleVehicleMakeChange = ({ target }) => {
+    handleChange('make', target.value);
     setVehicleMakeIsDirty(true);
   };
 
-  const handleVehicleModelChange = value => {
-    handleChange('model', value);
+  const handleVehicleModelChange = ({ target }) => {
+    handleChange('model', target.value);
     setVehicleModelIsDirty(true);
   };
 
-  const handleVehicleYearChange = value => {
-    handleChange('year', value);
+  const handleVehicleYearChange = event => {
+    handleChange('year', event.target.value);
     setVehicleModelIsDirty(true);
   };
 
-  const handleVehicleEstValueChange = value => {
-    handleChange('resaleValue', value);
+  const handleVehicleEstValueChange = event => {
+    handleChange('resaleValue', event.target.value);
     setVehicleModelIsDirty(true);
   };
 
   const updateFormData = e => {
     e.preventDefault();
-    if (isEditing) {
-      // find the one we are editing in the employeeRecords array
-      const updatedRecords = data.assets.automobiles.map((item, arrayIndex) => {
-        return arrayIndex === index ? vehicleRecord : item;
-      });
-      // update form data
-      setFormData({
-        ...data,
-        assets: {
-          ...data.assets,
-          automobiles: updatedRecords,
-        },
-      });
-    } else {
-      const records = [
-        vehicleRecord,
-        ...(data.assets.automobiles ? data.assets.automobiles : []),
-      ];
+    const newVehicleArray = [...automobiles];
+    newVehicleArray[index] = vehicleRecord;
 
-      setFormData({
-        ...data,
-        assets: {
-          ...data.assets,
-          automobiles: records,
-        },
-      });
-    }
+    // update form data
+    setFormData({
+      ...data,
+      assets: {
+        ...data.assets,
+        automobiles: newVehicleArray,
+      },
+    });
+
     goToPath('/vehicles-summary');
   };
-
-  // const validateYear = (monthYear, errorSetter, requiredMessage) => {
-  //   const [year] = monthYear.split('-');
-  //   const todayYear = new Date().getFullYear();
-  //   const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
-  //   if (!isComplete) {
-  //     // This allows a custom required error message to be used
-  //     errorSetter(requiredMessage);
-  //   } else if (
-  //     !!year &&
-  //     (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
-  //   ) {
-  //     errorSetter(`Please enter a year between 1900 and ${todayYear}`);
-  //   } else {
-  //     errorSetter(null);
-  //   }
-  // };
-
-  const makeError = 'Please enter a vehicle make';
-  const modelError = 'Please enter a vehicle model';
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = <button type="submit">Review update button</button>;
@@ -124,38 +98,32 @@ const EnhancedVehicleRecord = props => {
   return (
     <form onSubmit={updateFormData}>
       <div className="input-size-5">
-        <TextInput
-          field={{
-            value: vehicleRecord.make || '',
-          }}
+        <VaTextInput
+          className="no-wrap input-size-3"
+          error={(vehicleRecordIsDirty && makeIsDirty && makeError) || null}
+          id="add-make-name"
           label="Vehicle make"
+          maxlength={MAX_VEHICLE_MAKE_LENGTH}
           name="make"
-          onValueChange={({ value }) => handleVehicleMakeChange(value)}
+          onInput={handleVehicleMakeChange}
           required
-          errorMessage={
-            vehicleRecordIsDirty &&
-            makeIsDirty &&
-            !vehicleRecord.make &&
-            makeError
-          }
+          type="text"
+          value={vehicleRecord.make || ''}
         />
       </div>
 
       <div className="input-size-5">
-        <TextInput
-          field={{
-            value: vehicleRecord.model || '',
-          }}
-          label="Vehicle model"
+        <VaTextInput
+          className="no-wrap input-size-3"
+          error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
+          id="add-model-name"
+          label="Vehicle Model"
+          maxlength={MAX_VEHICLE_MAKE_LENGTH}
           name="model"
-          onValueChange={({ value }) => handleVehicleModelChange(value)}
+          onInput={handleVehicleModelChange}
           required
-          errorMessage={
-            vehicleRecordIsDirty &&
-            modelIsDirty &&
-            !vehicleRecord.model &&
-            modelError
-          }
+          type="text"
+          value={vehicleRecord.model || ''}
         />
       </div>
 
@@ -165,7 +133,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Vehicle year"
           name="year"
-          onInput={({ value }) => handleVehicleYearChange(value)}
+          onInput={handleVehicleYearChange}
           value={vehicleRecord.year}
         />
       </div>
@@ -176,7 +144,7 @@ const EnhancedVehicleRecord = props => {
           inputmode="numeric"
           label="Estimated value"
           name="estValue"
-          onInput={({ value }) => handleVehicleEstValueChange(value)}
+          onInput={handleVehicleEstValueChange}
           value={vehicleRecord.resaleValue}
         />
       </div>
