@@ -17,7 +17,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
       Education and training
     </a>,
     <a href={BASE_URL} key="enrollment-history">
-      Verify your school enrollments
+      Verify your school enrollments for GI Bill benefits
     </a>,
   ];
 
