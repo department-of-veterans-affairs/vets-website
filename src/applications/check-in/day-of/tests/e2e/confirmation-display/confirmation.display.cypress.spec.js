@@ -51,7 +51,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('confirm page has confirmation message alert', () => {
-      Confirmation.validateConfirmationMessage();
+      Confirmation.validateConfirmationAlert();
       cy.injectAxeThenAxeCheck();
     });
     it('confirm page has BTSSS link', () => {
