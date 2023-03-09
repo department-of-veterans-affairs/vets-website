@@ -11,7 +11,11 @@ class PatientMessageDetailsPage {
     threadIndex = 1,
   ) => {
     this.currentThread = mockThread;
-    cy.log('loading message details.');
+    cy.log(
+      `loading message details.${
+        this.currentThread.data.at(0).attributes.messageId
+      }`,
+    );
     this.currentThread.data.at(threadIndex).attributes.sentDate =
       mockMessageDetails.data.attributes.sentDate;
     this.currentThread.data.at(threadIndex).id =
@@ -39,7 +43,7 @@ class PatientMessageDetailsPage {
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        this.currentThread.data.at(0).attributes.messageId
+        this.currentThread.data.at(threadIndex).attributes.messageId
       }`,
       mockMessageDetails,
     ).as('message1');
@@ -54,7 +58,6 @@ class PatientMessageDetailsPage {
     cy.wait('@message1').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
-    cy.wait('@full-thread');
   };
 
   getCurrentThread() {
@@ -107,9 +110,6 @@ class PatientMessageDetailsPage {
       }/thread`,
       mockThread,
     ).as('full-thread');
-    cy.wait('@message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
     cy.wait('@full-thread');
     cy.intercept(
       'POST',
@@ -207,12 +207,15 @@ class PatientMessageDetailsPage {
       .click();
   };
 
-  verifyReplyButtonAction = () => {
+  loadReplyPage = mockMessageDetails => {
+    cy.intercept(
+      'GET',
+      `/my_health/v1/messaging/messages/${
+        mockMessageDetails.data.attributes.messageId
+      }`,
+      mockMessageDetails,
+    ).as('reply-message');
     cy.get('[data-testid=reply-button-text]').click();
-    cy.get('[data-testid="message-body-field"]')
-      .shadow()
-      .find('[name="message-body"]')
-      .should('be.visible');
   };
 
   verifyUnexpandedMessageAttachment = (messageIndex = 0) => {
