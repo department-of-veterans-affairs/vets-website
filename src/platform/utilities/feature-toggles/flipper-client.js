@@ -9,7 +9,7 @@ const TOGGLE_VALUES_PATH = `/v0/feature_toggles?&cookie_id=${FLIPPER_ID}`;
 const TOGGLE_POLLING_INTERVAL = 5000;
 const TOGGLE_STORAGE_KEY = 'featureToggles';
 const TOGGLE_STORAGE_EXPIRATION_MINUTES = environment.isLocalhost() ? 5 : 15;
-
+const queryParams = new URLSearchParams(window.location.search);
 let flipperClientInstance;
 
 function FlipperClient({
@@ -57,6 +57,31 @@ function FlipperClient({
     handleToggleValuesRetrieved(toggleValues);
   };
 
+  const getFeatureToggleSession = () => {
+    return (
+      sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
+      JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY))
+    );
+  };
+
+  const setFeatureToggleSession = data => {
+    const expiresAt = addMinutes(new Date(), TOGGLE_STORAGE_EXPIRATION_MINUTES);
+    sessionStorage.setItem(
+      TOGGLE_STORAGE_KEY,
+      JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
+    );
+  };
+
+  const isSessionValid = featureToggleSessionData => {
+    return (
+      featureToggleSessionData &&
+      isBefore(
+        Date.now(),
+        new Date(featureToggleSessionData.expiresAt).getTime(),
+      )
+    );
+  };
+
   const setDisableCacheSession = disableCacheTime => {
     if (window.Cypress) return true;
 
@@ -73,8 +98,8 @@ function FlipperClient({
       let disableCacheTimeValue = localStorage.getItem('disableCacheTime');
       if (disableCacheTimeValue) {
         disableCacheTimeValue = JSON.parse(disableCacheTimeValue);
-      } else return false;
-      return isBefore(now, new Date(disableCacheTimeValue.expiresAt));
+        return isBefore(now, new Date(disableCacheTimeValue.expiresAt));
+      }
     }
     return false;
   };
@@ -93,22 +118,14 @@ function FlipperClient({
 
   const fetchToggleValues = async () => {
     let data;
-    const queryParams = new URLSearchParams(window.location.search);
     const disableFlipperCacheTime = queryParams.get('disableFlipperCacheFor');
     const isToggleCacheDisabled = setDisableCacheSession(
       disableFlipperCacheTime,
     );
     const isPostLogin = queryParams.get('postLogin') === 'true';
     const signOutFlag = isSignOutTriggered();
-    const featureToggleSessionData =
-      sessionStorage.getItem(TOGGLE_STORAGE_KEY) &&
-      JSON.parse(sessionStorage.getItem(TOGGLE_STORAGE_KEY));
-    const isSessionDataValid =
-      featureToggleSessionData &&
-      isBefore(
-        Date.now(),
-        new Date(featureToggleSessionData.expiresAt).getTime(),
-      );
+    const featureToggleSessionData = getFeatureToggleSession();
+    const isSessionDataValid = isSessionValid(featureToggleSessionData);
 
     if (
       !isToggleCacheDisabled &&
@@ -120,12 +137,7 @@ function FlipperClient({
     } else {
       const response = await _fetchToggleValues();
       data = response.data;
-      const now = new Date();
-      const expiresAt = addMinutes(now, TOGGLE_STORAGE_EXPIRATION_MINUTES);
-      sessionStorage.setItem(
-        TOGGLE_STORAGE_KEY,
-        JSON.stringify({ expiresAt: expiresAt.toISOString(), data }),
-      );
+      setFeatureToggleSession(data);
     }
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
