@@ -6,55 +6,82 @@ class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
 
   loadMessageDetails = (
-    mockMessageDetails,
+    mockParentMessageDetails,
     mockThread = defaultMockThread,
-    threadIndex = 1,
+    previousMessageIndex = 1,
+    mockPreviousMessageDetails = mockMessage,
   ) => {
     this.currentThread = mockThread;
+
+    this.currentThread.data.at(0).attributes.sentDate =
+      mockParentMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(0).id =
+      mockParentMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.messageId =
+      mockParentMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(0).attributes.subject =
+      mockParentMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(0).attributes.body =
+      mockParentMessageDetails.data.attributes.body;
+    this.currentThread.data.at(0).attributes.category =
+      mockParentMessageDetails.data.attributes.category;
+    this.currentThread.data.at(0).attributes.recipientId =
+      mockParentMessageDetails.data.attributes.recipientId;
+    this.currentThread.data.at(0).attributes.senderName =
+      mockParentMessageDetails.data.attributes.senderName;
+    this.currentThread.data.at(0).attributes.recipientName =
+      mockParentMessageDetails.data.attributes.recipientName;
+
     cy.log(
-      `loading message details.${
+      `loading parent message details.${
         this.currentThread.data.at(0).attributes.messageId
       }`,
     );
-    this.currentThread.data.at(threadIndex).attributes.sentDate =
-      mockMessageDetails.data.attributes.sentDate;
-    this.currentThread.data.at(threadIndex).id =
-      mockMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(threadIndex).attributes.messageId =
-      mockMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(threadIndex).attributes.subject =
-      mockMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(threadIndex).attributes.body =
-      mockMessageDetails.data.attributes.body;
-    this.currentThread.data.at(threadIndex).attributes.category =
-      mockMessageDetails.data.attributes.category;
-    this.currentThread.data.at(threadIndex).attributes.recipientId =
-      mockMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(threadIndex).attributes.senderName =
-      mockMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(threadIndex).attributes.recipientName =
-      mockMessageDetails.data.attributes.recipientName;
-    cy.log(JSON.stringify(this.currentThread.data.at(threadIndex)));
+    this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
+      mockPreviousMessageDetails.data.attributes.sentDate;
+    this.currentThread.data.at(previousMessageIndex).id =
+      mockPreviousMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(previousMessageIndex).attributes.messageId =
+      mockPreviousMessageDetails.data.attributes.messageId;
+    this.currentThread.data.at(previousMessageIndex).attributes.subject =
+      mockPreviousMessageDetails.data.attributes.subject;
+    this.currentThread.data.at(previousMessageIndex).attributes.body =
+      mockPreviousMessageDetails.data.attributes.body;
+    this.currentThread.data.at(previousMessageIndex).attributes.category =
+      mockPreviousMessageDetails.data.attributes.category;
+    this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
+      mockPreviousMessageDetails.data.attributes.recipientId;
+    this.currentThread.data.at(previousMessageIndex).attributes.senderName =
+      mockPreviousMessageDetails.data.attributes.senderName;
+    this.currentThread.data.at(previousMessageIndex).attributes.recipientName =
+      mockPreviousMessageDetails.data.attributes.recipientName;
+    this.currentThread.data.at(
+      previousMessageIndex,
+    ).attributes.triageGroupName =
+      mockPreviousMessageDetails.data.attributes.triageGroupName;
+    cy.log(JSON.stringify(this.currentThread.data.at(previousMessageIndex)));
     cy.log(
       `message thread  = ${JSON.stringify(
-        mockMessageDetails.data.attributes.messageId,
+        mockParentMessageDetails.data.attributes.messageId,
       )}`,
     );
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        this.currentThread.data.at(threadIndex).attributes.messageId
+        this.currentThread.data.at(0).attributes.messageId
       }`,
-      mockMessageDetails,
+      mockParentMessageDetails,
     ).as('message1');
+
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
-        mockMessageDetails.data.attributes.messageId
+        mockParentMessageDetails.data.attributes.messageId
       }/thread`,
       this.currentThread,
     ).as('full-thread');
-    cy.contains(mockMessageDetails.data.attributes.subject).click();
+
+    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
     cy.wait('@message1').then(xhr => {
       cy.log(JSON.stringify(xhr.response.body));
     });
@@ -102,7 +129,7 @@ class PatientMessageDetailsPage {
         mockMessageDetails.data.attributes.messageId
       }`,
       mockMessage,
-    ).as('message');
+    ).as('message2');
     cy.intercept(
       'GET',
       `/my_health/v1/messaging/messages/${
@@ -121,7 +148,7 @@ class PatientMessageDetailsPage {
 
   expandThreadMessageDetails = (mockThread, index = 1) => {
     const threadMessageDetails = mockMessage;
-    cy.log('loading message details.');
+    cy.log('loading expanded thread message details.');
     threadMessageDetails.data.attributes.sentDate = mockThread.data.at(
       index,
     ).attributes.sentDate;
@@ -141,6 +168,9 @@ class PatientMessageDetailsPage {
     threadMessageDetails.data.attributes.recipientId = mockThread.data.at(
       index,
     ).attributes.recipientId;
+    threadMessageDetails.data.attributes.triageGroupName = mockThread.data.at(
+      index,
+    ).attributes.triageGroupName;
     cy.log(
       `thread message detail id = ${
         threadMessageDetails.data.attributes.messageId
@@ -240,9 +270,9 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (***${
+        `From: ${messageDetails.data.attributes.senderName} (${
           messageDetails.data.attributes.triageGroupName
-        }***)`,
+        })`,
       );
   };
 
