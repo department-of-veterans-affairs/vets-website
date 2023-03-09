@@ -18,6 +18,7 @@ RUN git clone --depth 1 https://github.com/department-of-veterans-affairs/conten
 # Setup a working directory for vets-website
 RUN mkdir -p /website/vets-website
 WORKDIR /website/vets-website
+RUN yarn config set "strict-ssl" false -g
 
 # Copy vets-website files into Docker image
 COPY . .
