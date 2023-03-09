@@ -6,9 +6,7 @@ const yaml = require('js-yaml');
 
 const daysSinceUpdate = dateUpdated => {
   const diff = new Date() - new Date(dateUpdated);
-  // return diff / (1000 * 60 * 60 * 24);
-  console.log(diff);
-  return 8;
+  return diff / (1000 * 60 * 60 * 24);
 };
 
 const deleteFiles = valuesFiles => {
@@ -68,10 +66,7 @@ if (process.env.TRIGGERING_EVENT === 'delete') {
   }
 }
 
-if (
-  process.env.TRIGGERING_EVENT === 'schedule' ||
-  process.env.TRIGGERING_EVENT === 'push'
-) {
+if (process.env.TRIGGERING_EVENT === 'schedule') {
   const valuesFiles = fs
     .readdirSync('./manifests/apps/preview-environment/dev/pe-envs/')
     .filter(file => {
