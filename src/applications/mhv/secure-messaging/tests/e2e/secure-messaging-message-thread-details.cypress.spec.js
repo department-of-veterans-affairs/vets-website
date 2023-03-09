@@ -18,7 +18,17 @@ describe('Secure Messaging Message Details AXE Check', () => {
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     landingPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
+    detailsPage.loadMessageDetails(messageDetails, defaultMockThread);
+
+    detailsPage.verifyExpandedMessageToDisplay(messageDetails);
+    detailsPage.verifyExpandedMessageFromDisplay(messageDetails);
+    detailsPage.verifyExpandedMessageIDDisplay(messageDetails);
+    detailsPage.verifyExpandedMessageDateDisplay(messageDetails);
+
+    detailsPage.verifyUnexpandedMessageAttachment(1);
+    // verify To: Displayed
+    // verify Message Displayed
+    // Verify Body is complete
     cy.injectAxe();
     cy.axeCheck();
   });

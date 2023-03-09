@@ -42,7 +42,10 @@ const MessageThreadItem = props => {
   return (
     message && (
       <>
-        <div className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row">
+        <div
+          className="older-message vads-u-padding-top--0p5 vads-u-padding-bottom--2 vads-u-display--flex vads-u-flex-direction--row"
+          data-testid="expand-message-button-parent"
+        >
           <div
             className="vads-u-flex--auto"
             role="img"
@@ -55,7 +58,7 @@ const MessageThreadItem = props => {
             />
           </div>
 
-          <div className="vads-u-flex--fill ">
+          <div className="vads-u-flex--fill " data-testid={message.messageId}>
             <div
               role="button"
               data-testid="expand-message-button"
